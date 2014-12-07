@@ -1,0 +1,18 @@
+- add support for all Collection based types
+- textControl "insert" always activated
+- allow to change map key caption
+- list control: 
+	. replace buttons label by icons
+	. add grid lines???
+- button shown with dynamic grid layout
+- list control:
+	. add cut command???
+- modiStack:
+	. replace buttons texts by icons???
+- parameter name when debug info available
+- update translatable strings
+- parameter default value
+- check getSubObjectEd is used where it should
+- replace AssertionError with ???
+- validation in fields directly???
+
