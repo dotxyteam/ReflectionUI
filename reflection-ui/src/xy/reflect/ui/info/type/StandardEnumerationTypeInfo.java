@@ -53,4 +53,14 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements
 		return new EnumerationControl(reflectionUI, object, field);
 	}
 
+	@Override
+	public boolean isImmutable() {
+		return true;
+	}
+
+	@Override
+	public boolean hasCustomFieldControl() {
+		return true;
+	}
+
 }

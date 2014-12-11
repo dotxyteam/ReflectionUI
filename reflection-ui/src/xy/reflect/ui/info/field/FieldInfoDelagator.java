@@ -71,6 +71,11 @@ public class FieldInfoDelagator implements IFieldInfo {
 		}
 		return delegate.equals(((FieldInfoDelagator) obj).delegate);
 	}
+
+	@Override
+	public String getCategoryCaption() {
+		return delegate.getCategoryCaption();
+	}
 	
 	
 

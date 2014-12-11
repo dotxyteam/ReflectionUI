@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.parameter.DefaultParameterInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
@@ -32,7 +33,7 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 		List<IParameterInfo> result = new ArrayList<IParameterInfo>();
 		int i = 0;
 		for (Class<?> paramType : javaConstructor.getParameterTypes()) {
-			result.add(reflectionUI.getParameterInfo(javaConstructor,
+			result.add(new DefaultParameterInfo(reflectionUI, javaConstructor,
 					paramType, i));
 			i++;
 		}

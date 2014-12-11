@@ -7,7 +7,7 @@ import xy.reflect.ui.info.ICommonInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 
-public interface ITypeInfo extends ICommonInfo{
+public interface ITypeInfo extends ICommonInfo {
 
 	boolean isConcrete();
 
@@ -16,10 +16,14 @@ public interface ITypeInfo extends ICommonInfo{
 	List<IFieldInfo> getFields();
 
 	List<IMethodInfo> getMethods();
-	
+
 	Component createFieldControl(Object object, IFieldInfo field);
 
 	boolean supportsValue(Object value);
-	
+
 	List<ITypeInfo> getPolymorphicInstanceTypes();
+
+	boolean isImmutable();
+
+	boolean hasCustomFieldControl();
 }

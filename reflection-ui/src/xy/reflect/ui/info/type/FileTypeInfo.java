@@ -63,5 +63,17 @@ public class FileTypeInfo extends DefaultTypeInfo {
 			IFieldInfo field) {
 		return new FileControl(reflectionUI, object, field);
 	}
+	
+
+	@Override
+	public boolean isImmutable() {
+		return true;
+	}
+
+	@Override
+	public boolean hasCustomFieldControl() {
+		return true;
+	}
+
 
 }

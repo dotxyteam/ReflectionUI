@@ -451,11 +451,14 @@ public class ReflectionUIUtils {
 
 	public static boolean canCopyAccordingInfos(ReflectionUI reflectionUI,
 			Object object) {
-		if (reflectionUI.isAtomicValue(object)) {
+		if(object == null){
 			return true;
 		}
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI
 				.getTypeInfoSource(object));
+		if (type.isImmutable()) {
+			return true;
+		}
 		IMethodInfo ctor = ReflectionUIUtils.getZeroParameterConstrucor(type);
 		if (ctor == null) {
 			return false;
@@ -474,11 +477,14 @@ public class ReflectionUIUtils {
 
 	public static Object copyAccordingInfos(ReflectionUI reflectionUI,
 			Object object) {
-		if (reflectionUI.isAtomicValue(object)) {
-			return object;
+		if(object == null){
+			return null;
 		}
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI
 				.getTypeInfoSource(object));
+		if (type.isImmutable()) {
+			return object;
+		}
 		Object copy;
 		if (type instanceof IListTypeInfo) {
 			IListTypeInfo listType = (IListTypeInfo) type;
@@ -513,11 +519,11 @@ public class ReflectionUIUtils {
 		if (object1 == null) {
 			return object2 == null;
 		}
-		if (reflectionUI.isAtomicValue(object1)) {
-			return object1.equals(object2);
-		}
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI
 				.getTypeInfoSource(object1));
+		if (type.isImmutable()) {
+			return object1.equals(object2);
+		}
 		if (!type.equals(reflectionUI.getTypeInfo(reflectionUI
 				.getTypeInfoSource(object2)))) {
 			return false;

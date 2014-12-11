@@ -60,22 +60,22 @@ public class StandardListTypeInfo extends DefaultTypeInfo implements
 	public Class<?> getItemJavaType() {
 		return itemJavaType;
 	}
-	
-	
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		if(ReflectionUIUtils.getNParametersMethod(super.getConstructors(), 0) != null){
-				return super.getConstructors();
-		}else{
-			List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getConstructors());
+		if (ReflectionUIUtils.getNParametersMethod(super.getConstructors(), 0) != null) {
+			return super.getConstructors();
+		} else {
+			List<IMethodInfo> result = new ArrayList<IMethodInfo>(
+					super.getConstructors());
 			result.add(new AbstractConstructorMethodInfo(this) {
-				
+
 				@Override
-				public Object invoke(Object object, Map<String, Object> valueByParameterName) {
+				public Object invoke(Object object,
+						Map<String, Object> valueByParameterName) {
 					return new ArrayList<Object>();
 				}
-				
+
 				@Override
 				public List<IParameterInfo> getParameters() {
 					return Collections.emptyList();
@@ -145,7 +145,7 @@ public class StandardListTypeInfo extends DefaultTypeInfo implements
 		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean isOrdered() {
 		return true;
@@ -154,8 +154,8 @@ public class StandardListTypeInfo extends DefaultTypeInfo implements
 	public static boolean isCompatibleWith(Class<?> javaType) {
 		if (List.class.isAssignableFrom(javaType)) {
 			if (ReflectionUIUtils
-					.getZeroParameterConstrucor(new DefaultTypeInfo(new ReflectionUI(),
-							javaType)) != null) {
+					.getZeroParameterConstrucor(new DefaultTypeInfo(
+							new ReflectionUI(), javaType)) != null) {
 				return true;
 			}
 			if (javaType.isAssignableFrom(ArrayList.class)) {
@@ -165,5 +165,14 @@ public class StandardListTypeInfo extends DefaultTypeInfo implements
 		return false;
 	}
 
+	@Override
+	public boolean isImmutable() {
+		return false;
+	}
+
+	@Override
+	public boolean hasCustomFieldControl() {
+		return true;
+	}
 
 }

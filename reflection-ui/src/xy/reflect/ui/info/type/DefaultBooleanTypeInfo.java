@@ -62,5 +62,16 @@ public class DefaultBooleanTypeInfo extends DefaultTypeInfo implements
 		return (javaType.equals(boolean.class))
 				|| (javaType.equals(Boolean.class));
 	}
+	
+	@Override
+	public boolean isImmutable() {
+		return true;
+	}
+
+	@Override
+	public boolean hasCustomFieldControl() {
+		return true;
+	}
+
 
 }

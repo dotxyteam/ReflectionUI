@@ -101,4 +101,9 @@ public class SubFieldInfo implements IFieldInfo {
 		return true;
 	}
 
+	@Override
+	public String getCategoryCaption() {
+		return null;
+	}
+
 }

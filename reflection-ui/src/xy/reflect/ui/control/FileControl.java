@@ -62,6 +62,11 @@ public class FileControl extends DialogAcessControl {
 			public ITypeInfo getType() {
 				return new DefaultTextualTypeInfo(reflectionUI, String.class);
 			}
+
+			@Override
+			public String getCategoryCaption() {
+				return null;
+			}
 		});
 	}
 
