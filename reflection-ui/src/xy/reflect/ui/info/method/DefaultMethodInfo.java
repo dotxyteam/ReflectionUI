@@ -9,6 +9,7 @@ import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.GetterFieldInfo;
+import xy.reflect.ui.info.parameter.DefaultParameterInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -52,7 +53,8 @@ public class DefaultMethodInfo implements IMethodInfo {
 		List<IParameterInfo> result = new ArrayList<IParameterInfo>();
 		int i = 0;
 		for (Class<?> paramType : javaMethod.getParameterTypes()) {
-			result.add(reflectionUI.getParameterInfo(javaMethod, paramType, i));
+			result.add(new DefaultParameterInfo(reflectionUI, javaMethod,
+					paramType, i));
 			i++;
 		}
 		return result;
@@ -126,8 +128,8 @@ public class DefaultMethodInfo implements IMethodInfo {
 		return getReturnValueType() != null;
 	}
 
-	public static boolean isCompatibleWith(
-			Method javaMethod, Class<?> containingJavaClass) {
+	public static boolean isCompatibleWith(Method javaMethod,
+			Class<?> containingJavaClass) {
 		if (Modifier.isStatic(javaMethod.getModifiers())) {
 			return false;
 		}
@@ -143,8 +145,7 @@ public class DefaultMethodInfo implements IMethodInfo {
 				return false;
 			}
 		}
-		if (GetterFieldInfo.isCompatibleWith(javaMethod,
-				containingJavaClass)) {
+		if (GetterFieldInfo.isCompatibleWith(javaMethod, containingJavaClass)) {
 			return false;
 		}
 		for (Method otherJavaMethod : containingJavaClass.getMethods()) {

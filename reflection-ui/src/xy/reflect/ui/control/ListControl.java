@@ -132,9 +132,9 @@ public class ListControl extends JPanel implements IRefreshableControl,
 				new ItemCellRenderer());
 		treeTableComponent.setTreeCellRenderer(new ItemCellRenderer());
 		fixCustomRenderingNotAppliedOnUnselectedCells();
-		treeTableComponent.setShowGrid(false, true);
+		treeTableComponent.setShowGrid(true, true);
 		treeTableComponent.setGridColor(fixColorReourceNotDisplayed(UIManager
-				.getColor("TextField.shadow")));
+				.getColor("Table.background")));
 
 	}
 
@@ -1478,7 +1478,8 @@ public class ListControl extends JPanel implements IRefreshableControl,
 			JLabel label = (JLabel) defaultTreeCellRenderer
 					.getTreeCellRendererComponent(tree, value, selected,
 							expanded, isLeaf, row, focused);
-			customizeComponent(label, (ItemNode) value, 0);
+			customizeComponent(label, (ItemNode) value, row, 0, selected,
+					focused);
 			return label;
 		}
 
@@ -1492,12 +1493,13 @@ public class ListControl extends JPanel implements IRefreshableControl,
 			row = treeTableComponent.convertRowIndexToModel(row);
 			TreePath path = treeTableComponent.getPathForRow(row);
 			ItemNode node = (ItemNode) path.getLastPathComponent();
-			customizeComponent(label, node, column);
+			customizeComponent(label, node, row, column, isSelected, hasFocus);
 			return label;
 		}
 
 		protected void customizeComponent(JLabel label, ItemNode node,
-				int columnIndex) {
+				int rowIndex, int columnIndex, boolean isSelected,
+				boolean hasFocus) {
 			if (!(node.getUserObject() instanceof ItemPosition)) {
 				return;
 			}
@@ -1507,8 +1509,8 @@ public class ListControl extends JPanel implements IRefreshableControl,
 			if (text == null) {
 				label.setText("     ");
 				label.setOpaque(true);
-				Color color = UIManager.getColor("TextField.darkShadow");
-				label.setBackground(fixColorReourceNotDisplayed(color));
+				label.setBackground(fixColorReourceNotDisplayed(UIManager
+						.getColor("TextField.darkShadow")));
 			} else {
 				label.setText(reflectionUI.translateUIString(text));
 				label.setOpaque(false);

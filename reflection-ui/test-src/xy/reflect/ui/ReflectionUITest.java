@@ -22,6 +22,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.ITypeInfoSource;
 import xy.reflect.ui.info.type.SimpleTypeInfoDelegator;
 
+@SuppressWarnings("unused")
 public class ReflectionUITest {
 
 	public static class Test {
@@ -44,7 +45,7 @@ public class ReflectionUITest {
 				new Test2()));
 
 		public Map<Integer, String> theMap = new HashMap<Integer, String>();
-		
+
 		public List<File> theFileList = Arrays.asList(new File("."));
 
 		public void resettheStringList() {
@@ -91,9 +92,8 @@ public class ReflectionUITest {
 			@Override
 			public Image getObjectIconImage(Object item) {
 				try {
-					return ImageIO
-							.read(new URL(
-									"http://icons.iconarchive.com/icons/graphicloads/100-flat-2/16/ok-2-icon.png"));
+					return ImageIO.read(ReflectionUITest.class
+							.getResource("icon.gif"));
 				} catch (IOException e) {
 					throw new AssertionError(e);
 				}
@@ -101,7 +101,7 @@ public class ReflectionUITest {
 
 			@Override
 			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-				if(!(typeSource instanceof JavaTypeInfoSource)){
+				if (!(typeSource instanceof JavaTypeInfoSource)) {
 					return super.getTypeInfo(typeSource);
 				}
 				JavaTypeInfoSource classSource = (JavaTypeInfoSource) typeSource;

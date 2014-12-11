@@ -73,7 +73,15 @@ public class SimpleTypeInfoDelegator implements ITypeInfo {
 	public String toString() {
 		return delegate.toString();
 	}
-	
-	
+
+	@Override
+	public boolean isImmutable() {
+		return delegate.isImmutable();
+	}
+
+	@Override
+	public boolean hasCustomFieldControl() {
+		return delegate.hasCustomFieldControl();
+	}
 
 }

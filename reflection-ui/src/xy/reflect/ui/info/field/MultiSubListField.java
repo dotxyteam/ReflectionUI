@@ -92,6 +92,11 @@ public class MultiSubListField implements IFieldInfo {
 		return false;
 	}
 
+	@Override
+	public String getCategoryCaption() {
+		return null;
+	}
+
 	public static class VirtualItem {
 
 		protected Object object;
@@ -149,6 +154,11 @@ public class MultiSubListField implements IFieldInfo {
 				@Override
 				public String getName() {
 					return "";
+				}
+
+				@Override
+				public String getCategoryCaption() {
+					return null;
 				}
 			};
 		}

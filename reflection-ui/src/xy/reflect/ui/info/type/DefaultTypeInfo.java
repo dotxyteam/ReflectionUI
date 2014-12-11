@@ -88,14 +88,14 @@ public class DefaultTypeInfo implements ITypeInfo {
 					.isCompatibleWith(javaField)) {
 				continue;
 			}
-			result.add(reflectionUI.getPublicFieldInfo(javaField));
+			result.add(new PublicFieldInfo(reflectionUI, javaField));
 		}
 		for (Method javaMethod : javaType.getMethods()) {
 			if (!GetterFieldInfo.isCompatibleWith(
 					javaMethod, javaType)) {
 				continue;
 			}
-			result.add(reflectionUI.getGetterFieldInfo(javaMethod, javaType));
+			result.add(new GetterFieldInfo(reflectionUI, javaMethod, javaType));
 		}
 		return result;
 	}
@@ -108,7 +108,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 					javaMethod, javaType)) {
 				continue;
 			}
-			result.add(reflectionUI.getMethodInfo(javaMethod));
+			result.add(new DefaultMethodInfo(reflectionUI, javaMethod));
 		}
 		return result;
 	}
@@ -145,7 +145,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 			}
 		}
 		boolean embedFieldValueForm = false;
-		if (!reflectionUI.isAtomicValue(fieldValue)) {
+		if (!fieldValueType.hasCustomFieldControl()) {
 			if ((fieldValueType.getFields().size() + fieldValueType
 					.getMethods().size()) <= 3) {
 				embedFieldValueForm = true;
@@ -193,6 +193,26 @@ public class DefaultTypeInfo implements ITypeInfo {
 	@Override
 	public List<ITypeInfo> getPolymorphicInstanceTypes() {
 		return null;
+	}
+
+	@Override
+	public boolean isImmutable() {
+		for(IFieldInfo field: getFields()){
+			if(!field.isReadOnly()){
+				return false;
+			}
+		}
+		for(IMethodInfo method: getMethods()){
+			if(!method.isReadOnly()){
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public boolean hasCustomFieldControl() {
+		return false;
 	}
 
 }

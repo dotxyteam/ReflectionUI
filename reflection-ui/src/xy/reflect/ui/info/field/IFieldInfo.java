@@ -13,5 +13,7 @@ public interface IFieldInfo extends ICommonInfo{
 		boolean isNullable();
 
 		boolean isReadOnly();
+		
+		String getCategoryCaption();
 	}
 

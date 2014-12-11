@@ -17,9 +17,6 @@ import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.lang.reflect.Member;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -46,14 +43,10 @@ import xy.reflect.ui.control.ModificationStack;
 import xy.reflect.ui.control.ModificationStack.IModification;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.FieldInfoDelagator;
-import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MultiSubListField.VirtualItem;
-import xy.reflect.ui.info.field.PublicFieldInfo;
-import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.MethodInfoDelegator;
-import xy.reflect.ui.info.parameter.DefaultParameterInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ArrayTypeInfo;
 import xy.reflect.ui.info.type.DefaultBooleanTypeInfo;
@@ -618,6 +611,11 @@ public class ReflectionUI {
 			public String getName() {
 				return param.getName();
 			}
+
+			@Override
+			public String getCategoryCaption() {
+				return null;
+			}
 		};
 	}
 
@@ -721,19 +719,6 @@ public class ReflectionUI {
 			ReflectionUIUtils.showTooltipNow(c);
 			((JComponent) c).setBorder(border);
 		}
-	}
-
-	public IFieldInfo getGetterFieldInfo(Method javaMethod,
-			Class<?> containingJavaClass) {
-		return new GetterFieldInfo(this, javaMethod, containingJavaClass);
-	}
-
-	public IMethodInfo getMethodInfo(Method javaMethod) {
-		return new DefaultMethodInfo(this, javaMethod);
-	}
-
-	public IFieldInfo getPublicFieldInfo(Field field) {
-		return new PublicFieldInfo(this, field);
 	}
 
 	public String translateUIString(String string) {
@@ -990,7 +975,8 @@ public class ReflectionUI {
 			result = new JPanel();
 			result.setLayout(new BorderLayout());
 			result.add(new JLabel(getNullValueString()), BorderLayout.CENTER);
-		} else if (!isAtomicValue(valueArray[0])) {
+		} else if (!getTypeInfo(getTypeInfoSource(valueArray[0]))
+				.hasCustomFieldControl()) {
 			result = getSubReflectionUI().createObjectForm(valueArray[0],
 					settings);
 		} else {
@@ -1030,6 +1016,11 @@ public class ReflectionUI {
 				public String getCaption() {
 					return "Value";
 				}
+
+				@Override
+				public String getCategoryCaption() {
+					return null;
+				}
 			};
 			Component fieldControl = virtualField.getType().createFieldControl(
 					null, virtualField);
@@ -1040,21 +1031,10 @@ public class ReflectionUI {
 		return result;
 	}
 
-	public boolean isAtomicValue(Object object) {
-		Class<?> class1 = object.getClass();
-		return ReflectionUIUtils.isPrimitiveTypeOrWrapperOrString(class1)
-				|| class1.isEnum() || class1.isArray();
-	}
-
 	public String getFieldTitle(Object object, IFieldInfo field) {
 		return composeTitle(
 				composeTitle(getObjectKind(object), field.getCaption()),
 				getObjectKind(field.getValue(object)));
-	}
-
-	public IParameterInfo getParameterInfo(Member ofMember, Class<?> paramType,
-			int i) {
-		return new DefaultParameterInfo(this, ofMember, paramType, i);
 	}
 
 	protected class FielControlPlaceHolder extends JPanel implements
@@ -1077,6 +1057,10 @@ public class ReflectionUI {
 			this.field = field;
 			setLayout(new BorderLayout());
 			refreshUI();
+		}
+
+		public IFieldInfo getField() {
+			return field;
 		}
 
 		public IFieldInfo manageFieldValuesValidation(final IFieldInfo field) {

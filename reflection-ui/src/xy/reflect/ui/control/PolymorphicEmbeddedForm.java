@@ -118,6 +118,11 @@ public class PolymorphicEmbeddedForm extends JPanel implements
 			}
 
 			@Override
+			public String getCategoryCaption() {
+				return null;
+			}
+
+			@Override
 			public ITypeInfo getType() {
 				return new IEnumerationTypeInfo() {
 
@@ -175,6 +180,16 @@ public class PolymorphicEmbeddedForm extends JPanel implements
 							result.add(getEnumerationValueCaption(type));
 						}
 						return result;
+					}
+
+					@Override
+					public boolean isImmutable() {
+						return true;
+					}
+
+					@Override
+					public boolean hasCustomFieldControl() {
+						return true;
 					}
 
 				};

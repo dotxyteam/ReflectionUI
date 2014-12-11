@@ -101,5 +101,17 @@ public class DefaultTextualTypeInfo extends DefaultTypeInfo implements
 	public static boolean isCompatibleWith(Class<?> javaType) {
 		return ReflectionUIUtils.isPrimitiveTypeOrWrapperOrString(javaType);
 	}
+	
+
+	@Override
+	public boolean isImmutable() {
+		return true;
+	}
+
+	@Override
+	public boolean hasCustomFieldControl() {
+		return true;
+	}
+
 
 }

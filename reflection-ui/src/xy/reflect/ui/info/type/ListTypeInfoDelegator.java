@@ -98,5 +98,17 @@ public class ListTypeInfoDelegator implements IListTypeInfo {
 	public boolean isOrdered() {
 		return delegate.isOrdered();
 	}
+	
+
+	@Override
+	public boolean isImmutable() {
+		return delegate.isImmutable();
+	}
+
+	@Override
+	public boolean hasCustomFieldControl() {
+		return delegate.hasCustomFieldControl();
+	}
+
 
 }

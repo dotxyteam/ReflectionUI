@@ -75,17 +75,19 @@ public class StandardMapListTypeInfo extends DefaultTypeInfo implements
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		if(ReflectionUIUtils.getNParametersMethod(super.getConstructors(), 0) != null){
+		if (ReflectionUIUtils.getNParametersMethod(super.getConstructors(), 0) != null) {
 			return super.getConstructors();
-		}else{
-			List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getConstructors());
+		} else {
+			List<IMethodInfo> result = new ArrayList<IMethodInfo>(
+					super.getConstructors());
 			result.add(new AbstractConstructorMethodInfo(this) {
-				
+
 				@Override
-				public Object invoke(Object object, Map<String, Object> valueByParameterName) {
+				public Object invoke(Object object,
+						Map<String, Object> valueByParameterName) {
 					return new HashMap<Object, Object>();
 				}
-				
+
 				@Override
 				public List<IParameterInfo> getParameters() {
 					return Collections.emptyList();
@@ -165,8 +167,8 @@ public class StandardMapListTypeInfo extends DefaultTypeInfo implements
 	public static boolean isCompatibleWith(Class<?> javaType) {
 		if (Map.class.isAssignableFrom(javaType)) {
 			if (ReflectionUIUtils
-					.getZeroParameterConstrucor(new DefaultTypeInfo(new ReflectionUI(),
-							javaType)) != null) {
+					.getZeroParameterConstrucor(new DefaultTypeInfo(
+							new ReflectionUI(), javaType)) != null) {
 				return true;
 			}
 			if (javaType.isAssignableFrom(HashMap.class)) {
@@ -174,6 +176,16 @@ public class StandardMapListTypeInfo extends DefaultTypeInfo implements
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public boolean isImmutable() {
+		return false;
+	}
+
+	@Override
+	public boolean hasCustomFieldControl() {
+		return true;
 	}
 
 	public class StandardMapEntry<K, V> implements Map.Entry<K, V> {
@@ -242,7 +254,8 @@ public class StandardMapListTypeInfo extends DefaultTypeInfo implements
 
 	}
 
-	public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEntryTypeInfo{
+	public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements
+			IMapEntryTypeInfo {
 
 		public StandardMapEntryTypeInfo() {
 			super(StandardMapListTypeInfo.this.reflectionUI,
@@ -258,14 +271,16 @@ public class StandardMapListTypeInfo extends DefaultTypeInfo implements
 			if (keyJavaType == null) {
 				return null;
 			}
-			return reflectionUI.getTypeInfo(new JavaTypeInfoSource(keyJavaType));
+			return reflectionUI
+					.getTypeInfo(new JavaTypeInfoSource(keyJavaType));
 		}
 
 		public ITypeInfo getValueType() {
 			if (valueJavaType == null) {
 				return null;
 			}
-			return reflectionUI.getTypeInfo(new JavaTypeInfoSource(valueJavaType));
+			return reflectionUI.getTypeInfo(new JavaTypeInfoSource(
+					valueJavaType));
 		}
 
 		@Override
