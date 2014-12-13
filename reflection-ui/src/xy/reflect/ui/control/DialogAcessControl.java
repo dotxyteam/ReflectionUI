@@ -96,7 +96,7 @@ public class DialogAcessControl extends JPanel {
 			@Override
 			public Object getValue(Object object) {
 				Object fieldValue = field.getValue(object);
-				return reflectionUI.getObjectSummary(fieldValue);
+				return reflectionUI.toInfoString(fieldValue);
 			}
 
 			@Override

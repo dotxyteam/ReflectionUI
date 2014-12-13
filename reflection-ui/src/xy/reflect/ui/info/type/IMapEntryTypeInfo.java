@@ -1,8 +1,10 @@
 package xy.reflect.ui.info.type;
 
+import xy.reflect.ui.info.field.IFieldInfo;
+
 public interface IMapEntryTypeInfo extends ITypeInfo{
 
-	ITypeInfo getKeyType();
-	ITypeInfo getValueType();
+	IFieldInfo getKeyField();
+	IFieldInfo getValueField();
 
 }

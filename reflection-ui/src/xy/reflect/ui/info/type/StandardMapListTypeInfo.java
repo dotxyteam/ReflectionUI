@@ -51,8 +51,9 @@ public class StandardMapListTypeInfo extends DefaultTypeInfo implements
 	@Override
 	public String getCaption() {
 		if ((keyJavaType == null) && (valueJavaType != null)) {
-			return getItemType().getKeyType().getCaption() + " to "
-					+ getItemType().getValueType().getCaption() + " Map";
+			return getItemType().getKeyField().getType().getCaption() + " to "
+					+ getItemType().getValueField().getType().getCaption()
+					+ " Map";
 		} else {
 			return "Map";
 		}
@@ -108,7 +109,7 @@ public class StandardMapListTypeInfo extends DefaultTypeInfo implements
 			StandardMapEntry entry = (StandardMapEntry) item;
 			if (result.containsKey(entry.getKey())) {
 				throw new AssertionError("Duplicate key: "
-						+ reflectionUI.getObjectSummary(entry.getKey()));
+						+ reflectionUI.toInfoString(entry.getKey()));
 			}
 			result.put(entry.getKey(), entry.getValue());
 		}
@@ -116,13 +117,15 @@ public class StandardMapListTypeInfo extends DefaultTypeInfo implements
 	}
 
 	@Override
-	public IListHierarchicalInfo getHierarchicalInfo() {
-		return new DefaultListHierarchicalInfo(reflectionUI);
-	}
+	public IListStructuralInfo getStructuralInfo() {
+		return new DefaultListStructuralInfo(reflectionUI, getItemType()) {
 
-	@Override
-	public IListTabularInfo getTabularInfo() {
-		return new DefaultListTabularInfo(reflectionUI, getItemType(), false);
+			@Override
+			protected boolean showsValueKindColumn() {
+				return false;
+			}
+
+		};
 	}
 
 	@Override
@@ -201,6 +204,11 @@ public class StandardMapListTypeInfo extends DefaultTypeInfo implements
 			this.value = value;
 		}
 
+		@Override
+		public String toString() {
+			return "" + key + "";
+		}
+
 		public K getKey() {
 			return key;
 		}
@@ -267,55 +275,55 @@ public class StandardMapListTypeInfo extends DefaultTypeInfo implements
 			return "Entry";
 		}
 
-		public ITypeInfo getKeyType() {
-			if (keyJavaType == null) {
-				return null;
-			}
-			return reflectionUI
-					.getTypeInfo(new JavaTypeInfoSource(keyJavaType));
-		}
-
-		public ITypeInfo getValueType() {
-			if (valueJavaType == null) {
-				return null;
-			}
-			return reflectionUI.getTypeInfo(new JavaTypeInfoSource(
-					valueJavaType));
-		}
-
 		@Override
-		public List<IFieldInfo> getFields() {
-			List<IFieldInfo> result = new ArrayList<IFieldInfo>();
+		public IFieldInfo getKeyField() {
 			try {
-				result.add(new GetterFieldInfo(reflectionUI,
+				return new GetterFieldInfo(reflectionUI,
 						StandardMapEntry.class.getMethod("getKey",
 								new Class<?>[0]), StandardMapEntry.class) {
 					@Override
 					public ITypeInfo getType() {
-						if (getKeyType() != null) {
-							return getKeyType();
-						} else {
-							return super.getType();
+						if (keyJavaType == null) {
+							return null;
 						}
+						return reflectionUI.getTypeInfo(new JavaTypeInfoSource(
+								keyJavaType));
 					}
-				});
-				result.add(new GetterFieldInfo(reflectionUI,
-						StandardMapEntry.class.getMethod("getValue",
-								new Class<?>[0]), StandardMapEntry.class) {
-					@Override
-					public ITypeInfo getType() {
-						if (getValueType() != null) {
-							return getValueType();
-						} else {
-							return super.getType();
-						}
-					}
-				});
+				};
 			} catch (SecurityException e) {
 				throw new AssertionError(e);
 			} catch (NoSuchMethodException e) {
 				throw new AssertionError(e);
 			}
+		}
+
+		@Override
+		public IFieldInfo getValueField() {
+			try {
+				return new GetterFieldInfo(reflectionUI,
+						StandardMapEntry.class.getMethod("getValue",
+								new Class<?>[0]), StandardMapEntry.class) {
+					@Override
+					public ITypeInfo getType() {
+						if (valueJavaType == null) {
+							return null;
+						}
+						return reflectionUI.getTypeInfo(new JavaTypeInfoSource(
+								valueJavaType));
+					}
+				};
+			} catch (SecurityException e) {
+				throw new AssertionError(e);
+			} catch (NoSuchMethodException e) {
+				throw new AssertionError(e);
+			}
+		}
+
+		@Override
+		public List<IFieldInfo> getFields() {
+			List<IFieldInfo> result = new ArrayList<IFieldInfo>();
+			result.add(getKeyField());
+			result.add(getValueField());
 			return result;
 		}
 

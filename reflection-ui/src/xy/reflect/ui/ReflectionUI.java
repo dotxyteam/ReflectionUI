@@ -768,7 +768,7 @@ public class ReflectionUI {
 		return this;
 	}
 
-	public String getObjectSummary(Object object) {
+	public String toInfoString(Object object) {
 		String result;
 		if (object == null) {
 			result = null;

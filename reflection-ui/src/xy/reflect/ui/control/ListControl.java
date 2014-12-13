@@ -56,8 +56,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.IListTypeInfo;
 import xy.reflect.ui.info.type.IListTypeInfo.IItemPosition;
-import xy.reflect.ui.info.type.IListTypeInfo.IListHierarchicalInfo;
-import xy.reflect.ui.info.type.IListTypeInfo.IListTabularInfo;
+import xy.reflect.ui.info.type.IListTypeInfo.IListStructuralInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.JavaTypeInfoSource;
 import xy.reflect.ui.util.Accessor;
@@ -197,7 +196,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 		if (!isTabular()) {
 			return "";
 		}
-		IListTabularInfo tableInfo = getRootListType().getTabularInfo();
+		IListStructuralInfo tableInfo = getRootListType().getStructuralInfo();
 		return tableInfo.getColumnCaption(columnIndex);
 	}
 
@@ -205,7 +204,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 		if (!isTabular()) {
 			return 1;
 		}
-		IListTabularInfo tableInfo = getRootListType().getTabularInfo();
+		IListStructuralInfo tableInfo = getRootListType().getStructuralInfo();
 		return tableInfo.getColumnCount();
 	}
 
@@ -221,9 +220,9 @@ public class ListControl extends JPanel implements IRefreshableControl,
 		} else {
 			ItemPosition itemPosition = (ItemPosition) node.getUserObject();
 			if (!isTabular()) {
-				value = reflectionUI.getObjectSummary(itemPosition.getItem());
+				value = reflectionUI.toInfoString(itemPosition.getItem());
 			} else {
-				IListTabularInfo tableInfo = getRootListType().getTabularInfo();
+				IListStructuralInfo tableInfo = getRootListType().getStructuralInfo();
 				value = tableInfo.getCellValue(itemPosition, columnIndex);
 			}
 			nodeValues.put(columnIndex, value);
@@ -232,8 +231,8 @@ public class ListControl extends JPanel implements IRefreshableControl,
 	}
 
 	protected boolean isTabular() {
-		IListTabularInfo tabularInfo = getRootListType().getTabularInfo();
-		return (tabularInfo != null) && tabularInfo.isValid();
+		IListStructuralInfo tabularInfo = getRootListType().getStructuralInfo();
+		return (tabularInfo != null) && tabularInfo.isTabular();
 	}
 
 	protected void updateButtonsPanel(ItemPosition itemPosition) {
@@ -281,8 +280,8 @@ public class ListControl extends JPanel implements IRefreshableControl,
 
 	protected ItemPosition getSubItemPosition(ItemPosition itemPosition) {
 		if (itemPosition.getItem() != null) {
-			IListHierarchicalInfo treeInfo = itemPosition
-					.getContainingListType().getHierarchicalInfo();
+			IListStructuralInfo treeInfo = itemPosition
+					.getContainingListType().getStructuralInfo();
 			if (treeInfo != null) {
 				IFieldInfo subListField = treeInfo
 						.getItemSubListField(itemPosition);
@@ -756,13 +755,13 @@ public class ListControl extends JPanel implements IRefreshableControl,
 
 			@Override
 			public boolean excludeField(IFieldInfo field) {
-				IListHierarchicalInfo treeInfo = itemPosition
-						.getContainingListType().getHierarchicalInfo();
+				IListStructuralInfo treeInfo = itemPosition
+						.getContainingListType().getStructuralInfo();
 				if (treeInfo == null) {
 					return false;
 				}
-				return treeInfo.getItemDetailsExcludedFieldNames(itemPosition)
-						.contains(field.getName());
+				return treeInfo.getItemSubListFieldsToExcludeFromDetailsView(itemPosition)
+						.contains(field);
 			}
 
 			@Override
@@ -840,7 +839,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 				ItemPosition childItemPosition = anyChildItemPosition
 						.getSibling(i);
 				IFieldInfo grandChildrenField = null;
-				IListHierarchicalInfo treeInfo = listType.getHierarchicalInfo();
+				IListStructuralInfo treeInfo = listType.getStructuralInfo();
 				if (treeInfo != null) {
 					grandChildrenField = treeInfo
 							.getItemSubListField(childItemPosition);

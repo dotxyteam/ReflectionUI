@@ -10,8 +10,8 @@ public class MethodInfoProxy implements IMethodInfo {
 
 	protected IMethodInfo base;
 
-	public MethodInfoProxy(IMethodInfo delegate) {
-		this.base = delegate;
+	public MethodInfoProxy(IMethodInfo base) {
+		this.base = base;
 	}
 
 	public String getName() {

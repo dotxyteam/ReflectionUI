@@ -6,8 +6,8 @@ public class FieldInfoProxy implements IFieldInfo {
 
 	protected IFieldInfo base;
 
-	public FieldInfoProxy(IFieldInfo delegate) {
-		this.base = delegate;
+	public FieldInfoProxy(IFieldInfo base) {
+		this.base = base;
 	}
 
 	@Override

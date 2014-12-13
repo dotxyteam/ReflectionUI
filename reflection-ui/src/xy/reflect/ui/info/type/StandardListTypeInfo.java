@@ -103,18 +103,9 @@ public class StandardListTypeInfo extends DefaultTypeInfo implements
 	}
 
 	@Override
-	public IListHierarchicalInfo getHierarchicalInfo() {
-		return new DefaultListHierarchicalInfo(reflectionUI);
-	}
-
-	@Override
-	public IListTabularInfo getTabularInfo() {
+	public IListStructuralInfo getStructuralInfo() {
 		ITypeInfo itemType = getItemType();
-		if (itemType == null) {
-			return null;
-		}
-		return new DefaultListTabularInfo(reflectionUI, itemType,
-				!itemType.isConcrete());
+		return new DefaultListStructuralInfo(reflectionUI, itemType);
 	}
 
 	@Override

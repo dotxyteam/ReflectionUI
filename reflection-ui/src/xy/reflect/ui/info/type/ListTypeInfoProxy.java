@@ -9,9 +9,9 @@ import xy.reflect.ui.info.method.IMethodInfo;
 public class ListTypeInfoProxy implements IListTypeInfo {
 	protected IListTypeInfo base;
 
-	public ListTypeInfoProxy(IListTypeInfo delegate) {
+	public ListTypeInfoProxy(IListTypeInfo base) {
 		super();
-		this.base = delegate;
+		this.base = base;
 	}
 
 	public String getName() {
@@ -34,10 +34,6 @@ public class ListTypeInfoProxy implements IListTypeInfo {
 		return base.fromStandardList(list);
 	}
 
-	public IListHierarchicalInfo getHierarchicalInfo() {
-		return base.getHierarchicalInfo();
-	}
-
 	public boolean isConcrete() {
 		return base.isConcrete();
 	}
@@ -46,8 +42,8 @@ public class ListTypeInfoProxy implements IListTypeInfo {
 		return base.getConstructors();
 	}
 
-	public IListTabularInfo getTabularInfo() {
-		return base.getTabularInfo();
+	public IListStructuralInfo getStructuralInfo() {
+		return base.getStructuralInfo();
 	}
 
 	public List<IFieldInfo> getFields() {
