@@ -232,7 +232,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 
 	protected boolean isTabular() {
 		IListStructuralInfo tabularInfo = getRootListType().getStructuralInfo();
-		return (tabularInfo != null) && tabularInfo.isTabular();
+		return tabularInfo != null;
 	}
 
 	protected void updateButtonsPanel(ItemPosition itemPosition) {

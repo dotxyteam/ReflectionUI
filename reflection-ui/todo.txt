@@ -1,3 +1,5 @@
+- arrow buttons for info category tabs
+- left label for DialogAccessControl is nicer
 - add support for all Collection based types
 - textControl "insert" always activated
 - allow to change map key caption

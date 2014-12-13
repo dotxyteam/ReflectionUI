@@ -23,8 +23,6 @@ public interface IListTypeInfo extends ITypeInfo {
 
 		int getColumnCount();
 
-		boolean isTabular();
-		
 		IFieldInfo getItemSubListField(IItemPosition itemPosition);
 
 		List<IFieldInfo> getItemSubListFieldsToExcludeFromDetailsView(IItemPosition itemPosition);		

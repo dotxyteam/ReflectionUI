@@ -175,8 +175,7 @@ public class DefaultListStructuralInfo implements IListStructuralInfo {
 		}
 	}
 
-	@Override
-	public boolean isTabular() {
+	protected boolean isTabular() {
 		return (itemFields != null) && (itemFields.size() > 0);
 	}
 

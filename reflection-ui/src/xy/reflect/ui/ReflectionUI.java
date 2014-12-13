@@ -294,11 +294,22 @@ public class ReflectionUI {
 			for (String categoryCaption : allCategories) {
 				List<FielControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
 						.get(categoryCaption);
+				if (fieldControlPlaceHolders == null) {
+					fieldControlPlaceHolders = Collections.emptyList();
+				}
 				List<Component> methodControls = methodControlsByCategory
 						.get(categoryCaption);
+				if (methodControls == null) {
+					methodControls = Collections.emptyList();
+				}
 				JPanel tab = new JPanel();
+				tab.setLayout(new BorderLayout());
+				
+				JPanel tabContent = new JPanel();
+				tab.add(tabContent, BorderLayout.NORTH);
 				layoutControls(object, fieldControlPlaceHolders,
-						methodControls, form);
+						methodControls, tabContent);
+				
 				tabbedPane.addTab(translateUIString(categoryCaption), tab);
 			}
 		}
