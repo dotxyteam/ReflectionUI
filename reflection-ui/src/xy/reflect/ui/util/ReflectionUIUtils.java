@@ -1,5 +1,6 @@
 package xy.reflect.ui.util;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.FlowLayout;
@@ -24,6 +25,7 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 import com.fasterxml.classmate.MemberResolver;
 import com.fasterxml.classmate.ResolvedType;
@@ -567,6 +569,11 @@ public class ReflectionUIUtils {
 			}
 		}
 		return result.toString();
+	}
+
+	public static Color getNullColor() {
+		return UIManager
+				.getColor("TextField.shadow");
 	}
 
 

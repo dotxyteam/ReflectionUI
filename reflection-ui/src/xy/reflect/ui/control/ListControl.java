@@ -1509,8 +1509,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 			if (text == null) {
 				label.setText("     ");
 				label.setOpaque(true);
-				label.setBackground(fixColorReourceNotDisplayed(UIManager
-						.getColor("TextField.darkShadow")));
+				label.setBackground(fixColorReourceNotDisplayed(ReflectionUIUtils.getNullColor()));
 			} else {
 				label.setText(reflectionUI.translateUIString(text));
 				label.setOpaque(false);

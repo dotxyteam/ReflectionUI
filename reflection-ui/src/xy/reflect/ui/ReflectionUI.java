@@ -23,6 +23,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -33,6 +35,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
@@ -198,27 +201,46 @@ public class ReflectionUI {
 
 	public int fillForm(Object object, JPanel form,
 			IInfoCollectionSettings settings) {
-		List<FielControlPlaceHolder> fieldControlPlaceHolders = new ArrayList<FielControlPlaceHolder>();
 		ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
-		for (IFieldInfo field : type.getFields()) {
+
+		Map<String, List<FielControlPlaceHolder>> fieldControlPlaceHoldersByCategory = new HashMap<String, List<FielControlPlaceHolder>>();
+		List<IFieldInfo> fields = type.getFields();
+		for (IFieldInfo field : fields) {
 			if (settings.excludeField(field)) {
 				continue;
 			}
 			FielControlPlaceHolder fieldControlPlaceHolder = createFieldControlPlaceHolder(
 					object, field, form);
-			Map<String, FielControlPlaceHolder> controlPlaceHolderByFieldName = controlPlaceHolderByFieldNameByForm
-					.get(form);
-			if (controlPlaceHolderByFieldName == null) {
-				controlPlaceHolderByFieldName = new HashMap<String, FielControlPlaceHolder>();
-				controlPlaceHolderByFieldNameByForm.put(form,
-						controlPlaceHolderByFieldName);
+			{
+				Map<String, FielControlPlaceHolder> controlPlaceHolderByFieldName = controlPlaceHolderByFieldNameByForm
+						.get(form);
+				if (controlPlaceHolderByFieldName == null) {
+					controlPlaceHolderByFieldName = new HashMap<String, FielControlPlaceHolder>();
+					controlPlaceHolderByFieldNameByForm.put(form,
+							controlPlaceHolderByFieldName);
+				}
+				controlPlaceHolderByFieldName.put(field.getName(),
+						fieldControlPlaceHolder);
 			}
-			controlPlaceHolderByFieldName.put(field.getName(),
-					fieldControlPlaceHolder);
-			fieldControlPlaceHolders.add(fieldControlPlaceHolder);
+			{
+				String categoryCaption = field.getCategoryCaption();
+				if (categoryCaption == null) {
+					categoryCaption = getNullCategoryCaption();
+				}
+				List<FielControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
+						.get(categoryCaption);
+				if (fieldControlPlaceHolders == null) {
+					fieldControlPlaceHolders = new ArrayList<ReflectionUI.FielControlPlaceHolder>();
+					fieldControlPlaceHoldersByCategory.put(categoryCaption,
+							fieldControlPlaceHolders);
+				}
+				fieldControlPlaceHolders.add(fieldControlPlaceHolder);
+			}
 		}
-		List<Component> methodControls = new ArrayList<Component>();
-		for (IMethodInfo method : type.getMethods()) {
+
+		Map<String, List<Component>> methodControlsByCategory = new HashMap<String, List<Component>>();
+		List<IMethodInfo> methods = type.getMethods();
+		for (IMethodInfo method : methods) {
 			if (settings.excludeMethod(method)) {
 				continue;
 			}
@@ -233,10 +255,58 @@ public class ReflectionUI {
 				}
 			}
 			Component methodControl = createMethodControl(object, method);
-			methodControls.add(methodControl);
+			{
+				String categoryCaption = method.getCategoryCaption();
+				if (categoryCaption == null) {
+					categoryCaption = getNullCategoryCaption();
+				}
+				List<Component> methodControls = methodControlsByCategory
+						.get(categoryCaption);
+				if (methodControls == null) {
+					methodControls = new ArrayList<Component>();
+					methodControlsByCategory.put(categoryCaption,
+							methodControls);
+				}
+				methodControls.add(methodControl);
+			}
 		}
-		layoutControls(object, fieldControlPlaceHolders, methodControls, form);
-		return fieldControlPlaceHolders.size() + methodControls.size();
+		
+		SortedSet<String> allCategories = new TreeSet<String>();
+		allCategories.addAll(fieldControlPlaceHoldersByCategory.keySet());
+		allCategories.addAll(methodControlsByCategory.keySet());
+		if (allCategories.size() == 1) {
+			List<FielControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
+					.get(allCategories.first());
+			if (fieldControlPlaceHolders == null) {
+				fieldControlPlaceHolders = Collections.emptyList();
+			}
+			List<Component> methodControls = methodControlsByCategory
+					.get(allCategories.first());
+			if (methodControls == null) {
+				methodControls = Collections.emptyList();
+			}
+			layoutControls(object, fieldControlPlaceHolders, methodControls,
+					form);
+		} else if (allCategories.size() > 1) {
+			JTabbedPane tabbedPane = new JTabbedPane();
+			form.setLayout(new BorderLayout());
+			form.add(tabbedPane, BorderLayout.CENTER);
+			for (String categoryCaption : allCategories) {
+				List<FielControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
+						.get(categoryCaption);
+				List<Component> methodControls = methodControlsByCategory
+						.get(categoryCaption);
+				JPanel tab = new JPanel();
+				layoutControls(object, fieldControlPlaceHolders,
+						methodControls, form);
+				tabbedPane.addTab(translateUIString(categoryCaption), tab);
+			}
+		}
+		return fields.size() + methods.size();
+	}
+
+	private String getNullCategoryCaption() {
+		return "General";
 	}
 
 	public ITypeInfoSource getTypeInfoSource(Object object) {

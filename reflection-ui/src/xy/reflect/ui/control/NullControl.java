@@ -3,12 +3,12 @@ package xy.reflect.ui.control;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.UIManager;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.DefaultTextualTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class NullControl extends TextControl {
 
@@ -56,7 +56,7 @@ public class NullControl extends TextControl {
 	@Override
 	public void refreshUI() {
 		super.refreshUI();
-		textField.setBackground(UIManager.getColor("TextField.darkShadow"));
+		textField.setBackground(ReflectionUIUtils.getNullColor());
 	}
 	
 	
