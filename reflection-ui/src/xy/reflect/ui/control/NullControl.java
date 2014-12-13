@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.UIManager;
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.field.FieldInfoDelagator;
+import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.DefaultTextualTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -16,7 +16,7 @@ public class NullControl extends TextControl {
 	
 	public NullControl(final ReflectionUI reflectionUI, IFieldInfo field,
 			final Runnable onMousePress) {
-		super(reflectionUI, null, new FieldInfoDelagator(field){
+		super(reflectionUI, null, new FieldInfoProxy(field){
 
 			@Override
 			public Object getValue(Object object) {

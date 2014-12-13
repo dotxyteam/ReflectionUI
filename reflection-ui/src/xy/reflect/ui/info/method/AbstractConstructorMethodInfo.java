@@ -54,5 +54,10 @@ public abstract class AbstractConstructorMethodInfo implements IMethodInfo{
 		return true;
 	}
 
+	@Override
+	public String getCategoryCaption() {
+		return null;
+	}
+
 
 }

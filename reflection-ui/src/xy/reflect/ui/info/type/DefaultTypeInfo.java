@@ -14,7 +14,7 @@ import xy.reflect.ui.control.DialogAcessControl;
 import xy.reflect.ui.control.EmbeddedFormControl;
 import xy.reflect.ui.control.NullableControl;
 import xy.reflect.ui.control.PolymorphicEmbeddedForm;
-import xy.reflect.ui.info.field.FieldInfoDelagator;
+import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.PublicFieldInfo;
@@ -136,7 +136,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 			if (fieldValueType instanceof DefaultTypeInfo) {
 				return ((DefaultTypeInfo) fieldValueType)
 						.createNonNullFieldValueControl(object,
-								new FieldInfoDelagator(field) {
+								new FieldInfoProxy(field) {
 									@Override
 									public ITypeInfo getType() {
 										return fieldValueType;

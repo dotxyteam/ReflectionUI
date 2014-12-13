@@ -42,11 +42,11 @@ import xy.reflect.ui.control.MethodControl;
 import xy.reflect.ui.control.ModificationStack;
 import xy.reflect.ui.control.ModificationStack.IModification;
 import xy.reflect.ui.info.IInfoCollectionSettings;
-import xy.reflect.ui.info.field.FieldInfoDelagator;
+import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MultiSubListField.VirtualItem;
 import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.info.method.MethodInfoDelegator;
+import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ArrayTypeInfo;
 import xy.reflect.ui.info.type.DefaultBooleanTypeInfo;
@@ -258,7 +258,7 @@ public class ReflectionUI {
 
 	public IFieldInfo makeFieldModificationsUndoable(final IFieldInfo field,
 			final JPanel form) {
-		return new FieldInfoDelagator(field) {
+		return new FieldInfoProxy(field) {
 			@Override
 			public void setValue(Object object, Object newValue) {
 				ModificationStack stack = getModificationStackByForm()
@@ -271,7 +271,7 @@ public class ReflectionUI {
 
 	public IMethodInfo makeMethodModificationsVisibleAndUndoable(
 			final IMethodInfo method, final JPanel form) {
-		return new MethodInfoDelegator(method) {
+		return new MethodInfoProxy(method) {
 
 			@Override
 			public Object invoke(Object object,
@@ -1064,7 +1064,7 @@ public class ReflectionUI {
 		}
 
 		public IFieldInfo manageFieldValuesValidation(final IFieldInfo field) {
-			return new FieldInfoDelagator(field) {
+			return new FieldInfoProxy(field) {
 
 				@Override
 				public void setValue(Object object, Object value) {

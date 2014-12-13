@@ -2,60 +2,57 @@ package xy.reflect.ui.info.field;
 
 import xy.reflect.ui.info.type.ITypeInfo;
 
-public class FieldInfoDelagator implements IFieldInfo {
+public class FieldInfoProxy implements IFieldInfo {
 
-	protected IFieldInfo delegate;
+	protected IFieldInfo base;
 
-	public FieldInfoDelagator(IFieldInfo delegate) {
-		this.delegate = delegate;
-		if(delegate == null){
-			System.out.println("debug");
-		}
+	public FieldInfoProxy(IFieldInfo delegate) {
+		this.base = delegate;
 	}
 
 	@Override
 	public Object getValue(Object object) {
-		return delegate.getValue(object);
+		return base.getValue(object);
 	}
 
 	@Override
 	public ITypeInfo getType() {
-		return delegate.getType();
+		return base.getType();
 	}
 
 	@Override
 	public String getCaption() {
-		return delegate.getCaption();
+		return base.getCaption();
 	}
 
 	@Override
 	public void setValue(Object object, Object value) {
-		delegate.setValue(object, value);
+		base.setValue(object, value);
 	}
 
 	@Override
 	public boolean isNullable() {
-		return delegate.isNullable();
+		return base.isNullable();
 	}
 
 	@Override
 	public boolean isReadOnly() {
-		return delegate.isReadOnly();
+		return base.isReadOnly();
 	}
 	
 	@Override
 	public String toString() {
-		return delegate.toString();
+		return base.toString();
 	}
 
 	@Override
 	public String getName() {
-		return delegate.getName();
+		return base.getName();
 	}
 
 	@Override
 	public int hashCode() {
-		return delegate.hashCode();
+		return base.hashCode();
 	}
 
 	@Override
@@ -69,12 +66,12 @@ public class FieldInfoDelagator implements IFieldInfo {
 		if(!getClass().equals(obj.getClass())){
 			return false;
 		}
-		return delegate.equals(((FieldInfoDelagator) obj).delegate);
+		return base.equals(((FieldInfoProxy) obj).base);
 	}
 
 	@Override
 	public String getCategoryCaption() {
-		return delegate.getCategoryCaption();
+		return base.getCategoryCaption();
 	}
 	
 	

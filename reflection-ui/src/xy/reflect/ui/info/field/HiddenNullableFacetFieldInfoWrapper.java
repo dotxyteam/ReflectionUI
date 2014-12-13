@@ -3,7 +3,7 @@ package xy.reflect.ui.info.field;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.util.Accessor;
 
-public class HiddenNullableFacetFieldInfoWrapper extends FieldInfoDelagator {
+public class HiddenNullableFacetFieldInfoWrapper extends FieldInfoProxy {
 
 	protected Accessor<Object> defaultValueAccessor;
 

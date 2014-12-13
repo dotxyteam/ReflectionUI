@@ -6,10 +6,10 @@ import java.util.List;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 
-public class ListTypeInfoDelegator implements IListTypeInfo {
-	protected IListTypeInfo delegate;
+public class SimpleTypeInfoProxy implements ITypeInfo {
+	protected ITypeInfo delegate;
 
-	public ListTypeInfoDelegator(IListTypeInfo delegate) {
+	public SimpleTypeInfoProxy(ITypeInfo delegate) {
 		super();
 		this.delegate = delegate;
 	}
@@ -22,32 +22,12 @@ public class ListTypeInfoDelegator implements IListTypeInfo {
 		return delegate.getCaption();
 	}
 
-	public ITypeInfo getItemType() {
-		return delegate.getItemType();
-	}
-
-	public List<?> toStandardList(Object value) {
-		return delegate.toStandardList(value);
-	}
-
-	public Object fromStandardList(List<?> list) {
-		return delegate.fromStandardList(list);
-	}
-
-	public IListHierarchicalInfo getHierarchicalInfo() {
-		return delegate.getHierarchicalInfo();
-	}
-
 	public boolean isConcrete() {
 		return delegate.isConcrete();
 	}
 
 	public List<IMethodInfo> getConstructors() {
 		return delegate.getConstructors();
-	}
-
-	public IListTabularInfo getTabularInfo() {
-		return delegate.getTabularInfo();
 	}
 
 	public List<IFieldInfo> getFields() {
@@ -64,7 +44,7 @@ public class ListTypeInfoDelegator implements IListTypeInfo {
 
 	public boolean supportsValue(Object value) {
 		return delegate.supportsValue(value);
-	}
+	};
 
 	public List<ITypeInfo> getPolymorphicInstanceTypes() {
 		return delegate.getPolymorphicInstanceTypes();
@@ -83,7 +63,7 @@ public class ListTypeInfoDelegator implements IListTypeInfo {
 		if (!getClass().equals(obj.getClass())) {
 			return false;
 		}
-		if (!delegate.equals(((ListTypeInfoDelegator) obj).delegate)) {
+		if (!delegate.equals(((SimpleTypeInfoProxy) obj).delegate)) {
 			return false;
 		}
 		return true;
@@ -95,12 +75,6 @@ public class ListTypeInfoDelegator implements IListTypeInfo {
 	}
 
 	@Override
-	public boolean isOrdered() {
-		return delegate.isOrdered();
-	}
-	
-
-	@Override
 	public boolean isImmutable() {
 		return delegate.isImmutable();
 	}
@@ -109,6 +83,5 @@ public class ListTypeInfoDelegator implements IListTypeInfo {
 	public boolean hasCustomFieldControl() {
 		return delegate.hasCustomFieldControl();
 	}
-
 
 }

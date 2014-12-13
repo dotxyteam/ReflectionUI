@@ -162,4 +162,9 @@ public class DefaultMethodInfo implements IMethodInfo {
 		return true;
 	}
 
+	@Override
+	public String getCategoryCaption() {
+		return null;
+	}
+
 }
