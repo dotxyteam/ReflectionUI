@@ -1,22 +1,18 @@
 package xy.reflect.ui.control;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Point;
+import java.awt.event.FocusEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.text.DefaultFormatter;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITextualTypeInfo;
+import xy.reflect.ui.util.component.AlignedLabel;
 
 public class TextControl extends JPanel implements IRefreshableControl,
 		ICanShowCaptionControl {
@@ -41,8 +37,20 @@ public class TextControl extends JPanel implements IRefreshableControl,
 
 		DefaultFormatter formatter = new DefaultFormatter();
 		formatter.setCommitsOnValidEdit(true);
-		textField = new JFormattedTextField(formatter);
+		formatter.setOverwriteMode(false);
+		textField = new JFormattedTextField(formatter){
 
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void processFocusEvent(FocusEvent e) {
+				textChangedByUser = false;
+				super.processFocusEvent(e);
+				textChangedByUser = true;
+			}
+			
+		};
+		
 		add(textField, BorderLayout.CENTER);
 		textField.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
@@ -79,35 +87,6 @@ public class TextControl extends JPanel implements IRefreshableControl,
 
 	@Override
 	public void showCaption() {
-		add(new JLabel(field.getCaption() + ": ", SwingConstants.LEFT) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public Dimension getPreferredSize() {
-				Component root = SwingUtilities.getRoot(this);
-				if (root == null) {
-					return super.getPreferredSize();
-				}
-				Dimension result = super.getPreferredSize();
-				int left = SwingUtilities.convertPoint(this, new Point(0, 0),
-						root).x;
-				int right = SwingUtilities.convertPoint(this, new Point(
-						result.width, 0), root).x;
-				int charWidth = getFontMetrics(getFont()).charWidth('m');
-				int widthsInterval = charWidth * getCharacterCountForTextBoxexAlignment();
-				right = (int) Math.round(Math.ceil(((double) right)
-						/ widthsInterval)
-						* widthsInterval);
-				result.width = right - left;
-				return result;
-			}
-
-		}, BorderLayout.WEST);
+		add(new AlignedLabel(field.getCaption() + ": "), BorderLayout.WEST);
 	}
-
-	protected int getCharacterCountForTextBoxexAlignment() {
-		return 5;
-	}
-
 }

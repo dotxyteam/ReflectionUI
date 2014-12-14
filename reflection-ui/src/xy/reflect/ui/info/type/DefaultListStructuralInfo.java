@@ -29,6 +29,10 @@ public class DefaultListStructuralInfo implements IListStructuralInfo {
 	@Override
 	public IFieldInfo getItemSubListField(IItemPosition itemPosition) {
 		List<IFieldInfo> candidateFields = getItemSubListCandidateFields(itemPosition);
+		for (int i = 0; i < candidateFields.size(); i++) {
+			candidateFields.set(i, new HiddenNullableFacetFieldInfoWrapper(reflectionUI,
+					candidateFields.get(i)));
+		}
 		if (candidateFields.size() == 0) {
 			return null;
 		} else if (candidateFields.size() == 1) {
@@ -95,10 +99,6 @@ public class DefaultListStructuralInfo implements IListStructuralInfo {
 					}
 				}
 			}
-		}
-		for (int i = 0; i < result.size(); i++) {
-			result.set(i, new HiddenNullableFacetFieldInfoWrapper(reflectionUI,
-					result.get(i)));
 		}
 		return result;
 	}

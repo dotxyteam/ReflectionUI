@@ -67,10 +67,10 @@ import xy.reflect.ui.info.type.StandardMapListTypeInfo;
 import xy.reflect.ui.info.type.StandardMapListTypeInfo.StandardMapEntry;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.ScrollPaneOptions;
-import xy.reflect.ui.util.SimpleLayout;
-import xy.reflect.ui.util.SimpleLayout.Kind;
-import xy.reflect.ui.util.WrapLayout;
+import xy.reflect.ui.util.component.ScrollPaneOptions;
+import xy.reflect.ui.util.component.SimpleLayout;
+import xy.reflect.ui.util.component.WrapLayout;
+import xy.reflect.ui.util.component.SimpleLayout.Kind;
 
 import com.google.common.collect.MapMaker;
 
@@ -316,7 +316,7 @@ public class ReflectionUI {
 		return fields.size() + methods.size();
 	}
 
-	private String getNullCategoryCaption() {
+	public String getNullCategoryCaption() {
 		return "General";
 	}
 

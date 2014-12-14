@@ -17,8 +17,9 @@ import xy.reflect.ui.info.type.DefaultTextualTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.component.AlignedLabel;
 
-public class DialogAcessControl extends JPanel {
+public class DialogAcessControl extends JPanel implements ICanShowCaptionControl{
 
 	protected static final long serialVersionUID = 1L;
 	protected ReflectionUI reflectionUI;
@@ -38,9 +39,11 @@ public class DialogAcessControl extends JPanel {
 
 		add(iconControl = createIconControl(), BorderLayout.EAST);
 
-		add(textControl = createTextControl(), BorderLayout.CENTER);
-
-		add(createButton(), BorderLayout.WEST);
+		JPanel centerPanel = new JPanel();
+		add(centerPanel, BorderLayout.CENTER);
+		centerPanel.setLayout(new BorderLayout());
+		centerPanel.add(textControl = createTextControl(), BorderLayout.CENTER);
+		centerPanel.add(createButton(), BorderLayout.WEST);
 
 		updateControls();
 	}
@@ -171,6 +174,13 @@ public class DialogAcessControl extends JPanel {
 
 	protected void updateTextControl() {
 		textControl.refreshUI();
+	}
+	
+
+
+	@Override
+	public void showCaption() {
+		add(new AlignedLabel(field.getCaption() + ": "), BorderLayout.WEST);
 	}
 
 }

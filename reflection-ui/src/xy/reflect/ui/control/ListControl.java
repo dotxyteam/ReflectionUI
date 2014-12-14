@@ -222,7 +222,8 @@ public class ListControl extends JPanel implements IRefreshableControl,
 			if (!isTabular()) {
 				value = reflectionUI.toInfoString(itemPosition.getItem());
 			} else {
-				IListStructuralInfo tableInfo = getRootListType().getStructuralInfo();
+				IListStructuralInfo tableInfo = getRootListType()
+						.getStructuralInfo();
 				value = tableInfo.getCellValue(itemPosition, columnIndex);
 			}
 			nodeValues.put(columnIndex, value);
@@ -280,8 +281,8 @@ public class ListControl extends JPanel implements IRefreshableControl,
 
 	protected ItemPosition getSubItemPosition(ItemPosition itemPosition) {
 		if (itemPosition.getItem() != null) {
-			IListStructuralInfo treeInfo = itemPosition
-					.getContainingListType().getStructuralInfo();
+			IListStructuralInfo treeInfo = itemPosition.getContainingListType()
+					.getStructuralInfo();
 			if (treeInfo != null) {
 				IFieldInfo subListField = treeInfo
 						.getItemSubListField(itemPosition);
@@ -426,7 +427,12 @@ public class ListControl extends JPanel implements IRefreshableControl,
 						int index = itemPosition.getIndex();
 						list.remove(index);
 						refreshStructure();
-						select(itemPosition.getParentItemPosition());
+						if (itemPosition.getContainingListType().isOrdered()
+								&& (index > 0)) {
+							select(itemPosition.getSibling(index - 1));
+						} else {
+							select(itemPosition.getParentItemPosition());
+						}
 					}
 				} catch (Throwable t) {
 					reflectionUI.handleDisplayedUIExceptions(button, t);
@@ -490,7 +496,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 
 	protected void createAddInButton(JPanel buttonsPanel) {
 		final JButton button = new JButton(
-				reflectionUI.translateUIString("Put"));
+				reflectionUI.translateUIString("Add In"));
 		buttonsPanel.add(button);
 		button.addActionListener(new ActionListener() {
 			@Override
@@ -636,7 +642,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 
 	protected void createOpenItemButton(JPanel buttonsPanel) {
 		final JButton button = new JButton(
-				reflectionUI.translateUIString("Details"));
+				reflectionUI.translateUIString("Open"));
 		buttonsPanel.add(button);
 		button.addActionListener(new ActionListener() {
 			@Override
@@ -735,18 +741,18 @@ public class ListControl extends JPanel implements IRefreshableControl,
 		};
 		ModificationStack parentStack = ReflectionUIUtils
 				.findModificationStack(ListControl.this, reflectionUI);
-		String title = reflectionUI.getFieldTitle(object,
-				new FieldInfoProxy(field) {
-					@Override
-					public String getCaption() {
-						return field.getCaption() + " Item";
-					}
+		String title = reflectionUI.getFieldTitle(object, new FieldInfoProxy(
+				field) {
+			@Override
+			public String getCaption() {
+				return field.getCaption() + " Item";
+			}
 
-					@Override
-					public Object getValue(Object object) {
-						return list.get(index);
-					}
-				});
+			@Override
+			public Object getValue(Object object) {
+				return list.get(index);
+			}
+		});
 		IInfoCollectionSettings settings = new IInfoCollectionSettings() {
 			@Override
 			public boolean allReadOnly() {
@@ -760,8 +766,9 @@ public class ListControl extends JPanel implements IRefreshableControl,
 				if (treeInfo == null) {
 					return false;
 				}
-				return treeInfo.getItemSubListFieldsToExcludeFromDetailsView(itemPosition)
-						.contains(field);
+				List<IFieldInfo> fieldsToExclude = treeInfo.getItemSubListFieldsToExcludeFromDetailsView(
+						itemPosition);
+				return fieldsToExclude.contains(field);
 			}
 
 			@Override
@@ -1508,7 +1515,8 @@ public class ListControl extends JPanel implements IRefreshableControl,
 			if (text == null) {
 				label.setText("     ");
 				label.setOpaque(true);
-				label.setBackground(fixColorReourceNotDisplayed(ReflectionUIUtils.getNullColor()));
+				label.setBackground(fixColorReourceNotDisplayed(ReflectionUIUtils
+						.getNullColor()));
 			} else {
 				label.setText(reflectionUI.translateUIString(text));
 				label.setOpaque(false);

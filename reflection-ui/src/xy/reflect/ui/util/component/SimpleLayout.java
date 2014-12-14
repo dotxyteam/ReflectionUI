@@ -1,4 +1,4 @@
-package xy.reflect.ui.util;
+package xy.reflect.ui.util.component;
 
 import java.awt.Component;
 import java.awt.Container;
