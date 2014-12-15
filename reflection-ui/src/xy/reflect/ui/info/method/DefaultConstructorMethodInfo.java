@@ -82,4 +82,9 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 		return true;
 	}
 
+	@Override
+	public String getCategoryCaption() {
+		return null;
+	}
+
 }

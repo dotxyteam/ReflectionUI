@@ -5,8 +5,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.type.DefaultListStructuralInfo;
+import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.StandardListTypeInfo;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MultiSubListField implements IFieldInfo {
 
@@ -30,8 +33,9 @@ public class MultiSubListField implements IFieldInfo {
 			}
 
 			@Override
-			public IListHierarchicalInfo getHierarchicalInfo() {
-				return new IListHierarchicalInfo() {
+			public IListStructuralInfo getStructuralInfo() {
+				return new DefaultListStructuralInfo(reflectionUI,
+						getItemType()) {
 
 					@Override
 					public IFieldInfo getItemSubListField(
@@ -41,9 +45,19 @@ public class MultiSubListField implements IFieldInfo {
 					}
 
 					@Override
-					public List<String> getItemDetailsExcludedFieldNames(
+					public List<IFieldInfo> getItemSubListFieldsToExcludeFromDetailsView(
 							IItemPosition itemPosition) {
-						return Arrays.asList("object", "listField");
+						ITypeInfo virtualItemtypeInfo = new DefaultTypeInfo(
+								reflectionUI, VirtualItem.class);
+						IFieldInfo objectFieldInfo = ReflectionUIUtils
+								.findInfoByName(
+										virtualItemtypeInfo.getFields(),
+										"object");
+						IFieldInfo listFieldFieldInfo = ReflectionUIUtils
+								.findInfoByName(
+										virtualItemtypeInfo.getFields(),
+										"listField");
+						return Arrays.asList(objectFieldInfo, listFieldFieldInfo);
 					}
 				};
 			}
@@ -185,7 +199,7 @@ public class MultiSubListField implements IFieldInfo {
 		if (obj == null) {
 			return false;
 		}
-		if(obj == this){
+		if (obj == this) {
 			return true;
 		}
 		if (!getClass().equals(obj.getClass())) {

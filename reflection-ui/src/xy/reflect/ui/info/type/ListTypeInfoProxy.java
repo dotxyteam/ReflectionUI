@@ -6,73 +6,69 @@ import java.util.List;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 
-public class ListTypeInfoDelegator implements IListTypeInfo {
-	protected IListTypeInfo delegate;
+public class ListTypeInfoProxy implements IListTypeInfo {
+	protected IListTypeInfo base;
 
-	public ListTypeInfoDelegator(IListTypeInfo delegate) {
+	public ListTypeInfoProxy(IListTypeInfo base) {
 		super();
-		this.delegate = delegate;
+		this.base = base;
 	}
 
 	public String getName() {
-		return delegate.getName();
+		return base.getName();
 	}
 
 	public String getCaption() {
-		return delegate.getCaption();
+		return base.getCaption();
 	}
 
 	public ITypeInfo getItemType() {
-		return delegate.getItemType();
+		return base.getItemType();
 	}
 
 	public List<?> toStandardList(Object value) {
-		return delegate.toStandardList(value);
+		return base.toStandardList(value);
 	}
 
 	public Object fromStandardList(List<?> list) {
-		return delegate.fromStandardList(list);
-	}
-
-	public IListHierarchicalInfo getHierarchicalInfo() {
-		return delegate.getHierarchicalInfo();
+		return base.fromStandardList(list);
 	}
 
 	public boolean isConcrete() {
-		return delegate.isConcrete();
+		return base.isConcrete();
 	}
 
 	public List<IMethodInfo> getConstructors() {
-		return delegate.getConstructors();
+		return base.getConstructors();
 	}
 
-	public IListTabularInfo getTabularInfo() {
-		return delegate.getTabularInfo();
+	public IListStructuralInfo getStructuralInfo() {
+		return base.getStructuralInfo();
 	}
 
 	public List<IFieldInfo> getFields() {
-		return delegate.getFields();
+		return base.getFields();
 	}
 
 	public List<IMethodInfo> getMethods() {
-		return delegate.getMethods();
+		return base.getMethods();
 	}
 
 	public Component createFieldControl(Object object, IFieldInfo field) {
-		return delegate.createFieldControl(object, field);
+		return base.createFieldControl(object, field);
 	}
 
 	public boolean supportsValue(Object value) {
-		return delegate.supportsValue(value);
+		return base.supportsValue(value);
 	}
 
 	public List<ITypeInfo> getPolymorphicInstanceTypes() {
-		return delegate.getPolymorphicInstanceTypes();
+		return base.getPolymorphicInstanceTypes();
 	}
 
 	@Override
 	public int hashCode() {
-		return delegate.hashCode();
+		return base.hashCode();
 	}
 
 	@Override
@@ -83,7 +79,7 @@ public class ListTypeInfoDelegator implements IListTypeInfo {
 		if (!getClass().equals(obj.getClass())) {
 			return false;
 		}
-		if (!delegate.equals(((ListTypeInfoDelegator) obj).delegate)) {
+		if (!base.equals(((ListTypeInfoProxy) obj).base)) {
 			return false;
 		}
 		return true;
@@ -91,23 +87,23 @@ public class ListTypeInfoDelegator implements IListTypeInfo {
 
 	@Override
 	public String toString() {
-		return delegate.toString();
+		return base.toString();
 	}
 
 	@Override
 	public boolean isOrdered() {
-		return delegate.isOrdered();
+		return base.isOrdered();
 	}
 	
 
 	@Override
 	public boolean isImmutable() {
-		return delegate.isImmutable();
+		return base.isImmutable();
 	}
 
 	@Override
 	public boolean hasCustomFieldControl() {
-		return delegate.hasCustomFieldControl();
+		return base.hasCustomFieldControl();
 	}
 
 

@@ -1,12 +1,14 @@
+- list item view exclude fields not working
+- arrow buttons for info category tabs
 - add support for all Collection based types
-- textControl "insert" always activated
-- allow to change map key caption
 - list control: 
 	. replace buttons label by icons
 	. add grid lines???
 - button shown with dynamic grid layout
 - list control:
 	. add cut command???
+	. add multiple selection support (copy, paste, remove, ...)???
+	. add drag and drop support
 - modiStack:
 	. replace buttons texts by icons???
 - parameter name when debug info available

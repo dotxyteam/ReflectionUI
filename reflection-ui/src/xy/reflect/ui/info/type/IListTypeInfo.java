@@ -11,19 +11,11 @@ public interface IListTypeInfo extends ITypeInfo {
 
 	Object fromStandardList(List<?> list);
 
-	IListHierarchicalInfo getHierarchicalInfo();
-	
-	IListTabularInfo getTabularInfo();
+	IListStructuralInfo getStructuralInfo();
 	
 	boolean isOrdered();
 	
-	public interface IListHierarchicalInfo{
-		IFieldInfo getItemSubListField(IItemPosition itemPosition);
-
-		List<String> getItemDetailsExcludedFieldNames(IItemPosition itemPosition);		
-	}
-
-	public interface IListTabularInfo{
+	public interface IListStructuralInfo{
 
 		String getCellValue(IItemPosition itemPosition, int columnIndex);
 
@@ -31,9 +23,10 @@ public interface IListTypeInfo extends ITypeInfo {
 
 		int getColumnCount();
 
-		boolean isValid();
-		
-	}
+		IFieldInfo getItemSubListField(IItemPosition itemPosition);
+
+		List<IFieldInfo> getItemSubListFieldsToExcludeFromDetailsView(IItemPosition itemPosition);		
+}
 	
 	public interface IItemPosition {
 

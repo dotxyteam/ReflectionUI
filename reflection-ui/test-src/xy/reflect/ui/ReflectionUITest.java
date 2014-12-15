@@ -20,7 +20,7 @@ import xy.reflect.ui.info.type.DefaultTextualTypeInfo;
 import xy.reflect.ui.info.type.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.ITypeInfoSource;
-import xy.reflect.ui.info.type.SimpleTypeInfoDelegator;
+import xy.reflect.ui.info.type.SimpleTypeInfoProxy;
 
 @SuppressWarnings("unused")
 public class ReflectionUITest {
@@ -106,7 +106,7 @@ public class ReflectionUITest {
 				}
 				JavaTypeInfoSource classSource = (JavaTypeInfoSource) typeSource;
 				if (classSource.getJavaType() == Exception.class) {
-					return new SimpleTypeInfoDelegator(
+					return new SimpleTypeInfoProxy(
 							super.getTypeInfo(typeSource)) {
 
 						@Override

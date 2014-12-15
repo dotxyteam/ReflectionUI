@@ -6,42 +6,42 @@ import java.util.Map;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
-public class MethodInfoDelegator implements IMethodInfo {
+public class MethodInfoProxy implements IMethodInfo {
 
-	protected IMethodInfo delegate;
+	protected IMethodInfo base;
 
-	public MethodInfoDelegator(IMethodInfo delegate) {
-		this.delegate = delegate;
+	public MethodInfoProxy(IMethodInfo base) {
+		this.base = base;
 	}
 
 	public String getName() {
-		return delegate.getName();
+		return base.getName();
 	}
 
 	public String getCaption() {
-		return delegate.getCaption();
+		return base.getCaption();
 	}
 
 	public ITypeInfo getReturnValueType() {
-		return delegate.getReturnValueType();
+		return base.getReturnValueType();
 	}
 
 	public List<IParameterInfo> getParameters() {
-		return delegate.getParameters();
+		return base.getParameters();
 	}
 
 	public Object invoke(Object object, Map<String, Object> valueByParameterName) {
-		return delegate.invoke(object, valueByParameterName);
+		return base.invoke(object, valueByParameterName);
 	}
 
 	@Override
 	public String toString() {
-		return delegate.toString();
+		return base.toString();
 	}
 	
 	@Override
 	public int hashCode() {
-		return delegate.hashCode();
+		return base.hashCode();
 	}
 
 	@Override
@@ -55,12 +55,17 @@ public class MethodInfoDelegator implements IMethodInfo {
 		if(!getClass().equals(obj.getClass())){
 			return false;
 		}
-		return delegate.equals(((MethodInfoDelegator) obj).delegate);
+		return base.equals(((MethodInfoProxy) obj).base);
 	}
 
 	@Override
 	public boolean isReadOnly() {
-		return delegate.isReadOnly();
+		return base.isReadOnly();
+	}
+
+	@Override
+	public String getCategoryCaption() {
+		return base.getCategoryCaption();
 	}
 
 
