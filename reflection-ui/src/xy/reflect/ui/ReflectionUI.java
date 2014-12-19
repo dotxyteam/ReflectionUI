@@ -226,7 +226,7 @@ public class ReflectionUI {
 			{
 				InfoCategory category = field.getCategory();
 				if (category == null) {
-					category = getNullCategory();
+					category = getNullInfoCategory();
 				}
 				List<FielControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
 						.get(category);
@@ -259,19 +259,18 @@ public class ReflectionUI {
 			{
 				InfoCategory category = method.getCategory();
 				if (category == null) {
-					category = getNullCategory();
+					category = getNullInfoCategory();
 				}
 				List<Component> methodControls = methodControlsByCategory
 						.get(category);
 				if (methodControls == null) {
 					methodControls = new ArrayList<Component>();
-					methodControlsByCategory.put(category,
-							methodControls);
+					methodControlsByCategory.put(category, methodControls);
 				}
 				methodControls.add(methodControl);
 			}
 		}
-		
+
 		SortedSet<InfoCategory> allCategories = new TreeSet<InfoCategory>();
 		allCategories.addAll(fieldControlPlaceHoldersByCategory.keySet());
 		allCategories.addAll(methodControlsByCategory.keySet());
@@ -286,38 +285,79 @@ public class ReflectionUI {
 			if (methodControls == null) {
 				methodControls = Collections.emptyList();
 			}
-			layoutControls(object, fieldControlPlaceHolders, methodControls,
-					form);
+			layoutControls(fieldControlPlaceHolders, methodControls, form);
 		} else if (allCategories.size() > 1) {
-			JTabbedPane tabbedPane = new JTabbedPane();
 			form.setLayout(new BorderLayout());
-			form.add(tabbedPane, BorderLayout.CENTER);
-			for (InfoCategory category : allCategories) {
-				List<FielControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
-						.get(category);
-				if (fieldControlPlaceHolders == null) {
-					fieldControlPlaceHolders = Collections.emptyList();
-				}
-				List<Component> methodControls = methodControlsByCategory
-						.get(category);
-				if (methodControls == null) {
-					methodControls = Collections.emptyList();
-				}
-				JPanel tab = new JPanel();
-				tab.setLayout(new BorderLayout());
-				
-				JPanel tabContent = new JPanel();
-				tab.add(tabContent, BorderLayout.NORTH);
-				layoutControls(object, fieldControlPlaceHolders,
-						methodControls, tabContent);
-				
-				tabbedPane.addTab(translateUIString(category.getCaption()), tab);
-			}
+			form.add(
+					createMultipleInfoCategoriesComponent(allCategories,
+							fieldControlPlaceHoldersByCategory,
+							methodControlsByCategory), BorderLayout.CENTER);
 		}
 		return fields.size() + methods.size();
 	}
 
-	public InfoCategory getNullCategory() {
+	public Component createMultipleInfoCategoriesComponent(
+			final SortedSet<InfoCategory> allCategories,
+			Map<InfoCategory, List<FielControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
+			Map<InfoCategory, List<Component>> methodControlsByCategory) {
+		final JTabbedPane tabbedPane = new JTabbedPane();
+		for (final InfoCategory category : allCategories) {
+			List<FielControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
+					.get(category);
+			if (fieldControlPlaceHolders == null) {
+				fieldControlPlaceHolders = Collections.emptyList();
+			}
+			List<Component> methodControls = methodControlsByCategory
+					.get(category);
+			if (methodControls == null) {
+				methodControls = Collections.emptyList();
+			}
+
+			JPanel tab = new JPanel();
+			tabbedPane.addTab(translateUIString(category.getCaption()), tab);
+			tab.setLayout(new BorderLayout());
+
+			JPanel tabContent = new JPanel();
+			tab.add(tabContent, BorderLayout.NORTH);
+			layoutControls(fieldControlPlaceHolders, methodControls, tabContent);
+
+			JPanel buttonsPanel = new JPanel();
+			tab.add(buttonsPanel, BorderLayout.SOUTH);
+			buttonsPanel.setLayout(new BorderLayout());
+			buttonsPanel.setBorder(BorderFactory.createRaisedBevelBorder());
+
+			ArrayList<InfoCategory> allCategoriesAsList = new ArrayList<InfoCategory>(
+					allCategories);
+			final int tabIndex = allCategoriesAsList.indexOf(category);
+			int tabCount = allCategoriesAsList.size();
+
+			if (tabIndex > 0) {
+				JButton previousCategoryButton = new JButton(translateUIString("<"));
+				buttonsPanel.add(previousCategoryButton, BorderLayout.WEST);
+				previousCategoryButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						tabbedPane.setSelectedIndex(tabIndex - 1);
+					}
+				});
+			}
+
+			if (tabIndex < (tabCount - 1)) {
+				JButton nextCategoryButton = new JButton(translateUIString(">"));
+				buttonsPanel.add(nextCategoryButton, BorderLayout.EAST);
+				nextCategoryButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						tabbedPane.setSelectedIndex(tabIndex + 1);
+					}
+				});
+			}
+
+		}
+		return tabbedPane;
+	}
+
+	public InfoCategory getNullInfoCategory() {
 		return new InfoCategory("General", -1);
 	}
 
@@ -431,7 +471,7 @@ public class ReflectionUI {
 		}
 	}
 
-	public void layoutControls(Object object,
+	public void layoutControls(
 			List<FielControlPlaceHolder> fielControlPlaceHolders,
 			List<Component> methodControls, JPanel parentForm) {
 		parentForm.setLayout(new SimpleLayout(Kind.COLUMN));
@@ -605,7 +645,7 @@ public class ReflectionUI {
 					getParameterAsField(param, valueByParameterName), null));
 		}
 
-		layoutControls(object, paramControlPlaceHolders,
+		layoutControls(paramControlPlaceHolders,
 				Collections.<Component> emptyList(), methodPanel);
 
 		final boolean[] invokedStatusArray = new boolean[] { false };
