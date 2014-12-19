@@ -125,10 +125,10 @@ public class DefaultListStructuralInfo implements IListStructuralInfo {
 		if (!isTabular()) {
 			return 1;
 		}
-		return itemFields.size() + (showsValueKindColumn() ? 1 : 0);
+		return itemFields.size() + (shouldShowValueKindColumn() ? 1 : 0);
 	}
 
-	protected boolean showsValueKindColumn() {
+	protected boolean shouldShowValueKindColumn() {
 		if (!isTabular()) {
 			return false;
 		}
@@ -140,7 +140,7 @@ public class DefaultListStructuralInfo implements IListStructuralInfo {
 		if (!isTabular()) {
 			return "";
 		}
-		if (showsValueKindColumn()) {
+		if (shouldShowValueKindColumn()) {
 			if (columnIndex == 0) {
 				return "Type";
 			}
@@ -159,7 +159,7 @@ public class DefaultListStructuralInfo implements IListStructuralInfo {
 			return itemPosition.getItem().toString();
 		}
 		Object item = itemPosition.getItem();
-		if (showsValueKindColumn()) {
+		if (shouldShowValueKindColumn()) {
 			if (columnIndex == 0) {
 				return reflectionUI.getObjectKind(item);
 			}

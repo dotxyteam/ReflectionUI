@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dialog.ModalityType;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.Insets;
@@ -332,7 +333,8 @@ public class ReflectionUI {
 			int tabCount = allCategoriesAsList.size();
 
 			if (tabIndex > 0) {
-				JButton previousCategoryButton = new JButton(translateUIString("<"));
+				JButton previousCategoryButton = new JButton(
+						translateUIString("<"));
 				buttonsPanel.add(previousCategoryButton, BorderLayout.WEST);
 				previousCategoryButton.addActionListener(new ActionListener() {
 					@Override
@@ -486,15 +488,31 @@ public class ReflectionUI {
 		}
 
 		JPanel methodsPanel = new JPanel();
-		methodsPanel.setLayout(new WrapLayout());
-		for (Component methodControl : methodControls) {
-			methodsPanel.add(methodControl);
+		methodsPanel.setLayout(new WrapLayout(WrapLayout.CENTER));
+		for (final Component methodControl : methodControls) {
+			JPanel methodControlContainer = new JPanel() {
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public Dimension getPreferredSize() {
+					Dimension result = super.getPreferredSize();
+					if (result == null) {
+						return super.getPreferredSize();
+					}
+					result.width = ReflectionUIUtils
+							.getStandardCharacterWidth(methodControl) * 25;
+					return result;
+				}
+
+			};
+			methodControlContainer.setLayout(new BorderLayout());
+			methodControlContainer.add(methodControl, BorderLayout.CENTER);
+			methodsPanel.add(methodControlContainer);
 		}
 
 		SimpleLayout.add(parentForm, fieldsPanel);
-		SimpleLayout
-				.add(parentForm, ReflectionUIUtils.flowInLayout(methodsPanel,
-						FlowLayout.CENTER));
+		SimpleLayout.add(parentForm, methodsPanel);
 	}
 
 	public void setFieldControlCaption(Component fieldControl, String caption) {
@@ -607,10 +625,6 @@ public class ReflectionUI {
 			return localTitle;
 		}
 		return contextTitle + " - " + localTitle;
-	}
-
-	public String getMethodParametersDialogTitle(IMethodInfo method) {
-		return method.getCaption();
 	}
 
 	public void onMethodInvocationRequest(Component activatorComponent,

@@ -45,7 +45,7 @@ public class FileControl extends DialogAcessControl {
 
 			@Override
 			public boolean isReadOnly() {
-				return false;
+				return field.isReadOnly();
 			}
 
 			@Override

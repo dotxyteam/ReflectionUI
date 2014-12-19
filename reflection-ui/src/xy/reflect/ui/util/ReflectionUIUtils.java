@@ -576,5 +576,9 @@ public class ReflectionUIUtils {
 				.getColor("TextField.shadow");
 	}
 
+	public static int getStandardCharacterWidth(Component c) {
+		return c.getFontMetrics(c.getFont()).charWidth('a');
+	}
+
 
 }

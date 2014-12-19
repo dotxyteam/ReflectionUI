@@ -12,7 +12,7 @@ import javax.swing.text.DefaultFormatter;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITextualTypeInfo;
-import xy.reflect.ui.util.component.AlignedLabel;
+import xy.reflect.ui.util.component.TabulatingLabel;
 
 public class TextControl extends JPanel implements IRefreshableControl,
 		ICanShowCaptionControl {
@@ -87,6 +87,6 @@ public class TextControl extends JPanel implements IRefreshableControl,
 
 	@Override
 	public void showCaption() {
-		add(new AlignedLabel(field.getCaption() + ": "), BorderLayout.WEST);
+		add(new TabulatingLabel(field.getCaption() + ": "), BorderLayout.WEST);
 	}
 }

@@ -18,7 +18,7 @@ import xy.reflect.ui.info.type.DefaultTextualTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.component.AlignedLabel;
+import xy.reflect.ui.util.component.TabulatingLabel;
 
 public class DialogAcessControl extends JPanel implements ICanShowCaptionControl{
 
@@ -181,7 +181,7 @@ public class DialogAcessControl extends JPanel implements ICanShowCaptionControl
 
 	@Override
 	public void showCaption() {
-		add(new AlignedLabel(field.getCaption() + ": "), BorderLayout.WEST);
+		add(new TabulatingLabel(field.getCaption() + ": "), BorderLayout.WEST);
 	}
 
 }

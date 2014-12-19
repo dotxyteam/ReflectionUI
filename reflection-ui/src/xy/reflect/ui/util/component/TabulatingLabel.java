@@ -8,11 +8,13 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
-public class AlignedLabel extends JLabel {
+import xy.reflect.ui.util.ReflectionUIUtils;
+
+public class TabulatingLabel extends JLabel {
 
 	private static final long serialVersionUID = 1L;
 
-	public AlignedLabel(String text) {
+	public TabulatingLabel(String text) {
 		super(text, SwingConstants.LEFT);
 	}
 
@@ -26,16 +28,16 @@ public class AlignedLabel extends JLabel {
 		int left = SwingUtilities.convertPoint(this, new Point(0, 0), root).x;
 		int right = SwingUtilities.convertPoint(this,
 				new Point(result.width, 0), root).x;
-		int charWidth = getFontMetrics(getFont()).charWidth('m');
+		int charWidth = ReflectionUIUtils.getStandardCharacterWidth(this);
 		int widthsInterval = charWidth
-				* getCharacterCountForTextBoxexAlignment();
+				* getColumnSizeAsCharacterCount();
 		right = (int) Math.round(Math.ceil(((double) right) / widthsInterval)
 				* widthsInterval);
 		result.width = right - left;
 		return result;
 	}
 
-	protected int getCharacterCountForTextBoxexAlignment() {
+	protected int getColumnSizeAsCharacterCount() {
 		return 5;
 	}
 

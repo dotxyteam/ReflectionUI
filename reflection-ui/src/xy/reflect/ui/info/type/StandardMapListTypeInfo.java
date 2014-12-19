@@ -121,7 +121,7 @@ public class StandardMapListTypeInfo extends DefaultTypeInfo implements
 		return new DefaultListStructuralInfo(reflectionUI, getItemType()) {
 
 			@Override
-			protected boolean showsValueKindColumn() {
+			protected boolean shouldShowValueKindColumn() {
 				return false;
 			}
 

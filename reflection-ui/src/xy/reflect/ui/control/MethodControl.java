@@ -30,10 +30,12 @@ public class MethodControl extends JButton {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					reflectionUI.onMethodInvocationRequest(MethodControl.this, MethodControl.this.object,
+					reflectionUI.onMethodInvocationRequest(MethodControl.this,
+							MethodControl.this.object,
 							MethodControl.this.method);
 				} catch (Throwable t) {
-					reflectionUI.handleDisplayedUIExceptions(MethodControl.this,  t);
+					reflectionUI.handleDisplayedUIExceptions(
+							MethodControl.this, t);
 				}
 
 			}

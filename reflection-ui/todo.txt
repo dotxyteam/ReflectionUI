@@ -1,12 +1,9 @@
-- arrow buttons for info category tabs
+- tooltips???
+- multiline textControl???
 - add support for all Collection based types
 - list control: 
 	. replace buttons label by icons
 	. add grid lines???
-- button shown with dynamic grid layout
-- list control:
-	. add multiple selection support (copy, paste, remove, ...)???
-	. add drag and drop support
 - modiStack:
 	. replace buttons texts by icons???
 - parameter name when debug info available
