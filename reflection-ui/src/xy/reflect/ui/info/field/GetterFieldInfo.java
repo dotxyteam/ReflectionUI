@@ -160,7 +160,7 @@ public class GetterFieldInfo implements IFieldInfo {
 	}
 
 	@Override
-	public String getCategoryCaption() {
+	public InfoCategory getCategory() {
 		return null;
 	}
 

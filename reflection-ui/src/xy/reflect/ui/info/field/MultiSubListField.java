@@ -107,7 +107,7 @@ public class MultiSubListField implements IFieldInfo {
 	}
 
 	@Override
-	public String getCategoryCaption() {
+	public InfoCategory getCategory() {
 		return null;
 	}
 
@@ -171,7 +171,7 @@ public class MultiSubListField implements IFieldInfo {
 				}
 
 				@Override
-				public String getCategoryCaption() {
+				public InfoCategory getCategory() {
 					return null;
 				}
 			};

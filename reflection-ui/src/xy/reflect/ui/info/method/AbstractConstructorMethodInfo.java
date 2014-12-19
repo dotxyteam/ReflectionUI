@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.method;
 
+import xy.reflect.ui.info.field.InfoCategory;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
@@ -55,7 +56,7 @@ public abstract class AbstractConstructorMethodInfo implements IMethodInfo{
 	}
 
 	@Override
-	public String getCategoryCaption() {
+	public InfoCategory getCategory() {
 		return null;
 	}
 

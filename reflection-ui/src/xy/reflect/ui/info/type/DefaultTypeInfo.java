@@ -14,7 +14,7 @@ import xy.reflect.ui.control.DialogAcessControl;
 import xy.reflect.ui.control.EmbeddedFormControl;
 import xy.reflect.ui.control.NullableControl;
 import xy.reflect.ui.control.PolymorphicEmbeddedForm;
-import xy.reflect.ui.info.field.FieldInfoProxy;
+import xy.reflect.ui.info.FieldInfoProxy;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.PublicFieldInfo;

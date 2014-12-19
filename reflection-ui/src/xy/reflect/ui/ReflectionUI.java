@@ -44,8 +44,9 @@ import xy.reflect.ui.control.IRefreshableControl;
 import xy.reflect.ui.control.MethodControl;
 import xy.reflect.ui.control.ModificationStack;
 import xy.reflect.ui.control.ModificationStack.IModification;
+import xy.reflect.ui.info.FieldInfoProxy;
 import xy.reflect.ui.info.IInfoCollectionSettings;
-import xy.reflect.ui.info.field.FieldInfoProxy;
+import xy.reflect.ui.info.field.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MultiSubListField.VirtualItem;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -203,7 +204,7 @@ public class ReflectionUI {
 			IInfoCollectionSettings settings) {
 		ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
 
-		Map<String, List<FielControlPlaceHolder>> fieldControlPlaceHoldersByCategory = new HashMap<String, List<FielControlPlaceHolder>>();
+		Map<InfoCategory, List<FielControlPlaceHolder>> fieldControlPlaceHoldersByCategory = new HashMap<InfoCategory, List<FielControlPlaceHolder>>();
 		List<IFieldInfo> fields = type.getFields();
 		for (IFieldInfo field : fields) {
 			if (settings.excludeField(field)) {
@@ -223,22 +224,22 @@ public class ReflectionUI {
 						fieldControlPlaceHolder);
 			}
 			{
-				String categoryCaption = field.getCategoryCaption();
-				if (categoryCaption == null) {
-					categoryCaption = getNullCategoryCaption();
+				InfoCategory category = field.getCategory();
+				if (category == null) {
+					category = getNullCategory();
 				}
 				List<FielControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
-						.get(categoryCaption);
+						.get(category);
 				if (fieldControlPlaceHolders == null) {
 					fieldControlPlaceHolders = new ArrayList<ReflectionUI.FielControlPlaceHolder>();
-					fieldControlPlaceHoldersByCategory.put(categoryCaption,
+					fieldControlPlaceHoldersByCategory.put(category,
 							fieldControlPlaceHolders);
 				}
 				fieldControlPlaceHolders.add(fieldControlPlaceHolder);
 			}
 		}
 
-		Map<String, List<Component>> methodControlsByCategory = new HashMap<String, List<Component>>();
+		Map<InfoCategory, List<Component>> methodControlsByCategory = new HashMap<InfoCategory, List<Component>>();
 		List<IMethodInfo> methods = type.getMethods();
 		for (IMethodInfo method : methods) {
 			if (settings.excludeMethod(method)) {
@@ -256,22 +257,22 @@ public class ReflectionUI {
 			}
 			Component methodControl = createMethodControl(object, method);
 			{
-				String categoryCaption = method.getCategoryCaption();
-				if (categoryCaption == null) {
-					categoryCaption = getNullCategoryCaption();
+				InfoCategory category = method.getCategory();
+				if (category == null) {
+					category = getNullCategory();
 				}
 				List<Component> methodControls = methodControlsByCategory
-						.get(categoryCaption);
+						.get(category);
 				if (methodControls == null) {
 					methodControls = new ArrayList<Component>();
-					methodControlsByCategory.put(categoryCaption,
+					methodControlsByCategory.put(category,
 							methodControls);
 				}
 				methodControls.add(methodControl);
 			}
 		}
 		
-		SortedSet<String> allCategories = new TreeSet<String>();
+		SortedSet<InfoCategory> allCategories = new TreeSet<InfoCategory>();
 		allCategories.addAll(fieldControlPlaceHoldersByCategory.keySet());
 		allCategories.addAll(methodControlsByCategory.keySet());
 		if (allCategories.size() == 1) {
@@ -291,14 +292,14 @@ public class ReflectionUI {
 			JTabbedPane tabbedPane = new JTabbedPane();
 			form.setLayout(new BorderLayout());
 			form.add(tabbedPane, BorderLayout.CENTER);
-			for (String categoryCaption : allCategories) {
+			for (InfoCategory category : allCategories) {
 				List<FielControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
-						.get(categoryCaption);
+						.get(category);
 				if (fieldControlPlaceHolders == null) {
 					fieldControlPlaceHolders = Collections.emptyList();
 				}
 				List<Component> methodControls = methodControlsByCategory
-						.get(categoryCaption);
+						.get(category);
 				if (methodControls == null) {
 					methodControls = Collections.emptyList();
 				}
@@ -310,14 +311,14 @@ public class ReflectionUI {
 				layoutControls(object, fieldControlPlaceHolders,
 						methodControls, tabContent);
 				
-				tabbedPane.addTab(translateUIString(categoryCaption), tab);
+				tabbedPane.addTab(translateUIString(category.getCaption()), tab);
 			}
 		}
 		return fields.size() + methods.size();
 	}
 
-	public String getNullCategoryCaption() {
-		return "General";
+	public InfoCategory getNullCategory() {
+		return new InfoCategory("General", -1);
 	}
 
 	public ITypeInfoSource getTypeInfoSource(Object object) {
@@ -694,7 +695,7 @@ public class ReflectionUI {
 			}
 
 			@Override
-			public String getCategoryCaption() {
+			public InfoCategory getCategory() {
 				return null;
 			}
 		};
@@ -1099,7 +1100,7 @@ public class ReflectionUI {
 				}
 
 				@Override
-				public String getCategoryCaption() {
+				public InfoCategory getCategory() {
 					return null;
 				}
 			};

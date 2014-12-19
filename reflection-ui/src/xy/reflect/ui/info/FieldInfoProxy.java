@@ -1,5 +1,7 @@
-package xy.reflect.ui.info.field;
+package xy.reflect.ui.info;
 
+import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.field.InfoCategory;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 public class FieldInfoProxy implements IFieldInfo {
@@ -70,8 +72,8 @@ public class FieldInfoProxy implements IFieldInfo {
 	}
 
 	@Override
-	public String getCategoryCaption() {
-		return base.getCategoryCaption();
+	public InfoCategory getCategory() {
+		return base.getCategory();
 	}
 	
 	

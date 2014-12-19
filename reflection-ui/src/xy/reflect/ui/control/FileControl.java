@@ -6,6 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.field.InfoCategory;
 import xy.reflect.ui.info.type.DefaultTextualTypeInfo;
 import xy.reflect.ui.info.type.FileTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -64,7 +65,7 @@ public class FileControl extends DialogAcessControl {
 			}
 
 			@Override
-			public String getCategoryCaption() {
+			public InfoCategory getCategory() {
 				return null;
 			}
 		});

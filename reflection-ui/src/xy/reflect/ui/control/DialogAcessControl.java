@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.field.InfoCategory;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultTextualTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -108,7 +109,7 @@ public class DialogAcessControl extends JPanel implements ICanShowCaptionControl
 			}
 
 			@Override
-			public String getCategoryCaption() {
+			public InfoCategory getCategory() {
 				return null;
 			}
 		});

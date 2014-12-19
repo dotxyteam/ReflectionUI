@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.field.InfoCategory;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.IEnumerationTypeInfo;
@@ -118,7 +119,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements
 			}
 
 			@Override
-			public String getCategoryCaption() {
+			public InfoCategory getCategory() {
 				return null;
 			}
 
