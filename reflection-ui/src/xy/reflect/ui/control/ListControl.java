@@ -267,7 +267,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 			if (selection.size() > 0) {
 				boolean canCopySelection = true;
 				for (ItemPosition selectionItem : selection) {
-					if (!reflectionUI.canCopy(selectionItem)) {
+					if (!reflectionUI.canCopy(selectionItem.getItem())) {
 						canCopySelection = false;
 						break;
 					}
@@ -324,7 +324,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 					createMoveButton(buttonsPanel, +1, "Down");
 				}
 			}
-			if (singleSelectedPosition.getContainingList().size() > 0) {
+			if (selection.size() > 0) {
 				createClearButton(buttonsPanel);
 			}
 		}
@@ -391,7 +391,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 						if ((index + offset) < 0) {
 							return;
 						}
-						if ((index + offset) > list.size()) {
+						if ((index + offset) >= list.size()) {
 							return;
 						}
 					}
@@ -437,8 +437,14 @@ public class ListControl extends JPanel implements IRefreshableControl,
 		return result;
 	}
 
+	protected void setSingleSelection(ItemPosition toSelect) {
+		setSelection(Collections.singletonList(toSelect));
+	}
+
 	protected void setSelection(List<ItemPosition> toSelect) {
-		for (ItemPosition itemPosition : toSelect) {
+		List<TreePath> treePaths = new ArrayList<TreePath>();
+		for (int i = 0; i < toSelect.size(); i++) {
+			ItemPosition itemPosition = toSelect.get(i);
 			if (itemPosition == null) {
 				treeTableComponent.clearSelection();
 			} else {
@@ -450,15 +456,16 @@ public class ListControl extends JPanel implements IRefreshableControl,
 						treeTableComponent.clearSelection();
 						return;
 					}
-					setSelection(parentItemPosition);
+					toSelect = new ArrayList<ListControl.ItemPosition>(toSelect);
+					toSelect.set(i, parentItemPosition);
+					setSelection(toSelect);
 					return;
 				}
-				TreePath treePath = new TreePath(itemNode.getPath());
-				treeTableComponent.getTreeSelectionModel().setSelectionPath(
-						treePath);
-				treeTableComponent.expandPath(treePath);
+				treePaths.add(new TreePath(itemNode.getPath()));
 			}
 		}
+		treeTableComponent.getTreeSelectionModel().setSelectionPaths(
+				treePaths.toArray(new TreePath[treePaths.size()]));		
 	}
 
 	protected ItemNode findNode(ItemPosition itemPosition) {
@@ -494,25 +501,31 @@ public class ListControl extends JPanel implements IRefreshableControl,
 							SwingUtilities
 									.getWindowAncestor(treeTableComponent),
 							reflectionUI
-									.translateUIString("Remove the element?"),
+									.translateUIString("Remove the element(s)?"),
 							"", JOptionPane.OK_CANCEL_OPTION)) {
-						ItemPosition itemPosition = getSingleSelection();
-						if (itemPosition == null) {
-							return;
+						List<ItemPosition> selection = getSelection();
+						selection = new ArrayList<ItemPosition>(selection);
+						Collections.reverse(selection);
+						List<ItemPosition> toPostSelect = new ArrayList<ListControl.ItemPosition>();
+						for (ItemPosition itemPosition : selection) {
+							if (itemPosition == null) {
+								return;
+							}
+							FieldAutoUpdateList list = itemPosition
+									.getContainingList();
+							int index = itemPosition.getIndex();
+							list.remove(index);
+							if (itemPosition.getContainingListType()
+									.isOrdered() && (index > 0)) {
+								toPostSelect.add(itemPosition
+										.getSibling(index - 1));
+							} else {
+								toPostSelect.add(itemPosition
+										.getParentItemPosition());
+							}
 						}
-						FieldAutoUpdateList list = itemPosition
-								.getContainingList();
-						int index = itemPosition.getIndex();
-						list.remove(index);
 						refreshStructure();
-						if (itemPosition.getContainingListType().isOrdered()
-								&& (index > 0)) {
-							setSingleSelection(itemPosition
-									.getSibling(index - 1));
-						} else {
-							setSingleSelection(itemPosition
-									.getParentItemPosition());
-						}
+						setSelection(toPostSelect);
 					}
 				} catch (Throwable t) {
 					reflectionUI.handleDisplayedUIExceptions(button, t);
@@ -642,10 +655,6 @@ public class ListControl extends JPanel implements IRefreshableControl,
 							return;
 						}
 						clipboard.add(reflectionUI.copy(itemPosition.getItem()));
-						FieldAutoUpdateList list = itemPosition
-								.getContainingList();
-						int index = itemPosition.getIndex();
-						list.remove(index);
 					}
 					updateButtonsPanel();
 				} catch (Throwable t) {
@@ -665,25 +674,28 @@ public class ListControl extends JPanel implements IRefreshableControl,
 				try {
 					clipboard.clear();
 					List<ItemPosition> selection = getSelection();
+					selection = new ArrayList<ItemPosition>(selection);
+					Collections.reverse(selection);
+					List<ItemPosition> toPostSelect = new ArrayList<ListControl.ItemPosition>();
 					for (ItemPosition itemPosition : selection) {
 						if (itemPosition == null) {
 							return;
 						}
-						clipboard.add(reflectionUI.copy(itemPosition.getItem()));
+						clipboard.add(0, reflectionUI.copy(itemPosition.getItem()));
 						FieldAutoUpdateList list = itemPosition
 								.getContainingList();
 						int index = itemPosition.getIndex();
 						list.remove(index);
+						if (itemPosition.getContainingListType().isOrdered()
+								&& (index > 0)) {
+							toPostSelect.add(itemPosition.getSibling(index - 1));
+						} else {
+							toPostSelect.add(itemPosition
+									.getParentItemPosition());
+						}
 					}
-					ItemPosition toSelect = selection.get(0);
 					refreshStructure();
-					if (toSelect.getContainingListType().isOrdered()
-							&& (toSelect.getIndex() > 0)) {
-						setSingleSelection(toSelect.getSibling(toSelect
-								.getIndex() - 1));
-					} else {
-						setSingleSelection(toSelect.getParentItemPosition());
-					}
+					setSelection(toPostSelect);
 					updateButtonsPanel();
 				} catch (Throwable t) {
 					reflectionUI.handleDisplayedUIExceptions(button, t);
@@ -708,14 +720,29 @@ public class ListControl extends JPanel implements IRefreshableControl,
 					} else {
 						index = itemPosition.getIndex();
 					}
+					int initialIndex = index;
 					FieldAutoUpdateList list = itemPosition.getContainingList();
-					list.add(index, clipboard);
-					refreshStructure();
-					if (!itemPosition.getContainingListType().isOrdered()) {
-						index = list.indexOf(clipboard);
-						itemPosition = itemPosition.getSibling(index);
+					for (Object clipboardItyem : clipboard) {
+						list.add(index, clipboardItyem);
+						index++;
 					}
-					setSingleSelection(itemPosition);
+					refreshStructure();
+					List<ItemPosition> toPostSelect = new ArrayList<ListControl.ItemPosition>();
+					IListTypeInfo listType = itemPosition
+							.getContainingListType();
+					index = initialIndex;
+					for (int i = 0; i < clipboard.size(); i++) {
+						Object clipboardItem = clipboard.get(i);
+						if (listType.isOrdered()) {
+							index = initialIndex + i;
+						} else {
+							index = list.indexOf(clipboardItem);
+						}
+						if (index != -1) {
+							toPostSelect.add(itemPosition.getSibling(index));
+						}
+					}
+					setSelection(toPostSelect);
 				} catch (Throwable t) {
 					reflectionUI.handleDisplayedUIExceptions(button, t);
 				}
@@ -739,16 +766,33 @@ public class ListControl extends JPanel implements IRefreshableControl,
 					FieldAutoUpdateList subList = subItemPosition
 							.getContainingList();
 					int newSubListItemIndex = subList.size();
+					int newSubListItemInitialIndex = newSubListItemIndex;
 					subItemPosition = subItemPosition
 							.getSibling(newSubListItemIndex);
-					subList.add(newSubListItemIndex, clipboard);
-					refreshStructure();
-					if (!subItemPosition.getContainingListType().isOrdered()) {
-						newSubListItemIndex = subList.indexOf(clipboard);
-						subItemPosition = subItemPosition
-								.getSibling(newSubListItemIndex);
+					for (Object clipboardItyem : clipboard) {
+						subList.add(newSubListItemIndex, clipboardItyem);
+						newSubListItemIndex++;
 					}
-					setSingleSelection(subItemPosition);
+					refreshStructure();
+					List<ItemPosition> toPostSelect = new ArrayList<ListControl.ItemPosition>();
+					IListTypeInfo subListType = subItemPosition
+							.getContainingListType();
+					newSubListItemIndex = newSubListItemInitialIndex;
+					for (int i = 0; i < clipboard.size(); i++) {
+						Object clipboardItem = clipboard.get(i);
+						if (subListType.isOrdered()) {
+							newSubListItemInitialIndex = newSubListItemInitialIndex
+									+ i;
+						} else {
+							newSubListItemInitialIndex = subList
+									.indexOf(clipboardItem);
+						}
+						if (newSubListItemInitialIndex != -1) {
+							toPostSelect.add(subItemPosition
+									.getSibling(newSubListItemInitialIndex));
+						}
+					}
+					setSelection(toPostSelect);
 				} catch (Throwable t) {
 					reflectionUI.handleDisplayedUIExceptions(button, t);
 				}
@@ -791,10 +835,6 @@ public class ListControl extends JPanel implements IRefreshableControl,
 					@Override
 					public void valueChanged(TreeSelectionEvent e) {
 						try {
-							ItemPosition itemPosition = getSingleSelection();
-							if (itemPosition == null) {
-								return;
-							}
 							updateButtonsPanel();
 						} catch (Throwable t) {
 							reflectionUI.handleDisplayedUIExceptions(
@@ -1413,21 +1453,21 @@ public class ListControl extends JPanel implements IRefreshableControl,
 
 	protected class SelectListItemModification implements
 			ModificationStack.IModification {
-		protected ItemPosition toSelect;
+		protected List<ItemPosition> toSelect;
 
-		public SelectListItemModification(ItemPosition toSelect) {
+		public SelectListItemModification(List<ItemPosition> toSelect) {
 			this.toSelect = toSelect;
 		}
 
 		@Override
 		public IModification applyAndGetOpposite(boolean refreshView) {
-			ItemPosition lastSelected = getSingleSelection();
+			List<ItemPosition> lastlySelected = getSelection();
 
 			if (toSelect != null) {
-				setSingleSelection(toSelect);
+				setSelection(toSelect);
 			}
 
-			return new SelectListItemModification(lastSelected);
+			return new SelectListItemModification(lastlySelected);
 		}
 
 		@Override
@@ -1493,6 +1533,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 		protected void endModification(String title) {
 			ModificationStack modifStack = ReflectionUIUtils
 					.findModificationStack(ListControl.this, reflectionUI);
+			restoreSelectionAfterRedo();
 			modifStack.endComposite(title);
 		}
 
@@ -1569,8 +1610,16 @@ public class ListControl extends JPanel implements IRefreshableControl,
 			ModificationStack modifStack = ReflectionUIUtils
 					.findModificationStack(ListControl.this, reflectionUI);
 			modifStack.pushUndo(new SelectListItemModification(
-					getSingleSelection()));
+					getSelection()));
 		}
+		
+		protected void restoreSelectionAfterRedo() {
+			ModificationStack modifStack = ReflectionUIUtils
+					.findModificationStack(ListControl.this, reflectionUI);
+			modifStack.pushUndo(new SelectListItemModification(
+					getSelection()));
+		}
+
 
 		protected void refreshControlAfterUndo() {
 			ModificationStack modifStack = ReflectionUIUtils
