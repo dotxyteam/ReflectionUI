@@ -168,7 +168,7 @@ public class DefaultListStructuralInfo implements IListStructuralInfo {
 		if (itemType.equals(itemPosition.getContainingListType().getItemType())) {
 			IFieldInfo itemField = itemFields.get(columnIndex);
 			Object value = itemField.getValue(item);
-			return reflectionUI.toInfoString(value);
+			return reflectionUI.toString(value);
 
 		} else {
 			return null;

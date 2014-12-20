@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dialog.ModalityType;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.Insets;
@@ -20,6 +19,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -64,7 +64,7 @@ import xy.reflect.ui.info.type.ITypeInfoSource;
 import xy.reflect.ui.info.type.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.StandardEnumerationTypeInfo;
-import xy.reflect.ui.info.type.StandardListTypeInfo;
+import xy.reflect.ui.info.type.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.StandardMapListTypeInfo;
 import xy.reflect.ui.info.type.StandardMapListTypeInfo.StandardMapEntry;
 import xy.reflect.ui.util.Accessor;
@@ -490,25 +490,7 @@ public class ReflectionUI {
 		JPanel methodsPanel = new JPanel();
 		methodsPanel.setLayout(new WrapLayout(WrapLayout.CENTER));
 		for (final Component methodControl : methodControls) {
-			JPanel methodControlContainer = new JPanel() {
-
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public Dimension getPreferredSize() {
-					Dimension result = super.getPreferredSize();
-					if (result == null) {
-						return super.getPreferredSize();
-					}
-					result.width = ReflectionUIUtils
-							.getStandardCharacterWidth(methodControl) * 25;
-					return result;
-				}
-
-			};
-			methodControlContainer.setLayout(new BorderLayout());
-			methodControlContainer.add(methodControl, BorderLayout.CENTER);
-			methodsPanel.add(methodControlContainer);
+			methodsPanel.add(methodControl);
 		}
 
 		SimpleLayout.add(parentForm, fieldsPanel);
@@ -558,12 +540,12 @@ public class ReflectionUI {
 	public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
 		if (typeSource instanceof JavaTypeInfoSource) {
 			JavaTypeInfoSource javaTypeSource = (JavaTypeInfoSource) typeSource;
-			if (StandardListTypeInfo.isCompatibleWith(javaTypeSource
-					.getJavaType())) {
+			if (StandardCollectionTypeInfo.isCompatibleWith(javaTypeSource
+					.getJavaType())) { 
 				Class<?> itemType = ReflectionUIUtils.getJavaTypeParameter(
 						javaTypeSource.getJavaType(),
-						javaTypeSource.ofMember(), List.class, 0);
-				return new StandardListTypeInfo(this,
+						javaTypeSource.ofMember(), Collection.class, 0);
+				return new StandardCollectionTypeInfo(this,
 						javaTypeSource.getJavaType(), itemType);
 			} else if (StandardMapListTypeInfo.isCompatibleWith(javaTypeSource
 					.getJavaType())) {
@@ -834,7 +816,7 @@ public class ReflectionUI {
 		return this;
 	}
 
-	public String toInfoString(Object object) {
+	public String toString(Object object) {
 		String result;
 		if (object == null) {
 			result = null;

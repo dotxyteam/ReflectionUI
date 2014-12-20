@@ -59,7 +59,7 @@ public class EnumerationControl extends JComboBox {
 				if (value == null) {
 					label.setText("");
 				} else {
-					String s = reflectionUI.toInfoString(value);
+					String s = reflectionUI.toString(value);
 					s = reflectionUI.translateUIString(s);
 					label.setText(s);
 				}

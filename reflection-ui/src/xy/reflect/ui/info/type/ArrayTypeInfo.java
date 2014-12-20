@@ -11,7 +11,7 @@ import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 
-public class ArrayTypeInfo extends StandardListTypeInfo {
+public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 
 	public ArrayTypeInfo(ReflectionUI reflectionUI, Class<?> javaType,
 			Class<?> itemJavaType) {

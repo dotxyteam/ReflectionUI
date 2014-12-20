@@ -100,7 +100,7 @@ public class DialogAcessControl extends JPanel implements ICanShowCaptionControl
 			@Override
 			public Object getValue(Object object) {
 				Object fieldValue = field.getValue(object);
-				return reflectionUI.toInfoString(fieldValue);
+				return reflectionUI.toString(fieldValue);
 			}
 
 			@Override

@@ -8,8 +8,11 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Stack;
 import java.util.Vector;
 import javax.imageio.ImageIO;
 
@@ -47,6 +50,10 @@ public class ReflectionUITest {
 		public Map<Integer, String> theMap = new HashMap<Integer, String>();
 
 		public List<File> theFileList = Arrays.asList(new File("."));
+
+		public Set<Integer> theSet = new HashSet<Integer>(Arrays.asList(1,2,3));
+
+		public Stack<Integer> theStack = new Stack<Integer>();
 
 		public void resettheStringList() {
 			theStringList.clear();

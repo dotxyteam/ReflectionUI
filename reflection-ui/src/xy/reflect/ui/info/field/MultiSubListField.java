@@ -8,7 +8,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.StandardListTypeInfo;
+import xy.reflect.ui.info.type.StandardCollectionTypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MultiSubListField implements IFieldInfo {
@@ -24,7 +24,7 @@ public class MultiSubListField implements IFieldInfo {
 
 	@Override
 	public ITypeInfo getType() {
-		return new StandardListTypeInfo(reflectionUI, List.class,
+		return new StandardCollectionTypeInfo(reflectionUI, List.class,
 				VirtualItem.class) {
 
 			@Override

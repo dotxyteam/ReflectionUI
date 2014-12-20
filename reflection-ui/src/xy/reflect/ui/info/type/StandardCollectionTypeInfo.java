@@ -2,9 +2,12 @@ package xy.reflect.ui.info.type;
 
 import java.awt.Component;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.ListControl;
@@ -14,13 +17,13 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class StandardListTypeInfo extends DefaultTypeInfo implements
+public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 		IListTypeInfo {
 
 	protected Class<?> itemJavaType;
 
-	public StandardListTypeInfo(ReflectionUI reflectionUI, Class<?> javaType,
-			Class<?> itemJavaType) {
+	public StandardCollectionTypeInfo(ReflectionUI reflectionUI,
+			Class<?> javaType, Class<?> itemJavaType) {
 		super(reflectionUI, javaType);
 		this.itemJavaType = itemJavaType;
 	}
@@ -73,7 +76,13 @@ public class StandardListTypeInfo extends DefaultTypeInfo implements
 				@Override
 				public Object invoke(Object object,
 						Map<String, Object> valueByParameterName) {
-					return new ArrayList<Object>();
+					if (javaType.isAssignableFrom(ArrayList.class)) {
+						return new ArrayList<Object>();
+					} else if (javaType.isAssignableFrom(HashSet.class)) {
+						return new HashSet<Object>();
+					} else {
+						throw new AssertionError();
+					}
 				}
 
 				@Override
@@ -90,16 +99,24 @@ public class StandardListTypeInfo extends DefaultTypeInfo implements
 	public Object fromStandardList(List<?> list) {
 		IMethodInfo constructor = ReflectionUIUtils
 				.getZeroParameterConstrucor(this);
-		List result = (List) constructor.invoke(null,
+		Collection result = (Collection) constructor.invoke(null,
 				Collections.<String, Object> emptyMap());
-		result.addAll(list);
+		for (Object item : list) {
+			if (result instanceof Set) {
+				if (result.contains(item)) {
+					throw new AssertionError("Duplicate item: '"
+							+ reflectionUI.toString(item) + "'");
+				}
+			}
+			result.add(item);
+		}
 		return result;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public List<?> toStandardList(Object value) {
-		return new ArrayList((List<?>) value);
+		return new ArrayList((Collection<?>) value);
 	}
 
 	@Override
@@ -131,7 +148,7 @@ public class StandardListTypeInfo extends DefaultTypeInfo implements
 			return false;
 		}
 		if (!ReflectionUIUtils.equalsOrBothNull(itemJavaType,
-				((StandardListTypeInfo) obj).itemJavaType)) {
+				((StandardCollectionTypeInfo) obj).itemJavaType)) {
 			return false;
 		}
 		return true;
@@ -139,17 +156,20 @@ public class StandardListTypeInfo extends DefaultTypeInfo implements
 
 	@Override
 	public boolean isOrdered() {
-		return true;
+		return List.class.isAssignableFrom(javaType);
 	}
 
 	public static boolean isCompatibleWith(Class<?> javaType) {
-		if (List.class.isAssignableFrom(javaType)) {
+		if (Collection.class.isAssignableFrom(javaType)) {
 			if (ReflectionUIUtils
 					.getZeroParameterConstrucor(new DefaultTypeInfo(
 							new ReflectionUI(), javaType)) != null) {
 				return true;
 			}
 			if (javaType.isAssignableFrom(ArrayList.class)) {
+				return true;
+			}
+			if (javaType.isAssignableFrom(HashSet.class)) {
 				return true;
 			}
 		}

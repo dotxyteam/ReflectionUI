@@ -108,8 +108,8 @@ public class StandardMapListTypeInfo extends DefaultTypeInfo implements
 		for (Object item : list) {
 			StandardMapEntry entry = (StandardMapEntry) item;
 			if (result.containsKey(entry.getKey())) {
-				throw new AssertionError("Duplicate key: "
-						+ reflectionUI.toInfoString(entry.getKey()));
+				throw new AssertionError("Duplicate key: '"
+						+ reflectionUI.toString(entry.getKey())+"'");
 			}
 			result.put(entry.getKey(), entry.getValue());
 		}
