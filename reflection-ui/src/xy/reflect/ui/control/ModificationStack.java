@@ -18,11 +18,15 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class ModificationStack {
 
+	public enum Order {
+		LIFO, FIFO
+	};
+
 	public static final Object DO_EVENT = new Object();
 	public static final Object UNDO_EVENT = new Object();
 	public static final Object REDO_EVENT = new Object();
 
-	public static final String UNDO_TITLE_PREFIX = "(Revert) ";
+	protected static final String UNDO_TITLE_PREFIX = "(Revert) ";
 
 	public static final IModification NULL_MODIFICATION = new IModification() {
 		@Override
@@ -135,9 +139,11 @@ public class ModificationStack {
 		}
 	}
 
-	public IModification[] getUndoModificationsInPopOrder() {
+	public IModification[] getUndoModifications(Order order) {
 		List<IModification> list = new ArrayList<IModification>(undoStack);
-		Collections.reverse(list);
+		if (order == Order.LIFO) {
+			Collections.reverse(list);
+		}
 		return list.toArray(new IModification[list.size()]);
 	}
 
@@ -146,9 +152,9 @@ public class ModificationStack {
 				+ compositeStack.size() + ") " + name));
 	}
 
-	public void endComposite(String title) {
+	public void endComposite(String title, Order order) {
 		CompositeModification compositeUndoModif = new CompositeModification(
-				title, compositeStack.pop().getUndoModificationsInPopOrder());
+				getUndoTitle(title), order, compositeStack.pop().getUndoModifications(order));
 		ModificationStack compositeParent;
 		if (compositeStack.size() > 0) {
 			compositeParent = compositeStack.peek();
@@ -194,8 +200,14 @@ public class ModificationStack {
 		@Override
 		public IModification applyAndGetOpposite(boolean refreshView) {
 			Object currentValue = field.getValue(object);
+			final SetFieldValueModification currentModif = this;
 			SetFieldValueModification opposite = new SetFieldValueModification(
-					reflectionUI, object, field, currentValue);
+					reflectionUI, object, field, currentValue){
+						@Override
+						public String getTitle() {
+							return getUndoTitle(currentModif.getTitle());
+						}				
+			};
 			field.setValue(object, value);
 			if (refreshView) {
 				reflectionUI.refreshFieldControl(object, field.getName());
@@ -220,36 +232,36 @@ public class ModificationStack {
 
 		protected IModification[] modifications;
 		private String title;
+		private Order undoOrder;
 
-		public CompositeModification(String title,
+		public CompositeModification(String title, Order undoOrder,
 				IModification... modifications) {
 			this.title = title;
+			this.undoOrder = undoOrder;
 			this.modifications = modifications;
 		}
 
-		public CompositeModification(String title,
+		public CompositeModification(String title, Order undoOrder,
 				List<IModification> modifications) {
-			this.title = title;
-			this.modifications = modifications
-					.toArray(new IModification[modifications.size()]);
+			this(title, undoOrder, modifications
+					.toArray(new IModification[modifications.size()]));
 		}
 
 		@Override
 		public IModification applyAndGetOpposite(boolean refreshView) {
 			List<IModification> oppositeModifications = new ArrayList<ModificationStack.IModification>();
 			for (IModification modif : modifications) {
-				oppositeModifications.add(0,
-						modif.applyAndGetOpposite(refreshView));
+				if (undoOrder == Order.LIFO) {
+					oppositeModifications.add(0,
+							modif.applyAndGetOpposite(refreshView));
+				} else if (undoOrder == Order.FIFO) {
+					oppositeModifications.add(modif
+							.applyAndGetOpposite(refreshView));
+				} else {
+					throw new AssertionError();
+				}
 			}
-			String oppositeTitle;
-			if (title == null) {
-				oppositeTitle = null;
-			} else if (title.startsWith(UNDO_TITLE_PREFIX)) {
-				oppositeTitle = title.substring(UNDO_TITLE_PREFIX.length());
-			} else {
-				oppositeTitle = UNDO_TITLE_PREFIX + title;
-			}
-			return new CompositeModification(oppositeTitle,
+			return new CompositeModification(getUndoTitle(title), undoOrder,
 					oppositeModifications);
 		}
 
@@ -332,6 +344,18 @@ public class ModificationStack {
 			}
 		}));
 
+		return result;
+	}
+
+	public static String getUndoTitle(String title) {
+		String result;
+		if (title == null) {
+			result = null;
+		} else if (title.startsWith(UNDO_TITLE_PREFIX)) {
+			result = title.substring(UNDO_TITLE_PREFIX.length());
+		} else {
+			result = UNDO_TITLE_PREFIX + title;
+		}
 		return result;
 	}
 

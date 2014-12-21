@@ -445,9 +445,9 @@ public class ReflectionUI {
 					ModificationStack stack = getModificationStackByForm().get(
 							form);
 					stack.pushUndo(new ModificationStack.CompositeModification(
-							ModificationStack.UNDO_TITLE_PREFIX
-									+ "execution of '" + method.getCaption()
-									+ "'", undoModifs));
+							ModificationStack.getUndoTitle("execution of '"
+									+ method.getCaption() + "'"),
+							ModificationStack.Order.FIFO, undoModifs));
 				}
 
 				return result;
@@ -541,7 +541,7 @@ public class ReflectionUI {
 		if (typeSource instanceof JavaTypeInfoSource) {
 			JavaTypeInfoSource javaTypeSource = (JavaTypeInfoSource) typeSource;
 			if (StandardCollectionTypeInfo.isCompatibleWith(javaTypeSource
-					.getJavaType())) { 
+					.getJavaType())) {
 				Class<?> itemType = ReflectionUIUtils.getJavaTypeParameter(
 						javaTypeSource.getJavaType(),
 						javaTypeSource.ofMember(), Collection.class, 0);
@@ -946,11 +946,11 @@ public class ReflectionUI {
 
 	public boolean openValueDialog(Component activatorComponent,
 			final Object object, Accessor<Object> valueAccessor,
-			IInfoCollectionSettings settings, Runnable viewRefreshTrigger,
+			IInfoCollectionSettings settings,
 			ModificationStack parentModificationStack, String title) {
 		boolean[] okPressedArray = new boolean[] { false };
 		JDialog dialog = createValueDialog(activatorComponent, object,
-				valueAccessor, okPressedArray, settings, viewRefreshTrigger,
+				valueAccessor, okPressedArray, settings,
 				parentModificationStack, title);
 		if (dialog == null) {
 			return true;
@@ -962,7 +962,6 @@ public class ReflectionUI {
 	public JDialog createValueDialog(final Component activatorComponent,
 			final Object object, final Accessor<Object> valueAccessor,
 			final boolean[] okPressedArray, IInfoCollectionSettings settings,
-			final Runnable viewRefreshTrigger,
 			final ModificationStack parentModificationStack, final String title) {
 
 		final Object[] valueArray = new Object[] { valueAccessor.get() };
@@ -986,41 +985,19 @@ public class ReflectionUI {
 					Object oldValue = valueAccessor.get();
 					if (!oldValue.equals(valueArray[0])) {
 						valueAccessor.set(valueArray[0]);
-						viewRefreshTrigger.run();
 					} else {
 						ModificationStack valueModifications = getModificationStackByForm()
 								.get(valueForm);
 						if (valueModifications != null) {
-							final IModification refreshTriggerModification = new IModification() {
-								@Override
-								public IModification applyAndGetOpposite(
-										boolean refreshView) {
-									if (refreshView) {
-										viewRefreshTrigger.run();
-									}
-									return this;
-								}
-
-								@Override
-								public String toString() {
-									return getTitle();
-								}
-
-								@Override
-								public String getTitle() {
-									return "refreshTrigger";
-								}
-							};
 							List<IModification> undoModifications = new ArrayList<ModificationStack.IModification>();
-							undoModifications.addAll(Arrays
-									.asList(valueModifications
-											.getUndoModificationsInPopOrder()));
-							undoModifications.add(refreshTriggerModification);
+							undoModifications
+									.addAll(Arrays.asList(valueModifications
+											.getUndoModifications(ModificationStack.Order.LIFO)));
 							parentModificationStack
 									.pushUndo(new ModificationStack.CompositeModification(
-											ModificationStack.UNDO_TITLE_PREFIX
-													+ title, undoModifications));
-							viewRefreshTrigger.run();
+											ModificationStack.getUndoTitle(title),
+											ModificationStack.Order.LIFO,
+											undoModifications));
 						}
 					}
 				} else {

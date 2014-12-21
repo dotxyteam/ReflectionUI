@@ -124,13 +124,7 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 		}
 
 		if (showCaption) {
-			if (subControl instanceof ICanShowCaptionControl) {
-				reflectionUI.setFieldControlCaption(NullableControl.this, null);
-				((ICanShowCaptionControl) subControl).showCaption();
-			} else {
-				reflectionUI.setFieldControlCaption(NullableControl.this,
-						field.getCaption());
-			}
+			updateCaption();
 		}
 
 		ReflectionUIUtils.updateLayout(this);
@@ -144,7 +138,17 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 	@Override
 	public void showCaption() {
 		showCaption = true;
-		refreshUI();
+		updateCaption();
+	}
+
+	protected void updateCaption() {
+		if (subControl instanceof ICanShowCaptionControl) {
+			reflectionUI.setFieldControlCaption(NullableControl.this, null);
+			((ICanShowCaptionControl) subControl).showCaption();
+		} else {
+			reflectionUI.setFieldControlCaption(NullableControl.this,
+					field.getCaption());
+		}
 	}
 
 }

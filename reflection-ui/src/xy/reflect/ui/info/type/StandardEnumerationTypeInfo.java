@@ -62,5 +62,17 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements
 	public boolean hasCustomFieldControl() {
 		return true;
 	}
+	
+
+
+	@Override
+	public List<IFieldInfo> getFields() {
+		return Collections.emptyList();
+	}
+
+	@Override
+	public List<IMethodInfo> getMethods() {
+		return Collections.emptyList();
+	}
 
 }

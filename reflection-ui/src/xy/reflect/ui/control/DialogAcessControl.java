@@ -129,12 +129,6 @@ public class DialogAcessControl extends JPanel implements ICanShowCaptionControl
 			}
 
 		};
-		Runnable refreshTrigger = new Runnable() {
-			@Override
-			public void run() {
-				updateControls();
-			}
-		};
 		ModificationStack parentStack = ReflectionUIUtils.findModificationStack(DialogAcessControl.this, reflectionUI);
 		String title = reflectionUI.getFieldTitle(object, field);
 		IInfoCollectionSettings settings = new IInfoCollectionSettings() {
@@ -153,8 +147,10 @@ public class DialogAcessControl extends JPanel implements ICanShowCaptionControl
 				return false;
 			}
 		};
-		reflectionUI.openValueDialog(this, object, valueAccessor, settings,
-				refreshTrigger, parentStack, title);
+		if(reflectionUI.openValueDialog(this, object, valueAccessor, settings,
+				 parentStack, title)){
+			updateControls();
+		}
 
 	}
 

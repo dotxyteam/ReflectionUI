@@ -53,59 +53,73 @@ public class EmbeddedFormControl extends JPanel implements
 				return parentModifStack;
 			}
 
+			@Override
 			public String getName() {
 				return getParentModificationSack().getName();
 			}
 
+			@Override
 			public String toString() {
 				return getParentModificationSack().toString();
 			}
 
+			@Override
 			public void apply(IModification modif, boolean refreshView) {
 				getParentModificationSack().apply(modif, refreshView);
 			}
 
+			@Override
 			public void pushUndo(IModification undoModif) {
 				getParentModificationSack().pushUndo(undoModif);
 			}
 
+			@Override
 			public int getSize() {
 				return getParentModificationSack().getSize();
 			}
 
+			@Override
 			public int getRedoSize() {
 				return getParentModificationSack().getRedoSize();
 			}
 
+			@Override
 			public void undo(boolean refreshView) {
 				getParentModificationSack().undo(refreshView);
 			}
 
+			@Override
 			public int hashCode() {
 				return getParentModificationSack().hashCode();
 			}
 
+			@Override
 			public void redo(boolean refreshView) {
 				getParentModificationSack().redo(refreshView);
 			}
 
+			@Override
 			public void undoAll(boolean refreshView) {
 				getParentModificationSack().undoAll(refreshView);
 			}
 
-			public IModification[] getUndoModificationsInPopOrder() {
+			@Override
+			public IModification[] getUndoModifications(ModificationStack.Order order) {
 				return getParentModificationSack()
-						.getUndoModificationsInPopOrder();
+						.getUndoModifications(order);
 			}
 
+			@Override
 			public void beginComposite() {
 				getParentModificationSack().beginComposite();
 			}
 
-			public void endComposite(String title) {
-				getParentModificationSack().endComposite(title);
+			@Override
+			public void endComposite(String title, Order order) {
+				getParentModificationSack().endComposite(title, order);
 			}
 
+			@Override
 			public boolean equals(Object obj) {
 				return getParentModificationSack().equals(obj);
 			}

@@ -40,7 +40,7 @@ public class ReflectionUITest {
 		public File theFile;
 		char c = 'a';
 		public List<String> theStringList = new ArrayList<String>(
-				Arrays.asList("1", "2", "3"));
+				Arrays.asList("a", "b", "c"));
 		public Test2 test2 = new Test2();
 
 		@SuppressWarnings({ "rawtypes", "unchecked" })
