@@ -2,9 +2,10 @@ package xy.reflect.ui.control;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JButton;
+import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
@@ -20,7 +21,7 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 	protected ReflectionUI reflectionUI;
 	protected Object object;
 	protected IFieldInfo field;
-	protected JButton nullingControl;
+	protected JPanel nullingControl;
 	protected Component subControl;
 	protected DefaultTypeInfo defaultTypeInfo;
 	protected boolean showCaption = false;
@@ -38,17 +39,22 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 	protected void initialize() {
 		setLayout(new BorderLayout());
 
-		nullingControl = new JButton();
+		nullingControl = new JPanel();
+		int nullingControlSize = createNullControl(reflectionUI, null)
+				.getPreferredSize().height;
+		nullingControl.setPreferredSize(new Dimension(nullingControlSize,
+				nullingControlSize));
+		nullingControl.setOpaque(true);
 		nullingControl.setBackground(ReflectionUIUtils
 				.fixSeveralColorRenderingIssues(UIManager
 						.getColor("TextField.shadow")));
-		nullingControl.setBorderPainted(false);
 
 		if (!field.isReadOnly()) {
 			add(nullingControl, BorderLayout.EAST);
-			nullingControl.addActionListener(new ActionListener() {
+			nullingControl.addMouseListener(new MouseAdapter() {
+
 				@Override
-				public void actionPerformed(ActionEvent e) {
+				public void mousePressed(MouseEvent e) {
 					try {
 						setShouldBeNull(true);
 						onNullStateChange();
@@ -56,7 +62,6 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 						reflectionUI.handleDisplayedUIExceptions(
 								NullableControl.this, t);
 					}
-
 				}
 			});
 		}
