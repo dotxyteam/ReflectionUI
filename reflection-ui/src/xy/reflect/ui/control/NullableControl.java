@@ -4,9 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JCheckBox;
+import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -20,7 +20,7 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 	protected ReflectionUI reflectionUI;
 	protected Object object;
 	protected IFieldInfo field;
-	protected JCheckBox checkbox;
+	protected JButton nullingControl;
 	protected Component subControl;
 	protected DefaultTypeInfo defaultTypeInfo;
 	protected boolean showCaption = false;
@@ -38,50 +38,59 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 	protected void initialize() {
 		setLayout(new BorderLayout());
 
-		checkbox = new JCheckBox();
-		add(checkbox, BorderLayout.WEST);
-		final ActionListener checkboxListener = new ActionListener() {
+		nullingControl = new JButton();
+		nullingControl.setBackground(ReflectionUIUtils
+				.fixSeveralColorRenderingIssues(UIManager
+						.getColor("TextField.shadow")));
+		nullingControl.setBorderPainted(false);
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					checkboxToValue();
-					valueToControl();
-				} catch (Throwable t) {
-					reflectionUI.handleDisplayedUIExceptions(
-							NullableControl.this, t);
+		if (!field.isReadOnly()) {
+			add(nullingControl, BorderLayout.EAST);
+			nullingControl.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					try {
+						setShouldBeNull(true);
+						onNullStateChange();
+					} catch (Throwable t) {
+						reflectionUI.handleDisplayedUIExceptions(
+								NullableControl.this, t);
+					}
+
 				}
-
-			}
-		};
-		checkbox.addActionListener(checkboxListener);
-		if (field.isReadOnly()) {
-			checkbox.setEnabled(false);
+			});
 		}
 
-		valueToControl();
-		checkboxListener.actionPerformed(null);
+		updateControl();
+	}
+
+	protected void setShouldBeNull(boolean b) {
+		nullingControl.setVisible(!b);
+	}
+
+	protected boolean shoulBeNull() {
+		return !nullingControl.isVisible();
 	}
 
 	@Override
 	public void refreshUI() {
-		valueToControl();
+		updateControl();
 	}
 
-	protected void checkboxToValue() {
+	protected void onNullStateChange() {
 		Object currentValue = field.getValue(object);
-		if (checkbox.isSelected()) {
+		if (!shoulBeNull()) {
 			if (currentValue == null) {
 				Object newValue;
 				try {
 					newValue = reflectionUI.onTypeInstanciationRequest(
 							field.getType(), this, true);
 				} catch (Throwable t) {
-					reflectionUI.handleDisplayedUIExceptions(checkbox, t);
+					reflectionUI.handleDisplayedUIExceptions(this, t);
 					newValue = null;
 				}
 				if (newValue == null) {
-					checkbox.setSelected(false);
+					setShouldBeNull(true);
 				} else {
 					field.setValue(object, newValue);
 				}
@@ -91,11 +100,13 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 				field.setValue(object, null);
 			}
 		}
+
+		updateControl();
 	}
 
-	public void valueToControl() {
+	public void updateControl() {
 		Object currentValue = field.getValue(object);
-		checkbox.setSelected(currentValue != null);
+		setShouldBeNull(currentValue == null);
 		if ((currentValue != null) && !(subControl instanceof NullControl)
 				&& (subControl instanceof IRefreshableControl)) {
 			((IRefreshableControl) subControl).refreshUI();
@@ -113,9 +124,8 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 					@Override
 					public void run() {
 						if (!field.isReadOnly()) {
-							checkbox.setSelected(true);
-							checkboxToValue();
-							valueToControl();
+							setShouldBeNull(false);
+							onNullStateChange();
 						}
 					}
 				});

@@ -173,6 +173,7 @@ public class ReflectionUI {
 
 		if (toolbarControls != null) {
 			JPanel toolbar = new JPanel();
+			toolbar.setBorder(BorderFactory.createRaisedBevelBorder());
 			toolbar.setLayout(new FlowLayout(FlowLayout.CENTER));
 			for (Component tool : toolbarControls) {
 				toolbar.add(tool);
@@ -195,13 +196,11 @@ public class ReflectionUI {
 		getObjectByForm().put(result, object);
 		getModificationStackByForm().put(result,
 				new ModificationStack(getObjectKind(object)));
-		if (fillForm(object, result, settings) == 0) {
-			return null;
-		}
+		fillForm(object, result, settings);
 		return result;
 	}
 
-	public int fillForm(Object object, JPanel form,
+	public void fillForm(Object object, JPanel form,
 			IInfoCollectionSettings settings) {
 		ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
 
@@ -294,7 +293,6 @@ public class ReflectionUI {
 							fieldControlPlaceHoldersByCategory,
 							methodControlsByCategory), BorderLayout.CENTER);
 		}
-		return fields.size() + methods.size();
 	}
 
 	public Component createMultipleInfoCategoriesComponent(
@@ -325,7 +323,7 @@ public class ReflectionUI {
 			JPanel buttonsPanel = new JPanel();
 			tab.add(buttonsPanel, BorderLayout.SOUTH);
 			buttonsPanel.setLayout(new BorderLayout());
-			buttonsPanel.setBorder(BorderFactory.createRaisedBevelBorder());
+			buttonsPanel.setBorder(BorderFactory.createTitledBorder(""));
 
 			ArrayList<InfoCategory> allCategoriesAsList = new ArrayList<InfoCategory>(
 					allCategories);
@@ -767,9 +765,6 @@ public class ReflectionUI {
 		};
 	}
 
-	public void doCustomValidation(Object object, IFieldInfo field) {
-	}
-
 	public void openObjectDialog(Component parent, Object object, String title,
 			Image iconImage, boolean modal) {
 		JPanel form = createObjectForm(object);
@@ -823,6 +818,7 @@ public class ReflectionUI {
 		}
 		if (toolbarControls != null) {
 			JPanel toolbar = new JPanel();
+			toolbar.setBorder(BorderFactory.createRaisedBevelBorder());
 			toolbar.setLayout(new FlowLayout(FlowLayout.CENTER));
 			for (Component tool : toolbarControls) {
 				toolbar.add(tool);
@@ -982,9 +978,6 @@ public class ReflectionUI {
 		JDialog dialog = createValueDialog(activatorComponent, object,
 				valueAccessor, okPressedArray, settings,
 				parentModificationStack, title);
-		if (dialog == null) {
-			return true;
-		}
 		openDialog(dialog, true);
 		return okPressedArray[0];
 	}
@@ -996,10 +989,7 @@ public class ReflectionUI {
 
 		final Object[] valueArray = new Object[] { valueAccessor.get() };
 		final JPanel valueForm = createValueForm(valueArray, settings);
-		if (valueForm == null) {
-			return null;
-		}
-
+		
 		final JDialog[] dialogArray = new JDialog[1];
 		List<Component> toolbarControls = new ArrayList<Component>();
 		Image iconImage = null;
@@ -1196,7 +1186,6 @@ public class ReflectionUI {
 				public void setValue(Object object, Object value) {
 					try {
 						field.setValue(object, value);
-						doCustomValidation(object, field);
 						markFieldControlWithError(FielControlPlaceHolder.this,
 								null);
 					} catch (Throwable t) {

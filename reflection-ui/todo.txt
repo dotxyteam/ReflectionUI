@@ -1,15 +1,8 @@
 - tooltips???
 - multiline textControl???
-- add support for all Collection based types
-- list control: 
-	. replace buttons label by icons
-	. add grid lines???
-- modiStack:
-	. replace buttons texts by icons???
 - parameter name when debug info available
 - update translatable strings
-- parameter default value
 - check getSubObjectEd is used where it should
 - replace AssertionError with ???
-- validation in fields directly???
+
 

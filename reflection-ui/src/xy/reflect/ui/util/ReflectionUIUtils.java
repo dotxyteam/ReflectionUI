@@ -25,8 +25,6 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-
 import com.fasterxml.classmate.MemberResolver;
 import com.fasterxml.classmate.ResolvedType;
 import com.fasterxml.classmate.ResolvedTypeWithMembers;
@@ -571,13 +569,12 @@ public class ReflectionUIUtils {
 		return result.toString();
 	}
 
-	public static Color getNullColor() {
-		return UIManager
-				.getColor("TextField.shadow");
-	}
-
 	public static int getStandardCharacterWidth(Component c) {
 		return c.getFontMetrics(c.getFont()).charWidth('a');
+	}
+
+	public static Color fixSeveralColorRenderingIssues(Color color) {
+		return new Color(color.getRGB());
 	}
 
 

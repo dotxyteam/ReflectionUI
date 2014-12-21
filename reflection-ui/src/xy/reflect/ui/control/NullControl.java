@@ -3,20 +3,21 @@ package xy.reflect.ui.control;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.UIManager;
+
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.DefaultTextualTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class NullControl extends TextControl {
 
 	protected static final long serialVersionUID = 1L;
-	
+
 	public NullControl(final ReflectionUI reflectionUI, IFieldInfo field,
 			final Runnable onMousePress) {
-		super(reflectionUI, null, new FieldInfoProxy(field){
+		super(reflectionUI, null, new FieldInfoProxy(field) {
 
 			@Override
 			public Object getValue(Object object) {
@@ -36,7 +37,7 @@ public class NullControl extends TextControl {
 			public boolean isReadOnly() {
 				return true;
 			}
-			
+
 		});
 		if (onMousePress != null) {
 			textField.addMouseListener(new MouseAdapter() {
@@ -56,8 +57,7 @@ public class NullControl extends TextControl {
 	@Override
 	public void refreshUI() {
 		super.refreshUI();
-		textField.setBackground(ReflectionUIUtils.getNullColor());
+		textField.setBackground(UIManager.getColor("TextField.shadow"));
 	}
-	
-	
+
 }

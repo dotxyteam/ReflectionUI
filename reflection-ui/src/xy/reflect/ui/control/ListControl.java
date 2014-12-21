@@ -233,16 +233,16 @@ public class ListControl extends JPanel implements IRefreshableControl,
 
 		List<ItemPosition> selection = getSelection();
 		ItemPosition singleSelectedPosition = null;
-		Object singleSelectionItem = null;
 		ItemPosition singleSelectedPositionSubItemPosition = null;
 		if (selection.size() == 1) {
 			singleSelectedPosition = selection.get(0);
-			singleSelectionItem = singleSelectedPosition.getItem();
 			singleSelectedPositionSubItemPosition = getSubItemPosition(singleSelectedPosition);
 		}
 
-		if (singleSelectionItem != null) {
-			createOpenItemButton(buttonsPanel);
+		if (singleSelectedPosition != null) {
+			if (hasItemDetails(singleSelectedPosition)) {
+				createOpenItemButton(buttonsPanel);
+			}
 		}
 		boolean selectionReadOnly = false;
 		for (ItemPosition selectionItem : selection) {
@@ -932,6 +932,10 @@ public class ListControl extends JPanel implements IRefreshableControl,
 			treeTableComponent.expandPath(treePath);
 		}
 
+		if (!hasItemDetails(itemPosition)) {
+			return true;
+		}
+
 		final FieldAutoUpdateList list = itemPosition.getContainingList();
 		final int index = itemPosition.getIndex();
 		final Object[] valueArray = new Object[1];
@@ -1006,6 +1010,26 @@ public class ListControl extends JPanel implements IRefreshableControl,
 				setSingleSelection(itemPositionToSelect);
 			}
 		}
+	}
+
+	protected boolean hasItemDetails(ItemPosition itemPosition) {
+		Object item = itemPosition.getItem();
+		if (item == null) {
+			return false;
+		}
+		ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI
+				.getTypeInfoSource(item));
+		List<IFieldInfo> fields = actualItemType.getFields();
+		List<IMethodInfo> methods = actualItemType.getMethods();
+
+		IListStructuralInfo structuralInfo = getRootListType()
+				.getStructuralInfo();
+		if (structuralInfo != null) {
+			fields = new ArrayList<IFieldInfo>(fields);
+			fields.removeAll(structuralInfo
+					.getItemSubListFieldsToExcludeFromDetailsView(itemPosition));
+		}
+		return (fields.size() + methods.size()) > 0;
 	}
 
 	protected void refreshStructure() {

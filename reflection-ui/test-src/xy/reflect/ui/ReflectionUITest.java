@@ -82,20 +82,7 @@ public class ReflectionUITest {
 
 	public static void main(String[] args) {
 		ReflectionUI editor = new ReflectionUI() {
-			@Override
-			public void doCustomValidation(Object object, IFieldInfo field) {
-				if (field.getType() instanceof DefaultTextualTypeInfo) {
-					DefaultTextualTypeInfo basicType = (DefaultTextualTypeInfo) field
-							.getType();
-					if (basicType.getJavaType() == int.class) {
-						if ((Integer) field.getValue(object) < 0) {
-							throw new AssertionError(
-									"negative integers forbidden");
-						}
-					}
-				}
-			}
-
+			
 			@Override
 			public Image getObjectIconImage(Object item) {
 				try {

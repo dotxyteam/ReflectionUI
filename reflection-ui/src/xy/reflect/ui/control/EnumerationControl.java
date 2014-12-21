@@ -1,28 +1,32 @@
 package xy.reflect.ui.control;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.IEnumerationTypeInfo;
+import xy.reflect.ui.util.component.TabulatingLabel;
 
-public class EnumerationControl extends JComboBox {
+public class EnumerationControl extends JPanel implements ICanShowCaptionControl {
 	protected static final long serialVersionUID = 1L;
 	protected IEnumerationTypeInfo enumType;
 	protected ReflectionUI reflectionUI;
 	protected Object object;
 	protected IFieldInfo field;
+	private JComboBox comboBox;
 
 	@SuppressWarnings({})
 	public EnumerationControl(final ReflectionUI reflectionUI,
@@ -36,17 +40,22 @@ public class EnumerationControl extends JComboBox {
 	}
 
 	protected void initialize() {
+		setLayout(new BorderLayout());
+		
+		comboBox = new JComboBox();
+		add(comboBox, BorderLayout.CENTER);
+		
 		Object initialValue = field.getValue(object);
 		if (field.isReadOnly()) {
-			setModel(new DefaultComboBoxModel(new Object[] { initialValue }));
+			comboBox.setModel(new DefaultComboBoxModel(new Object[] { initialValue }));
 		} else {
-			setModel(new DefaultComboBoxModel(enumType.getPossibleValues()
+			comboBox.setModel(new DefaultComboBoxModel(enumType.getPossibleValues()
 					.toArray()));
 		}
 
-		setBackground(UIManager.getColor("TextField.background"));
+		comboBox.setBackground(UIManager.getColor("TextField.background"));
 
-		setRenderer(new DefaultListCellRenderer() {
+		comboBox.setRenderer(new  BasicComboBoxRenderer() {
 
 			protected static final long serialVersionUID = 1L;
 
@@ -63,8 +72,7 @@ public class EnumerationControl extends JComboBox {
 					s = reflectionUI.translateUIString(s);
 					label.setText(s);
 				}
-				label.setOpaque(true);
-				label.setBackground(UIManager.getColor("TextField.background"));
+				
 				Image imageIcon = reflectionUI.getObjectIconImage(value);
 				if (imageIcon == null) {
 					label.setIcon(null);
@@ -75,12 +83,12 @@ public class EnumerationControl extends JComboBox {
 				return label;
 			}
 		});
-		setSelectedItem(initialValue);
-		addActionListener(new ActionListener() {
+		comboBox.setSelectedItem(initialValue);
+		comboBox.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Object selected = getSelectedItem();
+					Object selected = comboBox.getSelectedItem();
 					field.setValue(object, selected);
 				} catch (Throwable t) {
 					reflectionUI.handleDisplayedUIExceptions(
@@ -88,6 +96,12 @@ public class EnumerationControl extends JComboBox {
 				}
 			}
 		});
+	}
+	
+
+	@Override
+	public void showCaption() {
+		add(new TabulatingLabel(field.getCaption() + ": "), BorderLayout.WEST);
 	}
 
 }
