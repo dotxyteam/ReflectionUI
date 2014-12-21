@@ -1,7 +1,6 @@
 package xy.reflect.ui.control;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -30,7 +29,6 @@ import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -131,14 +129,6 @@ public class ListControl extends JPanel implements IRefreshableControl,
 				new ItemCellRenderer());
 		treeTableComponent.setTreeCellRenderer(new ItemCellRenderer());
 		fixCustomRenderingNotAppliedOnUnselectedCells();
-		treeTableComponent.setShowGrid(true, true);
-		treeTableComponent.setGridColor(fixColorReourceNotDisplayed(UIManager
-				.getColor("Table.background")));
-
-	}
-
-	private Color fixColorReourceNotDisplayed(Color color) {
-		return new Color(color.getRed(), color.getGreen(), color.getBlue());
 	}
 
 	private void fixCustomRenderingNotAppliedOnUnselectedCells() {
@@ -232,8 +222,10 @@ public class ListControl extends JPanel implements IRefreshableControl,
 	}
 
 	protected boolean isTabular() {
-		IListStructuralInfo tabularInfo = getRootListType().getStructuralInfo();
-		return tabularInfo != null;
+		IListStructuralInfo structuralInfo = getRootListType()
+				.getStructuralInfo();
+		return (structuralInfo != null)
+				&& (structuralInfo.getColumnCount() > 1);
 	}
 
 	protected void updateButtonsPanel() {
@@ -278,7 +270,19 @@ public class ListControl extends JPanel implements IRefreshableControl,
 				}
 			}
 			if (clipboard.size() > 0) {
-				if (singleSelectedPosition != null) {
+				if (singleSelectedPosition == null) {
+					ItemPosition rootItemPosition = getRootListItemPosition();
+					boolean selectedItemPositionSupportsAllClipboardItems = true;
+					for (Object clipboardItem : clipboard) {
+						if (!rootItemPosition.supportsValue(clipboardItem)) {
+							selectedItemPositionSupportsAllClipboardItems = false;
+							break;
+						}
+					}
+					if (selectedItemPositionSupportsAllClipboardItems) {
+						createPasteBeforeButton(buttonsPanel);
+					}
+				} else {
 					boolean selectedItemPositionSupportsAllClipboardItems = true;
 					for (Object clipboardItem : clipboard) {
 						if (!singleSelectedPosition
@@ -913,7 +917,11 @@ public class ListControl extends JPanel implements IRefreshableControl,
 	}
 
 	protected FieldAutoUpdateList getRootList() {
-		return new ItemPosition(field, null, -1).getContainingList();
+		return getRootListItemPosition().getContainingList();
+	}
+
+	protected ItemPosition getRootListItemPosition() {
+		return new ItemPosition(field, null, -1);
 	}
 
 	protected boolean openDetailsDialog(final ItemPosition itemPosition,
@@ -1535,7 +1543,8 @@ public class ListControl extends JPanel implements IRefreshableControl,
 				setSelection(toSelect);
 			}
 
-			return new ChangeListSelectionModification(oppositeSelection, toSelect);
+			return new ChangeListSelectionModification(oppositeSelection,
+					toSelect);
 		}
 
 		@Override
@@ -1728,14 +1737,11 @@ public class ListControl extends JPanel implements IRefreshableControl,
 			Object item = itemPosition.getItem();
 			String text = getCellValue(node, columnIndex);
 			if (text == null) {
-				label.setText("     ");
+				label.setText("");
 				label.setOpaque(true);
-				label.setBackground(fixColorReourceNotDisplayed(ReflectionUIUtils
-						.getNullColor()));
 			} else {
 				label.setText(reflectionUI.translateUIString(text));
 				label.setOpaque(false);
-				label.setBackground(null);
 			}
 
 			if (columnIndex == 0) {

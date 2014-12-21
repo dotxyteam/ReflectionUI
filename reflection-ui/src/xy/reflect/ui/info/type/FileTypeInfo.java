@@ -75,5 +75,9 @@ public class FileTypeInfo extends DefaultTypeInfo {
 		return true;
 	}
 
+	public static boolean isCompatibleWith(Class<?> javaType) {
+		return File.class.isAssignableFrom(javaType);
+	}
+
 
 }

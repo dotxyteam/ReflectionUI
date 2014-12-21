@@ -7,4 +7,10 @@ public interface IParameterInfo extends ICommonInfo{
 
 	ITypeInfo getType();
 
+	boolean isNullable();
+
+	Object getDefaultValue();
+	
+	int getPosition();
+
 }

@@ -4,6 +4,7 @@ import java.lang.reflect.Member;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class DefaultParameterInfo implements IParameterInfo {
 
@@ -12,8 +13,8 @@ public class DefaultParameterInfo implements IParameterInfo {
 	protected int index;
 	protected Member ofMember;
 
-	public DefaultParameterInfo(ReflectionUI reflectionUI,
-			Member ofMember,  Class<?> paramJavaType, int index) {
+	public DefaultParameterInfo(ReflectionUI reflectionUI, Member ofMember,
+			Class<?> paramJavaType, int index) {
 		this.reflectionUI = reflectionUI;
 		this.ofMember = ofMember;
 		this.paramJavaType = paramJavaType;
@@ -27,8 +28,8 @@ public class DefaultParameterInfo implements IParameterInfo {
 
 	@Override
 	public ITypeInfo getType() {
-		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(
-				paramJavaType, ofMember));
+		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(paramJavaType,
+				ofMember));
 	}
 
 	@Override
@@ -51,7 +52,7 @@ public class DefaultParameterInfo implements IParameterInfo {
 		if (obj == null) {
 			return false;
 		}
-		if(obj == this){
+		if (obj == this) {
 			return true;
 		}
 		if (!getClass().equals(obj.getClass())) {
@@ -61,6 +62,25 @@ public class DefaultParameterInfo implements IParameterInfo {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public boolean isNullable() {
+		return !paramJavaType.isPrimitive();
+	}
+
+	@Override
+	public Object getDefaultValue() {
+		if (paramJavaType.isPrimitive()) {
+			return ReflectionUIUtils.PrimitiveDefaults.get(paramJavaType);
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public int getPosition() {
+		return index;
 	}
 
 }

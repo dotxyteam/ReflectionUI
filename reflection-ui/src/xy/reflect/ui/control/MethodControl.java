@@ -1,6 +1,5 @@
 package xy.reflect.ui.control;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,7 +7,6 @@ import javax.swing.JButton;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MethodControl extends JButton {
 
@@ -44,16 +42,4 @@ public class MethodControl extends JButton {
 			}
 		});
 	}
-
-	@Override
-	public Dimension getPreferredSize() {
-		Dimension result = super.getPreferredSize();
-		if (result == null) {
-			return super.getPreferredSize();
-		}
-		result.width = ReflectionUIUtils
-				.getStandardCharacterWidth(this) * 20;
-		return result;
-	}
-
 }

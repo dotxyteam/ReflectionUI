@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dialog.ModalityType;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.Insets;
@@ -13,7 +14,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -475,7 +475,7 @@ public class ReflectionUI {
 
 	public void layoutControls(
 			List<FielControlPlaceHolder> fielControlPlaceHolders,
-			List<Component> methodControls, JPanel parentForm) {
+			final List<Component> methodControls, JPanel parentForm) {
 		parentForm.setLayout(new SimpleLayout(Kind.COLUMN));
 
 		JPanel fieldsPanel = new JPanel();
@@ -490,7 +490,32 @@ public class ReflectionUI {
 		JPanel methodsPanel = new JPanel();
 		methodsPanel.setLayout(new WrapLayout(WrapLayout.CENTER));
 		for (final Component methodControl : methodControls) {
-			methodsPanel.add(methodControl);
+			JPanel methodControlContainer = new JPanel() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public Dimension getPreferredSize() {
+					Dimension result = super.getPreferredSize();
+					if (result == null) {
+						return super.getPreferredSize();
+					}
+					int maxMethodControlWidth = 0;
+					for (final Component methodControl : methodControls) {
+						Dimension controlPreferredSize = methodControl
+								.getPreferredSize();
+						if (controlPreferredSize != null) {
+							maxMethodControlWidth = Math.max(
+									maxMethodControlWidth,
+									controlPreferredSize.width);
+						}
+					}
+					result.width = maxMethodControlWidth;
+					return result;
+				}
+			};
+			methodControlContainer.setLayout(new BorderLayout());
+			methodControlContainer.add(methodControl, BorderLayout.CENTER);
+			methodsPanel.add(methodControlContainer);
 		}
 
 		SimpleLayout.add(parentForm, fieldsPanel);
@@ -573,7 +598,8 @@ public class ReflectionUI {
 					.getJavaType())) {
 				return new DefaultTextualTypeInfo(this,
 						javaTypeSource.getJavaType());
-			} else if (File.class.equals(javaTypeSource.getJavaType())) {
+			} else if (FileTypeInfo.isCompatibleWith(javaTypeSource
+					.getJavaType())) {
 				return new FileTypeInfo(this);
 			} else {
 				return new DefaultTypeInfo(this, javaTypeSource.getJavaType());
@@ -702,12 +728,16 @@ public class ReflectionUI {
 
 			@Override
 			public boolean isNullable() {
-				return true;
+				return param.isNullable(); 
 			}
 
 			@Override
 			public Object getValue(Object object) {
-				return valueByParameterName.get(param.getName());
+				Object result = valueByParameterName.get(param.getName());
+				if(result == null){
+					result = param.getDefaultValue();
+				}
+				return result;
 			}
 
 			@Override
@@ -995,7 +1025,8 @@ public class ReflectionUI {
 											.getUndoModifications(ModificationStack.Order.LIFO)));
 							parentModificationStack
 									.pushUndo(new ModificationStack.CompositeModification(
-											ModificationStack.getUndoTitle(title),
+											ModificationStack
+													.getUndoTitle(title),
 											ModificationStack.Order.LIFO,
 											undoModifications));
 						}

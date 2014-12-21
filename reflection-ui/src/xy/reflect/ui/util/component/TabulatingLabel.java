@@ -38,7 +38,7 @@ public class TabulatingLabel extends JLabel {
 	}
 
 	protected int getColumnSizeAsCharacterCount() {
-		return 5;
+		return 10;
 	}
 
 }
