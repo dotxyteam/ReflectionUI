@@ -21,7 +21,7 @@ public interface ITypeInfo extends ICommonInfo {
 
 	boolean supportsValue(Object value);
 
-	List<ITypeInfo> getPolymorphicInstanceTypes();
+	List<ITypeInfo> getPolymorphicInstanceSubTypes();
 
 	boolean isImmutable();
 

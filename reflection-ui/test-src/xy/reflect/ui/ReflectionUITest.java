@@ -104,7 +104,7 @@ public class ReflectionUITest {
 					return new TypeInfoProxy() {
 
 						@Override
-						public List<ITypeInfo> getTypePolymorphicInstanceTypes(
+						public List<ITypeInfo> getTypePolymorphicInstanceSubTypes(
 								ITypeInfo type) {
 							return Arrays.asList(
 									getTypeInfo(new JavaTypeInfoSource(

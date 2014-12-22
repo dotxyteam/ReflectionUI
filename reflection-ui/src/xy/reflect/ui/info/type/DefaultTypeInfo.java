@@ -112,7 +112,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 
 	@Override
 	public Component createFieldControl(Object object, IFieldInfo field) {
-		if (field.getType().getPolymorphicInstanceTypes() != null) {
+		if (field.getType().getPolymorphicInstanceSubTypes() != null) {
 			return new PolymorphicEmbeddedForm(reflectionUI, object, field,
 					DefaultTypeInfo.this);
 		} else {
@@ -188,7 +188,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 	}
 
 	@Override
-	public List<ITypeInfo> getPolymorphicInstanceTypes() {
+	public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
 		return null;
 	}
 

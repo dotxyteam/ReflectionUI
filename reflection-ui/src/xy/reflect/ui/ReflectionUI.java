@@ -87,9 +87,9 @@ public class ReflectionUI {
 
 	public static void main(String[] args) {
 		ReflectionUI reflectionUI = new ReflectionUI();
-		Object object = reflectionUI.onTypeInstanciationRequest(
+		Object object = reflectionUI.onTypeInstanciationRequest(null,
 				reflectionUI.getTypeInfo(new JavaTypeInfoSource(Object.class)),
-				null, false);
+				false, false);
 		if (object == null) {
 			return;
 		}
@@ -726,13 +726,13 @@ public class ReflectionUI {
 
 			@Override
 			public boolean isNullable() {
-				return param.isNullable(); 
+				return param.isNullable();
 			}
 
 			@Override
 			public Object getValue(Object object) {
 				Object result = valueByParameterName.get(param.getName());
-				if(result == null){
+				if (result == null) {
 					result = param.getDefaultValue();
 				}
 				return result;
@@ -869,13 +869,16 @@ public class ReflectionUI {
 		return string;
 	}
 
-	public Object onTypeInstanciationRequest(ITypeInfo type,
-			Component activatorComponent, boolean autoSelectConstructor) {
-		List<ITypeInfo> polyTypes = type.getPolymorphicInstanceTypes();
+	public Object onTypeInstanciationRequest(Component activatorComponent,
+			ITypeInfo type, boolean autoSelectConstructor, boolean noDialog) {
+		List<ITypeInfo> polyTypes = type.getPolymorphicInstanceSubTypes();
 		if ((polyTypes != null) && (polyTypes.size() > 0)) {
 			if (polyTypes.size() == 1) {
 				type = polyTypes.get(0);
 			} else {
+				if (noDialog) {
+					return null;
+				}
 				type = openSelectionDialog(activatorComponent, polyTypes, null,
 						"Choose the type of '" + type.getCaption() + "':", null);
 				if (type == null) {
@@ -891,6 +894,9 @@ public class ReflectionUI {
 		if (chosenConstructor == null) {
 			List<IMethodInfo> constructors = type.getConstructors();
 			if (constructors.size() > 1) {
+				if (noDialog) {
+					return null;
+				}
 				chosenConstructor = openSelectionDialog(activatorComponent,
 						constructors, null, "Choose an option:", null);
 				if (chosenConstructor == null) {
@@ -902,13 +908,16 @@ public class ReflectionUI {
 							"Cannot create an object of type '" + type
 									+ "': No accessible constructor found");
 				} else {
+					if (noDialog) {
+						return null;
+					}
 					type = openConcreteClassSelectionDialog(activatorComponent,
 							type);
 					if (type == null) {
 						return null;
 					} else {
-						return onTypeInstanciationRequest(type,
-								activatorComponent, autoSelectConstructor);
+						return onTypeInstanciationRequest(activatorComponent,
+								type, autoSelectConstructor, noDialog);
 					}
 				}
 			}
@@ -989,7 +998,7 @@ public class ReflectionUI {
 
 		final Object[] valueArray = new Object[] { valueAccessor.get() };
 		final JPanel valueForm = createValueForm(valueArray, settings);
-		
+
 		final JDialog[] dialogArray = new JDialog[1];
 		List<Component> toolbarControls = new ArrayList<Component>();
 		Image iconImage = null;

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.field.HiddenNullableFacetFieldInfoWrapper;
+import xy.reflect.ui.info.field.HiddenNullableFacetFieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MultiSubListField;
 import xy.reflect.ui.info.type.IListTypeInfo.IItemPosition;
@@ -30,7 +30,7 @@ public class DefaultListStructuralInfo implements IListStructuralInfo {
 	public IFieldInfo getItemSubListField(IItemPosition itemPosition) {
 		List<IFieldInfo> candidateFields = getItemSubListCandidateFields(itemPosition);
 		for (int i = 0; i < candidateFields.size(); i++) {
-			candidateFields.set(i, new HiddenNullableFacetFieldInfoWrapper(reflectionUI,
+			candidateFields.set(i, new HiddenNullableFacetFieldInfoProxy(reflectionUI,
 					candidateFields.get(i)));
 		}
 		if (candidateFields.size() == 0) {

@@ -88,8 +88,8 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 			if (currentValue == null) {
 				Object newValue;
 				try {
-					newValue = reflectionUI.onTypeInstanciationRequest(
-							field.getType(), this, true);
+					newValue = reflectionUI.onTypeInstanciationRequest(this,
+							field.getType(), true, false);
 				} catch (Throwable t) {
 					reflectionUI.handleDisplayedUIExceptions(this, t);
 					newValue = null;

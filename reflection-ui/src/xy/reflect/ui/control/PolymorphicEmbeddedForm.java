@@ -39,7 +39,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements
 		this.reflectionUI = reflectionUI;
 		this.object = object;
 		this.field = field;
-		this.polyTypes = field.getType().getPolymorphicInstanceTypes();
+		this.polyTypes = field.getType().getPolymorphicInstanceSubTypes();
 		this.defaultTypeInfo = defaultObjectTypeInfo;
 
 		setLayout(new BorderLayout());
@@ -93,8 +93,8 @@ public class PolymorphicEmbeddedForm extends JPanel implements
 								.get(enumValueCaption);
 						if (instance == null) {
 							instance = reflectionUI.onTypeInstanciationRequest(
-									actualFieldValueType,
-									PolymorphicEmbeddedForm.this, true);
+									PolymorphicEmbeddedForm.this,
+									actualFieldValueType, true, false);
 							if (instance == null) {
 								return;
 							}
@@ -148,7 +148,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements
 					}
 
 					@Override
-					public List<ITypeInfo> getPolymorphicInstanceTypes() {
+					public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
 						return null;
 					}
 

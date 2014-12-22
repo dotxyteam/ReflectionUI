@@ -608,7 +608,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 										Object.class));
 					}
 					Object newItem = reflectionUI.onTypeInstanciationRequest(
-							itemType, button, true);
+							button, itemType, true, false);
 					if (newItem == null) {
 						return;
 					}
@@ -654,8 +654,8 @@ public class ListControl extends JPanel implements IRefreshableControl,
 								Object.class);
 					}
 					Object newSubListItem = reflectionUI
-							.onTypeInstanciationRequest(subListItemType,
-									button, true);
+							.onTypeInstanciationRequest(button, subListItemType,
+									 true, false);
 					if (newSubListItem == null) {
 						return;
 					}

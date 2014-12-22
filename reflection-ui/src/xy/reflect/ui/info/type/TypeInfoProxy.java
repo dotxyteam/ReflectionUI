@@ -30,6 +30,8 @@ public class TypeInfoProxy {
 			return new TextualTypeInfoProxy((ITextualTypeInfo) type);
 		} else if (type instanceof FileTypeInfo) {
 			return new FileTypeInfoProxy((FileTypeInfo) type);
+		} else if (type instanceof IMapEntryTypeInfo) {
+			return new MapEntryTypeInfoProxy((IMapEntryTypeInfo) type);
 		} else {
 			return new BasicTypeInfoProxy(type);
 		}
@@ -325,8 +327,8 @@ public class TypeInfoProxy {
 		return result;
 	}
 
-	protected List<ITypeInfo> getTypePolymorphicInstanceTypes(ITypeInfo type) {
-		return type.getPolymorphicInstanceTypes();
+	protected List<ITypeInfo> getTypePolymorphicInstanceSubTypes(ITypeInfo type) {
+		return type.getPolymorphicInstanceSubTypes();
 	}
 
 	protected boolean typeHasCustomFieldControl(ITypeInfo type) {
@@ -372,7 +374,7 @@ public class TypeInfoProxy {
 			ITextualTypeInfo type) {
 		return type.fromText(text);
 	}
-	
+
 	protected File getFileTypeDefaultValue(FileTypeInfo type) {
 		return type.getDefaultFile();
 	}
@@ -384,6 +386,14 @@ public class TypeInfoProxy {
 
 	protected String getFileTypeDialogTitle(FileTypeInfo type) {
 		return type.getDialogTitle();
+	}
+
+	protected IFieldInfo getMapEntryTypeKeyField(IMapEntryTypeInfo type) {
+		return type.getKeyField();
+	}
+
+	protected IFieldInfo getMapEntryTypeValueField(IMapEntryTypeInfo type) {
+		return type.getValueField();
 	}
 
 	protected void configureFileTypeChooser(JFileChooser fileChooser,
@@ -430,8 +440,8 @@ public class TypeInfoProxy {
 		}
 
 		@Override
-		public List<ITypeInfo> getPolymorphicInstanceTypes() {
-			return getTypePolymorphicInstanceTypes(type);
+		public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
+			return getTypePolymorphicInstanceSubTypes(type);
 		}
 
 		@Override
@@ -565,7 +575,26 @@ public class TypeInfoProxy {
 		}
 	}
 
-	private class FileTypeInfoProxy extends FileTypeInfo{
+	private class MapEntryTypeInfoProxy extends BasicTypeInfoProxy implements
+			IMapEntryTypeInfo {
+
+		public MapEntryTypeInfoProxy(IMapEntryTypeInfo type) {
+			super(type);
+		}
+
+		@Override
+		public IFieldInfo getKeyField() {
+			return getMapEntryTypeKeyField((IMapEntryTypeInfo) type);
+		}
+
+		@Override
+		public IFieldInfo getValueField() {
+			return getMapEntryTypeValueField((IMapEntryTypeInfo) type);
+		}
+
+	}
+
+	private class FileTypeInfoProxy extends FileTypeInfo {
 
 		private FileTypeInfo type;
 
@@ -627,8 +656,8 @@ public class TypeInfoProxy {
 		}
 
 		@Override
-		public List<ITypeInfo> getPolymorphicInstanceTypes() {
-			return getTypePolymorphicInstanceTypes(type);
+		public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
+			return getTypePolymorphicInstanceSubTypes(type);
 		}
 
 		@Override
@@ -675,10 +704,5 @@ public class TypeInfoProxy {
 			return type.toString();
 		}
 
-		
-		
 	}
-
-	
-
 }
