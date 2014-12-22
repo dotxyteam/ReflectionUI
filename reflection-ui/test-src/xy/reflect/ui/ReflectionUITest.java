@@ -23,7 +23,7 @@ import xy.reflect.ui.info.type.DefaultTextualTypeInfo;
 import xy.reflect.ui.info.type.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.ITypeInfoSource;
-import xy.reflect.ui.info.type.SimpleTypeInfoProxy;
+import xy.reflect.ui.info.type.TypeInfoProxy;
 
 @SuppressWarnings("unused")
 public class ReflectionUITest {
@@ -51,7 +51,8 @@ public class ReflectionUITest {
 
 		public List<File> theFileList = Arrays.asList(new File("."));
 
-		public Set<Integer> theSet = new HashSet<Integer>(Arrays.asList(1,2,3));
+		public Set<Integer> theSet = new HashSet<Integer>(
+				Arrays.asList(1, 2, 3));
 
 		public Stack<Integer> theStack = new Stack<Integer>();
 
@@ -82,7 +83,7 @@ public class ReflectionUITest {
 
 	public static void main(String[] args) {
 		ReflectionUI editor = new ReflectionUI() {
-			
+
 			@Override
 			public Image getObjectIconImage(Object item) {
 				try {
@@ -100,11 +101,11 @@ public class ReflectionUITest {
 				}
 				JavaTypeInfoSource classSource = (JavaTypeInfoSource) typeSource;
 				if (classSource.getJavaType() == Exception.class) {
-					return new SimpleTypeInfoProxy(
-							super.getTypeInfo(typeSource)) {
+					return new TypeInfoProxy() {
 
 						@Override
-						public List<ITypeInfo> getPolymorphicInstanceTypes() {
+						public List<ITypeInfo> getTypePolymorphicInstanceTypes(
+								ITypeInfo type) {
 							return Arrays.asList(
 									getTypeInfo(new JavaTypeInfoSource(
 											ParseException.class)),
@@ -112,7 +113,7 @@ public class ReflectionUITest {
 											GSSException.class)));
 						}
 
-					};
+					}.get(super.getTypeInfo(typeSource));
 				} else {
 					return super.getTypeInfo(typeSource);
 				}

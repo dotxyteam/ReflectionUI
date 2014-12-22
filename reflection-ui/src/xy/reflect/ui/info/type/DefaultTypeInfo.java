@@ -84,15 +84,13 @@ public class DefaultTypeInfo implements ITypeInfo {
 	public List<IFieldInfo> getFields() {
 		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
 		for (Field javaField : javaType.getFields()) {
-			if (!PublicFieldInfo
-					.isCompatibleWith(javaField)) {
+			if (!PublicFieldInfo.isCompatibleWith(javaField)) {
 				continue;
 			}
 			result.add(new PublicFieldInfo(reflectionUI, javaField));
 		}
 		for (Method javaMethod : javaType.getMethods()) {
-			if (!GetterFieldInfo.isCompatibleWith(
-					javaMethod, javaType)) {
+			if (!GetterFieldInfo.isCompatibleWith(javaMethod, javaType)) {
 				continue;
 			}
 			result.add(new GetterFieldInfo(reflectionUI, javaMethod, javaType));
@@ -104,8 +102,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 	public List<IMethodInfo> getMethods() {
 		List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 		for (Method javaMethod : javaType.getMethods()) {
-			if (!DefaultMethodInfo.isCompatibleWith(
-					javaMethod, javaType)) {
+			if (!DefaultMethodInfo.isCompatibleWith(javaMethod, javaType)) {
 				continue;
 			}
 			result.add(new DefaultMethodInfo(reflectionUI, javaMethod));
@@ -197,13 +194,13 @@ public class DefaultTypeInfo implements ITypeInfo {
 
 	@Override
 	public boolean isImmutable() {
-		for(IFieldInfo field: getFields()){
-			if(!field.isReadOnly()){
+		for (IFieldInfo field : getFields()) {
+			if (!field.isReadOnly()) {
 				return false;
 			}
 		}
-		for(IMethodInfo method: getMethods()){
-			if(!method.isReadOnly()){
+		for (IMethodInfo method : getMethods()) {
+			if (!method.isReadOnly()) {
 				return false;
 			}
 		}

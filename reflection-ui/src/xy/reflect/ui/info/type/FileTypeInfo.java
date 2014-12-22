@@ -21,6 +21,8 @@ public class FileTypeInfo extends DefaultTypeInfo {
 	public FileTypeInfo(ReflectionUI reflectionUI) {
 		super(reflectionUI, File.class);
 	}
+	
+	
 
 	@Override
 	public List<IMethodInfo> getConstructors() {

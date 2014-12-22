@@ -12,10 +12,10 @@ public interface IListTypeInfo extends ITypeInfo {
 	Object fromStandardList(List<?> list);
 
 	IListStructuralInfo getStructuralInfo();
-	
+
 	boolean isOrdered();
-	
-	public interface IListStructuralInfo{
+
+	public interface IListStructuralInfo {
 
 		String getCellValue(IItemPosition itemPosition, int columnIndex);
 
@@ -25,9 +25,10 @@ public interface IListTypeInfo extends ITypeInfo {
 
 		IFieldInfo getItemSubListField(IItemPosition itemPosition);
 
-		List<IFieldInfo> getItemSubListFieldsToExcludeFromDetailsView(IItemPosition itemPosition);		
-}
-	
+		List<IFieldInfo> getItemSubListFieldsToExcludeFromDetailsView(
+				IItemPosition itemPosition);
+	}
+
 	public interface IItemPosition {
 
 		public abstract boolean isContainingListReadOnly();
