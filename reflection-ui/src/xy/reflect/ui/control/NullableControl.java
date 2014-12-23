@@ -3,12 +3,7 @@ package xy.reflect.ui.control;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
 import javax.swing.JPanel;
-import javax.swing.UIManager;
-
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
@@ -21,7 +16,7 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 	protected ReflectionUI reflectionUI;
 	protected Object object;
 	protected IFieldInfo field;
-	protected JPanel nullingControl;
+	protected Component nullingControl;
 	protected Component subControl;
 	protected DefaultTypeInfo defaultTypeInfo;
 	protected boolean showCaption = false;
@@ -38,32 +33,24 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 
 	protected void initialize() {
 		setLayout(new BorderLayout());
-
-		nullingControl = new JPanel();
-		int nullingControlSize = createNullControl(reflectionUI, null)
-				.getPreferredSize().height;
-		nullingControl.setPreferredSize(new Dimension(nullingControlSize,
-				nullingControlSize));
-		nullingControl.setOpaque(true);
-		nullingControl.setBackground(ReflectionUIUtils
-				.fixSeveralColorRenderingIssues(UIManager
-						.getColor("TextField.shadow")));
+		nullingControl = createNullControl(reflectionUI, new Runnable() {
+			@Override
+			public void run() {
+				try {
+					setShouldBeNull(true);
+					onNullStateChange();
+				} catch (Throwable t) {
+					reflectionUI.handleDisplayedUIExceptions(
+							NullableControl.this, t);
+				}
+			}
+		});
+		Dimension nullingControlSize = nullingControl.getPreferredSize();
+		nullingControlSize.width = nullingControlSize.height;
+		nullingControl.setPreferredSize(nullingControlSize);
 
 		if (!field.isReadOnly()) {
 			add(nullingControl, BorderLayout.EAST);
-			nullingControl.addMouseListener(new MouseAdapter() {
-
-				@Override
-				public void mousePressed(MouseEvent e) {
-					try {
-						setShouldBeNull(true);
-						onNullStateChange();
-					} catch (Throwable t) {
-						reflectionUI.handleDisplayedUIExceptions(
-								NullableControl.this, t);
-					}
-				}
-			});
 		}
 
 		updateControl();

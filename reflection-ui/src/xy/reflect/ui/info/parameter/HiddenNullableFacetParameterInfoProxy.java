@@ -3,6 +3,7 @@ package xy.reflect.ui.info.parameter;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.parameter.ParameterInfoProxy;
+import xy.reflect.ui.info.type.HiddenNullableFacetsTypeInfoProxy;
 
 public class HiddenNullableFacetParameterInfoProxy extends ParameterInfoProxy {
 
@@ -18,16 +19,13 @@ public class HiddenNullableFacetParameterInfoProxy extends ParameterInfoProxy {
 
 	@Override
 	public Object getDefaultValue() {
-		Object result = reflectionUI.onTypeInstanciationRequest(null,
-				base.getType(), true, true);
-		if (result == null) {
-			throw new AssertionError(
-					"Failed to instanciate automatically the value of the field '"
-							+ base
-							+ "': Could not instanciate the field type '"
-							+ base.getType() + "'");
-		}
-		return result;
+		final Object[] result = new Object[1];
+		new HiddenNullableFacetsTypeInfoProxy(reflectionUI){
+			{
+				result[0] = getDefaultValue(base, null, null);
+			}
+		};
+		return result[0];
 	}
 
 	@Override

@@ -43,39 +43,39 @@ public class TypeInfoProxy {
 
 			@Override
 			public String getName() {
-				return getMethodName(method, containingType);
+				return TypeInfoProxy.this.getName(method, containingType);
 			}
 
 			@Override
 			public String getCaption() {
-				return getMethodCaption(method, containingType);
+				return TypeInfoProxy.this.getCaption(method, containingType);
 			}
 
 			@Override
 			public ITypeInfo getReturnValueType() {
-				return getMethodReturnValueType(method, containingType);
+				return TypeInfoProxy.this.getReturnValueType(method, containingType);
 			}
 
 			@Override
 			public List<IParameterInfo> getParameters() {
-				return getMethodParameters(method, containingType);
+				return TypeInfoProxy.this.getParameters(method, containingType);
 			}
 
 			@Override
 			public Object invoke(Object object,
 					Map<String, Object> valueByParameterName) {
-				return invokeMethod(object, valueByParameterName, method,
+				return TypeInfoProxy.this.invoke(object, valueByParameterName, method,
 						containingType);
 			}
 
 			@Override
 			public boolean isReadOnly() {
-				return isMethodReadOnly(method, containingType);
+				return TypeInfoProxy.this.isReadOnly(method, containingType);
 			}
 
 			@Override
 			public InfoCategory getCategory() {
-				return getMethodCategory(method, containingType);
+				return TypeInfoProxy.this.getCategory(method, containingType);
 			}
 
 		};
@@ -87,42 +87,42 @@ public class TypeInfoProxy {
 
 			@Override
 			public String getName() {
-				return getFieldName(field, containingType);
+				return TypeInfoProxy.this.getName(field, containingType);
 			}
 
 			@Override
 			public String getCaption() {
-				return getFieldCaption(field, containingType);
+				return TypeInfoProxy.this.getCaption(field, containingType);
 			}
 
 			@Override
 			public void setValue(Object object, Object value) {
-				setFieldValue(object, value, field, containingType);
+				TypeInfoProxy.this.setValue(object, value, field, containingType);
 			}
 
 			@Override
 			public boolean isReadOnly() {
-				return isFieldReadOnly(field, containingType);
+				return TypeInfoProxy.this.isReadOnly(field, containingType);
 			}
 
 			@Override
 			public boolean isNullable() {
-				return isFieldNullable(field, containingType);
+				return TypeInfoProxy.this.isNullable(field, containingType);
 			}
 
 			@Override
 			public Object getValue(Object object) {
-				return getFieldValue(object, field, containingType);
+				return TypeInfoProxy.this.getValue(object, field, containingType);
 			}
 
 			@Override
 			public ITypeInfo getType() {
-				return getFieldType(field, containingType);
+				return TypeInfoProxy.this.getType(field, containingType);
 			}
 
 			@Override
 			public InfoCategory getCategory() {
-				return getFieldCategory(field, containingType);
+				return TypeInfoProxy.this.getCategory(field, containingType);
 			}
 
 		};
@@ -134,32 +134,32 @@ public class TypeInfoProxy {
 
 			@Override
 			public String getName() {
-				return getParameterName(param, method, containingType);
+				return TypeInfoProxy.this.getName(param, method, containingType);
 			}
 
 			@Override
 			public String getCaption() {
-				return getParameterCaption(param, method, containingType);
+				return TypeInfoProxy.this.getCaption(param, method, containingType);
 			}
 
 			@Override
 			public boolean isNullable() {
-				return isParameterNullable(param, method, containingType);
+				return TypeInfoProxy.this.isNullable(param, method, containingType);
 			}
 
 			@Override
 			public ITypeInfo getType() {
-				return getParameterType(param, method, containingType);
+				return TypeInfoProxy.this.getType(param, method, containingType);
 			}
 
 			@Override
 			public int getPosition() {
-				return getParameterPosition(param, method, containingType);
+				return TypeInfoProxy.this.getPosition(param, method, containingType);
 			}
 
 			@Override
 			public Object getDefaultValue() {
-				return getParameterDefaultValue(param, method, containingType);
+				return TypeInfoProxy.this.getDefaultValue(param, method, containingType);
 			}
 
 			@Override
@@ -170,88 +170,88 @@ public class TypeInfoProxy {
 		};
 	}
 
-	protected Object getParameterDefaultValue(IParameterInfo param,
+	protected Object getDefaultValue(IParameterInfo param,
 			IMethodInfo method, ITypeInfo containingType) {
 		return param.getDefaultValue();
 	}
 
-	protected int getParameterPosition(IParameterInfo param,
+	protected int getPosition(IParameterInfo param,
 			IMethodInfo method, ITypeInfo containingType) {
 		return param.getPosition();
 	}
 
-	protected ITypeInfo getParameterType(IParameterInfo param,
+	protected ITypeInfo getType(IParameterInfo param,
 			IMethodInfo method, ITypeInfo containingType) {
 		return param.getType();
 	}
 
-	protected boolean isParameterNullable(IParameterInfo param,
+	protected boolean isNullable(IParameterInfo param,
 			IMethodInfo method, ITypeInfo containingType) {
 		return param.isNullable();
 	}
 
-	protected String getParameterCaption(IParameterInfo param,
+	protected String getCaption(IParameterInfo param,
 			IMethodInfo method, ITypeInfo containingType) {
 		return param.getCaption();
 	}
 
-	protected String getParameterName(IParameterInfo param, IMethodInfo method,
+	protected String getName(IParameterInfo param, IMethodInfo method,
 			ITypeInfo containingType) {
 		return param.getName();
 	}
 
-	protected InfoCategory getFieldCategory(IFieldInfo field,
+	protected InfoCategory getCategory(IFieldInfo field,
 			ITypeInfo containingType) {
 		return field.getCategory();
 	}
 
-	protected ITypeInfo getFieldType(IFieldInfo field, ITypeInfo containingType) {
+	protected ITypeInfo getType(IFieldInfo field, ITypeInfo containingType) {
 		return field.getType();
 	}
 
-	protected Object getFieldValue(Object object, IFieldInfo field,
+	protected Object getValue(Object object, IFieldInfo field,
 			ITypeInfo containingType) {
 		return field.getValue(object);
 	}
 
-	protected boolean isFieldNullable(IFieldInfo field, ITypeInfo containingType) {
+	protected boolean isNullable(IFieldInfo field, ITypeInfo containingType) {
 		return field.isNullable();
 	}
 
-	protected boolean isFieldReadOnly(IFieldInfo field, ITypeInfo containingType) {
+	protected boolean isReadOnly(IFieldInfo field, ITypeInfo containingType) {
 		return field.isReadOnly();
 	}
 
-	protected void setFieldValue(Object object, Object value, IFieldInfo field,
+	protected void setValue(Object object, Object value, IFieldInfo field,
 			ITypeInfo containingType) {
 		field.setValue(object, value);
 	}
 
-	protected String getFieldCaption(IFieldInfo field, ITypeInfo containingType) {
+	protected String getCaption(IFieldInfo field, ITypeInfo containingType) {
 		return field.getCaption();
 	}
 
-	protected String getFieldName(IFieldInfo field, ITypeInfo containingType) {
+	protected String getName(IFieldInfo field, ITypeInfo containingType) {
 		return field.getName();
 	}
 
-	protected InfoCategory getMethodCategory(IMethodInfo method,
+	protected InfoCategory getCategory(IMethodInfo method,
 			ITypeInfo containingType) {
 		return method.getCategory();
 	}
 
-	protected boolean isMethodReadOnly(IMethodInfo method,
+	protected boolean isReadOnly(IMethodInfo method,
 			ITypeInfo containingType) {
 		return method.isReadOnly();
 	}
 
-	protected Object invokeMethod(Object object,
+	protected Object invoke(Object object,
 			Map<String, Object> valueByParameterName, IMethodInfo method,
 			ITypeInfo containingType) {
 		return method.invoke(object, valueByParameterName);
 	}
 
-	protected List<IParameterInfo> getMethodParameters(IMethodInfo method,
+	protected List<IParameterInfo> getParameters(IMethodInfo method,
 			ITypeInfo containingType) {
 		List<IParameterInfo> result = new ArrayList<IParameterInfo>();
 		for (IParameterInfo param : method.getParameters()) {
@@ -260,50 +260,50 @@ public class TypeInfoProxy {
 		return result;
 	}
 
-	protected ITypeInfo getMethodReturnValueType(IMethodInfo method,
+	protected ITypeInfo getReturnValueType(IMethodInfo method,
 			ITypeInfo containingType) {
 		return method.getReturnValueType();
 	}
 
-	protected String getMethodCaption(IMethodInfo method,
+	protected String getCaption(IMethodInfo method,
 			ITypeInfo containingType) {
 		return method.getCaption();
 	}
 
-	protected String getMethodName(IMethodInfo method, ITypeInfo containingType) {
+	protected String getName(IMethodInfo method, ITypeInfo containingType) {
 		return method.getName();
 	}
 
-	protected List<?> getEnumerationTypePossibleValues(IEnumerationTypeInfo type) {
+	protected List<?> getPossibleValues(IEnumerationTypeInfo type) {
 		return type.getPossibleValues();
 	}
 
-	protected Object fromListTypeStandardList(IListTypeInfo type, List<?> list) {
+	protected Object fromStandardList(IListTypeInfo type, List<?> list) {
 		return type.fromStandardList(list);
 	}
 
-	protected ITypeInfo getListTypeItemType(IListTypeInfo type) {
+	protected ITypeInfo getItemType(IListTypeInfo type) {
 		return type.getItemType();
 	}
 
-	protected IListStructuralInfo getListTypeStructuralInfo(IListTypeInfo type) {
+	protected IListStructuralInfo getStructuralInfo(IListTypeInfo type) {
 		return type.getStructuralInfo();
 	}
 
-	protected boolean isListTypeOrdered(IListTypeInfo type) {
+	protected boolean isOrdered(IListTypeInfo type) {
 		return type.isOrdered();
 	}
 
-	protected List<?> toListTypeStandardList(IListTypeInfo type, Object value) {
+	protected List<?> toStandardList(IListTypeInfo type, Object value) {
 		return type.toStandardList(value);
 	}
 
-	protected Component createTypeFieldControl(ITypeInfo type, Object object,
+	protected Component createFieldControl(ITypeInfo type, Object object,
 			IFieldInfo field) {
 		return type.createFieldControl(object, field);
 	}
 
-	protected List<IMethodInfo> getTypeConstructors(ITypeInfo type) {
+	protected List<IMethodInfo> getConstructors(ITypeInfo type) {
 		List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 		for (IMethodInfo constructor : type.getConstructors()) {
 			result.add(getMethodProxy(constructor, type));
@@ -311,7 +311,7 @@ public class TypeInfoProxy {
 		return result;
 	}
 
-	protected List<IFieldInfo> getTypeFields(ITypeInfo type) {
+	protected List<IFieldInfo> getFields(ITypeInfo type) {
 		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
 		for (IFieldInfo field : type.getFields()) {
 			result.add(getFieldProxy(field, type));
@@ -319,7 +319,7 @@ public class TypeInfoProxy {
 		return result;
 	}
 
-	protected List<IMethodInfo> getTypeMethods(ITypeInfo type) {
+	protected List<IMethodInfo> getMethods(ITypeInfo type) {
 		List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 		for (IMethodInfo method : type.getMethods()) {
 			result.add(getMethodProxy(method, type));
@@ -327,76 +327,76 @@ public class TypeInfoProxy {
 		return result;
 	}
 
-	protected List<ITypeInfo> getTypePolymorphicInstanceSubTypes(ITypeInfo type) {
+	protected List<ITypeInfo> getPolymorphicInstanceSubTypes(ITypeInfo type) {
 		return type.getPolymorphicInstanceSubTypes();
 	}
 
-	protected boolean typeHasCustomFieldControl(ITypeInfo type) {
+	protected boolean hasCustomFieldControl(ITypeInfo type) {
 		return type.hasCustomFieldControl();
 	}
 
-	protected boolean isTypeConcrete(ITypeInfo type) {
+	protected boolean isConcrete(ITypeInfo type) {
 		return type.isConcrete();
 	}
 
-	protected boolean isTypeImmutable(ITypeInfo type) {
+	protected boolean isImmutable(ITypeInfo type) {
 		return type.isImmutable();
 	}
 
-	protected boolean typeSupportsValue(ITypeInfo type, Object value) {
+	protected boolean supportsValue(ITypeInfo type, Object value) {
 		return type.supportsValue(value);
 	}
 
-	protected String getTypeCaption(ITypeInfo type) {
+	protected String getCaption(ITypeInfo type) {
 		return type.getCaption();
 	}
 
-	protected String getTypeName(ITypeInfo type) {
+	protected String getName(ITypeInfo type) {
 		return type.getName();
 	}
 
-	protected Boolean toBooleanTypeInstanceValue(Object value,
+	protected Boolean toBoolean(Object value,
 			IBooleanTypeInfo type) {
 		return type.toBoolean(value);
 	}
 
-	protected Object fromBooleanTypeInstanceValue(Boolean b,
+	protected Object fromBoolean(Boolean b,
 			IBooleanTypeInfo type) {
 		return type.fromBoolean(b);
 	}
 
-	protected String toTextualtypeInstanceValue(Object value,
+	protected String toText(Object value,
 			ITextualTypeInfo type) {
 		return type.toText(value);
 	}
 
-	protected Object fromTextualtypeInstanceValue(String text,
+	protected Object fromText(String text,
 			ITextualTypeInfo type) {
 		return type.fromText(text);
 	}
 
-	protected File getFileTypeDefaultValue(FileTypeInfo type) {
+	protected File getDefaultFile(FileTypeInfo type) {
 		return type.getDefaultFile();
 	}
 
-	protected Component createFileTypeNonNullFieldValueControl(Object object,
+	protected Component createNonNullFieldValueControl(Object object,
 			IFieldInfo field, FileTypeInfo type) {
 		return type.createNonNullFieldValueControl(object, field);
 	}
 
-	protected String getFileTypeDialogTitle(FileTypeInfo type) {
+	protected String getDialogTitle(FileTypeInfo type) {
 		return type.getDialogTitle();
 	}
 
-	protected IFieldInfo getMapEntryTypeKeyField(IMapEntryTypeInfo type) {
+	protected IFieldInfo getKeyField(IMapEntryTypeInfo type) {
 		return type.getKeyField();
 	}
 
-	protected IFieldInfo getMapEntryTypeValueField(IMapEntryTypeInfo type) {
+	protected IFieldInfo getValueField(IMapEntryTypeInfo type) {
 		return type.getValueField();
 	}
 
-	protected void configureFileTypeChooser(JFileChooser fileChooser,
+	protected void configureFileChooser(JFileChooser fileChooser,
 			File currentFile, FileTypeInfo type) {
 		type.configureFileChooser(fileChooser, currentFile);
 	}
@@ -411,57 +411,57 @@ public class TypeInfoProxy {
 
 		@Override
 		public String getName() {
-			return getTypeName(type);
+			return TypeInfoProxy.this.getName(type);
 		}
 
 		@Override
 		public String getCaption() {
-			return getTypeCaption(type);
+			return TypeInfoProxy.this.getCaption(type);
 		}
 
 		@Override
 		public boolean supportsValue(Object value) {
-			return typeSupportsValue(type, value);
+			return TypeInfoProxy.this.supportsValue(type, value);
 		}
 
 		@Override
 		public boolean isImmutable() {
-			return isTypeImmutable(type);
+			return TypeInfoProxy.this.isImmutable(type);
 		}
 
 		@Override
 		public boolean isConcrete() {
-			return isTypeConcrete(type);
+			return TypeInfoProxy.this.isConcrete(type);
 		}
 
 		@Override
 		public boolean hasCustomFieldControl() {
-			return typeHasCustomFieldControl(type);
+			return TypeInfoProxy.this.hasCustomFieldControl(type);
 		}
 
 		@Override
 		public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
-			return getTypePolymorphicInstanceSubTypes(type);
+			return TypeInfoProxy.this.getPolymorphicInstanceSubTypes(type);
 		}
 
 		@Override
 		public List<IMethodInfo> getMethods() {
-			return getTypeMethods(type);
+			return TypeInfoProxy.this.getMethods(type);
 		}
 
 		@Override
 		public List<IFieldInfo> getFields() {
-			return getTypeFields(type);
+			return TypeInfoProxy.this.getFields(type);
 		}
 
 		@Override
 		public List<IMethodInfo> getConstructors() {
-			return getTypeConstructors(type);
+			return TypeInfoProxy.this.getConstructors(type);
 		}
 
 		@Override
 		public Component createFieldControl(Object object, IFieldInfo field) {
-			return createTypeFieldControl(type, object, field);
+			return TypeInfoProxy.this.createFieldControl(type, object, field);
 		}
 
 		@Override
@@ -499,27 +499,27 @@ public class TypeInfoProxy {
 
 		@Override
 		public List<?> toStandardList(Object value) {
-			return toListTypeStandardList((IListTypeInfo) type, value);
+			return TypeInfoProxy.this.toStandardList((IListTypeInfo) type, value);
 		}
 
 		@Override
 		public boolean isOrdered() {
-			return isListTypeOrdered((IListTypeInfo) type);
+			return TypeInfoProxy.this.isOrdered((IListTypeInfo) type);
 		}
 
 		@Override
 		public IListStructuralInfo getStructuralInfo() {
-			return getListTypeStructuralInfo((IListTypeInfo) type);
+			return TypeInfoProxy.this.getStructuralInfo((IListTypeInfo) type);
 		}
 
 		@Override
 		public ITypeInfo getItemType() {
-			return getListTypeItemType((IListTypeInfo) type);
+			return TypeInfoProxy.this.getItemType((IListTypeInfo) type);
 		}
 
 		@Override
 		public Object fromStandardList(List<?> list) {
-			return fromListTypeStandardList((IListTypeInfo) type, list);
+			return TypeInfoProxy.this.fromStandardList((IListTypeInfo) type, list);
 		}
 
 	}
@@ -533,7 +533,7 @@ public class TypeInfoProxy {
 
 		@Override
 		public List<?> getPossibleValues() {
-			return getEnumerationTypePossibleValues((IEnumerationTypeInfo) type);
+			return TypeInfoProxy.this.getPossibleValues((IEnumerationTypeInfo) type);
 		}
 
 	}
@@ -547,12 +547,12 @@ public class TypeInfoProxy {
 
 		@Override
 		public Boolean toBoolean(Object value) {
-			return toBooleanTypeInstanceValue(value, (IBooleanTypeInfo) type);
+			return TypeInfoProxy.this.toBoolean(value, (IBooleanTypeInfo) type);
 		}
 
 		@Override
 		public Object fromBoolean(Boolean b) {
-			return fromBooleanTypeInstanceValue(b, (IBooleanTypeInfo) type);
+			return TypeInfoProxy.this.fromBoolean(b, (IBooleanTypeInfo) type);
 		}
 
 	}
@@ -566,12 +566,12 @@ public class TypeInfoProxy {
 
 		@Override
 		public String toText(Object value) {
-			return toTextualtypeInstanceValue(value, (ITextualTypeInfo) type);
+			return TypeInfoProxy.this.toText(value, (ITextualTypeInfo) type);
 		}
 
 		@Override
 		public Object fromText(String text) {
-			return fromTextualtypeInstanceValue(text, (ITextualTypeInfo) type);
+			return TypeInfoProxy.this.fromText(text, (ITextualTypeInfo) type);
 		}
 	}
 
@@ -584,12 +584,12 @@ public class TypeInfoProxy {
 
 		@Override
 		public IFieldInfo getKeyField() {
-			return getMapEntryTypeKeyField((IMapEntryTypeInfo) type);
+			return TypeInfoProxy.this.getKeyField((IMapEntryTypeInfo) type);
 		}
 
 		@Override
 		public IFieldInfo getValueField() {
-			return getMapEntryTypeValueField((IMapEntryTypeInfo) type);
+			return TypeInfoProxy.this.getValueField((IMapEntryTypeInfo) type);
 		}
 
 	}
@@ -605,79 +605,79 @@ public class TypeInfoProxy {
 
 		@Override
 		public File getDefaultFile() {
-			return getFileTypeDefaultValue(type);
+			return TypeInfoProxy.this.getDefaultFile(type);
 		}
 
 		@Override
 		public void configureFileChooser(JFileChooser fileChooser,
 				File currentFile) {
-			configureFileTypeChooser(fileChooser, currentFile, type);
+			TypeInfoProxy.this.configureFileChooser(fileChooser, currentFile, type);
 		}
 
 		@Override
 		public String getDialogTitle() {
-			return getFileTypeDialogTitle(type);
+			return TypeInfoProxy.this.getDialogTitle(type);
 		}
 
 		@Override
 		public Component createNonNullFieldValueControl(Object object,
 				IFieldInfo field) {
-			return createFileTypeNonNullFieldValueControl(object, field, type);
+			return TypeInfoProxy.this.createNonNullFieldValueControl(object, field, type);
 		}
 
 		@Override
 		public String getName() {
-			return getTypeName(type);
+			return TypeInfoProxy.this.getName(type);
 		}
 
 		@Override
 		public String getCaption() {
-			return getTypeCaption(type);
+			return TypeInfoProxy.this.getCaption(type);
 		}
 
 		@Override
 		public boolean supportsValue(Object value) {
-			return typeSupportsValue(type, value);
+			return TypeInfoProxy.this.supportsValue(type, value);
 		}
 
 		@Override
 		public boolean isImmutable() {
-			return isTypeImmutable(type);
+			return TypeInfoProxy.this.isImmutable(type);
 		}
 
 		@Override
 		public boolean isConcrete() {
-			return isTypeConcrete(type);
+			return TypeInfoProxy.this.isConcrete(type);
 		}
 
 		@Override
 		public boolean hasCustomFieldControl() {
-			return typeHasCustomFieldControl(type);
+			return TypeInfoProxy.this.hasCustomFieldControl(type);
 		}
 
 		@Override
 		public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
-			return getTypePolymorphicInstanceSubTypes(type);
+			return TypeInfoProxy.this.getPolymorphicInstanceSubTypes(type);
 		}
 
 		@Override
 		public List<IMethodInfo> getMethods() {
-			return getTypeMethods(type);
+			return TypeInfoProxy.this.getMethods(type);
 		}
 
 		@Override
 		public List<IFieldInfo> getFields() {
-			return getTypeFields(type);
+			return TypeInfoProxy.this.getFields(type);
 		}
 
 		@Override
 		public List<IMethodInfo> getConstructors() {
-			return getTypeConstructors(type);
+			return TypeInfoProxy.this.getConstructors(type);
 		}
 
 		@Override
 		public Component createFieldControl(Object object, IFieldInfo field) {
-			return createTypeFieldControl(type, object, field);
+			return TypeInfoProxy.this.createFieldControl(type, object, field);
 		}
 
 		@Override

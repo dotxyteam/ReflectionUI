@@ -183,7 +183,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 	}
 
 	protected String getColumnCaption(int columnIndex) {
-		if (!isTabular()) {
+		if (getRootListType().getStructuralInfo() == null) {
 			return "";
 		}
 		IListStructuralInfo tableInfo = getRootListType().getStructuralInfo();
@@ -191,7 +191,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 	}
 
 	protected int getColumnCount() {
-		if (!isTabular()) {
+		if (getRootListType().getStructuralInfo() == null) {
 			return 1;
 		}
 		IListStructuralInfo tableInfo = getRootListType().getStructuralInfo();
@@ -209,23 +209,16 @@ public class ListControl extends JPanel implements IRefreshableControl,
 			value = nodeValues.get(columnIndex);
 		} else {
 			ItemPosition itemPosition = (ItemPosition) node.getUserObject();
-			if (!isTabular()) {
+			IListStructuralInfo tableInfo = getRootListType()
+					.getStructuralInfo();
+			if (tableInfo == null) {
 				value = reflectionUI.toString(itemPosition.getItem());
 			} else {
-				IListStructuralInfo tableInfo = getRootListType()
-						.getStructuralInfo();
 				value = tableInfo.getCellValue(itemPosition, columnIndex);
 			}
 			nodeValues.put(columnIndex, value);
 		}
 		return value;
-	}
-
-	protected boolean isTabular() {
-		IListStructuralInfo structuralInfo = getRootListType()
-				.getStructuralInfo();
-		return (structuralInfo != null)
-				&& (structuralInfo.getColumnCount() > 1);
 	}
 
 	protected void updateButtonsPanel() {
@@ -654,8 +647,8 @@ public class ListControl extends JPanel implements IRefreshableControl,
 								Object.class);
 					}
 					Object newSubListItem = reflectionUI
-							.onTypeInstanciationRequest(button, subListItemType,
-									 true, false);
+							.onTypeInstanciationRequest(button,
+									subListItemType, true, false);
 					if (newSubListItem == null) {
 						return;
 					}

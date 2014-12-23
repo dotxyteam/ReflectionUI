@@ -2,6 +2,7 @@ package xy.reflect.ui.info.field;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.FieldInfoProxy;
+import xy.reflect.ui.info.type.HiddenNullableFacetsTypeInfoProxy;
 
 public class HiddenNullableFacetFieldInfoProxy extends FieldInfoProxy {
 
@@ -16,13 +17,14 @@ public class HiddenNullableFacetFieldInfoProxy extends FieldInfoProxy {
 	}
 
 	@Override
-	public Object getValue(Object object) {
-		Object result = super.getValue(object);
-		if (result == null) {
-			result = getDefaultValue();
-			setValue(object, result);
-		}
-		return result;
+	public Object getValue(final Object object) {
+		final Object[] result = new Object[1];
+		new HiddenNullableFacetsTypeInfoProxy(reflectionUI){
+			{
+				result[0] = getValue(object, base, null);
+			}
+		};
+		return result[0];
 	}
 
 	protected Object getDefaultValue() {

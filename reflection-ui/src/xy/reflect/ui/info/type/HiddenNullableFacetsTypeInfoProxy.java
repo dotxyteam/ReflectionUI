@@ -1,13 +1,8 @@
 package xy.reflect.ui.info.type;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.field.HiddenNullableFacetFieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.info.parameter.HiddenNullableFacetParameterInfoProxy;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 
 public class HiddenNullableFacetsTypeInfoProxy extends TypeInfoProxy {
@@ -19,23 +14,41 @@ public class HiddenNullableFacetsTypeInfoProxy extends TypeInfoProxy {
 	}
 
 	@Override
-	protected List<IFieldInfo> getTypeFields(ITypeInfo type) {
-		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
-		for (IFieldInfo field : super.getTypeFields(type)) {
-			result.add(new HiddenNullableFacetFieldInfoProxy(
-					reflectionUI, field));
+	protected Object getDefaultValue(IParameterInfo param,
+			IMethodInfo method, ITypeInfo containingType) {
+		return getDefaultValue(param.getType());
+	}
+
+	@Override
+	protected boolean isNullable(IParameterInfo param,
+			IMethodInfo method, ITypeInfo containingType) {
+		return false;
+	}
+
+	@Override
+	protected Object getValue(Object object, IFieldInfo field,
+			ITypeInfo containingType) {
+		Object result = super.getValue(object, field, containingType);
+		;
+		if (result == null) {
+			result = getDefaultValue(field.getType());
+			setValue(object, result, field, containingType);
 		}
 		return result;
 	}
 
 	@Override
-	protected List<IParameterInfo> getMethodParameters(IMethodInfo method,
-			ITypeInfo containingType) {
-		List<IParameterInfo> result = new ArrayList<IParameterInfo>();
-		for (IParameterInfo param : super.getMethodParameters(method,
-				containingType)) {
-			result.add(new HiddenNullableFacetParameterInfoProxy(
-					reflectionUI, param));
+	protected boolean isNullable(IFieldInfo field, ITypeInfo containingType) {
+		return false;
+	}
+
+	public Object getDefaultValue(ITypeInfo type) {
+		Object result = reflectionUI.onTypeInstanciationRequest(null, type,
+				true, true);
+		if (result == null) {
+			throw new AssertionError(
+					"Failed to instanciate automatically the type '" + type
+							+ "'");
 		}
 		return result;
 	}
