@@ -10,6 +10,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.util.ReflectionUIException;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class GetterFieldInfo implements IFieldInfo {
@@ -132,7 +133,7 @@ public class GetterFieldInfo implements IFieldInfo {
 		} catch (NoSuchMethodException e) {
 			return null;
 		} catch (SecurityException e) {
-			throw new AssertionError(e);
+			throw new ReflectionUIException(e);
 		}
 	}
 

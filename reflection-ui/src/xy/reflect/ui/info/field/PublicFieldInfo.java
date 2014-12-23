@@ -6,6 +6,7 @@ import java.lang.reflect.Modifier;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.util.ReflectionUIException;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class PublicFieldInfo implements IFieldInfo {
@@ -28,9 +29,9 @@ public class PublicFieldInfo implements IFieldInfo {
 		try {
 			javaField.set(object, value);
 		} catch (IllegalArgumentException e) {
-			throw new AssertionError(e);
+			throw new ReflectionUIException(e);
 		} catch (IllegalAccessException e) {
-			throw new AssertionError(e);
+			throw new ReflectionUIException(e);
 		}
 	}
 
@@ -39,9 +40,9 @@ public class PublicFieldInfo implements IFieldInfo {
 		try {
 			return javaField.get(object);
 		} catch (IllegalArgumentException e) {
-			throw new AssertionError(e);
+			throw new ReflectionUIException(e);
 		} catch (IllegalAccessException e) {
-			throw new AssertionError(e);
+			throw new ReflectionUIException(e);
 		}
 	}
 

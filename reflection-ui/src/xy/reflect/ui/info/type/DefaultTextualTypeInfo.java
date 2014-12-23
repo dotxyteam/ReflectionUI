@@ -13,6 +13,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
+import xy.reflect.ui.util.ReflectionUIException;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.ReflectionUIUtils.PrimitiveDefaults;
 
@@ -22,7 +23,7 @@ public class DefaultTextualTypeInfo extends DefaultTypeInfo implements
 	public DefaultTextualTypeInfo(ReflectionUI reflectionUI, Class<?> javaType) {
 		super(reflectionUI, javaType);
 		if (javaType == null) {
-			throw new AssertionError();
+			throw new ReflectionUIException();
 		}
 	}
 
@@ -77,17 +78,17 @@ public class DefaultTextualTypeInfo extends DefaultTypeInfo implements
 				return javaType.getConstructor(new Class[] { String.class })
 						.newInstance(text);
 			} catch (IllegalArgumentException e) {
-				throw new AssertionError(e);
+				throw new ReflectionUIException(e);
 			} catch (SecurityException e) {
-				throw new AssertionError(e);
+				throw new ReflectionUIException(e);
 			} catch (InstantiationException e) {
-				throw new AssertionError(e);
+				throw new ReflectionUIException(e);
 			} catch (IllegalAccessException e) {
-				throw new AssertionError(e);
+				throw new ReflectionUIException(e);
 			} catch (InvocationTargetException e) {
-				throw new AssertionError(e.getTargetException());
+				throw new ReflectionUIException(e.getTargetException());
 			} catch (NoSuchMethodException e) {
-				throw new AssertionError(e);
+				throw new ReflectionUIException(e);
 			}
 		}
 	}

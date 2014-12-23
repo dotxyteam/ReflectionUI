@@ -11,6 +11,7 @@ import xy.reflect.ui.info.field.InfoCategory;
 import xy.reflect.ui.info.parameter.DefaultParameterInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.util.ReflectionUIException;
 
 public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo {
 
@@ -50,13 +51,13 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 		try {
 			return javaConstructor.newInstance(args.toArray());
 		} catch (IllegalAccessException e) {
-			throw new AssertionError(e);
+			throw new ReflectionUIException(e);
 		} catch (IllegalArgumentException e) {
-			throw new AssertionError(e);
+			throw new ReflectionUIException(e);
 		} catch (InvocationTargetException e) {
-			throw new AssertionError(e.getTargetException());
+			throw new ReflectionUIException(e.getTargetException());
 		} catch (InstantiationException e) {
-			throw new AssertionError(e);
+			throw new ReflectionUIException(e);
 		}
 	}
 

@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.util.ReflectionUIException;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class SubFieldInfo implements IFieldInfo {
@@ -18,13 +19,13 @@ public class SubFieldInfo implements IFieldInfo {
 		this.field = ReflectionUIUtils.findInfoByName(type.getFields(),
 				fieldName);
 		if (this.field == null) {
-			throw new AssertionError("Field '" + fieldName
+			throw new ReflectionUIException("Field '" + fieldName
 					+ "' not found in type '" + type.getName() + "'");
 		}
 		this.theSubField = ReflectionUIUtils.findInfoByName(field.getType()
 				.getFields(), subFieldName);
 		if (this.field == null) {
-			throw new AssertionError("Field '" + subFieldName
+			throw new ReflectionUIException("Field '" + subFieldName
 					+ "' not found in type '" + field.getType().getName() + "'");
 		}
 	}

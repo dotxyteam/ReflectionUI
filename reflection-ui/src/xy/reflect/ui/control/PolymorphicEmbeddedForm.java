@@ -18,6 +18,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.util.ReflectionUIException;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class PolymorphicEmbeddedForm extends JPanel implements
@@ -170,7 +171,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements
 					@Override
 					public Component createFieldControl(Object object,
 							IFieldInfo field) {
-						throw new AssertionError();
+						throw new ReflectionUIException();
 					}
 
 					@Override

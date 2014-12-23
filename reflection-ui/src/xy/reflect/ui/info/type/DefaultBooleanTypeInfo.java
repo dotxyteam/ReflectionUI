@@ -11,6 +11,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
+import xy.reflect.ui.util.ReflectionUIException;
 import xy.reflect.ui.util.ReflectionUIUtils.PrimitiveDefaults;
 
 public class DefaultBooleanTypeInfo extends DefaultTypeInfo implements
@@ -19,7 +20,7 @@ public class DefaultBooleanTypeInfo extends DefaultTypeInfo implements
 	public DefaultBooleanTypeInfo(ReflectionUI reflectionUI, Class<?> javaType) {
 		super(reflectionUI, javaType);
 		if (javaType == null) {
-			throw new AssertionError();
+			throw new ReflectionUIException();
 		}
 	}
 

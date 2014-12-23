@@ -186,7 +186,7 @@ public class ReflectionUIUtils {
 					KeyEvent.VK_F1, KeyEvent.CHAR_UNDEFINED);
 			c.dispatchEvent(ke);
 		} catch (Throwable e1) {
-			throw new AssertionError(e1);
+			throw new ReflectionUIException(e1);
 		}
 	}
 
@@ -418,10 +418,10 @@ public class ReflectionUIUtils {
 					}
 				}
 			} else {
-				throw new AssertionError();
+				throw new ReflectionUIException();
 			}
 			if (resolvedType == null) {
-				throw new AssertionError();
+				throw new ReflectionUIException();
 			}
 		}
 		List<Class<?>> result = new ArrayList<Class<?>>();
@@ -498,7 +498,7 @@ public class ReflectionUIUtils {
 			IMethodInfo ctor = ReflectionUIUtils
 					.getZeroParameterConstrucor(type);
 			if (ctor == null) {
-				throw new AssertionError("Cannot copy object of type '" + type
+				throw new ReflectionUIException("Cannot copy object of type '" + type
 						+ "': zero parameter constructor not found");
 			}
 			copy = ctor.invoke(null, Collections.<String, Object> emptyMap());

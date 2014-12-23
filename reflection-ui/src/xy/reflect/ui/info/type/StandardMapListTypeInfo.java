@@ -15,6 +15,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
+import xy.reflect.ui.util.ReflectionUIException;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class StandardMapListTypeInfo extends DefaultTypeInfo implements
@@ -108,7 +109,7 @@ public class StandardMapListTypeInfo extends DefaultTypeInfo implements
 		for (Object item : list) {
 			StandardMapEntry entry = (StandardMapEntry) item;
 			if (result.containsKey(entry.getKey())) {
-				throw new AssertionError("Duplicate key: '"
+				throw new ReflectionUIException("Duplicate key: '"
 						+ reflectionUI.toString(entry.getKey())+"'");
 			}
 			result.put(entry.getKey(), entry.getValue());
@@ -291,9 +292,9 @@ public class StandardMapListTypeInfo extends DefaultTypeInfo implements
 					}
 				};
 			} catch (SecurityException e) {
-				throw new AssertionError(e);
+				throw new ReflectionUIException(e);
 			} catch (NoSuchMethodException e) {
-				throw new AssertionError(e);
+				throw new ReflectionUIException(e);
 			}
 		}
 
@@ -313,9 +314,9 @@ public class StandardMapListTypeInfo extends DefaultTypeInfo implements
 					}
 				};
 			} catch (SecurityException e) {
-				throw new AssertionError(e);
+				throw new ReflectionUIException(e);
 			} catch (NoSuchMethodException e) {
-				throw new AssertionError(e);
+				throw new ReflectionUIException(e);
 			}
 		}
 

@@ -68,6 +68,7 @@ import xy.reflect.ui.info.type.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.StandardMapListTypeInfo;
 import xy.reflect.ui.info.type.StandardMapListTypeInfo.StandardMapEntry;
 import xy.reflect.ui.util.Accessor;
+import xy.reflect.ui.util.ReflectionUIException;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.component.ScrollPaneOptions;
 import xy.reflect.ui.util.component.SimpleLayout;
@@ -130,7 +131,7 @@ public class ReflectionUI {
 			Object copy = ois.readObject();
 			return copy;
 		} catch (Throwable t) {
-			throw new AssertionError("Could not copy object: " + t.toString());
+			throw new ReflectionUIException("Could not copy object: " + t.toString());
 		}
 	}
 
@@ -606,7 +607,7 @@ public class ReflectionUI {
 			return ((PrecomputedTypeInfoSource) typeSource)
 					.getPrecomputedType();
 		} else {
-			throw new AssertionError();
+			throw new ReflectionUIException();
 		}
 	}
 
@@ -904,7 +905,7 @@ public class ReflectionUI {
 				}
 			} else {
 				if (type.isConcrete()) {
-					throw new AssertionError(
+					throw new ReflectionUIException(
 							"Cannot create an object of type '" + type
 									+ "': No accessible constructor found");
 				} else {
@@ -957,7 +958,7 @@ public class ReflectionUI {
 		try {
 			return getTypeInfo(new JavaTypeInfoSource(Class.forName(className)));
 		} catch (ClassNotFoundException e) {
-			throw new AssertionError(e);
+			throw new ReflectionUIException(e);
 		}
 	}
 

@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.util.Accessor;
+import xy.reflect.ui.util.ReflectionUIException;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class ModificationStack {
@@ -258,7 +259,7 @@ public class ModificationStack {
 					oppositeModifications.add(modif
 							.applyAndGetOpposite(refreshView));
 				} else {
-					throw new AssertionError();
+					throw new ReflectionUIException();
 				}
 			}
 			return new CompositeModification(getUndoTitle(title), undoOrder,

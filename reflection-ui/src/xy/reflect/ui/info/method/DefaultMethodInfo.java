@@ -14,6 +14,7 @@ import xy.reflect.ui.info.parameter.DefaultParameterInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.util.ReflectionUIException;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class DefaultMethodInfo implements IMethodInfo {
@@ -70,11 +71,11 @@ public class DefaultMethodInfo implements IMethodInfo {
 		try {
 			return javaMethod.invoke(object, args.toArray());
 		} catch (IllegalAccessException e) {
-			throw new AssertionError(e);
+			throw new ReflectionUIException(e);
 		} catch (IllegalArgumentException e) {
-			throw new AssertionError(e);
+			throw new ReflectionUIException(e);
 		} catch (InvocationTargetException e) {
-			throw new AssertionError(e.getTargetException());
+			throw new ReflectionUIException(e.getTargetException());
 		}
 	}
 

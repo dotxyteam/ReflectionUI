@@ -9,6 +9,7 @@ import xy.reflect.ui.info.type.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.StandardCollectionTypeInfo;
+import xy.reflect.ui.util.ReflectionUIException;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MultiSubListField implements IFieldInfo {
@@ -98,7 +99,7 @@ public class MultiSubListField implements IFieldInfo {
 
 	@Override
 	public void setValue(Object object, Object value) {
-		throw new AssertionError();
+		throw new ReflectionUIException();
 	}
 
 	@Override

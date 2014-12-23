@@ -17,6 +17,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultTextualTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.Accessor;
+import xy.reflect.ui.util.ReflectionUIException;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.component.TabulatingLabel;
 
@@ -84,7 +85,7 @@ public class DialogAcessControl extends JPanel implements ICanShowCaptionControl
 
 			@Override
 			public void setValue(Object object, Object value) {
-				throw new AssertionError();
+				throw new ReflectionUIException();
 			}
 
 			@Override

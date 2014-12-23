@@ -15,6 +15,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
+import xy.reflect.ui.util.ReflectionUIException;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
@@ -81,7 +82,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 					} else if (javaType.isAssignableFrom(HashSet.class)) {
 						return new HashSet<Object>();
 					} else {
-						throw new AssertionError();
+						throw new ReflectionUIException();
 					}
 				}
 
@@ -104,7 +105,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 		for (Object item : list) {
 			if (result instanceof Set) {
 				if (result.contains(item)) {
-					throw new AssertionError("Duplicate item: '"
+					throw new ReflectionUIException("Duplicate item: '"
 							+ reflectionUI.toString(item) + "'");
 				}
 			}
