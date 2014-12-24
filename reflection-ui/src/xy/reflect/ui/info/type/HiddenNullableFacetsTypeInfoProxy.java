@@ -4,7 +4,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
-import xy.reflect.ui.util.ReflectionUIException;
+import xy.reflect.ui.util.ReflectionUIError;
 
 public class HiddenNullableFacetsTypeInfoProxy extends TypeInfoProxy {
 
@@ -47,7 +47,7 @@ public class HiddenNullableFacetsTypeInfoProxy extends TypeInfoProxy {
 		Object result = reflectionUI.onTypeInstanciationRequest(null, type,
 				true, true);
 		if (result == null) {
-			throw new ReflectionUIException(
+			throw new ReflectionUIError(
 					"Failed to instanciate automatically the type '" + type
 							+ "'");
 		}

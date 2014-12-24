@@ -91,7 +91,7 @@ public class EnumerationControl extends JPanel implements ICanShowCaptionControl
 					Object selected = comboBox.getSelectedItem();
 					field.setValue(object, selected);
 				} catch (Throwable t) {
-					reflectionUI.handleDisplayedUIExceptions(
+					reflectionUI.handleExceptionsFromDisplayedUI(
 							EnumerationControl.this, t);
 				}
 			}

@@ -46,7 +46,7 @@ public class NullControl extends TextControl {
 					try {
 						onMousePress.run();
 					} catch (Throwable t) {
-						reflectionUI.handleDisplayedUIExceptions(
+						reflectionUI.handleExceptionsFromDisplayedUI(
 								NullControl.this, t);
 					}
 				}

@@ -361,7 +361,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 						refreshStructure();
 					}
 				} catch (Throwable t) {
-					reflectionUI.handleDisplayedUIExceptions(button, t);
+					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
 				}
 			}
 		});
@@ -404,7 +404,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 					refreshStructure();
 					setSelection(newSelection);
 				} catch (Throwable t) {
-					reflectionUI.handleDisplayedUIExceptions(button, t);
+					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
 				}
 			}
 		});
@@ -525,7 +525,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 						setSelection(toPostSelect);
 					}
 				} catch (Throwable t) {
-					reflectionUI.handleDisplayedUIExceptions(button, t);
+					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
 				}
 			}
 		});
@@ -620,7 +620,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 						setSingleSelection(itemPosition);
 					}
 				} catch (Throwable t) {
-					reflectionUI.handleDisplayedUIExceptions(button, t);
+					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
 				}
 			}
 		});
@@ -672,7 +672,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 						setSingleSelection(subItemPosition);
 					}
 				} catch (Throwable t) {
-					reflectionUI.handleDisplayedUIExceptions(button, t);
+					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
 				}
 			}
 		});
@@ -696,7 +696,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 					}
 					updateButtonsPanel();
 				} catch (Throwable t) {
-					reflectionUI.handleDisplayedUIExceptions(button, t);
+					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
 				}
 			}
 		});
@@ -737,7 +737,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 					setSelection(toPostSelect);
 					updateButtonsPanel();
 				} catch (Throwable t) {
-					reflectionUI.handleDisplayedUIExceptions(button, t);
+					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
 				}
 			}
 		});
@@ -783,7 +783,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 					}
 					setSelection(toPostSelect);
 				} catch (Throwable t) {
-					reflectionUI.handleDisplayedUIExceptions(button, t);
+					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
 				}
 			}
 		});
@@ -833,7 +833,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 					}
 					setSelection(toPostSelect);
 				} catch (Throwable t) {
-					reflectionUI.handleDisplayedUIExceptions(button, t);
+					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
 				}
 			}
 		});
@@ -861,7 +861,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 					}
 					openDetailsDialog(itemPosition, true);
 				} catch (Throwable t) {
-					reflectionUI.handleDisplayedUIExceptions(button, t);
+					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
 				}
 			}
 		});
@@ -876,7 +876,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 						try {
 							updateButtonsPanel();
 						} catch (Throwable t) {
-							reflectionUI.handleDisplayedUIExceptions(
+							reflectionUI.handleExceptionsFromDisplayedUI(
 									treeTableComponent, t);
 						}
 					}
@@ -902,7 +902,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 							.getUserObject();
 					openDetailsDialog(itemPosition, true);
 				} catch (Throwable t) {
-					reflectionUI.handleDisplayedUIExceptions(
+					reflectionUI.handleExceptionsFromDisplayedUI(
 							treeTableComponent, t);
 				}
 			}
@@ -988,7 +988,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 			return reflectionUI.openValueDialog(treeTableComponent, object,
 					valueAccessor, settings, parentStack, title);
 		} catch (Throwable t) {
-			reflectionUI.handleDisplayedUIExceptions(ListControl.this, t);
+			reflectionUI.handleExceptionsFromDisplayedUI(ListControl.this, t);
 			refresh = true;
 			return false;
 		} finally {

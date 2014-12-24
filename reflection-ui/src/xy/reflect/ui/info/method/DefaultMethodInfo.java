@@ -14,7 +14,7 @@ import xy.reflect.ui.info.parameter.DefaultParameterInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.util.ReflectionUIException;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class DefaultMethodInfo implements IMethodInfo {
@@ -71,11 +71,11 @@ public class DefaultMethodInfo implements IMethodInfo {
 		try {
 			return javaMethod.invoke(object, args.toArray());
 		} catch (IllegalAccessException e) {
-			throw new ReflectionUIException(e);
+			throw new ReflectionUIError(e);
 		} catch (IllegalArgumentException e) {
-			throw new ReflectionUIException(e);
+			throw new ReflectionUIError(e);
 		} catch (InvocationTargetException e) {
-			throw new ReflectionUIException(e.getTargetException());
+			throw new ReflectionUIError(e.getTargetException());
 		}
 	}
 
@@ -141,7 +141,7 @@ public class DefaultMethodInfo implements IMethodInfo {
 		if (javaMethod.isBridge()) {
 			return false;
 		}
-		for (Method commonMethod : Object.class.getMethods()) {
+		for (Method commonMethod : Object.class.getDeclaredMethods()) {
 			if (ReflectionUIUtils.writeMethodSignature(commonMethod).equals(
 					ReflectionUIUtils.writeMethodSignature(javaMethod))) {
 				return false;

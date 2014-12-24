@@ -6,7 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import xy.reflect.ui.util.ReflectionUIException;
+import xy.reflect.ui.util.ReflectionUIError;
 
 public class SimpleLayout extends GridBagLayout {
 
@@ -37,7 +37,7 @@ public class SimpleLayout extends GridBagLayout {
 			gc.gridy = 0;
 			gc.fill = GridBagConstraints.VERTICAL;
 		} else {
-			throw new ReflectionUIException();
+			throw new ReflectionUIError();
 		}
 		int SPACING = 5;
 		gc.insets = new Insets(SPACING, SPACING, SPACING, SPACING);

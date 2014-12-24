@@ -2,24 +2,29 @@ package xy.reflect.ui.control;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class NullableControl extends JPanel implements IRefreshableControl,
-		ICanShowCaptionControl {
+		ICanShowCaptionControl, ICanDisplayErrorControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected ReflectionUI reflectionUI;
 	protected Object object;
 	protected IFieldInfo field;
-	protected Component nullingControl;
+	protected JCheckBox nullingControl;
 	protected Component subControl;
 	protected DefaultTypeInfo defaultTypeInfo;
-	protected boolean showCaption = false;
+	protected boolean captionShown = false;
 
 	public NullableControl(ReflectionUI reflectionUI, Object object,
 			IFieldInfo field, DefaultTypeInfo defaultObjectTypeInfo) {
@@ -33,80 +38,73 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 
 	protected void initialize() {
 		setLayout(new BorderLayout());
-		nullingControl = createNullControl(reflectionUI, new Runnable() {
+		nullingControl = new JCheckBox();
+		nullingControl.addActionListener(new ActionListener() {
 			@Override
-			public void run() {
+			public void actionPerformed(ActionEvent e) {
 				try {
-					setShouldBeNull(true);
-					onNullStateChange();
+					onNullingControlStateChange();
 				} catch (Throwable t) {
-					reflectionUI.handleDisplayedUIExceptions(
+					reflectionUI.handleExceptionsFromDisplayedUI(
 							NullableControl.this, t);
 				}
 			}
 		});
-		Dimension nullingControlSize = nullingControl.getPreferredSize();
-		nullingControlSize.width = nullingControlSize.height;
-		nullingControl.setPreferredSize(nullingControlSize);
 
 		if (!field.isReadOnly()) {
-			add(nullingControl, BorderLayout.EAST);
+			add(nullingControl, BorderLayout.WEST);
 		}
 
-		updateControl();
+		refreshUI();
 	}
 
 	protected void setShouldBeNull(boolean b) {
-		nullingControl.setVisible(!b);
+		nullingControl.setSelected(!b);
 	}
 
 	protected boolean shoulBeNull() {
-		return !nullingControl.isVisible();
+		return !nullingControl.isSelected();
 	}
 
 	@Override
 	public void refreshUI() {
-		updateControl();
+		Object value = field.getValue(object);
+		setShouldBeNull(value == null);
+		updateSubControl(value);
 	}
 
-	protected void onNullStateChange() {
-		Object currentValue = field.getValue(object);
+	protected void onNullingControlStateChange() {
+		Object newValue;
 		if (!shoulBeNull()) {
-			if (currentValue == null) {
-				Object newValue;
-				try {
-					newValue = reflectionUI.onTypeInstanciationRequest(this,
-							field.getType(), true, false);
-				} catch (Throwable t) {
-					reflectionUI.handleDisplayedUIExceptions(this, t);
-					newValue = null;
-				}
-				if (newValue == null) {
-					setShouldBeNull(true);
-				} else {
-					field.setValue(object, newValue);
-				}
+			try {
+				newValue = reflectionUI.onTypeInstanciationRequest(this,
+						field.getType(), true, false);
+			} catch (Throwable t) {
+				reflectionUI.handleExceptionsFromDisplayedUI(this, t);
+				newValue = null;
+			}
+			if (newValue == null) {
+				setShouldBeNull(true);
+				return;
 			}
 		} else {
-			if (currentValue != null) {
-				field.setValue(object, null);
-			}
+			newValue = null;
 		}
 
-		updateControl();
+		field.setValue(object, newValue);
+		updateSubControl(newValue);
 	}
 
-	public void updateControl() {
-		Object currentValue = field.getValue(object);
-		setShouldBeNull(currentValue == null);
-		if ((currentValue != null) && !(subControl instanceof NullControl)
+	public void updateSubControl(Object newValue) {
+		boolean shouldUpdateCaption = false;
+		if ((newValue != null) && !(subControl instanceof NullControl)
 				&& (subControl instanceof IRefreshableControl)) {
 			((IRefreshableControl) subControl).refreshUI();
 		} else {
 			if (subControl != null) {
 				remove(subControl);
 			}
-			if (currentValue != null) {
+			if (newValue != null) {
 				subControl = defaultTypeInfo.createNonNullFieldValueControl(
 						object, field);
 				add(subControl, BorderLayout.CENTER);
@@ -117,15 +115,18 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 					public void run() {
 						if (!field.isReadOnly()) {
 							setShouldBeNull(false);
-							onNullStateChange();
+							onNullingControlStateChange();
 						}
 					}
 				});
 				add(subControl, BorderLayout.CENTER);
 			}
+			if (captionShown) {
+				shouldUpdateCaption = true;
+			}
 		}
 
-		if (showCaption) {
+		if (shouldUpdateCaption) {
 			updateCaption();
 		}
 
@@ -139,8 +140,8 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 
 	@Override
 	public void showCaption() {
-		showCaption = true;
 		updateCaption();
+		captionShown = true;
 	}
 
 	protected void updateCaption() {
@@ -150,6 +151,19 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 		} else {
 			reflectionUI.setFieldControlCaption(NullableControl.this,
 					field.getCaption());
+		}
+	}
+
+	@Override
+	public void displayError(String error) {
+		if ((!shoulBeNull()) && (subControl instanceof ICanDisplayErrorControl)) {
+			((ICanDisplayErrorControl) subControl).displayError(error);
+		} else {
+			if (error != null) {
+				reflectionUI.handleExceptionsFromDisplayedUI(subControl,
+						new ReflectionUIError(error));
+				refreshUI();
+			}
 		}
 	}
 

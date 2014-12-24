@@ -3,7 +3,7 @@ package xy.reflect.ui.info.field;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.FieldInfoProxy;
 import xy.reflect.ui.info.type.HiddenNullableFacetsTypeInfoProxy;
-import xy.reflect.ui.util.ReflectionUIException;
+import xy.reflect.ui.util.ReflectionUIError;
 
 public class HiddenNullableFacetFieldInfoProxy extends FieldInfoProxy {
 
@@ -32,7 +32,7 @@ public class HiddenNullableFacetFieldInfoProxy extends FieldInfoProxy {
 		Object result = reflectionUI.onTypeInstanciationRequest(null,
 				base.getType(), true, true);
 		if (result == null) {
-			throw new ReflectionUIException(
+			throw new ReflectionUIError(
 					"Failed to instanciate automatically the value of the field '"
 							+ base
 							+ "': Could not instanciate the field type '"

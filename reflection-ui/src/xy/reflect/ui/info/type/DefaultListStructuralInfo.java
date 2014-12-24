@@ -9,7 +9,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MultiSubListField;
 import xy.reflect.ui.info.type.IListTypeInfo.IItemPosition;
 import xy.reflect.ui.info.type.IListTypeInfo.IListStructuralInfo;
-import xy.reflect.ui.util.ReflectionUIException;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class DefaultListStructuralInfo implements IListStructuralInfo {
@@ -155,7 +155,7 @@ public class DefaultListStructuralInfo implements IListStructuralInfo {
 	public String getCellValue(IItemPosition itemPosition, int columnIndex) {
 		if (!isTabular()) {
 			if(columnIndex != 0){
-				throw new ReflectionUIException();
+				throw new ReflectionUIError();
 			}
 			return itemPosition.getItem().toString();
 		}

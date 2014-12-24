@@ -1,3 +1,5 @@
+- a better contructors choice dialog 
+- delegate red border error marker to only textControl
 - tooltips???
 - multiline textControl???
 - parameter name when debug info available

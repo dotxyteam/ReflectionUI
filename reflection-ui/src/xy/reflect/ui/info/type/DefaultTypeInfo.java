@@ -21,7 +21,7 @@ import xy.reflect.ui.info.field.PublicFieldInfo;
 import xy.reflect.ui.info.method.DefaultConstructorMethodInfo;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.util.ReflectionUIException;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class DefaultTypeInfo implements ITypeInfo {
@@ -31,7 +31,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 
 	public DefaultTypeInfo(ReflectionUI reflectionUI, Class<?> javaType) {
 		if (javaType == null) {
-			throw new ReflectionUIException();
+			throw new ReflectionUIError();
 		}
 		this.reflectionUI = reflectionUI;
 		this.javaType = javaType;

@@ -1,21 +1,26 @@
 package xy.reflect.ui.control;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.FocusEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 import javax.swing.text.DefaultFormatter;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITextualTypeInfo;
+import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.component.TabulatingLabel;
 
 public class TextControl extends JPanel implements IRefreshableControl,
-		ICanShowCaptionControl {
+		ICanShowCaptionControl, ICanDisplayErrorControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected ReflectionUI reflectionUI;
@@ -25,6 +30,7 @@ public class TextControl extends JPanel implements IRefreshableControl,
 	protected ITextualTypeInfo textType;
 	protected JFormattedTextField textField;
 	protected boolean textChangedByUser = true;
+	private Border textFieldNormalBorder;
 
 	public TextControl(final ReflectionUI reflectionUI, final Object object,
 			final IFieldInfo field) {
@@ -38,7 +44,7 @@ public class TextControl extends JPanel implements IRefreshableControl,
 		DefaultFormatter formatter = new DefaultFormatter();
 		formatter.setCommitsOnValidEdit(true);
 		formatter.setOverwriteMode(false);
-		textField = new JFormattedTextField(formatter){
+		textField = new JFormattedTextField(formatter) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -48,26 +54,51 @@ public class TextControl extends JPanel implements IRefreshableControl,
 				super.processFocusEvent(e);
 				textChangedByUser = true;
 			}
-			
+
 		};
-		
+		textFieldNormalBorder = textField.getBorder();
+
 		add(textField, BorderLayout.CENTER);
 		textField.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				if ("value".equals(evt.getPropertyName())) {
-					onTextChange();
+				try {
+					if ("value".equals(evt.getPropertyName())) {
+						onTextChange((String) evt.getNewValue());
+					}
+				} catch (Throwable t) {
+					displayError(t.toString());
 				}
 			}
 		});
 		refreshUI();
 	}
 
-	protected void onTextChange() {
+	@Override
+	public void displayError(String error) {
+		boolean changed = (error == null) != (textField.getBorder() == textFieldNormalBorder);
+		if (!changed) {
+			return;
+		}
+		if (error == null) {
+			textField.setBorder(textFieldNormalBorder);
+			textField.setToolTipText("");
+			ReflectionUIUtils.showTooltipNow(textField);
+		} else {
+			TitledBorder border = BorderFactory.createTitledBorder("");
+			border.setTitleColor(Color.RED);
+			border.setBorder(BorderFactory.createLineBorder(Color.RED));
+			textField.setBorder(border);
+			textField.setToolTipText(error);
+			ReflectionUIUtils.showTooltipNow(textField);
+		}
+	}
+
+	protected void onTextChange(String newValue) {
 		if (!textChangedByUser) {
 			return;
 		}
-		field.setValue(object, textType.fromText(textField.getText()));
+		field.setValue(object, textType.fromText(newValue));
 	}
 
 	@Override
@@ -89,4 +120,5 @@ public class TextControl extends JPanel implements IRefreshableControl,
 	public void showCaption() {
 		add(new TabulatingLabel(field.getCaption() + ": "), BorderLayout.WEST);
 	}
+
 }

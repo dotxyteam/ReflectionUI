@@ -1,7 +1,6 @@
 package xy.reflect.ui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dialog.ModalityType;
 import java.awt.Dimension;
@@ -38,8 +37,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
+import xy.reflect.ui.control.ICanDisplayErrorControl;
 import xy.reflect.ui.control.ICanShowCaptionControl;
 import xy.reflect.ui.control.IRefreshableControl;
 import xy.reflect.ui.control.MethodControl;
@@ -47,8 +48,8 @@ import xy.reflect.ui.control.ModificationStack;
 import xy.reflect.ui.control.ModificationStack.IModification;
 import xy.reflect.ui.info.FieldInfoProxy;
 import xy.reflect.ui.info.IInfoCollectionSettings;
-import xy.reflect.ui.info.field.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.field.InfoCategory;
 import xy.reflect.ui.info.field.MultiSubListField.VirtualItem;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.MethodInfoProxy;
@@ -63,17 +64,17 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.ITypeInfoSource;
 import xy.reflect.ui.info.type.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.PrecomputedTypeInfoSource;
-import xy.reflect.ui.info.type.StandardEnumerationTypeInfo;
 import xy.reflect.ui.info.type.StandardCollectionTypeInfo;
+import xy.reflect.ui.info.type.StandardEnumerationTypeInfo;
 import xy.reflect.ui.info.type.StandardMapListTypeInfo;
 import xy.reflect.ui.info.type.StandardMapListTypeInfo.StandardMapEntry;
 import xy.reflect.ui.util.Accessor;
-import xy.reflect.ui.util.ReflectionUIException;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.component.ScrollPaneOptions;
 import xy.reflect.ui.util.component.SimpleLayout;
-import xy.reflect.ui.util.component.WrapLayout;
 import xy.reflect.ui.util.component.SimpleLayout.Kind;
+import xy.reflect.ui.util.component.WrapLayout;
 
 import com.google.common.collect.MapMaker;
 
@@ -131,7 +132,8 @@ public class ReflectionUI {
 			Object copy = ois.readObject();
 			return copy;
 		} catch (Throwable t) {
-			throw new ReflectionUIException("Could not copy object: " + t.toString());
+			throw new ReflectionUIError("Could not copy object: "
+					+ t.toString());
 		}
 	}
 
@@ -379,19 +381,6 @@ public class ReflectionUI {
 		return new FielControlPlaceHolder(object, field, form);
 	}
 
-	public IFieldInfo makeFieldModificationsUndoable(final IFieldInfo field,
-			final JPanel form) {
-		return new FieldInfoProxy(field) {
-			@Override
-			public void setValue(Object object, Object newValue) {
-				ModificationStack stack = getModificationStackByForm()
-						.get(form);
-				stack.apply(new ModificationStack.SetFieldValueModification(
-						ReflectionUI.this, object, field, newValue), false);
-			}
-		};
-	}
-
 	public IMethodInfo makeMethodModificationsVisibleAndUndoable(
 			final IMethodInfo method, final JPanel form) {
 		return new MethodInfoProxy(method) {
@@ -532,7 +521,7 @@ public class ReflectionUI {
 		((JComponent) fieldControl).setBorder(titledBorder);
 	}
 
-	public void handleDisplayedUIExceptions(Component activatorComponent,
+	public void handleExceptionsFromDisplayedUI(Component activatorComponent,
 			final Throwable t) {
 		t.printStackTrace();
 		openExceptionDialog(activatorComponent,
@@ -607,7 +596,7 @@ public class ReflectionUI {
 			return ((PrecomputedTypeInfoSource) typeSource)
 					.getPrecomputedType();
 		} else {
-			throw new ReflectionUIException();
+			throw new ReflectionUIError();
 		}
 	}
 
@@ -806,7 +795,7 @@ public class ReflectionUI {
 					try {
 						whenClosing.run();
 					} catch (Throwable t) {
-						handleDisplayedUIExceptions(this, t);
+						handleExceptionsFromDisplayedUI(this, t);
 					}
 				}
 				disposed = true;
@@ -853,19 +842,6 @@ public class ReflectionUI {
 		return result;
 	}
 
-	public void markFieldControlWithError(Component c, String error) {
-		if (error == null) {
-			((JComponent) c).setBorder(null);
-		} else {
-			TitledBorder border = BorderFactory.createTitledBorder("");
-			border.setTitleColor(Color.RED);
-			border.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
-			((JComponent) c).setToolTipText(error);
-			ReflectionUIUtils.showTooltipNow(c);
-			((JComponent) c).setBorder(border);
-		}
-	}
-
 	public String translateUIString(String string) {
 		return string;
 	}
@@ -905,7 +881,7 @@ public class ReflectionUI {
 				}
 			} else {
 				if (type.isConcrete()) {
-					throw new ReflectionUIException(
+					throw new ReflectionUIError(
 							"Cannot create an object of type '" + type
 									+ "': No accessible constructor found");
 				} else {
@@ -958,7 +934,7 @@ public class ReflectionUI {
 		try {
 			return getTypeInfo(new JavaTypeInfoSource(Class.forName(className)));
 		} catch (ClassNotFoundException e) {
-			throw new ReflectionUIException(e);
+			throw new ReflectionUIError(e);
 		}
 	}
 
@@ -1069,7 +1045,7 @@ public class ReflectionUI {
 						okAction.run();
 					}
 				} catch (Throwable t) {
-					handleDisplayedUIExceptions(okButton, t);
+					handleExceptionsFromDisplayedUI(okButton, t);
 				} finally {
 					dialogArray[0].dispose();
 				}
@@ -1164,19 +1140,20 @@ public class ReflectionUI {
 	}
 
 	protected class FielControlPlaceHolder extends JPanel implements
-			IRefreshableControl, ICanShowCaptionControl {
+			IRefreshableControl, ICanShowCaptionControl,
+			ICanDisplayErrorControl {
 
 		protected static final long serialVersionUID = 1L;
 		protected Object object;
 		protected IFieldInfo field;
 		protected Component fieldControl;
-		protected boolean showCaption = true;
+		protected boolean captionShown = true;
 
 		public FielControlPlaceHolder(Object object, IFieldInfo field,
 				JPanel form) {
 			super();
 			this.object = object;
-			field = manageFieldValuesValidation(field);
+			field = handleValueChangeErrors(field);
 			if ((form != null) && !field.isReadOnly()) {
 				field = makeFieldModificationsUndoable(field, form);
 			}
@@ -1185,33 +1162,53 @@ public class ReflectionUI {
 			refreshUI();
 		}
 
-		public IFieldInfo getField() {
-			return field;
-		}
-
-		public IFieldInfo manageFieldValuesValidation(final IFieldInfo field) {
+		protected IFieldInfo handleValueChangeErrors(IFieldInfo field) {
 			return new FieldInfoProxy(field) {
 
 				@Override
 				public void setValue(Object object, Object value) {
 					try {
-						field.setValue(object, value);
-						markFieldControlWithError(FielControlPlaceHolder.this,
-								null);
-					} catch (Throwable t) {
-						markFieldControlWithError(FielControlPlaceHolder.this,
-								t.toString());
+						super.setValue(object, value);
+						displayError(null);
+					} catch (final Throwable t) {
+						SwingUtilities.invokeLater(new Runnable() {
+							@Override
+							public void run() {
+								displayError(t.toString());
+							}
+						});
+
 					}
+				}
+
+			};
+		}
+
+		protected IFieldInfo makeFieldModificationsUndoable(
+				final IFieldInfo field, final JPanel form) {
+			return new FieldInfoProxy(field) {
+				@Override
+				public void setValue(Object object, Object newValue) {
+					ModificationStack stack = getModificationStackByForm().get(
+							form);
+					stack.apply(
+							new ModificationStack.SetFieldValueModification(
+									ReflectionUI.this, object, field, newValue),
+							false);
 				}
 			};
 		}
 
 		@Override
 		public void refreshUI() {
+			boolean shouldUpdateCaption = false;
 			if (fieldControl == null) {
 				fieldControl = field.getType()
 						.createFieldControl(object, field);
 				add(fieldControl, BorderLayout.CENTER);
+				if (captionShown) {
+					shouldUpdateCaption = true;
+				}
 			} else {
 				if (fieldControl instanceof IRefreshableControl) {
 					((IRefreshableControl) fieldControl).refreshUI();
@@ -1221,12 +1218,9 @@ public class ReflectionUI {
 					refreshUI();
 				}
 			}
-			if (showCaption) {
-				if (fieldControl instanceof ICanShowCaptionControl) {
-					((ICanShowCaptionControl) fieldControl).showCaption();
-				} else {
-					setFieldControlCaption(fieldControl, field.getCaption());
-				}
+
+			if (shouldUpdateCaption) {
+				updateCaption();
 			}
 
 			ReflectionUIUtils.updateLayout(this);
@@ -1234,8 +1228,30 @@ public class ReflectionUI {
 
 		@Override
 		public void showCaption() {
-			showCaption = true;
-			refreshUI();
+			updateCaption();
+			captionShown = true;
+		}
+
+		protected void updateCaption() {
+			if (fieldControl instanceof ICanShowCaptionControl) {
+				((ICanShowCaptionControl) fieldControl).showCaption();
+			} else {
+				setFieldControlCaption(fieldControl, field.getCaption());
+			}
+			captionShown = true;
+		}
+
+		@Override
+		public void displayError(String error) {
+			if (fieldControl instanceof ICanDisplayErrorControl) {
+				((ICanDisplayErrorControl) fieldControl).displayError(error);
+			} else {
+				if (error != null) {
+					handleExceptionsFromDisplayedUI(fieldControl,
+							new ReflectionUIError(error));
+					refreshUI();
+				}
+			}
 		}
 
 	}

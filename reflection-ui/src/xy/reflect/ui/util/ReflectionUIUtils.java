@@ -23,8 +23,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.ToolTipManager;
+
 import com.fasterxml.classmate.MemberResolver;
 import com.fasterxml.classmate.ResolvedType;
 import com.fasterxml.classmate.ResolvedTypeWithMembers;
@@ -181,12 +184,22 @@ public class ReflectionUIUtils {
 
 	public static void showTooltipNow(Component c) {
 		try {
-			KeyEvent ke = new KeyEvent(c, KeyEvent.KEY_PRESSED,
-					System.currentTimeMillis(), InputEvent.CTRL_MASK,
-					KeyEvent.VK_F1, KeyEvent.CHAR_UNDEFINED);
-			c.dispatchEvent(ke);
+			Method showToolTipMehod = ToolTipManager.class.getDeclaredMethod(
+					"show", new Class<?>[] { JComponent.class });
+			showToolTipMehod.setAccessible(true);
+			showToolTipMehod.invoke(ToolTipManager.sharedInstance(),
+					new Object[] { c });
 		} catch (Throwable e1) {
-			throw new ReflectionUIException(e1);
+			try {
+				KeyEvent ke = new KeyEvent(c, KeyEvent.KEY_PRESSED,
+						System.currentTimeMillis(), InputEvent.CTRL_MASK,
+						KeyEvent.VK_F1, KeyEvent.CHAR_UNDEFINED);
+				c.dispatchEvent(ke);
+			} catch (Throwable e2) {
+				throw new ReflectionUIError(
+						"Failed to show tooltip programmatically: \n1st failure: "
+								+ e1 + "2nd failure: \n" + e2);
+			}
 		}
 	}
 
@@ -279,8 +292,9 @@ public class ReflectionUIUtils {
 	public static IMethodInfo getZeroParameterConstrucor(ITypeInfo type) {
 		return getNParametersMethod(type.getConstructors(), 0);
 	}
-	
-	public static IMethodInfo getNParametersMethod(List<IMethodInfo> methods, int n) {
+
+	public static IMethodInfo getNParametersMethod(List<IMethodInfo> methods,
+			int n) {
 		for (IMethodInfo c : methods) {
 			if (c.getParameters().size() == n) {
 				return c;
@@ -288,7 +302,6 @@ public class ReflectionUIUtils {
 		}
 		return null;
 	}
-		
 
 	public static <K, V> List<K> getKeysFromValue(Map<K, V> map, Object value) {
 		List<K> result = new ArrayList<K>();
@@ -418,10 +431,10 @@ public class ReflectionUIUtils {
 					}
 				}
 			} else {
-				throw new ReflectionUIException();
+				throw new ReflectionUIError();
 			}
 			if (resolvedType == null) {
-				throw new ReflectionUIException();
+				throw new ReflectionUIError();
 			}
 		}
 		List<Class<?>> result = new ArrayList<Class<?>>();
@@ -451,7 +464,7 @@ public class ReflectionUIUtils {
 
 	public static boolean canCopyAccordingInfos(ReflectionUI reflectionUI,
 			Object object) {
-		if(object == null){
+		if (object == null) {
 			return true;
 		}
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI
@@ -477,7 +490,7 @@ public class ReflectionUIUtils {
 
 	public static Object copyAccordingInfos(ReflectionUI reflectionUI,
 			Object object) {
-		if(object == null){
+		if (object == null) {
 			return null;
 		}
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI
@@ -498,8 +511,8 @@ public class ReflectionUIUtils {
 			IMethodInfo ctor = ReflectionUIUtils
 					.getZeroParameterConstrucor(type);
 			if (ctor == null) {
-				throw new ReflectionUIException("Cannot copy object of type '" + type
-						+ "': zero parameter constructor not found");
+				throw new ReflectionUIError("Cannot copy object of type '"
+						+ type + "': zero parameter constructor not found");
 			}
 			copy = ctor.invoke(null, Collections.<String, Object> emptyMap());
 
@@ -576,6 +589,5 @@ public class ReflectionUIUtils {
 	public static Color fixSeveralColorRenderingIssues(Color color) {
 		return new Color(color.getRGB());
 	}
-
 
 }
