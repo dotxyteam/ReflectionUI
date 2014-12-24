@@ -14,7 +14,7 @@ import xy.reflect.ui.control.DialogAcessControl;
 import xy.reflect.ui.control.EmbeddedFormControl;
 import xy.reflect.ui.control.NullableControl;
 import xy.reflect.ui.control.PolymorphicEmbeddedForm;
-import xy.reflect.ui.info.FieldInfoProxy;
+import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.PublicFieldInfo;
@@ -114,8 +114,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 	@Override
 	public Component createFieldControl(Object object, IFieldInfo field) {
 		if (field.getType().getPolymorphicInstanceSubTypes() != null) {
-			return new PolymorphicEmbeddedForm(reflectionUI, object, field,
-					DefaultTypeInfo.this);
+			return new PolymorphicEmbeddedForm(reflectionUI, object, field);
 		} else {
 			if (field.isNullable()) {
 				return new NullableControl(reflectionUI, object, field, this);

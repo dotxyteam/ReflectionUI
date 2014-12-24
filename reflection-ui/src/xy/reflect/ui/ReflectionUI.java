@@ -45,21 +45,22 @@ import xy.reflect.ui.control.ICanShowCaptionControl;
 import xy.reflect.ui.control.IRefreshableControl;
 import xy.reflect.ui.control.MethodControl;
 import xy.reflect.ui.control.ModificationStack;
+import xy.reflect.ui.control.PolymorphicEmbeddedForm;
 import xy.reflect.ui.control.ModificationStack.IModification;
-import xy.reflect.ui.info.FieldInfoProxy;
 import xy.reflect.ui.info.IInfoCollectionSettings;
+import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.InfoCategory;
 import xy.reflect.ui.info.field.MultiSubListField.VirtualItem;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.MethodInfoProxy;
-import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ArrayTypeInfo;
 import xy.reflect.ui.info.type.DefaultBooleanTypeInfo;
 import xy.reflect.ui.info.type.DefaultTextualTypeInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.FileTypeInfo;
-import xy.reflect.ui.info.type.IPrecomputedTypeInfoInstance;
+import xy.reflect.ui.info.type.MethodParametersAsTypeInfo;
+import xy.reflect.ui.info.type.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.ITypeInfoSource;
 import xy.reflect.ui.info.type.JavaTypeInfoSource;
@@ -365,8 +366,8 @@ public class ReflectionUI {
 	}
 
 	public ITypeInfoSource getTypeInfoSource(Object object) {
-		if (object instanceof IPrecomputedTypeInfoInstance) {
-			return ((IPrecomputedTypeInfoInstance) object)
+		if (object instanceof PrecomputedTypeInfoInstanceWrapper) {
+			return ((PrecomputedTypeInfoInstanceWrapper) object)
 					.getPrecomputedTypeInfoSource();
 		} else if (object instanceof StandardMapEntry) {
 			return new PrecomputedTypeInfoSource(
@@ -646,17 +647,10 @@ public class ReflectionUI {
 	public boolean openMethoExecutionSettingDialog(
 			Component activatorComponent, final Object object,
 			final IMethodInfo method, final Object[] returnValueArray) {
-		JPanel methodPanel = new JPanel();
-
-		List<FielControlPlaceHolder> paramControlPlaceHolders = new ArrayList<FielControlPlaceHolder>();
 		final Map<String, Object> valueByParameterName = new HashMap<String, Object>();
-		for (IParameterInfo param : method.getParameters()) {
-			paramControlPlaceHolders.add(createFieldControlPlaceHolder(null,
-					getParameterAsField(param, valueByParameterName), null));
-		}
-
-		layoutControls(paramControlPlaceHolders,
-				Collections.<Component> emptyList(), methodPanel);
+		JPanel methodForm = createObjectForm(new PrecomputedTypeInfoInstanceWrapper(
+				valueByParameterName, new MethodParametersAsTypeInfo(this,
+						method)));
 
 		final boolean[] invokedStatusArray = new boolean[] { false };
 		final JDialog[] methodDialogArray = new JDialog[1];
@@ -673,7 +667,7 @@ public class ReflectionUI {
 
 						}, true));
 
-		methodDialogArray[0] = createDialog(activatorComponent, methodPanel,
+		methodDialogArray[0] = createDialog(activatorComponent, methodForm,
 				getMethodExecutionSettingTitle(object, method), null,
 				toolbarControls, null);
 
@@ -703,56 +697,6 @@ public class ReflectionUI {
 				getObjectIconImage(returnValue),
 				createCommonToolbarControls(returnValueControl));
 
-	}
-
-	public IFieldInfo getParameterAsField(final IParameterInfo param,
-			final Map<String, Object> valueByParameterName) {
-		return new IFieldInfo() {
-
-			@Override
-			public void setValue(Object object, Object value) {
-				valueByParameterName.put(param.getName(), value);
-			}
-
-			@Override
-			public boolean isNullable() {
-				return param.isNullable();
-			}
-
-			@Override
-			public Object getValue(Object object) {
-				Object result = valueByParameterName.get(param.getName());
-				if (result == null) {
-					result = param.getDefaultValue();
-				}
-				return result;
-			}
-
-			@Override
-			public ITypeInfo getType() {
-				return param.getType();
-			}
-
-			@Override
-			public String getCaption() {
-				return param.getCaption();
-			}
-
-			@Override
-			public boolean isReadOnly() {
-				return false;
-			}
-
-			@Override
-			public String getName() {
-				return param.getName();
-			}
-
-			@Override
-			public InfoCategory getCategory() {
-				return null;
-			}
-		};
 	}
 
 	public void openObjectDialog(Component parent, Object object, String title,
@@ -863,55 +807,169 @@ public class ReflectionUI {
 				}
 			}
 		}
-		IMethodInfo chosenConstructor = null;
+
 		if (autoSelectConstructor) {
-			chosenConstructor = ReflectionUIUtils
+			IMethodInfo defaultConstructor = ReflectionUIUtils
 					.getZeroParameterConstrucor(type);
+			if (defaultConstructor != null) {
+				return defaultConstructor.invoke(null,
+						Collections.<String, Object> emptyMap());
+			}
 		}
-		if (chosenConstructor == null) {
-			List<IMethodInfo> constructors = type.getConstructors();
-			if (constructors.size() > 1) {
+
+		List<IMethodInfo> constructors = type.getConstructors();
+		if (constructors.size() == 0) {
+			if (type.isConcrete()) {
+				throw new ReflectionUIError("Cannot create an object of type '"
+						+ type + "': No accessible constructor found");
+			} else {
 				if (noDialog) {
 					return null;
 				}
-				chosenConstructor = openSelectionDialog(activatorComponent,
-						constructors, null, "Choose an option:", null);
-				if (chosenConstructor == null) {
+				type = openConcreteClassSelectionDialog(activatorComponent,
+						type);
+				if (type == null) {
+					return null;
+				} else {
+					return onTypeInstanciationRequest(activatorComponent, type,
+							autoSelectConstructor, noDialog);
+				}
+			}
+		}
+
+		if (noDialog) {
+			return null;
+		}
+		return openObjectConstructionDialog(activatorComponent, type);
+
+	}
+
+	public Object openObjectConstructionDialog(Component activatorComponent,
+			ITypeInfo type) {
+		final List<IMethodInfo> constructors = type.getConstructors();
+		if (constructors.size() == 0) {
+			return onTypeInstanciationRequest(activatorComponent, type, false,
+					false);
+		}
+
+		if (constructors.size() == 1) {
+			IMethodInfo constructor = constructors.get(0);
+			Object newInstance;
+			if (constructor.getParameters().size() > 0) {
+				final Object[] returnValueArray = new Object[1];
+				if (!openMethoExecutionSettingDialog(activatorComponent, null,
+						constructor, returnValueArray)) {
 					return null;
 				}
+				newInstance = returnValueArray[0];
 			} else {
-				if (type.isConcrete()) {
-					throw new ReflectionUIError(
-							"Cannot create an object of type '" + type
-									+ "': No accessible constructor found");
-				} else {
-					if (noDialog) {
+				newInstance = constructor.invoke(null,
+						Collections.<String, Object> emptyMap());
+			}
+			return newInstance;
+		}
+
+		final IMethodInfo[] chosenConstructorArray = new IMethodInfo[] { constructors
+				.get(0) };
+		final Map<IMethodInfo, Map<String, Object>> parameterValuesByConstructor = new HashMap<IMethodInfo, Map<String, Object>>();
+		PolymorphicEmbeddedForm control = new PolymorphicEmbeddedForm(this,
+				null, new IFieldInfo() {
+
+					@Override
+					public String getName() {
+						return "";
+					}
+
+					@Override
+					public String getCaption() {
+						return "";
+					}
+
+					@Override
+					public boolean isReadOnly() {
+						return false;
+					}
+
+					@Override
+					public boolean isNullable() {
+						return false;
+					}
+
+					@Override
+					public Object getValue(Object object) {
+						Map<String, Object> valueByParameterName = parameterValuesByConstructor
+								.get(chosenConstructorArray[0]);
+						if (valueByParameterName == null) {
+							valueByParameterName = new HashMap<String, Object>();
+							parameterValuesByConstructor.put(
+									chosenConstructorArray[0],
+									valueByParameterName);
+						}
+						return new PrecomputedTypeInfoInstanceWrapper(
+								valueByParameterName,
+								new MethodParametersAsTypeInfo(
+										ReflectionUI.this,
+										chosenConstructorArray[0]));
+					}
+
+					@Override
+					public void setValue(Object object, Object value) {
+						PrecomputedTypeInfoInstanceWrapper wrapper = (PrecomputedTypeInfoInstanceWrapper) value;
+						MethodParametersAsTypeInfo type = (MethodParametersAsTypeInfo) wrapper
+								.getPrecomputedType();
+						chosenConstructorArray[0] = type.getMethod();
+					}
+
+					@Override
+					public ITypeInfo getType() {
+						return new DefaultTypeInfo(ReflectionUI.this,
+								Object.class) {
+							@Override
+							public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
+								List<ITypeInfo> result = new ArrayList<ITypeInfo>();
+								for (IMethodInfo c : constructors) {
+									result.add(new MethodParametersAsTypeInfo(
+											ReflectionUI.this, c));
+								}
+								return result;
+							}
+
+						};
+					}
+
+					@Override
+					public InfoCategory getCategory() {
 						return null;
 					}
-					type = openConcreteClassSelectionDialog(activatorComponent,
-							type);
-					if (type == null) {
-						return null;
-					} else {
-						return onTypeInstanciationRequest(activatorComponent,
-								type, autoSelectConstructor, noDialog);
-					}
-				}
-			}
+				});
+
+		final boolean[] invokedStatusArray = new boolean[] { false };
+		final JDialog[] dialogArray = new JDialog[1];
+		final Object[] returnValueArray = new Object[1];
+
+		List<Component> toolbarControls = new ArrayList<Component>(
+				createDialogOkCancelButtons(dialogArray, invokedStatusArray,
+						constructors.get(0).getCaption(), new Runnable() {
+							@Override
+							public void run() {
+								returnValueArray[0] = chosenConstructorArray[0]
+										.invoke(null,
+												parameterValuesByConstructor
+														.get(chosenConstructorArray[0]));
+							}
+
+						}, true));
+
+		dialogArray[0] = createDialog(activatorComponent, control,
+				getMethodExecutionSettingTitle(null, constructors.get(0)),
+				null, toolbarControls, null);
+
+		openDialog(dialogArray[0], true);
+
+		if (!invokedStatusArray[0]) {
+			return null;
 		}
-		Object newInstance;
-		if (chosenConstructor.getParameters().size() > 0) {
-			final Object[] returnValueArray = new Object[1];
-			if (!openMethoExecutionSettingDialog(activatorComponent, null,
-					chosenConstructor, returnValueArray)) {
-				return null;
-			}
-			newInstance = returnValueArray[0];
-		} else {
-			newInstance = chosenConstructor.invoke(null,
-					Collections.<String, Object> emptyMap());
-		}
-		return newInstance;
+		return returnValueArray[0];
 	}
 
 	@SuppressWarnings("unchecked")

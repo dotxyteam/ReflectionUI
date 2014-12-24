@@ -1,7 +1,5 @@
-package xy.reflect.ui.info;
+package xy.reflect.ui.info.field;
 
-import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.InfoCategory;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 public class FieldInfoProxy implements IFieldInfo {

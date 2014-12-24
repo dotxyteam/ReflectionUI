@@ -8,7 +8,7 @@ import java.util.Map;
 
 import javax.swing.JFileChooser;
 
-import xy.reflect.ui.info.FieldInfoProxy;
+import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.InfoCategory;
 import xy.reflect.ui.info.method.IMethodInfo;

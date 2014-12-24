@@ -66,7 +66,11 @@ public class DefaultMethodInfo implements IMethodInfo {
 	public Object invoke(Object object, Map<String, Object> valueByParameterName) {
 		List<Object> args = new ArrayList<Object>();
 		for (IParameterInfo param : getParameters()) {
-			args.add(valueByParameterName.get(param.getName()));
+			if (valueByParameterName.containsKey(param.getName())) {
+				args.add(valueByParameterName.get(param.getName()));
+			} else {
+				args.add(param.getDefaultValue());
+			}
 		}
 		try {
 			return javaMethod.invoke(object, args.toArray());
@@ -83,17 +87,20 @@ public class DefaultMethodInfo implements IMethodInfo {
 	public String toString() {
 		StringBuilder result = new StringBuilder(getCaption());
 		if (getParameters().size() > 0) {
-			result.append(" - with (");
+			result.append(" - specify ");
 			int iParam = 0;
-			for (IParameterInfo param : getParameters()) {
-				if (iParam == 0) {
-					result.append(param.getCaption());
-				} else {
-					result.append(", " + param.getCaption());
+			List<IParameterInfo> parameters = getParameters();
+			for (IParameterInfo param : parameters) {
+				if (iParam > 0) {
+					if (iParam == parameters.size() - 1) {
+						result.append(" and ");
+					} else {
+						result.append(", ");
+					}
 				}
+				result.append("<" + param.getCaption() + ">");
 				iParam++;
 			}
-			result.append(")");
 		}
 		return result.toString();
 	}

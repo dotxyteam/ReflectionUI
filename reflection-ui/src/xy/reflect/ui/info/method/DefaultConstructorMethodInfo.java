@@ -46,7 +46,11 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 	public Object invoke(Object object, Map<String, Object> valueByParameterName) {
 		List<Object> args = new ArrayList<Object>();
 		for (IParameterInfo param : getParameters()) {
-			args.add(valueByParameterName.get(param.getName()));
+			if (valueByParameterName.containsKey(param.getName())) {
+				args.add(valueByParameterName.get(param.getName()));
+			} else {
+				args.add(param.getDefaultValue());
+			}
 		}
 		try {
 			return javaConstructor.newInstance(args.toArray());

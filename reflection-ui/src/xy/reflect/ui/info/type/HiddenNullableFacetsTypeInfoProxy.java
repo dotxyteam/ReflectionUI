@@ -30,7 +30,6 @@ public class HiddenNullableFacetsTypeInfoProxy extends TypeInfoProxy {
 	protected Object getValue(Object object, IFieldInfo field,
 			ITypeInfo containingType) {
 		Object result = super.getValue(object, field, containingType);
-		;
 		if (result == null) {
 			result = getDefaultValue(field.getType());
 			setValue(object, result, field, containingType);

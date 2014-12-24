@@ -20,9 +20,9 @@ public class MethodControl extends JButton {
 		String caption = method.getCaption();
 		if (method.getParameters().size() > 0) {
 			caption += "...";
+			setToolTipText(method.toString());
 		}
 		setText(caption);
-		setToolTipText(caption);
 		this.reflectionUI = reflectionUI;
 		this.object = object;
 		this.method = method;
