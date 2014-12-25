@@ -104,7 +104,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements
 						if (instance == null) {
 							instance = reflectionUI.onTypeInstanciationRequest(
 									PolymorphicEmbeddedForm.this,
-									selectedPolyType, true, false);
+									selectedPolyType, false);
 							if (instance == null) {
 								return;
 							}

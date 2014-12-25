@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Stack;
 
 import javax.swing.JButton;
+import javax.swing.JPanel;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -155,7 +156,8 @@ public class ModificationStack {
 
 	public void endComposite(String title, Order order) {
 		CompositeModification compositeUndoModif = new CompositeModification(
-				getUndoTitle(title), order, compositeStack.pop().getUndoModifications(order));
+				getUndoTitle(title), order, compositeStack.pop()
+						.getUndoModifications(order));
 		ModificationStack compositeParent;
 		if (compositeStack.size() > 0) {
 			compositeParent = compositeStack.peek();
@@ -203,15 +205,18 @@ public class ModificationStack {
 			Object currentValue = field.getValue(object);
 			final SetFieldValueModification currentModif = this;
 			SetFieldValueModification opposite = new SetFieldValueModification(
-					reflectionUI, object, field, currentValue){
-						@Override
-						public String getTitle() {
-							return getUndoTitle(currentModif.getTitle());
-						}				
+					reflectionUI, object, field, currentValue) {
+				@Override
+				public String getTitle() {
+					return getUndoTitle(currentModif.getTitle());
+				}
 			};
 			field.setValue(object, value);
 			if (refreshView) {
-				reflectionUI.refreshFieldControl(object, field.getName());
+				for (JPanel form : ReflectionUIUtils.getKeysFromValue(
+						reflectionUI.getObjectByForm(), object)) {
+					reflectionUI.refreshFieldControl(form, field.getName());
+				}
 			}
 			return opposite;
 		}

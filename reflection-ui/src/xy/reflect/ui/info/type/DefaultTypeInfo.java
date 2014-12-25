@@ -94,7 +94,11 @@ public class DefaultTypeInfo implements ITypeInfo {
 			if (!GetterFieldInfo.isCompatibleWith(javaMethod, javaType)) {
 				continue;
 			}
-			result.add(new GetterFieldInfo(reflectionUI, javaMethod, javaType));
+			GetterFieldInfo getterFieldInfo = new GetterFieldInfo(reflectionUI, javaMethod, javaType);
+			if(ReflectionUIUtils.findInfoByName(result, getterFieldInfo.getName()) != null){
+				continue;
+			}
+			result.add(getterFieldInfo);
 		}
 		return result;
 	}

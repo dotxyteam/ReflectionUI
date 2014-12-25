@@ -15,14 +15,14 @@ public class HiddenNullableFacetsTypeInfoProxy extends TypeInfoProxy {
 	}
 
 	@Override
-	protected Object getDefaultValue(IParameterInfo param,
-			IMethodInfo method, ITypeInfo containingType) {
+	protected Object getDefaultValue(IParameterInfo param, IMethodInfo method,
+			ITypeInfo containingType) {
 		return getDefaultValue(param.getType());
 	}
 
 	@Override
-	protected boolean isNullable(IParameterInfo param,
-			IMethodInfo method, ITypeInfo containingType) {
+	protected boolean isNullable(IParameterInfo param, IMethodInfo method,
+			ITypeInfo containingType) {
 		return false;
 	}
 
@@ -43,14 +43,18 @@ public class HiddenNullableFacetsTypeInfoProxy extends TypeInfoProxy {
 	}
 
 	public Object getDefaultValue(ITypeInfo type) {
-		Object result = reflectionUI.onTypeInstanciationRequest(null, type,
-				true, true);
-		if (result == null) {
+		try {
+			Object result = reflectionUI.onTypeInstanciationRequest(null, type,
+					true);
+			if (result == null) {
+				throw new ReflectionUIError(
+						"Instanciation cancelled");
+			}
+			return result;
+		} catch (Throwable t) {
 			throw new ReflectionUIError(
-					"Failed to instanciate automatically the type '" + type
-							+ "'");
+					"Failed to automatically instanciate the type '" + type
+							+ "': " + t.toString());		
 		}
-		return result;
 	}
-
 }

@@ -131,7 +131,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 		fixCustomRenderingNotAppliedOnUnselectedCells();
 	}
 
-	private void fixCustomRenderingNotAppliedOnUnselectedCells() {
+	protected void fixCustomRenderingNotAppliedOnUnselectedCells() {
 		treeTableComponent.setHighlighters();
 		treeTableComponent.putClientProperty(JXTable.USE_DTCR_COLORMEMORY_HACK,
 				false);
@@ -231,51 +231,70 @@ public class ListControl extends JPanel implements IRefreshableControl,
 			singleSelectedPosition = selection.get(0);
 			singleSelectedPositionSubItemPosition = getSubItemPosition(singleSelectedPosition);
 		}
+		boolean anySelectionListReadOnly = false;
+		for (ItemPosition selectionItem : selection) {
+			if (selectionItem.isContainingListReadOnly()) {
+				anySelectionListReadOnly = true;
+				break;
+			}
+		}
 
 		if (singleSelectedPosition != null) {
 			if (hasItemDetails(singleSelectedPosition)) {
 				createOpenItemButton(buttonsPanel);
 			}
 		}
-		boolean selectionReadOnly = false;
-		for (ItemPosition selectionItem : selection) {
-			if (selectionItem.isContainingListReadOnly()) {
-				selectionReadOnly = true;
-				break;
+
+		if (selection.size() == 0) {
+			if (!getRootListItemPosition().isContainingListReadOnly()) {
+				createAddButton(buttonsPanel);
+			}
+		} else if (singleSelectedPosition != null) {
+			if (!singleSelectedPosition.isContainingListReadOnly()) {
+				createAddButton(buttonsPanel);
 			}
 		}
-		if (!selectionReadOnly) {
-			createAddButton(buttonsPanel);
-			if (singleSelectedPositionSubItemPosition != null) {
+
+		if (singleSelectedPositionSubItemPosition != null) {
+			if (!singleSelectedPositionSubItemPosition
+					.isContainingListReadOnly()) {
 				createAddInButton(buttonsPanel);
 			}
-			if (selection.size() > 0) {
-				boolean canCopySelection = true;
-				for (ItemPosition selectionItem : selection) {
-					if (!reflectionUI.canCopy(selectionItem.getItem())) {
-						canCopySelection = false;
-						break;
-					}
+		}
+
+		if (selection.size() > 0) {
+			boolean canCopyAllSelection = true;
+			for (ItemPosition selectionItem : selection) {
+				if (!reflectionUI.canCopy(selectionItem.getItem())) {
+					canCopyAllSelection = false;
+					break;
 				}
-				if (canCopySelection) {
-					createCopyButton(buttonsPanel);
+			}
+			if (canCopyAllSelection) {
+				createCopyButton(buttonsPanel);
+				if (!anySelectionListReadOnly) {
 					createCutButton(buttonsPanel);
 				}
 			}
-			if (clipboard.size() > 0) {
-				if (singleSelectedPosition == null) {
-					ItemPosition rootItemPosition = getRootListItemPosition();
-					boolean selectedItemPositionSupportsAllClipboardItems = true;
+		}
+
+		if (clipboard.size() > 0) {
+			if (selection.size() == 0) {
+				ItemPosition rootItemPosition = getRootListItemPosition();
+				if (!rootItemPosition.isContainingListReadOnly()) {
+					boolean rootItemPositionSupportsAllClipboardItems = true;
 					for (Object clipboardItem : clipboard) {
 						if (!rootItemPosition.supportsValue(clipboardItem)) {
-							selectedItemPositionSupportsAllClipboardItems = false;
+							rootItemPositionSupportsAllClipboardItems = false;
 							break;
 						}
 					}
-					if (selectedItemPositionSupportsAllClipboardItems) {
-						createPasteBeforeButton(buttonsPanel);
+					if (rootItemPositionSupportsAllClipboardItems) {
+						createPasteButton(buttonsPanel);
 					}
-				} else {
+				}
+			} else if (singleSelectedPosition != null) {
+				if (!singleSelectedPosition.isContainingListReadOnly()) {
 					boolean selectedItemPositionSupportsAllClipboardItems = true;
 					for (Object clipboardItem : clipboard) {
 						if (!singleSelectedPosition
@@ -285,24 +304,30 @@ public class ListControl extends JPanel implements IRefreshableControl,
 						}
 					}
 					if (selectedItemPositionSupportsAllClipboardItems) {
-						createPasteBeforeButton(buttonsPanel);
+						createPasteButton(buttonsPanel);
 					}
 					if (singleSelectedPositionSubItemPosition != null) {
-						boolean singleSelectedPositionSubItemPositionSupportsAllClipboardItems = true;
-						for (Object clipboardItem : clipboard) {
-							if (!singleSelectedPositionSubItemPosition
-									.supportsValue(clipboardItem)) {
-								singleSelectedPositionSubItemPositionSupportsAllClipboardItems = false;
-								break;
+						if (!singleSelectedPositionSubItemPosition
+								.isContainingListReadOnly()) {
+							boolean singleSelectedPositionSubItemPositionSupportsAllClipboardItems = true;
+							for (Object clipboardItem : clipboard) {
+								if (!singleSelectedPositionSubItemPosition
+										.supportsValue(clipboardItem)) {
+									singleSelectedPositionSubItemPositionSupportsAllClipboardItems = false;
+									break;
+								}
 							}
-						}
-						if (singleSelectedPositionSubItemPositionSupportsAllClipboardItems) {
-							createPasteInButton(buttonsPanel);
+							if (singleSelectedPositionSubItemPositionSupportsAllClipboardItems) {
+								createPasteInButton(buttonsPanel);
+							}
 						}
 					}
 				}
 			}
-			if (selection.size() > 0) {
+		}
+
+		if (selection.size() > 0) {
+			if (!anySelectionListReadOnly) {
 				createRemoveButton(buttonsPanel);
 				boolean allSelectionItemsInSameList = true;
 				ItemPosition firstSelectionItem = selection.get(0);
@@ -321,10 +346,12 @@ public class ListControl extends JPanel implements IRefreshableControl,
 					createMoveButton(buttonsPanel, +1, "Down");
 				}
 			}
-			if (selection.size() > 0) {
-				createClearButton(buttonsPanel);
-			}
 		}
+		
+		if (getRootList().size() > 0) {
+			createClearButton(buttonsPanel);
+		}
+		
 		validate();
 	}
 
@@ -601,7 +628,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 										Object.class));
 					}
 					Object newItem = reflectionUI.onTypeInstanciationRequest(
-							button, itemType, true, false);
+							button, itemType, false);
 					if (newItem == null) {
 						return;
 					}
@@ -648,7 +675,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 					}
 					Object newSubListItem = reflectionUI
 							.onTypeInstanciationRequest(button,
-									subListItemType, true, false);
+									subListItemType, false);
 					if (newSubListItem == null) {
 						return;
 					}
@@ -743,7 +770,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 		});
 	}
 
-	protected void createPasteBeforeButton(JPanel buttonsPanel) {
+	protected void createPasteButton(JPanel buttonsPanel) {
 		final JButton button = new JButton(
 				reflectionUI.translateUIString("Paste"));
 		buttonsPanel.add(button);
@@ -757,7 +784,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 						index = getRootList().size();
 						itemPosition = new ItemPosition(field, null, index);
 					} else {
-						index = itemPosition.getIndex();
+						index = itemPosition.getIndex() + 1;
 					}
 					int initialIndex = index;
 					FieldAutoUpdateList list = itemPosition.getContainingList();

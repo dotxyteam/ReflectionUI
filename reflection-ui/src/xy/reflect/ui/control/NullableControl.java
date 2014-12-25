@@ -78,7 +78,7 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 		if (!shoulBeNull()) {
 			try {
 				newValue = reflectionUI.onTypeInstanciationRequest(this,
-						field.getType(), true, false);
+						field.getType(), false);
 			} catch (Throwable t) {
 				reflectionUI.handleExceptionsFromDisplayedUI(this, t);
 				newValue = null;
@@ -93,6 +93,7 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 
 		field.setValue(object, newValue);
 		updateSubControl(newValue);
+		subControl.requestFocus();		
 	}
 
 	public void updateSubControl(Object newValue) {
@@ -108,7 +109,6 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 				subControl = defaultTypeInfo.createNonNullFieldValueControl(
 						object, field);
 				add(subControl, BorderLayout.CENTER);
-				subControl.requestFocus();
 			} else {
 				subControl = createNullControl(reflectionUI, new Runnable() {
 					@Override
@@ -135,7 +135,7 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 
 	protected Component createNullControl(ReflectionUI reflectionUI,
 			Runnable onMousePress) {
-		return new NullControl(reflectionUI, field, onMousePress);
+		return new NullControl(reflectionUI, onMousePress);
 	}
 
 	@Override

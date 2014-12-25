@@ -88,19 +88,8 @@ public class DefaultMethodInfo implements IMethodInfo {
 		StringBuilder result = new StringBuilder(getCaption());
 		if (getParameters().size() > 0) {
 			result.append(" - specify ");
-			int iParam = 0;
-			List<IParameterInfo> parameters = getParameters();
-			for (IParameterInfo param : parameters) {
-				if (iParam > 0) {
-					if (iParam == parameters.size() - 1) {
-						result.append(" and ");
-					} else {
-						result.append(", ");
-					}
-				}
-				result.append("<" + param.getCaption() + ">");
-				iParam++;
-			}
+			result.append(ReflectionUIUtils
+					.formatParameterList(getParameters()));
 		}
 		return result.toString();
 	}

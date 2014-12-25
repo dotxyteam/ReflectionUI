@@ -1,35 +1,43 @@
 package xy.reflect.ui.info.parameter;
 
 import java.lang.reflect.Member;
+
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.type.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class DefaultParameterInfo implements IParameterInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected Class<?> paramJavaType;
-	protected int index;
-	protected Member ofMember;
+	protected int position;
+	protected Member owner;
 
-	public DefaultParameterInfo(ReflectionUI reflectionUI, Member ofMember,
-			Class<?> paramJavaType, int index) {
+	public DefaultParameterInfo(ReflectionUI reflectionUI, Member owner,
+			Class<?> paramJavaType, int position) {
 		this.reflectionUI = reflectionUI;
-		this.ofMember = ofMember;
+		this.owner = owner;
 		this.paramJavaType = paramJavaType;
-		this.index = index;
+		this.position = position;
 	}
 
 	@Override
 	public String getCaption() {
-		return getType().getCaption() + " Parameter n°" + (index + 1);
+		String[] parameterNames = ReflectionUIUtils.getParameterNames(owner);
+		if (parameterNames == null) {
+			return "(" + getType().getCaption() + " Parameter n°"
+					+ (position + 1) + ")";
+		} else {
+			return ReflectionUIUtils
+					.identifierToCaption(parameterNames[position]);
+		}
 	}
 
 	@Override
 	public ITypeInfo getType() {
 		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(paramJavaType,
-				ofMember));
+				owner));
 	}
 
 	@Override
@@ -39,12 +47,17 @@ public class DefaultParameterInfo implements IParameterInfo {
 
 	@Override
 	public String getName() {
-		return "param" + (index + 1);
+		String[] parameterNames = ReflectionUIUtils.getParameterNames(owner);
+		if (parameterNames == null) {
+			return "param" + (position + 1);
+		} else {
+			return parameterNames[position];
+		}
 	}
 
 	@Override
 	public int hashCode() {
-		return index;
+		return position;
 	}
 
 	@Override
@@ -58,7 +71,7 @@ public class DefaultParameterInfo implements IParameterInfo {
 		if (!getClass().equals(obj.getClass())) {
 			return false;
 		}
-		if (index != ((DefaultParameterInfo) obj).index) {
+		if (position != ((DefaultParameterInfo) obj).position) {
 			return false;
 		}
 		return true;
@@ -80,7 +93,7 @@ public class DefaultParameterInfo implements IParameterInfo {
 
 	@Override
 	public int getPosition() {
-		return index;
+		return position;
 	}
 
 }

@@ -1,3 +1,6 @@
+- List control item: open new item after its creation??? 
+potentilly double dialog???
+- how to display null return value?
 - a better contructors choice dialog 
 - delegate red border error marker to only textControl
 - tooltips???

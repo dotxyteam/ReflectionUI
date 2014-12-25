@@ -29,7 +29,7 @@ public class HiddenNullableFacetFieldInfoProxy extends FieldInfoProxy {
 
 	protected Object getDefaultValue() {
 		Object result = reflectionUI.onTypeInstanciationRequest(null,
-				base.getType(), true, true);
+				base.getType(), true);
 		if (result == null) {
 			throw new ReflectionUIError(
 					"Failed to instanciate automatically the value of the field '"

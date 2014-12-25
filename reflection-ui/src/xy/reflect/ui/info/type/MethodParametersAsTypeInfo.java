@@ -71,7 +71,7 @@ public class MethodParametersAsTypeInfo extends DefaultTypeInfo {
 
 	@Override
 	public String getCaption() {
-		return method.toString();
+		return method.getCaption();
 	}
 
 	@Override
@@ -93,6 +93,13 @@ public class MethodParametersAsTypeInfo extends DefaultTypeInfo {
 		return method.equals(((MethodParametersAsTypeInfo) obj).method);
 	}
 
+	@Override
+	public String toString() {
+		return getCaption();
+	}
+
+
+
 	public static IFieldInfo getParameterAsField(final IParameterInfo param) {
 		return new IFieldInfo() {
 
@@ -113,8 +120,7 @@ public class MethodParametersAsTypeInfo extends DefaultTypeInfo {
 				@SuppressWarnings("unchecked")
 				Map<String, Object> valueByParameterName = (Map<String, Object>) object;
 				if (!valueByParameterName.containsKey(param.getName())) {
-					valueByParameterName.put(param.getName(),
-							param.getDefaultValue());
+					return param.getDefaultValue();
 				}
 				return valueByParameterName.get(param.getName());
 			}

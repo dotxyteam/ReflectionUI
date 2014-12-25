@@ -59,18 +59,22 @@ public class TextControl extends JPanel implements IRefreshableControl,
 		textFieldNormalBorder = textField.getBorder();
 
 		add(textField, BorderLayout.CENTER);
-		textField.addPropertyChangeListener(new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				try {
-					if ("value".equals(evt.getPropertyName())) {
-						onTextChange((String) evt.getNewValue());
+		if (field.isReadOnly()) {
+			textField.setEditable(false);
+		} else {
+			textField.addPropertyChangeListener(new PropertyChangeListener() {
+				@Override
+				public void propertyChange(PropertyChangeEvent evt) {
+					try {
+						if ("value".equals(evt.getPropertyName())) {
+							onTextChange((String) evt.getNewValue());
+						}
+					} catch (Throwable t) {
+						displayError(t.toString());
 					}
-				} catch (Throwable t) {
-					displayError(t.toString());
 				}
-			}
-		});
+			});
+		}
 		refreshUI();
 	}
 
@@ -108,11 +112,11 @@ public class TextControl extends JPanel implements IRefreshableControl,
 
 	@Override
 	public void refreshUI() {
-		if (field.isReadOnly()) {
-			textField.setEditable(false);
-		}
 		textChangedByUser = false;
+		int lastCaretPosition = textField.getCaretPosition();
 		textField.setText(textType.toText(field.getValue(object)));
+		textField.setCaretPosition(Math.min(lastCaretPosition, textField
+				.getText().length()));
 		textChangedByUser = true;
 	}
 

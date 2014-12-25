@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="lib/java-classmate-classmate-1.1.0/target/classmate-1.1.0.jar" sourcepath="lib/java-classmate-classmate-1.1.0/src/main/java"/>
 	<classpathentry kind="lib" path="lib/SwingExplorer/swexpl.jar"/>
 	<classpathentry kind="lib" path="lib/SwingExplorer/swag.jar"/>
+	<classpathentry kind="lib" path="lib/paranamer-paranamer-2.3/paranamer/target/paranamer-2.3.jar" sourcepath="lib/paranamer-paranamer-2.3/paranamer/src/java"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

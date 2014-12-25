@@ -11,6 +11,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
@@ -35,12 +36,15 @@ import com.fasterxml.classmate.TypeResolver;
 import com.fasterxml.classmate.members.ResolvedConstructor;
 import com.fasterxml.classmate.members.ResolvedField;
 import com.fasterxml.classmate.members.ResolvedMethod;
+import com.thoughtworks.paranamer.AdaptiveParanamer;
+import com.thoughtworks.paranamer.Paranamer;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.ModificationStack;
 import xy.reflect.ui.info.ICommonInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.IListTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
@@ -259,8 +263,8 @@ public class ReflectionUIUtils {
 		Rectangle bounds = window.getBounds();
 		Rectangle maxBounds = GraphicsEnvironment.getLocalGraphicsEnvironment()
 				.getMaximumWindowBounds();
-		if (bounds.width < maxBounds.width / 2) {
-			bounds.grow((maxBounds.width / 2 - bounds.width) / 2, 0);
+		if (bounds.width < maxBounds.width / 3) {
+			bounds.grow((maxBounds.width / 3 - bounds.width) / 2, 0);
 		}
 		bounds = maxBounds.intersection(bounds);
 		window.setBounds(bounds);
@@ -588,6 +592,33 @@ public class ReflectionUIUtils {
 
 	public static Color fixSeveralColorRenderingIssues(Color color) {
 		return new Color(color.getRGB());
+	}
+
+	public static String[] getParameterNames(Member owner) {
+		Paranamer paranamer = new AdaptiveParanamer();
+		String[] parameterNames = paranamer.lookupParameterNames(
+				(AccessibleObject) owner, false);
+		if ((parameterNames == null) || (parameterNames.length == 0)) {
+			return null;
+		}
+		return parameterNames;
+	}
+
+	public static String formatParameterList(List<IParameterInfo> parameters) {
+		StringBuilder result = new StringBuilder();
+		int iParam = 0;
+		for (IParameterInfo param : parameters) {
+			if (iParam > 0) {
+				if (iParam == parameters.size() - 1) {
+					result.append(" and ");
+				} else {
+					result.append(", ");
+				}
+			}
+			result.append("" + param.getCaption() + "");
+			iParam++;
+		}
+		return result.toString();
 	}
 
 }

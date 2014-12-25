@@ -6,8 +6,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.UIManager;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.field.InfoCategory;
 import xy.reflect.ui.info.type.DefaultTextualTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
@@ -15,10 +15,9 @@ public class NullControl extends TextControl {
 
 	protected static final long serialVersionUID = 1L;
 
-	public NullControl(final ReflectionUI reflectionUI, IFieldInfo field,
-			final Runnable onMousePress) {
-		super(reflectionUI, null, new FieldInfoProxy(field) {
-
+	public NullControl(final ReflectionUI reflectionUI, final Runnable onMousePress) {
+		super(reflectionUI, null, new IFieldInfo() {
+			
 			@Override
 			public Object getValue(Object object) {
 				return "";
@@ -38,6 +37,25 @@ public class NullControl extends TextControl {
 				return true;
 			}
 
+			@Override
+			public String getName() {
+				return "";
+			}
+
+			@Override
+			public String getCaption() {
+				return "";
+			}
+
+			@Override
+			public boolean isNullable() {
+				return false;
+			}
+
+			@Override
+			public InfoCategory getCategory() {
+				return null;
+			}
 		});
 		if (onMousePress != null) {
 			textField.addMouseListener(new MouseAdapter() {
