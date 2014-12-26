@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.FlowLayout;
-import java.awt.GraphicsEnvironment;
-import java.awt.Rectangle;
 import java.awt.Window;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
@@ -257,17 +255,6 @@ public class ReflectionUIUtils {
 			i++;
 		}
 		return result.toString();
-	}
-
-	public static void adjustWindowBounds(Window window) {
-		Rectangle bounds = window.getBounds();
-		Rectangle maxBounds = GraphicsEnvironment.getLocalGraphicsEnvironment()
-				.getMaximumWindowBounds();
-		if (bounds.width < maxBounds.width / 3) {
-			bounds.grow((maxBounds.width / 3 - bounds.width) / 2, 0);
-		}
-		bounds = maxBounds.intersection(bounds);
-		window.setBounds(bounds);
 	}
 
 	public static String getPrintedStackTrace(Throwable e) {
@@ -594,7 +581,7 @@ public class ReflectionUIUtils {
 		return new Color(color.getRGB());
 	}
 
-	public static String[] getParameterNames(Member owner) {
+	public static String[] getJavaParameterNames(Member owner) {
 		Paranamer paranamer = new AdaptiveParanamer();
 		String[] parameterNames = paranamer.lookupParameterNames(
 				(AccessibleObject) owner, false);

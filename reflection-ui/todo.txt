@@ -1,8 +1,6 @@
 - tooltips???
 - multiline textControl???
-- parameter name when debug info available
 - update translatable strings
 - check getSubObjectEd is used where it should
-- replace AssertionError with ???
 
 

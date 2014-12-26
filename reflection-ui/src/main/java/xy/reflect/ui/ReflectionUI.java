@@ -5,8 +5,10 @@ import java.awt.Component;
 import java.awt.Dialog.ModalityType;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,6 +43,8 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
+
+import org.jdesktop.swingx.JXBusyLabel;
 
 import xy.reflect.ui.control.ICanDisplayErrorControl;
 import xy.reflect.ui.control.ICanShowCaptionControl;
@@ -187,7 +191,7 @@ public class ReflectionUI {
 		}
 		frame.pack();
 		frame.setLocationRelativeTo(null);
-		ReflectionUIUtils.adjustWindowBounds(frame);
+		adjustWindowBounds(frame);
 		return frame;
 	}
 
@@ -660,11 +664,17 @@ public class ReflectionUI {
 		return new MethodControl(this, object, method);
 	}
 
-	public String getMethodReturnValueTitle(IMethodInfo method,
-			Object returnValue) {
-		String result = composeTitle(method.getCaption(), "Execution Result");
+	public String getMethodTitle(Object object, IMethodInfo method,
+			Object returnValue, String context) {
+		String result = method.getCaption();
+		if (object != null) {
+			result = composeTitle(getObjectKind(object), result);
+		}
 		if (returnValue != null) {
 			result = composeTitle(result, getObjectKind(returnValue));
+		}
+		if (context != null) {
+			result = composeTitle(result, context);
 		}
 		return result;
 	}
@@ -676,33 +686,72 @@ public class ReflectionUI {
 		return contextTitle + " - " + localTitle;
 	}
 
-	public void onMethodInvocationRequest(Component activatorComponent,
-			final Object object, final IMethodInfo method) {
-		Object returnValue;
+	public boolean onMethodInvocationRequest(
+			final Component activatorComponent, final Object object,
+			final IMethodInfo method, Object[] returnValueArray,
+			boolean displayReturnValue) {
+		if (returnValueArray == null) {
+			returnValueArray = new Object[1];
+		}
 		if (method.getParameters().size() > 0) {
-			final Object[] returnValueArray = new Object[1];
 			if (!openMethoExecutionSettingDialog(activatorComponent, object,
 					method, returnValueArray)) {
-				return;
+				return false;
 			}
-			returnValue = returnValueArray[0];
 		} else {
-			returnValue = method.invoke(object,
-					Collections.<String, Object> emptyMap());
+			final Object[] finalReturnValueArray = returnValueArray;
+			showBusyDialogWhile(activatorComponent, new Runnable() {
+				@Override
+				public void run() {
+					finalReturnValueArray[0] = method.invoke(object,
+							Collections.<String, Object> emptyMap());
+				}
+			}, getMethodTitle(object, method, null, "Execution"));
 		}
-		if (method.getReturnValueType() == null) {
-			String msg = "'" + method.getCaption()
-					+ "' excution completed!";
-			showMessageDialog(activatorComponent, msg,
-					getMethodReturnValueTitle(method, null));
-		}else{
-			openMethodReturnValueFrame(activatorComponent, object, method,
-					returnValue);
+		if (displayReturnValue) {
+			if (method.getReturnValueType() != null) {
+				openMethodReturnValueWindow(activatorComponent, object, method,
+						returnValueArray[0]);
+			}
+		}
+		return true;
+	}
+
+	public void showBusyDialogWhile(final Component ownerComponent,
+			final Runnable runnable, String title) {
+		final JXBusyLabel busyLabel = new JXBusyLabel();
+		busyLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		busyLabel.setText("Please wait...");
+		busyLabel.setVerticalTextPosition(SwingConstants.TOP);
+		busyLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+		final JDialog dialog = createDialog(ownerComponent, busyLabel, title,
+				null, null, null);
+		busyLabel.setBusy(true);
+		new Thread(title) {
+			@Override
+			public void run() {
+				try {
+					runnable.run();
+				} catch (Throwable t) {
+					handleExceptionsFromDisplayedUI(dialog, t);
+				} finally {
+					busyLabel.setBusy(false);
+					dialog.dispose();
+				}
+			}
+		}.start();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			throw new ReflectionUIError(e);
+		}
+		if (busyLabel.isBusy()) {
+			openDialog(dialog, true);
 		}
 	}
 
 	public boolean openMethoExecutionSettingDialog(
-			Component activatorComponent, final Object object,
+			final Component activatorComponent, final Object object,
 			final IMethodInfo method, final Object[] returnValueArray) {
 		final Map<String, Object> valueByParameterName = new HashMap<String, Object>();
 		JPanel methodForm = createObjectForm(new PrecomputedTypeInfoInstanceWrapper(
@@ -718,45 +767,45 @@ public class ReflectionUI {
 						new Runnable() {
 							@Override
 							public void run() {
-								returnValueArray[0] = method.invoke(object,
-										valueByParameterName);
+								showBusyDialogWhile(
+										activatorComponent,
+										new Runnable() {
+											@Override
+											public void run() {
+												returnValueArray[0] = method
+														.invoke(object,
+																valueByParameterName);
+											}
+										},
+										getMethodTitle(object, method, null,
+												"Execution"));
 							}
 
 						}, true));
 
 		methodDialogArray[0] = createDialog(activatorComponent, methodForm,
-				getMethodExecutionSettingTitle(object, method), null,
+				getMethodTitle(object, method, null, "Setting"), null,
 				toolbarControls, null);
 
 		openDialog(methodDialogArray[0], true);
 		return invokedStatusArray[0];
 	}
 
-	public String getMethodExecutionSettingTitle(Object object,
-			IMethodInfo method) {
-		String result;
-		if (object != null) {
-			result = composeTitle(getObjectKind(object), method.getCaption());
-		} else {
-			result = method.getCaption();
-		}
-		result = composeTitle(result, "Setting and Execution");
-		return result;
-	}
-
-	public void openMethodReturnValueFrame(Component activatorComponent,
+	public void openMethodReturnValueWindow(Component activatorComponent,
 			Object object, IMethodInfo method, Object returnValue) {
 		if (returnValue == null) {
 			String msg = "'" + method.getCaption()
-					+ "' excution returned no results!";
+					+ "' excution returned no result!";
 			showMessageDialog(activatorComponent, msg,
-					getMethodReturnValueTitle(method, null));
+					getMethodTitle(object, method, null, "Result"));
 		} else {
 			JPanel returnValueControl = createValueForm(
 					new Object[] { returnValue },
 					IInfoCollectionSettings.DEFAULT);
-			JFrame frame = createFrame(returnValueControl,
-					getMethodReturnValueTitle(method, returnValue),
+			JFrame frame = createFrame(
+					returnValueControl,
+					getMethodTitle(object, method, returnValue,
+							"Execution Result"),
 					getObjectIconImage(returnValue),
 					createCommonToolbarControls(returnValueControl));
 			frame.setVisible(true);
@@ -841,7 +890,7 @@ public class ReflectionUI {
 		dialog.pack();
 		dialog.setLocationRelativeTo(null);
 		dialog.setResizable(true);
-		ReflectionUIUtils.adjustWindowBounds(dialog);
+		adjustWindowBounds(dialog);
 		if (iconImage == null) {
 			dialog.setIconImage(new BufferedImage(1, 1,
 					BufferedImage.TYPE_INT_ARGB));
@@ -916,16 +965,15 @@ public class ReflectionUI {
 		});
 
 		IMethodInfo smallerConstructor = constructors.get(0);
-		if ((smallerConstructor.getParameters().size() == 0) || silent) {
+		if (silent) {
 			return smallerConstructor.invoke(null,
 					Collections.<String, Object> emptyMap());
 		} else {
 			Object[] returnValueArray = new Object[1];
-			openMethoExecutionSettingDialog(activatorComponent, null,
-					smallerConstructor, returnValueArray);
+			onMethodInvocationRequest(activatorComponent, null,
+					smallerConstructor, returnValueArray, false);
 			return returnValueArray[0];
 		}
-
 	}
 
 	@SuppressWarnings("unchecked")
@@ -1149,6 +1197,17 @@ public class ReflectionUI {
 		return composeTitle(
 				composeTitle(getObjectKind(object), field.getCaption()),
 				getObjectKind(field.getValue(object)));
+	}
+
+	public void adjustWindowBounds(Window window) {
+		Rectangle bounds = window.getBounds();
+		Rectangle maxBounds = GraphicsEnvironment.getLocalGraphicsEnvironment()
+				.getMaximumWindowBounds();
+		if (bounds.width < maxBounds.width / 3) {
+			bounds.grow((maxBounds.width / 3 - bounds.width) / 2, 0);
+		}
+		bounds = maxBounds.intersection(bounds);
+		window.setBounds(bounds);
 	}
 
 	protected class FielControlPlaceHolder extends JPanel implements

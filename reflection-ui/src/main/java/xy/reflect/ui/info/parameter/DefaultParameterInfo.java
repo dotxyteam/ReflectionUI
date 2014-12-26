@@ -24,7 +24,7 @@ public class DefaultParameterInfo implements IParameterInfo {
 
 	@Override
 	public String getCaption() {
-		String[] parameterNames = ReflectionUIUtils.getParameterNames(owner);
+		String[] parameterNames = ReflectionUIUtils.getJavaParameterNames(owner);
 		if (parameterNames == null) {
 			return "(" + getType().getCaption() + " Parameter n°"
 					+ (position + 1) + ")";
@@ -47,7 +47,7 @@ public class DefaultParameterInfo implements IParameterInfo {
 
 	@Override
 	public String getName() {
-		String[] parameterNames = ReflectionUIUtils.getParameterNames(owner);
+		String[] parameterNames = ReflectionUIUtils.getJavaParameterNames(owner);
 		if (parameterNames == null) {
 			return "param" + (position + 1);
 		} else {

@@ -67,6 +67,14 @@ public class ReflectionUITest {
 		public void multiplyTheFloat(int factor) {
 			theFloat *= factor;
 		}
+		
+		public void doLongTask(){
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 
 	}
 
