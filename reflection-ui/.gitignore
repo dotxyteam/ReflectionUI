@@ -1,3 +1,8 @@
 /tmp
 /target
 /bin
+/.settings
+/tmp-src
+/.classpath
+/.project
+/hs_err_pid8984.log
