@@ -176,6 +176,11 @@ public class MultiSubListField implements IFieldInfo {
 				public InfoCategory getCategory() {
 					return null;
 				}
+
+				@Override
+				public String getDocumentation() {
+					return null;
+				}
 			};
 		}
 
@@ -208,6 +213,11 @@ public class MultiSubListField implements IFieldInfo {
 			return false;
 		}
 		return listFieldInfos.equals(((MultiSubListField) obj).listFieldInfos);
+	}
+
+	@Override
+	public String getDocumentation() {
+		return null;
 	}
 
 }

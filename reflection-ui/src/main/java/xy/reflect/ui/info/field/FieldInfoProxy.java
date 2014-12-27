@@ -74,6 +74,11 @@ public class FieldInfoProxy implements IFieldInfo {
 	public InfoCategory getCategory() {
 		return base.getCategory();
 	}
+
+	@Override
+	public String getDocumentation() {
+		return base.getDocumentation();
+	}
 	
 	
 

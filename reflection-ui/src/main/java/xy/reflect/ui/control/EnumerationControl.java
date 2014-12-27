@@ -20,7 +20,8 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.IEnumerationTypeInfo;
 import xy.reflect.ui.util.component.TabulatingLabel;
 
-public class EnumerationControl extends JPanel implements ICanShowCaptionControl {
+public class EnumerationControl extends JPanel implements
+		ICanShowCaptionControl {
 	protected static final long serialVersionUID = 1L;
 	protected IEnumerationTypeInfo enumType;
 	protected ReflectionUI reflectionUI;
@@ -41,21 +42,22 @@ public class EnumerationControl extends JPanel implements ICanShowCaptionControl
 
 	protected void initialize() {
 		setLayout(new BorderLayout());
-		
+
 		comboBox = new JComboBox();
 		add(comboBox, BorderLayout.CENTER);
-		
+
 		Object initialValue = field.getValue(object);
 		if (field.isReadOnly()) {
-			comboBox.setModel(new DefaultComboBoxModel(new Object[] { initialValue }));
+			comboBox.setModel(new DefaultComboBoxModel(
+					new Object[] { initialValue }));
 		} else {
-			comboBox.setModel(new DefaultComboBoxModel(enumType.getPossibleValues()
-					.toArray()));
+			comboBox.setModel(new DefaultComboBoxModel(enumType
+					.getPossibleValues().toArray()));
 		}
 
 		comboBox.setBackground(UIManager.getColor("TextField.background"));
 
-		comboBox.setRenderer(new  BasicComboBoxRenderer() {
+		comboBox.setRenderer(new BasicComboBoxRenderer() {
 
 			protected static final long serialVersionUID = 1L;
 
@@ -68,11 +70,10 @@ public class EnumerationControl extends JPanel implements ICanShowCaptionControl
 				if (value == null) {
 					label.setText("");
 				} else {
-					String s = reflectionUI.toString(value);
-					s = reflectionUI.translateUIString(s);
-					label.setText(s);
+					String s = enumType.formatValue(value);
+					label.setText( reflectionUI.translateUIString(s));
 				}
-				
+
 				Image imageIcon = reflectionUI.getObjectIconImage(value);
 				if (imageIcon == null) {
 					label.setIcon(null);
@@ -97,7 +98,6 @@ public class EnumerationControl extends JPanel implements ICanShowCaptionControl
 			}
 		});
 	}
-	
 
 	@Override
 	public void showCaption() {

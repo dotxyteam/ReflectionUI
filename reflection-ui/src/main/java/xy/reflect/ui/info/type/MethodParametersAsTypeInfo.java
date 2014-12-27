@@ -149,6 +149,11 @@ public class MethodParametersAsTypeInfo extends DefaultTypeInfo {
 			public InfoCategory getCategory() {
 				return null;
 			}
+
+			@Override
+			public String getDocumentation() {
+				return param.getDocumentation();
+			}
 		};
 	}
 

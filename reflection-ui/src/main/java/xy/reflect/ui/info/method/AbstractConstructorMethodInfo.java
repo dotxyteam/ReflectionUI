@@ -34,7 +34,7 @@ public abstract class AbstractConstructorMethodInfo implements IMethodInfo {
 		if (getParameters().size() > 0) {
 			result.append(" - specify ");
 			result.append(ReflectionUIUtils
-					.formatParameterList(getParameters()));		
+					.formatParameterList(getParameters()));
 		}
 		return result.toString();
 	}
@@ -46,6 +46,11 @@ public abstract class AbstractConstructorMethodInfo implements IMethodInfo {
 
 	@Override
 	public InfoCategory getCategory() {
+		return null;
+	}
+
+	@Override
+	public String getDocumentation() {
 		return null;
 	}
 

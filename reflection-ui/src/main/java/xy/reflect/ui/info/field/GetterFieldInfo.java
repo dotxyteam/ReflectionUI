@@ -172,4 +172,9 @@ public class GetterFieldInfo implements IFieldInfo {
 				.getAnnotatedInfoCategory(javaGetterMethod);
 	}
 
+	@Override
+	public String getDocumentation() {
+		return null;
+	}
+
 }

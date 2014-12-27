@@ -113,6 +113,11 @@ public class DialogAcessControl extends JPanel implements ICanShowCaptionControl
 			public InfoCategory getCategory() {
 				return null;
 			}
+
+			@Override
+			public String getDocumentation() {
+				return null;
+			}
 		});
 	}
 

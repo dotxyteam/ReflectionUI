@@ -45,7 +45,7 @@ import com.thoughtworks.paranamer.Paranamer;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.ModificationStack;
-import xy.reflect.ui.info.ICommonInfo;
+import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.annotation.Properties;
 import xy.reflect.ui.info.annotation.Property;
@@ -342,7 +342,7 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static <T extends ICommonInfo> T findInfoByName(List<T> infos,
+	public static <T extends IInfo> T findInfoByName(List<T> infos,
 			String name) {
 		for (T info : infos) {
 			if (info.getName().equals(name)) {
@@ -352,7 +352,7 @@ public class ReflectionUIUtils {
 		return null;
 	}
 
-	public static <T extends ICommonInfo> T findInfoByCaption(List<T> infos,
+	public static <T extends IInfo> T findInfoByCaption(List<T> infos,
 			String caption) {
 		for (T info : infos) {
 			if (info.getCaption().equals(caption)) {
@@ -630,7 +630,7 @@ public class ReflectionUIUtils {
 					result.append(", ");
 				}
 			}
-			result.append(param.toString());
+			result.append(param.getCaption());
 			iParam++;
 		}
 		return result.toString();

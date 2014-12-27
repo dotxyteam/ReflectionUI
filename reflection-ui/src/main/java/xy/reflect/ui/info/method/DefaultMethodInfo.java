@@ -166,4 +166,9 @@ public class DefaultMethodInfo implements IMethodInfo {
 						.getAnnotatedInfoCategory(javaMethod);
 	}
 
+	@Override
+	public String getDocumentation() {
+		return null;
+	}
+
 }

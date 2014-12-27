@@ -33,6 +33,7 @@ public class EmbeddedFormControl extends JPanel implements
 		if (subForm != null) {
 			add(subForm, BorderLayout.CENTER);
 		}
+		setBorder(BorderFactory.createTitledBorder(""));		
 	}
 
 	protected JPanel createSubForm() {

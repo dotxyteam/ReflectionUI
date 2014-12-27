@@ -58,4 +58,10 @@ public class ParameterInfoProxy implements IParameterInfo {
 		return base.toString();
 	}
 
+	@Override
+	public String getDocumentation() {
+		return base.getDocumentation();
+	}
+	
+
 }

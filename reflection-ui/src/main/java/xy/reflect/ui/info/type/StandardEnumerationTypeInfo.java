@@ -62,8 +62,6 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements
 	public boolean hasCustomFieldControl() {
 		return true;
 	}
-	
-
 
 	@Override
 	public List<IFieldInfo> getFields() {
@@ -73,6 +71,15 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements
 	@Override
 	public List<IMethodInfo> getMethods() {
 		return Collections.emptyList();
+	}
+
+	@Override
+	public String formatValue(Object value) {
+		if (value == null) {
+			return "";
+		} else {
+			return reflectionUI.toString(value);
+		}
 	}
 
 }

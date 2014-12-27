@@ -317,6 +317,28 @@ public class TypeInfoProxy {
 		return type1.equals(type2);
 	}
 
+	protected String getDocumentation(IFieldInfo field, ITypeInfo containingType) {
+		return field.getDocumentation();
+	}
+
+	protected String getDocumentation(IParameterInfo param, IMethodInfo method,
+			ITypeInfo containingType) {
+		return param.getDocumentation();
+	}
+
+	protected String getDocumentation(ITypeInfo type) {
+		return type.getDocumentation();
+	}
+
+	protected String getDocumentation(IMethodInfo method,
+			ITypeInfo containingType) {
+		return method.getDocumentation();
+	}
+
+	protected String formatValue(Object value, IEnumerationTypeInfo type) {
+		return type.formatValue(value);
+	}
+
 	private class BasicTypeInfoProxy implements ITypeInfo {
 
 		protected ITypeInfo type;
@@ -410,6 +432,11 @@ public class TypeInfoProxy {
 			return TypeInfoProxy.this.toString(type);
 		}
 
+		@Override
+		public String getDocumentation() {
+			return TypeInfoProxy.this.getDocumentation(type);
+		}
+
 	}
 
 	private class ListTypeInfoProxy extends BasicTypeInfoProxy implements
@@ -459,6 +486,12 @@ public class TypeInfoProxy {
 		public List<?> getPossibleValues() {
 			return TypeInfoProxy.this
 					.getPossibleValues((IEnumerationTypeInfo) type);
+		}
+
+		@Override
+		public String formatValue(Object value) {
+			return TypeInfoProxy.this.formatValue(value,
+					(IEnumerationTypeInfo) type);
 		}
 
 	}
@@ -690,6 +723,11 @@ public class TypeInfoProxy {
 		}
 
 		@Override
+		public String getDocumentation() {
+			return TypeInfoProxy.this.getDocumentation(field, containingType);
+		}
+
+		@Override
 		public String toString() {
 			return TypeInfoProxy.this.toString(field, containingType);
 		}
@@ -763,6 +801,11 @@ public class TypeInfoProxy {
 		@Override
 		public InfoCategory getCategory() {
 			return TypeInfoProxy.this.getCategory(method, containingType);
+		}
+
+		@Override
+		public String getDocumentation() {
+			return TypeInfoProxy.this.getDocumentation(method, containingType);
 		}
 
 		@Override
@@ -841,6 +884,12 @@ public class TypeInfoProxy {
 		@Override
 		public String toString() {
 			return TypeInfoProxy.this.toString(param, method, containingType);
+		}
+
+		@Override
+		public String getDocumentation() {
+			return TypeInfoProxy.this.getDocumentation(param, method,
+					containingType);
 		}
 
 		@Override

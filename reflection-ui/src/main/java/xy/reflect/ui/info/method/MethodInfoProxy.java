@@ -70,4 +70,10 @@ public class MethodInfoProxy implements IMethodInfo {
 	}
 
 
+
+	@Override
+	public String getDocumentation() {
+		return base.getDocumentation();
+	}
+	
 }

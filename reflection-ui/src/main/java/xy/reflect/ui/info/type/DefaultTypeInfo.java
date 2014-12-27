@@ -227,4 +227,9 @@ public class DefaultTypeInfo implements ITypeInfo {
 		}
 	}
 
+	@Override
+	public String getDocumentation() {
+		return null;
+	}
+
 }

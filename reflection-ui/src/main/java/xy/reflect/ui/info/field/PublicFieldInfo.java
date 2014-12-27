@@ -109,5 +109,10 @@ public class PublicFieldInfo implements IFieldInfo {
 		return ReflectionUIUtils.getAnnotatedInfoCategory(javaField);
 	}
 
+	@Override
+	public String getDocumentation() {
+		return null;
+	}
+
 
 };

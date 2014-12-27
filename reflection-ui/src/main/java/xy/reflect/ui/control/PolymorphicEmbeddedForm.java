@@ -55,8 +55,8 @@ public class PolymorphicEmbeddedForm extends JPanel implements
 
 		setLayout(new BorderLayout());
 
-		updateTypeEnumerationControl();
-		updateDynamicControl();
+		setBorder(BorderFactory.createTitledBorder(""));
+		refreshUI();
 	}
 
 	protected EnumerationControl createTypeEnumerationControl() {
@@ -149,7 +149,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements
 
 					@Override
 					public boolean supportsValue(Object value) {
-						return value instanceof String;
+						return value instanceof ITypeInfo;
 					}
 
 					@Override
@@ -210,7 +210,22 @@ public class PolymorphicEmbeddedForm extends JPanel implements
 						return object.toString();
 					}
 
+					@Override
+					public String getDocumentation() {
+						return null;
+					}
+
+					@Override
+					public String formatValue(Object value) {
+						return ((ITypeInfo)value).getCaption();
+					}
+
 				};
+			}
+
+			@Override
+			public String getDocumentation() {
+				return null;
 			}
 		});
 	}

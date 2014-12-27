@@ -105,7 +105,12 @@ public class SubFieldInfo implements IFieldInfo {
 
 	@Override
 	public InfoCategory getCategory() {
-		return null;
+		return field.getCategory();
+	}
+
+	@Override
+	public String getDocumentation() {
+		return theSubField.getDocumentation();
 	}
 
 }

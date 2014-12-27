@@ -56,6 +56,11 @@ public class NullControl extends TextControl {
 			public InfoCategory getCategory() {
 				return null;
 			}
+
+			@Override
+			public String getDocumentation() {
+				return null;
+			}
 		});
 		if (onMousePress != null) {
 			textField.addMouseListener(new MouseAdapter() {

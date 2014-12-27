@@ -68,6 +68,11 @@ public class FileControl extends DialogAcessControl {
 			public InfoCategory getCategory() {
 				return null;
 			}
+
+			@Override
+			public String getDocumentation() {
+				return null;
+			}
 		});
 	}
 

@@ -32,6 +32,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -45,8 +46,6 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import org.jdesktop.swingx.JXBusyLabel;
 
@@ -370,15 +369,6 @@ public class ReflectionUI {
 					}
 				});
 			}
-
-			tabbedPane.addChangeListener(new ChangeListener() {
-				@Override
-				public void stateChanged(ChangeEvent e) {
-					// TODO Auto-generated method stub
-
-				}
-			});
-
 		}
 		return tabbedPane;
 	}
@@ -488,12 +478,16 @@ public class ReflectionUI {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
+						try{
 						ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
 						for (IFieldInfo fieldToRefresh : type.getFields()) {
 							if (field.equals(fieldToRefresh)) {
 								continue;
 							}
 							refreshFieldControl(form, fieldToRefresh.getName());
+						}
+						}catch(Throwable t){
+							handleExceptionsFromDisplayedUI(form, t);
 						}
 					}
 				});
@@ -533,7 +527,13 @@ public class ReflectionUI {
 		fieldControlPlaceHolder.refreshUI();
 	}
 
-	public void layoutControls0(
+	public void layoutControls(
+			List<FielControlPlaceHolder> fielControlPlaceHolders,
+			final List<Component> methodControls, JPanel parentForm) {
+		layoutControls2(fielControlPlaceHolders, methodControls, parentForm);
+	}
+
+	public void layoutControls1(
 			List<FielControlPlaceHolder> fielControlPlaceHolders,
 			final List<Component> methodControls, JPanel parentForm) {
 		parentForm.setLayout(new SimpleLayout(Kind.COLUMN));
@@ -544,7 +544,20 @@ public class ReflectionUI {
 			FielControlPlaceHolder fielControlPlaceHolder = fielControlPlaceHolders
 					.get(i);
 			fielControlPlaceHolder.showCaption();
-			SimpleLayout.add(fieldsPanel, fielControlPlaceHolder);
+			JPanel container = new JPanel();
+			container.setLayout(new BorderLayout());
+			container.add(fielControlPlaceHolder, BorderLayout.CENTER);
+
+			IFieldInfo field = fielControlPlaceHolder.getField();
+			if ((field.getDocumentation() != null)
+					&& (field.getDocumentation().trim().length() > 0)) {
+				JLabel docControl = new JLabel(new ImageIcon(ReflectionUI.class
+						.getResource("resource/help.png")));
+				docControl.setToolTipText(field.getDocumentation());
+				container.add(docControl, BorderLayout.EAST);
+			}
+
+			SimpleLayout.add(fieldsPanel, container);
 		}
 
 		JPanel methodsPanel = new JPanel();
@@ -582,7 +595,7 @@ public class ReflectionUI {
 		SimpleLayout.add(parentForm, methodsPanel);
 	}
 
-	public void layoutControls(
+	public void layoutControls2(
 			List<FielControlPlaceHolder> fielControlPlaceHolders,
 			final List<Component> methodControls, JPanel parentForm) {
 		parentForm.setLayout(new BorderLayout());
@@ -595,8 +608,9 @@ public class ReflectionUI {
 		for (int i = 0; i < fielControlPlaceHolders.size(); i++) {
 			FielControlPlaceHolder fielControlPlaceHolder = fielControlPlaceHolders
 					.get(i);
-			JLabel label = new JLabel(translateUIString(fielControlPlaceHolder
-					.getField().getCaption() + ": "));
+			IFieldInfo field = fielControlPlaceHolder.getField();
+			JLabel label = new JLabel(translateUIString(field.getCaption()
+					+ ": "));
 			layoutConstraints = new GridBagConstraints();
 			layoutConstraints.insets = new Insets(spacing, spacing, spacing,
 					spacing);
@@ -613,6 +627,21 @@ public class ReflectionUI {
 			layoutConstraints.weightx = 1;
 			layoutConstraints.fill = GridBagConstraints.HORIZONTAL;
 			fieldsPanel.add(fielControlPlaceHolder, layoutConstraints);
+
+			if ((field.getDocumentation() != null)
+					&& (field.getDocumentation().trim().length() > 0)) {
+				JLabel docControl = new JLabel(new ImageIcon(ReflectionUI.class
+						.getResource("resource/help.png")));
+				docControl.setToolTipText(field.getDocumentation());
+				layoutConstraints = new GridBagConstraints();
+				layoutConstraints.insets = new Insets(spacing, spacing,
+						spacing, spacing);
+				layoutConstraints.gridx = 2;
+				layoutConstraints.gridy = i;
+				fieldsPanel.add(docControl, layoutConstraints);
+
+			}
+
 		}
 
 		JPanel methodsPanel = new JPanel();
@@ -1260,6 +1289,11 @@ public class ReflectionUI {
 				public InfoCategory getCategory() {
 					return null;
 				}
+
+				@Override
+				public String getDocumentation() {
+					return null;
+				}
 			};
 			Component fieldControl = virtualField.getType().createFieldControl(
 					null, virtualField);
@@ -1368,9 +1402,10 @@ public class ReflectionUI {
 
 		protected void updateCaption() {
 			if (fieldControl instanceof ICanShowCaptionControl) {
+				setDefaultFieldControlCaption(this, null);
 				((ICanShowCaptionControl) fieldControl).showCaption();
 			} else {
-				setDefaultFieldControlCaption(fieldControl, field.getCaption());
+				setDefaultFieldControlCaption(this, field.getCaption());
 			}
 			captionShown = true;
 		}
