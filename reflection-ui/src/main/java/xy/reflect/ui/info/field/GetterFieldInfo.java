@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -85,8 +86,7 @@ public class GetterFieldInfo implements IFieldInfo {
 
 	@Override
 	public String getName() {
-		return GetterFieldInfo.getFieldName(javaGetterMethod
-				.getName());
+		return GetterFieldInfo.getFieldName(javaGetterMethod.getName());
 	}
 
 	@Override
@@ -123,18 +123,24 @@ public class GetterFieldInfo implements IFieldInfo {
 
 	public static Method getSetterMethod(Method javaGetterMethod,
 			Class<?> containingJavaClass) {
-		String fieldName = getFieldName(javaGetterMethod
-				.getName());
+		String fieldName = getFieldName(javaGetterMethod.getName());
 		String setterMethodName = "set"
 				+ ReflectionUIUtils.changeCase(fieldName, true, 0, 1);
+		Method result;
 		try {
-			return containingJavaClass.getMethod(setterMethodName,
+			result = containingJavaClass.getMethod(setterMethodName,
 					new Class[] { javaGetterMethod.getReturnType() });
 		} catch (NoSuchMethodException e) {
 			return null;
 		} catch (SecurityException e) {
 			throw new ReflectionUIError(e);
 		}
+		if (!ReflectionUIUtils.equalsOrBothNull(ReflectionUIUtils
+				.getAnnotatedInfoCategory(javaGetterMethod),
+				ReflectionUIUtils.getAnnotatedInfoCategory(result))) {
+			return null;
+		}
+		return result;
 	}
 
 	public static boolean isCompatibleWith(Method javaMethod,
@@ -162,7 +168,8 @@ public class GetterFieldInfo implements IFieldInfo {
 
 	@Override
 	public InfoCategory getCategory() {
-		return null;
+		return ReflectionUIUtils
+				.getAnnotatedInfoCategory(javaGetterMethod);
 	}
 
 }

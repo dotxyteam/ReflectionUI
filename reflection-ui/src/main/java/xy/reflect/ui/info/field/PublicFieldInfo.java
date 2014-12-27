@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.type.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -105,7 +106,7 @@ public class PublicFieldInfo implements IFieldInfo {
 
 	@Override
 	public InfoCategory getCategory() {
-		return null;
+		return ReflectionUIUtils.getAnnotatedInfoCategory(javaField);
 	}
 
 

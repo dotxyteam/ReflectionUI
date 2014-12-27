@@ -1,6 +1,6 @@
 package xy.reflect.ui.info.method;
 
-import xy.reflect.ui.info.field.InfoCategory;
+import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 

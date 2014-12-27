@@ -1,6 +1,7 @@
 package xy.reflect.ui.info.field;
 
 import xy.reflect.ui.info.ICommonInfo;
+import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 public interface IFieldInfo extends ICommonInfo{

@@ -8,12 +8,15 @@ import java.awt.Window;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -35,11 +38,18 @@ import com.fasterxml.classmate.members.ResolvedConstructor;
 import com.fasterxml.classmate.members.ResolvedField;
 import com.fasterxml.classmate.members.ResolvedMethod;
 import com.thoughtworks.paranamer.AdaptiveParanamer;
+import com.thoughtworks.paranamer.BytecodeReadingParanamer;
+import com.thoughtworks.paranamer.DefaultParanamer;
+import com.thoughtworks.paranamer.JavadocParanamer;
 import com.thoughtworks.paranamer.Paranamer;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.ModificationStack;
 import xy.reflect.ui.info.ICommonInfo;
+import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.annotation.Properties;
+import xy.reflect.ui.info.annotation.Property;
+import xy.reflect.ui.info.annotation.PropertyKeys;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -244,14 +254,22 @@ public class ReflectionUIUtils {
 	public static String identifierToCaption(String id) {
 		StringBuilder result = new StringBuilder();
 		int i = 0;
+		char lastC = 0;
 		for (char c : id.toCharArray()) {
 			if (i == 0) {
 				result.append(Character.toUpperCase(c));
-			} else if (Character.isUpperCase(c)) {
+			} else if (Character.isUpperCase(c)
+					&& !Character.isUpperCase(lastC)) {
+				result.append(" " + c);
+			} else if (Character.isDigit(c) && !Character.isDigit(lastC)) {
+				result.append(" " + c);
+			} else if (!Character.isLetterOrDigit(c)
+					&& Character.isLetterOrDigit(lastC)) {
 				result.append(" " + c);
 			} else {
 				result.append(c);
 			}
+			lastC = c;
 			i++;
 		}
 		return result.toString();
@@ -582,7 +600,17 @@ public class ReflectionUIUtils {
 	}
 
 	public static String[] getJavaParameterNames(Member owner) {
-		Paranamer paranamer = new AdaptiveParanamer();
+		Paranamer paranamer;
+		try {
+			paranamer = new AdaptiveParanamer(new DefaultParanamer(),
+					new BytecodeReadingParanamer(), new JavadocParanamer(
+							new File(ReflectionUI.class.getResource(
+									"resource/jdk-apidocs.zip").toURI())));
+		} catch (IOException e) {
+			throw new ReflectionUIError(e);
+		} catch (URISyntaxException e) {
+			throw new ReflectionUIError(e);
+		}
 		String[] parameterNames = paranamer.lookupParameterNames(
 				(AccessibleObject) owner, false);
 		if ((parameterNames == null) || (parameterNames.length == 0)) {
@@ -602,10 +630,41 @@ public class ReflectionUIUtils {
 					result.append(", ");
 				}
 			}
-			result.append("" + param.getCaption() + "");
+			result.append(param.toString());
 			iParam++;
 		}
 		return result.toString();
+	}
+
+	public static String getValue(AccessibleObject annotated, String key) {
+		Properties annotation = annotated.getAnnotation(Properties.class);
+		if (annotation == null) {
+			return null;
+		}
+		for (Property p : annotation.value()) {
+			if (key.equals(p.key())) {
+				return p.value();
+			}
+		}
+		return null;
+	}
+
+	public static InfoCategory getAnnotatedInfoCategory(
+			AccessibleObject annotated) {
+		String categoryName = ReflectionUIUtils.getValue(annotated,
+				PropertyKeys.CATEGORY_NAME);
+		if (categoryName != null) {
+			String categoryPositionString = ReflectionUIUtils.getValue(
+					annotated, PropertyKeys.CATEGORY_POSITION);
+			int categoryPosition;
+			if (categoryPositionString == null) {
+				categoryPosition = 0;
+			} else {
+				categoryPosition = Integer.valueOf(categoryPositionString);
+			}
+			return new InfoCategory(categoryName, categoryPosition);
+		}
+		return null;
 	}
 
 }

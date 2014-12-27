@@ -94,8 +94,10 @@ public class DefaultTypeInfo implements ITypeInfo {
 			if (!GetterFieldInfo.isCompatibleWith(javaMethod, javaType)) {
 				continue;
 			}
-			GetterFieldInfo getterFieldInfo = new GetterFieldInfo(reflectionUI, javaMethod, javaType);
-			if(ReflectionUIUtils.findInfoByName(result, getterFieldInfo.getName()) != null){
+			GetterFieldInfo getterFieldInfo = new GetterFieldInfo(reflectionUI,
+					javaMethod, javaType);
+			if (ReflectionUIUtils.findInfoByName(result,
+					getterFieldInfo.getName()) != null) {
 				continue;
 			}
 			result.add(getterFieldInfo);
@@ -214,6 +216,15 @@ public class DefaultTypeInfo implements ITypeInfo {
 	@Override
 	public boolean hasCustomFieldControl() {
 		return false;
+	}
+
+	@Override
+	public String toString(Object object) {
+		if (object == null) {
+			return null;
+		} else {
+			return object.toString();
+		}
 	}
 
 }

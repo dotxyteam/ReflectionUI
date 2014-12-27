@@ -22,7 +22,7 @@ public class MethodControl extends JButton {
 			caption += "...";
 			setToolTipText(method.toString());
 		}
-		setText(caption);
+		setText(reflectionUI.translateUIString(caption));
 		this.reflectionUI = reflectionUI;
 		this.object = object;
 		this.method = method;

@@ -146,10 +146,10 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 
 	protected void updateCaption() {
 		if (subControl instanceof ICanShowCaptionControl) {
-			reflectionUI.setFieldControlCaption(NullableControl.this, null);
+			reflectionUI.setDefaultFieldControlCaption(NullableControl.this, null);
 			((ICanShowCaptionControl) subControl).showCaption();
 		} else {
-			reflectionUI.setFieldControlCaption(NullableControl.this,
+			reflectionUI.setDefaultFieldControlCaption(NullableControl.this,
 					field.getCaption());
 		}
 	}

@@ -6,8 +6,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.UIManager;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.InfoCategory;
 import xy.reflect.ui.info.type.DefaultTextualTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 

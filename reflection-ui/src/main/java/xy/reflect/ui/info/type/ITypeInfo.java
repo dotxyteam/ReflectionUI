@@ -26,4 +26,6 @@ public interface ITypeInfo extends ICommonInfo {
 	boolean isImmutable();
 
 	boolean hasCustomFieldControl();
+
+	String toString(Object object);
 }

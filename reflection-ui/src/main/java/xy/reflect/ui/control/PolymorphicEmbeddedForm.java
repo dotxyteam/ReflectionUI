@@ -12,10 +12,10 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.HiddenNullableFacetFieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.InfoCategory;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.IEnumerationTypeInfo;
@@ -203,6 +203,11 @@ public class PolymorphicEmbeddedForm extends JPanel implements
 					@Override
 					public boolean hasCustomFieldControl() {
 						return true;
+					}
+
+					@Override
+					public String toString(Object object) {
+						return object.toString();
 					}
 
 				};

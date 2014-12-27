@@ -157,7 +157,7 @@ public class DefaultListStructuralInfo implements IListStructuralInfo {
 			if(columnIndex != 0){
 				throw new ReflectionUIError();
 			}
-			return itemPosition.getItem().toString();
+			return reflectionUI.toString(itemPosition.getItem());
 		}
 		Object item = itemPosition.getItem();
 		if (shouldShowValueKindColumn()) {

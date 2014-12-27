@@ -347,11 +347,13 @@ public class ListControl extends JPanel implements IRefreshableControl,
 				}
 			}
 		}
-		
+
 		if (getRootList().size() > 0) {
-			createClearButton(buttonsPanel);
+			if (!getRootListItemPosition().isContainingListReadOnly()) {
+				createClearButton(buttonsPanel);
+			}
 		}
-		
+
 		validate();
 	}
 
@@ -1039,6 +1041,9 @@ public class ListControl extends JPanel implements IRefreshableControl,
 		}
 		ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI
 				.getTypeInfoSource(item));
+		if(actualItemType.hasCustomFieldControl()){
+			return true;
+		}
 		List<IFieldInfo> fields = actualItemType.getFields();
 		List<IMethodInfo> methods = actualItemType.getMethods();
 
