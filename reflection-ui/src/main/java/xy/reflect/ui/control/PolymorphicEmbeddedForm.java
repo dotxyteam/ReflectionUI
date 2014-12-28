@@ -23,35 +23,36 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class PolymorphicEmbeddedForm extends JPanel implements
-		IRefreshableControl, ICanShowCaptionControl {
+public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected ReflectionUI reflectionUI;
 	protected Object object;
 	protected IFieldInfo field;
-	protected List<ITypeInfo> polyTypes;
+	protected List<ITypeInfo> subTypes;
 	protected Map<ITypeInfo, Object> instanceByEnumerationValueCache = new HashMap<ITypeInfo, Object>();
 	protected Component dynamicControl;
 	protected EnumerationControl typeEnumerationControl;
-	protected ITypeInfo type;
+	protected ITypeInfo polymorphicType;
 
-	protected final ITypeInfo NULL_POLY_TYPE = new DefaultTypeInfo(reflectionUI, Object.class){
+	protected final ITypeInfo NULL_POLY_TYPE = new DefaultTypeInfo(
+			reflectionUI, Object.class) {
 
 		@Override
 		public String getCaption() {
 			return "<Choose an option>";
 		}
-		
+
 	};
-	
+	protected ITypeInfo lastInstanceType;
+
 	public PolymorphicEmbeddedForm(final ReflectionUI reflectionUI,
 			final Object object, final IFieldInfo field) {
 		this.reflectionUI = reflectionUI;
 		this.object = object;
 		this.field = field;
-		this.type = field.getType();
-		this.polyTypes = type.getPolymorphicInstanceSubTypes();
+		this.polymorphicType = field.getType();
+		this.subTypes = polymorphicType.getPolymorphicInstanceSubTypes();
 
 		setLayout(new BorderLayout());
 
@@ -92,10 +93,9 @@ public class PolymorphicEmbeddedForm extends JPanel implements
 						field.setValue(object, null);
 					} else {
 						ITypeInfo selectedPolyType = null;
-						for (ITypeInfo polyType : polyTypes) {
-							if (value
-									.equals(polyType)) {
-								selectedPolyType = polyType;
+						for (ITypeInfo subType : subTypes) {
+							if (value.equals(subType)) {
+								selectedPolyType = subType;
 								break;
 							}
 						}
@@ -189,8 +189,8 @@ public class PolymorphicEmbeddedForm extends JPanel implements
 						if (PolymorphicEmbeddedForm.this.field.isNullable()) {
 							result.add(NULL_POLY_TYPE);
 						}
-						for (ITypeInfo type : polyTypes) {
-							result.add(type);
+						for (ITypeInfo subType : subTypes) {
+							result.add(subType);
 						}
 						return result;
 					}
@@ -217,7 +217,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements
 
 					@Override
 					public String formatValue(Object value) {
-						return ((ITypeInfo)value).getCaption();
+						return ((ITypeInfo) value).getCaption();
 					}
 
 				};
@@ -234,36 +234,46 @@ public class PolymorphicEmbeddedForm extends JPanel implements
 		return actualFieldValueType.getCaption();
 	}
 
-	protected Component createDynamicControl(Object instance) {
-		final ITypeInfo actualFieldValueType = reflectionUI
-				.getTypeInfo(reflectionUI.getTypeInfoSource(instance));
-		return actualFieldValueType.createFieldControl(object,
+	protected Component createDynamicControl(final ITypeInfo instanceType) {
+		return instanceType.createFieldControl(object,
 				new HiddenNullableFacetFieldInfoProxy(reflectionUI,
 						new FieldInfoProxy(field) {
 
 							@Override
 							public ITypeInfo getType() {
-								return actualFieldValueType;
+								return instanceType;
 							}
 
 						}));
 	}
 
-	protected void updateDynamicControl() {
-		if (dynamicControl != null) {
+	protected void refreshDynamicControl(ITypeInfo instanceType) {
+		if ((lastInstanceType == null) && (instanceType == null)) {
+			return;
+		} else if ((lastInstanceType != null) && (instanceType == null)) {
 			remove(dynamicControl);
 			dynamicControl = null;
-		}
-		Object instance = field.getValue(object);
-		if (instance != null) {
-			dynamicControl = createDynamicControl(instance);
+			ReflectionUIUtils.updateLayout(this);
+		} else if ((lastInstanceType == null) && (instanceType != null)) {
+			dynamicControl = createDynamicControl(instanceType);
 			add(dynamicControl, BorderLayout.CENTER);
+			ReflectionUIUtils.updateLayout(this);
+		} else {
+			if (lastInstanceType.equals(instanceType)) {
+				if (dynamicControl instanceof IFieldControl) {
+					if (((IFieldControl) dynamicControl).refreshUI()) {
+						return;
+					}
+				}
+			}
+			remove(dynamicControl);
+			dynamicControl = createDynamicControl(instanceType);
+			add(dynamicControl, BorderLayout.CENTER);
+			ReflectionUIUtils.updateLayout(this);
 		}
-
-		ReflectionUIUtils.updateLayout(this);
 	}
 
-	protected void updateTypeEnumerationControl() {
+	protected void refreshTypeEnumerationControl() {
 		if (typeEnumerationControl != null) {
 			remove(typeEnumerationControl);
 		}
@@ -273,14 +283,29 @@ public class PolymorphicEmbeddedForm extends JPanel implements
 	}
 
 	@Override
-	public void refreshUI() {
-		updateTypeEnumerationControl();
-		updateDynamicControl();
+	public boolean refreshUI() {
+		Object instance = field.getValue(object);
+		ITypeInfo instanceType = null;
+		if (instance != null) {
+			instanceType = reflectionUI.getTypeInfo(reflectionUI
+					.getTypeInfoSource(instance));
+		}
+		refreshTypeEnumerationControl();
+		refreshDynamicControl(instanceType);
+		lastInstanceType = instanceType;
+		return true;
 	}
 
 	@Override
-	public void showCaption() {
+	public boolean showCaption() {
 		setBorder(BorderFactory.createTitledBorder(field.getCaption()));
+		return true;
+	}
+
+	@Override
+	public boolean displayError(ReflectionUIError error) {
+		return (dynamicControl instanceof IFieldControl)
+				&& ((IFieldControl) dynamicControl).displayError(error);
 	}
 
 }

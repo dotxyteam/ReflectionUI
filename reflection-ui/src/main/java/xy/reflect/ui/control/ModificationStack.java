@@ -215,7 +215,7 @@ public class ModificationStack {
 			if (refreshView) {
 				for (JPanel form : ReflectionUIUtils.getKeysFromValue(
 						reflectionUI.getObjectByForm(), object)) {
-					reflectionUI.refreshFieldControl(form, field.getName());
+					reflectionUI.refreshAndRelayoutFieldControl(form, field.getName());
 				}
 			}
 			return opposite;

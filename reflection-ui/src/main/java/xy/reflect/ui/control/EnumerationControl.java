@@ -18,10 +18,8 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.IEnumerationTypeInfo;
-import xy.reflect.ui.util.component.TabulatingLabel;
 
-public class EnumerationControl extends JPanel implements
-		ICanShowCaptionControl {
+public class EnumerationControl extends JPanel  {
 	protected static final long serialVersionUID = 1L;
 	protected IEnumerationTypeInfo enumType;
 	protected ReflectionUI reflectionUI;
@@ -97,11 +95,6 @@ public class EnumerationControl extends JPanel implements
 				}
 			}
 		});
-	}
-
-	@Override
-	public void showCaption() {
-		add(new TabulatingLabel(field.getCaption() + ": "), BorderLayout.WEST);
 	}
 
 }

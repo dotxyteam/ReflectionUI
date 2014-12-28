@@ -7,15 +7,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
-
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class NullableControl extends JPanel implements IRefreshableControl,
-		ICanShowCaptionControl, ICanDisplayErrorControl {
+public class NullableControl extends JPanel implements IFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected ReflectionUI reflectionUI;
@@ -24,7 +22,6 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 	protected JCheckBox nullingControl;
 	protected Component subControl;
 	protected DefaultTypeInfo defaultTypeInfo;
-	protected boolean captionShown = false;
 
 	public NullableControl(ReflectionUI reflectionUI, Object object,
 			IFieldInfo field, DefaultTypeInfo defaultObjectTypeInfo) {
@@ -60,6 +57,7 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 
 	protected void setShouldBeNull(boolean b) {
 		nullingControl.setSelected(!b);
+		nullingControl.setVisible(!b);
 	}
 
 	protected boolean shoulBeNull() {
@@ -67,10 +65,11 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 	}
 
 	@Override
-	public void refreshUI() {
+	public boolean refreshUI() {
 		Object value = field.getValue(object);
 		setShouldBeNull(value == null);
 		updateSubControl(value);
+		return true;
 	}
 
 	protected void onNullingControlStateChange() {
@@ -89,19 +88,19 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 			}
 		} else {
 			newValue = null;
+			remove(subControl);
+			subControl = null;
 		}
-
 		field.setValue(object, newValue);
-		updateSubControl(newValue);
-		subControl.requestFocus();		
+		reflectionUI.refreshAndRelayoutFieldControl(
+				ReflectionUIUtils.findAncestorForm(this, reflectionUI),
+				field.getName());
+		subControl.requestFocus();
 	}
 
 	public void updateSubControl(Object newValue) {
-		boolean shouldUpdateCaption = false;
-		if ((newValue != null) && !(subControl instanceof NullControl)
-				&& (subControl instanceof IRefreshableControl)) {
-			((IRefreshableControl) subControl).refreshUI();
-		} else {
+		if (!((newValue != null) && (subControl instanceof IFieldControl) && (((IFieldControl) subControl)
+				.refreshUI()))) {
 			if (subControl != null) {
 				remove(subControl);
 			}
@@ -121,13 +120,6 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 				});
 				add(subControl, BorderLayout.CENTER);
 			}
-			if (captionShown) {
-				shouldUpdateCaption = true;
-			}
-		}
-
-		if (shouldUpdateCaption) {
-			updateCaption();
 		}
 
 		ReflectionUIUtils.updateLayout(this);
@@ -139,31 +131,20 @@ public class NullableControl extends JPanel implements IRefreshableControl,
 	}
 
 	@Override
-	public void showCaption() {
-		updateCaption();
-		captionShown = true;
-	}
-
-	protected void updateCaption() {
-		if (subControl instanceof ICanShowCaptionControl) {
-			reflectionUI.setDefaultFieldControlCaption(NullableControl.this, null);
-			((ICanShowCaptionControl) subControl).showCaption();
+	public boolean showCaption() {
+		if (subControl instanceof IFieldControl) {
+			return ((IFieldControl) subControl).showCaption();
 		} else {
-			reflectionUI.setDefaultFieldControlCaption(NullableControl.this,
-					field.getCaption());
+			return false;
 		}
 	}
 
 	@Override
-	public void displayError(String error) {
-		if ((!shoulBeNull()) && (subControl instanceof ICanDisplayErrorControl)) {
-			((ICanDisplayErrorControl) subControl).displayError(error);
+	public boolean displayError(ReflectionUIError error) {
+		if (subControl instanceof IFieldControl) {
+			return ((IFieldControl) subControl).displayError(error);
 		} else {
-			if (error != null) {
-				reflectionUI.handleExceptionsFromDisplayedUI(subControl,
-						new ReflectionUIError(error));
-				refreshUI();
-			}
+			return false;
 		}
 	}
 

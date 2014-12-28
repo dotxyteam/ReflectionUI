@@ -16,11 +16,10 @@ import javax.swing.text.DefaultFormatter;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITextualTypeInfo;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.component.TabulatingLabel;
 
-public class TextControl extends JPanel implements IRefreshableControl,
-		ICanShowCaptionControl, ICanDisplayErrorControl {
+public class TextControl extends JPanel implements IFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected ReflectionUI reflectionUI;
@@ -70,7 +69,7 @@ public class TextControl extends JPanel implements IRefreshableControl,
 							onTextChange((String) evt.getNewValue());
 						}
 					} catch (Throwable t) {
-						displayError(t.toString());
+						displayError(new ReflectionUIError(t));
 					}
 				}
 			});
@@ -79,11 +78,13 @@ public class TextControl extends JPanel implements IRefreshableControl,
 	}
 
 	@Override
-	public void displayError(String error) {
-		boolean changed = (error == null) != (textField.getBorder() == textFieldNormalBorder);
+	public boolean displayError(ReflectionUIError error) {
+		boolean changed = !ReflectionUIUtils.equalsOrBothNull(error,
+				textField.getToolTipText());
 		if (!changed) {
-			return;
+			return true;
 		}
+		reflectionUI.logError(error);
 		if (error == null) {
 			textField.setBorder(textFieldNormalBorder);
 			textField.setToolTipText("");
@@ -93,9 +94,10 @@ public class TextControl extends JPanel implements IRefreshableControl,
 			border.setTitleColor(Color.RED);
 			border.setBorder(BorderFactory.createLineBorder(Color.RED));
 			textField.setBorder(border);
-			textField.setToolTipText(error);
+			textField.setToolTipText(error.toString());
 			ReflectionUIUtils.showTooltipNow(textField);
 		}
+		return true;
 	}
 
 	protected void onTextChange(String newValue) {
@@ -111,18 +113,19 @@ public class TextControl extends JPanel implements IRefreshableControl,
 	}
 
 	@Override
-	public void refreshUI() {
+	public boolean refreshUI() {
 		textChangedByUser = false;
 		int lastCaretPosition = textField.getCaretPosition();
 		textField.setText(textType.toText(field.getValue(object)));
 		textField.setCaretPosition(Math.min(lastCaretPosition, textField
 				.getText().length()));
 		textChangedByUser = true;
+		return true;
 	}
 
 	@Override
-	public void showCaption() {
-		add(new TabulatingLabel(field.getCaption() + ": "), BorderLayout.WEST);
+	public boolean showCaption() {
+		return false;
 	}
 
 }

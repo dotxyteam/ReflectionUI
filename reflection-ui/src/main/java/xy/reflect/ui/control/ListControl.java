@@ -58,11 +58,11 @@ import xy.reflect.ui.info.type.IListTypeInfo.IListStructuralInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.JavaTypeInfoSource;
 import xy.reflect.ui.util.Accessor;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 @SuppressWarnings("rawtypes")
-public class ListControl extends JPanel implements IRefreshableControl,
-		ICanShowCaptionControl {
+public class ListControl extends JPanel implements IFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected ReflectionUI reflectionUI;
@@ -178,8 +178,9 @@ public class ListControl extends JPanel implements IRefreshableControl,
 	}
 
 	@Override
-	public void showCaption() {
+	public boolean showCaption() {
 		setBorder(BorderFactory.createTitledBorder(field.getCaption()));
+		return true;
 	}
 
 	protected String getColumnCaption(int columnIndex) {
@@ -1063,7 +1064,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 		treeTableComponent.setTreeTableModel(createTreeTableModel());
 	}
 
-	public void refreshUI() {
+	public boolean refreshUI() {
 		List<ItemPosition> lastlySelectedItemPositions = getSelection();
 		List<Object> lastlySelectedItems = new ArrayList<Object>();
 		for (int i = 0; i < lastlySelectedItemPositions.size(); i++) {
@@ -1087,6 +1088,7 @@ public class ListControl extends JPanel implements IRefreshableControl,
 			}
 		}
 		setSelection(lastlySelectedItemPositions);
+		return true;
 	}
 
 	protected class ItemNode extends DefaultMutableTreeNode {
@@ -1804,6 +1806,11 @@ public class ListControl extends JPanel implements IRefreshableControl,
 				label.setIcon(null);
 			}
 		}
+	}
+
+	@Override
+	public boolean displayError(ReflectionUIError error) {
+		return false;
 	}
 
 }

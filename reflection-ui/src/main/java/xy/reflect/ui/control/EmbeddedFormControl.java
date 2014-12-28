@@ -9,10 +9,11 @@ import javax.swing.JPanel;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class EmbeddedFormControl extends JPanel implements
-		ICanShowCaptionControl {
+		IFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected ReflectionUI reflectionUI;
@@ -130,8 +131,19 @@ public class EmbeddedFormControl extends JPanel implements
 	}
 
 	@Override
-	public void showCaption() {
+	public boolean showCaption() {
 		setBorder(BorderFactory.createTitledBorder(field.getCaption()));
+		return true;
+	}
+
+	@Override
+	public boolean displayError(ReflectionUIError error) {
+		return false;
+	}
+
+	@Override
+	public boolean refreshUI() {
+		return false;
 	}
 
 }

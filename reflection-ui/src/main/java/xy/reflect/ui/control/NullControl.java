@@ -10,6 +10,7 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.DefaultTextualTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.util.ReflectionUIError;
 
 public class NullControl extends TextControl {
 
@@ -75,12 +76,25 @@ public class NullControl extends TextControl {
 				}
 			});
 		}
+		textField.setBackground(UIManager.getColor("TextField.shadow"));		
 	}
 
 	@Override
-	public void refreshUI() {
-		super.refreshUI();
-		textField.setBackground(UIManager.getColor("TextField.shadow"));
+	public boolean displayError(ReflectionUIError error) {
+		return false;
 	}
+
+	@Override
+	public boolean refreshUI() {
+		return false;
+	}
+
+	@Override
+	public boolean showCaption() {
+		return false;
+	}
+	
+	
+	
 
 }

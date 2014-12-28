@@ -2,4 +2,5 @@
 - update translatable strings
 - check getSubObjectEd is used where it should
 - be careful with UiManager.getColor
+- check invokeLater exception handling
 

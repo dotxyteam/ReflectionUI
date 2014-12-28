@@ -10,9 +10,10 @@ import javax.swing.JCheckBox;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.IBooleanTypeInfo;
+import xy.reflect.ui.util.ReflectionUIError;
 
 public class CheckBoxControl extends JCheckBox implements
-		ICanShowCaptionControl {
+		IFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected ReflectionUI reflectionUI;
@@ -51,8 +52,19 @@ public class CheckBoxControl extends JCheckBox implements
 	}
 
 	@Override
-	public void showCaption() {
+	public boolean showCaption() {
 		setText(reflectionUI.translateUIString(field.getCaption()));
+		return true;
+	}
+
+	@Override
+	public boolean displayError(ReflectionUIError error) {
+		return false;
+	}
+
+	@Override
+	public boolean refreshUI() {
+		return false;
 	}
 
 }

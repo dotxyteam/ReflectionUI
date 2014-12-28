@@ -2,6 +2,7 @@ package xy.reflect.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dialog.ModalityType;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -34,7 +35,6 @@ import java.util.TreeSet;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -45,13 +45,10 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.border.TitledBorder;
 
 import org.jdesktop.swingx.JXBusyLabel;
 
-import xy.reflect.ui.control.ICanDisplayErrorControl;
-import xy.reflect.ui.control.ICanShowCaptionControl;
-import xy.reflect.ui.control.IRefreshableControl;
+import xy.reflect.ui.control.IFieldControl;
 import xy.reflect.ui.control.MethodControl;
 import xy.reflect.ui.control.ModificationStack;
 import xy.reflect.ui.control.ModificationStack.IModification;
@@ -82,8 +79,6 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.component.AutoResizeTabbedPane;
 import xy.reflect.ui.util.component.ScrollPaneOptions;
-import xy.reflect.ui.util.component.SimpleLayout;
-import xy.reflect.ui.util.component.SimpleLayout.Kind;
 import xy.reflect.ui.util.component.WrapLayout;
 
 import com.google.common.collect.MapMaker;
@@ -94,7 +89,7 @@ public class ReflectionUI {
 			.makeMap();
 	protected Map<JPanel, ModificationStack> modificationStackByForm = new MapMaker()
 			.weakKeys().makeMap();
-	protected Map<JPanel, Map<String, FielControlPlaceHolder>> controlPlaceHolderByFieldNameByForm = new MapMaker()
+	protected Map<JPanel, Map<String, FieldControlPlaceHolder>> controlPlaceHolderByFieldNameByForm = new MapMaker()
 			.weakKeys().makeMap();
 
 	public static void main(String[] args) {
@@ -245,7 +240,7 @@ public class ReflectionUI {
 					FlowLayout.LEFT), BorderLayout.NORTH);
 		}
 
-		Map<InfoCategory, List<FielControlPlaceHolder>> fieldControlPlaceHoldersByCategory = new HashMap<InfoCategory, List<FielControlPlaceHolder>>();
+		Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = new HashMap<InfoCategory, List<FieldControlPlaceHolder>>();
 		List<IFieldInfo> fields = type.getFields();
 		for (IFieldInfo field : fields) {
 			if (settings.excludeField(field)) {
@@ -255,13 +250,13 @@ public class ReflectionUI {
 				field = makeFieldModificationsUndoable(field, form);
 				field = refreshOtherFieldsAfterFieldModification(field, form);
 			}
-			FielControlPlaceHolder fieldControlPlaceHolder = createFieldControlPlaceHolder(
+			FieldControlPlaceHolder fieldControlPlaceHolder = createFieldControlPlaceHolder(
 					object, field);
 			{
-				Map<String, FielControlPlaceHolder> controlPlaceHolderByFieldName = controlPlaceHolderByFieldNameByForm
+				Map<String, FieldControlPlaceHolder> controlPlaceHolderByFieldName = controlPlaceHolderByFieldNameByForm
 						.get(form);
 				if (controlPlaceHolderByFieldName == null) {
-					controlPlaceHolderByFieldName = new HashMap<String, FielControlPlaceHolder>();
+					controlPlaceHolderByFieldName = new HashMap<String, FieldControlPlaceHolder>();
 					controlPlaceHolderByFieldNameByForm.put(form,
 							controlPlaceHolderByFieldName);
 				}
@@ -277,10 +272,10 @@ public class ReflectionUI {
 				if (category == null) {
 					category = getNullInfoCategory();
 				}
-				List<FielControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
+				List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
 						.get(category);
 				if (fieldControlPlaceHolders == null) {
-					fieldControlPlaceHolders = new ArrayList<ReflectionUI.FielControlPlaceHolder>();
+					fieldControlPlaceHolders = new ArrayList<ReflectionUI.FieldControlPlaceHolder>();
 					fieldControlPlaceHoldersByCategory.put(category,
 							fieldControlPlaceHolders);
 				}
@@ -327,7 +322,7 @@ public class ReflectionUI {
 		allCategories.addAll(fieldControlPlaceHoldersByCategory.keySet());
 		allCategories.addAll(methodControlsByCategory.keySet());
 		if (allCategories.size() == 1) {
-			List<FielControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
+			List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
 					.get(allCategories.first());
 			if (fieldControlPlaceHolders == null) {
 				fieldControlPlaceHolders = Collections.emptyList();
@@ -350,11 +345,11 @@ public class ReflectionUI {
 
 	public Component createMultipleInfoCategoriesComponent(
 			final SortedSet<InfoCategory> allCategories,
-			Map<InfoCategory, List<FielControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
+			Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
 			Map<InfoCategory, List<Component>> methodControlsByCategory) {
 		final JTabbedPane tabbedPane = new AutoResizeTabbedPane();
 		for (final InfoCategory category : allCategories) {
-			List<FielControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
+			List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
 					.get(category);
 			if (fieldControlPlaceHolders == null) {
 				fieldControlPlaceHolders = Collections.emptyList();
@@ -425,9 +420,9 @@ public class ReflectionUI {
 		}
 	}
 
-	public FielControlPlaceHolder createFieldControlPlaceHolder(Object object,
+	public FieldControlPlaceHolder createFieldControlPlaceHolder(Object object,
 			IFieldInfo field) {
-		return new FielControlPlaceHolder(object, field);
+		return new FieldControlPlaceHolder(object, field);
 	}
 
 	public IFieldInfo makeFieldModificationsUndoable(final IFieldInfo field,
@@ -521,7 +516,7 @@ public class ReflectionUI {
 										fieldToRefresh.getName())) {
 									continue;
 								}
-								refreshFieldControl(form,
+								refreshAndRelayoutFieldControl(form,
 										fieldToRefresh.getName());
 							}
 						} catch (Throwable t) {
@@ -542,7 +537,7 @@ public class ReflectionUI {
 				Object result = super.invoke(object, valueByParameterName);
 				ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
 				for (IFieldInfo field : type.getFields()) {
-					refreshFieldControl(form, field.getName());
+					refreshAndRelayoutFieldControl(form, field.getName());
 				}
 				return result;
 			}
@@ -550,7 +545,7 @@ public class ReflectionUI {
 		};
 	}
 
-	public void refreshFieldControl(JPanel form, String fieldName) {
+	public void refreshAndRelayoutFieldControl(JPanel form, String fieldName) {
 		Object object = getObjectByForm().get(form);
 		ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
 		IFieldInfo field = ReflectionUIUtils.findInfoByName(type.getFields(),
@@ -558,82 +553,16 @@ public class ReflectionUI {
 		if (field == null) {
 			return;
 		}
-		Map<String, FielControlPlaceHolder> controlPlaceHolderByFieldName = controlPlaceHolderByFieldNameByForm
+		Map<String, FieldControlPlaceHolder> controlPlaceHolderByFieldName = controlPlaceHolderByFieldNameByForm
 				.get(form);
-		FielControlPlaceHolder fieldControlPlaceHolder = controlPlaceHolderByFieldName
+		FieldControlPlaceHolder fieldControlPlaceHolder = controlPlaceHolderByFieldName
 				.get(field.getName());
 		fieldControlPlaceHolder.refreshUI();
+		updateFieldControlLayout(fieldControlPlaceHolder);
 	}
 
 	public void layoutControls(
-			List<FielControlPlaceHolder> fielControlPlaceHolders,
-			final List<Component> methodControls, JPanel parentForm) {
-		layoutControls2(fielControlPlaceHolders, methodControls, parentForm);
-	}
-
-	public void layoutControls1(
-			List<FielControlPlaceHolder> fielControlPlaceHolders,
-			final List<Component> methodControls, JPanel parentForm) {
-		parentForm.setLayout(new SimpleLayout(Kind.COLUMN));
-
-		JPanel fieldsPanel = new JPanel();
-		fieldsPanel.setLayout(new SimpleLayout(Kind.COLUMN));
-		for (int i = 0; i < fielControlPlaceHolders.size(); i++) {
-			FielControlPlaceHolder fielControlPlaceHolder = fielControlPlaceHolders
-					.get(i);
-			fielControlPlaceHolder.showCaption();
-			JPanel container = new JPanel();
-			container.setLayout(new BorderLayout());
-			container.add(fielControlPlaceHolder, BorderLayout.CENTER);
-
-			IFieldInfo field = fielControlPlaceHolder.getField();
-			if ((field.getDocumentation() != null)
-					&& (field.getDocumentation().trim().length() > 0)) {
-				container.add(
-						createDocumentationControl(field.getDocumentation()),
-						BorderLayout.EAST);
-			}
-
-			SimpleLayout.add(fieldsPanel, container);
-		}
-
-		JPanel methodsPanel = new JPanel();
-		methodsPanel.setLayout(new WrapLayout(WrapLayout.CENTER));
-		for (final Component methodControl : methodControls) {
-			JPanel methodControlContainer = new JPanel() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public Dimension getPreferredSize() {
-					Dimension result = super.getPreferredSize();
-					if (result == null) {
-						return super.getPreferredSize();
-					}
-					int maxMethodControlWidth = 0;
-					for (final Component methodControl : methodControls) {
-						Dimension controlPreferredSize = methodControl
-								.getPreferredSize();
-						if (controlPreferredSize != null) {
-							maxMethodControlWidth = Math.max(
-									maxMethodControlWidth,
-									controlPreferredSize.width);
-						}
-					}
-					result.width = maxMethodControlWidth;
-					return result;
-				}
-			};
-			methodControlContainer.setLayout(new BorderLayout());
-			methodControlContainer.add(methodControl, BorderLayout.CENTER);
-			methodsPanel.add(methodControlContainer);
-		}
-
-		SimpleLayout.add(parentForm, fieldsPanel);
-		SimpleLayout.add(parentForm, methodsPanel);
-	}
-
-	public void layoutControls2(
-			List<FielControlPlaceHolder> fielControlPlaceHolders,
+			List<FieldControlPlaceHolder> fielControlPlaceHolders,
 			final List<Component> methodControls, JPanel parentForm) {
 		parentForm.setLayout(new BorderLayout());
 
@@ -643,23 +572,35 @@ public class ReflectionUI {
 		GridBagConstraints layoutConstraints;
 		int spacing = 5;
 		for (int i = 0; i < fielControlPlaceHolders.size(); i++) {
-			FielControlPlaceHolder fielControlPlaceHolder = fielControlPlaceHolders
+			FieldControlPlaceHolder fielControlPlaceHolder = fielControlPlaceHolders
 					.get(i);
+			Component fieldControl = fielControlPlaceHolder.getFieldControl();
 			IFieldInfo field = fielControlPlaceHolder.getField();
-			JLabel label = new JLabel(translateUIString(field.getCaption()
-					+ ": "));
-			layoutConstraints = new GridBagConstraints();
-			layoutConstraints.insets = new Insets(spacing, spacing, spacing,
-					spacing);
-			layoutConstraints.gridx = 0;
-			layoutConstraints.gridy = i;
-			layoutConstraints.anchor = GridBagConstraints.WEST;
-			fieldsPanel.add(label, layoutConstraints);
+
+			boolean fieldControlHasCaption = (fieldControl instanceof IFieldControl)
+					&& ((IFieldControl) fieldControl).showCaption();
+			if (!fieldControlHasCaption) {
+				JLabel captionControl = new JLabel(
+						translateUIString(field.getCaption() + ": "));
+				layoutConstraints = new GridBagConstraints();
+				layoutConstraints.insets = new Insets(spacing, spacing,
+						spacing, spacing);
+				layoutConstraints.gridx = 0;
+				layoutConstraints.gridy = i;
+				layoutConstraints.anchor = GridBagConstraints.WEST;
+				fieldsPanel.add(captionControl, layoutConstraints);
+				fielControlPlaceHolder.setCaptionControl(captionControl);
+			}
 
 			layoutConstraints = new GridBagConstraints();
 			layoutConstraints.insets = new Insets(spacing, spacing, spacing,
 					spacing);
-			layoutConstraints.gridx = 1;
+			if (fieldControlHasCaption) {
+				layoutConstraints.gridwidth = 2;
+				layoutConstraints.gridx = 0;
+			} else {
+				layoutConstraints.gridx = 1;
+			}
 			layoutConstraints.gridy = i;
 			layoutConstraints.weightx = 1;
 			layoutConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -713,26 +654,63 @@ public class ReflectionUI {
 		}
 	}
 
-	public void setDefaultFieldControlCaption(Component fieldControl,
-			String caption) {
-		TitledBorder titledBorder;
-		if (caption == null) {
-			titledBorder = null;
-		} else {
-			titledBorder = BorderFactory
-					.createTitledBorder(translateUIString(caption));
+	public void updateFieldControlLayout(
+			FieldControlPlaceHolder fieldControlPlaceHolder) {
+		Component fieldControl = fieldControlPlaceHolder.getFieldControl();
+		IFieldInfo field = fieldControlPlaceHolder.getField();
+		Container fieldsPanel = fieldControlPlaceHolder.getParent();
+		
+		GridBagLayout layout = (GridBagLayout) fieldsPanel.getLayout();
+		int i = layout.getConstraints(fieldControlPlaceHolder).gridy;
+		
+		fieldsPanel.remove(fieldControlPlaceHolder);
+		if (fieldControlPlaceHolder.getCaptionControl() != null) {
+			fieldsPanel.remove(fieldControlPlaceHolder.getCaptionControl());
+			fieldControlPlaceHolder.setCaptionControl(null);
 		}
-		((JComponent) fieldControl).setBorder(titledBorder);
+
+		boolean fieldControlHasCaption = (fieldControl instanceof IFieldControl)
+				&& ((IFieldControl) fieldControl).showCaption();
+		GridBagConstraints layoutConstraints;
+		int spacing = 5;
+		if (!fieldControlHasCaption) {
+			JLabel captionControl = new JLabel(
+					translateUIString(field.getCaption() + ": "));
+			layoutConstraints = new GridBagConstraints();
+			layoutConstraints.insets = new Insets(spacing, spacing, spacing,
+					spacing);
+			layoutConstraints.gridx = 0;
+			layoutConstraints.gridy = i;
+			layoutConstraints.anchor = GridBagConstraints.WEST;
+			fieldsPanel.add(captionControl, layoutConstraints);
+			fieldControlPlaceHolder.setCaptionControl(captionControl);
+		}
+
+		layoutConstraints = new GridBagConstraints();
+		layoutConstraints.insets = new Insets(spacing, spacing, spacing,
+				spacing);
+		if (fieldControlHasCaption) {
+			layoutConstraints.gridwidth = 2;
+			layoutConstraints.gridx = 0;
+		} else {
+			layoutConstraints.gridx = 1;
+		}
+		layoutConstraints.gridy = i;
+		layoutConstraints.weightx = 1;
+		layoutConstraints.fill = GridBagConstraints.HORIZONTAL;
+		fieldsPanel.add(fieldControlPlaceHolder, layoutConstraints);
+		
+		fieldsPanel.validate();
 	}
 
 	public void handleExceptionsFromDisplayedUI(Component activatorComponent,
 			final Throwable t) {
-		logError(t);
+		logError(new ReflectionUIError(t));
 		openErrorDialog(activatorComponent,
 				translateUIString("An Error Occured"), new ReflectionUIError(t));
 	}
 
-	public void logError(Throwable t) {
+	public void logError(ReflectionUIError t) {
 		t.printStackTrace();
 	}
 
@@ -1363,23 +1341,33 @@ public class ReflectionUI {
 		window.setBounds(bounds);
 	}
 
-	protected class FielControlPlaceHolder extends JPanel implements
-			IRefreshableControl, ICanShowCaptionControl,
-			ICanDisplayErrorControl {
+	protected class FieldControlPlaceHolder extends JPanel {
 
 		protected static final long serialVersionUID = 1L;
 		protected Object object;
 		protected IFieldInfo field;
 		protected Component fieldControl;
-		protected boolean captionShown = false;
+		private Component captionControl;
 
-		public FielControlPlaceHolder(Object object, IFieldInfo field) {
+		public FieldControlPlaceHolder(Object object, IFieldInfo field) {
 			super();
 			this.object = object;
 			field = handleValueChangeErrors(field);
 			this.field = field;
 			setLayout(new BorderLayout());
 			refreshUI();
+		}
+
+		public void setCaptionControl(Component captionControl) {
+			this.captionControl = captionControl;
+		}
+
+		public Component getCaptionControl() {
+			return captionControl;
+		}
+
+		public Component getFieldControl() {
+			return fieldControl;
 		}
 
 		public IFieldInfo getField() {
@@ -1395,73 +1383,47 @@ public class ReflectionUI {
 						super.setValue(object, value);
 						displayError(null);
 					} catch (final Throwable t) {
-						logError(t);
-						SwingUtilities.invokeLater(new Runnable() {
-							@Override
-							public void run() {
-								displayError(t.toString());
-							}
-						});
-
+						displayError(new ReflectionUIError(t));						
 					}
 				}
 
 			};
 		}
 
-		@Override
 		public void refreshUI() {
-			boolean shouldUpdateCaption = false;
 			if (fieldControl == null) {
 				fieldControl = field.getType()
 						.createFieldControl(object, field);
 				add(fieldControl, BorderLayout.CENTER);
-				if (captionShown) {
-					shouldUpdateCaption = true;
-				}
 			} else {
-				if (fieldControl instanceof IRefreshableControl) {
-					((IRefreshableControl) fieldControl).refreshUI();
-				} else {
+				if (!(((fieldControl instanceof IFieldControl) && ((IFieldControl) fieldControl)
+						.refreshUI()))) {
 					remove(fieldControl);
 					fieldControl = null;
 					refreshUI();
 				}
 			}
 
-			if (shouldUpdateCaption) {
-				updateCaption();
-			}
-
 			ReflectionUIUtils.updateLayout(this);
 		}
 
-		@Override
-		public void showCaption() {
-			updateCaption();
-			captionShown = true;
-		}
-
-		protected void updateCaption() {
-			if (fieldControl instanceof ICanShowCaptionControl) {
-				setDefaultFieldControlCaption(this, null);
-				((ICanShowCaptionControl) fieldControl).showCaption();
-			} else {
-				setDefaultFieldControlCaption(this, field.getCaption());
-			}
-			captionShown = true;
-		}
-
-		@Override
-		public void displayError(String error) {
-			if (fieldControl instanceof ICanDisplayErrorControl) {
-				((ICanDisplayErrorControl) fieldControl).displayError(error);
-			} else {
+		public void displayError(ReflectionUIError error) {
+			if (!((fieldControl instanceof IFieldControl) && ((IFieldControl) fieldControl)
+					.displayError(error))) {
 				if (error != null) {
 					handleExceptionsFromDisplayedUI(fieldControl,
-							new ReflectionUIError(error));
+							error);
 					refreshUI();
 				}
+			}
+		}
+
+		public boolean showCaption() {
+			if (((fieldControl instanceof IFieldControl) && ((IFieldControl) fieldControl)
+					.showCaption())) {
+				return true;
+			} else {
+				return false;
 			}
 		}
 
