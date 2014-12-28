@@ -1,4 +1,4 @@
-package xy.reflect.ui.info.type;
+package xy.reflect.ui.info;
 
 import java.awt.Component;
 import java.io.File;
@@ -8,13 +8,19 @@ import java.util.Map;
 
 import javax.swing.JFileChooser;
 
-import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
+import xy.reflect.ui.info.type.FileTypeInfo;
+import xy.reflect.ui.info.type.IBooleanTypeInfo;
+import xy.reflect.ui.info.type.IEnumerationTypeInfo;
+import xy.reflect.ui.info.type.IListTypeInfo;
+import xy.reflect.ui.info.type.IMapEntryTypeInfo;
+import xy.reflect.ui.info.type.ITextualTypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.IListTypeInfo.IListStructuralInfo;
 
-public class TypeInfoProxy {
+public class InfoProxyConfiguration {
 
 	public ITypeInfo get(final ITypeInfo type) {
 		if (type instanceof IListTypeInfo) {
@@ -33,7 +39,7 @@ public class TypeInfoProxy {
 			return new BasicTypeInfoProxy(type);
 		}
 	}
-
+	
 	protected Object getDefaultValue(IParameterInfo param, IMethodInfo method,
 			ITypeInfo containingType) {
 		return param.getDefaultValue();
@@ -349,67 +355,67 @@ public class TypeInfoProxy {
 
 		@Override
 		public String getName() {
-			return TypeInfoProxy.this.getName(type);
+			return InfoProxyConfiguration.this.getName(type);
 		}
 
 		@Override
 		public String getCaption() {
-			return TypeInfoProxy.this.getCaption(type);
+			return InfoProxyConfiguration.this.getCaption(type);
 		}
 
 		@Override
 		public boolean supportsValue(Object value) {
-			return TypeInfoProxy.this.supportsValue(type, value);
+			return InfoProxyConfiguration.this.supportsValue(type, value);
 		}
 
 		@Override
 		public boolean isImmutable() {
-			return TypeInfoProxy.this.isImmutable(type);
+			return InfoProxyConfiguration.this.isImmutable(type);
 		}
 
 		@Override
 		public boolean isConcrete() {
-			return TypeInfoProxy.this.isConcrete(type);
+			return InfoProxyConfiguration.this.isConcrete(type);
 		}
 
 		@Override
 		public boolean hasCustomFieldControl() {
-			return TypeInfoProxy.this.hasCustomFieldControl(type);
+			return InfoProxyConfiguration.this.hasCustomFieldControl(type);
 		}
 
 		@Override
 		public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
-			return TypeInfoProxy.this.getPolymorphicInstanceSubTypes(type);
+			return InfoProxyConfiguration.this.getPolymorphicInstanceSubTypes(type);
 		}
 
 		@Override
 		public List<IMethodInfo> getMethods() {
-			return TypeInfoProxy.this.getMethods(type);
+			return InfoProxyConfiguration.this.getMethods(type);
 		}
 
 		@Override
 		public List<IFieldInfo> getFields() {
-			return TypeInfoProxy.this.getFields(type);
+			return InfoProxyConfiguration.this.getFields(type);
 		}
 
 		@Override
 		public List<IMethodInfo> getConstructors() {
-			return TypeInfoProxy.this.getConstructors(type);
+			return InfoProxyConfiguration.this.getConstructors(type);
 		}
 
 		@Override
 		public Component createFieldControl(Object object, IFieldInfo field) {
-			return TypeInfoProxy.this.createFieldControl(type, object, field);
+			return InfoProxyConfiguration.this.createFieldControl(type, object, field);
 		}
 
 		@Override
 		public String toString(Object object) {
-			return TypeInfoProxy.this.toString(type, object);
+			return InfoProxyConfiguration.this.toString(type, object);
 		}
 
 		@Override
 		public int hashCode() {
-			return TypeInfoProxy.this.hashCode(type);
+			return InfoProxyConfiguration.this.hashCode(type);
 		}
 
 		@Override
@@ -420,7 +426,7 @@ public class TypeInfoProxy {
 			if (!getClass().equals(obj.getClass())) {
 				return false;
 			}
-			if (!TypeInfoProxy.this.equals(type,
+			if (!InfoProxyConfiguration.this.equals(type,
 					((BasicTypeInfoProxy) obj).type)) {
 				return false;
 			}
@@ -429,12 +435,12 @@ public class TypeInfoProxy {
 
 		@Override
 		public String toString() {
-			return TypeInfoProxy.this.toString(type);
+			return InfoProxyConfiguration.this.toString(type);
 		}
 
 		@Override
 		public String getDocumentation() {
-			return TypeInfoProxy.this.getDocumentation(type);
+			return InfoProxyConfiguration.this.getDocumentation(type);
 		}
 
 	}
@@ -448,28 +454,28 @@ public class TypeInfoProxy {
 
 		@Override
 		public List<?> toStandardList(Object value) {
-			return TypeInfoProxy.this.toStandardList((IListTypeInfo) type,
+			return InfoProxyConfiguration.this.toStandardList((IListTypeInfo) type,
 					value);
 		}
 
 		@Override
 		public boolean isOrdered() {
-			return TypeInfoProxy.this.isOrdered((IListTypeInfo) type);
+			return InfoProxyConfiguration.this.isOrdered((IListTypeInfo) type);
 		}
 
 		@Override
 		public IListStructuralInfo getStructuralInfo() {
-			return TypeInfoProxy.this.getStructuralInfo((IListTypeInfo) type);
+			return InfoProxyConfiguration.this.getStructuralInfo((IListTypeInfo) type);
 		}
 
 		@Override
 		public ITypeInfo getItemType() {
-			return TypeInfoProxy.this.getItemType((IListTypeInfo) type);
+			return InfoProxyConfiguration.this.getItemType((IListTypeInfo) type);
 		}
 
 		@Override
 		public Object fromStandardList(List<?> list) {
-			return TypeInfoProxy.this.fromStandardList((IListTypeInfo) type,
+			return InfoProxyConfiguration.this.fromStandardList((IListTypeInfo) type,
 					list);
 		}
 
@@ -484,13 +490,13 @@ public class TypeInfoProxy {
 
 		@Override
 		public List<?> getPossibleValues() {
-			return TypeInfoProxy.this
+			return InfoProxyConfiguration.this
 					.getPossibleValues((IEnumerationTypeInfo) type);
 		}
 
 		@Override
 		public String formatValue(Object value) {
-			return TypeInfoProxy.this.formatValue(value,
+			return InfoProxyConfiguration.this.formatValue(value,
 					(IEnumerationTypeInfo) type);
 		}
 
@@ -505,12 +511,12 @@ public class TypeInfoProxy {
 
 		@Override
 		public Boolean toBoolean(Object value) {
-			return TypeInfoProxy.this.toBoolean(value, (IBooleanTypeInfo) type);
+			return InfoProxyConfiguration.this.toBoolean(value, (IBooleanTypeInfo) type);
 		}
 
 		@Override
 		public Object fromBoolean(Boolean b) {
-			return TypeInfoProxy.this.fromBoolean(b, (IBooleanTypeInfo) type);
+			return InfoProxyConfiguration.this.fromBoolean(b, (IBooleanTypeInfo) type);
 		}
 
 	}
@@ -524,12 +530,12 @@ public class TypeInfoProxy {
 
 		@Override
 		public String toText(Object value) {
-			return TypeInfoProxy.this.toText(value, (ITextualTypeInfo) type);
+			return InfoProxyConfiguration.this.toText(value, (ITextualTypeInfo) type);
 		}
 
 		@Override
 		public Object fromText(String text) {
-			return TypeInfoProxy.this.fromText(text, (ITextualTypeInfo) type);
+			return InfoProxyConfiguration.this.fromText(text, (ITextualTypeInfo) type);
 		}
 	}
 
@@ -542,12 +548,12 @@ public class TypeInfoProxy {
 
 		@Override
 		public IFieldInfo getKeyField() {
-			return TypeInfoProxy.this.getKeyField((IMapEntryTypeInfo) type);
+			return InfoProxyConfiguration.this.getKeyField((IMapEntryTypeInfo) type);
 		}
 
 		@Override
 		public IFieldInfo getValueField() {
-			return TypeInfoProxy.this.getValueField((IMapEntryTypeInfo) type);
+			return InfoProxyConfiguration.this.getValueField((IMapEntryTypeInfo) type);
 		}
 
 	}
@@ -563,91 +569,91 @@ public class TypeInfoProxy {
 
 		@Override
 		public File getDefaultFile() {
-			return TypeInfoProxy.this.getDefaultFile(type);
+			return InfoProxyConfiguration.this.getDefaultFile(type);
 		}
 
 		@Override
 		public void configureFileChooser(JFileChooser fileChooser,
 				File currentFile) {
-			TypeInfoProxy.this.configureFileChooser(fileChooser, currentFile,
+			InfoProxyConfiguration.this.configureFileChooser(fileChooser, currentFile,
 					type);
 		}
 
 		@Override
 		public String getDialogTitle() {
-			return TypeInfoProxy.this.getDialogTitle(type);
+			return InfoProxyConfiguration.this.getDialogTitle(type);
 		}
 
 		@Override
 		public Component createNonNullFieldValueControl(Object object,
 				IFieldInfo field) {
-			return TypeInfoProxy.this.createNonNullFieldValueControl(object,
+			return InfoProxyConfiguration.this.createNonNullFieldValueControl(object,
 					field, type);
 		}
 
 		@Override
 		public String getName() {
-			return TypeInfoProxy.this.getName(type);
+			return InfoProxyConfiguration.this.getName(type);
 		}
 
 		@Override
 		public String getCaption() {
-			return TypeInfoProxy.this.getCaption(type);
+			return InfoProxyConfiguration.this.getCaption(type);
 		}
 
 		@Override
 		public boolean supportsValue(Object value) {
-			return TypeInfoProxy.this.supportsValue(type, value);
+			return InfoProxyConfiguration.this.supportsValue(type, value);
 		}
 
 		@Override
 		public boolean isImmutable() {
-			return TypeInfoProxy.this.isImmutable(type);
+			return InfoProxyConfiguration.this.isImmutable(type);
 		}
 
 		@Override
 		public boolean isConcrete() {
-			return TypeInfoProxy.this.isConcrete(type);
+			return InfoProxyConfiguration.this.isConcrete(type);
 		}
 
 		@Override
 		public boolean hasCustomFieldControl() {
-			return TypeInfoProxy.this.hasCustomFieldControl(type);
+			return InfoProxyConfiguration.this.hasCustomFieldControl(type);
 		}
 
 		@Override
 		public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
-			return TypeInfoProxy.this.getPolymorphicInstanceSubTypes(type);
+			return InfoProxyConfiguration.this.getPolymorphicInstanceSubTypes(type);
 		}
 
 		@Override
 		public List<IMethodInfo> getMethods() {
-			return TypeInfoProxy.this.getMethods(type);
+			return InfoProxyConfiguration.this.getMethods(type);
 		}
 
 		@Override
 		public List<IFieldInfo> getFields() {
-			return TypeInfoProxy.this.getFields(type);
+			return InfoProxyConfiguration.this.getFields(type);
 		}
 
 		@Override
 		public List<IMethodInfo> getConstructors() {
-			return TypeInfoProxy.this.getConstructors(type);
+			return InfoProxyConfiguration.this.getConstructors(type);
 		}
 
 		@Override
 		public Component createFieldControl(Object object, IFieldInfo field) {
-			return TypeInfoProxy.this.createFieldControl(type, object, field);
+			return InfoProxyConfiguration.this.createFieldControl(type, object, field);
 		}
 
 		@Override
 		public String toString(Object object) {
-			return TypeInfoProxy.this.toString(type, object);
+			return InfoProxyConfiguration.this.toString(type, object);
 		}
 
 		@Override
 		public int hashCode() {
-			return TypeInfoProxy.this.hashCode(type);
+			return InfoProxyConfiguration.this.hashCode(type);
 		}
 
 		@Override
@@ -658,7 +664,7 @@ public class TypeInfoProxy {
 			if (!getClass().equals(obj.getClass())) {
 				return false;
 			}
-			if (!TypeInfoProxy.this
+			if (!InfoProxyConfiguration.this
 					.equals(type, ((FileTypeInfoProxy) obj).type)) {
 				return false;
 			}
@@ -667,7 +673,7 @@ public class TypeInfoProxy {
 
 		@Override
 		public String toString() {
-			return TypeInfoProxy.this.toString(type);
+			return InfoProxyConfiguration.this.toString(type);
 		}
 
 	}
@@ -684,57 +690,57 @@ public class TypeInfoProxy {
 
 		@Override
 		public String getName() {
-			return TypeInfoProxy.this.getName(field, containingType);
+			return InfoProxyConfiguration.this.getName(field, containingType);
 		}
 
 		@Override
 		public String getCaption() {
-			return TypeInfoProxy.this.getCaption(field, containingType);
+			return InfoProxyConfiguration.this.getCaption(field, containingType);
 		}
 
 		@Override
 		public void setValue(Object object, Object value) {
-			TypeInfoProxy.this.setValue(object, value, field, containingType);
+			InfoProxyConfiguration.this.setValue(object, value, field, containingType);
 		}
 
 		@Override
 		public boolean isReadOnly() {
-			return TypeInfoProxy.this.isReadOnly(field, containingType);
+			return InfoProxyConfiguration.this.isReadOnly(field, containingType);
 		}
 
 		@Override
 		public boolean isNullable() {
-			return TypeInfoProxy.this.isNullable(field, containingType);
+			return InfoProxyConfiguration.this.isNullable(field, containingType);
 		}
 
 		@Override
 		public Object getValue(Object object) {
-			return TypeInfoProxy.this.getValue(object, field, containingType);
+			return InfoProxyConfiguration.this.getValue(object, field, containingType);
 		}
 
 		@Override
 		public ITypeInfo getType() {
-			return TypeInfoProxy.this.getType(field, containingType);
+			return InfoProxyConfiguration.this.getType(field, containingType);
 		}
 
 		@Override
 		public InfoCategory getCategory() {
-			return TypeInfoProxy.this.getCategory(field, containingType);
+			return InfoProxyConfiguration.this.getCategory(field, containingType);
 		}
 
 		@Override
 		public String getDocumentation() {
-			return TypeInfoProxy.this.getDocumentation(field, containingType);
+			return InfoProxyConfiguration.this.getDocumentation(field, containingType);
 		}
 
 		@Override
 		public String toString() {
-			return TypeInfoProxy.this.toString(field, containingType);
+			return InfoProxyConfiguration.this.toString(field, containingType);
 		}
 
 		@Override
 		public int hashCode() {
-			return TypeInfoProxy.this.hashCode(field, containingType);
+			return InfoProxyConfiguration.this.hashCode(field, containingType);
 		}
 
 		@Override
@@ -748,7 +754,7 @@ public class TypeInfoProxy {
 			if (!getClass().equals(obj.getClass())) {
 				return false;
 			}
-			return TypeInfoProxy.this.equals(field, containingType,
+			return InfoProxyConfiguration.this.equals(field, containingType,
 					((FieldInfoProxy) obj).field,
 					((FieldInfoProxy) obj).containingType);
 		}
@@ -767,55 +773,55 @@ public class TypeInfoProxy {
 
 		@Override
 		public String getName() {
-			return TypeInfoProxy.this.getName(method, containingType);
+			return InfoProxyConfiguration.this.getName(method, containingType);
 		}
 
 		@Override
 		public String getCaption() {
-			return TypeInfoProxy.this.getCaption(method, containingType);
+			return InfoProxyConfiguration.this.getCaption(method, containingType);
 		}
 
 		@Override
 		public ITypeInfo getReturnValueType() {
-			return TypeInfoProxy.this
+			return InfoProxyConfiguration.this
 					.getReturnValueType(method, containingType);
 		}
 
 		@Override
 		public List<IParameterInfo> getParameters() {
-			return TypeInfoProxy.this.getParameters(method, containingType);
+			return InfoProxyConfiguration.this.getParameters(method, containingType);
 		}
 
 		@Override
 		public Object invoke(Object object,
 				Map<String, Object> valueByParameterName) {
-			return TypeInfoProxy.this.invoke(object, valueByParameterName,
+			return InfoProxyConfiguration.this.invoke(object, valueByParameterName,
 					method, containingType);
 		}
 
 		@Override
 		public boolean isReadOnly() {
-			return TypeInfoProxy.this.isReadOnly(method, containingType);
+			return InfoProxyConfiguration.this.isReadOnly(method, containingType);
 		}
 
 		@Override
 		public InfoCategory getCategory() {
-			return TypeInfoProxy.this.getCategory(method, containingType);
+			return InfoProxyConfiguration.this.getCategory(method, containingType);
 		}
 
 		@Override
 		public String getDocumentation() {
-			return TypeInfoProxy.this.getDocumentation(method, containingType);
+			return InfoProxyConfiguration.this.getDocumentation(method, containingType);
 		}
 
 		@Override
 		public String toString() {
-			return TypeInfoProxy.this.toString(method, containingType);
+			return InfoProxyConfiguration.this.toString(method, containingType);
 		}
 
 		@Override
 		public int hashCode() {
-			return TypeInfoProxy.this.hashCode(method, containingType);
+			return InfoProxyConfiguration.this.hashCode(method, containingType);
 		}
 
 		@Override
@@ -829,7 +835,7 @@ public class TypeInfoProxy {
 			if (!getClass().equals(obj.getClass())) {
 				return false;
 			}
-			return TypeInfoProxy.this.equals(method, containingType,
+			return InfoProxyConfiguration.this.equals(method, containingType,
 					((MethodInfoProxy) obj).method,
 					((MethodInfoProxy) obj).containingType);
 		}
@@ -851,50 +857,50 @@ public class TypeInfoProxy {
 
 		@Override
 		public String getName() {
-			return TypeInfoProxy.this.getName(param, method, containingType);
+			return InfoProxyConfiguration.this.getName(param, method, containingType);
 		}
 
 		@Override
 		public String getCaption() {
-			return TypeInfoProxy.this.getCaption(param, method, containingType);
+			return InfoProxyConfiguration.this.getCaption(param, method, containingType);
 		}
 
 		@Override
 		public boolean isNullable() {
-			return TypeInfoProxy.this.isNullable(param, method, containingType);
+			return InfoProxyConfiguration.this.isNullable(param, method, containingType);
 		}
 
 		@Override
 		public ITypeInfo getType() {
-			return TypeInfoProxy.this.getType(param, method, containingType);
+			return InfoProxyConfiguration.this.getType(param, method, containingType);
 		}
 
 		@Override
 		public int getPosition() {
-			return TypeInfoProxy.this
+			return InfoProxyConfiguration.this
 					.getPosition(param, method, containingType);
 		}
 
 		@Override
 		public Object getDefaultValue() {
-			return TypeInfoProxy.this.getDefaultValue(param, method,
+			return InfoProxyConfiguration.this.getDefaultValue(param, method,
 					containingType);
 		}
 
 		@Override
 		public String toString() {
-			return TypeInfoProxy.this.toString(param, method, containingType);
+			return InfoProxyConfiguration.this.toString(param, method, containingType);
 		}
 
 		@Override
 		public String getDocumentation() {
-			return TypeInfoProxy.this.getDocumentation(param, method,
+			return InfoProxyConfiguration.this.getDocumentation(param, method,
 					containingType);
 		}
 
 		@Override
 		public int hashCode() {
-			return TypeInfoProxy.this.hashCode(param, method, containingType);
+			return InfoProxyConfiguration.this.hashCode(param, method, containingType);
 		}
 
 		@Override
@@ -908,7 +914,7 @@ public class TypeInfoProxy {
 			if (!getClass().equals(obj.getClass())) {
 				return false;
 			}
-			return TypeInfoProxy.this.equals(param, method, containingType,
+			return InfoProxyConfiguration.this.equals(param, method, containingType,
 					((ParameterInfoProxy) obj).param,
 					((ParameterInfoProxy) obj).method,
 					((ParameterInfoProxy) obj).containingType);

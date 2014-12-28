@@ -209,13 +209,41 @@ public class ReflectionUI {
 		getObjectByForm().put(result, object);
 		getModificationStackByForm().put(result,
 				new ModificationStack(getObjectKind(object)));
+
 		fillForm(object, result, settings);
+
+		return result;
+	}
+
+	public Component createDocumentationControl(String documentation) {
+		final JButton result = new JButton(new ImageIcon(
+				ReflectionUI.class.getResource("resource/help.png")));
+		result.setPreferredSize(new Dimension(result.getPreferredSize().height,
+				result.getPreferredSize().height));
+		result.setContentAreaFilled(false);
+		result.setBorderPainted(false);
+		result.setFocusable(false);
+		result.setToolTipText(documentation);
+		result.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ReflectionUIUtils.showTooltipNow(result);
+			}
+		});
 		return result;
 	}
 
 	public void fillForm(Object object, JPanel form,
 			IInfoCollectionSettings settings) {
+		form.setLayout(new BorderLayout());
+
 		ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
+		if ((type.getDocumentation() != null)
+				&& (type.getDocumentation().trim().length() > 0)) {
+			form.add(ReflectionUIUtils.flowInLayout(
+					createDocumentationControl(type.getDocumentation()),
+					FlowLayout.LEFT), BorderLayout.NORTH);
+		}
 
 		Map<InfoCategory, List<FielControlPlaceHolder>> fieldControlPlaceHoldersByCategory = new HashMap<InfoCategory, List<FielControlPlaceHolder>>();
 		List<IFieldInfo> fields = type.getFields();
@@ -228,7 +256,7 @@ public class ReflectionUI {
 				field = refreshOtherFieldsAfterFieldModification(field, form);
 			}
 			FielControlPlaceHolder fieldControlPlaceHolder = createFieldControlPlaceHolder(
-					object, field, form);
+					object, field);
 			{
 				Map<String, FielControlPlaceHolder> controlPlaceHolderByFieldName = controlPlaceHolderByFieldNameByForm
 						.get(form);
@@ -288,6 +316,9 @@ public class ReflectionUI {
 			}
 		}
 
+		JPanel formContent = new JPanel();
+		form.add(formContent, BorderLayout.CENTER);
+
 		SortedSet<InfoCategory> allCategories = new TreeSet<InfoCategory>();
 		allCategories.addAll(fieldControlPlaceHoldersByCategory.keySet());
 		allCategories.addAll(methodControlsByCategory.keySet());
@@ -302,10 +333,11 @@ public class ReflectionUI {
 			if (methodControls == null) {
 				methodControls = Collections.emptyList();
 			}
-			layoutControls(fieldControlPlaceHolders, methodControls, form);
+			layoutControls(fieldControlPlaceHolders, methodControls,
+					formContent);
 		} else if (allCategories.size() > 1) {
-			form.setLayout(new BorderLayout());
-			form.add(
+			formContent.setLayout(new BorderLayout());
+			formContent.add(
 					createMultipleInfoCategoriesComponent(allCategories,
 							fieldControlPlaceHoldersByCategory,
 							methodControlsByCategory), BorderLayout.CENTER);
@@ -390,8 +422,8 @@ public class ReflectionUI {
 	}
 
 	public FielControlPlaceHolder createFieldControlPlaceHolder(Object object,
-			IFieldInfo field, JPanel form) {
-		return new FielControlPlaceHolder(object, field, form);
+			IFieldInfo field) {
+		return new FielControlPlaceHolder(object, field);
 	}
 
 	public IFieldInfo makeFieldModificationsUndoable(final IFieldInfo field,
@@ -478,15 +510,16 @@ public class ReflectionUI {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						try{
-						ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
-						for (IFieldInfo fieldToRefresh : type.getFields()) {
-							if (field.equals(fieldToRefresh)) {
-								continue;
+						try {
+							ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
+							for (IFieldInfo fieldToRefresh : type.getFields()) {
+								if (field.equals(fieldToRefresh)) {
+									continue;
+								}
+								refreshFieldControl(form,
+										fieldToRefresh.getName());
 							}
-							refreshFieldControl(form, fieldToRefresh.getName());
-						}
-						}catch(Throwable t){
+						} catch (Throwable t) {
 							handleExceptionsFromDisplayedUI(form, t);
 						}
 					}
@@ -551,10 +584,9 @@ public class ReflectionUI {
 			IFieldInfo field = fielControlPlaceHolder.getField();
 			if ((field.getDocumentation() != null)
 					&& (field.getDocumentation().trim().length() > 0)) {
-				JLabel docControl = new JLabel(new ImageIcon(ReflectionUI.class
-						.getResource("resource/help.png")));
-				docControl.setToolTipText(field.getDocumentation());
-				container.add(docControl, BorderLayout.EAST);
+				container.add(
+						createDocumentationControl(field.getDocumentation()),
+						BorderLayout.EAST);
 			}
 
 			SimpleLayout.add(fieldsPanel, container);
@@ -630,15 +662,14 @@ public class ReflectionUI {
 
 			if ((field.getDocumentation() != null)
 					&& (field.getDocumentation().trim().length() > 0)) {
-				JLabel docControl = new JLabel(new ImageIcon(ReflectionUI.class
-						.getResource("resource/help.png")));
-				docControl.setToolTipText(field.getDocumentation());
 				layoutConstraints = new GridBagConstraints();
 				layoutConstraints.insets = new Insets(spacing, spacing,
 						spacing, spacing);
 				layoutConstraints.gridx = 2;
 				layoutConstraints.gridy = i;
-				fieldsPanel.add(docControl, layoutConstraints);
+				fieldsPanel.add(
+						createDocumentationControl(field.getDocumentation()),
+						layoutConstraints);
 
 			}
 
@@ -691,9 +722,13 @@ public class ReflectionUI {
 
 	public void handleExceptionsFromDisplayedUI(Component activatorComponent,
 			final Throwable t) {
-		t.printStackTrace();
+		logError(t);
 		openErrorDialog(activatorComponent,
 				translateUIString("An Error Occured"), new ReflectionUIError(t));
+	}
+
+	public void logError(Throwable t) {
+		t.printStackTrace();
 	}
 
 	public void openErrorDialog(Component activatorComponent, String title,
@@ -719,6 +754,7 @@ public class ReflectionUI {
 	}
 
 	public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
+		ITypeInfo result;
 		if (typeSource instanceof JavaTypeInfoSource) {
 			JavaTypeInfoSource javaTypeSource = (JavaTypeInfoSource) typeSource;
 			if (StandardCollectionTypeInfo.isCompatibleWith(javaTypeSource
@@ -726,7 +762,7 @@ public class ReflectionUI {
 				Class<?> itemType = ReflectionUIUtils.getJavaTypeParameter(
 						javaTypeSource.getJavaType(),
 						javaTypeSource.ofMember(), Collection.class, 0);
-				return new StandardCollectionTypeInfo(this,
+				result = new StandardCollectionTypeInfo(this,
 						javaTypeSource.getJavaType(), itemType);
 			} else if (StandardMapListTypeInfo.isCompatibleWith(javaTypeSource
 					.getJavaType())) {
@@ -736,36 +772,37 @@ public class ReflectionUI {
 				Class<?> valueType = ReflectionUIUtils.getJavaTypeParameter(
 						javaTypeSource.getJavaType(),
 						javaTypeSource.ofMember(), Map.class, 1);
-				return new StandardMapListTypeInfo(this,
+				result = new StandardMapListTypeInfo(this,
 						javaTypeSource.getJavaType(), keyType, valueType);
 			} else if (javaTypeSource.getJavaType().isArray()) {
 				Class<?> itemType = javaTypeSource.getJavaType()
 						.getComponentType();
-				return new ArrayTypeInfo(this, javaTypeSource.getJavaType(),
+				result = new ArrayTypeInfo(this, javaTypeSource.getJavaType(),
 						itemType);
 			} else if (javaTypeSource.getJavaType().isEnum()) {
-				return new StandardEnumerationTypeInfo(this,
+				result = new StandardEnumerationTypeInfo(this,
 						javaTypeSource.getJavaType());
 			} else if (DefaultBooleanTypeInfo.isCompatibleWith(javaTypeSource
 					.getJavaType())) {
-				return new DefaultBooleanTypeInfo(this,
+				result = new DefaultBooleanTypeInfo(this,
 						javaTypeSource.getJavaType());
 			} else if (DefaultTextualTypeInfo.isCompatibleWith(javaTypeSource
 					.getJavaType())) {
-				return new DefaultTextualTypeInfo(this,
+				result = new DefaultTextualTypeInfo(this,
 						javaTypeSource.getJavaType());
 			} else if (FileTypeInfo.isCompatibleWith(javaTypeSource
 					.getJavaType())) {
-				return new FileTypeInfo(this);
+				result = new FileTypeInfo(this);
 			} else {
-				return new DefaultTypeInfo(this, javaTypeSource.getJavaType());
+				result = new DefaultTypeInfo(this, javaTypeSource.getJavaType());
 			}
 		} else if (typeSource instanceof PrecomputedTypeInfoSource) {
-			return ((PrecomputedTypeInfoSource) typeSource)
+			result = ((PrecomputedTypeInfoSource) typeSource)
 					.getPrecomputedType();
 		} else {
 			throw new ReflectionUIError();
 		}
+		return result;
 	}
 
 	public Component createMethodControl(final Object object,
@@ -779,11 +816,11 @@ public class ReflectionUI {
 		if (object != null) {
 			result = composeTitle(getObjectKind(object), result);
 		}
-		if (returnValue != null) {
-			result = composeTitle(result, getObjectKind(returnValue));
-		}
 		if (context != null) {
 			result = composeTitle(result, context);
+		}
+		if (returnValue != null) {
+			result = composeTitle(result, getObjectKind(returnValue));
 		}
 		return result;
 	}
@@ -1331,8 +1368,7 @@ public class ReflectionUI {
 		protected Component fieldControl;
 		protected boolean captionShown = false;
 
-		public FielControlPlaceHolder(Object object, IFieldInfo field,
-				JPanel form) {
+		public FielControlPlaceHolder(Object object, IFieldInfo field) {
 			super();
 			this.object = object;
 			field = handleValueChangeErrors(field);
@@ -1354,6 +1390,7 @@ public class ReflectionUI {
 						super.setValue(object, value);
 						displayError(null);
 					} catch (final Throwable t) {
+						logError(t);
 						SwingUtilities.invokeLater(new Runnable() {
 							@Override
 							public void run() {

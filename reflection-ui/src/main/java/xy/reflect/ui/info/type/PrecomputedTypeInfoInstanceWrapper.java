@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.type;
 
+import xy.reflect.ui.info.InfoProxyConfiguration;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -23,7 +24,7 @@ public class PrecomputedTypeInfoInstanceWrapper {
 	}
 
 	public PrecomputedTypeInfoSource getPrecomputedTypeInfoSource() {
-		return new PrecomputedTypeInfoSource(new TypeInfoProxy() {
+		return new PrecomputedTypeInfoSource(new InfoProxyConfiguration() {
 
 			@Override
 			protected Object getValue(Object object, IFieldInfo field,

@@ -18,9 +18,16 @@ public class MethodControl extends JButton {
 	public MethodControl(final ReflectionUI reflectionUI, Object object,
 			IMethodInfo method) {
 		String caption = method.getCaption();
+		String toolTipText = "";
 		if (method.getParameters().size() > 0) {
 			caption += "...";
-			setToolTipText(method.toString());
+			toolTipText += method.toString();
+		}
+		if((method.getDocumentation() != null)&&(method.getDocumentation().trim().length()>0)){
+			toolTipText += ":\n"+method.getDocumentation();			
+		}
+		if(toolTipText.length() > 0){
+			setToolTipText(toolTipText);
 		}
 		setText(reflectionUI.translateUIString(caption));
 		this.reflectionUI = reflectionUI;
