@@ -265,6 +265,10 @@ public class ReflectionUI {
 					controlPlaceHolderByFieldNameByForm.put(form,
 							controlPlaceHolderByFieldName);
 				}
+				if (controlPlaceHolderByFieldName.containsKey(field.getName())) {
+					throw new ReflectionUIError("Duplicate field name: '"
+							+ field.getName() + "'");
+				}
 				controlPlaceHolderByFieldName.put(field.getName(),
 						fieldControlPlaceHolder);
 			}
@@ -513,7 +517,8 @@ public class ReflectionUI {
 						try {
 							ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
 							for (IFieldInfo fieldToRefresh : type.getFields()) {
-								if (field.equals(fieldToRefresh)) {
+								if (field.getName().equals(
+										fieldToRefresh.getName())) {
 									continue;
 								}
 								refreshFieldControl(form,
@@ -1351,8 +1356,8 @@ public class ReflectionUI {
 		Rectangle bounds = window.getBounds();
 		Rectangle maxBounds = GraphicsEnvironment.getLocalGraphicsEnvironment()
 				.getMaximumWindowBounds();
-		if (bounds.width < maxBounds.width / 3) {
-			bounds.grow((maxBounds.width / 3 - bounds.width) / 2, 0);
+		if (bounds.width < maxBounds.width / 2) {
+			bounds.grow((maxBounds.width / 2 - bounds.width) / 2, 0);
 		}
 		bounds = maxBounds.intersection(bounds);
 		window.setBounds(bounds);

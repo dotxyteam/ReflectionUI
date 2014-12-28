@@ -1,4 +1,3 @@
-- tooltips???
 - multiline textControl???
 - update translatable strings
 - check getSubObjectEd is used where it should
