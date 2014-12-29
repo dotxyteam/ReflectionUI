@@ -39,7 +39,7 @@ public class InfoProxyConfiguration {
 			return new BasicTypeInfoProxy(type);
 		}
 	}
-	
+
 	protected Object getDefaultValue(IParameterInfo param, IMethodInfo method,
 			ITypeInfo containingType) {
 		return param.getDefaultValue();
@@ -385,7 +385,8 @@ public class InfoProxyConfiguration {
 
 		@Override
 		public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
-			return InfoProxyConfiguration.this.getPolymorphicInstanceSubTypes(type);
+			return InfoProxyConfiguration.this
+					.getPolymorphicInstanceSubTypes(type);
 		}
 
 		@Override
@@ -405,7 +406,8 @@ public class InfoProxyConfiguration {
 
 		@Override
 		public Component createFieldControl(Object object, IFieldInfo field) {
-			return InfoProxyConfiguration.this.createFieldControl(type, object, field);
+			return InfoProxyConfiguration.this.createFieldControl(type, object,
+					field);
 		}
 
 		@Override
@@ -454,8 +456,8 @@ public class InfoProxyConfiguration {
 
 		@Override
 		public List<?> toStandardList(Object value) {
-			return InfoProxyConfiguration.this.toStandardList((IListTypeInfo) type,
-					value);
+			return InfoProxyConfiguration.this.toStandardList(
+					(IListTypeInfo) type, value);
 		}
 
 		@Override
@@ -465,18 +467,20 @@ public class InfoProxyConfiguration {
 
 		@Override
 		public IListStructuralInfo getStructuralInfo() {
-			return InfoProxyConfiguration.this.getStructuralInfo((IListTypeInfo) type);
+			return InfoProxyConfiguration.this
+					.getStructuralInfo((IListTypeInfo) type);
 		}
 
 		@Override
 		public ITypeInfo getItemType() {
-			return InfoProxyConfiguration.this.getItemType((IListTypeInfo) type);
+			return InfoProxyConfiguration.this
+					.getItemType((IListTypeInfo) type);
 		}
 
 		@Override
 		public Object fromStandardList(List<?> list) {
-			return InfoProxyConfiguration.this.fromStandardList((IListTypeInfo) type,
-					list);
+			return InfoProxyConfiguration.this.fromStandardList(
+					(IListTypeInfo) type, list);
 		}
 
 	}
@@ -511,12 +515,14 @@ public class InfoProxyConfiguration {
 
 		@Override
 		public Boolean toBoolean(Object value) {
-			return InfoProxyConfiguration.this.toBoolean(value, (IBooleanTypeInfo) type);
+			return InfoProxyConfiguration.this.toBoolean(value,
+					(IBooleanTypeInfo) type);
 		}
 
 		@Override
 		public Object fromBoolean(Boolean b) {
-			return InfoProxyConfiguration.this.fromBoolean(b, (IBooleanTypeInfo) type);
+			return InfoProxyConfiguration.this.fromBoolean(b,
+					(IBooleanTypeInfo) type);
 		}
 
 	}
@@ -530,12 +536,14 @@ public class InfoProxyConfiguration {
 
 		@Override
 		public String toText(Object value) {
-			return InfoProxyConfiguration.this.toText(value, (ITextualTypeInfo) type);
+			return InfoProxyConfiguration.this.toText(value,
+					(ITextualTypeInfo) type);
 		}
 
 		@Override
 		public Object fromText(String text) {
-			return InfoProxyConfiguration.this.fromText(text, (ITextualTypeInfo) type);
+			return InfoProxyConfiguration.this.fromText(text,
+					(ITextualTypeInfo) type);
 		}
 	}
 
@@ -548,12 +556,14 @@ public class InfoProxyConfiguration {
 
 		@Override
 		public IFieldInfo getKeyField() {
-			return InfoProxyConfiguration.this.getKeyField((IMapEntryTypeInfo) type);
+			return InfoProxyConfiguration.this
+					.getKeyField((IMapEntryTypeInfo) type);
 		}
 
 		@Override
 		public IFieldInfo getValueField() {
-			return InfoProxyConfiguration.this.getValueField((IMapEntryTypeInfo) type);
+			return InfoProxyConfiguration.this
+					.getValueField((IMapEntryTypeInfo) type);
 		}
 
 	}
@@ -575,8 +585,8 @@ public class InfoProxyConfiguration {
 		@Override
 		public void configureFileChooser(JFileChooser fileChooser,
 				File currentFile) {
-			InfoProxyConfiguration.this.configureFileChooser(fileChooser, currentFile,
-					type);
+			InfoProxyConfiguration.this.configureFileChooser(fileChooser,
+					currentFile, type);
 		}
 
 		@Override
@@ -587,8 +597,8 @@ public class InfoProxyConfiguration {
 		@Override
 		public Component createNonNullFieldValueControl(Object object,
 				IFieldInfo field) {
-			return InfoProxyConfiguration.this.createNonNullFieldValueControl(object,
-					field, type);
+			return InfoProxyConfiguration.this.createNonNullFieldValueControl(
+					object, field, type);
 		}
 
 		@Override
@@ -623,7 +633,8 @@ public class InfoProxyConfiguration {
 
 		@Override
 		public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
-			return InfoProxyConfiguration.this.getPolymorphicInstanceSubTypes(type);
+			return InfoProxyConfiguration.this
+					.getPolymorphicInstanceSubTypes(type);
 		}
 
 		@Override
@@ -643,7 +654,8 @@ public class InfoProxyConfiguration {
 
 		@Override
 		public Component createFieldControl(Object object, IFieldInfo field) {
-			return InfoProxyConfiguration.this.createFieldControl(type, object, field);
+			return InfoProxyConfiguration.this.createFieldControl(type, object,
+					field);
 		}
 
 		@Override
@@ -664,8 +676,8 @@ public class InfoProxyConfiguration {
 			if (!getClass().equals(obj.getClass())) {
 				return false;
 			}
-			if (!InfoProxyConfiguration.this
-					.equals(type, ((FileTypeInfoProxy) obj).type)) {
+			if (!InfoProxyConfiguration.this.equals(type,
+					((FileTypeInfoProxy) obj).type)) {
 				return false;
 			}
 			return true;
@@ -695,27 +707,32 @@ public class InfoProxyConfiguration {
 
 		@Override
 		public String getCaption() {
-			return InfoProxyConfiguration.this.getCaption(field, containingType);
+			return InfoProxyConfiguration.this
+					.getCaption(field, containingType);
 		}
 
 		@Override
 		public void setValue(Object object, Object value) {
-			InfoProxyConfiguration.this.setValue(object, value, field, containingType);
+			InfoProxyConfiguration.this.setValue(object, value, field,
+					containingType);
 		}
 
 		@Override
 		public boolean isReadOnly() {
-			return InfoProxyConfiguration.this.isReadOnly(field, containingType);
+			return InfoProxyConfiguration.this
+					.isReadOnly(field, containingType);
 		}
 
 		@Override
 		public boolean isNullable() {
-			return InfoProxyConfiguration.this.isNullable(field, containingType);
+			return InfoProxyConfiguration.this
+					.isNullable(field, containingType);
 		}
 
 		@Override
 		public Object getValue(Object object) {
-			return InfoProxyConfiguration.this.getValue(object, field, containingType);
+			return InfoProxyConfiguration.this.getValue(object, field,
+					containingType);
 		}
 
 		@Override
@@ -725,12 +742,14 @@ public class InfoProxyConfiguration {
 
 		@Override
 		public InfoCategory getCategory() {
-			return InfoProxyConfiguration.this.getCategory(field, containingType);
+			return InfoProxyConfiguration.this.getCategory(field,
+					containingType);
 		}
 
 		@Override
 		public String getDocumentation() {
-			return InfoProxyConfiguration.this.getDocumentation(field, containingType);
+			return InfoProxyConfiguration.this.getDocumentation(field,
+					containingType);
 		}
 
 		@Override
@@ -778,40 +797,45 @@ public class InfoProxyConfiguration {
 
 		@Override
 		public String getCaption() {
-			return InfoProxyConfiguration.this.getCaption(method, containingType);
+			return InfoProxyConfiguration.this.getCaption(method,
+					containingType);
 		}
 
 		@Override
 		public ITypeInfo getReturnValueType() {
-			return InfoProxyConfiguration.this
-					.getReturnValueType(method, containingType);
+			return InfoProxyConfiguration.this.getReturnValueType(method,
+					containingType);
 		}
 
 		@Override
 		public List<IParameterInfo> getParameters() {
-			return InfoProxyConfiguration.this.getParameters(method, containingType);
+			return InfoProxyConfiguration.this.getParameters(method,
+					containingType);
 		}
 
 		@Override
 		public Object invoke(Object object,
 				Map<String, Object> valueByParameterName) {
-			return InfoProxyConfiguration.this.invoke(object, valueByParameterName,
-					method, containingType);
+			return InfoProxyConfiguration.this.invoke(object,
+					valueByParameterName, method, containingType);
 		}
 
 		@Override
 		public boolean isReadOnly() {
-			return InfoProxyConfiguration.this.isReadOnly(method, containingType);
+			return InfoProxyConfiguration.this.isReadOnly(method,
+					containingType);
 		}
 
 		@Override
 		public InfoCategory getCategory() {
-			return InfoProxyConfiguration.this.getCategory(method, containingType);
+			return InfoProxyConfiguration.this.getCategory(method,
+					containingType);
 		}
 
 		@Override
 		public String getDocumentation() {
-			return InfoProxyConfiguration.this.getDocumentation(method, containingType);
+			return InfoProxyConfiguration.this.getDocumentation(method,
+					containingType);
 		}
 
 		@Override
@@ -857,28 +881,32 @@ public class InfoProxyConfiguration {
 
 		@Override
 		public String getName() {
-			return InfoProxyConfiguration.this.getName(param, method, containingType);
+			return InfoProxyConfiguration.this.getName(param, method,
+					containingType);
 		}
 
 		@Override
 		public String getCaption() {
-			return InfoProxyConfiguration.this.getCaption(param, method, containingType);
+			return InfoProxyConfiguration.this.getCaption(param, method,
+					containingType);
 		}
 
 		@Override
 		public boolean isNullable() {
-			return InfoProxyConfiguration.this.isNullable(param, method, containingType);
+			return InfoProxyConfiguration.this.isNullable(param, method,
+					containingType);
 		}
 
 		@Override
 		public ITypeInfo getType() {
-			return InfoProxyConfiguration.this.getType(param, method, containingType);
+			return InfoProxyConfiguration.this.getType(param, method,
+					containingType);
 		}
 
 		@Override
 		public int getPosition() {
-			return InfoProxyConfiguration.this
-					.getPosition(param, method, containingType);
+			return InfoProxyConfiguration.this.getPosition(param, method,
+					containingType);
 		}
 
 		@Override
@@ -889,7 +917,8 @@ public class InfoProxyConfiguration {
 
 		@Override
 		public String toString() {
-			return InfoProxyConfiguration.this.toString(param, method, containingType);
+			return InfoProxyConfiguration.this.toString(param, method,
+					containingType);
 		}
 
 		@Override
@@ -900,7 +929,8 @@ public class InfoProxyConfiguration {
 
 		@Override
 		public int hashCode() {
-			return InfoProxyConfiguration.this.hashCode(param, method, containingType);
+			return InfoProxyConfiguration.this.hashCode(param, method,
+					containingType);
 		}
 
 		@Override
@@ -914,8 +944,8 @@ public class InfoProxyConfiguration {
 			if (!getClass().equals(obj.getClass())) {
 				return false;
 			}
-			return InfoProxyConfiguration.this.equals(param, method, containingType,
-					((ParameterInfoProxy) obj).param,
+			return InfoProxyConfiguration.this.equals(param, method,
+					containingType, ((ParameterInfoProxy) obj).param,
 					((ParameterInfoProxy) obj).method,
 					((ParameterInfoProxy) obj).containingType);
 		}

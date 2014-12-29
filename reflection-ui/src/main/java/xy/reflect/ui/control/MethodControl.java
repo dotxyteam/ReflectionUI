@@ -7,6 +7,7 @@ import javax.swing.JButton;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MethodControl extends JButton {
 
@@ -23,11 +24,12 @@ public class MethodControl extends JButton {
 			caption += "...";
 			toolTipText += method.toString();
 		}
-		if((method.getDocumentation() != null)&&(method.getDocumentation().trim().length()>0)){
-			toolTipText += ":\n"+method.getDocumentation();			
+		if ((method.getDocumentation() != null)
+				&& (method.getDocumentation().trim().length() > 0)) {
+			toolTipText += ":\n" + method.getDocumentation();
 		}
-		if(toolTipText.length() > 0){
-			setToolTipText(toolTipText);
+		if (toolTipText.length() > 0) {
+			ReflectionUIUtils.setMultilineToolTipText(this, reflectionUI.translateUIString(toolTipText));
 		}
 		setText(reflectionUI.translateUIString(caption));
 		this.reflectionUI = reflectionUI;
@@ -50,7 +52,7 @@ public class MethodControl extends JButton {
 
 	protected void activated() {
 		reflectionUI.onMethodInvocationRequest(MethodControl.this,
-				MethodControl.this.object,
-				MethodControl.this.method, null, true );
+				MethodControl.this.object, MethodControl.this.method, null,
+				true);
 	}
 }

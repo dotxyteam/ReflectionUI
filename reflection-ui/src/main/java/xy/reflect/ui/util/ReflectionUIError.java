@@ -30,7 +30,7 @@ public class ReflectionUIError extends RuntimeException {
 			if (result.contains(causeClassName)) {
 				String causeClassCaption;
 				if (NullPointerException.class.getName().equals(causeClassName)) {
-					causeClassCaption= "Error cause by a Missing Value";
+					causeClassCaption= "Missing Value Error";
 				} else {
 					causeClassCaption = ReflectionUIUtils
 							.identifierToCaption(getCause().getClass()
