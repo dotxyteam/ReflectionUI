@@ -2,16 +2,20 @@ package xy.reflect.ui.control;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.FocusEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.beans.Transient;
 
 import javax.swing.BorderFactory;
-import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-import javax.swing.text.DefaultFormatter;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
+import javax.swing.text.JTextComponent;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -27,9 +31,9 @@ public class TextControl extends JPanel implements IFieldControl {
 	protected IFieldInfo field;
 
 	protected ITextualTypeInfo textType;
-	protected JFormattedTextField textField;
+	protected JTextComponent textComponent;
 	protected boolean textChangedByUser = true;
-	private Border textFieldNormalBorder;
+	protected Border textFieldNormalBorder;
 
 	public TextControl(final ReflectionUI reflectionUI, final Object object,
 			final IFieldInfo field) {
@@ -40,39 +44,43 @@ public class TextControl extends JPanel implements IFieldControl {
 
 		setLayout(new BorderLayout());
 
-		DefaultFormatter formatter = new DefaultFormatter();
-		formatter.setCommitsOnValidEdit(true);
-		formatter.setOverwriteMode(false);
-		textField = new JFormattedTextField(formatter) {
+		textComponent = new JTextArea();
+		JScrollPane scrollPane = new JScrollPane(textComponent) {
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void processFocusEvent(FocusEvent e) {
-				textChangedByUser = false;
-				super.processFocusEvent(e);
-				textChangedByUser = true;
+			@Transient
+			public Dimension getPreferredSize() {
+				Dimension result = super.getPreferredSize();
+				result.height = Math.min(result.height, Toolkit
+						.getDefaultToolkit().getScreenSize().height / 3);
+				return result;
 			}
 
 		};
-		textFieldNormalBorder = textField.getBorder();
-
-		add(textField, BorderLayout.CENTER);
+		scrollPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
+		add(scrollPane, BorderLayout.CENTER);
+		textFieldNormalBorder = textComponent.getBorder();
 		if (field.isReadOnly()) {
-			textField.setEditable(false);
+			textComponent.setEditable(false);
+			textComponent.setBackground(UIManager
+					.getColor("TextField.disabledBackground"));
+			scrollPane.setBorder(BorderFactory.createTitledBorder(""));
 		} else {
-			textField.addPropertyChangeListener(new PropertyChangeListener() {
-				@Override
-				public void propertyChange(PropertyChangeEvent evt) {
-					try {
-						if ("value".equals(evt.getPropertyName())) {
-							onTextChange((String) evt.getNewValue());
+			textComponent.getDocument().addUndoableEditListener(
+					new UndoableEditListener() {
+
+						@Override
+						public void undoableEditHappened(UndoableEditEvent e) {
+							try {
+								onTextChange(textComponent.getText());
+							} catch (Throwable t) {
+								reflectionUI.handleExceptionsFromDisplayedUI(
+										TextControl.this, t);
+							}
 						}
-					} catch (Throwable t) {
-						displayError(new ReflectionUIError(t));
-					}
-				}
-			});
+					});
 		}
 		refreshUI();
 	}
@@ -80,45 +88,57 @@ public class TextControl extends JPanel implements IFieldControl {
 	@Override
 	public boolean displayError(ReflectionUIError error) {
 		boolean changed = !ReflectionUIUtils.equalsOrBothNull(error,
-				textField.getToolTipText());
+				textComponent.getToolTipText());
 		if (!changed) {
 			return true;
 		}
-		reflectionUI.logError(error);
+		if (error != null) {
+			reflectionUI.logError(error);
+		}
 		if (error == null) {
-			textField.setBorder(textFieldNormalBorder);
-			textField.setToolTipText("");
-			ReflectionUIUtils.showTooltipNow(textField);
+			setBorder(textFieldNormalBorder);
+			textComponent.setToolTipText("");
+			ReflectionUIUtils.showTooltipNow(textComponent);
 		} else {
 			TitledBorder border = BorderFactory.createTitledBorder("");
 			border.setTitleColor(Color.RED);
 			border.setBorder(BorderFactory.createLineBorder(Color.RED));
-			textField.setBorder(border);
-			textField.setToolTipText(error.toString());
-			ReflectionUIUtils.showTooltipNow(textField);
+			setBorder(border);
+			ReflectionUIUtils.setMultilineToolTipText(textComponent,
+					reflectionUI.translateUIString(error.toString()));
+			ReflectionUIUtils.showTooltipNow(textComponent);
 		}
 		return true;
 	}
 
-	protected void onTextChange(String newValue) {
+	protected void onTextChange(String newSTringValue) {
 		if (!textChangedByUser) {
 			return;
 		}
-		field.setValue(object, textType.fromText(newValue));
+		Object convertedvalue;
+		try {
+			convertedvalue = textType.fromText(newSTringValue);
+		} catch (Throwable t) {
+			displayError(new ReflectionUIError(t));
+			ReflectionUIUtils.updateLayout(this);
+			return;
+		}
+		field.setValue(object, convertedvalue);
+		ReflectionUIUtils.updateLayout(this);
 	}
 
 	@Override
 	public void requestFocus() {
-		textField.requestFocus();
+		textComponent.requestFocus();
 	}
 
 	@Override
 	public boolean refreshUI() {
 		textChangedByUser = false;
-		int lastCaretPosition = textField.getCaretPosition();
-		textField.setText(textType.toText(field.getValue(object)));
-		textField.setCaretPosition(Math.min(lastCaretPosition, textField
-				.getText().length()));
+		int lastCaretPosition = textComponent.getCaretPosition();
+		textComponent.setText(textType.toText(field.getValue(object)));
+		textComponent.setCaretPosition(Math.min(lastCaretPosition,
+				textComponent.getText().length()));
 		textChangedByUser = true;
 		return true;
 	}

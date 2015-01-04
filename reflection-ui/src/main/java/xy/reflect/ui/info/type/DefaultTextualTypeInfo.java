@@ -102,7 +102,6 @@ public class DefaultTextualTypeInfo extends DefaultTypeInfo implements
 	public static boolean isCompatibleWith(Class<?> javaType) {
 		return ReflectionUIUtils.isPrimitiveTypeOrWrapperOrString(javaType);
 	}
-	
 
 	@Override
 	public boolean isImmutable() {
@@ -123,7 +122,5 @@ public class DefaultTextualTypeInfo extends DefaultTypeInfo implements
 	public List<IMethodInfo> getMethods() {
 		return Collections.emptyList();
 	}
-
-	
 
 }

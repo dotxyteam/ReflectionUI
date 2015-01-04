@@ -127,7 +127,7 @@ public class NullableControl extends JPanel implements IFieldControl {
 
 	protected Component createNullControl(ReflectionUI reflectionUI,
 			Runnable onMousePress) {
-		return new NullControl(reflectionUI, field.getCaption(), onMousePress);
+		return new NullControl(reflectionUI, onMousePress);
 	}
 
 	@Override

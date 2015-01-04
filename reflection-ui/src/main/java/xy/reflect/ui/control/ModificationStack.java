@@ -215,7 +215,8 @@ public class ModificationStack {
 			if (refreshView) {
 				for (JPanel form : ReflectionUIUtils.getKeysFromValue(
 						reflectionUI.getObjectByForm(), object)) {
-					reflectionUI.refreshAndRelayoutFieldControl(form, field.getName());
+					reflectionUI.refreshAndRelayoutFieldControl(form,
+							field.getName());
 				}
 			}
 			return opposite;
@@ -392,7 +393,9 @@ public class ModificationStack {
 
 			private void updateState() {
 				setEnabled(enabled.get());
-				setToolTipText(tooltip.get());
+				ReflectionUIUtils.setMultilineToolTipText(this, reflectionUI
+						.translateUIString(reflectionUI
+								.translateUIString(tooltip.get())));
 			}
 
 		};

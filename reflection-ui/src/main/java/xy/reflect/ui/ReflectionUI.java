@@ -216,9 +216,10 @@ public class ReflectionUI {
 		result.setPreferredSize(new Dimension(result.getPreferredSize().height,
 				result.getPreferredSize().height));
 		result.setContentAreaFilled(false);
-		result.setBorderPainted(false);
+		//result.setBorderPainted(false);
 		result.setFocusable(false);
-		result.setToolTipText(documentation);
+		ReflectionUIUtils.setMultilineToolTipText(result, 
+				translateUIString(documentation));
 		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
