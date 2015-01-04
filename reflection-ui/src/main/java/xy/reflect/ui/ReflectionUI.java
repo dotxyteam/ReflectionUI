@@ -564,65 +564,21 @@ public class ReflectionUI {
 	public void layoutControls(
 			List<FieldControlPlaceHolder> fielControlPlaceHolders,
 			final List<Component> methodControls, JPanel parentForm) {
+
+		JPanel fieldsPanel = createFieldsPanel(fielControlPlaceHolders);
+		JPanel methodsPanel = createMethodsPanel(methodControls);
+		layoutControlPanels(parentForm, fieldsPanel, methodsPanel);
+	}
+
+	public void layoutControlPanels(JPanel parentForm, JPanel fieldsPanel,
+			JPanel methodsPanel) {
 		parentForm.setLayout(new BorderLayout());
-
-		JPanel fieldsPanel = new JPanel();
 		parentForm.add(fieldsPanel, BorderLayout.CENTER);
-		fieldsPanel.setLayout(new GridBagLayout());
-		GridBagConstraints layoutConstraints;
-		int spacing = 5;
-		for (int i = 0; i < fielControlPlaceHolders.size(); i++) {
-			FieldControlPlaceHolder fielControlPlaceHolder = fielControlPlaceHolders
-					.get(i);
-			Component fieldControl = fielControlPlaceHolder.getFieldControl();
-			IFieldInfo field = fielControlPlaceHolder.getField();
-
-			boolean fieldControlHasCaption = (fieldControl instanceof IFieldControl)
-					&& ((IFieldControl) fieldControl).showCaption();
-			if (!fieldControlHasCaption) {
-				JLabel captionControl = new JLabel(
-						translateUIString(field.getCaption() + ": "));
-				layoutConstraints = new GridBagConstraints();
-				layoutConstraints.insets = new Insets(spacing, spacing,
-						spacing, spacing);
-				layoutConstraints.gridx = 0;
-				layoutConstraints.gridy = i;
-				layoutConstraints.anchor = GridBagConstraints.WEST;
-				fieldsPanel.add(captionControl, layoutConstraints);
-				fielControlPlaceHolder.setCaptionControl(captionControl);
-			}
-
-			layoutConstraints = new GridBagConstraints();
-			layoutConstraints.insets = new Insets(spacing, spacing, spacing,
-					spacing);
-			if (fieldControlHasCaption) {
-				layoutConstraints.gridwidth = 2;
-				layoutConstraints.gridx = 0;
-			} else {
-				layoutConstraints.gridx = 1;
-			}
-			layoutConstraints.gridy = i;
-			layoutConstraints.weightx = 1;
-			layoutConstraints.fill = GridBagConstraints.HORIZONTAL;
-			fieldsPanel.add(fielControlPlaceHolder, layoutConstraints);
-
-			if ((field.getDocumentation() != null)
-					&& (field.getDocumentation().trim().length() > 0)) {
-				layoutConstraints = new GridBagConstraints();
-				layoutConstraints.insets = new Insets(spacing, spacing,
-						spacing, spacing);
-				layoutConstraints.gridx = 2;
-				layoutConstraints.gridy = i;
-				fieldsPanel.add(
-						createDocumentationControl(field.getDocumentation()),
-						layoutConstraints);
-
-			}
-
-		}
-
-		JPanel methodsPanel = new JPanel();
 		parentForm.add(methodsPanel, BorderLayout.SOUTH);
+	}
+
+	public JPanel createMethodsPanel(final List<Component> methodControls) {
+		JPanel methodsPanel = new JPanel();
 		methodsPanel.setLayout(new WrapLayout(WrapLayout.CENTER));
 		for (final Component methodControl : methodControls) {
 			JPanel methodControlContainer = new JPanel() {
@@ -648,24 +604,58 @@ public class ReflectionUI {
 					return result;
 				}
 			};
+
 			methodControlContainer.setLayout(new BorderLayout());
 			methodControlContainer.add(methodControl, BorderLayout.CENTER);
 			methodsPanel.add(methodControlContainer);
 		}
+		return methodsPanel;
+	}
+
+	public JPanel createFieldsPanel(
+			List<FieldControlPlaceHolder> fielControlPlaceHolders) {
+		JPanel fieldsPanel = new JPanel();
+		fieldsPanel.setLayout(new GridBagLayout());
+		GridBagConstraints layoutConstraints;
+		int spacing = 5;
+		for (int i = 0; i < fielControlPlaceHolders.size(); i++) {
+			FieldControlPlaceHolder fieldControlPlaceHolder = fielControlPlaceHolders
+					.get(i);
+			layoutConstraints = new GridBagConstraints();
+			layoutConstraints.gridy = i;
+			fieldsPanel.add(fieldControlPlaceHolder, layoutConstraints);
+			updateFieldControlLayout(fieldControlPlaceHolder);
+
+			IFieldInfo field = fieldControlPlaceHolder.getField();
+			if ((field.getDocumentation() != null)
+					&& (field.getDocumentation().trim().length() > 0)) {
+				layoutConstraints = new GridBagConstraints();
+				layoutConstraints.insets = new Insets(spacing, spacing,
+						spacing, spacing);
+				layoutConstraints.gridx = 2;
+				layoutConstraints.gridy = i;
+				fieldsPanel.add(
+						createDocumentationControl(field.getDocumentation()),
+						layoutConstraints);
+
+			}
+
+		}
+		return fieldsPanel;
 	}
 
 	public void updateFieldControlLayout(
 			FieldControlPlaceHolder fieldControlPlaceHolder) {
 		Component fieldControl = fieldControlPlaceHolder.getFieldControl();
 		IFieldInfo field = fieldControlPlaceHolder.getField();
-		Container fieldsPanel = fieldControlPlaceHolder.getParent();
-		
-		GridBagLayout layout = (GridBagLayout) fieldsPanel.getLayout();
+		Container container = fieldControlPlaceHolder.getParent();
+
+		GridBagLayout layout = (GridBagLayout) container.getLayout();
 		int i = layout.getConstraints(fieldControlPlaceHolder).gridy;
-		
-		fieldsPanel.remove(fieldControlPlaceHolder);
+
+		container.remove(fieldControlPlaceHolder);
 		if (fieldControlPlaceHolder.getCaptionControl() != null) {
-			fieldsPanel.remove(fieldControlPlaceHolder.getCaptionControl());
+			container.remove(fieldControlPlaceHolder.getCaptionControl());
 			fieldControlPlaceHolder.setCaptionControl(null);
 		}
 
@@ -682,7 +672,7 @@ public class ReflectionUI {
 			layoutConstraints.gridx = 0;
 			layoutConstraints.gridy = i;
 			layoutConstraints.anchor = GridBagConstraints.WEST;
-			fieldsPanel.add(captionControl, layoutConstraints);
+			container.add(captionControl, layoutConstraints);
 			fieldControlPlaceHolder.setCaptionControl(captionControl);
 		}
 
@@ -698,9 +688,9 @@ public class ReflectionUI {
 		layoutConstraints.gridy = i;
 		layoutConstraints.weightx = 1;
 		layoutConstraints.fill = GridBagConstraints.HORIZONTAL;
-		fieldsPanel.add(fieldControlPlaceHolder, layoutConstraints);
-		
-		fieldsPanel.validate();
+		container.add(fieldControlPlaceHolder, layoutConstraints);
+
+		container.validate();
 	}
 
 	public void handleExceptionsFromDisplayedUI(Component activatorComponent,
@@ -1383,7 +1373,7 @@ public class ReflectionUI {
 						super.setValue(object, value);
 						displayError(null);
 					} catch (final Throwable t) {
-						displayError(new ReflectionUIError(t));						
+						displayError(new ReflectionUIError(t));
 					}
 				}
 
@@ -1411,8 +1401,7 @@ public class ReflectionUI {
 			if (!((fieldControl instanceof IFieldControl) && ((IFieldControl) fieldControl)
 					.displayError(error))) {
 				if (error != null) {
-					handleExceptionsFromDisplayedUI(fieldControl,
-							error);
+					handleExceptionsFromDisplayedUI(fieldControl, error);
 					refreshUI();
 				}
 			}
