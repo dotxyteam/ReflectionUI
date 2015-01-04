@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.beans.Transient;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -50,7 +49,6 @@ public class TextControl extends JPanel implements IFieldControl {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			@Transient
 			public Dimension getPreferredSize() {
 				Dimension result = super.getPreferredSize();
 				result.height = Math.min(result.height, Toolkit
