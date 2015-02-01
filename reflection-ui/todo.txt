@@ -1,3 +1,12 @@
+
+
+This library allows to generate automatically the GUI (general user interface) of any Java object.
+
+The generation of the GUI requires no other information that the object itself. Its structure is discovered at runtime through Java reflection.
+
+The genrated GUI can be customized in a non-intrusive way by overriding some key methods of the generator objects.
+
+
 - update translatable strings
 - check getSubObjectEd is used where it should
 - be careful with UiManager.getColor

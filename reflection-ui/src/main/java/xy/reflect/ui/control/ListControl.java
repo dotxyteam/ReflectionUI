@@ -1789,10 +1789,8 @@ public class ListControl extends JPanel implements IFieldControl {
 			String text = getCellValue(node, columnIndex);
 			if (text == null) {
 				label.setText("");
-				label.setOpaque(true);
 			} else {
 				label.setText(reflectionUI.translateUIString(text));
-				label.setOpaque(false);
 			}
 
 			if (columnIndex == 0) {

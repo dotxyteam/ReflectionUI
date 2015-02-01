@@ -216,9 +216,9 @@ public class ReflectionUI {
 		result.setPreferredSize(new Dimension(result.getPreferredSize().height,
 				result.getPreferredSize().height));
 		result.setContentAreaFilled(false);
-		//result.setBorderPainted(false);
+		// result.setBorderPainted(false);
 		result.setFocusable(false);
-		ReflectionUIUtils.setMultilineToolTipText(result, 
+		ReflectionUIUtils.setMultilineToolTipText(result,
 				translateUIString(documentation));
 		result.addActionListener(new ActionListener() {
 			@Override
@@ -448,22 +448,28 @@ public class ReflectionUI {
 					Map<String, Object> valueByParameterName) {
 				ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
 				Map<String, Object> fieldValueCopyByFieldName = new HashMap<String, Object>();
-				Object COULD_NOT_COPY = new Object();
+				Object CANNOT_DETECT_CHANGE = new Object();
 				for (IFieldInfo field : type.getFields()) {
-					Object fieldValue = field.getValue(object);
 					Object fieldValueCopy;
-					if (!canCopy(fieldValue)) {
-						fieldValueCopy = COULD_NOT_COPY;
+					if (field.isReadOnly()) {
+						fieldValueCopy = CANNOT_DETECT_CHANGE;
 					} else {
-						try {
-							fieldValueCopy = copy(fieldValue);
-						} catch (Throwable t) {
-							fieldValueCopy = COULD_NOT_COPY;
+						Object fieldValue = field.getValue(object);
+						if (!canCopy(fieldValue)) {
+							fieldValueCopy = CANNOT_DETECT_CHANGE;
+						} else {
+							try {
+								fieldValueCopy = copy(fieldValue);
+							} catch (Throwable t) {
+								fieldValueCopy = CANNOT_DETECT_CHANGE;
+							}
+							if(!ReflectionUIUtils.equalsOrBothNull(fieldValueCopy, fieldValue)){
+								fieldValueCopy = CANNOT_DETECT_CHANGE;
+							}
 						}
 					}
 					fieldValueCopyByFieldName.put(field.getName(),
 							fieldValueCopy);
-
 				}
 
 				Object result = super.invoke(object, valueByParameterName);
@@ -472,18 +478,16 @@ public class ReflectionUI {
 				for (IFieldInfo field : type.getFields()) {
 					Object fieldValueCopy = fieldValueCopyByFieldName.get(field
 							.getName());
-					if (fieldValueCopy == COULD_NOT_COPY) {
+					if (fieldValueCopy == CANNOT_DETECT_CHANGE) {
 						continue;
 					}
 					Object fieldValue = field.getValue(object);
 					if (!ReflectionUIUtils.equalsOrBothNull(fieldValue,
 							fieldValueCopy)) {
-						if (!field.isReadOnly()) {
-							undoModifs
-									.add(new ModificationStack.SetFieldValueModification(
-											ReflectionUI.this, object, field,
-											fieldValueCopy));
-						}
+						undoModifs
+								.add(new ModificationStack.SetFieldValueModification(
+										ReflectionUI.this, object, field,
+										fieldValueCopy));
 					}
 				}
 				if (undoModifs.size() > 0) {
@@ -716,13 +720,23 @@ public class ReflectionUI {
 				new Object[] {});
 
 		JDialog[] dialogArray = new JDialog[1];
-		dialogArray[0] = createDialog(
-				activatorComponent,
-				errorComponent,
-				title,
-				null,
-				new ArrayList<Component>(createDialogOkCancelButtons(
-						dialogArray, null, null, null, false)), null);
+
+		List<Component> buttons = new ArrayList<Component>();
+		final JButton deatilsButton = new JButton(translateUIString("Details"));
+		deatilsButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				openObjectDialog(deatilsButton, error,
+						translateUIString("Error Details"),
+						getObjectIconImage(error), true);
+			}
+		});
+		buttons.add(deatilsButton);
+		buttons.addAll(createDialogOkCancelButtons(dialogArray, null, null,
+				null, false));
+
+		dialogArray[0] = createDialog(activatorComponent, errorComponent,
+				title, null, buttons, null);
 		openDialog(dialogArray[0], true);
 
 	}

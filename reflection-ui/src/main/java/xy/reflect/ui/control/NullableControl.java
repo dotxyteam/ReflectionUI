@@ -57,7 +57,6 @@ public class NullableControl extends JPanel implements IFieldControl {
 
 	protected void setShouldBeNull(boolean b) {
 		nullingControl.setSelected(!b);
-		nullingControl.setVisible(!b);
 	}
 
 	protected boolean shoulBeNull() {
