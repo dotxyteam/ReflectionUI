@@ -31,7 +31,9 @@ public abstract class AbstractConstructorMethodInfo implements IMethodInfo {
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder(getCaption());
-		if (getParameters().size() > 0) {
+		if (getParameters().size() == 0) {
+			result.append(" - by default");			
+		}else{
 			result.append(" - specify ");
 			result.append(ReflectionUIUtils
 					.formatParameterList(getParameters()));

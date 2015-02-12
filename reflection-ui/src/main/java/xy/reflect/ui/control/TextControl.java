@@ -9,7 +9,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.UndoableEditEvent;
@@ -62,8 +61,7 @@ public class TextControl extends JPanel implements IFieldControl {
 		textFieldNormalBorder = textComponent.getBorder();
 		if (field.isReadOnly()) {
 			textComponent.setEditable(false);
-			textComponent.setBackground(UIManager
-					.getColor("TextField.disabledBackground"));
+			textComponent.setBackground(ReflectionUIUtils.fixSeveralColorRenderingIssues(ReflectionUIUtils.getDisabledBackgroundColor()));
 			scrollPane.setBorder(BorderFactory.createTitledBorder(""));
 		} else {
 			textComponent.getDocument().addUndoableEditListener(

@@ -12,14 +12,14 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.IEnumerationTypeInfo;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class EnumerationControl extends JPanel  {
+public class EnumerationControl extends JPanel {
 	protected static final long serialVersionUID = 1L;
 	protected IEnumerationTypeInfo enumType;
 	protected ReflectionUI reflectionUI;
@@ -53,7 +53,9 @@ public class EnumerationControl extends JPanel  {
 					.getPossibleValues().toArray()));
 		}
 
-		comboBox.setBackground(UIManager.getColor("TextField.background"));
+		comboBox.setBackground(ReflectionUIUtils
+				.fixSeveralColorRenderingIssues(ReflectionUIUtils
+						.getTextControlBackgroundColor()));
 
 		comboBox.setRenderer(new BasicComboBoxRenderer() {
 
@@ -69,7 +71,7 @@ public class EnumerationControl extends JPanel  {
 					label.setText("");
 				} else {
 					String s = enumType.formatValue(value);
-					label.setText( reflectionUI.translateUIString(s));
+					label.setText(reflectionUI.translateUIString(s));
 				}
 
 				Image imageIcon = reflectionUI.getObjectIconImage(value);

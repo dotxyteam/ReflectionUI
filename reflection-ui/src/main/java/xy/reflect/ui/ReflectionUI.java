@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -463,7 +464,8 @@ public class ReflectionUI {
 							} catch (Throwable t) {
 								fieldValueCopy = CANNOT_DETECT_CHANGE;
 							}
-							if(!ReflectionUIUtils.equalsOrBothNull(fieldValueCopy, fieldValue)){
+							if (!ReflectionUIUtils.equalsOrBothNull(
+									fieldValueCopy, fieldValue)) {
 								fieldValueCopy = CANNOT_DETECT_CHANGE;
 							}
 						}
@@ -1051,60 +1053,76 @@ public class ReflectionUI {
 
 	public Object onTypeInstanciationRequest(Component activatorComponent,
 			ITypeInfo type, boolean silent) {
-		List<ITypeInfo> polyTypes = type.getPolymorphicInstanceSubTypes();
-		if ((polyTypes != null) && (polyTypes.size() > 0)) {
-			if (polyTypes.size() == 1) {
-				type = polyTypes.get(0);
-			} else {
-				if (silent) {
+		try {
+			List<ITypeInfo> polyTypes = type.getPolymorphicInstanceSubTypes();
+			if ((polyTypes != null) && (polyTypes.size() > 0)) {
+				if (polyTypes.size() == 1) {
 					type = polyTypes.get(0);
 				} else {
-					type = openSelectionDialog(activatorComponent, polyTypes,
-							null, "Choose the type of '" + type.getCaption()
-									+ "':", null);
-					if (type == null) {
-						return null;
+					if (silent) {
+						type = polyTypes.get(0);
+					} else {
+						type = openSelectionDialog(
+								activatorComponent,
+								polyTypes,
+								null,
+								MessageFormat
+										.format(translateUIString("Choose the type of ''{0}'':"),
+												type.getCaption()), null);
+						if (type == null) {
+							return null;
+						}
 					}
 				}
 			}
-		}
 
-		List<IMethodInfo> constructors = type.getConstructors();
-		if (constructors.size() == 0) {
-			if (type.isConcrete() || silent) {
-				throw new ReflectionUIError("Cannot create an object of type '"
-						+ type + "': No accessible constructor found");
-			} else {
-				type = openConcreteClassSelectionDialog(activatorComponent,
-						type);
-				if (type == null) {
-					return null;
+			List<IMethodInfo> constructors = type.getConstructors();
+			if (constructors.size() == 0) {
+				if (type.isConcrete() || silent) {
+					throw new ReflectionUIError(
+							"No accessible constructor found");
 				} else {
-					return onTypeInstanciationRequest(activatorComponent, type,
-							silent);
+					type = openConcreteClassSelectionDialog(activatorComponent,
+							type);
+					if (type == null) {
+						return null;
+					} else {
+						return onTypeInstanciationRequest(activatorComponent,
+								type, silent);
+					}
 				}
 			}
-		}
 
-		constructors = new ArrayList<IMethodInfo>(constructors);
-		Collections.sort(constructors, new Comparator<IMethodInfo>() {
-			@Override
-			public int compare(IMethodInfo o1, IMethodInfo o2) {
-				return new Integer(o1.getParameters().size())
-						.compareTo(new Integer(o2.getParameters().size()));
+			constructors = new ArrayList<IMethodInfo>(constructors);
+			Collections.sort(constructors, new Comparator<IMethodInfo>() {
+				@Override
+				public int compare(IMethodInfo o1, IMethodInfo o2) {
+					return new Integer(o1.getParameters().size())
+							.compareTo(new Integer(o2.getParameters().size()));
+				}
+			});
+
+			if (silent) {
+				IMethodInfo smallerConstructor = constructors.get(0);
+				return smallerConstructor.invoke(null,
+						Collections.<String, Object> emptyMap());
+			} else {
+				IMethodInfo chosenContructor = openSelectionDialog(
+						activatorComponent, constructors, null,
+						translateUIString("Choose an option:"), null);
+				if(chosenContructor == null){
+					return null;
+				}
+				Object[] returnValueArray = new Object[1];
+				onMethodInvocationRequest(activatorComponent, null,
+						chosenContructor, returnValueArray, false);
+				return returnValueArray[0];
 			}
-		});
-
-		IMethodInfo smallerConstructor = constructors.get(0);
-		if (silent) {
-			return smallerConstructor.invoke(null,
-					Collections.<String, Object> emptyMap());
-		} else {
-			Object[] returnValueArray = new Object[1];
-			onMethodInvocationRequest(activatorComponent, null,
-					smallerConstructor, returnValueArray, false);
-			return returnValueArray[0];
+		} catch (Throwable t) {
+			throw new ReflectionUIError("Could not create an object of type '"
+					+ type + "': " + t.toString(), t);
 		}
+
 	}
 
 	@SuppressWarnings("unchecked")

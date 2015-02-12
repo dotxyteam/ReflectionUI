@@ -27,9 +27,10 @@ import java.util.Set;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
-
 import com.fasterxml.classmate.MemberResolver;
 import com.fasterxml.classmate.ResolvedType;
 import com.fasterxml.classmate.ResolvedTypeWithMembers;
@@ -729,6 +730,18 @@ public class ReflectionUIUtils {
 		} else {
 			c.setToolTipText("<HTML>"+ReflectionUIUtils.escapeHTML(toolTipText, true)+"</HTML>");
 		}
+	}
+
+	public static Color getTextControlBackgroundColor() {
+		return new JTextField().getBackground();
+	}
+
+	public static Color getNullColor() {
+		return new JTextArea().getDisabledTextColor();
+	}
+
+	public static Color getDisabledBackgroundColor() {
+		return new JPanel().getBackground();
 	}
 
 }
