@@ -1,4 +1,5 @@
 - allow to override control colors in the RefUI class for special LokkAndFeels 
+note that the only color that is really invented is the null color. Other colors are just copied
 - update translatable strings
 - check getSubObjectEd is used where it should
 - be careful with UiManager.getColor

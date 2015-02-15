@@ -1,6 +1,7 @@
 package xy.reflect.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dialog.ModalityType;
@@ -250,7 +251,8 @@ public class ReflectionUI {
 			}
 			if (!field.isReadOnly()) {
 				field = makeFieldModificationsUndoable(field, form);
-				field = refreshOtherFieldsAfterFieldModification(field, form);
+				field = refreshOtherFieldsAfterFieldModification(field, form,
+						settings);
 			}
 			FieldControlPlaceHolder fieldControlPlaceHolder = createFieldControlPlaceHolder(
 					object, field);
@@ -298,7 +300,8 @@ public class ReflectionUI {
 			} else {
 				if (!method.isReadOnly()) {
 					method = makeMethodModificationsUndoable(method, form);
-					method = refreshFieldsAfterMethodModifications(method, form);
+					method = refreshFieldsAfterMethodModifications(method,
+							form, settings);
 				}
 			}
 			Component methodControl = createMethodControl(object, method);
@@ -508,7 +511,8 @@ public class ReflectionUI {
 	}
 
 	public IFieldInfo refreshOtherFieldsAfterFieldModification(
-			final IFieldInfo field, final JPanel form) {
+			final IFieldInfo field, final JPanel form,
+			final IInfoCollectionSettings settings) {
 		return new FieldInfoProxy(field) {
 			@Override
 			public void setValue(final Object object, Object newValue) {
@@ -519,6 +523,9 @@ public class ReflectionUI {
 						try {
 							ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
 							for (IFieldInfo fieldToRefresh : type.getFields()) {
+								if (settings.excludeField(fieldToRefresh)) {
+									continue;
+								}
 								if (field.getName().equals(
 										fieldToRefresh.getName())) {
 									continue;
@@ -536,7 +543,8 @@ public class ReflectionUI {
 	}
 
 	public IMethodInfo refreshFieldsAfterMethodModifications(
-			final IMethodInfo method, final JPanel form) {
+			final IMethodInfo method, final JPanel form,
+			final IInfoCollectionSettings settings) {
 		return new MethodInfoProxy(method) {
 			@Override
 			public Object invoke(Object object,
@@ -544,6 +552,9 @@ public class ReflectionUI {
 				Object result = super.invoke(object, valueByParameterName);
 				ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
 				for (IFieldInfo field : type.getFields()) {
+					if (settings.excludeField(field)) {
+						continue;
+					}
 					refreshAndRelayoutFieldControl(form, field.getName());
 				}
 				return result;
@@ -739,7 +750,7 @@ public class ReflectionUI {
 
 		dialogArray[0] = createDialog(activatorComponent, errorComponent,
 				title, null, buttons, null);
-		openDialog(dialogArray[0], true);
+		showDialog(dialogArray[0], true);
 
 	}
 
@@ -882,7 +893,7 @@ public class ReflectionUI {
 			throw new ReflectionUIError(e);
 		}
 		if (busyLabel.isBusy()) {
-			openDialog(dialog, true);
+			showDialog(dialog, true);
 		}
 	}
 
@@ -923,7 +934,7 @@ public class ReflectionUI {
 				getMethodTitle(object, method, null, "Setting"), null,
 				toolbarControls, null);
 
-		openDialog(methodDialogArray[0], true);
+		showDialog(methodDialogArray[0], true);
 		return invokedStatusArray[0];
 	}
 
@@ -951,7 +962,7 @@ public class ReflectionUI {
 	public void showMessageDialog(Component activatorComponent, String msg,
 			String title) {
 		JDialog[] dialogArray = new JDialog[1];
-		openDialog(
+		showDialog(
 				dialogArray[0] = createDialog(
 						activatorComponent,
 						new JLabel("<HTML><BR>" + msg + "<BR><BR><HTML>",
@@ -967,10 +978,10 @@ public class ReflectionUI {
 		JPanel form = createObjectForm(object);
 		JDialog dialog = createDialog(parent, form, title, iconImage,
 				createCommonToolbarControls(form), null);
-		openDialog(dialog, modal);
+		showDialog(dialog, modal);
 	}
 
-	public void openDialog(JDialog dialog, boolean modal) {
+	public void showDialog(JDialog dialog, boolean modal) {
 		if (modal) {
 			dialog.setModalityType(ModalityType.DOCUMENT_MODAL);
 			dialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
@@ -1093,6 +1104,19 @@ public class ReflectionUI {
 				}
 			}
 
+			if (constructors.size() == 1) {
+				IMethodInfo constructor = constructors.get(0);
+				if (silent) {
+					return constructor.invoke(null,
+							Collections.<String, Object> emptyMap());
+				} else {
+					Object[] returnValueArray = new Object[1];
+					onMethodInvocationRequest(activatorComponent, null,
+							constructor, returnValueArray, false);
+					return returnValueArray[0];
+				}
+			}
+
 			constructors = new ArrayList<IMethodInfo>(constructors);
 			Collections.sort(constructors, new Comparator<IMethodInfo>() {
 				@Override
@@ -1110,7 +1134,7 @@ public class ReflectionUI {
 				IMethodInfo chosenContructor = openSelectionDialog(
 						activatorComponent, constructors, null,
 						translateUIString("Choose an option:"), null);
-				if(chosenContructor == null){
+				if (chosenContructor == null) {
 					return null;
 				}
 				Object[] returnValueArray = new Object[1];
@@ -1175,7 +1199,7 @@ public class ReflectionUI {
 		JDialog dialog = createValueDialog(activatorComponent, object,
 				valueAccessor, okPressedArray, settings,
 				parentModificationStack, title);
-		openDialog(dialog, true);
+		showDialog(dialog, true);
 		return okPressedArray[0];
 	}
 
@@ -1362,6 +1386,10 @@ public class ReflectionUI {
 		}
 		bounds = maxBounds.intersection(bounds);
 		window.setBounds(bounds);
+	}
+
+	public Color getNullColor() {
+		return new JTextArea().getDisabledTextColor();
 	}
 
 	protected class FieldControlPlaceHolder extends JPanel {

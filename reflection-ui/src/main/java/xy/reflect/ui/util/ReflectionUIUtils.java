@@ -27,7 +27,6 @@ import java.util.Set;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
@@ -732,15 +731,11 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static Color getTextControlBackgroundColor() {
+	public static Color getTextBackgroundColor() {
 		return new JTextField().getBackground();
 	}
 
-	public static Color getNullColor() {
-		return new JTextArea().getDisabledTextColor();
-	}
-
-	public static Color getDisabledBackgroundColor() {
+	public static Color getDisabledTextBackgroundColor() {
 		return new JPanel().getBackground();
 	}
 

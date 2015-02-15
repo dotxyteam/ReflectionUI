@@ -2,7 +2,6 @@ package xy.reflect.ui.info.type;
 
 import java.awt.Component;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -29,31 +28,30 @@ public class DefaultTextualTypeInfo extends DefaultTypeInfo implements
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		List<IMethodInfo> result = new ArrayList<IMethodInfo>(
-				new DefaultTypeInfo(reflectionUI, javaType).getConstructors());
-		if (ReflectionUIUtils.isPrimitiveTypeOrWrapper(javaType)) {
-			result.add(new AbstractConstructorMethodInfo(
-					DefaultTextualTypeInfo.this) {
+		return Collections
+				.<IMethodInfo> singletonList(new AbstractConstructorMethodInfo(
+						DefaultTextualTypeInfo.this) {
 
-				@Override
-				public Object invoke(Object object,
-						Map<String, Object> valueByParameterName) {
-					Class<?> primitiveType = javaType;
-					if (ReflectionUIUtils.isPrimitiveWrapper(primitiveType)) {
-						primitiveType = ReflectionUIUtils
-								.wrapperToPrimitiveType(javaType);
+					@Override
+					public Object invoke(Object object,
+							Map<String, Object> valueByParameterName) {
+						if(String.class.equals(javaType)){
+							return new String();
+						}
+						Class<?> primitiveType = javaType;
+						if (ReflectionUIUtils.isPrimitiveWrapper(primitiveType)) {
+							primitiveType = ReflectionUIUtils
+									.wrapperToPrimitiveType(javaType);
+						}
+						return PrimitiveDefaults.get(primitiveType);
 					}
-					return PrimitiveDefaults.get(primitiveType);
-				}
 
-				@Override
-				public List<IParameterInfo> getParameters() {
-					return Collections.emptyList();
-				}
+					@Override
+					public List<IParameterInfo> getParameters() {
+						return Collections.emptyList();
+					}
 
-			});
-		}
-		return result;
+				});
 	}
 
 	@Override

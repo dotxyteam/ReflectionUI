@@ -55,7 +55,7 @@ public class EnumerationControl extends JPanel {
 
 		comboBox.setBackground(ReflectionUIUtils
 				.fixSeveralColorRenderingIssues(ReflectionUIUtils
-						.getTextControlBackgroundColor()));
+						.getTextBackgroundColor()));
 
 		comboBox.setRenderer(new BasicComboBoxRenderer() {
 

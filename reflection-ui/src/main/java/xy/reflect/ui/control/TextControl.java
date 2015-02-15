@@ -61,7 +61,9 @@ public class TextControl extends JPanel implements IFieldControl {
 		textFieldNormalBorder = textComponent.getBorder();
 		if (field.isReadOnly()) {
 			textComponent.setEditable(false);
-			textComponent.setBackground(ReflectionUIUtils.fixSeveralColorRenderingIssues(ReflectionUIUtils.getDisabledBackgroundColor()));
+			textComponent.setBackground(ReflectionUIUtils
+					.fixSeveralColorRenderingIssues(ReflectionUIUtils
+							.getDisabledTextBackgroundColor()));
 			scrollPane.setBorder(BorderFactory.createTitledBorder(""));
 		} else {
 			textComponent.getDocument().addUndoableEditListener(

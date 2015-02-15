@@ -77,7 +77,7 @@ public class NullControl extends TextControl {
 		}
 		textComponent.setEditable(false);
 		textComponent.setBackground(ReflectionUIUtils
-				.fixSeveralColorRenderingIssues(ReflectionUIUtils
+				.fixSeveralColorRenderingIssues(reflectionUI
 						.getNullColor()));
 	}
 
