@@ -1,0 +1,68 @@
+<pre style='color:#d1d1d1;background:#000000;'><html><body style='color:#d1d1d1; background:#000000; '><pre>
+<span style='color:#e66170; font-weight:bold; '>import</span><span style='color:#008073; '> java</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>awt</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>Window</span><span style='color:#b060b0; '>;</span>
+<span style='color:#e66170; font-weight:bold; '>import</span><span style='color:#008073; '> java</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>util</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>Date</span><span style='color:#b060b0; '>;</span>
+
+<span style='color:#e66170; font-weight:bold; '>import</span><span style='color:#008073; '> javax</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>swing</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>JOptionPane</span><span style='color:#b060b0; '>;</span>
+
+<span style='color:#e66170; font-weight:bold; '>import</span><span style='color:#008073; '> xy</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>reflect</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>ui</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>ReflectionUI</span><span style='color:#b060b0; '>;</span>
+<span style='color:#e66170; font-weight:bold; '>import</span><span style='color:#008073; '> xy</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>reflect</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>ui</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>info</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>InfoProxyConfiguration</span><span style='color:#b060b0; '>;</span>
+<span style='color:#e66170; font-weight:bold; '>import</span><span style='color:#008073; '> xy</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>reflect</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>ui</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>info</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>field</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>IFieldInfo</span><span style='color:#b060b0; '>;</span>
+<span style='color:#e66170; font-weight:bold; '>import</span><span style='color:#008073; '> xy</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>reflect</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>ui</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>info</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>type</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>ITypeInfo</span><span style='color:#b060b0; '>;</span>
+<span style='color:#e66170; font-weight:bold; '>import</span><span style='color:#008073; '> xy</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>reflect</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>ui</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>info</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>type</span><span style='color:#d2cd86; '>.</span><span style='color:#008073; '>ITypeInfoSource</span><span style='color:#b060b0; '>;</span>
+
+<span style='color:#e66170; font-weight:bold; '>public</span> <span style='color:#e66170; font-weight:bold; '>class</span> GettingStarted <span style='color:#b060b0; '>{</span>
+
+	<span style='color:#e66170; font-weight:bold; '>public</span> <span style='color:#e66170; font-weight:bold; '>static</span> <span style='color:#bb7977; '>void</span> main<span style='color:#d2cd86; '>(</span><span style='color:#bb7977; font-weight:bold; '>String</span><span style='color:#d2cd86; '>[</span><span style='color:#d2cd86; '>]</span> args<span style='color:#d2cd86; '>)</span> <span style='color:#b060b0; '>{</span>
+		<span style='color:#9999a9; '>/* The Hello world: */</span>
+		<span style='color:#bb7977; font-weight:bold; '>Object</span> myObject <span style='color:#d2cd86; '>=</span> <span style='color:#e66170; font-weight:bold; '>new</span> <span style='color:#bb7977; font-weight:bold; '>Date</span><span style='color:#d2cd86; '>(</span><span style='color:#d2cd86; '>)</span><span style='color:#b060b0; '>;</span>
+		ReflectionUI reflectionUI <span style='color:#d2cd86; '>=</span> <span style='color:#e66170; font-weight:bold; '>new</span> ReflectionUI<span style='color:#d2cd86; '>(</span><span style='color:#d2cd86; '>)</span><span style='color:#b060b0; '>;</span>
+		reflectionUI<span style='color:#d2cd86; '>.</span>openObjectFrame<span style='color:#d2cd86; '>(</span>myObject<span style='color:#d2cd86; '>,</span> <span style='color:#00c4c4; '>"Hello world"</span><span style='color:#d2cd86; '>,</span> <span style='color:#e66170; font-weight:bold; '>null</span><span style='color:#d2cd86; '>)</span><span style='color:#b060b0; '>;</span>
+
+		<span style='color:#9999a9; '>/* You can open a dialog instead of a frame: */</span>
+		reflectionUI<span style='color:#d2cd86; '>.</span>openObjectDialog<span style='color:#d2cd86; '>(</span><span style='color:#e66170; font-weight:bold; '>null</span><span style='color:#d2cd86; '>,</span> myObject<span style='color:#d2cd86; '>,</span> <span style='color:#00c4c4; '>"dialog instead"</span><span style='color:#d2cd86; '>,</span> <span style='color:#e66170; font-weight:bold; '>null</span><span style='color:#d2cd86; '>,</span>
+				<span style='color:#e66170; font-weight:bold; '>true</span><span style='color:#d2cd86; '>)</span><span style='color:#b060b0; '>;</span>
+
+		<span style='color:#9999a9; '>/* You can just create a form and then insert it in any container: */</span>
+		JOptionPane<span style='color:#d2cd86; '>.</span>showMessageDialog<span style='color:#d2cd86; '>(</span><span style='color:#e66170; font-weight:bold; '>null</span><span style='color:#d2cd86; '>,</span>
+				reflectionUI<span style='color:#d2cd86; '>.</span>createObjectForm<span style='color:#d2cd86; '>(</span>myObject<span style='color:#d2cd86; '>)</span><span style='color:#d2cd86; '>)</span><span style='color:#b060b0; '>;</span>
+
+		<span style='color:#9999a9; '>/*</span>
+<span style='color:#9999a9; '>		 * In order to customize the UI behavior, just override the ReflectionUI</span>
+<span style='color:#9999a9; '>		 * object. For instance let set any window size to 300x300:</span>
+<span style='color:#9999a9; '>		 */</span>
+		reflectionUI <span style='color:#d2cd86; '>=</span> <span style='color:#e66170; font-weight:bold; '>new</span> ReflectionUI<span style='color:#d2cd86; '>(</span><span style='color:#d2cd86; '>)</span> <span style='color:#b060b0; '>{</span>
+			<span style='color:#d2cd86; '>@</span>Override
+			<span style='color:#e66170; font-weight:bold; '>public</span> <span style='color:#bb7977; '>void</span> adjustWindowBounds<span style='color:#d2cd86; '>(</span><span style='color:#bb7977; font-weight:bold; '>Window</span> window<span style='color:#d2cd86; '>)</span> <span style='color:#b060b0; '>{</span>
+				<span style='color:#e66170; font-weight:bold; '>super</span><span style='color:#d2cd86; '>.</span>adjustWindowBounds<span style='color:#d2cd86; '>(</span>window<span style='color:#d2cd86; '>)</span><span style='color:#b060b0; '>;</span>
+				window<span style='color:#d2cd86; '>.</span>setSize<span style='color:#d2cd86; '>(</span><span style='color:#008c00; '>300</span><span style='color:#d2cd86; '>,</span> <span style='color:#008c00; '>300</span><span style='color:#d2cd86; '>)</span><span style='color:#b060b0; '>;</span>
+			<span style='color:#b060b0; '>}</span>
+		<span style='color:#b060b0; '>}</span><span style='color:#b060b0; '>;</span>
+		reflectionUI<span style='color:#d2cd86; '>.</span>openObjectDialog<span style='color:#d2cd86; '>(</span><span style='color:#e66170; font-weight:bold; '>null</span><span style='color:#d2cd86; '>,</span> myObject<span style='color:#d2cd86; '>,</span> <span style='color:#00c4c4; '>"300x300 window"</span><span style='color:#d2cd86; '>,</span> <span style='color:#e66170; font-weight:bold; '>null</span><span style='color:#d2cd86; '>,</span>
+				<span style='color:#e66170; font-weight:bold; '>true</span><span style='color:#d2cd86; '>)</span><span style='color:#b060b0; '>;</span>
+
+		<span style='color:#9999a9; '>/*</span>
+<span style='color:#9999a9; '>		 * If you specifically want to take control over the object discovery</span>
+<span style='color:#9999a9; '>		 * and interpretation process, then you must override the getTypeInfo()</span>
+<span style='color:#9999a9; '>		 * method. For instance we can uppercase all the field captions</span>
+<span style='color:#9999a9; '>		 */</span>
+		reflectionUI <span style='color:#d2cd86; '>=</span> <span style='color:#e66170; font-weight:bold; '>new</span> ReflectionUI<span style='color:#d2cd86; '>(</span><span style='color:#d2cd86; '>)</span> <span style='color:#b060b0; '>{</span>
+			<span style='color:#d2cd86; '>@</span>Override
+			<span style='color:#e66170; font-weight:bold; '>public</span> ITypeInfo getTypeInfo<span style='color:#d2cd86; '>(</span>ITypeInfoSource typeSource<span style='color:#d2cd86; '>)</span> <span style='color:#b060b0; '>{</span>
+				<span style='color:#e66170; font-weight:bold; '>return</span> <span style='color:#e66170; font-weight:bold; '>new</span> InfoProxyConfiguration<span style='color:#d2cd86; '>(</span><span style='color:#d2cd86; '>)</span> <span style='color:#b060b0; '>{</span>
+					<span style='color:#d2cd86; '>@</span>Override
+					<span style='color:#e66170; font-weight:bold; '>protected</span> <span style='color:#bb7977; font-weight:bold; '>String</span> getCaption<span style='color:#d2cd86; '>(</span>IFieldInfo field<span style='color:#d2cd86; '>,</span>
+							ITypeInfo containingType<span style='color:#d2cd86; '>)</span> <span style='color:#b060b0; '>{</span>
+						<span style='color:#e66170; font-weight:bold; '>return</span> <span style='color:#e66170; font-weight:bold; '>super</span><span style='color:#d2cd86; '>.</span>getCaption<span style='color:#d2cd86; '>(</span>field<span style='color:#d2cd86; '>,</span> containingType<span style='color:#d2cd86; '>)</span>
+								<span style='color:#d2cd86; '>.</span>toUpperCase<span style='color:#d2cd86; '>(</span><span style='color:#d2cd86; '>)</span><span style='color:#b060b0; '>;</span>
+					<span style='color:#b060b0; '>}</span>
+				<span style='color:#b060b0; '>}</span><span style='color:#d2cd86; '>.</span>get<span style='color:#d2cd86; '>(</span><span style='color:#e66170; font-weight:bold; '>super</span><span style='color:#d2cd86; '>.</span>getTypeInfo<span style='color:#d2cd86; '>(</span>typeSource<span style='color:#d2cd86; '>)</span><span style='color:#d2cd86; '>)</span><span style='color:#b060b0; '>;</span>
+			<span style='color:#b060b0; '>}</span>
+
+		<span style='color:#b060b0; '>}</span><span style='color:#b060b0; '>;</span>
+		reflectionUI<span style='color:#d2cd86; '>.</span>openObjectDialog<span style='color:#d2cd86; '>(</span><span style='color:#e66170; font-weight:bold; '>null</span><span style='color:#d2cd86; '>,</span> myObject<span style='color:#d2cd86; '>,</span>
+				<span style='color:#00c4c4; '>"uppercase field captions"</span><span style='color:#d2cd86; '>,</span> <span style='color:#e66170; font-weight:bold; '>null</span><span style='color:#d2cd86; '>,</span> <span style='color:#e66170; font-weight:bold; '>true</span><span style='color:#d2cd86; '>)</span><span style='color:#b060b0; '>;</span>
+
+	<span style='color:#b060b0; '>}</span>
+
+<span style='color:#b060b0; '>}</span>
+</pre>

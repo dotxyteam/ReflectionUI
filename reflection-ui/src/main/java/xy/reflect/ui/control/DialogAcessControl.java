@@ -2,6 +2,7 @@ package xy.reflect.ui.control;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,7 +21,7 @@ import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class DialogAcessControl extends JPanel{
+public class DialogAcessControl extends JPanel {
 
 	protected static final long serialVersionUID = 1L;
 	protected ReflectionUI reflectionUI;
@@ -44,7 +45,8 @@ public class DialogAcessControl extends JPanel{
 		add(centerPanel, BorderLayout.CENTER);
 		centerPanel.setLayout(new BorderLayout());
 		centerPanel.add(textControl = createTextControl(), BorderLayout.CENTER);
-		centerPanel.add(createButton(), BorderLayout.WEST);
+		centerPanel.add(ReflectionUIUtils.flowInLayout(createButton(),
+				FlowLayout.CENTER), BorderLayout.WEST);
 
 		updateControls();
 	}
@@ -134,7 +136,8 @@ public class DialogAcessControl extends JPanel{
 			}
 
 		};
-		ModificationStack parentStack = ReflectionUIUtils.findModificationStack(DialogAcessControl.this, reflectionUI);
+		ModificationStack parentStack = ReflectionUIUtils
+				.findModificationStack(DialogAcessControl.this, reflectionUI);
 		String title = reflectionUI.getFieldTitle(object, field);
 		IInfoCollectionSettings settings = new IInfoCollectionSettings() {
 			@Override
@@ -152,8 +155,8 @@ public class DialogAcessControl extends JPanel{
 				return false;
 			}
 		};
-		if(reflectionUI.openValueDialog(this, object, valueAccessor, settings,
-				 parentStack, title)){
+		if (reflectionUI.openValueDialog(this, object, valueAccessor, settings,
+				parentStack, title)) {
 			updateControls();
 		}
 
@@ -177,6 +180,5 @@ public class DialogAcessControl extends JPanel{
 	protected void updateTextControl() {
 		textControl.refreshUI();
 	}
-	
 
 }

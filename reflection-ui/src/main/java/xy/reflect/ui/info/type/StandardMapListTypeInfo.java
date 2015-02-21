@@ -119,14 +119,7 @@ public class StandardMapListTypeInfo extends DefaultTypeInfo implements
 
 	@Override
 	public IListStructuralInfo getStructuralInfo() {
-		return new DefaultListStructuralInfo(reflectionUI, getItemType()) {
-
-			@Override
-			protected boolean shouldShowValueKindColumn() {
-				return false;
-			}
-
-		};
+		return new DefaultListStructuralInfo(reflectionUI, getItemType());
 	}
 
 	@Override

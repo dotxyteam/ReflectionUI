@@ -14,15 +14,19 @@ import xy.reflect.ui.info.type.IListTypeInfo.IListStructuralInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class DefaultListStructuralInfo implements IListStructuralInfo {
+public class TabularListStructuralInfo implements IListStructuralInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo rootItemType;
+	protected List<IFieldInfo> rootItemFields;
 
-	public DefaultListStructuralInfo(ReflectionUI reflectionUI,
+	public TabularListStructuralInfo(ReflectionUI reflectionUI,
 			ITypeInfo rootItemType) {
 		this.reflectionUI = reflectionUI;
 		this.rootItemType = rootItemType;
+		if (rootItemType != null) {
+			this.rootItemFields = filterFields(this.rootItemType.getFields());
+		}
 	}
 
 	@Override
@@ -54,14 +58,18 @@ public class DefaultListStructuralInfo implements IListStructuralInfo {
 			IFieldInfo entryValueField = entryType.getValueField();
 			ITypeInfo entryValueType = entryValueField.getType();
 			if (entryValueType instanceof IListTypeInfo) {
-				ITypeInfo entryValuListItemType = ((IListTypeInfo) entryValueType)
-						.getItemType();
-				ITypeInfo parentListItemType = itemPosition
-						.getParentItemPosition().getContainingListType()
-						.getItemType();
-				if (ReflectionUIUtils.equalsOrBothNull(parentListItemType,
-						entryValuListItemType)) {
+				if (!isTabular()) {
 					result.add(entryValueField);
+				} else {
+					ITypeInfo entryValuListItemType = ((IListTypeInfo) entryValueType)
+							.getItemType();
+					ITypeInfo parentListItemType = itemPosition
+							.getParentItemPosition().getContainingListType()
+							.getItemType();
+					if (ReflectionUIUtils.equalsOrBothNull(parentListItemType,
+							entryValuListItemType)) {
+						result.add(entryValueField);
+					}
 				}
 			}
 		} else {
@@ -69,24 +77,28 @@ public class DefaultListStructuralInfo implements IListStructuralInfo {
 			for (IFieldInfo field : itemFields) {
 				ITypeInfo fieldType = field.getType();
 				if (fieldType instanceof IListTypeInfo) {
-					ITypeInfo subListItemType = ((IListTypeInfo) fieldType)
-							.getItemType();
-					if (subListItemType instanceof IMapEntryTypeInfo) {
-						IMapEntryTypeInfo entryType = (IMapEntryTypeInfo) subListItemType;
-						ITypeInfo entryValueType = entryType.getValueField()
-								.getType();
-						if (entryValueType instanceof IListTypeInfo) {
-							ITypeInfo entryValuListItemType = ((IListTypeInfo) entryValueType)
-									.getItemType();
+					if (!isTabular()) {
+						result.add(field);
+					} else {
+						ITypeInfo subListItemType = ((IListTypeInfo) fieldType)
+								.getItemType();
+						if (subListItemType instanceof IMapEntryTypeInfo) {
+							IMapEntryTypeInfo entryType = (IMapEntryTypeInfo) subListItemType;
+							ITypeInfo entryValueType = entryType
+									.getValueField().getType();
+							if (entryValueType instanceof IListTypeInfo) {
+								ITypeInfo entryValuListItemType = ((IListTypeInfo) entryValueType)
+										.getItemType();
+								if (ReflectionUIUtils.equalsOrBothNull(
+										itemType, entryValuListItemType)) {
+									result.add(field);
+								}
+							}
+						} else {
 							if (ReflectionUIUtils.equalsOrBothNull(itemType,
-									entryValuListItemType)) {
+									subListItemType)) {
 								result.add(field);
 							}
-						}
-					} else {
-						if (ReflectionUIUtils.equalsOrBothNull(itemType,
-								subListItemType)) {
-							result.add(field);
 						}
 					}
 				}
@@ -108,22 +120,78 @@ public class DefaultListStructuralInfo implements IListStructuralInfo {
 		return getItemSubListCandidateFields(itemPosition);
 	}
 
+	protected List<IFieldInfo> filterFields(List<IFieldInfo> fields) {
+		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
+		for (IFieldInfo candidateField : fields) {
+			if (candidateField.getType() instanceof IListTypeInfo) {
+				continue;
+			}
+			result.add(candidateField);
+		}
+		return result;
+	}
+
 	@Override
 	public int getColumnCount() {
-		return 1;
+		if (!isTabular()) {
+			return 1;
+		}
+		return rootItemFields.size() + (shouldShowValueKindColumn() ? 1 : 0);
+	}
+
+	protected boolean shouldShowValueKindColumn() {
+		if (!isTabular()) {
+			return false;
+		}
+		return !rootItemType.isConcrete();
 	}
 
 	@Override
 	public String getColumnCaption(int columnIndex) {
-		return "";
+		if (!isTabular()) {
+			return "";
+		}
+		if (shouldShowValueKindColumn()) {
+			if (columnIndex == 0) {
+				return "Type";
+			}
+			return rootItemFields.get(columnIndex - 1).getCaption();
+		} else {
+			return rootItemFields.get(columnIndex).getCaption();
+		}
 	}
 
 	@Override
 	public String getCellValue(IItemPosition itemPosition, int columnIndex) {
-		if (columnIndex != 0) {
-			throw new ReflectionUIError();
+		if (!isTabular()) {
+			if (columnIndex != 0) {
+				throw new ReflectionUIError();
+			}
+			return reflectionUI.toString(itemPosition.getItem());
 		}
-		return reflectionUI.toString(itemPosition.getItem());
+		Object item = itemPosition.getItem();
+		if (shouldShowValueKindColumn()) {
+			if (columnIndex == 0) {
+				return reflectionUI.getObjectKind(item);
+			}
+			columnIndex = columnIndex - 1;
+		}
+		if (rootItemType.equals(itemPosition.getContainingListType()
+				.getItemType())) {
+			IFieldInfo itemField = rootItemFields.get(columnIndex);
+			Object value = itemField.getValue(item);
+			return reflectionUI.toString(value);
+		} else {
+			if (columnIndex == 0) {
+				return reflectionUI.toString(itemPosition.getItem());
+			} else {
+				return null;
+			}
+		}
+	}
+
+	protected boolean isTabular() {
+		return (rootItemFields != null) && (rootItemFields.size() > 0);
 	}
 
 }

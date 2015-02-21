@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.ModificationStack.IModification;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.parameter.DefaultParameterInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -90,6 +91,11 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 
 	@Override
 	public InfoCategory getCategory() {
+		return null;
+	}
+
+	@Override
+	public IModification getUndoModification() {
 		return null;
 	}
 

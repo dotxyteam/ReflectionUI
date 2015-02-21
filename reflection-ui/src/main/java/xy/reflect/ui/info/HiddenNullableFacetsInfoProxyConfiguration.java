@@ -7,7 +7,8 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 
-public class HiddenNullableFacetsInfoProxyConfiguration extends InfoProxyConfiguration {
+public class HiddenNullableFacetsInfoProxyConfiguration extends
+		InfoProxyConfiguration {
 
 	protected ReflectionUI reflectionUI;
 
@@ -18,6 +19,10 @@ public class HiddenNullableFacetsInfoProxyConfiguration extends InfoProxyConfigu
 	@Override
 	protected Object getDefaultValue(IParameterInfo param, IMethodInfo method,
 			ITypeInfo containingType) {
+		Object result = param.getDefaultValue();
+		if (result != null) {
+			return result;
+		}
 		return getDefaultValue(param.getType());
 	}
 
@@ -33,7 +38,9 @@ public class HiddenNullableFacetsInfoProxyConfiguration extends InfoProxyConfigu
 		Object result = super.getValue(object, field, containingType);
 		if (result == null) {
 			result = getDefaultValue(field.getType());
-			setValue(object, result, field, containingType);
+			if (!field.isReadOnly()) {
+				setValue(object, result, field, containingType);
+			}
 		}
 		return result;
 	}
@@ -48,14 +55,13 @@ public class HiddenNullableFacetsInfoProxyConfiguration extends InfoProxyConfigu
 			Object result = reflectionUI.onTypeInstanciationRequest(null, type,
 					true);
 			if (result == null) {
-				throw new ReflectionUIError(
-						"Instanciation cancelled");
+				throw new ReflectionUIError("Instanciation cancelled");
 			}
 			return result;
 		} catch (Throwable t) {
 			throw new ReflectionUIError(
 					"Failed to automatically instanciate the type '" + type
-							+ "': " + t.toString());		
+							+ "': " + t.toString());
 		}
 	}
 }

@@ -27,6 +27,7 @@ public class ModificationStack {
 	public static final Object DO_EVENT = new Object();
 	public static final Object UNDO_EVENT = new Object();
 	public static final Object REDO_EVENT = new Object();
+	public static final Object INVALIDATE_EVENT = new Object();
 
 	protected static final String UNDO_TITLE_PREFIX = "(Revert) ";
 
@@ -165,6 +166,15 @@ public class ModificationStack {
 			compositeParent = this;
 		}
 		compositeParent.pushUndo(compositeUndoModif);
+	}
+	
+
+
+	public void invalidate() {
+		redoStack.clear();
+		undoStack.clear();
+		compositeStack.clear();
+		notifyListeners(INVALIDATE_EVENT);
 	}
 
 	protected void notifyListeners(Object event) {

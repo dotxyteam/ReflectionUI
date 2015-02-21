@@ -48,6 +48,10 @@ public class MethodControl extends JButton {
 
 			}
 		});
+		
+		if(method.isReadOnly()){
+			setEnabled(false);
+		}
 	}
 
 	protected void activated() {

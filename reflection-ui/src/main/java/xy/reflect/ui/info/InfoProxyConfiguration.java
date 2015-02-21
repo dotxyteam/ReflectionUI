@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.swing.JFileChooser;
 
+import xy.reflect.ui.control.ModificationStack.IModification;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -340,6 +341,12 @@ public class InfoProxyConfiguration {
 			ITypeInfo containingType) {
 		return method.getDocumentation();
 	}
+	
+	protected IModification getUndoModification(IMethodInfo method,
+			ITypeInfo containingType) {
+		return method.getUndoModification();
+	}
+
 
 	protected String formatValue(Object value, IEnumerationTypeInfo type) {
 		return type.formatValue(value);
@@ -836,6 +843,12 @@ public class InfoProxyConfiguration {
 		public String getDocumentation() {
 			return InfoProxyConfiguration.this.getDocumentation(method,
 					containingType);
+		}		
+
+
+		@Override
+		public IModification getUndoModification() {
+			return InfoProxyConfiguration.this.getUndoModification(method, containingType);
 		}
 
 		@Override

@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.method;
 
+import xy.reflect.ui.control.ModificationStack.IModification;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -53,6 +54,11 @@ public abstract class AbstractConstructorMethodInfo implements IMethodInfo {
 
 	@Override
 	public String getDocumentation() {
+		return null;
+	}
+
+	@Override
+	public IModification getUndoModification() {
 		return null;
 	}
 

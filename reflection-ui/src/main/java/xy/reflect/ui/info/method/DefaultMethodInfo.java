@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.ModificationStack.IModification;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.parameter.DefaultParameterInfo;
@@ -123,7 +124,7 @@ public class DefaultMethodInfo implements IMethodInfo {
 
 	@Override
 	public boolean isReadOnly() {
-		return getReturnValueType() != null;
+		return false;
 	}
 
 	public static boolean isCompatibleWith(Method javaMethod,
@@ -168,6 +169,11 @@ public class DefaultMethodInfo implements IMethodInfo {
 
 	@Override
 	public String getDocumentation() {
+		return null;
+	}
+
+	@Override
+	public IModification getUndoModification() {
 		return null;
 	}
 

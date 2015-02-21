@@ -295,7 +295,12 @@ public class ReflectionUI {
 			}
 			if (settings.allReadOnly()) {
 				if (!method.isReadOnly()) {
-					continue;
+					method = new MethodInfoProxy(method){
+						@Override
+						public boolean isReadOnly() {
+							return true;
+						}						
+					};
 				}
 			} else {
 				if (!method.isReadOnly()) {
@@ -450,61 +455,23 @@ public class ReflectionUI {
 			@Override
 			public Object invoke(Object object,
 					Map<String, Object> valueByParameterName) {
-				ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
-				Map<String, Object> fieldValueCopyByFieldName = new HashMap<String, Object>();
-				Object CANNOT_DETECT_CHANGE = new Object();
-				for (IFieldInfo field : type.getFields()) {
-					Object fieldValueCopy;
-					if (field.isReadOnly()) {
-						fieldValueCopy = CANNOT_DETECT_CHANGE;
-					} else {
-						Object fieldValue = field.getValue(object);
-						if (!canCopy(fieldValue)) {
-							fieldValueCopy = CANNOT_DETECT_CHANGE;
-						} else {
-							try {
-								fieldValueCopy = copy(fieldValue);
-							} catch (Throwable t) {
-								fieldValueCopy = CANNOT_DETECT_CHANGE;
-							}
-							if (!ReflectionUIUtils.equalsOrBothNull(
-									fieldValueCopy, fieldValue)) {
-								fieldValueCopy = CANNOT_DETECT_CHANGE;
-							}
-						}
-					}
-					fieldValueCopyByFieldName.put(field.getName(),
-							fieldValueCopy);
+				ModificationStack stack = getModificationStackByForm()
+						.get(form);
+				Object result;
+				try {
+					result = super.invoke(object, valueByParameterName);
+				} catch (Throwable t) {
+					stack.invalidate();
+					throw new ReflectionUIError(t);
 				}
-
-				Object result = super.invoke(object, valueByParameterName);
-
-				List<IModification> undoModifs = new ArrayList<ModificationStack.IModification>();
-				for (IFieldInfo field : type.getFields()) {
-					Object fieldValueCopy = fieldValueCopyByFieldName.get(field
-							.getName());
-					if (fieldValueCopy == CANNOT_DETECT_CHANGE) {
-						continue;
-					}
-					Object fieldValue = field.getValue(object);
-					if (!ReflectionUIUtils.equalsOrBothNull(fieldValue,
-							fieldValueCopy)) {
-						undoModifs
-								.add(new ModificationStack.SetFieldValueModification(
-										ReflectionUI.this, object, field,
-										fieldValueCopy));
-					}
+				IModification undoModif = method.getUndoModification();
+				if (undoModif == null) {
+					stack.invalidate();
+				} else {
+					stack.pushUndo(undoModif);
 				}
-				if (undoModifs.size() > 0) {
-					ModificationStack stack = getModificationStackByForm().get(
-							form);
-					stack.pushUndo(new ModificationStack.CompositeModification(
-							ModificationStack.getUndoTitle("execution of '"
-									+ method.getCaption() + "'"),
-							ModificationStack.Order.FIFO, undoModifs));
-				}
-
 				return result;
+
 			}
 
 		};
@@ -549,15 +516,17 @@ public class ReflectionUI {
 			@Override
 			public Object invoke(Object object,
 					Map<String, Object> valueByParameterName) {
-				Object result = super.invoke(object, valueByParameterName);
-				ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
-				for (IFieldInfo field : type.getFields()) {
-					if (settings.excludeField(field)) {
-						continue;
+				try {
+					return super.invoke(object, valueByParameterName);
+				} finally {
+					ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
+					for (IFieldInfo field : type.getFields()) {
+						if (settings.excludeField(field)) {
+							continue;
+						}
+						refreshAndRelayoutFieldControl(form, field.getName());
 					}
-					refreshAndRelayoutFieldControl(form, field.getName());
 				}
-				return result;
 			}
 
 		};
@@ -582,7 +551,6 @@ public class ReflectionUI {
 	public void layoutControls(
 			List<FieldControlPlaceHolder> fielControlPlaceHolders,
 			final List<Component> methodControls, JPanel parentForm) {
-
 		JPanel fieldsPanel = createFieldsPanel(fielControlPlaceHolders);
 		JPanel methodsPanel = createMethodsPanel(methodControls);
 		layoutControlPanels(parentForm, fieldsPanel, methodsPanel);
@@ -1022,7 +990,8 @@ public class ReflectionUI {
 		};
 		dialog.getContentPane().setLayout(new BorderLayout());
 		if (content != null) {
-			JScrollPane scrollPane = new JScrollPane(content);
+			JScrollPane scrollPane = new JScrollPane(new ScrollPaneOptions(
+					content, true, false));
 			dialog.getContentPane().add(scrollPane, BorderLayout.CENTER);
 		}
 		if (toolbarControls != null) {
