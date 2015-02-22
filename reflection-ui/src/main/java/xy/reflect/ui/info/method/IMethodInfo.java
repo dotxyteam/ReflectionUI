@@ -21,6 +21,7 @@ public interface IMethodInfo extends IInfo {
 
 	InfoCategory getCategory();
 
-	IModification getUndoModification();
+	IModification getUndoModification(Object object,
+			Map<String, Object> valueByParameterName);
 
 }

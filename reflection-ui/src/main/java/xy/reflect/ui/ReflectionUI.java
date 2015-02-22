@@ -56,6 +56,7 @@ import xy.reflect.ui.control.ModificationStack;
 import xy.reflect.ui.control.ModificationStack.IModification;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.InfoProxyConfiguration;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MultiSubListField.VirtualItem;
@@ -295,11 +296,11 @@ public class ReflectionUI {
 			}
 			if (settings.allReadOnly()) {
 				if (!method.isReadOnly()) {
-					method = new MethodInfoProxy(method){
+					method = new MethodInfoProxy(method) {
 						@Override
 						public boolean isReadOnly() {
 							return true;
-						}						
+						}
 					};
 				}
 			} else {
@@ -464,7 +465,8 @@ public class ReflectionUI {
 					stack.invalidate();
 					throw new ReflectionUIError(t);
 				}
-				IModification undoModif = method.getUndoModification();
+				IModification undoModif = method.getUndoModification(object,
+						valueByParameterName);
 				if (undoModif == null) {
 					stack.invalidate();
 				} else {
@@ -914,16 +916,8 @@ public class ReflectionUI {
 			showMessageDialog(activatorComponent, msg,
 					getMethodTitle(object, method, null, "Result"));
 		} else {
-			JPanel returnValueControl = createValueForm(
-					new Object[] { returnValue },
-					IInfoCollectionSettings.DEFAULT);
-			JFrame frame = createFrame(
-					returnValueControl,
-					getMethodTitle(object, method, returnValue,
-							"Execution Result"),
-					getObjectIconImage(returnValue),
-					createCommonToolbarControls(returnValueControl));
-			frame.setVisible(true);
+			openValueFrame(returnValue, IInfoCollectionSettings.DEFAULT, getMethodTitle(object, method, returnValue,
+							"Execution Result"));
 		}
 	}
 
@@ -943,10 +937,35 @@ public class ReflectionUI {
 
 	public void openObjectDialog(Component parent, Object object, String title,
 			Image iconImage, boolean modal) {
-		JPanel form = createObjectForm(object);
-		JDialog dialog = createDialog(parent, form, title, iconImage,
-				createCommonToolbarControls(form), null);
-		showDialog(dialog, modal);
+		openObjectDialog(parent, object, title, iconImage, modal, null, null,
+				null, null, IInfoCollectionSettings.DEFAULT);
+	}
+
+	public void openObjectDialog(Component parent, Object object, String title,
+			Image iconImage, boolean modal,
+			List<Component> additionalToolbarControls,
+			boolean[] okPressedArray, Runnable whenClosingDialog,
+			ModificationStack[] modificationstackArray,
+			IInfoCollectionSettings settings) {
+		JPanel form = createObjectForm(object, settings);
+		if (modificationstackArray == null) {
+			modificationstackArray = new ModificationStack[1];
+		}
+		modificationstackArray[0] = getModificationStackByForm().get(form);
+		List<Component> toolbarControls = new ArrayList<Component>();
+		List<Component> commonToolbarControls = createCommonToolbarControls(form);
+		if (commonToolbarControls != null) {
+			toolbarControls.addAll(commonToolbarControls);
+		}
+		if (additionalToolbarControls != null) {
+			toolbarControls.addAll(additionalToolbarControls);
+		}
+		JDialog[] dialogArray = new JDialog[1];
+		toolbarControls.addAll(createDialogOkCancelButtons(dialogArray,
+				okPressedArray, "OK", null, true));
+		dialogArray[0] = createDialog(parent, form, title, iconImage,
+				toolbarControls, whenClosingDialog);
+		showDialog(dialogArray[0], modal);
 	}
 
 	public void showDialog(JDialog dialog, boolean modal) {
@@ -1161,33 +1180,22 @@ public class ReflectionUI {
 	}
 
 	public boolean openValueDialog(Component activatorComponent,
-			final Object object, Accessor<Object> valueAccessor,
-			IInfoCollectionSettings settings,
-			ModificationStack parentModificationStack, String title) {
-		boolean[] okPressedArray = new boolean[] { false };
-		JDialog dialog = createValueDialog(activatorComponent, object,
-				valueAccessor, okPressedArray, settings,
-				parentModificationStack, title);
-		showDialog(dialog, true);
-		return okPressedArray[0];
-	}
-
-	public JDialog createValueDialog(final Component activatorComponent,
-			final Object object, final Accessor<Object> valueAccessor,
-			final boolean[] okPressedArray, IInfoCollectionSettings settings,
+			final Accessor<Object> valueAccessor,
+			final IInfoCollectionSettings settings,
 			final ModificationStack parentModificationStack, final String title) {
-
 		final Object[] valueArray = new Object[] { valueAccessor.get() };
-		final JPanel valueForm = createValueForm(valueArray, settings);
-
-		final JDialog[] dialogArray = new JDialog[1];
-		List<Component> toolbarControls = new ArrayList<Component>();
-		Image iconImage = null;
-		iconImage = getObjectIconImage(valueArray[0]);
-		List<Component> commonToolbarControls = createCommonToolbarControls(valueForm);
-		if (commonToolbarControls != null) {
-			toolbarControls.addAll(commonToolbarControls);
+		final ITypeInfo valueTypeInfo = getTypeInfo(getTypeInfoSource(valueArray[0]));
+		final Object toOpen;
+		if (valueTypeInfo.hasCustomFieldControl()) {
+			toOpen = wrapValueAsField(valueArray, "Value", title,
+					settings.allReadOnly());
+		} else {
+			toOpen = valueArray[0];
 		}
+
+		final boolean[] okPressedArray = new boolean[] { false };
+		final ModificationStack[] modificationstackArray = new ModificationStack[1];
+
 		Runnable whenClosingDialog = new Runnable() {
 			@Override
 			public void run() {
@@ -1196,12 +1204,10 @@ public class ReflectionUI {
 					if (!oldValue.equals(valueArray[0])) {
 						valueAccessor.set(valueArray[0]);
 					} else {
-						ModificationStack valueModifications = getModificationStackByForm()
-								.get(valueForm);
-						if (valueModifications != null) {
+						if (modificationstackArray[0] != null) {
 							List<IModification> undoModifications = new ArrayList<ModificationStack.IModification>();
 							undoModifications
-									.addAll(Arrays.asList(valueModifications
+									.addAll(Arrays.asList(modificationstackArray[0]
 											.getUndoModifications(ModificationStack.Order.LIFO)));
 							parentModificationStack
 									.pushUndo(new ModificationStack.CompositeModification(
@@ -1212,33 +1218,119 @@ public class ReflectionUI {
 						}
 					}
 				} else {
-					ModificationStack stack = getModificationStackByForm().get(
-							valueForm);
-					if (stack != null) {
-						stack.undoAll(false);
+					if (modificationstackArray[0] != null) {
+						modificationstackArray[0].undoAll(false);
 					}
 				}
 			}
 		};
-		toolbarControls.addAll(createDialogOkCancelButtons(dialogArray,
-				okPressedArray, "OK", null, true));
 
-		dialogArray[0] = createDialog(activatorComponent, valueForm, title,
-				iconImage, toolbarControls, whenClosingDialog);
+		openObjectDialog(activatorComponent, toOpen, title,
+				getObjectIconImage(valueArray[0]), true, null, okPressedArray,
+				whenClosingDialog, modificationstackArray, settings);
 
-		return dialogArray[0];
+		return okPressedArray[0];
+
+	}
+
+	public void openValueFrame(Object value,
+			final IInfoCollectionSettings settings, final String title) {
+		final Object[] valueArray = new Object[] { value };
+		final ITypeInfo valueTypeInfo = getTypeInfo(getTypeInfoSource(valueArray[0]));
+		final Object toOpen;
+		if (valueTypeInfo.hasCustomFieldControl()) {
+			toOpen = wrapValueAsField(valueArray, "Value", title,
+					settings.allReadOnly());
+		} else {
+			toOpen = valueArray[0];
+		}
+		openObjectFrame(toOpen, title, getObjectIconImage(valueArray[0]));
+	}
+
+	public Object wrapValueAsField(final Object[] valueArray,
+			final String fieldCaption, final String typeCaption,
+			final boolean readOnly) {
+		final ITypeInfo valueTypeInfo = getTypeInfo(getTypeInfoSource(valueArray[0]));
+		return new PrecomputedTypeInfoInstanceWrapper(valueArray[0],
+				new InfoProxyConfiguration() {
+
+					@Override
+					protected List<IFieldInfo> getFields(ITypeInfo type) {
+						return Collections
+								.<IFieldInfo> singletonList(new IFieldInfo() {
+
+									@Override
+									public void setValue(Object object,
+											Object value) {
+										valueArray[0] = value;
+									}
+
+									@Override
+									public boolean isReadOnly() {
+										return readOnly;
+									}
+
+									@Override
+									public boolean isNullable() {
+										return false;
+									}
+
+									@Override
+									public Object getValue(Object object) {
+										return valueArray[0];
+									}
+
+									@Override
+									public ITypeInfo getType() {
+										return valueTypeInfo;
+									}
+
+									@Override
+									public String getName() {
+										return "";
+									}
+
+									@Override
+									public String getCaption() {
+										return fieldCaption;
+									}
+
+									@Override
+									public InfoCategory getCategory() {
+										return null;
+									}
+
+									@Override
+									public String getDocumentation() {
+										return null;
+									}
+								});
+					}
+
+					@Override
+					protected List<IMethodInfo> getMethods(ITypeInfo type) {
+						return Collections.emptyList();
+					}
+
+					@Override
+					protected String getCaption(ITypeInfo type) {
+						return typeCaption;
+					}
+
+				}.get(valueTypeInfo));
 	}
 
 	public List<JButton> createDialogOkCancelButtons(
-			final JDialog[] dialogArray, final boolean[] ok, String okCaption,
-			final Runnable okAction, boolean createCancelButton) {
+			final JDialog[] dialogArray, final boolean[] okPressedArray,
+			String okCaption, final Runnable okAction,
+			boolean createCancelButton) {
 		List<JButton> result = new ArrayList<JButton>();
 
 		final JButton okButton = new JButton(
 				translateUIString((okCaption != null) ? okCaption : "OK"));
 		result.add(okButton);
-		if (ok != null) {
-			ok[0] = false;
+		if (okPressedArray != null) {
+			okPressedArray[0] = false;
 		}
 		okButton.addActionListener(new ActionListener() {
 			@Override
@@ -1247,8 +1339,8 @@ public class ReflectionUI {
 					if (okAction != null) {
 						okAction.run();
 					}
-					if (ok != null) {
-						ok[0] = true;
+					if (okPressedArray != null) {
+						okPressedArray[0] = true;
 					}
 				} catch (Throwable t) {
 					handleExceptionsFromDisplayedUI(okButton, t);
@@ -1265,78 +1357,14 @@ public class ReflectionUI {
 			cancelButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if (ok != null) {
-						ok[0] = false;
+					if (okPressedArray != null) {
+						okPressedArray[0] = false;
 					}
 					dialogArray[0].dispose();
 				}
 			});
 		}
 
-		return result;
-	}
-
-	public JPanel createValueForm(final Object[] valueArray,
-			final IInfoCollectionSettings settings) {
-		final JPanel result;
-		if (!getTypeInfo(getTypeInfoSource(valueArray[0]))
-				.hasCustomFieldControl()) {
-			result = getSubReflectionUI().createObjectForm(valueArray[0],
-					settings);
-		} else {
-			IFieldInfo virtualField = new IFieldInfo() {
-
-				@Override
-				public void setValue(Object object, Object value) {
-					valueArray[0] = value;
-				}
-
-				@Override
-				public boolean isReadOnly() {
-					return settings.allReadOnly();
-				}
-
-				@Override
-				public boolean isNullable() {
-					return false;
-				}
-
-				@Override
-				public Object getValue(Object object) {
-					return valueArray[0];
-				}
-
-				@Override
-				public ITypeInfo getType() {
-					return getTypeInfo(getTypeInfoSource(valueArray[0]));
-				}
-
-				@Override
-				public String getName() {
-					return "";
-				}
-
-				@Override
-				public String getCaption() {
-					return "Value";
-				}
-
-				@Override
-				public InfoCategory getCategory() {
-					return null;
-				}
-
-				@Override
-				public String getDocumentation() {
-					return null;
-				}
-			};
-			Component fieldControl = virtualField.getType().createFieldControl(
-					null, virtualField);
-			result = new JPanel();
-			result.setLayout(new BorderLayout());
-			result.add(fieldControl, BorderLayout.CENTER);
-		}
 		return result;
 	}
 

@@ -343,8 +343,8 @@ public class InfoProxyConfiguration {
 	}
 	
 	protected IModification getUndoModification(IMethodInfo method,
-			ITypeInfo containingType) {
-		return method.getUndoModification();
+			ITypeInfo containingType, Object object, Map<String, Object> valueByParameterName) {
+		return method.getUndoModification(object, valueByParameterName);
 	}
 
 
@@ -847,8 +847,8 @@ public class InfoProxyConfiguration {
 
 
 		@Override
-		public IModification getUndoModification() {
-			return InfoProxyConfiguration.this.getUndoModification(method, containingType);
+		public IModification getUndoModification(Object object, Map<String, Object> valueByParameterName) {
+			return InfoProxyConfiguration.this.getUndoModification(method, containingType, object, valueByParameterName);
 		}
 
 		@Override

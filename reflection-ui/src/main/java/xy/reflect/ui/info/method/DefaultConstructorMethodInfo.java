@@ -95,7 +95,7 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 	}
 
 	@Override
-	public IModification getUndoModification() {
+	public IModification getUndoModification(Object object, Map<String, Object> valueByParameterName) {
 		return null;
 	}
 

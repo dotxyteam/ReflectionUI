@@ -1029,8 +1029,8 @@ public class ListControl extends JPanel implements IFieldControl {
 				return false;
 			}
 		};
-		return reflectionUI.openValueDialog(treeTableComponent, object,
-				valueAccessor, settings, parentStack, title);
+		return reflectionUI.openValueDialog(treeTableComponent, valueAccessor,
+				settings, parentStack, title);
 	}
 
 	protected boolean hasItemDetails(ItemPosition itemPosition) {

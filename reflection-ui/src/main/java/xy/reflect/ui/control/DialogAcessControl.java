@@ -155,7 +155,7 @@ public class DialogAcessControl extends JPanel {
 				return false;
 			}
 		};
-		if (reflectionUI.openValueDialog(this, object, valueAccessor, settings,
+		if (reflectionUI.openValueDialog(this, valueAccessor, settings,
 				parentStack, title)) {
 			updateControls();
 		}

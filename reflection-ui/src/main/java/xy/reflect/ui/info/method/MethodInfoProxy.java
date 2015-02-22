@@ -78,8 +78,8 @@ public class MethodInfoProxy implements IMethodInfo {
 	}
 
 	@Override
-	public IModification getUndoModification() {
-		return base.getUndoModification();
+	public IModification getUndoModification(Object object, Map<String, Object> valueByParameterName) {
+		return base.getUndoModification(object, valueByParameterName);
 	}
 	
 }

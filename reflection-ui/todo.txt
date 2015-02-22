@@ -1,3 +1,4 @@
+- factorize the code in DefaultListStructuralInfo and TabularListStructuralInfo
 - allow to override control colors in the RefUI class for special LokkAndFeels 
 note that the only color that is really invented is the null color. Other colors are just copied
 - update translatable strings
