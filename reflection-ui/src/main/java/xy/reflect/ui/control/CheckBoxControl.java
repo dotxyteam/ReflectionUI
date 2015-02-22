@@ -53,7 +53,7 @@ public class CheckBoxControl extends JCheckBox implements
 
 	@Override
 	public boolean showCaption() {
-		setText(reflectionUI.translateUIString(field.getCaption()));
+		setText(reflectionUI.translateUIString(field.getCaption()+" (is true)"));
 		return true;
 	}
 
