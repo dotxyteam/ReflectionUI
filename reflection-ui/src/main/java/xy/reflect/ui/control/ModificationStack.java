@@ -38,6 +38,11 @@ public class ModificationStack {
 		}
 
 		@Override
+		public int getNumberOfUnits() {
+			return 0;
+		}
+
+		@Override
 		public String toString() {
 			return getTitle();
 		}
@@ -98,13 +103,30 @@ public class ModificationStack {
 		notifyListeners(DO_EVENT);
 	}
 
-	public int getSize() {
+	public int getUndoSize() {
 		return undoStack.size();
 	}
 
 	public int getRedoSize() {
 		return redoStack.size();
 	}
+	
+	public int getNumberOfUndoUnits(){
+		int result = 0;
+		for(IModification undoModif: undoStack){
+			result += undoModif.getNumberOfUnits();
+		}
+		return result;
+	}
+	
+	public int getNumberOfRedoUnits(){
+		int result = 0;
+		for(IModification redoModif: redoStack){
+			result += redoModif.getNumberOfUnits();
+		}
+		return result;
+	}
+
 
 	public void undo(boolean refreshView) {
 		if (compositeStack.size() > 0) {
@@ -192,6 +214,8 @@ public class ModificationStack {
 	public interface IModification {
 		IModification applyAndGetOpposite(boolean refreshView);
 
+		int getNumberOfUnits();
+
 		String getTitle();
 	}
 
@@ -208,6 +232,11 @@ public class ModificationStack {
 			this.object = object;
 			this.field = field;
 			this.value = value;
+		}
+
+		@Override
+		public int getNumberOfUnits() {
+			return 1;
 		}
 
 		@Override
@@ -256,6 +285,15 @@ public class ModificationStack {
 			this.title = title;
 			this.undoOrder = undoOrder;
 			this.modifications = modifications;
+		}
+
+		@Override
+		public int getNumberOfUnits() {
+			int result = 0;
+			for(IModification modif: modifications){
+				result += modif.getNumberOfUnits();
+			}
+			return result;
 		}
 
 		public CompositeModification(String title, Order undoOrder,

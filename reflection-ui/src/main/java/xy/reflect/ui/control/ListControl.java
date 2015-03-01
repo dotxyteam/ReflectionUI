@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -48,6 +49,7 @@ import org.jdesktop.swingx.treetable.TreeTableModel;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.ModificationStack.IModification;
 import xy.reflect.ui.info.IInfoCollectionSettings;
+import xy.reflect.ui.info.InfoCollectionSettingsProxy;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -887,7 +889,7 @@ public class ListControl extends JPanel implements IFieldControl {
 					if (itemPosition == null) {
 						return;
 					}
-					onopenDetaildsDialogRequest(itemPosition);
+					onOpenDetaildsDialogRequest(itemPosition);
 				} catch (Throwable t) {
 					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
 				}
@@ -928,7 +930,7 @@ public class ListControl extends JPanel implements IFieldControl {
 							.getLastPathComponent();
 					ItemPosition itemPosition = (ItemPosition) selectedNode
 							.getUserObject();
-					onopenDetaildsDialogRequest(itemPosition);
+					onOpenDetaildsDialogRequest(itemPosition);
 				} catch (Throwable t) {
 					reflectionUI.handleExceptionsFromDisplayedUI(
 							treeTableComponent, t);
@@ -937,14 +939,20 @@ public class ListControl extends JPanel implements IFieldControl {
 		});
 	}
 
-	protected void onopenDetaildsDialogRequest(ItemPosition itemPosition) {
+	protected void onOpenDetaildsDialogRequest(ItemPosition itemPosition) {
+		Object value = itemPosition.getItem();
 		GhostItemPosition ghostItemPosition = new GhostItemPosition(
-				itemPosition, itemPosition.getItem());
-		if (openDetailsDialog(ghostItemPosition)) {
+				itemPosition, value);
+		boolean[] changeDetectedArray = new boolean[]{false};
+		if (openDetailsDialog(ghostItemPosition, changeDetectedArray)) {
 			FieldAutoUpdateList list = itemPosition.getContainingList();
 			Object newValue = ghostItemPosition.getItem();
 			int index = itemPosition.getIndex();
-			list.set(index, ghostItemPosition.getItem());
+			Object newvalue = ghostItemPosition.getItem();
+			if(!changeDetectedArray[0]){
+				return;
+			}
+			list.set(index, newvalue);
 			refreshStructure();
 			ItemPosition itemPositionToSelect = itemPosition;
 			if (!itemPosition.getContainingListType().isOrdered()) {
@@ -963,8 +971,13 @@ public class ListControl extends JPanel implements IFieldControl {
 	protected ItemPosition getRootListItemPosition() {
 		return new ItemPosition(field, null, -1);
 	}
-
+	
 	protected boolean openDetailsDialog(final ItemPosition itemPosition) {
+		return openDetailsDialog(itemPosition, new boolean[1]);		
+	}
+		
+
+	protected boolean openDetailsDialog(final ItemPosition itemPosition, boolean[] changeDetectedArray) {
 		ItemNode itemNode = findNode(itemPosition);
 		if (itemNode != null) {
 			TreePath treePath = new TreePath(itemNode.getPath());
@@ -1007,30 +1020,19 @@ public class ListControl extends JPanel implements IFieldControl {
 				return list.get(index);
 			}
 		});
-		IInfoCollectionSettings settings = new IInfoCollectionSettings() {
+		IInfoCollectionSettings settings = new InfoCollectionSettingsProxy(
+				getStructuralInfo().getItemInfoSettings(itemPosition)) {
 			@Override
 			public boolean allReadOnly() {
-				return itemPosition.getContainingListField().isReadOnly();
-			}
-
-			@Override
-			public boolean excludeField(IFieldInfo field) {
-				IListStructuralInfo treeInfo = getStructuralInfo();
-				if (treeInfo == null) {
-					return false;
+				if (itemPosition.getContainingListField().isReadOnly()) {
+					return true;
+				} else {
+					return super.allReadOnly();
 				}
-				List<IFieldInfo> fieldsToExclude = treeInfo
-						.getItemSubListFieldsToExcludeFromDetailsView(itemPosition);
-				return fieldsToExclude.contains(field);
-			}
-
-			@Override
-			public boolean excludeMethod(IMethodInfo method) {
-				return false;
 			}
 		};
 		return reflectionUI.openValueDialog(treeTableComponent, valueAccessor,
-				settings, parentStack, title);
+				settings, parentStack, title, changeDetectedArray);
 	}
 
 	protected boolean hasItemDetails(ItemPosition itemPosition) {
@@ -1048,9 +1050,25 @@ public class ListControl extends JPanel implements IFieldControl {
 
 		IListStructuralInfo structuralInfo = getStructuralInfo();
 		if (structuralInfo != null) {
+			IInfoCollectionSettings infoSettings = structuralInfo
+					.getItemInfoSettings(itemPosition);
+
 			fields = new ArrayList<IFieldInfo>(fields);
-			fields.removeAll(structuralInfo
-					.getItemSubListFieldsToExcludeFromDetailsView(itemPosition));
+			for (Iterator<IFieldInfo> it = fields.iterator(); it.hasNext();) {
+				IFieldInfo field = it.next();
+				if (infoSettings.excludeField(field)) {
+					it.remove();
+				}
+			}
+			
+			methods = new ArrayList<IMethodInfo>(methods);
+			for (Iterator<IMethodInfo> it = methods.iterator(); it.hasNext();) {
+				IMethodInfo method = it.next();
+				if (infoSettings.excludeMethod(method)) {
+					it.remove();
+				}
+			}
+
 		}
 		return (fields.size() + methods.size()) > 0;
 	}
@@ -1532,6 +1550,11 @@ public class ListControl extends JPanel implements IFieldControl {
 		}
 
 		@Override
+		public int getNumberOfUnits() {
+			return 1;
+		}
+
+		@Override
 		public IModification applyAndGetOpposite(boolean refreshView) {
 			IListTypeInfo listType = (IListTypeInfo) listField.getType();
 			List lastStandardListValue = listType.toStandardList(listField
@@ -1601,6 +1624,11 @@ public class ListControl extends JPanel implements IFieldControl {
 		@Override
 		public String getTitle() {
 			return "Select " + toSelect;
+		}
+
+		@Override
+		public int getNumberOfUnits() {
+			return 1;
 		}
 
 	}

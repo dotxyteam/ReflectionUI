@@ -3,8 +3,8 @@ package xy.reflect.ui.control;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -85,18 +85,19 @@ public class EnumerationControl extends JPanel {
 			}
 		});
 		comboBox.setSelectedItem(initialValue);
-		comboBox.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				try {
-					Object selected = comboBox.getSelectedItem();
-					field.setValue(object, selected);
-				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(
-							EnumerationControl.this, t);
+		comboBox.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					try {
+						Object selected = e.getItem();
+						field.setValue(object, selected);
+					} catch (Throwable t) {
+						reflectionUI.handleExceptionsFromDisplayedUI(
+								EnumerationControl.this, t);
+					}
 				}
 			}
 		});
 	}
-
 }

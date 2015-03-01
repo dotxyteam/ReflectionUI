@@ -56,7 +56,6 @@ import xy.reflect.ui.control.ModificationStack;
 import xy.reflect.ui.control.ModificationStack.IModification;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.InfoCategory;
-import xy.reflect.ui.info.InfoProxyConfiguration;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MultiSubListField.VirtualItem;
@@ -76,6 +75,7 @@ import xy.reflect.ui.info.type.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.StandardEnumerationTypeInfo;
 import xy.reflect.ui.info.type.StandardMapListTypeInfo;
+import xy.reflect.ui.info.type.TypeInfoProxyConfiguration;
 import xy.reflect.ui.info.type.StandardMapListTypeInfo.StandardMapEntry;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -143,6 +143,17 @@ public class ReflectionUI {
 			throw new ReflectionUIError("Could not copy object: "
 					+ t.toString());
 		}
+	}
+
+	public boolean equals(Object value1, Object value2) {
+		return ReflectionUIUtils.equalsOrBothNull(value1, value2);
+	}
+
+	public String toString(Object object) {
+		if (object == null) {
+			return null;
+		}
+		return getTypeInfo(getTypeInfoSource(object)).toString(object);
 	}
 
 	public void openObjectFrame(Object object, String title, Image iconImage) {
@@ -916,7 +927,10 @@ public class ReflectionUI {
 			showMessageDialog(activatorComponent, msg,
 					getMethodTitle(object, method, null, "Result"));
 		} else {
-			openValueFrame(returnValue, IInfoCollectionSettings.DEFAULT, getMethodTitle(object, method, returnValue,
+			openValueFrame(
+					returnValue,
+					IInfoCollectionSettings.DEFAULT,
+					getMethodTitle(object, method, returnValue,
 							"Execution Result"));
 		}
 	}
@@ -1037,13 +1051,6 @@ public class ReflectionUI {
 
 	public ReflectionUI getSubReflectionUI() {
 		return this;
-	}
-
-	public String toString(Object object) {
-		if (object == null) {
-			return null;
-		}
-		return getTypeInfo(getTypeInfoSource(object)).toString(object);
 	}
 
 	public String translateUIString(String string) {
@@ -1182,7 +1189,8 @@ public class ReflectionUI {
 	public boolean openValueDialog(Component activatorComponent,
 			final Accessor<Object> valueAccessor,
 			final IInfoCollectionSettings settings,
-			final ModificationStack parentModificationStack, final String title) {
+			final ModificationStack parentModificationStack,
+			final String title, final boolean[] changeDetectedArray) {
 		final Object[] valueArray = new Object[] { valueAccessor.get() };
 		final ITypeInfo valueTypeInfo = getTypeInfo(getTypeInfoSource(valueArray[0]));
 		final Object toOpen;
@@ -1201,20 +1209,28 @@ public class ReflectionUI {
 			public void run() {
 				if (okPressedArray[0]) {
 					Object oldValue = valueAccessor.get();
-					if (!oldValue.equals(valueArray[0])) {
+					if (!ReflectionUI.this.equals(oldValue, valueArray[0])) {
 						valueAccessor.set(valueArray[0]);
-					} else {
+						changeDetectedArray[0] = true;
+					} else if ((oldValue == valueArray[0])
+							&& (valueArray[0] != null)
+							&& !valueArray[0].getClass().isPrimitive()) {
 						if (modificationstackArray[0] != null) {
-							List<IModification> undoModifications = new ArrayList<ModificationStack.IModification>();
-							undoModifications
-									.addAll(Arrays.asList(modificationstackArray[0]
-											.getUndoModifications(ModificationStack.Order.LIFO)));
-							parentModificationStack
-									.pushUndo(new ModificationStack.CompositeModification(
-											ModificationStack
-													.getUndoTitle(title),
-											ModificationStack.Order.LIFO,
-											undoModifications));
+							if (modificationstackArray[0]
+									.getNumberOfUndoUnits() > 0) {
+								changeDetectedArray[0] = true;								
+								List<IModification> undoModifications = new ArrayList<ModificationStack.IModification>();
+								undoModifications
+										.addAll(Arrays
+												.asList(modificationstackArray[0]
+														.getUndoModifications(ModificationStack.Order.LIFO)));
+								parentModificationStack
+										.pushUndo(new ModificationStack.CompositeModification(
+												ModificationStack
+														.getUndoTitle(title),
+												ModificationStack.Order.LIFO,
+												undoModifications));
+							}
 						}
 					}
 				} else {
@@ -1252,7 +1268,7 @@ public class ReflectionUI {
 			final boolean readOnly) {
 		final ITypeInfo valueTypeInfo = getTypeInfo(getTypeInfoSource(valueArray[0]));
 		return new PrecomputedTypeInfoInstanceWrapper(valueArray[0],
-				new InfoProxyConfiguration() {
+				new TypeInfoProxyConfiguration() {
 
 					@Override
 					protected List<IFieldInfo> getFields(ITypeInfo type) {

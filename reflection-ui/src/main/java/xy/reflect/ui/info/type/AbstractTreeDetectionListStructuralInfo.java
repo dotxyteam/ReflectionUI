@@ -5,28 +5,26 @@ import java.util.Collections;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.HiddenNullableFacetFieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MultiSubListField;
 import xy.reflect.ui.info.field.MultiSubListField.VirtualItem;
+import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.IListTypeInfo.IItemPosition;
 import xy.reflect.ui.info.type.IListTypeInfo.IListStructuralInfo;
-import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class TabularListStructuralInfo implements IListStructuralInfo {
+public abstract  class AbstractTreeDetectionListStructuralInfo implements IListStructuralInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo rootItemType;
-	protected List<IFieldInfo> rootItemFields;
+	protected abstract  boolean isTabular() ;
 
-	public TabularListStructuralInfo(ReflectionUI reflectionUI,
+	public AbstractTreeDetectionListStructuralInfo(ReflectionUI reflectionUI,
 			ITypeInfo rootItemType) {
 		this.reflectionUI = reflectionUI;
 		this.rootItemType = rootItemType;
-		if (rootItemType != null) {
-			this.rootItemFields = filterFields(this.rootItemType.getFields());
-		}
 	}
 
 	@Override
@@ -108,90 +106,31 @@ public class TabularListStructuralInfo implements IListStructuralInfo {
 	}
 
 	@Override
-	public List<IFieldInfo> getItemSubListFieldsToExcludeFromDetailsView(
-			IItemPosition itemPosition) {
-		Object item = itemPosition.getItem();
-		if (item instanceof VirtualItem) {
-			return ((IListTypeInfo) new MultiSubListField(reflectionUI,
-					Collections.<IFieldInfo> emptyList()).getType())
-					.getStructuralInfo()
-					.getItemSubListFieldsToExcludeFromDetailsView(itemPosition);
-		}
-		return getItemSubListCandidateFields(itemPosition);
-	}
-
-	protected List<IFieldInfo> filterFields(List<IFieldInfo> fields) {
-		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
-		for (IFieldInfo candidateField : fields) {
-			if (candidateField.getType() instanceof IListTypeInfo) {
-				continue;
+	public IInfoCollectionSettings getItemInfoSettings(
+			final IItemPosition itemPosition) {
+		return new IInfoCollectionSettings() {
+			
+			@Override
+			public boolean excludeMethod(IMethodInfo method) {
+				return false;
 			}
-			result.add(candidateField);
-		}
-		return result;
-	}
-
-	@Override
-	public int getColumnCount() {
-		if (!isTabular()) {
-			return 1;
-		}
-		return rootItemFields.size() + (shouldShowValueKindColumn() ? 1 : 0);
-	}
-
-	protected boolean shouldShowValueKindColumn() {
-		if (!isTabular()) {
-			return false;
-		}
-		return !rootItemType.isConcrete();
-	}
-
-	@Override
-	public String getColumnCaption(int columnIndex) {
-		if (!isTabular()) {
-			return "";
-		}
-		if (shouldShowValueKindColumn()) {
-			if (columnIndex == 0) {
-				return "Type";
+			
+			@Override
+			public boolean excludeField(IFieldInfo field) {
+				Object item = itemPosition.getItem();
+				if (item instanceof VirtualItem) {
+					return ((IListTypeInfo) new MultiSubListField(reflectionUI,
+							Collections.<IFieldInfo> emptyList()).getType())
+							.getStructuralInfo().getItemInfoSettings(itemPosition).excludeField(field);
+				}
+				return getItemSubListCandidateFields(itemPosition).contains(field);
 			}
-			return rootItemFields.get(columnIndex - 1).getCaption();
-		} else {
-			return rootItemFields.get(columnIndex).getCaption();
-		}
-	}
-
-	@Override
-	public String getCellValue(IItemPosition itemPosition, int columnIndex) {
-		if (!isTabular()) {
-			if (columnIndex != 0) {
-				throw new ReflectionUIError();
+			
+			@Override
+			public boolean allReadOnly() {
+				return false;
 			}
-			return reflectionUI.toString(itemPosition.getItem());
-		}
-		Object item = itemPosition.getItem();
-		if (shouldShowValueKindColumn()) {
-			if (columnIndex == 0) {
-				return reflectionUI.getObjectKind(item);
-			}
-			columnIndex = columnIndex - 1;
-		}
-		if (rootItemType.equals(itemPosition.getContainingListType()
-				.getItemType())) {
-			IFieldInfo itemField = rootItemFields.get(columnIndex);
-			Object value = itemField.getValue(item);
-			return reflectionUI.toString(value);
-		} else {
-			if (columnIndex == 0) {
-				return reflectionUI.toString(itemPosition.getItem());
-			} else {
-				return null;
-			}
-		}
-	}
-
-	protected boolean isTabular() {
-		return (rootItemFields != null) && (rootItemFields.size() > 0);
+		};
 	}
 
 }

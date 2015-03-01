@@ -5,7 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -47,20 +49,37 @@ public class MultiSubListField implements IFieldInfo {
 					}
 
 					@Override
-					public List<IFieldInfo> getItemSubListFieldsToExcludeFromDetailsView(
+					public IInfoCollectionSettings getItemInfoSettings(
 							IItemPosition itemPosition) {
-						ITypeInfo virtualItemtypeInfo = new DefaultTypeInfo(
-								reflectionUI, VirtualItem.class);
-						IFieldInfo objectFieldInfo = ReflectionUIUtils
-								.findInfoByName(
-										virtualItemtypeInfo.getFields(),
-										"object");
-						IFieldInfo listFieldFieldInfo = ReflectionUIUtils
-								.findInfoByName(
-										virtualItemtypeInfo.getFields(),
-										"listField");
-						return Arrays.asList(objectFieldInfo, listFieldFieldInfo);
+						return new IInfoCollectionSettings() {
+							
+							@Override
+							public boolean excludeMethod(IMethodInfo method) {
+								return false;
+							}
+							
+							@Override
+							public boolean excludeField(IFieldInfo field) {
+								ITypeInfo virtualItemtypeInfo = new DefaultTypeInfo(
+										reflectionUI, VirtualItem.class);
+								IFieldInfo objectFieldInfo = ReflectionUIUtils
+										.findInfoByName(
+												virtualItemtypeInfo.getFields(),
+												"object");
+								IFieldInfo listFieldFieldInfo = ReflectionUIUtils
+										.findInfoByName(
+												virtualItemtypeInfo.getFields(),
+												"listField");
+								return Arrays.asList(objectFieldInfo, listFieldFieldInfo).contains(field);
+							}
+							
+							@Override
+							public boolean allReadOnly() {
+								return false;
+							}
+						};
 					}
+					
 				};
 			}
 

@@ -2,6 +2,7 @@ package xy.reflect.ui.info.type;
 
 import java.util.List;
 
+import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.IFieldInfo;
 
 public interface IListTypeInfo extends ITypeInfo {
@@ -25,7 +26,7 @@ public interface IListTypeInfo extends ITypeInfo {
 
 		IFieldInfo getItemSubListField(IItemPosition itemPosition);
 
-		List<IFieldInfo> getItemSubListFieldsToExcludeFromDetailsView(
+		IInfoCollectionSettings getItemInfoSettings(
 				IItemPosition itemPosition);
 	}
 

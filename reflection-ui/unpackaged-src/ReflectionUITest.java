@@ -17,12 +17,12 @@ import javax.imageio.ImageIO;
 import org.ietf.jgss.GSSException;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.InfoProxyConfiguration;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.DefaultTextualTypeInfo;
 import xy.reflect.ui.info.type.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.ITypeInfoSource;
+import xy.reflect.ui.info.type.TypeInfoProxyConfiguration;
 
 @SuppressWarnings("unused")
 public class ReflectionUITest {
@@ -108,7 +108,7 @@ public class ReflectionUITest {
 				}
 				JavaTypeInfoSource classSource = (JavaTypeInfoSource) typeSource;
 				if (classSource.getJavaType() == Exception.class) {
-					return new InfoProxyConfiguration() {
+					return new TypeInfoProxyConfiguration() {
 
 						@Override
 						public List<ITypeInfo> getPolymorphicInstanceSubTypes(

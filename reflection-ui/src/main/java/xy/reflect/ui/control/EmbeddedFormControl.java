@@ -76,8 +76,8 @@ public class EmbeddedFormControl extends JPanel implements
 			}
 
 			@Override
-			public int getSize() {
-				return getParentModificationSack().getSize();
+			public int getUndoSize() {
+				return getParentModificationSack().getUndoSize();
 			}
 
 			@Override

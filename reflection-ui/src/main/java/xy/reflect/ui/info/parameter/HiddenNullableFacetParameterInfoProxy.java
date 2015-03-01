@@ -1,9 +1,9 @@
 package xy.reflect.ui.info.parameter;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.HiddenNullableFacetsInfoProxyConfiguration;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.parameter.ParameterInfoProxy;
+import xy.reflect.ui.info.type.HiddenNullableFacetsTypeInfoProxyConfiguration;
 
 public class HiddenNullableFacetParameterInfoProxy extends ParameterInfoProxy {
 
@@ -20,7 +20,7 @@ public class HiddenNullableFacetParameterInfoProxy extends ParameterInfoProxy {
 	@Override
 	public Object getDefaultValue() {
 		final Object[] result = new Object[1];
-		new HiddenNullableFacetsInfoProxyConfiguration(reflectionUI){
+		new HiddenNullableFacetsTypeInfoProxyConfiguration(reflectionUI){
 			{
 				result[0] = getDefaultValue(base, null, null);
 			}

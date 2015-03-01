@@ -36,7 +36,7 @@ public class CheckBoxControl extends JCheckBox implements
 		}
 
 		Boolean initialValue = booleanType.toBoolean(field.getValue(object));
-		setText(reflectionUI.translateUIString("true"));
+		setText(reflectionUI.translateUIString("Is True"));
 		setSelected(initialValue);
 		addActionListener(new ActionListener() {
 
