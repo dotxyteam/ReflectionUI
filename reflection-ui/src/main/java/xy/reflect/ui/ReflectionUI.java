@@ -37,6 +37,7 @@ import java.util.TreeSet;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -305,16 +306,7 @@ public class ReflectionUI {
 			if (settings.excludeMethod(method)) {
 				continue;
 			}
-			if (settings.allReadOnly()) {
-				if (!method.isReadOnly()) {
-					method = new MethodInfoProxy(method) {
-						@Override
-						public boolean isReadOnly() {
-							return true;
-						}
-					};
-				}
-			} else {
+			if (!settings.allReadOnly()) {
 				if (!method.isReadOnly()) {
 					method = makeMethodModificationsUndoable(method, form);
 					method = refreshFieldsAfterMethodModifications(method,
@@ -322,6 +314,16 @@ public class ReflectionUI {
 				}
 			}
 			Component methodControl = createMethodControl(object, method);
+			if (settings.allReadOnly()) {
+				if (!method.isReadOnly()) {
+					if (methodControl instanceof JComponent) {
+						ReflectionUIUtils.disableComponentTree(
+								(JComponent) methodControl, false);
+					} else {
+						continue;
+					}
+				}
+			}
 			{
 				InfoCategory category = method.getCategory();
 				if (category == null) {
@@ -821,9 +823,10 @@ public class ReflectionUI {
 		if (returnValueArray == null) {
 			returnValueArray = new Object[1];
 		}
+		final boolean[] exceptionThrownArray = new boolean[] { false };
 		if (method.getParameters().size() > 0) {
 			if (!openMethoExecutionSettingDialog(activatorComponent, object,
-					method, returnValueArray)) {
+					method, returnValueArray, exceptionThrownArray)) {
 				return false;
 			}
 		} else {
@@ -831,12 +834,17 @@ public class ReflectionUI {
 			showBusyDialogWhile(activatorComponent, new Runnable() {
 				@Override
 				public void run() {
-					finalReturnValueArray[0] = method.invoke(object,
-							Collections.<String, Object> emptyMap());
+					try {
+						finalReturnValueArray[0] = method.invoke(object,
+								Collections.<String, Object> emptyMap());
+					} catch (Throwable t) {
+						exceptionThrownArray[0] = true;
+						throw new ReflectionUIError(t);
+					}
 				}
 			}, getMethodTitle(object, method, null, "Execution"));
 		}
-		if (displayReturnValue) {
+		if (displayReturnValue && !exceptionThrownArray[0]) {
 			if (method.getReturnValueType() != null) {
 				openMethodReturnValueWindow(activatorComponent, object, method,
 						returnValueArray[0]);
@@ -880,7 +888,8 @@ public class ReflectionUI {
 
 	public boolean openMethoExecutionSettingDialog(
 			final Component activatorComponent, final Object object,
-			final IMethodInfo method, final Object[] returnValueArray) {
+			final IMethodInfo method, final Object[] returnValueArray,
+			final boolean[] exceptionThrownArray) {
 		final Map<String, Object> valueByParameterName = new HashMap<String, Object>();
 		JPanel methodForm = createObjectForm(new PrecomputedTypeInfoInstanceWrapper(
 				valueByParameterName, new MethodParametersAsTypeInfo(this,
@@ -900,9 +909,15 @@ public class ReflectionUI {
 										new Runnable() {
 											@Override
 											public void run() {
-												returnValueArray[0] = method
-														.invoke(object,
-																valueByParameterName);
+												try {
+													returnValueArray[0] = method
+															.invoke(object,
+																	valueByParameterName);
+												} catch (Throwable t) {
+													exceptionThrownArray[0] = true;
+													throw new ReflectionUIError(
+															t);
+												}
 											}
 										},
 										getMethodTitle(object, method, null,
@@ -1218,7 +1233,7 @@ public class ReflectionUI {
 						if (modificationstackArray[0] != null) {
 							if (modificationstackArray[0]
 									.getNumberOfUndoUnits() > 0) {
-								changeDetectedArray[0] = true;								
+								changeDetectedArray[0] = true;
 								List<IModification> undoModifications = new ArrayList<ModificationStack.IModification>();
 								undoModifications
 										.addAll(Arrays

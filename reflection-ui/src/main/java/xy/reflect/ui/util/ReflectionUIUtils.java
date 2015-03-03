@@ -5,6 +5,8 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Window;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.ByteArrayOutputStream;
@@ -16,6 +18,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -402,20 +405,20 @@ public class ReflectionUIUtils {
 				+ result.substring(subStringEnd);
 	}
 
-	public static List<Class<?>> getJavaTypeParameters(final Class<?> clazz,
-			final Member ofMember, Class<?> parameterizedClass) {
+	public static List<Class<?>> getJavaTypeParameters(final Class<?> type,
+			final Member ofMember, Class<?> parameterizedBaseClass) {
 		TypeResolver typeResolver = new TypeResolver();
 		ResolvedType resolvedType = null;
 		if (ofMember == null) {
-			resolvedType = typeResolver.resolve(clazz);
+			resolvedType = typeResolver.resolve(type);
 		} else {
 			MemberResolver memberResolver = new MemberResolver(typeResolver);
 			ResolvedType declaringResolvedType = typeResolver.resolve(ofMember
 					.getDeclaringClass());
-			ResolvedTypeWithMembers arrayListTypeWithMembers = memberResolver
+			ResolvedTypeWithMembers resolvedTypeWithMembers = memberResolver
 					.resolve(declaringResolvedType, null, null);
 			if (ofMember instanceof Field) {
-				for (ResolvedField resolvedField : arrayListTypeWithMembers
+				for (ResolvedField resolvedField : resolvedTypeWithMembers
 						.getMemberFields()) {
 					if (resolvedField.getRawMember().equals(ofMember)) {
 						resolvedType = resolvedField.getType();
@@ -423,15 +426,22 @@ public class ReflectionUIUtils {
 					}
 				}
 			} else if (ofMember instanceof Method) {
-				for (ResolvedMethod resolvedMethod : arrayListTypeWithMembers
-						.getMemberMethods()) {
+				ResolvedMethod[] resolvedMethods;
+				if (Modifier.isStatic(ofMember.getModifiers())) {
+					resolvedMethods = resolvedTypeWithMembers
+							.getStaticMethods();
+				} else {
+					resolvedMethods = resolvedTypeWithMembers
+							.getMemberMethods();
+				}
+				for (ResolvedMethod resolvedMethod : resolvedMethods) {
 					if (resolvedMethod.getRawMember().equals(ofMember)) {
 						resolvedType = resolvedMethod.getType();
 						break;
 					}
 				}
 			} else if (ofMember instanceof Constructor) {
-				for (ResolvedConstructor resolvedConstructor : arrayListTypeWithMembers
+				for (ResolvedConstructor resolvedConstructor : resolvedTypeWithMembers
 						.getConstructors()) {
 					if (resolvedConstructor.getRawMember().equals(ofMember)) {
 						resolvedType = resolvedConstructor.getType();
@@ -447,7 +457,7 @@ public class ReflectionUIUtils {
 		}
 		List<Class<?>> result = new ArrayList<Class<?>>();
 		List<ResolvedType> resolvedTypeParameters = resolvedType
-				.typeParametersFor(parameterizedClass);
+				.typeParametersFor(parameterizedBaseClass);
 		if (resolvedTypeParameters == null) {
 			return null;
 		}
@@ -457,10 +467,10 @@ public class ReflectionUIUtils {
 		return result;
 	}
 
-	public static Class<?> getJavaTypeParameter(final Class<?> clazz,
-			final Member ofMember, Class<?> parameterizedClass, int index) {
-		List<Class<?>> parameterClasses = getJavaTypeParameters(clazz,
-				ofMember, parameterizedClass);
+	public static Class<?> getJavaTypeParameter(final Class<?> type,
+			final Member ofMember, Class<?> parameterizedBaseClass, int index) {
+		List<Class<?>> parameterClasses = getJavaTypeParameters(type, ofMember,
+				parameterizedBaseClass);
 		if (parameterClasses == null) {
 			return null;
 		}
@@ -727,7 +737,9 @@ public class ReflectionUIUtils {
 		if (toolTipText == null) {
 			c.setToolTipText(null);
 		} else {
-			c.setToolTipText("<HTML>"+ReflectionUIUtils.escapeHTML(toolTipText, true)+"</HTML>");
+			c.setToolTipText("<HTML>"
+					+ ReflectionUIUtils.escapeHTML(toolTipText, true)
+					+ "</HTML>");
 		}
 	}
 
@@ -737,6 +749,55 @@ public class ReflectionUIUtils {
 
 	public static Color getDisabledTextBackgroundColor() {
 		return new JPanel().getBackground();
+	}
+
+	public static void disableComponentTree(JComponent c, final boolean revert) {
+		String CONTAINER_LISTENER_KEY = ReflectionUIUtils.class.getName()
+				+ ".disableComponentTree.CONTAINER_LISTENER_KEY";
+		String LAST_STATE_KEY = ReflectionUIUtils.class.getName()
+				+ ".disableComponentTree.LAST_STATE_KEY";
+		Boolean lastState = (Boolean) c.getClientProperty(LAST_STATE_KEY);
+		if (revert) {
+			if (lastState == null) {
+				return;
+			}
+			if (lastState) {
+				c.setEnabled(true);
+			}
+			c.putClientProperty(LAST_STATE_KEY, null);
+			ContainerListener containerListener = (ContainerListener) c
+					.getClientProperty(CONTAINER_LISTENER_KEY);
+			c.removeContainerListener(containerListener);
+		} else {
+			if (lastState != null) {
+				return;
+			}
+			c.putClientProperty(LAST_STATE_KEY, c.isEnabled());
+			c.setEnabled(false);
+			ContainerListener containerListener = new ContainerListener() {
+
+				@Override
+				public void componentRemoved(ContainerEvent e) {
+				}
+
+				@Override
+				public void componentAdded(ContainerEvent e) {
+					Component child = e.getChild();
+					if (!(child instanceof JComponent)) {
+						return;
+					}
+					disableComponentTree((JComponent) child, revert);
+				}
+			};
+			c.addContainerListener(containerListener);
+			c.putClientProperty(CONTAINER_LISTENER_KEY, containerListener);
+		}
+		for (Component child : c.getComponents()) {
+			if (!(child instanceof JComponent)) {
+				continue;
+			}
+			disableComponentTree((JComponent) child, revert);
+		}
 	}
 
 }

@@ -124,14 +124,11 @@ public class DefaultMethodInfo implements IMethodInfo {
 
 	@Override
 	public boolean isReadOnly() {
-		return false;
+		return Modifier.isStatic(javaMethod.getModifiers());
 	}
 
 	public static boolean isCompatibleWith(Method javaMethod,
 			Class<?> containingJavaClass) {
-		if (Modifier.isStatic(javaMethod.getModifiers())) {
-			return false;
-		}
 		if (javaMethod.isSynthetic()) {
 			return false;
 		}

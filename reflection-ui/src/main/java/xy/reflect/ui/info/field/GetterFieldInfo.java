@@ -52,7 +52,14 @@ public class GetterFieldInfo implements IFieldInfo {
 
 	@Override
 	public String getCaption() {
-		return ReflectionUIUtils.identifierToCaption(getName());
+		String result = ReflectionUIUtils.identifierToCaption(getName());
+		if (javaGetterMethod.getName().matches("^(?:is)([A-Z].*)")) {
+			result = "Is " + result;
+		}
+		if (javaGetterMethod.getName().matches("^(?:has)([A-Z].*)")) {
+			result = "Has " + result;
+		}
+		return result;
 	}
 
 	@Override
@@ -110,7 +117,8 @@ public class GetterFieldInfo implements IFieldInfo {
 	}
 
 	public static String getFieldName(String methodName) {
-		Matcher m = Pattern.compile("^(?:get|is)([A-Z].*)").matcher(methodName);
+		Matcher m = Pattern.compile("^(?:get|is|has)([A-Z].*)").matcher(
+				methodName);
 		if (!m.matches()) {
 			return null;
 		}
@@ -135,8 +143,8 @@ public class GetterFieldInfo implements IFieldInfo {
 		} catch (SecurityException e) {
 			throw new ReflectionUIError(e);
 		}
-		if (!ReflectionUIUtils.equalsOrBothNull(ReflectionUIUtils
-				.getAnnotatedInfoCategory(javaGetterMethod),
+		if (!ReflectionUIUtils.equalsOrBothNull(
+				ReflectionUIUtils.getAnnotatedInfoCategory(javaGetterMethod),
 				ReflectionUIUtils.getAnnotatedInfoCategory(result))) {
 			return null;
 		}
@@ -168,8 +176,7 @@ public class GetterFieldInfo implements IFieldInfo {
 
 	@Override
 	public InfoCategory getCategory() {
-		return ReflectionUIUtils
-				.getAnnotatedInfoCategory(javaGetterMethod);
+		return ReflectionUIUtils.getAnnotatedInfoCategory(javaGetterMethod);
 	}
 
 	@Override
