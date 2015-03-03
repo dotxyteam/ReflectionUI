@@ -54,6 +54,8 @@
 					<archive>
 						<manifest>
 							<mainClass>xy.reflect.ui.ReflectionUI</mainClass>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>dependency/</classpathPrefix>
 						</manifest>
 					</archive>
 				</configuration>
