@@ -618,20 +618,21 @@ public class ReflectionUIUtils {
 					+ ".jdk-apidocs.installed";
 			if (!Boolean.TRUE.toString().equals(
 					System.getProperty(jdkApiDocsInstalledKey))) {
-				InputStream javadocsInStream = ReflectionUI.class
-						.getResourceAsStream("resource/jdk-apidocs.zip");
-				OutputStream javadocsOutStream = new FileOutputStream(
-						javadocsOutFile);
-				try {
-					ReflectionUIUtils.transferStream(javadocsInStream,
-							javadocsOutStream);
-				} finally {
+				if (!javadocsOutFile.exists()) {
+					InputStream javadocsInStream = ReflectionUI.class
+							.getResourceAsStream("resource/jdk-apidocs.zip");
+					OutputStream javadocsOutStream = new FileOutputStream(
+							javadocsOutFile);
 					try {
-						javadocsOutStream.close();
-					} catch (IOException ignore) {
+						ReflectionUIUtils.transferStream(javadocsInStream,
+								javadocsOutStream);
+					} finally {
+						try {
+							javadocsOutStream.close();
+						} catch (IOException ignore) {
+						}
 					}
 				}
-				javadocsOutFile.deleteOnExit();
 				System.setProperty(jdkApiDocsInstalledKey,
 						Boolean.TRUE.toString());
 			}
