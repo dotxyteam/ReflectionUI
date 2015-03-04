@@ -11,7 +11,10 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Constructor;
@@ -19,7 +22,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,18 +35,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
-import com.fasterxml.classmate.MemberResolver;
-import com.fasterxml.classmate.ResolvedType;
-import com.fasterxml.classmate.ResolvedTypeWithMembers;
-import com.fasterxml.classmate.TypeResolver;
-import com.fasterxml.classmate.members.ResolvedConstructor;
-import com.fasterxml.classmate.members.ResolvedField;
-import com.fasterxml.classmate.members.ResolvedMethod;
-import com.thoughtworks.paranamer.AdaptiveParanamer;
-import com.thoughtworks.paranamer.BytecodeReadingParanamer;
-import com.thoughtworks.paranamer.DefaultParanamer;
-import com.thoughtworks.paranamer.JavadocParanamer;
-import com.thoughtworks.paranamer.Paranamer;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.ModificationStack;
@@ -58,6 +48,19 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.IListTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+
+import com.fasterxml.classmate.MemberResolver;
+import com.fasterxml.classmate.ResolvedType;
+import com.fasterxml.classmate.ResolvedTypeWithMembers;
+import com.fasterxml.classmate.TypeResolver;
+import com.fasterxml.classmate.members.ResolvedConstructor;
+import com.fasterxml.classmate.members.ResolvedField;
+import com.fasterxml.classmate.members.ResolvedMethod;
+import com.thoughtworks.paranamer.AdaptiveParanamer;
+import com.thoughtworks.paranamer.BytecodeReadingParanamer;
+import com.thoughtworks.paranamer.DefaultParanamer;
+import com.thoughtworks.paranamer.JavadocParanamer;
+import com.thoughtworks.paranamer.Paranamer;
 
 public class ReflectionUIUtils {
 
@@ -609,23 +612,51 @@ public class ReflectionUIUtils {
 	}
 
 	public static String[] getJavaParameterNames(Member owner) {
-		Paranamer paranamer;
 		try {
+			File javadocsOutFile = new File("jdk-apidocs.zip");
+			String jdkApiDocsInstalledKey = ReflectionUIUtils.class.getName()
+					+ ".jdk-apidocs.installed";
+			if (!Boolean.TRUE.toString().equals(
+					System.getProperty(jdkApiDocsInstalledKey))) {
+				InputStream javadocsInStream = ReflectionUI.class
+						.getResourceAsStream("resource/jdk-apidocs.zip");
+				OutputStream javadocsOutStream = new FileOutputStream(
+						javadocsOutFile);
+				try {
+					ReflectionUIUtils.transferStream(javadocsInStream,
+							javadocsOutStream);
+				} finally {
+					try {
+						javadocsOutStream.close();
+					} catch (IOException ignore) {
+					}
+				}
+				javadocsOutFile.deleteOnExit();
+				System.setProperty(jdkApiDocsInstalledKey,
+						Boolean.TRUE.toString());
+			}
+			Paranamer paranamer;
 			paranamer = new AdaptiveParanamer(new DefaultParanamer(),
 					new BytecodeReadingParanamer(), new JavadocParanamer(
-							new File(ReflectionUI.class.getResource(
-									"resource/jdk-apidocs.zip").toURI())));
+							new File(javadocsOutFile.toURI())));
+			String[] parameterNames = paranamer.lookupParameterNames(
+					(AccessibleObject) owner, false);
+			if ((parameterNames == null) || (parameterNames.length == 0)) {
+				return null;
+			}
+			return parameterNames;
 		} catch (IOException e) {
 			throw new ReflectionUIError(e);
-		} catch (URISyntaxException e) {
-			throw new ReflectionUIError(e);
 		}
-		String[] parameterNames = paranamer.lookupParameterNames(
-				(AccessibleObject) owner, false);
-		if ((parameterNames == null) || (parameterNames.length == 0)) {
-			return null;
+	}
+
+	private static void transferStream(InputStream inputStream,
+			OutputStream outputStream) throws IOException {
+		int read = 0;
+		byte[] bytes = new byte[1024];
+		while ((read = inputStream.read(bytes)) != -1) {
+			outputStream.write(bytes, 0, read);
 		}
-		return parameterNames;
 	}
 
 	public static String formatParameterList(List<IParameterInfo> parameters) {
