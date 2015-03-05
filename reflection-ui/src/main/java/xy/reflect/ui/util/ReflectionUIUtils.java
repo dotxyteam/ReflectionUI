@@ -10,8 +10,6 @@ import java.awt.event.ContainerListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -22,6 +20,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -613,33 +612,12 @@ public class ReflectionUIUtils {
 
 	public static String[] getJavaParameterNames(Member owner) {
 		try {
-			File javadocsOutFile = new File("jdk-apidocs.zip");
-			String jdkApiDocsInstalledKey = ReflectionUIUtils.class.getName()
-					+ ".jdk-apidocs.installed";
-			if (!Boolean.TRUE.toString().equals(
-					System.getProperty(jdkApiDocsInstalledKey))) {
-				if (!javadocsOutFile.exists()) {
-					InputStream javadocsInStream = ReflectionUI.class
-							.getResourceAsStream("resource/jdk-apidocs.zip");
-					OutputStream javadocsOutStream = new FileOutputStream(
-							javadocsOutFile);
-					try {
-						ReflectionUIUtils.transferStream(javadocsInStream,
-								javadocsOutStream);
-					} finally {
-						try {
-							javadocsOutStream.close();
-						} catch (IOException ignore) {
-						}
-					}
-				}
-				System.setProperty(jdkApiDocsInstalledKey,
-						Boolean.TRUE.toString());
-			}
+			URL jdkJavadocURL = ReflectionUI.class
+					.getResource("resource/jdk-apidocs");
 			Paranamer paranamer;
 			paranamer = new AdaptiveParanamer(new DefaultParanamer(),
 					new BytecodeReadingParanamer(), new JavadocParanamer(
-							new File(javadocsOutFile.toURI())));
+							jdkJavadocURL));
 			String[] parameterNames = paranamer.lookupParameterNames(
 					(AccessibleObject) owner, false);
 			if ((parameterNames == null) || (parameterNames.length == 0)) {
@@ -651,7 +629,7 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	private static void transferStream(InputStream inputStream,
+	public static void transferStream(InputStream inputStream,
 			OutputStream outputStream) throws IOException {
 		int read = 0;
 		byte[] bytes = new byte[1024];
