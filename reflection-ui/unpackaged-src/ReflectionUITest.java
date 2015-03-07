@@ -17,7 +17,11 @@ import javax.imageio.ImageIO;
 import org.ietf.jgss.GSSException;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.ModificationStack;
+import xy.reflect.ui.control.ModificationStack.IModification;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.method.AbstractMethodUndoModification;
+import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultTextualTypeInfo;
 import xy.reflect.ui.info.type.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -66,8 +70,8 @@ public class ReflectionUITest {
 		public void multiplyTheFloat(int factor) {
 			theFloat *= factor;
 		}
-		
-		public void doLongTask(){
+
+		public void doLongTask() {
 			try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e) {
@@ -103,29 +107,55 @@ public class ReflectionUITest {
 
 			@Override
 			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-				if (!(typeSource instanceof JavaTypeInfoSource)) {
-					return super.getTypeInfo(typeSource);
-				}
-				JavaTypeInfoSource classSource = (JavaTypeInfoSource) typeSource;
-				if (classSource.getJavaType() == Exception.class) {
-					return new TypeInfoProxyConfiguration() {
+				return new TypeInfoProxyConfiguration() {
 
-						@Override
-						public List<ITypeInfo> getPolymorphicInstanceSubTypes(
-								ITypeInfo type) {
+					@Override
+					public List<ITypeInfo> getPolymorphicInstanceSubTypes(
+							ITypeInfo type) {
+						if (type.getName().equals(Exception.class.getName())) {
 							return Arrays.asList(
 									getTypeInfo(new JavaTypeInfoSource(
 											ParseException.class)),
 									getTypeInfo(new JavaTypeInfoSource(
 											GSSException.class)));
+						} else {
+							return super.getPolymorphicInstanceSubTypes(type);
 						}
+					}
 
-					}.get(super.getTypeInfo(typeSource));
-				} else {
-					return super.getTypeInfo(typeSource);
-				}
+					@Override
+					protected IModification getUndoModification(
+							final IMethodInfo method, ITypeInfo containingType,
+							final Object object,
+							final Map<String, Object> valueByParameterName) {
+						if (method.getName().equals("incrementTheInt")) {
+							return new AbstractMethodUndoModification(object,
+									method, valueByParameterName) {
+								@Override
+								protected void revertMethod() {
+									Test test = (Test) object;
+									test.theInt--;
+								}
+							};
+						} else if (method.getName().equals("multiplyTheFloat")) {
+							return new AbstractMethodUndoModification(object,
+									method, valueByParameterName) {
+								@Override
+								protected void revertMethod() {
+									Test test = (Test) object;
+									test.theFloat /= (Integer) valueByParameterName
+											.get("factor");
+								}
+							};
+						} else {
+							return super.getUndoModification(method,
+									containingType, object,
+									valueByParameterName);
+						}
+					}
+
+				}.get(super.getTypeInfo(typeSource));
 			}
-
 		};
 		editor.openObjectFrame(new Test(), "test", null);
 	}

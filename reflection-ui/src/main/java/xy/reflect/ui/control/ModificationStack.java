@@ -110,23 +110,22 @@ public class ModificationStack {
 	public int getRedoSize() {
 		return redoStack.size();
 	}
-	
-	public int getNumberOfUndoUnits(){
+
+	public int getNumberOfUndoUnits() {
 		int result = 0;
-		for(IModification undoModif: undoStack){
+		for (IModification undoModif : undoStack) {
 			result += undoModif.getNumberOfUnits();
 		}
 		return result;
 	}
-	
-	public int getNumberOfRedoUnits(){
+
+	public int getNumberOfRedoUnits() {
 		int result = 0;
-		for(IModification redoModif: redoStack){
+		for (IModification redoModif : redoStack) {
 			result += redoModif.getNumberOfUnits();
 		}
 		return result;
 	}
-
 
 	public void undo(boolean refreshView) {
 		if (compositeStack.size() > 0) {
@@ -189,8 +188,6 @@ public class ModificationStack {
 		}
 		compositeParent.pushUndo(compositeUndoModif);
 	}
-	
-
 
 	public void invalidate() {
 		redoStack.clear();
@@ -217,6 +214,46 @@ public class ModificationStack {
 		int getNumberOfUnits();
 
 		String getTitle();
+	}
+
+	public static interface ModificationProxyConfiguration {
+		public void executeAfterApplication();
+	}
+
+	public static class ModificationProxy implements IModification {
+		IModification delegate;
+		ModificationProxyConfiguration configuration;
+
+		public ModificationProxy(IModification delegate,
+				ModificationProxyConfiguration configuration) {
+			super();
+			this.delegate = delegate;
+			this.configuration = configuration;
+		}
+
+		final public IModification applyAndGetOpposite(boolean refreshView) {
+			try {
+				return new ModificationProxy(
+						delegate.applyAndGetOpposite(refreshView),
+						configuration);
+			} finally {
+				configuration.executeAfterApplication();
+			}
+		}
+
+		final public int getNumberOfUnits() {
+			return delegate.getNumberOfUnits();
+		}
+
+		final public String getTitle() {
+			return delegate.getTitle();
+		}
+
+		@Override
+		final public String toString() {
+			return delegate.toString();
+		}
+
 	}
 
 	public static class SetFieldValueModification implements IModification {
@@ -290,7 +327,7 @@ public class ModificationStack {
 		@Override
 		public int getNumberOfUnits() {
 			int result = 0;
-			for(IModification modif: modifications){
+			for (IModification modif : modifications) {
 				result += modif.getNumberOfUnits();
 			}
 			return result;
@@ -354,7 +391,7 @@ public class ModificationStack {
 			@Override
 			public String get() {
 				if (undoStack.size() > 0) {
-					return undoStack.peek().toString();
+					return undoStack.peek().getTitle();
 				} else {
 					return null;
 				}
@@ -375,7 +412,7 @@ public class ModificationStack {
 			@Override
 			public String get() {
 				if (redoStack.size() > 0) {
-					return redoStack.peek().toString();
+					return redoStack.peek().getTitle();
 				} else {
 					return null;
 				}
@@ -416,7 +453,7 @@ public class ModificationStack {
 
 	protected JButton createButton(final ReflectionUI reflectionUI,
 			String label, final Runnable action,
-			final Accessor<Boolean> enabled, final Accessor<String> tooltip) {
+			final Accessor<Boolean> enabled, final Accessor<String> tooltipText) {
 		final JButton result = new JButton(
 				reflectionUI.translateUIString(label)) {
 
@@ -443,7 +480,7 @@ public class ModificationStack {
 				setEnabled(enabled.get());
 				ReflectionUIUtils.setMultilineToolTipText(this, reflectionUI
 						.translateUIString(reflectionUI
-								.translateUIString(tooltip.get())));
+								.translateUIString(tooltipText.get())));
 			}
 
 		};

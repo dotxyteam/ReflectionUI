@@ -97,16 +97,21 @@ public class ReflectionUI {
 			.weakKeys().makeMap();
 
 	public static void main(String[] args) {
-		ReflectionUI reflectionUI = new ReflectionUI();
-		Object object = reflectionUI.onTypeInstanciationRequest(null,
-				reflectionUI.getTypeInfo(new JavaTypeInfoSource(Object.class)),
-				false);
-		if (object == null) {
-			return;
+		try {
+			ReflectionUI reflectionUI = new ReflectionUI();
+			Object object = reflectionUI.onTypeInstanciationRequest(null,
+					reflectionUI.getTypeInfo(new JavaTypeInfoSource(
+							Object.class)), false);
+			if (object == null) {
+				return;
+			}
+			reflectionUI.openObjectFrame(object,
+					reflectionUI.getObjectKind(object),
+					reflectionUI.getObjectIconImage(object));
+		} catch (Throwable t) {
+			JOptionPane.showMessageDialog(null, t.toString(), null,
+					JOptionPane.ERROR_MESSAGE);
 		}
-		reflectionUI.openObjectFrame(object,
-				reflectionUI.getObjectKind(object),
-				reflectionUI.getObjectIconImage(object));
 	}
 
 	public Map<JPanel, Object> getObjectByForm() {
@@ -159,18 +164,26 @@ public class ReflectionUI {
 
 	public void openObjectFrame(Object object, String title, Image iconImage) {
 		JPanel form = createObjectForm(object);
-		JFrame frame = createFrame(form, title, iconImage,
-				createCommonToolbarControls(form));
+		JFrame frame = createFrame(
+				form,
+				title,
+				iconImage,
+				createCommonToolbarControls(form,
+						IInfoCollectionSettings.DEFAULT));
 		frame.setVisible(true);
 	}
 
-	public List<Component> createCommonToolbarControls(final JPanel form) {
-		final ModificationStack stack = getModificationStackByForm().get(form);
-		if (stack == null) {
-			return null;
-		}
+	public List<Component> createCommonToolbarControls(final JPanel form,
+			IInfoCollectionSettings settings) {
 		List<Component> result = new ArrayList<Component>();
-		result.addAll(stack.createControls(this));
+		if (!settings.allReadOnly()) {
+			final ModificationStack stack = getModificationStackByForm().get(
+					form);
+			if (stack == null) {
+				return null;
+			}
+			result.addAll(stack.createControls(this));
+		}
 		return result;
 	}
 
@@ -262,10 +275,18 @@ public class ReflectionUI {
 			if (settings.excludeField(field)) {
 				continue;
 			}
+			if (settings.allReadOnly()) {
+				field = new FieldInfoProxy(field) {
+					@Override
+					public boolean isReadOnly() {
+						return true;
+					}
+				};
+			}
 			if (!field.isReadOnly()) {
-				field = makeFieldModificationsUndoable(field, form);
 				field = refreshOtherFieldsAfterFieldModification(field, form,
 						settings);
+				field = makeFieldModificationsUndoable(field, form);
 			}
 			FieldControlPlaceHolder fieldControlPlaceHolder = createFieldControlPlaceHolder(
 					object, field);
@@ -308,9 +329,9 @@ public class ReflectionUI {
 			}
 			if (!settings.allReadOnly()) {
 				if (!method.isReadOnly()) {
-					method = makeMethodModificationsUndoable(method, form);
 					method = refreshFieldsAfterMethodModifications(method,
 							form, settings);
+					method = makeMethodModificationsUndoable(method, form);
 				}
 			}
 			Component methodControl = createMethodControl(object, method);
@@ -528,20 +549,44 @@ public class ReflectionUI {
 			final IMethodInfo method, final JPanel form,
 			final IInfoCollectionSettings settings) {
 		return new MethodInfoProxy(method) {
+
+			private void refreshFields(Object object) {
+				ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
+				for (IFieldInfo field : type.getFields()) {
+					if (settings.excludeField(field)) {
+						continue;
+					}
+					refreshAndRelayoutFieldControl(form, field.getName());
+				}
+			}
+
 			@Override
 			public Object invoke(Object object,
 					Map<String, Object> valueByParameterName) {
 				try {
 					return super.invoke(object, valueByParameterName);
 				} finally {
-					ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
-					for (IFieldInfo field : type.getFields()) {
-						if (settings.excludeField(field)) {
-							continue;
-						}
-						refreshAndRelayoutFieldControl(form, field.getName());
-					}
+					refreshFields(object);
 				}
+			}
+
+			@Override
+			public IModification getUndoModification(final Object object,
+					Map<String, Object> valueByParameterName) {
+				IModification result = super.getUndoModification(object,
+						valueByParameterName);
+				if (result == null) {
+					return null;
+				}
+				result = new ModificationStack.ModificationProxy(
+						result,
+						new ModificationStack.ModificationProxyConfiguration() {
+							@Override
+							public void executeAfterApplication() {
+								refreshFields(object);
+							}
+						});
+				return result;
 			}
 
 		};
@@ -982,16 +1027,24 @@ public class ReflectionUI {
 		}
 		modificationstackArray[0] = getModificationStackByForm().get(form);
 		List<Component> toolbarControls = new ArrayList<Component>();
-		List<Component> commonToolbarControls = createCommonToolbarControls(form);
-		if (commonToolbarControls != null) {
-			toolbarControls.addAll(commonToolbarControls);
+		if (!settings.allReadOnly()) {
+			List<Component> commonToolbarControls = createCommonToolbarControls(
+					form, settings);
+			if (commonToolbarControls != null) {
+				toolbarControls.addAll(commonToolbarControls);
+			}
 		}
 		if (additionalToolbarControls != null) {
 			toolbarControls.addAll(additionalToolbarControls);
 		}
 		JDialog[] dialogArray = new JDialog[1];
-		toolbarControls.addAll(createDialogOkCancelButtons(dialogArray,
-				okPressedArray, "OK", null, true));
+		if (settings.allReadOnly()) {
+			toolbarControls.addAll(createDialogOkCancelButtons(dialogArray,
+					null, "Close", null, false));
+		} else {
+			toolbarControls.addAll(createDialogOkCancelButtons(dialogArray,
+					okPressedArray, "OK", null, true));
+		}
 		dialogArray[0] = createDialog(parent, form, title, iconImage,
 				toolbarControls, whenClosingDialog);
 		showDialog(dialogArray[0], modal);
