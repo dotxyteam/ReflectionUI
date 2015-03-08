@@ -53,7 +53,6 @@ public class TextControl extends JPanel implements IFieldControl {
 				Dimension result = super.getPreferredSize();
 				result.height = Math.min(result.height, Toolkit
 						.getDefaultToolkit().getScreenSize().height / 3);
-				System.out.println(result);
 				return result;
 			}
 
