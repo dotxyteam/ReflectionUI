@@ -252,11 +252,11 @@ public class TypeInfoProxyConfiguration {
 	}
 
 	protected IFieldInfo getKeyField(IMapEntryTypeInfo type) {
-		return type.getKeyField();
+		return new FieldInfoProxy(type.getKeyField(), type) ;
 	}
 
 	protected IFieldInfo getValueField(IMapEntryTypeInfo type) {
-		return type.getValueField();
+		return new FieldInfoProxy(type.getValueField(), type) ;
 	}
 
 	protected void configureFileChooser(JFileChooser fileChooser,

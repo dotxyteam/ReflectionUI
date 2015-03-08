@@ -8,11 +8,11 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.IListTypeInfo.IItemPosition;
 import xy.reflect.ui.util.ReflectionUIError;
 
-public class TabularTreeistStructuralInfo extends AbstractTreeDetectionListStructuralInfo{
+public class TabularTreetStructuralInfo extends AbstractTreeDetectionListStructuralInfo{
 
 	protected List<IFieldInfo> rootItemFields;
 
-	public TabularTreeistStructuralInfo(ReflectionUI reflectionUI,
+	public TabularTreetStructuralInfo(ReflectionUI reflectionUI,
 			ITypeInfo rootItemType) {
 		super(reflectionUI, rootItemType);
 		if (rootItemType != null) {
@@ -33,14 +33,14 @@ public class TabularTreeistStructuralInfo extends AbstractTreeDetectionListStruc
 
 	@Override
 	public int getColumnCount() {
-		if (!isTabular()) {
+		if (!isFieldBased()) {
 			return 1;
 		}
 		return rootItemFields.size() + (shouldShowValueKindColumn() ? 1 : 0);
 	}
 
 	protected boolean shouldShowValueKindColumn() {
-		if (!isTabular()) {
+		if (!isFieldBased()) {
 			return false;
 		}
 		return !rootItemType.isConcrete();
@@ -48,7 +48,7 @@ public class TabularTreeistStructuralInfo extends AbstractTreeDetectionListStruc
 
 	@Override
 	public String getColumnCaption(int columnIndex) {
-		if (!isTabular()) {
+		if (!isFieldBased()) {
 			return "";
 		}
 		if (shouldShowValueKindColumn()) {
@@ -63,7 +63,7 @@ public class TabularTreeistStructuralInfo extends AbstractTreeDetectionListStruc
 
 	@Override
 	public String getCellValue(IItemPosition itemPosition, int columnIndex) {
-		if (!isTabular()) {
+		if (!isFieldBased()) {
 			if (columnIndex != 0) {
 				throw new ReflectionUIError();
 			}
@@ -91,7 +91,7 @@ public class TabularTreeistStructuralInfo extends AbstractTreeDetectionListStruc
 	}
 
 	@Override
-	protected boolean isTabular() {
+	protected boolean isFieldBased() {
 		return (rootItemFields != null) && (rootItemFields.size() > 0);
 	}
 

@@ -13,8 +13,6 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
-import javax.swing.text.JTextComponent;
-
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITextualTypeInfo;
@@ -29,7 +27,7 @@ public class TextControl extends JPanel implements IFieldControl {
 	protected IFieldInfo field;
 
 	protected ITextualTypeInfo textType;
-	protected JTextComponent textComponent;
+	protected JTextArea textComponent;
 	protected boolean textChangedByUser = true;
 	protected Border textFieldNormalBorder;
 
@@ -43,6 +41,9 @@ public class TextControl extends JPanel implements IFieldControl {
 		setLayout(new BorderLayout());
 
 		textComponent = new JTextArea();
+		textComponent.setLineWrap(true);
+		textComponent.setWrapStyleWord(true);
+		
 		JScrollPane scrollPane = new JScrollPane(textComponent) {
 
 			private static final long serialVersionUID = 1L;
@@ -52,11 +53,11 @@ public class TextControl extends JPanel implements IFieldControl {
 				Dimension result = super.getPreferredSize();
 				result.height = Math.min(result.height, Toolkit
 						.getDefaultToolkit().getScreenSize().height / 3);
+				System.out.println(result);
 				return result;
 			}
 
 		};
-		scrollPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
 		add(scrollPane, BorderLayout.CENTER);
 		textFieldNormalBorder = textComponent.getBorder();
 		if (field.isReadOnly()) {

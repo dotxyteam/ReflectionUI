@@ -12,8 +12,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.IBooleanTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 
-public class CheckBoxControl extends JCheckBox implements
-		IFieldControl {
+public class CheckBoxControl extends JCheckBox implements IFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected ReflectionUI reflectionUI;
@@ -53,7 +52,11 @@ public class CheckBoxControl extends JCheckBox implements
 
 	@Override
 	public boolean showCaption() {
-		setText(reflectionUI.translateUIString(field.getCaption()));
+		String caption = field.getCaption();
+		if (!caption.startsWith("Is ") && !caption.startsWith("Has ")) {
+			caption += " Is True";
+		}
+		setText(reflectionUI.translateUIString(caption));
 		return true;
 	}
 

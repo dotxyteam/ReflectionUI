@@ -32,7 +32,7 @@ public class DefaultListStructuralInfo extends AbstractTreeDetectionListStructur
 
 
 	@Override
-	protected boolean isTabular() {
+	protected boolean isFieldBased() {
 		return false;
 	}
 

@@ -1332,7 +1332,7 @@ public class ReflectionUI {
 	}
 
 	public Object wrapValueAsField(final Object[] valueArray,
-			final String fieldCaption, final String typeCaption,
+			final String fieldCaption, final String containingTypeCaption,
 			final boolean readOnly) {
 		final ITypeInfo valueTypeInfo = getTypeInfo(getTypeInfoSource(valueArray[0]));
 		return new PrecomputedTypeInfoInstanceWrapper(valueArray[0],
@@ -1398,7 +1398,7 @@ public class ReflectionUI {
 
 					@Override
 					protected String getCaption(ITypeInfo type) {
-						return typeCaption;
+						return containingTypeCaption;
 					}
 
 				}.get(valueTypeInfo));

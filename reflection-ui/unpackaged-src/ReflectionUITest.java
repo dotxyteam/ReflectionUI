@@ -23,9 +23,12 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractMethodUndoModification;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultTextualTypeInfo;
+import xy.reflect.ui.info.type.IListTypeInfo;
+import xy.reflect.ui.info.type.IListTypeInfo.IListStructuralInfo;
 import xy.reflect.ui.info.type.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.ITypeInfoSource;
+import xy.reflect.ui.info.type.TabularTreetStructuralInfo;
 import xy.reflect.ui.info.type.TypeInfoProxyConfiguration;
 
 @SuppressWarnings("unused")
@@ -46,8 +49,11 @@ public class ReflectionUITest {
 				Arrays.asList("a", "b", "c"));
 		public Test2 test2 = new Test2();
 
-		@SuppressWarnings({ "rawtypes", "unchecked" })
-		public Vector theGenericVector = new Vector(Arrays.asList(new Test2(),
+		public Test2[] theArrayTreeTable = new Test2[]{new Test2(),
+				new Test2()};
+
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		public Vector theGenericVectorTree = new Vector(Arrays.asList(new Test2(),
 				new Test2()));
 
 		public Map<Integer, String> theMap = new HashMap<Integer, String>();
@@ -95,6 +101,8 @@ public class ReflectionUITest {
 	public static void main(String[] args) {
 		ReflectionUI editor = new ReflectionUI() {
 
+			ReflectionUI thisReflectionUI = this;
+			
 			@Override
 			public Image getObjectIconImage(Object item) {
 				try {
@@ -153,6 +161,16 @@ public class ReflectionUITest {
 									valueByParameterName);
 						}
 					}
+
+					@Override
+					protected IListStructuralInfo getStructuralInfo(
+							IListTypeInfo type) {
+						return new TabularTreetStructuralInfo(thisReflectionUI, type.getItemType());
+					}
+					
+					
+					
+					
 
 				}.get(super.getTypeInfo(typeSource));
 			}

@@ -19,7 +19,7 @@ public abstract  class AbstractTreeDetectionListStructuralInfo implements IListS
 
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo rootItemType;
-	protected abstract  boolean isTabular() ;
+	protected abstract  boolean isFieldBased() ;
 
 	public AbstractTreeDetectionListStructuralInfo(ReflectionUI reflectionUI,
 			ITypeInfo rootItemType) {
@@ -56,7 +56,7 @@ public abstract  class AbstractTreeDetectionListStructuralInfo implements IListS
 			IFieldInfo entryValueField = entryType.getValueField();
 			ITypeInfo entryValueType = entryValueField.getType();
 			if (entryValueType instanceof IListTypeInfo) {
-				if (!isTabular()) {
+				if (!isFieldBased()) {
 					result.add(entryValueField);
 				} else {
 					ITypeInfo entryValuListItemType = ((IListTypeInfo) entryValueType)
@@ -75,7 +75,7 @@ public abstract  class AbstractTreeDetectionListStructuralInfo implements IListS
 			for (IFieldInfo field : itemFields) {
 				ITypeInfo fieldType = field.getType();
 				if (fieldType instanceof IListTypeInfo) {
-					if (!isTabular()) {
+					if (!isFieldBased()) {
 						result.add(field);
 					} else {
 						ITypeInfo subListItemType = ((IListTypeInfo) fieldType)
@@ -123,7 +123,8 @@ public abstract  class AbstractTreeDetectionListStructuralInfo implements IListS
 							Collections.<IFieldInfo> emptyList()).getType())
 							.getStructuralInfo().getItemInfoSettings(itemPosition).excludeField(field);
 				}
-				return getItemSubListCandidateFields(itemPosition).contains(field);
+				List<IFieldInfo> candidateFields = getItemSubListCandidateFields(itemPosition);
+				return candidateFields.contains(field);
 			}
 			
 			@Override
