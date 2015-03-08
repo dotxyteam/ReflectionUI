@@ -45,17 +45,15 @@ public class EnumerationControl extends JPanel {
 		add(comboBox, BorderLayout.CENTER);
 
 		Object initialValue = field.getValue(object);
+		comboBox.setModel(new DefaultComboBoxModel(enumType.getPossibleValues()
+				.toArray()));
 		if (field.isReadOnly()) {
-			comboBox.setModel(new DefaultComboBoxModel(
-					new Object[] { initialValue }));
+			comboBox.setEnabled(false);
 		} else {
-			comboBox.setModel(new DefaultComboBoxModel(enumType
-					.getPossibleValues().toArray()));
+			comboBox.setBackground(ReflectionUIUtils
+					.fixSeveralColorRenderingIssues(ReflectionUIUtils
+							.getTextBackgroundColor()));
 		}
-
-		comboBox.setBackground(ReflectionUIUtils
-				.fixSeveralColorRenderingIssues(ReflectionUIUtils
-						.getTextBackgroundColor()));
 
 		comboBox.setRenderer(new BasicComboBoxRenderer() {
 

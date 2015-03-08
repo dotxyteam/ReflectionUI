@@ -25,8 +25,8 @@ public class ReflectionUIError extends RuntimeException {
 		if (result == null) {
 			result = ReflectionUIUtils.getPrintedStackTrace(this);
 		}
-		if (getCause() != null) {
-			String causeClassName = getCause().getClass().getName();
+		if (getCause() != null) {			
+			String causeClassName = getCause().getClass().getName();			
 			if (result.contains(causeClassName)) {
 				String causeClassCaption;
 				if (NullPointerException.class.getName().equals(causeClassName)) {
@@ -42,7 +42,7 @@ public class ReflectionUIError extends RuntimeException {
 							"Error");
 				}
 				result = result.replace(causeClassName, causeClassCaption);
-			}
+			}			
 		}
 		return result;
 	}

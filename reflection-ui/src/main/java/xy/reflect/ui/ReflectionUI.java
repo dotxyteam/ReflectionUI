@@ -550,16 +550,6 @@ public class ReflectionUI {
 			final IInfoCollectionSettings settings) {
 		return new MethodInfoProxy(method) {
 
-			private void refreshFields(Object object) {
-				ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
-				for (IFieldInfo field : type.getFields()) {
-					if (settings.excludeField(field)) {
-						continue;
-					}
-					refreshAndRelayoutFieldControl(form, field.getName());
-				}
-			}
-
 			@Override
 			public Object invoke(Object object,
 					Map<String, Object> valueByParameterName) {
@@ -578,8 +568,7 @@ public class ReflectionUI {
 				if (result == null) {
 					return null;
 				}
-				result = new ModificationStack.ModificationProxy(
-						result,
+				result = new ModificationStack.ModificationProxy(result,
 						new ModificationStack.ModificationProxyConfiguration() {
 							@Override
 							public void executeAfterApplication() {
@@ -587,6 +576,16 @@ public class ReflectionUI {
 							}
 						});
 				return result;
+			}
+
+			private void refreshFields(Object object) {
+				ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
+				for (IFieldInfo field : type.getFields()) {
+					if (settings.excludeField(field)) {
+						continue;
+					}
+					refreshAndRelayoutFieldControl(form, field.getName());
+				}
 			}
 
 		};
@@ -773,7 +772,7 @@ public class ReflectionUI {
 			}
 		});
 		buttons.add(deatilsButton);
-		buttons.addAll(createDialogOkCancelButtons(dialogArray, null, null,
+		buttons.addAll(createDialogOkCancelButtons(dialogArray, null, "Close",
 				null, false));
 
 		dialogArray[0] = createDialog(activatorComponent, errorComponent,
@@ -927,7 +926,7 @@ public class ReflectionUI {
 			throw new ReflectionUIError(e);
 		}
 		if (busyLabel.isBusy()) {
-			showDialog(dialog, true);
+			showDialog(dialog, true, false);
 		}
 	}
 
@@ -1049,16 +1048,29 @@ public class ReflectionUI {
 				toolbarControls, whenClosingDialog);
 		showDialog(dialogArray[0], modal);
 	}
-
+	
 	public void showDialog(JDialog dialog, boolean modal) {
+		showDialog(dialog, modal, true);
+	}
+		
+
+	public void showDialog(JDialog dialog, boolean modal, boolean closeable) {
 		if (modal) {
 			dialog.setModalityType(ModalityType.DOCUMENT_MODAL);
-			dialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+			if (closeable) {
+				dialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+			} else {
+				dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+			}
 			dialog.setVisible(true);
 			dialog.dispose();
 		} else {
 			dialog.setModalityType(ModalityType.MODELESS);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			if (closeable) {
+				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			} else {
+				dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+			}
 			dialog.setVisible(true);
 		}
 	}
@@ -1453,9 +1465,12 @@ public class ReflectionUI {
 	}
 
 	public String getFieldTitle(Object object, IFieldInfo field) {
-		return composeTitle(
-				composeTitle(getObjectKind(object), field.getCaption()),
-				getObjectKind(field.getValue(object)));
+		String result = composeTitle(getObjectKind(object), field.getCaption());
+		String fieldValueKind = getObjectKind(field.getValue(object));
+		if (!field.getCaption().equals(fieldValueKind)) {
+			result = composeTitle(result, fieldValueKind);
+		}
+		return result;
 	}
 
 	public void adjustWindowBounds(Window window) {
