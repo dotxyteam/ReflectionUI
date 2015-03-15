@@ -6,7 +6,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 
 public interface IInfoCollectionSettings {
 
-	IInfoCollectionSettings DEFAULT = new IInfoCollectionSettings() {
+	public IInfoCollectionSettings DEFAULT = new IInfoCollectionSettings() {
 		
 		@Override
 		public boolean allReadOnly() {
@@ -24,6 +24,26 @@ public interface IInfoCollectionSettings {
 		}
 
 	};
+	
+	public IInfoCollectionSettings READ_ONLY = new IInfoCollectionSettings() {
+		
+		@Override
+		public boolean allReadOnly() {
+			return true;
+		}
+
+		@Override
+		public boolean excludeField(IFieldInfo field) {
+			return false;
+		}
+
+		@Override
+		public boolean excludeMethod(IMethodInfo method) {
+			return false;
+		}
+
+	};
+
 
 	boolean allReadOnly();
 

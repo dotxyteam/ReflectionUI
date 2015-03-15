@@ -31,7 +31,6 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 		setLayout(new BorderLayout());
 		JPanel subForm = createSubForm();
 		add(subForm, BorderLayout.CENTER);
-		setBorder(BorderFactory.createTitledBorder(""));
 	}
 
 	protected JPanel createSubForm() {

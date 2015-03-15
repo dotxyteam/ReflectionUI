@@ -245,7 +245,6 @@ public class ReflectionUI {
 		result.setPreferredSize(new Dimension(result.getPreferredSize().height,
 				result.getPreferredSize().height));
 		result.setContentAreaFilled(false);
-		// result.setBorderPainted(false);
 		result.setFocusable(false);
 		ReflectionUIUtils.setMultilineToolTipText(result,
 				translateUIString(documentation));
@@ -362,12 +361,12 @@ public class ReflectionUI {
 		}
 
 		JPanel formContent = new JPanel();
-		form.add(formContent, BorderLayout.CENTER);
 
 		SortedSet<InfoCategory> allCategories = new TreeSet<InfoCategory>();
 		allCategories.addAll(fieldControlPlaceHoldersByCategory.keySet());
 		allCategories.addAll(methodControlsByCategory.keySet());
 		if (allCategories.size() == 1) {
+			form.add(formContent, BorderLayout.CENTER);
 			List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
 					.get(allCategories.first());
 			if (fieldControlPlaceHolders == null) {
@@ -381,6 +380,7 @@ public class ReflectionUI {
 			layoutControls(fieldControlPlaceHolders, methodControls,
 					formContent);
 		} else if (allCategories.size() > 1) {
+			form.add(formContent, BorderLayout.CENTER);
 			formContent.setLayout(new BorderLayout());
 			formContent.add(
 					createMultipleInfoCategoriesComponent(allCategories,
@@ -771,7 +771,8 @@ public class ReflectionUI {
 			public void actionPerformed(ActionEvent e) {
 				openObjectDialog(deatilsButton, error,
 						translateUIString("Error Details"),
-						getObjectIconImage(error), true);
+						getObjectIconImage(error), true, null, null, null,
+						null, IInfoCollectionSettings.READ_ONLY);
 			}
 		});
 		buttons.add(deatilsButton);
@@ -1484,8 +1485,8 @@ public class ReflectionUI {
 		Rectangle bounds = window.getBounds();
 		Rectangle maxBounds = GraphicsEnvironment.getLocalGraphicsEnvironment()
 				.getMaximumWindowBounds();
-		if (bounds.width < maxBounds.width / 2) {
-			bounds.grow((maxBounds.width / 2 - bounds.width) / 2, 0);
+		if (bounds.width < maxBounds.width / 3) {
+			bounds.grow((maxBounds.width / 3 - bounds.width) / 2, 0);
 		}
 		bounds = maxBounds.intersection(bounds);
 		window.setBounds(bounds);
@@ -1498,6 +1499,7 @@ public class ReflectionUI {
 	public void handleComponentSizeChange(Component c) {
 		Window window = SwingUtilities.getWindowAncestor(c);
 		if (window != null) {
+			window.validate();
 			JScrollPane scrollPane;
 			if (window instanceof JFrame) {
 				scrollPane = (JScrollPane) ((JFrame) window).getContentPane()
@@ -1518,7 +1520,6 @@ public class ReflectionUI {
 				window.setSize(windowSize);
 				adjustWindowBounds(window);
 			}
-			window.validate();
 		}
 	}
 

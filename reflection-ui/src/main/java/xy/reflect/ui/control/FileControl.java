@@ -18,6 +18,8 @@ public class FileControl extends DialogAcessControl {
 	protected FileTypeInfo fileType;
 	protected boolean textChangedByUser = true;
 
+	private static File lastDirectory;
+
 	public FileControl(ReflectionUI reflectionUI, Object object,
 			IFieldInfo field) {
 		super(reflectionUI, object, field);
@@ -89,12 +91,16 @@ public class FileControl extends DialogAcessControl {
 	protected void openDialog() {
 		final JFileChooser fileChooser = new JFileChooser();
 		File currentFile = (File) field.getValue(object);
+		if(lastDirectory != null){
+			fileChooser.setCurrentDirectory(lastDirectory);
+		}
 		fileType.configureFileChooser(fileChooser, currentFile);
 		int returnVal = fileChooser.showDialog(this,
 				reflectionUI.translateUIString(fileType.getDialogTitle()));
 		if (returnVal != JFileChooser.APPROVE_OPTION) {
 			return;
 		}
+		lastDirectory = fileChooser.getCurrentDirectory();
 		field.setValue(object, fileChooser.getSelectedFile());
 		updateControls();
 	}
