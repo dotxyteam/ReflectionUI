@@ -1048,11 +1048,10 @@ public class ReflectionUI {
 				toolbarControls, whenClosingDialog);
 		showDialog(dialogArray[0], modal);
 	}
-	
+
 	public void showDialog(JDialog dialog, boolean modal) {
 		showDialog(dialog, modal, true);
 	}
-		
 
 	public void showDialog(JDialog dialog, boolean modal, boolean closeable) {
 		if (modal) {
@@ -1256,8 +1255,10 @@ public class ReflectionUI {
 			return ((VirtualItem) object).toString();
 		}
 		if (object instanceof StandardMapEntry<?, ?>) {
+			String result = "Entry"; 
 			Object key = ((StandardMapEntry<?, ?>) object).getKey();
-			return (key == null) ? null : key.toString();
+			result += (key == null) ? "" : (" ("+toString(key)+")");
+			return result;
 		}
 		return getTypeInfo(getTypeInfoSource(object)).getCaption();
 	}
@@ -1466,9 +1467,12 @@ public class ReflectionUI {
 
 	public String getFieldTitle(Object object, IFieldInfo field) {
 		String result = composeTitle(getObjectKind(object), field.getCaption());
-		String fieldValueKind = getObjectKind(field.getValue(object));
-		if (!field.getCaption().equals(fieldValueKind)) {
-			result = composeTitle(result, fieldValueKind);
+		Object fieldValue = field.getValue(object);
+		if (fieldValue != null) {
+			String fieldValueKind = getObjectKind(field.getValue(object));
+			if (!field.getCaption().equals(fieldValueKind)) {
+				result = composeTitle(result, fieldValueKind);
+			}
 		}
 		return result;
 	}

@@ -12,8 +12,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class EmbeddedFormControl extends JPanel implements
-		IFieldControl {
+public class EmbeddedFormControl extends JPanel implements IFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected ReflectionUI reflectionUI;
@@ -31,17 +30,13 @@ public class EmbeddedFormControl extends JPanel implements
 		this.field = field;
 		setLayout(new BorderLayout());
 		JPanel subForm = createSubForm();
-		if (subForm != null) {
-			add(subForm, BorderLayout.CENTER);
-		}
-		setBorder(BorderFactory.createTitledBorder(""));		
+		add(subForm, BorderLayout.CENTER);
+		setBorder(BorderFactory.createTitledBorder(""));
 	}
 
 	protected JPanel createSubForm() {
 		JPanel subForm = reflectionUI.createObjectForm(field.getValue(object));
-		if (subForm != null) {
-			connectSubFormToParentModificationStack(subForm);
-		}
+		connectSubFormToParentModificationStack(subForm);
 		return subForm;
 	}
 
@@ -106,9 +101,9 @@ public class EmbeddedFormControl extends JPanel implements
 			}
 
 			@Override
-			public IModification[] getUndoModifications(ModificationStack.Order order) {
-				return getParentModificationSack()
-						.getUndoModifications(order);
+			public IModification[] getUndoModifications(
+					ModificationStack.Order order) {
+				return getParentModificationSack().getUndoModifications(order);
 			}
 
 			@Override

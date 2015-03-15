@@ -40,7 +40,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 
 		@Override
 		public String getCaption() {
-			return "<Choose an option>";
+			return "";
 		}
 
 	};
@@ -236,15 +236,14 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 
 	protected Component createDynamicControl(final ITypeInfo instanceType) {
 		return instanceType.createFieldControl(object,
-				new HiddenNullableFacetFieldInfoProxy(reflectionUI,
-						new FieldInfoProxy(field) {
+				new HiddenNullableFacetFieldInfoProxy(reflectionUI, field) {
 
-							@Override
-							public ITypeInfo getType() {
-								return instanceType;
-							}
+					@Override
+					public ITypeInfo getType() {
+						return instanceType;
+					}
 
-						}));
+				});
 	}
 
 	protected void refreshDynamicControl(ITypeInfo instanceType) {

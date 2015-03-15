@@ -247,17 +247,18 @@ public class ListControl extends JPanel implements IFieldControl {
 			}
 		}
 
-		if (selection.size() == 0) {
-			if (!getRootListItemPosition().isContainingListReadOnly()) {
-				createAddButton(buttonsPanel);
-			}
-		} else if (singleSelectedPosition != null) {
+		if (singleSelectedPosition != null) {
 			if (!singleSelectedPosition.isContainingListReadOnly()) {
-				createAddButton(buttonsPanel);
+				createAddButton(buttonsPanel, false);
+				createAddButton(buttonsPanel, true);
 			}
 		}
 
-		if (singleSelectedPositionSubItemPosition != null) {
+		if (selection.size() == 0) {
+			if (!getRootListItemPosition().isContainingListReadOnly()) {
+				createAddInButton(buttonsPanel);
+			}
+		} else if (singleSelectedPositionSubItemPosition != null) {
 			if (!singleSelectedPositionSubItemPosition
 					.isContainingListReadOnly()) {
 				createAddInButton(buttonsPanel);
@@ -605,9 +606,10 @@ public class ListControl extends JPanel implements IFieldControl {
 
 	}
 
-	protected void createAddButton(JPanel buttonsPanel) {
+	protected void createAddButton(JPanel buttonsPanel, final boolean after) {
 		final JButton button = new JButton(
-				reflectionUI.translateUIString("New..."));
+				reflectionUI.translateUIString(after ? "Insert After..."
+						: "Insert Before..."));
 		buttonsPanel.add(button);
 		button.addActionListener(new ActionListener() {
 			@Override
@@ -620,6 +622,9 @@ public class ListControl extends JPanel implements IFieldControl {
 						itemPosition = new ItemPosition(field, null, index);
 					} else {
 						index = itemPosition.getIndex();
+						if (after) {
+							index++;
+						}
 						itemPosition = itemPosition.getSibling(index);
 					}
 					final IListTypeInfo listType = itemPosition
@@ -658,17 +663,19 @@ public class ListControl extends JPanel implements IFieldControl {
 
 	protected void createAddInButton(JPanel buttonsPanel) {
 		final JButton button = new JButton(
-				reflectionUI.translateUIString("New Under..."));
+				reflectionUI.translateUIString("Add..."));
 		buttonsPanel.add(button);
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 					ItemPosition itemPosition = getSingleSelection();
+					ItemPosition subItemPosition;
 					if (itemPosition == null) {
-						return;
+						subItemPosition = getRootListItemPosition();
+					} else {
+						subItemPosition = getSubItemPosition(itemPosition);
 					}
-					ItemPosition subItemPosition = getSubItemPosition(itemPosition);
 					IListTypeInfo subListType = subItemPosition
 							.getContainingListType();
 					ITypeInfo subListItemType = subListType.getItemType();
@@ -879,7 +886,7 @@ public class ListControl extends JPanel implements IFieldControl {
 
 	protected void createOpenItemButton(JPanel buttonsPanel) {
 		final JButton button = new JButton(
-				reflectionUI.translateUIString("Open..."));
+				reflectionUI.translateUIString("Open"));
 		buttonsPanel.add(button);
 		button.addActionListener(new ActionListener() {
 			@Override
@@ -943,13 +950,13 @@ public class ListControl extends JPanel implements IFieldControl {
 		Object value = itemPosition.getItem();
 		GhostItemPosition ghostItemPosition = new GhostItemPosition(
 				itemPosition, value);
-		boolean[] changeDetectedArray = new boolean[]{false};
+		boolean[] changeDetectedArray = new boolean[] { false };
 		if (openDetailsDialog(ghostItemPosition, changeDetectedArray)) {
 			FieldAutoUpdateList list = itemPosition.getContainingList();
 			Object newValue = ghostItemPosition.getItem();
 			int index = itemPosition.getIndex();
 			Object newvalue = ghostItemPosition.getItem();
-			if(!changeDetectedArray[0]){
+			if (!changeDetectedArray[0]) {
 				return;
 			}
 			list.set(index, newvalue);
@@ -971,13 +978,13 @@ public class ListControl extends JPanel implements IFieldControl {
 	protected ItemPosition getRootListItemPosition() {
 		return new ItemPosition(field, null, -1);
 	}
-	
-	protected boolean openDetailsDialog(final ItemPosition itemPosition) {
-		return openDetailsDialog(itemPosition, new boolean[1]);		
-	}
-		
 
-	protected boolean openDetailsDialog(final ItemPosition itemPosition, boolean[] changeDetectedArray) {
+	protected boolean openDetailsDialog(final ItemPosition itemPosition) {
+		return openDetailsDialog(itemPosition, new boolean[1]);
+	}
+
+	protected boolean openDetailsDialog(final ItemPosition itemPosition,
+			boolean[] changeDetectedArray) {
 		ItemNode itemNode = findNode(itemPosition);
 		if (itemNode != null) {
 			TreePath treePath = new TreePath(itemNode.getPath());
@@ -1009,10 +1016,22 @@ public class ListControl extends JPanel implements IFieldControl {
 		ModificationStack parentStack = ReflectionUIUtils
 				.findModificationStack(ListControl.this, reflectionUI);
 		String title = reflectionUI.getFieldTitle(object, new FieldInfoProxy(
-				field) {
+				itemPosition.getContainingListField()) {
 			@Override
 			public String getCaption() {
-				return field.getCaption() + " Item";
+				String result = itemPosition.getContainingListField()
+						.getCaption() + " Item";
+				if (itemPosition.getParentItemPosition() != null) {
+					ItemPosition parentItempPosition = itemPosition
+							.getParentItemPosition();
+					ITypeInfo prentItemType = reflectionUI
+							.getTypeInfo(reflectionUI
+									.getTypeInfoSource(parentItempPosition
+											.getItem()));
+					result = reflectionUI.composeTitle(
+							prentItemType.getCaption(), result);
+				}
+				return result;
 			}
 
 			@Override
@@ -1060,7 +1079,7 @@ public class ListControl extends JPanel implements IFieldControl {
 					it.remove();
 				}
 			}
-			
+
 			methods = new ArrayList<IMethodInfo>(methods);
 			for (Iterator<IMethodInfo> it = methods.iterator(); it.hasNext();) {
 				IMethodInfo method = it.next();
@@ -1363,11 +1382,6 @@ public class ListControl extends JPanel implements IFieldControl {
 			return (itemType == null) || (itemType.supportsValue(clipboard));
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see xy.reflect.ui.control.ItemPosition#isContainingListReadOnly()
-		 */
 		@Override
 		public boolean isContainingListReadOnly() {
 			if (containingListField.isReadOnly()) {
@@ -1379,21 +1393,11 @@ public class ListControl extends JPanel implements IFieldControl {
 			return getRootListItemPosition().isContainingListReadOnly();
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see xy.reflect.ui.control.ItemPosition#getIndex()
-		 */
 		@Override
 		public int getIndex() {
 			return index;
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see xy.reflect.ui.control.ItemPosition#getItem()
-		 */
 		@Override
 		public Object getItem() {
 			FieldAutoUpdateList list = getContainingList();
@@ -1406,41 +1410,21 @@ public class ListControl extends JPanel implements IFieldControl {
 			return list.get(index);
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see xy.reflect.ui.control.ItemPosition#getContainingListField()
-		 */
 		@Override
 		public IFieldInfo getContainingListField() {
 			return containingListField;
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see xy.reflect.ui.control.ItemPosition#getContainingList()
-		 */
 		@Override
 		public FieldAutoUpdateList getContainingList() {
 			return new FieldAutoUpdateList(this);
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see xy.reflect.ui.control.ItemPosition#getContainingListType()
-		 */
 		@Override
 		public IListTypeInfo getContainingListType() {
 			return (IListTypeInfo) getContainingListField().getType();
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see xy.reflect.ui.control.ItemPosition#getParentItemPosition()
-		 */
 		@Override
 		public ItemPosition getParentItemPosition() {
 			return parentItemPosition;
@@ -1452,11 +1436,6 @@ public class ListControl extends JPanel implements IFieldControl {
 					+ ", value=" + getItem() + ")";
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see xy.reflect.ui.control.ItemPosition#getDepth()
-		 */
 		@Override
 		public int getDepth() {
 			int result = 0;
@@ -1484,11 +1463,6 @@ public class ListControl extends JPanel implements IFieldControl {
 			return true;
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see xy.reflect.ui.control.ItemPosition#getContainingListOwner()
-		 */
 		@Override
 		public Object getContainingListOwner() {
 			if (parentItemPosition != null) {
@@ -1499,32 +1473,17 @@ public class ListControl extends JPanel implements IFieldControl {
 
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see xy.reflect.ui.control.ItemPosition#getSibling(int)
-		 */
 		@Override
 		public ItemPosition getSibling(int index2) {
 			return new ItemPosition(containingListField, parentItemPosition,
 					index2);
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see xy.reflect.ui.control.ItemPosition#isRoot()
-		 */
 		@Override
 		public boolean isRootListItemPosition() {
 			return getRootListItemPosition() == this;
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see xy.reflect.ui.control.ItemPosition#getRoot()
-		 */
 		@Override
 		public ItemPosition getRootListItemPosition() {
 			ItemPosition current = this;
