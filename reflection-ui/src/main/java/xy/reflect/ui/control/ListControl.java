@@ -92,21 +92,22 @@ public class ListControl extends JPanel implements IFieldControl {
 		Dimension size = scrollPane.getPreferredSize();
 		size.height = Toolkit.getDefaultToolkit().getScreenSize().height / 3;
 		scrollPane.setPreferredSize(size);
-		scrollPane.setMinimumSize(size);		
-		
+		scrollPane.setMinimumSize(size);
+
 		refreshStructure();
 		openDetailsDialogOnItemDoubleClick();
 		updateButtonsPanelOnItemSelection();
 
 		buttonsPanel = new JPanel();
-		add(ReflectionUIUtils.flowInLayout(buttonsPanel, FlowLayout.CENTER),
-				BorderLayout.WEST);
+		add(new JScrollPane(ReflectionUIUtils.flowInLayout(buttonsPanel,
+				FlowLayout.CENTER), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.WEST);
 		GridLayout layout = new GridLayout(0, 1);
 		buttonsPanel.setLayout(layout);
 
 		updateButtonsPanel();
 	}
-	
+
 	protected void initializeTreeTableControl() {
 		rootNode = createRootNode();
 		treeTableComponent = new JXTreeTable(createTreeTableModel());
@@ -235,13 +236,6 @@ public class ListControl extends JPanel implements IFieldControl {
 			}
 		}
 
-		if (singleSelectedPosition != null) {
-			if (!singleSelectedPosition.isContainingListReadOnly()) {
-				createAddButton(buttonsPanel, false);
-				createAddButton(buttonsPanel, true);
-			}
-		}
-
 		if (selection.size() == 0) {
 			if (!getRootListItemPosition().isContainingListReadOnly()) {
 				createAddInButton(buttonsPanel);
@@ -250,6 +244,13 @@ public class ListControl extends JPanel implements IFieldControl {
 			if (!singleSelectedPositionSubItemPosition
 					.isContainingListReadOnly()) {
 				createAddInButton(buttonsPanel);
+			}
+		}
+
+		if (singleSelectedPosition != null) {
+			if (!singleSelectedPosition.isContainingListReadOnly()) {
+				createAddButton(buttonsPanel, false);
+				createAddButton(buttonsPanel, true);
 			}
 		}
 
@@ -772,7 +773,8 @@ public class ListControl extends JPanel implements IFieldControl {
 
 	protected void createPasteButton(JPanel buttonsPanel, final boolean after) {
 		final JButton button = new JButton(
-				reflectionUI.translateUIString(after?"Paste After": "Paste Before"));
+				reflectionUI.translateUIString(after ? "Paste After"
+						: "Paste Before"));
 		buttonsPanel.add(button);
 		button.addActionListener(new ActionListener() {
 			@Override
@@ -785,7 +787,7 @@ public class ListControl extends JPanel implements IFieldControl {
 						itemPosition = new ItemPosition(field, null, index);
 					} else {
 						index = itemPosition.getIndex();
-						if(after){
+						if (after) {
 							index++;
 						}
 					}

@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.method;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import xy.reflect.ui.info.parameter.DefaultParameterInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo {
 
@@ -34,10 +36,13 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 	@Override
 	public List<IParameterInfo> getParameters() {
 		List<IParameterInfo> result = new ArrayList<IParameterInfo>();
-		int i = 0;
-		for (Class<?> paramType : javaConstructor.getParameterTypes()) {
+		Class<?>[] parameterTypes = javaConstructor.getParameterTypes();
+		Annotation[][] parameterAnnotations = javaConstructor.getParameterAnnotations();
+		for (int i = 0; i<parameterTypes.length; i++) {
+			Class<?> paramType = parameterTypes[i];
+			Annotation[] paramAnnotations = parameterAnnotations[i];
 			result.add(new DefaultParameterInfo(reflectionUI, javaConstructor,
-					paramType, i));
+					paramType, paramAnnotations, i));
 			i++;
 		}
 		return result;
@@ -92,6 +97,11 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 	@Override
 	public InfoCategory getCategory() {
 		return null;
+	}
+
+	@Override
+	public String getDocumentation() {
+		return ReflectionUIUtils.getAnnotatedInfoDocumentation(javaConstructor);
 	}
 
 	@Override

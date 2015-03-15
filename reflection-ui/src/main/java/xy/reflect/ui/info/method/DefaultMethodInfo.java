@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.method;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -54,10 +55,13 @@ public class DefaultMethodInfo implements IMethodInfo {
 	@Override
 	public List<IParameterInfo> getParameters() {
 		List<IParameterInfo> result = new ArrayList<IParameterInfo>();
-		int i = 0;
-		for (Class<?> paramType : javaMethod.getParameterTypes()) {
+		Class<?>[] parameterTypes = javaMethod.getParameterTypes();
+		Annotation[][] parameterAnnotations = javaMethod.getParameterAnnotations();
+		for (int i = 0; i<parameterTypes.length; i++) {
+			Class<?> paramType = parameterTypes[i];
+			Annotation[] paramAnnotations = parameterAnnotations[i];
 			result.add(new DefaultParameterInfo(reflectionUI, javaMethod,
-					paramType, i));
+					paramType, paramAnnotations, i));
 			i++;
 		}
 		return result;
@@ -166,7 +170,7 @@ public class DefaultMethodInfo implements IMethodInfo {
 
 	@Override
 	public String getDocumentation() {
-		return null;
+		return ReflectionUIUtils.getAnnotatedInfoDocumentation(javaMethod);
 	}
 
 	@Override

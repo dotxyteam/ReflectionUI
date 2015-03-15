@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.type;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -7,23 +8,23 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.EmbeddedFormControl;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 
-public class MethodParametersAsTypeInfo extends DefaultTypeInfo {
+public class MethodParametersAsTypeInfo implements ITypeInfo {
 
 	private IMethodInfo method;
+	private ReflectionUI reflectionUI;
 
 	public MethodParametersAsTypeInfo(ReflectionUI reflectionUI,
 			IMethodInfo method) {
-		super(reflectionUI, Object.class);
 		this.method = method;
+		this.reflectionUI = reflectionUI;
 	}
-	
-
 
 	public IMethodInfo getMethod() {
 		return method;
@@ -98,8 +99,6 @@ public class MethodParametersAsTypeInfo extends DefaultTypeInfo {
 		return getCaption();
 	}
 
-
-
 	public static IFieldInfo getParameterAsField(final IParameterInfo param) {
 		return new IFieldInfo() {
 
@@ -155,6 +154,46 @@ public class MethodParametersAsTypeInfo extends DefaultTypeInfo {
 				return param.getDocumentation();
 			}
 		};
+	}
+
+	@Override
+	public String getDocumentation() {
+		return method.getDocumentation();
+	}
+
+	@Override
+	public List<IMethodInfo> getMethods() {
+		return Collections.emptyList();
+	}
+
+	@Override
+	public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
+		return null;
+	}
+
+	@Override
+	public boolean isImmutable() {
+		return false;
+	}
+
+	@Override
+	public boolean hasCustomFieldControl() {
+		return false;
+	}
+
+	@Override
+	public String toString(Object object) {
+		return method.toString();
+	}
+
+	@Override
+	public Component createFieldControl(Object object, IFieldInfo field) {
+		return new EmbeddedFormControl(reflectionUI, object, field);
+	}
+
+	@Override
+	public boolean supportsValue(Object value) {
+		return false;
 	}
 
 }

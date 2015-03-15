@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.field;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collections;
@@ -183,7 +184,29 @@ public class GetterFieldInfo implements IFieldInfo {
 
 	@Override
 	public String getDocumentation() {
-		return null;
+		for(Field field: ReflectionUIUtils.getALlFields(containingJavaClass)){
+			if(field.getName().equals(getName())){
+				String result = ReflectionUIUtils
+						.getAnnotatedInfoDocumentation(field);
+				if(result != null){
+					return result;
+				}
+			}
+		}		
+		String result = ReflectionUIUtils
+				.getAnnotatedInfoDocumentation(javaGetterMethod);
+		if (result == null) {
+			return null;
+		}
+		Method setter = getSetterMethod(javaGetterMethod, containingJavaClass);
+		if (setter != null) {
+			String setterDoc = ReflectionUIUtils
+					.getAnnotatedInfoDocumentation(javaGetterMethod);
+			if (setterDoc != null) {
+				result += "\n\n" + setterDoc;
+			}
+		}
+		return result;
 	}
 
 }

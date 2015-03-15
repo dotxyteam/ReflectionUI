@@ -21,8 +21,6 @@ public class FileTypeInfo extends DefaultTypeInfo {
 	public FileTypeInfo(ReflectionUI reflectionUI) {
 		super(reflectionUI, File.class);
 	}
-	
-	
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
@@ -52,7 +50,9 @@ public class FileTypeInfo extends DefaultTypeInfo {
 	}
 
 	public void configureFileChooser(JFileChooser fileChooser, File currentFile) {
-		fileChooser.setSelectedFile(currentFile.getAbsoluteFile());
+		if ((currentFile != null) && !currentFile.equals(getDefaultFile())) {
+			fileChooser.setSelectedFile(currentFile.getAbsoluteFile());
+		}
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 	}
 
@@ -65,7 +65,6 @@ public class FileTypeInfo extends DefaultTypeInfo {
 			IFieldInfo field) {
 		return new FileControl(reflectionUI, object, field);
 	}
-	
 
 	@Override
 	public boolean isImmutable() {
@@ -80,6 +79,5 @@ public class FileTypeInfo extends DefaultTypeInfo {
 	public static boolean isCompatibleWith(Class<?> javaType) {
 		return File.class.isAssignableFrom(javaType);
 	}
-
 
 }

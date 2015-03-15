@@ -47,6 +47,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.JToolTip;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
@@ -239,7 +240,7 @@ public class ReflectionUI {
 		return result;
 	}
 
-	public Component createDocumentationControl(String documentation) {
+	public Component createFieldDocumentationControl(String documentation) {
 		final JButton result = new JButton(new ImageIcon(
 				ReflectionUI.class.getResource("resource/help.png")));
 		result.setPreferredSize(new Dimension(result.getPreferredSize().height,
@@ -264,9 +265,15 @@ public class ReflectionUI {
 		ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
 		if ((type.getDocumentation() != null)
 				&& (type.getDocumentation().trim().length() > 0)) {
-			form.add(ReflectionUIUtils.flowInLayout(
-					createDocumentationControl(type.getDocumentation()),
-					FlowLayout.LEFT), BorderLayout.NORTH);
+			JLabel docLabel = new JLabel(type.getDocumentation().replaceAll(
+					"\\n|\\r", " "));
+			ReflectionUIUtils.setMultilineToolTipText(docLabel,
+					translateUIString(type.getDocumentation()));
+			docLabel.setIcon(ReflectionUIUtils.getHelpIcon());
+			docLabel.setOpaque(true);
+			docLabel.setFont(new JToolTip().getFont());
+			docLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			form.add(docLabel, BorderLayout.NORTH);
 		}
 
 		Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = new HashMap<InfoCategory, List<FieldControlPlaceHolder>>();
@@ -681,9 +688,8 @@ public class ReflectionUI {
 				layoutConstraints.gridx = 2;
 				layoutConstraints.gridy = i;
 				layoutConstraints.weighty = 1.0;
-				fieldsPanel.add(
-						createDocumentationControl(field.getDocumentation()),
-						layoutConstraints);
+				fieldsPanel.add(createFieldDocumentationControl(field
+						.getDocumentation()), layoutConstraints);
 			}
 
 		}

@@ -54,11 +54,12 @@ public abstract class AbstractConstructorMethodInfo implements IMethodInfo {
 		return null;
 	}
 
+
 	@Override
 	public String getDocumentation() {
 		return null;
 	}
-
+	
 	@Override
 	public IModification getUndoModification(Object object, Map<String, Object> valueByParameterName) {
 		return null;

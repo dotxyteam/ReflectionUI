@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
@@ -29,6 +30,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -39,9 +42,8 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.ModificationStack;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
-import xy.reflect.ui.info.annotation.Properties;
-import xy.reflect.ui.info.annotation.Property;
-import xy.reflect.ui.info.annotation.PropertyKeys;
+import xy.reflect.ui.info.annotation.Category;
+import xy.reflect.ui.info.annotation.Documentation;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -647,35 +649,23 @@ public class ReflectionUIUtils {
 		return result.toString();
 	}
 
-	public static String getValue(AccessibleObject annotated, String key) {
-		Properties annotation = annotated.getAnnotation(Properties.class);
+	public static InfoCategory getAnnotatedInfoCategory(
+			AnnotatedElement annotated) {
+		Category annotation = annotated.getAnnotation(Category.class);
 		if (annotation == null) {
 			return null;
 		}
-		for (Property p : annotation.value()) {
-			if (key.equals(p.key())) {
-				return p.value();
-			}
-		}
-		return null;
+		return new InfoCategory(annotation.value(), annotation.position());
 	}
 
-	public static InfoCategory getAnnotatedInfoCategory(
-			AccessibleObject annotated) {
-		String categoryName = ReflectionUIUtils.getValue(annotated,
-				PropertyKeys.CATEGORY_NAME);
-		if (categoryName != null) {
-			String categoryPositionString = ReflectionUIUtils.getValue(
-					annotated, PropertyKeys.CATEGORY_POSITION);
-			int categoryPosition;
-			if (categoryPositionString == null) {
-				categoryPosition = 0;
-			} else {
-				categoryPosition = Integer.valueOf(categoryPositionString);
-			}
-			return new InfoCategory(categoryName, categoryPosition);
+
+	public static String getAnnotatedInfoDocumentation(
+			AnnotatedElement annotated) {
+		Documentation annotation = annotated.getAnnotation(Documentation.class);
+		if (annotation == null) {
+			return null;
 		}
-		return null;
+		return annotation.value();
 	}
 
 	public static String escapeHTML(String string, boolean preserveNewLines) {
@@ -800,6 +790,22 @@ public class ReflectionUIUtils {
 			}
 			disableComponentTree((JComponent) child, revert);
 		}
+	}
+	
+	
+	public static List<Field> getALlFields(Class<?> type) {
+	    List<Field> result = new ArrayList<Field>();
+	    Class<?> currentType = type;
+	    while (currentType != null && currentType != Object.class) {
+	        result.addAll(Arrays.asList(currentType.getDeclaredFields()));
+	        currentType = currentType.getSuperclass();
+	    }
+	    return result;
+	}
+
+	public static Icon getHelpIcon() {
+		return new ImageIcon(
+				ReflectionUI.class.getResource("resource/help.png"));
 	}
 
 }

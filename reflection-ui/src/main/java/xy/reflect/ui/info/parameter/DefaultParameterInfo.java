@@ -1,8 +1,11 @@
 package xy.reflect.ui.info.parameter;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Member;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.annotation.Documentation;
+import xy.reflect.ui.info.annotation.RuntimeName;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -13,12 +16,14 @@ public class DefaultParameterInfo implements IParameterInfo {
 	protected Class<?> paramJavaType;
 	protected int position;
 	protected Member owner;
+	private Annotation[] paramAnnotations;
 
 	public DefaultParameterInfo(ReflectionUI reflectionUI, Member owner,
-			Class<?> paramJavaType, int position) {
+			Class<?> paramJavaType, Annotation[] paramAnnotations, int position) {
 		this.reflectionUI = reflectionUI;
 		this.owner = owner;
 		this.paramJavaType = paramJavaType;
+		this.paramAnnotations = paramAnnotations;
 		this.position = position;
 	}
 
@@ -46,6 +51,11 @@ public class DefaultParameterInfo implements IParameterInfo {
 		String[] parameterNames = ReflectionUIUtils
 				.getJavaParameterNames(owner);
 		if (parameterNames == null) {
+			for(Annotation annotation: paramAnnotations){
+				if(annotation instanceof RuntimeName){
+					return ((RuntimeName)annotation).value();
+				}
+			}
 			return "parameter" + (position + 1);
 		} else {
 			return parameterNames[position];
@@ -95,6 +105,11 @@ public class DefaultParameterInfo implements IParameterInfo {
 
 	@Override
 	public String getDocumentation() {
+		for(Annotation annotation: paramAnnotations){
+			if(annotation instanceof Documentation){
+				return ((Documentation)annotation).value();
+			}
+		}
 		return null;
 	}
 

@@ -22,14 +22,20 @@ public class MethodControl extends JButton {
 		String toolTipText = "";
 		if (method.getParameters().size() > 0) {
 			caption += "...";
-			toolTipText += method.toString();
+			toolTipText += "Parameter(s): "
+					+ ReflectionUIUtils.formatParameterList(method
+							.getParameters());
 		}
 		if ((method.getDocumentation() != null)
 				&& (method.getDocumentation().trim().length() > 0)) {
-			toolTipText += ":\n" + method.getDocumentation();
+			if (toolTipText.length() > 0) {
+				toolTipText += ":\n";
+			}
+			toolTipText += method.getDocumentation();
 		}
 		if (toolTipText.length() > 0) {
-			ReflectionUIUtils.setMultilineToolTipText(this, reflectionUI.translateUIString(toolTipText));
+			ReflectionUIUtils.setMultilineToolTipText(this,
+					reflectionUI.translateUIString(toolTipText));
 		}
 		setText(reflectionUI.translateUIString(caption));
 		this.reflectionUI = reflectionUI;

@@ -111,7 +111,7 @@ public class PublicFieldInfo implements IFieldInfo {
 
 	@Override
 	public String getDocumentation() {
-		return null;
+		return ReflectionUIUtils.getAnnotatedInfoDocumentation(javaField);
 	}
 
 

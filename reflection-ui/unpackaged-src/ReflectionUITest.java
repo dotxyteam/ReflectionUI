@@ -19,6 +19,8 @@ import org.ietf.jgss.GSSException;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.ModificationStack;
 import xy.reflect.ui.control.ModificationStack.IModification;
+import xy.reflect.ui.info.annotation.Category;
+import xy.reflect.ui.info.annotation.Documentation;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractMethodUndoModification;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -34,45 +36,76 @@ import xy.reflect.ui.info.type.TypeInfoProxyConfiguration;
 @SuppressWarnings("unused")
 public class ReflectionUITest {
 
+	@Documentation("This type is used as a test case")
 	public static class Test {
+		@Documentation("Can be of any type")
 		public Object anyObject;
+		@Documentation("Can be of 2 types")
 		public Exception theException;
-		public String theString = "azerty";
-		public int theInt = 50;
+
+		@Documentation("This is the string var")
+		private String theString = "azerty";
+
+		@Documentation("Returns 'theString'")
+		public String getTheString() {
+			return theString;
+		}
+
+		@Documentation("Sets the value of 'theString'")
+		public void setTheString(String theString) {
+			this.theString = theString;
+		}
+
+		@Documentation("returns the mathematic PI constant value'")
+		public double getPI(){
+			return Math.PI;
+		}
+		
+		private int theInt = 50;
 		public float theFloat = 0.5f;
 		public Double theDouble = 145678e-2;
 		public boolean theBooleanPrimitive;
 		public Boolean theBooleanObject;
 		public File theFile;
 		char c = 'a';
+		@Category("List")
 		public List<String> theStringList = new ArrayList<String>(
 				Arrays.asList("a", "b", "c"));
 		public Test2 test2 = new Test2();
-		public Test2[] theArrayTreeTable = new Test2[]{new Test2(),
-				new Test2()};
+		@Category("List")
+		public Test2[] theArrayTreeTable = new Test2[] { new Test2(),
+				new Test2() };
+		@Category("List")
 		@SuppressWarnings({ "unchecked", "rawtypes" })
-		public Vector theGenericVectorTree = new Vector(Arrays.asList(new Test2(),
-				new Test2()));
+		public Vector theGenericVectorTree = new Vector(Arrays.asList(
+				new Test2(), new Test2()));
 
+		@Category("List")
 		public Map<Integer, String> theMap = new HashMap<Integer, String>();
-		
+
+		@Category("List")
 		public List<File> theFileList = Arrays.asList(new File("."));
-		
+
+		@Category("List")
 		public Set<Integer> theSet = new HashSet<Integer>(
 				Arrays.asList(1, 2, 3));
-		
+
+		@Category("List")
 		public Stack<Integer> theStack = new Stack<Integer>();
+
+		@Documentation("clears the 1st list of Strings")
 		public void resettheStringList() {
 			theStringList.clear();
 		}
 
-		
-
+		@Documentation("adds 1 to the var 'theInt' value")
 		public void incrementTheInt() {
 			theInt++;
 		}
 
-		public void multiplyTheFloat(int factor) {
+		@Documentation("multiplies the var 'theFloat' by the given factor")
+		public void multiplyTheFloat(
+				@Documentation("the factor that will be applied") int factor) {
 			theFloat *= factor;
 		}
 
@@ -86,6 +119,7 @@ public class ReflectionUITest {
 
 	}
 
+	@Documentation("This type is used as a 2nd test case")
 	public static class Test2 {
 		public enum Day {
 			MONDAY, TUESDAY, WEDNESDAY
@@ -101,7 +135,7 @@ public class ReflectionUITest {
 		ReflectionUI editor = new ReflectionUI() {
 
 			ReflectionUI thisReflectionUI = this;
-			
+
 			@Override
 			public Image getObjectIconImage(Object item) {
 				try {
@@ -164,12 +198,9 @@ public class ReflectionUITest {
 					@Override
 					protected IListStructuralInfo getStructuralInfo(
 							IListTypeInfo type) {
-						return new TabularTreetStructuralInfo(thisReflectionUI, type.getItemType());
+						return new TabularTreetStructuralInfo(thisReflectionUI,
+								type.getItemType());
 					}
-					
-					
-					
-					
 
 				}.get(super.getTypeInfo(typeSource));
 			}
