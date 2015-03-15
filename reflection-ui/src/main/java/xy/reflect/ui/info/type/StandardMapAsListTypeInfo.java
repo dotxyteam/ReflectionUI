@@ -18,13 +18,13 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class StandardMapListTypeInfo extends DefaultTypeInfo implements
+public class StandardMapAsListTypeInfo extends DefaultTypeInfo implements
 		IListTypeInfo {
 
 	protected Class<?> keyJavaType;
 	protected Class<?> valueJavaType;
 
-	public StandardMapListTypeInfo(ReflectionUI reflectionUI,
+	public StandardMapAsListTypeInfo(ReflectionUI reflectionUI,
 			Class<?> javaType, Class<?> keyJavaType, Class<?> valueJavaType) {
 		super(reflectionUI, javaType);
 		this.keyJavaType = keyJavaType;
@@ -67,7 +67,7 @@ public class StandardMapListTypeInfo extends DefaultTypeInfo implements
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public List<?> toStandardList(Object value) {
-		List<StandardMapEntry> result = new ArrayList<StandardMapListTypeInfo.StandardMapEntry>();
+		List<StandardMapEntry> result = new ArrayList<StandardMapAsListTypeInfo.StandardMapEntry>();
 		for (Object obj : ((Map) value).entrySet()) {
 			Map.Entry entry = (Entry) obj;
 			result.add(new StandardMapEntry(entry.getKey(), entry.getValue()));
@@ -146,11 +146,11 @@ public class StandardMapListTypeInfo extends DefaultTypeInfo implements
 			return false;
 		}
 		if (!ReflectionUIUtils.equalsOrBothNull(keyJavaType,
-				((StandardMapListTypeInfo) obj).keyJavaType)) {
+				((StandardMapAsListTypeInfo) obj).keyJavaType)) {
 			return false;
 		}
 		if (!ReflectionUIUtils.equalsOrBothNull(valueJavaType,
-				((StandardMapListTypeInfo) obj).valueJavaType)) {
+				((StandardMapAsListTypeInfo) obj).valueJavaType)) {
 			return false;
 		}
 		return true;
@@ -221,8 +221,8 @@ public class StandardMapListTypeInfo extends DefaultTypeInfo implements
 			return oldValue;
 		}
 
-		public StandardMapListTypeInfo getMapType() {
-			return StandardMapListTypeInfo.this;
+		public StandardMapAsListTypeInfo getMapType() {
+			return StandardMapAsListTypeInfo.this;
 		}
 
 		public ITypeInfo getTypeInfo() {
@@ -260,7 +260,7 @@ public class StandardMapListTypeInfo extends DefaultTypeInfo implements
 			IMapEntryTypeInfo {
 
 		public StandardMapEntryTypeInfo() {
-			super(StandardMapListTypeInfo.this.reflectionUI,
+			super(StandardMapAsListTypeInfo.this.reflectionUI,
 					StandardMapEntry.class);
 		}
 

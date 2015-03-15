@@ -43,6 +43,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
@@ -75,9 +76,9 @@ import xy.reflect.ui.info.type.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.info.type.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.StandardEnumerationTypeInfo;
-import xy.reflect.ui.info.type.StandardMapListTypeInfo;
+import xy.reflect.ui.info.type.StandardMapAsListTypeInfo;
+import xy.reflect.ui.info.type.StandardMapAsListTypeInfo.StandardMapEntry;
 import xy.reflect.ui.info.type.TypeInfoProxyConfiguration;
-import xy.reflect.ui.info.type.StandardMapListTypeInfo.StandardMapEntry;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -202,8 +203,8 @@ public class ReflectionUI {
 		frame.getContentPane().setLayout(new BorderLayout());
 
 		if (content != null) {
-			JScrollPane scrollPane = new JScrollPane(new ScrollPaneOptions(
-					content, true, false));
+			final JScrollPane scrollPane = new JScrollPane(
+					new ScrollPaneOptions(content, true, false));
 			frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 		}
 
@@ -661,28 +662,28 @@ public class ReflectionUI {
 			List<FieldControlPlaceHolder> fielControlPlaceHolders) {
 		JPanel fieldsPanel = new JPanel();
 		fieldsPanel.setLayout(new GridBagLayout());
-		GridBagConstraints layoutConstraints;
 		int spacing = 5;
 		for (int i = 0; i < fielControlPlaceHolders.size(); i++) {
 			FieldControlPlaceHolder fieldControlPlaceHolder = fielControlPlaceHolders
 					.get(i);
-			layoutConstraints = new GridBagConstraints();
-			layoutConstraints.gridy = i;
-			fieldsPanel.add(fieldControlPlaceHolder, layoutConstraints);
-			updateFieldControlLayout(fieldControlPlaceHolder);
-
+			{
+				GridBagConstraints layoutConstraints = new GridBagConstraints();
+				layoutConstraints.gridy = i;
+				fieldsPanel.add(fieldControlPlaceHolder, layoutConstraints);
+				updateFieldControlLayout(fieldControlPlaceHolder);
+			}
 			IFieldInfo field = fieldControlPlaceHolder.getField();
 			if ((field.getDocumentation() != null)
 					&& (field.getDocumentation().trim().length() > 0)) {
-				layoutConstraints = new GridBagConstraints();
+				GridBagConstraints layoutConstraints = new GridBagConstraints();
 				layoutConstraints.insets = new Insets(spacing, spacing,
 						spacing, spacing);
 				layoutConstraints.gridx = 2;
 				layoutConstraints.gridy = i;
+				layoutConstraints.weighty = 1.0;
 				fieldsPanel.add(
 						createDocumentationControl(field.getDocumentation()),
 						layoutConstraints);
-
 			}
 
 		}
@@ -706,34 +707,36 @@ public class ReflectionUI {
 
 		boolean fieldControlHasCaption = (fieldControl instanceof IFieldControl)
 				&& ((IFieldControl) fieldControl).showCaption();
-		GridBagConstraints layoutConstraints;
 		int spacing = 5;
 		if (!fieldControlHasCaption) {
 			JLabel captionControl = new JLabel(
 					translateUIString(field.getCaption() + ": "));
-			layoutConstraints = new GridBagConstraints();
+			GridBagConstraints layoutConstraints = new GridBagConstraints();
 			layoutConstraints.insets = new Insets(spacing, spacing, spacing,
 					spacing);
 			layoutConstraints.gridx = 0;
 			layoutConstraints.gridy = i;
+			layoutConstraints.weighty = 1.0;
 			layoutConstraints.anchor = GridBagConstraints.WEST;
 			container.add(captionControl, layoutConstraints);
 			fieldControlPlaceHolder.setCaptionControl(captionControl);
 		}
-
-		layoutConstraints = new GridBagConstraints();
-		layoutConstraints.insets = new Insets(spacing, spacing, spacing,
-				spacing);
-		if (fieldControlHasCaption) {
-			layoutConstraints.gridwidth = 2;
-			layoutConstraints.gridx = 0;
-		} else {
-			layoutConstraints.gridx = 1;
+		{
+			GridBagConstraints layoutConstraints = new GridBagConstraints();
+			layoutConstraints.insets = new Insets(spacing, spacing, spacing,
+					spacing);
+			if (fieldControlHasCaption) {
+				layoutConstraints.gridwidth = 2;
+				layoutConstraints.gridx = 0;
+			} else {
+				layoutConstraints.gridx = 1;
+			}
+			layoutConstraints.gridy = i;
+			layoutConstraints.weightx = 1.0;
+			layoutConstraints.weighty = 1.0;
+			layoutConstraints.fill = GridBagConstraints.HORIZONTAL;
+			container.add(fieldControlPlaceHolder, layoutConstraints);
 		}
-		layoutConstraints.gridy = i;
-		layoutConstraints.weightx = 1;
-		layoutConstraints.fill = GridBagConstraints.HORIZONTAL;
-		container.add(fieldControlPlaceHolder, layoutConstraints);
 
 		container.validate();
 	}
@@ -792,15 +795,15 @@ public class ReflectionUI {
 						javaTypeSource.ofMember(), Collection.class, 0);
 				result = new StandardCollectionTypeInfo(this,
 						javaTypeSource.getJavaType(), itemType);
-			} else if (StandardMapListTypeInfo.isCompatibleWith(javaTypeSource
-					.getJavaType())) {
+			} else if (StandardMapAsListTypeInfo
+					.isCompatibleWith(javaTypeSource.getJavaType())) {
 				Class<?> keyType = ReflectionUIUtils.getJavaTypeParameter(
 						javaTypeSource.getJavaType(),
 						javaTypeSource.ofMember(), Map.class, 0);
 				Class<?> valueType = ReflectionUIUtils.getJavaTypeParameter(
 						javaTypeSource.getJavaType(),
 						javaTypeSource.ofMember(), Map.class, 1);
-				result = new StandardMapListTypeInfo(this,
+				result = new StandardMapAsListTypeInfo(this,
 						javaTypeSource.getJavaType(), keyType, valueType);
 			} else if (javaTypeSource.getJavaType().isArray()) {
 				Class<?> itemType = javaTypeSource.getJavaType()
@@ -1255,9 +1258,9 @@ public class ReflectionUI {
 			return ((VirtualItem) object).toString();
 		}
 		if (object instanceof StandardMapEntry<?, ?>) {
-			String result = "Entry"; 
+			String result = "Entry";
 			Object key = ((StandardMapEntry<?, ?>) object).getKey();
-			result += (key == null) ? "" : (" ("+toString(key)+")");
+			result += (key == null) ? "" : (" (" + toString(key) + ")");
 			return result;
 		}
 		return getTypeInfo(getTypeInfoSource(object)).getCaption();
@@ -1492,6 +1495,33 @@ public class ReflectionUI {
 		return new JTextArea().getDisabledTextColor();
 	}
 
+	public void handleComponentSizeChange(Component c) {
+		Window window = SwingUtilities.getWindowAncestor(c);
+		if (window != null) {
+			JScrollPane scrollPane;
+			if (window instanceof JFrame) {
+				scrollPane = (JScrollPane) ((JFrame) window).getContentPane()
+						.getComponent(0);
+			} else if (window instanceof JDialog) {
+				scrollPane = (JScrollPane) ((JDialog) window).getContentPane()
+						.getComponent(0);
+			} else {
+				scrollPane = null;
+			}
+			if (scrollPane != null) {
+				JScrollBar verticalScrollBVar = scrollPane
+						.getVerticalScrollBar();
+				int heightToGrow = verticalScrollBVar.getMaximum()
+						- verticalScrollBVar.getVisibleAmount();
+				Dimension windowSize = window.getSize();
+				windowSize.height += heightToGrow;
+				window.setSize(windowSize);
+				adjustWindowBounds(window);
+			}
+			window.validate();
+		}
+	}
+
 	protected class FieldControlPlaceHolder extends JPanel {
 
 		protected static final long serialVersionUID = 1L;
@@ -1555,7 +1585,7 @@ public class ReflectionUI {
 				}
 			}
 
-			ReflectionUIUtils.updateLayout(this);
+			handleComponentSizeChange(this);
 		}
 
 		public void displayError(ReflectionUIError error) {

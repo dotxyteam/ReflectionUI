@@ -20,7 +20,6 @@ import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 
@@ -251,11 +250,11 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 		} else if ((lastInstanceType != null) && (instanceType == null)) {
 			remove(dynamicControl);
 			dynamicControl = null;
-			ReflectionUIUtils.updateLayout(this);
+			reflectionUI.handleComponentSizeChange(this);
 		} else if ((lastInstanceType == null) && (instanceType != null)) {
 			dynamicControl = createDynamicControl(instanceType);
 			add(dynamicControl, BorderLayout.CENTER);
-			ReflectionUIUtils.updateLayout(this);
+			reflectionUI.handleComponentSizeChange(this);
 		} else {
 			if (lastInstanceType.equals(instanceType)) {
 				if (dynamicControl instanceof IFieldControl) {
@@ -267,7 +266,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 			remove(dynamicControl);
 			dynamicControl = createDynamicControl(instanceType);
 			add(dynamicControl, BorderLayout.CENTER);
-			ReflectionUIUtils.updateLayout(this);
+			reflectionUI.handleComponentSizeChange(this);
 		}
 	}
 

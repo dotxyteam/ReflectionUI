@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -88,6 +89,11 @@ public class ListControl extends JPanel implements IFieldControl {
 		JScrollPane scrollPane = new JScrollPane(treeTableComponent);
 		add(scrollPane, BorderLayout.CENTER);
 
+		Dimension size = scrollPane.getPreferredSize();
+		size.height = Toolkit.getDefaultToolkit().getScreenSize().height / 3;
+		scrollPane.setPreferredSize(size);
+		scrollPane.setMinimumSize(size);		
+		
 		refreshStructure();
 		openDetailsDialogOnItemDoubleClick();
 		updateButtonsPanelOnItemSelection();
@@ -99,26 +105,8 @@ public class ListControl extends JPanel implements IFieldControl {
 		buttonsPanel.setLayout(layout);
 
 		updateButtonsPanel();
-		fixGapBetweenActualAndPreferredSizeWhenShrinked();
 	}
-
-	protected void fixGapBetweenActualAndPreferredSizeWhenShrinked() {
-		JScrollPane scrollPane = (JScrollPane) ((BorderLayout) getLayout())
-				.getLayoutComponent(BorderLayout.CENTER);
-		remove(scrollPane);
-		scrollPane = new JScrollPane(treeTableComponent) {
-
-			protected static final long serialVersionUID = 1L;
-
-			@Override
-			public Dimension getMinimumSize() {
-				return super.getPreferredSize();
-			}
-
-		};
-		add(scrollPane, BorderLayout.CENTER);
-	}
-
+	
 	protected void initializeTreeTableControl() {
 		rootNode = createRootNode();
 		treeTableComponent = new JXTreeTable(createTreeTableModel());
@@ -293,7 +281,8 @@ public class ListControl extends JPanel implements IFieldControl {
 						}
 					}
 					if (rootItemPositionSupportsAllClipboardItems) {
-						createPasteButton(buttonsPanel);
+						createPasteButton(buttonsPanel, false);
+						createPasteButton(buttonsPanel, true);
 					}
 				}
 			} else if (singleSelectedPosition != null) {
@@ -307,7 +296,8 @@ public class ListControl extends JPanel implements IFieldControl {
 						}
 					}
 					if (selectedItemPositionSupportsAllClipboardItems) {
-						createPasteButton(buttonsPanel);
+						createPasteButton(buttonsPanel, false);
+						createPasteButton(buttonsPanel, true);
 					}
 					if (singleSelectedPositionSubItemPosition != null) {
 						if (!singleSelectedPositionSubItemPosition
@@ -780,9 +770,9 @@ public class ListControl extends JPanel implements IFieldControl {
 		});
 	}
 
-	protected void createPasteButton(JPanel buttonsPanel) {
+	protected void createPasteButton(JPanel buttonsPanel, final boolean after) {
 		final JButton button = new JButton(
-				reflectionUI.translateUIString("Paste"));
+				reflectionUI.translateUIString(after?"Paste After": "Paste Before"));
 		buttonsPanel.add(button);
 		button.addActionListener(new ActionListener() {
 			@Override
@@ -795,6 +785,9 @@ public class ListControl extends JPanel implements IFieldControl {
 						itemPosition = new ItemPosition(field, null, index);
 					} else {
 						index = itemPosition.getIndex();
+						if(after){
+							index++;
+						}
 					}
 					int initialIndex = index;
 					FieldAutoUpdateList list = itemPosition.getContainingList();
@@ -828,7 +821,7 @@ public class ListControl extends JPanel implements IFieldControl {
 
 	protected void createPasteInButton(JPanel buttonsPanel) {
 		final JButton button = new JButton(
-				reflectionUI.translateUIString("Paste Under"));
+				reflectionUI.translateUIString("Paste"));
 		buttonsPanel.add(button);
 		button.addActionListener(new ActionListener() {
 			@Override

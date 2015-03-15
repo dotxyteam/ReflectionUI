@@ -2,7 +2,7 @@ package xy.reflect.ui.control;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.FlowLayout;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,7 +30,7 @@ public class DialogAcessControl extends JPanel {
 
 	protected TextControl textControl;
 	protected Component iconControl;
-	protected JButton button;
+	protected Component button;
 
 	public DialogAcessControl(final ReflectionUI reflectionUI,
 			final Object object, final IFieldInfo field) {
@@ -45,9 +45,14 @@ public class DialogAcessControl extends JPanel {
 		add(centerPanel, BorderLayout.CENTER);
 		centerPanel.setLayout(new BorderLayout());
 		centerPanel.add(textControl = createTextControl(), BorderLayout.CENTER);
-		centerPanel.add(ReflectionUIUtils.flowInLayout(createButton(),
-				FlowLayout.CENTER), BorderLayout.WEST);
+		centerPanel.add(button = createButton(),
+				BorderLayout.WEST);
 
+		Dimension size = getPreferredSize();
+		size.height = textControl.getPreferredSize().height;
+		setPreferredSize(size);
+		button.setPreferredSize(new Dimension( size.height, size.height));
+		iconControl.setPreferredSize(new Dimension( size.height, size.height));
 		updateControls();
 	}
 
@@ -55,20 +60,20 @@ public class DialogAcessControl extends JPanel {
 		return new JLabel();
 	}
 
-	protected JButton createButton() {
-		button = new JButton("...");
-		button.addActionListener(new ActionListener() {
+	protected Component createButton() {
+		final JButton result = new JButton("...");
+		result.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 					openDialog();
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
+					reflectionUI.handleExceptionsFromDisplayedUI(result, t);
 				}
 			}
 		});
-		return button;
+		return result;
 	}
 
 	protected TextControl createTextControl() {
@@ -174,8 +179,10 @@ public class DialogAcessControl extends JPanel {
 		Image iconImage = reflectionUI.getObjectIconImage(fieldValue);
 		if (iconImage != null) {
 			((JLabel) iconControl).setIcon(new ImageIcon(iconImage));
+			iconControl.setVisible(true);
 		} else {
 			((JLabel) iconControl).setIcon(null);
+			iconControl.setVisible(false);
 		}
 	}
 

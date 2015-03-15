@@ -118,11 +118,11 @@ public class TextControl extends JPanel implements IFieldControl {
 			convertedvalue = textType.fromText(newSTringValue);
 		} catch (Throwable t) {
 			displayError(new ReflectionUIError(t));
-			ReflectionUIUtils.updateLayout(this);
+			reflectionUI.handleComponentSizeChange(this);
 			return;
 		}
 		field.setValue(object, convertedvalue);
-		ReflectionUIUtils.updateLayout(this);
+		reflectionUI.handleComponentSizeChange(this);
 	}
 
 	@Override

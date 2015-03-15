@@ -1,8 +1,8 @@
 package xy.reflect.ui.control;
 
+import java.awt.Component;
 import java.io.File;
 
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
@@ -77,8 +77,8 @@ public class FileControl extends DialogAcessControl {
 	}
 
 	@Override
-	protected JButton createButton() {
-		JButton result = super.createButton();
+	protected Component createButton() {
+		Component result = super.createButton();
 		if (field.isReadOnly()) {
 			result.setEnabled(false);
 		}

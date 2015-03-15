@@ -48,26 +48,25 @@ public class ReflectionUITest {
 		public List<String> theStringList = new ArrayList<String>(
 				Arrays.asList("a", "b", "c"));
 		public Test2 test2 = new Test2();
-
 		public Test2[] theArrayTreeTable = new Test2[]{new Test2(),
 				new Test2()};
-
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		public Vector theGenericVectorTree = new Vector(Arrays.asList(new Test2(),
 				new Test2()));
 
 		public Map<Integer, String> theMap = new HashMap<Integer, String>();
-
+		
 		public List<File> theFileList = Arrays.asList(new File("."));
-
+		
 		public Set<Integer> theSet = new HashSet<Integer>(
 				Arrays.asList(1, 2, 3));
-
+		
 		public Stack<Integer> theStack = new Stack<Integer>();
-
 		public void resettheStringList() {
 			theStringList.clear();
 		}
+
+		
 
 		public void incrementTheInt() {
 			theInt++;

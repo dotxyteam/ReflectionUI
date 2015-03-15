@@ -121,7 +121,7 @@ public class NullableControl extends JPanel implements IFieldControl {
 			}
 		}
 
-		ReflectionUIUtils.updateLayout(this);
+		reflectionUI.handleComponentSizeChange(this);
 	}
 
 	protected Component createNullControl(ReflectionUI reflectionUI,

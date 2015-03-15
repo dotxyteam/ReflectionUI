@@ -387,14 +387,6 @@ public class ReflectionUIUtils {
 		return null;
 	}
 
-	public static void updateLayout(Component c) {
-		Component root = SwingUtilities.getRoot(c);
-		if (root != null) {
-			root.validate();
-		}
-
-	}
-
 	public static String changeCase(String result, boolean upperElseLower,
 			int subStringStart, int subStringEnd) {
 		String subString = result.substring(subStringStart, subStringEnd);
