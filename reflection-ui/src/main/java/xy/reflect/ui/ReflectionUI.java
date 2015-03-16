@@ -47,7 +47,6 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
-import javax.swing.JToolTip;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
@@ -178,6 +177,14 @@ public class ReflectionUI {
 	public List<Component> createCommonToolbarControls(final JPanel form,
 			IInfoCollectionSettings settings) {
 		List<Component> result = new ArrayList<Component>();
+		Object object = getObjectByForm().get(form);
+		if (object != null) {
+			ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
+			if ((type.getDocumentation() != null)
+					&& (type.getDocumentation().trim().length() > 0)) {
+				result.add(createDocumentationControl(type.getDocumentation()));
+			}
+		}
 		if (!settings.allReadOnly()) {
 			final ModificationStack stack = getModificationStackByForm().get(
 					form);
@@ -240,12 +247,13 @@ public class ReflectionUI {
 		return result;
 	}
 
-	public Component createFieldDocumentationControl(String documentation) {
+	public Component createDocumentationControl(String documentation) {
 		final JButton result = new JButton(new ImageIcon(
 				ReflectionUI.class.getResource("resource/help.png")));
 		result.setPreferredSize(new Dimension(result.getPreferredSize().height,
 				result.getPreferredSize().height));
 		result.setContentAreaFilled(false);
+		// result.setBorderPainted(false);
 		result.setFocusable(false);
 		ReflectionUIUtils.setMultilineToolTipText(result,
 				translateUIString(documentation));
@@ -263,18 +271,6 @@ public class ReflectionUI {
 		form.setLayout(new BorderLayout());
 
 		ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
-		if ((type.getDocumentation() != null)
-				&& (type.getDocumentation().trim().length() > 0)) {
-			JLabel docLabel = new JLabel(type.getDocumentation().replaceAll(
-					"\\n|\\r", " "));
-			ReflectionUIUtils.setMultilineToolTipText(docLabel,
-					translateUIString(type.getDocumentation()));
-			docLabel.setIcon(ReflectionUIUtils.getHelpIcon());
-			docLabel.setOpaque(true);
-			docLabel.setFont(new JToolTip().getFont());
-			docLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			form.add(docLabel, BorderLayout.NORTH);
-		}
 
 		Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = new HashMap<InfoCategory, List<FieldControlPlaceHolder>>();
 		List<IFieldInfo> fields = type.getFields();
@@ -688,8 +684,9 @@ public class ReflectionUI {
 				layoutConstraints.gridx = 2;
 				layoutConstraints.gridy = i;
 				layoutConstraints.weighty = 1.0;
-				fieldsPanel.add(createFieldDocumentationControl(field
-						.getDocumentation()), layoutConstraints);
+				fieldsPanel.add(
+						createDocumentationControl(field.getDocumentation()),
+						layoutConstraints);
 			}
 
 		}
@@ -948,37 +945,32 @@ public class ReflectionUI {
 		JPanel methodForm = createObjectForm(new PrecomputedTypeInfoInstanceWrapper(
 				valueByParameterName, new MethodParametersAsTypeInfo(this,
 						method)));
-
 		final boolean[] invokedStatusArray = new boolean[] { false };
 		final JDialog[] methodDialogArray = new JDialog[1];
-
-		List<Component> toolbarControls = new ArrayList<Component>(
-				createDialogOkCancelButtons(methodDialogArray,
-						invokedStatusArray, method.getCaption(),
-						new Runnable() {
+		List<Component> toolbarControls = new ArrayList<Component>();
+		String doc = method.getDocumentation();
+		if ((doc != null) && (doc.trim().length() > 0)) {
+			toolbarControls.add(createDocumentationControl(doc));
+		}
+		toolbarControls.addAll(createDialogOkCancelButtons(methodDialogArray,
+				invokedStatusArray, method.getCaption(), new Runnable() {
+					@Override
+					public void run() {
+						showBusyDialogWhile(activatorComponent, new Runnable() {
 							@Override
 							public void run() {
-								showBusyDialogWhile(
-										activatorComponent,
-										new Runnable() {
-											@Override
-											public void run() {
-												try {
-													returnValueArray[0] = method
-															.invoke(object,
-																	valueByParameterName);
-												} catch (Throwable t) {
-													exceptionThrownArray[0] = true;
-													throw new ReflectionUIError(
-															t);
-												}
-											}
-										},
-										getMethodTitle(object, method, null,
-												"Execution"));
+								try {
+									returnValueArray[0] = method.invoke(object,
+											valueByParameterName);
+								} catch (Throwable t) {
+									exceptionThrownArray[0] = true;
+									throw new ReflectionUIError(t);
+								}
 							}
+						}, getMethodTitle(object, method, null, "Execution"));
+					}
 
-						}, true));
+				}, true));
 
 		methodDialogArray[0] = createDialog(activatorComponent, methodForm,
 				getMethodTitle(object, method, null, "Setting"), null,
