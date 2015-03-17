@@ -89,8 +89,9 @@ public class ListControl extends JPanel implements IFieldControl {
 		JScrollPane scrollPane = new JScrollPane(treeTableComponent);
 		add(scrollPane, BorderLayout.CENTER);
 
-		Dimension size = scrollPane.getPreferredSize();
-		size.height = Toolkit.getDefaultToolkit().getScreenSize().height / 3;
+		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+		size.width = size.width / 3;
+		size.height = size.height / 3;
 		scrollPane.setPreferredSize(size);
 		scrollPane.setMinimumSize(size);
 
@@ -238,19 +239,19 @@ public class ListControl extends JPanel implements IFieldControl {
 
 		if (selection.size() == 0) {
 			if (!getRootListItemPosition().isContainingListReadOnly()) {
-				createAddInButton(buttonsPanel);
+				createAddButton(buttonsPanel);
 			}
 		} else if (singleSelectedPositionSubItemPosition != null) {
 			if (!singleSelectedPositionSubItemPosition
 					.isContainingListReadOnly()) {
-				createAddInButton(buttonsPanel);
+				createAddButton(buttonsPanel);
 			}
 		}
 
 		if (singleSelectedPosition != null) {
 			if (!singleSelectedPosition.isContainingListReadOnly()) {
-				createAddButton(buttonsPanel, false);
-				createAddButton(buttonsPanel, true);
+				createInsertButton(buttonsPanel, false);
+				createInsertButton(buttonsPanel, true);
 			}
 		}
 
@@ -597,37 +598,51 @@ public class ListControl extends JPanel implements IFieldControl {
 
 	}
 
-	protected void createAddButton(JPanel buttonsPanel, final boolean after) {
+	protected void createInsertButton(JPanel buttonsPanel, final boolean after) {
+		final ItemPosition itemPosition;
+		ItemPosition singleSelection = getSingleSelection();
+		final int index;
+		if (singleSelection == null) {
+			index = getRootList().size();
+			itemPosition = new ItemPosition(field, null, index);
+		} else {
+			if (after) {
+				index = singleSelection.getIndex() + 1;
+			} else {
+				index = singleSelection.getIndex();
+			}
+			itemPosition = singleSelection.getSibling(index);
+		}
+		final IListTypeInfo listType = itemPosition.getContainingListType();
+		final ITypeInfo itemType = listType.getItemType();
+
+		String buttonText = "Insert";
+		{
+			if (itemType != null) {
+				buttonText += " " + itemType.getCaption();
+			}
+			if (after) {
+				buttonText += " After";
+			} else {
+				buttonText += " Before";
+			}
+			buttonText += " ...";
+		}
 		final JButton button = new JButton(
-				reflectionUI.translateUIString(after ? "Insert After..."
-						: "Insert Before..."));
+				reflectionUI.translateUIString(buttonText));
 		buttonsPanel.add(button);
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					ItemPosition itemPosition = getSingleSelection();
-					int index;
-					if (itemPosition == null) {
-						index = getRootList().size();
-						itemPosition = new ItemPosition(field, null, index);
-					} else {
-						index = itemPosition.getIndex();
-						if (after) {
-							index++;
-						}
-						itemPosition = itemPosition.getSibling(index);
-					}
-					final IListTypeInfo listType = itemPosition
-							.getContainingListType();
-					ITypeInfo itemType = listType.getItemType();
-					if (itemType == null) {
-						itemType = reflectionUI
+					ITypeInfo typeToInstanciate = itemType;
+					if (typeToInstanciate == null) {
+						typeToInstanciate = reflectionUI
 								.getTypeInfo(new JavaTypeInfoSource(
 										Object.class));
 					}
 					Object newItem = reflectionUI.onTypeInstanciationRequest(
-							button, itemType, false);
+							button, typeToInstanciate, false);
 					if (newItem == null) {
 						return;
 					}
@@ -639,11 +654,12 @@ public class ListControl extends JPanel implements IFieldControl {
 								.getContainingList();
 						list.add(index, newItem);
 						refreshStructure();
+						ItemPosition toSelect = itemPosition;
 						if (!listType.isOrdered()) {
-							index = list.indexOf(newItem);
-							itemPosition = itemPosition.getSibling(index);
+							int indexToSelect = list.indexOf(newItem);
+							toSelect = itemPosition.getSibling(indexToSelect);
 						}
-						setSingleSelection(itemPosition);
+						setSingleSelection(toSelect);
 					}
 				} catch (Throwable t) {
 					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
@@ -652,31 +668,33 @@ public class ListControl extends JPanel implements IFieldControl {
 		});
 	}
 
-	protected void createAddInButton(JPanel buttonsPanel) {
+	protected void createAddButton(JPanel buttonsPanel) {
+		final ItemPosition itemPosition = getSingleSelection();
+		final ItemPosition subItemPosition;
+		if (itemPosition == null) {
+			subItemPosition = getRootListItemPosition();
+		} else {
+			subItemPosition = getSubItemPosition(itemPosition);
+		}
+		final IListTypeInfo subListType = subItemPosition
+				.getContainingListType();
+		final ITypeInfo subListItemType = subListType.getItemType();
 		final JButton button = new JButton(
-				reflectionUI.translateUIString("Add..."));
+				reflectionUI.translateUIString((subListItemType == null) ? "Add..."
+						: ("Add " + subListItemType.getCaption() + "...")));
 		buttonsPanel.add(button);
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					ItemPosition itemPosition = getSingleSelection();
-					ItemPosition subItemPosition;
-					if (itemPosition == null) {
-						subItemPosition = getRootListItemPosition();
-					} else {
-						subItemPosition = getSubItemPosition(itemPosition);
-					}
-					IListTypeInfo subListType = subItemPosition
-							.getContainingListType();
-					ITypeInfo subListItemType = subListType.getItemType();
-					if (subListItemType == null) {
-						subListItemType = new DefaultTypeInfo(reflectionUI,
+					ITypeInfo typeToInstanciate = subListItemType;
+					if (typeToInstanciate == null) {
+						typeToInstanciate = new DefaultTypeInfo(reflectionUI,
 								Object.class);
 					}
 					Object newSubListItem = reflectionUI
 							.onTypeInstanciationRequest(button,
-									subListItemType, false);
+									typeToInstanciate, false);
 					if (newSubListItem == null) {
 						return;
 					}
@@ -695,9 +713,9 @@ public class ListControl extends JPanel implements IFieldControl {
 							newSubListItemIndex = subList
 									.indexOf(newSubListItem);
 						}
-						subItemPosition = subItemPosition
+						ItemPosition toSelect = subItemPosition
 								.getSibling(newSubListItemIndex);
-						setSingleSelection(subItemPosition);
+						setSingleSelection(toSelect);
 					}
 				} catch (Throwable t) {
 					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
@@ -946,7 +964,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		GhostItemPosition ghostItemPosition = new GhostItemPosition(
 				itemPosition, value);
 		boolean[] changeDetectedArray = new boolean[] { false };
-		if (openDetailsDialog(ghostItemPosition, changeDetectedArray)) {
+		if (openDetailsDialog(ghostItemPosition, changeDetectedArray, true)) {
 			FieldAutoUpdateList list = itemPosition.getContainingList();
 			Object newValue = ghostItemPosition.getItem();
 			int index = itemPosition.getIndex();
@@ -975,11 +993,11 @@ public class ListControl extends JPanel implements IFieldControl {
 	}
 
 	protected boolean openDetailsDialog(final ItemPosition itemPosition) {
-		return openDetailsDialog(itemPosition, new boolean[1]);
+		return openDetailsDialog(itemPosition, new boolean[1], false);
 	}
 
 	protected boolean openDetailsDialog(final ItemPosition itemPosition,
-			boolean[] changeDetectedArray) {
+			boolean[] changeDetectedArray, boolean recordModifications) {
 		ItemNode itemNode = findNode(itemPosition);
 		if (itemNode != null) {
 			TreePath treePath = new TreePath(itemNode.getPath());
@@ -1008,8 +1026,13 @@ public class ListControl extends JPanel implements IFieldControl {
 			}
 
 		};
-		ModificationStack parentStack = ReflectionUIUtils
-				.findModificationStack(ListControl.this, reflectionUI);
+		ModificationStack parentStack;
+		if (recordModifications) {
+			parentStack = ReflectionUIUtils.findModificationStack(
+					ListControl.this, reflectionUI);
+		} else {
+			parentStack = null;
+		}
 		String title = reflectionUI.getFieldTitle(object, new FieldInfoProxy(
 				itemPosition.getContainingListField()) {
 			@Override

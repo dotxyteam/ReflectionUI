@@ -1302,17 +1302,20 @@ public class ReflectionUI {
 							if (modificationstackArray[0]
 									.getNumberOfUndoUnits() > 0) {
 								changeDetectedArray[0] = true;
-								List<IModification> undoModifications = new ArrayList<ModificationStack.IModification>();
-								undoModifications
-										.addAll(Arrays
-												.asList(modificationstackArray[0]
-														.getUndoModifications(ModificationStack.Order.LIFO)));
-								parentModificationStack
-										.pushUndo(new ModificationStack.CompositeModification(
-												ModificationStack
-														.getUndoTitle(title),
-												ModificationStack.Order.LIFO,
-												undoModifications));
+								if (parentModificationStack != null) {
+									List<IModification> undoModifications = new ArrayList<ModificationStack.IModification>();
+									undoModifications
+											.addAll(Arrays
+													.asList(modificationstackArray[0]
+															.getUndoModifications(ModificationStack.Order.LIFO)));
+									parentModificationStack
+											.pushUndo(new ModificationStack.CompositeModification(
+													ModificationStack
+															.getUndoTitle("Edit "
+																	+ title),
+													ModificationStack.Order.LIFO,
+													undoModifications));
+								}
 							}
 						}
 					}

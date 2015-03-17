@@ -54,7 +54,7 @@ public class CheckBoxControl extends JCheckBox implements IFieldControl {
 	public boolean showCaption() {
 		String caption = field.getCaption();
 		if (!caption.startsWith("Is ") && !caption.startsWith("Has ")) {
-			caption += " Is True";
+			caption += " (Is True)";
 		}
 		setText(reflectionUI.translateUIString(caption));
 		return true;

@@ -50,7 +50,6 @@ public class DialogAcessControl extends JPanel {
 
 		Dimension size = getPreferredSize();
 		size.height = textControl.getPreferredSize().height;
-		setPreferredSize(size);
 		button.setPreferredSize(new Dimension( size.height, size.height));
 		iconControl.setPreferredSize(new Dimension( size.height, size.height));
 		updateControls();
