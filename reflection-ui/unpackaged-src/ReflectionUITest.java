@@ -93,7 +93,7 @@ public class ReflectionUITest {
 
 		@Category("List")
 		public Map<Integer, String> theMap = new HashMap<Integer, String>();
-
+ 
 		@Category("List")
 		public List<File> theFileList = Arrays.asList(new File("."));
 

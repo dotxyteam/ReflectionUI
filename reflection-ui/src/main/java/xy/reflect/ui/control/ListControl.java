@@ -103,14 +103,15 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		buttonsPanel.setLayout(layout);
 
 		updateButtonsPanel();
-		  setDividerLocation(ReflectionUIUtils.getStandardCharacterWidth(new JButton())*30);
+		setDividerLocation(ReflectionUIUtils
+				.getStandardCharacterWidth(new JButton()) * 30);
 	}
 
 	protected void initializeTreeTableControl() {
 		rootNode = createRootNode();
 		final Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 		size.width /= 2;
-		size.height /= 3;		
+		size.height /= 3;
 		treeTableComponent = new JXTreeTable(createTreeTableModel());
 		treeTableComponent.setExpandsSelectedPaths(true);
 		treeTableComponent.getSelectionModel().setSelectionMode(
@@ -250,8 +251,13 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 		if (singleSelectedPosition != null) {
 			if (!singleSelectedPosition.isContainingListReadOnly()) {
-				createInsertButton(buttonsPanel, false);
-				createInsertButton(buttonsPanel, true);
+				if (singleSelectedPosition.getContainingListType().isOrdered()) {
+					createInsertButton(buttonsPanel, InsertPosition.BEFORE);
+					createInsertButton(buttonsPanel, InsertPosition.AFTER);
+				} else {
+					createInsertButton(buttonsPanel,
+							InsertPosition.INDERTERMINATE);
+				}
 			}
 		}
 
@@ -283,8 +289,16 @@ public class ListControl extends JSplitPane implements IFieldControl {
 						}
 					}
 					if (rootItemPositionSupportsAllClipboardItems) {
-						createPasteButton(buttonsPanel, false);
-						createPasteButton(buttonsPanel, true);
+						if (rootItemPosition.getContainingListType()
+								.isOrdered()) {
+							createPasteButton(buttonsPanel,
+									InsertPosition.BEFORE);
+							createPasteButton(buttonsPanel,
+									InsertPosition.AFTER);
+						} else {
+							createPasteButton(buttonsPanel,
+									InsertPosition.INDERTERMINATE);
+						}
 					}
 				}
 			} else if (singleSelectedPosition != null) {
@@ -298,8 +312,16 @@ public class ListControl extends JSplitPane implements IFieldControl {
 						}
 					}
 					if (selectedItemPositionSupportsAllClipboardItems) {
-						createPasteButton(buttonsPanel, false);
-						createPasteButton(buttonsPanel, true);
+						if (singleSelectedPosition.getContainingListType()
+								.isOrdered()) {
+							createPasteButton(buttonsPanel,
+									InsertPosition.BEFORE);
+							createPasteButton(buttonsPanel,
+									InsertPosition.AFTER);
+						} else {
+							createPasteButton(buttonsPanel,
+									InsertPosition.INDERTERMINATE);
+						}
 					}
 					if (singleSelectedPositionSubItemPosition != null) {
 						if (!singleSelectedPositionSubItemPosition
@@ -598,7 +620,8 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 	}
 
-	protected void createInsertButton(JPanel buttonsPanel, final boolean after) {
+	protected void createInsertButton(JPanel buttonsPanel,
+			final InsertPosition insertPosition) {
 		final ItemPosition itemPosition;
 		ItemPosition singleSelection = getSingleSelection();
 		final int index;
@@ -606,7 +629,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 			index = getRootList().size();
 			itemPosition = new ItemPosition(field, null, index);
 		} else {
-			if (after) {
+			if (insertPosition == InsertPosition.AFTER) {
 				index = singleSelection.getIndex() + 1;
 			} else {
 				index = singleSelection.getIndex();
@@ -621,10 +644,12 @@ public class ListControl extends JSplitPane implements IFieldControl {
 			if (itemType != null) {
 				buttonText += " " + itemType.getCaption();
 			}
-			if (after) {
-				buttonText += " After";
-			} else {
-				buttonText += " Before";
+			if (listType.isOrdered()) {
+				if (insertPosition == InsertPosition.AFTER) {
+					buttonText += " After";
+				} else if (insertPosition == InsertPosition.BEFORE) {
+					buttonText += " Before";
+				}
 			}
 			buttonText += " ...";
 		}
@@ -789,10 +814,18 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		});
 	}
 
-	protected void createPasteButton(JPanel buttonsPanel, final boolean after) {
+	protected void createPasteButton(JPanel buttonsPanel,
+			final InsertPosition insertPosition) {
+		String buttonText;
+		if (insertPosition == InsertPosition.AFTER) {
+			buttonText = "Paste After";
+		} else if (insertPosition == InsertPosition.BEFORE) {
+			buttonText = "Paste Before";
+		} else {
+			buttonText = "Paste";
+		}
 		final JButton button = new JButton(
-				reflectionUI.translateUIString(after ? "Paste After"
-						: "Paste Before"));
+				reflectionUI.translateUIString(buttonText));
 		buttonsPanel.add(button);
 		button.addActionListener(new ActionListener() {
 			@Override
@@ -805,7 +838,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 						itemPosition = new ItemPosition(field, null, index);
 					} else {
 						index = itemPosition.getIndex();
-						if (after) {
+						if (insertPosition == InsertPosition.AFTER) {
 							index++;
 						}
 					}
@@ -1804,6 +1837,10 @@ public class ListControl extends JSplitPane implements IFieldControl {
 				label.setIcon(null);
 			}
 		}
+	}
+
+	private enum InsertPosition {
+		AFTER, BEFORE, INDERTERMINATE
 	}
 
 	@Override

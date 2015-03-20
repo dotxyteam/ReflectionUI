@@ -14,7 +14,7 @@
     </Node>
     <Node type="Page">
       <AttributeValue attributeName="title" value="Download"/>
-      <AttributeValue attributeName="content" value="ReflectionUI is open source.&#xD;&#xA;Download it from the &lt;a href=&quot;https://github.com/olitank/ReflectionUI&quot;>Github repository&lt;/a>."/>
+      <AttributeValue attributeName="content" value="ReflectionUI is open source.&#xD;&#xA;Download it from the &lt;a href=&quot;https://github.com/dotxyteam/ReflectionUI&quot;>Github repository&lt;/a>."/>
     </Node>
     <Node type="Page">
       <AttributeValue attributeName="title" value="Getting started"/>
@@ -22,7 +22,7 @@
     </Node>
     <Node type="Link">
       <AttributeValue attributeName="text" value="Github Project"/>
-      <AttributeValue attributeName="url" value="https://github.com/olitank/ReflectionUI"/>
+      <AttributeValue attributeName="url" value="https://github.com/dotxyteam/ReflectionUI"/>
     </Node>
   </Node>
 </Model>
