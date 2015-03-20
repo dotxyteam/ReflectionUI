@@ -1,4 +1,3 @@
-test
 - ListTreeStructuralInfo must detect trees by basing
 on the compatibility of the root list item type and 
 the children lists item type
