@@ -43,7 +43,7 @@ public class TextControl extends JPanel implements IFieldControl {
 		textComponent = new JTextArea();
 		textComponent.setLineWrap(true);
 		textComponent.setWrapStyleWord(true);
-		
+
 		JScrollPane scrollPane = new JScrollPane(textComponent) {
 
 			private static final long serialVersionUID = 1L;
@@ -55,7 +55,6 @@ public class TextControl extends JPanel implements IFieldControl {
 						.getDefaultToolkit().getScreenSize().height / 3);
 				return result;
 			}
-
 		};
 		add(scrollPane, BorderLayout.CENTER);
 		textFieldNormalBorder = textComponent.getBorder();
@@ -81,6 +80,11 @@ public class TextControl extends JPanel implements IFieldControl {
 					});
 		}
 		refreshUI();
+	}
+
+	@Override
+	public Dimension getMinimumSize() {
+		return super.getPreferredSize();
 	}
 
 	@Override

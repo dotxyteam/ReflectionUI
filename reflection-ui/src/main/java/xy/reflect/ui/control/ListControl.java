@@ -1,6 +1,5 @@
 package xy.reflect.ui.control;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -27,6 +26,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
@@ -65,7 +65,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 @SuppressWarnings("rawtypes")
-public class ListControl extends JPanel implements IFieldControl {
+public class ListControl extends JSplitPane implements IFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected ReflectionUI reflectionUI;
@@ -83,34 +83,34 @@ public class ListControl extends JPanel implements IFieldControl {
 		this.object = object;
 		this.field = field;
 
-		setLayout(new BorderLayout());
-
 		initializeTreeTableControl();
-		JScrollPane scrollPane = new JScrollPane(treeTableComponent);
-		add(scrollPane, BorderLayout.CENTER);
+		setRightComponent(new JScrollPane(treeTableComponent));
 
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-		size.width = size.width / 3;
+		size.width = size.width / 2;
 		size.height = size.height / 3;
-		scrollPane.setPreferredSize(size);
-		scrollPane.setMinimumSize(size);
+		setPreferredSize(size);
+		setMinimumSize(size);
 
 		refreshStructure();
 		openDetailsDialogOnItemDoubleClick();
 		updateButtonsPanelOnItemSelection();
 
 		buttonsPanel = new JPanel();
-		add(new JScrollPane(ReflectionUIUtils.flowInLayout(buttonsPanel,
-				FlowLayout.CENTER), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.WEST);
+		setLeftComponent(new JScrollPane(ReflectionUIUtils.flowInLayout(
+				buttonsPanel, FlowLayout.CENTER)));
 		GridLayout layout = new GridLayout(0, 1);
 		buttonsPanel.setLayout(layout);
 
 		updateButtonsPanel();
+		  setDividerLocation(ReflectionUIUtils.getStandardCharacterWidth(new JButton())*30);
 	}
 
 	protected void initializeTreeTableControl() {
 		rootNode = createRootNode();
+		final Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+		size.width /= 2;
+		size.height /= 3;		
 		treeTableComponent = new JXTreeTable(createTreeTableModel());
 		treeTableComponent.setExpandsSelectedPaths(true);
 		treeTableComponent.getSelectionModel().setSelectionMode(

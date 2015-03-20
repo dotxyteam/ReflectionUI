@@ -201,9 +201,9 @@ public class GetterFieldInfo implements IFieldInfo {
 		Method setter = getSetterMethod(javaGetterMethod, containingJavaClass);
 		if (setter != null) {
 			String setterDoc = ReflectionUIUtils
-					.getAnnotatedInfoDocumentation(javaGetterMethod);
+					.getAnnotatedInfoDocumentation(setter);
 			if (setterDoc != null) {
-				result += "\n\n" + setterDoc;
+				result += "\nand\n" + setterDoc;
 			}
 		}
 		return result;

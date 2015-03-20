@@ -49,7 +49,7 @@ public class ReflectionUITest {
 		@Documentation("Returns 'theString'")
 		public String getTheString() {
 			return theString;
-		}
+		} 
 
 		@Documentation("Sets the value of 'theString'")
 		public void setTheString(String theString) {
@@ -62,6 +62,17 @@ public class ReflectionUITest {
 		}
 		
 		private int theInt = 50;
+		
+		@Documentation("Returns 'theInt' value")
+		public int getTheInt() {
+			return theInt;
+		}
+
+		@Documentation("Sets the value of 'theInt'")
+		public void setTheInt(int theInt) {
+			this.theInt = theInt;
+		}
+
 		public float theFloat = 0.5f;
 		public Double theDouble = 145678e-2;
 		public boolean theBooleanPrimitive;
