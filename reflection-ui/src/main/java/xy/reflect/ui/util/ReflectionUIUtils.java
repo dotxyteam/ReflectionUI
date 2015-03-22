@@ -261,10 +261,16 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static String writeMethodSignature(Method method) {
+	public static String getJavaMethodSignature(Method method) {
 		return method.getReturnType() + " " + method.getName() + "("
 				+ Arrays.toString(method.getParameterTypes()) + ")";
 	}
+	
+	public static String getMethodInfoSignature(IMethodInfo method) {
+		return method.getReturnValueType() + " " + method.getName() + "("
+				+ ReflectionUIUtils.stringJoin(method.getParameters(), ", ") + ")";
+	}
+
 
 	public static String identifierToCaption(String id) {
 		StringBuilder result = new StringBuilder();

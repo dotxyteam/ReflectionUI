@@ -166,8 +166,8 @@ public class GetterFieldInfo implements IFieldInfo {
 			return false;
 		}
 		for (Method defaultMethod : Object.class.getMethods()) {
-			if (ReflectionUIUtils.writeMethodSignature(defaultMethod).equals(
-					ReflectionUIUtils.writeMethodSignature(javaMethod))) {
+			if (ReflectionUIUtils.getJavaMethodSignature(defaultMethod).equals(
+					ReflectionUIUtils.getJavaMethodSignature(javaMethod))) {
 				return false;
 			}
 		}

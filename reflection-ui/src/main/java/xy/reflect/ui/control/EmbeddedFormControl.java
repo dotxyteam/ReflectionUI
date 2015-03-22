@@ -8,7 +8,11 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.PrecomputedTypeInfoInstanceWrapper;
+import xy.reflect.ui.info.type.TypeInfoProxyConfiguration;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -27,101 +31,65 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 			final Object object, final IFieldInfo field) {
 		this.reflectionUI = reflectionUI;
 		this.object = object;
-		this.field = field;
+		this.field = forwardSubFieldUpdates(field);
 		setLayout(new BorderLayout());
 		JPanel subForm = createSubForm();
 		add(subForm, BorderLayout.CENTER);
 	}
 
 	protected JPanel createSubForm() {
-		JPanel subForm = reflectionUI.createObjectForm(field.getValue(object));
-		connectSubFormToParentModificationStack(subForm);
+		Object fieldValue = field.getValue(object);
+		JPanel subForm = reflectionUI.createObjectForm(fieldValue);
 		return subForm;
 	}
 
-	protected void connectSubFormToParentModificationStack(JPanel subForm) {
-		ModificationStack newModifStack = new ModificationStack(null) {
-
-			protected ModificationStack getParentModificationSack() {
-				ModificationStack parentModifStack = ReflectionUIUtils
-						.findModificationStack(EmbeddedFormControl.this,
-								reflectionUI);
-				return parentModifStack;
-			}
+	protected IFieldInfo forwardSubFieldUpdates(final IFieldInfo field) {
+		return new FieldInfoProxy(field) {
 
 			@Override
-			public String getName() {
-				return getParentModificationSack().getName();
-			}
-
-			@Override
-			public String toString() {
-				return getParentModificationSack().toString();
-			}
-
-			@Override
-			public void apply(IModification modif, boolean refreshView) {
-				getParentModificationSack().apply(modif, refreshView);
-			}
-
-			@Override
-			public void pushUndo(IModification undoModif) {
-				getParentModificationSack().pushUndo(undoModif);
-			}
-
-			@Override
-			public int getUndoSize() {
-				return getParentModificationSack().getUndoSize();
-			}
-
-			@Override
-			public int getRedoSize() {
-				return getParentModificationSack().getRedoSize();
-			}
-
-			@Override
-			public void undo(boolean refreshView) {
-				getParentModificationSack().undo(refreshView);
-			}
-
-			@Override
-			public int hashCode() {
-				return getParentModificationSack().hashCode();
-			}
-
-			@Override
-			public void redo(boolean refreshView) {
-				getParentModificationSack().redo(refreshView);
-			}
-
-			@Override
-			public void undoAll(boolean refreshView) {
-				getParentModificationSack().undoAll(refreshView);
-			}
-
-			@Override
-			public IModification[] getUndoModifications(
-					ModificationStack.Order order) {
-				return getParentModificationSack().getUndoModifications(order);
-			}
-
-			@Override
-			public void beginComposite() {
-				getParentModificationSack().beginComposite();
-			}
-
-			@Override
-			public void endComposite(String title, Order order) {
-				getParentModificationSack().endComposite(title, order);
-			}
-
-			@Override
-			public boolean equals(Object obj) {
-				return getParentModificationSack().equals(obj);
+			public Object getValue(final Object object) {
+				Object fieldValue = super.getValue(object);
+				ITypeInfo fieldValueType = reflectionUI
+						.getTypeInfo(reflectionUI.getTypeInfoSource(fieldValue));
+				fieldValueType = new TypeInfoProxyConfiguration() {
+					@Override
+					protected void setValue(Object subObject,
+							Object subFieldValue, IFieldInfo subField,
+							ITypeInfo containingType) {
+						ModificationStack parentModifStack = ReflectionUIUtils
+								.findModificationStack(
+										EmbeddedFormControl.this, reflectionUI);
+						if (parentModifStack != null) {
+							parentModifStack.beginComposite();
+						}
+						try {
+							if (parentModifStack != null) {
+								parentModifStack
+										.apply(new ModificationStack.SetFieldValueModification(
+												reflectionUI, subObject,
+												subField, subFieldValue), false);
+							} else {
+								super.setValue(subObject, subFieldValue,
+										subField, containingType);
+							}
+							field.setValue(object, subObject);
+						} finally {
+							if (parentModifStack != null) {
+								String modifTitle = "Edit '"
+										+ reflectionUI.composeTitle(
+												field.getCaption(),
+												subField.getCaption()) + "'";
+								parentModifStack.endComposite(modifTitle,
+										ModificationStack.Order.FIFO);
+							}
+						}
+					}
+				}.get(fieldValueType);
+				return new PrecomputedTypeInfoInstanceWrapper(fieldValue,
+						fieldValueType);
 			}
 
 		};
-		reflectionUI.getModificationStackByForm().put(subForm, newModifStack);
 	}
 
 	@Override

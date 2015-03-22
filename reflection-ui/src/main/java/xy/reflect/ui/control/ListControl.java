@@ -107,6 +107,15 @@ public class ListControl extends JSplitPane implements IFieldControl {
 				.getStandardCharacterWidth(new JButton()) * 30);
 	}
 
+	@Override
+	public boolean displayError(ReflectionUIError error) {
+		return false;
+	}
+
+	public IListStructuralInfo getStructuralInfo() {
+		return getRootListType().getStructuralInfo();
+	}
+
 	protected void initializeTreeTableControl() {
 		rootNode = createRootNode();
 		final Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
@@ -479,11 +488,11 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		return result;
 	}
 
-	protected void setSingleSelection(ItemPosition toSelect) {
+	public void setSingleSelection(ItemPosition toSelect) {
 		setSelection(Collections.singletonList(toSelect));
 	}
 
-	protected void setSelection(List<ItemPosition> toSelect) {
+	public void setSelection(List<ItemPosition> toSelect) {
 		List<TreePath> treePaths = new ArrayList<TreePath>();
 		for (int i = 0; i < toSelect.size(); i++) {
 			ItemPosition itemPosition = toSelect.get(i);
@@ -1149,6 +1158,32 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		treeTableComponent.setTreeTableModel(createTreeTableModel());
 	}
 
+	public void visitItems(IItemsVisitor iItemsVisitor) {
+		visitItems(iItemsVisitor, getRootListItemPosition());
+	}
+
+	private void visitItems(IItemsVisitor iItemsVisitor,
+			ItemPosition currentListItemPosition) {
+		FieldAutoUpdateList list = currentListItemPosition.getContainingList();
+		for (int i = 0; i < list.size(); i++) {
+			currentListItemPosition = currentListItemPosition.getSibling(i);
+			iItemsVisitor.visitItem(currentListItemPosition);
+			IListStructuralInfo treeInfo = getStructuralInfo();
+			if (treeInfo != null) {
+				IFieldInfo childrenField = treeInfo
+						.getItemSubListField(currentListItemPosition);
+				if (childrenField != null) {
+					if (childrenField.getValue(currentListItemPosition
+							.getItem()) != null) {
+						visitItems(iItemsVisitor, new ItemPosition(
+								childrenField, currentListItemPosition, -1));
+					}
+				}
+
+			}
+		}
+	}
+
 	public boolean refreshUI() {
 		List<ItemPosition> lastlySelectedItemPositions = getSelection();
 		List<Object> lastlySelectedItems = new ArrayList<Object>();
@@ -1416,7 +1451,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 	}
 
-	protected class ItemPosition implements IItemPosition {
+	public class ItemPosition implements IItemPosition {
 		protected IFieldInfo containingListField;
 		protected ItemPosition parentItemPosition;
 		protected int index;
@@ -1839,17 +1874,14 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		}
 	}
 
+	public interface IItemsVisitor {
+
+		void visitItem(ItemPosition itemPosition);
+
+	}
+
 	private enum InsertPosition {
 		AFTER, BEFORE, INDERTERMINATE
-	}
-
-	@Override
-	public boolean displayError(ReflectionUIError error) {
-		return false;
-	}
-
-	public IListStructuralInfo getStructuralInfo() {
-		return getRootListType().getStructuralInfo();
 	}
 
 }

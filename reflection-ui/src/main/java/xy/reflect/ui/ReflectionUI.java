@@ -100,6 +100,12 @@ public class ReflectionUI {
 			.weakKeys().makeMap();
 	protected Map<JPanel, JLabel> statusLabelByForm = new MapMaker().weakKeys()
 			.makeMap();
+	protected Map<JPanel, Map<InfoCategory, List<FieldControlPlaceHolder>>> fieldControlPlaceHoldersByCategoryByForm = new MapMaker()
+			.weakKeys().makeMap();
+	protected Map<JPanel, Map<InfoCategory, List<Component>>> methodControlsByCategoryByForm = new MapMaker()
+			.weakKeys().makeMap();
+	protected Map<Component, IMethodInfo> methodByControl = new MapMaker()
+			.weakKeys().makeMap();
 
 	public static void main(String[] args) {
 		try {
@@ -133,6 +139,22 @@ public class ReflectionUI {
 
 	public Map<JPanel, IInfoCollectionSettings> getInfoCollectionSettingsByForm() {
 		return infoCollectionSettingsByForm;
+	}
+
+	public Map<JPanel, Map<InfoCategory, List<FieldControlPlaceHolder>>> getFieldControlPlaceHoldersByCategoryByForm() {
+		return fieldControlPlaceHoldersByCategoryByForm;
+	}
+
+	public Map<JPanel, Map<InfoCategory, List<Component>>> getMethodControlsByCategoryByForm() {
+		return methodControlsByCategoryByForm;
+	}
+
+	public Map<JPanel, Map<String, FieldControlPlaceHolder>> getControlPlaceHolderByFieldNameByForm() {
+		return controlPlaceHolderByFieldNameByForm;
+	}
+
+	public Map<Component, IMethodInfo> getMethodByControl() {
+		return methodByControl;
 	}
 
 	public boolean canCopy(Object object) {
@@ -258,6 +280,8 @@ public class ReflectionUI {
 		ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
 
 		Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = new HashMap<InfoCategory, List<FieldControlPlaceHolder>>();
+		getFieldControlPlaceHoldersByCategoryByForm().put(form,
+				fieldControlPlaceHoldersByCategory);
 		List<IFieldInfo> fields = type.getFields();
 		for (IFieldInfo field : fields) {
 			if (settings.excludeField(field)) {
@@ -310,6 +334,7 @@ public class ReflectionUI {
 		}
 
 		Map<InfoCategory, List<Component>> methodControlsByCategory = new HashMap<InfoCategory, List<Component>>();
+		getMethodControlsByCategoryByForm().put(form, methodControlsByCategory);
 		List<IMethodInfo> methods = type.getMethods();
 		for (IMethodInfo method : methods) {
 			if (settings.excludeMethod(method)) {
@@ -323,6 +348,7 @@ public class ReflectionUI {
 				}
 			}
 			Component methodControl = createMethodControl(object, method);
+			getMethodByControl().put(methodControl, method);
 			if (settings.allReadOnly()) {
 				if (!method.isReadOnly()) {
 					if (methodControl instanceof JComponent) {
@@ -522,8 +548,7 @@ public class ReflectionUI {
 		} catch (Exception e) {
 			statusLabel.setIcon(ReflectionUIUtils.ERROR_ICON);
 			String errorMsg = new ReflectionUIError(e).toString();
-			statusLabel.setText(ReflectionUIUtils
-					.multiToSingleLine(errorMsg));
+			statusLabel.setText(ReflectionUIUtils.multiToSingleLine(errorMsg));
 			ReflectionUIUtils.setMultilineToolTipText(statusLabel, errorMsg);
 			statusLabel.setVisible(true);
 		}
@@ -668,6 +693,43 @@ public class ReflectionUI {
 				.get(field.getName());
 		fieldControlPlaceHolder.refreshUI();
 		updateFieldControlLayout(fieldControlPlaceHolder);
+	}
+
+	public List<Component> getFieldControlsOf(JPanel form, String fieldName) {
+		List<Component> result = new ArrayList<Component>();
+		Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = getFieldControlPlaceHoldersByCategoryByForm()
+				.get(form);
+		for (List<FieldControlPlaceHolder> fieldControlPlaceHolders : fieldControlPlaceHoldersByCategory
+				.values()) {
+			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHolders) {
+				if (fieldControlPlaceHolder.getField().getName()
+						.equals(fieldName)) {
+					result.add(fieldControlPlaceHolder.getFieldControl());
+				}
+			}
+		}
+		return result;
+	}
+
+	public List<Component> getMethodControlsOf(JPanel form,
+			String methodSignature) {
+		List<Component> result = new ArrayList<Component>();
+		Map<InfoCategory, List<Component>> methodControlByCategory = getMethodControlsByCategoryByForm()
+				.get(form);
+		for (List<Component> methodControls : methodControlByCategory.values()) {
+			for (Component methodControl : methodControls) {
+				IMethodInfo method = getMethodByControl().get(methodControl);
+				if (ReflectionUIUtils.getMethodInfoSignature(method).equals(
+						methodSignature)) {
+					result.add(methodControl);
+				}
+			}
+		}
+		return result;
+	}
+
+	public List<JPanel> getForms(Object object) {
+		return ReflectionUIUtils.getKeysFromValue(getObjectByForm(), object);
 	}
 
 	public void layoutControls(

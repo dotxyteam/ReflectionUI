@@ -43,7 +43,6 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 			Annotation[] paramAnnotations = parameterAnnotations[i];
 			result.add(new DefaultParameterInfo(reflectionUI, javaConstructor,
 					paramType, paramAnnotations, i));
-			i++;
 		}
 		return result;
 	}

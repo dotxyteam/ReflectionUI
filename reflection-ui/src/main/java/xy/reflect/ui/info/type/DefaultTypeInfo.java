@@ -148,14 +148,14 @@ public class DefaultTypeInfo implements ITypeInfo {
 								});
 			}
 		}
-		boolean embedFieldValueForm = false;
+		boolean createEmbedFieldValueForm = false;
 		if (!fieldValueType.hasCustomFieldControl()) {
 			if ((fieldValueType.getFields().size() + fieldValueType
-					.getMethods().size()) <= 3) {
-				embedFieldValueForm = true;
+					.getMethods().size()) <= 5) {
+				createEmbedFieldValueForm = true;
 			}
 		}
-		if (embedFieldValueForm) {
+		if (createEmbedFieldValueForm) {
 			return new EmbeddedFormControl(reflectionUI, object, field);
 		} else {
 			return new DialogAcessControl(reflectionUI, object, field);

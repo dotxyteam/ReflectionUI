@@ -289,8 +289,7 @@ public class ModificationStack {
 			};
 			field.setValue(object, value);
 			if (refreshView) {
-				for (JPanel form : ReflectionUIUtils.getKeysFromValue(
-						reflectionUI.getObjectByForm(), object)) {
+				for (JPanel form : reflectionUI.getForms(object)) {
 					reflectionUI.refreshAndRelayoutFieldControl(form,
 							field.getName());
 				}
@@ -305,8 +304,7 @@ public class ModificationStack {
 
 		@Override
 		public String getTitle() {
-			return "Edit '" + field.getCaption() + "' of '"
-					+ reflectionUI.getObjectKind(object) + "'";
+			return "Edit '" + field.getCaption() + "'";
 		}
 
 	}

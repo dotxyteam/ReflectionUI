@@ -140,8 +140,8 @@ public class DefaultMethodInfo implements IMethodInfo {
 			return false;
 		}
 		for (Method commonMethod : Object.class.getDeclaredMethods()) {
-			if (ReflectionUIUtils.writeMethodSignature(commonMethod).equals(
-					ReflectionUIUtils.writeMethodSignature(javaMethod))) {
+			if (ReflectionUIUtils.getJavaMethodSignature(commonMethod).equals(
+					ReflectionUIUtils.getJavaMethodSignature(javaMethod))) {
 				return false;
 			}
 		}
