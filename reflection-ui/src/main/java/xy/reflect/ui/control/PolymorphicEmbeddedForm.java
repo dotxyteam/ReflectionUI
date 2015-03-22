@@ -218,6 +218,10 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 						return ((ITypeInfo) value).getCaption();
 					}
 
+					@Override
+					public void validate(Object object) throws Exception {
+					}
+
 				};
 			}
 

@@ -92,7 +92,7 @@ public class NullableControl extends JPanel implements IFieldControl {
 		}
 		field.setValue(object, newValue);
 		reflectionUI.refreshAndRelayoutFieldControl(
-				ReflectionUIUtils.findAncestorForm(this, reflectionUI),
+				ReflectionUIUtils.findForm(this, reflectionUI),
 				field.getName());
 		subControl.requestFocus();
 	}

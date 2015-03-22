@@ -45,13 +45,12 @@ public class DialogAcessControl extends JPanel {
 		add(centerPanel, BorderLayout.CENTER);
 		centerPanel.setLayout(new BorderLayout());
 		centerPanel.add(textControl = createTextControl(), BorderLayout.CENTER);
-		centerPanel.add(button = createButton(),
-				BorderLayout.WEST);
+		centerPanel.add(button = createButton(), BorderLayout.WEST);
 
 		Dimension size = getPreferredSize();
 		size.height = textControl.getPreferredSize().height;
-		button.setPreferredSize(new Dimension( size.height, size.height));
-		iconControl.setPreferredSize(new Dimension( size.height, size.height));
+		button.setPreferredSize(new Dimension(size.height, size.height));
+		iconControl.setPreferredSize(new Dimension(size.height, size.height));
 		updateControls();
 	}
 
@@ -106,7 +105,9 @@ public class DialogAcessControl extends JPanel {
 			@Override
 			public Object getValue(Object object) {
 				Object fieldValue = field.getValue(object);
-				return reflectionUI.toString(fieldValue);
+				return ReflectionUIUtils.truncateNicely(ReflectionUIUtils
+						.multiToSingleLine(reflectionUI.toString(fieldValue)),
+						100);
 			}
 
 			@Override

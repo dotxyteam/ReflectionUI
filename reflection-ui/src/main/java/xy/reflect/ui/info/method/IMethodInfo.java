@@ -24,4 +24,7 @@ public interface IMethodInfo extends IInfo {
 	IModification getUndoModification(Object object,
 			Map<String, Object> valueByParameterName);
 
+	void validateParameters(Object object,
+			Map<String, Object> valueByParameterName) throws Exception;
+
 }

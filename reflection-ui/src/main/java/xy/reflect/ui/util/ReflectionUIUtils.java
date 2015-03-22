@@ -33,6 +33,8 @@ import java.util.Set;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -44,6 +46,7 @@ import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.annotation.Category;
 import xy.reflect.ui.info.annotation.Documentation;
+import xy.reflect.ui.info.annotation.Validating;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -64,6 +67,11 @@ import com.thoughtworks.paranamer.JavadocParanamer;
 import com.thoughtworks.paranamer.Paranamer;
 
 public class ReflectionUIUtils {
+
+	public static final Icon ERROR_ICON = new ImageIcon(
+			ReflectionUI.class.getResource("resource/error.png"));
+	public static final Icon HELP_ICON = new ImageIcon(
+			ReflectionUI.class.getResource("resource/help.png"));
 
 	public static Class<?> primitiveToWrapperType(Class<?> class1) {
 		if (class1 == int.class) {
@@ -370,21 +378,19 @@ public class ReflectionUIUtils {
 
 	public static ModificationStack findModificationStack(Component component,
 			ReflectionUI reflectionUI) {
-		JPanel form = findAncestorForm(component, reflectionUI);
+		JPanel form = findForm(component, reflectionUI);
 		if (form == null) {
 			return ModificationStack.NULL_MODIFICATION_STACK;
 		}
 		return reflectionUI.getModificationStackByForm().get(form);
 	}
 
-	public static JPanel findAncestorForm(Component component,
-			ReflectionUI reflectionUI) {
-		Component parent;
-		while ((parent = component.getParent()) != null) {
-			if (reflectionUI.getObjectByForm().keySet().contains(parent)) {
-				return (JPanel) parent;
+	public static JPanel findForm(Component component, ReflectionUI reflectionUI) {
+		while (component != null) {
+			if (reflectionUI.getObjectByForm().keySet().contains(component)) {
+				return (JPanel) component;
 			}
-			component = parent;
+			component = component.getParent();
 		}
 		return null;
 	}
@@ -658,7 +664,6 @@ public class ReflectionUIUtils {
 		return new InfoCategory(annotation.value(), annotation.position());
 	}
 
-
 	public static String getAnnotatedInfoDocumentation(
 			AnnotatedElement annotated) {
 		Documentation annotation = annotated.getAnnotation(Documentation.class);
@@ -791,21 +796,55 @@ public class ReflectionUIUtils {
 			disableComponentTree((JComponent) child, revert);
 		}
 	}
-	
-	
+
 	public static List<Field> getALlFields(Class<?> type) {
-	    List<Field> result = new ArrayList<Field>();
-	    Class<?> currentType = type;
-	    while (currentType != null && currentType != Object.class) {
-	        result.addAll(Arrays.asList(currentType.getDeclaredFields()));
-	        currentType = currentType.getSuperclass();
-	    }
-	    return result;
+		List<Field> result = new ArrayList<Field>();
+		Class<?> currentType = type;
+		while (currentType != null && currentType != Object.class) {
+			result.addAll(Arrays.asList(currentType.getDeclaredFields()));
+			currentType = currentType.getSuperclass();
+		}
+		return result;
 	}
 
 	public static Icon getHelpIcon() {
 		return new ImageIcon(
 				ReflectionUI.class.getResource("resource/help.png"));
+	}
+
+	public static List<Method> geAnnotatedtValidatingMethods(Class<?> javaType) {
+		List<Method> result = new ArrayList<Method>();
+		for (Method method : javaType.getMethods()) {
+			Validating annotation = method.getAnnotation(Validating.class);
+			if (annotation != null) {
+				if (method.getReturnType() != void.class) {
+					throw new ReflectionUIError(
+							"Invalid validating method, the return type is not 'void': "
+									+ method);
+				}
+				if (method.getParameterTypes().length > 0) {
+					throw new ReflectionUIError(
+							"Invalid validating method, the number of parameters is not 0: "
+									+ method);
+				}
+				result.add(method);
+			}
+		}
+		return result;
+	}
+
+	public static Container getContentPane(Window window) {
+		if (window instanceof JFrame) {
+			return ((JFrame) window).getContentPane();
+		} else if (window instanceof JDialog) {
+			return ((JDialog) window).getContentPane();
+		} else {
+			return null;
+		}
+	}
+
+	public static String multiToSingleLine(String s) {
+		return s.replaceAll("\\r\\n|\\n|\\r", " ");
 	}
 
 }

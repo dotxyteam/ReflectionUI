@@ -18,10 +18,6 @@ public class PrecomputedTypeInfoInstanceWrapper {
 	
 
 
-	public ITypeInfo getPrecomputedType() {
-		return precomputedType;
-	}
-
 	public PrecomputedTypeInfoSource getPrecomputedTypeInfoSource() {
 		return new PrecomputedTypeInfoSource(new TypeInfoProxyConfiguration() {
 
@@ -40,6 +36,16 @@ public class PrecomputedTypeInfoInstanceWrapper {
 						.getInstance();
 				super.setValue(object, value, field, containingType);
 			}
+
+			@Override
+			protected void validate(ITypeInfo type, Object object)
+					throws Exception {
+				object = ((PrecomputedTypeInfoInstanceWrapper) object)
+						.getInstance();
+				super.validate(type, object);
+			}
+			
+			
 
 		}.get(precomputedType));
 	}

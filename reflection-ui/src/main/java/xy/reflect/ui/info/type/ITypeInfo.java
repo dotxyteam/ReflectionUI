@@ -28,4 +28,6 @@ public interface ITypeInfo extends IInfo {
 	boolean hasCustomFieldControl();
 
 	String toString(Object object);
+	
+	void validate(Object object) throws Exception;
 }

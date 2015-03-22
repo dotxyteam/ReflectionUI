@@ -81,5 +81,11 @@ public class MethodInfoProxy implements IMethodInfo {
 	public IModification getUndoModification(Object object, Map<String, Object> valueByParameterName) {
 		return base.getUndoModification(object, valueByParameterName);
 	}
+
+	@Override
+	public void validateParameters(Object object,
+			Map<String, Object> valueByParameterName) throws Exception {
+		base.validateParameters(object, valueByParameterName);
+	}
 	
 }

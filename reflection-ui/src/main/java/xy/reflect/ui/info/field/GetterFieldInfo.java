@@ -174,6 +174,9 @@ public class GetterFieldInfo implements IFieldInfo {
 		if (javaMethod.getExceptionTypes().length > 0) {
 			return false;
 		}
+		if(ReflectionUIUtils.geAnnotatedtValidatingMethods(containingJavaClass).contains(javaMethod)){
+			return false;
+		}
 		return true;
 	}
 

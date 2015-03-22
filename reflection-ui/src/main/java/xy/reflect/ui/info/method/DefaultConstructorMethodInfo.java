@@ -109,4 +109,9 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 		return null;
 	}
 
+	@Override
+	public void validateParameters(Object object,
+			Map<String, Object> valueByParameterName) throws Exception {
+	}
+
 }

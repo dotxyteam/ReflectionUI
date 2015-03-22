@@ -3,6 +3,7 @@ package xy.reflect.ui.info.type;
 import java.awt.Component;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -237,6 +238,18 @@ public class DefaultTypeInfo implements ITypeInfo {
 	@Override
 	public String getDocumentation() {
 		return ReflectionUIUtils.getAnnotatedInfoDocumentation(javaType);
+	}
+
+	@Override
+	public void validate(Object object) throws Exception {
+		for (Method method : ReflectionUIUtils
+				.geAnnotatedtValidatingMethods(javaType)) {
+			try {
+				method.invoke(object);
+			} catch (InvocationTargetException e) {
+				throw new ReflectionUIError(e.getCause());
+			}
+		}
 	}
 
 }

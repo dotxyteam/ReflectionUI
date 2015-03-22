@@ -159,6 +159,9 @@ public class DefaultMethodInfo implements IMethodInfo {
 				}
 			}
 		}
+		if(ReflectionUIUtils.geAnnotatedtValidatingMethods(containingJavaClass).contains(javaMethod)){
+			return false;
+		}		
 		return true;
 	}
 
@@ -176,6 +179,11 @@ public class DefaultMethodInfo implements IMethodInfo {
 	@Override
 	public IModification getUndoModification(Object object, Map<String, Object> valueByParameterName) {
 		return null;
+	}
+
+	@Override
+	public void validateParameters(Object object,
+			Map<String, Object> valueByParameterName) throws Exception {
 	}
 
 }

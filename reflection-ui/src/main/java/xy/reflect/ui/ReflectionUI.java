@@ -35,7 +35,6 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -47,6 +46,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.JToolTip;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
@@ -96,6 +96,10 @@ public class ReflectionUI {
 			.weakKeys().makeMap();
 	protected Map<JPanel, Map<String, FieldControlPlaceHolder>> controlPlaceHolderByFieldNameByForm = new MapMaker()
 			.weakKeys().makeMap();
+	private Map<JPanel, IInfoCollectionSettings> infoCollectionSettingsByForm = new MapMaker()
+			.weakKeys().makeMap();
+	protected Map<JPanel, JLabel> statusLabelByForm = new MapMaker().weakKeys()
+			.makeMap();
 
 	public static void main(String[] args) {
 		try {
@@ -121,6 +125,14 @@ public class ReflectionUI {
 
 	public Map<JPanel, ModificationStack> getModificationStackByForm() {
 		return modificationStackByForm;
+	}
+
+	public Map<JPanel, JLabel> getStatusLabelByForm() {
+		return statusLabelByForm;
+	}
+
+	public Map<JPanel, IInfoCollectionSettings> getInfoCollectionSettingsByForm() {
+		return infoCollectionSettingsByForm;
 	}
 
 	public boolean canCopy(Object object) {
@@ -198,36 +210,9 @@ public class ReflectionUI {
 
 	public JFrame createFrame(Component content, String title, Image iconImage,
 			List<? extends Component> toolbarControls) {
-		final JFrame frame = new JFrame();
-		frame.setTitle(title);
-		if (iconImage == null) {
-			frame.setIconImage(new BufferedImage(1, 1,
-					BufferedImage.TYPE_INT_ARGB));
-		} else {
-			frame.setIconImage(iconImage);
-		}
+		final JFrame frame = new JFrame(title);
+		configureWindow(frame, content, toolbarControls, iconImage);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-		frame.getContentPane().setLayout(new BorderLayout());
-
-		if (content != null) {
-			final JScrollPane scrollPane = new JScrollPane(
-					new ScrollPaneOptions(content, true, false));
-			frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
-		}
-
-		if (toolbarControls != null) {
-			JPanel toolbar = new JPanel();
-			toolbar.setBorder(BorderFactory.createRaisedBevelBorder());
-			toolbar.setLayout(new FlowLayout(FlowLayout.CENTER));
-			for (Component tool : toolbarControls) {
-				toolbar.add(tool);
-			}
-			frame.getContentPane().add(toolbar, BorderLayout.SOUTH);
-		}
-		frame.pack();
-		frame.setLocationRelativeTo(null);
-		adjustWindowBounds(frame);
 		return frame;
 	}
 
@@ -238,9 +223,11 @@ public class ReflectionUI {
 	public JPanel createObjectForm(Object object,
 			IInfoCollectionSettings settings) {
 		JPanel result = new JPanel();
+
 		getObjectByForm().put(result, object);
 		getModificationStackByForm().put(result,
 				new ModificationStack(getObjectKind(object)));
+		getInfoCollectionSettingsByForm().put(result, settings);
 
 		fillForm(object, result, settings);
 
@@ -248,12 +235,10 @@ public class ReflectionUI {
 	}
 
 	public Component createDocumentationControl(String documentation) {
-		final JButton result = new JButton(new ImageIcon(
-				ReflectionUI.class.getResource("resource/help.png")));
+		final JButton result = new JButton(ReflectionUIUtils.HELP_ICON);
 		result.setPreferredSize(new Dimension(result.getPreferredSize().height,
 				result.getPreferredSize().height));
 		result.setContentAreaFilled(false);
-		// result.setBorderPainted(false);
 		result.setFocusable(false);
 		ReflectionUIUtils.setMultilineToolTipText(result,
 				translateUIString(documentation));
@@ -287,8 +272,8 @@ public class ReflectionUI {
 				};
 			}
 			if (!field.isReadOnly()) {
-				field = refreshOtherFieldsAfterFieldModification(field, form,
-						settings);
+				field = validateFormAfterFieldValueChange(field, form);
+				field = refreshOtherFieldsAfterFieldModification(field, form);
 				field = makeFieldModificationsUndoable(field, form);
 			}
 			FieldControlPlaceHolder fieldControlPlaceHolder = createFieldControlPlaceHolder(
@@ -332,8 +317,8 @@ public class ReflectionUI {
 			}
 			if (!settings.allReadOnly()) {
 				if (!method.isReadOnly()) {
-					method = refreshFieldsAfterMethodModifications(method,
-							form, settings);
+					method = validateFormAfterMethodExecution(method, form);
+					method = refreshFieldsAfterMethodModifications(method, form);
 					method = makeMethodModificationsUndoable(method, form);
 				}
 			}
@@ -390,6 +375,23 @@ public class ReflectionUI {
 							fieldControlPlaceHoldersByCategory,
 							methodControlsByCategory), BorderLayout.CENTER);
 		}
+	}
+
+	public IMethodInfo validateFormAfterMethodExecution(IMethodInfo method,
+			final JPanel form) {
+		return new MethodInfoProxy(method) {
+
+			@Override
+			public Object invoke(Object object,
+					Map<String, Object> valueByParameterName) {
+				try {
+					return super.invoke(object, valueByParameterName);
+				} finally {
+					validateForm(form);
+				}
+			}
+
+		};
 	}
 
 	public Component createMultipleInfoCategoriesComponent(
@@ -474,6 +476,59 @@ public class ReflectionUI {
 		return new FieldControlPlaceHolder(object, field);
 	}
 
+	public IFieldInfo handleValueChangeErrors(IFieldInfo field,
+			final FieldControlPlaceHolder fieldControlPlaceHolder) {
+		return new FieldInfoProxy(field) {
+
+			@Override
+			public void setValue(Object object, Object value) {
+				try {
+					super.setValue(object, value);
+					fieldControlPlaceHolder.displayError(null);
+				} catch (final Throwable t) {
+					fieldControlPlaceHolder.displayError(new ReflectionUIError(
+							t));
+				}
+			}
+
+		};
+	}
+
+	public IFieldInfo validateFormAfterFieldValueChange(IFieldInfo field,
+			final JPanel form) {
+		return new FieldInfoProxy(field) {
+			@Override
+			public void setValue(Object object, Object value) {
+				super.setValue(object, value);
+				validateForm(form);
+			}
+
+		};
+	}
+
+	public void validateForm(JPanel form) {
+		Object object = getObjectByForm().get(form);
+		if (object == null) {
+			return;
+		}
+		JLabel statusLabel = getStatusLabelByForm().get(form);
+		if (statusLabel == null) {
+			return;
+		}
+		ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
+		try {
+			type.validate(object);
+			statusLabel.setVisible(false);
+		} catch (Exception e) {
+			statusLabel.setIcon(ReflectionUIUtils.ERROR_ICON);
+			String errorMsg = new ReflectionUIError(e).toString();
+			statusLabel.setText(ReflectionUIUtils
+					.multiToSingleLine(errorMsg));
+			ReflectionUIUtils.setMultilineToolTipText(statusLabel, errorMsg);
+			statusLabel.setVisible(true);
+		}
+	}
+
 	public IFieldInfo makeFieldModificationsUndoable(final IFieldInfo field,
 			final JPanel form) {
 		return new FieldInfoProxy(field) {
@@ -518,8 +573,7 @@ public class ReflectionUI {
 	}
 
 	public IFieldInfo refreshOtherFieldsAfterFieldModification(
-			final IFieldInfo field, final JPanel form,
-			final IInfoCollectionSettings settings) {
+			final IFieldInfo field, final JPanel form) {
 		return new FieldInfoProxy(field) {
 			@Override
 			public void setValue(final Object object, Object newValue) {
@@ -529,8 +583,12 @@ public class ReflectionUI {
 					public void run() {
 						try {
 							ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
+							IInfoCollectionSettings settings = getInfoCollectionSettingsByForm()
+									.get(form);
 							for (IFieldInfo fieldToRefresh : type.getFields()) {
-								if (settings.excludeField(fieldToRefresh)) {
+								if ((settings != null)
+										&& settings
+												.excludeField(fieldToRefresh)) {
 									continue;
 								}
 								if (field.getName().equals(
@@ -550,8 +608,7 @@ public class ReflectionUI {
 	}
 
 	public IMethodInfo refreshFieldsAfterMethodModifications(
-			final IMethodInfo method, final JPanel form,
-			final IInfoCollectionSettings settings) {
+			final IMethodInfo method, final JPanel form) {
 		return new MethodInfoProxy(method) {
 
 			@Override
@@ -584,8 +641,10 @@ public class ReflectionUI {
 
 			private void refreshFields(Object object) {
 				ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
+				IInfoCollectionSettings settings = getInfoCollectionSettingsByForm()
+						.get(form);
 				for (IFieldInfo field : type.getFields()) {
-					if (settings.excludeField(field)) {
+					if ((settings != null) && settings.excludeField(field)) {
 						continue;
 					}
 					refreshAndRelayoutFieldControl(form, field.getName());
@@ -943,8 +1002,9 @@ public class ReflectionUI {
 			final boolean[] exceptionThrownArray) {
 		final Map<String, Object> valueByParameterName = new HashMap<String, Object>();
 		JPanel methodForm = createObjectForm(new PrecomputedTypeInfoInstanceWrapper(
-				valueByParameterName, new MethodParametersAsTypeInfo(this,
-						method)));
+				new MethodParametersAsTypeInfo.InstanceInfo(object,
+						valueByParameterName), new MethodParametersAsTypeInfo(
+						this, method)));
 		final boolean[] invokedStatusArray = new boolean[] { false };
 		final JDialog[] methodDialogArray = new JDialog[1];
 		List<Component> toolbarControls = new ArrayList<Component>();
@@ -1102,11 +1162,33 @@ public class ReflectionUI {
 				disposed = true;
 			}
 		};
-		dialog.getContentPane().setLayout(new BorderLayout());
+		configureWindow(dialog, content, toolbarControls, iconImage);
+		dialog.setResizable(true);
+		return dialog;
+	}
+
+	public void configureWindow(Window window, Component content,
+			List<? extends Component> toolbarControls, Image iconImage) {
+		Container contentPane = ReflectionUIUtils.getContentPane(window);
+		if (contentPane == null) {
+			return;
+		}
+		contentPane.setLayout(new BorderLayout());
 		if (content != null) {
+			JPanel form = ReflectionUIUtils.findForm(content, this);
+			if (form != null) {
+				JLabel statusLabel = new JLabel();
+				statusLabel.setOpaque(true);
+				statusLabel.setFont(new JToolTip().getFont());
+				statusLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5,
+						5));
+				contentPane.add(statusLabel, BorderLayout.NORTH);
+				getStatusLabelByForm().put(form, statusLabel);
+				validateForm(form);
+			}
 			JScrollPane scrollPane = new JScrollPane(new ScrollPaneOptions(
 					content, true, false));
-			dialog.getContentPane().add(scrollPane, BorderLayout.CENTER);
+			contentPane.add(scrollPane, BorderLayout.CENTER);
 		}
 		if (toolbarControls != null) {
 			JPanel toolbar = new JPanel();
@@ -1115,19 +1197,17 @@ public class ReflectionUI {
 			for (Component tool : toolbarControls) {
 				toolbar.add(tool);
 			}
-			dialog.getContentPane().add(toolbar, BorderLayout.SOUTH);
+			contentPane.add(toolbar, BorderLayout.SOUTH);
 		}
-		dialog.pack();
-		dialog.setLocationRelativeTo(null);
-		dialog.setResizable(true);
-		adjustWindowBounds(dialog);
+		window.pack();
+		window.setLocationRelativeTo(null);
+		adjustWindowBounds(window);
 		if (iconImage == null) {
-			dialog.setIconImage(new BufferedImage(1, 1,
+			window.setIconImage(new BufferedImage(1, 1,
 					BufferedImage.TYPE_INT_ARGB));
 		} else {
-			dialog.setIconImage(iconImage);
+			window.setIconImage(iconImage);
 		}
-		return dialog;
 	}
 
 	public ReflectionUI getSubReflectionUI() {
@@ -1501,15 +1581,15 @@ public class ReflectionUI {
 		Window window = SwingUtilities.getWindowAncestor(c);
 		if (window != null) {
 			window.validate();
-			JScrollPane scrollPane;
-			if (window instanceof JFrame) {
-				scrollPane = (JScrollPane) ((JFrame) window).getContentPane()
-						.getComponent(0);
-			} else if (window instanceof JDialog) {
-				scrollPane = (JScrollPane) ((JDialog) window).getContentPane()
-						.getComponent(0);
-			} else {
-				scrollPane = null;
+			JScrollPane scrollPane = null;
+			Container contentPane = ReflectionUIUtils.getContentPane(window);
+			if (contentPane != null) {
+				for (Component mayBeScrollPanel : contentPane.getComponents()) {
+					if (mayBeScrollPanel instanceof JScrollPane) {
+						scrollPane = (JScrollPane) mayBeScrollPanel;
+						break;
+					}
+				}
 			}
 			if (scrollPane != null) {
 				JScrollBar verticalScrollBVar = scrollPane
@@ -1535,7 +1615,7 @@ public class ReflectionUI {
 		public FieldControlPlaceHolder(Object object, IFieldInfo field) {
 			super();
 			this.object = object;
-			field = handleValueChangeErrors(field);
+			field = handleValueChangeErrors(field, this);
 			this.field = field;
 			setLayout(new BorderLayout());
 			refreshUI();
@@ -1555,22 +1635,6 @@ public class ReflectionUI {
 
 		public IFieldInfo getField() {
 			return field;
-		}
-
-		protected IFieldInfo handleValueChangeErrors(IFieldInfo field) {
-			return new FieldInfoProxy(field) {
-
-				@Override
-				public void setValue(Object object, Object value) {
-					try {
-						super.setValue(object, value);
-						displayError(null);
-					} catch (final Throwable t) {
-						displayError(new ReflectionUIError(t));
-					}
-				}
-
-			};
 		}
 
 		public void refreshUI() {

@@ -3,7 +3,6 @@ package xy.reflect.ui.info.type;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +10,6 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.EmbeddedFormControl;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 
@@ -37,23 +35,7 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		return Collections
-				.<IMethodInfo> singletonList(new AbstractConstructorMethodInfo(
-						this) {
-
-					@Override
-					public Object invoke(Object object,
-							Map<String, Object> valueByParameterName) {
-						return new PrecomputedTypeInfoInstanceWrapper(
-								new HashMap<String, Object>(),
-								MethodParametersAsTypeInfo.this);
-					}
-
-					@Override
-					public List<IParameterInfo> getParameters() {
-						return Collections.emptyList();
-					}
-				});
+		return Collections.<IMethodInfo> emptyList();
 	}
 
 	@Override
@@ -104,9 +86,8 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 
 			@Override
 			public void setValue(Object object, Object value) {
-				@SuppressWarnings("unchecked")
-				Map<String, Object> valueByParameterName = (Map<String, Object>) object;
-				valueByParameterName.put(param.getName(), value);
+				InstanceInfo instance =  (InstanceInfo) object;
+				instance.valueByParameterName.put(param.getName(), value);
 			}
 
 			@Override
@@ -116,12 +97,11 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 
 			@Override
 			public Object getValue(Object object) {
-				@SuppressWarnings("unchecked")
-				Map<String, Object> valueByParameterName = (Map<String, Object>) object;
-				if (!valueByParameterName.containsKey(param.getName())) {
+				InstanceInfo instance =  (InstanceInfo) object;
+				if (!instance.valueByParameterName.containsKey(param.getName())) {
 					return param.getDefaultValue();
 				}
-				return valueByParameterName.get(param.getName());
+				return instance.valueByParameterName.get(param.getName());
 			}
 
 			@Override
@@ -194,6 +174,25 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 	@Override
 	public boolean supportsValue(Object value) {
 		return false;
+	}
+
+	@Override
+	public void validate(Object object) throws Exception {
+		InstanceInfo instance = (InstanceInfo) object;
+		method.validateParameters(instance.methodOwner,
+				instance.valueByParameterName);
+	}
+
+	public static class InstanceInfo {
+		private Object methodOwner;
+		private Map<String, Object> valueByParameterName;
+
+		public InstanceInfo(Object methodowner,
+				Map<String, Object> valueByParameterName) {
+			super();
+			this.methodOwner = methodowner;
+			this.valueByParameterName = valueByParameterName;
+		}
 	}
 
 }

@@ -64,5 +64,12 @@ public abstract class AbstractConstructorMethodInfo implements IMethodInfo {
 	public IModification getUndoModification(Object object, Map<String, Object> valueByParameterName) {
 		return null;
 	}
+	
+
+	@Override
+	public void validateParameters(Object object,
+			Map<String, Object> valueByParameterName) throws Exception {
+	}
+	
 
 }
