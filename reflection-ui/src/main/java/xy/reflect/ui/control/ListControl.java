@@ -130,6 +130,9 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		treeTableComponent.setDefaultRenderer(Object.class,
 				new ItemCellRenderer());
 		treeTableComponent.setTreeCellRenderer(new ItemCellRenderer());
+		treeTableComponent.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		treeTableComponent.setHorizontalScrollEnabled(true);
+		treeTableComponent.setColumnMargin(5);
 		fixCustomRenderingNotAppliedOnUnselectedCells();
 	}
 
