@@ -265,12 +265,12 @@ public class ReflectionUIUtils {
 		return method.getReturnType() + " " + method.getName() + "("
 				+ Arrays.toString(method.getParameterTypes()) + ")";
 	}
-	
+
 	public static String getMethodInfoSignature(IMethodInfo method) {
 		return method.getReturnValueType() + " " + method.getName() + "("
-				+ ReflectionUIUtils.stringJoin(method.getParameters(), ", ") + ")";
+				+ ReflectionUIUtils.stringJoin(method.getParameters(), ", ")
+				+ ")";
 	}
-
 
 	public static String identifierToCaption(String id) {
 		StringBuilder result = new StringBuilder();
@@ -851,6 +851,22 @@ public class ReflectionUIUtils {
 
 	public static String multiToSingleLine(String s) {
 		return s.replaceAll("\\r\\n|\\n|\\r", " ");
+	}
+
+	public static boolean isJavaClassMainMethod(Method javaMethod) {
+		if (Modifier.isStatic(javaMethod.getModifiers())) {
+			if (javaMethod.getReturnType().equals(void.class)) {
+				if (javaMethod.getName().equals("main")) {
+					Class<?>[] paramTypes = javaMethod.getParameterTypes();
+					if (paramTypes.length == 1) {
+						if (paramTypes[0].equals(String[].class)) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 }

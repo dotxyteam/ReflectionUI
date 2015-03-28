@@ -56,8 +56,9 @@ public class DefaultMethodInfo implements IMethodInfo {
 	public List<IParameterInfo> getParameters() {
 		List<IParameterInfo> result = new ArrayList<IParameterInfo>();
 		Class<?>[] parameterTypes = javaMethod.getParameterTypes();
-		Annotation[][] parameterAnnotations = javaMethod.getParameterAnnotations();
-		for (int i = 0; i<parameterTypes.length; i++) {
+		Annotation[][] parameterAnnotations = javaMethod
+				.getParameterAnnotations();
+		for (int i = 0; i < parameterTypes.length; i++) {
 			Class<?> paramType = parameterTypes[i];
 			Annotation[] paramAnnotations = parameterAnnotations[i];
 			result.add(new DefaultParameterInfo(reflectionUI, javaMethod,
@@ -159,16 +160,20 @@ public class DefaultMethodInfo implements IMethodInfo {
 				}
 			}
 		}
-		if(ReflectionUIUtils.geAnnotatedtValidatingMethods(containingJavaClass).contains(javaMethod)){
+		if (ReflectionUIUtils
+				.geAnnotatedtValidatingMethods(containingJavaClass).contains(
+						javaMethod)) {
 			return false;
-		}		
+		}
+		if(ReflectionUIUtils.isJavaClassMainMethod(javaMethod)){
+			return false;
+		}
 		return true;
 	}
 
 	@Override
 	public InfoCategory getCategory() {
-		return ReflectionUIUtils
-						.getAnnotatedInfoCategory(javaMethod);
+		return ReflectionUIUtils.getAnnotatedInfoCategory(javaMethod);
 	}
 
 	@Override
@@ -177,7 +182,8 @@ public class DefaultMethodInfo implements IMethodInfo {
 	}
 
 	@Override
-	public IModification getUndoModification(Object object, Map<String, Object> valueByParameterName) {
+	public IModification getUndoModification(Object object,
+			Map<String, Object> valueByParameterName) {
 		return null;
 	}
 

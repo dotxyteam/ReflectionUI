@@ -642,7 +642,7 @@ public class ReflectionUI {
 				try {
 					return super.invoke(object, valueByParameterName);
 				} finally {
-					refreshFields(object);
+					refreshFields(form);
 				}
 			}
 
@@ -658,25 +658,26 @@ public class ReflectionUI {
 						new ModificationStack.ModificationProxyConfiguration() {
 							@Override
 							public void executeAfterApplication() {
-								refreshFields(object);
+								refreshFields(form);
 							}
 						});
 				return result;
 			}
 
-			private void refreshFields(Object object) {
-				ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
-				IInfoCollectionSettings settings = getInfoCollectionSettingsByForm()
-						.get(form);
-				for (IFieldInfo field : type.getFields()) {
-					if ((settings != null) && settings.excludeField(field)) {
-						continue;
-					}
-					refreshAndRelayoutFieldControl(form, field.getName());
-				}
-			}
-
 		};
+	}
+
+	public void refreshFields(JPanel form) {
+		Object object = getObjectByForm().get(form);
+		ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
+		IInfoCollectionSettings settings = getInfoCollectionSettingsByForm()
+				.get(form);
+		for (IFieldInfo field : type.getFields()) {
+			if ((settings != null) && settings.excludeField(field)) {
+				continue;
+			}
+			refreshAndRelayoutFieldControl(form, field.getName());
+		}
 	}
 
 	public void refreshAndRelayoutFieldControl(JPanel form, String fieldName) {
