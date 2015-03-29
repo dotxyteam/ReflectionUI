@@ -24,6 +24,7 @@ import xy.reflect.ui.info.annotation.Documentation;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractMethodUndoModification;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.type.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.DefaultTextualTypeInfo;
 import xy.reflect.ui.info.type.IListTypeInfo;
 import xy.reflect.ui.info.type.IListTypeInfo.IListStructuralInfo;
@@ -49,7 +50,7 @@ public class ReflectionUITest {
 		@Documentation("Returns 'theString'")
 		public String getTheString() {
 			return theString;
-		} 
+		}
 
 		@Documentation("Sets the value of 'theString'")
 		public void setTheString(String theString) {
@@ -57,12 +58,12 @@ public class ReflectionUITest {
 		}
 
 		@Documentation("returns the mathematic PI constant value'")
-		public double getPI(){
+		public double getPI() {
 			return Math.PI;
 		}
-		
+
 		private int theInt = 50;
-		
+
 		@Documentation("Returns 'theInt' value")
 		public int getTheInt() {
 			return theInt;
@@ -93,7 +94,7 @@ public class ReflectionUITest {
 
 		@Category("List")
 		public Map<Integer, String> theMap = new HashMap<Integer, String>();
- 
+
 		@Category("List")
 		public List<File> theFileList = Arrays.asList(new File("."));
 
@@ -209,8 +210,13 @@ public class ReflectionUITest {
 					@Override
 					protected IListStructuralInfo getStructuralInfo(
 							IListTypeInfo type) {
-						return new TabularTreetStructuralInfo(thisReflectionUI,
-								type.getItemType());
+						try {
+							return new TabularTreetStructuralInfo(
+									thisReflectionUI, type.getItemType());
+						} catch (Exception ignore) {
+							return new DefaultListStructuralInfo(
+									thisReflectionUI, type.getItemType());
+						}
 					}
 
 				}.get(super.getTypeInfo(typeSource));

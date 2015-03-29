@@ -11,7 +11,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.info.type.DefaultBooleanTypeInfo;
+import xy.reflect.ui.info.type.IBooleanTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -55,7 +55,7 @@ public class GetterFieldInfo implements IFieldInfo {
 	@Override
 	public String getCaption() {
 		String result = ReflectionUIUtils.identifierToCaption(getName());
-		if (getType() instanceof DefaultBooleanTypeInfo) {
+		if (getType() instanceof IBooleanTypeInfo) {
 			if (javaGetterMethod.getName().matches("^is[A-Z].*")) {
 				result = "Is " + result;
 			} else if (javaGetterMethod.getName().matches("^has[A-Z].*")) {

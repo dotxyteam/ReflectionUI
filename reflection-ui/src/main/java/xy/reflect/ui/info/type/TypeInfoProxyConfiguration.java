@@ -145,8 +145,8 @@ public class TypeInfoProxyConfiguration {
 		return type.getPossibleValues();
 	}
 
-	protected Object fromStandardList(IListTypeInfo type, List<?> list) {
-		return type.fromStandardList(list);
+	protected Object fromListValue(IListTypeInfo type, Object[] listValue) {
+		return type.fromListValue(listValue);
 	}
 
 	protected ITypeInfo getItemType(IListTypeInfo type) {
@@ -161,8 +161,8 @@ public class TypeInfoProxyConfiguration {
 		return type.isOrdered();
 	}
 
-	protected List<?> toStandardList(IListTypeInfo type, Object value) {
-		return type.toStandardList(value);
+	protected Object[] toListValue(IListTypeInfo type, Object value) {
+		return type.toListValue(value);
 	}
 
 	protected Component createFieldControl(ITypeInfo type, Object object,
@@ -472,8 +472,8 @@ public class TypeInfoProxyConfiguration {
 		}
 
 		@Override
-		public List<?> toStandardList(Object value) {
-			return TypeInfoProxyConfiguration.this.toStandardList(
+		public Object[] toListValue(Object value) {
+			return TypeInfoProxyConfiguration.this.toListValue(
 					(IListTypeInfo) type, value);
 		}
 
@@ -496,9 +496,9 @@ public class TypeInfoProxyConfiguration {
 		}
 
 		@Override
-		public Object fromStandardList(List<?> list) {
-			return TypeInfoProxyConfiguration.this.fromStandardList(
-					(IListTypeInfo) type, list);
+		public Object fromListValue(Object[] listValue) {
+			return TypeInfoProxyConfiguration.this.fromListValue(
+					(IListTypeInfo) type, listValue);
 		}
 
 	}

@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -35,6 +36,8 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.MutableTreeNode;
@@ -1159,13 +1162,19 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		valuesByNode.clear();
 		rootNode = createRootNode();
 		treeTableComponent.setTreeTableModel(createTreeTableModel());
+		TableColumnModel columnModel = treeTableComponent.getColumnModel();
+		for (int i = 0; i < columnModel.getColumnCount(); i++) {
+			TableColumn col = columnModel.getColumn(i);
+			col.setMinWidth(20 * ReflectionUIUtils
+					.getStandardCharacterWidth(treeTableComponent));
+		}		
 	}
 
 	public void visitItems(IItemsVisitor iItemsVisitor) {
 		visitItems(iItemsVisitor, getRootListItemPosition());
 	}
 
-	private void visitItems(IItemsVisitor iItemsVisitor,
+	protected void visitItems(IItemsVisitor iItemsVisitor,
 			ItemPosition currentListItemPosition) {
 		FieldAutoUpdateList list = currentListItemPosition.getContainingList();
 		for (int i = 0; i < list.size(); i++) {
@@ -1586,13 +1595,13 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 	protected class SetListValueModification implements
 			ModificationStack.IModification {
-		protected List standardListValue;
+		protected Object[] listValue;
 		private Object listOwner;
 		private IFieldInfo listField;
 
-		public SetListValueModification(List standardListValue,
-				Object listOwner, IFieldInfo listField) {
-			this.standardListValue = standardListValue;
+		public SetListValueModification(Object[] listValue, Object listOwner,
+				IFieldInfo listField) {
+			this.listValue = listValue;
 			this.listOwner = listOwner;
 			this.listField = listField;
 		}
@@ -1605,16 +1614,15 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		@Override
 		public IModification applyAndGetOpposite(boolean refreshView) {
 			IListTypeInfo listType = (IListTypeInfo) listField.getType();
-			List lastStandardListValue = listType.toStandardList(listField
+			Object[] lastListValue = listType.toListValue(listField
 					.getValue(listOwner));
 
-			Object listFieldValue = listType
-					.fromStandardList(standardListValue);
+			Object listFieldValue = listType.fromListValue(listValue);
 			listField.setValue(listOwner, listFieldValue);
 
 			final SetListValueModification currentModif = this;
-			return new SetListValueModification(lastStandardListValue,
-					listOwner, listField) {
+			return new SetListValueModification(lastListValue, listOwner,
+					listField) {
 				@Override
 				public String getTitle() {
 					return ModificationStack.getUndoTitle(currentModif
@@ -1700,21 +1708,21 @@ public class ListControl extends JSplitPane implements IFieldControl {
 			return (IListTypeInfo) getListField().getType();
 		}
 
-		protected List getUnderlyingList() {
+		protected Object[] getUnderlyingListValue() {
 			Object listFieldValue = getListField().getValue(getListOwner());
 			if (listFieldValue == null) {
 				return null;
 			}
-			return getListType().toStandardList(listFieldValue);
+			return getListType().toListValue(listFieldValue);
 		}
 
-		protected void replaceUnderlyingListWith(List standardListValue) {
+		protected void replaceUnderlyingListValue(Object[] listValue) {
 			ModificationStack modifStack = ReflectionUIUtils
 					.findModificationStack(ListControl.this, reflectionUI);
 			Object listOwner = getListOwner();
 			if (!getListField().isReadOnly()) {
 				SetListValueModification modif = new SetListValueModification(
-						standardListValue, listOwner, getListField());
+						listValue, listOwner, getListField());
 				if (itemPosition.isRootListItemPosition()) {
 					modif.applyAndGetOpposite(false);
 				} else {
@@ -1746,35 +1754,37 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 		@Override
 		public Object get(int index) {
-			return getUnderlyingList().get(index);
+			return getUnderlyingListValue()[index];
 		}
 
 		@Override
 		public int size() {
-			List underlyingList = getUnderlyingList();
-			if (underlyingList == null) {
+			Object[] underlyingListValue = getUnderlyingListValue();
+			if (underlyingListValue == null) {
 				return 0;
 			}
-			return underlyingList.size();
+			return underlyingListValue.length;
 		}
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public void add(int index, Object element) {
-			List tmpList = new ArrayList(getUnderlyingList());
+			List tmpList = new ArrayList(
+					Arrays.asList(getUnderlyingListValue()));
 			tmpList.add(index, element);
 			beginModification();
-			replaceUnderlyingListWith(tmpList);
+			replaceUnderlyingListValue(tmpList.toArray());
 			endModification("Add item to '" + getListField().getCaption() + "'");
 		}
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public Object remove(int index) {
-			List tmpList = new ArrayList(getUnderlyingList());
+			List tmpList = new ArrayList(
+					Arrays.asList(getUnderlyingListValue()));
 			Object result = tmpList.remove(index);
 			beginModification();
-			replaceUnderlyingListWith(tmpList);
+			replaceUnderlyingListValue(tmpList.toArray());
 			endModification("Remove item from '" + getListField().getCaption()
 					+ "'");
 			return result;
@@ -1783,10 +1793,11 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		@SuppressWarnings("unchecked")
 		@Override
 		public Object set(int index, Object element) {
-			List tmpList = new ArrayList(getUnderlyingList());
+			List tmpList = new ArrayList(
+					Arrays.asList(getUnderlyingListValue()));
 			Object result = tmpList.set(index, element);
 			beginModification();
-			replaceUnderlyingListWith(tmpList);
+			replaceUnderlyingListValue(tmpList.toArray());
 			endModification("Update '" + getListField().getCaption()
 					+ "' item " + index);
 			return result;
@@ -1794,17 +1805,18 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 		@SuppressWarnings("unchecked")
 		public void move(int index, int offset) {
-			List tmpList = new ArrayList(getUnderlyingList());
+			List tmpList = new ArrayList(
+					Arrays.asList(getUnderlyingListValue()));
 			tmpList.add(index + offset, tmpList.remove(index));
 			beginModification();
-			replaceUnderlyingListWith(tmpList);
+			replaceUnderlyingListValue(tmpList.toArray());
 			endModification("Move '" + getListField().getCaption() + "' item");
 		}
 
 		@Override
 		public void clear() {
 			beginModification();
-			replaceUnderlyingListWith(Collections.emptyList());
+			replaceUnderlyingListValue(new Object[0]);
 			endModification("Clear '" + getListField().getCaption() + "'");
 		}
 

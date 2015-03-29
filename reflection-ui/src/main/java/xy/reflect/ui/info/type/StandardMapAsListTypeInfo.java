@@ -66,13 +66,13 @@ public class StandardMapAsListTypeInfo extends DefaultTypeInfo implements
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public List<?> toStandardList(Object value) {
+	public Object[] toListValue(Object value) {
 		List<StandardMapEntry> result = new ArrayList<StandardMapAsListTypeInfo.StandardMapEntry>();
 		for (Object obj : ((Map) value).entrySet()) {
 			Map.Entry entry = (Entry) obj;
 			result.add(new StandardMapEntry(entry.getKey(), entry.getValue()));
 		}
-		return result;
+		return result.toArray();
 	}
 
 	@Override
@@ -101,12 +101,12 @@ public class StandardMapAsListTypeInfo extends DefaultTypeInfo implements
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public Object fromStandardList(List<?> list) {
+	public Object fromListValue(Object[] listValue) {
 		IMethodInfo constructor = ReflectionUIUtils
 				.getZeroParameterConstrucor(this);
 		Map result = (Map) constructor.invoke(null,
 				Collections.<String, Object> emptyMap());
-		for (Object item : list) {
+		for (Object item : listValue) {
 			StandardMapEntry entry = (StandardMapEntry) item;
 			if (result.containsKey(entry.getKey())) {
 				throw new ReflectionUIError("Duplicate key: '"

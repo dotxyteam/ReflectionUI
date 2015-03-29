@@ -52,6 +52,8 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.IListTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.PrecomputedTypeInfoInstanceWrapper;
+import xy.reflect.ui.info.type.TypeInfoProxyConfiguration;
 
 import com.fasterxml.classmate.MemberResolver;
 import com.fasterxml.classmate.ResolvedType;
@@ -67,6 +69,9 @@ import com.thoughtworks.paranamer.JavadocParanamer;
 import com.thoughtworks.paranamer.Paranamer;
 
 public class ReflectionUIUtils {
+
+	public static final String[] NEW_LINE_SEQUENCES = new String[] { "\r\n",
+			"\n", "\r" };
 
 	public static final Icon ERROR_ICON = new ImageIcon(
 			ReflectionUI.class.getResource("resource/error.png"));
@@ -527,12 +532,13 @@ public class ReflectionUIUtils {
 		Object copy;
 		if (type instanceof IListTypeInfo) {
 			IListTypeInfo listType = (IListTypeInfo) type;
-			List<?> standardList = listType.toStandardList(object);
-			List<Object> standardListCopy = new ArrayList<Object>();
-			for (Object item : standardList) {
-				standardListCopy.add(copyAccordingInfos(reflectionUI, item));
+			Object[] listValue = listType.toListValue(object);
+			Object[] listValueCopy = new Object[listValue.length];
+			for (int i = 0; i < listValue.length; i++) {
+				Object item = listValue[i];
+				listValueCopy[i] = copyAccordingInfos(reflectionUI, item);
 			}
-			copy = listType.fromStandardList(standardListCopy);
+			copy = listType.fromListValue(listValueCopy);
 		} else {
 			IMethodInfo ctor = ReflectionUIUtils
 					.getZeroParameterConstrucor(type);
@@ -569,14 +575,14 @@ public class ReflectionUIUtils {
 		}
 		if (type instanceof IListTypeInfo) {
 			IListTypeInfo listType = (IListTypeInfo) type;
-			List<?> standardList1 = listType.toStandardList(object1);
-			List<?> standardList2 = listType.toStandardList(object2);
-			if (standardList1.size() != standardList2.size()) {
+			Object[] listValue1 = listType.toListValue(object1);
+			Object[] listValue2 = listType.toListValue(object2);
+			if (listValue1.length != listValue2.length) {
 				return false;
 			}
-			for (int i = 0; i < standardList1.size(); i++) {
-				Object item1 = standardList1.get(i);
-				Object item2 = standardList2.get(i);
+			for (int i = 0; i < listValue1.length; i++) {
+				Object item1 = listValue1[i];
+				Object item2 = listValue2[i];
 				if (!equalsAccordingInfos(reflectionUI, item1, item2)) {
 					return false;
 				}
@@ -590,6 +596,55 @@ public class ReflectionUIUtils {
 			}
 		}
 		return true;
+	}
+
+	public static String toStringAccordingInfos(ReflectionUI reflectionUI,
+			Object object) {
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI
+				.getTypeInfoSource(object));
+		if (type.isImmutable()) {
+			return type.toString(object);
+		}
+		StringBuilder result = new StringBuilder();
+		result.append(type.getCaption());
+		result.append(" (\n");
+		for (int i = 0; i < type.getFields().size(); i++) {
+			if (i > 0) {
+				result.append(",\n");
+			}
+			IFieldInfo field = type.getFields().get(i);
+			result.append(indentLines(
+					field.getCaption()
+							+ " = "
+							+ toStringAccordingInfos(reflectionUI,
+									field.getValue(object)), "\t"));
+		}
+		result.append("\n)");
+		return result.toString();
+	}
+
+	public static String[] splitLines(String s) {
+		if (s.length() == 0) {
+			return new String[0];
+		}
+		return s.split(getNewLineRegex(), -1);
+	}
+
+	public static String getNewLineRegex() {
+		return stringJoin(Arrays.asList(NEW_LINE_SEQUENCES), "|");
+	}
+
+	public static Object indentLines(String s, String tabulation) {
+		String[] lines = splitLines(s);
+		StringBuilder result = new StringBuilder();
+		for (int i = 0; i < lines.length; i++) {
+			if (i > 0) {
+				result.append("\n");
+			}
+			String line = lines[i];
+			result.append(tabulation + line);
+		}
+		return result.toString();
 	}
 
 	public static String stringJoin(List<?> list, String separator) {
@@ -867,6 +922,79 @@ public class ReflectionUIUtils {
 			}
 		}
 		return false;
+	}
+
+	public static Object wrapValueAsField(ReflectionUI reflectionUI,  final Object[] valueArray,
+			final String fieldCaption, final String containingTypeCaption,
+			final boolean readOnly) {
+		final ITypeInfo valueTypeInfo = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(valueArray[0]));
+		return new PrecomputedTypeInfoInstanceWrapper(valueArray[0],
+				new TypeInfoProxyConfiguration() {
+	
+					@Override
+					protected List<IFieldInfo> getFields(ITypeInfo type) {
+						return Collections
+								.<IFieldInfo> singletonList(new IFieldInfo() {
+	
+									@Override
+									public void setValue(Object object,
+											Object value) {
+										valueArray[0] = value;
+									}
+	
+									@Override
+									public boolean isReadOnly() {
+										return readOnly;
+									}
+	
+									@Override
+									public boolean isNullable() {
+										return false;
+									}
+	
+									@Override
+									public Object getValue(Object object) {
+										return valueArray[0];
+									}
+	
+									@Override
+									public ITypeInfo getType() {
+										return valueTypeInfo;
+									}
+	
+									@Override
+									public String getName() {
+										return "";
+									}
+	
+									@Override
+									public String getCaption() {
+										return fieldCaption;
+									}
+	
+									@Override
+									public InfoCategory getCategory() {
+										return null;
+									}
+	
+									@Override
+									public String getDocumentation() {
+										return null;
+									}
+								});
+					}
+	
+					@Override
+					protected List<IMethodInfo> getMethods(ITypeInfo type) {
+						return Collections.emptyList();
+					}
+	
+					@Override
+					protected String getCaption(ITypeInfo type) {
+						return containingTypeCaption;
+					}
+	
+				}.get(valueTypeInfo));
 	}
 
 }

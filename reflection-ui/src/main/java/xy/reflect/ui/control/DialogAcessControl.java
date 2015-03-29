@@ -3,6 +3,7 @@ package xy.reflect.ui.control;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,7 @@ import javax.swing.JPanel;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultTextualTypeInfo;
@@ -45,12 +47,27 @@ public class DialogAcessControl extends JPanel {
 		add(centerPanel, BorderLayout.CENTER);
 		centerPanel.setLayout(new BorderLayout());
 		centerPanel.add(textControl = createTextControl(), BorderLayout.CENTER);
-		centerPanel.add(button = createButton(), BorderLayout.WEST);
+		centerPanel.add(ReflectionUIUtils.flowInLayout(button = createButton(),
+				FlowLayout.CENTER), BorderLayout.WEST);
 
-		Dimension size = getPreferredSize();
-		size.height = textControl.getPreferredSize().height;
-		button.setPreferredSize(new Dimension(size.height, size.height));
-		iconControl.setPreferredSize(new Dimension(size.height, size.height));
+		int defaultHeight = new TextControl(reflectionUI, object,
+				new FieldInfoProxy(field) {
+
+					@Override
+					public Object getValue(Object object) {
+						return "";
+					}
+
+					@Override
+					public ITypeInfo getType() {
+						return new DefaultTextualTypeInfo(reflectionUI,
+								String.class);
+					}
+
+				}).getPreferredSize().height;
+		button.setPreferredSize(new Dimension(defaultHeight, defaultHeight));
+		iconControl
+				.setPreferredSize(new Dimension(defaultHeight, defaultHeight));
 		updateControls();
 	}
 
@@ -105,9 +122,7 @@ public class DialogAcessControl extends JPanel {
 			@Override
 			public Object getValue(Object object) {
 				Object fieldValue = field.getValue(object);
-				return ReflectionUIUtils.truncateNicely(ReflectionUIUtils
-						.multiToSingleLine(reflectionUI.toString(fieldValue)),
-						100);
+				return reflectionUI.toString(fieldValue);
 			}
 
 			@Override

@@ -78,7 +78,6 @@ import xy.reflect.ui.info.type.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.StandardEnumerationTypeInfo;
 import xy.reflect.ui.info.type.StandardMapAsListTypeInfo;
 import xy.reflect.ui.info.type.StandardMapAsListTypeInfo.StandardMapEntry;
-import xy.reflect.ui.info.type.TypeInfoProxyConfiguration;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -1264,6 +1263,9 @@ public class ReflectionUI {
 		}
 		window.pack();
 		window.setLocationRelativeTo(null);
+		Rectangle bounds = window.getBounds();
+		bounds.grow(50, 10);
+		window.setBounds(bounds);
 		adjustWindowBounds(window);
 		if (iconImage == null) {
 			window.setIconImage(new BufferedImage(1, 1,
@@ -1421,7 +1423,7 @@ public class ReflectionUI {
 		final ITypeInfo valueTypeInfo = getTypeInfo(getTypeInfoSource(valueArray[0]));
 		final Object toOpen;
 		if (valueTypeInfo.hasCustomFieldControl()) {
-			toOpen = wrapValueAsField(valueArray, "Value", title,
+			toOpen = ReflectionUIUtils.wrapValueAsField(this, valueArray, "Value", title,
 					settings.allReadOnly());
 		} else {
 			toOpen = valueArray[0];
@@ -1484,85 +1486,12 @@ public class ReflectionUI {
 		final ITypeInfo valueTypeInfo = getTypeInfo(getTypeInfoSource(valueArray[0]));
 		final Object toOpen;
 		if (valueTypeInfo.hasCustomFieldControl()) {
-			toOpen = wrapValueAsField(valueArray, "Value", title,
+			toOpen = ReflectionUIUtils.wrapValueAsField(this, valueArray, "Value", title,
 					settings.allReadOnly());
 		} else {
 			toOpen = valueArray[0];
 		}
 		openObjectFrame(toOpen, title, getObjectIconImage(valueArray[0]));
-	}
-
-	public Object wrapValueAsField(final Object[] valueArray,
-			final String fieldCaption, final String containingTypeCaption,
-			final boolean readOnly) {
-		final ITypeInfo valueTypeInfo = getTypeInfo(getTypeInfoSource(valueArray[0]));
-		return new PrecomputedTypeInfoInstanceWrapper(valueArray[0],
-				new TypeInfoProxyConfiguration() {
-
-					@Override
-					protected List<IFieldInfo> getFields(ITypeInfo type) {
-						return Collections
-								.<IFieldInfo> singletonList(new IFieldInfo() {
-
-									@Override
-									public void setValue(Object object,
-											Object value) {
-										valueArray[0] = value;
-									}
-
-									@Override
-									public boolean isReadOnly() {
-										return readOnly;
-									}
-
-									@Override
-									public boolean isNullable() {
-										return false;
-									}
-
-									@Override
-									public Object getValue(Object object) {
-										return valueArray[0];
-									}
-
-									@Override
-									public ITypeInfo getType() {
-										return valueTypeInfo;
-									}
-
-									@Override
-									public String getName() {
-										return "";
-									}
-
-									@Override
-									public String getCaption() {
-										return fieldCaption;
-									}
-
-									@Override
-									public InfoCategory getCategory() {
-										return null;
-									}
-
-									@Override
-									public String getDocumentation() {
-										return null;
-									}
-								});
-					}
-
-					@Override
-					protected List<IMethodInfo> getMethods(ITypeInfo type) {
-						return Collections.emptyList();
-					}
-
-					@Override
-					protected String getCaption(ITypeInfo type) {
-						return containingTypeCaption;
-					}
-
-				}.get(valueTypeInfo));
 	}
 
 	public List<JButton> createDialogOkCancelButtons(

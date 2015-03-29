@@ -20,7 +20,8 @@ public abstract  class AbstractTreeDetectionListStructuralInfo implements IListS
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo rootItemType;
 	protected abstract  boolean isFieldBased() ;
-
+	protected abstract boolean autoDetectTreeStructure();
+	
 	public AbstractTreeDetectionListStructuralInfo(ReflectionUI reflectionUI,
 			ITypeInfo rootItemType) {
 		this.reflectionUI = reflectionUI;
@@ -29,6 +30,9 @@ public abstract  class AbstractTreeDetectionListStructuralInfo implements IListS
 
 	@Override
 	public IFieldInfo getItemSubListField(IItemPosition itemPosition) {
+		if(!autoDetectTreeStructure()){
+			return null;
+		}
 		List<IFieldInfo> candidateFields = getItemSubListCandidateFields(itemPosition);
 		for (int i = 0; i < candidateFields.size(); i++) {
 			candidateFields.set(i, new HiddenNullableFacetFieldInfoProxy(

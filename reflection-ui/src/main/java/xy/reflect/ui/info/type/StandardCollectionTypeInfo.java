@@ -97,12 +97,12 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public Object fromStandardList(List<?> list) {
+	public Object fromListValue(Object[] listValue) {
 		IMethodInfo constructor = ReflectionUIUtils
 				.getZeroParameterConstrucor(this);
 		Collection result = (Collection) constructor.invoke(null,
 				Collections.<String, Object> emptyMap());
-		for (Object item : list) {
+		for (Object item : listValue) {
 			if (result instanceof Set) {
 				if (result.contains(item)) {
 					throw new ReflectionUIError("Duplicate item: '"
@@ -114,16 +114,22 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 		return result;
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public List<?> toStandardList(Object value) {
-		return new ArrayList((Collection<?>) value);
+	public Object[] toListValue(Object value) {
+		return ((Collection<?>) value).toArray();
 	}
 
 	@Override
 	public IListStructuralInfo getStructuralInfo() {
 		ITypeInfo itemType = getItemType();
+		if (!itemType.isConcrete()) {
+			try {
+				return new TabularTreetStructuralInfo(reflectionUI, itemType);
+			} catch (Exception ignore) {
+			}
+		}
 		return new DefaultListStructuralInfo(reflectionUI, itemType);
+
 	}
 
 	@Override

@@ -80,6 +80,8 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 					ITypeInfo actualFieldValueType = reflectionUI
 							.getTypeInfo(reflectionUI
 									.getTypeInfoSource(instance));
+					instanceByEnumerationValueCache.put(
+							actualFieldValueType, instance);
 					return actualFieldValueType;
 				}
 			}
@@ -105,9 +107,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 									selectedPolyType, false);
 							if (instance == null) {
 								return;
-							}
-							instanceByEnumerationValueCache.put(
-									selectedPolyType, instance);
+							}							
 						}
 						field.setValue(object, instance);
 					}

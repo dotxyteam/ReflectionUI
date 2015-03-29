@@ -151,7 +151,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 		boolean createEmbedFieldValueForm = false;
 		if (!fieldValueType.hasCustomFieldControl()) {
 			if ((fieldValueType.getFields().size() + fieldValueType
-					.getMethods().size()) <= 5) {
+					.getMethods().size()/4) <= 5) {
 				createEmbedFieldValueForm = true;
 			}
 		}

@@ -4,95 +4,121 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.IListTypeInfo.IItemPosition;
 import xy.reflect.ui.util.ReflectionUIError;
 
-public class TabularTreetStructuralInfo extends AbstractTreeDetectionListStructuralInfo{
+public class TabularTreetStructuralInfo extends
+		AbstractTreeDetectionListStructuralInfo {
 
 	protected List<IFieldInfo> rootItemFields;
 
 	public TabularTreetStructuralInfo(ReflectionUI reflectionUI,
 			ITypeInfo rootItemType) {
 		super(reflectionUI, rootItemType);
-		if (rootItemType != null) {
-			this.rootItemFields = filterFields(this.rootItemType.getFields());
+		if (rootItemType == null) {
+			throw new ReflectionUIError(
+					"Illegal 'rootItemType' argument: Must not be null");
+		}
+		this.rootItemFields = adaptFieldList(this.rootItemType.getFields());
+		if (rootItemFields.size() == 0) {
+			throw new ReflectionUIError(
+					"Cannot process the 'rootItemType' argument: No compatible field found");
 		}
 	}
 
-	protected List<IFieldInfo> filterFields(List<IFieldInfo> fields) {
+	protected List<IFieldInfo> adaptFieldList(List<IFieldInfo> fields) {
 		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
+		IFieldInfo treeField = getTreeField();
+		if (treeField != null) {
+			result.add(treeField);
+		}
 		for (IFieldInfo candidateField : fields) {
 			if (candidateField.getType() instanceof IListTypeInfo) {
 				continue;
 			}
-			result.add(candidateField);
+			if (candidateField.equals(treeField)) {
+				continue;
+			}
+			result.add(new FieldInfoProxy(candidateField) {
+
+				@Override
+				public Object getValue(Object object) {
+					IItemPosition itemPosition = (IItemPosition) object;
+					Object item = itemPosition.getItem();
+					if (rootItemType.equals(itemPosition
+							.getContainingListType().getItemType())) {
+						Object value = super.getValue(item);
+						return reflectionUI.toString(value);
+					} else {
+						return null;
+					}
+				}	
+
+			});
 		}
 		return result;
 	}
 
-	@Override
-	public int getColumnCount() {
-		if (!isFieldBased()) {
-			return 1;
+	protected IFieldInfo getTreeField() {
+		if (showsValueKindColumn()) {
+			return new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO){
+
+				@Override
+				public String getName() {
+					return "type";
+				}
+
+				@Override
+				public String getCaption() {
+					return "Type";
+				}
+
+				@Override
+				public Object getValue(Object object) {
+					return reflectionUI.getObjectKind(object);
+				}
+
+				@Override
+				public ITypeInfo getType() {
+					return new DefaultTypeInfo(reflectionUI,
+							String.class);
+				}
+			};
+		} else {
+			return null;
 		}
-		return rootItemFields.size() + (shouldShowValueKindColumn() ? 1 : 0);
 	}
 
-	protected boolean shouldShowValueKindColumn() {
-		if (!isFieldBased()) {
-			return false;
-		}
+	@Override
+	public int getColumnCount() {
+		return rootItemFields.size();
+	}
+
+	protected boolean showsValueKindColumn() {
 		return !rootItemType.isConcrete();
 	}
 
 	@Override
 	public String getColumnCaption(int columnIndex) {
-		if (!isFieldBased()) {
-			return "";
-		}
-		if (shouldShowValueKindColumn()) {
-			if (columnIndex == 0) {
-				return "Type";
-			}
-			return rootItemFields.get(columnIndex - 1).getCaption();
-		} else {
-			return rootItemFields.get(columnIndex).getCaption();
-		}
+		return rootItemFields.get(columnIndex).getCaption();
 	}
 
 	@Override
 	public String getCellValue(IItemPosition itemPosition, int columnIndex) {
-		if (!isFieldBased()) {
-			if (columnIndex != 0) {
-				throw new ReflectionUIError();
-			}
-			return reflectionUI.toString(itemPosition.getItem());
-		}
-		Object item = itemPosition.getItem();
-		if (shouldShowValueKindColumn()) {
-			if (columnIndex == 0) {
-				return reflectionUI.getObjectKind(item);
-			}
-			columnIndex = columnIndex - 1;
-		}
-		if (rootItemType.equals(itemPosition.getContainingListType()
-				.getItemType())) {
-			IFieldInfo itemField = rootItemFields.get(columnIndex);
-			Object value = itemField.getValue(item);
-			return reflectionUI.toString(value);
-		} else {
-			if (columnIndex == 0) {
-				return reflectionUI.toString(itemPosition.getItem());
-			} else {
-				return null;
-			}
-		}
+		IFieldInfo itemField = rootItemFields.get(columnIndex);
+		return (String) itemField.getValue(itemPosition);
 	}
 
 	@Override
 	protected boolean isFieldBased() {
-		return (rootItemFields != null) && (rootItemFields.size() > 0);
+		return true;
+	}
+
+	@Override
+	protected boolean autoDetectTreeStructure() {
+		return getTreeField() != null;
 	}
 
 }

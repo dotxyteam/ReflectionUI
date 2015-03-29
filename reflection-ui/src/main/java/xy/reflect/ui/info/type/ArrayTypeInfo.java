@@ -1,7 +1,6 @@
 package xy.reflect.ui.info.type;
 
 import java.lang.reflect.Array;
-import java.util.AbstractList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -19,27 +18,12 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 	}
 
 	@Override
-	public List<?> toStandardList(final Object value) {
-		return new AbstractList<Object>() {
-
-			@Override
-			public Object get(int index) {
-				return Array.get(value, index);
-			}
-
-			@Override
-			public int size() {
-				return Array.getLength(value);
-			}
-
-			@Override
-			public Object set(int index, Object element) {
-				Object oldElement = Array.get(value, index);
-				Array.set(value, index, element);
-				return oldElement;
-			}
-
-		};
+	public Object[] toListValue(final Object value) {
+		Object[] result = new Object[Array.getLength(value)];
+		for (int i = 0; i < Array.getLength(value); i++) {
+			result[i] = Array.get(value, i);
+		}
+		return result;
 	}
 
 	@Override
@@ -68,7 +52,7 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 					public List<IParameterInfo> getParameters() {
 						return Collections.emptyList();
 					}
-					
+
 				});
 	}
 
@@ -78,10 +62,10 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 	}
 
 	@Override
-	public Object fromStandardList(List<?> list) {
-		Object array = Array.newInstance(itemJavaType, list.size());
-		for (int i = 0; i < list.size(); i++) {
-			Array.set(array, i, list.get(i));
+	public Object fromListValue(Object[] listValue) {
+		Object array = Array.newInstance(itemJavaType, listValue.length);
+		for (int i = 0; i < listValue.length; i++) {
+			Array.set(array, i, listValue[i]);
 		}
 		return array;
 	}

@@ -1,16 +1,14 @@
 package xy.reflect.ui.info.type;
 
-import java.util.List;
-
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.IFieldInfo;
 
 public interface IListTypeInfo extends ITypeInfo {
 	ITypeInfo getItemType();
 
-	List<?> toStandardList(Object value);
+	Object[] toListValue(Object value);
 
-	Object fromStandardList(List<?> list);
+	Object fromListValue(Object[] listValue);
 
 	IListStructuralInfo getStructuralInfo();
 

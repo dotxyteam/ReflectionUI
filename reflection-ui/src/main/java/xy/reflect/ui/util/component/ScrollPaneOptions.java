@@ -14,7 +14,7 @@ public class ScrollPaneOptions extends JPanel implements Scrollable {
 	protected static final long serialVersionUID = 1L;
 	protected boolean limitWidthToViewport;
 	protected boolean limitHeightToViewport;
-	
+
 	public ScrollPaneOptions(Component content, boolean limitWidthToViewport,
 			boolean limitHeightToViewport) {
 		setLayout(new BorderLayout());
@@ -45,4 +45,5 @@ public class ScrollPaneOptions extends JPanel implements Scrollable {
 	public boolean getScrollableTracksViewportHeight() {
 		return limitHeightToViewport;
 	}
+
 }
