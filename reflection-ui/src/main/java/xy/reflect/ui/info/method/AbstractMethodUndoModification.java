@@ -2,8 +2,8 @@ package xy.reflect.ui.info.method;
 
 import java.util.Map;
 
-import xy.reflect.ui.control.ModificationStack;
-import xy.reflect.ui.control.ModificationStack.IModification;
+import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.undo.IModification;
 
 public abstract class AbstractMethodUndoModification implements IModification {
 

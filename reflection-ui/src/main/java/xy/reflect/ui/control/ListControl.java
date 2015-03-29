@@ -51,7 +51,6 @@ import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.jdesktop.swingx.treetable.TreeTableModel;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.ModificationStack.IModification;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.InfoCollectionSettingsProxy;
 import xy.reflect.ui.info.field.FieldInfoProxy;
@@ -63,6 +62,10 @@ import xy.reflect.ui.info.type.IListTypeInfo.IItemPosition;
 import xy.reflect.ui.info.type.IListTypeInfo.IListStructuralInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.JavaTypeInfoSource;
+import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.undo.IModification;
+import xy.reflect.ui.undo.ModificationOrder;
+import xy.reflect.ui.undo.SetListValueModification;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -1167,7 +1170,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 			TableColumn col = columnModel.getColumn(i);
 			col.setMinWidth(20 * ReflectionUIUtils
 					.getStandardCharacterWidth(treeTableComponent));
-		}		
+		}
 	}
 
 	public void visitItems(IItemsVisitor iItemsVisitor) {
@@ -1593,59 +1596,8 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 	}
 
-	protected class SetListValueModification implements
-			ModificationStack.IModification {
-		protected Object[] listValue;
-		private Object listOwner;
-		private IFieldInfo listField;
-
-		public SetListValueModification(Object[] listValue, Object listOwner,
-				IFieldInfo listField) {
-			this.listValue = listValue;
-			this.listOwner = listOwner;
-			this.listField = listField;
-		}
-
-		@Override
-		public int getNumberOfUnits() {
-			return 1;
-		}
-
-		@Override
-		public IModification applyAndGetOpposite(boolean refreshView) {
-			IListTypeInfo listType = (IListTypeInfo) listField.getType();
-			Object[] lastListValue = listType.toListValue(listField
-					.getValue(listOwner));
-
-			Object listFieldValue = listType.fromListValue(listValue);
-			listField.setValue(listOwner, listFieldValue);
-
-			final SetListValueModification currentModif = this;
-			return new SetListValueModification(lastListValue, listOwner,
-					listField) {
-				@Override
-				public String getTitle() {
-					return ModificationStack.getUndoTitle(currentModif
-							.getTitle());
-				}
-			};
-		}
-
-		@Override
-		public String toString() {
-			return getTitle();
-		}
-
-		@Override
-		public String getTitle() {
-			return "Edit '" + listField.getCaption() + "' of '"
-					+ reflectionUI.getObjectKind(listOwner) + "'";
-		}
-
-	}
-
 	protected class ChangeListSelectionModification implements
-			ModificationStack.IModification {
+			IModification {
 		protected List<ItemPosition> toSelect;
 		private List<ItemPosition> undoSelection;
 
@@ -1722,7 +1674,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 			Object listOwner = getListOwner();
 			if (!getListField().isReadOnly()) {
 				SetListValueModification modif = new SetListValueModification(
-						listValue, listOwner, getListField());
+						reflectionUI, listValue, listOwner, getListField());
 				if (itemPosition.isRootListItemPosition()) {
 					modif.applyAndGetOpposite(false);
 				} else {
@@ -1749,7 +1701,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 			}
 			ModificationStack modifStack = ReflectionUIUtils
 					.findModificationStack(ListControl.this, reflectionUI);
-			modifStack.endComposite(title, ModificationStack.Order.FIFO);
+			modifStack.endComposite(title, ModificationOrder.FIFO);
 		}
 
 		@Override

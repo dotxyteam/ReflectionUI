@@ -17,8 +17,6 @@ import javax.imageio.ImageIO;
 import org.ietf.jgss.GSSException;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.ModificationStack;
-import xy.reflect.ui.control.ModificationStack.IModification;
 import xy.reflect.ui.info.annotation.Category;
 import xy.reflect.ui.info.annotation.Documentation;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -33,6 +31,8 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.ITypeInfoSource;
 import xy.reflect.ui.info.type.TabularTreetStructuralInfo;
 import xy.reflect.ui.info.type.TypeInfoProxyConfiguration;
+import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.undo.IModification;
 
 @SuppressWarnings("unused")
 public class ReflectionUITest {

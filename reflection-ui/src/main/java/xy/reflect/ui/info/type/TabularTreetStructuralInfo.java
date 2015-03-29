@@ -30,7 +30,7 @@ public class TabularTreetStructuralInfo extends
 
 	protected List<IFieldInfo> adaptFieldList(List<IFieldInfo> fields) {
 		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
-		IFieldInfo treeField = getTreeField();
+		IFieldInfo treeField = getTreeColumnField();
 		if (treeField != null) {
 			result.add(treeField);
 		}
@@ -61,14 +61,9 @@ public class TabularTreetStructuralInfo extends
 		return result;
 	}
 
-	protected IFieldInfo getTreeField() {
-		if (showsValueKindColumn()) {
+	protected IFieldInfo getTreeColumnField() {
+		if (!rootItemType.isConcrete()) {
 			return new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO){
-
-				@Override
-				public String getName() {
-					return "type";
-				}
 
 				@Override
 				public String getCaption() {
@@ -78,12 +73,6 @@ public class TabularTreetStructuralInfo extends
 				@Override
 				public Object getValue(Object object) {
 					return reflectionUI.getObjectKind(object);
-				}
-
-				@Override
-				public ITypeInfo getType() {
-					return new DefaultTypeInfo(reflectionUI,
-							String.class);
 				}
 			};
 		} else {
@@ -96,9 +85,6 @@ public class TabularTreetStructuralInfo extends
 		return rootItemFields.size();
 	}
 
-	protected boolean showsValueKindColumn() {
-		return !rootItemType.isConcrete();
-	}
 
 	@Override
 	public String getColumnCaption(int columnIndex) {
@@ -118,7 +104,7 @@ public class TabularTreetStructuralInfo extends
 
 	@Override
 	protected boolean autoDetectTreeStructure() {
-		return getTreeField() != null;
+		return getTreeColumnField() != null;
 	}
 
 }

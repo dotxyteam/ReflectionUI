@@ -3,7 +3,7 @@ package xy.reflect.ui.info.field;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
-import xy.reflect.ui.info.type.DefaultTextualTypeInfo;
+import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 public interface IFieldInfo extends IInfo {
@@ -35,17 +35,17 @@ public interface IFieldInfo extends IInfo {
 
 		@Override
 		public boolean isNullable() {
-			return false;
+			return true;
 		}
 
 		@Override
 		public Object getValue(Object object) {
-			return "";
+			return null;
 		}
 
 		@Override
 		public ITypeInfo getType() {
-			return new DefaultTextualTypeInfo(new ReflectionUI(), String.class);
+			return new DefaultTypeInfo(new ReflectionUI(), Object.class);
 		}
 
 		@Override

@@ -8,12 +8,12 @@ import java.util.Map;
 
 import javax.swing.JFileChooser;
 
-import xy.reflect.ui.control.ModificationStack.IModification;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.IListTypeInfo.IListStructuralInfo;
+import xy.reflect.ui.undo.IModification;
 
 public class TypeInfoProxyConfiguration {
 

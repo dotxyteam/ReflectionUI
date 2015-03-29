@@ -41,7 +41,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.ModificationStack;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.annotation.Category;
@@ -54,6 +53,7 @@ import xy.reflect.ui.info.type.IListTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.info.type.TypeInfoProxyConfiguration;
+import xy.reflect.ui.undo.ModificationStack;
 
 import com.fasterxml.classmate.MemberResolver;
 import com.fasterxml.classmate.ResolvedType;

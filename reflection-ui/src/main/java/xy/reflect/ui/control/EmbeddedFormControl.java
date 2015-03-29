@@ -13,6 +13,9 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.info.type.TypeInfoProxyConfiguration;
+import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.undo.ModificationOrder;
+import xy.reflect.ui.undo.SetFieldValueModification;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -65,7 +68,7 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 						try {
 							if (parentModifStack != null) {
 								parentModifStack
-										.apply(new ModificationStack.SetFieldValueModification(
+										.apply(new SetFieldValueModification(
 												reflectionUI, subObject,
 												subField, subFieldValue), false);
 							} else {
@@ -80,7 +83,7 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 												field.getCaption(),
 												subField.getCaption()) + "'";
 								parentModifStack.endComposite(modifTitle,
-										ModificationStack.Order.FIFO);
+										ModificationOrder.FIFO);
 							}
 						}
 					}

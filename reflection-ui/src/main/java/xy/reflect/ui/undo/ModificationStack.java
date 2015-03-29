@@ -1,28 +1,20 @@
-package xy.reflect.ui.control;
+package xy.reflect.ui.undo;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
-
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.util.Accessor;
-import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class ModificationStack {
 
-	public enum Order {
-		LIFO, FIFO
-	};
 
 	public static final Object DO_EVENT = new Object();
 	public static final Object UNDO_EVENT = new Object();
@@ -74,7 +66,7 @@ public class ModificationStack {
 	protected Stack<IModification> redoStack = new Stack<IModification>();
 	protected String name;
 	protected Stack<ModificationStack> compositeStack = new Stack<ModificationStack>();
-	protected List<IModificationListener> listeners = new ArrayList<ModificationStack.IModificationListener>();
+	protected List<IModificationListener> listeners = new ArrayList<IModificationListener>();
 
 	public ModificationStack(String name) {
 		this.name = name;
@@ -96,6 +88,9 @@ public class ModificationStack {
 	public void pushUndo(IModification undoModif) {
 		if (compositeStack.size() > 0) {
 			compositeStack.peek().pushUndo(undoModif);
+			return;
+		}
+		if(undoModif.getNumberOfUnits() == 0){
 			return;
 		}
 		undoStack.push(undoModif);
@@ -163,9 +158,9 @@ public class ModificationStack {
 		}
 	}
 
-	public IModification[] getUndoModifications(Order order) {
+	public IModification[] getUndoModifications(ModificationOrder order) {
 		List<IModification> list = new ArrayList<IModification>(undoStack);
-		if (order == Order.LIFO) {
+		if (order == ModificationOrder.LIFO) {
 			Collections.reverse(list);
 		}
 		return list.toArray(new IModification[list.size()]);
@@ -176,7 +171,7 @@ public class ModificationStack {
 				+ compositeStack.size() + ") " + name));
 	}
 
-	public void endComposite(String title, Order order) {
+	public void endComposite(String title, ModificationOrder order) {
 		CompositeModification compositeUndoModif = new CompositeModification(
 				getUndoTitle(title), order, compositeStack.pop()
 						.getUndoModifications(order));
@@ -203,174 +198,10 @@ public class ModificationStack {
 		}
 	}
 
-	public static interface IModificationListener {
 
-		void handleEvent(Object event);
-	}
 
-	public interface IModification {
-		IModification applyAndGetOpposite(boolean refreshView);
 
-		int getNumberOfUnits();
 
-		String getTitle();
-	}
-
-	public static interface ModificationProxyConfiguration {
-		public void executeAfterApplication();
-	}
-
-	public static class ModificationProxy implements IModification {
-		IModification delegate;
-		ModificationProxyConfiguration configuration;
-
-		public ModificationProxy(IModification delegate,
-				ModificationProxyConfiguration configuration) {
-			super();
-			this.delegate = delegate;
-			this.configuration = configuration;
-		}
-
-		final public IModification applyAndGetOpposite(boolean refreshView) {
-			try {
-				return new ModificationProxy(
-						delegate.applyAndGetOpposite(refreshView),
-						configuration);
-			} finally {
-				configuration.executeAfterApplication();
-			}
-		}
-
-		final public int getNumberOfUnits() {
-			return delegate.getNumberOfUnits();
-		}
-
-		final public String getTitle() {
-			return delegate.getTitle();
-		}
-
-		@Override
-		final public String toString() {
-			return delegate.toString();
-		}
-
-	}
-
-	public static class SetFieldValueModification implements IModification {
-
-		protected Object object;
-		protected IFieldInfo field;
-		protected Object value;
-		protected ReflectionUI reflectionUI;
-
-		public SetFieldValueModification(ReflectionUI reflectionUI,
-				Object object, IFieldInfo field, Object value) {
-			this.reflectionUI = reflectionUI;
-			this.object = object;
-			this.field = field;
-			this.value = value;
-		}
-
-		@Override
-		public int getNumberOfUnits() {
-			return 1;
-		}
-
-		@Override
-		public IModification applyAndGetOpposite(boolean refreshView) {
-			Object currentValue = field.getValue(object);
-			final SetFieldValueModification currentModif = this;
-			SetFieldValueModification opposite = new SetFieldValueModification(
-					reflectionUI, object, field, currentValue) {
-				@Override
-				public String getTitle() {
-					return getUndoTitle(currentModif.getTitle());
-				}
-			};
-			field.setValue(object, value);
-			if (refreshView) {
-				for (JPanel form : reflectionUI.getForms(object)) {
-					reflectionUI.refreshAndRelayoutFieldControl(form,
-							field.getName());
-				}
-			}
-			return opposite;
-		}
-
-		@Override
-		public String toString() {
-			return getTitle();
-		}
-
-		@Override
-		public String getTitle() {
-			return "Edit '" + field.getCaption() + "'";
-		}
-
-	}
-
-	public static class CompositeModification implements IModification {
-
-		protected IModification[] modifications;
-		private String title;
-		private Order undoOrder;
-
-		public CompositeModification(String title, Order undoOrder,
-				IModification... modifications) {
-			this.title = title;
-			this.undoOrder = undoOrder;
-			this.modifications = modifications;
-		}
-
-		@Override
-		public int getNumberOfUnits() {
-			int result = 0;
-			for (IModification modif : modifications) {
-				result += modif.getNumberOfUnits();
-			}
-			return result;
-		}
-
-		public CompositeModification(String title, Order undoOrder,
-				List<IModification> modifications) {
-			this(title, undoOrder, modifications
-					.toArray(new IModification[modifications.size()]));
-		}
-
-		@Override
-		public IModification applyAndGetOpposite(boolean refreshView) {
-			List<IModification> oppositeModifications = new ArrayList<ModificationStack.IModification>();
-			for (IModification modif : modifications) {
-				if (undoOrder == Order.LIFO) {
-					oppositeModifications.add(0,
-							modif.applyAndGetOpposite(refreshView));
-				} else if (undoOrder == Order.FIFO) {
-					oppositeModifications.add(modif
-							.applyAndGetOpposite(refreshView));
-				} else {
-					throw new ReflectionUIError();
-				}
-			}
-			return new CompositeModification(getUndoTitle(title), undoOrder,
-					oppositeModifications);
-		}
-
-		@Override
-		public String toString() {
-			return getTitle();
-		}
-
-		@Override
-		public String getTitle() {
-			if (title != null) {
-				return title;
-			} else {
-				return ReflectionUIUtils.stringJoin(
-						Arrays.asList(modifications), ", ");
-			}
-		}
-
-	}
 
 	public List<Component> createControls(final ReflectionUI reflectionUI) {
 		List<Component> result = new ArrayList<Component>();
