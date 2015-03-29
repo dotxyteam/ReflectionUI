@@ -15,13 +15,14 @@ import xy.reflect.ui.info.type.IListTypeInfo.IItemPosition;
 import xy.reflect.ui.info.type.IListTypeInfo.IListStructuralInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public abstract  class AbstractTreeDetectionListStructuralInfo implements IListStructuralInfo {
+public abstract class AbstractTreeDetectionListStructuralInfo implements
+		IListStructuralInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo rootItemType;
-	protected abstract  boolean isFieldBased() ;
+
 	protected abstract boolean autoDetectTreeStructure();
-	
+
 	public AbstractTreeDetectionListStructuralInfo(ReflectionUI reflectionUI,
 			ITypeInfo rootItemType) {
 		this.reflectionUI = reflectionUI;
@@ -30,7 +31,7 @@ public abstract  class AbstractTreeDetectionListStructuralInfo implements IListS
 
 	@Override
 	public IFieldInfo getItemSubListField(IItemPosition itemPosition) {
-		if(!autoDetectTreeStructure()){
+		if (!autoDetectTreeStructure()) {
 			return null;
 		}
 		List<IFieldInfo> candidateFields = getItemSubListCandidateFields(itemPosition);
@@ -60,18 +61,14 @@ public abstract  class AbstractTreeDetectionListStructuralInfo implements IListS
 			IFieldInfo entryValueField = entryType.getValueField();
 			ITypeInfo entryValueType = entryValueField.getType();
 			if (entryValueType instanceof IListTypeInfo) {
-				if (!isFieldBased()) {
+				ITypeInfo entryValuListItemType = ((IListTypeInfo) entryValueType)
+						.getItemType();
+				ITypeInfo parentListItemType = itemPosition
+						.getParentItemPosition().getContainingListType()
+						.getItemType();
+				if (ReflectionUIUtils.equalsOrBothNull(parentListItemType,
+						entryValuListItemType)) {
 					result.add(entryValueField);
-				} else {
-					ITypeInfo entryValuListItemType = ((IListTypeInfo) entryValueType)
-							.getItemType();
-					ITypeInfo parentListItemType = itemPosition
-							.getParentItemPosition().getContainingListType()
-							.getItemType();
-					if (ReflectionUIUtils.equalsOrBothNull(parentListItemType,
-							entryValuListItemType)) {
-						result.add(entryValueField);
-					}
 				}
 			}
 		} else {
@@ -79,28 +76,24 @@ public abstract  class AbstractTreeDetectionListStructuralInfo implements IListS
 			for (IFieldInfo field : itemFields) {
 				ITypeInfo fieldType = field.getType();
 				if (fieldType instanceof IListTypeInfo) {
-					if (!isFieldBased()) {
-						result.add(field);
-					} else {
-						ITypeInfo subListItemType = ((IListTypeInfo) fieldType)
-								.getItemType();
-						if (subListItemType instanceof IMapEntryTypeInfo) {
-							IMapEntryTypeInfo entryType = (IMapEntryTypeInfo) subListItemType;
-							ITypeInfo entryValueType = entryType
-									.getValueField().getType();
-							if (entryValueType instanceof IListTypeInfo) {
-								ITypeInfo entryValuListItemType = ((IListTypeInfo) entryValueType)
-										.getItemType();
-								if (ReflectionUIUtils.equalsOrBothNull(
-										itemType, entryValuListItemType)) {
-									result.add(field);
-								}
-							}
-						} else {
+					ITypeInfo subListItemType = ((IListTypeInfo) fieldType)
+							.getItemType();
+					if (subListItemType instanceof IMapEntryTypeInfo) {
+						IMapEntryTypeInfo entryType = (IMapEntryTypeInfo) subListItemType;
+						ITypeInfo entryValueType = entryType.getValueField()
+								.getType();
+						if (entryValueType instanceof IListTypeInfo) {
+							ITypeInfo entryValuListItemType = ((IListTypeInfo) entryValueType)
+									.getItemType();
 							if (ReflectionUIUtils.equalsOrBothNull(itemType,
-									subListItemType)) {
+									entryValuListItemType)) {
 								result.add(field);
 							}
+						}
+					} else {
+						if (ReflectionUIUtils.equalsOrBothNull(itemType,
+								subListItemType)) {
+							result.add(field);
 						}
 					}
 				}
@@ -113,24 +106,26 @@ public abstract  class AbstractTreeDetectionListStructuralInfo implements IListS
 	public IInfoCollectionSettings getItemInfoSettings(
 			final IItemPosition itemPosition) {
 		return new IInfoCollectionSettings() {
-			
+
 			@Override
 			public boolean excludeMethod(IMethodInfo method) {
 				return false;
 			}
-			
+
 			@Override
 			public boolean excludeField(IFieldInfo field) {
 				Object item = itemPosition.getItem();
 				if (item instanceof VirtualItem) {
 					return ((IListTypeInfo) new MultiSubListField(reflectionUI,
 							Collections.<IFieldInfo> emptyList()).getType())
-							.getStructuralInfo().getItemInfoSettings(itemPosition).excludeField(field);
+							.getStructuralInfo()
+							.getItemInfoSettings(itemPosition)
+							.excludeField(field);
 				}
 				List<IFieldInfo> candidateFields = getItemSubListCandidateFields(itemPosition);
 				return candidateFields.contains(field);
 			}
-			
+
 			@Override
 			public boolean allReadOnly() {
 				return false;

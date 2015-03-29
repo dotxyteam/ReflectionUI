@@ -32,11 +32,6 @@ public class DefaultListStructuralInfo extends
 	}
 
 	@Override
-	protected boolean isFieldBased() {
-		return false;
-	}
-
-	@Override
 	protected boolean autoDetectTreeStructure() {
 		return true;
 	}

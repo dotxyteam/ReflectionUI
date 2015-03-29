@@ -924,77 +924,94 @@ public class ReflectionUIUtils {
 		return false;
 	}
 
-	public static Object wrapValueAsField(ReflectionUI reflectionUI,  final Object[] valueArray,
-			final String fieldCaption, final String containingTypeCaption,
-			final boolean readOnly) {
-		final ITypeInfo valueTypeInfo = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(valueArray[0]));
+	public static Object wrapValueAsField(ReflectionUI reflectionUI,
+			final Object[] valueArray, final String fieldCaption,
+			final String containingTypeCaption, final boolean readOnly) {
+		final ITypeInfo valueTypeInfo = reflectionUI.getTypeInfo(reflectionUI
+				.getTypeInfoSource(valueArray[0]));
 		return new PrecomputedTypeInfoInstanceWrapper(valueArray[0],
 				new TypeInfoProxyConfiguration() {
-	
+
 					@Override
 					protected List<IFieldInfo> getFields(ITypeInfo type) {
 						return Collections
 								.<IFieldInfo> singletonList(new IFieldInfo() {
-	
+
 									@Override
 									public void setValue(Object object,
 											Object value) {
 										valueArray[0] = value;
 									}
-	
+
 									@Override
 									public boolean isReadOnly() {
 										return readOnly;
 									}
-	
+
 									@Override
 									public boolean isNullable() {
 										return false;
 									}
-	
+
 									@Override
 									public Object getValue(Object object) {
 										return valueArray[0];
 									}
-	
+
 									@Override
 									public ITypeInfo getType() {
 										return valueTypeInfo;
 									}
-	
+
 									@Override
 									public String getName() {
 										return "";
 									}
-	
+
 									@Override
 									public String getCaption() {
 										return fieldCaption;
 									}
-	
+
 									@Override
 									public InfoCategory getCategory() {
 										return null;
 									}
-	
+
 									@Override
 									public String getDocumentation() {
 										return null;
 									}
 								});
 					}
-	
+
 					@Override
 					protected List<IMethodInfo> getMethods(ITypeInfo type) {
 						return Collections.emptyList();
 					}
-	
+
 					@Override
 					protected String getCaption(ITypeInfo type) {
 						return containingTypeCaption;
 					}
-	
+
 				}.get(valueTypeInfo));
+	}
+
+	public static <T extends Comparable<T>> int compareNullables(T c1, T c2) {
+		if (c1 == null) {
+			if (c2 == null) {
+				return 0;
+			} else {
+				return -1;
+			}
+		} else {
+			if (c2 == null) {
+				return 1;
+			} else {
+				return c1.compareTo(c2);
+			}
+		}
 	}
 
 }

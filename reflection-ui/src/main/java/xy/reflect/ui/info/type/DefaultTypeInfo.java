@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
@@ -103,7 +104,38 @@ public class DefaultTypeInfo implements ITypeInfo {
 			}
 			result.add(getterFieldInfo);
 		}
+		sortFields(result);
 		return result;
+	}
+
+	protected void sortFields(List<IFieldInfo> list) {
+		Collections.sort(list, new Comparator<IFieldInfo>() {
+			@Override
+			public int compare(IFieldInfo f1, IFieldInfo f2) {
+				int result;
+
+				result = ReflectionUIUtils.compareNullables(f1.getCategory(),
+						f2.getCategory());
+				if (result != 0) {
+					return result;
+				}
+
+				result = ReflectionUIUtils.compareNullables(f1.getType()
+						.getName().toUpperCase(), f2.getType().getName()
+						.toUpperCase());
+				if (result != 0) {
+					return result;
+				}
+
+				result = ReflectionUIUtils.compareNullables(f1.getName(),
+						f2.getName());
+				if (result != 0) {
+					return result;
+				}
+
+				return 0;
+			}
+		});
 	}
 
 	@Override
@@ -115,7 +147,53 @@ public class DefaultTypeInfo implements ITypeInfo {
 			}
 			result.add(new DefaultMethodInfo(reflectionUI, javaMethod));
 		}
+		sortMethods(result);
 		return result;
+	}
+
+	protected void sortMethods(List<IMethodInfo> list) {
+		Collections.sort(list, new Comparator<IMethodInfo>() {
+			@Override
+			public int compare(IMethodInfo m1, IMethodInfo m2) {
+				int result;
+
+				result = ReflectionUIUtils.compareNullables(m1.getCategory(),
+						m2.getCategory());
+				if (result != 0) {
+					return result;
+				}
+
+				String returnType1;
+				{
+					if (m1.getReturnValueType() == null) {
+						returnType1 = "";
+					} else {
+						returnType1 = m1.getReturnValueType().getName();
+					}
+				}
+				String returnType2;
+				{
+					if (m2.getReturnValueType() == null) {
+						returnType2 = "";
+					} else {
+						returnType2 = m2.getReturnValueType().getName();
+					}
+				}
+				result = ReflectionUIUtils.compareNullables(returnType1,
+						returnType2);
+				if (result != 0) {
+					return result;
+				}
+
+				result = ReflectionUIUtils.compareNullables(m1.getName(),
+						m2.getName());
+				if (result != 0) {
+					return result;
+				}
+
+				return 0;
+			}
+		});
 	}
 
 	@Override
@@ -151,7 +229,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 		boolean createEmbedFieldValueForm = false;
 		if (!fieldValueType.hasCustomFieldControl()) {
 			if ((fieldValueType.getFields().size() + fieldValueType
-					.getMethods().size()/4) <= 5) {
+					.getMethods().size() / 4) <= 5) {
 				createEmbedFieldValueForm = true;
 			}
 		}

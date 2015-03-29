@@ -206,19 +206,7 @@ public class ReflectionUITest {
 									valueByParameterName);
 						}
 					}
-
-					@Override
-					protected IListStructuralInfo getStructuralInfo(
-							IListTypeInfo type) {
-						try {
-							return new TabularTreetStructuralInfo(
-									thisReflectionUI, type.getItemType());
-						} catch (Exception ignore) {
-							return new DefaultListStructuralInfo(
-									thisReflectionUI, type.getItemType());
-						}
-					}
-
+					
 				}.get(super.getTypeInfo(typeSource));
 			}
 		};

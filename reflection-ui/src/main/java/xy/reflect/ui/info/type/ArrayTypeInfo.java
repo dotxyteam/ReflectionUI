@@ -70,4 +70,11 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 		return array;
 	}
 
+	@Override
+	public boolean isOrdered() {
+		return true;
+	}
+
+	
+	
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.ListControl.ItemPosition;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.IListTypeInfo.IItemPosition;
@@ -12,7 +13,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 public class TabularTreetStructuralInfo extends
 		AbstractTreeDetectionListStructuralInfo {
 
-	protected List<IFieldInfo> rootItemFields;
+	protected List<IFieldInfo> columnFields;
 
 	public TabularTreetStructuralInfo(ReflectionUI reflectionUI,
 			ITypeInfo rootItemType) {
@@ -21,11 +22,15 @@ public class TabularTreetStructuralInfo extends
 			throw new ReflectionUIError(
 					"Illegal 'rootItemType' argument: Must not be null");
 		}
-		this.rootItemFields = adaptFieldList(this.rootItemType.getFields());
-		if (rootItemFields.size() == 0) {
+		this.columnFields = adaptFieldList(this.rootItemType.getFields());
+		if (columnFields.size() == 0) {
 			throw new ReflectionUIError(
 					"Cannot process the 'rootItemType' argument: No compatible field found");
 		}
+	}
+
+	public List<IFieldInfo> getColumnFields() {
+		return columnFields;
 	}
 
 	protected List<IFieldInfo> adaptFieldList(List<IFieldInfo> fields) {
@@ -54,7 +59,7 @@ public class TabularTreetStructuralInfo extends
 					} else {
 						return null;
 					}
-				}	
+				}
 
 			});
 		}
@@ -63,7 +68,7 @@ public class TabularTreetStructuralInfo extends
 
 	protected IFieldInfo getTreeColumnField() {
 		if (!rootItemType.isConcrete()) {
-			return new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO){
+			return new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
 
 				@Override
 				public String getCaption() {
@@ -72,7 +77,8 @@ public class TabularTreetStructuralInfo extends
 
 				@Override
 				public Object getValue(Object object) {
-					return reflectionUI.getObjectKind(object);
+					Object item = ((ItemPosition) object).getItem();
+					return reflectionUI.getObjectKind(item);
 				}
 			};
 		} else {
@@ -82,24 +88,18 @@ public class TabularTreetStructuralInfo extends
 
 	@Override
 	public int getColumnCount() {
-		return rootItemFields.size();
+		return columnFields.size();
 	}
-
 
 	@Override
 	public String getColumnCaption(int columnIndex) {
-		return rootItemFields.get(columnIndex).getCaption();
+		return columnFields.get(columnIndex).getCaption();
 	}
 
 	@Override
 	public String getCellValue(IItemPosition itemPosition, int columnIndex) {
-		IFieldInfo itemField = rootItemFields.get(columnIndex);
+		IFieldInfo itemField = columnFields.get(columnIndex);
 		return (String) itemField.getValue(itemPosition);
-	}
-
-	@Override
-	protected boolean isFieldBased() {
-		return true;
 	}
 
 	@Override

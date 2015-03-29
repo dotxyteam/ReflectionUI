@@ -122,11 +122,13 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 	@Override
 	public IListStructuralInfo getStructuralInfo() {
 		ITypeInfo itemType = getItemType();
-		if (!itemType.isConcrete()) {
-			try {
-				return new TabularTreetStructuralInfo(reflectionUI, itemType);
-			} catch (Exception ignore) {
+		try {
+			TabularTreetStructuralInfo tabularInfo = new TabularTreetStructuralInfo(
+					reflectionUI, itemType);
+			if (tabularInfo.getColumnFields().size() >= 3) {
+				return tabularInfo;
 			}
+		} catch (Exception ignore) {
 		}
 		return new DefaultListStructuralInfo(reflectionUI, itemType);
 
