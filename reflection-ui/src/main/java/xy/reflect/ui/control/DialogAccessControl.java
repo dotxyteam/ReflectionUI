@@ -24,7 +24,7 @@ import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class DialogAcessControl extends JPanel {
+public class DialogAccessControl extends JPanel {
 
 	protected static final long serialVersionUID = 1L;
 	protected ReflectionUI reflectionUI;
@@ -35,7 +35,7 @@ public class DialogAcessControl extends JPanel {
 	protected Component iconControl;
 	protected Component button;
 
-	public DialogAcessControl(final ReflectionUI reflectionUI,
+	public DialogAccessControl(final ReflectionUI reflectionUI,
 			final Object object, final IFieldInfo field) {
 		this.reflectionUI = reflectionUI;
 		this.object = object;
@@ -158,7 +158,7 @@ public class DialogAcessControl extends JPanel {
 
 		};
 		ModificationStack parentStack = ReflectionUIUtils
-				.findModificationStack(DialogAcessControl.this, reflectionUI);
+				.findModificationStack(DialogAccessControl.this, reflectionUI);
 		String title = reflectionUI.getFieldTitle(object, field);
 		IInfoCollectionSettings settings = new IInfoCollectionSettings() {
 			@Override

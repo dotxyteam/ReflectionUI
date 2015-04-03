@@ -11,7 +11,7 @@ import xy.reflect.ui.info.type.DefaultTextualTypeInfo;
 import xy.reflect.ui.info.type.FileTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
-public class FileControl extends DialogAcessControl {
+public class FileControl extends DialogAccessControl {
 
 	protected static final long serialVersionUID = 1L;
 

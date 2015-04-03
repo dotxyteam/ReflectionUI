@@ -12,7 +12,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.DialogAcessControl;
+import xy.reflect.ui.control.DialogAccessControl;
 import xy.reflect.ui.control.EmbeddedFormControl;
 import xy.reflect.ui.control.NullableControl;
 import xy.reflect.ui.control.PolymorphicEmbeddedForm;
@@ -236,7 +236,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 		if (createEmbeddedForm) {
 			return new EmbeddedFormControl(reflectionUI, object, field);
 		} else {
-			return new DialogAcessControl(reflectionUI, object, field);
+			return new DialogAccessControl(reflectionUI, object, field);
 		}
 	}
 

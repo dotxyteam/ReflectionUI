@@ -406,6 +406,23 @@ public class ReflectionUIUtils {
 		return null;
 	}
 
+	public static List<JPanel> findDescendantForms(Container container,
+			ReflectionUI reflectionUI) {
+		List<JPanel> result = new ArrayList<JPanel>();
+		for (Component childComponent : container.getComponents()) {
+			if (reflectionUI.getObjectByForm().keySet()
+					.contains(childComponent)) {
+				result.add((JPanel) childComponent);
+			} else {
+				if (childComponent instanceof Container) {
+					result.addAll(findDescendantForms(
+							(Container) childComponent, reflectionUI));
+				}
+			}
+		}
+		return result;
+	}
+
 	public static String changeCase(String result, boolean upperElseLower,
 			int subStringStart, int subStringEnd) {
 		String subString = result.substring(subStringStart, subStringEnd);
