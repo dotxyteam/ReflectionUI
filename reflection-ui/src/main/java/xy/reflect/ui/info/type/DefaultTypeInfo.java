@@ -25,6 +25,7 @@ import xy.reflect.ui.info.field.PublicFieldInfo;
 import xy.reflect.ui.info.method.DefaultConstructorMethodInfo;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -167,24 +168,42 @@ public class DefaultTypeInfo implements ITypeInfo {
 					return result;
 				}
 
-				String returnType1;
+				List<String> parameterTypeNames1 = new ArrayList<String>();
+				for (IParameterInfo param : m1.getParameters()) {
+					parameterTypeNames1.add(param.getType().getName());
+				}
+				Collections.sort(parameterTypeNames1);
+				List<String> parameterTypeNames2 = new ArrayList<String>();
+				for (IParameterInfo param : m2.getParameters()) {
+					parameterTypeNames2.add(param.getType().getName());
+				}
+				Collections.sort(parameterTypeNames2);
+				result = ReflectionUIUtils
+						.stringJoin(parameterTypeNames1, "\n").compareTo(
+								ReflectionUIUtils.stringJoin(
+										parameterTypeNames2, "\n"));
+				if (result != 0) {
+					return result;
+				}
+
+				String returnTypeName1;
 				{
 					if (m1.getReturnValueType() == null) {
-						returnType1 = "";
+						returnTypeName1 = "";
 					} else {
-						returnType1 = m1.getReturnValueType().getName();
+						returnTypeName1 = m1.getReturnValueType().getName();
 					}
 				}
-				String returnType2;
+				String returnTypeName2;
 				{
 					if (m2.getReturnValueType() == null) {
-						returnType2 = "";
+						returnTypeName2 = "";
 					} else {
-						returnType2 = m2.getReturnValueType().getName();
+						returnTypeName2 = m2.getReturnValueType().getName();
 					}
 				}
-				result = ReflectionUIUtils.compareNullables(returnType1,
-						returnType2);
+				result = ReflectionUIUtils.compareNullables(returnTypeName1,
+						returnTypeName2);
 				if (result != 0) {
 					return result;
 				}
