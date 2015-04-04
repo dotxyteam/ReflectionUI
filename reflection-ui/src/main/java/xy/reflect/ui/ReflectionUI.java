@@ -1405,7 +1405,7 @@ public class ReflectionUI {
 				return returnValueArray[0];
 			}
 		} catch (Throwable t) {
-			throw new ReflectionUIError("Could not create an object of type '"
+			throw new ReflectionUIError("Could not create an instance of type '"
 					+ type + "': " + t.toString(), t);
 		}
 
