@@ -2,6 +2,8 @@ package xy.reflect.ui.control;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Collections;
+import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
@@ -60,6 +62,11 @@ public class NullControl extends TextControl {
 			@Override
 			public InfoCategory getCategory() {
 				return null;
+			}
+
+			@Override
+			public Map<String, Object> getSpecificProperties() {
+				return Collections.emptyMap();
 			}
 		});
 		if (onMousePress != null) {

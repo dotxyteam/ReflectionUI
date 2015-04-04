@@ -2,7 +2,9 @@ package xy.reflect.ui.info.field;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfoCollectionSettings;
@@ -52,12 +54,12 @@ public class MultiSubListField implements IFieldInfo {
 					public IInfoCollectionSettings getItemInfoSettings(
 							IItemPosition itemPosition) {
 						return new IInfoCollectionSettings() {
-							
+
 							@Override
 							public boolean excludeMethod(IMethodInfo method) {
 								return false;
 							}
-							
+
 							@Override
 							public boolean excludeField(IFieldInfo field) {
 								ITypeInfo virtualItemtypeInfo = new DefaultTypeInfo(
@@ -70,16 +72,17 @@ public class MultiSubListField implements IFieldInfo {
 										.findInfoByName(
 												virtualItemtypeInfo.getFields(),
 												"listField");
-								return Arrays.asList(objectFieldInfo, listFieldFieldInfo).contains(field);
+								return Arrays.asList(objectFieldInfo,
+										listFieldFieldInfo).contains(field);
 							}
-							
+
 							@Override
 							public boolean allReadOnly() {
 								return false;
 							}
 						};
 					}
-					
+
 				};
 			}
 
@@ -200,6 +203,11 @@ public class MultiSubListField implements IFieldInfo {
 				public String getDocumentation() {
 					return null;
 				}
+
+				@Override
+				public Map<String, Object> getSpecificProperties() {
+					return Collections.emptyMap();
+				}
 			};
 		}
 
@@ -237,6 +245,11 @@ public class MultiSubListField implements IFieldInfo {
 	@Override
 	public String getDocumentation() {
 		return null;
+	}
+
+	@Override
+	public Map<String, Object> getSpecificProperties() {
+		return Collections.emptyMap();
 	}
 
 }

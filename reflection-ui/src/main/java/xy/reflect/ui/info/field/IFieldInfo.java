@@ -1,5 +1,8 @@
 package xy.reflect.ui.info.field;
 
+import java.util.Collections;
+import java.util.Map;
+
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
@@ -51,6 +54,11 @@ public interface IFieldInfo extends IInfo {
 		@Override
 		public InfoCategory getCategory() {
 			return null;
+		}
+
+		@Override
+		public Map<String, Object> getSpecificProperties() {
+			return Collections.emptyMap();
 		}
 	};
 

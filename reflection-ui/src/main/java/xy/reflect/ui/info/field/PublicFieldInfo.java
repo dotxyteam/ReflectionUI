@@ -2,6 +2,8 @@ package xy.reflect.ui.info.field;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Collections;
+import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
@@ -114,5 +116,10 @@ public class PublicFieldInfo implements IFieldInfo {
 		return ReflectionUIUtils.getAnnotatedInfoDocumentation(javaField);
 	}
 
+
+	@Override
+	public Map<String, Object> getSpecificProperties() {
+		return Collections.emptyMap();
+	}
 
 };

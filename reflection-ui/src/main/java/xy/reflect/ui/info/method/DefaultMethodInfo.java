@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -190,6 +191,11 @@ public class DefaultMethodInfo implements IMethodInfo {
 	@Override
 	public void validateParameters(Object object,
 			Map<String, Object> valueByParameterName) throws Exception {
+	}
+
+	@Override
+	public Map<String, Object> getSpecificProperties() {
+		return Collections.emptyMap();
 	}
 
 }

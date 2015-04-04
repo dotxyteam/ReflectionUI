@@ -7,6 +7,9 @@ import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collections;
+import java.util.Map;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -139,6 +142,11 @@ public class DialogAccessControl extends JPanel {
 			@Override
 			public String getDocumentation() {
 				return null;
+			}
+
+			@Override
+			public Map<String, Object> getSpecificProperties() {
+				return Collections.emptyMap();
 			}
 		});
 	}

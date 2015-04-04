@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.method;
 
+import java.util.Collections;
 import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
@@ -70,6 +71,11 @@ public abstract class AbstractConstructorMethodInfo implements IMethodInfo {
 	public void validateParameters(Object object,
 			Map<String, Object> valueByParameterName) throws Exception {
 	}
-	
+
+
+	@Override
+	public Map<String, Object> getSpecificProperties() {
+		return Collections.emptyMap();
+	}
 
 }

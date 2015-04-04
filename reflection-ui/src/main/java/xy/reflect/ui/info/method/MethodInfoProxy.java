@@ -87,5 +87,10 @@ public class MethodInfoProxy implements IMethodInfo {
 			Map<String, Object> valueByParameterName) throws Exception {
 		base.validateParameters(object, valueByParameterName);
 	}
-	
+
+
+	@Override
+	public Map<String, Object> getSpecificProperties() {
+		return base.getSpecificProperties();
+	}
 }

@@ -2,6 +2,8 @@ package xy.reflect.ui.info.parameter;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Member;
+import java.util.Collections;
+import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.annotation.Documentation;
@@ -111,6 +113,11 @@ public class DefaultParameterInfo implements IParameterInfo {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public Map<String, Object> getSpecificProperties() {
+		return Collections.emptyMap();
 	}
 
 }

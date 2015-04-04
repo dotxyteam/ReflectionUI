@@ -2,6 +2,8 @@ package xy.reflect.ui.control;
 
 import java.awt.Component;
 import java.io.File;
+import java.util.Collections;
+import java.util.Map;
 
 import javax.swing.JFileChooser;
 import xy.reflect.ui.ReflectionUI;
@@ -74,6 +76,11 @@ public class FileControl extends DialogAccessControl {
 			@Override
 			public String getDocumentation() {
 				return null;
+			}
+
+			@Override
+			public Map<String, Object> getSpecificProperties() {
+				return Collections.emptyMap();
 			}
 		});
 	}

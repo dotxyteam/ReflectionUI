@@ -72,6 +72,11 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 			}
 
 			@Override
+			public Map<String, Object> getSpecificProperties() {
+				return Collections.emptyMap();
+			}
+
+			@Override
 			public Object getValue(Object object) {
 				Object instance = field.getValue(object);
 				if (instance == null) {
@@ -143,6 +148,11 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 					@Override
 					public String getCaption() {
 						return "";
+					}
+
+					@Override
+					public Map<String, Object> getSpecificProperties() {
+						return Collections.emptyMap();
 					}
 
 					@Override

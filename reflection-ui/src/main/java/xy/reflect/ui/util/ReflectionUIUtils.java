@@ -999,6 +999,11 @@ public class ReflectionUIUtils {
 									public String getDocumentation() {
 										return null;
 									}
+
+									@Override
+									public Map<String, Object> getSpecificProperties() {
+										return Collections.emptyMap();
+									}
 								});
 					}
 

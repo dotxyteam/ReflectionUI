@@ -1,6 +1,8 @@
 package xy.reflect.ui.info.field;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -88,7 +90,7 @@ public class SubFieldInfo implements IFieldInfo {
 		if (obj == null) {
 			return false;
 		}
-		if(obj == this){
+		if (obj == this) {
 			return true;
 		}
 		if (!getClass().equals(obj.getClass())) {
@@ -113,4 +115,8 @@ public class SubFieldInfo implements IFieldInfo {
 		return theSubField.getDocumentation();
 	}
 
+	@Override
+	public Map<String, Object> getSpecificProperties() {
+		return Collections.emptyMap();
+	}
 }

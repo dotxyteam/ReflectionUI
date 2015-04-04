@@ -9,7 +9,9 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.DialogAccessControl;
@@ -28,6 +30,8 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class DefaultTypeInfo implements ITypeInfo {
 
+	private static final String DO_NOT_CREATE_EMBEDDED_FORM_PROPRTY_KEY = DefaultTypeInfo.class
+			.getName() + "#IS_EMBEDDED_FORM_CONTENT_PROPRTY_KEY";
 	protected Class<?> javaType;
 	protected ReflectionUI reflectionUI;
 
@@ -226,18 +230,65 @@ public class DefaultTypeInfo implements ITypeInfo {
 								});
 			}
 		}
-		boolean createEmbeddedForm = false;
-		if (!fieldValueType.hasCustomFieldControl()) {
-			if ((fieldValueType.getFields().size() + fieldValueType
-					.getMethods().size() / 4) <= 5) {
-				createEmbeddedForm = true;
+		boolean shouldCreateEmbeddedForm = false;
+		if (Boolean.TRUE.equals(field.getSpecificProperties().get(
+				DO_NOT_CREATE_EMBEDDED_FORM_PROPRTY_KEY))) {
+			field = preventNestedEmbeddedForm(field);
+		} else {
+			if (!fieldValueType.hasCustomFieldControl()) {
+				if ((fieldValueType.getFields().size() + fieldValueType
+						.getMethods().size() / 4) <= 5) {
+					shouldCreateEmbeddedForm = true;
+					field = preventNestedEmbeddedForm(field);
+				}
 			}
 		}
-		if (createEmbeddedForm) {
+		if (shouldCreateEmbeddedForm) {
 			return new EmbeddedFormControl(reflectionUI, object, field);
 		} else {
 			return new DialogAccessControl(reflectionUI, object, field);
 		}
+	}
+
+	protected IFieldInfo preventNestedEmbeddedForm(IFieldInfo field) {
+		return new FieldInfoProxy(field) {
+
+			@Override
+			public Object getValue(Object object) {
+				Object result = super.getValue(object);
+				if (result != null) {
+					ITypeInfo resultType = reflectionUI
+							.getTypeInfo(reflectionUI.getTypeInfoSource(result));
+					resultType = new TypeInfoProxyConfiguration() {
+
+						@Override
+						protected List<IFieldInfo> getFields(ITypeInfo type) {
+							List<IFieldInfo> result = new ArrayList<IFieldInfo>();
+							for (IFieldInfo field : super.getFields(type)) {
+								field = new FieldInfoProxy(field) {
+									@Override
+									public Map<String, Object> getSpecificProperties() {
+										Map<String, Object> result = new HashMap<String, Object>(
+												super.getSpecificProperties());
+										result.put(
+												DO_NOT_CREATE_EMBEDDED_FORM_PROPRTY_KEY,
+												true);
+										return result;
+									}
+								};
+								result.add(field);
+							}
+							return result;
+						}
+
+					}.get(resultType);
+					result = new PrecomputedTypeInfoInstanceWrapper(result,
+							resultType);
+				}
+				return result;
+			}
+
+		};
 	}
 
 	@Override
@@ -328,6 +379,11 @@ public class DefaultTypeInfo implements ITypeInfo {
 				throw new ReflectionUIError(e.getCause());
 			}
 		}
+	}
+
+	@Override
+	public Map<String, Object> getSpecificProperties() {
+		return Collections.emptyMap();
 	}
 
 }

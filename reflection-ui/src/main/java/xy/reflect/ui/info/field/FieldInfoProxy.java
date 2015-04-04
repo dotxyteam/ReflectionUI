@@ -1,5 +1,7 @@
 package xy.reflect.ui.info.field;
 
+import java.util.Map;
+
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.type.ITypeInfo;
 
@@ -78,6 +80,11 @@ public class FieldInfoProxy implements IFieldInfo {
 	@Override
 	public String getDocumentation() {
 		return base.getDocumentation();
+	}
+
+	@Override
+	public Map<String, Object> getSpecificProperties() {
+		return base.getSpecificProperties();
 	}
 	
 	

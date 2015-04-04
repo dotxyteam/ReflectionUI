@@ -133,6 +133,11 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 			public String getDocumentation() {
 				return param.getDocumentation();
 			}
+
+			@Override
+			public Map<String, Object> getSpecificProperties() {
+				return Collections.emptyMap();
+			}
 		};
 	}
 
@@ -181,6 +186,11 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 		InstanceInfo instance = (InstanceInfo) object;
 		method.validateParameters(instance.methodOwner,
 				instance.valueByParameterName);
+	}
+
+	@Override
+	public Map<String, Object> getSpecificProperties() {
+		return Collections.emptyMap();
 	}
 
 	public static class InstanceInfo {

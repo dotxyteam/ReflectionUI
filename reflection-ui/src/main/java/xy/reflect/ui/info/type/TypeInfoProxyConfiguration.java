@@ -322,9 +322,19 @@ public class TypeInfoProxyConfiguration {
 		return field.getDocumentation();
 	}
 
+	protected Map<String, Object> getSpecificProperties(IFieldInfo field,
+			ITypeInfo containingType) {
+		return field.getSpecificProperties();
+	}
+
 	protected String getDocumentation(IParameterInfo param, IMethodInfo method,
 			ITypeInfo containingType) {
 		return param.getDocumentation();
+	}
+
+	protected Map<String, Object> getSpecificProperties(IParameterInfo param,
+			IMethodInfo method, ITypeInfo containingType) {
+		return param.getSpecificProperties();
 	}
 
 	protected String getDocumentation(ITypeInfo type) {
@@ -335,15 +345,23 @@ public class TypeInfoProxyConfiguration {
 		type.validate(object);
 	}
 
+	public Map<String, Object> getSpecificProperties(ITypeInfo type) {
+		return type.getSpecificProperties();
+	}
+
 	protected String getDocumentation(IMethodInfo method,
 			ITypeInfo containingType) {
 		return method.getDocumentation();
 	}
-	
 
+	protected Map<String, Object> getSpecificProperties(IMethodInfo method,
+			ITypeInfo containingType) {
+		return method.getSpecificProperties();
+	}
 
-	protected void validateParameters(IMethodInfo method, ITypeInfo containingType,
-			Object object, Map<String, Object> valueByParameterName) throws Exception {
+	protected void validateParameters(IMethodInfo method,
+			ITypeInfo containingType, Object object,
+			Map<String, Object> valueByParameterName) throws Exception {
 		method.validateParameters(object, valueByParameterName);
 	}
 
@@ -460,6 +478,11 @@ public class TypeInfoProxyConfiguration {
 		@Override
 		public void validate(Object object) throws Exception {
 			TypeInfoProxyConfiguration.this.validate(type, object);
+		}
+
+		@Override
+		public Map<String, Object> getSpecificProperties() {
+			return TypeInfoProxyConfiguration.this.getSpecificProperties(type);
 		}
 
 	}
@@ -773,6 +796,12 @@ public class TypeInfoProxyConfiguration {
 		}
 
 		@Override
+		public Map<String, Object> getSpecificProperties() {
+			return TypeInfoProxyConfiguration.this.getSpecificProperties(field,
+					containingType);
+		}
+
+		@Override
 		public String toString() {
 			return TypeInfoProxyConfiguration.this.toString(field,
 					containingType);
@@ -860,8 +889,12 @@ public class TypeInfoProxyConfiguration {
 			return TypeInfoProxyConfiguration.this.getDocumentation(method,
 					containingType);
 		}
-		
 
+		@Override
+		public Map<String, Object> getSpecificProperties() {
+			return TypeInfoProxyConfiguration.this.getSpecificProperties(
+					method, containingType);
+		}
 
 		@Override
 		public void validateParameters(Object object,
@@ -965,6 +998,12 @@ public class TypeInfoProxyConfiguration {
 		@Override
 		public String getDocumentation() {
 			return TypeInfoProxyConfiguration.this.getDocumentation(param,
+					method, containingType);
+		}
+
+		@Override
+		public Map<String, Object> getSpecificProperties() {
+			return TypeInfoProxyConfiguration.this.getSpecificProperties(param,
 					method, containingType);
 		}
 

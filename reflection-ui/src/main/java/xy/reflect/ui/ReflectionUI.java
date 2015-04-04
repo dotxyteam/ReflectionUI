@@ -124,6 +124,7 @@ public class ReflectionUI {
 					reflectionUI.getObjectKind(object),
 					reflectionUI.getObjectIconImage(object));
 		} catch (Throwable t) {
+			t.printStackTrace();
 			JOptionPane.showMessageDialog(null, t.toString(), null,
 					JOptionPane.ERROR_MESSAGE);
 		}
