@@ -40,7 +40,7 @@ public class DefaultParameterInfo implements IParameterInfo {
 	@Override
 	public ITypeInfo getType() {
 		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(paramJavaType,
-				owner));
+				owner, position));
 	}
 
 	@Override

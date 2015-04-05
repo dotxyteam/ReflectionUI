@@ -51,6 +51,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.IListTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.info.type.TypeInfoProxyConfiguration;
 import xy.reflect.ui.undo.ModificationStack;
@@ -435,8 +436,9 @@ public class ReflectionUIUtils {
 				+ result.substring(subStringEnd);
 	}
 
-	public static List<Class<?>> getJavaTypeParameters(final Class<?> type,
-			final Member ofMember, Class<?> parameterizedBaseClass) {
+	public static List<Class<?>> getJavaGenericTypeParameters(final Class<?> type,
+			final Member ofMember, int methodArgumentPosition,
+			Class<?> parameterizedBaseClass) {
 		TypeResolver typeResolver = new TypeResolver();
 		ResolvedType resolvedType = null;
 		if (ofMember == null) {
@@ -466,7 +468,12 @@ public class ReflectionUIUtils {
 				}
 				for (ResolvedMethod resolvedMethod : resolvedMethods) {
 					if (resolvedMethod.getRawMember().equals(ofMember)) {
-						resolvedType = resolvedMethod.getType();
+						if (methodArgumentPosition == -1) {
+							resolvedType = resolvedMethod.getType();
+						} else {
+							resolvedType = resolvedMethod
+									.getArgumentType(methodArgumentPosition);
+						}
 						break;
 					}
 				}
@@ -474,7 +481,12 @@ public class ReflectionUIUtils {
 				for (ResolvedConstructor resolvedConstructor : resolvedTypeWithMembers
 						.getConstructors()) {
 					if (resolvedConstructor.getRawMember().equals(ofMember)) {
-						resolvedType = resolvedConstructor.getType();
+						if (methodArgumentPosition == -1) {
+							resolvedType = resolvedConstructor.getType();
+						} else {
+							resolvedType = resolvedConstructor
+									.getArgumentType(methodArgumentPosition);
+						}
 						break;
 					}
 				}
@@ -497,10 +509,12 @@ public class ReflectionUIUtils {
 		return result;
 	}
 
-	public static Class<?> getJavaTypeParameter(final Class<?> type,
-			final Member ofMember, Class<?> parameterizedBaseClass, int index) {
-		List<Class<?>> parameterClasses = getJavaTypeParameters(type, ofMember,
-				parameterizedBaseClass);
+	public static Class<?> getJavaGenericTypeParameter(
+			final JavaTypeInfoSource javaTypeSource,
+			Class<?> parameterizedBaseClass, int index) {
+		List<Class<?>> parameterClasses = getJavaGenericTypeParameters(
+				javaTypeSource.getJavaType(), javaTypeSource.getTypedMember(),
+				javaTypeSource.getParameterPosition(), parameterizedBaseClass);
 		if (parameterClasses == null) {
 			return null;
 		}

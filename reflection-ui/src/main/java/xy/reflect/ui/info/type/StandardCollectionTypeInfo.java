@@ -195,4 +195,10 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 		return true;
 	}
 
+	@Override
+	public List<IListAction> getSpecificActions(
+			Object object, IFieldInfo field, List<? extends IItemPosition> selection) {
+		return Collections.emptyList();
+	}
+
 }

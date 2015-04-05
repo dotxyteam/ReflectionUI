@@ -307,6 +307,15 @@ public class DefaultTypeInfo implements ITypeInfo {
 				return result;
 			}
 
+			@Override
+			public void setValue(Object object, Object value) {
+				if (value != null) {
+					value = ((PrecomputedTypeInfoInstanceWrapper) value)
+							.getInstance();
+				}
+				super.setValue(object, value);
+			}
+
 		};
 	}
 

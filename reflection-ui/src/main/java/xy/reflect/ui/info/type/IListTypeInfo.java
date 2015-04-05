@@ -1,5 +1,8 @@
 package xy.reflect.ui.info.type;
 
+import java.awt.Component;
+import java.util.List;
+
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.IFieldInfo;
 
@@ -14,6 +17,8 @@ public interface IListTypeInfo extends ITypeInfo {
 
 	boolean isOrdered();
 
+	List<IListAction> getSpecificActions(Object object, IFieldInfo field, List<? extends IItemPosition> selection);
+
 	public interface IListStructuralInfo {
 
 		String getCellValue(IItemPosition itemPosition, int columnIndex);
@@ -24,8 +29,7 @@ public interface IListTypeInfo extends ITypeInfo {
 
 		IFieldInfo getItemSubListField(IItemPosition itemPosition);
 
-		IInfoCollectionSettings getItemInfoSettings(
-				IItemPosition itemPosition);
+		IInfoCollectionSettings getItemInfoSettings(IItemPosition itemPosition);
 	}
 
 	public interface IItemPosition {
@@ -56,4 +60,11 @@ public interface IListTypeInfo extends ITypeInfo {
 
 	}
 
+	public interface IListAction {
+
+		void perform(Component listControl);
+
+		String getTitle();
+
+	}
 }

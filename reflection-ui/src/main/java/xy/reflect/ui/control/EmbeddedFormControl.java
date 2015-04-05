@@ -92,6 +92,11 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 						fieldValueType);
 			}
 
+			@Override
+			public void setValue(Object object, Object value) {
+				value = ((PrecomputedTypeInfoInstanceWrapper)value).getInstance();
+				super.setValue(object, value);
+			}
 		};
 	}
 

@@ -578,8 +578,8 @@ public class ReflectionUI {
 			public void setValue(Object object, Object newValue) {
 				ModificationStack stack = getModificationStackByForm()
 						.get(form);
-				stack.apply(new SetFieldValueModification(
-						ReflectionUI.this, object, field, newValue), false);
+				stack.apply(new SetFieldValueModification(ReflectionUI.this,
+						object, field, newValue), false);
 			}
 		};
 	}
@@ -956,19 +956,19 @@ public class ReflectionUI {
 			JavaTypeInfoSource javaTypeSource = (JavaTypeInfoSource) typeSource;
 			if (StandardCollectionTypeInfo.isCompatibleWith(javaTypeSource
 					.getJavaType())) {
-				Class<?> itemType = ReflectionUIUtils.getJavaTypeParameter(
-						javaTypeSource.getJavaType(),
-						javaTypeSource.ofMember(), Collection.class, 0);
+				Class<?> itemType = ReflectionUIUtils
+						.getJavaGenericTypeParameter(javaTypeSource,
+								Collection.class, 0);
 				result = new StandardCollectionTypeInfo(this,
 						javaTypeSource.getJavaType(), itemType);
 			} else if (StandardMapAsListTypeInfo
 					.isCompatibleWith(javaTypeSource.getJavaType())) {
-				Class<?> keyType = ReflectionUIUtils.getJavaTypeParameter(
-						javaTypeSource.getJavaType(),
-						javaTypeSource.ofMember(), Map.class, 0);
-				Class<?> valueType = ReflectionUIUtils.getJavaTypeParameter(
-						javaTypeSource.getJavaType(),
-						javaTypeSource.ofMember(), Map.class, 1);
+				Class<?> keyType = ReflectionUIUtils
+						.getJavaGenericTypeParameter(javaTypeSource, Map.class,
+								0);
+				Class<?> valueType = ReflectionUIUtils
+						.getJavaGenericTypeParameter(javaTypeSource, Map.class,
+								1);
 				result = new StandardMapAsListTypeInfo(this,
 						javaTypeSource.getJavaType(), keyType, valueType);
 			} else if (javaTypeSource.getJavaType().isArray()) {
@@ -1405,8 +1405,9 @@ public class ReflectionUI {
 				return returnValueArray[0];
 			}
 		} catch (Throwable t) {
-			throw new ReflectionUIError("Could not create an instance of type '"
-					+ type + "': " + t.toString(), t);
+			throw new ReflectionUIError(
+					"Could not create an instance of type '" + type + "': "
+							+ t.toString(), t);
 		}
 
 	}

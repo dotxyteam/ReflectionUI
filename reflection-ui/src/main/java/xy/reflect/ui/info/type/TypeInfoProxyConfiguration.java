@@ -12,6 +12,8 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
+import xy.reflect.ui.info.type.IListTypeInfo.IItemPosition;
+import xy.reflect.ui.info.type.IListTypeInfo.IListAction;
 import xy.reflect.ui.info.type.IListTypeInfo.IListStructuralInfo;
 import xy.reflect.ui.undo.IModification;
 
@@ -147,6 +149,12 @@ public class TypeInfoProxyConfiguration {
 
 	protected Object fromListValue(IListTypeInfo type, Object[] listValue) {
 		return type.fromListValue(listValue);
+	}
+
+	protected List<IListAction> getSpecificListActions(IListTypeInfo type,
+			Object object, IFieldInfo field,
+			List<? extends IItemPosition> selection) {
+		return type.getSpecificActions(object, field, selection);
 	}
 
 	protected ITypeInfo getItemType(IListTypeInfo type) {
@@ -345,7 +353,7 @@ public class TypeInfoProxyConfiguration {
 		type.validate(object);
 	}
 
-	public Map<String, Object> getSpecificProperties(ITypeInfo type) {
+	protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
 		return type.getSpecificProperties();
 	}
 
@@ -522,6 +530,13 @@ public class TypeInfoProxyConfiguration {
 		public Object fromListValue(Object[] listValue) {
 			return TypeInfoProxyConfiguration.this.fromListValue(
 					(IListTypeInfo) type, listValue);
+		}
+
+		@Override
+		public List<IListAction> getSpecificActions(Object object,
+				IFieldInfo field, List<? extends IItemPosition> selection) {
+			return TypeInfoProxyConfiguration.this.getSpecificListActions(
+					(IListTypeInfo) type, object, field, selection);
 		}
 
 	}
@@ -1031,4 +1046,5 @@ public class TypeInfoProxyConfiguration {
 		}
 
 	}
+
 }

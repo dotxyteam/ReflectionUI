@@ -59,6 +59,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.IListTypeInfo;
 import xy.reflect.ui.info.type.IListTypeInfo.IItemPosition;
+import xy.reflect.ui.info.type.IListTypeInfo.IListAction;
 import xy.reflect.ui.info.type.IListTypeInfo.IListStructuralInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.JavaTypeInfoSource;
@@ -236,16 +237,21 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		buttonsPanel.removeAll();
 
 		List<ItemPosition> selection = getSelection();
+		
+		for(IListTypeInfo.IListAction action: getRootListType().getSpecificActions(object, field, selection)){
+			createSpecificActionButton(action, buttonsPanel);
+		}		
+		
 		ItemPosition singleSelectedPosition = null;
 		ItemPosition singleSelectedPositionSubItemPosition = null;
 		if (selection.size() == 1) {
 			singleSelectedPosition = selection.get(0);
 			singleSelectedPositionSubItemPosition = getSubItemPosition(singleSelectedPosition);
 		}
-		boolean anySelectionListReadOnly = false;
+		boolean anySelectionItemContainingListReadOnly = false;
 		for (ItemPosition selectionItem : selection) {
 			if (selectionItem.isContainingListReadOnly()) {
-				anySelectionListReadOnly = true;
+				anySelectionItemContainingListReadOnly = true;
 				break;
 			}
 		}
@@ -289,7 +295,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 			}
 			if (canCopyAllSelection) {
 				createCopyButton(buttonsPanel);
-				if (!anySelectionListReadOnly) {
+				if (!anySelectionItemContainingListReadOnly) {
 					createCutButton(buttonsPanel);
 				}
 			}
@@ -362,7 +368,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		}
 
 		if (selection.size() > 0) {
-			if (!anySelectionListReadOnly) {
+			if (!anySelectionItemContainingListReadOnly) {
 				createRemoveButton(buttonsPanel);
 				boolean allSelectionItemsInSameList = true;
 				ItemPosition firstSelectionItem = selection.get(0);
@@ -392,6 +398,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		validate();
 	}
 
+	
 	protected ItemPosition getSubItemPosition(ItemPosition itemPosition) {
 		if (itemPosition.getItem() != null) {
 			IListStructuralInfo treeInfo = getStructuralInfo();
@@ -526,6 +533,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		}
 		treeTableComponent.getTreeSelectionModel().setSelectionPaths(
 				treePaths.toArray(new TreePath[treePaths.size()]));
+		updateButtonsPanel();
 	}
 
 	protected ItemNode findNode(ItemPosition itemPosition) {
@@ -824,7 +832,6 @@ public class ListControl extends JSplitPane implements IFieldControl {
 					}
 					refreshStructure();
 					setSelection(toPostSelect);
-					updateButtonsPanel();
 				} catch (Throwable t) {
 					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
 				}
@@ -946,6 +953,22 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 	protected IListTypeInfo getRootListType() {
 		return (IListTypeInfo) field.getType();
+	}
+
+	protected void createSpecificActionButton(final IListAction action, JPanel buttonsPanel) {
+		final JButton button = new JButton(
+				reflectionUI.translateUIString(action.getTitle()));
+		buttonsPanel.add(button);
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					action.perform(ListControl.this);
+				} catch (Throwable t) {
+					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
+				}
+			}
+		});
 	}
 
 	protected void createOpenItemButton(JPanel buttonsPanel) {
