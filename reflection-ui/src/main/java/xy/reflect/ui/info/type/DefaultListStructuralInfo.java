@@ -1,7 +1,7 @@
 package xy.reflect.ui.info.type;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.type.IListTypeInfo.IItemPosition;
+import xy.reflect.ui.info.type.IListTypeInfo.ItemPosition;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class DefaultListStructuralInfo extends
@@ -24,7 +24,7 @@ public class DefaultListStructuralInfo extends
 	}
 
 	@Override
-	public String getCellValue(IItemPosition itemPosition, int columnIndex) {
+	public String getCellValue(ItemPosition itemPosition, int columnIndex) {
 		if (columnIndex != 0) {
 			throw new ReflectionUIError();
 		}

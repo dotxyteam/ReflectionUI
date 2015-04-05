@@ -44,7 +44,7 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 
 					@Override
 					public Object invoke(Object object,
-							Map<String, Object> valueByParameterName) {
+							Map<Integer, Object> valueByParameterPosition) {
 						return Array.newInstance(itemJavaType, 0);
 					}
 

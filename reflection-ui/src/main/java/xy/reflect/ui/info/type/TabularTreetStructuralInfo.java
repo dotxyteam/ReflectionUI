@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.ListControl.ItemPosition;
+import xy.reflect.ui.control.ListControl.AutoUpdatingFieldItemPosition;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.type.IListTypeInfo.IItemPosition;
+import xy.reflect.ui.info.type.IListTypeInfo.ItemPosition;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class TabularTreetStructuralInfo extends
@@ -50,7 +50,7 @@ public class TabularTreetStructuralInfo extends
 
 				@Override
 				public Object getValue(Object object) {
-					IItemPosition itemPosition = (IItemPosition) object;
+					ItemPosition itemPosition = (ItemPosition) object;
 					Object item = itemPosition.getItem();
 					if (rootItemType.equals(itemPosition
 							.getContainingListType().getItemType())) {
@@ -77,7 +77,7 @@ public class TabularTreetStructuralInfo extends
 
 				@Override
 				public Object getValue(Object object) {
-					Object item = ((ItemPosition) object).getItem();
+					Object item = ((AutoUpdatingFieldItemPosition) object).getItem();
 					return reflectionUI.getObjectKind(item);
 				}
 			};
@@ -97,7 +97,7 @@ public class TabularTreetStructuralInfo extends
 	}
 
 	@Override
-	public String getCellValue(IItemPosition itemPosition, int columnIndex) {
+	public String getCellValue(ItemPosition itemPosition, int columnIndex) {
 		IFieldInfo itemField = columnFields.get(columnIndex);
 		return (String) itemField.getValue(itemPosition);
 	}

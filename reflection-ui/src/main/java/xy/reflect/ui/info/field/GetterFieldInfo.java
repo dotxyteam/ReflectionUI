@@ -69,15 +69,15 @@ public class GetterFieldInfo implements IFieldInfo {
 	@Override
 	public Object getValue(Object object) {
 		return getGetterMethodInfo().invoke(object,
-				Collections.<String, Object> emptyMap());
+				Collections.<Integer, Object> emptyMap());
 	}
 
 	@Override
 	public void setValue(Object object, Object value) {
 		IMethodInfo setter = getSetterMethodInfo();
-		String paramName = setter.getParameters().get(0).getName();
+		int paramPosition = setter.getParameters().get(0).getPosition();
 		setter.invoke(object,
-				Collections.<String, Object> singletonMap(paramName, value));
+				Collections.<Integer, Object> singletonMap(paramPosition, value));
 	}
 
 	@Override

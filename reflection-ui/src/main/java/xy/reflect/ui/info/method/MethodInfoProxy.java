@@ -32,15 +32,16 @@ public class MethodInfoProxy implements IMethodInfo {
 		return base.getParameters();
 	}
 
-	public Object invoke(Object object, Map<String, Object> valueByParameterName) {
-		return base.invoke(object, valueByParameterName);
+	public Object invoke(Object object,
+			Map<Integer, Object> valueByParameterPosition) {
+		return base.invoke(object, valueByParameterPosition);
 	}
 
 	@Override
 	public String toString() {
 		return base.toString();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return base.hashCode();
@@ -48,13 +49,13 @@ public class MethodInfoProxy implements IMethodInfo {
 
 	@Override
 	public boolean equals(Object obj) {
-		if(obj == null){
+		if (obj == null) {
 			return false;
 		}
-		if(obj == this){
+		if (obj == this) {
 			return true;
 		}
-		if(!getClass().equals(obj.getClass())){
+		if (!getClass().equals(obj.getClass())) {
 			return false;
 		}
 		return base.equals(((MethodInfoProxy) obj).base);
@@ -70,24 +71,22 @@ public class MethodInfoProxy implements IMethodInfo {
 		return base.getCategory();
 	}
 
-
-
 	@Override
 	public String getDocumentation() {
 		return base.getDocumentation();
 	}
 
 	@Override
-	public IModification getUndoModification(Object object, Map<String, Object> valueByParameterName) {
-		return base.getUndoModification(object, valueByParameterName);
+	public IModification getUndoModification(Object object,
+			Map<Integer, Object> valueByParameterPosition) {
+		return base.getUndoModification(object, valueByParameterPosition);
 	}
 
 	@Override
 	public void validateParameters(Object object,
-			Map<String, Object> valueByParameterName) throws Exception {
-		base.validateParameters(object, valueByParameterName);
+			Map<Integer, Object> valueByParameterPosition) throws Exception {
+		base.validateParameters(object, valueByParameterPosition);
 	}
-
 
 	@Override
 	public Map<String, Object> getSpecificProperties() {

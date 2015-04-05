@@ -62,7 +62,7 @@ public class SubFieldInfo implements IFieldInfo {
 		Object fieldValue = field.getValue(object);
 		if (fieldValue == null) {
 			fieldValue = getFieldValueConstructor().invoke(null,
-					new HashMap<String, Object>());
+					new HashMap<Integer, Object>());
 		}
 		theSubField.setValue(fieldValue, value);
 		field.setValue(object, fieldValue);

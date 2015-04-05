@@ -45,14 +45,14 @@ public class MultiSubListField implements IFieldInfo {
 
 					@Override
 					public IFieldInfo getItemSubListField(
-							IItemPosition itemPosition) {
+							ItemPosition itemPosition) {
 						return ((VirtualItem) itemPosition.getItem())
 								.getListField();
 					}
 
 					@Override
 					public IInfoCollectionSettings getItemInfoSettings(
-							IItemPosition itemPosition) {
+							ItemPosition itemPosition) {
 						return new IInfoCollectionSettings() {
 
 							@Override

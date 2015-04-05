@@ -180,10 +180,10 @@ public class ReflectionUITest {
 					protected IModification getUndoModification(
 							final IMethodInfo method, ITypeInfo containingType,
 							final Object object,
-							final Map<String, Object> valueByParameterName) {
+							final Map<Integer, Object> valueByParameterPosition) {
 						if (method.getName().equals("incrementTheInt")) {
 							return new AbstractMethodUndoModification(object,
-									method, valueByParameterName) {
+									method, valueByParameterPosition) {
 								@Override
 								protected void revertMethod() {
 									Test test = (Test) object;
@@ -192,18 +192,18 @@ public class ReflectionUITest {
 							};
 						} else if (method.getName().equals("multiplyTheFloat")) {
 							return new AbstractMethodUndoModification(object,
-									method, valueByParameterName) {
+									method, valueByParameterPosition) {
 								@Override
 								protected void revertMethod() {
 									Test test = (Test) object;
-									test.theFloat /= (Integer) valueByParameterName
-											.get("factor");
+									test.theFloat /= (Integer) valueByParameterPosition
+											.get(0);
 								}
 							};
 						} else {
 							return super.getUndoModification(method,
 									containingType, object,
-									valueByParameterName);
+									valueByParameterPosition);
 						}
 					}
 					

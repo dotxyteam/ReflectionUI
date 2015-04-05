@@ -47,6 +47,7 @@ import xy.reflect.ui.info.annotation.Category;
 import xy.reflect.ui.info.annotation.Documentation;
 import xy.reflect.ui.info.annotation.Validating;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.IListTypeInfo;
@@ -267,15 +268,31 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static String getJavaMethodSignature(Method method) {
-		return method.getReturnType() + " " + method.getName() + "("
-				+ Arrays.toString(method.getParameterTypes()) + ")";
+	public static String getMethodInfoSignature(IMethodInfo method) {
+		StringBuilder result = new StringBuilder();
+		ITypeInfo returnType = method.getReturnValueType();
+		result.append(((returnType == null) ? "void" : returnType.getName()));
+		result.append(" " + method.getName() + "(");
+		List<IParameterInfo> params = method.getParameters();
+		for (int i = 0; i < params.size(); i++) {
+			IParameterInfo param = params.get(i);
+			if (i > 0) {
+				result.append(", ");
+			}
+			result.append(param.getType().getName() + " " + param.getName());
+		}
+		result.append(")");
+		return result.toString();
 	}
 
-	public static String getMethodInfoSignature(IMethodInfo method) {
-		return method.getReturnValueType() + " " + method.getName() + "("
-				+ ReflectionUIUtils.stringJoin(method.getParameters(), ", ")
-				+ ")";
+	public static String getJavaMethodInfoSignature(Method javaMethod,
+			ReflectionUI reflectionUI) {
+		return getMethodInfoSignature(new DefaultMethodInfo(reflectionUI,
+				javaMethod));
+	}
+
+	public static String getJavaMethodSignature(Method javaMethod) {
+		return getJavaMethodInfoSignature(javaMethod, new ReflectionUI());
 	}
 
 	public static String identifierToCaption(String id) {
@@ -369,6 +386,17 @@ public class ReflectionUIUtils {
 		}
 	}
 
+	public static <T extends IMethodInfo> T findMethodBtSignature(
+			List<T> methods, String signature) {
+		for (T method : methods) {
+			String candidateMethodSignature = getMethodInfoSignature(method);
+			if (candidateMethodSignature.equals(signature)) {
+				return method;
+			}
+		}
+		return null;
+	}
+
 	public static <T extends IInfo> T findInfoByName(List<T> infos, String name) {
 		for (T info : infos) {
 			if (info.getName().equals(name)) {
@@ -436,9 +464,9 @@ public class ReflectionUIUtils {
 				+ result.substring(subStringEnd);
 	}
 
-	public static List<Class<?>> getJavaGenericTypeParameters(final Class<?> type,
-			final Member ofMember, int methodArgumentPosition,
-			Class<?> parameterizedBaseClass) {
+	public static List<Class<?>> getJavaGenericTypeParameters(
+			final Class<?> type, final Member ofMember,
+			int methodArgumentPosition, Class<?> parameterizedBaseClass) {
 		TypeResolver typeResolver = new TypeResolver();
 		ResolvedType resolvedType = null;
 		if (ofMember == null) {
@@ -577,7 +605,7 @@ public class ReflectionUIUtils {
 				throw new ReflectionUIError("Cannot copy object of type '"
 						+ type + "': zero parameter constructor not found");
 			}
-			copy = ctor.invoke(null, Collections.<String, Object> emptyMap());
+			copy = ctor.invoke(null, Collections.<Integer, Object> emptyMap());
 
 		}
 		for (IFieldInfo field : type.getFields()) {

@@ -15,16 +15,16 @@ public interface IMethodInfo extends IInfo {
 
 	List<IParameterInfo> getParameters();
 
-	Object invoke(Object object, Map<String, Object> valueByParameterName);
+	Object invoke(Object object, Map<Integer, Object> valueByParameterPosition);
 
 	boolean isReadOnly();
 
 	InfoCategory getCategory();
 
 	IModification getUndoModification(Object object,
-			Map<String, Object> valueByParameterName);
+			Map<Integer, Object> valueByParameterPosition);
 
 	void validateParameters(Object object,
-			Map<String, Object> valueByParameterName) throws Exception;
+			Map<Integer, Object> valueByParameterPosition) throws Exception;
 
 }

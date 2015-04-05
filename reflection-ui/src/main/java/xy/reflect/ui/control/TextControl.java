@@ -114,19 +114,19 @@ public class TextControl extends JPanel implements IFieldControl {
 		return true;
 	}
 
-	protected void onTextChange(String newSTringValue) {
+	protected void onTextChange(String newStringValue) {
 		if (!textChangedByUser) {
 			return;
 		}
-		Object convertedvalue;
+		Object convertedValue;
 		try {
-			convertedvalue = textType.fromText(newSTringValue);
+			convertedValue = textType.fromText(newStringValue);
 		} catch (Throwable t) {
 			displayError(new ReflectionUIError(t));
 			reflectionUI.handleComponentSizeChange(this);
 			return;
 		}
-		field.setValue(object, convertedvalue);
+		field.setValue(object, convertedValue);
 		reflectionUI.handleComponentSizeChange(this);
 	}
 

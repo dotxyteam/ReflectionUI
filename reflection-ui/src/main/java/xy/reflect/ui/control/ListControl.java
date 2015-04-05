@@ -58,7 +58,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.IListTypeInfo;
-import xy.reflect.ui.info.type.IListTypeInfo.IItemPosition;
+import xy.reflect.ui.info.type.IListTypeInfo.ItemPosition;
 import xy.reflect.ui.info.type.IListTypeInfo.IListAction;
 import xy.reflect.ui.info.type.IListTypeInfo.IListStructuralInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -221,7 +221,8 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		if (nodeValues.containsKey(columnIndex)) {
 			value = nodeValues.get(columnIndex);
 		} else {
-			ItemPosition itemPosition = (ItemPosition) node.getUserObject();
+			AutoUpdatingFieldItemPosition itemPosition = (AutoUpdatingFieldItemPosition) node
+					.getUserObject();
 			IListStructuralInfo tableInfo = getStructuralInfo();
 			if (tableInfo == null) {
 				value = reflectionUI.toString(itemPosition.getItem());
@@ -236,20 +237,21 @@ public class ListControl extends JSplitPane implements IFieldControl {
 	protected void updateButtonsPanel() {
 		buttonsPanel.removeAll();
 
-		List<ItemPosition> selection = getSelection();
-		
-		for(IListTypeInfo.IListAction action: getRootListType().getSpecificActions(object, field, selection)){
+		List<AutoUpdatingFieldItemPosition> selection = getSelection();
+
+		for (IListTypeInfo.IListAction action : getRootListType()
+				.getSpecificActions(object, field, selection)) {
 			createSpecificActionButton(action, buttonsPanel);
-		}		
-		
-		ItemPosition singleSelectedPosition = null;
-		ItemPosition singleSelectedPositionSubItemPosition = null;
+		}
+
+		AutoUpdatingFieldItemPosition singleSelectedPosition = null;
+		AutoUpdatingFieldItemPosition singleSelectedPositionSubItemPosition = null;
 		if (selection.size() == 1) {
 			singleSelectedPosition = selection.get(0);
 			singleSelectedPositionSubItemPosition = getSubItemPosition(singleSelectedPosition);
 		}
 		boolean anySelectionItemContainingListReadOnly = false;
-		for (ItemPosition selectionItem : selection) {
+		for (AutoUpdatingFieldItemPosition selectionItem : selection) {
 			if (selectionItem.isContainingListReadOnly()) {
 				anySelectionItemContainingListReadOnly = true;
 				break;
@@ -287,7 +289,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 		if (selection.size() > 0) {
 			boolean canCopyAllSelection = true;
-			for (ItemPosition selectionItem : selection) {
+			for (AutoUpdatingFieldItemPosition selectionItem : selection) {
 				if (!reflectionUI.canCopy(selectionItem.getItem())) {
 					canCopyAllSelection = false;
 					break;
@@ -303,7 +305,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 		if (clipboard.size() > 0) {
 			if (selection.size() == 0) {
-				ItemPosition rootItemPosition = getRootListItemPosition();
+				AutoUpdatingFieldItemPosition rootItemPosition = getRootListItemPosition();
 				if (!rootItemPosition.isContainingListReadOnly()) {
 					boolean rootItemPositionSupportsAllClipboardItems = true;
 					for (Object clipboardItem : clipboard) {
@@ -371,8 +373,9 @@ public class ListControl extends JSplitPane implements IFieldControl {
 			if (!anySelectionItemContainingListReadOnly) {
 				createRemoveButton(buttonsPanel);
 				boolean allSelectionItemsInSameList = true;
-				ItemPosition firstSelectionItem = selection.get(0);
-				for (ItemPosition selectionItem : selection) {
+				AutoUpdatingFieldItemPosition firstSelectionItem = selection
+						.get(0);
+				for (AutoUpdatingFieldItemPosition selectionItem : selection) {
 					if (!ReflectionUIUtils.equalsOrBothNull(
 							firstSelectionItem.getParentItemPosition(),
 							selectionItem.getParentItemPosition())) {
@@ -398,15 +401,16 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		validate();
 	}
 
-	
-	protected ItemPosition getSubItemPosition(ItemPosition itemPosition) {
+	protected AutoUpdatingFieldItemPosition getSubItemPosition(
+			AutoUpdatingFieldItemPosition itemPosition) {
 		if (itemPosition.getItem() != null) {
 			IListStructuralInfo treeInfo = getStructuralInfo();
 			if (treeInfo != null) {
 				IFieldInfo subListField = treeInfo
 						.getItemSubListField(itemPosition);
 				if (subListField != null) {
-					return new ItemPosition(subListField, itemPosition, -1);
+					return new AutoUpdatingFieldItemPosition(subListField,
+							itemPosition, -1);
 				}
 			}
 		}
@@ -446,14 +450,15 @@ public class ListControl extends JSplitPane implements IFieldControl {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					List<ItemPosition> selection = getSelection();
+					List<AutoUpdatingFieldItemPosition> selection = getSelection();
 					if (offset > 0) {
-						selection = new ArrayList<ItemPosition>(selection);
+						selection = new ArrayList<AutoUpdatingFieldItemPosition>(
+								selection);
 						Collections.reverse(selection);
 					}
-					for (ItemPosition itemPosition : selection) {
-						FieldAutoUpdateList list = itemPosition
-								.getContainingList();
+					for (AutoUpdatingFieldItemPosition itemPosition : selection) {
+						AutoUpdatingFieldList list = itemPosition
+								.getContainingAutoUpdatingFieldList();
 						int index = itemPosition.getIndex();
 						if ((index + offset) < 0) {
 							return;
@@ -462,10 +467,10 @@ public class ListControl extends JSplitPane implements IFieldControl {
 							return;
 						}
 					}
-					List<ItemPosition> newSelection = new ArrayList<ListControl.ItemPosition>();
-					for (ItemPosition itemPosition : selection) {
-						FieldAutoUpdateList list = itemPosition
-								.getContainingList();
+					List<AutoUpdatingFieldItemPosition> newSelection = new ArrayList<ListControl.AutoUpdatingFieldItemPosition>();
+					for (AutoUpdatingFieldItemPosition itemPosition : selection) {
+						AutoUpdatingFieldList list = itemPosition
+								.getContainingAutoUpdatingFieldList();
 						int index = itemPosition.getIndex();
 						list.move(index, offset);
 						newSelection.add(itemPosition
@@ -480,8 +485,8 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		});
 	}
 
-	protected ItemPosition getSingleSelection() {
-		List<ItemPosition> selection = getSelection();
+	protected AutoUpdatingFieldItemPosition getSingleSelection() {
+		List<AutoUpdatingFieldItemPosition> selection = getSelection();
 		if ((selection.size() == 0) || (selection.size() > 1)) {
 			return null;
 		} else {
@@ -489,41 +494,42 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		}
 	}
 
-	protected List<ItemPosition> getSelection() {
-		List<ItemPosition> result = new ArrayList<ListControl.ItemPosition>();
+	protected List<AutoUpdatingFieldItemPosition> getSelection() {
+		List<AutoUpdatingFieldItemPosition> result = new ArrayList<ListControl.AutoUpdatingFieldItemPosition>();
 		for (int selectedRow : treeTableComponent.getSelectedRows()) {
 			TreePath path = treeTableComponent.getPathForRow(selectedRow);
 			if (path == null) {
 				return null;
 			}
 			ItemNode selectedNode = (ItemNode) path.getLastPathComponent();
-			ItemPosition itemPosition = (ItemPosition) selectedNode
+			AutoUpdatingFieldItemPosition itemPosition = (AutoUpdatingFieldItemPosition) selectedNode
 					.getUserObject();
 			result.add(itemPosition);
 		}
 		return result;
 	}
 
-	public void setSingleSelection(ItemPosition toSelect) {
+	public void setSingleSelection(AutoUpdatingFieldItemPosition toSelect) {
 		setSelection(Collections.singletonList(toSelect));
 	}
 
-	public void setSelection(List<ItemPosition> toSelect) {
+	public void setSelection(List<AutoUpdatingFieldItemPosition> toSelect) {
 		List<TreePath> treePaths = new ArrayList<TreePath>();
 		for (int i = 0; i < toSelect.size(); i++) {
-			ItemPosition itemPosition = toSelect.get(i);
+			AutoUpdatingFieldItemPosition itemPosition = toSelect.get(i);
 			if (itemPosition == null) {
 				treeTableComponent.clearSelection();
 			} else {
 				ItemNode itemNode = findNode(itemPosition);
 				if (itemNode == null) {
-					ItemPosition parentItemPosition = itemPosition
+					AutoUpdatingFieldItemPosition parentItemPosition = itemPosition
 							.getParentItemPosition();
 					if (parentItemPosition == null) {
 						treeTableComponent.clearSelection();
 						return;
 					}
-					toSelect = new ArrayList<ListControl.ItemPosition>(toSelect);
+					toSelect = new ArrayList<ListControl.AutoUpdatingFieldItemPosition>(
+							toSelect);
 					toSelect.set(i, parentItemPosition);
 					setSelection(toSelect);
 					return;
@@ -536,7 +542,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		updateButtonsPanel();
 	}
 
-	protected ItemNode findNode(ItemPosition itemPosition) {
+	protected ItemNode findNode(AutoUpdatingFieldItemPosition itemPosition) {
 		ItemNode parentNode;
 		if (itemPosition.isRootListItemPosition()) {
 			parentNode = rootNode;
@@ -571,16 +577,17 @@ public class ListControl extends JSplitPane implements IFieldControl {
 							reflectionUI
 									.translateUIString("Remove the element(s)?"),
 							"", JOptionPane.OK_CANCEL_OPTION)) {
-						List<ItemPosition> selection = getSelection();
-						selection = new ArrayList<ItemPosition>(selection);
+						List<AutoUpdatingFieldItemPosition> selection = getSelection();
+						selection = new ArrayList<AutoUpdatingFieldItemPosition>(
+								selection);
 						Collections.reverse(selection);
-						List<ItemPosition> toPostSelect = new ArrayList<ListControl.ItemPosition>();
-						for (ItemPosition itemPosition : selection) {
+						List<AutoUpdatingFieldItemPosition> toPostSelect = new ArrayList<ListControl.AutoUpdatingFieldItemPosition>();
+						for (AutoUpdatingFieldItemPosition itemPosition : selection) {
 							if (itemPosition == null) {
 								return;
 							}
-							FieldAutoUpdateList list = itemPosition
-									.getContainingList();
+							AutoUpdatingFieldList list = itemPosition
+									.getContainingAutoUpdatingFieldList();
 							int index = itemPosition.getIndex();
 							list.remove(index);
 							if (itemPosition.getContainingListType()
@@ -602,11 +609,12 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		});
 	}
 
-	protected class GhostItemPosition extends ItemPosition {
+	protected class GhostItemPosition extends AutoUpdatingFieldItemPosition {
 
 		private Object item;
 
-		public GhostItemPosition(ItemPosition itemPosition, Object item) {
+		public GhostItemPosition(AutoUpdatingFieldItemPosition itemPosition,
+				Object item) {
 			super(itemPosition.getContainingListField(), itemPosition
 					.getParentItemPosition(), itemPosition.getIndex());
 			this.item = item;
@@ -618,8 +626,8 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		}
 
 		@Override
-		public FieldAutoUpdateList getContainingList() {
-			return new FieldAutoUpdateList(this) {
+		public AutoUpdatingFieldList getContainingAutoUpdatingFieldList() {
+			return new AutoUpdatingFieldList(this) {
 
 				@Override
 				public Object get(int index) {
@@ -648,12 +656,12 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 	protected void createInsertButton(JPanel buttonsPanel,
 			final InsertPosition insertPosition) {
-		final ItemPosition itemPosition;
-		ItemPosition singleSelection = getSingleSelection();
+		final AutoUpdatingFieldItemPosition itemPosition;
+		AutoUpdatingFieldItemPosition singleSelection = getSingleSelection();
 		final int index;
 		if (singleSelection == null) {
 			index = getRootList().size();
-			itemPosition = new ItemPosition(field, null, index);
+			itemPosition = new AutoUpdatingFieldItemPosition(field, null, index);
 		} else {
 			if (insertPosition == InsertPosition.AFTER) {
 				index = singleSelection.getIndex() + 1;
@@ -701,11 +709,11 @@ public class ListControl extends JSplitPane implements IFieldControl {
 							itemPosition, newItem);
 					if (openDetailsDialog(futureItemPosition)) {
 						newItem = futureItemPosition.getItem();
-						FieldAutoUpdateList list = itemPosition
-								.getContainingList();
+						AutoUpdatingFieldList list = itemPosition
+								.getContainingAutoUpdatingFieldList();
 						list.add(index, newItem);
 						refreshStructure();
-						ItemPosition toSelect = itemPosition;
+						AutoUpdatingFieldItemPosition toSelect = itemPosition;
 						if (!listType.isOrdered()) {
 							int indexToSelect = list.indexOf(newItem);
 							toSelect = itemPosition.getSibling(indexToSelect);
@@ -720,8 +728,8 @@ public class ListControl extends JSplitPane implements IFieldControl {
 	}
 
 	protected void createAddButton(JPanel buttonsPanel) {
-		final ItemPosition itemPosition = getSingleSelection();
-		final ItemPosition subItemPosition;
+		final AutoUpdatingFieldItemPosition itemPosition = getSingleSelection();
+		final AutoUpdatingFieldItemPosition subItemPosition;
 		if (itemPosition == null) {
 			subItemPosition = getRootListItemPosition();
 		} else {
@@ -754,9 +762,10 @@ public class ListControl extends JSplitPane implements IFieldControl {
 							subItemPosition, newSubListItem);
 					if (openDetailsDialog(futureSubItemPosition)) {
 						newSubListItem = futureSubItemPosition.getItem();
-						FieldAutoUpdateList subList = new ItemPosition(
+						AutoUpdatingFieldList subList = new AutoUpdatingFieldItemPosition(
 								subItemPosition.getContainingListField(),
-								itemPosition, -1).getContainingList();
+								itemPosition, -1)
+								.getContainingAutoUpdatingFieldList();
 						int newSubListItemIndex = subList.size();
 						subList.add(newSubListItemIndex, newSubListItem);
 						refreshStructure();
@@ -764,7 +773,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 							newSubListItemIndex = subList
 									.indexOf(newSubListItem);
 						}
-						ItemPosition toSelect = subItemPosition
+						AutoUpdatingFieldItemPosition toSelect = subItemPosition
 								.getSibling(newSubListItemIndex);
 						setSingleSelection(toSelect);
 					}
@@ -784,8 +793,8 @@ public class ListControl extends JSplitPane implements IFieldControl {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					clipboard.clear();
-					List<ItemPosition> selection = getSelection();
-					for (ItemPosition itemPosition : selection) {
+					List<AutoUpdatingFieldItemPosition> selection = getSelection();
+					for (AutoUpdatingFieldItemPosition itemPosition : selection) {
 						if (itemPosition == null) {
 							return;
 						}
@@ -808,18 +817,19 @@ public class ListControl extends JSplitPane implements IFieldControl {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					clipboard.clear();
-					List<ItemPosition> selection = getSelection();
-					selection = new ArrayList<ItemPosition>(selection);
+					List<AutoUpdatingFieldItemPosition> selection = getSelection();
+					selection = new ArrayList<AutoUpdatingFieldItemPosition>(
+							selection);
 					Collections.reverse(selection);
-					List<ItemPosition> toPostSelect = new ArrayList<ListControl.ItemPosition>();
-					for (ItemPosition itemPosition : selection) {
+					List<AutoUpdatingFieldItemPosition> toPostSelect = new ArrayList<ListControl.AutoUpdatingFieldItemPosition>();
+					for (AutoUpdatingFieldItemPosition itemPosition : selection) {
 						if (itemPosition == null) {
 							return;
 						}
 						clipboard.add(0,
 								reflectionUI.copy(itemPosition.getItem()));
-						FieldAutoUpdateList list = itemPosition
-								.getContainingList();
+						AutoUpdatingFieldList list = itemPosition
+								.getContainingAutoUpdatingFieldList();
 						int index = itemPosition.getIndex();
 						list.remove(index);
 						if (itemPosition.getContainingListType().isOrdered()
@@ -856,11 +866,12 @@ public class ListControl extends JSplitPane implements IFieldControl {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					ItemPosition itemPosition = getSingleSelection();
+					AutoUpdatingFieldItemPosition itemPosition = getSingleSelection();
 					int index;
 					if (itemPosition == null) {
 						index = getRootList().size();
-						itemPosition = new ItemPosition(field, null, index);
+						itemPosition = new AutoUpdatingFieldItemPosition(field,
+								null, index);
 					} else {
 						index = itemPosition.getIndex();
 						if (insertPosition == InsertPosition.AFTER) {
@@ -868,13 +879,14 @@ public class ListControl extends JSplitPane implements IFieldControl {
 						}
 					}
 					int initialIndex = index;
-					FieldAutoUpdateList list = itemPosition.getContainingList();
+					AutoUpdatingFieldList list = itemPosition
+							.getContainingAutoUpdatingFieldList();
 					for (Object clipboardItyem : clipboard) {
 						list.add(index, clipboardItyem);
 						index++;
 					}
 					refreshStructure();
-					List<ItemPosition> toPostSelect = new ArrayList<ListControl.ItemPosition>();
+					List<AutoUpdatingFieldItemPosition> toPostSelect = new ArrayList<ListControl.AutoUpdatingFieldItemPosition>();
 					IListTypeInfo listType = itemPosition
 							.getContainingListType();
 					index = initialIndex;
@@ -905,13 +917,13 @@ public class ListControl extends JSplitPane implements IFieldControl {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					ItemPosition itemPosition = getSingleSelection();
+					AutoUpdatingFieldItemPosition itemPosition = getSingleSelection();
 					if (itemPosition == null) {
 						return;
 					}
-					ItemPosition subItemPosition = getSubItemPosition(itemPosition);
-					FieldAutoUpdateList subList = subItemPosition
-							.getContainingList();
+					AutoUpdatingFieldItemPosition subItemPosition = getSubItemPosition(itemPosition);
+					AutoUpdatingFieldList subList = subItemPosition
+							.getContainingAutoUpdatingFieldList();
 					int newSubListItemIndex = subList.size();
 					int newSubListItemInitialIndex = newSubListItemIndex;
 					subItemPosition = subItemPosition
@@ -921,7 +933,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 						newSubListItemIndex++;
 					}
 					refreshStructure();
-					List<ItemPosition> toPostSelect = new ArrayList<ListControl.ItemPosition>();
+					List<AutoUpdatingFieldItemPosition> toPostSelect = new ArrayList<ListControl.AutoUpdatingFieldItemPosition>();
 					IListTypeInfo subListType = subItemPosition
 							.getContainingListType();
 					newSubListItemIndex = newSubListItemInitialIndex;
@@ -955,7 +967,8 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		return (IListTypeInfo) field.getType();
 	}
 
-	protected void createSpecificActionButton(final IListAction action, JPanel buttonsPanel) {
+	protected void createSpecificActionButton(final IListAction action,
+			JPanel buttonsPanel) {
 		final JButton button = new JButton(
 				reflectionUI.translateUIString(action.getTitle()));
 		buttonsPanel.add(button);
@@ -963,7 +976,13 @@ public class ListControl extends JSplitPane implements IFieldControl {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					action.perform(ListControl.this);
+					reflectionUI.showBusyDialogWhile(ListControl.this,
+							new Runnable() {
+								@Override
+								public void run() {
+									action.perform(ListControl.this);
+								}
+							}, action.getTitle());
 				} catch (Throwable t) {
 					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
 				}
@@ -979,7 +998,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					ItemPosition itemPosition = getSingleSelection();
+					AutoUpdatingFieldItemPosition itemPosition = getSingleSelection();
 					if (itemPosition == null) {
 						return;
 					}
@@ -1022,7 +1041,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 					}
 					ItemNode selectedNode = (ItemNode) path
 							.getLastPathComponent();
-					ItemPosition itemPosition = (ItemPosition) selectedNode
+					AutoUpdatingFieldItemPosition itemPosition = (AutoUpdatingFieldItemPosition) selectedNode
 							.getUserObject();
 					onOpenDetaildsDialogRequest(itemPosition);
 				} catch (Throwable t) {
@@ -1033,13 +1052,15 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		});
 	}
 
-	protected void onOpenDetaildsDialogRequest(ItemPosition itemPosition) {
+	protected void onOpenDetaildsDialogRequest(
+			AutoUpdatingFieldItemPosition itemPosition) {
 		Object value = itemPosition.getItem();
 		GhostItemPosition ghostItemPosition = new GhostItemPosition(
 				itemPosition, value);
 		boolean[] changeDetectedArray = new boolean[] { false };
 		if (openDetailsDialog(ghostItemPosition, changeDetectedArray, true)) {
-			FieldAutoUpdateList list = itemPosition.getContainingList();
+			AutoUpdatingFieldList list = itemPosition
+					.getContainingAutoUpdatingFieldList();
 			Object newValue = ghostItemPosition.getItem();
 			int index = itemPosition.getIndex();
 			Object newvalue = ghostItemPosition.getItem();
@@ -1048,7 +1069,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 			}
 			list.set(index, newvalue);
 			refreshStructure();
-			ItemPosition itemPositionToSelect = itemPosition;
+			AutoUpdatingFieldItemPosition itemPositionToSelect = itemPosition;
 			if (!itemPosition.getContainingListType().isOrdered()) {
 				int newIndex = list.indexOf(newValue);
 				itemPositionToSelect = itemPositionToSelect
@@ -1058,19 +1079,21 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		}
 	}
 
-	protected FieldAutoUpdateList getRootList() {
-		return getRootListItemPosition().getContainingList();
+	protected AutoUpdatingFieldList getRootList() {
+		return getRootListItemPosition().getContainingAutoUpdatingFieldList();
 	}
 
-	protected ItemPosition getRootListItemPosition() {
-		return new ItemPosition(field, null, -1);
+	protected AutoUpdatingFieldItemPosition getRootListItemPosition() {
+		return new AutoUpdatingFieldItemPosition(field, null, -1);
 	}
 
-	protected boolean openDetailsDialog(final ItemPosition itemPosition) {
+	protected boolean openDetailsDialog(
+			final AutoUpdatingFieldItemPosition itemPosition) {
 		return openDetailsDialog(itemPosition, new boolean[1], false);
 	}
 
-	protected boolean openDetailsDialog(final ItemPosition itemPosition,
+	protected boolean openDetailsDialog(
+			final AutoUpdatingFieldItemPosition itemPosition,
 			boolean[] changeDetectedArray, boolean recordModifications) {
 		ItemNode itemNode = findNode(itemPosition);
 		if (itemNode != null) {
@@ -1082,7 +1105,8 @@ public class ListControl extends JSplitPane implements IFieldControl {
 			return true;
 		}
 
-		final FieldAutoUpdateList list = itemPosition.getContainingList();
+		final AutoUpdatingFieldList list = itemPosition
+				.getContainingAutoUpdatingFieldList();
 		final int index = itemPosition.getIndex();
 		final Object[] valueArray = new Object[1];
 		final Accessor<Object> valueAccessor = new Accessor<Object>() {
@@ -1114,7 +1138,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 				String result = itemPosition.getContainingListField()
 						.getCaption() + " Item";
 				if (itemPosition.getParentItemPosition() != null) {
-					ItemPosition parentItempPosition = itemPosition
+					AutoUpdatingFieldItemPosition parentItempPosition = itemPosition
 							.getParentItemPosition();
 					ITypeInfo prentItemType = reflectionUI
 							.getTypeInfo(reflectionUI
@@ -1146,7 +1170,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 				settings, parentStack, title, changeDetectedArray);
 	}
 
-	protected boolean hasItemDetails(ItemPosition itemPosition) {
+	protected boolean hasItemDetails(AutoUpdatingFieldItemPosition itemPosition) {
 		Object item = itemPosition.getItem();
 		if (item == null) {
 			return false;
@@ -1201,8 +1225,9 @@ public class ListControl extends JSplitPane implements IFieldControl {
 	}
 
 	protected void visitItems(IItemsVisitor iItemsVisitor,
-			ItemPosition currentListItemPosition) {
-		FieldAutoUpdateList list = currentListItemPosition.getContainingList();
+			AutoUpdatingFieldItemPosition currentListItemPosition) {
+		AutoUpdatingFieldList list = currentListItemPosition
+				.getContainingAutoUpdatingFieldList();
 		for (int i = 0; i < list.size(); i++) {
 			currentListItemPosition = currentListItemPosition.getSibling(i);
 			iItemsVisitor.visitItem(currentListItemPosition);
@@ -1213,8 +1238,10 @@ public class ListControl extends JSplitPane implements IFieldControl {
 				if (childrenField != null) {
 					if (childrenField.getValue(currentListItemPosition
 							.getItem()) != null) {
-						visitItems(iItemsVisitor, new ItemPosition(
-								childrenField, currentListItemPosition, -1));
+						visitItems(iItemsVisitor,
+								new AutoUpdatingFieldItemPosition(
+										childrenField, currentListItemPosition,
+										-1));
 					}
 				}
 
@@ -1223,10 +1250,10 @@ public class ListControl extends JSplitPane implements IFieldControl {
 	}
 
 	public boolean refreshUI() {
-		List<ItemPosition> lastlySelectedItemPositions = getSelection();
+		List<AutoUpdatingFieldItemPosition> lastlySelectedItemPositions = getSelection();
 		List<Object> lastlySelectedItems = new ArrayList<Object>();
 		for (int i = 0; i < lastlySelectedItemPositions.size(); i++) {
-			ItemPosition lastlySelectedItemPosition = lastlySelectedItemPositions
+			AutoUpdatingFieldItemPosition lastlySelectedItemPosition = lastlySelectedItemPositions
 					.get(i);
 			lastlySelectedItems.add(lastlySelectedItemPosition.getItem());
 		}
@@ -1234,12 +1261,13 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		refreshStructure();
 
 		for (int i = 0; i < lastlySelectedItemPositions.size(); i++) {
-			ItemPosition lastlySelectedItemPosition = lastlySelectedItemPositions
+			AutoUpdatingFieldItemPosition lastlySelectedItemPosition = lastlySelectedItemPositions
 					.get(i);
 			if (!lastlySelectedItemPosition.getContainingListType().isOrdered()) {
 				Object lastlySelectedItem = lastlySelectedItems.get(i);
-				int index = lastlySelectedItemPosition.getContainingList()
-						.indexOf(lastlySelectedItem);
+				int index = lastlySelectedItemPosition
+						.getContainingAutoUpdatingFieldList().indexOf(
+								lastlySelectedItem);
 				lastlySelectedItemPosition = lastlySelectedItemPosition
 						.getSibling(index);
 				lastlySelectedItemPositions.set(i, lastlySelectedItemPosition);
@@ -1253,11 +1281,11 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 		protected static final long serialVersionUID = 1L;
 		protected IFieldInfo childrenField;
-		protected ItemPosition currentItemPosition;
+		protected AutoUpdatingFieldItemPosition currentItemPosition;
 		protected boolean childrenLoaded = false;;
 
 		public ItemNode(IFieldInfo childrenField,
-				ItemPosition currentItemPosition) {
+				AutoUpdatingFieldItemPosition currentItemPosition) {
 			this.childrenField = childrenField;
 			this.currentItemPosition = currentItemPosition;
 			setUserObject(currentItemPosition);
@@ -1271,11 +1299,12 @@ public class ListControl extends JSplitPane implements IFieldControl {
 			if (childrenField == null) {
 				return;
 			}
-			ItemPosition anyChildItemPosition = new ItemPosition(childrenField,
-					currentItemPosition, -1);
-			FieldAutoUpdateList list = anyChildItemPosition.getContainingList();
+			AutoUpdatingFieldItemPosition anyChildItemPosition = new AutoUpdatingFieldItemPosition(
+					childrenField, currentItemPosition, -1);
+			AutoUpdatingFieldList list = anyChildItemPosition
+					.getContainingAutoUpdatingFieldList();
 			for (int i = 0; i < list.size(); i++) {
-				ItemPosition childItemPosition = anyChildItemPosition
+				AutoUpdatingFieldItemPosition childItemPosition = anyChildItemPosition
 						.getSibling(i);
 				IFieldInfo grandChildrenField = null;
 				IListStructuralInfo treeInfo = getStructuralInfo();
@@ -1489,150 +1518,49 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 	}
 
-	public class ItemPosition implements IItemPosition {
-		protected IFieldInfo containingListField;
-		protected ItemPosition parentItemPosition;
-		protected int index;
+	public class AutoUpdatingFieldItemPosition extends ItemPosition {
 
-		public ItemPosition(IFieldInfo containingListField,
-				ItemPosition parentItemPosition, int index) {
-			this.containingListField = containingListField;
-			this.parentItemPosition = parentItemPosition;
-			this.index = index;
+		public AutoUpdatingFieldItemPosition(IFieldInfo containingListField,
+				AutoUpdatingFieldItemPosition parentItemPosition, int index) {
+			super(containingListField, parentItemPosition, index, object);
 		}
 
-		public boolean supportsValue(Object clipboard) {
-			ITypeInfo itemType = getContainingListType().getItemType();
-			return (itemType == null) || (itemType.supportsValue(clipboard));
+		public AutoUpdatingFieldList getContainingAutoUpdatingFieldList() {
+			return new AutoUpdatingFieldList(this);
 		}
 
 		@Override
-		public boolean isContainingListReadOnly() {
-			if (containingListField.isReadOnly()) {
-				return true;
-			}
-			if (parentItemPosition == null) {
-				return false;
-			}
-			return getRootListItemPosition().isContainingListReadOnly();
+		public AutoUpdatingFieldItemPosition getSibling(int index2) {
+			ItemPosition result = super.getSibling(index2);
+			return new AutoUpdatingFieldItemPosition(
+					result.getContainingListField(),
+					result.getParentItemPosition(), result.getIndex());
 		}
 
 		@Override
-		public int getIndex() {
-			return index;
-		}
-
-		@Override
-		public Object getItem() {
-			FieldAutoUpdateList list = getContainingList();
-			if (index < 0) {
-				return null;
-			}
-			if (index >= list.size()) {
-				return null;
-			}
-			return list.get(index);
-		}
-
-		@Override
-		public IFieldInfo getContainingListField() {
-			return containingListField;
-		}
-
-		@Override
-		public FieldAutoUpdateList getContainingList() {
-			return new FieldAutoUpdateList(this);
-		}
-
-		@Override
-		public IListTypeInfo getContainingListType() {
-			return (IListTypeInfo) getContainingListField().getType();
-		}
-
-		@Override
-		public ItemPosition getParentItemPosition() {
-			return parentItemPosition;
-		}
-
-		@Override
-		public String toString() {
-			return "Item(depth=" + getDepth() + ", position=" + index
-					+ ", value=" + getItem() + ")";
-		}
-
-		@Override
-		public int getDepth() {
-			int result = 0;
-			ItemPosition current = this;
-			while (current.parentItemPosition != null) {
-				current = current.parentItemPosition;
-				result++;
-			}
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (!(obj instanceof ItemPosition)) {
-				return false;
-			}
-			ItemPosition other = (ItemPosition) obj;
-			if (!ReflectionUIUtils.equalsOrBothNull(parentItemPosition,
-					other.parentItemPosition)) {
-				return false;
-			}
-			if (index != other.index) {
-				return false;
-			}
-			return true;
-		}
-
-		@Override
-		public Object getContainingListOwner() {
-			if (parentItemPosition != null) {
-				return parentItemPosition.getItem();
-			} else {
-				return object;
-			}
-
-		}
-
-		@Override
-		public ItemPosition getSibling(int index2) {
-			return new ItemPosition(containingListField, parentItemPosition,
-					index2);
-		}
-
-		@Override
-		public boolean isRootListItemPosition() {
-			return getRootListItemPosition() == this;
-		}
-
-		@Override
-		public ItemPosition getRootListItemPosition() {
-			ItemPosition current = this;
-			while (current.parentItemPosition != null) {
-				current = current.parentItemPosition;
-			}
-			return current;
+		public AutoUpdatingFieldItemPosition getRootListItemPosition() {
+			ItemPosition result = super.getRootListItemPosition();
+			return new AutoUpdatingFieldItemPosition(
+					result.getContainingListField(),
+					result.getParentItemPosition(), result.getIndex());
 		}
 
 	}
 
-	protected class ChangeListSelectionModification implements
-			IModification {
-		protected List<ItemPosition> toSelect;
-		private List<ItemPosition> undoSelection;
+	protected class ChangeListSelectionModification implements IModification {
+		protected List<AutoUpdatingFieldItemPosition> toSelect;
+		private List<AutoUpdatingFieldItemPosition> undoSelection;
 
-		public ChangeListSelectionModification(List<ItemPosition> toSelect,
-				List<ItemPosition> undoSelection) {
+		public ChangeListSelectionModification(
+				List<AutoUpdatingFieldItemPosition> toSelect,
+				List<AutoUpdatingFieldItemPosition> undoSelection) {
 			this.toSelect = toSelect;
 			this.undoSelection = undoSelection;
 		}
 
 		@Override
 		public IModification applyAndGetOpposite(boolean refreshView) {
-			List<ItemPosition> oppositeSelection;
+			List<AutoUpdatingFieldItemPosition> oppositeSelection;
 			if (undoSelection != null) {
 				oppositeSelection = undoSelection;
 			} else {
@@ -1664,10 +1592,10 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 	}
 
-	protected class FieldAutoUpdateList extends AbstractList {
-		protected ItemPosition itemPosition;
+	protected class AutoUpdatingFieldList extends AbstractList {
+		protected AutoUpdatingFieldItemPosition itemPosition;
 
-		public FieldAutoUpdateList(ItemPosition itemPosition) {
+		public AutoUpdatingFieldList(AutoUpdatingFieldItemPosition itemPosition) {
 			this.itemPosition = itemPosition;
 		}
 
@@ -1705,9 +1633,9 @@ public class ListControl extends JSplitPane implements IFieldControl {
 				}
 			}
 			if (!itemPosition.isRootListItemPosition()) {
-				ItemPosition listOwnerPosition = itemPosition
+				AutoUpdatingFieldItemPosition listOwnerPosition = itemPosition
 						.getParentItemPosition();
-				new FieldAutoUpdateList(listOwnerPosition).set(
+				new AutoUpdatingFieldList(listOwnerPosition).set(
 						listOwnerPosition.getIndex(), listOwner);
 			}
 		}
@@ -1839,10 +1767,11 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		protected void customizeComponent(JLabel label, ItemNode node,
 				int rowIndex, int columnIndex, boolean isSelected,
 				boolean hasFocus) {
-			if (!(node.getUserObject() instanceof ItemPosition)) {
+			if (!(node.getUserObject() instanceof AutoUpdatingFieldItemPosition)) {
 				return;
 			}
-			ItemPosition itemPosition = (ItemPosition) node.getUserObject();
+			AutoUpdatingFieldItemPosition itemPosition = (AutoUpdatingFieldItemPosition) node
+					.getUserObject();
 			Object item = itemPosition.getItem();
 			String text = getCellValue(node, columnIndex);
 			if (text == null) {
@@ -1866,7 +1795,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 	public interface IItemsVisitor {
 
-		void visitItem(ItemPosition itemPosition);
+		void visitItem(AutoUpdatingFieldItemPosition itemPosition);
 
 	}
 

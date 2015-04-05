@@ -11,7 +11,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MultiSubListField;
 import xy.reflect.ui.info.field.MultiSubListField.VirtualItem;
 import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.info.type.IListTypeInfo.IItemPosition;
+import xy.reflect.ui.info.type.IListTypeInfo.ItemPosition;
 import xy.reflect.ui.info.type.IListTypeInfo.IListStructuralInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -30,7 +30,7 @@ public abstract class AbstractTreeDetectionListStructuralInfo implements
 	}
 
 	@Override
-	public IFieldInfo getItemSubListField(IItemPosition itemPosition) {
+	public IFieldInfo getItemSubListField(ItemPosition itemPosition) {
 		if (!autoDetectTreeStructure()) {
 			return null;
 		}
@@ -49,7 +49,7 @@ public abstract class AbstractTreeDetectionListStructuralInfo implements
 	}
 
 	protected List<IFieldInfo> getItemSubListCandidateFields(
-			IItemPosition itemPosition) {
+			ItemPosition itemPosition) {
 		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
 		ITypeInfo itemType = itemPosition.getContainingListType().getItemType();
 		Object item = itemPosition.getItem();
@@ -104,7 +104,7 @@ public abstract class AbstractTreeDetectionListStructuralInfo implements
 
 	@Override
 	public IInfoCollectionSettings getItemInfoSettings(
-			final IItemPosition itemPosition) {
+			final ItemPosition itemPosition) {
 		return new IInfoCollectionSettings() {
 
 			@Override

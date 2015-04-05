@@ -76,7 +76,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 
 				@Override
 				public Object invoke(Object object,
-						Map<String, Object> valueByParameterName) {
+						Map<Integer, Object> valueByParameterPosition) {
 					if (javaType.isAssignableFrom(ArrayList.class)) {
 						return new ArrayList<Object>();
 					} else if (javaType.isAssignableFrom(HashSet.class)) {
@@ -101,7 +101,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 		IMethodInfo constructor = ReflectionUIUtils
 				.getZeroParameterConstrucor(this);
 		Collection result = (Collection) constructor.invoke(null,
-				Collections.<String, Object> emptyMap());
+				Collections.<Integer, Object> emptyMap());
 		for (Object item : listValue) {
 			if (result instanceof Set) {
 				if (result.contains(item)) {
@@ -197,7 +197,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 
 	@Override
 	public List<IListAction> getSpecificActions(
-			Object object, IFieldInfo field, List<? extends IItemPosition> selection) {
+			Object object, IFieldInfo field, List<? extends ItemPosition> selection) {
 		return Collections.emptyList();
 	}
 

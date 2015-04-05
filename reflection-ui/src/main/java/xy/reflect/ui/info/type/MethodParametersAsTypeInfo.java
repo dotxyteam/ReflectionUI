@@ -87,7 +87,7 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 			@Override
 			public void setValue(Object object, Object value) {
 				InstanceInfo instance =  (InstanceInfo) object;
-				instance.valueByParameterName.put(param.getName(), value);
+				instance.valueByParameterPosition.put(param.getPosition(), value);
 			}
 
 			@Override
@@ -98,10 +98,10 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 			@Override
 			public Object getValue(Object object) {
 				InstanceInfo instance =  (InstanceInfo) object;
-				if (!instance.valueByParameterName.containsKey(param.getName())) {
+				if (!instance.valueByParameterPosition.containsKey(param.getPosition())) {
 					return param.getDefaultValue();
 				}
-				return instance.valueByParameterName.get(param.getName());
+				return instance.valueByParameterPosition.get(param.getPosition());
 			}
 
 			@Override
@@ -185,7 +185,7 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 	public void validate(Object object) throws Exception {
 		InstanceInfo instance = (InstanceInfo) object;
 		method.validateParameters(instance.methodOwner,
-				instance.valueByParameterName);
+				instance.valueByParameterPosition);
 	}
 
 	@Override
@@ -195,13 +195,13 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 
 	public static class InstanceInfo {
 		private Object methodOwner;
-		private Map<String, Object> valueByParameterName;
+		private Map<Integer, Object> valueByParameterPosition;
 
 		public InstanceInfo(Object methodowner,
-				Map<String, Object> valueByParameterName) {
+				Map<Integer, Object> valueByParameterPosition) {
 			super();
 			this.methodOwner = methodowner;
-			this.valueByParameterName = valueByParameterName;
+			this.valueByParameterPosition = valueByParameterPosition;
 		}
 	}
 

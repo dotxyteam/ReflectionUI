@@ -35,7 +35,7 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements
 
 					@Override
 					public Object invoke(Object object,
-							Map<String, Object> valueByParameterName) {
+							Map<Integer, Object> valueByParameterPosition) {
 						return javaType.getEnumConstants()[0];
 					}
 

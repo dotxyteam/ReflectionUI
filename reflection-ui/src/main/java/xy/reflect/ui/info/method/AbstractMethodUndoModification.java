@@ -9,15 +9,15 @@ public abstract class AbstractMethodUndoModification implements IModification {
 
 	private IMethodInfo method;
 	private Object object;
-	private Map<String, Object> valueByParameterName;
+	private Map<Integer, Object> valueByParameterPosition;
 
 	protected abstract void revertMethod();
 
 	public AbstractMethodUndoModification(Object object, IMethodInfo method,
-			Map<String, Object> valueByParameterName) {
+			Map<Integer, Object> valueByParameterPosition) {
 		this.object = object;
 		this.method = method;
-		this.valueByParameterName = valueByParameterName;
+		this.valueByParameterPosition = valueByParameterPosition;
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public abstract class AbstractMethodUndoModification implements IModification {
 			
 			@Override
 			public IModification applyAndGetOpposite(boolean refreshView) {
-				method.invoke(object, valueByParameterName);
+				method.invoke(object, valueByParameterPosition);
 				return AbstractMethodUndoModification.this;
 			}
 		};

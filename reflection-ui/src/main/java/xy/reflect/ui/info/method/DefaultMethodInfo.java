@@ -64,17 +64,17 @@ public class DefaultMethodInfo implements IMethodInfo {
 			Annotation[] paramAnnotations = parameterAnnotations[i];
 			result.add(new DefaultParameterInfo(reflectionUI, javaMethod,
 					paramType, paramAnnotations, i));
-			i++;
 		}
 		return result;
 	}
 
 	@Override
-	public Object invoke(Object object, Map<String, Object> valueByParameterName) {
+	public Object invoke(Object object,
+			Map<Integer, Object> valueByParameterPosition) {
 		List<Object> args = new ArrayList<Object>();
 		for (IParameterInfo param : getParameters()) {
-			if (valueByParameterName.containsKey(param.getName())) {
-				args.add(valueByParameterName.get(param.getName()));
+			if (valueByParameterPosition.containsKey(param.getPosition())) {
+				args.add(valueByParameterPosition.get(param.getPosition()));
 			} else {
 				args.add(param.getDefaultValue());
 			}
@@ -166,7 +166,7 @@ public class DefaultMethodInfo implements IMethodInfo {
 						javaMethod)) {
 			return false;
 		}
-		if(ReflectionUIUtils.isJavaClassMainMethod(javaMethod)){
+		if (ReflectionUIUtils.isJavaClassMainMethod(javaMethod)) {
 			return false;
 		}
 		return true;
@@ -184,13 +184,13 @@ public class DefaultMethodInfo implements IMethodInfo {
 
 	@Override
 	public IModification getUndoModification(Object object,
-			Map<String, Object> valueByParameterName) {
+			Map<Integer, Object> valueByParameterPosition) {
 		return null;
 	}
 
 	@Override
 	public void validateParameters(Object object,
-			Map<String, Object> valueByParameterName) throws Exception {
+			Map<Integer, Object> valueByParameterPosition) throws Exception {
 	}
 
 	@Override

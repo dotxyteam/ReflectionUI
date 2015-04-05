@@ -48,11 +48,11 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 	}
 
 	@Override
-	public Object invoke(Object object, Map<String, Object> valueByParameterName) {
+	public Object invoke(Object object, Map<Integer, Object> valueByParameterPosition) {
 		List<Object> args = new ArrayList<Object>();
 		for (IParameterInfo param : getParameters()) {
-			if (valueByParameterName.containsKey(param.getName())) {
-				args.add(valueByParameterName.get(param.getName()));
+			if (valueByParameterPosition.containsKey(param.getPosition())) {
+				args.add(valueByParameterPosition.get(param.getPosition()));
 			} else {
 				args.add(param.getDefaultValue());
 			}
@@ -104,13 +104,13 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 	}
 
 	@Override
-	public IModification getUndoModification(Object object, Map<String, Object> valueByParameterName) {
+	public IModification getUndoModification(Object object, Map<Integer, Object> valueByParameterPosition) {
 		return null;
 	}
 
 	@Override
 	public void validateParameters(Object object,
-			Map<String, Object> valueByParameterName) throws Exception {
+			Map<Integer, Object> valueByParameterPosition) throws Exception {
 	}
 
 }

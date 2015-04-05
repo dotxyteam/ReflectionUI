@@ -34,7 +34,7 @@ public class DefaultTextualTypeInfo extends DefaultTypeInfo implements
 
 					@Override
 					public Object invoke(Object object,
-							Map<String, Object> valueByParameterName) {
+							Map<Integer, Object> valueByParameterPosition) {
 						if(String.class.equals(javaType)){
 							return new String();
 						}

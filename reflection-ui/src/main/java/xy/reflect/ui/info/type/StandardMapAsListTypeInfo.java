@@ -86,7 +86,7 @@ public class StandardMapAsListTypeInfo extends DefaultTypeInfo implements
 
 				@Override
 				public Object invoke(Object object,
-						Map<String, Object> valueByParameterName) {
+						Map<Integer, Object> valueByParameterPosition) {
 					return new HashMap<Object, Object>();
 				}
 
@@ -105,7 +105,7 @@ public class StandardMapAsListTypeInfo extends DefaultTypeInfo implements
 		IMethodInfo constructor = ReflectionUIUtils
 				.getZeroParameterConstrucor(this);
 		Map result = (Map) constructor.invoke(null,
-				Collections.<String, Object> emptyMap());
+				Collections.<Integer, Object> emptyMap());
 		for (Object item : listValue) {
 			StandardMapEntry entry = (StandardMapEntry) item;
 			if (result.containsKey(entry.getKey())) {
@@ -187,7 +187,7 @@ public class StandardMapAsListTypeInfo extends DefaultTypeInfo implements
 
 	@Override
 	public List<IListAction> getSpecificActions(
-			Object object, IFieldInfo field, List<? extends IItemPosition> selection) {
+			Object object, IFieldInfo field, List<? extends ItemPosition> selection) {
 		return Collections.emptyList();
 	}
 
@@ -336,7 +336,7 @@ public class StandardMapAsListTypeInfo extends DefaultTypeInfo implements
 						@SuppressWarnings("rawtypes")
 						@Override
 						public Object invoke(Object object,
-								Map<String, Object> valueByParameterName) {
+								Map<Integer, Object> valueByParameterPosition) {
 							return new StandardMapEntry();
 						}
 

@@ -12,7 +12,7 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
-import xy.reflect.ui.info.type.IListTypeInfo.IItemPosition;
+import xy.reflect.ui.info.type.IListTypeInfo.ItemPosition;
 import xy.reflect.ui.info.type.IListTypeInfo.IListAction;
 import xy.reflect.ui.info.type.IListTypeInfo.IListStructuralInfo;
 import xy.reflect.ui.undo.IModification;
@@ -116,9 +116,9 @@ public class TypeInfoProxyConfiguration {
 	}
 
 	protected Object invoke(Object object,
-			Map<String, Object> valueByParameterName, IMethodInfo method,
+			Map<Integer, Object> valueByParameterPosition, IMethodInfo method,
 			ITypeInfo containingType) {
-		return method.invoke(object, valueByParameterName);
+		return method.invoke(object, valueByParameterPosition);
 	}
 
 	protected List<IParameterInfo> getParameters(IMethodInfo method,
@@ -153,7 +153,7 @@ public class TypeInfoProxyConfiguration {
 
 	protected List<IListAction> getSpecificListActions(IListTypeInfo type,
 			Object object, IFieldInfo field,
-			List<? extends IItemPosition> selection) {
+			List<? extends ItemPosition> selection) {
 		return type.getSpecificActions(object, field, selection);
 	}
 
@@ -369,14 +369,14 @@ public class TypeInfoProxyConfiguration {
 
 	protected void validateParameters(IMethodInfo method,
 			ITypeInfo containingType, Object object,
-			Map<String, Object> valueByParameterName) throws Exception {
-		method.validateParameters(object, valueByParameterName);
+			Map<Integer, Object> valueByParameterPosition) throws Exception {
+		method.validateParameters(object, valueByParameterPosition);
 	}
 
 	protected IModification getUndoModification(IMethodInfo method,
 			ITypeInfo containingType, Object object,
-			Map<String, Object> valueByParameterName) {
-		return method.getUndoModification(object, valueByParameterName);
+			Map<Integer, Object> valueByParameterPosition) {
+		return method.getUndoModification(object, valueByParameterPosition);
 	}
 
 	protected String formatValue(Object value, IEnumerationTypeInfo type) {
@@ -534,7 +534,7 @@ public class TypeInfoProxyConfiguration {
 
 		@Override
 		public List<IListAction> getSpecificActions(Object object,
-				IFieldInfo field, List<? extends IItemPosition> selection) {
+				IFieldInfo field, List<? extends ItemPosition> selection) {
 			return TypeInfoProxyConfiguration.this.getSpecificListActions(
 					(IListTypeInfo) type, object, field, selection);
 		}
@@ -882,9 +882,9 @@ public class TypeInfoProxyConfiguration {
 
 		@Override
 		public Object invoke(Object object,
-				Map<String, Object> valueByParameterName) {
+				Map<Integer, Object> valueByParameterPosition) {
 			return TypeInfoProxyConfiguration.this.invoke(object,
-					valueByParameterName, method, containingType);
+					valueByParameterPosition, method, containingType);
 		}
 
 		@Override
@@ -913,16 +913,16 @@ public class TypeInfoProxyConfiguration {
 
 		@Override
 		public void validateParameters(Object object,
-				Map<String, Object> valueByParameterName) throws Exception {
+				Map<Integer, Object> valueByParameterPosition) throws Exception {
 			TypeInfoProxyConfiguration.this.validateParameters(method,
-					containingType, object, valueByParameterName);
+					containingType, object, valueByParameterPosition);
 		}
 
 		@Override
 		public IModification getUndoModification(Object object,
-				Map<String, Object> valueByParameterName) {
+				Map<Integer, Object> valueByParameterPosition) {
 			return TypeInfoProxyConfiguration.this.getUndoModification(method,
-					containingType, object, valueByParameterName);
+					containingType, object, valueByParameterPosition);
 		}
 
 		@Override

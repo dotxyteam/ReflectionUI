@@ -426,9 +426,9 @@ public class ReflectionUI {
 
 			@Override
 			public Object invoke(Object object,
-					Map<String, Object> valueByParameterName) {
+					Map<Integer, Object> valueByParameterPosition) {
 				try {
-					return super.invoke(object, valueByParameterName);
+					return super.invoke(object, valueByParameterPosition);
 				} finally {
 					validateForm(form);
 				}
@@ -526,7 +526,10 @@ public class ReflectionUI {
 			@Override
 			public void setValue(Object object, Object value) {
 				try {
-					super.setValue(object, value);
+					if (!ReflectionUI.this
+							.equals(super.getValue(object), value)) {
+						super.setValue(object, value);
+					}
 					fieldControlPlaceHolder.displayError(null);
 				} catch (final Throwable t) {
 					fieldControlPlaceHolder.displayError(new ReflectionUIError(
@@ -590,18 +593,18 @@ public class ReflectionUI {
 
 			@Override
 			public Object invoke(Object object,
-					Map<String, Object> valueByParameterName) {
+					Map<Integer, Object> valueByParameterPosition) {
 				ModificationStack stack = getModificationStackByForm()
 						.get(form);
 				Object result;
 				try {
-					result = super.invoke(object, valueByParameterName);
+					result = super.invoke(object, valueByParameterPosition);
 				} catch (Throwable t) {
 					stack.invalidate();
 					throw new ReflectionUIError(t);
 				}
 				IModification undoModif = method.getUndoModification(object,
-						valueByParameterName);
+						valueByParameterPosition);
 				if (undoModif == null) {
 					stack.invalidate();
 				} else {
@@ -658,9 +661,9 @@ public class ReflectionUI {
 
 			@Override
 			public Object invoke(Object object,
-					Map<String, Object> valueByParameterName) {
+					Map<Integer, Object> valueByParameterPosition) {
 				try {
-					return super.invoke(object, valueByParameterName);
+					return super.invoke(object, valueByParameterPosition);
 				} finally {
 					refreshFields(form);
 				}
@@ -668,9 +671,9 @@ public class ReflectionUI {
 
 			@Override
 			public IModification getUndoModification(final Object object,
-					Map<String, Object> valueByParameterName) {
+					Map<Integer, Object> valueByParameterPosition) {
 				IModification result = super.getUndoModification(object,
-						valueByParameterName);
+						valueByParameterPosition);
 				if (result == null) {
 					return null;
 				}
@@ -763,10 +766,14 @@ public class ReflectionUI {
 		return field;
 	}
 
-	public IMethodInfo getFormsUpdatingmethod(Object object, String methodName) {
+	public IMethodInfo getFormsUpdatingMethod(Object object,
+			String methodSignature) {
 		ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
-		IMethodInfo method = ReflectionUIUtils.findInfoByName(
-				type.getMethods(), methodName);
+		IMethodInfo method = ReflectionUIUtils.findMethodBtSignature(
+				type.getMethods(), methodSignature);
+		if (method == null) {
+			return null;
+		}
 		for (JPanel form : getForms(object)) {
 			method = handleMethodUpdates(method, form);
 		}
@@ -923,7 +930,7 @@ public class ReflectionUI {
 		textArea.setEditable(false);
 		textArea.setMargin(new Insets(5, 5, 5, 5));
 		textArea.setBorder(BorderFactory.createTitledBorder(""));
-		Component errorComponent = new JOptionPane(textArea,
+		Component errorComponent = new JOptionPane(new JScrollPane(textArea),
 				JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION, null,
 				new Object[] {});
 
@@ -1049,7 +1056,7 @@ public class ReflectionUI {
 				public void run() {
 					try {
 						finalReturnValueArray[0] = method.invoke(object,
-								Collections.<String, Object> emptyMap());
+								Collections.<Integer, Object> emptyMap());
 					} catch (Throwable t) {
 						exceptionThrownArray[0] = true;
 						throw new ReflectionUIError(t);
@@ -1103,11 +1110,11 @@ public class ReflectionUI {
 			final Component activatorComponent, final Object object,
 			final IMethodInfo method, final Object[] returnValueArray,
 			final boolean[] exceptionThrownArray) {
-		final Map<String, Object> valueByParameterName = new HashMap<String, Object>();
+		final Map<Integer, Object> valueByParameterPosition = new HashMap<Integer, Object>();
 		JPanel methodForm = createObjectForm(new PrecomputedTypeInfoInstanceWrapper(
 				new MethodParametersAsTypeInfo.InstanceInfo(object,
-						valueByParameterName), new MethodParametersAsTypeInfo(
-						this, method)));
+						valueByParameterPosition),
+				new MethodParametersAsTypeInfo(this, method)));
 		final boolean[] invokedStatusArray = new boolean[] { false };
 		final JDialog[] methodDialogArray = new JDialog[1];
 		List<Component> toolbarControls = new ArrayList<Component>();
@@ -1124,7 +1131,7 @@ public class ReflectionUI {
 							public void run() {
 								try {
 									returnValueArray[0] = method.invoke(object,
-											valueByParameterName);
+											valueByParameterPosition);
 								} catch (Throwable t) {
 									exceptionThrownArray[0] = true;
 									throw new ReflectionUIError(t);
@@ -1370,7 +1377,7 @@ public class ReflectionUI {
 				IMethodInfo constructor = constructors.get(0);
 				if (silent) {
 					return constructor.invoke(null,
-							Collections.<String, Object> emptyMap());
+							Collections.<Integer, Object> emptyMap());
 				} else {
 					Object[] returnValueArray = new Object[1];
 					onMethodInvocationRequest(activatorComponent, null,
@@ -1391,7 +1398,7 @@ public class ReflectionUI {
 			if (silent) {
 				IMethodInfo smallerConstructor = constructors.get(0);
 				return smallerConstructor.invoke(null,
-						Collections.<String, Object> emptyMap());
+						Collections.<Integer, Object> emptyMap());
 			} else {
 				IMethodInfo chosenContructor = openSelectionDialog(
 						activatorComponent, constructors, null,
