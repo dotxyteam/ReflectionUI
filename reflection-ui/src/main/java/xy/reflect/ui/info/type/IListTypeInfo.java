@@ -11,7 +11,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public interface IListTypeInfo extends ITypeInfo {
 	ITypeInfo getItemType();
 
-	Object[] toListValue(Object value);
+	Object[] toListValue(Object object);
 
 	Object fromListValue(Object[] listValue);
 
@@ -51,9 +51,9 @@ public interface IListTypeInfo extends ITypeInfo {
 			this.rootListOwner = rootListOwner;
 		}
 
-		public boolean supportsValue(Object object) {
+		public boolean supportsItem(Object object) {
 			ITypeInfo itemType = getContainingListType().getItemType();
-			return (itemType == null) || (itemType.supportsValue(object));
+			return (itemType == null) || (itemType.supportsInstance(object));
 		}
 
 		public boolean isContainingListReadOnly() {

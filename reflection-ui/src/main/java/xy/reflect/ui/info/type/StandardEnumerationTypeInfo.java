@@ -74,11 +74,11 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements
 	}
 
 	@Override
-	public String formatValue(Object value) {
-		if (value == null) {
+	public String formatEnumerationItem(Object object) {
+		if (object == null) {
 			return "";
 		} else {
-			return reflectionUI.toString(value);
+			return reflectionUI.toString(object);
 		}
 	}
 

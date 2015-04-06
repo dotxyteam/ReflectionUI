@@ -44,8 +44,8 @@ public class DefaultBooleanTypeInfo extends DefaultTypeInfo implements
 	}
 
 	@Override
-	public Boolean toBoolean(Object value) {
-		return (Boolean) value;
+	public Boolean toBoolean(Object object) {
+		return (Boolean) object;
 	}
 
 	@Override

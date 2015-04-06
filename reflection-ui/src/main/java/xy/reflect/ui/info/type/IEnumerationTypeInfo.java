@@ -6,5 +6,5 @@ public interface IEnumerationTypeInfo extends ITypeInfo {
 	
 	List<?> getPossibleValues();
 	
-	String formatValue(Object value);
+	String formatEnumerationItem(Object object);
 }

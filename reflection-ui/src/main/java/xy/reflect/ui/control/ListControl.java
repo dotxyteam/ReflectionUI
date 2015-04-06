@@ -82,6 +82,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 	protected ItemNode rootNode;
 	protected JPanel buttonsPanel;
 	protected Map<ItemNode, Map<Integer, String>> valuesByNode = new HashMap<ItemNode, Map<Integer, String>>();
+	private IListStructuralInfo structuralInfo;
 	protected static List<Object> clipboard = new ArrayList<Object>();
 
 	public ListControl(final ReflectionUI reflectionUI, final Object object,
@@ -120,7 +121,10 @@ public class ListControl extends JSplitPane implements IFieldControl {
 	}
 
 	public IListStructuralInfo getStructuralInfo() {
-		return getRootListType().getStructuralInfo();
+		if (structuralInfo == null) {
+			structuralInfo = getRootListType().getStructuralInfo();
+		}
+		return structuralInfo;
 	}
 
 	protected void initializeTreeTableControl() {
@@ -309,7 +313,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 				if (!rootItemPosition.isContainingListReadOnly()) {
 					boolean rootItemPositionSupportsAllClipboardItems = true;
 					for (Object clipboardItem : clipboard) {
-						if (!rootItemPosition.supportsValue(clipboardItem)) {
+						if (!rootItemPosition.supportsItem(clipboardItem)) {
 							rootItemPositionSupportsAllClipboardItems = false;
 							break;
 						}
@@ -332,7 +336,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 					boolean selectedItemPositionSupportsAllClipboardItems = true;
 					for (Object clipboardItem : clipboard) {
 						if (!singleSelectedPosition
-								.supportsValue(clipboardItem)) {
+								.supportsItem(clipboardItem)) {
 							selectedItemPositionSupportsAllClipboardItems = false;
 							break;
 						}
@@ -355,7 +359,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 							boolean singleSelectedPositionSubItemPositionSupportsAllClipboardItems = true;
 							for (Object clipboardItem : clipboard) {
 								if (!singleSelectedPositionSubItemPosition
-										.supportsValue(clipboardItem)) {
+										.supportsItem(clipboardItem)) {
 									singleSelectedPositionSubItemPositionSupportsAllClipboardItems = false;
 									break;
 								}

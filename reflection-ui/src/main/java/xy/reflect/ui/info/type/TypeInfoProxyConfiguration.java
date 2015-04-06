@@ -169,8 +169,8 @@ public class TypeInfoProxyConfiguration {
 		return type.isOrdered();
 	}
 
-	protected Object[] toListValue(IListTypeInfo type, Object value) {
-		return type.toListValue(value);
+	protected Object[] toListValue(IListTypeInfo type, Object object) {
+		return type.toListValue(object);
 	}
 
 	protected Component createFieldControl(ITypeInfo type, Object object,
@@ -218,8 +218,8 @@ public class TypeInfoProxyConfiguration {
 		return type.isImmutable();
 	}
 
-	protected boolean supportsValue(ITypeInfo type, Object value) {
-		return type.supportsValue(value);
+	protected boolean supportsInstance(ITypeInfo type, Object object) {
+		return type.supportsInstance(object);
 	}
 
 	protected String getCaption(ITypeInfo type) {
@@ -230,8 +230,8 @@ public class TypeInfoProxyConfiguration {
 		return type.getName();
 	}
 
-	protected Boolean toBoolean(Object value, IBooleanTypeInfo type) {
-		return type.toBoolean(value);
+	protected Boolean toBoolean(Object object, IBooleanTypeInfo type) {
+		return type.toBoolean(object);
 	}
 
 	protected Object fromBoolean(Boolean b, IBooleanTypeInfo type) {
@@ -379,8 +379,8 @@ public class TypeInfoProxyConfiguration {
 		return method.getUndoModification(object, valueByParameterPosition);
 	}
 
-	protected String formatValue(Object value, IEnumerationTypeInfo type) {
-		return type.formatValue(value);
+	protected String formatEnumerationItem(Object object, IEnumerationTypeInfo type) {
+		return type.formatEnumerationItem(object);
 	}
 
 	private class BasicTypeInfoProxy implements ITypeInfo {
@@ -402,8 +402,8 @@ public class TypeInfoProxyConfiguration {
 		}
 
 		@Override
-		public boolean supportsValue(Object value) {
-			return TypeInfoProxyConfiguration.this.supportsValue(type, value);
+		public boolean supportsInstance(Object object) {
+			return TypeInfoProxyConfiguration.this.supportsInstance(type, object);
 		}
 
 		@Override
@@ -503,9 +503,9 @@ public class TypeInfoProxyConfiguration {
 		}
 
 		@Override
-		public Object[] toListValue(Object value) {
+		public Object[] toListValue(Object object) {
 			return TypeInfoProxyConfiguration.this.toListValue(
-					(IListTypeInfo) type, value);
+					(IListTypeInfo) type, object);
 		}
 
 		@Override
@@ -555,8 +555,8 @@ public class TypeInfoProxyConfiguration {
 		}
 
 		@Override
-		public String formatValue(Object value) {
-			return TypeInfoProxyConfiguration.this.formatValue(value,
+		public String formatEnumerationItem(Object object) {
+			return TypeInfoProxyConfiguration.this.formatEnumerationItem(object,
 					(IEnumerationTypeInfo) type);
 		}
 
@@ -570,8 +570,8 @@ public class TypeInfoProxyConfiguration {
 		}
 
 		@Override
-		public Boolean toBoolean(Object value) {
-			return TypeInfoProxyConfiguration.this.toBoolean(value,
+		public Boolean toBoolean(Object object) {
+			return TypeInfoProxyConfiguration.this.toBoolean(object,
 					(IBooleanTypeInfo) type);
 		}
 
@@ -591,8 +591,8 @@ public class TypeInfoProxyConfiguration {
 		}
 
 		@Override
-		public String toText(Object value) {
-			return TypeInfoProxyConfiguration.this.toText(value,
+		public String toText(Object object) {
+			return TypeInfoProxyConfiguration.this.toText(object,
 					(ITextualTypeInfo) type);
 		}
 
@@ -668,8 +668,8 @@ public class TypeInfoProxyConfiguration {
 		}
 
 		@Override
-		public boolean supportsValue(Object value) {
-			return TypeInfoProxyConfiguration.this.supportsValue(type, value);
+		public boolean supportsInstance(Object object) {
+			return TypeInfoProxyConfiguration.this.supportsInstance(type, object);
 		}
 
 		@Override

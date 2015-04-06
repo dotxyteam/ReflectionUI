@@ -252,13 +252,13 @@ public class DefaultTypeInfo implements ITypeInfo {
 		boolean shouldCreateEmbeddedForm = false;
 		if (Boolean.TRUE.equals(field.getSpecificProperties().get(
 				DO_NOT_CREATE_EMBEDDED_FORM_PROPRTY_KEY))) {
-			field = preventNestedEmbeddedForm(field);
+			field = preventRecursiveEmbeddedForm(field);
 		} else {
 			if (!fieldValueType.hasCustomFieldControl()) {
 				if ((fieldValueType.getFields().size() + fieldValueType
 						.getMethods().size() / 4) <= 5) {
 					shouldCreateEmbeddedForm = true;
-					field = preventNestedEmbeddedForm(field);
+					field = preventRecursiveEmbeddedForm(field);
 				}
 			}
 		}
@@ -269,7 +269,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 		}
 	}
 
-	protected IFieldInfo preventNestedEmbeddedForm(IFieldInfo field) {
+	protected IFieldInfo preventRecursiveEmbeddedForm(IFieldInfo field) {
 		return new FieldInfoProxy(field) {
 
 			@Override
@@ -320,12 +320,12 @@ public class DefaultTypeInfo implements ITypeInfo {
 	}
 
 	@Override
-	public boolean supportsValue(Object value) {
+	public boolean supportsInstance(Object object) {
 		if (javaType.isPrimitive()) {
 			return ReflectionUIUtils.primitiveToWrapperType(javaType)
-					.isInstance(value);
+					.isInstance(object);
 		} else {
-			return javaType.isInstance(value);
+			return javaType.isInstance(object);
 		}
 	}
 

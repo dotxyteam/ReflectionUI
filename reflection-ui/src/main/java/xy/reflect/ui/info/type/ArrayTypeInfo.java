@@ -18,10 +18,10 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 	}
 
 	@Override
-	public Object[] toListValue(final Object value) {
-		Object[] result = new Object[Array.getLength(value)];
-		for (int i = 0; i < Array.getLength(value); i++) {
-			result[i] = Array.get(value, i);
+	public Object[] toListValue(final Object object) {
+		Object[] result = new Object[Array.getLength(object)];
+		for (int i = 0; i < Array.getLength(object); i++) {
+			result[i] = Array.get(object, i);
 		}
 		return result;
 	}

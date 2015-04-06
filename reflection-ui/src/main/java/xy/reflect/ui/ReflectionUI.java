@@ -201,6 +201,11 @@ public class ReflectionUI {
 		}
 		return getTypeInfo(getTypeInfoSource(object)).toString(object);
 	}
+	
+	public void openObjectFrame(Object object) {
+		openObjectFrame(object, getObjectKind(object), getObjectIconImage(object));
+	}
+		
 
 	public void openObjectFrame(Object object, String title, Image iconImage) {
 		JPanel form = createObjectForm(object);
@@ -237,8 +242,8 @@ public class ReflectionUI {
 
 	public JFrame createFrame(Component content, String title, Image iconImage,
 			List<? extends Component> toolbarControls) {
-		final JFrame frame = new JFrame(title);
-		configureWindow(frame, content, toolbarControls, iconImage);
+		final JFrame frame = new JFrame();
+		configureWindow(frame, content, toolbarControls, title, iconImage);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		return frame;
 	}
@@ -959,7 +964,10 @@ public class ReflectionUI {
 
 	public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
 		ITypeInfo result;
-		if (typeSource instanceof JavaTypeInfoSource) {
+		if (typeSource instanceof PrecomputedTypeInfoSource) {
+			result = ((PrecomputedTypeInfoSource) typeSource)
+					.getPrecomputedType();
+		} else if (typeSource instanceof JavaTypeInfoSource) {
 			JavaTypeInfoSource javaTypeSource = (JavaTypeInfoSource) typeSource;
 			if (StandardCollectionTypeInfo.isCompatibleWith(javaTypeSource
 					.getJavaType())) {
@@ -1000,9 +1008,6 @@ public class ReflectionUI {
 			} else {
 				result = new DefaultTypeInfo(this, javaTypeSource.getJavaType());
 			}
-		} else if (typeSource instanceof PrecomputedTypeInfoSource) {
-			result = ((PrecomputedTypeInfoSource) typeSource)
-					.getPrecomputedType();
 		} else {
 			throw new ReflectionUIError();
 		}
@@ -1179,6 +1184,11 @@ public class ReflectionUI {
 						createDialogOkCancelButtons(dialogArray, null, null,
 								null, false), null), true);
 	}
+	
+	public void openObjectDialog(Component parent, Object object, boolean modal) {
+		openObjectDialog(parent, object, getObjectKind(object), getObjectIconImage(object), modal);
+	}
+	
 
 	public void openObjectDialog(Component parent, Object object, String title,
 			Image iconImage, boolean modal) {
@@ -1272,13 +1282,18 @@ public class ReflectionUI {
 				disposed = true;
 			}
 		};
-		configureWindow(dialog, content, toolbarControls, iconImage);
+		configureWindow(dialog, content, toolbarControls, title, iconImage);
 		dialog.setResizable(true);
 		return dialog;
 	}
 
 	public void configureWindow(Window window, Component content,
-			List<? extends Component> toolbarControls, Image iconImage) {
+			List<? extends Component> toolbarControls, String title, Image iconImage) {
+		if(window instanceof JFrame){
+			((JFrame)window).setTitle(title);
+		}else if(window instanceof JDialog){
+			((JDialog)window).setTitle(title);
+		}
 		Container contentPane = ReflectionUIUtils.getContentPane(window);
 		if (contentPane == null) {
 			return;
@@ -1459,7 +1474,7 @@ public class ReflectionUI {
 		return getTypeInfo(getTypeInfoSource(object)).getCaption();
 	}
 
-	public Image getObjectIconImage(Object item) {
+	public Image getObjectIconImage(Object object) {
 		return null;
 	}
 

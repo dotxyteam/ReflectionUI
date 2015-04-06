@@ -55,8 +55,8 @@ public class DefaultTextualTypeInfo extends DefaultTypeInfo implements
 	}
 
 	@Override
-	public String toText(Object value) {
-		return value.toString();
+	public String toText(Object object) {
+		return object.toString();
 	}
 
 	@Override

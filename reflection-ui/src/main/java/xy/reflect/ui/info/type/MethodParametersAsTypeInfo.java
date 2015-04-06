@@ -177,7 +177,7 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 	}
 
 	@Override
-	public boolean supportsValue(Object value) {
+	public boolean supportsInstance(Object object) {
 		return false;
 	}
 

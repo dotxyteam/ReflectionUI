@@ -19,7 +19,7 @@ public interface ITypeInfo extends IInfo {
 
 	Component createFieldControl(Object object, IFieldInfo field);
 
-	boolean supportsValue(Object value);
+	boolean supportsInstance(Object object);
 
 	List<ITypeInfo> getPolymorphicInstanceSubTypes();
 

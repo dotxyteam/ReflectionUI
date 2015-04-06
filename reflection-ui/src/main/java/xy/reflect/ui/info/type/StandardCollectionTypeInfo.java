@@ -115,8 +115,8 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 	}
 
 	@Override
-	public Object[] toListValue(Object value) {
-		return ((Collection<?>) value).toArray();
+	public Object[] toListValue(Object object) {
+		return ((Collection<?>) object).toArray();
 	}
 
 	@Override

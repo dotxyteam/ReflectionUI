@@ -66,9 +66,9 @@ public class StandardMapAsListTypeInfo extends DefaultTypeInfo implements
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public Object[] toListValue(Object value) {
+	public Object[] toListValue(Object object) {
 		List<StandardMapEntry> result = new ArrayList<StandardMapAsListTypeInfo.StandardMapEntry>();
-		for (Object obj : ((Map) value).entrySet()) {
+		for (Object obj : ((Map) object).entrySet()) {
 			Map.Entry entry = (Entry) obj;
 			result.add(new StandardMapEntry(entry.getKey(), entry.getValue()));
 		}

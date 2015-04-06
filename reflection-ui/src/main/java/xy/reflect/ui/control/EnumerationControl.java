@@ -68,7 +68,7 @@ public class EnumerationControl extends JPanel {
 				if (value == null) {
 					label.setText("");
 				} else {
-					String s = enumType.formatValue(value);
+					String s = enumType.formatEnumerationItem(value);
 					label.setText(reflectionUI.translateUIString(s));
 				}
 

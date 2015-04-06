@@ -156,8 +156,8 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 					}
 
 					@Override
-					public boolean supportsValue(Object value) {
-						return value instanceof ITypeInfo;
+					public boolean supportsInstance(Object object) {
+						return object instanceof ITypeInfo;
 					}
 
 					@Override
@@ -224,8 +224,8 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 					}
 
 					@Override
-					public String formatValue(Object value) {
-						return ((ITypeInfo) value).getCaption();
+					public String formatEnumerationItem(Object object) {
+						return ((ITypeInfo) object).getCaption();
 					}
 
 					@Override
