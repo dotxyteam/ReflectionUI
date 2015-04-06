@@ -335,8 +335,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 				if (!singleSelectedPosition.isContainingListReadOnly()) {
 					boolean selectedItemPositionSupportsAllClipboardItems = true;
 					for (Object clipboardItem : clipboard) {
-						if (!singleSelectedPosition
-								.supportsItem(clipboardItem)) {
+						if (!singleSelectedPosition.supportsItem(clipboardItem)) {
 							selectedItemPositionSupportsAllClipboardItems = false;
 							break;
 						}
@@ -1771,6 +1770,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		protected void customizeComponent(JLabel label, ItemNode node,
 				int rowIndex, int columnIndex, boolean isSelected,
 				boolean hasFocus) {
+			label.putClientProperty("html.disable", Boolean.TRUE);
 			if (!(node.getUserObject() instanceof AutoUpdatingFieldItemPosition)) {
 				return;
 			}
@@ -1803,7 +1803,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 	}
 
-	private enum InsertPosition {
+	protected enum InsertPosition {
 		AFTER, BEFORE, INDERTERMINATE
 	}
 
