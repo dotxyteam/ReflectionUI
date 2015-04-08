@@ -504,6 +504,7 @@
     <xy.ui.testing.action.CheckWindowVisibleStringsAction>
       <visibleStrings>
         <string>Point</string>
+        <string>Location</string>
         <string>X: </string>
         <string>3</string>
         <string>Y: </string>
