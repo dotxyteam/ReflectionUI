@@ -952,6 +952,18 @@ public class ReflectionUIUtils {
 		}
 		return result;
 	}
+	
+
+
+	public static String getWindowTitle(Window window) {
+		if (window instanceof JFrame) {
+			return ((JFrame) window).getTitle();
+		} else if (window instanceof JDialog) {
+			return ((JDialog) window).getTitle();
+		} else {
+			return null;
+		}
+	}
 
 	public static Container getContentPane(Window window) {
 		if (window instanceof JFrame) {
@@ -960,6 +972,18 @@ public class ReflectionUIUtils {
 			return ((JDialog) window).getContentPane();
 		} else {
 			return null;
+		}
+	}
+	
+
+
+	public static void setContentPane(Window window, Container contentPane) {
+		if (window instanceof JFrame) {
+			((JFrame) window).setContentPane(contentPane);
+		} else if (window instanceof JDialog) {
+			((JDialog) window).setContentPane(contentPane);
+		} else {
+			throw new AssertionError();
 		}
 	}
 

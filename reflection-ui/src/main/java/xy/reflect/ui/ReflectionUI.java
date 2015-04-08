@@ -16,6 +16,8 @@ import java.awt.Rectangle;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -201,11 +203,11 @@ public class ReflectionUI {
 		}
 		return getTypeInfo(getTypeInfoSource(object)).toString(object);
 	}
-	
+
 	public void openObjectFrame(Object object) {
-		openObjectFrame(object, getObjectKind(object), getObjectIconImage(object));
+		openObjectFrame(object, getObjectKind(object),
+				getObjectIconImage(object));
 	}
-		
 
 	public void openObjectFrame(Object object, String title, Image iconImage) {
 		JPanel form = createObjectForm(object);
@@ -243,7 +245,8 @@ public class ReflectionUI {
 	public JFrame createFrame(Component content, String title, Image iconImage,
 			List<? extends Component> toolbarControls) {
 		final JFrame frame = new JFrame();
-		configureWindow(frame, content, toolbarControls, title, iconImage);
+		applyCommonWindowConfiguration(frame, content, toolbarControls, title,
+				iconImage);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		return frame;
 	}
@@ -648,7 +651,7 @@ public class ReflectionUI {
 										continue;
 									}
 								}
-								refreshAndRelayoutFieldControl(form,
+								refreshFieldControl(form,
 										fieldToRefresh.getName());
 							}
 						} catch (Throwable t) {
@@ -670,7 +673,7 @@ public class ReflectionUI {
 				try {
 					return super.invoke(object, valueByParameterPosition);
 				} finally {
-					refreshFields(form);
+					refreshAllFieldControls(form);
 				}
 			}
 
@@ -686,7 +689,7 @@ public class ReflectionUI {
 						new ModificationProxyConfiguration() {
 							@Override
 							public void executeAfterApplication() {
-								refreshFields(form);
+								refreshAllFieldControls(form);
 							}
 						});
 				return result;
@@ -695,7 +698,7 @@ public class ReflectionUI {
 		};
 	}
 
-	public void refreshFields(JPanel form) {
+	public void refreshAllFieldControls(JPanel form) {
 		Object object = getObjectByForm().get(form);
 		ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
 		IInfoCollectionSettings settings = getInfoCollectionSettingsByForm()
@@ -704,11 +707,11 @@ public class ReflectionUI {
 			if ((settings != null) && settings.excludeField(field)) {
 				continue;
 			}
-			refreshAndRelayoutFieldControl(form, field.getName());
+			refreshFieldControl(form, field.getName());
 		}
 	}
 
-	public void refreshAndRelayoutFieldControl(JPanel form, String fieldName) {
+	public void refreshFieldControl(JPanel form, String fieldName) {
 		Object object = getObjectByForm().get(form);
 		ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
 		IFieldInfo field = ReflectionUIUtils.findInfoByName(type.getFields(),
@@ -1087,8 +1090,7 @@ public class ReflectionUI {
 		busyLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 		final JDialog dialog = createDialog(ownerComponent, busyLabel, title,
 				null, null, null);
-		busyLabel.setBusy(true);
-		new Thread(title) {
+		final Thread thread = new Thread(title) {
 			@Override
 			public void run() {
 				try {
@@ -1100,7 +1102,15 @@ public class ReflectionUI {
 					dialog.dispose();
 				}
 			}
-		}.start();
+		};
+		dialog.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				thread.interrupt();
+			}
+		});
+		busyLabel.setBusy(true);
+		thread.start();
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
@@ -1184,11 +1194,11 @@ public class ReflectionUI {
 						createDialogOkCancelButtons(dialogArray, null, null,
 								null, false), null), true);
 	}
-	
+
 	public void openObjectDialog(Component parent, Object object, boolean modal) {
-		openObjectDialog(parent, object, getObjectKind(object), getObjectIconImage(object), modal);
+		openObjectDialog(parent, object, getObjectKind(object),
+				getObjectIconImage(object), modal);
 	}
-	
 
 	public void openObjectDialog(Component parent, Object object, String title,
 			Image iconImage, boolean modal) {
@@ -1282,48 +1292,23 @@ public class ReflectionUI {
 				disposed = true;
 			}
 		};
-		configureWindow(dialog, content, toolbarControls, title, iconImage);
+		applyCommonWindowConfiguration(dialog, content, toolbarControls, title,
+				iconImage);
 		dialog.setResizable(true);
 		return dialog;
 	}
 
-	public void configureWindow(Window window, Component content,
-			List<? extends Component> toolbarControls, String title, Image iconImage) {
-		if(window instanceof JFrame){
-			((JFrame)window).setTitle(title);
-		}else if(window instanceof JDialog){
-			((JDialog)window).setTitle(title);
+	public void applyCommonWindowConfiguration(Window window,
+			Component content, List<? extends Component> toolbarControls,
+			String title, Image iconImage) {
+		if (window instanceof JFrame) {
+			((JFrame) window).setTitle(title);
+		} else if (window instanceof JDialog) {
+			((JDialog) window).setTitle(title);
 		}
-		Container contentPane = ReflectionUIUtils.getContentPane(window);
-		if (contentPane == null) {
-			return;
-		}
-		contentPane.setLayout(new BorderLayout());
-		if (content != null) {
-			JPanel form = ReflectionUIUtils.findForm(content, this);
-			if (form != null) {
-				JLabel statusLabel = new JLabel();
-				statusLabel.setOpaque(true);
-				statusLabel.setFont(new JToolTip().getFont());
-				statusLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5,
-						5));
-				contentPane.add(statusLabel, BorderLayout.NORTH);
-				getStatusLabelByForm().put(form, statusLabel);
-				validateForm(form);
-			}
-			JScrollPane scrollPane = new JScrollPane(new ScrollPaneOptions(
-					content, true, false));
-			contentPane.add(scrollPane, BorderLayout.CENTER);
-		}
-		if (toolbarControls != null) {
-			JPanel toolbar = new JPanel();
-			toolbar.setBorder(BorderFactory.createRaisedBevelBorder());
-			toolbar.setLayout(new FlowLayout(FlowLayout.CENTER));
-			for (Component tool : toolbarControls) {
-				toolbar.add(tool);
-			}
-			contentPane.add(toolbar, BorderLayout.SOUTH);
-		}
+		Container contentPane = createWindowContentPane(window, content,
+				toolbarControls);
+		ReflectionUIUtils.setContentPane(window, contentPane);
 		window.pack();
 		window.setLocationRelativeTo(null);
 		Rectangle bounds = window.getBounds();
@@ -1336,6 +1321,45 @@ public class ReflectionUI {
 		} else {
 			window.setIconImage(iconImage);
 		}
+	}
+
+	public Container createWindowContentPane(Window window, Component content,
+			List<? extends Component> toolbarControls) {
+		JPanel contentPane = new JPanel();
+		contentPane.setLayout(new BorderLayout());
+		if (content != null) {
+			JPanel form = ReflectionUIUtils.findForm(content, this);
+			if (form != null) {
+				contentPane.add(createStatusBar(form), BorderLayout.NORTH);
+				validateForm(form);
+			}
+			content = new JScrollPane(new ScrollPaneOptions(content, true,
+					false));
+			contentPane.add(content, BorderLayout.CENTER);
+		}
+		if (toolbarControls != null) {
+			contentPane.add(createToolBar(toolbarControls), BorderLayout.SOUTH);
+		}
+		return contentPane;
+	}
+
+	public Component createToolBar(List<? extends Component> toolbarControls) {
+		JPanel result = new JPanel();
+		result.setBorder(BorderFactory.createRaisedBevelBorder());
+		result.setLayout(new FlowLayout(FlowLayout.CENTER));
+		for (Component tool : toolbarControls) {
+			result.add(tool);
+		}
+		return result;
+	}
+
+	public Component createStatusBar(JPanel form) {
+		JLabel result = new JLabel();
+		result.setOpaque(true);
+		result.setFont(new JToolTip().getFont());
+		result.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		getStatusLabelByForm().put(form, result);
+		return result;
 	}
 
 	public ReflectionUI getSubReflectionUI() {

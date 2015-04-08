@@ -91,7 +91,7 @@ public class NullableControl extends JPanel implements IFieldControl {
 			subControl = null;
 		}
 		field.setValue(object, newValue);
-		reflectionUI.refreshAndRelayoutFieldControl(
+		reflectionUI.refreshFieldControl(
 				ReflectionUIUtils.findForm(this, reflectionUI),
 				field.getName());
 		subControl.requestFocus();
