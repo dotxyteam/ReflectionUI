@@ -35,7 +35,6 @@
       </componentFinder>
     </xy.ui.testing.action.SendClickAction>
     <xy.ui.testing.action.CheckWindowVisibleStringsAction>
-     <windowIndex>0</windowIndex>
       <visibleStrings class="java.util.Arrays$ArrayList">
         <a>
           <string>Point</string>
@@ -78,6 +77,7 @@
           <string>Reset</string>
         </a>
       </visibleStrings>
+      <windowIndex>0</windowIndex>
     </xy.ui.testing.action.CheckWindowVisibleStringsAction>
     <xy.ui.testing.action.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
@@ -142,7 +142,6 @@
       <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
     </xy.ui.testing.action.SendKeysAction>
     <xy.ui.testing.action.CheckWindowVisibleStringsAction>
-      <windowIndex>0</windowIndex>
       <visibleStrings class="java.util.Arrays$ArrayList">
         <a>
           <string>Point</string>
@@ -185,6 +184,7 @@
           <string>Reset</string>
         </a>
       </visibleStrings>
+      <windowIndex>0</windowIndex>
     </xy.ui.testing.action.CheckWindowVisibleStringsAction>
     <xy.ui.testing.action.SendClickAction>
       <button>LEFT_BUTTON</button>
@@ -195,13 +195,13 @@
       </componentFinder>
     </xy.ui.testing.action.SendClickAction>
     <xy.ui.testing.action.CheckWindowVisibleStringsAction>
-      <windowIndex>1</windowIndex>
       <visibleStrings>
         <string>An Error Occured</string>
         <string>Missing Value Error</string>
         <string>Details</string>
         <string>Close</string>
       </visibleStrings>
+      <windowIndex>1</windowIndex>
     </xy.ui.testing.action.CheckWindowVisibleStringsAction>
     <xy.ui.testing.action.SendClickAction>
       <button>LEFT_BUTTON</button>
@@ -220,7 +220,6 @@
       </componentFinder>
     </xy.ui.testing.action.SendClickAction>
     <xy.ui.testing.action.CheckWindowVisibleStringsAction>
-      <windowIndex>1</windowIndex>
       <visibleStrings>
         <string>Point - Location - Point</string>
         <string>X: </string>
@@ -247,6 +246,7 @@
         <string>OK</string>
         <string>Cancel</string>
       </visibleStrings>
+      <windowIndex>1</windowIndex>
     </xy.ui.testing.action.CheckWindowVisibleStringsAction>
     <xy.ui.testing.action.SendClickAction>
       <button>LEFT_BUTTON</button>
@@ -299,7 +299,6 @@
       <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
     </xy.ui.testing.action.SendKeysAction>
     <xy.ui.testing.action.CheckWindowVisibleStringsAction>
-      <windowIndex>2</windowIndex>
       <visibleStrings>
         <string>Point - Move - Setting</string>
         <string>Y (Int): </string>
@@ -309,6 +308,7 @@
         <string>Move</string>
         <string>Cancel</string>
       </visibleStrings>
+      <windowIndex>2</windowIndex>
     </xy.ui.testing.action.CheckWindowVisibleStringsAction>
     <xy.ui.testing.action.SendClickAction>
       <button>LEFT_BUTTON</button>
@@ -327,7 +327,6 @@
       </componentFinder>
     </xy.ui.testing.action.SendClickAction>
     <xy.ui.testing.action.CheckWindowVisibleStringsAction>
-      <windowIndex>0</windowIndex>
       <visibleStrings class="java.util.Arrays$ArrayList">
         <a>
           <string>Point</string>
@@ -370,6 +369,7 @@
           <string>Reset</string>
         </a>
       </visibleStrings>
+      <windowIndex>0</windowIndex>
     </xy.ui.testing.action.CheckWindowVisibleStringsAction>
     <xy.ui.testing.action.SendClickAction>
       <button>LEFT_BUTTON</button>
@@ -380,7 +380,6 @@
       </componentFinder>
     </xy.ui.testing.action.SendClickAction>
     <xy.ui.testing.action.CheckWindowVisibleStringsAction>
-      <windowIndex>0</windowIndex>
       <visibleStrings class="java.util.Arrays$ArrayList">
         <a>
           <string>Point</string>
@@ -423,6 +422,7 @@
           <string>Reset</string>
         </a>
       </visibleStrings>
+      <windowIndex>0</windowIndex>
     </xy.ui.testing.action.CheckWindowVisibleStringsAction>
     <xy.ui.testing.action.SendClickAction>
       <button>LEFT_BUTTON</button>
@@ -433,46 +433,49 @@
       </componentFinder>
     </xy.ui.testing.action.SendClickAction>
     <xy.ui.testing.action.CheckWindowVisibleStringsAction>
-      <windowIndex>0</windowIndex>
-      <visibleStrings>
-        <string>Point</string>
-        <string>X: </string>
-        <string>0</string>
-        <string>Y: </string>
-        <string>0</string>
-        <string>X: </string>
-        <string>0</string>
-        <string>Y: </string>
-        <string>0</string>
-        <string>Location: </string>
-        <string>Point[x=0,y=0]</string>
-        <string>...</string>
-        <string>Set Location...</string>
-        <string>Distance...</string>
-        <string>Distance Sq...</string>
-        <string>Distance...</string>
-        <string>Distance Sq...</string>
-        <string>Move...</string>
-        <string>Set Location...</string>
-        <string>Translate...</string>
-        <string>Set Location...</string>
-        <string>Distance...</string>
-        <string>Distance Sq...</string>
-        <string>Set Location...</string>
-        <string>Distance...</string>
-        <string>Distance Sq...</string>
-        <string>Distance...</string>
-        <string>Distance Sq...</string>
-        <string>Move...</string>
-        <string>Set Location...</string>
-        <string>Translate...</string>
-        <string>Set Location...</string>
-        <string>Distance...</string>
-        <string>Distance Sq...</string>
-        <string>Undo</string>
-        <string>Redo</string>
-        <string>Reset</string>
+      <visibleStrings class="java.util.Arrays$ArrayList">
+        <a>
+          <string>Point</string>
+          <string>X: </string>
+          <string>0</string>
+          <string>Y: </string>
+          <string>0</string>
+          <string>Location</string>
+          <string>X: </string>
+          <string>0</string>
+          <string>Y: </string>
+          <string>0</string>
+          <string>Location: </string>
+          <string>Point[x=0,y=0]</string>
+          <string>...</string>
+          <string>Set Location...</string>
+          <string>Distance...</string>
+          <string>Distance Sq...</string>
+          <string>Distance...</string>
+          <string>Distance Sq...</string>
+          <string>Move...</string>
+          <string>Set Location...</string>
+          <string>Translate...</string>
+          <string>Set Location...</string>
+          <string>Distance...</string>
+          <string>Distance Sq...</string>
+          <string>Set Location...</string>
+          <string>Distance...</string>
+          <string>Distance Sq...</string>
+          <string>Distance...</string>
+          <string>Distance Sq...</string>
+          <string>Move...</string>
+          <string>Set Location...</string>
+          <string>Translate...</string>
+          <string>Set Location...</string>
+          <string>Distance...</string>
+          <string>Distance Sq...</string>
+          <string>Undo</string>
+          <string>Redo</string>
+          <string>Reset</string>
+        </a>
       </visibleStrings>
+      <windowIndex>0</windowIndex>
     </xy.ui.testing.action.CheckWindowVisibleStringsAction>
     <xy.ui.testing.action.SendClickAction>
       <button>LEFT_BUTTON</button>
@@ -499,7 +502,6 @@
       </componentFinder>
     </xy.ui.testing.action.SendClickAction>
     <xy.ui.testing.action.CheckWindowVisibleStringsAction>
-      <windowIndex>0</windowIndex>
       <visibleStrings>
         <string>Point</string>
         <string>X: </string>
@@ -539,6 +541,7 @@
         <string>Redo</string>
         <string>Reset</string>
       </visibleStrings>
+      <windowIndex>0</windowIndex>
     </xy.ui.testing.action.CheckWindowVisibleStringsAction>
   </testActions>
 </xy.ui.testing.Tester>
