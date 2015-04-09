@@ -1,9 +1,10 @@
 package xy.reflect.ui.info.type;
 
 import java.awt.Component;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import xy.reflect.ui.control.ListControl.AutoUpdatingFieldItemPosition;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -39,12 +40,12 @@ public interface IListTypeInfo extends ITypeInfo {
 	public class ItemPosition {
 
 		protected IFieldInfo containingListField;
-		protected AutoUpdatingFieldItemPosition parentItemPosition;
+		protected ItemPosition parentItemPosition;
 		protected int index;
 		protected Object rootListOwner;
 
 		public ItemPosition(IFieldInfo containingListField,
-				AutoUpdatingFieldItemPosition parentItemPosition, int index, Object rootListOwner) {
+				ItemPosition parentItemPosition, int index, Object rootListOwner) {
 			this.containingListField = containingListField;
 			this.parentItemPosition = parentItemPosition;
 			this.index = index;
@@ -94,7 +95,7 @@ public interface IListTypeInfo extends ITypeInfo {
 			return (IListTypeInfo) getContainingListField().getType();
 		}
 
-		public AutoUpdatingFieldItemPosition getParentItemPosition() {
+		public ItemPosition getParentItemPosition() {
 			return parentItemPosition;
 		}
 
@@ -110,6 +111,34 @@ public interface IListTypeInfo extends ITypeInfo {
 			while (current.getParentItemPosition() != null) {
 				current = current.getParentItemPosition();
 				result++;
+			}
+			return result;
+		}
+		
+
+
+		public List<ItemPosition> getPreviousSiblings() {
+			List<ItemPosition> result = new ArrayList<ItemPosition>();
+			for(int i=0; i<getIndex(); i++){
+				result.add(getSibling(i));
+			}
+			Collections.reverse(result);
+			return result;
+		}
+		public List<ItemPosition> getFollowingSiblings() {
+			List<ItemPosition> result = new ArrayList<ItemPosition>();
+			for(int i=getIndex()+1; i<getContainingListValue().length; i++){
+				result.add(getSibling(i));
+			}
+			return result;
+		}
+
+		public List<ItemPosition> getAncestors() {
+			List<ItemPosition> result = new ArrayList<ItemPosition>();
+			ItemPosition ancestor = getParentItemPosition();
+			while(ancestor != null){
+				result.add(ancestor);
+				ancestor = ancestor.getParentItemPosition();
 			}
 			return result;
 		}

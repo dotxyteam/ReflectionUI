@@ -83,7 +83,7 @@ import xy.reflect.ui.undo.ModificationProxy;
 import xy.reflect.ui.undo.ModificationProxyConfiguration;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.IModification;
-import xy.reflect.ui.undo.ModificationOrder;
+import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.undo.SetFieldValueModification;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -1540,13 +1540,13 @@ public class ReflectionUI {
 									undoModifications
 											.addAll(Arrays
 													.asList(modificationstackArray[0]
-															.getUndoModifications(ModificationOrder.LIFO)));
+															.getUndoModifications(UndoOrder.LIFO)));
 									parentModificationStack
 											.pushUndo(new CompositeModification(
 													ModificationStack
 															.getUndoTitle("Edit "
 																	+ title),
-													ModificationOrder.LIFO,
+													UndoOrder.LIFO,
 													undoModifications));
 								}
 							}

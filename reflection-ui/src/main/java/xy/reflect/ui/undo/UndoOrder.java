@@ -1,4 +1,4 @@
 package xy.reflect.ui.undo;
-public enum ModificationOrder {
+public enum UndoOrder {
 	LIFO, FIFO
 };

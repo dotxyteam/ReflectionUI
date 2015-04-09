@@ -63,9 +63,10 @@ import xy.reflect.ui.info.type.IListTypeInfo.IListAction;
 import xy.reflect.ui.info.type.IListTypeInfo.IListStructuralInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.JavaTypeInfoSource;
+import xy.reflect.ui.undo.CompositeModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.IModification;
-import xy.reflect.ui.undo.ModificationOrder;
+import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.undo.SetListValueModification;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -424,7 +425,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		final JButton button = new JButton(
 				reflectionUI.translateUIString("Clear"));
 		buttonsPanel.add(button);
-		button.addActionListener(new ActionListener() {
+		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -441,7 +442,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
 				}
 			}
-		});
+		}));
 	}
 
 	protected void createMoveButton(JPanel buttonsPanel, final int offset,
@@ -449,7 +450,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		final JButton button = new JButton(
 				reflectionUI.translateUIString(label));
 		buttonsPanel.add(button);
-		button.addActionListener(new ActionListener() {
+		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -485,7 +486,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
 				}
 			}
-		});
+		}));
 	}
 
 	protected AutoUpdatingFieldItemPosition getSingleSelection() {
@@ -570,7 +571,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		final JButton button = new JButton(
 				reflectionUI.translateUIString("Remove"));
 		buttonsPanel.add(button);
-		button.addActionListener(new ActionListener() {
+		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -581,13 +582,13 @@ public class ListControl extends JSplitPane implements IFieldControl {
 									.translateUIString("Remove the element(s)?"),
 							"", JOptionPane.OK_CANCEL_OPTION)) {
 						List<AutoUpdatingFieldItemPosition> selection = getSelection();
-						if (selection.size() > 1) {
-							beginCompositeModification();
-						}
 						selection = new ArrayList<AutoUpdatingFieldItemPosition>(
 								selection);
 						Collections.reverse(selection);
 						List<AutoUpdatingFieldItemPosition> toPostSelect = new ArrayList<ListControl.AutoUpdatingFieldItemPosition>();
+						if (selection.size() > 1) {
+							beginCompositeModification(false);
+						}
 						for (AutoUpdatingFieldItemPosition itemPosition : selection) {
 							if (itemPosition == null) {
 								return;
@@ -596,6 +597,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 									.getContainingAutoUpdatingFieldList();
 							int index = itemPosition.getIndex();
 							list.remove(index);
+							updateOnItemRemoval(toPostSelect, itemPosition);
 							if (itemPosition.getContainingListType()
 									.isOrdered() && (index > 0)) {
 								toPostSelect.add(itemPosition
@@ -605,45 +607,61 @@ public class ListControl extends JSplitPane implements IFieldControl {
 										.getParentItemPosition());
 							}
 						}
-						refreshStructure();
 						if (selection.size() > 1) {
 							endCompositeModification(
 									"Remove " + selection.size() + " elements",
-									toPostSelect, ModificationOrder.LIFO);
+									false, UndoOrder.LIFO);
 						}
+						refreshStructure();
+						setSelection(toPostSelect);
 					}
 				} catch (Throwable t) {
 					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
 				}
 			}
-		});
+		}));
 	}
 
-	protected void restoreSelectionAfterUndoOrRedo(
-			List<AutoUpdatingFieldItemPosition> toPostSelect) {
-		ModificationStack modifStack = ReflectionUIUtils.findModificationStack(
-				ListControl.this, reflectionUI);
-		modifStack.pushUndo(new ChangeListSelectionModification(toPostSelect,
-				null));
-	}
-
-	protected void endCompositeModification(String title,
-			List<AutoUpdatingFieldItemPosition> toPostSelect,
-			ModificationOrder order) {
-		if (order == ModificationOrder.FIFO) {
-			if (toPostSelect != null) {
-				restoreSelectionAfterUndoOrRedo(toPostSelect);
+	protected void updateOnItemRemoval(
+			List<AutoUpdatingFieldItemPosition> toUpdate,
+			AutoUpdatingFieldItemPosition itemPosition) {
+		for (int i = 0; i < toUpdate.size(); i++) {
+			AutoUpdatingFieldItemPosition toUpdateItem = toUpdate.get(i);
+			if (toUpdateItem.equals(itemPosition)
+					|| toUpdateItem.getAncestors().contains(itemPosition)) {
+				toUpdate.remove(i);
+				i--;
+			} else if (toUpdateItem.getPreviousSiblings()
+					.contains(itemPosition)) {
+				toUpdate.set(
+						i,
+						new AutoUpdatingFieldItemPosition(toUpdateItem
+								.getContainingListField(), toUpdateItem
+								.getParentItemPosition(), toUpdateItem
+								.getIndex() - 1));
 			}
 		}
-		ModificationStack modifStack = ReflectionUIUtils.findModificationStack(
-				ListControl.this, reflectionUI);
-		modifStack.endComposite(title, order);
 	}
 
-	protected void beginCompositeModification() {
+	protected void beginCompositeModification(boolean restoreSelection) {
 		ModificationStack modifStack = ReflectionUIUtils.findModificationStack(
 				ListControl.this, reflectionUI);
 		modifStack.beginComposite();
+		if (restoreSelection) {
+			modifStack.pushUndo(new ChangeListSelectionModification(
+					getSelection(), getSelection()));
+		}
+	}
+
+	protected void endCompositeModification(String title,
+			boolean restoreSelection, UndoOrder order) {
+		ModificationStack modifStack = ReflectionUIUtils.findModificationStack(
+				ListControl.this, reflectionUI);
+		if (restoreSelection) {
+			modifStack.pushUndo(new ChangeListSelectionModification(
+					getSelection(), getSelection()));
+		}
+		modifStack.endComposite(title, order);
 	}
 
 	protected class GhostItemPosition extends AutoUpdatingFieldItemPosition {
@@ -727,7 +745,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		final JButton button = new JButton(
 				reflectionUI.translateUIString(buttonText));
 		buttonsPanel.add(button);
-		button.addActionListener(new ActionListener() {
+		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -761,7 +779,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
 				}
 			}
-		});
+		}));
 	}
 
 	protected void createAddButton(JPanel buttonsPanel) {
@@ -779,7 +797,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 				reflectionUI.translateUIString((subListItemType == null) ? "Add..."
 						: ("Add " + subListItemType.getCaption() + "...")));
 		buttonsPanel.add(button);
-		button.addActionListener(new ActionListener() {
+		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -818,7 +836,35 @@ public class ListControl extends JSplitPane implements IFieldControl {
 					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
 				}
 			}
-		});
+		}));
+	}
+
+	protected ActionListener restoreSelectionOnUndoAndRedo(
+			final ActionListener actionListener) {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				beginCompositeModification(true);
+				actionListener.actionPerformed(e);
+				endCompositeModification(null, true, UndoOrder.LIFO);
+				arrangeTitle();
+			}
+
+			private void arrangeTitle() {
+				ModificationStack modifStack = ReflectionUIUtils
+						.findModificationStack(ListControl.this, reflectionUI);
+				CompositeModification compositeModif = (CompositeModification) modifStack
+						.getUndoModifications(UndoOrder.LIFO)[0];
+				List<IModification> modifList = Arrays.asList(compositeModif
+						.getModifications());
+				CompositeModification compositeModifWithoutSelections = new CompositeModification(
+						null, compositeModif.getUndoOrder(), modifList.subList(
+								1, modifList.size() - 1));
+				compositeModif.setTitle(compositeModifWithoutSelections
+						.getTitle());
+				modifStack.notifyListeners(ModificationStack.DO_EVENT);
+			}
+		};
 	}
 
 	protected void createCopyButton(JPanel buttonsPanel) {
@@ -849,7 +895,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		final JButton button = new JButton(
 				reflectionUI.translateUIString("Cut"));
 		buttonsPanel.add(button);
-		button.addActionListener(new ActionListener() {
+		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -859,6 +905,9 @@ public class ListControl extends JSplitPane implements IFieldControl {
 							selection);
 					Collections.reverse(selection);
 					List<AutoUpdatingFieldItemPosition> toPostSelect = new ArrayList<ListControl.AutoUpdatingFieldItemPosition>();
+					if (selection.size() > 1) {
+						beginCompositeModification(false);
+					}
 					for (AutoUpdatingFieldItemPosition itemPosition : selection) {
 						if (itemPosition == null) {
 							return;
@@ -869,6 +918,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 								.getContainingAutoUpdatingFieldList();
 						int index = itemPosition.getIndex();
 						list.remove(index);
+						updateOnItemRemoval(toPostSelect, itemPosition);
 						if (itemPosition.getContainingListType().isOrdered()
 								&& (index > 0)) {
 							toPostSelect.add(itemPosition.getSibling(index - 1));
@@ -877,13 +927,17 @@ public class ListControl extends JSplitPane implements IFieldControl {
 									.getParentItemPosition());
 						}
 					}
+					if (selection.size() > 1) {
+						endCompositeModification("Cut " + selection.size()
+								+ " elements", false, UndoOrder.LIFO);
+					}
 					refreshStructure();
 					setSelection(toPostSelect);
 				} catch (Throwable t) {
 					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
 				}
 			}
-		});
+		}));
 	}
 
 	protected void createPasteButton(JPanel buttonsPanel,
@@ -899,7 +953,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		final JButton button = new JButton(
 				reflectionUI.translateUIString(buttonText));
 		buttonsPanel.add(button);
-		button.addActionListener(new ActionListener() {
+		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -943,14 +997,14 @@ public class ListControl extends JSplitPane implements IFieldControl {
 					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
 				}
 			}
-		});
+		}));
 	}
 
 	protected void createPasteInButton(JPanel buttonsPanel) {
 		final JButton button = new JButton(
 				reflectionUI.translateUIString("Paste"));
 		buttonsPanel.add(button);
-		button.addActionListener(new ActionListener() {
+		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -993,7 +1047,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
 				}
 			}
-		});
+		}));
 	}
 
 	protected ITypeInfo getRootListItemType() {
@@ -1567,19 +1621,24 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		}
 
 		@Override
+		public AutoUpdatingFieldItemPosition getParentItemPosition() {
+			return (AutoUpdatingFieldItemPosition) super
+					.getParentItemPosition();
+		}
+
+		@Override
 		public AutoUpdatingFieldItemPosition getSibling(int index2) {
 			ItemPosition result = super.getSibling(index2);
 			return new AutoUpdatingFieldItemPosition(
-					result.getContainingListField(),
-					result.getParentItemPosition(), result.getIndex());
+					result.getContainingListField(), getParentItemPosition(),
+					result.getIndex());
 		}
 
 		@Override
 		public AutoUpdatingFieldItemPosition getRootListItemPosition() {
 			ItemPosition result = super.getRootListItemPosition();
 			return new AutoUpdatingFieldItemPosition(
-					result.getContainingListField(),
-					result.getParentItemPosition(), result.getIndex());
+					result.getContainingListField(), null, result.getIndex());
 		}
 
 	}
@@ -1678,14 +1737,11 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		}
 
 		protected void beginModification() {
-			beginCompositeModification();
+			beginCompositeModification(false);
 		}
 
 		protected void endModification(String title) {
-			List<AutoUpdatingFieldItemPosition> toPostSelect = itemPosition
-					.isRootListItemPosition() ? getSelection() : null;
-			endCompositeModification(title, toPostSelect,
-					ModificationOrder.FIFO);
+			endCompositeModification(title, false, UndoOrder.FIFO);
 		}
 
 		@Override

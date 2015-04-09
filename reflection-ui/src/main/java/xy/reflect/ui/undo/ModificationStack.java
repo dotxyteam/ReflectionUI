@@ -158,9 +158,9 @@ public class ModificationStack {
 		}
 	}
 
-	public IModification[] getUndoModifications(ModificationOrder order) {
+	public IModification[] getUndoModifications(UndoOrder order) {
 		List<IModification> list = new ArrayList<IModification>(undoStack);
-		if (order == ModificationOrder.LIFO) {
+		if (order == UndoOrder.LIFO) {
 			Collections.reverse(list);
 		}
 		return list.toArray(new IModification[list.size()]);
@@ -171,7 +171,7 @@ public class ModificationStack {
 				+ compositeStack.size() + ") " + name));
 	}
 
-	public void endComposite(String title, ModificationOrder order) {
+	public void endComposite(String title, UndoOrder order) {
 		CompositeModification compositeUndoModif = new CompositeModification(
 				getUndoTitle(title), order, compositeStack.pop()
 						.getUndoModifications(order));
@@ -191,7 +191,7 @@ public class ModificationStack {
 		notifyListeners(INVALIDATE_EVENT);
 	}
 
-	protected void notifyListeners(Object event) {
+	public void notifyListeners(Object event) {
 		for (IModificationListener listener : new ArrayList<IModificationListener>(
 				listeners)) {
 			listener.handleEvent(event);

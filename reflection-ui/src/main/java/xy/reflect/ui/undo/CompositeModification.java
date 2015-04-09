@@ -10,9 +10,9 @@ public class CompositeModification implements IModification {
 
 	protected IModification[] modifications;
 	private String title;
-	private ModificationOrder undoOrder;
+	private UndoOrder undoOrder;
 
-	public CompositeModification(String title, ModificationOrder undoOrder,
+	public CompositeModification(String title, UndoOrder undoOrder,
 			IModification... modifications) {
 		this.title = title;
 		this.undoOrder = undoOrder;
@@ -28,7 +28,7 @@ public class CompositeModification implements IModification {
 		return result;
 	}
 
-	public CompositeModification(String title, ModificationOrder undoOrder,
+	public CompositeModification(String title, UndoOrder undoOrder,
 			List<IModification> modifications) {
 		this(title, undoOrder, modifications
 				.toArray(new IModification[modifications.size()]));
@@ -38,10 +38,10 @@ public class CompositeModification implements IModification {
 	public IModification applyAndGetOpposite(boolean refreshView) {
 		List<IModification> oppositeModifications = new ArrayList<IModification>();
 		for (IModification modif : modifications) {
-			if (undoOrder == ModificationOrder.LIFO) {
+			if (undoOrder == UndoOrder.LIFO) {
 				oppositeModifications.add(0,
 						modif.applyAndGetOpposite(refreshView));
-			} else if (undoOrder == ModificationOrder.FIFO) {
+			} else if (undoOrder == UndoOrder.FIFO) {
 				oppositeModifications.add(modif
 						.applyAndGetOpposite(refreshView));
 			} else {
@@ -57,6 +57,10 @@ public class CompositeModification implements IModification {
 		return getTitle();
 	}
 
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	@Override
 	public String getTitle() {
 		if (title != null) {
@@ -65,6 +69,22 @@ public class CompositeModification implements IModification {
 			return ReflectionUIUtils.stringJoin(Arrays.asList(modifications),
 					", ");
 		}
+	}
+
+	public IModification[] getModifications() {
+		return modifications;
+	}
+
+	public void setModifications(IModification[] modifications) {
+		this.modifications = modifications;
+	}
+
+	public UndoOrder getUndoOrder() {
+		return undoOrder;
+	}
+
+	public void setUndoOrder(UndoOrder undoOrder) {
+		this.undoOrder = undoOrder;
 	}
 
 }
