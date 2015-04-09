@@ -82,7 +82,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 	protected ItemNode rootNode;
 	protected JPanel buttonsPanel;
 	protected Map<ItemNode, Map<Integer, String>> valuesByNode = new HashMap<ItemNode, Map<Integer, String>>();
-	private IListStructuralInfo structuralInfo;
+	protected IListStructuralInfo structuralInfo;
 	protected static List<Object> clipboard = new ArrayList<Object>();
 
 	public ListControl(final ReflectionUI reflectionUI, final Object object,
@@ -581,6 +581,9 @@ public class ListControl extends JSplitPane implements IFieldControl {
 									.translateUIString("Remove the element(s)?"),
 							"", JOptionPane.OK_CANCEL_OPTION)) {
 						List<AutoUpdatingFieldItemPosition> selection = getSelection();
+						if (selection.size() > 1) {
+							beginCompositeModification();
+						}
 						selection = new ArrayList<AutoUpdatingFieldItemPosition>(
 								selection);
 						Collections.reverse(selection);
@@ -603,13 +606,44 @@ public class ListControl extends JSplitPane implements IFieldControl {
 							}
 						}
 						refreshStructure();
-						setSelection(toPostSelect);
+						if (selection.size() > 1) {
+							endCompositeModification(
+									"Remove " + selection.size() + " elements",
+									toPostSelect, ModificationOrder.LIFO);
+						}
 					}
 				} catch (Throwable t) {
 					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
 				}
 			}
 		});
+	}
+
+	protected void restoreSelectionAfterUndoOrRedo(
+			List<AutoUpdatingFieldItemPosition> toPostSelect) {
+		ModificationStack modifStack = ReflectionUIUtils.findModificationStack(
+				ListControl.this, reflectionUI);
+		modifStack.pushUndo(new ChangeListSelectionModification(toPostSelect,
+				null));
+	}
+
+	protected void endCompositeModification(String title,
+			List<AutoUpdatingFieldItemPosition> toPostSelect,
+			ModificationOrder order) {
+		if (order == ModificationOrder.FIFO) {
+			if (toPostSelect != null) {
+				restoreSelectionAfterUndoOrRedo(toPostSelect);
+			}
+		}
+		ModificationStack modifStack = ReflectionUIUtils.findModificationStack(
+				ListControl.this, reflectionUI);
+		modifStack.endComposite(title, order);
+	}
+
+	protected void beginCompositeModification() {
+		ModificationStack modifStack = ReflectionUIUtils.findModificationStack(
+				ListControl.this, reflectionUI);
+		modifStack.beginComposite();
 	}
 
 	protected class GhostItemPosition extends AutoUpdatingFieldItemPosition {
@@ -931,8 +965,8 @@ public class ListControl extends JSplitPane implements IFieldControl {
 					int newSubListItemInitialIndex = newSubListItemIndex;
 					subItemPosition = subItemPosition
 							.getSibling(newSubListItemIndex);
-					for (Object clipboardItyem : clipboard) {
-						subList.add(newSubListItemIndex, clipboardItyem);
+					for (Object clipboardItem : clipboard) {
+						subList.add(newSubListItemIndex, clipboardItem);
 						newSubListItemIndex++;
 					}
 					refreshStructure();
@@ -1644,18 +1678,14 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		}
 
 		protected void beginModification() {
-			ModificationStack modifStack = ReflectionUIUtils
-					.findModificationStack(ListControl.this, reflectionUI);
-			modifStack.beginComposite();
+			beginCompositeModification();
 		}
 
 		protected void endModification(String title) {
-			if (itemPosition.isRootListItemPosition()) {
-				restoreSelectionAfterUndoOrRedo();
-			}
-			ModificationStack modifStack = ReflectionUIUtils
-					.findModificationStack(ListControl.this, reflectionUI);
-			modifStack.endComposite(title, ModificationOrder.FIFO);
+			List<AutoUpdatingFieldItemPosition> toPostSelect = itemPosition
+					.isRootListItemPosition() ? getSelection() : null;
+			endCompositeModification(title, toPostSelect,
+					ModificationOrder.FIFO);
 		}
 
 		@Override
@@ -1724,13 +1754,6 @@ public class ListControl extends JSplitPane implements IFieldControl {
 			beginModification();
 			replaceUnderlyingListValue(new Object[0]);
 			endModification("Clear '" + getListField().getCaption() + "'");
-		}
-
-		protected void restoreSelectionAfterUndoOrRedo() {
-			ModificationStack modifStack = ReflectionUIUtils
-					.findModificationStack(ListControl.this, reflectionUI);
-			modifStack.pushUndo(new ChangeListSelectionModification(
-					getSelection(), null));
 		}
 
 	}

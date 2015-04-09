@@ -5,36 +5,36 @@
     <xy.ui.testing.action.CallMainMethodAction>
       <className>xy.reflect.ui.ReflectionUI</className>
     </xy.ui.testing.action.CallMainMethodAction>
-    <xy.ui.testing.action.SendKeysAction>
+    <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <className>javax.swing.plaf.basic.BasicOptionPaneUI$MultiplexingTextField</className>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <keyboardInteractions>
-        <xy.ui.testing.action.SendKeysAction_-WriteText>
+        <xy.ui.testing.action.component.SendKeysAction_-WriteText>
           <text>java.awt.Point</text>
-        </xy.ui.testing.action.SendKeysAction_-WriteText>
+        </xy.ui.testing.action.component.SendKeysAction_-WriteText>
       </keyboardInteractions>
       <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
-    </xy.ui.testing.action.SendKeysAction>
-    <xy.ui.testing.action.SendClickAction>
+    </xy.ui.testing.action.component.SendKeysAction>
+    <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <className>javax.swing.JButton</className>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
-    </xy.ui.testing.action.SendClickAction>
-    <xy.ui.testing.action.SendClickAction>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <className>javax.swing.JButton</className>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
-    </xy.ui.testing.action.SendClickAction>
-    <xy.ui.testing.action.CheckWindowVisibleStringsAction>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
       <visibleStrings class="java.util.Arrays$ArrayList">
         <a>
           <string>Point</string>
@@ -78,70 +78,70 @@
         </a>
       </visibleStrings>
       <windowIndex>0</windowIndex>
-    </xy.ui.testing.action.CheckWindowVisibleStringsAction>
-    <xy.ui.testing.action.SendKeysAction>
+    </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+    <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <className>javax.swing.JTextArea</className>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <keyboardInteractions>
-        <xy.ui.testing.action.SendKeysAction_-SpecialKey>
+        <xy.ui.testing.action.component.SendKeysAction_-SpecialKey>
           <altDown>false</altDown>
           <altGrtDown>false</altGrtDown>
           <ctrlDown>true</ctrlDown>
           <keyName>KEY_A</keyName>
           <metaDown>false</metaDown>
           <shiftDown>false</shiftDown>
-        </xy.ui.testing.action.SendKeysAction_-SpecialKey>
+        </xy.ui.testing.action.component.SendKeysAction_-SpecialKey>
       </keyboardInteractions>
       <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
-    </xy.ui.testing.action.SendKeysAction>
-    <xy.ui.testing.action.SendKeysAction>
+    </xy.ui.testing.action.component.SendKeysAction>
+    <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <className>javax.swing.JTextArea</className>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <keyboardInteractions>
-        <xy.ui.testing.action.SendKeysAction_-WriteText>
+        <xy.ui.testing.action.component.SendKeysAction_-WriteText>
           <text>1</text>
-        </xy.ui.testing.action.SendKeysAction_-WriteText>
+        </xy.ui.testing.action.component.SendKeysAction_-WriteText>
       </keyboardInteractions>
       <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
-    </xy.ui.testing.action.SendKeysAction>
-    <xy.ui.testing.action.SendKeysAction>
+    </xy.ui.testing.action.component.SendKeysAction>
+    <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <className>javax.swing.JTextArea</className>
         <occurrencesToSkip>1</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <keyboardInteractions>
-        <xy.ui.testing.action.SendKeysAction_-SpecialKey>
+        <xy.ui.testing.action.component.SendKeysAction_-SpecialKey>
           <altDown>false</altDown>
           <altGrtDown>false</altGrtDown>
           <ctrlDown>true</ctrlDown>
           <keyName>KEY_A</keyName>
           <metaDown>false</metaDown>
           <shiftDown>false</shiftDown>
-        </xy.ui.testing.action.SendKeysAction_-SpecialKey>
+        </xy.ui.testing.action.component.SendKeysAction_-SpecialKey>
       </keyboardInteractions>
       <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
-    </xy.ui.testing.action.SendKeysAction>
-    <xy.ui.testing.action.SendKeysAction>
+    </xy.ui.testing.action.component.SendKeysAction>
+    <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <className>javax.swing.JTextArea</className>
         <occurrencesToSkip>1</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <keyboardInteractions>
-        <xy.ui.testing.action.SendKeysAction_-WriteText>
+        <xy.ui.testing.action.component.SendKeysAction_-WriteText>
           <text>2</text>
-        </xy.ui.testing.action.SendKeysAction_-WriteText>
+        </xy.ui.testing.action.component.SendKeysAction_-WriteText>
       </keyboardInteractions>
       <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
-    </xy.ui.testing.action.SendKeysAction>
-    <xy.ui.testing.action.CheckWindowVisibleStringsAction>
+    </xy.ui.testing.action.component.SendKeysAction>
+    <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
       <visibleStrings class="java.util.Arrays$ArrayList">
         <a>
           <string>Point</string>
@@ -185,16 +185,16 @@
         </a>
       </visibleStrings>
       <windowIndex>0</windowIndex>
-    </xy.ui.testing.action.CheckWindowVisibleStringsAction>
-    <xy.ui.testing.action.SendClickAction>
+    </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+    <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <className>javax.swing.JCheckBox</className>
         <occurrencesToSkip>1</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
-    </xy.ui.testing.action.SendClickAction>
-    <xy.ui.testing.action.CheckWindowVisibleStringsAction>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
       <visibleStrings>
         <string>An Error Occured</string>
         <string>Missing Value Error</string>
@@ -202,24 +202,24 @@
         <string>Close</string>
       </visibleStrings>
       <windowIndex>1</windowIndex>
-    </xy.ui.testing.action.CheckWindowVisibleStringsAction>
-    <xy.ui.testing.action.SendClickAction>
+    </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+    <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <className>javax.swing.JButton</className>
         <occurrencesToSkip>1</occurrencesToSkip>
         <windowIndex>1</windowIndex>
       </componentFinder>
-    </xy.ui.testing.action.SendClickAction>
-    <xy.ui.testing.action.SendClickAction>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <className>javax.swing.JButton</className>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
-    </xy.ui.testing.action.SendClickAction>
-    <xy.ui.testing.action.CheckWindowVisibleStringsAction>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
       <visibleStrings>
         <string>Point - Location - Point</string>
         <string>X: </string>
@@ -247,58 +247,58 @@
         <string>Cancel</string>
       </visibleStrings>
       <windowIndex>1</windowIndex>
-    </xy.ui.testing.action.CheckWindowVisibleStringsAction>
-    <xy.ui.testing.action.SendClickAction>
+    </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+    <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <className>xy.reflect.ui.control.MethodControl</className>
         <occurrencesToSkip>5</occurrencesToSkip>
         <windowIndex>1</windowIndex>
       </componentFinder>
-    </xy.ui.testing.action.SendClickAction>
-    <xy.ui.testing.action.SendKeysAction>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <className>javax.swing.JTextArea</className>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>2</windowIndex>
       </componentFinder>
       <keyboardInteractions>
-        <xy.ui.testing.action.SendKeysAction_-SpecialKey>
+        <xy.ui.testing.action.component.SendKeysAction_-SpecialKey>
           <altDown>false</altDown>
           <altGrtDown>false</altGrtDown>
           <ctrlDown>true</ctrlDown>
           <keyName>KEY_A</keyName>
           <metaDown>false</metaDown>
           <shiftDown>false</shiftDown>
-        </xy.ui.testing.action.SendKeysAction_-SpecialKey>
-        <xy.ui.testing.action.SendKeysAction_-WriteText>
+        </xy.ui.testing.action.component.SendKeysAction_-SpecialKey>
+        <xy.ui.testing.action.component.SendKeysAction_-WriteText>
           <text>3</text>
-        </xy.ui.testing.action.SendKeysAction_-WriteText>
+        </xy.ui.testing.action.component.SendKeysAction_-WriteText>
       </keyboardInteractions>
       <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
-    </xy.ui.testing.action.SendKeysAction>
-    <xy.ui.testing.action.SendKeysAction>
+    </xy.ui.testing.action.component.SendKeysAction>
+    <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <className>javax.swing.JTextArea</className>
         <occurrencesToSkip>1</occurrencesToSkip>
         <windowIndex>2</windowIndex>
       </componentFinder>
       <keyboardInteractions>
-        <xy.ui.testing.action.SendKeysAction_-SpecialKey>
+        <xy.ui.testing.action.component.SendKeysAction_-SpecialKey>
           <altDown>false</altDown>
           <altGrtDown>false</altGrtDown>
           <ctrlDown>true</ctrlDown>
           <keyName>KEY_A</keyName>
           <metaDown>false</metaDown>
           <shiftDown>false</shiftDown>
-        </xy.ui.testing.action.SendKeysAction_-SpecialKey>
-        <xy.ui.testing.action.SendKeysAction_-WriteText>
+        </xy.ui.testing.action.component.SendKeysAction_-SpecialKey>
+        <xy.ui.testing.action.component.SendKeysAction_-WriteText>
           <text>4</text>
-        </xy.ui.testing.action.SendKeysAction_-WriteText>
+        </xy.ui.testing.action.component.SendKeysAction_-WriteText>
       </keyboardInteractions>
       <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
-    </xy.ui.testing.action.SendKeysAction>
-    <xy.ui.testing.action.CheckWindowVisibleStringsAction>
+    </xy.ui.testing.action.component.SendKeysAction>
+    <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
       <visibleStrings>
         <string>Point - Move - Setting</string>
         <string>Y (Int): </string>
@@ -309,24 +309,24 @@
         <string>Cancel</string>
       </visibleStrings>
       <windowIndex>2</windowIndex>
-    </xy.ui.testing.action.CheckWindowVisibleStringsAction>
-    <xy.ui.testing.action.SendClickAction>
+    </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+    <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <className>javax.swing.JButton</className>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>2</windowIndex>
       </componentFinder>
-    </xy.ui.testing.action.SendClickAction>
-    <xy.ui.testing.action.SendClickAction>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <className>javax.swing.JButton</className>
         <occurrencesToSkip>1</occurrencesToSkip>
         <windowIndex>1</windowIndex>
       </componentFinder>
-    </xy.ui.testing.action.SendClickAction>
-    <xy.ui.testing.action.CheckWindowVisibleStringsAction>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
       <visibleStrings class="java.util.Arrays$ArrayList">
         <a>
           <string>Point</string>
@@ -370,16 +370,16 @@
         </a>
       </visibleStrings>
       <windowIndex>0</windowIndex>
-    </xy.ui.testing.action.CheckWindowVisibleStringsAction>
-    <xy.ui.testing.action.SendClickAction>
+    </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+    <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <className>xy.reflect.ui.undo.ModificationStack$12</className>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
-    </xy.ui.testing.action.SendClickAction>
-    <xy.ui.testing.action.CheckWindowVisibleStringsAction>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
       <visibleStrings class="java.util.Arrays$ArrayList">
         <a>
           <string>Point</string>
@@ -423,16 +423,16 @@
         </a>
       </visibleStrings>
       <windowIndex>0</windowIndex>
-    </xy.ui.testing.action.CheckWindowVisibleStringsAction>
-    <xy.ui.testing.action.SendClickAction>
+    </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+    <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <className>xy.reflect.ui.undo.ModificationStack$12</className>
         <occurrencesToSkip>2</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
-    </xy.ui.testing.action.SendClickAction>
-    <xy.ui.testing.action.CheckWindowVisibleStringsAction>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
       <visibleStrings class="java.util.Arrays$ArrayList">
         <a>
           <string>Point</string>
@@ -476,32 +476,32 @@
         </a>
       </visibleStrings>
       <windowIndex>0</windowIndex>
-    </xy.ui.testing.action.CheckWindowVisibleStringsAction>
-    <xy.ui.testing.action.SendClickAction>
+    </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+    <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <className>xy.reflect.ui.undo.ModificationStack$12</className>
         <occurrencesToSkip>1</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
-    </xy.ui.testing.action.SendClickAction>
-    <xy.ui.testing.action.SendClickAction>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <className>xy.reflect.ui.undo.ModificationStack$12</className>
         <occurrencesToSkip>1</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
-    </xy.ui.testing.action.SendClickAction>
-    <xy.ui.testing.action.SendClickAction>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <className>xy.reflect.ui.undo.ModificationStack$12</className>
         <occurrencesToSkip>1</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
-    </xy.ui.testing.action.SendClickAction>
-    <xy.ui.testing.action.CheckWindowVisibleStringsAction>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
       <visibleStrings>
         <string>Point</string>
         <string>Location</string>
@@ -543,6 +543,6 @@
         <string>Reset</string>
       </visibleStrings>
       <windowIndex>0</windowIndex>
-    </xy.ui.testing.action.CheckWindowVisibleStringsAction>
+    </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
   </testActions>
 </xy.ui.testing.Tester>

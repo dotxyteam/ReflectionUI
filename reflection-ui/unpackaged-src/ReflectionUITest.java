@@ -82,7 +82,7 @@ public class ReflectionUITest {
 		char c = 'a';
 		@Category("List")
 		public List<String> theStringList = new ArrayList<String>(
-				Arrays.asList("a", "b", "c"));
+				Arrays.asList("a", "b", "c", "d"));
 		public Test2 test2 = new Test2();
 		@Category("List")
 		public Test2[] theArrayTreeTable = new Test2[] { new Test2(),
