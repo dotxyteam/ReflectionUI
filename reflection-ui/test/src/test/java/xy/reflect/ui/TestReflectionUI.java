@@ -13,5 +13,12 @@ public class TestReflectionUI {
 		Tester.assertSuccessfulReplay(TestReflectionUI.class
 				.getResourceAsStream("testJavaAwtPointUI.stt"));
 	}
+	
+	@Test
+	public void testJavaLangThreadUI() throws IOException {
+		Tester.assertSuccessfulReplay(TestReflectionUI.class
+				.getResourceAsStream("testJavaLangThreadUI.stt"));
+	}
+
 
 }

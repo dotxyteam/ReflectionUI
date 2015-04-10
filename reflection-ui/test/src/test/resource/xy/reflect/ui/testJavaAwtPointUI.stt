@@ -25,6 +25,7 @@
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
+      <doubleClick>false</doubleClick>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
@@ -33,8 +34,11 @@
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
+      <doubleClick>false</doubleClick>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+      <completenessChecked>false</completenessChecked>
+      <orderChecked>false</orderChecked>
       <visibleStrings class="java.util.Arrays$ArrayList">
         <a>
           <string>Point</string>
@@ -142,6 +146,8 @@
       <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
     </xy.ui.testing.action.component.SendKeysAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+      <completenessChecked>false</completenessChecked>
+      <orderChecked>false</orderChecked>
       <visibleStrings class="java.util.Arrays$ArrayList">
         <a>
           <string>Point</string>
@@ -193,8 +199,11 @@
         <occurrencesToSkip>1</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
+      <doubleClick>false</doubleClick>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+      <completenessChecked>false</completenessChecked>
+      <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>An Error Occured</string>
         <string>Missing Value Error</string>
@@ -210,6 +219,7 @@
         <occurrencesToSkip>1</occurrencesToSkip>
         <windowIndex>1</windowIndex>
       </componentFinder>
+      <doubleClick>false</doubleClick>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
@@ -218,8 +228,11 @@
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
+      <doubleClick>false</doubleClick>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+      <completenessChecked>false</completenessChecked>
+      <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>Point - Location - Point</string>
         <string>X: </string>
@@ -255,6 +268,7 @@
         <occurrencesToSkip>5</occurrencesToSkip>
         <windowIndex>1</windowIndex>
       </componentFinder>
+      <doubleClick>false</doubleClick>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
@@ -299,6 +313,8 @@
       <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
     </xy.ui.testing.action.component.SendKeysAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+      <completenessChecked>false</completenessChecked>
+      <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>Point - Move - Setting</string>
         <string>Y (Int): </string>
@@ -317,6 +333,7 @@
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>2</windowIndex>
       </componentFinder>
+      <doubleClick>false</doubleClick>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
@@ -325,8 +342,11 @@
         <occurrencesToSkip>1</occurrencesToSkip>
         <windowIndex>1</windowIndex>
       </componentFinder>
+      <doubleClick>false</doubleClick>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+      <completenessChecked>false</completenessChecked>
+      <orderChecked>false</orderChecked>
       <visibleStrings class="java.util.Arrays$ArrayList">
         <a>
           <string>Point</string>
@@ -378,8 +398,11 @@
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
+      <doubleClick>false</doubleClick>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+      <completenessChecked>false</completenessChecked>
+      <orderChecked>false</orderChecked>
       <visibleStrings class="java.util.Arrays$ArrayList">
         <a>
           <string>Point</string>
@@ -431,8 +454,11 @@
         <occurrencesToSkip>2</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
+      <doubleClick>false</doubleClick>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+      <completenessChecked>false</completenessChecked>
+      <orderChecked>false</orderChecked>
       <visibleStrings class="java.util.Arrays$ArrayList">
         <a>
           <string>Point</string>
@@ -484,6 +510,7 @@
         <occurrencesToSkip>1</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
+      <doubleClick>false</doubleClick>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
@@ -492,6 +519,7 @@
         <occurrencesToSkip>1</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
+      <doubleClick>false</doubleClick>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
@@ -500,8 +528,11 @@
         <occurrencesToSkip>1</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
+      <doubleClick>false</doubleClick>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+      <completenessChecked>false</completenessChecked>
+      <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>Point</string>
         <string>Location</string>
@@ -544,5 +575,8 @@
       </visibleStrings>
       <windowIndex>0</windowIndex>
     </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+    <xy.ui.testing.action.window.CloseWindowAction>
+      <windowIndex>0</windowIndex>
+    </xy.ui.testing.action.window.CloseWindowAction>
   </testActions>
 </xy.ui.testing.Tester>

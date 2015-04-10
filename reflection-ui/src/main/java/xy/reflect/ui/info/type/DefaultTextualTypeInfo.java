@@ -61,6 +61,7 @@ public class DefaultTextualTypeInfo extends DefaultTypeInfo implements
 
 	@Override
 	public Object fromText(String text) {
+		Class<?> javaType = this.javaType;
 		if (javaType.isPrimitive()) {
 			javaType = ReflectionUIUtils.primitiveToWrapperType(javaType);
 		}

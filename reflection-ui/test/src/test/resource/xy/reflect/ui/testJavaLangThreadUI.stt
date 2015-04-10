@@ -45,7 +45,6 @@
         <string>Is Daemon</string>
         <string>Is Interrupted</string>
         <string>Priority: </string>
-        <string>6</string>
         <string>Context Class Loader: </string>
         <string>...</string>
         <string>Name: </string>
@@ -105,9 +104,9 @@
       <doubleClick>false</doubleClick>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.SendKeysAction>
-      <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <className>javax.swing.JTextArea</className>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>6</visibleString>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <keyboardInteractions>
@@ -227,6 +226,11 @@
         <string>Illegal Thread State Error</string>
         <string>Message: </string>
         <string>Illegal Thread State Error</string>
+        <string>Cause</string>
+        <string>Localized Message: </string>
+        <string>Illegal Thread State Error</string>
+        <string>Message: </string>
+        <string>Illegal Thread State Error</string>
         <string>Cause: </string>
         <string>Illegal Thread State Error</string>
         <string>...</string>
@@ -236,27 +240,39 @@
         <string>Class Name</string>
         <string>File Name</string>
         <string>Method Name</string>
-        <string>Item(depth=0, position=0, value=xy.reflect.ui.ReflectionUI.handleExceptionsFromDisplayedUI(ReflectionUI.java:928))</string>
-        <string>Item(depth=0, position=1, value=xy.reflect.ui.ReflectionUI$15.run(ReflectionUI.java:1099))</string>
-        <string>928</string>
-        <string>xy.reflect.ui.ReflectionUI</string>
+        <string>1075</string>
+        <string>xy.reflect.ui.ReflectionUI$14</string>
         <string>ReflectionUI.java</string>
-        <string>handleExceptionsFromDisplayedUI</string>
-        <string>Item(depth=0, position=0, value=xy.reflect.ui.ReflectionUI.handleExceptionsFromDisplayedUI(ReflectionUI.java:928))</string>
-        <string>Item(depth=0, position=1, value=xy.reflect.ui.ReflectionUI$15.run(ReflectionUI.java:1099))</string>
-        <string>1099</string>
+        <string>run</string>
+        <string>1102</string>
         <string>xy.reflect.ui.ReflectionUI$15</string>
         <string>ReflectionUI.java</string>
         <string>run</string>
-        <string>Suppressed</string>
-        <string>Localized Message</string>
-        <string>Message</string>
-        <string>Cause</string>
+        <string>Add Stack Trace Element...</string>
+        <string>Clear</string>
         <string>Print Stack Trace</string>
         <string>Fill In Stack Trace</string>
         <string>Print Stack Trace...</string>
         <string>Print Stack Trace...</string>
-        <string>Add Suppressed...</string>
+        <string>Init Cause...</string>
+        <string>Stack Trace</string>
+        <string>Is Native Method</string>
+        <string>Line Number</string>
+        <string>Class Name</string>
+        <string>File Name</string>
+        <string>Method Name</string>
+        <string>929</string>
+        <string>xy.reflect.ui.ReflectionUI</string>
+        <string>ReflectionUI.java</string>
+        <string>handleExceptionsFromDisplayedUI</string>
+        <string>1104</string>
+        <string>xy.reflect.ui.ReflectionUI$15</string>
+        <string>ReflectionUI.java</string>
+        <string>run</string>
+        <string>Print Stack Trace</string>
+        <string>Fill In Stack Trace</string>
+        <string>Print Stack Trace...</string>
+        <string>Print Stack Trace...</string>
         <string>Init Cause...</string>
         <string>Close</string>
       </visibleStrings>
@@ -267,6 +283,9 @@
     </xy.ui.testing.action.window.CloseWindowAction>
     <xy.ui.testing.action.window.CloseWindowAction>
       <windowIndex>2</windowIndex>
+    </xy.ui.testing.action.window.CloseWindowAction>
+    <xy.ui.testing.action.window.CloseWindowAction>
+      <windowIndex>0</windowIndex>
     </xy.ui.testing.action.window.CloseWindowAction>
   </testActions>
 </xy.ui.testing.Tester>

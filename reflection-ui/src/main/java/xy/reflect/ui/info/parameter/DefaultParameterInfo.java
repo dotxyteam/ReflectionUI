@@ -53,19 +53,19 @@ public class DefaultParameterInfo implements IParameterInfo {
 
 	@Override
 	public String getName() {
-		if(name == null){
-		String[] parameterNames = ReflectionUIUtils
-				.getJavaParameterNames(owner);
-		if (parameterNames == null) {
-			for (Annotation annotation : paramAnnotations) {
-				if (annotation instanceof RuntimeName) {
-					return ((RuntimeName) annotation).value();
+		if (name == null) {
+			String[] parameterNames = ReflectionUIUtils
+					.getJavaParameterNames(owner);
+			if (parameterNames == null) {
+				for (Annotation annotation : paramAnnotations) {
+					if (annotation instanceof RuntimeName) {
+						return ((RuntimeName) annotation).value();
+					}
 				}
+				name = "parameter" + (position + 1);
+			} else {
+				name = parameterNames[position];
 			}
-				name =  "parameter" + (position + 1);
-		} else {
-			name = parameterNames[position];
-		}
 		}
 		return name;
 	}
