@@ -10,7 +10,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public abstract class AbstractConstructorMethodInfo implements IMethodInfo {
 
-	private ITypeInfo ownerType;
+	protected ITypeInfo ownerType;
 
 	public AbstractConstructorMethodInfo(ITypeInfo ownerType) {
 		super();

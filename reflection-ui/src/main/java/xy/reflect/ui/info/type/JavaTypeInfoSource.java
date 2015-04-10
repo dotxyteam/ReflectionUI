@@ -38,24 +38,39 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 
 	@Override
 	public int hashCode() {
-		return javaType.hashCode() + typedMember.hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((javaType == null) ? 0 : javaType.hashCode());
+		result = prime * result + parameterPosition;
+		result = prime * result
+				+ ((typedMember == null) ? 0 : typedMember.hashCode());
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null) {
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
-		}
-		if (!getClass().equals(obj.getClass())) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
-		if (!javaType.equals(((JavaTypeInfoSource) obj).javaType)) {
+		JavaTypeInfoSource other = (JavaTypeInfoSource) obj;
+		if (javaType == null) {
+			if (other.javaType != null)
+				return false;
+		} else if (!javaType.equals(other.javaType))
 			return false;
-		}
-		if (!typedMember.equals(((JavaTypeInfoSource) obj).typedMember)) {
+		if (parameterPosition != other.parameterPosition)
 			return false;
-		}
+		if (typedMember == null) {
+			if (other.typedMember != null)
+				return false;
+		} else if (!typedMember.equals(other.typedMember))
+			return false;
 		return true;
 	}
 
+	
 }

@@ -626,7 +626,7 @@ public class TypeInfoProxyConfiguration {
 
 	private class FileTypeInfoProxy extends FileTypeInfo {
 
-		private FileTypeInfo type;
+		protected FileTypeInfo type;
 
 		public FileTypeInfoProxy(FileTypeInfo type) {
 			super(null);
@@ -748,8 +748,8 @@ public class TypeInfoProxyConfiguration {
 
 	private class FieldInfoProxy implements IFieldInfo {
 
-		private IFieldInfo field;
-		private ITypeInfo containingType;
+		protected IFieldInfo field;
+		protected ITypeInfo containingType;
 
 		public FieldInfoProxy(IFieldInfo field, ITypeInfo containingType) {
 			this.field = field;
@@ -848,8 +848,8 @@ public class TypeInfoProxyConfiguration {
 
 	private class MethodInfoProxy implements IMethodInfo {
 
-		private IMethodInfo method;
-		private ITypeInfo containingType;
+		protected IMethodInfo method;
+		protected ITypeInfo containingType;
 
 		public MethodInfoProxy(IMethodInfo method, ITypeInfo containingType) {
 			this.method = method;
@@ -957,9 +957,9 @@ public class TypeInfoProxyConfiguration {
 
 	private class ParameterInfoProxy implements IParameterInfo {
 
-		private IParameterInfo param;
-		private IMethodInfo method;
-		private ITypeInfo containingType;
+		protected IParameterInfo param;
+		protected IMethodInfo method;
+		protected ITypeInfo containingType;
 
 		public ParameterInfoProxy(IParameterInfo param, IMethodInfo method,
 				ITypeInfo containingType) {

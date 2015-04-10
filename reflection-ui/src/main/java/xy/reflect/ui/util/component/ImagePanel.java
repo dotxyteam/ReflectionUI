@@ -13,12 +13,12 @@ import javax.swing.JPanel;
 
 public class ImagePanel extends JPanel {
 
-	private static final long serialVersionUID = 1L;
-	private Image image;
-	private boolean preserveRatio = false;
-	private boolean scalingQualitHigh = false;
-	private Rectangle lastScaledBounds;
-	private Image lastScaledImage;
+	protected static final long serialVersionUID = 1L;
+	protected Image image;
+	protected boolean preserveRatio = false;
+	protected boolean scalingQualitHigh = false;
+	protected Rectangle lastScaledBounds;
+	protected Image lastScaledImage;
 
 	public ImagePanel() {
 		this(null, false);
@@ -102,7 +102,7 @@ public class ImagePanel extends JPanel {
 		lastScaledBounds = null;
 	}
 
-	private static Rectangle2D.Double scaleToFitInside(Point2D.Double size,
+	protected static Rectangle2D.Double scaleToFitInside(Point2D.Double size,
 			Point2D.Double boxSize) {
 		Point2D.Double candidateScaledSize1 = scaleToWidth(size, boxSize.x);
 		Point2D.Double candidateScaledSize2 = scaleToHeight(size, boxSize.y);
@@ -117,19 +117,19 @@ public class ImagePanel extends JPanel {
 		return new Rectangle2D.Double(x, y, scaledSize.x, scaledSize.y);
 	}
 
-	private static Point2D.Double scaleToHeight(Point2D.Double dimension,
+	protected static Point2D.Double scaleToHeight(Point2D.Double dimension,
 			double targetHeight) {
 		double targetWidth = targetHeight * dimension.x / dimension.y;
 		return new Point2D.Double(targetWidth, targetHeight);
 	}
 
-	private static Point2D.Double scaleToWidth(Point2D.Double dimension,
+	protected static Point2D.Double scaleToWidth(Point2D.Double dimension,
 			double targetWidth) {
 		double targetHeight = targetWidth * dimension.y / dimension.x;
 		return new Point2D.Double(targetWidth, targetHeight);
 	}
 	
-	private static BufferedImage copy(Image image) {
+	protected static BufferedImage copy(Image image) {
 		BufferedImage result = new BufferedImage(image.getWidth(null),
 				image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = result.createGraphics();

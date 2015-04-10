@@ -386,7 +386,7 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static <T extends IMethodInfo> T findMethodBtSignature(
+	public static <T extends IMethodInfo> T findMethodBySignature(
 			List<T> methods, String signature) {
 		for (T method : methods) {
 			String candidateMethodSignature = getMethodInfoSignature(method);

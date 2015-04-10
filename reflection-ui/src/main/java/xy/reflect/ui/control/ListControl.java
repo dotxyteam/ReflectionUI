@@ -666,7 +666,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 	protected class GhostItemPosition extends AutoUpdatingFieldItemPosition {
 
-		private Object item;
+		protected Object item;
 
 		public GhostItemPosition(AutoUpdatingFieldItemPosition itemPosition,
 				Object item) {
@@ -850,7 +850,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 				arrangeTitle();
 			}
 
-			private void arrangeTitle() {
+			protected void arrangeTitle() {
 				ModificationStack modifStack = ReflectionUIUtils
 						.findModificationStack(ListControl.this, reflectionUI);
 				CompositeModification compositeModif = (CompositeModification) modifStack
@@ -1645,7 +1645,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 	protected class ChangeListSelectionModification implements IModification {
 		protected List<AutoUpdatingFieldItemPosition> toSelect;
-		private List<AutoUpdatingFieldItemPosition> undoSelection;
+		protected List<AutoUpdatingFieldItemPosition> undoSelection;
 
 		public ChangeListSelectionModification(
 				List<AutoUpdatingFieldItemPosition> toSelect,

@@ -9,7 +9,7 @@ import javax.swing.event.ChangeListener;
 
 public class AutoResizeTabbedPane extends JTabbedPane {
 
-	private static final long serialVersionUID = 1L;
+	protected static final long serialVersionUID = 1L;
 	
 	public AutoResizeTabbedPane() {
 		super();

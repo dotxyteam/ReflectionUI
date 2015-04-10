@@ -6,8 +6,8 @@ import xy.reflect.ui.util.ReflectionUIError;
 
 public class HiddenNullableFacetFieldInfoProxy extends FieldInfoProxy {
 
-	private ReflectionUI reflectionUI;
-	private IFieldInfo base;
+	protected ReflectionUI reflectionUI;
+	protected IFieldInfo base;
 
 	public HiddenNullableFacetFieldInfoProxy(final ReflectionUI reflectionUI,
 			final IFieldInfo base) {

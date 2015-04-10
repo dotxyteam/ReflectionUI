@@ -31,10 +31,13 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class DefaultTypeInfo implements ITypeInfo {
 
-	private static final String DO_NOT_CREATE_EMBEDDED_FORM_PROPRTY_KEY = DefaultTypeInfo.class
+	protected static final String DO_NOT_CREATE_EMBEDDED_FORM_PROPRTY_KEY = DefaultTypeInfo.class
 			.getName() + "#IS_EMBEDDED_FORM_CONTENT_PROPRTY_KEY";
 	protected Class<?> javaType;
 	protected ReflectionUI reflectionUI;
+	protected List<IFieldInfo> fields;
+	protected List<IMethodInfo> methods;
+	protected List<IMethodInfo> constructors;
 
 	public DefaultTypeInfo(ReflectionUI reflectionUI, Class<?> javaType) {
 		if (javaType == null) {
@@ -62,15 +65,17 @@ public class DefaultTypeInfo implements ITypeInfo {
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		if (!isConcrete()) {
-			return Collections.emptyList();
+		if (constructors == null) {
+			constructors = new ArrayList<IMethodInfo>();
+			if (!isConcrete()) {
+				return Collections.emptyList();
+			}
+			for (Constructor<?> javaConstructor : javaType.getConstructors()) {
+				constructors.add(new DefaultConstructorMethodInfo(reflectionUI,
+						this, javaConstructor));
+			}
 		}
-		List<IMethodInfo> result = new ArrayList<IMethodInfo>();
-		for (Constructor<?> javaConstructor : javaType.getConstructors()) {
-			result.add(new DefaultConstructorMethodInfo(reflectionUI, this,
-					javaConstructor));
-		}
-		return result;
+		return constructors;
 	}
 
 	@Override
@@ -90,27 +95,29 @@ public class DefaultTypeInfo implements ITypeInfo {
 
 	@Override
 	public List<IFieldInfo> getFields() {
-		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
-		for (Field javaField : javaType.getFields()) {
-			if (!PublicFieldInfo.isCompatibleWith(javaField)) {
-				continue;
+		if (fields == null) {
+			fields = new ArrayList<IFieldInfo>();
+			for (Field javaField : javaType.getFields()) {
+				if (!PublicFieldInfo.isCompatibleWith(javaField)) {
+					continue;
+				}
+				fields.add(new PublicFieldInfo(reflectionUI, javaField));
 			}
-			result.add(new PublicFieldInfo(reflectionUI, javaField));
+			for (Method javaMethod : javaType.getMethods()) {
+				if (!GetterFieldInfo.isCompatibleWith(javaMethod, javaType)) {
+					continue;
+				}
+				GetterFieldInfo getterFieldInfo = new GetterFieldInfo(
+						reflectionUI, javaMethod, javaType);
+				if (ReflectionUIUtils.findInfoByName(fields,
+						getterFieldInfo.getName()) != null) {
+					continue;
+				}
+				fields.add(getterFieldInfo);
+			}
+			sortFields(fields);
 		}
-		for (Method javaMethod : javaType.getMethods()) {
-			if (!GetterFieldInfo.isCompatibleWith(javaMethod, javaType)) {
-				continue;
-			}
-			GetterFieldInfo getterFieldInfo = new GetterFieldInfo(reflectionUI,
-					javaMethod, javaType);
-			if (ReflectionUIUtils.findInfoByName(result,
-					getterFieldInfo.getName()) != null) {
-				continue;
-			}
-			result.add(getterFieldInfo);
-		}
-		sortFields(result);
-		return result;
+		return fields;
 	}
 
 	protected void sortFields(List<IFieldInfo> list) {
@@ -145,15 +152,17 @@ public class DefaultTypeInfo implements ITypeInfo {
 
 	@Override
 	public List<IMethodInfo> getMethods() {
-		List<IMethodInfo> result = new ArrayList<IMethodInfo>();
-		for (Method javaMethod : javaType.getMethods()) {
-			if (!DefaultMethodInfo.isCompatibleWith(javaMethod, javaType)) {
-				continue;
+		if (methods == null) {
+			methods = new ArrayList<IMethodInfo>();
+			for (Method javaMethod : javaType.getMethods()) {
+				if (!DefaultMethodInfo.isCompatibleWith(javaMethod, javaType)) {
+					continue;
+				}
+				methods.add(new DefaultMethodInfo(reflectionUI, javaMethod));
 			}
-			result.add(new DefaultMethodInfo(reflectionUI, javaMethod));
+			sortMethods(methods);
 		}
-		sortMethods(result);
-		return result;
+		return methods;
 	}
 
 	protected void sortMethods(List<IMethodInfo> list) {
@@ -383,11 +392,11 @@ public class DefaultTypeInfo implements ITypeInfo {
 		} else {
 			String result = object.toString();
 			String objectClassName = object.getClass().getName();
-			if (result.contains(objectClassName)) {
-				String objectClassCaption = reflectionUI.getTypeInfo(
-						reflectionUI.getTypeInfoSource(object)).getCaption();
-				result = result.replace(objectClassName, objectClassCaption);
-			}
+			String objectClassCaption = reflectionUI.getTypeInfo(
+					reflectionUI.getTypeInfoSource(object)).getCaption();
+			result = result.replaceAll(objectClassName.replace(".", "\\.").replace("$", "\\$")
+					+ "@([0-9a-z]+)", objectClassCaption + " $1");
+			result = result.replace(objectClassName, objectClassCaption);
 			return result;
 		}
 	}

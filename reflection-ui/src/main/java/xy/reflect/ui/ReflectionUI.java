@@ -102,7 +102,7 @@ public class ReflectionUI {
 			.weakKeys().makeMap();
 	protected Map<JPanel, Map<String, FieldControlPlaceHolder>> controlPlaceHolderByFieldNameByForm = new MapMaker()
 			.weakKeys().makeMap();
-	private Map<JPanel, IInfoCollectionSettings> infoCollectionSettingsByForm = new MapMaker()
+	protected Map<JPanel, IInfoCollectionSettings> infoCollectionSettingsByForm = new MapMaker()
 			.weakKeys().makeMap();
 	protected Map<JPanel, JLabel> statusLabelByForm = new MapMaker().weakKeys()
 			.makeMap();
@@ -112,6 +112,7 @@ public class ReflectionUI {
 			.weakKeys().makeMap();
 	protected Map<Component, IMethodInfo> methodByControl = new MapMaker()
 			.weakKeys().makeMap();
+	protected Map<ITypeInfoSource, ITypeInfo> typeInfoBySource = new HashMap<ITypeInfoSource, ITypeInfo>();
 
 	public static void main(String[] args) {
 		try {
@@ -777,7 +778,7 @@ public class ReflectionUI {
 	public IMethodInfo getFormsUpdatingMethod(Object object,
 			String methodSignature) {
 		ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
-		IMethodInfo method = ReflectionUIUtils.findMethodBtSignature(
+		IMethodInfo method = ReflectionUIUtils.findMethodBySignature(
 				type.getMethods(), methodSignature);
 		if (method == null) {
 			return null;
@@ -808,7 +809,7 @@ public class ReflectionUI {
 		methodsPanel.setLayout(new WrapLayout(WrapLayout.CENTER));
 		for (final Component methodControl : methodControls) {
 			JPanel methodControlContainer = new JPanel() {
-				private static final long serialVersionUID = 1L;
+				protected static final long serialVersionUID = 1L;
 
 				@Override
 				public Dimension getPreferredSize() {
@@ -966,53 +967,57 @@ public class ReflectionUI {
 	}
 
 	public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-		ITypeInfo result;
-		if (typeSource instanceof PrecomputedTypeInfoSource) {
-			result = ((PrecomputedTypeInfoSource) typeSource)
-					.getPrecomputedType();
-		} else if (typeSource instanceof JavaTypeInfoSource) {
-			JavaTypeInfoSource javaTypeSource = (JavaTypeInfoSource) typeSource;
-			if (StandardCollectionTypeInfo.isCompatibleWith(javaTypeSource
-					.getJavaType())) {
-				Class<?> itemType = ReflectionUIUtils
-						.getJavaGenericTypeParameter(javaTypeSource,
-								Collection.class, 0);
-				result = new StandardCollectionTypeInfo(this,
-						javaTypeSource.getJavaType(), itemType);
-			} else if (StandardMapAsListTypeInfo
-					.isCompatibleWith(javaTypeSource.getJavaType())) {
-				Class<?> keyType = ReflectionUIUtils
-						.getJavaGenericTypeParameter(javaTypeSource, Map.class,
-								0);
-				Class<?> valueType = ReflectionUIUtils
-						.getJavaGenericTypeParameter(javaTypeSource, Map.class,
-								1);
-				result = new StandardMapAsListTypeInfo(this,
-						javaTypeSource.getJavaType(), keyType, valueType);
-			} else if (javaTypeSource.getJavaType().isArray()) {
-				Class<?> itemType = javaTypeSource.getJavaType()
-						.getComponentType();
-				result = new ArrayTypeInfo(this, javaTypeSource.getJavaType(),
-						itemType);
-			} else if (javaTypeSource.getJavaType().isEnum()) {
-				result = new StandardEnumerationTypeInfo(this,
-						javaTypeSource.getJavaType());
-			} else if (DefaultBooleanTypeInfo.isCompatibleWith(javaTypeSource
-					.getJavaType())) {
-				result = new DefaultBooleanTypeInfo(this,
-						javaTypeSource.getJavaType());
-			} else if (DefaultTextualTypeInfo.isCompatibleWith(javaTypeSource
-					.getJavaType())) {
-				result = new DefaultTextualTypeInfo(this,
-						javaTypeSource.getJavaType());
-			} else if (FileTypeInfo.isCompatibleWith(javaTypeSource
-					.getJavaType())) {
-				result = new FileTypeInfo(this);
+		ITypeInfo result = typeInfoBySource.get(typeSource);
+		if (result == null) {
+			if (typeSource instanceof PrecomputedTypeInfoSource) {
+				result = ((PrecomputedTypeInfoSource) typeSource)
+						.getPrecomputedType();
+			} else if (typeSource instanceof JavaTypeInfoSource) {
+				JavaTypeInfoSource javaTypeSource = (JavaTypeInfoSource) typeSource;
+				if (StandardCollectionTypeInfo.isCompatibleWith(javaTypeSource
+						.getJavaType())) {
+					Class<?> itemType = ReflectionUIUtils
+							.getJavaGenericTypeParameter(javaTypeSource,
+									Collection.class, 0);
+					result = new StandardCollectionTypeInfo(this,
+							javaTypeSource.getJavaType(), itemType);
+				} else if (StandardMapAsListTypeInfo
+						.isCompatibleWith(javaTypeSource.getJavaType())) {
+					Class<?> keyType = ReflectionUIUtils
+							.getJavaGenericTypeParameter(javaTypeSource,
+									Map.class, 0);
+					Class<?> valueType = ReflectionUIUtils
+							.getJavaGenericTypeParameter(javaTypeSource,
+									Map.class, 1);
+					result = new StandardMapAsListTypeInfo(this,
+							javaTypeSource.getJavaType(), keyType, valueType);
+				} else if (javaTypeSource.getJavaType().isArray()) {
+					Class<?> itemType = javaTypeSource.getJavaType()
+							.getComponentType();
+					result = new ArrayTypeInfo(this,
+							javaTypeSource.getJavaType(), itemType);
+				} else if (javaTypeSource.getJavaType().isEnum()) {
+					result = new StandardEnumerationTypeInfo(this,
+							javaTypeSource.getJavaType());
+				} else if (DefaultBooleanTypeInfo
+						.isCompatibleWith(javaTypeSource.getJavaType())) {
+					result = new DefaultBooleanTypeInfo(this,
+							javaTypeSource.getJavaType());
+				} else if (DefaultTextualTypeInfo
+						.isCompatibleWith(javaTypeSource.getJavaType())) {
+					result = new DefaultTextualTypeInfo(this,
+							javaTypeSource.getJavaType());
+				} else if (FileTypeInfo.isCompatibleWith(javaTypeSource
+						.getJavaType())) {
+					result = new FileTypeInfo(this);
+				} else {
+					result = new DefaultTypeInfo(this,
+							javaTypeSource.getJavaType());
+				}
 			} else {
-				result = new DefaultTypeInfo(this, javaTypeSource.getJavaType());
+				throw new ReflectionUIError();
 			}
-		} else {
-			throw new ReflectionUIError();
+			typeInfoBySource.put(typeSource, result);
 		}
 		return result;
 	}
@@ -1690,7 +1695,7 @@ public class ReflectionUI {
 		protected Object object;
 		protected IFieldInfo field;
 		protected Component fieldControl;
-		private Component captionControl;
+		protected Component captionControl;
 
 		public FieldControlPlaceHolder(Object object, IFieldInfo field) {
 			super();

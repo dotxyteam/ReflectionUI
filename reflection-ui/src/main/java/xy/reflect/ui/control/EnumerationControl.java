@@ -25,7 +25,7 @@ public class EnumerationControl extends JPanel {
 	protected ReflectionUI reflectionUI;
 	protected Object object;
 	protected IFieldInfo field;
-	private JComboBox comboBox;
+	protected JComboBox comboBox;
 
 	@SuppressWarnings({})
 	public EnumerationControl(final ReflectionUI reflectionUI,

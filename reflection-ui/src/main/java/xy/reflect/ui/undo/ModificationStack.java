@@ -286,7 +286,7 @@ public class ModificationStack {
 		final JButton result = new JButton(
 				reflectionUI.translateUIString(label)) {
 
-			private static final long serialVersionUID = 1L;
+			protected static final long serialVersionUID = 1L;
 			IModificationListener listener = new IModificationListener() {
 				@Override
 				public void handleEvent(Object event) {
@@ -305,7 +305,7 @@ public class ModificationStack {
 				listeners.remove(listener);
 			}
 
-			private void updateState() {
+			protected void updateState() {
 				setEnabled(enabled.get());
 				ReflectionUIUtils.setMultilineToolTipText(this, reflectionUI
 						.translateUIString(reflectionUI

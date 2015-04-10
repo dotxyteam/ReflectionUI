@@ -13,8 +13,8 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class PrecomputedTypeInfoInstanceWrapper {
 
-	private Object instance;
-	private ITypeInfo precomputedType;
+	protected Object instance;
+	protected ITypeInfo precomputedType;
 
 	public PrecomputedTypeInfoInstanceWrapper(Object instance,
 			ITypeInfo precomputedType) {

@@ -18,7 +18,9 @@ public class DefaultParameterInfo implements IParameterInfo {
 	protected Class<?> paramJavaType;
 	protected int position;
 	protected Member owner;
-	private Annotation[] paramAnnotations;
+	protected Annotation[] paramAnnotations;
+	protected ITypeInfo type;
+	protected String name;
 
 	public DefaultParameterInfo(ReflectionUI reflectionUI, Member owner,
 			Class<?> paramJavaType, Annotation[] paramAnnotations, int position) {
@@ -31,16 +33,17 @@ public class DefaultParameterInfo implements IParameterInfo {
 
 	@Override
 	public String getCaption() {
-		return ReflectionUIUtils
-				.identifierToCaption(getName())
-				+ " ("
+		return ReflectionUIUtils.identifierToCaption(getName()) + " ("
 				+ getType().getCaption() + ")";
 	}
 
 	@Override
 	public ITypeInfo getType() {
-		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(paramJavaType,
-				owner, position));
+		if (type == null) {
+			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(
+					paramJavaType, owner, position));
+		}
+		return type;
 	}
 
 	@Override
@@ -50,18 +53,21 @@ public class DefaultParameterInfo implements IParameterInfo {
 
 	@Override
 	public String getName() {
+		if(name == null){
 		String[] parameterNames = ReflectionUIUtils
 				.getJavaParameterNames(owner);
 		if (parameterNames == null) {
-			for(Annotation annotation: paramAnnotations){
-				if(annotation instanceof RuntimeName){
-					return ((RuntimeName)annotation).value();
+			for (Annotation annotation : paramAnnotations) {
+				if (annotation instanceof RuntimeName) {
+					return ((RuntimeName) annotation).value();
 				}
 			}
-			return "parameter" + (position + 1);
+				name =  "parameter" + (position + 1);
 		} else {
-			return parameterNames[position];
+			name = parameterNames[position];
 		}
+		}
+		return name;
 	}
 
 	@Override
@@ -107,9 +113,9 @@ public class DefaultParameterInfo implements IParameterInfo {
 
 	@Override
 	public String getDocumentation() {
-		for(Annotation annotation: paramAnnotations){
-			if(annotation instanceof Documentation){
-				return ((Documentation)annotation).value();
+		for (Annotation annotation : paramAnnotations) {
+			if (annotation instanceof Documentation) {
+				return ((Documentation) annotation).value();
 			}
 		}
 		return null;

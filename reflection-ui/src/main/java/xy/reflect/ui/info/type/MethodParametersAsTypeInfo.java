@@ -15,8 +15,8 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 
 public class MethodParametersAsTypeInfo implements ITypeInfo {
 
-	private IMethodInfo method;
-	private ReflectionUI reflectionUI;
+	protected IMethodInfo method;
+	protected ReflectionUI reflectionUI;
 
 	public MethodParametersAsTypeInfo(ReflectionUI reflectionUI,
 			IMethodInfo method) {
@@ -194,8 +194,8 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 	}
 
 	public static class InstanceInfo {
-		private Object methodOwner;
-		private Map<Integer, Object> valueByParameterPosition;
+		protected Object methodOwner;
+		protected Map<Integer, Object> valueByParameterPosition;
 
 		public InstanceInfo(Object methodowner,
 				Map<Integer, Object> valueByParameterPosition) {

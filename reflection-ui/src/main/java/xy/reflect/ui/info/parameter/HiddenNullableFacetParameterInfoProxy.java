@@ -7,8 +7,8 @@ import xy.reflect.ui.info.type.HiddenNullableFacetsTypeInfoProxyConfiguration;
 
 public class HiddenNullableFacetParameterInfoProxy extends ParameterInfoProxy {
 
-	private ReflectionUI reflectionUI;
-	private IParameterInfo base;
+	protected ReflectionUI reflectionUI;
+	protected IParameterInfo base;
 
 	public HiddenNullableFacetParameterInfoProxy(final ReflectionUI reflectionUI,
 			final IParameterInfo base) {

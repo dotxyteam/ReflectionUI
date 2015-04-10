@@ -21,7 +21,8 @@ public class GetterFieldInfo implements IFieldInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected Method javaGetterMethod;
-	private Class<?> containingJavaClass;
+	protected Class<?> containingJavaClass;
+	protected ITypeInfo type;
 
 	public GetterFieldInfo(ReflectionUI reflectionUI, Method javaGetterMethod,
 			Class<?> containingJavaClass) {
@@ -50,7 +51,10 @@ public class GetterFieldInfo implements IFieldInfo {
 
 	@Override
 	public ITypeInfo getType() {
-		return getGetterMethodInfo().getReturnValueType();
+		if (type == null) {
+			type = getGetterMethodInfo().getReturnValueType();
+		}
+		return type;
 	}
 
 	@Override
@@ -76,8 +80,8 @@ public class GetterFieldInfo implements IFieldInfo {
 	public void setValue(Object object, Object value) {
 		IMethodInfo setter = getSetterMethodInfo();
 		int paramPosition = setter.getParameters().get(0).getPosition();
-		setter.invoke(object,
-				Collections.<Integer, Object> singletonMap(paramPosition, value));
+		setter.invoke(object, Collections.<Integer, Object> singletonMap(
+				paramPosition, value));
 	}
 
 	@Override
@@ -175,7 +179,9 @@ public class GetterFieldInfo implements IFieldInfo {
 		if (javaMethod.getExceptionTypes().length > 0) {
 			return false;
 		}
-		if(ReflectionUIUtils.geAnnotatedtValidatingMethods(containingJavaClass).contains(javaMethod)){
+		if (ReflectionUIUtils
+				.geAnnotatedtValidatingMethods(containingJavaClass).contains(
+						javaMethod)) {
 			return false;
 		}
 		return true;
@@ -188,15 +194,15 @@ public class GetterFieldInfo implements IFieldInfo {
 
 	@Override
 	public String getDocumentation() {
-		for(Field field: ReflectionUIUtils.getALlFields(containingJavaClass)){
-			if(field.getName().equals(getName())){
+		for (Field field : ReflectionUIUtils.getALlFields(containingJavaClass)) {
+			if (field.getName().equals(getName())) {
 				String result = ReflectionUIUtils
 						.getAnnotatedInfoDocumentation(field);
-				if(result != null){
+				if (result != null) {
 					return result;
 				}
 			}
-		}		
+		}
 		String result = ReflectionUIUtils
 				.getAnnotatedInfoDocumentation(javaGetterMethod);
 		if (result == null) {

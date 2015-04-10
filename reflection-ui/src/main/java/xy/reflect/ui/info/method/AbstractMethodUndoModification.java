@@ -7,9 +7,9 @@ import xy.reflect.ui.undo.IModification;
 
 public abstract class AbstractMethodUndoModification implements IModification {
 
-	private IMethodInfo method;
-	private Object object;
-	private Map<Integer, Object> valueByParameterPosition;
+	protected IMethodInfo method;
+	protected Object object;
+	protected Map<Integer, Object> valueByParameterPosition;
 
 	protected abstract void revertMethod();
 

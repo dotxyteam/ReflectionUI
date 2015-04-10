@@ -7,8 +7,8 @@ import xy.reflect.ui.info.type.IListTypeInfo;
 public class SetListValueModification implements
 		IModification {
 	protected Object[] listValue;
-	private Object listOwner;
-	private IFieldInfo listField;
+	protected Object listOwner;
+	protected IFieldInfo listField;
 	protected ReflectionUI reflectionUI;
 
 	public SetListValueModification(ReflectionUI reflectionUI,

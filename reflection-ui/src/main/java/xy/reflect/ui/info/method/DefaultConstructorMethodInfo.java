@@ -20,6 +20,7 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 
 	protected Constructor<?> javaConstructor;
 	protected ReflectionUI reflectionUI;
+	protected ArrayList<IParameterInfo> parameters;
 
 	public DefaultConstructorMethodInfo(ReflectionUI reflectionUI,
 			ITypeInfo ownerType, Constructor<?> javaConstructor) {
@@ -35,20 +36,24 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 
 	@Override
 	public List<IParameterInfo> getParameters() {
-		List<IParameterInfo> result = new ArrayList<IParameterInfo>();
-		Class<?>[] parameterTypes = javaConstructor.getParameterTypes();
-		Annotation[][] parameterAnnotations = javaConstructor.getParameterAnnotations();
-		for (int i = 0; i<parameterTypes.length; i++) {
-			Class<?> paramType = parameterTypes[i];
-			Annotation[] paramAnnotations = parameterAnnotations[i];
-			result.add(new DefaultParameterInfo(reflectionUI, javaConstructor,
-					paramType, paramAnnotations, i));
+		if (parameters == null) {
+			parameters = new ArrayList<IParameterInfo>();
+			Class<?>[] parameterTypes = javaConstructor.getParameterTypes();
+			Annotation[][] parameterAnnotations = javaConstructor
+					.getParameterAnnotations();
+			for (int i = 0; i < parameterTypes.length; i++) {
+				Class<?> paramType = parameterTypes[i];
+				Annotation[] paramAnnotations = parameterAnnotations[i];
+				parameters.add(new DefaultParameterInfo(reflectionUI,
+						javaConstructor, paramType, paramAnnotations, i));
+			}
 		}
-		return result;
+		return parameters;
 	}
 
 	@Override
-	public Object invoke(Object object, Map<Integer, Object> valueByParameterPosition) {
+	public Object invoke(Object object,
+			Map<Integer, Object> valueByParameterPosition) {
 		List<Object> args = new ArrayList<Object>();
 		for (IParameterInfo param : getParameters()) {
 			if (valueByParameterPosition.containsKey(param.getPosition())) {
@@ -104,7 +109,8 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 	}
 
 	@Override
-	public IModification getUndoModification(Object object, Map<Integer, Object> valueByParameterPosition) {
+	public IModification getUndoModification(Object object,
+			Map<Integer, Object> valueByParameterPosition) {
 		return null;
 	}
 

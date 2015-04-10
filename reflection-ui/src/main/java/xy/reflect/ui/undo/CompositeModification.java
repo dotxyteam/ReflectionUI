@@ -9,8 +9,8 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class CompositeModification implements IModification {
 
 	protected IModification[] modifications;
-	private String title;
-	private UndoOrder undoOrder;
+	protected String title;
+	protected UndoOrder undoOrder;
 
 	public CompositeModification(String title, UndoOrder undoOrder,
 			IModification... modifications) {

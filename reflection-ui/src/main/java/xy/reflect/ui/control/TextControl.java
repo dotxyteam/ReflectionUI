@@ -47,7 +47,7 @@ public class TextControl extends JPanel implements IFieldControl {
 
 		JScrollPane scrollPane = new JScrollPane(textComponent) {
 
-			private static final long serialVersionUID = 1L;
+			protected static final long serialVersionUID = 1L;
 
 			@Override
 			public Dimension getPreferredSize() {

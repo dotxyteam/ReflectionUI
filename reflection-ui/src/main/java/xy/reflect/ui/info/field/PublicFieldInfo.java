@@ -16,6 +16,7 @@ public class PublicFieldInfo implements IFieldInfo {
 
 	protected Field javaField;
 	protected ReflectionUI reflectionUI;
+	protected ITypeInfo type;
 
 	public PublicFieldInfo(ReflectionUI reflectionUI, Field field) {
 		this.reflectionUI = reflectionUI;
@@ -51,8 +52,11 @@ public class PublicFieldInfo implements IFieldInfo {
 
 	@Override
 	public ITypeInfo getType() {
-		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaField.getType(),
-				javaField));
+		if (type == null) {
+			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaField
+					.getType(), javaField));
+		}
+		return type;
 	}
 
 	@Override
@@ -79,7 +83,7 @@ public class PublicFieldInfo implements IFieldInfo {
 	public String getName() {
 		return javaField.getName();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return javaField.hashCode();
@@ -90,7 +94,7 @@ public class PublicFieldInfo implements IFieldInfo {
 		if (obj == null) {
 			return false;
 		}
-		if(obj == this){
+		if (obj == this) {
 			return true;
 		}
 		if (!getClass().equals(obj.getClass())) {
@@ -115,7 +119,6 @@ public class PublicFieldInfo implements IFieldInfo {
 	public String getDocumentation() {
 		return ReflectionUIUtils.getAnnotatedInfoDocumentation(javaField);
 	}
-
 
 	@Override
 	public Map<String, Object> getSpecificProperties() {

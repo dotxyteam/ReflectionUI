@@ -20,7 +20,7 @@ public class FileControl extends DialogAccessControl {
 	protected FileTypeInfo fileType;
 	protected boolean textChangedByUser = true;
 
-	private static File lastDirectory;
+	protected static File lastDirectory;
 
 	public FileControl(ReflectionUI reflectionUI, Object object,
 			IFieldInfo field) {

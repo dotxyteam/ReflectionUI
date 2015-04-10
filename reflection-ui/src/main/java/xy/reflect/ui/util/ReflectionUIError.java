@@ -1,7 +1,7 @@
 package xy.reflect.ui.util;
 
 public class ReflectionUIError extends RuntimeException {
-	private static final long serialVersionUID = 1L;
+	protected static final long serialVersionUID = 1L;
 
 	public ReflectionUIError() {
 		super("ReflectionUI Internal Error");

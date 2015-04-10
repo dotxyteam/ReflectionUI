@@ -24,6 +24,8 @@ public class DefaultMethodInfo implements IMethodInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected Method javaMethod;
+	protected ITypeInfo returnValueType;
+	protected List<IParameterInfo> parameters;
 
 	public DefaultMethodInfo(ReflectionUI reflectionUI, Method javaMethod) {
 		this.reflectionUI = reflectionUI;
@@ -48,24 +50,30 @@ public class DefaultMethodInfo implements IMethodInfo {
 		if (javaMethod.getReturnType() == void.class) {
 			return null;
 		} else {
-			return reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaMethod
-					.getReturnType(), javaMethod));
+			if (returnValueType == null) {
+				returnValueType = reflectionUI
+						.getTypeInfo(new JavaTypeInfoSource(javaMethod
+								.getReturnType(), javaMethod));
+			}
+			return returnValueType;
 		}
 	}
 
 	@Override
 	public List<IParameterInfo> getParameters() {
-		List<IParameterInfo> result = new ArrayList<IParameterInfo>();
-		Class<?>[] parameterTypes = javaMethod.getParameterTypes();
-		Annotation[][] parameterAnnotations = javaMethod
-				.getParameterAnnotations();
-		for (int i = 0; i < parameterTypes.length; i++) {
-			Class<?> paramType = parameterTypes[i];
-			Annotation[] paramAnnotations = parameterAnnotations[i];
-			result.add(new DefaultParameterInfo(reflectionUI, javaMethod,
-					paramType, paramAnnotations, i));
+		if (parameters == null) {
+			parameters = new ArrayList<IParameterInfo>();
+			Class<?>[] parameterTypes = javaMethod.getParameterTypes();
+			Annotation[][] parameterAnnotations = javaMethod
+					.getParameterAnnotations();
+			for (int i = 0; i < parameterTypes.length; i++) {
+				Class<?> paramType = parameterTypes[i];
+				Annotation[] paramAnnotations = parameterAnnotations[i];
+				parameters.add(new DefaultParameterInfo(reflectionUI,
+						javaMethod, paramType, paramAnnotations, i));
+			}
 		}
-		return result;
+		return parameters;
 	}
 
 	@Override

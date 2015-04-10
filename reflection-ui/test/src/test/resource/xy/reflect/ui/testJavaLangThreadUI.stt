@@ -1,0 +1,272 @@
+<xy.ui.testing.Tester>
+  <maximumSecondsToWaitBetwneenActions>15</maximumSecondsToWaitBetwneenActions>
+  <minimumSecondsToWaitBetwneenActions>2</minimumSecondsToWaitBetwneenActions>
+  <testActions>
+    <xy.ui.testing.action.CallMainMethodAction>
+      <className>xy.reflect.ui.ReflectionUI</className>
+    </xy.ui.testing.action.CallMainMethodAction>
+    <xy.ui.testing.action.component.SendKeysAction>
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <className>javax.swing.plaf.basic.BasicOptionPaneUI$MultiplexingTextField</className>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <windowIndex>0</windowIndex>
+      </componentFinder>
+      <keyboardInteractions>
+        <xy.ui.testing.action.component.SendKeysAction_-WriteText>
+          <text>java.lang.Thread</text>
+        </xy.ui.testing.action.component.SendKeysAction_-WriteText>
+      </keyboardInteractions>
+      <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
+    </xy.ui.testing.action.component.SendKeysAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>OK</visibleString>
+        <windowIndex>0</windowIndex>
+      </componentFinder>
+      <doubleClick>false</doubleClick>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>OK</visibleString>
+        <windowIndex>0</windowIndex>
+      </componentFinder>
+      <doubleClick>false</doubleClick>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+      <completenessChecked>false</completenessChecked>
+      <orderChecked>false</orderChecked>
+      <visibleStrings>
+        <string>Thread</string>
+        <string>Is Alive</string>
+        <string>Is Daemon</string>
+        <string>Is Interrupted</string>
+        <string>Priority: </string>
+        <string>6</string>
+        <string>Context Class Loader: </string>
+        <string>...</string>
+        <string>Name: </string>
+        <string>State: </string>
+        <string>NEW</string>
+        <string>Uncaught Exception Handler: </string>
+        <string>Thread Group[name=main,maxpri=10]</string>
+        <string>...</string>
+        <string>Thread Group: </string>
+        <string>Thread Group[name=main,maxpri=10]</string>
+        <string>...</string>
+        <string>Id: </string>
+        <string>Stack Trace</string>
+        <string>Is Native Method</string>
+        <string>Line Number</string>
+        <string>Class Name</string>
+        <string>File Name</string>
+        <string>Method Name</string>
+        <string>Check Access</string>
+        <string>Destroy</string>
+        <string>Dump Stack</string>
+        <string>Interrupt</string>
+        <string>Join</string>
+        <string>Resume</string>
+        <string>Run</string>
+        <string>Start</string>
+        <string>Stop</string>
+        <string>Suspend</string>
+        <string>Yield</string>
+        <string>Show All Stack Traces</string>
+        <string>Interrupted</string>
+        <string>Active Count</string>
+        <string>Count Stack Frames</string>
+        <string>Current Thread</string>
+        <string>Show Default Uncaught Exception Handler</string>
+        <string>Enumerate...</string>
+        <string>Join...</string>
+        <string>Sleep...</string>
+        <string>Holds Lock...</string>
+        <string>Set Default Uncaught Exception Handler...</string>
+        <string>Stop...</string>
+        <string>Join...</string>
+        <string>Sleep...</string>
+        <string>Undo</string>
+        <string>Redo</string>
+        <string>Reset</string>
+      </visibleStrings>
+      <windowIndex>0</windowIndex>
+    </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>Is Daemon</visibleString>
+        <windowIndex>0</windowIndex>
+      </componentFinder>
+      <doubleClick>false</doubleClick>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.SendKeysAction>
+      <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>6</visibleString>
+        <windowIndex>0</windowIndex>
+      </componentFinder>
+      <keyboardInteractions>
+        <xy.ui.testing.action.component.SendKeysAction_-SpecialKey_-CtrlA>
+          <altDown>false</altDown>
+          <altGrtDown>false</altGrtDown>
+          <ctrlDown>true</ctrlDown>
+          <keyName>KEY_A</keyName>
+          <metaDown>false</metaDown>
+          <shiftDown>false</shiftDown>
+        </xy.ui.testing.action.component.SendKeysAction_-SpecialKey_-CtrlA>
+        <xy.ui.testing.action.component.SendKeysAction_-WriteText>
+          <text>5</text>
+        </xy.ui.testing.action.component.SendKeysAction_-WriteText>
+      </keyboardInteractions>
+      <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
+    </xy.ui.testing.action.component.SendKeysAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>Start</visibleString>
+        <windowIndex>0</windowIndex>
+      </componentFinder>
+      <doubleClick>false</doubleClick>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+      <completenessChecked>false</completenessChecked>
+      <orderChecked>false</orderChecked>
+      <visibleStrings>
+        <string>Thread</string>
+        <string>Is Alive</string>
+        <string>Is Daemon</string>
+        <string>Is Interrupted</string>
+        <string>Priority: </string>
+        <string>5</string>
+        <string>Context Class Loader: </string>
+        <string>...</string>
+        <string>Name: </string>
+        <string>State: </string>
+        <string>TERMINATED</string>
+        <string>Uncaught Exception Handler: </string>
+        <string>Thread Group: </string>
+        <string>Id: </string>
+        <string>Stack Trace</string>
+        <string>Is Native Method</string>
+        <string>Line Number</string>
+        <string>Class Name</string>
+        <string>File Name</string>
+        <string>Method Name</string>
+        <string>Check Access</string>
+        <string>Destroy</string>
+        <string>Dump Stack</string>
+        <string>Interrupt</string>
+        <string>Join</string>
+        <string>Resume</string>
+        <string>Run</string>
+        <string>Start</string>
+        <string>Stop</string>
+        <string>Suspend</string>
+        <string>Yield</string>
+        <string>Show All Stack Traces</string>
+        <string>Interrupted</string>
+        <string>Active Count</string>
+        <string>Count Stack Frames</string>
+        <string>Current Thread</string>
+        <string>Show Default Uncaught Exception Handler</string>
+        <string>Enumerate...</string>
+        <string>Join...</string>
+        <string>Sleep...</string>
+        <string>Holds Lock...</string>
+        <string>Set Default Uncaught Exception Handler...</string>
+        <string>Stop...</string>
+        <string>Join...</string>
+        <string>Sleep...</string>
+        <string>Undo</string>
+        <string>Redo</string>
+        <string>Reset</string>
+      </visibleStrings>
+      <windowIndex>0</windowIndex>
+    </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>Start</visibleString>
+        <windowIndex>0</windowIndex>
+      </componentFinder>
+      <doubleClick>false</doubleClick>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+      <completenessChecked>false</completenessChecked>
+      <orderChecked>false</orderChecked>
+      <visibleStrings>
+        <string>An Error Occured</string>
+        <string>Illegal Thread State Error</string>
+        <string>Details</string>
+        <string>Close</string>
+      </visibleStrings>
+      <windowIndex>2</windowIndex>
+    </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>Details</visibleString>
+        <windowIndex>2</windowIndex>
+      </componentFinder>
+      <doubleClick>false</doubleClick>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+      <completenessChecked>false</completenessChecked>
+      <orderChecked>false</orderChecked>
+      <visibleStrings>
+        <string>Error Details</string>
+        <string>Localized Message: </string>
+        <string>Illegal Thread State Error</string>
+        <string>Message: </string>
+        <string>Illegal Thread State Error</string>
+        <string>Cause: </string>
+        <string>Illegal Thread State Error</string>
+        <string>...</string>
+        <string>Stack Trace</string>
+        <string>Is Native Method</string>
+        <string>Line Number</string>
+        <string>Class Name</string>
+        <string>File Name</string>
+        <string>Method Name</string>
+        <string>Item(depth=0, position=0, value=xy.reflect.ui.ReflectionUI.handleExceptionsFromDisplayedUI(ReflectionUI.java:928))</string>
+        <string>Item(depth=0, position=1, value=xy.reflect.ui.ReflectionUI$15.run(ReflectionUI.java:1099))</string>
+        <string>928</string>
+        <string>xy.reflect.ui.ReflectionUI</string>
+        <string>ReflectionUI.java</string>
+        <string>handleExceptionsFromDisplayedUI</string>
+        <string>Item(depth=0, position=0, value=xy.reflect.ui.ReflectionUI.handleExceptionsFromDisplayedUI(ReflectionUI.java:928))</string>
+        <string>Item(depth=0, position=1, value=xy.reflect.ui.ReflectionUI$15.run(ReflectionUI.java:1099))</string>
+        <string>1099</string>
+        <string>xy.reflect.ui.ReflectionUI$15</string>
+        <string>ReflectionUI.java</string>
+        <string>run</string>
+        <string>Suppressed</string>
+        <string>Localized Message</string>
+        <string>Message</string>
+        <string>Cause</string>
+        <string>Print Stack Trace</string>
+        <string>Fill In Stack Trace</string>
+        <string>Print Stack Trace...</string>
+        <string>Print Stack Trace...</string>
+        <string>Add Suppressed...</string>
+        <string>Init Cause...</string>
+        <string>Close</string>
+      </visibleStrings>
+      <windowIndex>3</windowIndex>
+    </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+    <xy.ui.testing.action.window.CloseWindowAction>
+      <windowIndex>3</windowIndex>
+    </xy.ui.testing.action.window.CloseWindowAction>
+    <xy.ui.testing.action.window.CloseWindowAction>
+      <windowIndex>2</windowIndex>
+    </xy.ui.testing.action.window.CloseWindowAction>
+  </testActions>
+</xy.ui.testing.Tester>
