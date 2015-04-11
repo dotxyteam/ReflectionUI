@@ -10,6 +10,7 @@ import xy.reflect.ui.info.field.HiddenNullableFacetFieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MultiSubListField;
 import xy.reflect.ui.info.field.MultiSubListField.MultiSubListVirtualParent;
+import xy.reflect.ui.info.field.MultiSubListField.MultiSubListVirtualParentType;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.IListTypeInfo.ItemPosition;
 import xy.reflect.ui.info.type.IListTypeInfo.IListStructuralInfo;
@@ -61,15 +62,13 @@ public abstract class AbstractTreeDetectionListStructuralInfo implements
 	protected boolean displaysSubListFieldNameAsTreeNode(
 			IFieldInfo subListField, ItemPosition itemPosition) {
 		ITypeInfo itemType = itemPosition.getContainingListType().getItemType();
-		if (!isValidTreeNodeItemType(itemType)) {
-			ItemPosition parentItemPosition = itemPosition
-					.getParentItemPosition();
-			if (parentItemPosition != null) {
-				return displaysSubListFieldNameAsTreeNode(subListField,
-						parentItemPosition);
-			}
+		if (itemType instanceof IMapEntryTypeInfo) {
+			return false;
 		}
-		return subListField.getName().equals(
+		if (itemType instanceof MultiSubListVirtualParentType) {
+			return false;
+		}
+		return !subListField.getName().equals(
 				itemPosition.getContainingListField().getName());
 	}
 

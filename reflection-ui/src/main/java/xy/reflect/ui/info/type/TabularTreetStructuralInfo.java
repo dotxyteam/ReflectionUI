@@ -67,7 +67,9 @@ public class TabularTreetStructuralInfo extends
 	}
 
 	protected IFieldInfo getTreeColumnField() {
-		if (!rootItemType.isConcrete()) {
+		if (rootItemType.isConcrete()) {
+			return null;
+		} else {
 			return new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
 
 				@Override
@@ -82,8 +84,6 @@ public class TabularTreetStructuralInfo extends
 					return reflectionUI.getObjectKind(item);
 				}
 			};
-		} else {
-			return null;
 		}
 	}
 
