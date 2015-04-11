@@ -46,38 +46,47 @@ public abstract class AbstractTreeDetectionListStructuralInfo implements
 			IFieldInfo candidateField = candidateFields.get(0);
 			if (itemPosition.getItem() instanceof MultiSubListVirtualParent) {
 				return candidateField;
-			} else if (candidateField.getName().equals(
-					itemPosition.getContainingListField().getName())) {
-				return candidateField;
-			} else {
+			} else if (displaysSubListFieldNameAsTreeNode(candidateField,
+					itemPosition)) {
 				return new MultiSubListField(reflectionUI,
 						Collections.singletonList(candidateField));
+			} else {
+				return candidateField;
 			}
 		} else {
 			return new MultiSubListField(reflectionUI, candidateFields);
 		}
 	}
 
+	protected boolean displaysSubListFieldNameAsTreeNode(
+			IFieldInfo subListField, ItemPosition itemPosition) {
+		ITypeInfo itemType = itemPosition.getContainingListType().getItemType();
+		if (!isValidTreeNodeItemType(itemType)) {
+			ItemPosition parentItemPosition = itemPosition
+					.getParentItemPosition();
+			if (parentItemPosition != null) {
+				return displaysSubListFieldNameAsTreeNode(subListField,
+						parentItemPosition);
+			}
+		}
+		return subListField.getName().equals(
+				itemPosition.getContainingListField().getName());
+	}
+
 	protected List<IFieldInfo> getItemSubListCandidateFields(
 			ItemPosition itemPosition) {
 		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
-		ITypeInfo itemType = itemPosition.getContainingListType().getItemType();
 		Object item = itemPosition.getItem();
 		ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI
 				.getTypeInfoSource(item));
-		if ((actualItemType instanceof IMapEntryTypeInfo)
-				&& (itemPosition.getParentItemPosition() != null)) {
+		if (actualItemType instanceof IMapEntryTypeInfo) {
 			IMapEntryTypeInfo entryType = (IMapEntryTypeInfo) actualItemType;
 			IFieldInfo entryValueField = entryType.getValueField();
 			ITypeInfo entryValueType = entryValueField.getType();
 			if (entryValueType instanceof IListTypeInfo) {
 				ITypeInfo entryValuListItemType = ((IListTypeInfo) entryValueType)
 						.getItemType();
-				ITypeInfo parentListItemType = itemPosition
-						.getParentItemPosition().getContainingListType()
-						.getItemType();
-				if (ReflectionUIUtils.equalsOrBothNull(parentListItemType,
-						entryValuListItemType)) {
+				if (isValidTreeNodeItemType(entryValuListItemType)) {
 					result.add(entryValueField);
 				}
 			}
@@ -95,21 +104,23 @@ public abstract class AbstractTreeDetectionListStructuralInfo implements
 						if (entryValueType instanceof IListTypeInfo) {
 							ITypeInfo entryValuListItemType = ((IListTypeInfo) entryValueType)
 									.getItemType();
-							if (ReflectionUIUtils.equalsOrBothNull(itemType,
-									entryValuListItemType)) {
+							if (isValidTreeNodeItemType(entryValuListItemType)) {
 								result.add(field);
 							}
 						}
 					} else if (item instanceof MultiSubListVirtualParent) {
 						result.add(field);
-					} else if (ReflectionUIUtils.equalsOrBothNull(itemType,
-							subListItemType)) {
+					} else if (isValidTreeNodeItemType(subListItemType)) {
 						result.add(field);
 					}
 				}
 			}
 		}
 		return result;
+	}
+
+	protected boolean isValidTreeNodeItemType(ITypeInfo type) {
+		return ReflectionUIUtils.equalsOrBothNull(rootItemType, type);
 	}
 
 	@Override

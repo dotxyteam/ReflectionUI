@@ -77,7 +77,8 @@ public class TabularTreetStructuralInfo extends
 
 				@Override
 				public Object getValue(Object object) {
-					Object item = ((AutoUpdatingFieldItemPosition) object).getItem();
+					Object item = ((AutoUpdatingFieldItemPosition) object)
+							.getItem();
 					return reflectionUI.getObjectKind(item);
 				}
 			};
