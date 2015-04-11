@@ -60,7 +60,8 @@ import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.MultiSubListField.VirtualItem;
+import xy.reflect.ui.info.field.MultiSubListField.MultiSubListVirtualParent;
+import xy.reflect.ui.info.field.MultiSubListField.MultiSubListVirtualParentType;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.ArrayTypeInfo;
@@ -518,6 +519,10 @@ public class ReflectionUI {
 		} else if (object instanceof StandardMapEntry) {
 			return new PrecomputedTypeInfoSource(
 					((StandardMapEntry<?, ?>) object).getTypeInfo());
+		} else if (object instanceof MultiSubListVirtualParent) {
+			return new PrecomputedTypeInfoSource(
+					new MultiSubListVirtualParentType(this,
+							(MultiSubListVirtualParent) object));
 		} else {
 			return new JavaTypeInfoSource(object.getClass());
 		}
@@ -1491,8 +1496,8 @@ public class ReflectionUI {
 		if (object == null) {
 			return "(Not found)";
 		}
-		if (object instanceof VirtualItem) {
-			return ((VirtualItem) object).toString();
+		if (object instanceof MultiSubListVirtualParent) {
+			return ((MultiSubListVirtualParent) object).toString();
 		}
 		if (object instanceof StandardMapEntry<?, ?>) {
 			String result = "Entry";

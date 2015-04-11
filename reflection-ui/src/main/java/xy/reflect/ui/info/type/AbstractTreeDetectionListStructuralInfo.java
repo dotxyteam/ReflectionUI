@@ -9,7 +9,7 @@ import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.HiddenNullableFacetFieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MultiSubListField;
-import xy.reflect.ui.info.field.MultiSubListField.VirtualItem;
+import xy.reflect.ui.info.field.MultiSubListField.MultiSubListVirtualParent;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.IListTypeInfo.ItemPosition;
 import xy.reflect.ui.info.type.IListTypeInfo.IListStructuralInfo;
@@ -34,7 +34,8 @@ public abstract class AbstractTreeDetectionListStructuralInfo implements
 		if (!autoDetectTreeStructure()) {
 			return null;
 		}
-		List<IFieldInfo> candidateFields = getItemSubListCandidateFields(itemPosition);
+		List<IFieldInfo> candidateFields = new ArrayList<IFieldInfo>(
+				getItemSubListCandidateFields(itemPosition));
 		for (int i = 0; i < candidateFields.size(); i++) {
 			candidateFields.set(i, new HiddenNullableFacetFieldInfoProxy(
 					reflectionUI, candidateFields.get(i)));
@@ -42,7 +43,16 @@ public abstract class AbstractTreeDetectionListStructuralInfo implements
 		if (candidateFields.size() == 0) {
 			return null;
 		} else if (candidateFields.size() == 1) {
-			return candidateFields.get(0);
+			IFieldInfo candidateField = candidateFields.get(0);
+			if (itemPosition.getItem() instanceof MultiSubListVirtualParent) {
+				return candidateField;
+			} else if (candidateField.getName().equals(
+					itemPosition.getContainingListField().getName())) {
+				return candidateField;
+			} else {
+				return new MultiSubListField(reflectionUI,
+						Collections.singletonList(candidateField));
+			}
 		} else {
 			return new MultiSubListField(reflectionUI, candidateFields);
 		}
@@ -90,11 +100,11 @@ public abstract class AbstractTreeDetectionListStructuralInfo implements
 								result.add(field);
 							}
 						}
-					} else {
-						if (ReflectionUIUtils.equalsOrBothNull(itemType,
-								subListItemType)) {
-							result.add(field);
-						}
+					} else if (item instanceof MultiSubListVirtualParent) {
+						result.add(field);
+					} else if (ReflectionUIUtils.equalsOrBothNull(itemType,
+							subListItemType)) {
+						result.add(field);
 					}
 				}
 			}
@@ -114,14 +124,6 @@ public abstract class AbstractTreeDetectionListStructuralInfo implements
 
 			@Override
 			public boolean excludeField(IFieldInfo field) {
-				Object item = itemPosition.getItem();
-				if (item instanceof VirtualItem) {
-					return ((IListTypeInfo) new MultiSubListField(reflectionUI,
-							Collections.<IFieldInfo> emptyList()).getType())
-							.getStructuralInfo()
-							.getItemInfoSettings(itemPosition)
-							.excludeField(field);
-				}
 				List<IFieldInfo> candidateFields = getItemSubListCandidateFields(itemPosition);
 				return candidateFields.contains(field);
 			}

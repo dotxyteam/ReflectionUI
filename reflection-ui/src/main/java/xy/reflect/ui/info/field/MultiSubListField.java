@@ -1,21 +1,17 @@
 package xy.reflect.ui.info.field;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.InfoCategory;
-import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.info.type.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
+import xy.reflect.ui.info.type.IListTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.StandardCollectionTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MultiSubListField implements IFieldInfo {
 
@@ -31,62 +27,7 @@ public class MultiSubListField implements IFieldInfo {
 	@Override
 	public ITypeInfo getType() {
 		return new StandardCollectionTypeInfo(reflectionUI, List.class,
-				VirtualItem.class) {
-
-			@Override
-			public ITypeInfo getItemType() {
-				return super.getItemType();
-			}
-
-			@Override
-			public IListStructuralInfo getStructuralInfo() {
-				return new DefaultListStructuralInfo(reflectionUI,
-						getItemType()) {
-
-					@Override
-					public IFieldInfo getItemSubListField(
-							ItemPosition itemPosition) {
-						return ((VirtualItem) itemPosition.getItem())
-								.getListField();
-					}
-
-					@Override
-					public IInfoCollectionSettings getItemInfoSettings(
-							ItemPosition itemPosition) {
-						return new IInfoCollectionSettings() {
-
-							@Override
-							public boolean excludeMethod(IMethodInfo method) {
-								return false;
-							}
-
-							@Override
-							public boolean excludeField(IFieldInfo field) {
-								ITypeInfo virtualItemtypeInfo = new DefaultTypeInfo(
-										reflectionUI, VirtualItem.class);
-								IFieldInfo objectFieldInfo = ReflectionUIUtils
-										.findInfoByName(
-												virtualItemtypeInfo.getFields(),
-												"object");
-								IFieldInfo listFieldFieldInfo = ReflectionUIUtils
-										.findInfoByName(
-												virtualItemtypeInfo.getFields(),
-												"listField");
-								return Arrays.asList(objectFieldInfo,
-										listFieldFieldInfo).contains(field);
-							}
-
-							@Override
-							public boolean allReadOnly() {
-								return false;
-							}
-						};
-					}
-
-				};
-			}
-
-		};
+				MultiSubListVirtualParent.class);
 	}
 
 	@Override
@@ -108,9 +49,9 @@ public class MultiSubListField implements IFieldInfo {
 
 	@Override
 	public Object getValue(Object object) {
-		List<VirtualItem> result = new ArrayList<VirtualItem>();
+		List<MultiSubListVirtualParent> result = new ArrayList<MultiSubListVirtualParent>();
 		for (IFieldInfo listFieldInfo : listFieldInfos) {
-			result.add(new VirtualItem(object, listFieldInfo));
+			result.add(new MultiSubListVirtualParent(object, listFieldInfo));
 		}
 		return result;
 	}
@@ -133,84 +74,6 @@ public class MultiSubListField implements IFieldInfo {
 	@Override
 	public InfoCategory getCategory() {
 		return null;
-	}
-
-	public static class VirtualItem {
-
-		protected Object object;
-		protected IFieldInfo wrappedListFieldInfo;
-
-		public VirtualItem(Object object, IFieldInfo wrappedListFieldInfo) {
-			this.object = object;
-			this.wrappedListFieldInfo = wrappedListFieldInfo;
-		}
-
-		@Override
-		public String toString() {
-			return "(" + wrappedListFieldInfo.getCaption() + ")";
-		}
-
-		public Object getObject() {
-			return object;
-		}
-
-		public IFieldInfo getListField() {
-			return new IFieldInfo() {
-
-				@Override
-				public void setValue(Object object, Object value) {
-					wrappedListFieldInfo.setValue(VirtualItem.this.object,
-							value);
-				}
-
-				@Override
-				public boolean isNullable() {
-					return wrappedListFieldInfo.isNullable();
-				}
-
-				@Override
-				public Object getValue(Object object) {
-					return wrappedListFieldInfo
-							.getValue(VirtualItem.this.object);
-				}
-
-				@Override
-				public ITypeInfo getType() {
-					return wrappedListFieldInfo.getType();
-				}
-
-				@Override
-				public String getCaption() {
-					return "Actual List";
-				}
-
-				@Override
-				public boolean isReadOnly() {
-					return false;
-				}
-
-				@Override
-				public String getName() {
-					return "";
-				}
-
-				@Override
-				public InfoCategory getCategory() {
-					return null;
-				}
-
-				@Override
-				public String getDocumentation() {
-					return null;
-				}
-
-				@Override
-				public Map<String, Object> getSpecificProperties() {
-					return Collections.emptyMap();
-				}
-			};
-		}
-
 	}
 
 	@Override
@@ -250,6 +113,55 @@ public class MultiSubListField implements IFieldInfo {
 	@Override
 	public Map<String, Object> getSpecificProperties() {
 		return Collections.emptyMap();
+	}
+
+	public static class MultiSubListVirtualParent {
+
+		protected Object object;
+		protected IFieldInfo wrappedListFieldInfo;
+
+		public MultiSubListVirtualParent(Object object,
+				IFieldInfo wrappedListFieldInfo) {
+			this.object = object;
+			this.wrappedListFieldInfo = wrappedListFieldInfo;
+		}
+
+		@Override
+		public String toString() {
+			return "(" + wrappedListFieldInfo.getCaption() + ")";
+		}
+
+		public Object[] getSubListValue() {
+			IListTypeInfo listType = (IListTypeInfo) wrappedListFieldInfo
+					.getType();
+			Object list = wrappedListFieldInfo.getValue(object);
+			return listType.toListValue(list);
+		}
+
+		public void setSubListValue(Object[] listValue) {
+			IListTypeInfo listType = (IListTypeInfo) wrappedListFieldInfo
+					.getType();
+			Object list = listType.fromListValue(listValue);
+			wrappedListFieldInfo.setValue(object, list);
+		}
+
+	}
+
+	public static class MultiSubListVirtualParentType extends DefaultTypeInfo {
+
+		private MultiSubListVirtualParent virtualParent;
+
+		public MultiSubListVirtualParentType(ReflectionUI reflectionUI,
+				MultiSubListVirtualParent virtualParent) {
+			super(reflectionUI, MultiSubListVirtualParent.class);
+			this.virtualParent = virtualParent;
+		}
+
+		@Override
+		public String getCaption() {
+			return virtualParent.toString();
+		}
+
 	}
 
 }
