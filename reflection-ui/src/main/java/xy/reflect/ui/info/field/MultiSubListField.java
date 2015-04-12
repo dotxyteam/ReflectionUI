@@ -83,7 +83,19 @@ public class MultiSubListField implements IFieldInfo {
 
 	@Override
 	public String getName() {
-		return "";
+		StringBuilder result = new StringBuilder(
+				MultiSubListField.class.getSimpleName());
+		result.append(MultiSubListField.class.getSimpleName()+"(");
+		int i = 0;
+		for (IFieldInfo field : listFieldInfos) {
+			if (i > 0) {
+				result.append(", ");
+			}
+			result.append(field.getName());
+			i++;
+		}
+		result.append(")");
+		return result.toString();
 	}
 
 	@Override
@@ -160,6 +172,31 @@ public class MultiSubListField implements IFieldInfo {
 		@Override
 		public String getCaption() {
 			return virtualParent.toString();
+		}
+
+		@Override
+		public List<IFieldInfo> getFields() {
+			return Collections.<IFieldInfo> singletonList(new FieldInfoProxy(
+					super.getFields().get(0)) {
+				@Override
+				public IListTypeInfo getType() {
+					return (IListTypeInfo) virtualParent.wrappedListFieldInfo
+							.getType();
+				}
+
+				@Override
+				public Object getValue(Object object) {
+					Object[] listValue = (Object[]) super.getValue(object);
+					return getType().fromListValue(listValue);
+				}
+
+				@Override
+				public void setValue(Object object, Object value) {
+					Object[] listValue = getType().toListValue(value);
+					super.setValue(object, listValue);
+				}
+
+			});
 		}
 
 	}

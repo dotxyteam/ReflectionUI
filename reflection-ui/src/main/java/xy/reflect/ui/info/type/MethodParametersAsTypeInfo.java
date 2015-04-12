@@ -49,7 +49,8 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 
 	@Override
 	public String getName() {
-		return method.getName();
+		return MethodParametersAsTypeInfo.class.getSimpleName() + "("
+				+ method.getName() + ")";
 	}
 
 	@Override
@@ -86,8 +87,9 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 
 			@Override
 			public void setValue(Object object, Object value) {
-				InstanceInfo instance =  (InstanceInfo) object;
-				instance.valueByParameterPosition.put(param.getPosition(), value);
+				InstanceInfo instance = (InstanceInfo) object;
+				instance.valueByParameterPosition.put(param.getPosition(),
+						value);
 			}
 
 			@Override
@@ -97,11 +99,13 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 
 			@Override
 			public Object getValue(Object object) {
-				InstanceInfo instance =  (InstanceInfo) object;
-				if (!instance.valueByParameterPosition.containsKey(param.getPosition())) {
+				InstanceInfo instance = (InstanceInfo) object;
+				if (!instance.valueByParameterPosition.containsKey(param
+						.getPosition())) {
 					return param.getDefaultValue();
 				}
-				return instance.valueByParameterPosition.get(param.getPosition());
+				return instance.valueByParameterPosition.get(param
+						.getPosition());
 			}
 
 			@Override

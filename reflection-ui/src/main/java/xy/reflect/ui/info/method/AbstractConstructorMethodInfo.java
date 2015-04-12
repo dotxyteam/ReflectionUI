@@ -16,15 +16,19 @@ public abstract class AbstractConstructorMethodInfo implements IMethodInfo {
 		super();
 		this.ownerType = ownerType;
 	}
+	
+	
+
+	@Override
+	public String getName() {
+		return "";
+	}
+
+
 
 	@Override
 	public String getCaption() {
 		return "Create " + getReturnValueType().getCaption();
-	}
-
-	@Override
-	public String getName() {
-		return toString();
 	}
 
 	@Override

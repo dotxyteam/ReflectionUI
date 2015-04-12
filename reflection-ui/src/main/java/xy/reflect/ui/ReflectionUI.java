@@ -1494,16 +1494,18 @@ public class ReflectionUI {
 
 	public String getObjectKind(Object object) {
 		if (object == null) {
-			return "(Not found)";
+			return "(Missing Value)";
 		}
 		if (object instanceof MultiSubListVirtualParent) {
 			return ((MultiSubListVirtualParent) object).toString();
 		}
 		if (object instanceof StandardMapEntry<?, ?>) {
-			String result = "Entry";
 			Object key = ((StandardMapEntry<?, ?>) object).getKey();
-			result += (key == null) ? "" : (" (" + toString(key) + ")");
-			return result;
+			if (key == null) {
+				return "";
+			} else {
+				return toString(key);
+			}
 		}
 		return getTypeInfo(getTypeInfoSource(object)).getCaption();
 	}

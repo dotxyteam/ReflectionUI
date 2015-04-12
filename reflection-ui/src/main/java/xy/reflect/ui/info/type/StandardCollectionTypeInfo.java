@@ -38,12 +38,6 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 	}
 
 	@Override
-	public String getName() {
-		return javaType.getName() + "(item: "
-				+ ((itemJavaType == null) ? "?" : itemJavaType.getName()) + ")";
-	}
-
-	@Override
 	public String toString() {
 		return getCaption();
 	}
@@ -53,7 +47,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 		if (itemJavaType == null) {
 			return "List";
 		} else {
-			return "List of " + getItemType().getCaption();
+			return "List of " + getItemType().getCaption() + " elements";
 		}
 	}
 

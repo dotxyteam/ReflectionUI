@@ -1,6 +1,6 @@
 <xy.ui.testing.Tester>
   <maximumSecondsToWaitBetwneenActions>15</maximumSecondsToWaitBetwneenActions>
-  <minimumSecondsToWaitBetwneenActions>2</minimumSecondsToWaitBetwneenActions>
+  <minimumSecondsToWaitBetwneenActions>1</minimumSecondsToWaitBetwneenActions>
   <testActions>
     <xy.ui.testing.action.CallMainMethodAction>
       <className>xy.reflect.ui.ReflectionUI</className>
@@ -240,11 +240,9 @@
         <string>Class Name</string>
         <string>File Name</string>
         <string>Method Name</string>
-        <string>1075</string>
         <string>xy.reflect.ui.ReflectionUI$14</string>
         <string>ReflectionUI.java</string>
         <string>run</string>
-        <string>1102</string>
         <string>xy.reflect.ui.ReflectionUI$15</string>
         <string>ReflectionUI.java</string>
         <string>run</string>
@@ -261,11 +259,9 @@
         <string>Class Name</string>
         <string>File Name</string>
         <string>Method Name</string>
-        <string>929</string>
         <string>xy.reflect.ui.ReflectionUI</string>
         <string>ReflectionUI.java</string>
         <string>handleExceptionsFromDisplayedUI</string>
-        <string>1104</string>
         <string>xy.reflect.ui.ReflectionUI$15</string>
         <string>ReflectionUI.java</string>
         <string>run</string>
@@ -287,5 +283,8 @@
     <xy.ui.testing.action.window.CloseWindowAction>
       <windowIndex>0</windowIndex>
     </xy.ui.testing.action.window.CloseWindowAction>
+    <xy.ui.testing.action.CheckNumberOfOpenWindowsAction>
+      <count>0</count>
+    </xy.ui.testing.action.CheckNumberOfOpenWindowsAction>
   </testActions>
 </xy.ui.testing.Tester>

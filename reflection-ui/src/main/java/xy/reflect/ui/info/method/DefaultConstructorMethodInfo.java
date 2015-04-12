@@ -33,6 +33,13 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 	protected void resolveJavaReflectionModelAccessProblems() {
 		javaConstructor.setAccessible(true);
 	}
+	
+	@Override
+	public String getName() {
+		return javaConstructor.getName();
+	}
+
+	
 
 	@Override
 	public List<IParameterInfo> getParameters() {

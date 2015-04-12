@@ -57,11 +57,6 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 	}
 
 	@Override
-	public String getCaption() {
-		return "Array of " + getItemType().getCaption();
-	}
-
-	@Override
 	public Object fromListValue(Object[] listValue) {
 		Object array = Array.newInstance(itemJavaType, listValue.length);
 		for (int i = 0; i < listValue.length; i++) {

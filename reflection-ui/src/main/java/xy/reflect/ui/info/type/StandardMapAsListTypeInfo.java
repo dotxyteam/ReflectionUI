@@ -37,27 +37,8 @@ public class StandardMapAsListTypeInfo extends DefaultTypeInfo implements
 	}
 
 	@Override
-	public String getName() {
-		return "Map<" + ((keyJavaType == null) ? "?" : keyJavaType.getName())
-				+ ", "
-				+ ((valueJavaType == null) ? "?" : valueJavaType.getName())
-				+ ">";
-	}
-
-	@Override
 	public String toString() {
 		return getCaption();
-	}
-
-	@Override
-	public String getCaption() {
-		if ((keyJavaType == null) && (valueJavaType != null)) {
-			return getItemType().getKeyField().getType().getCaption() + " to "
-					+ getItemType().getValueField().getType().getCaption()
-					+ " Map";
-		} else {
-			return "Map";
-		}
 	}
 
 	public Class<?> getJavaType() {
@@ -110,7 +91,7 @@ public class StandardMapAsListTypeInfo extends DefaultTypeInfo implements
 			StandardMapEntry entry = (StandardMapEntry) item;
 			if (result.containsKey(entry.getKey())) {
 				throw new ReflectionUIError("Duplicate key: '"
-						+ reflectionUI.toString(entry.getKey())+"'");
+						+ reflectionUI.toString(entry.getKey()) + "'");
 			}
 			result.put(entry.getKey(), entry.getValue());
 		}
@@ -186,8 +167,8 @@ public class StandardMapAsListTypeInfo extends DefaultTypeInfo implements
 	}
 
 	@Override
-	public List<IListAction> getSpecificActions(
-			Object object, IFieldInfo field, List<? extends ItemPosition> selection) {
+	public List<IListAction> getSpecificActions(Object object,
+			IFieldInfo field, List<? extends ItemPosition> selection) {
 		return Collections.emptyList();
 	}
 

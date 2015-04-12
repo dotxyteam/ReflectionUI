@@ -29,7 +29,8 @@ public class SubFieldInfo implements IFieldInfo {
 				.getFields(), subFieldName);
 		if (this.field == null) {
 			throw new ReflectionUIError("Field '" + subFieldName
-					+ "' not found in type '" + field.getType().getName() + "'");
+					+ "' not found in type '" + field.getType().getName()
+					+ "'");
 		}
 	}
 
@@ -38,7 +39,8 @@ public class SubFieldInfo implements IFieldInfo {
 	}
 
 	public String getName() {
-		return field.getName() + "." + theSubField.getName();
+		return SubFieldInfo.class.getSimpleName() + "(" + field.getName()
+				+ "." + theSubField.getName() + ")";
 	}
 
 	public String getCaption() {
