@@ -278,7 +278,7 @@ public class ReflectionUI {
 		result.setContentAreaFilled(false);
 		result.setFocusable(false);
 		ReflectionUIUtils.setMultilineToolTipText(result,
-				translateUIString(documentation));
+				prepareUIString(documentation));
 		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -465,7 +465,7 @@ public class ReflectionUI {
 			}
 
 			JPanel tab = new JPanel();
-			tabbedPane.addTab(translateUIString(category.getCaption()), tab);
+			tabbedPane.addTab(prepareUIString(category.getCaption()), tab);
 			tab.setLayout(new BorderLayout());
 
 			JPanel tabContent = new JPanel();
@@ -484,7 +484,7 @@ public class ReflectionUI {
 
 			if (tabIndex > 0) {
 				JButton previousCategoryButton = new JButton(
-						translateUIString("<"));
+						prepareUIString("<"));
 				buttonsPanel.add(previousCategoryButton, BorderLayout.WEST);
 				previousCategoryButton.addActionListener(new ActionListener() {
 					@Override
@@ -495,7 +495,7 @@ public class ReflectionUI {
 			}
 
 			if (tabIndex < (tabCount - 1)) {
-				JButton nextCategoryButton = new JButton(translateUIString(">"));
+				JButton nextCategoryButton = new JButton(prepareUIString(">"));
 				buttonsPanel.add(nextCategoryButton, BorderLayout.EAST);
 				nextCategoryButton.addActionListener(new ActionListener() {
 					@Override
@@ -896,7 +896,7 @@ public class ReflectionUI {
 		int spacing = 5;
 		if (!fieldControlHasCaption) {
 			JLabel captionControl = new JLabel(
-					translateUIString(field.getCaption() + ": "));
+					prepareUIString(field.getCaption() + ": "));
 			GridBagConstraints layoutConstraints = new GridBagConstraints();
 			layoutConstraints.insets = new Insets(spacing, spacing, spacing,
 					spacing);
@@ -931,7 +931,7 @@ public class ReflectionUI {
 			final Throwable t) {
 		logError(new ReflectionUIError(t));
 		openErrorDialog(activatorComponent,
-				translateUIString("An Error Occured"), new ReflectionUIError(t));
+				prepareUIString("An Error Occured"), new ReflectionUIError(t));
 	}
 
 	public void logError(ReflectionUIError t) {
@@ -951,12 +951,12 @@ public class ReflectionUI {
 		JDialog[] dialogArray = new JDialog[1];
 
 		List<Component> buttons = new ArrayList<Component>();
-		final JButton deatilsButton = new JButton(translateUIString("Details"));
+		final JButton deatilsButton = new JButton(prepareUIString("Details"));
 		deatilsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				openObjectDialog(deatilsButton, error,
-						translateUIString("Error Details"),
+						prepareUIString("Error Details"),
 						getObjectIconImage(error), true, null, null, null,
 						null, IInfoCollectionSettings.READ_ONLY);
 			}
@@ -1376,7 +1376,7 @@ public class ReflectionUI {
 		return this;
 	}
 
-	public String translateUIString(String string) {
+	public String prepareUIString(String string) {
 		return string;
 	}
 
@@ -1396,7 +1396,7 @@ public class ReflectionUI {
 								polyTypes,
 								null,
 								MessageFormat
-										.format(translateUIString("Choose the type of ''{0}'':"),
+										.format(prepareUIString("Choose the type of ''{0}'':"),
 												type.getCaption()), null);
 						if (type == null) {
 							return null;
@@ -1451,7 +1451,7 @@ public class ReflectionUI {
 			} else {
 				IMethodInfo chosenContructor = openSelectionDialog(
 						activatorComponent, constructors, null,
-						translateUIString("Choose an option:"), null);
+						prepareUIString("Choose an option:"), null);
 				if (chosenContructor == null) {
 					return null;
 				}
@@ -1472,7 +1472,7 @@ public class ReflectionUI {
 	public <T> T openSelectionDialog(Component parentComponent,
 			List<T> choices, T initialSelection, String message, String title) {
 		return (T) JOptionPane.showInputDialog(parentComponent,
-				translateUIString(message), translateUIString(title),
+				prepareUIString(message), prepareUIString(title),
 				JOptionPane.QUESTION_MESSAGE, null, choices.toArray(),
 				initialSelection);
 	}
@@ -1480,7 +1480,7 @@ public class ReflectionUI {
 	public ITypeInfo openConcreteClassSelectionDialog(
 			Component parentComponent, ITypeInfo type) {
 		String className = JOptionPane.showInputDialog(parentComponent,
-				translateUIString("Class name of the '" + type.getCaption()
+				prepareUIString("Class name of the '" + type.getCaption()
 						+ "' you want to create:"));
 		if (className == null) {
 			return null;
@@ -1601,7 +1601,7 @@ public class ReflectionUI {
 		List<JButton> result = new ArrayList<JButton>();
 
 		final JButton okButton = new JButton(
-				translateUIString((okCaption != null) ? okCaption : "OK"));
+				prepareUIString((okCaption != null) ? okCaption : "OK"));
 		result.add(okButton);
 		if (okPressedArray != null) {
 			okPressedArray[0] = false;
@@ -1626,7 +1626,7 @@ public class ReflectionUI {
 
 		if (createCancelButton) {
 			final JButton cancelButton = new JButton(
-					translateUIString("Cancel"));
+					prepareUIString("Cancel"));
 			result.add(cancelButton);
 			cancelButton.addActionListener(new ActionListener() {
 				@Override

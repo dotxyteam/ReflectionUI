@@ -103,7 +103,7 @@ public class FileControl extends DialogAccessControl {
 		}
 		fileType.configureFileChooser(fileChooser, currentFile);
 		int returnVal = fileChooser.showDialog(this,
-				reflectionUI.translateUIString(fileType.getDialogTitle()));
+				reflectionUI.prepareUIString(fileType.getDialogTitle()));
 		if (returnVal != JFileChooser.APPROVE_OPTION) {
 			return;
 		}

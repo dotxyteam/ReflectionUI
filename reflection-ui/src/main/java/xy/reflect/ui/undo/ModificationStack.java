@@ -284,7 +284,7 @@ public class ModificationStack {
 			String label, final Runnable action,
 			final Accessor<Boolean> enabled, final Accessor<String> tooltipText) {
 		final JButton result = new JButton(
-				reflectionUI.translateUIString(label)) {
+				reflectionUI.prepareUIString(label)) {
 
 			protected static final long serialVersionUID = 1L;
 			IModificationListener listener = new IModificationListener() {
@@ -308,8 +308,8 @@ public class ModificationStack {
 			protected void updateState() {
 				setEnabled(enabled.get());
 				ReflectionUIUtils.setMultilineToolTipText(this, reflectionUI
-						.translateUIString(reflectionUI
-								.translateUIString(tooltipText.get())));
+						.prepareUIString(reflectionUI
+								.prepareUIString(tooltipText.get())));
 			}
 
 		};

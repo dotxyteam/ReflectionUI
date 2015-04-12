@@ -108,7 +108,7 @@ public class TextControl extends JPanel implements IFieldControl {
 			border.setBorder(BorderFactory.createLineBorder(Color.RED));
 			setBorder(border);
 			ReflectionUIUtils.setMultilineToolTipText(textComponent,
-					reflectionUI.translateUIString(error.toString()));
+					reflectionUI.prepareUIString(error.toString()));
 			ReflectionUIUtils.showTooltipNow(textComponent);
 		}
 		return true;

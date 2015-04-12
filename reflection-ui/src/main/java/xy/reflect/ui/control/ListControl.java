@@ -184,7 +184,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 			@Override
 			public String getColumnName(int column) {
-				return reflectionUI.translateUIString(getColumnCaption(column));
+				return reflectionUI.prepareUIString(getColumnCaption(column));
 			}
 
 		};
@@ -423,7 +423,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 	protected void createClearButton(JPanel buttonsPanel) {
 		final JButton button = new JButton(
-				reflectionUI.translateUIString("Clear"));
+				reflectionUI.prepareUIString("Clear"));
 		buttonsPanel.add(button);
 		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
 			@Override
@@ -433,7 +433,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 							SwingUtilities
 									.getWindowAncestor(treeTableComponent),
 							reflectionUI
-									.translateUIString("Remove all the items?"),
+									.prepareUIString("Remove all the items?"),
 							"", JOptionPane.OK_CANCEL_OPTION)) {
 						getRootList().clear();
 						refreshStructure();
@@ -448,7 +448,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 	protected void createMoveButton(JPanel buttonsPanel, final int offset,
 			String label) {
 		final JButton button = new JButton(
-				reflectionUI.translateUIString(label));
+				reflectionUI.prepareUIString(label));
 		buttonsPanel.add(button);
 		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
 			@Override
@@ -569,7 +569,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 	protected void createRemoveButton(JPanel buttonsPanel) {
 		final JButton button = new JButton(
-				reflectionUI.translateUIString("Remove"));
+				reflectionUI.prepareUIString("Remove"));
 		buttonsPanel.add(button);
 		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
 			@Override
@@ -579,7 +579,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 							SwingUtilities
 									.getWindowAncestor(treeTableComponent),
 							reflectionUI
-									.translateUIString("Remove the element(s)?"),
+									.prepareUIString("Remove the element(s)?"),
 							"", JOptionPane.OK_CANCEL_OPTION)) {
 						List<AutoUpdatingFieldItemPosition> selection = getSelection();
 						selection = new ArrayList<AutoUpdatingFieldItemPosition>(
@@ -743,7 +743,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 			buttonText += " ...";
 		}
 		final JButton button = new JButton(
-				reflectionUI.translateUIString(buttonText));
+				reflectionUI.prepareUIString(buttonText));
 		buttonsPanel.add(button);
 		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
 			@Override
@@ -794,7 +794,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 				.getContainingListType();
 		final ITypeInfo subListItemType = subListType.getItemType();
 		final JButton button = new JButton(
-				reflectionUI.translateUIString((subListItemType == null) ? "Add..."
+				reflectionUI.prepareUIString((subListItemType == null) ? "Add..."
 						: ("Add " + subListItemType.getCaption() + "...")));
 		buttonsPanel.add(button);
 		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
@@ -869,7 +869,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 	protected void createCopyButton(JPanel buttonsPanel) {
 		final JButton button = new JButton(
-				reflectionUI.translateUIString("Copy"));
+				reflectionUI.prepareUIString("Copy"));
 		buttonsPanel.add(button);
 		button.addActionListener(new ActionListener() {
 			@Override
@@ -893,7 +893,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 	protected void createCutButton(JPanel buttonsPanel) {
 		final JButton button = new JButton(
-				reflectionUI.translateUIString("Cut"));
+				reflectionUI.prepareUIString("Cut"));
 		buttonsPanel.add(button);
 		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
 			@Override
@@ -951,7 +951,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 			buttonText = "Paste";
 		}
 		final JButton button = new JButton(
-				reflectionUI.translateUIString(buttonText));
+				reflectionUI.prepareUIString(buttonText));
 		buttonsPanel.add(button);
 		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
 			@Override
@@ -1002,7 +1002,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 	protected void createPasteInButton(JPanel buttonsPanel) {
 		final JButton button = new JButton(
-				reflectionUI.translateUIString("Paste"));
+				reflectionUI.prepareUIString("Paste"));
 		buttonsPanel.add(button);
 		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
 			@Override
@@ -1061,7 +1061,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 	protected void createSpecificActionButton(final IListAction action,
 			JPanel buttonsPanel) {
 		final JButton button = new JButton(
-				reflectionUI.translateUIString(action.getTitle()));
+				reflectionUI.prepareUIString(action.getTitle()));
 		buttonsPanel.add(button);
 		button.addActionListener(new ActionListener() {
 			@Override
@@ -1083,7 +1083,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 	protected void createOpenItemButton(JPanel buttonsPanel) {
 		final JButton button = new JButton(
-				reflectionUI.translateUIString("Open"));
+				reflectionUI.prepareUIString("Open"));
 		buttonsPanel.add(button);
 		button.addActionListener(new ActionListener() {
 			@Override
@@ -1860,7 +1860,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 			if (text == null) {
 				label.setText("");
 			} else {
-				label.setText(reflectionUI.translateUIString(text));
+				label.setText(reflectionUI.prepareUIString(text));
 			}
 
 			if (columnIndex == 0) {

@@ -1,6 +1,3 @@
-- ListTreeStructuralInfo must detect trees by basing
-on the compatibility of the root list item type and 
-the children lists item type
 - update translatable strings
 - check getSubObjectEd is used where it should
 - private => protected

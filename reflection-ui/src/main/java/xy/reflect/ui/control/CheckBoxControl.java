@@ -35,7 +35,7 @@ public class CheckBoxControl extends JCheckBox implements IFieldControl {
 		}
 
 		Boolean initialValue = booleanType.toBoolean(field.getValue(object));
-		setText(reflectionUI.translateUIString("Is True"));
+		setText(reflectionUI.prepareUIString("Is True"));
 		setSelected(initialValue);
 		addActionListener(new ActionListener() {
 
@@ -56,7 +56,7 @@ public class CheckBoxControl extends JCheckBox implements IFieldControl {
 		if (!caption.startsWith("Is ") && !caption.startsWith("Has ")) {
 			caption += " (Is True)";
 		}
-		setText(reflectionUI.translateUIString(caption));
+		setText(reflectionUI.prepareUIString(caption));
 		return true;
 	}
 
