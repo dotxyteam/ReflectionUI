@@ -19,11 +19,10 @@ public class Example {
 		/* The Hello world: */
 		Object myObject = new Date();
 		ReflectionUI reflectionUI = new ReflectionUI();
-		reflectionUI.openObjectFrame(myObject, "Hello world", null);
+		reflectionUI.openObjectFrame(myObject);
 
 		/* You can open a dialog instead of a frame: */
-		reflectionUI.openObjectDialog(null, myObject, "dialog instead", null,
-				true);
+		reflectionUI.openObjectDialog(null, myObject, true);
 
 		/* You can just create a form and then insert it in any container: */
 		JOptionPane.showMessageDialog(null,
@@ -120,5 +119,4 @@ public class Example {
 				"uppercase field captions", null, true);
 
 	}
-
 }

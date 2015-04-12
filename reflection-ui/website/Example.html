@@ -1,33 +1,32 @@
-<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">import</span> java.awt.Window;
-<span style="color: #000080; font-weight: bold">import</span> java.util.Date;
+<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">java.awt.Window</span><span style="color: #666666">;</span>
+<span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">java.util.Date</span><span style="color: #666666">;</span>
 
-<span style="color: #000080; font-weight: bold">import</span> javax.swing.JOptionPane;
+<span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">javax.swing.JOptionPane</span><span style="color: #666666">;</span>
 
-<span style="color: #000080; font-weight: bold">import</span> xy.reflect.ui.ReflectionUI;
-<span style="color: #000080; font-weight: bold">import</span> xy.reflect.ui.info.field.IFieldInfo;
-<span style="color: #000080; font-weight: bold">import</span> xy.reflect.ui.info.type.ITypeInfo;
-<span style="color: #000080; font-weight: bold">import</span> xy.reflect.ui.info.type.ITypeInfoSource;
-<span style="color: #000080; font-weight: bold">import</span> xy.reflect.ui.info.type.TypeInfoProxyConfiguration;
+<span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">xy.reflect.ui.ReflectionUI</span><span style="color: #666666">;</span>
+<span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">xy.reflect.ui.info.field.IFieldInfo</span><span style="color: #666666">;</span>
+<span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">xy.reflect.ui.info.type.ITypeInfo</span><span style="color: #666666">;</span>
+<span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">xy.reflect.ui.info.type.ITypeInfoSource</span><span style="color: #666666">;</span>
+<span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">xy.reflect.ui.info.type.TypeInfoProxyConfiguration</span><span style="color: #666666">;</span>
 
 <span style="color: #008800; font-style: italic">/*</span>
 <span style="color: #008800; font-style: italic"> * Read carefully the comments below. </span>
 <span style="color: #008800; font-style: italic"> */</span>
-<span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">class</span> Example {
+<span style="color: #AA22FF; font-weight: bold">public</span> <span style="color: #AA22FF; font-weight: bold">class</span> <span style="color: #0000FF">Example</span> <span style="color: #666666">{</span>
 
-	<span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">static</span> <span style="color: #000080; font-weight: bold">void</span> main(String[] args) {
+	<span style="color: #AA22FF; font-weight: bold">public</span> <span style="color: #AA22FF; font-weight: bold">static</span> <span style="color: #00BB00; font-weight: bold">void</span> <span style="color: #00A000">main</span><span style="color: #666666">(</span>String<span style="color: #666666">[]</span> args<span style="color: #666666">)</span> <span style="color: #666666">{</span>
 
 		<span style="color: #008800; font-style: italic">/* The Hello world: */</span>
-		Object myObject = <span style="color: #000080; font-weight: bold">new</span> Date();
-		ReflectionUI reflectionUI = <span style="color: #000080; font-weight: bold">new</span> ReflectionUI();
-		reflectionUI.<span style="color: #FF0000">openObjectFrame</span>(myObject, <span style="color: #0000FF">&quot;Hello world&quot;</span>, <span style="color: #000080; font-weight: bold">null</span>);
+		Object myObject <span style="color: #666666">=</span> <span style="color: #AA22FF; font-weight: bold">new</span> Date<span style="color: #666666">();</span>
+		ReflectionUI reflectionUI <span style="color: #666666">=</span> <span style="color: #AA22FF; font-weight: bold">new</span> ReflectionUI<span style="color: #666666">();</span>
+		reflectionUI<span style="color: #666666">.</span><span style="color: #BB4444">openObjectFrame</span><span style="color: #666666">(</span>myObject<span style="color: #666666">);</span>
 
 		<span style="color: #008800; font-style: italic">/* You can open a dialog instead of a frame: */</span>
-		reflectionUI.<span style="color: #FF0000">openObjectDialog</span>(<span style="color: #000080; font-weight: bold">null</span>, myObject, <span style="color: #0000FF">&quot;dialog instead&quot;</span>, <span style="color: #000080; font-weight: bold">null</span>,
-				<span style="color: #000080; font-weight: bold">true</span>);
+		reflectionUI<span style="color: #666666">.</span><span style="color: #BB4444">openObjectDialog</span><span style="color: #666666">(</span><span style="color: #AA22FF; font-weight: bold">null</span><span style="color: #666666">,</span> myObject<span style="color: #666666">,</span> <span style="color: #AA22FF; font-weight: bold">true</span><span style="color: #666666">);</span>
 
 		<span style="color: #008800; font-style: italic">/* You can just create a form and then insert it in any container: */</span>
-		JOptionPane.<span style="color: #FF0000">showMessageDialog</span>(<span style="color: #000080; font-weight: bold">null</span>,
-				reflectionUI.<span style="color: #FF0000">createObjectForm</span>(myObject));
+		JOptionPane<span style="color: #666666">.</span><span style="color: #BB4444">showMessageDialog</span><span style="color: #666666">(</span><span style="color: #AA22FF; font-weight: bold">null</span><span style="color: #666666">,</span>
+				reflectionUI<span style="color: #666666">.</span><span style="color: #BB4444">createObjectForm</span><span style="color: #666666">(</span>myObject<span style="color: #666666">));</span>
 
 		<span style="color: #008800; font-style: italic">/*</span>
 <span style="color: #008800; font-style: italic">		 * The ReflectionUI generator assumes that that the Java coding</span>
@@ -35,31 +34,31 @@
 <span style="color: #008800; font-style: italic">		 * adjustments can be done by overriding some methods of the</span>
 <span style="color: #008800; font-style: italic">		 * ReflectionUI object:</span>
 <span style="color: #008800; font-style: italic">		 */</span>
-		reflectionUI = <span style="color: #000080; font-weight: bold">new</span> ReflectionUI() {
+		reflectionUI <span style="color: #666666">=</span> <span style="color: #AA22FF; font-weight: bold">new</span> ReflectionUI<span style="color: #666666">()</span> <span style="color: #666666">{</span>
 
 			<span style="color: #008800; font-style: italic">/* if your class &quot;equals&quot; method is not well implemented then: */</span>
-			@Override
-			<span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">boolean</span> equals(Object value1, Object value2) {
-				<span style="color: #000080; font-weight: bold">if</span> (value1 <span style="color: #000080; font-weight: bold">instanceof</span> Example) {
+			<span style="color: #AA22FF">@Override</span>
+			<span style="color: #AA22FF; font-weight: bold">public</span> <span style="color: #00BB00; font-weight: bold">boolean</span> <span style="color: #00A000">equals</span><span style="color: #666666">(</span>Object value1<span style="color: #666666">,</span> Object value2<span style="color: #666666">)</span> <span style="color: #666666">{</span>
+				<span style="color: #AA22FF; font-weight: bold">if</span> <span style="color: #666666">(</span>value1 <span style="color: #AA22FF; font-weight: bold">instanceof</span> Example<span style="color: #666666">)</span> <span style="color: #666666">{</span>
 					<span style="color: #008800; font-style: italic">// TODO: replace with your code</span>
-					<span style="color: #000080; font-weight: bold">return</span> <span style="color: #000080; font-weight: bold">false</span>;
-				} <span style="color: #000080; font-weight: bold">else</span> {
-					<span style="color: #000080; font-weight: bold">return</span> <span style="color: #000080; font-weight: bold">super</span>.<span style="color: #FF0000">equals</span>(value1, value2);
-				}
-			}
+					<span style="color: #AA22FF; font-weight: bold">return</span> <span style="color: #AA22FF; font-weight: bold">false</span><span style="color: #666666">;</span>
+				<span style="color: #666666">}</span> <span style="color: #AA22FF; font-weight: bold">else</span> <span style="color: #666666">{</span>
+					<span style="color: #AA22FF; font-weight: bold">return</span> <span style="color: #AA22FF; font-weight: bold">super</span><span style="color: #666666">.</span><span style="color: #BB4444">equals</span><span style="color: #666666">(</span>value1<span style="color: #666666">,</span> value2<span style="color: #666666">);</span>
+				<span style="color: #666666">}</span>
+			<span style="color: #666666">}</span>
 
 			<span style="color: #008800; font-style: italic">/* if your class &quot;toString&quot; method is not well implemented then: */</span>
-			@Override
-			<span style="color: #000080; font-weight: bold">public</span> String toString(Object object) {
-				<span style="color: #000080; font-weight: bold">if</span> (object <span style="color: #000080; font-weight: bold">instanceof</span> Example) {
+			<span style="color: #AA22FF">@Override</span>
+			<span style="color: #AA22FF; font-weight: bold">public</span> String <span style="color: #00A000">toString</span><span style="color: #666666">(</span>Object object<span style="color: #666666">)</span> <span style="color: #666666">{</span>
+				<span style="color: #AA22FF; font-weight: bold">if</span> <span style="color: #666666">(</span>object <span style="color: #AA22FF; font-weight: bold">instanceof</span> Example<span style="color: #666666">)</span> <span style="color: #666666">{</span>
 					<span style="color: #008800; font-style: italic">// TODO: replace with your code</span>
-					<span style="color: #000080; font-weight: bold">return</span> <span style="color: #0000FF">&quot;&quot;</span>;
-				} <span style="color: #000080; font-weight: bold">else</span> {
-					<span style="color: #000080; font-weight: bold">return</span> <span style="color: #000080; font-weight: bold">super</span>.<span style="color: #FF0000">toString</span>(object);
-				}
-			}
+					<span style="color: #AA22FF; font-weight: bold">return</span> <span style="color: #BB4444">&quot;&quot;</span><span style="color: #666666">;</span>
+				<span style="color: #666666">}</span> <span style="color: #AA22FF; font-weight: bold">else</span> <span style="color: #666666">{</span>
+					<span style="color: #AA22FF; font-weight: bold">return</span> <span style="color: #AA22FF; font-weight: bold">super</span><span style="color: #666666">.</span><span style="color: #BB4444">toString</span><span style="color: #666666">(</span>object<span style="color: #666666">);</span>
+				<span style="color: #666666">}</span>
+			<span style="color: #666666">}</span>
 
-		};
+		<span style="color: #666666">};</span>
 
 		<span style="color: #008800; font-style: italic">/*</span>
 <span style="color: #008800; font-style: italic">		 * How to enable copy/cut/paste: By default this functionality is</span>
@@ -67,59 +66,58 @@
 <span style="color: #008800; font-style: italic">		 * implement the Serializable interface then override the following</span>
 <span style="color: #008800; font-style: italic">		 * methods of the ReflectionUI object:</span>
 <span style="color: #008800; font-style: italic">		 */</span>
-		reflectionUI = <span style="color: #000080; font-weight: bold">new</span> ReflectionUI() {
+		reflectionUI <span style="color: #666666">=</span> <span style="color: #AA22FF; font-weight: bold">new</span> ReflectionUI<span style="color: #666666">()</span> <span style="color: #666666">{</span>
 
-			@Override
-			<span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">boolean</span> canCopy(Object object) {
+			<span style="color: #AA22FF">@Override</span>
+			<span style="color: #AA22FF; font-weight: bold">public</span> <span style="color: #00BB00; font-weight: bold">boolean</span> <span style="color: #00A000">canCopy</span><span style="color: #666666">(</span>Object object<span style="color: #666666">)</span> <span style="color: #666666">{</span>
 				<span style="color: #008800; font-style: italic">// TODO: replace with your code</span>
-				<span style="color: #000080; font-weight: bold">return</span> <span style="color: #000080; font-weight: bold">super</span>.<span style="color: #FF0000">canCopy</span>(object);
-			}
+				<span style="color: #AA22FF; font-weight: bold">return</span> <span style="color: #AA22FF; font-weight: bold">super</span><span style="color: #666666">.</span><span style="color: #BB4444">canCopy</span><span style="color: #666666">(</span>object<span style="color: #666666">);</span>
+			<span style="color: #666666">}</span>
 
-			@Override
-			<span style="color: #000080; font-weight: bold">public</span> Object copy(Object object) {
+			<span style="color: #AA22FF">@Override</span>
+			<span style="color: #AA22FF; font-weight: bold">public</span> Object <span style="color: #00A000">copy</span><span style="color: #666666">(</span>Object object<span style="color: #666666">)</span> <span style="color: #666666">{</span>
 				<span style="color: #008800; font-style: italic">// TODO: replace with your code</span>
-				<span style="color: #000080; font-weight: bold">return</span> <span style="color: #000080; font-weight: bold">super</span>.<span style="color: #FF0000">copy</span>(object);
-			}
+				<span style="color: #AA22FF; font-weight: bold">return</span> <span style="color: #AA22FF; font-weight: bold">super</span><span style="color: #666666">.</span><span style="color: #BB4444">copy</span><span style="color: #666666">(</span>object<span style="color: #666666">);</span>
+			<span style="color: #666666">}</span>
 
-		};
+		<span style="color: #666666">};</span>
 
 		<span style="color: #008800; font-style: italic">/*</span>
 <span style="color: #008800; font-style: italic">		 * In order to customize the UI behavior, just override the ReflectionUI</span>
 <span style="color: #008800; font-style: italic">		 * object. For instance let set any window size to 300x300:</span>
 <span style="color: #008800; font-style: italic">		 */</span>
-		reflectionUI = <span style="color: #000080; font-weight: bold">new</span> ReflectionUI() {
-			@Override
-			<span style="color: #000080; font-weight: bold">public</span> <span style="color: #000080; font-weight: bold">void</span> adjustWindowBounds(Window window) {
-				<span style="color: #000080; font-weight: bold">super</span>.<span style="color: #FF0000">adjustWindowBounds</span>(window);
-				window.<span style="color: #FF0000">setSize</span>(<span style="color: #0000FF">300</span>, <span style="color: #0000FF">300</span>);
-			}
-		};
-		reflectionUI.<span style="color: #FF0000">openObjectDialog</span>(<span style="color: #000080; font-weight: bold">null</span>, myObject, <span style="color: #0000FF">&quot;300x300 window&quot;</span>, <span style="color: #000080; font-weight: bold">null</span>,
-				<span style="color: #000080; font-weight: bold">true</span>);
+		reflectionUI <span style="color: #666666">=</span> <span style="color: #AA22FF; font-weight: bold">new</span> ReflectionUI<span style="color: #666666">()</span> <span style="color: #666666">{</span>
+			<span style="color: #AA22FF">@Override</span>
+			<span style="color: #AA22FF; font-weight: bold">public</span> <span style="color: #00BB00; font-weight: bold">void</span> <span style="color: #00A000">adjustWindowBounds</span><span style="color: #666666">(</span>Window window<span style="color: #666666">)</span> <span style="color: #666666">{</span>
+				<span style="color: #AA22FF; font-weight: bold">super</span><span style="color: #666666">.</span><span style="color: #BB4444">adjustWindowBounds</span><span style="color: #666666">(</span>window<span style="color: #666666">);</span>
+				window<span style="color: #666666">.</span><span style="color: #BB4444">setSize</span><span style="color: #666666">(300,</span> <span style="color: #666666">300);</span>
+			<span style="color: #666666">}</span>
+		<span style="color: #666666">};</span>
+		reflectionUI<span style="color: #666666">.</span><span style="color: #BB4444">openObjectDialog</span><span style="color: #666666">(</span><span style="color: #AA22FF; font-weight: bold">null</span><span style="color: #666666">,</span> myObject<span style="color: #666666">,</span> <span style="color: #BB4444">&quot;300x300 window&quot;</span><span style="color: #666666">,</span> <span style="color: #AA22FF; font-weight: bold">null</span><span style="color: #666666">,</span>
+				<span style="color: #AA22FF; font-weight: bold">true</span><span style="color: #666666">);</span>
 
 		<span style="color: #008800; font-style: italic">/*</span>
 <span style="color: #008800; font-style: italic">		 * If you specifically want to take control over the object discovery</span>
 <span style="color: #008800; font-style: italic">		 * and interpretation process, then you must override the getTypeInfo()</span>
 <span style="color: #008800; font-style: italic">		 * method. For instance we can uppercase all the field captions</span>
 <span style="color: #008800; font-style: italic">		 */</span>
-		reflectionUI = <span style="color: #000080; font-weight: bold">new</span> ReflectionUI() {
-			@Override
-			<span style="color: #000080; font-weight: bold">public</span> ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-				<span style="color: #000080; font-weight: bold">return</span> <span style="color: #000080; font-weight: bold">new</span> TypeInfoProxyConfiguration() {
-					@Override
-					<span style="color: #000080; font-weight: bold">protected</span> String getCaption(IFieldInfo field,
-							ITypeInfo containingType) {
-						<span style="color: #000080; font-weight: bold">return</span> <span style="color: #000080; font-weight: bold">super</span>.<span style="color: #FF0000">getCaption</span>(field, containingType)
-								.<span style="color: #FF0000">toUpperCase</span>();
-					}
-				}.<span style="color: #FF0000">get</span>(<span style="color: #000080; font-weight: bold">super</span>.<span style="color: #FF0000">getTypeInfo</span>(typeSource));
-			}
+		reflectionUI <span style="color: #666666">=</span> <span style="color: #AA22FF; font-weight: bold">new</span> ReflectionUI<span style="color: #666666">()</span> <span style="color: #666666">{</span>
+			<span style="color: #AA22FF">@Override</span>
+			<span style="color: #AA22FF; font-weight: bold">public</span> ITypeInfo <span style="color: #00A000">getTypeInfo</span><span style="color: #666666">(</span>ITypeInfoSource typeSource<span style="color: #666666">)</span> <span style="color: #666666">{</span>
+				<span style="color: #AA22FF; font-weight: bold">return</span> <span style="color: #AA22FF; font-weight: bold">new</span> <span style="color: #00A000">TypeInfoProxyConfiguration</span><span style="color: #666666">()</span> <span style="color: #666666">{</span>
+					<span style="color: #AA22FF">@Override</span>
+					<span style="color: #AA22FF; font-weight: bold">protected</span> String <span style="color: #00A000">getCaption</span><span style="color: #666666">(</span>IFieldInfo field<span style="color: #666666">,</span>
+							ITypeInfo containingType<span style="color: #666666">)</span> <span style="color: #666666">{</span>
+						<span style="color: #AA22FF; font-weight: bold">return</span> <span style="color: #AA22FF; font-weight: bold">super</span><span style="color: #666666">.</span><span style="color: #BB4444">getCaption</span><span style="color: #666666">(</span>field<span style="color: #666666">,</span> containingType<span style="color: #666666">)</span>
+								<span style="color: #666666">.</span><span style="color: #BB4444">toUpperCase</span><span style="color: #666666">();</span>
+					<span style="color: #666666">}</span>
+				<span style="color: #666666">}.</span><span style="color: #BB4444">get</span><span style="color: #666666">(</span><span style="color: #AA22FF; font-weight: bold">super</span><span style="color: #666666">.</span><span style="color: #BB4444">getTypeInfo</span><span style="color: #666666">(</span>typeSource<span style="color: #666666">));</span>
+			<span style="color: #666666">}</span>
 
-		};
-		reflectionUI.<span style="color: #FF0000">openObjectDialog</span>(<span style="color: #000080; font-weight: bold">null</span>, myObject,
-				<span style="color: #0000FF">&quot;uppercase field captions&quot;</span>, <span style="color: #000080; font-weight: bold">null</span>, <span style="color: #000080; font-weight: bold">true</span>);
+		<span style="color: #666666">};</span>
+		reflectionUI<span style="color: #666666">.</span><span style="color: #BB4444">openObjectDialog</span><span style="color: #666666">(</span><span style="color: #AA22FF; font-weight: bold">null</span><span style="color: #666666">,</span> myObject<span style="color: #666666">,</span>
+				<span style="color: #BB4444">&quot;uppercase field captions&quot;</span><span style="color: #666666">,</span> <span style="color: #AA22FF; font-weight: bold">null</span><span style="color: #666666">,</span> <span style="color: #AA22FF; font-weight: bold">true</span><span style="color: #666666">);</span>
 
-	}
-
-}
+	<span style="color: #666666">}</span>
+<span style="color: #666666">}</span>
 </pre></div>
