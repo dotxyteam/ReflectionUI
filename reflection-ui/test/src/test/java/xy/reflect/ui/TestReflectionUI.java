@@ -30,7 +30,7 @@ public class TestReflectionUI {
 	@Test
 	public void testTableTreeModelExample() throws IOException {
 		Tester.assertSuccessfulReplay(TestReflectionUI.class
-				.getResourceAsStream("TableTreeModelExample.stt"));
+				.getResourceAsStream("testTableTreeModelExample.stt"));
 	}
 
 }
