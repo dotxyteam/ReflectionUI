@@ -1,3 +1,12 @@
+- add conventions that would allow a developper to
+use all the features of ReflectionUI in the non-gui 
+in a non-intrusive manner. ex: 
+	 . default validate method
+	 . default field possible values enumeration method  
+- menus
+- listControl: 
+	. deatil view
+	. context menu??? 
 - update translatable strings
 - check getSubObjectEd is used where it should
 - private => protected

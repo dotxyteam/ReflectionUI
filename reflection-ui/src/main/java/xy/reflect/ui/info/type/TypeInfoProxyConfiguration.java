@@ -143,8 +143,8 @@ public class TypeInfoProxyConfiguration {
 		return method.getName();
 	}
 
-	protected List<?> getPossibleValues(IEnumerationTypeInfo type) {
-		return type.getPossibleValues();
+	protected List<?> getPossibleValues(IEnumerationTypeInfo type, Object object) {
+		return type.getPossibleValues(object);
 	}
 
 	protected Object fromListValue(IListTypeInfo type, Object[] listValue) {
@@ -549,9 +549,9 @@ public class TypeInfoProxyConfiguration {
 		}
 
 		@Override
-		public List<?> getPossibleValues() {
+		public List<?> getPossibleValues(Object object) {
 			return TypeInfoProxyConfiguration.this
-					.getPossibleValues((IEnumerationTypeInfo) type);
+					.getPossibleValues((IEnumerationTypeInfo) type, object);
 		}
 
 		@Override

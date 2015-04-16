@@ -192,7 +192,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 					}
 
 					@Override
-					public List<?> getPossibleValues() {
+					public List<?> getPossibleValues(Object object) {
 						List<ITypeInfo> result = new ArrayList<ITypeInfo>();
 						if (PolymorphicEmbeddedForm.this.field.isNullable()) {
 							result.add(NULL_POLY_TYPE);

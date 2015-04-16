@@ -23,7 +23,7 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements
 	}
 
 	@Override
-	public List<?> getPossibleValues() {
+	public List<?> getPossibleValues(Object object) {
 		return Arrays.asList(javaType.getEnumConstants());
 	}
 

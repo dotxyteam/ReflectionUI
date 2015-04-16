@@ -932,7 +932,7 @@ public class ReflectionUIUtils {
 				ReflectionUI.class.getResource("resource/help.png"));
 	}
 
-	public static List<Method> geAnnotatedtValidatingMethods(Class<?> javaType) {
+	public static List<Method> getValidatingMethods(Class<?> javaType) {
 		List<Method> result = new ArrayList<Method>();
 		for (Method method : javaType.getMethods()) {
 			Validating annotation = method.getAnnotation(Validating.class);
@@ -948,6 +948,17 @@ public class ReflectionUIUtils {
 									+ method);
 				}
 				result.add(method);
+				continue;
+			}
+			if(method.getName().equals("validate")){
+				if(method.getReturnType().equals(void.class)){
+					if(method.getParameterTypes().length == 0){
+						if(!Modifier.isStatic(method.getModifiers())){
+							result.add(method);
+							continue;
+						}
+					}
+				}
 			}
 		}
 		return result;

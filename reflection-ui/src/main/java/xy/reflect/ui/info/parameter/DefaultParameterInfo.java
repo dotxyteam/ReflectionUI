@@ -7,7 +7,7 @@ import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.annotation.Documentation;
-import xy.reflect.ui.info.annotation.RuntimeName;
+import xy.reflect.ui.info.annotation.Name;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -58,8 +58,8 @@ public class DefaultParameterInfo implements IParameterInfo {
 					.getJavaParameterNames(owner);
 			if (parameterNames == null) {
 				for (Annotation annotation : paramAnnotations) {
-					if (annotation instanceof RuntimeName) {
-						return ((RuntimeName) annotation).value();
+					if (annotation instanceof Name) {
+						return ((Name) annotation).value();
 					}
 				}
 				name = "parameter" + (position + 1);

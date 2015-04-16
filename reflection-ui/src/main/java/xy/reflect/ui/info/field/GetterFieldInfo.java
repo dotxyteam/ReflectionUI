@@ -180,7 +180,7 @@ public class GetterFieldInfo implements IFieldInfo {
 			return false;
 		}
 		if (ReflectionUIUtils
-				.geAnnotatedtValidatingMethods(containingJavaClass).contains(
+				.getValidatingMethods(containingJavaClass).contains(
 						javaMethod)) {
 			return false;
 		}

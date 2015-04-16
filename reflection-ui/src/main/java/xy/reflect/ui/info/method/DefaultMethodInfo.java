@@ -170,7 +170,7 @@ public class DefaultMethodInfo implements IMethodInfo {
 			}
 		}
 		if (ReflectionUIUtils
-				.geAnnotatedtValidatingMethods(containingJavaClass).contains(
+				.getValidatingMethods(containingJavaClass).contains(
 						javaMethod)) {
 			return false;
 		}

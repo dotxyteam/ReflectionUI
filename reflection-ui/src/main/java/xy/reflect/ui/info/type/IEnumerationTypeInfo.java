@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface IEnumerationTypeInfo extends ITypeInfo {
 	
-	List<?> getPossibleValues();
+	List<?> getPossibleValues(Object object);
 	
 	String formatEnumerationItem(Object object);
 }
