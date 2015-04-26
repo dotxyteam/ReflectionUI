@@ -92,6 +92,11 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 			}
 
 			@Override
+			public Object[] getValueOptions(Object object) {
+				return null;
+			}
+
+			@Override
 			public void setValue(Object object, Object value) {
 				try {
 					if (value == NULL_POLY_TYPE) {
@@ -192,7 +197,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 					}
 
 					@Override
-					public List<?> getPossibleValues(Object object) {
+					public Object[] getPossibleValues() {
 						List<ITypeInfo> result = new ArrayList<ITypeInfo>();
 						if (PolymorphicEmbeddedForm.this.field.isNullable()) {
 							result.add(NULL_POLY_TYPE);
@@ -200,7 +205,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 						for (ITypeInfo subType : subTypes) {
 							result.add(subType);
 						}
-						return result;
+						return result.toArray();
 					}
 
 					@Override

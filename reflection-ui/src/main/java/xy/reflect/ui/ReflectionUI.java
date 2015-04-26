@@ -51,7 +51,6 @@ import javax.swing.JTextArea;
 import javax.swing.JToolTip;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-
 import org.jdesktop.swingx.JXBusyLabel;
 
 import xy.reflect.ui.control.IFieldControl;
@@ -1625,8 +1624,7 @@ public class ReflectionUI {
 		});
 
 		if (createCancelButton) {
-			final JButton cancelButton = new JButton(
-					prepareUIString("Cancel"));
+			final JButton cancelButton = new JButton(prepareUIString("Cancel"));
 			result.add(cancelButton);
 			cancelButton.addActionListener(new ActionListener() {
 				@Override

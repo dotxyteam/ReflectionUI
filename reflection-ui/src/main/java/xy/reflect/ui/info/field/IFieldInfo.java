@@ -10,7 +10,7 @@ import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 public interface IFieldInfo extends IInfo {
-	IFieldInfo NULL_FIELD_INFO = new IFieldInfo() {
+	public IFieldInfo NULL_FIELD_INFO = new IFieldInfo() {
 
 		@Override
 		public String getName() {
@@ -47,6 +47,11 @@ public interface IFieldInfo extends IInfo {
 		}
 
 		@Override
+		public Object[] getValueOptions(Object object) {
+			return null;
+		}
+
+		@Override
 		public ITypeInfo getType() {
 			return new DefaultTypeInfo(new ReflectionUI(), Object.class);
 		}
@@ -65,6 +70,8 @@ public interface IFieldInfo extends IInfo {
 	ITypeInfo getType();
 
 	Object getValue(Object object);
+
+	Object[] getValueOptions(Object object);
 
 	void setValue(Object object, Object value);
 

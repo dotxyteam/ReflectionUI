@@ -14,7 +14,6 @@ import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -38,11 +37,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeCellRenderer;
-import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import org.jdesktop.swingx.JXTable;
@@ -71,6 +67,7 @@ import xy.reflect.ui.undo.SetListValueModification;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.component.AbstractLazyTreeNode;
 
 @SuppressWarnings("rawtypes")
 public class ListControl extends JSplitPane implements IFieldControl {
@@ -447,8 +444,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 	protected void createMoveButton(JPanel buttonsPanel, final int offset,
 			String label) {
-		final JButton button = new JButton(
-				reflectionUI.prepareUIString(label));
+		final JButton button = new JButton(reflectionUI.prepareUIString(label));
 		buttonsPanel.add(button);
 		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
 			@Override
@@ -868,8 +864,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 	}
 
 	protected void createCopyButton(JPanel buttonsPanel) {
-		final JButton button = new JButton(
-				reflectionUI.prepareUIString("Copy"));
+		final JButton button = new JButton(reflectionUI.prepareUIString("Copy"));
 		buttonsPanel.add(button);
 		button.addActionListener(new ActionListener() {
 			@Override
@@ -892,8 +887,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 	}
 
 	protected void createCutButton(JPanel buttonsPanel) {
-		final JButton button = new JButton(
-				reflectionUI.prepareUIString("Cut"));
+		final JButton button = new JButton(reflectionUI.prepareUIString("Cut"));
 		buttonsPanel.add(button);
 		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
 			@Override
@@ -1060,8 +1054,8 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 	protected void createSpecificActionButton(final IListAction action,
 			JPanel buttonsPanel) {
-		final JButton button = new JButton(
-				reflectionUI.prepareUIString(action.getTitle()));
+		final JButton button = new JButton(reflectionUI.prepareUIString(action
+				.getTitle()));
 		buttonsPanel.add(button);
 		button.addActionListener(new ActionListener() {
 			@Override
@@ -1082,8 +1076,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 	}
 
 	protected void createOpenItemButton(JPanel buttonsPanel) {
-		final JButton button = new JButton(
-				reflectionUI.prepareUIString("Open"));
+		final JButton button = new JButton(reflectionUI.prepareUIString("Open"));
 		buttonsPanel.add(button);
 		button.addActionListener(new ActionListener() {
 			@Override
@@ -1368,7 +1361,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		return true;
 	}
 
-	protected class ItemNode extends DefaultMutableTreeNode {
+	protected class ItemNode extends AbstractLazyTreeNode {
 
 		protected static final long serialVersionUID = 1L;
 		protected IFieldInfo childrenField;
@@ -1382,14 +1375,12 @@ public class ListControl extends JSplitPane implements IFieldControl {
 			setUserObject(currentItemPosition);
 		}
 
-		protected void ensureChildrenAreLoaded() {
-			if (childrenLoaded) {
-				return;
+		@Override
+		protected List<AbstractLazyTreeNode> createChildrenNodes() {
+			if(childrenField == null){
+				return Collections.emptyList();
 			}
-			childrenLoaded = true;
-			if (childrenField == null) {
-				return;
-			}
+			List<AbstractLazyTreeNode> result = new ArrayList<AbstractLazyTreeNode>();
 			AutoUpdatingFieldItemPosition anyChildItemPosition = new AutoUpdatingFieldItemPosition(
 					childrenField, currentItemPosition, -1);
 			AutoUpdatingFieldList list = anyChildItemPosition
@@ -1411,200 +1402,9 @@ public class ListControl extends JSplitPane implements IFieldControl {
 				}
 				ItemNode node = new ItemNode(grandChildrenField,
 						childItemPosition);
-				super.insert(node, i);
+				result.add(node);
 			}
-		}
-
-		@Override
-		public int getIndex(TreeNode aChild) {
-			ensureChildrenAreLoaded();
-			return super.getIndex(aChild);
-		}
-
-		@Override
-		public TreeNode getChildAt(int index) {
-			ensureChildrenAreLoaded();
-			return super.getChildAt(index);
-		}
-
-		@Override
-		public int getChildCount() {
-			ensureChildrenAreLoaded();
-			return super.getChildCount();
-		}
-
-		@Override
-		public void insert(MutableTreeNode newChild, int childIndex) {
-			ensureChildrenAreLoaded();
-			super.insert(newChild, childIndex);
-		}
-
-		@Override
-		public void remove(int childIndex) {
-			ensureChildrenAreLoaded();
-			super.remove(childIndex);
-		}
-
-		@Override
-		public Enumeration children() {
-			ensureChildrenAreLoaded();
-			return super.children();
-		}
-
-		@Override
-		public void remove(MutableTreeNode aChild) {
-			ensureChildrenAreLoaded();
-			super.remove(aChild);
-		}
-
-		@Override
-		public void add(MutableTreeNode newChild) {
-			ensureChildrenAreLoaded();
-			super.add(newChild);
-		}
-
-		@Override
-		public boolean isNodeDescendant(DefaultMutableTreeNode anotherNode) {
-			ensureChildrenAreLoaded();
-			return super.isNodeDescendant(anotherNode);
-		}
-
-		@Override
-		public boolean isNodeRelated(DefaultMutableTreeNode aNode) {
-			ensureChildrenAreLoaded();
-			return super.isNodeRelated(aNode);
-		}
-
-		@Override
-		public int getDepth() {
-			ensureChildrenAreLoaded();
-			return super.getDepth();
-		}
-
-		@Override
-		public DefaultMutableTreeNode getNextNode() {
-			ensureChildrenAreLoaded();
-			return super.getNextNode();
-		}
-
-		@Override
-		public DefaultMutableTreeNode getPreviousNode() {
-			ensureChildrenAreLoaded();
-			return super.getPreviousNode();
-		}
-
-		@Override
-		public Enumeration preorderEnumeration() {
-			ensureChildrenAreLoaded();
-			return super.preorderEnumeration();
-		}
-
-		@Override
-		public Enumeration postorderEnumeration() {
-			ensureChildrenAreLoaded();
-			return super.postorderEnumeration();
-		}
-
-		@Override
-		public Enumeration breadthFirstEnumeration() {
-			ensureChildrenAreLoaded();
-			return super.breadthFirstEnumeration();
-		}
-
-		@Override
-		public Enumeration depthFirstEnumeration() {
-			ensureChildrenAreLoaded();
-			return super.depthFirstEnumeration();
-		}
-
-		@Override
-		public boolean isNodeChild(TreeNode aNode) {
-			ensureChildrenAreLoaded();
-			return super.isNodeChild(aNode);
-		}
-
-		@Override
-		public TreeNode getFirstChild() {
-			ensureChildrenAreLoaded();
-			return super.getFirstChild();
-		}
-
-		@Override
-		public TreeNode getLastChild() {
-			ensureChildrenAreLoaded();
-			return super.getLastChild();
-		}
-
-		@Override
-		public TreeNode getChildAfter(TreeNode aChild) {
-			ensureChildrenAreLoaded();
-			return super.getChildAfter(aChild);
-		}
-
-		@Override
-		public TreeNode getChildBefore(TreeNode aChild) {
-			ensureChildrenAreLoaded();
-			return super.getChildBefore(aChild);
-		}
-
-		@Override
-		public boolean isLeaf() {
-			ensureChildrenAreLoaded();
-			return super.isLeaf();
-		}
-
-		@Override
-		public DefaultMutableTreeNode getFirstLeaf() {
-			ensureChildrenAreLoaded();
-			return super.getFirstLeaf();
-		}
-
-		@Override
-		public DefaultMutableTreeNode getLastLeaf() {
-			ensureChildrenAreLoaded();
-			return super.getLastLeaf();
-		}
-
-		@Override
-		public DefaultMutableTreeNode getNextLeaf() {
-			ensureChildrenAreLoaded();
-			return super.getNextLeaf();
-		}
-
-		@Override
-		public DefaultMutableTreeNode getPreviousLeaf() {
-			ensureChildrenAreLoaded();
-			return super.getPreviousLeaf();
-		}
-
-		@Override
-		public int getLeafCount() {
-			ensureChildrenAreLoaded();
-			return super.getLeafCount();
-		}
-
-		@Override
-		public String toString() {
-			ensureChildrenAreLoaded();
-			return super.toString();
-		}
-
-		@Override
-		public Object clone() {
-			ensureChildrenAreLoaded();
-			return super.clone();
-		}
-
-		@Override
-		public int hashCode() {
-			ensureChildrenAreLoaded();
-			return super.hashCode();
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			ensureChildrenAreLoaded();
-			return super.equals(obj);
+			return result;
 		}
 
 	}
@@ -1841,8 +1641,11 @@ public class ListControl extends JSplitPane implements IFieldControl {
 							hasFocus, row, column);
 			row = treeTableComponent.convertRowIndexToModel(row);
 			TreePath path = treeTableComponent.getPathForRow(row);
-			ItemNode node = (ItemNode) path.getLastPathComponent();
-			customizeComponent(label, node, row, column, isSelected, hasFocus);
+			if (path != null) {
+				ItemNode node = (ItemNode) path.getLastPathComponent();
+				customizeComponent(label, node, row, column, isSelected,
+						hasFocus);
+			}
 			return label;
 		}
 

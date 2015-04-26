@@ -51,6 +51,11 @@ public class PublicFieldInfo implements IFieldInfo {
 	}
 
 	@Override
+	public Object[] getValueOptions(Object object) {
+		return null;
+	}
+
+	@Override
 	public ITypeInfo getType() {
 		if (type == null) {
 			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaField

@@ -950,10 +950,10 @@ public class ReflectionUIUtils {
 				result.add(method);
 				continue;
 			}
-			if(method.getName().equals("validate")){
-				if(method.getReturnType().equals(void.class)){
-					if(method.getParameterTypes().length == 0){
-						if(!Modifier.isStatic(method.getModifiers())){
+			if (method.getName().equals("validate")) {
+				if (method.getReturnType().equals(void.class)) {
+					if (method.getParameterTypes().length == 0) {
+						if (!Modifier.isStatic(method.getModifiers())) {
 							result.add(method);
 							continue;
 						}
@@ -963,8 +963,6 @@ public class ReflectionUIUtils {
 		}
 		return result;
 	}
-	
-
 
 	public static String getWindowTitle(Window window) {
 		if (window instanceof JFrame) {
@@ -985,8 +983,6 @@ public class ReflectionUIUtils {
 			return null;
 		}
 	}
-	
-
 
 	public static void setContentPane(Window window, Container contentPane) {
 		if (window instanceof JFrame) {
@@ -1053,6 +1049,12 @@ public class ReflectionUIUtils {
 									}
 
 									@Override
+									public Object[] getValueOptions(
+											Object object) {
+										return null;
+									}
+
+									@Override
 									public ITypeInfo getType() {
 										return valueTypeInfo;
 									}
@@ -1111,6 +1113,10 @@ public class ReflectionUIUtils {
 				return c1.compareTo(c2);
 			}
 		}
+	}
+
+	public static StackTraceElement[] createDebugTrace() {
+		return new Exception().getStackTrace();
 	}
 
 }

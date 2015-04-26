@@ -57,6 +57,11 @@ public class MultiSubListField implements IFieldInfo {
 	}
 
 	@Override
+	public Object[] getValueOptions(Object object) {
+		return null;
+	}
+
+	@Override
 	public boolean isReadOnly() {
 		return true;
 	}
@@ -85,7 +90,7 @@ public class MultiSubListField implements IFieldInfo {
 	public String getName() {
 		StringBuilder result = new StringBuilder(
 				MultiSubListField.class.getSimpleName());
-		result.append(MultiSubListField.class.getSimpleName()+"(");
+		result.append(MultiSubListField.class.getSimpleName() + "(");
 		int i = 0;
 		for (IFieldInfo field : listFieldInfos) {
 			if (i > 0) {

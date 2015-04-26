@@ -60,6 +60,14 @@ public class SubFieldInfo implements IFieldInfo {
 		return theSubField.getValue(fieldValue);
 	}
 
+	public Object[] getValueOptions(Object object) {
+		Object fieldValue = field.getValue(object);
+		if (fieldValue == null) {
+			return null;
+		}
+		return theSubField.getValueOptions(fieldValue);
+	}
+
 	public void setValue(Object object, Object value) {
 		Object fieldValue = field.getValue(object);
 		if (fieldValue == null) {

@@ -7,8 +7,12 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.IModification;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MethodInfoProxy implements IMethodInfo {
+
+	protected StackTraceElement[] instanciationTrace = ReflectionUIUtils
+			.createDebugTrace();
 
 	protected IMethodInfo base;
 

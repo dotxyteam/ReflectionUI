@@ -1,7 +1,6 @@
 package xy.reflect.ui.info.type;
 
 import java.awt.Component;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -23,8 +22,8 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements
 	}
 
 	@Override
-	public List<?> getPossibleValues(Object object) {
-		return Arrays.asList(javaType.getEnumConstants());
+	public Object[] getPossibleValues() {
+		return javaType.getEnumConstants();
 	}
 
 	@Override

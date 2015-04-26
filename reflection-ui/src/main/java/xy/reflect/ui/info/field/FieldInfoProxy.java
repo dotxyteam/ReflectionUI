@@ -4,8 +4,12 @@ import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class FieldInfoProxy implements IFieldInfo {
+
+	protected StackTraceElement[] instanciationTrace = ReflectionUIUtils
+			.createDebugTrace();
 
 	protected IFieldInfo base;
 
@@ -16,6 +20,11 @@ public class FieldInfoProxy implements IFieldInfo {
 	@Override
 	public Object getValue(Object object) {
 		return base.getValue(object);
+	}
+
+	@Override
+	public Object[] getValueOptions(Object object) {
+		return base.getValueOptions(object);
 	}
 
 	@Override

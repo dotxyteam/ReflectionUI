@@ -53,7 +53,12 @@ public class NullControl extends TextControl {
 			public Object getValue(Object object) {
 				return "";
 			}
+			@Override
+			public Object[] getValueOptions(Object object) {
+				return null;
+			}
 
+			
 			@Override
 			public ITypeInfo getType() {
 				return new DefaultTextualTypeInfo(reflectionUI, String.class);

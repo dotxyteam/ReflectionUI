@@ -3,6 +3,7 @@ package xy.reflect.ui.info.field;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -13,6 +14,7 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.IBooleanTypeInfo;
+import xy.reflect.ui.info.type.IListTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -49,6 +51,15 @@ public class GetterFieldInfo implements IFieldInfo {
 		return new DefaultMethodInfo(reflectionUI, javaSetterMethod);
 	}
 
+	protected IMethodInfo getValueOptionsMethodInfo() {
+		Method javaValueOptionsMethod = GetterFieldInfo.getValueOptionsMethod(
+				javaGetterMethod, containingJavaClass);
+		if (javaValueOptionsMethod == null) {
+			return null;
+		}
+		return new DefaultMethodInfo(reflectionUI, javaValueOptionsMethod);
+	}
+
 	@Override
 	public ITypeInfo getType() {
 		if (type == null) {
@@ -74,6 +85,22 @@ public class GetterFieldInfo implements IFieldInfo {
 	public Object getValue(Object object) {
 		return getGetterMethodInfo().invoke(object,
 				Collections.<Integer, Object> emptyMap());
+	}
+
+	@Override
+	public Object[] getValueOptions(Object object) {
+		IMethodInfo valueOptionsMethod = getValueOptionsMethodInfo();
+		if (valueOptionsMethod == null) {
+			return null;
+		}
+		IListTypeInfo optionListType = (IListTypeInfo) valueOptionsMethod
+				.getReturnValueType();
+		Object options = valueOptionsMethod.invoke(object,
+				Collections.<Integer, Object> emptyMap());
+		if (options == null) {
+			return null;
+		}
+		return optionListType.toListValue(options);
 	}
 
 	@Override
@@ -159,6 +186,30 @@ public class GetterFieldInfo implements IFieldInfo {
 		return result;
 	}
 
+	public static Method getValueOptionsMethod(Method javaGetterMethod,
+			Class<?> containingJavaClass) {
+		String optionsMethodName = javaGetterMethod.getName() + "Options";
+		Method result;
+		try {
+			result = containingJavaClass.getMethod(optionsMethodName);
+		} catch (NoSuchMethodException e) {
+			return null;
+		} catch (SecurityException e) {
+			throw new ReflectionUIError(e);
+		}
+		if (!ReflectionUIUtils.equalsOrBothNull(
+				ReflectionUIUtils.getAnnotatedInfoCategory(javaGetterMethod),
+				ReflectionUIUtils.getAnnotatedInfoCategory(result))) {
+			return null;
+		}
+		if (!result.getReturnType().isArray()) {
+			if (!Collection.class.isAssignableFrom(result.getReturnType())) {
+				return null;
+			}
+		}
+		return result;
+	}
+
 	public static boolean isCompatibleWith(Method javaMethod,
 			Class<?> containingJavaClass) {
 		if (GetterFieldInfo.getFieldName(javaMethod.getName()) == null) {
@@ -179,10 +230,17 @@ public class GetterFieldInfo implements IFieldInfo {
 		if (javaMethod.getExceptionTypes().length > 0) {
 			return false;
 		}
-		if (ReflectionUIUtils
-				.getValidatingMethods(containingJavaClass).contains(
-						javaMethod)) {
+		if (ReflectionUIUtils.getValidatingMethods(containingJavaClass)
+				.contains(javaMethod)) {
 			return false;
+		}
+		for (Method otherJavaMethod : containingJavaClass.getMethods()) {
+			if (!otherJavaMethod.equals(javaMethod)) {
+				if (javaMethod.equals(GetterFieldInfo.getValueOptionsMethod(
+						otherJavaMethod, containingJavaClass))) {
+					return false;
+				}
+			}
 		}
 		return true;
 	}

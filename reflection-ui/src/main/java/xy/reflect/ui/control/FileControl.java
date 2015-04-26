@@ -64,6 +64,11 @@ public class FileControl extends DialogAccessControl {
 			}
 
 			@Override
+			public Object[] getValueOptions(Object object) {
+				return null;
+			}
+
+			@Override
 			public ITypeInfo getType() {
 				return new DefaultTextualTypeInfo(reflectionUI, String.class);
 			}
@@ -98,7 +103,7 @@ public class FileControl extends DialogAccessControl {
 	protected void openDialog() {
 		final JFileChooser fileChooser = new JFileChooser();
 		File currentFile = (File) field.getValue(object);
-		if(lastDirectory != null){
+		if (lastDirectory != null) {
 			fileChooser.setCurrentDirectory(lastDirectory);
 		}
 		fileType.configureFileChooser(fileChooser, currentFile);

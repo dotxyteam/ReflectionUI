@@ -45,8 +45,7 @@ public class EnumerationControl extends JPanel {
 		add(comboBox, BorderLayout.CENTER);
 
 		Object initialValue = field.getValue(object);
-		comboBox.setModel(new DefaultComboBoxModel(enumType.getPossibleValues(object)
-				.toArray()));
+		comboBox.setModel(new DefaultComboBoxModel(enumType.getPossibleValues()));
 		if (field.isReadOnly()) {
 			comboBox.setEnabled(false);
 		} else {

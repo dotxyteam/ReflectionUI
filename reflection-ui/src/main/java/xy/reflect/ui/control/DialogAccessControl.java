@@ -130,6 +130,11 @@ public class DialogAccessControl extends JPanel {
 			}
 
 			@Override
+			public Object[] getValueOptions(Object object) {
+				return null;
+			}
+
+			@Override
 			public ITypeInfo getType() {
 				return new DefaultTextualTypeInfo(reflectionUI, String.class);
 			}

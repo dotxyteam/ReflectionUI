@@ -4,8 +4,12 @@ import java.util.Collections;
 import java.util.Map;
 
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class ParameterInfoProxy implements IParameterInfo {
+
+	protected StackTraceElement[] instanciationTrace = ReflectionUIUtils
+			.createDebugTrace();
 
 	protected IParameterInfo base;
 

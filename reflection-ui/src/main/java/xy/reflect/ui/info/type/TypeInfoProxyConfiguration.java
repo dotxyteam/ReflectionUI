@@ -16,6 +16,7 @@ import xy.reflect.ui.info.type.IListTypeInfo.ItemPosition;
 import xy.reflect.ui.info.type.IListTypeInfo.IListAction;
 import xy.reflect.ui.info.type.IListTypeInfo.IListStructuralInfo;
 import xy.reflect.ui.undo.IModification;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class TypeInfoProxyConfiguration {
 
@@ -81,6 +82,11 @@ public class TypeInfoProxyConfiguration {
 		return field.getValue(object);
 	}
 
+	protected Object[] getValueOptions(Object object, IFieldInfo field,
+			ITypeInfo containingType) {
+		return field.getValueOptions(object);
+	}
+
 	protected boolean isNullable(IFieldInfo field, ITypeInfo containingType) {
 		return field.isNullable();
 	}
@@ -143,8 +149,8 @@ public class TypeInfoProxyConfiguration {
 		return method.getName();
 	}
 
-	protected List<?> getPossibleValues(IEnumerationTypeInfo type, Object object) {
-		return type.getPossibleValues(object);
+	protected Object[] getPossibleValues(IEnumerationTypeInfo type) {
+		return type.getPossibleValues();
 	}
 
 	protected Object fromListValue(IListTypeInfo type, Object[] listValue) {
@@ -379,11 +385,16 @@ public class TypeInfoProxyConfiguration {
 		return method.getUndoModification(object, valueByParameterPosition);
 	}
 
-	protected String formatEnumerationItem(Object object, IEnumerationTypeInfo type) {
+	protected String formatEnumerationItem(Object object,
+			IEnumerationTypeInfo type) {
 		return type.formatEnumerationItem(object);
 	}
 
 	private class BasicTypeInfoProxy implements ITypeInfo {
+
+		@SuppressWarnings("unused")
+		protected StackTraceElement[] instanciationTrace = ReflectionUIUtils
+				.createDebugTrace();
 
 		protected ITypeInfo type;
 
@@ -403,7 +414,8 @@ public class TypeInfoProxyConfiguration {
 
 		@Override
 		public boolean supportsInstance(Object object) {
-			return TypeInfoProxyConfiguration.this.supportsInstance(type, object);
+			return TypeInfoProxyConfiguration.this.supportsInstance(type,
+					object);
 		}
 
 		@Override
@@ -549,15 +561,15 @@ public class TypeInfoProxyConfiguration {
 		}
 
 		@Override
-		public List<?> getPossibleValues(Object object) {
+		public Object[] getPossibleValues() {
 			return TypeInfoProxyConfiguration.this
-					.getPossibleValues((IEnumerationTypeInfo) type, object);
+					.getPossibleValues((IEnumerationTypeInfo) type);
 		}
 
 		@Override
 		public String formatEnumerationItem(Object object) {
-			return TypeInfoProxyConfiguration.this.formatEnumerationItem(object,
-					(IEnumerationTypeInfo) type);
+			return TypeInfoProxyConfiguration.this.formatEnumerationItem(
+					object, (IEnumerationTypeInfo) type);
 		}
 
 	}
@@ -626,6 +638,10 @@ public class TypeInfoProxyConfiguration {
 
 	private class FileTypeInfoProxy extends FileTypeInfo {
 
+		@SuppressWarnings("unused")
+		protected StackTraceElement[] instanciationTrace = ReflectionUIUtils
+				.createDebugTrace();
+
 		protected FileTypeInfo type;
 
 		public FileTypeInfoProxy(FileTypeInfo type) {
@@ -669,7 +685,8 @@ public class TypeInfoProxyConfiguration {
 
 		@Override
 		public boolean supportsInstance(Object object) {
-			return TypeInfoProxyConfiguration.this.supportsInstance(type, object);
+			return TypeInfoProxyConfiguration.this.supportsInstance(type,
+					object);
 		}
 
 		@Override
@@ -748,6 +765,10 @@ public class TypeInfoProxyConfiguration {
 
 	private class FieldInfoProxy implements IFieldInfo {
 
+		@SuppressWarnings("unused")
+		protected StackTraceElement[] instanciationTrace = new Exception()
+				.getStackTrace();
+
 		protected IFieldInfo field;
 		protected ITypeInfo containingType;
 
@@ -790,6 +811,12 @@ public class TypeInfoProxyConfiguration {
 		public Object getValue(Object object) {
 			return TypeInfoProxyConfiguration.this.getValue(object, field,
 					containingType);
+		}
+
+		@Override
+		public Object[] getValueOptions(Object object) {
+			return TypeInfoProxyConfiguration.this.getValueOptions(object,
+					field, containingType);
 		}
 
 		@Override
@@ -847,6 +874,10 @@ public class TypeInfoProxyConfiguration {
 	}
 
 	private class MethodInfoProxy implements IMethodInfo {
+
+		@SuppressWarnings("unused")
+		protected StackTraceElement[] instanciationTrace = ReflectionUIUtils
+				.createDebugTrace();
 
 		protected IMethodInfo method;
 		protected ITypeInfo containingType;
@@ -956,6 +987,10 @@ public class TypeInfoProxyConfiguration {
 	}
 
 	private class ParameterInfoProxy implements IParameterInfo {
+
+		@SuppressWarnings("unused")
+		protected StackTraceElement[] instanciationTrace = ReflectionUIUtils
+				.createDebugTrace();
 
 		protected IParameterInfo param;
 		protected IMethodInfo method;

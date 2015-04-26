@@ -7,7 +7,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -117,134 +116,9 @@ public class DefaultTypeInfo implements ITypeInfo {
 				}
 				fields.add(getterFieldInfo);
 			}
-			fields = mergeCoEnumerationFields(fields);
 			sortFields(fields);
 		}
 		return fields;
-	}
-
-	protected List<IFieldInfo> mergeCoEnumerationFields(List<IFieldInfo> fields) {
-		List<IFieldInfo> result = new ArrayList<IFieldInfo>(fields);
-		for (final IFieldInfo field : fields) {
-			System.out.println();
-			final IFieldInfo enumValuesField = ReflectionUIUtils.findInfoByName(
-					fields, field.getName() + "Enumeration");
-			if (enumValuesField != null) {
-				if (enumValuesField.getType() instanceof IListTypeInfo) {
-					final IListTypeInfo enumFieldListType = (IListTypeInfo) enumValuesField
-							.getType();
-					result.remove(field);
-					result.remove(enumValuesField);
-					result.add(new FieldInfoProxy(field) {
-						ITypeInfo initialType = field.getType();
-						FieldInfoProxy thisFieldProxy = this;
-
-						@Override
-						public ITypeInfo getType() {
-							return new IEnumerationTypeInfo() {
-
-								@Override
-								public Map<String, Object> getSpecificProperties() {
-									return initialType.getSpecificProperties();
-								}
-
-								@Override
-								public String getName() {
-									return initialType.getName();
-								}
-
-								@Override
-								public String getDocumentation() {
-									return initialType.getDocumentation();
-								}
-
-								@Override
-								public String getCaption() {
-									return initialType.getCaption();
-								}
-
-								@Override
-								public void validate(Object object)
-										throws Exception {
-									initialType.validate(object);
-								}
-
-								@Override
-								public String toString(Object object) {
-									return initialType.toString(object);
-								}
-
-								@Override
-								public boolean supportsInstance(Object object) {
-									return initialType.supportsInstance(object);
-								}
-
-								@Override
-								public boolean isImmutable() {
-									return initialType.isImmutable();
-								}
-
-								@Override
-								public boolean isConcrete() {
-									return initialType.isConcrete();
-								}
-
-								@Override
-								public boolean hasCustomFieldControl() {
-									return true;
-								}
-
-								@Override
-								public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
-									return initialType
-											.getPolymorphicInstanceSubTypes();
-								}
-
-								@Override
-								public List<IMethodInfo> getMethods() {
-									return initialType.getMethods();
-								}
-
-								@Override
-								public List<IFieldInfo> getFields() {
-									return initialType.getFields();
-								}
-
-								@Override
-								public List<IMethodInfo> getConstructors() {
-									return initialType.getConstructors();
-								}
-
-								@Override
-								public Component createFieldControl(
-										Object object, IFieldInfo field) {
-									return new EnumerationControl(reflectionUI,
-											object, thisFieldProxy);
-								}
-
-								@Override
-								public List<?> getPossibleValues(Object object) {
-									Object enumFieldValue = enumValuesField
-											.getValue(object);
-									if (enumFieldValue == null) {
-										return Collections.emptyList();
-									}
-									return Arrays.asList(enumFieldListType
-											.toListValue(enumFieldValue));
-								}
-
-								@Override
-								public String formatEnumerationItem(
-										Object object) {
-									return reflectionUI.toString(object);
-								}
-							};
-						}
-					});
-				}
-			}
-		}
-		return result;
 	}
 
 	protected void sortFields(List<IFieldInfo> list) {
@@ -357,15 +231,113 @@ public class DefaultTypeInfo implements ITypeInfo {
 
 	@Override
 	public Component createFieldControl(Object object, IFieldInfo field) {
-		if (field.getType().getPolymorphicInstanceSubTypes() != null) {
+		if (field.getValueOptions(object) != null) {
+			return createOptionsControl(object, field);
+		} else if (field.getType().getPolymorphicInstanceSubTypes() != null) {
 			return new PolymorphicEmbeddedForm(reflectionUI, object, field);
+		} else if (field.isNullable()) {
+			return new NullableControl(reflectionUI, object, field, this);
 		} else {
-			if (field.isNullable()) {
-				return new NullableControl(reflectionUI, object, field, this);
-			} else {
-				return createNonNullFieldValueControl(object, field);
-			}
+			return createNonNullFieldValueControl(object, field);
 		}
+	}
+
+	protected Component createOptionsControl(final Object object, final IFieldInfo field) {
+		return new EnumerationControl(reflectionUI, object, new FieldInfoProxy(field){
+
+			@Override
+			public ITypeInfo getType() {
+				final ITypeInfo baseType = field.getType();
+				return new IEnumerationTypeInfo() {
+					
+					@Override
+					public Map<String, Object> getSpecificProperties() {
+						return Collections.emptyMap();
+					}
+					
+					@Override
+					public String getName() {
+						return "";
+					}
+					
+					@Override
+					public String getDocumentation() {
+						return null;
+					}
+					
+					@Override
+					public String getCaption() {
+						return "";
+					}
+					
+					@Override
+					public void validate(Object object) throws Exception {
+						baseType.validate(object);
+					}
+					
+					@Override
+					public String toString(Object object) {
+						return baseType.toString(object);
+					}
+					
+					@Override
+					public boolean supportsInstance(Object object) {
+						return baseType.supportsInstance(object);
+					}
+					
+					@Override
+					public boolean isImmutable() {
+						return baseType.isImmutable();
+					}
+					
+					@Override
+					public boolean isConcrete() {
+						return baseType.isConcrete();
+					}
+					
+					@Override
+					public boolean hasCustomFieldControl() {
+						return true;
+					}
+					
+					@Override
+					public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
+						return null;
+					}
+					
+					@Override
+					public List<IMethodInfo> getMethods() {
+						return Collections.emptyList();
+					}
+					
+					@Override
+					public List<IFieldInfo> getFields() {
+						return Collections.emptyList();
+					}
+					
+					@Override
+					public List<IMethodInfo> getConstructors() {
+						return Collections.emptyList();
+					}
+					
+					@Override
+					public Component createFieldControl(Object object, IFieldInfo field) {
+						throw new ReflectionUIError();
+					}
+					
+					@Override
+					public Object[] getPossibleValues() {
+						return field.getValueOptions(object);
+					}
+					
+					@Override
+					public String formatEnumerationItem(Object object) {
+						return baseType.toString(object);
+					}
+				};
+			}
+			
+		});
 	}
 
 	public Component createNonNullFieldValueControl(Object object,

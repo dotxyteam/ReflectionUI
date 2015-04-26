@@ -109,6 +109,11 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 			}
 
 			@Override
+			public Object[] getValueOptions(Object object) {
+				return null;
+			}
+
+			@Override
 			public ITypeInfo getType() {
 				return param.getType();
 			}

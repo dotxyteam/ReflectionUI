@@ -166,12 +166,16 @@ public class DefaultMethodInfo implements IMethodInfo {
 							otherJavaMethod, containingJavaClass))) {
 						return false;
 					}
+					if (javaMethod.equals(GetterFieldInfo
+							.getValueOptionsMethod(otherJavaMethod,
+									containingJavaClass))) {
+						return false;
+					}
 				}
 			}
 		}
-		if (ReflectionUIUtils
-				.getValidatingMethods(containingJavaClass).contains(
-						javaMethod)) {
+		if (ReflectionUIUtils.getValidatingMethods(containingJavaClass)
+				.contains(javaMethod)) {
 			return false;
 		}
 		if (ReflectionUIUtils.isJavaClassMainMethod(javaMethod)) {
