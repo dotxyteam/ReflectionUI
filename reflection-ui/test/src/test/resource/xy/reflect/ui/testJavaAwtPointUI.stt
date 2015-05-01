@@ -7,7 +7,7 @@
     </xy.ui.testing.action.CallMainMethodAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>javax.swing.plaf.basic.BasicOptionPaneUI$MultiplexingTextField</className>
+        <componentClassName>javax.swing.plaf.basic.BasicOptionPaneUI$MultiplexingTextField</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
@@ -21,7 +21,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>javax.swing.JButton</className>
+        <componentClassName>javax.swing.JButton</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
@@ -30,7 +30,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>javax.swing.JButton</className>
+        <componentClassName>javax.swing.JButton</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
@@ -85,7 +85,7 @@
     </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>javax.swing.JTextArea</className>
+        <componentClassName>javax.swing.JTextArea</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
@@ -103,7 +103,7 @@
     </xy.ui.testing.action.component.SendKeysAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>javax.swing.JTextArea</className>
+        <componentClassName>javax.swing.JTextArea</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
@@ -116,7 +116,7 @@
     </xy.ui.testing.action.component.SendKeysAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>javax.swing.JTextArea</className>
+        <componentClassName>javax.swing.JTextArea</componentClassName>
         <occurrencesToSkip>1</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
@@ -134,7 +134,7 @@
     </xy.ui.testing.action.component.SendKeysAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>javax.swing.JTextArea</className>
+        <componentClassName>javax.swing.JTextArea</componentClassName>
         <occurrencesToSkip>1</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
@@ -195,7 +195,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>javax.swing.JCheckBox</className>
+        <componentClassName>javax.swing.JCheckBox</componentClassName>
         <occurrencesToSkip>1</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
@@ -215,7 +215,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>javax.swing.JButton</className>
+        <componentClassName>javax.swing.JButton</componentClassName>
         <occurrencesToSkip>1</occurrencesToSkip>
         <windowIndex>1</windowIndex>
       </componentFinder>
@@ -224,7 +224,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>javax.swing.JButton</className>
+        <componentClassName>javax.swing.JButton</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
@@ -264,7 +264,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>xy.reflect.ui.control.MethodControl</className>
+        <componentClassName>xy.reflect.ui.control.MethodControl</componentClassName>
         <occurrencesToSkip>5</occurrencesToSkip>
         <windowIndex>1</windowIndex>
       </componentFinder>
@@ -272,7 +272,7 @@
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>javax.swing.JTextArea</className>
+        <componentClassName>javax.swing.JTextArea</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>2</windowIndex>
       </componentFinder>
@@ -293,7 +293,7 @@
     </xy.ui.testing.action.component.SendKeysAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>javax.swing.JTextArea</className>
+        <componentClassName>javax.swing.JTextArea</componentClassName>
         <occurrencesToSkip>1</occurrencesToSkip>
         <windowIndex>2</windowIndex>
       </componentFinder>
@@ -329,7 +329,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>javax.swing.JButton</className>
+        <componentClassName>javax.swing.JButton</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>2</windowIndex>
       </componentFinder>
@@ -338,7 +338,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>javax.swing.JButton</className>
+        <componentClassName>javax.swing.JButton</componentClassName>
         <occurrencesToSkip>1</occurrencesToSkip>
         <windowIndex>1</windowIndex>
       </componentFinder>
@@ -394,7 +394,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>xy.reflect.ui.undo.ModificationStack$12</className>
+        <componentClassName>xy.reflect.ui.undo.ModificationStack$12</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
@@ -450,7 +450,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>xy.reflect.ui.undo.ModificationStack$12</className>
+        <componentClassName>xy.reflect.ui.undo.ModificationStack$12</componentClassName>
         <occurrencesToSkip>2</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
@@ -506,7 +506,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>xy.reflect.ui.undo.ModificationStack$12</className>
+        <componentClassName>xy.reflect.ui.undo.ModificationStack$12</componentClassName>
         <occurrencesToSkip>1</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
@@ -515,7 +515,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>xy.reflect.ui.undo.ModificationStack$12</className>
+        <componentClassName>xy.reflect.ui.undo.ModificationStack$12</componentClassName>
         <occurrencesToSkip>1</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
@@ -524,7 +524,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>xy.reflect.ui.undo.ModificationStack$12</className>
+        <componentClassName>xy.reflect.ui.undo.ModificationStack$12</componentClassName>
         <occurrencesToSkip>1</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>

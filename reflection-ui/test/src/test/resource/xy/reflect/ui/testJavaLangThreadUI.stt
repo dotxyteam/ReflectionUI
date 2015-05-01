@@ -7,7 +7,7 @@
     </xy.ui.testing.action.CallMainMethodAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>javax.swing.plaf.basic.BasicOptionPaneUI$MultiplexingTextField</className>
+        <componentClassName>javax.swing.plaf.basic.BasicOptionPaneUI$MultiplexingTextField</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
@@ -105,7 +105,7 @@
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>javax.swing.JTextArea</className>
+        <componentClassName>javax.swing.JTextArea</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>

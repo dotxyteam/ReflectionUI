@@ -46,7 +46,7 @@
     </xy.ui.testing.action.component.SendKeysAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>javax.swing.JTextArea</className>
+        <componentClassName>javax.swing.JTextArea</componentClassName>
         <occurrencesToSkip>3</occurrencesToSkip>
         <windowIndex>1</windowIndex>
       </componentFinder>
@@ -123,7 +123,7 @@
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.combobox.SelectComboBoxItemAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>javax.swing.JComboBox</className>
+        <componentClassName>javax.swing.JComboBox</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>1</windowIndex>
       </componentFinder>
@@ -145,7 +145,7 @@
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>javax.swing.JTextArea</className>
+        <componentClassName>javax.swing.JTextArea</componentClassName>
         <occurrencesToSkip>2</occurrencesToSkip>
         <windowIndex>1</windowIndex>
       </componentFinder>
@@ -206,7 +206,7 @@
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.combobox.SelectComboBoxItemAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>javax.swing.JComboBox</className>
+        <componentClassName>javax.swing.JComboBox</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>1</windowIndex>
       </componentFinder>
@@ -228,7 +228,7 @@
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>javax.swing.JTextArea</className>
+        <componentClassName>javax.swing.JTextArea</componentClassName>
         <occurrencesToSkip>3</occurrencesToSkip>
         <windowIndex>1</windowIndex>
       </componentFinder>
@@ -282,7 +282,7 @@
     <xy.ui.testing.action.component.table.SelectTableRowAction>
       <addedToExistingSelection>false</addedToExistingSelection>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>org.jdesktop.swingx.JXTreeTable</className>
+        <componentClassName>org.jdesktop.swingx.JXTreeTable</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
@@ -300,7 +300,7 @@
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.combobox.SelectComboBoxItemAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>javax.swing.JComboBox</className>
+        <componentClassName>javax.swing.JComboBox</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>1</windowIndex>
       </componentFinder>
@@ -322,7 +322,7 @@
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>javax.swing.JTextArea</className>
+        <componentClassName>javax.swing.JTextArea</componentClassName>
         <occurrencesToSkip>2</occurrencesToSkip>
         <windowIndex>1</windowIndex>
       </componentFinder>
@@ -344,7 +344,7 @@
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.treetable.ExpandTreetTableToItemAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>org.jdesktop.swingx.JXTreeTable</className>
+        <componentClassName>org.jdesktop.swingx.JXTreeTable</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
@@ -356,7 +356,7 @@
     <xy.ui.testing.action.component.table.SelectTableRowAction>
       <addedToExistingSelection>false</addedToExistingSelection>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <className>org.jdesktop.swingx.JXTreeTable</className>
+        <componentClassName>org.jdesktop.swingx.JXTreeTable</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
