@@ -1,4 +1,4 @@
-package xy.reflect.ui.info.type.list;
+package xy.reflect.ui.info.type.iterable.util.structure;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,8 +13,9 @@ import xy.reflect.ui.info.field.MultiSubListField.MultiSubListVirtualParent;
 import xy.reflect.ui.info.field.MultiSubListField.MultiSubListVirtualParentType;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.list.IListTypeInfo.IListStructuralInfo;
-import xy.reflect.ui.info.type.list.IListTypeInfo.ItemPosition;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.iterable.map.IMapEntryTypeInfo;
+import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public abstract class AbstractTreeDetectionListStructuralInfo implements
@@ -79,40 +80,16 @@ public abstract class AbstractTreeDetectionListStructuralInfo implements
 		Object item = itemPosition.getItem();
 		ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI
 				.getTypeInfoSource(item));
-		if (actualItemType instanceof IMapEntryTypeInfo) {
-			IMapEntryTypeInfo entryType = (IMapEntryTypeInfo) actualItemType;
-			IFieldInfo entryValueField = entryType.getValueField();
-			ITypeInfo entryValueType = entryValueField.getType();
-			if (entryValueType instanceof IListTypeInfo) {
-				ITypeInfo entryValuListItemType = ((IListTypeInfo) entryValueType)
+		List<IFieldInfo> itemFields = actualItemType.getFields();
+		for (IFieldInfo field : itemFields) {
+			ITypeInfo fieldType = field.getType();
+			if (fieldType instanceof IListTypeInfo) {
+				ITypeInfo subListItemType = ((IListTypeInfo) fieldType)
 						.getItemType();
-				if (isValidTreeNodeItemType(entryValuListItemType)) {
-					result.add(entryValueField);
-				}
-			}
-		} else {
-			List<IFieldInfo> itemFields = actualItemType.getFields();
-			for (IFieldInfo field : itemFields) {
-				ITypeInfo fieldType = field.getType();
-				if (fieldType instanceof IListTypeInfo) {
-					ITypeInfo subListItemType = ((IListTypeInfo) fieldType)
-							.getItemType();
-					if (subListItemType instanceof IMapEntryTypeInfo) {
-						IMapEntryTypeInfo entryType = (IMapEntryTypeInfo) subListItemType;
-						ITypeInfo entryValueType = entryType.getValueField()
-								.getType();
-						if (entryValueType instanceof IListTypeInfo) {
-							ITypeInfo entryValuListItemType = ((IListTypeInfo) entryValueType)
-									.getItemType();
-							if (isValidTreeNodeItemType(entryValuListItemType)) {
-								result.add(field);
-							}
-						}
-					} else if (item instanceof MultiSubListVirtualParent) {
-						result.add(field);
-					} else if (isValidTreeNodeItemType(subListItemType)) {
-						result.add(field);
-					}
+				if (item instanceof MultiSubListVirtualParent) {
+					result.add(field);
+				} else if (isValidTreeNodeItemType(subListItemType)) {
+					result.add(field);
 				}
 			}
 		}
@@ -120,7 +97,21 @@ public abstract class AbstractTreeDetectionListStructuralInfo implements
 	}
 
 	protected boolean isValidTreeNodeItemType(ITypeInfo type) {
-		return ReflectionUIUtils.equalsOrBothNull(rootItemType, type);
+		if (ReflectionUIUtils.equalsOrBothNull(rootItemType, type)) {
+			return true;
+		}
+		if (type instanceof IMapEntryTypeInfo) {
+			IMapEntryTypeInfo entryType = (IMapEntryTypeInfo) type;
+			ITypeInfo entryValueType = entryType.getValueField().getType();
+			if (entryValueType instanceof IListTypeInfo) {
+				ITypeInfo entryValuListItemType = ((IListTypeInfo) entryValueType)
+						.getItemType();
+				if (isValidTreeNodeItemType(entryValuListItemType)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	@Override

@@ -26,12 +26,12 @@ public class MethodControl extends JButton {
 					+ ReflectionUIUtils.formatParameterList(method
 							.getParameters());
 		}
-		if ((method.getDocumentation() != null)
-				&& (method.getDocumentation().trim().length() > 0)) {
+		if ((method.getOnlineHelp() != null)
+				&& (method.getOnlineHelp().trim().length() > 0)) {
 			if (toolTipText.length() > 0) {
 				toolTipText += ":\n";
 			}
-			toolTipText += method.getDocumentation();
+			toolTipText += method.getOnlineHelp();
 		}
 		if (toolTipText.length() > 0) {
 			ReflectionUIUtils.setMultilineToolTipText(this,

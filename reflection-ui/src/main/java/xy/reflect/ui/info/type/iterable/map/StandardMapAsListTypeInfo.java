@@ -1,4 +1,4 @@
-package xy.reflect.ui.info.type.list;
+package xy.reflect.ui.info.type.iterable.map;
 
 import java.awt.Component;
 import java.util.ArrayList;
@@ -17,6 +17,11 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.iterable.util.IListAction;
+import xy.reflect.ui.info.type.iterable.util.ItemPosition;
+import xy.reflect.ui.info.type.iterable.util.structure.DefaultListStructuralInfo;
+import xy.reflect.ui.info.type.iterable.util.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -179,9 +184,6 @@ public class StandardMapAsListTypeInfo extends DefaultTypeInfo implements
 		protected K key;
 		protected V value;
 
-		public StandardMapEntry() {
-		}
-
 		public StandardMapEntry(K key, V value) {
 			super();
 			this.key = key;
@@ -268,10 +270,14 @@ public class StandardMapAsListTypeInfo extends DefaultTypeInfo implements
 					@Override
 					public ITypeInfo getType() {
 						if (keyJavaType == null) {
-							return null;
+							return reflectionUI
+									.getTypeInfo(new JavaTypeInfoSource(
+											Object.class));
+						} else {
+							return reflectionUI
+									.getTypeInfo(new JavaTypeInfoSource(
+											keyJavaType));
 						}
-						return reflectionUI.getTypeInfo(new JavaTypeInfoSource(
-								keyJavaType));
 					}
 				};
 			} catch (SecurityException e) {
@@ -290,10 +296,14 @@ public class StandardMapAsListTypeInfo extends DefaultTypeInfo implements
 					@Override
 					public ITypeInfo getType() {
 						if (valueJavaType == null) {
-							return null;
+							return reflectionUI
+									.getTypeInfo(new JavaTypeInfoSource(
+											Object.class));
+						} else {
+							return reflectionUI
+									.getTypeInfo(new JavaTypeInfoSource(
+											valueJavaType));
 						}
-						return reflectionUI.getTypeInfo(new JavaTypeInfoSource(
-								valueJavaType));
 					}
 				};
 			} catch (SecurityException e) {
@@ -317,11 +327,39 @@ public class StandardMapAsListTypeInfo extends DefaultTypeInfo implements
 					.<IMethodInfo> singletonList(new AbstractConstructorMethodInfo(
 							StandardMapEntryTypeInfo.this) {
 
-						@SuppressWarnings("rawtypes")
+						@SuppressWarnings({ "rawtypes", "unchecked" })
 						@Override
 						public Object invoke(Object object,
 								Map<Integer, Object> valueByParameterPosition) {
-							return new StandardMapEntry();
+							StandardMapEntry result = new StandardMapEntry(
+									null, null);
+							Object key = null;
+							{
+								IFieldInfo keyField = getKeyField();
+								try {
+									key = reflectionUI
+											.onTypeInstanciationRequest(null,
+													keyField.getType(), true);
+								} catch (Throwable ignore) {
+								}
+								if (key != null) {
+									keyField.setValue(result, key);
+								}
+							}
+							Object value = null;
+							{
+								IFieldInfo valueField = getValueField();
+								try {
+									value = reflectionUI
+											.onTypeInstanciationRequest(null,
+													valueField.getType(), true);
+								} catch (Throwable ignore) {
+								}
+								if (value != null) {
+									valueField.setValue(result, value);
+								}
+							}
+							return result;
 						}
 
 						@Override

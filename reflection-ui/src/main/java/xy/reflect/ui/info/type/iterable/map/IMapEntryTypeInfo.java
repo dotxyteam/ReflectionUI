@@ -1,4 +1,4 @@
-package xy.reflect.ui.info.type.list;
+package xy.reflect.ui.info.type.iterable.map;
 
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;

@@ -12,11 +12,11 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.FileTypeInfo;
-import xy.reflect.ui.info.type.list.IListTypeInfo;
-import xy.reflect.ui.info.type.list.IMapEntryTypeInfo;
-import xy.reflect.ui.info.type.list.IListTypeInfo.IListAction;
-import xy.reflect.ui.info.type.list.IListTypeInfo.IListStructuralInfo;
-import xy.reflect.ui.info.type.list.IListTypeInfo.ItemPosition;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.iterable.map.IMapEntryTypeInfo;
+import xy.reflect.ui.info.type.iterable.util.IListAction;
+import xy.reflect.ui.info.type.iterable.util.ItemPosition;
+import xy.reflect.ui.info.type.iterable.util.structure.IListStructuralInfo;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -299,8 +299,8 @@ public class TypeInfoProxyConfiguration {
 		return type1.equals(type2);
 	}
 
-	protected String getDocumentation(IFieldInfo field, ITypeInfo containingType) {
-		return field.getDocumentation();
+	protected String getOnlineHelp(IFieldInfo field, ITypeInfo containingType) {
+		return field.getOnlineHelp();
 	}
 
 	protected Map<String, Object> getSpecificProperties(IFieldInfo field,
@@ -308,9 +308,9 @@ public class TypeInfoProxyConfiguration {
 		return field.getSpecificProperties();
 	}
 
-	protected String getDocumentation(IParameterInfo param, IMethodInfo method,
+	protected String getOnlineHelp(IParameterInfo param, IMethodInfo method,
 			ITypeInfo containingType) {
-		return param.getDocumentation();
+		return param.getOnlineHelp();
 	}
 
 	protected Map<String, Object> getSpecificProperties(IParameterInfo param,
@@ -318,8 +318,8 @@ public class TypeInfoProxyConfiguration {
 		return param.getSpecificProperties();
 	}
 
-	protected String getDocumentation(ITypeInfo type) {
-		return type.getDocumentation();
+	protected String getOnlineHelp(ITypeInfo type) {
+		return type.getOnlineHelp();
 	}
 
 	protected void validate(ITypeInfo type, Object object) throws Exception {
@@ -330,9 +330,9 @@ public class TypeInfoProxyConfiguration {
 		return type.getSpecificProperties();
 	}
 
-	protected String getDocumentation(IMethodInfo method,
+	protected String getOnlineHelp(IMethodInfo method,
 			ITypeInfo containingType) {
-		return method.getDocumentation();
+		return method.getOnlineHelp();
 	}
 
 	protected Map<String, Object> getSpecificProperties(IMethodInfo method,
@@ -458,8 +458,8 @@ public class TypeInfoProxyConfiguration {
 		}
 
 		@Override
-		public String getDocumentation() {
-			return TypeInfoProxyConfiguration.this.getDocumentation(type);
+		public String getOnlineHelp() {
+			return TypeInfoProxyConfiguration.this.getOnlineHelp(type);
 		}
 
 		@Override
@@ -631,8 +631,8 @@ public class TypeInfoProxyConfiguration {
 		}
 
 		@Override
-		public String getDocumentation() {
-			return TypeInfoProxyConfiguration.this.getDocumentation(field,
+		public String getOnlineHelp() {
+			return TypeInfoProxyConfiguration.this.getOnlineHelp(field,
 					containingType);
 		}
 
@@ -730,8 +730,8 @@ public class TypeInfoProxyConfiguration {
 		}
 
 		@Override
-		public String getDocumentation() {
-			return TypeInfoProxyConfiguration.this.getDocumentation(method,
+		public String getOnlineHelp() {
+			return TypeInfoProxyConfiguration.this.getOnlineHelp(method,
 					containingType);
 		}
 
@@ -845,8 +845,8 @@ public class TypeInfoProxyConfiguration {
 		}
 
 		@Override
-		public String getDocumentation() {
-			return TypeInfoProxyConfiguration.this.getDocumentation(param,
+		public String getOnlineHelp() {
+			return TypeInfoProxyConfiguration.this.getOnlineHelp(param,
 					method, containingType);
 		}
 

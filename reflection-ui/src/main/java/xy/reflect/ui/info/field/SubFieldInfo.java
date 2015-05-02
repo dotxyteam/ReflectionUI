@@ -121,8 +121,8 @@ public class SubFieldInfo implements IFieldInfo {
 	}
 
 	@Override
-	public String getDocumentation() {
-		return theSubField.getDocumentation();
+	public String getOnlineHelp() {
+		return theSubField.getOnlineHelp();
 	}
 
 	@Override

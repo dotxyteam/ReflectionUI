@@ -263,7 +263,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 					}
 					
 					@Override
-					public String getDocumentation() {
+					public String getOnlineHelp() {
 						return null;
 					}
 					
@@ -504,8 +504,8 @@ public class DefaultTypeInfo implements ITypeInfo {
 	}
 
 	@Override
-	public String getDocumentation() {
-		return ReflectionUIUtils.getAnnotatedInfoDocumentation(javaType);
+	public String getOnlineHelp() {
+		return ReflectionUIUtils.getAnnotatedInfoOnlineHelp(javaType);
 	}
 
 	@Override

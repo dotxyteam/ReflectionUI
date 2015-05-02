@@ -1,8 +1,8 @@
-package xy.reflect.ui.info.type.list;
+package xy.reflect.ui.info.type.iterable.util.structure;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.list.IListTypeInfo.ItemPosition;
+import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class DefaultListStructuralInfo extends

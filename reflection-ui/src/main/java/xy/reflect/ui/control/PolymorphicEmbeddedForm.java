@@ -224,7 +224,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 					}
 
 					@Override
-					public String getDocumentation() {
+					public String getOnlineHelp() {
 						return null;
 					}
 
@@ -241,7 +241,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 			}
 
 			@Override
-			public String getDocumentation() {
+			public String getOnlineHelp() {
 				return null;
 			}
 		});

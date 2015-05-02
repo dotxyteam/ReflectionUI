@@ -77,7 +77,7 @@ public class FileControl extends DialogAccessControl {
 			}
 
 			@Override
-			public String getDocumentation() {
+			public String getOnlineHelp() {
 				return null;
 			}
 

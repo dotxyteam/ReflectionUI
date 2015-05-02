@@ -14,7 +14,7 @@ import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
-import xy.reflect.ui.info.type.list.IListTypeInfo;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -191,7 +191,7 @@ public class GetterFieldInfo implements IFieldInfo {
 		if (baseFieldName == null) {
 			return null;
 		}
-		Method result = ReflectionUIUtils.getAnnotatedFieldValueOptionsMethod(
+		Method result = ReflectionUIUtils.getAnnotatedFieldValueOptionsMember(
 				containingJavaClass, baseFieldName);
 		return result;
 	}
@@ -238,25 +238,25 @@ public class GetterFieldInfo implements IFieldInfo {
 	}
 
 	@Override
-	public String getDocumentation() {
+	public String getOnlineHelp() {
 		for (Field field : ReflectionUIUtils.getALlFields(containingJavaClass)) {
 			if (field.getName().equals(getName())) {
 				String result = ReflectionUIUtils
-						.getAnnotatedInfoDocumentation(field);
+						.getAnnotatedInfoOnlineHelp(field);
 				if (result != null) {
 					return result;
 				}
 			}
 		}
 		String result = ReflectionUIUtils
-				.getAnnotatedInfoDocumentation(javaGetterMethod);
+				.getAnnotatedInfoOnlineHelp(javaGetterMethod);
 		if (result == null) {
 			return null;
 		}
 		Method setter = getSetterMethod(javaGetterMethod, containingJavaClass);
 		if (setter != null) {
 			String setterDoc = ReflectionUIUtils
-					.getAnnotatedInfoDocumentation(setter);
+					.getAnnotatedInfoOnlineHelp(setter);
 			if (setterDoc != null) {
 				result += "\nand\n" + setterDoc;
 			}

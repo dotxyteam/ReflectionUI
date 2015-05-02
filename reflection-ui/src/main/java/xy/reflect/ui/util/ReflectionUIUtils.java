@@ -45,7 +45,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.annotation.Category;
-import xy.reflect.ui.info.annotation.Documentation;
+import xy.reflect.ui.info.annotation.OnlineHelp;
 import xy.reflect.ui.info.annotation.ValueOptionsForField;
 import xy.reflect.ui.info.annotation.Validating;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -53,7 +53,7 @@ import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.list.IListTypeInfo;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.info.type.util.TypeInfoProxyConfiguration;
@@ -786,9 +786,9 @@ public class ReflectionUIUtils {
 		return new InfoCategory(annotation.value(), annotation.position());
 	}
 
-	public static String getAnnotatedInfoDocumentation(
+	public static String getAnnotatedInfoOnlineHelp(
 			AnnotatedElement annotated) {
-		Documentation annotation = annotated.getAnnotation(Documentation.class);
+		OnlineHelp annotation = annotated.getAnnotation(OnlineHelp.class);
 		if (annotation == null) {
 			return null;
 		}
@@ -956,7 +956,7 @@ public class ReflectionUIUtils {
 		return result;
 	}
 
-	public static Method getAnnotatedFieldValueOptionsMethod(
+	public static Method getAnnotatedFieldValueOptionsMember(
 			Class<?> containingJavaType, String baseFieldName) {
 		for (Method method : containingJavaType.getMethods()) {
 			ValueOptionsForField annotation = method
@@ -968,7 +968,7 @@ public class ReflectionUIUtils {
 				if (!method.getReturnType().isArray()) {
 					if (!Collection.class.isAssignableFrom(method.getReturnType())) {
 						throw new ReflectionUIError(
-								"Invalid field value options method, the return type is not a list type: "
+								"Invalid field value options method, its return type is not a list type: "
 										+ method);
 					}
 				}
@@ -1089,7 +1089,7 @@ public class ReflectionUIUtils {
 									}
 
 									@Override
-									public String getDocumentation() {
+									public String getOnlineHelp() {
 										return null;
 									}
 

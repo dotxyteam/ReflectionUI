@@ -66,8 +66,8 @@ public class ParameterInfoProxy implements IParameterInfo {
 	}
 
 	@Override
-	public String getDocumentation() {
-		return base.getDocumentation();
+	public String getOnlineHelp() {
+		return base.getOnlineHelp();
 	}
 
 

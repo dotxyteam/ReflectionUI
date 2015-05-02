@@ -190,8 +190,8 @@ public class DefaultMethodInfo implements IMethodInfo {
 	}
 
 	@Override
-	public String getDocumentation() {
-		return ReflectionUIUtils.getAnnotatedInfoDocumentation(javaMethod);
+	public String getOnlineHelp() {
+		return ReflectionUIUtils.getAnnotatedInfoOnlineHelp(javaMethod);
 	}
 
 	@Override

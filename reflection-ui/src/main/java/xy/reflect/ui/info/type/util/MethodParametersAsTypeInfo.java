@@ -140,8 +140,8 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 			}
 
 			@Override
-			public String getDocumentation() {
-				return param.getDocumentation();
+			public String getOnlineHelp() {
+				return param.getOnlineHelp();
 			}
 
 			@Override
@@ -152,8 +152,8 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 	}
 
 	@Override
-	public String getDocumentation() {
-		return method.getDocumentation();
+	public String getOnlineHelp() {
+		return method.getOnlineHelp();
 	}
 
 	@Override

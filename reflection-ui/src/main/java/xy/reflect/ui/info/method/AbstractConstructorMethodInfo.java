@@ -61,7 +61,7 @@ public abstract class AbstractConstructorMethodInfo implements IMethodInfo {
 
 
 	@Override
-	public String getDocumentation() {
+	public String getOnlineHelp() {
 		return null;
 	}
 	

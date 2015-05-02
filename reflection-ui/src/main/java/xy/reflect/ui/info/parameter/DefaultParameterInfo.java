@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.annotation.Documentation;
+import xy.reflect.ui.info.annotation.OnlineHelp;
 import xy.reflect.ui.info.annotation.Name;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
@@ -112,10 +112,10 @@ public class DefaultParameterInfo implements IParameterInfo {
 	}
 
 	@Override
-	public String getDocumentation() {
+	public String getOnlineHelp() {
 		for (Annotation annotation : paramAnnotations) {
-			if (annotation instanceof Documentation) {
-				return ((Documentation) annotation).value();
+			if (annotation instanceof OnlineHelp) {
+				return ((OnlineHelp) annotation).value();
 			}
 		}
 		return null;

@@ -145,7 +145,7 @@ public class DialogAccessControl extends JPanel {
 			}
 
 			@Override
-			public String getDocumentation() {
+			public String getOnlineHelp() {
 				return null;
 			}
 

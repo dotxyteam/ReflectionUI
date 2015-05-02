@@ -87,8 +87,8 @@ public class FieldInfoProxy implements IFieldInfo {
 	}
 
 	@Override
-	public String getDocumentation() {
-		return base.getDocumentation();
+	public String getOnlineHelp() {
+		return base.getOnlineHelp();
 	}
 
 	@Override

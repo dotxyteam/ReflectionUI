@@ -68,11 +68,11 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
 import xy.reflect.ui.info.type.custom.FileTypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
-import xy.reflect.ui.info.type.list.ArrayTypeInfo;
-import xy.reflect.ui.info.type.list.StandardCollectionTypeInfo;
-import xy.reflect.ui.info.type.list.StandardEnumerationTypeInfo;
-import xy.reflect.ui.info.type.list.StandardMapAsListTypeInfo;
-import xy.reflect.ui.info.type.list.StandardMapAsListTypeInfo.StandardMapEntry;
+import xy.reflect.ui.info.type.iterable.ArrayTypeInfo;
+import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
+import xy.reflect.ui.info.type.iterable.StandardEnumerationTypeInfo;
+import xy.reflect.ui.info.type.iterable.map.StandardMapAsListTypeInfo;
+import xy.reflect.ui.info.type.iterable.map.StandardMapAsListTypeInfo.StandardMapEntry;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.MethodParametersAsTypeInfo;
@@ -227,9 +227,9 @@ public class ReflectionUI {
 		Object object = getObjectByForm().get(form);
 		if (object != null) {
 			ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
-			if ((type.getDocumentation() != null)
-					&& (type.getDocumentation().trim().length() > 0)) {
-				result.add(createDocumentationControl(type.getDocumentation()));
+			if ((type.getOnlineHelp() != null)
+					&& (type.getOnlineHelp().trim().length() > 0)) {
+				result.add(createDocumentationControl(type.getOnlineHelp()));
 			}
 		}
 		if (!settings.allReadOnly()) {
@@ -858,8 +858,8 @@ public class ReflectionUI {
 				updateFieldControlLayout(fieldControlPlaceHolder);
 			}
 			IFieldInfo field = fieldControlPlaceHolder.getField();
-			if ((field.getDocumentation() != null)
-					&& (field.getDocumentation().trim().length() > 0)) {
+			if ((field.getOnlineHelp() != null)
+					&& (field.getOnlineHelp().trim().length() > 0)) {
 				GridBagConstraints layoutConstraints = new GridBagConstraints();
 				layoutConstraints.insets = new Insets(spacing, spacing,
 						spacing, spacing);
@@ -867,7 +867,7 @@ public class ReflectionUI {
 				layoutConstraints.gridy = i;
 				layoutConstraints.weighty = 1.0;
 				fieldsPanel.add(
-						createDocumentationControl(field.getDocumentation()),
+						createDocumentationControl(field.getOnlineHelp()),
 						layoutConstraints);
 			}
 
@@ -1142,7 +1142,7 @@ public class ReflectionUI {
 		final boolean[] invokedStatusArray = new boolean[] { false };
 		final JDialog[] methodDialogArray = new JDialog[1];
 		List<Component> toolbarControls = new ArrayList<Component>();
-		String doc = method.getDocumentation();
+		String doc = method.getOnlineHelp();
 		if ((doc != null) && (doc.trim().length() > 0)) {
 			toolbarControls.add(createDocumentationControl(doc));
 		}

@@ -1,4 +1,4 @@
-package xy.reflect.ui.info.type.list;
+package xy.reflect.ui.info.type.iterable;
 
 import java.awt.Component;
 import java.util.ArrayList;
@@ -17,6 +17,11 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.iterable.util.IListAction;
+import xy.reflect.ui.info.type.iterable.util.ItemPosition;
+import xy.reflect.ui.info.type.iterable.util.structure.DefaultListStructuralInfo;
+import xy.reflect.ui.info.type.iterable.util.structure.IListStructuralInfo;
+import xy.reflect.ui.info.type.iterable.util.structure.TabularTreetStructuralInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;

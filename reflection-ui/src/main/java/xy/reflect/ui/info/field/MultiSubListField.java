@@ -9,8 +9,8 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.list.IListTypeInfo;
-import xy.reflect.ui.info.type.list.StandardCollectionTypeInfo;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class MultiSubListField implements IFieldInfo {
@@ -123,7 +123,7 @@ public class MultiSubListField implements IFieldInfo {
 	}
 
 	@Override
-	public String getDocumentation() {
+	public String getOnlineHelp() {
 		return null;
 	}
 

@@ -7,7 +7,7 @@ public interface IInfo {
 
 	String getCaption();
 
-	String getDocumentation();
+	String getOnlineHelp();
 	
 	Map<String, Object> getSpecificProperties();
 	

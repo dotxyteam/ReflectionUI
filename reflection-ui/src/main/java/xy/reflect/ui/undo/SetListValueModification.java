@@ -2,7 +2,7 @@ package xy.reflect.ui.undo;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.type.list.IListTypeInfo;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 
 public class SetListValueModification implements
 		IModification {

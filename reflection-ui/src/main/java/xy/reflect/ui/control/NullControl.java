@@ -26,7 +26,7 @@ public class NullControl extends TextControl {
 			}
 
 			@Override
-			public String getDocumentation() {
+			public String getOnlineHelp() {
 				return null;
 			}
 

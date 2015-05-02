@@ -111,8 +111,8 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 	}
 
 	@Override
-	public String getDocumentation() {
-		return ReflectionUIUtils.getAnnotatedInfoDocumentation(javaConstructor);
+	public String getOnlineHelp() {
+		return ReflectionUIUtils.getAnnotatedInfoOnlineHelp(javaConstructor);
 	}
 
 	@Override

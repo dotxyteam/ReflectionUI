@@ -53,10 +53,10 @@ import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
-import xy.reflect.ui.info.type.list.IListTypeInfo;
-import xy.reflect.ui.info.type.list.IListTypeInfo.IListAction;
-import xy.reflect.ui.info.type.list.IListTypeInfo.IListStructuralInfo;
-import xy.reflect.ui.info.type.list.IListTypeInfo.ItemPosition;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.iterable.util.IListAction;
+import xy.reflect.ui.info.type.iterable.util.ItemPosition;
+import xy.reflect.ui.info.type.iterable.util.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.CompositeModification;
@@ -241,8 +241,8 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 		List<AutoUpdatingFieldItemPosition> selection = getSelection();
 
-		for (IListTypeInfo.IListAction action : getRootListType()
-				.getSpecificActions(object, field, selection)) {
+		for (IListAction action : getRootListType().getSpecificActions(object,
+				field, selection)) {
 			createSpecificActionButton(action, buttonsPanel);
 		}
 
@@ -1334,31 +1334,56 @@ public class ListControl extends JSplitPane implements IFieldControl {
 	}
 
 	public boolean refreshUI() {
+		restoringAsMuchAsPossibleSelection(new Runnable() {
+			@Override
+			public void run() {
+				refreshStructure();
+			}
+		});
+		return true;
+	}
+
+	protected void restoringAsMuchAsPossibleSelection(Runnable runnable) {
 		List<AutoUpdatingFieldItemPosition> lastlySelectedItemPositions = getSelection();
 		List<Object> lastlySelectedItems = new ArrayList<Object>();
 		for (int i = 0; i < lastlySelectedItemPositions.size(); i++) {
-			AutoUpdatingFieldItemPosition lastlySelectedItemPosition = lastlySelectedItemPositions
-					.get(i);
-			lastlySelectedItems.add(lastlySelectedItemPosition.getItem());
-		}
-
-		refreshStructure();
-
-		for (int i = 0; i < lastlySelectedItemPositions.size(); i++) {
-			AutoUpdatingFieldItemPosition lastlySelectedItemPosition = lastlySelectedItemPositions
-					.get(i);
-			if (!lastlySelectedItemPosition.getContainingListType().isOrdered()) {
-				Object lastlySelectedItem = lastlySelectedItems.get(i);
-				int index = lastlySelectedItemPosition
-						.getContainingAutoUpdatingFieldList().indexOf(
-								lastlySelectedItem);
-				lastlySelectedItemPosition = lastlySelectedItemPosition
-						.getSibling(index);
-				lastlySelectedItemPositions.set(i, lastlySelectedItemPosition);
+			try {
+				AutoUpdatingFieldItemPosition lastlySelectedItemPosition = lastlySelectedItemPositions
+						.get(i);
+				lastlySelectedItems.add(lastlySelectedItemPosition.getItem());
+			} catch (Throwable t) {
+				lastlySelectedItems.add(null);
 			}
 		}
-		setSelection(lastlySelectedItemPositions);
-		return true;
+
+		runnable.run();
+
+		int i = 0;
+		for (Iterator<AutoUpdatingFieldItemPosition> it = lastlySelectedItemPositions
+				.iterator(); it.hasNext();) {
+			AutoUpdatingFieldItemPosition lastlySelectedItemPosition = it
+					.next();
+			try {
+				if (!lastlySelectedItemPosition.getContainingListType()
+						.isOrdered()) {
+					Object lastlySelectedItem = lastlySelectedItems.get(i);
+					int index = lastlySelectedItemPosition
+							.getContainingAutoUpdatingFieldList().indexOf(
+									lastlySelectedItem);
+					lastlySelectedItemPosition = lastlySelectedItemPosition
+							.getSibling(index);
+					lastlySelectedItemPositions.set(i,
+							lastlySelectedItemPosition);
+				}
+			} catch (Throwable t) {
+				it.remove();
+			}
+			i++;
+		}
+		try {
+			setSelection(lastlySelectedItemPositions);
+		} catch (Throwable ignore) {
+		}
 	}
 
 	protected class ItemNode extends AbstractLazyTreeNode {
@@ -1377,7 +1402,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 		@Override
 		protected List<AbstractLazyTreeNode> createChildrenNodes() {
-			if(childrenField == null){
+			if (childrenField == null) {
 				return Collections.emptyList();
 			}
 			List<AbstractLazyTreeNode> result = new ArrayList<AbstractLazyTreeNode>();

@@ -76,8 +76,8 @@ public class MethodInfoProxy implements IMethodInfo {
 	}
 
 	@Override
-	public String getDocumentation() {
-		return base.getDocumentation();
+	public String getOnlineHelp() {
+		return base.getOnlineHelp();
 	}
 
 	@Override

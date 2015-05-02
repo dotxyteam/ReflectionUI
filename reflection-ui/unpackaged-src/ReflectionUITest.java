@@ -18,15 +18,15 @@ import org.ietf.jgss.GSSException;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.annotation.Category;
-import xy.reflect.ui.info.annotation.Documentation;
+import xy.reflect.ui.info.annotation.OnlineHelp;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractMethodUndoModification;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
-import xy.reflect.ui.info.type.list.DefaultListStructuralInfo;
-import xy.reflect.ui.info.type.list.IListTypeInfo;
-import xy.reflect.ui.info.type.list.TabularTreetStructuralInfo;
-import xy.reflect.ui.info.type.list.IListTypeInfo.IListStructuralInfo;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.iterable.util.structure.DefaultListStructuralInfo;
+import xy.reflect.ui.info.type.iterable.util.structure.IListStructuralInfo;
+import xy.reflect.ui.info.type.iterable.util.structure.TabularTreetStructuralInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.TypeInfoProxyConfiguration;
@@ -37,39 +37,39 @@ import xy.reflect.ui.undo.IModification;
 @SuppressWarnings("unused")
 public class ReflectionUITest {
 
-	@Documentation("This type is used as a test case")
+	@OnlineHelp("This type is used as a test case")
 	public static class Test {
-		@Documentation("Can be of any type")
+		@OnlineHelp("Can be of any type")
 		public Object anyObject;
-		@Documentation("Can be of 2 types")
+		@OnlineHelp("Can be of 2 types")
 		public Exception theException;
 
-		@Documentation("This is the string var")
+		@OnlineHelp("This is the string var")
 		private String theString = "azerty";
 
-		@Documentation("Returns 'theString'")
+		@OnlineHelp("Returns 'theString'")
 		public String getTheString() {
 			return theString;
 		}
 
-		@Documentation("Sets the value of 'theString'")
+		@OnlineHelp("Sets the value of 'theString'")
 		public void setTheString(String theString) {
 			this.theString = theString;
 		}
 
-		@Documentation("returns the mathematic PI constant value'")
+		@OnlineHelp("returns the mathematic PI constant value'")
 		public double getPI() {
 			return Math.PI;
 		}
 
 		private int theInt = 50;
 
-		@Documentation("Returns 'theInt' value")
+		@OnlineHelp("Returns 'theInt' value")
 		public int getTheInt() {
 			return theInt;
 		}
 
-		@Documentation("Sets the value of 'theInt'")
+		@OnlineHelp("Sets the value of 'theInt'")
 		public void setTheInt(int theInt) {
 			this.theInt = theInt;
 		}
@@ -105,19 +105,19 @@ public class ReflectionUITest {
 		@Category("List")
 		public Stack<Integer> theStack = new Stack<Integer>();
 
-		@Documentation("clears the 1st list of Strings")
+		@OnlineHelp("clears the 1st list of Strings")
 		public void resettheStringList() {
 			theStringList.clear();
 		}
 
-		@Documentation("adds 1 to the var 'theInt' value")
+		@OnlineHelp("adds 1 to the var 'theInt' value")
 		public void incrementTheInt() {
 			theInt++;
 		}
 
-		@Documentation("multiplies the var 'theFloat' by the given factor")
+		@OnlineHelp("multiplies the var 'theFloat' by the given factor")
 		public void multiplyTheFloat(
-				@Documentation("the factor that will be applied") int factor) {
+				@OnlineHelp("the factor that will be applied") int factor) {
 			theFloat *= factor;
 		}
 
@@ -131,7 +131,7 @@ public class ReflectionUITest {
 
 	}
 
-	@Documentation("This type is used as a 2nd test case")
+	@OnlineHelp("This type is used as a 2nd test case")
 	public static class Test2 {
 		public enum Day {
 			MONDAY, TUESDAY, WEDNESDAY

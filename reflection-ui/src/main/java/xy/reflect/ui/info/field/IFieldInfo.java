@@ -18,7 +18,7 @@ public interface IFieldInfo extends IInfo {
 		}
 
 		@Override
-		public String getDocumentation() {
+		public String getOnlineHelp() {
 			return null;
 		}
 
