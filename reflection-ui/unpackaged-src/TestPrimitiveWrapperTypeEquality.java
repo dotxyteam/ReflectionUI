@@ -3,7 +3,7 @@ import java.lang.reflect.Method;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 
 
 public class TestPrimitiveWrapperTypeEquality {

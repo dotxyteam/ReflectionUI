@@ -1,4 +1,4 @@
-package xy.reflect.ui.info.type;
+package xy.reflect.ui.info.type.list;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,8 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.ListControl.AutoUpdatingFieldItemPosition;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.type.IListTypeInfo.ItemPosition;
+import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.list.IListTypeInfo.ItemPosition;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class TabularTreetStructuralInfo extends

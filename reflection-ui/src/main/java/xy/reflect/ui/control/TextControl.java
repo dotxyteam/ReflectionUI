@@ -16,7 +16,6 @@ import javax.swing.event.UndoableEditListener;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.type.ITextualTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -27,7 +26,6 @@ public class TextControl extends JPanel implements IFieldControl {
 	protected Object object;
 	protected IFieldInfo field;
 
-	protected ITextualTypeInfo textType;
 	protected JTextArea textComponent;
 	protected boolean textChangedByUser = true;
 	protected Border textFieldNormalBorder;
@@ -37,7 +35,6 @@ public class TextControl extends JPanel implements IFieldControl {
 		this.reflectionUI = reflectionUI;
 		this.object = object;
 		this.field = field;
-		this.textType = (ITextualTypeInfo) field.getType();
 
 		setLayout(new BorderLayout());
 
@@ -118,15 +115,11 @@ public class TextControl extends JPanel implements IFieldControl {
 		if (!textChangedByUser) {
 			return;
 		}
-		Object convertedValue;
 		try {
-			convertedValue = textType.fromText(newStringValue);
+			field.setValue(object, newStringValue);
 		} catch (Throwable t) {
 			displayError(new ReflectionUIError(t));
-			reflectionUI.handleComponentSizeChange(this);
-			return;
 		}
-		field.setValue(object, convertedValue);
 		reflectionUI.handleComponentSizeChange(this);
 	}
 
@@ -139,7 +132,7 @@ public class TextControl extends JPanel implements IFieldControl {
 	public boolean refreshUI() {
 		textChangedByUser = false;
 		int lastCaretPosition = textComponent.getCaretPosition();
-		textComponent.setText(textType.toText(field.getValue(object)));
+		textComponent.setText((String) field.getValue(object));
 		textComponent.setCaretPosition(Math.min(lastCaretPosition,
 				textComponent.getText().length()));
 		textChangedByUser = true;

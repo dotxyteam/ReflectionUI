@@ -9,7 +9,6 @@ import javax.swing.JCheckBox;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.type.IBooleanTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class CheckBoxControl extends JCheckBox implements IFieldControl {
@@ -18,15 +17,13 @@ public class CheckBoxControl extends JCheckBox implements IFieldControl {
 	protected ReflectionUI reflectionUI;
 	protected Object object;
 	protected IFieldInfo field;
-	protected IBooleanTypeInfo booleanType;
-
+	
 	public CheckBoxControl(final ReflectionUI reflectionUI,
 			final Object object, final IFieldInfo field) {
 		this.reflectionUI = reflectionUI;
 		this.object = object;
 		this.field = field;
-		this.booleanType = (IBooleanTypeInfo) field.getType();
-
+		
 		setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
 		setBorderPainted(true);
 		setBorder(BorderFactory.createTitledBorder(""));
@@ -34,7 +31,7 @@ public class CheckBoxControl extends JCheckBox implements IFieldControl {
 			setEnabled(false);
 		}
 
-		Boolean initialValue = booleanType.toBoolean(field.getValue(object));
+		Boolean initialValue = (Boolean) field.getValue(object);
 		setText(reflectionUI.prepareUIString("Is True"));
 		setSelected(initialValue);
 		addActionListener(new ActionListener() {
@@ -47,7 +44,7 @@ public class CheckBoxControl extends JCheckBox implements IFieldControl {
 	}
 
 	protected void onValueChange() {
-		field.setValue(object, booleanType.fromBoolean(isSelected()));
+		field.setValue(object, isSelected());
 	}
 
 	@Override

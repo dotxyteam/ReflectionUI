@@ -1,4 +1,4 @@
-package xy.reflect.ui.info.type;
+package xy.reflect.ui.info.type.util;
 
 import java.awt.Component;
 import java.util.List;
@@ -6,8 +6,12 @@ import java.util.Map;
 
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.info.type.IListTypeInfo.IListAction;
-import xy.reflect.ui.info.type.IListTypeInfo.ItemPosition;
+import xy.reflect.ui.info.type.IEnumerationTypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.custom.FileTypeInfo;
+import xy.reflect.ui.info.type.list.IListTypeInfo;
+import xy.reflect.ui.info.type.list.IListTypeInfo.IListAction;
+import xy.reflect.ui.info.type.list.IListTypeInfo.ItemPosition;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -87,20 +91,6 @@ public class PrecomputedTypeInfoInstanceWrapper {
 			}
 
 			@Override
-			protected Object fromBoolean(Boolean b, IBooleanTypeInfo type) {
-				Object result = super.fromBoolean(b, type);
-				return new PrecomputedTypeInfoInstanceWrapper(result,
-						precomputedType);
-			}
-
-			@Override
-			protected Object fromText(String text, ITextualTypeInfo type) {
-				Object result = super.fromText(text, type);
-				return new PrecomputedTypeInfoInstanceWrapper(result,
-						precomputedType);
-			}
-
-			@Override
 			protected String formatEnumerationItem(Object object,
 					IEnumerationTypeInfo type) {
 				object = ((PrecomputedTypeInfoInstanceWrapper) object)
@@ -128,20 +118,6 @@ public class PrecomputedTypeInfoInstanceWrapper {
 				object = ((PrecomputedTypeInfoInstanceWrapper) object)
 						.getInstance();
 				return super.supportsInstance(type, object);
-			}
-
-			@Override
-			protected Boolean toBoolean(Object object, IBooleanTypeInfo type) {
-				object = ((PrecomputedTypeInfoInstanceWrapper) object)
-						.getInstance();
-				return super.toBoolean(object, type);
-			}
-
-			@Override
-			protected String toText(Object object, ITextualTypeInfo type) {
-				object = ((PrecomputedTypeInfoInstanceWrapper) object)
-						.getInstance();
-				return super.toText(object, type);
 			}
 
 			@Override

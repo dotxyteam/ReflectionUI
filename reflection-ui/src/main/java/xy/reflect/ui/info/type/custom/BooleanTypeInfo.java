@@ -1,4 +1,4 @@
-package xy.reflect.ui.info.type;
+package xy.reflect.ui.info.type.custom;
 
 import java.awt.Component;
 import java.util.Collections;
@@ -11,13 +11,13 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
+import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils.PrimitiveDefaults;
 
-public class DefaultBooleanTypeInfo extends DefaultTypeInfo implements
-		IBooleanTypeInfo {
+public class BooleanTypeInfo extends DefaultTypeInfo {
 
-	public DefaultBooleanTypeInfo(ReflectionUI reflectionUI, Class<?> javaType) {
+	public BooleanTypeInfo(ReflectionUI reflectionUI, Class<?> javaType) {
 		super(reflectionUI, javaType);
 		if (javaType == null) {
 			throw new ReflectionUIError();
@@ -28,7 +28,7 @@ public class DefaultBooleanTypeInfo extends DefaultTypeInfo implements
 	public List<IMethodInfo> getConstructors() {
 		return Collections
 				.<IMethodInfo> singletonList(new AbstractConstructorMethodInfo(
-						DefaultBooleanTypeInfo.this) {
+						BooleanTypeInfo.this) {
 
 					@Override
 					public Object invoke(Object object,
@@ -44,16 +44,6 @@ public class DefaultBooleanTypeInfo extends DefaultTypeInfo implements
 	}
 
 	@Override
-	public Boolean toBoolean(Object object) {
-		return (Boolean) object;
-	}
-
-	@Override
-	public Object fromBoolean(Boolean b) {
-		return b;
-	}
-
-	@Override
 	public Component createNonNullFieldValueControl(Object object,
 			IFieldInfo field) {
 		return new CheckBoxControl(reflectionUI, object, field);
@@ -63,7 +53,7 @@ public class DefaultBooleanTypeInfo extends DefaultTypeInfo implements
 		return (javaType.equals(boolean.class))
 				|| (javaType.equals(Boolean.class));
 	}
-	
+
 	@Override
 	public boolean isImmutable() {
 		return true;
@@ -73,6 +63,5 @@ public class DefaultBooleanTypeInfo extends DefaultTypeInfo implements
 	public boolean hasCustomFieldControl() {
 		return true;
 	}
-
 
 }

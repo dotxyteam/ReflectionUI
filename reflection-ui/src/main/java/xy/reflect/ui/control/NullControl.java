@@ -8,8 +8,8 @@ import java.util.Map;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.type.DefaultTextualTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class NullControl extends TextControl {
@@ -61,7 +61,7 @@ public class NullControl extends TextControl {
 			
 			@Override
 			public ITypeInfo getType() {
-				return new DefaultTextualTypeInfo(reflectionUI, String.class);
+				return new TextualTypeInfo(reflectionUI, String.class);
 			}
 
 			@Override

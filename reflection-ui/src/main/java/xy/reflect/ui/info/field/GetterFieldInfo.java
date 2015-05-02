@@ -3,7 +3,6 @@ package xy.reflect.ui.info.field;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -13,9 +12,9 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.info.type.IBooleanTypeInfo;
-import xy.reflect.ui.info.type.IListTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
+import xy.reflect.ui.info.type.list.IListTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -38,7 +37,7 @@ public class GetterFieldInfo implements IFieldInfo {
 		javaGetterMethod.setAccessible(true);
 	}
 
-	protected IMethodInfo getGetterMethodInfo() {
+	public IMethodInfo getGetterMethodInfo() {
 		return new DefaultMethodInfo(reflectionUI, javaGetterMethod);
 	}
 
@@ -49,15 +48,6 @@ public class GetterFieldInfo implements IFieldInfo {
 			return null;
 		}
 		return new DefaultMethodInfo(reflectionUI, javaSetterMethod);
-	}
-
-	protected IMethodInfo getValueOptionsMethodInfo() {
-		Method javaValueOptionsMethod = GetterFieldInfo.getValueOptionsMethod(
-				javaGetterMethod, containingJavaClass);
-		if (javaValueOptionsMethod == null) {
-			return null;
-		}
-		return new DefaultMethodInfo(reflectionUI, javaValueOptionsMethod);
 	}
 
 	@Override
@@ -71,7 +61,7 @@ public class GetterFieldInfo implements IFieldInfo {
 	@Override
 	public String getCaption() {
 		String result = ReflectionUIUtils.identifierToCaption(getName());
-		if (getType() instanceof IBooleanTypeInfo) {
+		if (BooleanTypeInfo.isCompatibleWith(javaGetterMethod.getReturnType())) {
 			if (javaGetterMethod.getName().matches("^is[A-Z].*")) {
 				result = "Is " + result;
 			} else if (javaGetterMethod.getName().matches("^has[A-Z].*")) {
@@ -85,6 +75,15 @@ public class GetterFieldInfo implements IFieldInfo {
 	public Object getValue(Object object) {
 		return getGetterMethodInfo().invoke(object,
 				Collections.<Integer, Object> emptyMap());
+	}
+
+	protected IMethodInfo getValueOptionsMethodInfo() {
+		Method javaValueOptionsMethod = GetterFieldInfo.getValueOptionsMethod(
+				javaGetterMethod, containingJavaClass);
+		if (javaValueOptionsMethod == null) {
+			return null;
+		}
+		return new DefaultMethodInfo(reflectionUI, javaValueOptionsMethod);
 	}
 
 	@Override
@@ -151,9 +150,9 @@ public class GetterFieldInfo implements IFieldInfo {
 				.equals(((GetterFieldInfo) obj).javaGetterMethod);
 	}
 
-	public static String getFieldName(String methodName) {
+	public static String getFieldName(String getterMethodName) {
 		Matcher m = Pattern.compile("^(?:get|is|has)([A-Z].*)").matcher(
-				methodName);
+				getterMethodName);
 		if (!m.matches()) {
 			return null;
 		}
@@ -188,25 +187,12 @@ public class GetterFieldInfo implements IFieldInfo {
 
 	public static Method getValueOptionsMethod(Method javaGetterMethod,
 			Class<?> containingJavaClass) {
-		String optionsMethodName = javaGetterMethod.getName() + "Options";
-		Method result;
-		try {
-			result = containingJavaClass.getMethod(optionsMethodName);
-		} catch (NoSuchMethodException e) {
-			return null;
-		} catch (SecurityException e) {
-			throw new ReflectionUIError(e);
-		}
-		if (!ReflectionUIUtils.equalsOrBothNull(
-				ReflectionUIUtils.getAnnotatedInfoCategory(javaGetterMethod),
-				ReflectionUIUtils.getAnnotatedInfoCategory(result))) {
+		String baseFieldName = getFieldName(javaGetterMethod.getName());
+		if (baseFieldName == null) {
 			return null;
 		}
-		if (!result.getReturnType().isArray()) {
-			if (!Collection.class.isAssignableFrom(result.getReturnType())) {
-				return null;
-			}
-		}
+		Method result = ReflectionUIUtils.getAnnotatedFieldValueOptionsMethod(
+				containingJavaClass, baseFieldName);
 		return result;
 	}
 
@@ -230,8 +216,9 @@ public class GetterFieldInfo implements IFieldInfo {
 		if (javaMethod.getExceptionTypes().length > 0) {
 			return false;
 		}
-		if (ReflectionUIUtils.getValidatingMethods(containingJavaClass)
-				.contains(javaMethod)) {
+		if (ReflectionUIUtils
+				.getAnnotatedValidatingMethods(containingJavaClass).contains(
+						javaMethod)) {
 			return false;
 		}
 		for (Method otherJavaMethod : containingJavaClass.getMethods()) {

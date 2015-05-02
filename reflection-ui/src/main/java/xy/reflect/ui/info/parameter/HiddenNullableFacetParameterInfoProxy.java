@@ -3,7 +3,7 @@ package xy.reflect.ui.info.parameter;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.parameter.ParameterInfoProxy;
-import xy.reflect.ui.info.type.HiddenNullableFacetsTypeInfoProxyConfiguration;
+import xy.reflect.ui.info.type.util.HiddenNullableFacetsTypeInfoProxyConfiguration;
 
 public class HiddenNullableFacetParameterInfoProxy extends ParameterInfoProxy {
 

@@ -1,4 +1,4 @@
-package xy.reflect.ui.info.type;
+package xy.reflect.ui.info.type.list;
 
 import java.lang.reflect.Array;
 import java.util.Collections;

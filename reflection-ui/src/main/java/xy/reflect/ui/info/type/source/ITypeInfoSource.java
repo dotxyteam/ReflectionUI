@@ -1,4 +1,4 @@
-package xy.reflect.ui.info.type;
+package xy.reflect.ui.info.type.source;
 
 public interface ITypeInfoSource {
 

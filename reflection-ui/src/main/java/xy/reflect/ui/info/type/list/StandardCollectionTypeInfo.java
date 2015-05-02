@@ -1,4 +1,4 @@
-package xy.reflect.ui.info.type;
+package xy.reflect.ui.info.type.list;
 
 import java.awt.Component;
 import java.util.ArrayList;
@@ -15,6 +15,9 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
+import xy.reflect.ui.info.type.DefaultTypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -147,7 +150,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 		if (!getClass().equals(obj.getClass())) {
 			return false;
 		}
-		if (!javaType.equals(((DefaultTypeInfo) obj).javaType)) {
+		if (!javaType.equals(((StandardCollectionTypeInfo) obj).javaType)) {
 			return false;
 		}
 		if (!ReflectionUIUtils.equalsOrBothNull(itemJavaType,

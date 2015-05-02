@@ -1,20 +1,22 @@
-package xy.reflect.ui.info.type;
+package xy.reflect.ui.info.type.util;
 
 import java.awt.Component;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import javax.swing.JFileChooser;
 
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
-import xy.reflect.ui.info.type.IListTypeInfo.ItemPosition;
-import xy.reflect.ui.info.type.IListTypeInfo.IListAction;
-import xy.reflect.ui.info.type.IListTypeInfo.IListStructuralInfo;
+import xy.reflect.ui.info.type.IEnumerationTypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.custom.FileTypeInfo;
+import xy.reflect.ui.info.type.list.IListTypeInfo;
+import xy.reflect.ui.info.type.list.IMapEntryTypeInfo;
+import xy.reflect.ui.info.type.list.IListTypeInfo.IListAction;
+import xy.reflect.ui.info.type.list.IListTypeInfo.IListStructuralInfo;
+import xy.reflect.ui.info.type.list.IListTypeInfo.ItemPosition;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -25,12 +27,6 @@ public class TypeInfoProxyConfiguration {
 			return new ListTypeInfoProxy((IListTypeInfo) type);
 		} else if (type instanceof IEnumerationTypeInfo) {
 			return new EnumerationTypeInfoProxy((IEnumerationTypeInfo) type);
-		} else if (type instanceof IBooleanTypeInfo) {
-			return new BooleanTypeInfoProxy((IBooleanTypeInfo) type);
-		} else if (type instanceof ITextualTypeInfo) {
-			return new TextualTypeInfoProxy((ITextualTypeInfo) type);
-		} else if (type instanceof FileTypeInfo) {
-			return new FileTypeInfoProxy((FileTypeInfo) type);
 		} else if (type instanceof IMapEntryTypeInfo) {
 			return new MapEntryTypeInfoProxy((IMapEntryTypeInfo) type);
 		} else {
@@ -236,33 +232,9 @@ public class TypeInfoProxyConfiguration {
 		return type.getName();
 	}
 
-	protected Boolean toBoolean(Object object, IBooleanTypeInfo type) {
-		return type.toBoolean(object);
-	}
-
-	protected Object fromBoolean(Boolean b, IBooleanTypeInfo type) {
-		return type.fromBoolean(b);
-	}
-
-	protected String toText(Object value, ITextualTypeInfo type) {
-		return type.toText(value);
-	}
-
-	protected Object fromText(String text, ITextualTypeInfo type) {
-		return type.fromText(text);
-	}
-
-	protected File getDefaultFile(FileTypeInfo type) {
-		return type.getDefaultFile();
-	}
-
 	protected Component createNonNullFieldValueControl(Object object,
 			IFieldInfo field, FileTypeInfo type) {
 		return type.createNonNullFieldValueControl(object, field);
-	}
-
-	protected String getDialogTitle(FileTypeInfo type) {
-		return type.getDialogTitle();
 	}
 
 	protected IFieldInfo getKeyField(IMapEntryTypeInfo type) {
@@ -271,11 +243,6 @@ public class TypeInfoProxyConfiguration {
 
 	protected IFieldInfo getValueField(IMapEntryTypeInfo type) {
 		return new FieldInfoProxy(type.getValueField(), type);
-	}
-
-	protected void configureFileChooser(JFileChooser fileChooser,
-			File currentFile, FileTypeInfo type) {
-		type.configureFileChooser(fileChooser, currentFile);
 	}
 
 	protected int hashCode(ITypeInfo type) {
@@ -574,47 +541,6 @@ public class TypeInfoProxyConfiguration {
 
 	}
 
-	private class BooleanTypeInfoProxy extends BasicTypeInfoProxy implements
-			IBooleanTypeInfo {
-
-		public BooleanTypeInfoProxy(IBooleanTypeInfo type) {
-			super(type);
-		}
-
-		@Override
-		public Boolean toBoolean(Object object) {
-			return TypeInfoProxyConfiguration.this.toBoolean(object,
-					(IBooleanTypeInfo) type);
-		}
-
-		@Override
-		public Object fromBoolean(Boolean b) {
-			return TypeInfoProxyConfiguration.this.fromBoolean(b,
-					(IBooleanTypeInfo) type);
-		}
-
-	}
-
-	private class TextualTypeInfoProxy extends BasicTypeInfoProxy implements
-			ITextualTypeInfo {
-
-		public TextualTypeInfoProxy(ITextualTypeInfo type) {
-			super(type);
-		}
-
-		@Override
-		public String toText(Object object) {
-			return TypeInfoProxyConfiguration.this.toText(object,
-					(ITextualTypeInfo) type);
-		}
-
-		@Override
-		public Object fromText(String text) {
-			return TypeInfoProxyConfiguration.this.fromText(text,
-					(ITextualTypeInfo) type);
-		}
-	}
-
 	private class MapEntryTypeInfoProxy extends BasicTypeInfoProxy implements
 			IMapEntryTypeInfo {
 
@@ -632,133 +558,6 @@ public class TypeInfoProxyConfiguration {
 		public IFieldInfo getValueField() {
 			return TypeInfoProxyConfiguration.this
 					.getValueField((IMapEntryTypeInfo) type);
-		}
-
-	}
-
-	private class FileTypeInfoProxy extends FileTypeInfo {
-
-		@SuppressWarnings("unused")
-		protected StackTraceElement[] instanciationTrace = ReflectionUIUtils
-				.createDebugTrace();
-
-		protected FileTypeInfo type;
-
-		public FileTypeInfoProxy(FileTypeInfo type) {
-			super(null);
-			this.type = type;
-		}
-
-		@Override
-		public File getDefaultFile() {
-			return TypeInfoProxyConfiguration.this.getDefaultFile(type);
-		}
-
-		@Override
-		public void configureFileChooser(JFileChooser fileChooser,
-				File currentFile) {
-			TypeInfoProxyConfiguration.this.configureFileChooser(fileChooser,
-					currentFile, type);
-		}
-
-		@Override
-		public String getDialogTitle() {
-			return TypeInfoProxyConfiguration.this.getDialogTitle(type);
-		}
-
-		@Override
-		public Component createNonNullFieldValueControl(Object object,
-				IFieldInfo field) {
-			return TypeInfoProxyConfiguration.this
-					.createNonNullFieldValueControl(object, field, type);
-		}
-
-		@Override
-		public String getName() {
-			return TypeInfoProxyConfiguration.this.getName(type);
-		}
-
-		@Override
-		public String getCaption() {
-			return TypeInfoProxyConfiguration.this.getCaption(type);
-		}
-
-		@Override
-		public boolean supportsInstance(Object object) {
-			return TypeInfoProxyConfiguration.this.supportsInstance(type,
-					object);
-		}
-
-		@Override
-		public boolean isImmutable() {
-			return TypeInfoProxyConfiguration.this.isImmutable(type);
-		}
-
-		@Override
-		public boolean isConcrete() {
-			return TypeInfoProxyConfiguration.this.isConcrete(type);
-		}
-
-		@Override
-		public boolean hasCustomFieldControl() {
-			return TypeInfoProxyConfiguration.this.hasCustomFieldControl(type);
-		}
-
-		@Override
-		public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
-			return TypeInfoProxyConfiguration.this
-					.getPolymorphicInstanceSubTypes(type);
-		}
-
-		@Override
-		public List<IMethodInfo> getMethods() {
-			return TypeInfoProxyConfiguration.this.getMethods(type);
-		}
-
-		@Override
-		public List<IFieldInfo> getFields() {
-			return TypeInfoProxyConfiguration.this.getFields(type);
-		}
-
-		@Override
-		public List<IMethodInfo> getConstructors() {
-			return TypeInfoProxyConfiguration.this.getConstructors(type);
-		}
-
-		@Override
-		public Component createFieldControl(Object object, IFieldInfo field) {
-			return TypeInfoProxyConfiguration.this.createFieldControl(type,
-					object, field);
-		}
-
-		@Override
-		public String toString(Object object) {
-			return TypeInfoProxyConfiguration.this.toString(type, object);
-		}
-
-		@Override
-		public int hashCode() {
-			return TypeInfoProxyConfiguration.this.hashCode(type);
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (obj == null) {
-				return false;
-			}
-			if (!getClass().equals(obj.getClass())) {
-				return false;
-			}
-			if (!TypeInfoProxyConfiguration.this.equals(type,
-					((FileTypeInfoProxy) obj).type)) {
-				return false;
-			}
-			return true;
-		}
-
-		@Override
-		public String toString() {
-			return TypeInfoProxyConfiguration.this.toString(type);
 		}
 
 	}

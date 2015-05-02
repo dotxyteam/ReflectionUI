@@ -9,7 +9,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.annotation.Documentation;
 import xy.reflect.ui.info.annotation.Name;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class DefaultParameterInfo implements IParameterInfo {

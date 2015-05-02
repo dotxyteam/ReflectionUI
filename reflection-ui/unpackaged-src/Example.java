@@ -6,8 +6,8 @@ import javax.swing.JOptionPane;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.ITypeInfoSource;
-import xy.reflect.ui.info.type.TypeInfoProxyConfiguration;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
+import xy.reflect.ui.info.type.util.TypeInfoProxyConfiguration;
 
 /*
  * Read carefully the comments below. 

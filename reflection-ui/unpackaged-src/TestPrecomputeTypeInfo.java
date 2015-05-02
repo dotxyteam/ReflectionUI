@@ -1,8 +1,8 @@
 import java.io.File;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.type.FileTypeInfo;
-import xy.reflect.ui.info.type.PrecomputedTypeInfoInstanceWrapper;
+import xy.reflect.ui.info.type.custom.FileTypeInfo;
+import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 
 
 public class TestPrecomputeTypeInfo {

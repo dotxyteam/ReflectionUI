@@ -8,9 +8,9 @@ import java.util.Map;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
-import xy.reflect.ui.info.type.IListTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.StandardCollectionTypeInfo;
+import xy.reflect.ui.info.type.list.IListTypeInfo;
+import xy.reflect.ui.info.type.list.StandardCollectionTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class MultiSubListField implements IFieldInfo {

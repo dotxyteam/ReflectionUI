@@ -1,4 +1,4 @@
-package xy.reflect.ui.info.type;
+package xy.reflect.ui.info.type.custom;
 
 import java.awt.Component;
 import java.io.File;
@@ -7,14 +7,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.JFileChooser;
-
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.FileControl;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
+import xy.reflect.ui.info.type.DefaultTypeInfo;
 
 public class FileTypeInfo extends DefaultTypeInfo {
 
@@ -45,20 +44,10 @@ public class FileTypeInfo extends DefaultTypeInfo {
 		return result;
 	}
 
-	public File getDefaultFile() {
+	public static File getDefaultFile() {
 		return new File("");
 	}
 
-	public void configureFileChooser(JFileChooser fileChooser, File currentFile) {
-		if ((currentFile != null) && !currentFile.equals(getDefaultFile())) {
-			fileChooser.setSelectedFile(currentFile.getAbsoluteFile());
-		}
-		fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-	}
-
-	public String getDialogTitle() {
-		return "Select";
-	}
 
 	@Override
 	public Component createNonNullFieldValueControl(Object object,

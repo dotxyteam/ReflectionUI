@@ -24,6 +24,7 @@ import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -45,16 +46,17 @@ import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.annotation.Category;
 import xy.reflect.ui.info.annotation.Documentation;
+import xy.reflect.ui.info.annotation.ValueOptionsForField;
 import xy.reflect.ui.info.annotation.Validating;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
-import xy.reflect.ui.info.type.IListTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.PrecomputedTypeInfoInstanceWrapper;
-import xy.reflect.ui.info.type.TypeInfoProxyConfiguration;
+import xy.reflect.ui.info.type.list.IListTypeInfo;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
+import xy.reflect.ui.info.type.util.TypeInfoProxyConfiguration;
 import xy.reflect.ui.undo.ModificationStack;
 
 import com.fasterxml.classmate.MemberResolver;
@@ -932,7 +934,7 @@ public class ReflectionUIUtils {
 				ReflectionUI.class.getResource("resource/help.png"));
 	}
 
-	public static List<Method> getValidatingMethods(Class<?> javaType) {
+	public static List<Method> getAnnotatedValidatingMethods(Class<?> javaType) {
 		List<Method> result = new ArrayList<Method>();
 		for (Method method : javaType.getMethods()) {
 			Validating annotation = method.getAnnotation(Validating.class);
@@ -950,18 +952,30 @@ public class ReflectionUIUtils {
 				result.add(method);
 				continue;
 			}
-			if (method.getName().equals("validate")) {
-				if (method.getReturnType().equals(void.class)) {
-					if (method.getParameterTypes().length == 0) {
-						if (!Modifier.isStatic(method.getModifiers())) {
-							result.add(method);
-							continue;
-						}
-					}
-				}
-			}
 		}
 		return result;
+	}
+
+	public static Method getAnnotatedFieldValueOptionsMethod(
+			Class<?> containingJavaType, String baseFieldName) {
+		for (Method method : containingJavaType.getMethods()) {
+			ValueOptionsForField annotation = method
+					.getAnnotation(ValueOptionsForField.class);
+			if (annotation != null) {
+				if (!baseFieldName.equals(annotation.value())) {
+					continue;
+				}
+				if (!method.getReturnType().isArray()) {
+					if (!Collection.class.isAssignableFrom(method.getReturnType())) {
+						throw new ReflectionUIError(
+								"Invalid field value options method, the return type is not a list type: "
+										+ method);
+					}
+				}
+				return method;
+			}
+		}
+		return null;
 	}
 
 	public static String getWindowTitle(Window window) {

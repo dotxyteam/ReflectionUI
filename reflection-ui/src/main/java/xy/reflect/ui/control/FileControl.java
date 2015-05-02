@@ -9,15 +9,14 @@ import javax.swing.JFileChooser;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.type.DefaultTextualTypeInfo;
-import xy.reflect.ui.info.type.FileTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.custom.FileTypeInfo;
+import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 
 public class FileControl extends DialogAccessControl {
 
 	protected static final long serialVersionUID = 1L;
 
-	protected FileTypeInfo fileType;
 	protected boolean textChangedByUser = true;
 
 	protected static File lastDirectory;
@@ -25,7 +24,6 @@ public class FileControl extends DialogAccessControl {
 	public FileControl(ReflectionUI reflectionUI, Object object,
 			IFieldInfo field) {
 		super(reflectionUI, object, field);
-		this.fileType = (FileTypeInfo) field.getType();
 	}
 
 	@Override
@@ -70,7 +68,7 @@ public class FileControl extends DialogAccessControl {
 
 			@Override
 			public ITypeInfo getType() {
-				return new DefaultTextualTypeInfo(reflectionUI, String.class);
+				return new TextualTypeInfo(reflectionUI, String.class);
 			}
 
 			@Override
@@ -99,6 +97,19 @@ public class FileControl extends DialogAccessControl {
 		return result;
 	}
 
+	protected void configureFileChooser(JFileChooser fileChooser,
+			File currentFile) {
+		if ((currentFile != null)
+				&& !currentFile.equals(FileTypeInfo.getDefaultFile())) {
+			fileChooser.setSelectedFile(currentFile.getAbsoluteFile());
+		}
+		fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+	}
+
+	protected String getDialogTitle() {
+		return "Select";
+	}
+
 	@Override
 	protected void openDialog() {
 		final JFileChooser fileChooser = new JFileChooser();
@@ -106,9 +117,9 @@ public class FileControl extends DialogAccessControl {
 		if (lastDirectory != null) {
 			fileChooser.setCurrentDirectory(lastDirectory);
 		}
-		fileType.configureFileChooser(fileChooser, currentFile);
+		configureFileChooser(fileChooser, currentFile);
 		int returnVal = fileChooser.showDialog(this,
-				reflectionUI.prepareUIString(fileType.getDialogTitle()));
+				reflectionUI.prepareUIString(getDialogTitle()));
 		if (returnVal != JFileChooser.APPROVE_OPTION) {
 			return;
 		}

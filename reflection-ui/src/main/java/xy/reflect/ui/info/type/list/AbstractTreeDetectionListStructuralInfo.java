@@ -1,4 +1,4 @@
-package xy.reflect.ui.info.type;
+package xy.reflect.ui.info.type.list;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,8 +12,9 @@ import xy.reflect.ui.info.field.MultiSubListField;
 import xy.reflect.ui.info.field.MultiSubListField.MultiSubListVirtualParent;
 import xy.reflect.ui.info.field.MultiSubListField.MultiSubListVirtualParentType;
 import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.info.type.IListTypeInfo.ItemPosition;
-import xy.reflect.ui.info.type.IListTypeInfo.IListStructuralInfo;
+import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.list.IListTypeInfo.IListStructuralInfo;
+import xy.reflect.ui.info.type.list.IListTypeInfo.ItemPosition;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public abstract class AbstractTreeDetectionListStructuralInfo implements

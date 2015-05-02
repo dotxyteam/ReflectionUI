@@ -7,8 +7,8 @@ import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
-import xy.reflect.ui.info.type.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -26,6 +26,10 @@ public class PublicFieldInfo implements IFieldInfo {
 
 	protected void resolveJavaReflectionModelAccessProblems() {
 		javaField.setAccessible(true);
+	}
+
+	public Field getJavaField() {
+		return javaField;
 	}
 
 	@Override

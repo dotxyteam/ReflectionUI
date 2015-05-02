@@ -63,21 +63,21 @@ import xy.reflect.ui.info.field.MultiSubListField.MultiSubListVirtualParent;
 import xy.reflect.ui.info.field.MultiSubListField.MultiSubListVirtualParentType;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.MethodInfoProxy;
-import xy.reflect.ui.info.type.ArrayTypeInfo;
-import xy.reflect.ui.info.type.DefaultBooleanTypeInfo;
-import xy.reflect.ui.info.type.DefaultTextualTypeInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
-import xy.reflect.ui.info.type.FileTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.ITypeInfoSource;
-import xy.reflect.ui.info.type.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.MethodParametersAsTypeInfo;
-import xy.reflect.ui.info.type.PrecomputedTypeInfoInstanceWrapper;
-import xy.reflect.ui.info.type.PrecomputedTypeInfoSource;
-import xy.reflect.ui.info.type.StandardCollectionTypeInfo;
-import xy.reflect.ui.info.type.StandardEnumerationTypeInfo;
-import xy.reflect.ui.info.type.StandardMapAsListTypeInfo;
-import xy.reflect.ui.info.type.StandardMapAsListTypeInfo.StandardMapEntry;
+import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
+import xy.reflect.ui.info.type.custom.FileTypeInfo;
+import xy.reflect.ui.info.type.custom.TextualTypeInfo;
+import xy.reflect.ui.info.type.list.ArrayTypeInfo;
+import xy.reflect.ui.info.type.list.StandardCollectionTypeInfo;
+import xy.reflect.ui.info.type.list.StandardEnumerationTypeInfo;
+import xy.reflect.ui.info.type.list.StandardMapAsListTypeInfo;
+import xy.reflect.ui.info.type.list.StandardMapAsListTypeInfo.StandardMapEntry;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.util.MethodParametersAsTypeInfo;
+import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
+import xy.reflect.ui.info.type.util.PrecomputedTypeInfoSource;
 import xy.reflect.ui.undo.CompositeModification;
 import xy.reflect.ui.undo.ModificationProxy;
 import xy.reflect.ui.undo.ModificationProxyConfiguration;
@@ -96,7 +96,7 @@ import com.google.common.collect.MapMaker;
 
 public class ReflectionUI {
 
-	protected Map<JPanel, Object> objectByForm = new MapMaker().weakValues()
+	protected Map<JPanel, Object> objectByForm = new MapMaker().weakKeys()
 			.makeMap();
 	protected Map<JPanel, ModificationStack> modificationStackByForm = new MapMaker()
 			.weakKeys().makeMap();
@@ -1003,13 +1003,13 @@ public class ReflectionUI {
 				} else if (javaTypeSource.getJavaType().isEnum()) {
 					result = new StandardEnumerationTypeInfo(this,
 							javaTypeSource.getJavaType());
-				} else if (DefaultBooleanTypeInfo
+				} else if (BooleanTypeInfo
 						.isCompatibleWith(javaTypeSource.getJavaType())) {
-					result = new DefaultBooleanTypeInfo(this,
+					result = new BooleanTypeInfo(this,
 							javaTypeSource.getJavaType());
-				} else if (DefaultTextualTypeInfo
+				} else if (TextualTypeInfo
 						.isCompatibleWith(javaTypeSource.getJavaType())) {
-					result = new DefaultTextualTypeInfo(this,
+					result = new TextualTypeInfo(this,
 							javaTypeSource.getJavaType());
 				} else if (FileTypeInfo.isCompatibleWith(javaTypeSource
 						.getJavaType())) {

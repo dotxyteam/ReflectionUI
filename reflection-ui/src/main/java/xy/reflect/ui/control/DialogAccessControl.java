@@ -20,8 +20,8 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.info.type.DefaultTextualTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -64,7 +64,7 @@ public class DialogAccessControl extends JPanel {
 
 					@Override
 					public ITypeInfo getType() {
-						return new DefaultTextualTypeInfo(reflectionUI,
+						return new TextualTypeInfo(reflectionUI,
 								String.class);
 					}
 
@@ -136,7 +136,7 @@ public class DialogAccessControl extends JPanel {
 
 			@Override
 			public ITypeInfo getType() {
-				return new DefaultTextualTypeInfo(reflectionUI, String.class);
+				return new TextualTypeInfo(reflectionUI, String.class);
 			}
 
 			@Override

@@ -5,10 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import xy.reflect.ui.info.type.HiddenNullableFacetsTypeInfoProxyConfiguration;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.ITypeInfoSource;
-import xy.reflect.ui.info.type.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.util.HiddenNullableFacetsTypeInfoProxyConfiguration;
 
 public class TableTreeModelExample {
 

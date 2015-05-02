@@ -14,8 +14,8 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.parameter.DefaultParameterInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
-import xy.reflect.ui.info.type.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -174,7 +174,7 @@ public class DefaultMethodInfo implements IMethodInfo {
 				}
 			}
 		}
-		if (ReflectionUIUtils.getValidatingMethods(containingJavaClass)
+		if (ReflectionUIUtils.getAnnotatedValidatingMethods(containingJavaClass)
 				.contains(javaMethod)) {
 			return false;
 		}

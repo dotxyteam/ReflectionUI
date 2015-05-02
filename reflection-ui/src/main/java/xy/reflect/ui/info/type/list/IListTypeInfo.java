@@ -1,4 +1,4 @@
-package xy.reflect.ui.info.type;
+package xy.reflect.ui.info.type.list;
 
 import java.awt.Component;
 import java.util.ArrayList;
@@ -7,6 +7,7 @@ import java.util.List;
 
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public interface IListTypeInfo extends ITypeInfo {
