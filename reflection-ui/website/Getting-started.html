@@ -41,34 +41,8 @@ java -jar reflection-ui-&lt;version&gt;.jar</li>
 In order to generate the ReflectionUI jar file and its dependencies, run the following command from the "reflection-ui" directory:<br>
 mvn install dependency:copy-dependencies<br>
 <br>
-Then start coding:
-
-
-
-
-
-
-
-<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">		<span style="color: #008800; font-style: italic">/* The Hello world: */</span>
-		Object myObject <span style="color: #666666">=</span> <span style="color: #AA22FF; font-weight: bold">new</span> Date<span style="color: #666666">();</span>
-		ReflectionUI reflectionUI <span style="color: #666666">=</span> <span style="color: #AA22FF; font-weight: bold">new</span> ReflectionUI<span style="color: #666666">();</span>
-		reflectionUI<span style="color: #666666">.</span><span style="color: #BB4444">openObjectFrame</span><span style="color: #666666">(</span>myObject<span style="color: #666666">);</span>
-
-		<span style="color: #008800; font-style: italic">/* You can open a dialog instead of a frame: */</span>
-		reflectionUI<span style="color: #666666">.</span><span style="color: #BB4444">openObjectDialog</span><span style="color: #666666">(</span><span style="color: #AA22FF; font-weight: bold">null</span><span style="color: #666666">,</span> myObject<span style="color: #666666">,</span> <span style="color: #AA22FF; font-weight: bold">true</span><span style="color: #666666">);</span>
-
-		<span style="color: #008800; font-style: italic">/* You can just create a form and then insert it in any container: */</span>
-		JOptionPane<span style="color: #666666">.</span><span style="color: #BB4444">showMessageDialog</span><span style="color: #666666">(</span><span style="color: #AA22FF; font-weight: bold">null</span><span style="color: #666666">,</span>
-				reflectionUI<span style="color: #666666">.</span><span style="color: #BB4444">createObjectForm</span><span style="color: #666666">(</span>myObject<span style="color: #666666">));</span>
-</pre></div>
-
-
-
-
-
-
-
-Find the complete documentation <a href="Example.html">here</a>
+Then add these jars to your classpath and start coding:
+<br></br><a href="examples/Example.java.html">Code samples here</a>
 
 			</div>
 			<div id="sidebar"></div>

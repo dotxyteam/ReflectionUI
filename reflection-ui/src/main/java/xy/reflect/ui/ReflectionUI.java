@@ -229,7 +229,7 @@ public class ReflectionUI {
 			ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
 			if ((type.getOnlineHelp() != null)
 					&& (type.getOnlineHelp().trim().length() > 0)) {
-				result.add(createDocumentationControl(type.getOnlineHelp()));
+				result.add(createOnlineHelpControl(type.getOnlineHelp()));
 			}
 		}
 		if (!settings.allReadOnly()) {
@@ -270,14 +270,14 @@ public class ReflectionUI {
 		return result;
 	}
 
-	public Component createDocumentationControl(String documentation) {
+	public Component createOnlineHelpControl(String onlineHelp) {
 		final JButton result = new JButton(ReflectionUIUtils.HELP_ICON);
 		result.setPreferredSize(new Dimension(result.getPreferredSize().height,
 				result.getPreferredSize().height));
 		result.setContentAreaFilled(false);
 		result.setFocusable(false);
 		ReflectionUIUtils.setMultilineToolTipText(result,
-				prepareUIString(documentation));
+				prepareUIString(onlineHelp));
 		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -867,7 +867,7 @@ public class ReflectionUI {
 				layoutConstraints.gridy = i;
 				layoutConstraints.weighty = 1.0;
 				fieldsPanel.add(
-						createDocumentationControl(field.getOnlineHelp()),
+						createOnlineHelpControl(field.getOnlineHelp()),
 						layoutConstraints);
 			}
 
@@ -1144,7 +1144,7 @@ public class ReflectionUI {
 		List<Component> toolbarControls = new ArrayList<Component>();
 		String doc = method.getOnlineHelp();
 		if ((doc != null) && (doc.trim().length() > 0)) {
-			toolbarControls.add(createDocumentationControl(doc));
+			toolbarControls.add(createOnlineHelpControl(doc));
 		}
 		toolbarControls.addAll(createDialogOkCancelButtons(methodDialogArray,
 				invokedStatusArray, method.getCaption(), new Runnable() {

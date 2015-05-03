@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>xy</groupId>
 	<artifactId>reflection-ui</artifactId>
-	<version>1.0.8</version>
+	<version>1.0.9</version>
 	<name>Reflection UI</name>
 	<dependencies>
 		<dependency>
@@ -88,6 +88,26 @@
 								<descriptor>assembly.xml</descriptor>
 							</descriptors>
 						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<phase>generate-resources</phase>
+						<configuration>
+							<target>
+								<ant antfile="tools/build-html-examples/build.xml">
+									<property name="basedir" value="${basedir}/tools/build-html-examples">
+									</property>
+								</ant>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>
