@@ -42,8 +42,8 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 
 	@Override
 	public ITypeInfo getItemType() {
-		return new StandardMapEntryTypeInfo(reflectionUI,
-				StandardMapEntry.class, keyJavaType, valueJavaType);
+		return new StandardMapEntryTypeInfo(reflectionUI, keyJavaType,
+				valueJavaType);
 	}
 
 	@Override

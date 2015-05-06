@@ -23,9 +23,8 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements
 	protected Class<?> keyJavaType;
 	protected Class<?> valueJavaType;
 
-	public StandardMapEntryTypeInfo(ReflectionUI reflectionUI,
-			Class<?> javaType, Class<?> keyJavaType, Class<?> valueJavaType) {
-		super(reflectionUI, javaType);
+	public StandardMapEntryTypeInfo(ReflectionUI reflectionUI, Class<?> keyJavaType, Class<?> valueJavaType) {
+		super(reflectionUI, StandardMapEntry.class);
 		this.keyJavaType = keyJavaType;
 		this.valueJavaType = valueJavaType;
 	}
@@ -141,10 +140,6 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements
 						return Collections.emptyList();
 					}
 				});
-	}
-
-	public static boolean isCompatibleWith(Class<?> javaType) {
-		return StandardMapEntry.class.equals(javaType);
 	}
 
 }
