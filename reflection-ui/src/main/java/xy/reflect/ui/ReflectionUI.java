@@ -72,7 +72,7 @@ import xy.reflect.ui.info.type.iterable.ArrayTypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.map.StandardMapAsListTypeInfo;
-import xy.reflect.ui.info.type.iterable.map.StandardMapAsListTypeInfo.StandardMapEntry;
+import xy.reflect.ui.info.type.iterable.map.StandardMapEntry;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.MethodParametersAsTypeInfo;
@@ -515,9 +515,6 @@ public class ReflectionUI {
 		if (object instanceof PrecomputedTypeInfoInstanceWrapper) {
 			return ((PrecomputedTypeInfoInstanceWrapper) object)
 					.getPrecomputedTypeInfoSource();
-		} else if (object instanceof StandardMapEntry) {
-			return new PrecomputedTypeInfoSource(
-					((StandardMapEntry<?, ?>) object).getTypeInfo());
 		} else if (object instanceof MultiSubListVirtualParent) {
 			return new PrecomputedTypeInfoSource(
 					new MultiSubListVirtualParentType(this,
@@ -866,8 +863,7 @@ public class ReflectionUI {
 				layoutConstraints.gridx = 2;
 				layoutConstraints.gridy = i;
 				layoutConstraints.weighty = 1.0;
-				fieldsPanel.add(
-						createOnlineHelpControl(field.getOnlineHelp()),
+				fieldsPanel.add(createOnlineHelpControl(field.getOnlineHelp()),
 						layoutConstraints);
 			}
 
@@ -1003,12 +999,12 @@ public class ReflectionUI {
 				} else if (javaTypeSource.getJavaType().isEnum()) {
 					result = new StandardEnumerationTypeInfo(this,
 							javaTypeSource.getJavaType());
-				} else if (BooleanTypeInfo
-						.isCompatibleWith(javaTypeSource.getJavaType())) {
+				} else if (BooleanTypeInfo.isCompatibleWith(javaTypeSource
+						.getJavaType())) {
 					result = new BooleanTypeInfo(this,
 							javaTypeSource.getJavaType());
-				} else if (TextualTypeInfo
-						.isCompatibleWith(javaTypeSource.getJavaType())) {
+				} else if (TextualTypeInfo.isCompatibleWith(javaTypeSource
+						.getJavaType())) {
 					result = new TextualTypeInfo(this,
 							javaTypeSource.getJavaType());
 				} else if (FileTypeInfo.isCompatibleWith(javaTypeSource

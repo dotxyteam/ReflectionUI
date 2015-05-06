@@ -1004,7 +1004,7 @@ public class ReflectionUIUtils {
 		} else if (window instanceof JDialog) {
 			((JDialog) window).setContentPane(contentPane);
 		} else {
-			throw new AssertionError();
+			throw new ReflectionUIError();
 		}
 	}
 

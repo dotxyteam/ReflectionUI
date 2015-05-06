@@ -1,6 +1,6 @@
 package xy.reflect.ui.info.type.iterable.map;
 
-import java.awt.Component;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,68 +9,57 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.ListControl;
-import xy.reflect.ui.info.field.GetterFieldInfo;
-import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
+import xy.reflect.ui.info.method.DefaultConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.iterable.IListTypeInfo;
-import xy.reflect.ui.info.type.iterable.util.IListAction;
-import xy.reflect.ui.info.type.iterable.util.ItemPosition;
-import xy.reflect.ui.info.type.iterable.util.structure.DefaultListStructuralInfo;
-import xy.reflect.ui.info.type.iterable.util.structure.IListStructuralInfo;
-import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
+import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class StandardMapAsListTypeInfo extends DefaultTypeInfo implements
-		IListTypeInfo {
+public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 
 	protected Class<?> keyJavaType;
 	protected Class<?> valueJavaType;
 
 	public StandardMapAsListTypeInfo(ReflectionUI reflectionUI,
 			Class<?> javaType, Class<?> keyJavaType, Class<?> valueJavaType) {
-		super(reflectionUI, javaType);
+		super(reflectionUI, javaType, StandardMapEntry.class);
 		this.keyJavaType = keyJavaType;
 		this.valueJavaType = valueJavaType;
 	}
 
-	@Override
-	public IMapEntryTypeInfo getItemType() {
-		return new StandardMapEntryTypeInfo();
+	public Class<?> getKeyJavaType() {
+		return keyJavaType;
+	}
+
+	public Class<?> getValueJavaType() {
+		return valueJavaType;
 	}
 
 	@Override
-	public String toString() {
-		return getCaption();
-	}
-
-	public Class<?> getJavaType() {
-		return javaType;
-	}
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Override
-	public Object[] toListValue(Object object) {
-		List<StandardMapEntry> result = new ArrayList<StandardMapAsListTypeInfo.StandardMapEntry>();
-		for (Object obj : ((Map) object).entrySet()) {
-			Map.Entry entry = (Entry) obj;
-			result.add(new StandardMapEntry(entry.getKey(), entry.getValue()));
-		}
-		return result.toArray();
+	public ITypeInfo getItemType() {
+		return new StandardMapEntryTypeInfo(reflectionUI,
+				StandardMapEntry.class, keyJavaType, valueJavaType);
 	}
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		if (ReflectionUIUtils.getNParametersMethod(super.getConstructors(), 0) != null) {
-			return super.getConstructors();
+		List<IMethodInfo> defaultConstructors = new ArrayList<IMethodInfo>();
+		if (isConcrete()) {
+			for (Constructor<?> javaConstructor : javaType.getConstructors()) {
+				defaultConstructors.add(new DefaultConstructorMethodInfo(
+						reflectionUI, this, javaConstructor));
+			}
+		}
+		if (ReflectionUIUtils.getNParametersMethod(defaultConstructors, 0) != null) {
+			return defaultConstructors;
 		} else {
 			List<IMethodInfo> result = new ArrayList<IMethodInfo>(
-					super.getConstructors());
+					defaultConstructors);
 			result.add(new AbstractConstructorMethodInfo(this) {
 
 				@Override
@@ -96,7 +85,8 @@ public class StandardMapAsListTypeInfo extends DefaultTypeInfo implements
 		Map result = (Map) constructor.invoke(null,
 				Collections.<Integer, Object> emptyMap());
 		for (Object item : listValue) {
-			StandardMapEntry entry = (StandardMapEntry) item;
+			PrecomputedTypeInfoInstanceWrapper wrapper = (PrecomputedTypeInfoInstanceWrapper) item;
+			StandardMapEntry entry = (StandardMapEntry) wrapper.getInstance();
 			if (result.containsKey(entry.getKey())) {
 				throw new ReflectionUIError("Duplicate key: '"
 						+ reflectionUI.toString(entry.getKey()) + "'");
@@ -106,42 +96,49 @@ public class StandardMapAsListTypeInfo extends DefaultTypeInfo implements
 		return result;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public IListStructuralInfo getStructuralInfo() {
-		return new DefaultListStructuralInfo(reflectionUI, getItemType());
-	}
-
-	@Override
-	public Component createNonNullFieldValueControl(Object object,
-			IFieldInfo field) {
-		return new ListControl(reflectionUI, object, field);
+	public Object[] toListValue(Object object) {
+		List<PrecomputedTypeInfoInstanceWrapper> result = new ArrayList<PrecomputedTypeInfoInstanceWrapper>();
+		for (Object obj : ((Map) object).entrySet()) {
+			Map.Entry entry = (Entry) obj;
+			result.add(new PrecomputedTypeInfoInstanceWrapper(
+					new StandardMapEntry(entry.getKey(), entry.getValue()),
+					getItemType()));
+		}
+		return result.toArray();
 	}
 
 	@Override
 	public int hashCode() {
-		return javaType.hashCode() + keyJavaType.hashCode()
-				+ valueJavaType.hashCode();
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((keyJavaType == null) ? 0 : keyJavaType.hashCode());
+		result = prime * result
+				+ ((valueJavaType == null) ? 0 : valueJavaType.hashCode());
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
 			return false;
-		}
-		if (!getClass().equals(obj.getClass())) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
-		if (!javaType.equals(((StandardMapAsListTypeInfo) obj).javaType)) {
+		StandardMapAsListTypeInfo other = (StandardMapAsListTypeInfo) obj;
+		if (keyJavaType == null) {
+			if (other.keyJavaType != null)
+				return false;
+		} else if (!keyJavaType.equals(other.keyJavaType))
 			return false;
-		}
-		if (!ReflectionUIUtils.equalsOrBothNull(keyJavaType,
-				((StandardMapAsListTypeInfo) obj).keyJavaType)) {
+		if (valueJavaType == null) {
+			if (other.valueJavaType != null)
+				return false;
+		} else if (!valueJavaType.equals(other.valueJavaType))
 			return false;
-		}
-		if (!ReflectionUIUtils.equalsOrBothNull(valueJavaType,
-				((StandardMapAsListTypeInfo) obj).valueJavaType)) {
-			return false;
-		}
 		return true;
 	}
 
@@ -162,213 +159,6 @@ public class StandardMapAsListTypeInfo extends DefaultTypeInfo implements
 			}
 		}
 		return false;
-	}
-
-	@Override
-	public boolean isImmutable() {
-		return false;
-	}
-
-	@Override
-	public boolean hasCustomFieldControl() {
-		return true;
-	}
-
-	@Override
-	public List<IListAction> getSpecificActions(Object object,
-			IFieldInfo field, List<? extends ItemPosition> selection) {
-		return Collections.emptyList();
-	}
-
-	public class StandardMapEntry<K, V> implements Map.Entry<K, V> {
-		protected K key;
-		protected V value;
-
-		public StandardMapEntry(K key, V value) {
-			super();
-			this.key = key;
-			this.value = value;
-		}
-
-		@Override
-		public String toString() {
-			return "" + key + "";
-		}
-
-		public K getKey() {
-			return key;
-		}
-
-		public void setKey(K key) {
-			this.key = key;
-		}
-
-		public V getValue() {
-			return value;
-		}
-
-		public V setValue(V value) {
-			V oldValue = this.value;
-			this.value = value;
-			return oldValue;
-		}
-
-		public StandardMapAsListTypeInfo getMapType() {
-			return StandardMapAsListTypeInfo.this;
-		}
-
-		public ITypeInfo getTypeInfo() {
-			return getItemType();
-		}
-
-		@Override
-		public int hashCode() {
-			return ((key != null) ? key.hashCode() : 0)
-					+ ((value != null) ? value.hashCode() : 0);
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (obj == null) {
-				return false;
-			}
-			if (!getClass().equals(obj.getClass())) {
-				return false;
-			}
-			if (!ReflectionUIUtils.equalsOrBothNull(key,
-					((StandardMapEntry<?, ?>) obj).key)) {
-				return false;
-			}
-			if (!ReflectionUIUtils.equalsOrBothNull(value,
-					((StandardMapEntry<?, ?>) obj).value)) {
-				return false;
-			}
-			return true;
-		}
-
-	}
-
-	public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements
-			IMapEntryTypeInfo {
-
-		public StandardMapEntryTypeInfo() {
-			super(StandardMapAsListTypeInfo.this.reflectionUI,
-					StandardMapEntry.class);
-		}
-
-		@Override
-		public String getCaption() {
-			return "Entry";
-		}
-
-		@Override
-		public IFieldInfo getKeyField() {
-			try {
-				return new GetterFieldInfo(reflectionUI,
-						StandardMapEntry.class.getMethod("getKey",
-								new Class<?>[0]), StandardMapEntry.class) {
-					@Override
-					public ITypeInfo getType() {
-						if (keyJavaType == null) {
-							return reflectionUI
-									.getTypeInfo(new JavaTypeInfoSource(
-											Object.class));
-						} else {
-							return reflectionUI
-									.getTypeInfo(new JavaTypeInfoSource(
-											keyJavaType));
-						}
-					}
-				};
-			} catch (SecurityException e) {
-				throw new ReflectionUIError(e);
-			} catch (NoSuchMethodException e) {
-				throw new ReflectionUIError(e);
-			}
-		}
-
-		@Override
-		public IFieldInfo getValueField() {
-			try {
-				return new GetterFieldInfo(reflectionUI,
-						StandardMapEntry.class.getMethod("getValue",
-								new Class<?>[0]), StandardMapEntry.class) {
-					@Override
-					public ITypeInfo getType() {
-						if (valueJavaType == null) {
-							return reflectionUI
-									.getTypeInfo(new JavaTypeInfoSource(
-											Object.class));
-						} else {
-							return reflectionUI
-									.getTypeInfo(new JavaTypeInfoSource(
-											valueJavaType));
-						}
-					}
-				};
-			} catch (SecurityException e) {
-				throw new ReflectionUIError(e);
-			} catch (NoSuchMethodException e) {
-				throw new ReflectionUIError(e);
-			}
-		}
-
-		@Override
-		public List<IFieldInfo> getFields() {
-			List<IFieldInfo> result = new ArrayList<IFieldInfo>();
-			result.add(getKeyField());
-			result.add(getValueField());
-			return result;
-		}
-
-		@Override
-		public List<IMethodInfo> getConstructors() {
-			return Collections
-					.<IMethodInfo> singletonList(new AbstractConstructorMethodInfo(
-							StandardMapEntryTypeInfo.this) {
-
-						@SuppressWarnings({ "rawtypes", "unchecked" })
-						@Override
-						public Object invoke(Object object,
-								Map<Integer, Object> valueByParameterPosition) {
-							StandardMapEntry result = new StandardMapEntry(
-									null, null);
-							Object key = null;
-							{
-								IFieldInfo keyField = getKeyField();
-								try {
-									key = reflectionUI
-											.onTypeInstanciationRequest(null,
-													keyField.getType(), true);
-								} catch (Throwable ignore) {
-								}
-								if (key != null) {
-									keyField.setValue(result, key);
-								}
-							}
-							Object value = null;
-							{
-								IFieldInfo valueField = getValueField();
-								try {
-									value = reflectionUI
-											.onTypeInstanciationRequest(null,
-													valueField.getType(), true);
-								} catch (Throwable ignore) {
-								}
-								if (value != null) {
-									valueField.setValue(result, value);
-								}
-							}
-							return result;
-						}
-
-						@Override
-						public List<IParameterInfo> getParameters() {
-							return Collections.emptyList();
-						}
-					});
-		}
-
 	}
 
 }
