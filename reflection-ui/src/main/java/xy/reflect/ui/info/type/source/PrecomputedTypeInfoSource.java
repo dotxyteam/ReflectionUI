@@ -1,7 +1,6 @@
-package xy.reflect.ui.info.type.util;
+package xy.reflect.ui.info.type.source;
 
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.source.ITypeInfoSource;
 
 public class PrecomputedTypeInfoSource implements ITypeInfoSource {
 

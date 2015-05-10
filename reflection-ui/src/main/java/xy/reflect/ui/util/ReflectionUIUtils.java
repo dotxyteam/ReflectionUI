@@ -956,7 +956,7 @@ public class ReflectionUIUtils {
 		return result;
 	}
 
-	public static Method getAnnotatedFieldValueOptionsMember(
+	public static Method getAnnotatedFieldValueOptionsMethod(
 			Class<?> containingJavaType, String baseFieldName) {
 		for (Method method : containingJavaType.getMethods()) {
 			ValueOptionsForField annotation = method
@@ -1131,6 +1131,26 @@ public class ReflectionUIUtils {
 
 	public static StackTraceElement[] createDebugTrace() {
 		return new Exception().getStackTrace();
+	}
+
+	public static Object[] getFieldValueOptionsFromAnnotatedMethod(Object object,
+			Class<?> containingJavaClass, String fieldName,
+			ReflectionUI reflectionUI) {
+		Method javaValueOptionsMethod = getAnnotatedFieldValueOptionsMethod(containingJavaClass,
+						fieldName);
+		if (javaValueOptionsMethod == null) {
+			return null;
+		}
+		IMethodInfo valueOptionsMethod = new DefaultMethodInfo(reflectionUI,
+				javaValueOptionsMethod);
+		IListTypeInfo optionListType = (IListTypeInfo) valueOptionsMethod
+				.getReturnValueType();
+		Object options = valueOptionsMethod.invoke(object,
+				Collections.<Integer, Object> emptyMap());
+		if (options == null) {
+			return null;
+		}
+		return optionListType.toListValue(options);
 	}
 
 }

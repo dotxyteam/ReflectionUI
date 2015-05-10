@@ -17,10 +17,13 @@ public class PublicFieldInfo implements IFieldInfo {
 	protected Field javaField;
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo type;
+	private Class<?> containingJavaClass;
 
-	public PublicFieldInfo(ReflectionUI reflectionUI, Field field) {
+	public PublicFieldInfo(ReflectionUI reflectionUI, Field field,
+			Class<?> containingJavaClass) {
 		this.reflectionUI = reflectionUI;
 		this.javaField = field;
+		this.containingJavaClass = containingJavaClass;
 		resolveJavaReflectionModelAccessProblems();
 	}
 
@@ -56,7 +59,8 @@ public class PublicFieldInfo implements IFieldInfo {
 
 	@Override
 	public Object[] getValueOptions(Object object) {
-		return null;
+		return ReflectionUIUtils.getFieldValueOptionsFromAnnotatedMethod(
+				object, containingJavaClass, javaField.getName(), reflectionUI);
 	}
 
 	@Override

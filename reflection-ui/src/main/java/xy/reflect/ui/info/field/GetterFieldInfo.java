@@ -10,11 +10,11 @@ import java.util.regex.Pattern;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.annotation.ValueOptionsForField;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
-import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -77,29 +77,14 @@ public class GetterFieldInfo implements IFieldInfo {
 				Collections.<Integer, Object> emptyMap());
 	}
 
-	protected IMethodInfo getValueOptionsMethodInfo() {
-		Method javaValueOptionsMethod = GetterFieldInfo.getValueOptionsMethod(
-				javaGetterMethod, containingJavaClass);
-		if (javaValueOptionsMethod == null) {
-			return null;
-		}
-		return new DefaultMethodInfo(reflectionUI, javaValueOptionsMethod);
-	}
-
 	@Override
 	public Object[] getValueOptions(Object object) {
-		IMethodInfo valueOptionsMethod = getValueOptionsMethodInfo();
-		if (valueOptionsMethod == null) {
+		String fieldName = getFieldName(javaGetterMethod.getName());
+		if (fieldName == null) {
 			return null;
 		}
-		IListTypeInfo optionListType = (IListTypeInfo) valueOptionsMethod
-				.getReturnValueType();
-		Object options = valueOptionsMethod.invoke(object,
-				Collections.<Integer, Object> emptyMap());
-		if (options == null) {
-			return null;
-		}
-		return optionListType.toListValue(options);
+		return ReflectionUIUtils.getFieldValueOptionsFromAnnotatedMethod(object, containingJavaClass,
+				fieldName, reflectionUI);
 	}
 
 	@Override
@@ -185,17 +170,6 @@ public class GetterFieldInfo implements IFieldInfo {
 		return result;
 	}
 
-	public static Method getValueOptionsMethod(Method javaGetterMethod,
-			Class<?> containingJavaClass) {
-		String baseFieldName = getFieldName(javaGetterMethod.getName());
-		if (baseFieldName == null) {
-			return null;
-		}
-		Method result = ReflectionUIUtils.getAnnotatedFieldValueOptionsMember(
-				containingJavaClass, baseFieldName);
-		return result;
-	}
-
 	public static boolean isCompatibleWith(Method javaMethod,
 			Class<?> containingJavaClass) {
 		if (GetterFieldInfo.getFieldName(javaMethod.getName()) == null) {
@@ -221,13 +195,8 @@ public class GetterFieldInfo implements IFieldInfo {
 						javaMethod)) {
 			return false;
 		}
-		for (Method otherJavaMethod : containingJavaClass.getMethods()) {
-			if (!otherJavaMethod.equals(javaMethod)) {
-				if (javaMethod.equals(GetterFieldInfo.getValueOptionsMethod(
-						otherJavaMethod, containingJavaClass))) {
-					return false;
-				}
-			}
+		if (javaMethod.getAnnotation(ValueOptionsForField.class) != null) {
+			return false;
 		}
 		return true;
 	}

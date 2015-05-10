@@ -12,6 +12,7 @@ import xy.reflect.ui.info.type.custom.FileTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.util.IListAction;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
+import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.util.ReflectionUIUtils;
 

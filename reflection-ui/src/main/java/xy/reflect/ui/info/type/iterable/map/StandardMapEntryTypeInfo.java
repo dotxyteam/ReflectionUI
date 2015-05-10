@@ -142,4 +142,39 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements
 				});
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((keyJavaType == null) ? 0 : keyJavaType.hashCode());
+		result = prime * result
+				+ ((valueJavaType == null) ? 0 : valueJavaType.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		StandardMapEntryTypeInfo other = (StandardMapEntryTypeInfo) obj;
+		if (keyJavaType == null) {
+			if (other.keyJavaType != null)
+				return false;
+		} else if (!keyJavaType.equals(other.keyJavaType))
+			return false;
+		if (valueJavaType == null) {
+			if (other.valueJavaType != null)
+				return false;
+		} else if (!valueJavaType.equals(other.valueJavaType))
+			return false;
+		return true;
+	}
+	
+	
+
 }

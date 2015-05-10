@@ -5,6 +5,7 @@ import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -19,6 +20,7 @@ import org.ietf.jgss.GSSException;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.annotation.Category;
 import xy.reflect.ui.info.annotation.OnlineHelp;
+import xy.reflect.ui.info.annotation.ValueOptionsForField;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractMethodUndoModification;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -85,15 +87,19 @@ public class ReflectionUITest {
 				Arrays.asList("a", "b", "c", "d"));
 		public Test2 test2 = new Test2();
 		@Category("List")
-		public Test2[] theArrayTreeTable = new Test2[] { new Test2(),
-				new Test2() };
+		public AbstrcatTestDescendant[] theArrayTreeTable = new AbstrcatTestDescendant[] {
+				new Test2(), new Test3() };
 		@Category("List")
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		public Vector theGenericVectorTree = new Vector(Arrays.asList(
 				new Test2(), new Test2()));
 
 		@Category("List")
-		public Map<Integer, String> theMap = new HashMap<Integer, String>();
+		public Map<Integer, String> theMap = new HashMap<Integer, String>(
+				Collections.singletonMap(5, "five"));
+
+		@Category("List")
+		public Map<Integer, Test2> theTest2Map = new HashMap<Integer, Test2>();
 
 		@Category("List")
 		public List<File> theFileList = Arrays.asList(new File("."));
@@ -131,8 +137,7 @@ public class ReflectionUITest {
 
 	}
 
-	@OnlineHelp("This type is used as a 2nd test case")
-	public static class Test2 {
+	public static abstract class AbstrcatTestDescendant {
 		public enum Day {
 			MONDAY, TUESDAY, WEDNESDAY
 		};
@@ -140,7 +145,22 @@ public class ReflectionUITest {
 		public Day theDay;
 		public short theShort = 0;
 		public short the2ndShort = 1;
-		public List<Test2> theChildrenList = new ArrayList<ReflectionUITest.Test2>();
+
+	}
+
+	@OnlineHelp("This type is used as a 2nd test case")
+	public static class Test2 extends AbstrcatTestDescendant {
+		public List<AbstrcatTestDescendant> theChildrenList = new ArrayList<ReflectionUITest.AbstrcatTestDescendant>();
+	}
+
+	@OnlineHelp("This type is used as a 3rd test case")
+	public static class Test3 extends AbstrcatTestDescendant {
+		public String reference;
+
+		@ValueOptionsForField("reference")
+		public List<String> getValidReferences() {
+			return Arrays.asList("ref1", "ref2", "ref3");
+		}
 	}
 
 	public static void main(String[] args) {
@@ -206,7 +226,7 @@ public class ReflectionUITest {
 									valueByParameterPosition);
 						}
 					}
-					
+
 				}.get(super.getTypeInfo(typeSource));
 			}
 		};

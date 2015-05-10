@@ -23,8 +23,10 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
@@ -101,6 +103,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		refreshStructure();
 		openDetailsDialogOnItemDoubleClick();
 		updateButtonsPanelOnItemSelection();
+		setupContexteMenu();
 
 		buttonsPanel = new JPanel();
 		setLeftComponent(new JScrollPane(ReflectionUIUtils.flowInLayout(
@@ -111,6 +114,53 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		updateButtonsPanel();
 		setDividerLocation(ReflectionUIUtils
 				.getStandardCharacterWidth(new JButton()) * 30);
+	}
+
+	protected void setupContexteMenu() {
+		treeTableComponent.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				if (e.getButton() != MouseEvent.BUTTON3) {
+					return;
+				}
+				selectOnRighClick(e);
+				if (e.isPopupTrigger()
+						&& e.getComponent() == treeTableComponent) {
+					JPopupMenu popup = createPopupMenu();
+					popup.show(e.getComponent(), e.getX(), e.getY());
+				}
+			}
+
+			private void selectOnRighClick(MouseEvent e) {
+				if (e.getButton() != MouseEvent.BUTTON3) {
+					return;
+				}
+				int r = treeTableComponent.rowAtPoint(e.getPoint());
+				if (r >= 0 && r < treeTableComponent.getRowCount()) {
+					treeTableComponent.setRowSelectionInterval(r, r);
+				} else {
+					treeTableComponent.clearSelection();
+				}
+			}
+		});
+	}
+
+	protected JPopupMenu createPopupMenu() {
+		JPopupMenu result = new JPopupMenu();
+		JPanel tmp = new JPanel();
+		addSelectedItemButtons(tmp);
+		for(Component c: tmp.getComponents()){
+			final JButton button = (JButton) c;
+			JMenuItem menuItem = new JMenuItem(button.getText());
+			menuItem.addActionListener(new ActionListener() {				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					button.doClick();
+				}
+			});
+			result.add(menuItem);
+		}
+		return result;
 	}
 
 	@Override
@@ -238,7 +288,10 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 	protected void updateButtonsPanel() {
 		buttonsPanel.removeAll();
+		addSelectedItemButtons(buttonsPanel);
+	}
 
+	protected void addSelectedItemButtons(JPanel buttonsPanel) {
 		List<AutoUpdatingFieldItemPosition> selection = getSelection();
 
 		for (IListAction action : getRootListType().getSpecificActions(object,
@@ -1652,6 +1705,10 @@ public class ListControl extends JSplitPane implements IFieldControl {
 			JLabel label = (JLabel) defaultTreeCellRenderer
 					.getTreeCellRendererComponent(tree, value, selected,
 							expanded, isLeaf, row, focused);
+			if (!selected) {
+				label.setOpaque(false);
+				label.setBackground(null);
+			}
 			customizeComponent(label, (ItemNode) value, row, 0, selected,
 					focused);
 			return label;
