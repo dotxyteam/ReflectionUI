@@ -1,9 +1,8 @@
 package xy.reflect.ui.control;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -19,7 +18,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -28,8 +30,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import javax.swing.JTable;
+import javax.swing.JToolBar;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
@@ -55,24 +57,24 @@ import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.util.IListAction;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.info.type.iterable.util.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.CompositeModification;
-import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.IModification;
-import xy.reflect.ui.undo.UndoOrder;
+import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.SetListValueModification;
+import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.component.AbstractLazyTreeNode;
 
 @SuppressWarnings("rawtypes")
-public class ListControl extends JSplitPane implements IFieldControl {
+public class ListControl extends JPanel implements IFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected ReflectionUI reflectionUI;
@@ -80,7 +82,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 	protected IFieldInfo field;
 	protected JXTreeTable treeTableComponent;
 	protected ItemNode rootNode;
-	protected JPanel buttonsPanel;
+	protected JToolBar toolbar;
 	protected Map<ItemNode, Map<Integer, String>> valuesByNode = new HashMap<ItemNode, Map<Integer, String>>();
 	protected IListStructuralInfo structuralInfo;
 	protected static List<Object> clipboard = new ArrayList<Object>();
@@ -91,8 +93,10 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		this.object = object;
 		this.field = field;
 
+		setLayout(new BorderLayout());
+
 		initializeTreeTableControl();
-		setRightComponent(new JScrollPane(treeTableComponent));
+		add(new JScrollPane(treeTableComponent), BorderLayout.CENTER);
 
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 		size.width = size.width / 2;
@@ -102,18 +106,84 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 		refreshStructure();
 		openDetailsDialogOnItemDoubleClick();
-		updateButtonsPanelOnItemSelection();
+		updateToolbarOnItemSelection();
 		setupContexteMenu();
 
-		buttonsPanel = new JPanel();
-		setLeftComponent(new JScrollPane(ReflectionUIUtils.flowInLayout(
-				buttonsPanel, FlowLayout.CENTER)));
-		GridLayout layout = new GridLayout(0, 1);
-		buttonsPanel.setLayout(layout);
+		toolbar = new JToolBar();
+		add(toolbar, BorderLayout.NORTH);
+		updateToolbar();
 
-		updateButtonsPanel();
-		setDividerLocation(ReflectionUIUtils
-				.getStandardCharacterWidth(new JButton()) * 30);
+	}
+
+	protected void updateToolbar() {
+		toolbar.removeAll();
+		if (!getRootListItemPosition().isContainingListReadOnly()) {
+
+			AbstractAction addAction = createAddAction();
+			AbstractAction insertAction = createInsertAction(InsertPosition.UNKNOWN);
+			AbstractAction insertActionBefore = createInsertAction(InsertPosition.BEFORE);
+			AbstractAction insertActionAfter = createInsertAction(InsertPosition.AFTER);
+			toolbar.add(createTool(ReflectionUIUtils.ADD_ICON, true, addAction,
+					insertAction, insertActionBefore, insertActionAfter));
+
+			toolbar.add(createTool(ReflectionUIUtils.REMOVE_ICON, true,
+					createRemoveAction()));
+
+			toolbar.add(createTool(ReflectionUIUtils.UP_ICON, false,
+					createMoveAction(-1, "Up")));
+
+			toolbar.add(createTool(ReflectionUIUtils.DOWN_ICON, false,
+					createMoveAction(1, "Down")));
+		}
+		validate();
+	}
+
+	protected JButton createTool(Icon icon, boolean alwawsShow,  AbstractAction... actions) {
+		final JButton result = new JButton(icon);
+		List<AbstractAction> allActiveActions = createCurrentSelectionActions();
+		final List<AbstractAction> actionsToPresent = new ArrayList<AbstractAction>();
+		for (final AbstractAction action : actions) {
+			if (action == null) {
+				continue;
+			}
+			if (findActionByName(allActiveActions,
+					(String) action.getValue(Action.NAME))) {
+				actionsToPresent.add(action);
+			}
+		}
+		if (actionsToPresent.size() > 0) {
+			result.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (actionsToPresent.size() == 1) {
+						actionsToPresent.get(0).actionPerformed(null);
+					} else {
+						final JPopupMenu popupMenu = new JPopupMenu();
+						for (AbstractAction action : actionsToPresent) {
+							popupMenu.add(action);
+						}
+						popupMenu.show(result, result.getWidth(),
+								result.getHeight());
+					}
+				}
+			});
+		} else {
+			result.setEnabled(false);
+			if(!alwawsShow){
+				result.setVisible(false);
+			}
+		}
+		return result;
+	}
+
+	protected static boolean findActionByName(List<AbstractAction> actions,
+			String name) {
+		for (AbstractAction action : actions) {
+			if (name.equals(action.getValue(Action.NAME))) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	protected void setupContexteMenu() {
@@ -147,17 +217,8 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 	protected JPopupMenu createPopupMenu() {
 		JPopupMenu result = new JPopupMenu();
-		JPanel tmp = new JPanel();
-		addSelectedItemButtons(tmp);
-		for(Component c: tmp.getComponents()){
-			final JButton button = (JButton) c;
-			JMenuItem menuItem = new JMenuItem(button.getText());
-			menuItem.addActionListener(new ActionListener() {				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					button.doClick();
-				}
-			});
+		for (Action action : createCurrentSelectionActions()) {
+			JMenuItem menuItem = new JMenuItem(action);
 			result.add(menuItem);
 		}
 		return result;
@@ -286,17 +347,14 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		return value;
 	}
 
-	protected void updateButtonsPanel() {
-		buttonsPanel.removeAll();
-		addSelectedItemButtons(buttonsPanel);
-	}
+	protected List<AbstractAction> createCurrentSelectionActions() {
+		List<AbstractAction> result = new ArrayList<AbstractAction>();
 
-	protected void addSelectedItemButtons(JPanel buttonsPanel) {
 		List<AutoUpdatingFieldItemPosition> selection = getSelection();
 
-		for (IListAction action : getRootListType().getSpecificActions(object,
-				field, selection)) {
-			createSpecificActionButton(action, buttonsPanel);
+		for (IListAction listAction : getRootListType().getSpecificActions(
+				object, field, selection)) {
+			result.add(createSpecificAction(listAction));
 		}
 
 		AutoUpdatingFieldItemPosition singleSelectedPosition = null;
@@ -315,29 +373,28 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 		if (singleSelectedPosition != null) {
 			if (hasItemDetails(singleSelectedPosition)) {
-				createOpenItemButton(buttonsPanel);
+				result.add(createOpenItemButton());
 			}
 		}
 
 		if (selection.size() == 0) {
 			if (!getRootListItemPosition().isContainingListReadOnly()) {
-				createAddButton(buttonsPanel);
+				result.add(createAddAction());
 			}
 		} else if (singleSelectedPositionSubItemPosition != null) {
 			if (!singleSelectedPositionSubItemPosition
 					.isContainingListReadOnly()) {
-				createAddButton(buttonsPanel);
+				result.add(createAddAction());
 			}
 		}
 
 		if (singleSelectedPosition != null) {
 			if (!singleSelectedPosition.isContainingListReadOnly()) {
 				if (singleSelectedPosition.getContainingListType().isOrdered()) {
-					createInsertButton(buttonsPanel, InsertPosition.BEFORE);
-					createInsertButton(buttonsPanel, InsertPosition.AFTER);
+					result.add(createInsertAction(InsertPosition.BEFORE));
+					result.add(createInsertAction(InsertPosition.AFTER));
 				} else {
-					createInsertButton(buttonsPanel,
-							InsertPosition.INDERTERMINATE);
+					result.add(createInsertAction(InsertPosition.UNKNOWN));
 				}
 			}
 		}
@@ -351,9 +408,9 @@ public class ListControl extends JSplitPane implements IFieldControl {
 				}
 			}
 			if (canCopyAllSelection) {
-				createCopyButton(buttonsPanel);
+				result.add(createCopyAction());
 				if (!anySelectionItemContainingListReadOnly) {
-					createCutButton(buttonsPanel);
+					result.add(createCutAction());
 				}
 			}
 		}
@@ -372,13 +429,10 @@ public class ListControl extends JSplitPane implements IFieldControl {
 					if (rootItemPositionSupportsAllClipboardItems) {
 						if (rootItemPosition.getContainingListType()
 								.isOrdered()) {
-							createPasteButton(buttonsPanel,
-									InsertPosition.BEFORE);
-							createPasteButton(buttonsPanel,
-									InsertPosition.AFTER);
+							result.add(createPasteAction(InsertPosition.BEFORE));
+							result.add(createPasteAction(InsertPosition.AFTER));
 						} else {
-							createPasteButton(buttonsPanel,
-									InsertPosition.INDERTERMINATE);
+							result.add(createPasteAction(InsertPosition.UNKNOWN));
 						}
 					}
 				}
@@ -394,13 +448,10 @@ public class ListControl extends JSplitPane implements IFieldControl {
 					if (selectedItemPositionSupportsAllClipboardItems) {
 						if (singleSelectedPosition.getContainingListType()
 								.isOrdered()) {
-							createPasteButton(buttonsPanel,
-									InsertPosition.BEFORE);
-							createPasteButton(buttonsPanel,
-									InsertPosition.AFTER);
+							result.add(createPasteAction(InsertPosition.BEFORE));
+							result.add(createPasteAction(InsertPosition.AFTER));
 						} else {
-							createPasteButton(buttonsPanel,
-									InsertPosition.INDERTERMINATE);
+							result.add(createPasteAction(InsertPosition.UNKNOWN));
 						}
 					}
 					if (singleSelectedPositionSubItemPosition != null) {
@@ -415,7 +466,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 								}
 							}
 							if (singleSelectedPositionSubItemPositionSupportsAllClipboardItems) {
-								createPasteInButton(buttonsPanel);
+								result.add(createPasteInAction());
 							}
 						}
 					}
@@ -425,7 +476,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 		if (selection.size() > 0) {
 			if (!anySelectionItemContainingListReadOnly) {
-				createRemoveButton(buttonsPanel);
+				result.add(createRemoveAction());
 				boolean allSelectionItemsInSameList = true;
 				AutoUpdatingFieldItemPosition firstSelectionItem = selection
 						.get(0);
@@ -440,19 +491,19 @@ public class ListControl extends JSplitPane implements IFieldControl {
 				if (allSelectionItemsInSameList
 						&& firstSelectionItem.getContainingListType()
 								.isOrdered()) {
-					createMoveButton(buttonsPanel, -1, "Up");
-					createMoveButton(buttonsPanel, +1, "Down");
+					result.add(createMoveAction(-1, "Up"));
+					result.add(createMoveAction(+1, "Down"));
 				}
 			}
 		}
 
 		if (getRootList().size() > 0) {
 			if (!getRootListItemPosition().isContainingListReadOnly()) {
-				createClearButton(buttonsPanel);
+				result.add(createClearAction());
 			}
 		}
 
-		validate();
+		return result;
 	}
 
 	protected AutoUpdatingFieldItemPosition getSubItemPosition(
@@ -471,11 +522,10 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		return null;
 	}
 
-	protected void createClearButton(JPanel buttonsPanel) {
-		final JButton button = new JButton(
-				reflectionUI.prepareUIString("Clear"));
-		buttonsPanel.add(button);
-		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
+	protected AbstractAction createClearAction() {
+		return new AbstractAction(reflectionUI.prepareUIString("Clear")) {
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -489,17 +539,17 @@ public class ListControl extends JSplitPane implements IFieldControl {
 						refreshStructure();
 					}
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
+					reflectionUI.handleExceptionsFromDisplayedUI(
+							ListControl.this, t);
 				}
 			}
-		}));
+		};
 	}
 
-	protected void createMoveButton(JPanel buttonsPanel, final int offset,
-			String label) {
-		final JButton button = new JButton(reflectionUI.prepareUIString(label));
-		buttonsPanel.add(button);
-		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
+	protected AbstractAction createMoveAction(final int offset, String label) {
+		return new AbstractAction(reflectionUI.prepareUIString(label)) {
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -532,10 +582,11 @@ public class ListControl extends JSplitPane implements IFieldControl {
 					refreshStructure();
 					setSelection(newSelection);
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
+					reflectionUI.handleExceptionsFromDisplayedUI(
+							ListControl.this, t);
 				}
 			}
-		}));
+		};
 	}
 
 	protected AutoUpdatingFieldItemPosition getSingleSelection() {
@@ -592,7 +643,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		}
 		treeTableComponent.getTreeSelectionModel().setSelectionPaths(
 				treePaths.toArray(new TreePath[treePaths.size()]));
-		updateButtonsPanel();
+		updateToolbar();
 	}
 
 	protected ItemNode findNode(AutoUpdatingFieldItemPosition itemPosition) {
@@ -616,11 +667,10 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		return result;
 	}
 
-	protected void createRemoveButton(JPanel buttonsPanel) {
-		final JButton button = new JButton(
-				reflectionUI.prepareUIString("Remove"));
-		buttonsPanel.add(button);
-		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
+	protected AbstractAction createRemoveAction() {
+		return new AbstractAction(reflectionUI.prepareUIString("Remove")) {
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -665,10 +715,11 @@ public class ListControl extends JSplitPane implements IFieldControl {
 						setSelection(toPostSelect);
 					}
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
+					reflectionUI.handleExceptionsFromDisplayedUI(
+							ListControl.this, t);
 				}
 			}
-		}));
+		};
 	}
 
 	protected void updateOnItemRemoval(
@@ -758,7 +809,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 
 	}
 
-	protected void createInsertButton(JPanel buttonsPanel,
+	protected AbstractAction createInsertAction(
 			final InsertPosition insertPosition) {
 		final AutoUpdatingFieldItemPosition itemPosition;
 		AutoUpdatingFieldItemPosition singleSelection = getSingleSelection();
@@ -791,10 +842,9 @@ public class ListControl extends JSplitPane implements IFieldControl {
 			}
 			buttonText += " ...";
 		}
-		final JButton button = new JButton(
-				reflectionUI.prepareUIString(buttonText));
-		buttonsPanel.add(button);
-		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
+		return new AbstractAction(reflectionUI.prepareUIString(buttonText)) {
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -805,7 +855,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 										Object.class));
 					}
 					Object newItem = reflectionUI.onTypeInstanciationRequest(
-							button, typeToInstanciate, false);
+							ListControl.this, typeToInstanciate, false);
 					if (newItem == null) {
 						return;
 					}
@@ -825,13 +875,14 @@ public class ListControl extends JSplitPane implements IFieldControl {
 						setSingleSelection(toSelect);
 					}
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
+					reflectionUI.handleExceptionsFromDisplayedUI(
+							ListControl.this, t);
 				}
 			}
-		}));
+		};
 	}
 
-	protected void createAddButton(JPanel buttonsPanel) {
+	protected AbstractAction createAddAction() {
 		final AutoUpdatingFieldItemPosition itemPosition = getSingleSelection();
 		final AutoUpdatingFieldItemPosition subItemPosition;
 		if (itemPosition == null) {
@@ -839,14 +890,18 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		} else {
 			subItemPosition = getSubItemPosition(itemPosition);
 		}
+		if (subItemPosition == null) {
+			return null;
+		}
 		final IListTypeInfo subListType = subItemPosition
 				.getContainingListType();
 		final ITypeInfo subListItemType = subListType.getItemType();
-		final JButton button = new JButton(
+		return new AbstractAction(
 				reflectionUI.prepareUIString((subListItemType == null) ? "Add..."
-						: ("Add " + subListItemType.getCaption() + "...")));
-		buttonsPanel.add(button);
-		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
+						: ("Add " + subListItemType.getCaption() + "..."))) {
+
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -856,7 +911,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 								Object.class);
 					}
 					Object newSubListItem = reflectionUI
-							.onTypeInstanciationRequest(button,
+							.onTypeInstanciationRequest(ListControl.this,
 									typeToInstanciate, false);
 					if (newSubListItem == null) {
 						return;
@@ -882,10 +937,12 @@ public class ListControl extends JSplitPane implements IFieldControl {
 						setSingleSelection(toSelect);
 					}
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
+					reflectionUI.handleExceptionsFromDisplayedUI(
+							ListControl.this, t);
 				}
 			}
-		}));
+
+		};
 	}
 
 	protected ActionListener restoreSelectionOnUndoAndRedo(
@@ -916,10 +973,10 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		};
 	}
 
-	protected void createCopyButton(JPanel buttonsPanel) {
-		final JButton button = new JButton(reflectionUI.prepareUIString("Copy"));
-		buttonsPanel.add(button);
-		button.addActionListener(new ActionListener() {
+	protected AbstractAction createCopyAction() {
+		return new AbstractAction(reflectionUI.prepareUIString("Copy")) {
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -929,20 +986,22 @@ public class ListControl extends JSplitPane implements IFieldControl {
 						if (itemPosition == null) {
 							return;
 						}
-						clipboard.add(reflectionUI.copy(itemPosition.getItem()));
+						clipboard
+								.add(reflectionUI.copy(itemPosition.getItem()));
 					}
-					updateButtonsPanel();
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
+					reflectionUI.handleExceptionsFromDisplayedUI(
+							ListControl.this, t);
 				}
 			}
-		});
+		};
 	}
 
-	protected void createCutButton(JPanel buttonsPanel) {
-		final JButton button = new JButton(reflectionUI.prepareUIString("Cut"));
-		buttonsPanel.add(button);
-		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
+	protected AbstractAction createCutAction() {
+		return new AbstractAction(reflectionUI.prepareUIString("Cut")) {
+
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -968,7 +1027,8 @@ public class ListControl extends JSplitPane implements IFieldControl {
 						updateOnItemRemoval(toPostSelect, itemPosition);
 						if (itemPosition.getContainingListType().isOrdered()
 								&& (index > 0)) {
-							toPostSelect.add(itemPosition.getSibling(index - 1));
+							toPostSelect
+									.add(itemPosition.getSibling(index - 1));
 						} else {
 							toPostSelect.add(itemPosition
 									.getParentItemPosition());
@@ -981,13 +1041,14 @@ public class ListControl extends JSplitPane implements IFieldControl {
 					refreshStructure();
 					setSelection(toPostSelect);
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
+					reflectionUI.handleExceptionsFromDisplayedUI(
+							ListControl.this, t);
 				}
 			}
-		}));
+		};
 	}
 
-	protected void createPasteButton(JPanel buttonsPanel,
+	protected AbstractAction createPasteAction(
 			final InsertPosition insertPosition) {
 		String buttonText;
 		if (insertPosition == InsertPosition.AFTER) {
@@ -997,10 +1058,10 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		} else {
 			buttonText = "Paste";
 		}
-		final JButton button = new JButton(
-				reflectionUI.prepareUIString(buttonText));
-		buttonsPanel.add(button);
-		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
+		return new AbstractAction(reflectionUI.prepareUIString(buttonText)) {
+
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -1041,17 +1102,18 @@ public class ListControl extends JSplitPane implements IFieldControl {
 					}
 					setSelection(toPostSelect);
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
+					reflectionUI.handleExceptionsFromDisplayedUI(
+							ListControl.this, t);
 				}
 			}
-		}));
+		};
 	}
 
-	protected void createPasteInButton(JPanel buttonsPanel) {
-		final JButton button = new JButton(
-				reflectionUI.prepareUIString("Paste"));
-		buttonsPanel.add(button);
-		button.addActionListener(restoreSelectionOnUndoAndRedo(new ActionListener() {
+	protected AbstractAction createPasteInAction() {
+		return new AbstractAction(reflectionUI.prepareUIString("Paste")) {
+
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -1091,10 +1153,11 @@ public class ListControl extends JSplitPane implements IFieldControl {
 					}
 					setSelection(toPostSelect);
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
+					reflectionUI.handleExceptionsFromDisplayedUI(
+							ListControl.this, t);
 				}
 			}
-		}));
+		};
 	}
 
 	protected ITypeInfo getRootListItemType() {
@@ -1105,12 +1168,11 @@ public class ListControl extends JSplitPane implements IFieldControl {
 		return (IListTypeInfo) field.getType();
 	}
 
-	protected void createSpecificActionButton(final IListAction action,
-			JPanel buttonsPanel) {
-		final JButton button = new JButton(reflectionUI.prepareUIString(action
-				.getTitle()));
-		buttonsPanel.add(button);
-		button.addActionListener(new ActionListener() {
+	protected AbstractAction createSpecificAction(final IListAction action) {
+		return new AbstractAction(reflectionUI.prepareUIString(action
+				.getTitle())) {
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -1122,16 +1184,17 @@ public class ListControl extends JSplitPane implements IFieldControl {
 								}
 							}, action.getTitle());
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
+					reflectionUI.handleExceptionsFromDisplayedUI(
+							ListControl.this, t);
 				}
 			}
-		});
+		};
 	}
 
-	protected void createOpenItemButton(JPanel buttonsPanel) {
-		final JButton button = new JButton(reflectionUI.prepareUIString("Open"));
-		buttonsPanel.add(button);
-		button.addActionListener(new ActionListener() {
+	protected AbstractAction createOpenItemButton() {
+		return new AbstractAction(reflectionUI.prepareUIString("Open")) {
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -1141,20 +1204,21 @@ public class ListControl extends JSplitPane implements IFieldControl {
 					}
 					onOpenDetaildsDialogRequest(itemPosition);
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(button, t);
+					reflectionUI.handleExceptionsFromDisplayedUI(
+							ListControl.this, t);
 				}
 			}
-		});
+		};
 	}
 
-	protected void updateButtonsPanelOnItemSelection() {
+	protected void updateToolbarOnItemSelection() {
 		treeTableComponent
 				.addTreeSelectionListener(new TreeSelectionListener() {
 
 					@Override
 					public void valueChanged(TreeSelectionEvent e) {
 						try {
-							updateButtonsPanel();
+							updateToolbar();
 						} catch (Throwable t) {
 							reflectionUI.handleExceptionsFromDisplayedUI(
 									treeTableComponent, t);
@@ -1768,7 +1832,7 @@ public class ListControl extends JSplitPane implements IFieldControl {
 	}
 
 	protected enum InsertPosition {
-		AFTER, BEFORE, INDERTERMINATE
+		AFTER, BEFORE, UNKNOWN
 	}
 
 }

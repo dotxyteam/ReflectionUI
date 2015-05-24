@@ -81,6 +81,14 @@ public class ReflectionUIUtils {
 			ReflectionUI.class.getResource("resource/error.png"));
 	public static final Icon HELP_ICON = new ImageIcon(
 			ReflectionUI.class.getResource("resource/help.png"));
+	public static final Icon ADD_ICON = new ImageIcon(
+			ReflectionUI.class.getResource("resource/add.png"));
+	public static final Icon REMOVE_ICON = new ImageIcon(
+			ReflectionUI.class.getResource("resource/remove.png"));
+	public static final Icon UP_ICON = new ImageIcon(
+			ReflectionUI.class.getResource("resource/up.png"));
+	public static final Icon DOWN_ICON = new ImageIcon(
+			ReflectionUI.class.getResource("resource/down.png"));
 
 	public static Class<?> primitiveToWrapperType(Class<?> class1) {
 		if (class1 == int.class) {
