@@ -246,8 +246,6 @@
         <string>xy.reflect.ui.ReflectionUI$15</string>
         <string>ReflectionUI.java</string>
         <string>run</string>
-        <string>Add Stack Trace Element...</string>
-        <string>Clear</string>
         <string>Print Stack Trace</string>
         <string>Fill In Stack Trace</string>
         <string>Print Stack Trace...</string>

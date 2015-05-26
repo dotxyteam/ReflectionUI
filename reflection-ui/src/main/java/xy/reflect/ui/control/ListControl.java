@@ -30,6 +30,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.JTree;
@@ -86,6 +87,13 @@ public class ListControl extends JPanel implements IFieldControl {
 	protected Map<ItemNode, Map<Integer, String>> valuesByNode = new HashMap<ItemNode, Map<Integer, String>>();
 	protected IListStructuralInfo structuralInfo;
 	protected static List<Object> clipboard = new ArrayList<Object>();
+	protected static AbstractAction SEPARATOR_ACTION = new AbstractAction("") {
+		protected static final long serialVersionUID = 1L;
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+		}
+	};
 
 	public ListControl(final ReflectionUI reflectionUI, final Object object,
 			final IFieldInfo field) {
@@ -123,39 +131,56 @@ public class ListControl extends JPanel implements IFieldControl {
 			AbstractAction insertAction = createInsertAction(InsertPosition.UNKNOWN);
 			AbstractAction insertActionBefore = createInsertAction(InsertPosition.BEFORE);
 			AbstractAction insertActionAfter = createInsertAction(InsertPosition.AFTER);
-			toolbar.add(createTool(ReflectionUIUtils.ADD_ICON, true, addAction,
-					insertAction, insertActionBefore, insertActionAfter));
+			toolbar.add(createTool(null, ReflectionUIUtils.ADD_ICON, true,
+					false, addAction, insertAction, insertActionBefore,
+					insertActionAfter));
 
-			toolbar.add(createTool(ReflectionUIUtils.REMOVE_ICON, true,
-					createRemoveAction()));
+			toolbar.add(createTool(null, ReflectionUIUtils.REMOVE_ICON, true,
+					false, createRemoveAction()));
 
-			toolbar.add(createTool(ReflectionUIUtils.UP_ICON, false,
-					createMoveAction(-1, "Up")));
+			toolbar.add(createTool(null, ReflectionUIUtils.UP_ICON, false,
+					false, createMoveAction(-1)));
 
-			toolbar.add(createTool(ReflectionUIUtils.DOWN_ICON, false,
-					createMoveAction(1, "Down")));
+			toolbar.add(createTool(null, ReflectionUIUtils.DOWN_ICON, false,
+					false, createMoveAction(1)));
+
+			List<AbstractAction> specificActions = new ArrayList<AbstractAction>();
+			for (IListAction listAction : getRootListType().getSpecificActions(
+					object, field, getSelection())) {
+				specificActions.add(createSpecificAction(listAction));
+			}
+			toolbar.add(createTool("...", null, false, true, specificActions
+					.toArray(new AbstractAction[specificActions.size()])));
+
 		}
 		validate();
 	}
 
-	protected JButton createTool(Icon icon, boolean alwawsShow,  AbstractAction... actions) {
-		final JButton result = new JButton(icon);
+	protected JButton createTool(String text, Icon icon,
+			boolean alwawsShowIcon, final boolean alwawsShowMenu,
+			AbstractAction... actions) {
+		final JButton result = new JButton(text, icon);
+		result.setFocusable(false);
 		List<AbstractAction> allActiveActions = createCurrentSelectionActions();
 		final List<AbstractAction> actionsToPresent = new ArrayList<AbstractAction>();
 		for (final AbstractAction action : actions) {
 			if (action == null) {
 				continue;
 			}
-			if (findActionByName(allActiveActions,
-					(String) action.getValue(Action.NAME))) {
+			String actionTitle = (String) action.getValue(Action.NAME);
+			if (findActionByName(allActiveActions, actionTitle)) {
 				actionsToPresent.add(action);
 			}
 		}
 		if (actionsToPresent.size() > 0) {
+			if (actionsToPresent.size() == 1) {
+				ReflectionUIUtils.setMultilineToolTipText(result,
+						(String) actionsToPresent.get(0).getValue(Action.NAME));
+			}
 			result.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if (actionsToPresent.size() == 1) {
+					if (!alwawsShowMenu && (actionsToPresent.size() == 1)) {
 						actionsToPresent.get(0).actionPerformed(null);
 					} else {
 						final JPopupMenu popupMenu = new JPopupMenu();
@@ -169,7 +194,7 @@ public class ListControl extends JPanel implements IFieldControl {
 			});
 		} else {
 			result.setEnabled(false);
-			if(!alwawsShow){
+			if (!alwawsShowIcon) {
 				result.setVisible(false);
 			}
 		}
@@ -193,6 +218,7 @@ public class ListControl extends JPanel implements IFieldControl {
 				if (e.getButton() != MouseEvent.BUTTON3) {
 					return;
 				}
+
 				selectOnRighClick(e);
 				if (e.isPopupTrigger()
 						&& e.getComponent() == treeTableComponent) {
@@ -201,13 +227,16 @@ public class ListControl extends JPanel implements IFieldControl {
 				}
 			}
 
-			private void selectOnRighClick(MouseEvent e) {
+			protected void selectOnRighClick(MouseEvent e) {
 				if (e.getButton() != MouseEvent.BUTTON3) {
 					return;
 				}
-				int r = treeTableComponent.rowAtPoint(e.getPoint());
-				if (r >= 0 && r < treeTableComponent.getRowCount()) {
-					treeTableComponent.setRowSelectionInterval(r, r);
+				int row = treeTableComponent.rowAtPoint(e.getPoint());
+				if (treeTableComponent.isRowSelected(row)) {
+					return;
+				}
+				if (row >= 0 && row < treeTableComponent.getRowCount()) {
+					treeTableComponent.setRowSelectionInterval(row, row);
 				} else {
 					treeTableComponent.clearSelection();
 				}
@@ -218,6 +247,10 @@ public class ListControl extends JPanel implements IFieldControl {
 	protected JPopupMenu createPopupMenu() {
 		JPopupMenu result = new JPopupMenu();
 		for (Action action : createCurrentSelectionActions()) {
+			if (action == SEPARATOR_ACTION) {
+				result.add(new JSeparator());
+				continue;
+			}
 			JMenuItem menuItem = new JMenuItem(action);
 			result.add(menuItem);
 		}
@@ -357,6 +390,8 @@ public class ListControl extends JPanel implements IFieldControl {
 			result.add(createSpecificAction(listAction));
 		}
 
+		result.add(SEPARATOR_ACTION);
+
 		AutoUpdatingFieldItemPosition singleSelectedPosition = null;
 		AutoUpdatingFieldItemPosition singleSelectedPositionSubItemPosition = null;
 		if (selection.size() == 1) {
@@ -376,6 +411,8 @@ public class ListControl extends JPanel implements IFieldControl {
 				result.add(createOpenItemButton());
 			}
 		}
+
+		result.add(SEPARATOR_ACTION);
 
 		if (selection.size() == 0) {
 			if (!getRootListItemPosition().isContainingListReadOnly()) {
@@ -398,6 +435,8 @@ public class ListControl extends JPanel implements IFieldControl {
 				}
 			}
 		}
+
+		result.add(SEPARATOR_ACTION);
 
 		if (selection.size() > 0) {
 			boolean canCopyAllSelection = true;
@@ -474,9 +513,10 @@ public class ListControl extends JPanel implements IFieldControl {
 			}
 		}
 
+		result.add(SEPARATOR_ACTION);
+
 		if (selection.size() > 0) {
 			if (!anySelectionItemContainingListReadOnly) {
-				result.add(createRemoveAction());
 				boolean allSelectionItemsInSameList = true;
 				AutoUpdatingFieldItemPosition firstSelectionItem = selection
 						.get(0);
@@ -491,9 +531,17 @@ public class ListControl extends JPanel implements IFieldControl {
 				if (allSelectionItemsInSameList
 						&& firstSelectionItem.getContainingListType()
 								.isOrdered()) {
-					result.add(createMoveAction(-1, "Up"));
-					result.add(createMoveAction(+1, "Down"));
+					result.add(createMoveAction(-1));
+					result.add(createMoveAction(+1));
 				}
+			}
+		}
+
+		result.add(SEPARATOR_ACTION);
+
+		if (selection.size() > 0) {
+			if (!anySelectionItemContainingListReadOnly) {
+				result.add(createRemoveAction());
 			}
 		}
 
@@ -503,6 +551,24 @@ public class ListControl extends JPanel implements IFieldControl {
 			}
 		}
 
+		result = removeAdjacentSeparators(result);
+
+		return result;
+	}
+
+	protected List<AbstractAction> removeAdjacentSeparators(
+			List<AbstractAction> actions) {
+		List<AbstractAction> result = new ArrayList<AbstractAction>();
+		AbstractAction lastAction = null;
+		for (AbstractAction action : actions) {
+			if (action == SEPARATOR_ACTION) {
+				if (lastAction == SEPARATOR_ACTION) {
+					continue;
+				}
+			}
+			result.add(action);
+			lastAction = action;
+		}
 		return result;
 	}
 
@@ -523,8 +589,8 @@ public class ListControl extends JPanel implements IFieldControl {
 	}
 
 	protected AbstractAction createClearAction() {
-		return new AbstractAction(reflectionUI.prepareUIString("Clear")) {
-			private static final long serialVersionUID = 1L;
+		return new AbstractAction(reflectionUI.prepareUIString("Remove All")) {
+			protected static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -546,9 +612,10 @@ public class ListControl extends JPanel implements IFieldControl {
 		};
 	}
 
-	protected AbstractAction createMoveAction(final int offset, String label) {
+	protected AbstractAction createMoveAction(final int offset) {
+		String label = (offset > 0) ? "Move Down" : "Move Up";
 		return new AbstractAction(reflectionUI.prepareUIString(label)) {
-			private static final long serialVersionUID = 1L;
+			protected static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -669,7 +736,7 @@ public class ListControl extends JPanel implements IFieldControl {
 
 	protected AbstractAction createRemoveAction() {
 		return new AbstractAction(reflectionUI.prepareUIString("Remove")) {
-			private static final long serialVersionUID = 1L;
+			protected static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -843,7 +910,7 @@ public class ListControl extends JPanel implements IFieldControl {
 			buttonText += " ...";
 		}
 		return new AbstractAction(reflectionUI.prepareUIString(buttonText)) {
-			private static final long serialVersionUID = 1L;
+			protected static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -900,7 +967,7 @@ public class ListControl extends JPanel implements IFieldControl {
 				reflectionUI.prepareUIString((subListItemType == null) ? "Add..."
 						: ("Add " + subListItemType.getCaption() + "..."))) {
 
-			private static final long serialVersionUID = 1L;
+			protected static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -975,7 +1042,7 @@ public class ListControl extends JPanel implements IFieldControl {
 
 	protected AbstractAction createCopyAction() {
 		return new AbstractAction(reflectionUI.prepareUIString("Copy")) {
-			private static final long serialVersionUID = 1L;
+			protected static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1000,7 +1067,7 @@ public class ListControl extends JPanel implements IFieldControl {
 	protected AbstractAction createCutAction() {
 		return new AbstractAction(reflectionUI.prepareUIString("Cut")) {
 
-			private static final long serialVersionUID = 1L;
+			protected static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1060,7 +1127,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		}
 		return new AbstractAction(reflectionUI.prepareUIString(buttonText)) {
 
-			private static final long serialVersionUID = 1L;
+			protected static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1112,7 +1179,7 @@ public class ListControl extends JPanel implements IFieldControl {
 	protected AbstractAction createPasteInAction() {
 		return new AbstractAction(reflectionUI.prepareUIString("Paste")) {
 
-			private static final long serialVersionUID = 1L;
+			protected static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1171,7 +1238,7 @@ public class ListControl extends JPanel implements IFieldControl {
 	protected AbstractAction createSpecificAction(final IListAction action) {
 		return new AbstractAction(reflectionUI.prepareUIString(action
 				.getTitle())) {
-			private static final long serialVersionUID = 1L;
+			protected static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1193,7 +1260,7 @@ public class ListControl extends JPanel implements IFieldControl {
 
 	protected AbstractAction createOpenItemButton() {
 		return new AbstractAction(reflectionUI.prepareUIString("Open")) {
-			private static final long serialVersionUID = 1L;
+			protected static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1654,7 +1721,7 @@ public class ListControl extends JPanel implements IFieldControl {
 			if (listFieldValue == null) {
 				return null;
 			}
-			return getListType().toListValue(listFieldValue);
+			return getListType().toArray(listFieldValue);
 		}
 
 		protected void replaceUnderlyingListValue(Object[] listValue) {

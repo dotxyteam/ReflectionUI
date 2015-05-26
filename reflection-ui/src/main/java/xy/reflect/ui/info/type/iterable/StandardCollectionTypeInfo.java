@@ -99,12 +99,12 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public Object fromListValue(Object[] listValue) {
+	public Object fromArray(Object[] array) {
 		IMethodInfo constructor = ReflectionUIUtils
 				.getZeroParameterConstrucor(this);
 		Collection result = (Collection) constructor.invoke(null,
 				Collections.<Integer, Object> emptyMap());
-		for (Object item : listValue) {
+		for (Object item : array) {
 			if (result instanceof Set) {
 				if (result.contains(item)) {
 					throw new ReflectionUIError("Duplicate item: '"
@@ -117,8 +117,8 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 	}
 
 	@Override
-	public Object[] toListValue(Object object) {
-		return ((Collection<?>) object).toArray();
+	public Object[] toArray(Object listValue) {
+		return ((Collection<?>) listValue).toArray();
 	}
 
 	@Override

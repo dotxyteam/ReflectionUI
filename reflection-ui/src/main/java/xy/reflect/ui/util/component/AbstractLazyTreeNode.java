@@ -8,7 +8,7 @@ import javax.swing.tree.TreeNode;
 
 public abstract class AbstractLazyTreeNode extends DefaultMutableTreeNode {
 
-	private static final long serialVersionUID = 1L;
+	protected static final long serialVersionUID = 1L;
 	protected boolean childrenLoaded = false;;
 	protected abstract List<AbstractLazyTreeNode> createChildrenNodes();
 	

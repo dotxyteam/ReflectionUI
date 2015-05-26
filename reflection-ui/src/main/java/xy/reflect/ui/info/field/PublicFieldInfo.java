@@ -17,7 +17,7 @@ public class PublicFieldInfo implements IFieldInfo {
 	protected Field javaField;
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo type;
-	private Class<?> containingJavaClass;
+	protected Class<?> containingJavaClass;
 
 	public PublicFieldInfo(ReflectionUI reflectionUI, Field field,
 			Class<?> containingJavaClass) {

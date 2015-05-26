@@ -152,13 +152,13 @@ public class MultiSubListField implements IFieldInfo {
 			IListTypeInfo listType = (IListTypeInfo) wrappedListFieldInfo
 					.getType();
 			Object list = wrappedListFieldInfo.getValue(object);
-			return listType.toListValue(list);
+			return listType.toArray(list);
 		}
 
 		public void setSubListValue(Object[] listValue) {
 			IListTypeInfo listType = (IListTypeInfo) wrappedListFieldInfo
 					.getType();
-			Object list = listType.fromListValue(listValue);
+			Object list = listType.fromArray(listValue);
 			wrappedListFieldInfo.setValue(object, list);
 		}
 
@@ -166,7 +166,7 @@ public class MultiSubListField implements IFieldInfo {
 
 	public static class MultiSubListVirtualParentType extends DefaultTypeInfo {
 
-		private MultiSubListVirtualParent virtualParent;
+		protected MultiSubListVirtualParent virtualParent;
 
 		public MultiSubListVirtualParentType(ReflectionUI reflectionUI,
 				MultiSubListVirtualParent virtualParent) {
@@ -192,12 +192,12 @@ public class MultiSubListField implements IFieldInfo {
 				@Override
 				public Object getValue(Object object) {
 					Object[] listValue = (Object[]) super.getValue(object);
-					return getType().fromListValue(listValue);
+					return getType().fromArray(listValue);
 				}
 
 				@Override
 				public void setValue(Object object, Object value) {
-					Object[] listValue = getType().toListValue(value);
+					Object[] listValue = getType().toArray(value);
 					super.setValue(object, listValue);
 				}
 

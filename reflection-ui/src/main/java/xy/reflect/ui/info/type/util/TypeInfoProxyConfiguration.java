@@ -21,7 +21,11 @@ import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class TypeInfoProxyConfiguration {
+	
+	protected StackTraceElement[] instanciationTrace = ReflectionUIUtils
+			.createDebugTrace();
 
+	
 	public ITypeInfo get(final ITypeInfo type) {
 		if (type instanceof IListTypeInfo) {
 			return new ListTypeInfoProxy((IListTypeInfo) type);
@@ -150,7 +154,7 @@ public class TypeInfoProxyConfiguration {
 	}
 
 	protected Object fromListValue(IListTypeInfo type, Object[] listValue) {
-		return type.fromListValue(listValue);
+		return type.fromArray(listValue);
 	}
 
 	protected List<IListAction> getSpecificListActions(IListTypeInfo type,
@@ -172,7 +176,7 @@ public class TypeInfoProxyConfiguration {
 	}
 
 	protected Object[] toListValue(IListTypeInfo type, Object object) {
-		return type.toListValue(object);
+		return type.toArray(object);
 	}
 
 	protected Component createFieldControl(ITypeInfo type, Object object,
@@ -482,9 +486,9 @@ public class TypeInfoProxyConfiguration {
 		}
 
 		@Override
-		public Object[] toListValue(Object object) {
+		public Object[] toArray(Object listValue) {
 			return TypeInfoProxyConfiguration.this.toListValue(
-					(IListTypeInfo) type, object);
+					(IListTypeInfo) type, listValue);
 		}
 
 		@Override
@@ -506,9 +510,9 @@ public class TypeInfoProxyConfiguration {
 		}
 
 		@Override
-		public Object fromListValue(Object[] listValue) {
+		public Object fromArray(Object[] array) {
 			return TypeInfoProxyConfiguration.this.fromListValue(
-					(IListTypeInfo) type, listValue);
+					(IListTypeInfo) type, array);
 		}
 
 		@Override

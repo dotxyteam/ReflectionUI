@@ -1,3 +1,5 @@
+- precomputedTypeInstances do not work for customControl objects,
+only for form control objects
 - allow value options field
 - menus
 - listControl: 

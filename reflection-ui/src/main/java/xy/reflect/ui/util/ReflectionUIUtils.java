@@ -601,13 +601,13 @@ public class ReflectionUIUtils {
 		Object copy;
 		if (type instanceof IListTypeInfo) {
 			IListTypeInfo listType = (IListTypeInfo) type;
-			Object[] listValue = listType.toListValue(object);
+			Object[] listValue = listType.toArray(object);
 			Object[] listValueCopy = new Object[listValue.length];
 			for (int i = 0; i < listValue.length; i++) {
 				Object item = listValue[i];
 				listValueCopy[i] = copyAccordingInfos(reflectionUI, item);
 			}
-			copy = listType.fromListValue(listValueCopy);
+			copy = listType.fromArray(listValueCopy);
 		} else {
 			IMethodInfo ctor = ReflectionUIUtils
 					.getZeroParameterConstrucor(type);
@@ -644,8 +644,8 @@ public class ReflectionUIUtils {
 		}
 		if (type instanceof IListTypeInfo) {
 			IListTypeInfo listType = (IListTypeInfo) type;
-			Object[] listValue1 = listType.toListValue(object1);
-			Object[] listValue2 = listType.toListValue(object2);
+			Object[] listValue1 = listType.toArray(object1);
+			Object[] listValue2 = listType.toArray(object2);
 			if (listValue1.length != listValue2.length) {
 				return false;
 			}
@@ -1158,7 +1158,17 @@ public class ReflectionUIUtils {
 		if (options == null) {
 			return null;
 		}
-		return optionListType.toListValue(options);
+		return optionListType.toArray(options);
+	}
+
+	public static <M extends Member>  M findJavaMemberByName(M[] members,
+			String memberName) {
+		for(M member: members){
+			if(member.getName().equals(memberName)){
+				return member;
+			}
+		}
+		return null;
 	}
 
 }

@@ -1,19 +1,15 @@
 package xy.reflect.ui.info.type.util;
 
-import java.awt.Component;
-import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.custom.FileTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
-import xy.reflect.ui.info.type.iterable.util.IListAction;
-import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.undo.IModification;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class PrecomputedTypeInfoInstanceWrapper {
@@ -30,21 +26,49 @@ public class PrecomputedTypeInfoInstanceWrapper {
 	}
 
 	public PrecomputedTypeInfoSource getPrecomputedTypeInfoSource() {
-		return new PrecomputedTypeInfoSource(new TypeInfoProxyConfiguration() {
+		return new PrecomputedTypeInfoSource(
+				adaptPrecomputedType(precomputedType));
+	}
+
+	public static ITypeInfo adaptPrecomputedType(final ITypeInfo precomputedType) {
+		return new TypeInfoProxyConfiguration() {
+
+			protected Object unwrap(Object object) {
+				PrecomputedTypeInfoInstanceWrapper wrapper = (PrecomputedTypeInfoInstanceWrapper) object;
+				if (!wrapper.precomputedType.equals(precomputedType)) {
+					throw new ReflectionUIError(
+							PrecomputedTypeInfoInstanceWrapper.class
+									.getSimpleName()
+									+ " Error: "
+									+ "\nExpected precomputed type: "
+									+ precomputedType
+									+ " ("
+									+ precomputedType.getClass()
+									+ ")"
+									+ ";"
+									+ "\nFound precomputed type: "
+									+ wrapper.precomputedType
+									+ " ("
+									+ wrapper.precomputedType.getClass()
+									+ ")"
+									+ ";" +
+
+									"\nInstance: " + wrapper.instance);
+				}
+				return wrapper.getInstance();
+			}
 
 			@Override
 			protected Object getValue(Object object, IFieldInfo field,
 					ITypeInfo containingType) {
-				object = ((PrecomputedTypeInfoInstanceWrapper) object)
-						.getInstance();
+				object = unwrap(object);
 				return super.getValue(object, field, containingType);
 			}
 
 			@Override
 			protected void setValue(Object object, Object value,
 					IFieldInfo field, ITypeInfo containingType) {
-				object = ((PrecomputedTypeInfoInstanceWrapper) object)
-						.getInstance();
+				object = unwrap(object);
 				super.setValue(object, value, field, containingType);
 			}
 
@@ -52,8 +76,7 @@ public class PrecomputedTypeInfoInstanceWrapper {
 			protected Object invoke(Object object,
 					Map<Integer, Object> valueByParameterPosition,
 					IMethodInfo method, ITypeInfo containingType) {
-				object = ((PrecomputedTypeInfoInstanceWrapper) object)
-						.getInstance();
+				object = unwrap(object);
 				return super.invoke(object, valueByParameterPosition, method,
 						containingType);
 			}
@@ -61,26 +84,14 @@ public class PrecomputedTypeInfoInstanceWrapper {
 			@Override
 			protected void validate(ITypeInfo type, Object object)
 					throws Exception {
-				object = ((PrecomputedTypeInfoInstanceWrapper) object)
-						.getInstance();
+				object = unwrap(object);
 				super.validate(type, object);
 			}
 
 			@Override
 			protected String toString(ITypeInfo type, Object object) {
-				object = ((PrecomputedTypeInfoInstanceWrapper) object)
-						.getInstance();
+				object = unwrap(object);
 				return super.toString(type, object);
-			}
-
-			@Override
-			protected List<IListAction> getSpecificListActions(
-					IListTypeInfo type, Object object, IFieldInfo field,
-					List<? extends ItemPosition> selection) {
-				object = ((PrecomputedTypeInfoInstanceWrapper) object)
-						.getInstance();
-				return super.getSpecificListActions(type, object, field,
-						selection);
 			}
 
 			@Override
@@ -94,40 +105,20 @@ public class PrecomputedTypeInfoInstanceWrapper {
 			@Override
 			protected String formatEnumerationItem(Object object,
 					IEnumerationTypeInfo type) {
-				object = ((PrecomputedTypeInfoInstanceWrapper) object)
-						.getInstance();
+				object = unwrap(object);
 				return super.formatEnumerationItem(object, type);
 			}
 
 			@Override
 			protected Object[] toListValue(IListTypeInfo type, Object object) {
-				object = ((PrecomputedTypeInfoInstanceWrapper) object)
-						.getInstance();
+				object = unwrap(object);
 				return super.toListValue(type, object);
 			}
 
 			@Override
-			protected Component createFieldControl(ITypeInfo type,
-					Object object, IFieldInfo field) {
-				object = ((PrecomputedTypeInfoInstanceWrapper) object)
-						.getInstance();
-				return super.createFieldControl(type, object, field);
-			}
-
-			@Override
 			protected boolean supportsInstance(ITypeInfo type, Object object) {
-				object = ((PrecomputedTypeInfoInstanceWrapper) object)
-						.getInstance();
+				object = unwrap(object);
 				return super.supportsInstance(type, object);
-			}
-
-			@Override
-			protected Component createNonNullFieldValueControl(Object object,
-					IFieldInfo field, FileTypeInfo type) {
-				object = ((PrecomputedTypeInfoInstanceWrapper) object)
-						.getInstance();
-				return super
-						.createNonNullFieldValueControl(object, field, type);
 			}
 
 			@Override
@@ -135,8 +126,7 @@ public class PrecomputedTypeInfoInstanceWrapper {
 					ITypeInfo containingType, Object object,
 					Map<Integer, Object> valueByParameterPosition)
 					throws Exception {
-				object = ((PrecomputedTypeInfoInstanceWrapper) object)
-						.getInstance();
+				object = unwrap(object);
 				super.validateParameters(method, containingType, object,
 						valueByParameterPosition);
 			}
@@ -145,12 +135,12 @@ public class PrecomputedTypeInfoInstanceWrapper {
 			protected IModification getUndoModification(IMethodInfo method,
 					ITypeInfo containingType, Object object,
 					Map<Integer, Object> valueByParameterPosition) {
-				// TODO Auto-generated method stub
+				object = unwrap(object);
 				return super.getUndoModification(method, containingType,
 						object, valueByParameterPosition);
 			}
 
-		}.get(precomputedType));
+		}.get(precomputedType);
 	}
 
 	public Object getInstance() {

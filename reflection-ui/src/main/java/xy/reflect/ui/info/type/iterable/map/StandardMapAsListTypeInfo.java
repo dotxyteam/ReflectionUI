@@ -79,12 +79,12 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public Object fromListValue(Object[] listValue) {
+	public Object fromArray(Object[] array) {
 		IMethodInfo constructor = ReflectionUIUtils
 				.getZeroParameterConstrucor(this);
 		Map result = (Map) constructor.invoke(null,
 				Collections.<Integer, Object> emptyMap());
-		for (Object item : listValue) {
+		for (Object item : array) {
 			PrecomputedTypeInfoInstanceWrapper wrapper = (PrecomputedTypeInfoInstanceWrapper) item;
 			StandardMapEntry entry = (StandardMapEntry) wrapper.getInstance();
 			if (result.containsKey(entry.getKey())) {
@@ -98,9 +98,9 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public Object[] toListValue(Object object) {
+	public Object[] toArray(Object listValue) {
 		List<PrecomputedTypeInfoInstanceWrapper> result = new ArrayList<PrecomputedTypeInfoInstanceWrapper>();
-		for (Object obj : ((Map) object).entrySet()) {
+		for (Object obj : ((Map) listValue).entrySet()) {
 			Map.Entry entry = (Entry) obj;
 			result.add(new PrecomputedTypeInfoInstanceWrapper(
 					new StandardMapEntry(entry.getKey(), entry.getValue()),

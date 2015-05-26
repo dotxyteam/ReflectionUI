@@ -60,7 +60,7 @@ public class ItemPosition {
 
 	public Object[] getContainingListValue() {
 		Object list = getContainingListField().getValue(getContainingListOwner());
-		return getContainingListType().toListValue(list);
+		return getContainingListType().toArray(list);
 	}
 
 	public IListTypeInfo getContainingListType() {

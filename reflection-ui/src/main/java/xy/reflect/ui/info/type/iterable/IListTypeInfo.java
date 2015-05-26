@@ -11,9 +11,9 @@ import xy.reflect.ui.info.type.iterable.util.structure.IListStructuralInfo;
 public interface IListTypeInfo extends ITypeInfo {
 	ITypeInfo getItemType();
 
-	Object[] toListValue(Object object);
+	Object[] toArray(Object listValue);
 
-	Object fromListValue(Object[] listValue);
+	Object fromArray(Object[] array);
 
 	IListStructuralInfo getStructuralInfo();
 

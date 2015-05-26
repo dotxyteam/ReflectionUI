@@ -27,10 +27,10 @@ public class SetListValueModification implements
 	@Override
 	public IModification applyAndGetOpposite(boolean refreshView) {
 		IListTypeInfo listType = (IListTypeInfo) listField.getType();
-		Object[] lastListValue = listType.toListValue(listField
+		Object[] lastListValue = listType.toArray(listField
 				.getValue(listOwner));
 
-		Object listFieldValue = listType.fromListValue(listValue);
+		Object listFieldValue = listType.fromArray(listValue);
 		listField.setValue(listOwner, listFieldValue);
 
 		final SetListValueModification currentModif = this;
