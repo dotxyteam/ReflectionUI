@@ -27,66 +27,55 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class ComposedListField implements IFieldInfo {
 	protected String fieldName;
-	protected IMethodInfo createMethod;
-	protected IMethodInfo getMethod;
-	protected IMethodInfo addMethod;
-	protected IMethodInfo removeMethod;
-	protected IFieldInfo sizeField;
-	protected IListTypeInfo type;
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo itemType;
+	protected String createMethodName;
+	protected String getMethodName;
+	protected String addMethodName;
+	protected String removeMethodName;
+	protected String sizeMethodName;
+	protected IListTypeInfo type;
+	private ITypeInfo parentType;
 
 	public ComposedListField(ReflectionUI reflectionUI, String fieldName,
-			ITypeInfo parentType, ITypeInfo itemType, String createMethodName,
+			ITypeInfo parentType, String createMethodName,
 			String getMethodName, String addMethodName,
 			String removeMethodName, String sizeMethodName) {
 		this.reflectionUI = reflectionUI;
 		this.fieldName = fieldName;
-		this.createMethod = ReflectionUIUtils.findInfoByName(
-				parentType.getMethods(), createMethodName);
-		this.getMethod = ReflectionUIUtils.findInfoByName(
-				parentType.getMethods(), getMethodName);
-		this.addMethod = ReflectionUIUtils.findInfoByName(
-				parentType.getMethods(), addMethodName);
-		this.removeMethod = ReflectionUIUtils.findInfoByName(
-				parentType.getMethods(), removeMethodName);
-		this.sizeField = ReflectionUIUtils.findInfoByName(
-				parentType.getFields(), sizeMethodName);
-		this.itemType = itemType;
+		this.parentType = parentType;
+		this.createMethodName = createMethodName;
+		this.getMethodName = getMethodName;
+		this.addMethodName = addMethodName;
+		this.removeMethodName = removeMethodName;
+		this.sizeMethodName = sizeMethodName;
+		this.itemType = getCreateMethod().getReturnValueType();
+
 	}
 
-	public ComposedListField(ReflectionUI reflectionUI, String fieldName,
-			ITypeInfo itemType, IMethodInfo createMethod,
-			IMethodInfo getMethod, IMethodInfo addMethod,
-			IMethodInfo removeMethod, IFieldInfo sizeField) {
-		this.reflectionUI = reflectionUI;
-		this.fieldName = fieldName;
-		this.createMethod = createMethod;
-		this.getMethod = getMethod;
-		this.addMethod = addMethod;
-		this.removeMethod = removeMethod;
-		this.sizeField = sizeField;
-		this.itemType = itemType;
+	protected IMethodInfo getCreateMethod() {
+		return ReflectionUIUtils.findInfoByName(parentType.getMethods(),
+				createMethodName);
 	}
 
-	public IMethodInfo getCreateMethod() {
-		return createMethod;
+	protected IMethodInfo getGetMethod() {
+		return ReflectionUIUtils.findInfoByName(parentType.getMethods(),
+				getMethodName);
 	}
 
-	public IMethodInfo getGetMethod() {
-		return getMethod;
+	protected IMethodInfo getAddMethod() {
+		return ReflectionUIUtils.findInfoByName(parentType.getMethods(),
+				addMethodName);
 	}
 
-	public IMethodInfo getAddMethod() {
-		return addMethod;
+	protected IMethodInfo getRemoveMethod() {
+		return ReflectionUIUtils.findInfoByName(parentType.getMethods(),
+				removeMethodName);
 	}
 
-	public IMethodInfo getRemoveMethod() {
-		return removeMethod;
-	}
-
-	public IFieldInfo getSizeField() {
-		return sizeField;
+	protected IFieldInfo getSizeField() {
+		return ReflectionUIUtils.findInfoByName(parentType.getFields(),
+				sizeMethodName);
 	}
 
 	@Override
@@ -112,8 +101,7 @@ public class ComposedListField implements IFieldInfo {
 	@Override
 	public IListTypeInfo getType() {
 		if (type == null) {
-			type = (IListTypeInfo) PrecomputedTypeInfoInstanceWrapper
-					.adaptPrecomputedType(new ComposedListFieldType(null));
+			type = new ComposedListFieldType(null);
 		}
 		return type;
 	}
@@ -136,21 +124,19 @@ public class ComposedListField implements IFieldInfo {
 		}
 		Object[] array = getType().toArray(composedListFieldValue);
 		while (true) {
-			int size = (Integer) getSizeField().getValue(
-					composedListFieldValue.getObject());
+			int size = (Integer) getSizeField().getValue(object);
 			if (size == 0) {
 				break;
 			}
-			getRemoveMethod().invoke(composedListFieldValue.getObject(),
+			getRemoveMethod().invoke(object,
 					Collections.<Integer, Object> singletonMap(0, 0));
 		}
 		for (int i = 0; i < array.length; i++) {
-			wrapper = (PrecomputedTypeInfoInstanceWrapper) array[i];
-			Object item = wrapper.getInstance();
+			Object item = array[i];
 			Map<Integer, Object> params = new HashMap<Integer, Object>();
 			params.put(0, i);
 			params.put(1, item);
-			getAddMethod().invoke(composedListFieldValue.getObject(), params);
+			getAddMethod().invoke(object, params);
 		}
 	}
 
@@ -179,21 +165,21 @@ public class ComposedListField implements IFieldInfo {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((addMethod == null) ? 0 : addMethod.hashCode());
-		result = prime * result
-				+ ((createMethod == null) ? 0 : createMethod.hashCode());
+				+ ((addMethodName == null) ? 0 : addMethodName.hashCode());
+		result = prime
+				* result
+				+ ((createMethodName == null) ? 0 : createMethodName.hashCode());
 		result = prime * result
 				+ ((fieldName == null) ? 0 : fieldName.hashCode());
 		result = prime * result
-				+ ((getMethod == null) ? 0 : getMethod.hashCode());
+				+ ((getMethodName == null) ? 0 : getMethodName.hashCode());
 		result = prime * result
 				+ ((itemType == null) ? 0 : itemType.hashCode());
+		result = prime
+				* result
+				+ ((removeMethodName == null) ? 0 : removeMethodName.hashCode());
 		result = prime * result
-				+ ((reflectionUI == null) ? 0 : reflectionUI.hashCode());
-		result = prime * result
-				+ ((removeMethod == null) ? 0 : removeMethod.hashCode());
-		result = prime * result
-				+ ((sizeField == null) ? 0 : sizeField.hashCode());
+				+ ((sizeMethodName == null) ? 0 : sizeMethodName.hashCode());
 		return result;
 	}
 
@@ -206,45 +192,40 @@ public class ComposedListField implements IFieldInfo {
 		if (getClass() != obj.getClass())
 			return false;
 		ComposedListField other = (ComposedListField) obj;
-		if (addMethod == null) {
-			if (other.addMethod != null)
+		if (addMethodName == null) {
+			if (other.addMethodName != null)
 				return false;
-		} else if (!addMethod.equals(other.addMethod))
+		} else if (!addMethodName.equals(other.addMethodName))
 			return false;
-		if (createMethod == null) {
-			if (other.createMethod != null)
+		if (createMethodName == null) {
+			if (other.createMethodName != null)
 				return false;
-		} else if (!createMethod.equals(other.createMethod))
+		} else if (!createMethodName.equals(other.createMethodName))
 			return false;
 		if (fieldName == null) {
 			if (other.fieldName != null)
 				return false;
 		} else if (!fieldName.equals(other.fieldName))
 			return false;
-		if (getMethod == null) {
-			if (other.getMethod != null)
+		if (getMethodName == null) {
+			if (other.getMethodName != null)
 				return false;
-		} else if (!getMethod.equals(other.getMethod))
+		} else if (!getMethodName.equals(other.getMethodName))
 			return false;
 		if (itemType == null) {
 			if (other.itemType != null)
 				return false;
 		} else if (!itemType.equals(other.itemType))
 			return false;
-		if (reflectionUI == null) {
-			if (other.reflectionUI != null)
+		if (removeMethodName == null) {
+			if (other.removeMethodName != null)
 				return false;
-		} else if (!reflectionUI.equals(other.reflectionUI))
+		} else if (!removeMethodName.equals(other.removeMethodName))
 			return false;
-		if (removeMethod == null) {
-			if (other.removeMethod != null)
+		if (sizeMethodName == null) {
+			if (other.sizeMethodName != null)
 				return false;
-		} else if (!removeMethod.equals(other.removeMethod))
-			return false;
-		if (sizeField == null) {
-			if (other.sizeField != null)
-				return false;
-		} else if (!sizeField.equals(other.sizeField))
+		} else if (!sizeMethodName.equals(other.sizeMethodName))
 			return false;
 		return true;
 	}
@@ -282,9 +263,7 @@ public class ComposedListField implements IFieldInfo {
 			if (precomputedArray != null) {
 				return precomputedArray;
 			} else {
-				return ComposedListField.this.getType().toArray(
-						new PrecomputedTypeInfoInstanceWrapper(this,
-								new ComposedListFieldType(object)));
+				return ComposedListField.this.getType().toArray((this));
 			}
 		}
 
@@ -403,7 +382,7 @@ public class ComposedListField implements IFieldInfo {
 				public ITypeInfo getType() {
 					return PrecomputedTypeInfoInstanceWrapper
 							.adaptPrecomputedType(new ComposedListFieldType(
-									ComposedListFieldType.this.object));
+									object));
 				}
 
 			});
@@ -422,8 +401,6 @@ public class ComposedListField implements IFieldInfo {
 				Object item = getGetMethod().invoke(
 						composedListFieldValue.getObject(),
 						Collections.<Integer, Object> singletonMap(0, i));
-				item = new PrecomputedTypeInfoInstanceWrapper(item,
-						getItemType());
 				result.add(item);
 			}
 			return result.toArray();
@@ -482,10 +459,6 @@ public class ComposedListField implements IFieldInfo {
 																.singletonMap(
 																		0,
 																		ComposedListFieldType.this.object));
-										result = new PrecomputedTypeInfoInstanceWrapper(
-												result,
-												ComposedListFieldType.this
-														.getItemType());
 										return result;
 									}
 

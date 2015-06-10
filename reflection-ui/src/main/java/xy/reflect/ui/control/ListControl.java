@@ -151,7 +151,6 @@ public class ListControl extends JPanel implements IFieldControl {
 			}
 			toolbar.add(createTool("...", null, false, true, specificActions
 					.toArray(new AbstractAction[specificActions.size()])));
-
 		}
 		validate();
 	}
