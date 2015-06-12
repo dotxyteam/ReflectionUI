@@ -1531,7 +1531,7 @@ public class ListControl extends JPanel implements IFieldControl {
 	}
 
 	public boolean refreshUI() {
-		restoringAsMuchAsPossibleSelection(new Runnable() {
+		restoringSelectionAsMuchAsPossible(new Runnable() {
 			@Override
 			public void run() {
 				refreshStructure();
@@ -1540,7 +1540,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		return true;
 	}
 
-	protected void restoringAsMuchAsPossibleSelection(Runnable runnable) {
+	protected void restoringSelectionAsMuchAsPossible(Runnable runnable) {
 		List<AutoUpdatingFieldItemPosition> lastlySelectedItemPositions = getSelection();
 		List<Object> lastlySelectedItems = new ArrayList<Object>();
 		for (int i = 0; i < lastlySelectedItemPositions.size(); i++) {

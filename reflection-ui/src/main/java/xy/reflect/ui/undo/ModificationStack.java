@@ -130,8 +130,8 @@ public class ModificationStack {
 		if (undoStack.size() == 0) {
 			return;
 		}
-		IModification modif = undoStack.pop();
-		redoStack.push(modif.applyAndGetOpposite(refreshView));
+		IModification undoModif = undoStack.pop();
+		redoStack.push(undoModif.applyAndGetOpposite(refreshView));
 		notifyListeners(UNDO_EVENT);
 	}
 

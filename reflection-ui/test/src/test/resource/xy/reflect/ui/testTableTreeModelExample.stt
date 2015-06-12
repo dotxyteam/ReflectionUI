@@ -7,7 +7,7 @@
     </xy.ui.testing.action.CallMainMethodAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
-      <componentFinder class="xy.ui.testing.finder.PropertyBasedComponentFinder">
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <componentClassName>javax.swing.JButton</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
@@ -97,13 +97,6 @@
         <string>Name</string>
         <string>10</string>
         <string>b1</string>
-        <string>Open</string>
-        <string>Insert Product Before ...</string>
-        <string>Insert Product After ...</string>
-        <string>Remove</string>
-        <string>Up</string>
-        <string>Down</string>
-        <string>Clear</string>
         <string>Undo</string>
         <string>Redo</string>
         <string>Reset</string>

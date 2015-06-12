@@ -237,34 +237,40 @@ public class ImplicitListField implements IFieldInfo {
 
 	protected class ImplicitListFieldValue {
 		protected Object object;
-		protected Object[] precomputedArray;
+		protected Object[] array;
 
 		public ImplicitListFieldValue(Object object) {
 			this.object = object;
+			array = buildArrayFromObject();			
+		}
+
+		private Object[] buildArrayFromObject() {
+			List<Object> result = new ArrayList<Object>();
+			int size = (Integer) getSizeField().getValue(
+					object);
+			for (int i = 0; i < size; i++) {
+				Object item = getGetMethod().invoke(
+						object,
+						Collections.<Integer, Object> singletonMap(0, i));
+				result.add(item);
+			}
+			return result.toArray();
+		}
+
+		public ImplicitListFieldValue(Object[] precomputedArray) {
+			this.array = precomputedArray;
 		}
 
 		public ImplicitListField getImplicitListField() {
 			return ImplicitListField.this;
 		}
 
-		public ImplicitListFieldValue(Object[] precomputedArray) {
-			this.precomputedArray = precomputedArray;
-		}
-
 		public Object getObject() {
 			return object;
 		}
 
-		public Object[] getPrecomputedArray() {
-			return precomputedArray;
-		}
-
 		protected Object[] getArray() {
-			if (precomputedArray != null) {
-				return precomputedArray;
-			} else {
-				return ImplicitListField.this.getType().toArray((this));
-			}
+			return array;
 		}
 
 		@Override
@@ -391,19 +397,8 @@ public class ImplicitListField implements IFieldInfo {
 		@Override
 		public Object[] toArray(Object listValue) {
 			ImplicitListFieldValue implicitListFieldValue = (ImplicitListFieldValue) listValue;
-			if (implicitListFieldValue.getPrecomputedArray() != null) {
-				return implicitListFieldValue.getPrecomputedArray();
-			}
-			List<Object> result = new ArrayList<Object>();
-			int size = (Integer) getSizeField().getValue(
-					implicitListFieldValue.getObject());
-			for (int i = 0; i < size; i++) {
-				Object item = getGetMethod().invoke(
-						implicitListFieldValue.getObject(),
-						Collections.<Integer, Object> singletonMap(0, i));
-				result.add(item);
-			}
-			return result.toArray();
+			return implicitListFieldValue.getArray();
+			
 		}
 
 		@Override
