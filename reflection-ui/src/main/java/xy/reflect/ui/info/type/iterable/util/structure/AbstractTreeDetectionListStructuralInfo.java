@@ -137,4 +137,31 @@ public abstract class AbstractTreeDetectionListStructuralInfo implements
 		};
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((rootItemType == null) ? 0 : rootItemType.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AbstractTreeDetectionListStructuralInfo other = (AbstractTreeDetectionListStructuralInfo) obj;
+		if (rootItemType == null) {
+			if (other.rootItemType != null)
+				return false;
+		} else if (!rootItemType.equals(other.rootItemType))
+			return false;
+		return true;
+	}
+	
+
 }

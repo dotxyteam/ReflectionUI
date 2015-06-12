@@ -379,6 +379,18 @@ public class ListControl extends JPanel implements IFieldControl {
 		return value;
 	}
 
+	protected Image getCellIconImage(ItemNode node, int columnIndex) {
+		AutoUpdatingFieldItemPosition itemPosition = (AutoUpdatingFieldItemPosition) node
+				.getUserObject();
+		IListStructuralInfo tableInfo = getStructuralInfo();
+		if (tableInfo == null) {
+			Object item = itemPosition.getItem();
+			return reflectionUI.getObjectIconImage(item);
+		} else {
+			return tableInfo.getCellIconImage(itemPosition, columnIndex);
+		}
+	}
+
 	protected List<AbstractAction> createCurrentSelectionActions() {
 		List<AbstractAction> result = new ArrayList<AbstractAction>();
 
@@ -1482,8 +1494,10 @@ public class ListControl extends JPanel implements IFieldControl {
 		TableColumnModel columnModel = treeTableComponent.getColumnModel();
 		for (int i = 0; i < columnModel.getColumnCount(); i++) {
 			TableColumn col = columnModel.getColumn(i);
-			col.setMinWidth(20 * ReflectionUIUtils
-					.getStandardCharacterWidth(treeTableComponent));
+			col.setPreferredWidth(col.getPreferredWidth()
+					+ 5
+					* ReflectionUIUtils
+							.getStandardCharacterWidth(treeTableComponent));
 		}
 	}
 
@@ -1868,9 +1882,6 @@ public class ListControl extends JPanel implements IFieldControl {
 			if (!(node.getUserObject() instanceof AutoUpdatingFieldItemPosition)) {
 				return;
 			}
-			AutoUpdatingFieldItemPosition itemPosition = (AutoUpdatingFieldItemPosition) node
-					.getUserObject();
-			Object item = itemPosition.getItem();
 			String text = getCellValue(node, columnIndex);
 			if (text == null) {
 				label.setText("");
@@ -1878,15 +1889,11 @@ public class ListControl extends JPanel implements IFieldControl {
 				label.setText(reflectionUI.prepareUIString(text));
 			}
 
-			if (columnIndex == 0) {
-				Image imageIcon = reflectionUI.getObjectIconImage(item);
-				if (imageIcon == null) {
-					label.setIcon(null);
-				} else {
-					label.setIcon(new ImageIcon(imageIcon));
-				}
-			} else {
+			Image imageIcon = getCellIconImage(node, columnIndex);
+			if (imageIcon == null) {
 				label.setIcon(null);
+			} else {
+				label.setIcon(new ImageIcon(imageIcon));
 			}
 		}
 	}

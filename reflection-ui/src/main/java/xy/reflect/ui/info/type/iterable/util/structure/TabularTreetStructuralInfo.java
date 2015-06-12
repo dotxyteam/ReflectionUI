@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.type.iterable.util.structure;
 
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,8 +107,48 @@ public class TabularTreetStructuralInfo extends
 	}
 
 	@Override
+	public Image getCellIconImage(ItemPosition itemPosition, int columnIndex) {
+		if (columnIndex == 0) {
+			return reflectionUI.getObjectIconImage(itemPosition.getItem());
+		}
+		return null;
+	}
+
+	@Override
 	protected boolean autoDetectTreeStructure() {
 		return getTreeColumnField() != null;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((columnFields == null) ? 0 : columnFields.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TabularTreetStructuralInfo other = (TabularTreetStructuralInfo) obj;
+		if (columnFields == null) {
+			if (other.columnFields != null)
+				return false;
+		} else if (!columnFields.equals(other.columnFields))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "TabularTreetStructuralInfo [rootItemType=" + rootItemType
+				+ ", columnFields=" + columnFields + "]";
 	}
 
 }

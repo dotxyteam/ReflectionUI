@@ -7,9 +7,9 @@
     </xy.ui.testing.action.CallMainMethodAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
-      <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
+      <componentFinder class="xy.ui.testing.finder.PropertyBasedComponentFinder">
+        <componentClassName>javax.swing.JButton</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Add Product...</visibleString>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>

@@ -25,7 +25,7 @@ import xy.reflect.ui.info.type.util.TypeInfoProxyConfiguration;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class ComposedListField implements IFieldInfo {
+public class ImplicitListField implements IFieldInfo {
 	protected String fieldName;
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo itemType;
@@ -37,7 +37,7 @@ public class ComposedListField implements IFieldInfo {
 	protected IListTypeInfo type;
 	private ITypeInfo parentType;
 
-	public ComposedListField(ReflectionUI reflectionUI, String fieldName,
+	public ImplicitListField(ReflectionUI reflectionUI, String fieldName,
 			ITypeInfo parentType, String createMethodName,
 			String getMethodName, String addMethodName,
 			String removeMethodName, String sizeMethodName) {
@@ -101,28 +101,28 @@ public class ComposedListField implements IFieldInfo {
 	@Override
 	public IListTypeInfo getType() {
 		if (type == null) {
-			type = new ComposedListFieldType(null);
+			type = new ImplicitListFieldType(null);
 		}
 		return type;
 	}
 
 	@Override
 	public Object getValue(Object object) {
-		Object result = new ComposedListFieldValue(object);
+		Object result = new ImplicitListFieldValue(object);
 		result = new PrecomputedTypeInfoInstanceWrapper(result,
-				new ComposedListFieldType(object));
+				new ImplicitListFieldType(object));
 		return result;
 	}
 
 	@Override
 	public void setValue(Object object, Object value) {
 		PrecomputedTypeInfoInstanceWrapper wrapper = (PrecomputedTypeInfoInstanceWrapper) value;
-		ComposedListFieldValue composedListFieldValue = (ComposedListFieldValue) wrapper
+		ImplicitListFieldValue implicitListFieldValue = (ImplicitListFieldValue) wrapper
 				.getInstance();
-		if (!this.equals(composedListFieldValue.getComposedListField())) {
+		if (!this.equals(implicitListFieldValue.getImplicitListField())) {
 			throw new ReflectionUIError();
 		}
-		Object[] array = getType().toArray(composedListFieldValue);
+		Object[] array = getType().toArray(implicitListFieldValue);
 		while (true) {
 			int size = (Integer) getSizeField().getValue(object);
 			if (size == 0) {
@@ -191,7 +191,7 @@ public class ComposedListField implements IFieldInfo {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ComposedListField other = (ComposedListField) obj;
+		ImplicitListField other = (ImplicitListField) obj;
 		if (addMethodName == null) {
 			if (other.addMethodName != null)
 				return false;
@@ -235,19 +235,19 @@ public class ComposedListField implements IFieldInfo {
 		return getCaption();
 	}
 
-	protected class ComposedListFieldValue {
+	protected class ImplicitListFieldValue {
 		protected Object object;
 		protected Object[] precomputedArray;
 
-		public ComposedListFieldValue(Object object) {
+		public ImplicitListFieldValue(Object object) {
 			this.object = object;
 		}
 
-		public ComposedListField getComposedListField() {
-			return ComposedListField.this;
+		public ImplicitListField getImplicitListField() {
+			return ImplicitListField.this;
 		}
 
-		public ComposedListFieldValue(Object[] precomputedArray) {
+		public ImplicitListFieldValue(Object[] precomputedArray) {
 			this.precomputedArray = precomputedArray;
 		}
 
@@ -263,7 +263,7 @@ public class ComposedListField implements IFieldInfo {
 			if (precomputedArray != null) {
 				return precomputedArray;
 			} else {
-				return ComposedListField.this.getType().toArray((this));
+				return ImplicitListField.this.getType().toArray((this));
 			}
 		}
 
@@ -280,7 +280,7 @@ public class ComposedListField implements IFieldInfo {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			ComposedListFieldValue other = (ComposedListFieldValue) obj;
+			ImplicitListFieldValue other = (ImplicitListFieldValue) obj;
 			if (!Arrays.equals(getArray(), other.getArray())) {
 				return false;
 			}
@@ -289,17 +289,17 @@ public class ComposedListField implements IFieldInfo {
 
 		@Override
 		public String toString() {
-			return ComposedListFieldValue.class.getSimpleName() + ": "
+			return ImplicitListFieldValue.class.getSimpleName() + ": "
 					+ Arrays.toString(getArray());
 		}
 
 	}
 
-	protected class ComposedListFieldType implements IListTypeInfo {
+	protected class ImplicitListFieldType implements IListTypeInfo {
 
 		protected Object object;
 
-		public ComposedListFieldType(Object object) {
+		public ImplicitListFieldType(Object object) {
 			this.object = object;
 		}
 
@@ -315,7 +315,7 @@ public class ComposedListField implements IFieldInfo {
 
 		@Override
 		public String getName() {
-			return ComposedListField.this.getName() + "Type";
+			return ImplicitListField.this.getName() + "Type";
 		}
 
 		@Override
@@ -334,7 +334,7 @@ public class ComposedListField implements IFieldInfo {
 
 		@Override
 		public boolean supportsInstance(Object object) {
-			return object instanceof ComposedListFieldValue;
+			return object instanceof ImplicitListFieldValue;
 		}
 
 		@Override
@@ -381,7 +381,7 @@ public class ComposedListField implements IFieldInfo {
 				@Override
 				public ITypeInfo getType() {
 					return PrecomputedTypeInfoInstanceWrapper
-							.adaptPrecomputedType(new ComposedListFieldType(
+							.adaptPrecomputedType(new ImplicitListFieldType(
 									object));
 				}
 
@@ -390,16 +390,16 @@ public class ComposedListField implements IFieldInfo {
 
 		@Override
 		public Object[] toArray(Object listValue) {
-			ComposedListFieldValue composedListFieldValue = (ComposedListFieldValue) listValue;
-			if (composedListFieldValue.getPrecomputedArray() != null) {
-				return composedListFieldValue.getPrecomputedArray();
+			ImplicitListFieldValue implicitListFieldValue = (ImplicitListFieldValue) listValue;
+			if (implicitListFieldValue.getPrecomputedArray() != null) {
+				return implicitListFieldValue.getPrecomputedArray();
 			}
 			List<Object> result = new ArrayList<Object>();
 			int size = (Integer) getSizeField().getValue(
-					composedListFieldValue.getObject());
+					implicitListFieldValue.getObject());
 			for (int i = 0; i < size; i++) {
 				Object item = getGetMethod().invoke(
-						composedListFieldValue.getObject(),
+						implicitListFieldValue.getObject(),
 						Collections.<Integer, Object> singletonMap(0, i));
 				result.add(item);
 			}
@@ -408,7 +408,7 @@ public class ComposedListField implements IFieldInfo {
 
 		@Override
 		public Object fromArray(Object[] array) {
-			return new ComposedListFieldValue(array);
+			return new ImplicitListFieldValue(array);
 		}
 
 		@Override
@@ -423,7 +423,7 @@ public class ComposedListField implements IFieldInfo {
 
 				@Override
 				public ITypeInfo getItemType() {
-					return ComposedListField.this.getType().getItemType();
+					return ImplicitListField.this.getType().getItemType();
 				}
 
 			}.getStructuralInfo();
@@ -441,12 +441,12 @@ public class ComposedListField implements IFieldInfo {
 
 				@Override
 				protected List<IMethodInfo> getConstructors(ITypeInfo type) {
-					if (ComposedListFieldType.this.object == null) {
+					if (ImplicitListFieldType.this.object == null) {
 						return Collections.emptyList();
 					} else {
 						return Collections
 								.<IMethodInfo> singletonList(new AbstractConstructorMethodInfo(
-										ComposedListFieldType.this
+										ImplicitListFieldType.this
 												.getItemType()) {
 
 									@Override
@@ -454,11 +454,11 @@ public class ComposedListField implements IFieldInfo {
 											Object nullObject,
 											Map<Integer, Object> valueByParameterPosition) {
 										Object result = getCreateMethod()
-												.invoke(ComposedListFieldType.this.object,
+												.invoke(ImplicitListFieldType.this.object,
 														Collections
 																.singletonMap(
 																		0,
-																		ComposedListFieldType.this.object));
+																		ImplicitListFieldType.this.object));
 										return result;
 									}
 
@@ -475,7 +475,7 @@ public class ComposedListField implements IFieldInfo {
 
 		@Override
 		public int hashCode() {
-			return getComposedListField().hashCode();
+			return getImplicitListField().hashCode();
 		}
 
 		@Override
@@ -486,14 +486,14 @@ public class ComposedListField implements IFieldInfo {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			ComposedListFieldType other = (ComposedListFieldType) obj;
-			if (!getComposedListField().equals(other.getComposedListField()))
+			ImplicitListFieldType other = (ImplicitListFieldType) obj;
+			if (!getImplicitListField().equals(other.getImplicitListField()))
 				return false;
 			return true;
 		}
 
-		public ComposedListField getComposedListField() {
-			return ComposedListField.this;
+		public ImplicitListField getImplicitListField() {
+			return ImplicitListField.this;
 		}
 
 	}

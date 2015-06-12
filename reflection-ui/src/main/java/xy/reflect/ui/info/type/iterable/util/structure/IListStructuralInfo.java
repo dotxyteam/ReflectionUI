@@ -1,5 +1,7 @@
 package xy.reflect.ui.info.type.iterable.util.structure;
 
+import java.awt.Image;
+
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
@@ -17,4 +19,7 @@ public interface IListStructuralInfo {
 
 	IInfoCollectionSettings getItemInfoSettings(
 			ItemPosition itemPosition);
+
+	Image getCellIconImage(ItemPosition itemPosition,
+			int columnIndex);
 }
