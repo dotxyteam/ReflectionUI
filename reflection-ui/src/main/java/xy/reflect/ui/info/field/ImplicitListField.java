@@ -244,7 +244,7 @@ public class ImplicitListField implements IFieldInfo {
 			array = buildArrayFromObject();			
 		}
 
-		private Object[] buildArrayFromObject() {
+		protected Object[] buildArrayFromObject() {
 			List<Object> result = new ArrayList<Object>();
 			int size = (Integer) getSizeField().getValue(
 					object);
