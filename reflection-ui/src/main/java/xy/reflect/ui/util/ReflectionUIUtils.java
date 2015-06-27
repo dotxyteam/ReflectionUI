@@ -16,6 +16,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
@@ -1036,12 +1037,12 @@ public class ReflectionUIUtils {
 		return false;
 	}
 
-	public static Object wrapValueAsField(ReflectionUI reflectionUI,
+	public static Object wrapAsFieldValue(ReflectionUI reflectionUI,
 			final Object[] valueArray, final String fieldCaption,
 			final String containingTypeCaption, final boolean readOnly) {
 		final ITypeInfo valueTypeInfo = reflectionUI.getTypeInfo(reflectionUI
 				.getTypeInfoSource(valueArray[0]));
-		return new PrecomputedTypeInfoInstanceWrapper(valueArray[0],
+		return new PrecomputedTypeInfoInstanceWrapper(valueArray,
 				new TypeInfoProxyConfiguration() {
 
 					@Override
@@ -1052,7 +1053,7 @@ public class ReflectionUIUtils {
 									@Override
 									public void setValue(Object object,
 											Object value) {
-										valueArray[0] = value;
+										Array.set(object, 0, value);
 									}
 
 									@Override
@@ -1067,7 +1068,7 @@ public class ReflectionUIUtils {
 
 									@Override
 									public Object getValue(Object object) {
-										return valueArray[0];
+										return Array.get(object, 0);
 									}
 
 									@Override

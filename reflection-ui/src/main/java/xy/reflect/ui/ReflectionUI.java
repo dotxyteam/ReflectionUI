@@ -117,9 +117,15 @@ public class ReflectionUI {
 	public static void main(String[] args) {
 		try {
 			ReflectionUI reflectionUI = new ReflectionUI();
+			Class<?> clazz;
+			if(args.length >= 1){
+				clazz = Class.forName(args[0]);
+			}else{
+				clazz = Object.class;
+			}
 			Object object = reflectionUI.onTypeInstanciationRequest(null,
 					reflectionUI.getTypeInfo(new JavaTypeInfoSource(
-							Object.class)), false);
+							clazz)), false);
 			if (object == null) {
 				return;
 			}
@@ -1518,7 +1524,7 @@ public class ReflectionUI {
 		final ITypeInfo valueTypeInfo = getTypeInfo(getTypeInfoSource(valueArray[0]));
 		final Object toOpen;
 		if (valueTypeInfo.hasCustomFieldControl()) {
-			toOpen = ReflectionUIUtils.wrapValueAsField(this, valueArray,
+			toOpen = ReflectionUIUtils.wrapAsFieldValue(this, valueArray,
 					"Value", title, settings.allReadOnly());
 		} else {
 			toOpen = valueArray[0];
@@ -1581,7 +1587,7 @@ public class ReflectionUI {
 		final ITypeInfo valueTypeInfo = getTypeInfo(getTypeInfoSource(valueArray[0]));
 		final Object toOpen;
 		if (valueTypeInfo.hasCustomFieldControl()) {
-			toOpen = ReflectionUIUtils.wrapValueAsField(this, valueArray,
+			toOpen = ReflectionUIUtils.wrapAsFieldValue(this, valueArray,
 					"Value", title, settings.allReadOnly());
 		} else {
 			toOpen = valueArray[0];

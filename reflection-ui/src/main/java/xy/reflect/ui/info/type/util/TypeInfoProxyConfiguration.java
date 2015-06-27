@@ -21,11 +21,10 @@ import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class TypeInfoProxyConfiguration {
-	
+
 	protected StackTraceElement[] instanciationTrace = ReflectionUIUtils
 			.createDebugTrace();
 
-	
 	public ITypeInfo get(final ITypeInfo type) {
 		if (type instanceof IListTypeInfo) {
 			return new ListTypeInfoProxy((IListTypeInfo) type);
@@ -36,6 +35,25 @@ public class TypeInfoProxyConfiguration {
 		} else {
 			return new BasicTypeInfoProxy(type);
 		}
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + getClass().hashCode();
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		return true;
 	}
 
 	protected Object getDefaultValue(IParameterInfo param, IMethodInfo method,
@@ -334,8 +352,7 @@ public class TypeInfoProxyConfiguration {
 		return type.getSpecificProperties();
 	}
 
-	protected String getOnlineHelp(IMethodInfo method,
-			ITypeInfo containingType) {
+	protected String getOnlineHelp(IMethodInfo method, ITypeInfo containingType) {
 		return method.getOnlineHelp();
 	}
 
@@ -436,23 +453,37 @@ public class TypeInfoProxyConfiguration {
 			return TypeInfoProxyConfiguration.this.toString(type, object);
 		}
 
+		public TypeInfoProxyConfiguration getTypeInfoProxyConfiguration() {
+			return TypeInfoProxyConfiguration.this;
+		}
+
 		@Override
 		public int hashCode() {
-			return TypeInfoProxyConfiguration.this.hashCode(type);
+			final int prime = 31;
+			int result = 1;
+			result = prime * result
+					+ getTypeInfoProxyConfiguration().hashCode();
+			result = prime * result + ((type == null) ? 0 : type.hashCode());
+			return result;
 		}
 
 		@Override
 		public boolean equals(Object obj) {
-			if (obj == null) {
+			if (this == obj)
+				return true;
+			if (obj == null)
 				return false;
-			}
-			if (!getClass().equals(obj.getClass())) {
+			if (getClass() != obj.getClass())
 				return false;
-			}
-			if (!TypeInfoProxyConfiguration.this.equals(type,
-					((BasicTypeInfoProxy) obj).type)) {
+			BasicTypeInfoProxy other = (BasicTypeInfoProxy) obj;
+			if (!getTypeInfoProxyConfiguration().equals(
+					other.getTypeInfoProxyConfiguration()))
 				return false;
-			}
+			if (type == null) {
+				if (other.type != null)
+					return false;
+			} else if (!type.equals(other.type))
+				return false;
 			return true;
 		}
 
@@ -475,7 +506,6 @@ public class TypeInfoProxyConfiguration {
 		public Map<String, Object> getSpecificProperties() {
 			return TypeInfoProxyConfiguration.this.getSpecificProperties(type);
 		}
-
 	}
 
 	private class ListTypeInfoProxy extends BasicTypeInfoProxy implements
@@ -850,8 +880,8 @@ public class TypeInfoProxyConfiguration {
 
 		@Override
 		public String getOnlineHelp() {
-			return TypeInfoProxyConfiguration.this.getOnlineHelp(param,
-					method, containingType);
+			return TypeInfoProxyConfiguration.this.getOnlineHelp(param, method,
+					containingType);
 		}
 
 		@Override

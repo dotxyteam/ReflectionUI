@@ -147,29 +147,39 @@ public class PrecomputedTypeInfoInstanceWrapper {
 		return instance;
 	}
 
+	
+	
+	
 	@Override
 	public int hashCode() {
-		return instance.hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((instance == null) ? 0 : instance.hashCode());
+		result = prime * result
+				+ ((precomputedType == null) ? 0 : precomputedType.hashCode());
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (obj == this) {
+		if (this == obj)
 			return true;
-		}
-		if (!(obj instanceof PrecomputedTypeInfoInstanceWrapper)) {
+		if (obj == null)
 			return false;
-		}
+		if (getClass() != obj.getClass())
+			return false;
 		PrecomputedTypeInfoInstanceWrapper other = (PrecomputedTypeInfoInstanceWrapper) obj;
-		if (!ReflectionUIUtils.equalsOrBothNull(instance, other.instance)) {
+		if (instance == null) {
+			if (other.instance != null)
+				return false;
+		} else if (!instance.equals(other.instance))
 			return false;
-		}
-		if (!precomputedType.equals(other.precomputedType)) {
+		if (precomputedType == null) {
+			if (other.precomputedType != null)
+				return false;
+		} else if (!precomputedType.equals(other.precomputedType))
 			return false;
-		}
 		return true;
 	}
 

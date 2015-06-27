@@ -91,7 +91,7 @@ public class ReflectionUITest {
 				new Test2(), new Test3() };
 		@Category("List")
 		@SuppressWarnings({ "unchecked", "rawtypes" })
-		public Vector theGenericVectorTree = new Vector(Arrays.asList(
+		public Vector theGenericVector = new Vector(Arrays.asList(
 				new Test2(), new Test2()));
 
 		@Category("List")

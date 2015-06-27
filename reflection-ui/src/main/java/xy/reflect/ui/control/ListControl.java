@@ -32,7 +32,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
-import javax.swing.JToolBar;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
@@ -73,6 +72,7 @@ import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.component.AbstractLazyTreeNode;
+import xy.reflect.ui.util.component.WrapLayout;
 
 @SuppressWarnings("rawtypes")
 public class ListControl extends JPanel implements IFieldControl {
@@ -83,7 +83,7 @@ public class ListControl extends JPanel implements IFieldControl {
 	protected IFieldInfo field;
 	protected JXTreeTable treeTableComponent;
 	protected ItemNode rootNode;
-	protected JToolBar toolbar;
+	protected JPanel toolbar;
 	protected Map<ItemNode, Map<Integer, String>> valuesByNode = new HashMap<ItemNode, Map<Integer, String>>();
 	protected IListStructuralInfo structuralInfo;
 	protected static List<Object> clipboard = new ArrayList<Object>();
@@ -117,7 +117,8 @@ public class ListControl extends JPanel implements IFieldControl {
 		updateToolbarOnItemSelection();
 		setupContexteMenu();
 
-		toolbar = new JToolBar();
+		toolbar = new JPanel();
+		toolbar.setLayout(new WrapLayout(WrapLayout.LEFT));
 		add(toolbar, BorderLayout.NORTH);
 		updateToolbar();
 
@@ -127,12 +128,12 @@ public class ListControl extends JPanel implements IFieldControl {
 		toolbar.removeAll();
 		if (!getRootListItemPosition().isContainingListReadOnly()) {
 
-			AbstractAction addAction = createAddAction();
+			AbstractAction addChildAction = createAddChildAction();
 			AbstractAction insertAction = createInsertAction(InsertPosition.UNKNOWN);
 			AbstractAction insertActionBefore = createInsertAction(InsertPosition.BEFORE);
 			AbstractAction insertActionAfter = createInsertAction(InsertPosition.AFTER);
 			toolbar.add(createTool(null, ReflectionUIUtils.ADD_ICON, true,
-					false, addAction, insertAction, insertActionBefore,
+					false, addChildAction, insertAction, insertActionBefore,
 					insertActionAfter));
 
 			toolbar.add(createTool(null, ReflectionUIUtils.REMOVE_ICON, true,
@@ -144,13 +145,12 @@ public class ListControl extends JPanel implements IFieldControl {
 			toolbar.add(createTool(null, ReflectionUIUtils.DOWN_ICON, false,
 					false, createMoveAction(1)));
 
-			List<AbstractAction> specificActions = new ArrayList<AbstractAction>();
 			for (IListAction listAction : getRootListType().getSpecificActions(
 					object, field, getSelection())) {
-				specificActions.add(createSpecificAction(listAction));
+				toolbar.add(createTool(listAction.getTitle(), null, true,
+						false, createSpecificAction(listAction)));
 			}
-			toolbar.add(createTool("...", null, false, true, specificActions
-					.toArray(new AbstractAction[specificActions.size()])));
+
 		}
 		validate();
 	}
@@ -427,12 +427,12 @@ public class ListControl extends JPanel implements IFieldControl {
 
 		if (selection.size() == 0) {
 			if (!getRootListItemPosition().isContainingListReadOnly()) {
-				result.add(createAddAction());
+				result.add(createAddChildAction());
 			}
 		} else if (singleSelectedPositionSubItemPosition != null) {
 			if (!singleSelectedPositionSubItemPosition
 					.isContainingListReadOnly()) {
-				result.add(createAddAction());
+				result.add(createAddChildAction());
 			}
 		}
 
@@ -960,7 +960,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		};
 	}
 
-	protected AbstractAction createAddAction() {
+	protected AbstractAction createAddChildAction() {
 		final AutoUpdatingFieldItemPosition itemPosition = getSingleSelection();
 		final AutoUpdatingFieldItemPosition subItemPosition;
 		if (itemPosition == null) {
@@ -974,9 +974,15 @@ public class ListControl extends JPanel implements IFieldControl {
 		final IListTypeInfo subListType = subItemPosition
 				.getContainingListType();
 		final ITypeInfo subListItemType = subListType.getItemType();
-		return new AbstractAction(
-				reflectionUI.prepareUIString((subListItemType == null) ? "Add..."
-						: ("Add " + subListItemType.getCaption() + "..."))) {
+		String title = "Add";
+		if (subItemPosition.getDepth() > 0) {
+			title += " Child";
+		}
+		if (subListItemType != null) {
+			title += " " + subListItemType.getCaption();
+		}
+		title += "...";
+		return new AbstractAction(reflectionUI.prepareUIString(title)) {
 
 			protected static final long serialVersionUID = 1L;
 
