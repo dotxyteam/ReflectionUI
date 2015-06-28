@@ -76,6 +76,7 @@ import xy.reflect.ui.info.type.iterable.map.StandardMapEntry;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
+import xy.reflect.ui.info.type.util.HiddenNullableFacetsTypeInfoProxyConfiguration;
 import xy.reflect.ui.info.type.util.MethodParametersAsTypeInfo;
 import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.undo.CompositeModification;
@@ -92,9 +93,12 @@ import xy.reflect.ui.util.component.AutoResizeTabbedPane;
 import xy.reflect.ui.util.component.ScrollPaneOptions;
 import xy.reflect.ui.util.component.WrapLayout;
 
+import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.MapMaker;
 
 public class ReflectionUI {
+
+	public static final String HIDE_NULLABLE_FACETS_OPTION = "--hide-nullable-facets";
 
 	protected Map<JPanel, Object> objectByForm = new MapMaker().weakKeys()
 			.makeMap();
@@ -112,20 +116,51 @@ public class ReflectionUI {
 			.weakKeys().makeMap();
 	protected Map<Component, IMethodInfo> methodByControl = new MapMaker()
 			.weakKeys().makeMap();
-	protected Map<ITypeInfoSource, ITypeInfo> typeInfoBySource = new HashMap<ITypeInfoSource, ITypeInfo>();
+	protected Map<ITypeInfoSource, ITypeInfo> typeInfoBySource = CacheBuilder
+			.newBuilder().maximumSize(100).<ITypeInfoSource, ITypeInfo> build()
+			.asMap();
 
 	public static void main(String[] args) {
 		try {
-			ReflectionUI reflectionUI = new ReflectionUI();
-			Class<?> clazz;
-			if(args.length >= 1){
-				clazz = Class.forName(args[0]);
-			}else{
-				clazz = Object.class;
+			Class<?> clazz = Object.class;
+			final boolean hidNullablefacets;
+			String usageText = "Expected arguments: ["
+					+ HIDE_NULLABLE_FACETS_OPTION + "] [<className>]";
+			if (args.length == 0) {
+				hidNullablefacets = false;
+			} else if (args.length == 1) {
+				if (HIDE_NULLABLE_FACETS_OPTION.equals(args[0])) {
+					hidNullablefacets = true;
+				} else {
+					hidNullablefacets = false;
+					clazz = Class.forName(args[0]);
+				}
+			} else if (args.length == 2) {
+				if (HIDE_NULLABLE_FACETS_OPTION.equals(args[0])) {
+					hidNullablefacets = true;
+					clazz = Class.forName(args[1]);
+				} else {
+					throw new IllegalArgumentException(usageText);
+				}
+			} else {
+				throw new IllegalArgumentException(usageText);
 			}
+			ReflectionUI reflectionUI = new ReflectionUI() {
+
+				@Override
+				public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
+					if (hidNullablefacets) {
+						return new HiddenNullableFacetsTypeInfoProxyConfiguration(
+								this).get(super.getTypeInfo(typeSource));
+					} else {
+						return super.getTypeInfo(typeSource);
+					}
+				}
+
+			};
 			Object object = reflectionUI.onTypeInstanciationRequest(null,
-					reflectionUI.getTypeInfo(new JavaTypeInfoSource(
-							clazz)), false);
+					reflectionUI.getTypeInfo(new JavaTypeInfoSource(clazz)),
+					false);
 			if (object == null) {
 				return;
 			}
@@ -1137,10 +1172,9 @@ public class ReflectionUI {
 			final IMethodInfo method, final Object[] returnValueArray,
 			final boolean[] exceptionThrownArray) {
 		final Map<Integer, Object> valueByParameterPosition = new HashMap<Integer, Object>();
-		JPanel methodForm = createObjectForm(new PrecomputedTypeInfoInstanceWrapper(
-				new MethodParametersAsTypeInfo.InstanceInfo(object,
-						valueByParameterPosition),
-				new MethodParametersAsTypeInfo(this, method)));
+		JPanel methodForm = createObjectForm(new MethodParametersAsTypeInfo(
+				this, method).getPrecomputedTypeInfoInstanceWrapper(object,
+				valueByParameterPosition));
 		final boolean[] invokedStatusArray = new boolean[] { false };
 		final JDialog[] methodDialogArray = new JDialog[1];
 		List<Component> toolbarControls = new ArrayList<Component>();

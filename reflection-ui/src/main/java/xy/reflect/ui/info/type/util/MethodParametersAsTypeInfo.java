@@ -203,7 +203,15 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 		return Collections.emptyMap();
 	}
 
-	public static class InstanceInfo {
+	public Object getPrecomputedTypeInfoInstanceWrapper(Object object,
+			Map<Integer, Object> valueByParameterPosition) {
+		return new PrecomputedTypeInfoInstanceWrapper(
+				new MethodParametersAsTypeInfo.InstanceInfo(object,
+						valueByParameterPosition),
+				new MethodParametersAsTypeInfo(reflectionUI, method));
+	}
+
+	protected static class InstanceInfo {
 		protected Object methodOwner;
 		protected Map<Integer, Object> valueByParameterPosition;
 

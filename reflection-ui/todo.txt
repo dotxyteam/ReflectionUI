@@ -1,3 +1,8 @@
+- colors should never be set on components,
+otherwise lookandfeel dynamic change is not taken into account.
+See:
+	. TextControl
+	. listControl.treeControl
 - precomputedTypeInstances do not work for customControl objects,
 only for form control objects
 - allow value options field
