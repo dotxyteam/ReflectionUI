@@ -70,6 +70,10 @@ public class DefaultMethodInfo implements IMethodInfo {
 			for (int i = 0; i < parameterTypes.length; i++) {
 				Class<?> paramType = parameterTypes[i];
 				Annotation[] paramAnnotations = parameterAnnotations[i];
+				if (!DefaultParameterInfo.isCompatibleWith(javaMethod,
+						paramType, paramAnnotations, i)) {
+					continue;
+				}
 				parameters.add(new DefaultParameterInfo(reflectionUI,
 						javaMethod, paramType, paramAnnotations, i));
 			}
@@ -170,14 +174,18 @@ public class DefaultMethodInfo implements IMethodInfo {
 				}
 			}
 		}
-		if (ReflectionUIUtils.getAnnotatedValidatingMethods(containingJavaClass)
-				.contains(javaMethod)) {
+		if (ReflectionUIUtils
+				.getAnnotatedValidatingMethods(containingJavaClass).contains(
+						javaMethod)) {
 			return false;
 		}
 		if (ReflectionUIUtils.isJavaClassMainMethod(javaMethod)) {
 			return false;
 		}
 		if (javaMethod.getAnnotation(ValueOptionsForField.class) != null) {
+			return false;
+		}
+		if (ReflectionUIUtils.isAnnotatedInfoHidden(javaMethod)) {
 			return false;
 		}
 		return true;

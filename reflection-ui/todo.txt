@@ -1,3 +1,7 @@
+- add system properties to allow customization of
+	. nullable facets
+	. validate, valueOptions, ... functions names
+	. ...
 - colors should never be set on components,
 otherwise lookandfeel dynamic change is not taken into account.
 See:

@@ -33,13 +33,11 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 	protected void resolveJavaReflectionModelAccessProblems() {
 		javaConstructor.setAccessible(true);
 	}
-	
+
 	@Override
 	public String getName() {
 		return javaConstructor.getName();
 	}
-
-	
 
 	@Override
 	public List<IParameterInfo> getParameters() {
@@ -51,6 +49,10 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 			for (int i = 0; i < parameterTypes.length; i++) {
 				Class<?> paramType = parameterTypes[i];
 				Annotation[] paramAnnotations = parameterAnnotations[i];
+				if (!DefaultParameterInfo.isCompatibleWith(javaConstructor,
+						paramType, paramAnnotations, i)) {
+					continue;
+				}
 				parameters.add(new DefaultParameterInfo(reflectionUI,
 						javaConstructor, paramType, paramAnnotations, i));
 			}
@@ -124,6 +126,13 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 	@Override
 	public void validateParameters(Object object,
 			Map<Integer, Object> valueByParameterPosition) throws Exception {
+	}
+
+	public static boolean isCompatibleWith(Constructor<?> constructor) {
+		if (ReflectionUIUtils.isAnnotatedInfoHidden(constructor)) {
+			return false;
+		}
+		return true;
 	}
 
 }

@@ -74,6 +74,9 @@ public class DefaultTypeInfo implements ITypeInfo {
 				return Collections.emptyList();
 			}
 			for (Constructor<?> javaConstructor : javaType.getConstructors()) {
+				if(!DefaultConstructorMethodInfo.isCompatibleWith(javaConstructor)){
+					continue;
+				}
 				constructors.add(new DefaultConstructorMethodInfo(reflectionUI,
 						this, javaConstructor));
 			}

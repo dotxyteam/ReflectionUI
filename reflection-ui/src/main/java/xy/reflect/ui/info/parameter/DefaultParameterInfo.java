@@ -6,8 +6,9 @@ import java.util.Collections;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.annotation.OnlineHelp;
+import xy.reflect.ui.info.annotation.Hidden;
 import xy.reflect.ui.info.annotation.Name;
+import xy.reflect.ui.info.annotation.OnlineHelp;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -22,6 +23,19 @@ public class DefaultParameterInfo implements IParameterInfo {
 	protected ITypeInfo type;
 	protected String name;
 
+
+	public static boolean isCompatibleWith(Member owner,
+			Class<?> paramJavaType, Annotation[] paramAnnotations, int position) {
+		for (Annotation annotation : paramAnnotations) {
+			if (annotation instanceof Hidden) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+
+	
 	public DefaultParameterInfo(ReflectionUI reflectionUI, Member owner,
 			Class<?> paramJavaType, Annotation[] paramAnnotations, int position) {
 		this.reflectionUI = reflectionUI;
@@ -125,5 +139,6 @@ public class DefaultParameterInfo implements IParameterInfo {
 	public Map<String, Object> getSpecificProperties() {
 		return Collections.emptyMap();
 	}
-
+	
+	
 }

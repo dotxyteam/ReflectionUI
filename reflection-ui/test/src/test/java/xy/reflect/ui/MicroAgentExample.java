@@ -3,6 +3,8 @@ package xy.reflect.ui;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import xy.reflect.ui.util.SystemProperties;
+
 public class MicroAgentExample {
 
 	private String hawkDoamin;
@@ -66,7 +68,8 @@ public class MicroAgentExample {
 	}
 	
 	public static void main(String[] args){
-		ReflectionUI.main(new String[]{ReflectionUI.HIDE_NULLABLE_FACETS_OPTION, MicroAgentExample.class.getName()});
+		System.setProperty(SystemProperties.HIDE_NULLABLE_FACETS, "true");
+		ReflectionUI.main(new String[]{MicroAgentExample.class.getName()});
 	}
 
 }

@@ -51,6 +51,9 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 		List<IMethodInfo> defaultConstructors = new ArrayList<IMethodInfo>();
 		if (isConcrete()) {
 			for (Constructor<?> javaConstructor : javaType.getConstructors()) {
+				if(!DefaultConstructorMethodInfo.isCompatibleWith(javaConstructor)){
+					continue;
+				}
 				defaultConstructors.add(new DefaultConstructorMethodInfo(
 						reflectionUI, this, javaConstructor));
 			}

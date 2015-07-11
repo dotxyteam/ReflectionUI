@@ -89,6 +89,7 @@ import xy.reflect.ui.undo.SetFieldValueModification;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.SystemProperties;
 import xy.reflect.ui.util.component.AutoResizeTabbedPane;
 import xy.reflect.ui.util.component.ScrollPaneOptions;
 import xy.reflect.ui.util.component.WrapLayout;
@@ -97,8 +98,6 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.MapMaker;
 
 public class ReflectionUI {
-
-	public static final String HIDE_NULLABLE_FACETS_OPTION = "--hide-nullable-facets";
 
 	protected Map<JPanel, Object> objectByForm = new MapMaker().weakKeys()
 			.makeMap();
@@ -123,41 +122,15 @@ public class ReflectionUI {
 	public static void main(String[] args) {
 		try {
 			Class<?> clazz = Object.class;
-			final boolean hidNullablefacets;
-			String usageText = "Expected arguments: ["
-					+ HIDE_NULLABLE_FACETS_OPTION + "] [<className>]";
+			String usageText = "Expected arguments: [<className>]";
 			if (args.length == 0) {
-				hidNullablefacets = false;
+				clazz = Object.class;
 			} else if (args.length == 1) {
-				if (HIDE_NULLABLE_FACETS_OPTION.equals(args[0])) {
-					hidNullablefacets = true;
-				} else {
-					hidNullablefacets = false;
-					clazz = Class.forName(args[0]);
-				}
-			} else if (args.length == 2) {
-				if (HIDE_NULLABLE_FACETS_OPTION.equals(args[0])) {
-					hidNullablefacets = true;
-					clazz = Class.forName(args[1]);
-				} else {
-					throw new IllegalArgumentException(usageText);
-				}
-			} else {
+				clazz = Class.forName(args[0]);
+			}else {
 				throw new IllegalArgumentException(usageText);
 			}
-			ReflectionUI reflectionUI = new ReflectionUI() {
-
-				@Override
-				public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-					if (hidNullablefacets) {
-						return new HiddenNullableFacetsTypeInfoProxyConfiguration(
-								this).get(super.getTypeInfo(typeSource));
-					} else {
-						return super.getTypeInfo(typeSource);
-					}
-				}
-
-			};
+			ReflectionUI reflectionUI = new ReflectionUI();
 			Object object = reflectionUI.onTypeInstanciationRequest(null,
 					reflectionUI.getTypeInfo(new JavaTypeInfoSource(clazz)),
 					false);
@@ -1059,6 +1032,10 @@ public class ReflectionUI {
 				throw new ReflectionUIError();
 			}
 			typeInfoBySource.put(typeSource, result);
+		}
+		if(SystemProperties.hideNullablefacets()){
+			result = new HiddenNullableFacetsTypeInfoProxyConfiguration(
+					this).get(result);
 		}
 		return result;
 	}

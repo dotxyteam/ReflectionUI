@@ -22,7 +22,6 @@ import xy.reflect.ui.info.annotation.Category;
 import xy.reflect.ui.info.annotation.OnlineHelp;
 import xy.reflect.ui.info.annotation.ValueOptionsForField;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.method.AbstractMethodUndoModification;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
@@ -33,6 +32,7 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.TypeInfoProxyConfiguration;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.undo.AbstractMethodUndoModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.IModification;
 

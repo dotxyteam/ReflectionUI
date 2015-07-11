@@ -46,6 +46,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.annotation.Category;
+import xy.reflect.ui.info.annotation.Hidden;
 import xy.reflect.ui.info.annotation.OnlineHelp;
 import xy.reflect.ui.info.annotation.ValueOptionsForField;
 import xy.reflect.ui.info.annotation.Validating;
@@ -802,6 +803,12 @@ public class ReflectionUIUtils {
 			return null;
 		}
 		return annotation.value();
+	}
+	
+	public static boolean isAnnotatedInfoHidden(
+			AnnotatedElement annotated) {
+		Hidden annotation = annotated.getAnnotation(Hidden.class);
+		return annotation != null;
 	}
 
 	public static String escapeHTML(String string, boolean preserveNewLines) {
