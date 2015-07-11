@@ -198,7 +198,7 @@ public class GetterFieldInfo implements IFieldInfo {
 		if (javaMethod.getAnnotation(ValueOptionsForField.class) != null) {
 			return false;
 		}
-		if(ReflectionUIUtils.isAnnotatedInfoHidden(javaMethod)){
+		if(ReflectionUIUtils.isInfoHidden(javaMethod)){
 			return false;
 		}
 		return true;

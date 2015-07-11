@@ -120,7 +120,7 @@ public class PublicFieldInfo implements IFieldInfo {
 		if (Modifier.isStatic(field.getModifiers())) {
 			return false;
 		}
-		if(ReflectionUIUtils.isAnnotatedInfoHidden(field)){
+		if(ReflectionUIUtils.isInfoHidden(field)){
 			return false;
 		}
 		return true;

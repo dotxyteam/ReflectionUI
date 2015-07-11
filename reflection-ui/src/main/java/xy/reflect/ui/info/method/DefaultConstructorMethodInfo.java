@@ -1,6 +1,5 @@
 package xy.reflect.ui.info.method;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -13,6 +12,7 @@ import xy.reflect.ui.info.parameter.DefaultParameterInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.IModification;
+import xy.reflect.ui.util.Parameter;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -44,17 +44,13 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 		if (parameters == null) {
 			parameters = new ArrayList<IParameterInfo>();
 			Class<?>[] parameterTypes = javaConstructor.getParameterTypes();
-			Annotation[][] parameterAnnotations = javaConstructor
-					.getParameterAnnotations();
 			for (int i = 0; i < parameterTypes.length; i++) {
-				Class<?> paramType = parameterTypes[i];
-				Annotation[] paramAnnotations = parameterAnnotations[i];
-				if (!DefaultParameterInfo.isCompatibleWith(javaConstructor,
-						paramType, paramAnnotations, i)) {
+				if (!DefaultParameterInfo.isCompatibleWith(new Parameter(
+						javaConstructor, i))) {
 					continue;
 				}
 				parameters.add(new DefaultParameterInfo(reflectionUI,
-						javaConstructor, paramType, paramAnnotations, i));
+						new Parameter(javaConstructor, i)));
 			}
 		}
 		return parameters;
@@ -129,7 +125,7 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 	}
 
 	public static boolean isCompatibleWith(Constructor<?> constructor) {
-		if (ReflectionUIUtils.isAnnotatedInfoHidden(constructor)) {
+		if (ReflectionUIUtils.isInfoHidden(constructor)) {
 			return false;
 		}
 		return true;

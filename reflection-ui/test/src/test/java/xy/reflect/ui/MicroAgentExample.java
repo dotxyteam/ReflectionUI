@@ -61,15 +61,18 @@ public class MicroAgentExample {
 			String methodName, String columnName, String... arguments) {
 		return SimpleDateFormat.getTimeInstance().format(new Date());
 	}
-	
-	
-	public String listMicroAgentnames(){
+
+	public String listMicroAgentnames() {
 		return invoke(null, null, null, null);
 	}
-	
-	public static void main(String[] args){
+
+	public void methodToHide() {
+	}
+
+	public static void main(String[] args) {
 		System.setProperty(SystemProperties.HIDE_NULLABLE_FACETS, "true");
-		ReflectionUI.main(new String[]{MicroAgentExample.class.getName()});
+		System.setProperty(SystemProperties.HIDE_METHODS, "#methodToHide");
+		ReflectionUI.main(new String[] { MicroAgentExample.class.getName() });
 	}
 
 }

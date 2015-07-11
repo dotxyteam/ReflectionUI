@@ -1,48 +1,34 @@
 package xy.reflect.ui.info.parameter;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Member;
 import java.util.Collections;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.annotation.Hidden;
 import xy.reflect.ui.info.annotation.Name;
-import xy.reflect.ui.info.annotation.OnlineHelp;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.util.Parameter;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class DefaultParameterInfo implements IParameterInfo {
 
 	protected ReflectionUI reflectionUI;
-	protected Class<?> paramJavaType;
-	protected int position;
-	protected Member owner;
-	protected Annotation[] paramAnnotations;
+	protected Parameter javaParameter;
 	protected ITypeInfo type;
 	protected String name;
 
-
-	public static boolean isCompatibleWith(Member owner,
-			Class<?> paramJavaType, Annotation[] paramAnnotations, int position) {
-		for (Annotation annotation : paramAnnotations) {
-			if (annotation instanceof Hidden) {
-				return false;
-			}
+	public static boolean isCompatibleWith(Parameter javaParameter) {
+		if (ReflectionUIUtils.isInfoHidden(javaParameter)) {
+			return false;
 		}
 		return true;
 	}
 
-
-	
-	public DefaultParameterInfo(ReflectionUI reflectionUI, Member owner,
-			Class<?> paramJavaType, Annotation[] paramAnnotations, int position) {
+	public DefaultParameterInfo(ReflectionUI reflectionUI,
+			Parameter javaParameter) {
 		this.reflectionUI = reflectionUI;
-		this.owner = owner;
-		this.paramJavaType = paramJavaType;
-		this.paramAnnotations = paramAnnotations;
-		this.position = position;
+		this.javaParameter = javaParameter;
 	}
 
 	@Override
@@ -55,7 +41,9 @@ public class DefaultParameterInfo implements IParameterInfo {
 	public ITypeInfo getType() {
 		if (type == null) {
 			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(
-					paramJavaType, owner, position));
+					javaParameter.getType(), javaParameter
+							.getDeclaringInvokable(), javaParameter
+							.getPosition()));
 		}
 		return type;
 	}
@@ -69,52 +57,59 @@ public class DefaultParameterInfo implements IParameterInfo {
 	public String getName() {
 		if (name == null) {
 			String[] parameterNames = ReflectionUIUtils
-					.getJavaParameterNames(owner);
+					.getJavaParameterNames(javaParameter.getDeclaringInvokable());
 			if (parameterNames == null) {
-				for (Annotation annotation : paramAnnotations) {
+				for (Annotation annotation : javaParameter.getAnnotations()) {
 					if (annotation instanceof Name) {
 						return ((Name) annotation).value();
 					}
 				}
-				name = "parameter" + (position + 1);
+				name = "parameter" + (javaParameter.getPosition() + 1);
 			} else {
-				name = parameterNames[position];
+				name = parameterNames[javaParameter.getPosition()];
 			}
 		}
 		return name;
 	}
 
+	
+	
+	
 	@Override
 	public int hashCode() {
-		return position;
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((javaParameter == null) ? 0 : javaParameter.hashCode());
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (obj == this) {
+		if (this == obj)
 			return true;
-		}
-		if (!getClass().equals(obj.getClass())) {
+		if (obj == null)
 			return false;
-		}
-		if (position != ((DefaultParameterInfo) obj).position) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
+		DefaultParameterInfo other = (DefaultParameterInfo) obj;
+		if (javaParameter == null) {
+			if (other.javaParameter != null)
+				return false;
+		} else if (!javaParameter.equals(other.javaParameter))
+			return false;
 		return true;
 	}
 
 	@Override
 	public boolean isNullable() {
-		return !paramJavaType.isPrimitive();
+		return !javaParameter.getType().isPrimitive();
 	}
 
 	@Override
 	public Object getDefaultValue() {
-		if (paramJavaType.isPrimitive()) {
-			return ReflectionUIUtils.PrimitiveDefaults.get(paramJavaType);
+		if (javaParameter.getType().isPrimitive()) {
+			return ReflectionUIUtils.PrimitiveDefaults.get(javaParameter.getType());
 		} else {
 			return null;
 		}
@@ -122,23 +117,17 @@ public class DefaultParameterInfo implements IParameterInfo {
 
 	@Override
 	public int getPosition() {
-		return position;
+		return javaParameter.getPosition();
 	}
 
 	@Override
 	public String getOnlineHelp() {
-		for (Annotation annotation : paramAnnotations) {
-			if (annotation instanceof OnlineHelp) {
-				return ((OnlineHelp) annotation).value();
-			}
-		}
-		return null;
+		return ReflectionUIUtils.getAnnotatedInfoOnlineHelp(javaParameter);
 	}
 
 	@Override
 	public Map<String, Object> getSpecificProperties() {
 		return Collections.emptyMap();
 	}
-	
-	
+
 }

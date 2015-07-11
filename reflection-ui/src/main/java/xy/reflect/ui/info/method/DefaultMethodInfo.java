@@ -1,6 +1,5 @@
 package xy.reflect.ui.info.method;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -18,6 +17,7 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.IModification;
+import xy.reflect.ui.util.Parameter;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -65,17 +65,13 @@ public class DefaultMethodInfo implements IMethodInfo {
 		if (parameters == null) {
 			parameters = new ArrayList<IParameterInfo>();
 			Class<?>[] parameterTypes = javaMethod.getParameterTypes();
-			Annotation[][] parameterAnnotations = javaMethod
-					.getParameterAnnotations();
 			for (int i = 0; i < parameterTypes.length; i++) {
-				Class<?> paramType = parameterTypes[i];
-				Annotation[] paramAnnotations = parameterAnnotations[i];
-				if (!DefaultParameterInfo.isCompatibleWith(javaMethod,
-						paramType, paramAnnotations, i)) {
+				Parameter javaParameter = new Parameter(javaMethod, i);
+				if (!DefaultParameterInfo.isCompatibleWith(javaParameter)) {
 					continue;
 				}
 				parameters.add(new DefaultParameterInfo(reflectionUI,
-						javaMethod, paramType, paramAnnotations, i));
+						javaParameter));
 			}
 		}
 		return parameters;
@@ -185,7 +181,7 @@ public class DefaultMethodInfo implements IMethodInfo {
 		if (javaMethod.getAnnotation(ValueOptionsForField.class) != null) {
 			return false;
 		}
-		if (ReflectionUIUtils.isAnnotatedInfoHidden(javaMethod)) {
+		if (ReflectionUIUtils.isInfoHidden(javaMethod)) {
 			return false;
 		}
 		return true;

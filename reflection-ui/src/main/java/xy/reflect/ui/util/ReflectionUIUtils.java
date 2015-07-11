@@ -717,6 +717,11 @@ public class ReflectionUIUtils {
 		}
 		return result.toString();
 	}
+	
+	public static <T>  String stringJoin(T[] array, String separator) {
+		return stringJoin(Arrays.asList(array), separator); 
+	}
+		
 
 	public static String stringJoin(List<?> list, String separator) {
 		StringBuilder result = new StringBuilder();
@@ -796,19 +801,32 @@ public class ReflectionUIUtils {
 		return new InfoCategory(annotation.value(), annotation.position());
 	}
 
-	public static String getAnnotatedInfoOnlineHelp(
-			AnnotatedElement annotated) {
+	public static String getAnnotatedInfoOnlineHelp(AnnotatedElement annotated) {
 		OnlineHelp annotation = annotated.getAnnotation(OnlineHelp.class);
 		if (annotation == null) {
 			return null;
 		}
 		return annotation.value();
 	}
-	
-	public static boolean isAnnotatedInfoHidden(
-			AnnotatedElement annotated) {
-		Hidden annotation = annotated.getAnnotation(Hidden.class);
-		return annotation != null;
+
+	public static boolean isInfoHidden(AccessibleObject javaMetaObject) {
+		Hidden annotation = javaMetaObject.getAnnotation(Hidden.class);
+		if (annotation != null) {
+			return true;
+		}
+		if (javaMetaObject instanceof Method) {
+			Method method = (Method) javaMetaObject;
+			if (SystemProperties.hideMethod(method)) {
+				return true;
+			}
+		}
+		if (javaMetaObject instanceof Field) {
+			Field field = (Field) javaMetaObject;
+			if (SystemProperties.hideField(field)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static String escapeHTML(String string, boolean preserveNewLines) {
@@ -982,7 +1000,8 @@ public class ReflectionUIUtils {
 					continue;
 				}
 				if (!method.getReturnType().isArray()) {
-					if (!Collection.class.isAssignableFrom(method.getReturnType())) {
+					if (!Collection.class.isAssignableFrom(method
+							.getReturnType())) {
 						throw new ReflectionUIError(
 								"Invalid field value options method, its return type is not a list type: "
 										+ method);
@@ -1149,11 +1168,11 @@ public class ReflectionUIUtils {
 		return new Exception().getStackTrace();
 	}
 
-	public static Object[] getFieldValueOptionsFromAnnotatedMethod(Object object,
-			Class<?> containingJavaClass, String fieldName,
+	public static Object[] getFieldValueOptionsFromAnnotatedMethod(
+			Object object, Class<?> containingJavaClass, String fieldName,
 			ReflectionUI reflectionUI) {
-		Method javaValueOptionsMethod = getAnnotatedFieldValueOptionsMethod(containingJavaClass,
-						fieldName);
+		Method javaValueOptionsMethod = getAnnotatedFieldValueOptionsMethod(
+				containingJavaClass, fieldName);
 		if (javaValueOptionsMethod == null) {
 			return null;
 		}
@@ -1169,14 +1188,33 @@ public class ReflectionUIUtils {
 		return optionListType.toArray(options);
 	}
 
-	public static <M extends Member>  M findJavaMemberByName(M[] members,
+	public static <M extends Member> M findJavaMemberByName(M[] members,
 			String memberName) {
-		for(M member: members){
-			if(member.getName().equals(memberName)){
+		for (M member : members) {
+			if (member.getName().equals(memberName)) {
 				return member;
 			}
 		}
 		return null;
+	}
+
+	public static String getQualifiedName(Method method) {
+		return method.getDeclaringClass().getName() + "#" + method.getName();
+	}
+
+	public static String getQualifiedName(Field field) {
+		return field.getDeclaringClass().getName() + "#" + field.getName();
+	}
+
+	public static String getQualifiedName(Parameter parameter) {
+		Member invokable = parameter.getDeclaringInvokable();
+		return invokable.getClass().getName()
+				+ "#"
+				+ invokable.getName()
+				+ "("
+				+ ReflectionUIUtils.stringJoin(
+						parameter.getDeclaringInvokableParameterTypes(), ",") + "):"
+				+ parameter.getPosition();
 	}
 
 }
