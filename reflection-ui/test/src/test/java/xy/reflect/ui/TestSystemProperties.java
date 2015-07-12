@@ -2,8 +2,9 @@ package xy.reflect.ui;
 
 import java.util.Collections;
 
-import org.junit.AfterClass;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -116,7 +117,7 @@ public class TestSystemProperties {
 				typeInfo.getConstructors(), "TestSystemProperties") != null);
 
 		reflectionUI = new ReflectionUI();
-		System.setProperty(SystemProperties.HIDE_FIELDS,
+		System.setProperty(SystemProperties.HIDE_METHODS,
 				TestSystemProperties.class.getName()
 						+ "*#TestSystemProperties()");
 		typeInfo = reflectionUI.getTypeInfo(reflectionUI
@@ -125,7 +126,7 @@ public class TestSystemProperties {
 				typeInfo.getFields(), "TestSystemProperties") == null);
 
 		reflectionUI = new ReflectionUI();
-		System.setProperty(SystemProperties.HIDE_FIELDS,
+		System.setProperty(SystemProperties.HIDE_METHODS,
 				"*#TestSystemProperties*");
 		typeInfo = reflectionUI.getTypeInfo(reflectionUI
 				.getTypeInfoSource(this));
@@ -179,12 +180,12 @@ public class TestSystemProperties {
 
 	}
 
-	@AfterClass
-	public static void cleanUp() {
+	@Before
+	@After
+	public void cleanUp() {
 		System.clearProperty(SystemProperties.HIDE_NULLABLE_FACETS);
 		System.clearProperty(SystemProperties.HIDE_FIELDS);
 		System.clearProperty(SystemProperties.HIDE_METHODS);
-		System.clearProperty(SystemProperties.HIDE_CONSTRUCTORS);
 		System.clearProperty(SystemProperties.HIDE_PARAMETERS);
 	}
 
