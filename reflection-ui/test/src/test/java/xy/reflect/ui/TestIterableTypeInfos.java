@@ -1,7 +1,5 @@
 package xy.reflect.ui;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +12,6 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
-import xy.reflect.ui.info.type.iterable.util.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.structure.TabularTreetStructuralInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIUtils;
