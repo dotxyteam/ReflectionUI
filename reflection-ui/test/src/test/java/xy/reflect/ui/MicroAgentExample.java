@@ -66,12 +66,8 @@ public class MicroAgentExample {
 		return invoke(null, null, null, null);
 	}
 
-	public void methodToHide() {
-	}
-
 	public static void main(String[] args) {
 		System.setProperty(SystemProperties.HIDE_NULLABLE_FACETS, "true");
-		System.setProperty(SystemProperties.HIDE_METHODS, "#methodToHide");
 		ReflectionUI.main(new String[] { MicroAgentExample.class.getName() });
 	}
 

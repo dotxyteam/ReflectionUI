@@ -8,7 +8,7 @@ import org.junit.Test;
 import xy.ui.testing.Tester;
 import xy.ui.testing.util.TestingUtils;
 
-public class TestReflectionUI {
+public class TestOpenUI {
 
 	@Before
 	public void before() {
@@ -17,19 +17,19 @@ public class TestReflectionUI {
 
 	@Test
 	public void testJavaAwtPointUI() throws IOException {
-		Tester.assertSuccessfulReplay(TestReflectionUI.class
+		Tester.assertSuccessfulReplay(TestOpenUI.class
 				.getResourceAsStream("testJavaAwtPointUI.stt"));
 	}
 
 	@Test
 	public void testJavaLangThreadUI() throws IOException {
-		Tester.assertSuccessfulReplay(TestReflectionUI.class
+		Tester.assertSuccessfulReplay(TestOpenUI.class
 				.getResourceAsStream("testJavaLangThreadUI.stt"));
 	}
 
 	@Test
 	public void testTableTreeModelExample() throws IOException {
-		Tester.assertSuccessfulReplay(TestReflectionUI.class
+		Tester.assertSuccessfulReplay(TestOpenUI.class
 				.getResourceAsStream("testTableTreeModelExample.stt"));
 	}
 

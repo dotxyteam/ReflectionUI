@@ -717,11 +717,10 @@ public class ReflectionUIUtils {
 		}
 		return result.toString();
 	}
-	
-	public static <T>  String stringJoin(T[] array, String separator) {
-		return stringJoin(Arrays.asList(array), separator); 
+
+	public static <T> String stringJoin(T[] array, String separator) {
+		return stringJoin(Arrays.asList(array), separator);
 	}
-		
 
 	public static String stringJoin(List<?> list, String separator) {
 		StringBuilder result = new StringBuilder();
@@ -814,15 +813,27 @@ public class ReflectionUIUtils {
 		if (annotation != null) {
 			return true;
 		}
+		if (javaMetaObject instanceof Field) {
+			Field field = (Field) javaMetaObject;
+			if (SystemProperties.hideField(field)) {
+				return true;
+			}
+		}
 		if (javaMetaObject instanceof Method) {
 			Method method = (Method) javaMetaObject;
 			if (SystemProperties.hideMethod(method)) {
 				return true;
 			}
 		}
-		if (javaMetaObject instanceof Field) {
-			Field field = (Field) javaMetaObject;
-			if (SystemProperties.hideField(field)) {
+		if (javaMetaObject instanceof Constructor<?>) {
+			Constructor<?> ctor = (Constructor<?>) javaMetaObject;
+			if (SystemProperties.hideConstructor(ctor)) {
+				return true;
+			}
+		}
+		if (javaMetaObject instanceof Parameter) {
+			Parameter param = (Parameter) javaMetaObject;
+			if (SystemProperties.hideParameter(param)) {
 				return true;
 			}
 		}
@@ -1198,23 +1209,44 @@ public class ReflectionUIUtils {
 		return null;
 	}
 
-	public static String getQualifiedName(Method method) {
-		return method.getDeclaringClass().getName() + "#" + method.getName();
-	}
-
 	public static String getQualifiedName(Field field) {
 		return field.getDeclaringClass().getName() + "#" + field.getName();
 	}
 
+	public static String getQualifiedName(Method method) {
+		return method.getDeclaringClass().getName() + "#" + method.getName()
+				+ "("
+				+ stringJoin(gatClassNames(method.getParameterTypes()), ",")
+				+ ")";
+	}
+
+	public static String getQualifiedName(Constructor<?> constructor) {
+		return constructor.getDeclaringClass().getName()
+				+ "#"
+				+ constructor.getName()
+				+ "("
+				+ stringJoin(gatClassNames(constructor.getParameterTypes()),
+						",") + ")";
+	}
+
 	public static String getQualifiedName(Parameter parameter) {
 		Member invokable = parameter.getDeclaringInvokable();
-		return invokable.getClass().getName()
+		return invokable.getDeclaringClass().getName()
 				+ "#"
 				+ invokable.getName()
 				+ "("
-				+ ReflectionUIUtils.stringJoin(
-						parameter.getDeclaringInvokableParameterTypes(), ",") + "):"
-				+ parameter.getPosition();
+				+ stringJoin(
+						gatClassNames(parameter
+								.getDeclaringInvokableParameterTypes()),
+						",") + "):" + parameter.getPosition();
+	}
+
+	public static List<String> gatClassNames(Class<?>[] classes) {
+		List<String> paramTypeNames = new ArrayList<String>();
+		for (Class<?> clazz : classes) {
+			paramTypeNames.add(clazz.getName());
+		}
+		return paramTypeNames;
 	}
 
 }

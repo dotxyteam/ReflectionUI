@@ -80,16 +80,17 @@ public class DefaultMethodInfo implements IMethodInfo {
 	@Override
 	public Object invoke(Object object,
 			Map<Integer, Object> valueByParameterPosition) {
-		List<Object> args = new ArrayList<Object>();
+		Object[] args = new Object[javaMethod.getParameterTypes().length];
 		for (IParameterInfo param : getParameters()) {
 			if (valueByParameterPosition.containsKey(param.getPosition())) {
-				args.add(valueByParameterPosition.get(param.getPosition()));
+				args[param.getPosition()] = valueByParameterPosition.get(param
+						.getPosition());
 			} else {
-				args.add(param.getDefaultValue());
+				args[param.getPosition()] = param.getDefaultValue();
 			}
 		}
 		try {
-			return javaMethod.invoke(object, args.toArray());
+			return javaMethod.invoke(object, args);
 		} catch (IllegalAccessException e) {
 			throw new ReflectionUIError(e);
 		} catch (IllegalArgumentException e) {

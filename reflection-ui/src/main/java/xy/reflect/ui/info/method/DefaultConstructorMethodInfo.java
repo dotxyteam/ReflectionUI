@@ -36,7 +36,7 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 
 	@Override
 	public String getName() {
-		return javaConstructor.getName();
+		return javaConstructor.getDeclaringClass().getSimpleName();
 	}
 
 	@Override
@@ -59,16 +59,17 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 	@Override
 	public Object invoke(Object object,
 			Map<Integer, Object> valueByParameterPosition) {
-		List<Object> args = new ArrayList<Object>();
+		Object[] args = new Object[javaConstructor.getParameterTypes().length];
 		for (IParameterInfo param : getParameters()) {
 			if (valueByParameterPosition.containsKey(param.getPosition())) {
-				args.add(valueByParameterPosition.get(param.getPosition()));
+				args[param.getPosition()] = valueByParameterPosition.get(param
+						.getPosition());
 			} else {
-				args.add(param.getDefaultValue());
+				args[param.getPosition()] = param.getDefaultValue();
 			}
 		}
 		try {
-			return javaConstructor.newInstance(args.toArray());
+			return javaConstructor.newInstance(args);
 		} catch (IllegalAccessException e) {
 			throw new ReflectionUIError(e);
 		} catch (IllegalArgumentException e) {
