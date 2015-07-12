@@ -8,9 +8,9 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.HiddenNullableFacetFieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.MultiSubListField;
-import xy.reflect.ui.info.field.MultiSubListField.MultiSubListVirtualParent;
-import xy.reflect.ui.info.field.MultiSubListField.MultiSubListVirtualParentType;
+import xy.reflect.ui.info.field.MultiListField;
+import xy.reflect.ui.info.field.MultiListField.MultiListVirtualParent;
+import xy.reflect.ui.info.field.MultiListField.MultiListVirtualParentType;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
@@ -47,17 +47,17 @@ public abstract class AbstractTreeDetectionListStructuralInfo implements
 			return null;
 		} else if (candidateFields.size() == 1) {
 			IFieldInfo candidateField = candidateFields.get(0);
-			if (itemPosition.getItem() instanceof MultiSubListVirtualParent) {
+			if (itemPosition.getItem() instanceof MultiListVirtualParent) {
 				return candidateField;
 			} else if (displaysSubListFieldNameAsTreeNode(candidateField,
 					itemPosition)) {
-				return new MultiSubListField(reflectionUI,
+				return new MultiListField(reflectionUI,
 						Collections.singletonList(candidateField));
 			} else {
 				return candidateField;
 			}
 		} else {
-			return new MultiSubListField(reflectionUI, candidateFields);
+			return new MultiListField(reflectionUI, candidateFields);
 		}
 	}
 
@@ -67,7 +67,7 @@ public abstract class AbstractTreeDetectionListStructuralInfo implements
 		if (itemType instanceof IMapEntryTypeInfo) {
 			return false;
 		}
-		if (itemType instanceof MultiSubListVirtualParentType) {
+		if (itemType instanceof MultiListVirtualParentType) {
 			return false;
 		}
 		return !subListField.getName().equals(
@@ -86,7 +86,7 @@ public abstract class AbstractTreeDetectionListStructuralInfo implements
 			if (fieldType instanceof IListTypeInfo) {
 				ITypeInfo subListItemType = ((IListTypeInfo) fieldType)
 						.getItemType();
-				if (item instanceof MultiSubListVirtualParent) {
+				if (item instanceof MultiListVirtualParent) {
 					result.add(field);
 				} else if (isValidTreeNodeItemType(subListItemType)) {
 					result.add(field);
@@ -126,8 +126,8 @@ public abstract class AbstractTreeDetectionListStructuralInfo implements
 
 			@Override
 			public boolean excludeField(IFieldInfo field) {
-				List<IFieldInfo> candidateFields = getItemSubListCandidateFields(itemPosition);
-				return candidateFields.contains(field);
+				List<IFieldInfo> subListCandidateFields = getItemSubListCandidateFields(itemPosition);
+				return subListCandidateFields.contains(field);
 			}
 
 			@Override

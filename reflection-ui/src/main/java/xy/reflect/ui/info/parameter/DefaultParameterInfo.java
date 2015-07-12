@@ -1,11 +1,9 @@
 package xy.reflect.ui.info.parameter;
 
-import java.lang.annotation.Annotation;
 import java.util.Collections;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.annotation.Name;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.Parameter;
@@ -16,8 +14,7 @@ public class DefaultParameterInfo implements IParameterInfo {
 	protected ReflectionUI reflectionUI;
 	protected Parameter javaParameter;
 	protected ITypeInfo type;
-	protected String name;
-
+	
 	public static boolean isCompatibleWith(Parameter javaParameter) {
 		if (ReflectionUIUtils.isInfoHidden(javaParameter)) {
 			return false;
@@ -55,21 +52,7 @@ public class DefaultParameterInfo implements IParameterInfo {
 
 	@Override
 	public String getName() {
-		if (name == null) {
-			String[] parameterNames = ReflectionUIUtils
-					.getJavaParameterNames(javaParameter.getDeclaringInvokable());
-			if (parameterNames == null) {
-				for (Annotation annotation : javaParameter.getAnnotations()) {
-					if (annotation instanceof Name) {
-						return ((Name) annotation).value();
-					}
-				}
-				name = "parameter" + (javaParameter.getPosition() + 1);
-			} else {
-				name = parameterNames[javaParameter.getPosition()];
-			}
-		}
-		return name;
+		return javaParameter.getName();
 	}
 
 	

@@ -59,8 +59,8 @@ import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.MultiSubListField.MultiSubListVirtualParent;
-import xy.reflect.ui.info.field.MultiSubListField.MultiSubListVirtualParentType;
+import xy.reflect.ui.info.field.MultiListField.MultiListVirtualParent;
+import xy.reflect.ui.info.field.MultiListField.MultiListVirtualParentType;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
@@ -529,10 +529,10 @@ public class ReflectionUI {
 		if (object instanceof PrecomputedTypeInfoInstanceWrapper) {
 			return ((PrecomputedTypeInfoInstanceWrapper) object)
 					.getPrecomputedTypeInfoSource();
-		} else if (object instanceof MultiSubListVirtualParent) {
+		} else if (object instanceof MultiListVirtualParent) {
 			return new PrecomputedTypeInfoSource(
-					new MultiSubListVirtualParentType(this,
-							(MultiSubListVirtualParent) object));
+					new MultiListVirtualParentType(this,
+							(MultiListVirtualParent) object));
 		} else {
 			return new JavaTypeInfoSource(object.getClass());
 		}
@@ -1508,8 +1508,8 @@ public class ReflectionUI {
 		if (object == null) {
 			return "(Missing Value)";
 		}
-		if (object instanceof MultiSubListVirtualParent) {
-			return ((MultiSubListVirtualParent) object).toString();
+		if (object instanceof MultiListVirtualParent) {
+			return ((MultiListVirtualParent) object).toString();
 		}
 		if (object instanceof StandardMapEntry<?, ?>) {
 			Object key = ((StandardMapEntry<?, ?>) object).getKey();

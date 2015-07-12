@@ -83,7 +83,7 @@ public class GetterFieldInfo implements IFieldInfo {
 		if (fieldName == null) {
 			return null;
 		}
-		return ReflectionUIUtils.getFieldValueOptionsFromAnnotatedMethod(object, containingJavaClass,
+		return ReflectionUIUtils.getFieldValueOptionsFromAnnotatedMember(object, containingJavaClass,
 				fieldName, reflectionUI);
 	}
 

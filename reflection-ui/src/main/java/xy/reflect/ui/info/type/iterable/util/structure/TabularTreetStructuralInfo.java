@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.ListControl.AutoUpdatingFieldItemPosition;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -82,9 +81,13 @@ public class TabularTreetStructuralInfo extends
 
 				@Override
 				public Object getValue(Object object) {
-					Object item = ((AutoUpdatingFieldItemPosition) object)
-							.getItem();
+					Object item = ((ItemPosition) object).getItem();
 					return reflectionUI.getObjectKind(item);
+				}
+
+				@Override
+				public String toString() {
+					return getCaption();
 				}
 			};
 		}

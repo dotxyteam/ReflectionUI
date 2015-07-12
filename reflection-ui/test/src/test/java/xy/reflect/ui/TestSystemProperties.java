@@ -2,6 +2,7 @@ package xy.reflect.ui;
 
 import java.util.Collections;
 
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,7 +14,7 @@ import xy.reflect.ui.util.SystemProperties;
 public class TestSystemProperties {
 
 	public String nullableField;
-	
+
 	public Comparable<?> necessarilyNullableField;
 
 	public int hiddenField;
@@ -176,6 +177,15 @@ public class TestSystemProperties {
 		Assert.assertTrue(ReflectionUIUtils.findInfoByName(
 				hiddenMethodInfo.getParameters(), "parameter2") == null);
 
+	}
+
+	@AfterClass
+	public static void cleanUp() {
+		System.clearProperty(SystemProperties.HIDE_NULLABLE_FACETS);
+		System.clearProperty(SystemProperties.HIDE_FIELDS);
+		System.clearProperty(SystemProperties.HIDE_METHODS);
+		System.clearProperty(SystemProperties.HIDE_CONSTRUCTORS);
+		System.clearProperty(SystemProperties.HIDE_PARAMETERS);
 	}
 
 }

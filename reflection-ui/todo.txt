@@ -1,3 +1,6 @@
+- add test cases for:
+	. annotations
+	. structuralInfos
 - add system properties to allow customization of
 	. nullable facets
 	. validate, valueOptions, ... functions names

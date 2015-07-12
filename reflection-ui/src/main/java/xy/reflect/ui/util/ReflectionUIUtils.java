@@ -19,6 +19,7 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -51,7 +52,6 @@ import xy.reflect.ui.info.annotation.OnlineHelp;
 import xy.reflect.ui.info.annotation.ValueOptionsForField;
 import xy.reflect.ui.info.annotation.Validating;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -297,14 +297,41 @@ public class ReflectionUIUtils {
 		return result.toString();
 	}
 
-	public static String getJavaMethodInfoSignature(Method javaMethod,
-			ReflectionUI reflectionUI) {
-		return getMethodInfoSignature(new DefaultMethodInfo(reflectionUI,
-				javaMethod));
+	public static String getJavaMethodInfoSignature(Method javaMethod) {
+		StringBuilder result = new StringBuilder();
+		Class<?> returnType = javaMethod.getReturnType();
+		result.append(returnType.getName());
+		result.append(" " + javaMethod.getName() + "(");
+		List<Parameter> params = getJavaParameters(javaMethod);
+		for (int i = 0; i < params.size(); i++) {
+			Parameter param = params.get(i);
+			if (i > 0) {
+				result.append(", ");
+			}
+			result.append(param.getType().getName() + " " + param.getName());
+		}
+		result.append(")");
+		return result.toString();
+	}
+
+	public static List<Parameter> getJavaParameters(Method javaMethod) {
+		List<Parameter> result = new ArrayList<Parameter>();
+		for (int i = 0; i < javaMethod.getParameterTypes().length; i++) {
+			result.add(new Parameter(javaMethod, i));
+		}
+		return result;
+	}
+
+	public static List<Parameter> getJavaParameters(Constructor<?> ctor) {
+		List<Parameter> result = new ArrayList<Parameter>();
+		for (int i = 0; i < ctor.getParameterTypes().length; i++) {
+			result.add(new Parameter(ctor, i));
+		}
+		return result;
 	}
 
 	public static String getJavaMethodSignature(Method javaMethod) {
-		return getJavaMethodInfoSignature(javaMethod, new ReflectionUI());
+		return getJavaMethodInfoSignature(javaMethod);
 	}
 
 	public static String identifierToCaption(String id) {
@@ -1001,7 +1028,31 @@ public class ReflectionUIUtils {
 		return result;
 	}
 
-	public static Method getAnnotatedFieldValueOptionsMethod(
+	public static Field getAnnotatedValueOptionsField(
+			Class<?> containingJavaType, String targetFieldName) {
+		for (Field field : containingJavaType.getFields()) {
+			ValueOptionsForField annotation = field
+					.getAnnotation(ValueOptionsForField.class);
+			if (annotation != null) {
+				if (!targetFieldName.equals(annotation.value())) {
+					continue;
+				}
+				if (!field.getType().isArray()) {
+					if (!Collection.class.isAssignableFrom(field.getType())) {
+						throw new ReflectionUIError(
+								"Invalid value options field: "
+										+ field
+										+ ". Invalid type: Expected type: <<array> or java.util.Collection");
+
+					}
+				}
+				return field;
+			}
+		}
+		return null;
+	}
+
+	public static Method getAnnotatedValueOptionsMethod(
 			Class<?> containingJavaType, String baseFieldName) {
 		for (Method method : containingJavaType.getMethods()) {
 			ValueOptionsForField annotation = method
@@ -1014,8 +1065,9 @@ public class ReflectionUIUtils {
 					if (!Collection.class.isAssignableFrom(method
 							.getReturnType())) {
 						throw new ReflectionUIError(
-								"Invalid field value options method, its return type is not a list type: "
-										+ method);
+								"Invalid value options method: "
+										+ method
+										+ ". Invalid return type: Expected return type: <<array> or java.util.Collection");
 					}
 				}
 				return method;
@@ -1179,24 +1231,42 @@ public class ReflectionUIUtils {
 		return new Exception().getStackTrace();
 	}
 
-	public static Object[] getFieldValueOptionsFromAnnotatedMethod(
+	public static Object[] getFieldValueOptionsFromAnnotatedMember(
 			Object object, Class<?> containingJavaClass, String fieldName,
 			ReflectionUI reflectionUI) {
-		Method javaValueOptionsMethod = getAnnotatedFieldValueOptionsMethod(
-				containingJavaClass, fieldName);
-		if (javaValueOptionsMethod == null) {
-			return null;
+		Object result = null;
+		try {
+			Field javaValueOptionsField = getAnnotatedValueOptionsField(
+					containingJavaClass, fieldName);
+			if (javaValueOptionsField != null) {
+				result = javaValueOptionsField.get(object);
+			} else {
+				Method javaValueOptionsMethod = getAnnotatedValueOptionsMethod(
+						containingJavaClass, fieldName);
+				if (javaValueOptionsMethod != null) {
+					result = javaValueOptionsMethod.invoke(object);
+				}
+			}
+		} catch (IllegalArgumentException e) {
+			throw new ReflectionUIError(e);
+		} catch (IllegalAccessException e) {
+			throw new ReflectionUIError(e);
+		} catch (InvocationTargetException e) {
+			throw new ReflectionUIError(e.getCause());
 		}
-		IMethodInfo valueOptionsMethod = new DefaultMethodInfo(reflectionUI,
-				javaValueOptionsMethod);
-		IListTypeInfo optionListType = (IListTypeInfo) valueOptionsMethod
-				.getReturnValueType();
-		Object options = valueOptionsMethod.invoke(object,
-				Collections.<Integer, Object> emptyMap());
-		if (options == null) {
+		if (result == null) {
 			return null;
+		} else if (result instanceof Collection) {
+			return ((Collection<?>) result).toArray();
+		} else if (result.getClass().isArray()) {
+			Object[] resultArray = new Object[Array.getLength(result)];
+			for (int i = 0; i < resultArray.length; i++) {
+				resultArray[i] = Array.get(result, i);
+			}
+			return resultArray;
+		} else {
+			throw new AssertionError();
 		}
-		return optionListType.toArray(options);
 	}
 
 	public static <M extends Member> M findJavaMemberByName(M[] members,

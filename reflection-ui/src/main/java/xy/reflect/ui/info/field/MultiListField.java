@@ -13,12 +13,12 @@ import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 
-public class MultiSubListField implements IFieldInfo {
+public class MultiListField implements IFieldInfo {
 
 	protected List<IFieldInfo> listFieldInfos;
 	protected ReflectionUI reflectionUI;
 
-	public MultiSubListField(ReflectionUI reflectionUI,
+	public MultiListField(ReflectionUI reflectionUI,
 			List<IFieldInfo> listFieldInfos) {
 		this.reflectionUI = reflectionUI;
 		this.listFieldInfos = listFieldInfos;
@@ -27,13 +27,13 @@ public class MultiSubListField implements IFieldInfo {
 	@Override
 	public ITypeInfo getType() {
 		return new StandardCollectionTypeInfo(reflectionUI, List.class,
-				MultiSubListVirtualParent.class);
+				MultiListVirtualParent.class);
 	}
 
 	@Override
 	public String getCaption() {
 		StringBuilder result = new StringBuilder(
-				MultiSubListField.class.getSimpleName());
+				MultiListField.class.getSimpleName());
 		result.append("(");
 		int i = 0;
 		for (IFieldInfo field : listFieldInfos) {
@@ -49,9 +49,9 @@ public class MultiSubListField implements IFieldInfo {
 
 	@Override
 	public Object getValue(Object object) {
-		List<MultiSubListVirtualParent> result = new ArrayList<MultiSubListVirtualParent>();
+		List<MultiListVirtualParent> result = new ArrayList<MultiListVirtualParent>();
 		for (IFieldInfo listFieldInfo : listFieldInfos) {
-			result.add(new MultiSubListVirtualParent(object, listFieldInfo));
+			result.add(new MultiListVirtualParent(object, listFieldInfo));
 		}
 		return result;
 	}
@@ -89,8 +89,8 @@ public class MultiSubListField implements IFieldInfo {
 	@Override
 	public String getName() {
 		StringBuilder result = new StringBuilder(
-				MultiSubListField.class.getSimpleName());
-		result.append(MultiSubListField.class.getSimpleName() + "(");
+				MultiListField.class.getSimpleName());
+		result.append(MultiListField.class.getSimpleName() + "(");
 		int i = 0;
 		for (IFieldInfo field : listFieldInfos) {
 			if (i > 0) {
@@ -119,7 +119,7 @@ public class MultiSubListField implements IFieldInfo {
 		if (!getClass().equals(obj.getClass())) {
 			return false;
 		}
-		return listFieldInfos.equals(((MultiSubListField) obj).listFieldInfos);
+		return listFieldInfos.equals(((MultiListField) obj).listFieldInfos);
 	}
 
 	@Override
@@ -132,12 +132,12 @@ public class MultiSubListField implements IFieldInfo {
 		return Collections.emptyMap();
 	}
 
-	public static class MultiSubListVirtualParent {
+	public static class MultiListVirtualParent {
 
 		protected Object object;
 		protected IFieldInfo wrappedListFieldInfo;
 
-		public MultiSubListVirtualParent(Object object,
+		public MultiListVirtualParent(Object object,
 				IFieldInfo wrappedListFieldInfo) {
 			this.object = object;
 			this.wrappedListFieldInfo = wrappedListFieldInfo;
@@ -164,13 +164,13 @@ public class MultiSubListField implements IFieldInfo {
 
 	}
 
-	public static class MultiSubListVirtualParentType extends DefaultTypeInfo {
+	public static class MultiListVirtualParentType extends DefaultTypeInfo {
 
-		protected MultiSubListVirtualParent virtualParent;
+		protected MultiListVirtualParent virtualParent;
 
-		public MultiSubListVirtualParentType(ReflectionUI reflectionUI,
-				MultiSubListVirtualParent virtualParent) {
-			super(reflectionUI, MultiSubListVirtualParent.class);
+		public MultiListVirtualParentType(ReflectionUI reflectionUI,
+				MultiListVirtualParent virtualParent) {
+			super(reflectionUI, MultiListVirtualParent.class);
 			this.virtualParent = virtualParent;
 		}
 

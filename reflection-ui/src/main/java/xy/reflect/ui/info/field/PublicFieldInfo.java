@@ -59,7 +59,7 @@ public class PublicFieldInfo implements IFieldInfo {
 
 	@Override
 	public Object[] getValueOptions(Object object) {
-		return ReflectionUIUtils.getFieldValueOptionsFromAnnotatedMethod(
+		return ReflectionUIUtils.getFieldValueOptionsFromAnnotatedMember(
 				object, containingJavaClass, javaField.getName(), reflectionUI);
 	}
 

@@ -65,6 +65,7 @@ public interface IFieldInfo extends IInfo {
 		public Map<String, Object> getSpecificProperties() {
 			return Collections.emptyMap();
 		}
+		
 	};
 
 	ITypeInfo getType();
