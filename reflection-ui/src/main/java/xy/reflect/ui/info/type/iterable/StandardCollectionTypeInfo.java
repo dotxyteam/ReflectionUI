@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import xy.reflect.ui.ReflectionUI;
@@ -25,6 +24,7 @@ import xy.reflect.ui.info.type.iterable.util.structure.TabularTreetStructuralInf
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.info.method.InvocationData;
 
 public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 		IListTypeInfo {
@@ -78,7 +78,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 
 				@Override
 				public Object invoke(Object object,
-						Map<Integer, Object> valueByParameterPosition) {
+						InvocationData invocationData) {
 					if (javaType.isAssignableFrom(ArrayList.class)) {
 						return new ArrayList<Object>();
 					} else if (javaType.isAssignableFrom(HashSet.class)) {
@@ -103,7 +103,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 		IMethodInfo constructor = ReflectionUIUtils
 				.getZeroParameterConstrucor(this);
 		Collection result = (Collection) constructor.invoke(null,
-				Collections.<Integer, Object> emptyMap());
+				new InvocationData());
 		for (Object item : array) {
 			if (result instanceof Set) {
 				if (result.contains(item)) {

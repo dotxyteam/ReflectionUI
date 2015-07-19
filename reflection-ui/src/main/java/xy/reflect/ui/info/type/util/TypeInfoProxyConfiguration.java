@@ -19,6 +19,7 @@ import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.info.type.iterable.util.structure.IListStructuralInfo;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.info.method.InvocationData;
 
 public class TypeInfoProxyConfiguration {
 
@@ -140,9 +141,9 @@ public class TypeInfoProxyConfiguration {
 	}
 
 	protected Object invoke(Object object,
-			Map<Integer, Object> valueByParameterPosition, IMethodInfo method,
+			InvocationData invocationData, IMethodInfo method,
 			ITypeInfo containingType) {
-		return method.invoke(object, valueByParameterPosition);
+		return method.invoke(object, invocationData);
 	}
 
 	protected List<IParameterInfo> getParameters(IMethodInfo method,
@@ -363,14 +364,14 @@ public class TypeInfoProxyConfiguration {
 
 	protected void validateParameters(IMethodInfo method,
 			ITypeInfo containingType, Object object,
-			Map<Integer, Object> valueByParameterPosition) throws Exception {
-		method.validateParameters(object, valueByParameterPosition);
+			InvocationData invocationData) throws Exception {
+		method.validateParameters(object, invocationData);
 	}
 
 	protected IModification getUndoModification(IMethodInfo method,
 			ITypeInfo containingType, Object object,
-			Map<Integer, Object> valueByParameterPosition) {
-		return method.getUndoModification(object, valueByParameterPosition);
+			InvocationData invocationData) {
+		return method.getUndoModification(object, invocationData);
 	}
 
 	protected String formatEnumerationItem(Object object,
@@ -746,9 +747,9 @@ public class TypeInfoProxyConfiguration {
 
 		@Override
 		public Object invoke(Object object,
-				Map<Integer, Object> valueByParameterPosition) {
+				InvocationData invocationData) {
 			return TypeInfoProxyConfiguration.this.invoke(object,
-					valueByParameterPosition, method, containingType);
+					invocationData, method, containingType);
 		}
 
 		@Override
@@ -777,16 +778,16 @@ public class TypeInfoProxyConfiguration {
 
 		@Override
 		public void validateParameters(Object object,
-				Map<Integer, Object> valueByParameterPosition) throws Exception {
+				InvocationData invocationData) throws Exception {
 			TypeInfoProxyConfiguration.this.validateParameters(method,
-					containingType, object, valueByParameterPosition);
+					containingType, object, invocationData);
 		}
 
 		@Override
 		public IModification getUndoModification(Object object,
-				Map<Integer, Object> valueByParameterPosition) {
+				InvocationData invocationData) {
 			return TypeInfoProxyConfiguration.this.getUndoModification(method,
-					containingType, object, valueByParameterPosition);
+					containingType, object, invocationData);
 		}
 
 		@Override

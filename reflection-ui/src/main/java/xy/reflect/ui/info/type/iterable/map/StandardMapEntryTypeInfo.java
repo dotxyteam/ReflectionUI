@@ -3,8 +3,6 @@ package xy.reflect.ui.info.type.iterable.map;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -16,6 +14,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.info.method.InvocationData;
 
 public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements
 		IMapEntryTypeInfo {
@@ -97,7 +96,7 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements
 
 					@Override
 					public Object invoke(Object object,
-							Map<Integer, Object> valueByParameterPosition) {
+							InvocationData invocationData) {
 						StandardMapEntry<?, ?> result;
 						try {
 							result = (StandardMapEntry<?, ?>) javaType

@@ -1,22 +1,21 @@
 package xy.reflect.ui.undo;
 
-import java.util.Map;
-
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
 
 public abstract class AbstractMethodUndoModification implements IModification {
 
 	protected IMethodInfo method;
 	protected Object object;
-	protected Map<Integer, Object> valueByParameterPosition;
+	protected InvocationData invocationData;
 
 	protected abstract void revertMethod();
 
 	public AbstractMethodUndoModification(Object object, IMethodInfo method,
-			Map<Integer, Object> valueByParameterPosition) {
+			InvocationData invocationData) {
 		this.object = object;
 		this.method = method;
-		this.valueByParameterPosition = valueByParameterPosition;
+		this.invocationData = invocationData;
 	}
 
 	@Override
@@ -46,7 +45,7 @@ public abstract class AbstractMethodUndoModification implements IModification {
 			
 			@Override
 			public IModification applyAndGetOpposite(boolean refreshView) {
-				method.invoke(object, valueByParameterPosition);
+				method.invoke(object, invocationData);
 				return AbstractMethodUndoModification.this;
 			}
 		};

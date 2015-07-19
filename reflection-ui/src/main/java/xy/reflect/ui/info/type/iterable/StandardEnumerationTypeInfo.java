@@ -3,8 +3,6 @@ package xy.reflect.ui.info.type.iterable;
 import java.awt.Component;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.EnumerationControl;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -13,6 +11,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.IEnumerationTypeInfo;
+import xy.reflect.ui.info.method.InvocationData;
 
 @SuppressWarnings("rawtypes")
 public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements
@@ -36,7 +35,7 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements
 
 					@Override
 					public Object invoke(Object object,
-							Map<Integer, Object> valueByParameterPosition) {
+							InvocationData invocationData) {
 						return javaType.getEnumConstants()[0];
 					}
 

@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.parameter.DefaultParameterInfo;
@@ -84,12 +82,10 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 	}
 
 	@Override
-	public Object invoke(Object object,
-			Map<Integer, Object> valueByParameterPosition) {
+	public Object invoke(Object object, InvocationData invocationData) {
 		Object[] args = new Object[javaConstructor.getParameterTypes().length];
 		for (IParameterInfo param : getParameters()) {
-			args[param.getPosition()] = ReflectionUIUtils.getParameterValue(
-					param, valueByParameterPosition);
+			args[param.getPosition()] = invocationData.getParameterValue(param);
 		}
 		try {
 			return javaConstructor.newInstance(args);
@@ -139,13 +135,13 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 
 	@Override
 	public IModification getUndoModification(Object object,
-			Map<Integer, Object> valueByParameterPosition) {
+			InvocationData invocationData) {
 		return null;
 	}
 
 	@Override
-	public void validateParameters(Object object,
-			Map<Integer, Object> valueByParameterPosition) throws Exception {
+	public void validateParameters(Object object, InvocationData invocationData)
+			throws Exception {
 	}
 
 	public static boolean isCompatibleWith(Constructor<?> constructor) {

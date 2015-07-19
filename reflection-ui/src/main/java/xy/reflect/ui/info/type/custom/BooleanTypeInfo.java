@@ -3,8 +3,6 @@ package xy.reflect.ui.info.type.custom;
 import java.awt.Component;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.CheckBoxControl;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -14,6 +12,7 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils.PrimitiveDefaults;
+import xy.reflect.ui.info.method.InvocationData;
 
 public class BooleanTypeInfo extends DefaultTypeInfo {
 
@@ -32,7 +31,7 @@ public class BooleanTypeInfo extends DefaultTypeInfo {
 
 					@Override
 					public Object invoke(Object object,
-							Map<Integer, Object> valueByParameterPosition) {
+							InvocationData invocationData) {
 						return PrimitiveDefaults.get(boolean.class);
 					}
 

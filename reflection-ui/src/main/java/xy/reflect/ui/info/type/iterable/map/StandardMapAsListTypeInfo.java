@@ -19,6 +19,7 @@ import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.info.method.InvocationData;
 
 public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 
@@ -67,7 +68,7 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 
 				@Override
 				public Object invoke(Object object,
-						Map<Integer, Object> valueByParameterPosition) {
+						InvocationData invocationData) {
 					return new HashMap<Object, Object>();
 				}
 
@@ -86,7 +87,7 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 		IMethodInfo constructor = ReflectionUIUtils
 				.getZeroParameterConstrucor(this);
 		Map result = (Map) constructor.invoke(null,
-				Collections.<Integer, Object> emptyMap());
+				new InvocationData());
 		for (Object item : array) {
 			PrecomputedTypeInfoInstanceWrapper wrapper = (PrecomputedTypeInfoInstanceWrapper) item;
 			StandardMapEntry entry = (StandardMapEntry) wrapper.getInstance();

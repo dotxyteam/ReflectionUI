@@ -13,6 +13,7 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.annotation.ValueOptionsForField;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -74,7 +75,7 @@ public class GetterFieldInfo implements IFieldInfo {
 	@Override
 	public Object getValue(Object object) {
 		return getGetterMethodInfo().invoke(object,
-				Collections.<Integer, Object> emptyMap());
+				new InvocationData());
 	}
 
 	@Override
@@ -90,9 +91,7 @@ public class GetterFieldInfo implements IFieldInfo {
 	@Override
 	public void setValue(Object object, Object value) {
 		IMethodInfo setter = getSetterMethodInfo();
-		int paramPosition = setter.getParameters().get(0).getPosition();
-		setter.invoke(object, Collections.<Integer, Object> singletonMap(
-				paramPosition, value));
+		setter.invoke(object, new InvocationData(value));
 	}
 
 	@Override

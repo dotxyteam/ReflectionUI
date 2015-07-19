@@ -1,11 +1,11 @@
 package xy.reflect.ui.info.field;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -72,7 +72,7 @@ public class SubFieldInfo implements IFieldInfo {
 		Object fieldValue = field.getValue(object);
 		if (fieldValue == null) {
 			fieldValue = getFieldValueConstructor().invoke(null,
-					new HashMap<Integer, Object>());
+					new InvocationData());
 		}
 		theSubField.setValue(fieldValue, value);
 		field.setValue(object, fieldValue);

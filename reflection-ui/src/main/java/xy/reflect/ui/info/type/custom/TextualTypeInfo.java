@@ -4,8 +4,6 @@ import java.awt.Component;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.TextControl;
 import xy.reflect.ui.info.field.FieldInfoProxy;
@@ -18,6 +16,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.ReflectionUIUtils.PrimitiveDefaults;
+import xy.reflect.ui.info.method.InvocationData;
 
 public class TextualTypeInfo extends DefaultTypeInfo{
 
@@ -36,7 +35,7 @@ public class TextualTypeInfo extends DefaultTypeInfo{
 
 					@Override
 					public Object invoke(Object object,
-							Map<Integer, Object> valueByParameterPosition) {
+							InvocationData invocationData) {
 						if (String.class.equals(javaType)) {
 							return new String();
 						}

@@ -73,6 +73,7 @@ import com.thoughtworks.paranamer.BytecodeReadingParanamer;
 import com.thoughtworks.paranamer.DefaultParanamer;
 import com.thoughtworks.paranamer.JavadocParanamer;
 import com.thoughtworks.paranamer.Paranamer;
+import xy.reflect.ui.info.method.InvocationData;
 
 public class ReflectionUIUtils {
 
@@ -644,7 +645,7 @@ public class ReflectionUIUtils {
 				throw new ReflectionUIError("Cannot copy object of type '"
 						+ type + "': zero parameter constructor not found");
 			}
-			copy = ctor.invoke(null, Collections.<Integer, Object> emptyMap());
+			copy = ctor.invoke(null, new InvocationData());
 
 		}
 		for (IFieldInfo field : type.getFields()) {
@@ -1317,16 +1318,6 @@ public class ReflectionUIUtils {
 			paramTypeNames.add(clazz.getName());
 		}
 		return paramTypeNames;
-	}
-
-	public static Object getParameterValue(IParameterInfo param,
-			Map<Integer, Object> valueByParameterPosition) {
-		if (valueByParameterPosition.containsKey(param.getPosition())) {
-			return valueByParameterPosition.get(param.getPosition());
-		} else {
-			return param.getDefaultValue();
-		}
-
 	}
 
 }

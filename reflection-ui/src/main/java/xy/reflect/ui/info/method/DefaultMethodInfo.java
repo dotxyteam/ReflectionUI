@@ -106,10 +106,10 @@ public class DefaultMethodInfo implements IMethodInfo {
 
 	@Override
 	public Object invoke(Object object,
-			Map<Integer, Object> valueByParameterPosition) {
+			InvocationData invocationData) {
 		Object[] args = new Object[javaMethod.getParameterTypes().length];
 		for (IParameterInfo param : getParameters()) {
-			args[param.getPosition()] = ReflectionUIUtils.getParameterValue(param, valueByParameterPosition);
+			args[param.getPosition()] = invocationData.getParameterValue(param);
 		}
 		try {
 			return javaMethod.invoke(object, args);
@@ -222,13 +222,13 @@ public class DefaultMethodInfo implements IMethodInfo {
 
 	@Override
 	public IModification getUndoModification(Object object,
-			Map<Integer, Object> valueByParameterPosition) {
+			InvocationData invocationData) {
 		return null;
 	}
 
 	@Override
 	public void validateParameters(Object object,
-			Map<Integer, Object> valueByParameterPosition) throws Exception {
+			InvocationData invocationData) throws Exception {
 	}
 
 	@Override

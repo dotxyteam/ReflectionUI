@@ -37,8 +37,8 @@ public class MethodInfoProxy implements IMethodInfo {
 	}
 
 	public Object invoke(Object object,
-			Map<Integer, Object> valueByParameterPosition) {
-		return base.invoke(object, valueByParameterPosition);
+			InvocationData invocationData) {
+		return base.invoke(object, invocationData);
 	}
 
 	@Override
@@ -82,14 +82,14 @@ public class MethodInfoProxy implements IMethodInfo {
 
 	@Override
 	public IModification getUndoModification(Object object,
-			Map<Integer, Object> valueByParameterPosition) {
-		return base.getUndoModification(object, valueByParameterPosition);
+			InvocationData invocationData) {
+		return base.getUndoModification(object, invocationData);
 	}
 
 	@Override
 	public void validateParameters(Object object,
-			Map<Integer, Object> valueByParameterPosition) throws Exception {
-		base.validateParameters(object, valueByParameterPosition);
+			InvocationData invocationData) throws Exception {
+		base.validateParameters(object, invocationData);
 	}
 
 	@Override

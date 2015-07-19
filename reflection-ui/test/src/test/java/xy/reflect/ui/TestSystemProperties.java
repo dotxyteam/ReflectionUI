@@ -1,13 +1,12 @@
 package xy.reflect.ui;
 
-import java.util.Collections;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
@@ -146,7 +145,7 @@ public class TestSystemProperties {
 				.getTypeInfoSource(this));
 		hiddenMethodInfo = ReflectionUIUtils.findInfoByName(
 				typeInfo.getMethods(), "hiddenParametersMethod");
-		hiddenMethodInfo.invoke(this, Collections.<Integer, Object> emptyMap());
+		hiddenMethodInfo.invoke(this, new InvocationData());
 		Assert.assertTrue(ReflectionUIUtils.findInfoByName(
 				hiddenMethodInfo.getParameters(), "parameter1") != null);
 
@@ -159,7 +158,7 @@ public class TestSystemProperties {
 				.getTypeInfoSource(this));
 		hiddenMethodInfo = ReflectionUIUtils.findInfoByName(
 				typeInfo.getMethods(), "hiddenParametersMethod");
-		hiddenMethodInfo.invoke(this, Collections.<Integer, Object> emptyMap());
+		hiddenMethodInfo.invoke(this, new InvocationData());
 		Assert.assertTrue(ReflectionUIUtils.findInfoByName(
 				hiddenMethodInfo.getParameters(), "parameter1") == null);
 		Assert.assertTrue(ReflectionUIUtils.findInfoByName(
@@ -172,7 +171,7 @@ public class TestSystemProperties {
 				.getTypeInfoSource(this));
 		hiddenMethodInfo = ReflectionUIUtils.findInfoByName(
 				typeInfo.getMethods(), "hiddenParametersMethod");
-		hiddenMethodInfo.invoke(this, Collections.<Integer, Object> emptyMap());
+		hiddenMethodInfo.invoke(this, new InvocationData());
 		Assert.assertTrue(ReflectionUIUtils.findInfoByName(
 				hiddenMethodInfo.getParameters(), "parameter1") == null);
 		Assert.assertTrue(ReflectionUIUtils.findInfoByName(

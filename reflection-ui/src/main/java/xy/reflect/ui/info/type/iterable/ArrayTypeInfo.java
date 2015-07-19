@@ -3,12 +3,11 @@ package xy.reflect.ui.info.type.iterable;
 import java.lang.reflect.Array;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
+import xy.reflect.ui.info.method.InvocationData;
 
 public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 
@@ -44,7 +43,7 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 
 					@Override
 					public Object invoke(Object object,
-							Map<Integer, Object> valueByParameterPosition) {
+							InvocationData invocationData) {
 						return Array.newInstance(itemJavaType, 0);
 					}
 

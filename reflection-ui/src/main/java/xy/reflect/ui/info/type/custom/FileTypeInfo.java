@@ -5,8 +5,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.FileControl;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -14,6 +12,7 @@ import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
+import xy.reflect.ui.info.method.InvocationData;
 
 public class FileTypeInfo extends DefaultTypeInfo {
 
@@ -28,7 +27,7 @@ public class FileTypeInfo extends DefaultTypeInfo {
 
 			@Override
 			public Object invoke(Object object,
-					Map<Integer, Object> valueByParameterPosition) {
+					InvocationData invocationData) {
 				return getDefaultFile();
 			}
 

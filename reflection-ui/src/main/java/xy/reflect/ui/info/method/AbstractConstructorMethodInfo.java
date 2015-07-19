@@ -66,14 +66,14 @@ public abstract class AbstractConstructorMethodInfo implements IMethodInfo {
 	}
 	
 	@Override
-	public IModification getUndoModification(Object object, Map<Integer, Object> valueByParameterPosition) {
+	public IModification getUndoModification(Object object, InvocationData invocationData) {
 		return null;
 	}
 	
 
 	@Override
 	public void validateParameters(Object object,
-			Map<Integer, Object> valueByParameterPosition) throws Exception {
+			InvocationData invocationData) throws Exception {
 	}
 
 

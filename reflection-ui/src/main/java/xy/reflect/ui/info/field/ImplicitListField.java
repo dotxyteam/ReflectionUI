@@ -4,7 +4,6 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +23,7 @@ import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.info.type.util.TypeInfoProxyConfiguration;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.info.method.InvocationData;
 
 public class ImplicitListField implements IFieldInfo {
 	protected String fieldName;
@@ -128,15 +128,14 @@ public class ImplicitListField implements IFieldInfo {
 			if (size == 0) {
 				break;
 			}
-			getRemoveMethod().invoke(object,
-					Collections.<Integer, Object> singletonMap(0, 0));
+			getRemoveMethod().invoke(object, new InvocationData(0, 0));
 		}
 		for (int i = 0; i < array.length; i++) {
 			Object item = array[i];
-			Map<Integer, Object> params = new HashMap<Integer, Object>();
-			params.put(0, i);
-			params.put(1, item);
-			getAddMethod().invoke(object, params);
+			InvocationData invocationData = new InvocationData();
+			invocationData.setparameterValue(0, i);
+			invocationData.setparameterValue(1, item);
+			getAddMethod().invoke(object, invocationData);
 		}
 	}
 
@@ -241,17 +240,15 @@ public class ImplicitListField implements IFieldInfo {
 
 		public ImplicitListFieldValue(Object object) {
 			this.object = object;
-			array = buildArrayFromObject();			
+			array = buildArrayFromObject();
 		}
 
 		protected Object[] buildArrayFromObject() {
 			List<Object> result = new ArrayList<Object>();
-			int size = (Integer) getSizeField().getValue(
-					object);
+			int size = (Integer) getSizeField().getValue(object);
 			for (int i = 0; i < size; i++) {
-				Object item = getGetMethod().invoke(
-						object,
-						Collections.<Integer, Object> singletonMap(0, i));
+				Object item = getGetMethod().invoke(object,
+						new InvocationData(i));
 				result.add(item);
 			}
 			return result.toArray();
@@ -398,7 +395,7 @@ public class ImplicitListField implements IFieldInfo {
 		public Object[] toArray(Object listValue) {
 			ImplicitListFieldValue implicitListFieldValue = (ImplicitListFieldValue) listValue;
 			return implicitListFieldValue.getArray();
-			
+
 		}
 
 		@Override
@@ -445,15 +442,12 @@ public class ImplicitListField implements IFieldInfo {
 												.getItemType()) {
 
 									@Override
-									public Object invoke(
-											Object nullObject,
-											Map<Integer, Object> valueByParameterPosition) {
+									public Object invoke(Object nullObject,
+											InvocationData invocationData) {
 										Object result = getCreateMethod()
 												.invoke(ImplicitListFieldType.this.object,
-														Collections
-																.singletonMap(
-																		0,
-																		ImplicitListFieldType.this.object));
+														new InvocationData(
+																ImplicitListFieldType.this.object));
 										return result;
 									}
 

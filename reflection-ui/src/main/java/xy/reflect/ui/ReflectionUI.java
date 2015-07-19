@@ -96,6 +96,7 @@ import xy.reflect.ui.util.component.WrapLayout;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.MapMaker;
+import xy.reflect.ui.info.method.InvocationData;
 
 public class ReflectionUI {
 
@@ -458,10 +459,9 @@ public class ReflectionUI {
 		return new MethodInfoProxy(method) {
 
 			@Override
-			public Object invoke(Object object,
-					Map<Integer, Object> valueByParameterPosition) {
+			public Object invoke(Object object, InvocationData invocationData) {
 				try {
-					return super.invoke(object, valueByParameterPosition);
+					return super.invoke(object, invocationData);
 				} finally {
 					validateForm(form);
 				}
@@ -626,19 +626,18 @@ public class ReflectionUI {
 		return new MethodInfoProxy(method) {
 
 			@Override
-			public Object invoke(Object object,
-					Map<Integer, Object> valueByParameterPosition) {
+			public Object invoke(Object object, InvocationData invocationData) {
 				ModificationStack stack = getModificationStackByForm()
 						.get(form);
 				Object result;
 				try {
-					result = super.invoke(object, valueByParameterPosition);
+					result = super.invoke(object, invocationData);
 				} catch (Throwable t) {
 					stack.invalidate();
 					throw new ReflectionUIError(t);
 				}
 				IModification undoModif = method.getUndoModification(object,
-						valueByParameterPosition);
+						invocationData);
 				if (undoModif == null) {
 					stack.invalidate();
 				} else {
@@ -694,10 +693,9 @@ public class ReflectionUI {
 		return new MethodInfoProxy(method) {
 
 			@Override
-			public Object invoke(Object object,
-					Map<Integer, Object> valueByParameterPosition) {
+			public Object invoke(Object object, InvocationData invocationData) {
 				try {
-					return super.invoke(object, valueByParameterPosition);
+					return super.invoke(object, invocationData);
 				} finally {
 					refreshAllFieldControls(form);
 				}
@@ -705,9 +703,9 @@ public class ReflectionUI {
 
 			@Override
 			public IModification getUndoModification(final Object object,
-					Map<Integer, Object> valueByParameterPosition) {
+					InvocationData invocationData) {
 				IModification result = super.getUndoModification(object,
-						valueByParameterPosition);
+						invocationData);
 				if (result == null) {
 					return null;
 				}
@@ -1084,19 +1082,20 @@ public class ReflectionUI {
 			return openMethoExecutionSettingDialog(activatorComponent, object,
 					method, returnValueArray);
 		} else {
-			final boolean shouldDisplayReturnValue = returnValueArray == null;
+			final boolean shouldDisplayReturnValue = (returnValueArray == null)
+					&& (method.getReturnValueType() != null);
 			final Object[] returnValueToDisplay = new Object[1];
-			final boolean[] exceptionThrownArray = new boolean[]{false};
+			final boolean[] exceptionThrownArray = new boolean[] { false };
 			showBusyDialogWhile(activatorComponent, new Runnable() {
 				@Override
 				public void run() {
 					try {
-						Object result =method.invoke(object,
-								Collections.<Integer, Object> emptyMap());
-						if(returnValueArray !=null){
+						Object result = method.invoke(object,
+								new InvocationData());
+						if (returnValueArray != null) {
 							returnValueArray[0] = result;
 						}
-						if(shouldDisplayReturnValue){
+						if (shouldDisplayReturnValue) {
 							returnValueToDisplay[0] = result;
 						}
 					} catch (Throwable t) {
@@ -1106,11 +1105,9 @@ public class ReflectionUI {
 				}
 			}, getMethodTitle(object, method, null, "Execution"));
 			if (shouldDisplayReturnValue && !exceptionThrownArray[0]) {
-				if (method.getReturnValueType() != null) {
-					openMethodReturnValueWindow(activatorComponent, object, method,
-							returnValueToDisplay[0]);
-				}
-			}			
+					openMethodReturnValueWindow(activatorComponent, object,
+							method, returnValueToDisplay[0]);
+			}
 		}
 		return true;
 	}
@@ -1158,13 +1155,14 @@ public class ReflectionUI {
 	public boolean openMethoExecutionSettingDialog(
 			final Component activatorComponent, final Object object,
 			final IMethodInfo method, final Object[] returnValueArray) {
+		final boolean shouldDisplayReturnValue = (returnValueArray == null)
+				&& (method.getReturnValueType() != null);
 		final boolean[] exceptionThrownArray = new boolean[] { false };
-		final boolean shouldDisplayReturnValue = returnValueArray == null;
 		final Object[] returnValueToDisplay = new Object[1];
-		final Map<Integer, Object> valueByParameterPosition = new HashMap<Integer, Object>();
+		final InvocationData invocationData = new InvocationData();
 		JPanel methodForm = createObjectForm(new MethodParametersAsTypeInfo(
 				this, method).getPrecomputedTypeInfoInstanceWrapper(object,
-				valueByParameterPosition));
+				invocationData));
 		final boolean[] invokedStatusArray = new boolean[] { false };
 		final JDialog[] methodDialogArray = new JDialog[1];
 		List<Component> toolbarControls = new ArrayList<Component>();
@@ -1182,7 +1180,7 @@ public class ReflectionUI {
 						public void run() {
 							try {
 								Object result = method.invoke(object,
-										valueByParameterPosition);
+										invocationData);
 								if (returnValueArray != null) {
 									returnValueArray[0] = result;
 								}
@@ -1197,10 +1195,8 @@ public class ReflectionUI {
 					}, getMethodTitle(object, method, null, "Execution"));
 					if (shouldDisplayReturnValue) {
 						if (!exceptionThrownArray[0]) {
-							if (method.getReturnValueType() != null) {
 								openMethodReturnValueWindow(activatorComponent,
 										object, method, returnValueToDisplay[0]);
-							}
 						}
 					} else {
 						methodDialogArray[0].dispose();
@@ -1481,8 +1477,7 @@ public class ReflectionUI {
 			if (constructors.size() == 1) {
 				IMethodInfo constructor = constructors.get(0);
 				if (silent) {
-					return constructor.invoke(null,
-							Collections.<Integer, Object> emptyMap());
+					return constructor.invoke(null, new InvocationData());
 				} else {
 					Object[] returnValueArray = new Object[1];
 					onMethodInvocationRequest(activatorComponent, null,
@@ -1502,8 +1497,7 @@ public class ReflectionUI {
 
 			if (silent) {
 				IMethodInfo smallerConstructor = constructors.get(0);
-				return smallerConstructor.invoke(null,
-						Collections.<Integer, Object> emptyMap());
+				return smallerConstructor.invoke(null, new InvocationData());
 			} else {
 				IMethodInfo chosenContructor = openSelectionDialog(
 						activatorComponent, constructors, null,

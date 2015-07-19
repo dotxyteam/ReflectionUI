@@ -13,6 +13,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.method.InvocationData;
 
 public class MethodParametersAsTypeInfo implements ITypeInfo {
 
@@ -89,8 +90,7 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 			@Override
 			public void setValue(Object object, Object value) {
 				InstanceInfo instance = (InstanceInfo) object;
-				instance.valueByParameterPosition.put(param.getPosition(),
-						value);
+				instance.invocationData.setparameterValue(param, value);
 			}
 
 			@Override
@@ -101,12 +101,7 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 			@Override
 			public Object getValue(Object object) {
 				InstanceInfo instance = (InstanceInfo) object;
-				if (!instance.valueByParameterPosition.containsKey(param
-						.getPosition())) {
-					return param.getDefaultValue();
-				}
-				return instance.valueByParameterPosition.get(param
-						.getPosition());
+				return instance.invocationData.getParameterValue(param);
 			}
 
 			@Override
@@ -194,8 +189,7 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 	@Override
 	public void validate(Object object) throws Exception {
 		InstanceInfo instance = (InstanceInfo) object;
-		method.validateParameters(instance.methodOwner,
-				instance.valueByParameterPosition);
+		method.validateParameters(instance.methodOwner, instance.invocationData);
 	}
 
 	@Override
@@ -204,22 +198,21 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 	}
 
 	public Object getPrecomputedTypeInfoInstanceWrapper(Object object,
-			Map<Integer, Object> valueByParameterPosition) {
+			InvocationData invocationData) {
 		return new PrecomputedTypeInfoInstanceWrapper(
 				new MethodParametersAsTypeInfo.InstanceInfo(object,
-						valueByParameterPosition),
-				new MethodParametersAsTypeInfo(reflectionUI, method));
+						invocationData), new MethodParametersAsTypeInfo(
+						reflectionUI, method));
 	}
 
 	protected static class InstanceInfo {
 		protected Object methodOwner;
-		protected Map<Integer, Object> valueByParameterPosition;
+		protected InvocationData invocationData;
 
-		public InstanceInfo(Object methodowner,
-				Map<Integer, Object> valueByParameterPosition) {
+		public InstanceInfo(Object methodowner, InvocationData invocationData) {
 			super();
 			this.methodOwner = methodowner;
-			this.valueByParameterPosition = valueByParameterPosition;
+			this.invocationData = invocationData;
 		}
 	}
 

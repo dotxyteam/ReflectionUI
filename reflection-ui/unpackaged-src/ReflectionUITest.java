@@ -36,6 +36,7 @@ import xy.reflect.ui.undo.AbstractMethodUndoModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.info.method.InvocationData;
 
 @SuppressWarnings("unused")
 public class ReflectionUITest {
@@ -201,10 +202,10 @@ public class ReflectionUITest {
 					protected IModification getUndoModification(
 							final IMethodInfo method, ITypeInfo containingType,
 							final Object object,
-							final Map<Integer, Object> valueByParameterPosition) {
+							final InvocationData invocationData) {
 						if (method.getName().equals("incrementTheInt")) {
 							return new AbstractMethodUndoModification(object,
-									method, valueByParameterPosition) {
+									method, invocationData) {
 								@Override
 								protected void revertMethod() {
 									Test test = (Test) object;
@@ -213,21 +214,18 @@ public class ReflectionUITest {
 							};
 						} else if (method.getName().equals("multiplyTheFloat")) {
 							return new AbstractMethodUndoModification(object,
-									method, valueByParameterPosition) {
+									method, invocationData) {
 								@Override
 								protected void revertMethod() {
 									Test test = (Test) object;
-									test.theFloat /= (Integer) ReflectionUIUtils
+									test.theFloat /= (Integer) invocationData
 											.getParameterValue(method
-													.getParameters().get(0),
-													valueByParameterPosition);
-									;
+													.getParameters().get(0));
 								}
 							};
 						} else {
 							return super.getUndoModification(method,
-									containingType, object,
-									valueByParameterPosition);
+									containingType, object, invocationData);
 						}
 					}
 

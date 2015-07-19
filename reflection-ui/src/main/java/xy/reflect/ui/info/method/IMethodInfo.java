@@ -1,8 +1,6 @@
 package xy.reflect.ui.info.method;
 
 import java.util.List;
-import java.util.Map;
-
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -15,16 +13,16 @@ public interface IMethodInfo extends IInfo {
 
 	List<IParameterInfo> getParameters();
 
-	Object invoke(Object object, Map<Integer, Object> valueByParameterPosition);
+	Object invoke(Object object, InvocationData invocationData);
 
 	boolean isReadOnly();
 
 	InfoCategory getCategory();
 
 	IModification getUndoModification(Object object,
-			Map<Integer, Object> valueByParameterPosition);
+			InvocationData invocationData);
 
 	void validateParameters(Object object,
-			Map<Integer, Object> valueByParameterPosition) throws Exception;
+			InvocationData invocationData) throws Exception;
 
 }

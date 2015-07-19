@@ -1,7 +1,5 @@
 package xy.reflect.ui.info.type.util;
 
-import java.util.Map;
-
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.IEnumerationTypeInfo;
@@ -11,6 +9,7 @@ import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.info.method.InvocationData;
 
 public class PrecomputedTypeInfoInstanceWrapper {
 
@@ -74,10 +73,10 @@ public class PrecomputedTypeInfoInstanceWrapper {
 
 			@Override
 			protected Object invoke(Object object,
-					Map<Integer, Object> valueByParameterPosition,
+					InvocationData invocationData,
 					IMethodInfo method, ITypeInfo containingType) {
 				object = unwrap(object);
-				return super.invoke(object, valueByParameterPosition, method,
+				return super.invoke(object, invocationData, method,
 						containingType);
 			}
 
@@ -124,20 +123,20 @@ public class PrecomputedTypeInfoInstanceWrapper {
 			@Override
 			protected void validateParameters(IMethodInfo method,
 					ITypeInfo containingType, Object object,
-					Map<Integer, Object> valueByParameterPosition)
+					InvocationData invocationData)
 					throws Exception {
 				object = unwrap(object);
 				super.validateParameters(method, containingType, object,
-						valueByParameterPosition);
+						invocationData);
 			}
 
 			@Override
 			protected IModification getUndoModification(IMethodInfo method,
 					ITypeInfo containingType, Object object,
-					Map<Integer, Object> valueByParameterPosition) {
+					InvocationData invocationData) {
 				object = unwrap(object);
 				return super.getUndoModification(method, containingType,
-						object, valueByParameterPosition);
+						object, invocationData);
 			}
 
 		}.get(precomputedType);
