@@ -58,7 +58,6 @@ public class MethodControl extends JButton {
 
 	protected void activated() {
 		reflectionUI.onMethodInvocationRequest(MethodControl.this,
-				MethodControl.this.object, MethodControl.this.method, null,
-				true);
+				MethodControl.this.object, MethodControl.this.method, null);
 	}
 }

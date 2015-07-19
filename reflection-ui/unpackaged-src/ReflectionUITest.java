@@ -35,6 +35,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.AbstractMethodUndoModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.IModification;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 @SuppressWarnings("unused")
 public class ReflectionUITest {
@@ -91,8 +92,8 @@ public class ReflectionUITest {
 				new Test2(), new Test3() };
 		@Category("List")
 		@SuppressWarnings({ "unchecked", "rawtypes" })
-		public Vector theGenericVector = new Vector(Arrays.asList(
-				new Test2(), new Test2()));
+		public Vector theGenericVector = new Vector(Arrays.asList(new Test2(),
+				new Test2()));
 
 		@Category("List")
 		public Map<Integer, String> theMap = new HashMap<Integer, String>(
@@ -216,8 +217,11 @@ public class ReflectionUITest {
 								@Override
 								protected void revertMethod() {
 									Test test = (Test) object;
-									test.theFloat /= (Integer) valueByParameterPosition
-											.get(0);
+									test.theFloat /= (Integer) ReflectionUIUtils
+											.getParameterValue(method
+													.getParameters().get(0),
+													valueByParameterPosition);
+									;
 								}
 							};
 						} else {

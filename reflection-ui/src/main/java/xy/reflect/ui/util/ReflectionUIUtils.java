@@ -1319,4 +1319,14 @@ public class ReflectionUIUtils {
 		return paramTypeNames;
 	}
 
+	public static Object getParameterValue(IParameterInfo param,
+			Map<Integer, Object> valueByParameterPosition) {
+		if (valueByParameterPosition.containsKey(param.getPosition())) {
+			return valueByParameterPosition.get(param.getPosition());
+		} else {
+			return param.getDefaultValue();
+		}
+
+	}
+
 }

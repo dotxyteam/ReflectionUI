@@ -1079,37 +1079,38 @@ public class ReflectionUI {
 
 	public boolean onMethodInvocationRequest(
 			final Component activatorComponent, final Object object,
-			final IMethodInfo method, Object[] returnValueArray,
-			boolean displayReturnValue) {
-		if (returnValueArray == null) {
-			returnValueArray = new Object[1];
-		}
-		final boolean[] exceptionThrownArray = new boolean[] { false };
+			final IMethodInfo method, final Object[] returnValueArray) {
 		if (method.getParameters().size() > 0) {
-			if (!openMethoExecutionSettingDialog(activatorComponent, object,
-					method, returnValueArray, exceptionThrownArray)) {
-				return false;
-			}
+			return openMethoExecutionSettingDialog(activatorComponent, object,
+					method, returnValueArray);
 		} else {
-			final Object[] finalReturnValueArray = returnValueArray;
+			final boolean shouldDisplayReturnValue = returnValueArray == null;
+			final Object[] returnValueToDisplay = new Object[1];
+			final boolean[] exceptionThrownArray = new boolean[]{false};
 			showBusyDialogWhile(activatorComponent, new Runnable() {
 				@Override
 				public void run() {
 					try {
-						finalReturnValueArray[0] = method.invoke(object,
+						Object result =method.invoke(object,
 								Collections.<Integer, Object> emptyMap());
+						if(returnValueArray !=null){
+							returnValueArray[0] = result;
+						}
+						if(shouldDisplayReturnValue){
+							returnValueToDisplay[0] = result;
+						}
 					} catch (Throwable t) {
 						exceptionThrownArray[0] = true;
 						throw new ReflectionUIError(t);
 					}
 				}
 			}, getMethodTitle(object, method, null, "Execution"));
-		}
-		if (displayReturnValue && !exceptionThrownArray[0]) {
-			if (method.getReturnValueType() != null) {
-				openMethodReturnValueWindow(activatorComponent, object, method,
-						returnValueArray[0]);
-			}
+			if (shouldDisplayReturnValue && !exceptionThrownArray[0]) {
+				if (method.getReturnValueType() != null) {
+					openMethodReturnValueWindow(activatorComponent, object, method,
+							returnValueToDisplay[0]);
+				}
+			}			
 		}
 		return true;
 	}
@@ -1156,8 +1157,10 @@ public class ReflectionUI {
 
 	public boolean openMethoExecutionSettingDialog(
 			final Component activatorComponent, final Object object,
-			final IMethodInfo method, final Object[] returnValueArray,
-			final boolean[] exceptionThrownArray) {
+			final IMethodInfo method, final Object[] returnValueArray) {
+		final boolean[] exceptionThrownArray = new boolean[] { false };
+		final boolean shouldDisplayReturnValue = returnValueArray == null;
+		final Object[] returnValueToDisplay = new Object[1];
 		final Map<Integer, Object> valueByParameterPosition = new HashMap<Integer, Object>();
 		JPanel methodForm = createObjectForm(new MethodParametersAsTypeInfo(
 				this, method).getPrecomputedTypeInfoInstanceWrapper(object,
@@ -1169,32 +1172,63 @@ public class ReflectionUI {
 		if ((doc != null) && (doc.trim().length() > 0)) {
 			toolbarControls.add(createOnlineHelpControl(doc));
 		}
-		toolbarControls.addAll(createDialogOkCancelButtons(methodDialogArray,
-				invokedStatusArray, method.getCaption(), new Runnable() {
-					@Override
-					public void run() {
-						showBusyDialogWhile(activatorComponent, new Runnable() {
-							@Override
-							public void run() {
-								try {
-									returnValueArray[0] = method.invoke(object,
-											valueByParameterPosition);
-								} catch (Throwable t) {
-									exceptionThrownArray[0] = true;
-									throw new ReflectionUIError(t);
+		JButton invokeButton = new JButton(method.getCaption());
+		{
+			invokeButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					showBusyDialogWhile(activatorComponent, new Runnable() {
+						@Override
+						public void run() {
+							try {
+								Object result = method.invoke(object,
+										valueByParameterPosition);
+								if (returnValueArray != null) {
+									returnValueArray[0] = result;
 								}
+								if (shouldDisplayReturnValue) {
+									returnValueToDisplay[0] = result;
+								}
+							} catch (Throwable t) {
+								exceptionThrownArray[0] = true;
+								throw new ReflectionUIError(t);
 							}
-						}, getMethodTitle(object, method, null, "Execution"));
+						}
+					}, getMethodTitle(object, method, null, "Execution"));
+					if (shouldDisplayReturnValue) {
+						if (!exceptionThrownArray[0]) {
+							if (method.getReturnValueType() != null) {
+								openMethodReturnValueWindow(activatorComponent,
+										object, method, returnValueToDisplay[0]);
+							}
+						}
+					} else {
+						methodDialogArray[0].dispose();
 					}
-
-				}, true));
-
+				}
+			});
+			toolbarControls.add(invokeButton);
+		}
+		JButton closeButton = new JButton(shouldDisplayReturnValue ? "Close"
+				: "Cancel");
+		{
+			closeButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					methodDialogArray[0].dispose();
+				}
+			});
+			toolbarControls.add(closeButton);
+		}
 		methodDialogArray[0] = createDialog(activatorComponent, methodForm,
 				getMethodTitle(object, method, null, "Setting"), null,
 				toolbarControls, null);
-
 		showDialog(methodDialogArray[0], true);
-		return invokedStatusArray[0];
+		if (shouldDisplayReturnValue) {
+			return true;
+		} else {
+			return invokedStatusArray[0];
+		}
 	}
 
 	public void openMethodReturnValueWindow(Component activatorComponent,
@@ -1452,7 +1486,7 @@ public class ReflectionUI {
 				} else {
 					Object[] returnValueArray = new Object[1];
 					onMethodInvocationRequest(activatorComponent, null,
-							constructor, returnValueArray, false);
+							constructor, returnValueArray);
 					return returnValueArray[0];
 				}
 			}
@@ -1479,7 +1513,7 @@ public class ReflectionUI {
 				}
 				Object[] returnValueArray = new Object[1];
 				onMethodInvocationRequest(activatorComponent, null,
-						chosenContructor, returnValueArray, false);
+						chosenContructor, returnValueArray);
 				return returnValueArray[0];
 			}
 		} catch (Throwable t) {
