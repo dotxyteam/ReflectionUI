@@ -8,7 +8,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +25,6 @@ import xy.reflect.ui.info.field.PublicFieldInfo;
 import xy.reflect.ui.info.method.DefaultConstructorMethodInfo;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.info.type.util.TypeInfoProxyConfiguration;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -121,39 +119,9 @@ public class DefaultTypeInfo implements ITypeInfo {
 				}
 				fields.add(getterFieldInfo);
 			}
-			sortFields(fields);
+			ReflectionUIUtils.sortFields(fields);
 		}
 		return fields;
-	}
-
-	protected void sortFields(List<IFieldInfo> list) {
-		Collections.sort(list, new Comparator<IFieldInfo>() {
-			@Override
-			public int compare(IFieldInfo f1, IFieldInfo f2) {
-				int result;
-
-				result = ReflectionUIUtils.compareNullables(f1.getCategory(),
-						f2.getCategory());
-				if (result != 0) {
-					return result;
-				}
-
-				result = ReflectionUIUtils.compareNullables(f1.getType()
-						.getName().toUpperCase(), f2.getType().getName()
-						.toUpperCase());
-				if (result != 0) {
-					return result;
-				}
-
-				result = ReflectionUIUtils.compareNullables(f1.getName(),
-						f2.getName());
-				if (result != 0) {
-					return result;
-				}
-
-				return 0;
-			}
-		});
 	}
 
 	@Override
@@ -166,72 +134,9 @@ public class DefaultTypeInfo implements ITypeInfo {
 				}
 				methods.add(new DefaultMethodInfo(reflectionUI, javaMethod));
 			}
-			sortMethods(methods);
+			ReflectionUIUtils.sortMethods(methods);
 		}
 		return methods;
-	}
-
-	protected void sortMethods(List<IMethodInfo> list) {
-		Collections.sort(list, new Comparator<IMethodInfo>() {
-			@Override
-			public int compare(IMethodInfo m1, IMethodInfo m2) {
-				int result;
-
-				result = ReflectionUIUtils.compareNullables(m1.getCategory(),
-						m2.getCategory());
-				if (result != 0) {
-					return result;
-				}
-
-				List<String> parameterTypeNames1 = new ArrayList<String>();
-				for (IParameterInfo param : m1.getParameters()) {
-					parameterTypeNames1.add(param.getType().getName());
-				}
-				Collections.sort(parameterTypeNames1);
-				List<String> parameterTypeNames2 = new ArrayList<String>();
-				for (IParameterInfo param : m2.getParameters()) {
-					parameterTypeNames2.add(param.getType().getName());
-				}
-				Collections.sort(parameterTypeNames2);
-				result = ReflectionUIUtils
-						.stringJoin(parameterTypeNames1, "\n").compareTo(
-								ReflectionUIUtils.stringJoin(
-										parameterTypeNames2, "\n"));
-				if (result != 0) {
-					return result;
-				}
-
-				String returnTypeName1;
-				{
-					if (m1.getReturnValueType() == null) {
-						returnTypeName1 = "";
-					} else {
-						returnTypeName1 = m1.getReturnValueType().getName();
-					}
-				}
-				String returnTypeName2;
-				{
-					if (m2.getReturnValueType() == null) {
-						returnTypeName2 = "";
-					} else {
-						returnTypeName2 = m2.getReturnValueType().getName();
-					}
-				}
-				result = ReflectionUIUtils.compareNullables(returnTypeName1,
-						returnTypeName2);
-				if (result != 0) {
-					return result;
-				}
-
-				result = ReflectionUIUtils.compareNullables(m1.getName(),
-						m2.getName());
-				if (result != 0) {
-					return result;
-				}
-
-				return 0;
-			}
-		});
 	}
 
 	@Override

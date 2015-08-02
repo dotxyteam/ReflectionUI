@@ -4,6 +4,12 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
@@ -28,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -292,7 +299,7 @@ public class ReflectionUIUtils {
 			if (i > 0) {
 				result.append(", ");
 			}
-			result.append(param.getType().getName() + " " + param.getName());
+			result.append(param.getType().getName());
 		}
 		result.append(")");
 		return result.toString();
@@ -309,7 +316,7 @@ public class ReflectionUIUtils {
 			if (i > 0) {
 				result.append(", ");
 			}
-			result.append(param.getType().getName() + " " + param.getName());
+			result.append(param.getType().getName());
 		}
 		result.append(")");
 		return result.toString();
@@ -1318,6 +1325,120 @@ public class ReflectionUIUtils {
 			paramTypeNames.add(clazz.getName());
 		}
 		return paramTypeNames;
+	}
+
+	public static Rectangle getMaximumWindowBounds() {
+		Rectangle result = new Rectangle();
+		GraphicsEnvironment ge = GraphicsEnvironment
+				.getLocalGraphicsEnvironment();
+		for (GraphicsDevice gd : ge.getScreenDevices()) {
+			for (GraphicsConfiguration gc : gd.getConfigurations()) {
+				Rectangle screenBounds = gc.getBounds();
+				Insets screenInsets = Toolkit.getDefaultToolkit()
+						.getScreenInsets(gc);
+				Rectangle windowMaxBounds = new Rectangle();
+				windowMaxBounds.x = screenBounds.x + screenInsets.left;
+				windowMaxBounds.y = screenBounds.y + screenInsets.top;
+				windowMaxBounds.height = screenBounds.height
+						- screenInsets.top - screenInsets.bottom;
+				windowMaxBounds.width = screenBounds.width
+						- screenInsets.left - screenInsets.right;
+				result = result.union(windowMaxBounds);
+			}
+		}
+		return result;
+	}
+
+	public static void sortFields(List<IFieldInfo> list) {
+		Collections.sort(list, new Comparator<IFieldInfo>() {
+			@Override
+			public int compare(IFieldInfo f1, IFieldInfo f2) {
+				int result;
+	
+				result = compareNullables(f1.getCategory(),
+						f2.getCategory());
+				if (result != 0) {
+					return result;
+				}
+	
+				result = compareNullables(f1.getType()
+						.getName().toUpperCase(), f2.getType().getName()
+						.toUpperCase());
+				if (result != 0) {
+					return result;
+				}
+	
+				result = compareNullables(f1.getName(),
+						f2.getName());
+				if (result != 0) {
+					return result;
+				}
+	
+				return 0;
+			}
+		});
+	}
+
+	public static void sortMethods(List<IMethodInfo> list) {
+		Collections.sort(list, new Comparator<IMethodInfo>() {
+			@Override
+			public int compare(IMethodInfo m1, IMethodInfo m2) {
+				int result;
+	
+				result = compareNullables(m1.getCategory(),
+						m2.getCategory());
+				if (result != 0) {
+					return result;
+				}
+	
+				List<String> parameterTypeNames1 = new ArrayList<String>();
+				for (IParameterInfo param : m1.getParameters()) {
+					parameterTypeNames1.add(param.getType().getName());
+				}
+				Collections.sort(parameterTypeNames1);
+				List<String> parameterTypeNames2 = new ArrayList<String>();
+				for (IParameterInfo param : m2.getParameters()) {
+					parameterTypeNames2.add(param.getType().getName());
+				}
+				Collections.sort(parameterTypeNames2);
+				result = stringJoin(parameterTypeNames1, "\n").compareTo(
+								stringJoin(
+										parameterTypeNames2, "\n"));
+				if (result != 0) {
+					return result;
+				}
+	
+				String returnTypeName1;
+				{
+					if (m1.getReturnValueType() == null) {
+						returnTypeName1 = "";
+					} else {
+						returnTypeName1 = m1.getReturnValueType().getName();
+					}
+				}
+				String returnTypeName2;
+				{
+					if (m2.getReturnValueType() == null) {
+						returnTypeName2 = "";
+					} else {
+						returnTypeName2 = m2.getReturnValueType().getName();
+					}
+				}
+				result = compareNullables(returnTypeName1,
+						returnTypeName2);
+				if (result != 0) {
+					return result;
+				}
+	
+				result = compareNullables(m1.getName(),
+						m2.getName());
+				if (result != 0) {
+					return result;
+				}
+	
+				return 0;
+			}
+		});
 	}
 
 }

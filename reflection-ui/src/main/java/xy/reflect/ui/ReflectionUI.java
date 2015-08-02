@@ -7,7 +7,6 @@ import java.awt.Container;
 import java.awt.Dialog.ModalityType;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -51,6 +50,7 @@ import javax.swing.JTextArea;
 import javax.swing.JToolTip;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+
 import org.jdesktop.swingx.JXBusyLabel;
 
 import xy.reflect.ui.control.IFieldControl;
@@ -62,6 +62,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MultiListField.MultiListVirtualParent;
 import xy.reflect.ui.info.field.MultiListField.MultiListVirtualParentType;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -80,12 +81,12 @@ import xy.reflect.ui.info.type.util.HiddenNullableFacetsTypeInfoProxyConfigurati
 import xy.reflect.ui.info.type.util.MethodParametersAsTypeInfo;
 import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.undo.CompositeModification;
+import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationProxy;
 import xy.reflect.ui.undo.ModificationProxyConfiguration;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.undo.IModification;
-import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.undo.SetFieldValueModification;
+import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -96,7 +97,6 @@ import xy.reflect.ui.util.component.WrapLayout;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.MapMaker;
-import xy.reflect.ui.info.method.InvocationData;
 
 public class ReflectionUI {
 
@@ -1705,8 +1705,7 @@ public class ReflectionUI {
 
 	public void adjustWindowBounds(Window window) {
 		Rectangle bounds = window.getBounds();
-		Rectangle maxBounds = GraphicsEnvironment.getLocalGraphicsEnvironment()
-				.getMaximumWindowBounds();
+		Rectangle maxBounds = ReflectionUIUtils.getMaximumWindowBounds();
 		if (bounds.width < maxBounds.width / 3) {
 			bounds.grow((maxBounds.width / 3 - bounds.width) / 2, 0);
 		}

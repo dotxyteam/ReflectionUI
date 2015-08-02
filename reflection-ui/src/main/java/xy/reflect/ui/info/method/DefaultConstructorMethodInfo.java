@@ -3,9 +3,8 @@ package xy.reflect.ui.info.method;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.parameter.DefaultParameterInfo;
@@ -52,34 +51,10 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 				parameters.add(new DefaultParameterInfo(reflectionUI,
 						new Parameter(javaConstructor, i)));
 			}
-			sortParameters(parameters);
 		}
 		return parameters;
 	}
 
-	protected void sortParameters(List<IParameterInfo> list) {
-		Collections.sort(list, new Comparator<IParameterInfo>() {
-			@Override
-			public int compare(IParameterInfo p1, IParameterInfo p2) {
-				int result;
-
-				result = ReflectionUIUtils.compareNullables(p1.getType()
-						.getName().toUpperCase(), p2.getType().getName()
-						.toUpperCase());
-				if (result != 0) {
-					return result;
-				}
-
-				result = ReflectionUIUtils.compareNullables(p1.getName(),
-						p2.getName());
-				if (result != 0) {
-					return result;
-				}
-
-				return 0;
-			}
-		});
-	}
 
 	@Override
 	public Object invoke(Object object, InvocationData invocationData) {

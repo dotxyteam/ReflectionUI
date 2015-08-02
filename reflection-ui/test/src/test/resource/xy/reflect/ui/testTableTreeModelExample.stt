@@ -3,6 +3,7 @@
   <minimumSecondsToWaitBetwneenActions>1</minimumSecondsToWaitBetwneenActions>
   <testActions>
     <xy.ui.testing.action.CallMainMethodAction>
+      <checkThrownExceptionAFterSeconds>2</checkThrownExceptionAFterSeconds>
       <className>xy.reflect.ui.TableTreeModelExample</className>
     </xy.ui.testing.action.CallMainMethodAction>
     <xy.ui.testing.action.component.ClickAction>
@@ -13,6 +14,7 @@
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
@@ -22,6 +24,7 @@
         <windowIndex>1</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
@@ -84,6 +87,7 @@
         <windowIndex>1</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
@@ -107,13 +111,32 @@
     </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
-      <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>javax.swing.JButton</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Insert Product After ...</visibleString>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.ClickOnMenuItemAction>
+      <componentFinder>
+        <menuItemPath>
+          <xy.ui.testing.finder.PropertyBasedComponentFinder>
+            <componentClassName>javax.swing.JPopupMenu$1</componentClassName>
+            <occurrencesToSkip>0</occurrencesToSkip>
+            <propertyCriteriaList>
+              <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyCriteria>
+                <propertyName>Text</propertyName>
+                <propertyValueExpected>Insert Product After ...</propertyValueExpected>
+                <outer-class reference="../../.."/>
+              </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyCriteria>
+            </propertyCriteriaList>
+            <windowIndex>0</windowIndex>
+          </xy.ui.testing.finder.PropertyBasedComponentFinder>
+        </menuItemPath>
+      </componentFinder>
+    </xy.ui.testing.action.component.ClickOnMenuItemAction>
     <xy.ui.testing.action.component.combobox.SelectComboBoxItemAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <componentClassName>javax.swing.JComboBox</componentClassName>
@@ -135,6 +158,7 @@
         <windowIndex>1</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
@@ -157,10 +181,11 @@
         <windowIndex>1</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
-      <orderChecked>false</orderChecked>
+      <orderChecked>true</orderChecked>
       <visibleStrings>
         <string>Catalog</string>
         <string>Products</string>
@@ -172,14 +197,6 @@
         <string>b1</string>
         <string>0</string>
         <string>p1</string>
-        <string>Open</string>
-        <string>Add Product...</string>
-        <string>Insert Product Before ...</string>
-        <string>Insert Product After ...</string>
-        <string>Remove</string>
-        <string>Up</string>
-        <string>Down</string>
-        <string>Clear</string>
         <string>Undo</string>
         <string>Redo</string>
         <string>Reset</string>
@@ -190,13 +207,32 @@
     </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
-      <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>javax.swing.JButton</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Add Product...</visibleString>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.ClickOnMenuItemAction>
+      <componentFinder>
+        <menuItemPath>
+          <xy.ui.testing.finder.PropertyBasedComponentFinder>
+            <componentClassName>javax.swing.JPopupMenu$1</componentClassName>
+            <occurrencesToSkip>0</occurrencesToSkip>
+            <propertyCriteriaList>
+              <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyCriteria>
+                <propertyName>Text</propertyName>
+                <propertyValueExpected>Add Child Product...</propertyValueExpected>
+                <outer-class reference="../../.."/>
+              </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyCriteria>
+            </propertyCriteriaList>
+            <windowIndex>0</windowIndex>
+          </xy.ui.testing.finder.PropertyBasedComponentFinder>
+        </menuItemPath>
+      </componentFinder>
+    </xy.ui.testing.action.component.ClickOnMenuItemAction>
     <xy.ui.testing.action.component.combobox.SelectComboBoxItemAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <componentClassName>javax.swing.JComboBox</componentClassName>
@@ -218,6 +254,7 @@
         <windowIndex>1</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
@@ -240,6 +277,7 @@
         <windowIndex>1</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
@@ -257,13 +295,6 @@
         <string>p1</string>
         <string>0</string>
         <string>s1</string>
-        <string>Open</string>
-        <string>Insert Product Before ...</string>
-        <string>Insert Product After ...</string>
-        <string>Remove</string>
-        <string>Up</string>
-        <string>Down</string>
-        <string>Clear</string>
         <string>Undo</string>
         <string>Redo</string>
         <string>Reset</string>
@@ -284,13 +315,32 @@
     </xy.ui.testing.action.component.table.SelectTableRowAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
-      <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>javax.swing.JButton</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Insert Product After ...</visibleString>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.ClickOnMenuItemAction>
+      <componentFinder>
+        <menuItemPath>
+          <xy.ui.testing.finder.PropertyBasedComponentFinder>
+            <componentClassName>javax.swing.JPopupMenu$1</componentClassName>
+            <occurrencesToSkip>0</occurrencesToSkip>
+            <propertyCriteriaList>
+              <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyCriteria>
+                <propertyName>Text</propertyName>
+                <propertyValueExpected>Insert Product After ...</propertyValueExpected>
+                <outer-class reference="../../.."/>
+              </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyCriteria>
+            </propertyCriteriaList>
+            <windowIndex>0</windowIndex>
+          </xy.ui.testing.finder.PropertyBasedComponentFinder>
+        </menuItemPath>
+      </componentFinder>
+    </xy.ui.testing.action.component.ClickOnMenuItemAction>
     <xy.ui.testing.action.component.combobox.SelectComboBoxItemAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <componentClassName>javax.swing.JComboBox</componentClassName>
@@ -312,6 +362,7 @@
         <windowIndex>1</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
@@ -334,6 +385,7 @@
         <windowIndex>1</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.treetable.ExpandTreetTableToItemAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
@@ -358,12 +410,13 @@
     </xy.ui.testing.action.component.table.SelectTableRowAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
-      <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>javax.swing.JButton</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Add Entry...</visibleString>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
@@ -394,6 +447,7 @@
         <windowIndex>1</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
@@ -411,11 +465,6 @@
         <string>p1</string>
         <string>0</string>
         <string>l1</string>
-        <string>Open</string>
-        <string>Add Product...</string>
-        <string>Insert Entry ...</string>
-        <string>Remove</string>
-        <string>Clear</string>
         <string>Undo</string>
         <string>Redo</string>
         <string>Reset</string>
@@ -432,6 +481,7 @@
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
@@ -448,9 +498,6 @@
         <string>0</string>
         <string>p1</string>
         <string>0</string>
-        <string>l1</string>
-        <string>Add Entry...</string>
-        <string>Clear</string>
         <string>Undo</string>
         <string>Redo</string>
         <string>Reset</string>
@@ -467,6 +514,7 @@
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
@@ -478,7 +526,6 @@
         <string>Price</string>
         <string>Description</string>
         <string>Name</string>
-        <string>Add Product...</string>
         <string>Undo</string>
         <string>Redo</string>
         <string>Reset</string>

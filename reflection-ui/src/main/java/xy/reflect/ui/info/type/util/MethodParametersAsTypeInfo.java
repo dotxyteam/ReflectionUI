@@ -14,6 +14,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MethodParametersAsTypeInfo implements ITypeInfo {
 
@@ -26,7 +27,7 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 		this.reflectionUI = reflectionUI;
 	}
 
-	public IMethodInfo getMethod() {
+	public IMethodInfo getUnderlyingMethod() {
 		return method;
 	}
 
@@ -46,6 +47,7 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 		for (IParameterInfo param : method.getParameters()) {
 			result.add(getParameterAsField(param));
 		}
+		ReflectionUIUtils.sortFields(result);
 		return result;
 	}
 
