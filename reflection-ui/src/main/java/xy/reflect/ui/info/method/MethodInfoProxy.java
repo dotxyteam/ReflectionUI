@@ -12,7 +12,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class MethodInfoProxy implements IMethodInfo {
 
 	protected StackTraceElement[] instanciationTrace = ReflectionUIUtils
-			.createDebugTrace();
+			.createDebugStackTrace(1);
 
 	protected IMethodInfo base;
 

@@ -15,7 +15,6 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class ModificationStack {
 
-
 	public static final Object DO_EVENT = new Object();
 	public static final Object UNDO_EVENT = new Object();
 	public static final Object REDO_EVENT = new Object();
@@ -90,7 +89,7 @@ public class ModificationStack {
 			compositeStack.peek().pushUndo(undoModif);
 			return;
 		}
-		if(undoModif.getNumberOfUnits() == 0){
+		if (undoModif.getNumberOfUnits() == 0) {
 			return;
 		}
 		undoStack.push(undoModif);
@@ -198,11 +197,6 @@ public class ModificationStack {
 		}
 	}
 
-
-
-
-
-
 	public List<Component> createControls(final ReflectionUI reflectionUI) {
 		List<Component> result = new ArrayList<Component>();
 
@@ -283,8 +277,7 @@ public class ModificationStack {
 	protected JButton createButton(final ReflectionUI reflectionUI,
 			String label, final Runnable action,
 			final Accessor<Boolean> enabled, final Accessor<String> tooltipText) {
-		final JButton result = new JButton(
-				reflectionUI.prepareUIString(label)) {
+		final JButton result = new JButton(reflectionUI.prepareUIString(label)) {
 
 			protected static final long serialVersionUID = 1L;
 			IModificationListener listener = new IModificationListener() {

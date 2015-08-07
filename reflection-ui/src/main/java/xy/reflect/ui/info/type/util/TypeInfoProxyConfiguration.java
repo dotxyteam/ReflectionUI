@@ -24,7 +24,7 @@ import xy.reflect.ui.info.method.InvocationData;
 public class TypeInfoProxyConfiguration {
 
 	protected StackTraceElement[] instanciationTrace = ReflectionUIUtils
-			.createDebugTrace();
+			.createDebugStackTrace(1);
 
 	public ITypeInfo get(final ITypeInfo type) {
 		if (type instanceof IListTypeInfo) {
@@ -239,10 +239,6 @@ public class TypeInfoProxyConfiguration {
 		return type.isConcrete();
 	}
 
-	protected boolean isImmutable(ITypeInfo type) {
-		return type.isImmutable();
-	}
-
 	protected boolean supportsInstance(ITypeInfo type, Object object) {
 		return type.supportsInstance(object);
 	}
@@ -383,7 +379,7 @@ public class TypeInfoProxyConfiguration {
 
 		@SuppressWarnings("unused")
 		protected StackTraceElement[] instanciationTrace = ReflectionUIUtils
-				.createDebugTrace();
+				.createDebugStackTrace(1);
 
 		protected ITypeInfo type;
 
@@ -405,11 +401,6 @@ public class TypeInfoProxyConfiguration {
 		public boolean supportsInstance(Object object) {
 			return TypeInfoProxyConfiguration.this.supportsInstance(type,
 					object);
-		}
-
-		@Override
-		public boolean isImmutable() {
-			return TypeInfoProxyConfiguration.this.isImmutable(type);
 		}
 
 		@Override
@@ -711,7 +702,7 @@ public class TypeInfoProxyConfiguration {
 
 		@SuppressWarnings("unused")
 		protected StackTraceElement[] instanciationTrace = ReflectionUIUtils
-				.createDebugTrace();
+				.createDebugStackTrace(1);
 
 		protected IMethodInfo method;
 		protected ITypeInfo containingType;
@@ -824,7 +815,7 @@ public class TypeInfoProxyConfiguration {
 
 		@SuppressWarnings("unused")
 		protected StackTraceElement[] instanciationTrace = ReflectionUIUtils
-				.createDebugTrace();
+				.createDebugStackTrace(1);
 
 		protected IParameterInfo param;
 		protected IMethodInfo method;

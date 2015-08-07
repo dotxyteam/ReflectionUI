@@ -196,11 +196,6 @@ public class DefaultTypeInfo implements ITypeInfo {
 					}
 					
 					@Override
-					public boolean isImmutable() {
-						return baseType.isImmutable();
-					}
-					
-					@Override
 					public boolean isConcrete() {
 						return baseType.isConcrete();
 					}
@@ -372,21 +367,6 @@ public class DefaultTypeInfo implements ITypeInfo {
 	@Override
 	public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
 		return null;
-	}
-
-	@Override
-	public boolean isImmutable() {
-		for (IFieldInfo field : getFields()) {
-			if (!field.isReadOnly()) {
-				return false;
-			}
-		}
-		for (IMethodInfo method : getMethods()) {
-			if (!method.isReadOnly()) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	@Override

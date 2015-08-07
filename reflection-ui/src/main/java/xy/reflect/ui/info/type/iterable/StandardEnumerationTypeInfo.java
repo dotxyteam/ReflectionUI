@@ -54,11 +54,6 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements
 	}
 
 	@Override
-	public boolean isImmutable() {
-		return true;
-	}
-
-	@Override
 	public boolean hasCustomFieldControl() {
 		return true;
 	}

@@ -125,11 +125,6 @@ public class TextualTypeInfo extends DefaultTypeInfo{
 	}
 
 	@Override
-	public boolean isImmutable() {
-		return true;
-	}
-
-	@Override
 	public boolean hasCustomFieldControl() {
 		return true;
 	}

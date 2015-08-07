@@ -164,11 +164,6 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 	}
 
 	@Override
-	public boolean isImmutable() {
-		return false;
-	}
-
-	@Override
 	public boolean hasCustomFieldControl() {
 		return false;
 	}

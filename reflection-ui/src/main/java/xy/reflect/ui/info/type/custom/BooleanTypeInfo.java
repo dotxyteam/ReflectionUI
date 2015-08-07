@@ -54,11 +54,6 @@ public class BooleanTypeInfo extends DefaultTypeInfo {
 	}
 
 	@Override
-	public boolean isImmutable() {
-		return true;
-	}
-
-	@Override
 	public boolean hasCustomFieldControl() {
 		return true;
 	}

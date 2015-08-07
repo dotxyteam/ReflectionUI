@@ -9,7 +9,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class FieldInfoProxy implements IFieldInfo {
 
 	protected StackTraceElement[] instanciationTrace = ReflectionUIUtils
-			.createDebugTrace();
+			.createDebugStackTrace(1);
 
 	protected IFieldInfo base;
 

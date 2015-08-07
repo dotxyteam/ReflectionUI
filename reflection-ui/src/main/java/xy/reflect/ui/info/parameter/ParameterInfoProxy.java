@@ -9,7 +9,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class ParameterInfoProxy implements IParameterInfo {
 
 	protected StackTraceElement[] instanciationTrace = ReflectionUIUtils
-			.createDebugTrace();
+			.createDebugStackTrace(1);
 
 	protected IParameterInfo base;
 

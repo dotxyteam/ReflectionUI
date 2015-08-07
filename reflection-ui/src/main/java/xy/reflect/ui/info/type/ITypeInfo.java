@@ -23,8 +23,6 @@ public interface ITypeInfo extends IInfo {
 
 	List<ITypeInfo> getPolymorphicInstanceSubTypes();
 
-	boolean isImmutable();
-
 	boolean hasCustomFieldControl();
 
 	String toString(Object object);

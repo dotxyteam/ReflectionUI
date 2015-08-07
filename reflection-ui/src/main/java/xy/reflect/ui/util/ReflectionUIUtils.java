@@ -62,7 +62,6 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.info.type.util.TypeInfoProxyConfiguration;
@@ -80,7 +79,6 @@ import com.thoughtworks.paranamer.BytecodeReadingParanamer;
 import com.thoughtworks.paranamer.DefaultParanamer;
 import com.thoughtworks.paranamer.JavadocParanamer;
 import com.thoughtworks.paranamer.Paranamer;
-import xy.reflect.ui.info.method.InvocationData;
 
 public class ReflectionUIUtils {
 
@@ -599,135 +597,6 @@ public class ReflectionUIUtils {
 		return parameterClasses.get(index);
 	}
 
-	public static boolean canCopyAccordingInfos(ReflectionUI reflectionUI,
-			Object object) {
-		if (object == null) {
-			return true;
-		}
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI
-				.getTypeInfoSource(object));
-		if (type.isImmutable()) {
-			return true;
-		}
-		IMethodInfo ctor = ReflectionUIUtils.getZeroParameterConstrucor(type);
-		if (ctor == null) {
-			return false;
-		}
-		for (IFieldInfo field : type.getFields()) {
-			Object fieldVaue = field.getValue(object);
-			if (field.isReadOnly()) {
-				continue;
-			}
-			if (!canCopyAccordingInfos(reflectionUI, fieldVaue)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	public static Object copyAccordingInfos(ReflectionUI reflectionUI,
-			Object object) {
-		if (object == null) {
-			return null;
-		}
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI
-				.getTypeInfoSource(object));
-		if (type.isImmutable()) {
-			return object;
-		}
-		Object copy;
-		if (type instanceof IListTypeInfo) {
-			IListTypeInfo listType = (IListTypeInfo) type;
-			Object[] listValue = listType.toArray(object);
-			Object[] listValueCopy = new Object[listValue.length];
-			for (int i = 0; i < listValue.length; i++) {
-				Object item = listValue[i];
-				listValueCopy[i] = copyAccordingInfos(reflectionUI, item);
-			}
-			copy = listType.fromArray(listValueCopy);
-		} else {
-			IMethodInfo ctor = ReflectionUIUtils
-					.getZeroParameterConstrucor(type);
-			if (ctor == null) {
-				throw new ReflectionUIError("Cannot copy object of type '"
-						+ type + "': zero parameter constructor not found");
-			}
-			copy = ctor.invoke(null, new InvocationData());
-
-		}
-		for (IFieldInfo field : type.getFields()) {
-			if (field.isReadOnly()) {
-				continue;
-			}
-			Object fieldValue = field.getValue(object);
-			field.setValue(copy, copyAccordingInfos(reflectionUI, fieldValue));
-		}
-		return copy;
-	}
-
-	public static boolean equalsAccordingInfos(ReflectionUI reflectionUI,
-			Object object1, Object object2) {
-		if (object1 == null) {
-			return object2 == null;
-		}
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI
-				.getTypeInfoSource(object1));
-		if (type.isImmutable()) {
-			return object1.equals(object2);
-		}
-		if (!type.equals(reflectionUI.getTypeInfo(reflectionUI
-				.getTypeInfoSource(object2)))) {
-			return false;
-		}
-		if (type instanceof IListTypeInfo) {
-			IListTypeInfo listType = (IListTypeInfo) type;
-			Object[] listValue1 = listType.toArray(object1);
-			Object[] listValue2 = listType.toArray(object2);
-			if (listValue1.length != listValue2.length) {
-				return false;
-			}
-			for (int i = 0; i < listValue1.length; i++) {
-				Object item1 = listValue1[i];
-				Object item2 = listValue2[i];
-				if (!equalsAccordingInfos(reflectionUI, item1, item2)) {
-					return false;
-				}
-			}
-		}
-		for (IFieldInfo field : type.getFields()) {
-			Object fieldVaue1 = field.getValue(object1);
-			Object fieldVaue2 = field.getValue(object2);
-			if (!equalsAccordingInfos(reflectionUI, fieldVaue1, fieldVaue2)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	public static String toStringAccordingInfos(ReflectionUI reflectionUI,
-			Object object) {
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI
-				.getTypeInfoSource(object));
-		if (type.isImmutable()) {
-			return type.toString(object);
-		}
-		StringBuilder result = new StringBuilder();
-		result.append(type.getCaption());
-		result.append(" (\n");
-		for (int i = 0; i < type.getFields().size(); i++) {
-			if (i > 0) {
-				result.append(",\n");
-			}
-			IFieldInfo field = type.getFields().get(i);
-			result.append(indentLines(
-					field.getCaption()
-							+ " = "
-							+ toStringAccordingInfos(reflectionUI,
-									field.getValue(object)), "\t"));
-		}
-		result.append("\n)");
-		return result.toString();
-	}
 
 	public static String[] splitLines(String s) {
 		if (s.length() == 0) {
@@ -1235,8 +1104,9 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static StackTraceElement[] createDebugTrace() {
-		return new Exception().getStackTrace();
+	public static StackTraceElement[] createDebugStackTrace(int firstElementsToRemove) {
+		StackTraceElement[] result = new Exception().getStackTrace();
+		return Arrays.copyOfRange(result, 1+firstElementsToRemove, result.length);
 	}
 
 	public static Object[] getFieldValueOptionsFromAnnotatedMember(

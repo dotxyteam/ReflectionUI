@@ -16,7 +16,7 @@ public class PrecomputedTypeInfoInstanceWrapper {
 	protected Object instance;
 	protected ITypeInfo precomputedType;
 	protected StackTraceElement[] instanciationTrace = ReflectionUIUtils
-			.createDebugTrace();
+			.createDebugStackTrace(1);
 
 	public PrecomputedTypeInfoInstanceWrapper(Object instance,
 			ITypeInfo precomputedType) {

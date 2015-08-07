@@ -286,8 +286,9 @@ public class ReflectionUI {
 		JPanel result = new JPanel();
 
 		getObjectByForm().put(result, object);
+		ModificationStack modifStack = new ModificationStack(getObjectKind(object));
 		getModificationStackByForm().put(result,
-				new ModificationStack(getObjectKind(object)));
+				modifStack );
 		getInfoCollectionSettingsByForm().put(result, settings);
 
 		fillForm(object, result, settings);
@@ -1105,8 +1106,8 @@ public class ReflectionUI {
 				}
 			}, getMethodTitle(object, method, null, "Execution"));
 			if (shouldDisplayReturnValue && !exceptionThrownArray[0]) {
-					openMethodReturnValueWindow(activatorComponent, object,
-							method, returnValueToDisplay[0]);
+				openMethodReturnValueWindow(activatorComponent, object, method,
+						returnValueToDisplay[0]);
 			}
 		}
 		return true;
@@ -1195,8 +1196,8 @@ public class ReflectionUI {
 					}, getMethodTitle(object, method, null, "Execution"));
 					if (shouldDisplayReturnValue) {
 						if (!exceptionThrownArray[0]) {
-								openMethodReturnValueWindow(activatorComponent,
-										object, method, returnValueToDisplay[0]);
+							openMethodReturnValueWindow(activatorComponent,
+									object, method, returnValueToDisplay[0]);
 						}
 					} else {
 						methodDialogArray[0].dispose();

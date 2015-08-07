@@ -341,11 +341,6 @@ public class ImplicitListField implements IFieldInfo {
 		}
 
 		@Override
-		public boolean isImmutable() {
-			return false;
-		}
-
-		@Override
 		public boolean isConcrete() {
 			return true;
 		}

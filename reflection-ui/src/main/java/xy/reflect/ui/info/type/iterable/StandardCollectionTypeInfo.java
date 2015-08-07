@@ -188,11 +188,6 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 	}
 
 	@Override
-	public boolean isImmutable() {
-		return false;
-	}
-
-	@Override
 	public boolean hasCustomFieldControl() {
 		return true;
 	}

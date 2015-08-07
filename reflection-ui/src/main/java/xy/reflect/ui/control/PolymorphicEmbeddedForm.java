@@ -209,11 +209,6 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 					}
 
 					@Override
-					public boolean isImmutable() {
-						return true;
-					}
-
-					@Override
 					public boolean hasCustomFieldControl() {
 						return true;
 					}

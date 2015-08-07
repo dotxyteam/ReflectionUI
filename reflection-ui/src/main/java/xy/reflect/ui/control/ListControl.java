@@ -63,7 +63,6 @@ import xy.reflect.ui.info.type.iterable.util.IListAction;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.info.type.iterable.util.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.undo.CompositeModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.SetListValueModification;
@@ -822,8 +821,7 @@ public class ListControl extends JPanel implements IFieldControl {
 	}
 
 	protected void beginCompositeModification(boolean restoreSelection) {
-		ModificationStack modifStack = ReflectionUIUtils.findModificationStack(
-				ListControl.this, reflectionUI);
+		ModificationStack modifStack = getParentFormModificationStack();
 		modifStack.beginComposite();
 		if (restoreSelection) {
 			modifStack.pushUndo(new ChangeListSelectionModification(
@@ -833,8 +831,7 @@ public class ListControl extends JPanel implements IFieldControl {
 
 	protected void endCompositeModification(String title,
 			boolean restoreSelection, UndoOrder order) {
-		ModificationStack modifStack = ReflectionUIUtils.findModificationStack(
-				ListControl.this, reflectionUI);
+		ModificationStack modifStack = getParentFormModificationStack();
 		if (restoreSelection) {
 			modifStack.pushUndo(new ChangeListSelectionModification(
 					getSelection(), getSelection()));
@@ -939,7 +936,7 @@ public class ListControl extends JPanel implements IFieldControl {
 					}
 					GhostItemPosition futureItemPosition = new GhostItemPosition(
 							itemPosition, newItem);
-					if (openDetailsDialog(futureItemPosition)) {
+					if (openDetailsDialog(futureItemPosition, new boolean[1], false)) {
 						newItem = futureItemPosition.getItem();
 						AutoUpdatingFieldList list = itemPosition
 								.getContainingAutoUpdatingFieldList();
@@ -1003,7 +1000,7 @@ public class ListControl extends JPanel implements IFieldControl {
 
 					GhostItemPosition futureSubItemPosition = new GhostItemPosition(
 							subItemPosition, newSubListItem);
-					if (openDetailsDialog(futureSubItemPosition)) {
+					if (openDetailsDialog(futureSubItemPosition, new boolean[1], false)) {
 						newSubListItem = futureSubItemPosition.getItem();
 						AutoUpdatingFieldList subList = new AutoUpdatingFieldItemPosition(
 								subItemPosition.getContainingListField(),
@@ -1029,33 +1026,6 @@ public class ListControl extends JPanel implements IFieldControl {
 		};
 	}
 
-	protected ActionListener restoreSelectionOnUndoAndRedo(
-			final ActionListener actionListener) {
-		return new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				beginCompositeModification(true);
-				actionListener.actionPerformed(e);
-				endCompositeModification(null, true, UndoOrder.LIFO);
-				arrangeTitle();
-			}
-
-			protected void arrangeTitle() {
-				ModificationStack modifStack = ReflectionUIUtils
-						.findModificationStack(ListControl.this, reflectionUI);
-				CompositeModification compositeModif = (CompositeModification) modifStack
-						.getUndoModifications(UndoOrder.LIFO)[0];
-				List<IModification> modifList = Arrays.asList(compositeModif
-						.getModifications());
-				CompositeModification compositeModifWithoutSelections = new CompositeModification(
-						null, compositeModif.getUndoOrder(), modifList.subList(
-								1, modifList.size() - 1));
-				compositeModif.setTitle(compositeModifWithoutSelections
-						.getTitle());
-				modifStack.notifyListeners(ModificationStack.DO_EVENT);
-			}
-		};
-	}
 
 	protected AbstractAction createCopyAction() {
 		return new AbstractAction(reflectionUI.prepareUIString("Copy")) {
@@ -1373,11 +1343,6 @@ public class ListControl extends JPanel implements IFieldControl {
 	}
 
 	protected boolean openDetailsDialog(
-			final AutoUpdatingFieldItemPosition itemPosition) {
-		return openDetailsDialog(itemPosition, new boolean[1], false);
-	}
-
-	protected boolean openDetailsDialog(
 			final AutoUpdatingFieldItemPosition itemPosition,
 			boolean[] changeDetectedArray, boolean recordModifications) {
 		ItemNode itemNode = findNode(itemPosition);
@@ -1411,8 +1376,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		};
 		ModificationStack parentStack;
 		if (recordModifications) {
-			parentStack = ReflectionUIUtils.findModificationStack(
-					ListControl.this, reflectionUI);
+			parentStack = getParentFormModificationStack();
 		} else {
 			parentStack = null;
 		}
@@ -1453,6 +1417,11 @@ public class ListControl extends JPanel implements IFieldControl {
 		};
 		return reflectionUI.openValueDialog(treeTableComponent, valueAccessor,
 				settings, parentStack, title, changeDetectedArray);
+	}
+
+	protected ModificationStack getParentFormModificationStack() {
+		return ReflectionUIUtils.findModificationStack(
+				ListControl.this, reflectionUI);
 	}
 
 	protected boolean hasItemDetails(AutoUpdatingFieldItemPosition itemPosition) {
@@ -1744,8 +1713,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		}
 
 		protected void replaceUnderlyingListValue(Object[] listValue) {
-			ModificationStack modifStack = ReflectionUIUtils
-					.findModificationStack(ListControl.this, reflectionUI);
+			ModificationStack modifStack = getParentFormModificationStack();
 			Object listOwner = getListOwner();
 			if (!getListField().isReadOnly()) {
 				SetListValueModification modif = new SetListValueModification(
