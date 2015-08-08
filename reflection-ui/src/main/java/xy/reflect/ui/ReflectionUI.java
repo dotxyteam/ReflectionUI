@@ -65,6 +65,7 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.UtilitiesTypeInfo;
 import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
 import xy.reflect.ui.info.type.custom.FileTypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
@@ -932,6 +933,10 @@ public class ReflectionUI {
 				} else if (FileTypeInfo.isCompatibleWith(javaTypeSource
 						.getJavaType())) {
 					result = new FileTypeInfo(this);
+				} else if (UtilitiesTypeInfo.isCompatibleWith(javaTypeSource
+						.getJavaType())) {
+					result = new UtilitiesTypeInfo(this,
+							javaTypeSource.getJavaType());
 				} else {
 					result = new DefaultTypeInfo(this,
 							javaTypeSource.getJavaType());

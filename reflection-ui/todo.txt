@@ -1,25 +1,12 @@
-- allow to have multiple controls with the same field name 
-	. remove or change controlPlaceHolderByFieldName
-- refreshAllFieldControls should enumerate fielControlPlaceHolder and not fields
-- add test cases for:
-	. annotations
-	. structuralInfos
-- add system properties to allow customization of
-	. nullable facets
-	. validate, valueOptions, ... functions names
-	. ...
+- add utilities classes type info
 - colors should never be set on components,
 otherwise lookandfeel dynamic change is not taken into account.
 See:
 	. TextControl
 	. listControl.treeControl
-- precomputedTypeInstances do not work for customControl objects,
-only for form control objects
-- allow value options field
 - menus
 - listControl: 
 	. deatil view
-	. context menu??? 
 - update translatable strings
 - check getSubObjectEd is used where it should
 - private => protected
