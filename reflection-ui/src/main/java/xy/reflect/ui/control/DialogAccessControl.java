@@ -74,6 +74,13 @@ public class DialogAccessControl extends JPanel {
 				.setPreferredSize(new Dimension(defaultHeight, defaultHeight));
 		updateControls();
 	}
+	
+
+	
+	@Override
+	public void requestFocus() {
+		textControl.requestFocus();
+	}
 
 	protected Component createIconControl() {
 		return new JLabel();

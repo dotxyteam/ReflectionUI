@@ -88,6 +88,7 @@ public class FileControl extends DialogAccessControl {
 		});
 	}
 
+
 	@Override
 	protected Component createButton() {
 		Component result = super.createButton();

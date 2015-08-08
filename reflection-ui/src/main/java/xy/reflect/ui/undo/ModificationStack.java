@@ -75,6 +75,14 @@ public class ModificationStack {
 		return name;
 	}
 
+	public void addListener(IModificationListener listener) {
+		listeners.add(listener);
+	}
+
+	public void removeListener(IModificationListener listener) {
+		listeners.remove(listener);
+	}
+
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + "(" + name + ")";

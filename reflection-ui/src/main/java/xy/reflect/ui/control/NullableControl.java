@@ -41,6 +41,7 @@ public class NullableControl extends JPanel implements IFieldControl {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					onNullingControlStateChange();
+					subControl.requestFocus();
 				} catch (Throwable t) {
 					reflectionUI.handleExceptionsFromDisplayedUI(
 							NullableControl.this, t);
@@ -67,10 +68,21 @@ public class NullableControl extends JPanel implements IFieldControl {
 	public boolean refreshUI() {
 		Object value = field.getValue(object);
 		setShouldBeNull(value == null);
+		boolean hadFocus = (subControl!=null) && ReflectionUIUtils.hasOrContainsFocus(subControl);
 		updateSubControl(value);
+		if(hadFocus && (subControl!=null)){
+			subControl.requestFocus();
+		}
 		return true;
 	}
 
+	@Override
+	public void requestFocus() {
+		if (subControl != null) {
+			subControl.requestFocus();
+		}
+	}
+	
 	protected void onNullingControlStateChange() {
 		Object newValue;
 		if (!shoulBeNull()) {
@@ -91,10 +103,9 @@ public class NullableControl extends JPanel implements IFieldControl {
 			subControl = null;
 		}
 		field.setValue(object, newValue);
-		reflectionUI.refreshFieldControl(
+		reflectionUI.refreshFieldControlsByName(
 				ReflectionUIUtils.findForm(this, reflectionUI),
 				field.getName());
-		subControl.requestFocus();
 	}
 
 	public void updateSubControl(Object newValue) {
@@ -120,7 +131,6 @@ public class NullableControl extends JPanel implements IFieldControl {
 				add(subControl, BorderLayout.CENTER);
 			}
 		}
-
 		reflectionUI.handleComponentSizeChange(this);
 	}
 

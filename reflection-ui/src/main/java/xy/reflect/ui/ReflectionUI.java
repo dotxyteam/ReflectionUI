@@ -25,7 +25,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -82,8 +81,7 @@ import xy.reflect.ui.info.type.util.MethodParametersAsTypeInfo;
 import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.undo.CompositeModification;
 import xy.reflect.ui.undo.IModification;
-import xy.reflect.ui.undo.ModificationProxy;
-import xy.reflect.ui.undo.ModificationProxyConfiguration;
+import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.SetFieldValueModification;
 import xy.reflect.ui.undo.UndoOrder;
@@ -103,8 +101,6 @@ public class ReflectionUI {
 	protected Map<JPanel, Object> objectByForm = new MapMaker().weakKeys()
 			.makeMap();
 	protected Map<JPanel, ModificationStack> modificationStackByForm = new MapMaker()
-			.weakKeys().makeMap();
-	protected Map<JPanel, Map<String, FieldControlPlaceHolder>> controlPlaceHolderByFieldNameByForm = new MapMaker()
 			.weakKeys().makeMap();
 	protected Map<JPanel, IInfoCollectionSettings> infoCollectionSettingsByForm = new MapMaker()
 			.weakKeys().makeMap();
@@ -180,10 +176,6 @@ public class ReflectionUI {
 
 	public Map<JPanel, Map<InfoCategory, List<Component>>> getMethodControlsByCategoryByForm() {
 		return methodControlsByCategoryByForm;
-	}
-
-	public Map<JPanel, Map<String, FieldControlPlaceHolder>> getControlPlaceHolderByFieldNameByForm() {
-		return controlPlaceHolderByFieldNameByForm;
 	}
 
 	public Map<Component, IMethodInfo> getMethodByControl() {
@@ -283,16 +275,42 @@ public class ReflectionUI {
 
 	public JPanel createObjectForm(Object object,
 			IInfoCollectionSettings settings) {
-		JPanel result = new JPanel();
+		final ModificationStack modifStack = new ModificationStack(
+				getObjectKind(object));
+		JPanel result = new JPanel() {
 
+			private static final long serialVersionUID = 1L;
+			JPanel form = this;
+			IModificationListener modifListener = new IModificationListener() {
+				@Override
+				public void handleEvent(Object event) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							refreshAllFieldControls(form);
+							validateForm(form);
+						}
+					});
+				}
+			};
+
+			@Override
+			public void addNotify() {
+				super.addNotify();
+				modifStack.addListener(modifListener);
+			}
+
+			@Override
+			public void removeNotify() {
+				super.removeNotify();
+				modifStack.removeListener(modifListener);
+			}
+
+		};
 		getObjectByForm().put(result, object);
-		ModificationStack modifStack = new ModificationStack(getObjectKind(object));
-		getModificationStackByForm().put(result,
-				modifStack );
+		getModificationStackByForm().put(result, modifStack);
 		getInfoCollectionSettingsByForm().put(result, settings);
-
 		fillForm(object, result, settings);
-
 		return result;
 	}
 
@@ -336,25 +354,10 @@ public class ReflectionUI {
 				};
 			}
 			if (!field.isReadOnly()) {
-				field = handleFieldUpdates(field, form, false);
+				field = makeFieldModificationsUndoable(field, form);
 			}
 			FieldControlPlaceHolder fieldControlPlaceHolder = createFieldControlPlaceHolder(
 					object, field);
-			{
-				Map<String, FieldControlPlaceHolder> controlPlaceHolderByFieldName = controlPlaceHolderByFieldNameByForm
-						.get(form);
-				if (controlPlaceHolderByFieldName == null) {
-					controlPlaceHolderByFieldName = new HashMap<String, FieldControlPlaceHolder>();
-					controlPlaceHolderByFieldNameByForm.put(form,
-							controlPlaceHolderByFieldName);
-				}
-				if (controlPlaceHolderByFieldName.containsKey(field.getName())) {
-					throw new ReflectionUIError("Duplicate field name: '"
-							+ field.getName() + "'");
-				}
-				controlPlaceHolderByFieldName.put(field.getName(),
-						fieldControlPlaceHolder);
-			}
 			{
 				InfoCategory category = field.getCategory();
 				if (category == null) {
@@ -380,7 +383,7 @@ public class ReflectionUI {
 			}
 			if (!settings.allReadOnly()) {
 				if (!method.isReadOnly()) {
-					method = handleMethodUpdates(method, form);
+					method = makeMethodModificationsUndoable(method, form);
 				}
 			}
 			Component methodControl = createMethodControl(object, method);
@@ -437,38 +440,6 @@ public class ReflectionUI {
 							fieldControlPlaceHoldersByCategory,
 							methodControlsByCategory), BorderLayout.CENTER);
 		}
-	}
-
-	public IMethodInfo handleMethodUpdates(IMethodInfo method, JPanel form) {
-		method = validateFormAfterMethodExecution(method, form);
-		method = refreshFieldsAfterMethodModifications(method, form);
-		method = makeMethodModificationsUndoable(method, form);
-		return method;
-	}
-
-	public IFieldInfo handleFieldUpdates(IFieldInfo field, JPanel form,
-			boolean refreshOwnControl) {
-		field = validateFormAfterFieldValueChange(field, form);
-		field = refreshFieldsAfterFieldModification(field, form,
-				refreshOwnControl);
-		field = makeFieldModificationsUndoable(field, form);
-		return field;
-	}
-
-	public IMethodInfo validateFormAfterMethodExecution(IMethodInfo method,
-			final JPanel form) {
-		return new MethodInfoProxy(method) {
-
-			@Override
-			public Object invoke(Object object, InvocationData invocationData) {
-				try {
-					return super.invoke(object, invocationData);
-				} finally {
-					validateForm(form);
-				}
-			}
-
-		};
 	}
 
 	public Component createMultipleInfoCategoriesComponent(
@@ -575,18 +546,6 @@ public class ReflectionUI {
 		};
 	}
 
-	public IFieldInfo validateFormAfterFieldValueChange(IFieldInfo field,
-			final JPanel form) {
-		return new FieldInfoProxy(field) {
-			@Override
-			public void setValue(Object object, Object value) {
-				super.setValue(object, value);
-				validateForm(form);
-			}
-
-		};
-	}
-
 	public void validateForm(JPanel form) {
 		Object object = getObjectByForm().get(form);
 		if (object == null) {
@@ -651,124 +610,64 @@ public class ReflectionUI {
 		};
 	}
 
-	public IFieldInfo refreshFieldsAfterFieldModification(
-			final IFieldInfo field, final JPanel form,
-			final boolean refreshOwnControl) {
-		return new FieldInfoProxy(field) {
-			@Override
-			public void setValue(final Object object, Object newValue) {
-				super.setValue(object, newValue);
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
-							IInfoCollectionSettings settings = getInfoCollectionSettingsByForm()
-									.get(form);
-							for (IFieldInfo fieldToRefresh : type.getFields()) {
-								if ((settings != null)
-										&& settings
-												.excludeField(fieldToRefresh)) {
-									continue;
-								}
-								if (!refreshOwnControl) {
-									if (field.getName().equals(
-											fieldToRefresh.getName())) {
-										continue;
-									}
-								}
-								refreshFieldControl(form,
-										fieldToRefresh.getName());
-							}
-						} catch (Throwable t) {
-							handleExceptionsFromDisplayedUI(form, t);
-						}
-					}
-				});
-			}
-		};
-	}
-
-	public IMethodInfo refreshFieldsAfterMethodModifications(
-			final IMethodInfo method, final JPanel form) {
-		return new MethodInfoProxy(method) {
-
-			@Override
-			public Object invoke(Object object, InvocationData invocationData) {
-				try {
-					return super.invoke(object, invocationData);
-				} finally {
-					refreshAllFieldControls(form);
-				}
-			}
-
-			@Override
-			public IModification getUndoModification(final Object object,
-					InvocationData invocationData) {
-				IModification result = super.getUndoModification(object,
-						invocationData);
-				if (result == null) {
-					return null;
-				}
-				result = new ModificationProxy(result,
-						new ModificationProxyConfiguration() {
-							@Override
-							public void executeAfterApplication() {
-								refreshAllFieldControls(form);
-							}
-						});
-				return result;
-			}
-
-		};
-	}
-
 	public void refreshAllFieldControls(JPanel form) {
-		Object object = getObjectByForm().get(form);
-		ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
-		IInfoCollectionSettings settings = getInfoCollectionSettingsByForm()
+		int focusedFieldControlPaceHolderIndex = getFocusedFieldControlPaceHolderIndex(form);
+		for (FieldControlPlaceHolder fieldControlPlaceHolder : getAllFieldControlPlaceHolders(form)) {
+			fieldControlPlaceHolder.refreshUI();
+			updateFieldControlLayout(fieldControlPlaceHolder);
+		}
+		if (focusedFieldControlPaceHolderIndex != -1) {
+			final FieldControlPlaceHolder toFocus = getAllFieldControlPlaceHolders(
+					form).get(focusedFieldControlPaceHolderIndex);
+			toFocus.requestFocus();
+		}
+	}
+
+	public List<FieldControlPlaceHolder> getAllFieldControlPlaceHolders(
+			JPanel form) {
+		List<FieldControlPlaceHolder> result = new ArrayList<ReflectionUI.FieldControlPlaceHolder>();
+		Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = fieldControlPlaceHoldersByCategoryByForm
 				.get(form);
-		for (IFieldInfo field : type.getFields()) {
-			if ((settings != null) && settings.excludeField(field)) {
-				continue;
+		for (InfoCategory category : fieldControlPlaceHoldersByCategory
+				.keySet()) {
+			List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
+					.get(category);
+			result.addAll(fieldControlPlaceHolders);
+		}
+		return result;
+	}
+
+	public int getFocusedFieldControlPaceHolderIndex(JPanel subForm) {
+		int i = 0;
+		for (FieldControlPlaceHolder fieldControlPlaceHolder : getAllFieldControlPlaceHolders(subForm)) {
+			if (ReflectionUIUtils.hasOrContainsFocus(fieldControlPlaceHolder)) {
+				return i;
 			}
-			refreshFieldControl(form, field.getName());
+			i++;
+		}
+		return -1;
+	}
+
+	public void refreshFieldControlsByName(JPanel form, String fieldName) {
+		for (FieldControlPlaceHolder fieldControlPlaceHolder : getAllFieldControlPlaceHolders(form)) {
+			if (fieldName.equals(fieldControlPlaceHolder.getField().getName())) {
+				fieldControlPlaceHolder.refreshUI();
+				updateFieldControlLayout(fieldControlPlaceHolder);
+			}
 		}
 	}
 
-	public void refreshFieldControl(JPanel form, String fieldName) {
-		Object object = getObjectByForm().get(form);
-		ITypeInfo type = getTypeInfo(getTypeInfoSource(object));
-		IFieldInfo field = ReflectionUIUtils.findInfoByName(type.getFields(),
-				fieldName);
-		if (field == null) {
-			return;
-		}
-		Map<String, FieldControlPlaceHolder> controlPlaceHolderByFieldName = controlPlaceHolderByFieldNameByForm
-				.get(form);
-		FieldControlPlaceHolder fieldControlPlaceHolder = controlPlaceHolderByFieldName
-				.get(field.getName());
-		fieldControlPlaceHolder.refreshUI();
-		updateFieldControlLayout(fieldControlPlaceHolder);
-	}
-
-	public List<Component> getFieldControlsOf(JPanel form, String fieldName) {
+	public List<Component> getFieldControlsByName(JPanel form, String fieldName) {
 		List<Component> result = new ArrayList<Component>();
-		Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = getFieldControlPlaceHoldersByCategoryByForm()
-				.get(form);
-		for (List<FieldControlPlaceHolder> fieldControlPlaceHolders : fieldControlPlaceHoldersByCategory
-				.values()) {
-			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHolders) {
-				if (fieldControlPlaceHolder.getField().getName()
-						.equals(fieldName)) {
-					result.add(fieldControlPlaceHolder.getFieldControl());
-				}
+		for (FieldControlPlaceHolder fieldControlPlaceHolder : getAllFieldControlPlaceHolders(form)) {
+			if (fieldName.equals(fieldControlPlaceHolder.getField().getName())) {
+				result.add(fieldControlPlaceHolder.getFieldControl());
 			}
 		}
 		return result;
 	}
 
-	public List<Component> getMethodControlsOf(JPanel form,
+	public List<Component> getMethodControlsBySignature(JPanel form,
 			String methodSignature) {
 		List<Component> result = new ArrayList<Component>();
 		Map<InfoCategory, List<Component>> methodControlByCategory = getMethodControlsByCategoryByForm()
@@ -794,7 +693,7 @@ public class ReflectionUI {
 		IFieldInfo field = ReflectionUIUtils.findInfoByName(type.getFields(),
 				fieldName);
 		for (JPanel form : getForms(object)) {
-			field = handleFieldUpdates(field, form, true);
+			field = makeFieldModificationsUndoable(field, form);
 		}
 		return field;
 	}
@@ -808,7 +707,7 @@ public class ReflectionUI {
 			return null;
 		}
 		for (JPanel form : getForms(object)) {
-			method = handleMethodUpdates(method, form);
+			method = makeMethodModificationsUndoable(method, form);
 		}
 		return method;
 	}
@@ -1587,32 +1486,40 @@ public class ReflectionUI {
 			@Override
 			public void run() {
 				if (okPressedArray[0]) {
-					Object oldValue = valueAccessor.get();
-					if (!ReflectionUI.this.equals(oldValue, valueArray[0])) {
-						valueAccessor.set(valueArray[0]);
-						changeDetectedArray[0] = true;
-					} else if ((oldValue == valueArray[0])
-							&& (valueArray[0] != null)
-							&& !valueArray[0].getClass().isPrimitive()) {
-						if (modificationstackArray[0] != null) {
-							if (modificationstackArray[0]
-									.getNumberOfUndoUnits() > 0) {
-								changeDetectedArray[0] = true;
-								if (parentModificationStack != null) {
-									List<IModification> undoModifications = new ArrayList<IModification>();
-									undoModifications
-											.addAll(Arrays
-													.asList(modificationstackArray[0]
-															.getUndoModifications(UndoOrder.LIFO)));
+					if (modificationstackArray[0] != null) {
+						if (modificationstackArray[0].getNumberOfUndoUnits() > 0) {
+							changeDetectedArray[0] = true;
+							if (parentModificationStack != null) {
+								Object oldValue = valueAccessor.get();
+								if (ReflectionUI.this.equals(oldValue,
+										valueArray[0])) {
 									parentModificationStack
 											.pushUndo(new CompositeModification(
 													ModificationStack
 															.getUndoTitle("Edit "
 																	+ title),
 													UndoOrder.LIFO,
-													undoModifications));
+													modificationstackArray[0]
+															.getUndoModifications(UndoOrder.LIFO)));
+								} else {
+									parentModificationStack.beginComposite();
+									valueAccessor.set(valueArray[0]);
+									parentModificationStack
+											.pushUndo(new CompositeModification(
+													null,
+													UndoOrder.LIFO,
+													modificationstackArray[0]
+															.getUndoModifications(UndoOrder.LIFO)));
+									parentModificationStack.endComposite(title,
+											UndoOrder.FIFO);
 								}
 							}
+						}
+					} else {
+						Object oldValue = valueAccessor.get();
+						if (!ReflectionUI.this.equals(oldValue, valueArray[0])) {
+							changeDetectedArray[0] = true;
+							valueAccessor.set(valueArray[0]);
 						}
 					}
 				} else {
@@ -1745,7 +1652,7 @@ public class ReflectionUI {
 		}
 	}
 
-	protected class FieldControlPlaceHolder extends JPanel {
+	public class FieldControlPlaceHolder extends JPanel {
 
 		protected static final long serialVersionUID = 1L;
 		protected Object object;
@@ -1783,16 +1690,20 @@ public class ReflectionUI {
 				fieldControl = field.getType()
 						.createFieldControl(object, field);
 				add(fieldControl, BorderLayout.CENTER);
+				handleComponentSizeChange(this);
 			} else {
 				if (!(((fieldControl instanceof IFieldControl) && ((IFieldControl) fieldControl)
 						.refreshUI()))) {
+					boolean hadFocus = ReflectionUIUtils
+							.hasOrContainsFocus(fieldControl);
 					remove(fieldControl);
 					fieldControl = null;
 					refreshUI();
+					if (hadFocus) {
+						fieldControl.requestFocus();
+					}
 				}
 			}
-
-			handleComponentSizeChange(this);
 		}
 
 		public void displayError(ReflectionUIError error) {
@@ -1811,6 +1722,13 @@ public class ReflectionUI {
 				return true;
 			} else {
 				return false;
+			}
+		}
+
+		@Override
+		public void requestFocus() {
+			if (fieldControl != null) {
+				fieldControl.requestFocus();
 			}
 		}
 

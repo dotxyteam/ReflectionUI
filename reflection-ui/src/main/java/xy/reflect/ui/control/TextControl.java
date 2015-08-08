@@ -131,11 +131,14 @@ public class TextControl extends JPanel implements IFieldControl {
 	@Override
 	public boolean refreshUI() {
 		textChangedByUser = false;
-		int lastCaretPosition = textComponent.getCaretPosition();
-		textComponent.setText((String) field.getValue(object));
-		textComponent.setCaretPosition(Math.min(lastCaretPosition,
-				textComponent.getText().length()));
-		textChangedByUser = true;
+		String newText = (String) field.getValue(object);
+		if(!ReflectionUIUtils.equalsOrBothNull(textComponent.getText(), newText)){
+			int lastCaretPosition = textComponent.getCaretPosition();
+			textComponent.setText(newText);
+			textComponent.setCaretPosition(Math.min(lastCaretPosition,
+					textComponent.getText().length()));
+		}
+		textChangedByUser = true;			
 		return true;
 	}
 

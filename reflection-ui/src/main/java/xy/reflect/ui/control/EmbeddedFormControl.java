@@ -2,6 +2,8 @@ package xy.reflect.ui.control;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.util.List;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -9,7 +11,9 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.ReflectionUI.FieldControlPlaceHolder;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
@@ -26,7 +30,10 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 	protected Component textControl;
 	protected Component iconControl;
 	protected JButton button;
-	protected boolean forwardUpdatesToParentFormCOnfigured = false;
+	protected Object subFormObject;
+	protected JPanel subForm;
+	protected int lastFocusedFieldControlPlaceHolderIndex;
+	protected ITypeInfo lastFocusSubFormObjectType;
 
 	public EmbeddedFormControl(final ReflectionUI reflectionUI,
 			final Object object, final IFieldInfo field) {
@@ -34,27 +41,45 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 		this.object = object;
 		this.field = field;
 		setLayout(new BorderLayout());
-		final JPanel subForm = createSubForm();
-		add(subForm, BorderLayout.CENTER);
 		addAncestorListener(new AncestorListener() {
-			
+
 			@Override
 			public void ancestorRemoved(AncestorEvent event) {
 			}
-			
+
 			@Override
 			public void ancestorMoved(AncestorEvent event) {
 			}
-			
+
 			@Override
 			public void ancestorAdded(AncestorEvent event) {
-				if(forwardUpdatesToParentFormCOnfigured){
-					return;
-				}
-				forwardUpdatesToParentForm(subForm);
-				forwardUpdatesToParentFormCOnfigured  = true;	
+				whenContainingWindowDisplayed();
 			}
 		});
+		refreshUI();
+	}
+
+	protected void whenContainingWindowDisplayed() {
+		forwardUpdatesToParentForm(subForm);
+	}
+
+	@Override
+	public void requestFocus() {
+		if (subForm != null) {
+			if (lastFocusedFieldControlPlaceHolderIndex != -1) {
+				ITypeInfo subFormObjectType = reflectionUI
+						.getTypeInfo(reflectionUI
+								.getTypeInfoSource(subFormObject));
+				if (lastFocusSubFormObjectType.equals(subFormObjectType)) {
+					List<FieldControlPlaceHolder> fieldControlPlaceHolders = reflectionUI
+							.getAllFieldControlPlaceHolders(subForm);
+					fieldControlPlaceHolders.get(
+							lastFocusedFieldControlPlaceHolderIndex)
+							.requestFocus();
+				}
+			}
+
+		}
 	}
 
 	protected void forwardUpdatesToParentForm(JPanel subForm) {
@@ -64,13 +89,19 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 				new ModificationStack(null) {
 
 					@Override
-					public void apply(IModification modif, boolean refreshView) {
-						parentModifStack.apply(modif, refreshView);
-					}
-
-					@Override
 					public void pushUndo(IModification undoModif) {
-						parentModifStack.pushUndo(undoModif);
+						updateFocusInformation();
+						Object oldValue = field.getValue(object);
+						if (reflectionUI.equals(oldValue, subFormObject)) {
+							parentModifStack.pushUndo(undoModif);
+						} else {
+							parentModifStack.beginComposite();
+							parentModifStack.pushUndo(undoModif);
+							field.setValue(object, subFormObject);
+							parentModifStack.endComposite(ModificationStack
+									.getUndoTitle(undoModif.getTitle()),
+									UndoOrder.FIFO);
+						}
 					}
 
 					@Override
@@ -85,16 +116,22 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 
 					@Override
 					public void invalidate() {
+						updateFocusInformation();
+						Object oldValue = field.getValue(object);
+						if (!reflectionUI.equals(oldValue, subFormObject)) {
+							field.setValue(object, subFormObject);
+						}
 						parentModifStack.invalidate();
 					}
 
 				});
 	}
 
-	protected JPanel createSubForm() {
-		Object fieldValue = field.getValue(object);
-		JPanel subForm = reflectionUI.createObjectForm(fieldValue);
-		return subForm;
+	protected void updateFocusInformation() {
+		lastFocusSubFormObjectType = reflectionUI
+				.getTypeInfo(reflectionUI
+						.getTypeInfoSource(subFormObject));
+		lastFocusedFieldControlPlaceHolderIndex = reflectionUI.getFocusedFieldControlPaceHolderIndex(subForm);
 	}
 
 	@Override
@@ -110,7 +147,24 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 
 	@Override
 	public boolean refreshUI() {
-		return false;
+		if (subForm == null) {
+			subFormObject = field.getValue(object);
+			subForm = reflectionUI.createObjectForm(subFormObject);
+			add(subForm, BorderLayout.CENTER);
+			reflectionUI.handleComponentSizeChange(this);
+		} else {
+			Object newSubFormObject = field.getValue(object);
+			if (reflectionUI.equals(newSubFormObject, subFormObject)) {
+				reflectionUI.refreshAllFieldControls(subForm);
+				reflectionUI.handleComponentSizeChange(this);
+			} else {
+				remove(subForm);
+				subForm = null;
+				refreshUI();
+				forwardUpdatesToParentForm(subForm);
+			}
+		}
+		return true;
 	}
 
 }

@@ -597,7 +597,6 @@ public class ReflectionUIUtils {
 		return parameterClasses.get(index);
 	}
 
-
 	public static String[] splitLines(String s) {
 		if (s.length() == 0) {
 			return new String[0];
@@ -1104,9 +1103,11 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static StackTraceElement[] createDebugStackTrace(int firstElementsToRemove) {
+	public static StackTraceElement[] createDebugStackTrace(
+			int firstElementsToRemove) {
 		StackTraceElement[] result = new Exception().getStackTrace();
-		return Arrays.copyOfRange(result, 1+firstElementsToRemove, result.length);
+		return Arrays.copyOfRange(result, 1 + firstElementsToRemove,
+				result.length);
 	}
 
 	public static Object[] getFieldValueOptionsFromAnnotatedMember(
@@ -1209,10 +1210,10 @@ public class ReflectionUIUtils {
 				Rectangle windowMaxBounds = new Rectangle();
 				windowMaxBounds.x = screenBounds.x + screenInsets.left;
 				windowMaxBounds.y = screenBounds.y + screenInsets.top;
-				windowMaxBounds.height = screenBounds.height
-						- screenInsets.top - screenInsets.bottom;
-				windowMaxBounds.width = screenBounds.width
-						- screenInsets.left - screenInsets.right;
+				windowMaxBounds.height = screenBounds.height - screenInsets.top
+						- screenInsets.bottom;
+				windowMaxBounds.width = screenBounds.width - screenInsets.left
+						- screenInsets.right;
 				result = result.union(windowMaxBounds);
 			}
 		}
@@ -1224,26 +1225,23 @@ public class ReflectionUIUtils {
 			@Override
 			public int compare(IFieldInfo f1, IFieldInfo f2) {
 				int result;
-	
-				result = compareNullables(f1.getCategory(),
-						f2.getCategory());
+
+				result = compareNullables(f1.getCategory(), f2.getCategory());
 				if (result != 0) {
 					return result;
 				}
-	
-				result = compareNullables(f1.getType()
-						.getName().toUpperCase(), f2.getType().getName()
-						.toUpperCase());
+
+				result = compareNullables(f1.getType().getName().toUpperCase(),
+						f2.getType().getName().toUpperCase());
 				if (result != 0) {
 					return result;
 				}
-	
-				result = compareNullables(f1.getName(),
-						f2.getName());
+
+				result = compareNullables(f1.getName(), f2.getName());
 				if (result != 0) {
 					return result;
 				}
-	
+
 				return 0;
 			}
 		});
@@ -1254,13 +1252,12 @@ public class ReflectionUIUtils {
 			@Override
 			public int compare(IMethodInfo m1, IMethodInfo m2) {
 				int result;
-	
-				result = compareNullables(m1.getCategory(),
-						m2.getCategory());
+
+				result = compareNullables(m1.getCategory(), m2.getCategory());
 				if (result != 0) {
 					return result;
 				}
-	
+
 				List<String> parameterTypeNames1 = new ArrayList<String>();
 				for (IParameterInfo param : m1.getParameters()) {
 					parameterTypeNames1.add(param.getType().getName());
@@ -1272,12 +1269,11 @@ public class ReflectionUIUtils {
 				}
 				Collections.sort(parameterTypeNames2);
 				result = stringJoin(parameterTypeNames1, "\n").compareTo(
-								stringJoin(
-										parameterTypeNames2, "\n"));
+						stringJoin(parameterTypeNames2, "\n"));
 				if (result != 0) {
 					return result;
 				}
-	
+
 				String returnTypeName1;
 				{
 					if (m1.getReturnValueType() == null) {
@@ -1294,21 +1290,34 @@ public class ReflectionUIUtils {
 						returnTypeName2 = m2.getReturnValueType().getName();
 					}
 				}
-				result = compareNullables(returnTypeName1,
-						returnTypeName2);
+				result = compareNullables(returnTypeName1, returnTypeName2);
 				if (result != 0) {
 					return result;
 				}
-	
-				result = compareNullables(m1.getName(),
-						m2.getName());
+
+				result = compareNullables(m1.getName(), m2.getName());
 				if (result != 0) {
 					return result;
 				}
-	
+
 				return 0;
 			}
 		});
+	}
+
+	public static boolean hasOrContainsFocus(Component c) {
+		if (c.hasFocus()) {
+			return true;
+		}
+		if (c instanceof Container) {
+			Container container = (Container) c;
+			for (Component childComponent : container.getComponents()) {
+				if(hasOrContainsFocus(childComponent)){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 }
