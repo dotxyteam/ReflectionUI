@@ -29,6 +29,9 @@ public class UtilitiesTypeInfo extends DefaultTypeInfo {
 	}
 
 	public static boolean isCompatibleWith(Class<?> javaType) {
+		if(Object.class.equals(javaType)){
+			return false;
+		}
 		for (Field field : javaType.getFields()) {
 			if (PublicFieldInfo.isCompatibleWith(field)) {
 				return false;
