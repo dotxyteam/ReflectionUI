@@ -1486,33 +1486,33 @@ public class ReflectionUI {
 			@Override
 			public void run() {
 				if (okPressedArray[0]) {
-					if (modificationstackArray[0] != null) {
-						if (modificationstackArray[0].getNumberOfUndoUnits() > 0) {
-							changeDetectedArray[0] = true;
-							if (parentModificationStack != null) {
-								Object oldValue = valueAccessor.get();
-								if (ReflectionUI.this.equals(oldValue,
-										valueArray[0])) {
-									parentModificationStack
-											.pushUndo(new CompositeModification(
-													ModificationStack
-															.getUndoTitle("Edit "
-																	+ title),
-													UndoOrder.LIFO,
-													modificationstackArray[0]
-															.getUndoModifications(UndoOrder.LIFO)));
-								} else {
-									parentModificationStack.beginComposite();
-									valueAccessor.set(valueArray[0]);
-									parentModificationStack
-											.pushUndo(new CompositeModification(
-													null,
-													UndoOrder.LIFO,
-													modificationstackArray[0]
-															.getUndoModifications(UndoOrder.LIFO)));
-									parentModificationStack.endComposite(title,
-											UndoOrder.FIFO);
-								}
+					if ((modificationstackArray[0] != null)
+							&& (modificationstackArray[0]
+									.getNumberOfUndoUnits() > 0)) {
+						changeDetectedArray[0] = true;
+						if (parentModificationStack != null) {
+							Object oldValue = valueAccessor.get();
+							if (ReflectionUI.this.equals(oldValue,
+									valueArray[0])) {
+								parentModificationStack
+										.pushUndo(new CompositeModification(
+												ModificationStack
+														.getUndoTitle("Edit "
+																+ title),
+												UndoOrder.LIFO,
+												modificationstackArray[0]
+														.getUndoModifications(UndoOrder.LIFO)));
+							} else {
+								parentModificationStack.beginComposite();
+								valueAccessor.set(valueArray[0]);
+								parentModificationStack
+										.pushUndo(new CompositeModification(
+												null,
+												UndoOrder.LIFO,
+												modificationstackArray[0]
+														.getUndoModifications(UndoOrder.LIFO)));
+								parentModificationStack.endComposite(title,
+										UndoOrder.FIFO);
 							}
 						}
 					} else {

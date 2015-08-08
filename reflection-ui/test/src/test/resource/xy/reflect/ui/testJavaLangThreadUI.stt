@@ -3,6 +3,7 @@
   <minimumSecondsToWaitBetwneenActions>1</minimumSecondsToWaitBetwneenActions>
   <testActions>
     <xy.ui.testing.action.CallMainMethodAction>
+      <checkThrownExceptionAFterSeconds>2</checkThrownExceptionAFterSeconds>
       <className>xy.reflect.ui.ReflectionUI</className>
     </xy.ui.testing.action.CallMainMethodAction>
     <xy.ui.testing.action.component.SendKeysAction>
@@ -26,6 +27,7 @@
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
@@ -35,6 +37,7 @@
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
@@ -102,6 +105,7 @@
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
@@ -132,6 +136,7 @@
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
@@ -196,6 +201,7 @@
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
@@ -216,6 +222,7 @@
         <windowIndex>2</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
@@ -258,7 +265,6 @@
         <string>xy.reflect.ui.ReflectionUI</string>
         <string>ReflectionUI.java</string>
         <string>handleExceptionsFromDisplayedUI</string>
-        <string>xy.reflect.ui.ReflectionUI$15</string>
         <string>ReflectionUI.java</string>
         <string>run</string>
         <string>Print Stack Trace</string>
