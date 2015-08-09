@@ -1,4 +1,4 @@
-package xy.reflect.ui.control;
+package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -25,7 +25,7 @@ import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.SwingRendererUtils;
 
 public class DialogAccessControl extends JPanel {
 
@@ -51,7 +51,7 @@ public class DialogAccessControl extends JPanel {
 		add(centerPanel, BorderLayout.CENTER);
 		centerPanel.setLayout(new BorderLayout());
 		centerPanel.add(textControl = createTextControl(), BorderLayout.CENTER);
-		centerPanel.add(ReflectionUIUtils.flowInLayout(button = createButton(),
+		centerPanel.add(SwingRendererUtils.flowInLayout(button = createButton(),
 				FlowLayout.CENTER), BorderLayout.WEST);
 
 		int defaultHeight = new TextControl(reflectionUI, object,
@@ -95,7 +95,7 @@ public class DialogAccessControl extends JPanel {
 				try {
 					openDialog();
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(result, t);
+					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(result, t);
 				}
 			}
 		});
@@ -177,7 +177,7 @@ public class DialogAccessControl extends JPanel {
 			}
 
 		};
-		ModificationStack parentStack = ReflectionUIUtils
+		ModificationStack parentStack = SwingRendererUtils
 				.findModificationStack(DialogAccessControl.this, reflectionUI);
 		String title = reflectionUI.getFieldTitle(object, field);
 		IInfoCollectionSettings settings = new IInfoCollectionSettings() {
@@ -197,7 +197,7 @@ public class DialogAccessControl extends JPanel {
 			}
 		};
 		boolean[] changeDetectedArray = new boolean[] { false };
-		reflectionUI.openValueDialog(this, valueAccessor, settings,
+		reflectionUI.getSwingRenderer().openValueDialog(this, valueAccessor, settings,
 				parentStack, title, changeDetectedArray);
 		if (changeDetectedArray[0]) {
 			updateControls();

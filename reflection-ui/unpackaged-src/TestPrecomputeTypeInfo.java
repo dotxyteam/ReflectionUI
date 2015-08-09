@@ -14,7 +14,7 @@ public class TestPrecomputeTypeInfo {
 	 */
 	public static void main(String[] args) {
 		reflectionUI = new ReflectionUI();
-		reflectionUI.openObjectFrame(getPrecomputedTypeFile(new File(".").getAbsoluteFile()), null, null);
+		reflectionUI.getSwingRenderer().openObjectFrame(getPrecomputedTypeFile(new File(".").getAbsoluteFile()), null, null);
 	}
 
 	private static Object getPrecomputedTypeFile(File absoluteFile) {

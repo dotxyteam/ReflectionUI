@@ -13,11 +13,11 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.DialogAccessControl;
-import xy.reflect.ui.control.EmbeddedFormControl;
-import xy.reflect.ui.control.EnumerationControl;
-import xy.reflect.ui.control.NullableControl;
-import xy.reflect.ui.control.PolymorphicEmbeddedForm;
+import xy.reflect.ui.control.swing.DialogAccessControl;
+import xy.reflect.ui.control.swing.EmbeddedFormControl;
+import xy.reflect.ui.control.swing.EnumerationControl;
+import xy.reflect.ui.control.swing.NullableControl;
+import xy.reflect.ui.control.swing.PolymorphicEmbeddedForm;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;

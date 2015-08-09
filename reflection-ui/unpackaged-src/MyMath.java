@@ -6,6 +6,6 @@ class MyMath {
 	}
 	
 	public static void main(String[] args){
-		new ReflectionUI().openObjectFrame(new MyMath(), null, null);
+		new ReflectionUI().getSwingRenderer().openObjectFrame(new MyMath(), null, null);
 	}
 }

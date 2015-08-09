@@ -232,6 +232,6 @@ public class ReflectionUITest {
 				}.get(super.getTypeInfo(typeSource));
 			}
 		};
-		editor.openObjectFrame(new Test(), "test", null);
+		editor.getSwingRenderer().openObjectFrame(new Test(), "test", null);
 	}
 }

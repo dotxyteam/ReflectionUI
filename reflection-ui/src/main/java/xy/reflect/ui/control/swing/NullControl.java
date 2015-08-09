@@ -1,4 +1,4 @@
-package xy.reflect.ui.control;
+package xy.reflect.ui.control.swing;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -10,7 +10,7 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
-import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.SwingRendererUtils;
 
 public class NullControl extends TextControl {
 
@@ -81,16 +81,16 @@ public class NullControl extends TextControl {
 					try {
 						onMousePress.run();
 					} catch (Throwable t) {
-						reflectionUI.handleExceptionsFromDisplayedUI(
+						reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(
 								NullControl.this, t);
 					}
 				}
 			});
 		}
 		textComponent.setEditable(false);
-		textComponent.setBackground(ReflectionUIUtils
+		textComponent.setBackground(SwingRendererUtils
 				.fixSeveralColorRenderingIssues(reflectionUI
-						.getNullColor()));
+						.getSwingRenderer().getNullColor()));
 	}
 
 	@Override

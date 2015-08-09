@@ -39,7 +39,7 @@ public class TableTreeModelExample {
 				}.get(super.getTypeInfo(typeSource));
 			}
 
-		}.openObjectDialog(null, new Catalog(), false);
+		}.getSwingRenderer().openObjectDialog(null, new Catalog(), false);
 
 	}
 

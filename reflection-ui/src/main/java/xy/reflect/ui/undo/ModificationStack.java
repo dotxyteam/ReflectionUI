@@ -11,7 +11,7 @@ import java.util.Stack;
 import javax.swing.JButton;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.util.Accessor;
-import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.SwingRendererUtils;
 
 public class ModificationStack {
 
@@ -308,7 +308,7 @@ public class ModificationStack {
 
 			protected void updateState() {
 				setEnabled(enabled.get());
-				ReflectionUIUtils.setMultilineToolTipText(this, reflectionUI
+				SwingRendererUtils.setMultilineToolTipText(this, reflectionUI
 						.prepareUIString(reflectionUI
 								.prepareUIString(tooltipText.get())));
 			}
@@ -320,7 +320,7 @@ public class ModificationStack {
 				try {
 					action.run();
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(result, t);
+					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(result, t);
 				}
 			}
 		});

@@ -8,6 +8,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.util.TypeInfoProxyConfiguration;
+import xy.reflect.ui.renderer.SwingRenderer;
 
 /*
  * Read carefully the comments below. 
@@ -19,14 +20,14 @@ public class Example {
 		/* The Hello world: */
 		Object myObject = new Date();
 		ReflectionUI reflectionUI = new ReflectionUI();
-		reflectionUI.openObjectFrame(myObject);
+		reflectionUI.getSwingRenderer().openObjectFrame(myObject);
 
 		/* You can open a dialog instead of a frame: */
-		reflectionUI.openObjectDialog(null, myObject, true);
+		reflectionUI.getSwingRenderer().openObjectDialog(null, myObject, true);
 
 		/* You can just create a form and then insert it in any container: */
 		JOptionPane.showMessageDialog(null,
-				reflectionUI.createObjectForm(myObject));
+				reflectionUI.getSwingRenderer().createObjectForm(myObject));
 
 		/*
 		 * The ReflectionUI generator assumes that that the Java coding
@@ -87,13 +88,22 @@ public class Example {
 		 * object. For instance let set any window size to 300x300:
 		 */
 		reflectionUI = new ReflectionUI() {
+
+			ReflectionUI thisReflectionUI = this;
+
 			@Override
-			public void adjustWindowBounds(Window window) {
-				super.adjustWindowBounds(window);
-				window.setSize(300, 300);
+			public SwingRenderer createSwingRenderer() {
+				return new SwingRenderer(thisReflectionUI) {
+
+					@Override
+					public void adjustWindowBounds(Window window) {
+						super.adjustWindowBounds(window);
+						window.setSize(300, 300);
+					}
+				};
 			}
 		};
-		reflectionUI.openObjectDialog(null, myObject, "300x300 window", null,
+		reflectionUI.getSwingRenderer().openObjectDialog(null, myObject, "300x300 window", null,
 				true);
 
 		/*
@@ -115,7 +125,7 @@ public class Example {
 			}
 
 		};
-		reflectionUI.openObjectDialog(null, myObject,
+		reflectionUI.getSwingRenderer().openObjectDialog(null, myObject,
 				"uppercase field captions", null, true);
 
 	}

@@ -264,7 +264,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <componentClassName>xy.reflect.ui.control.MethodControl</componentClassName>
+        <componentClassName>xy.reflect.ui.control.swing.MethodControl</componentClassName>
         <occurrencesToSkip>5</occurrencesToSkip>
         <windowIndex>1</windowIndex>
       </componentFinder>

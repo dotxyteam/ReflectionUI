@@ -1,4 +1,4 @@
-package xy.reflect.ui.control;
+package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -62,7 +62,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 	public void requestFocus() {
 		if (dynamicControl != null) {
 			dynamicControl.requestFocus();
-		}else{
+		} else {
 			typeEnumerationControl.requestFocus();
 		}
 	}
@@ -121,9 +121,10 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 						Object instance = instanceByEnumerationValueCache
 								.get(selectedPolyType);
 						if (instance == null) {
-							instance = reflectionUI.onTypeInstanciationRequest(
-									PolymorphicEmbeddedForm.this,
-									selectedPolyType, false);
+							instance = reflectionUI.getSwingRenderer()
+									.onTypeInstanciationRequest(
+											PolymorphicEmbeddedForm.this,
+											selectedPolyType, false);
 							if (instance == null) {
 								return;
 							}
@@ -273,11 +274,11 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 		} else if ((lastInstanceType != null) && (instanceType == null)) {
 			remove(dynamicControl);
 			dynamicControl = null;
-			reflectionUI.handleComponentSizeChange(this);
+			reflectionUI.getSwingRenderer().handleComponentSizeChange(this);
 		} else if ((lastInstanceType == null) && (instanceType != null)) {
 			dynamicControl = createDynamicControl(instanceType);
 			add(dynamicControl, BorderLayout.CENTER);
-			reflectionUI.handleComponentSizeChange(this);
+			reflectionUI.getSwingRenderer().handleComponentSizeChange(this);
 		} else {
 			if (lastInstanceType.equals(instanceType)) {
 				if (dynamicControl instanceof IFieldControl) {
@@ -289,7 +290,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 			remove(dynamicControl);
 			dynamicControl = createDynamicControl(instanceType);
 			add(dynamicControl, BorderLayout.CENTER);
-			reflectionUI.handleComponentSizeChange(this);
+			reflectionUI.getSwingRenderer().handleComponentSizeChange(this);
 		}
 	}
 

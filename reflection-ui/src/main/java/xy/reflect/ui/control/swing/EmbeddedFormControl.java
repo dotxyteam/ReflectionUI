@@ -1,4 +1,4 @@
-package xy.reflect.ui.control;
+package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -11,14 +11,14 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.ReflectionUI.FieldControlPlaceHolder;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.renderer.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.SwingRendererUtils;
 
 public class EmbeddedFormControl extends JPanel implements IFieldControl {
 
@@ -72,7 +72,8 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 								.getTypeInfoSource(subFormObject));
 				if (lastFocusSubFormObjectType.equals(subFormObjectType)) {
 					List<FieldControlPlaceHolder> fieldControlPlaceHolders = reflectionUI
-							.getAllFieldControlPlaceHolders(subForm);
+							.getSwingRenderer().getAllFieldControlPlaceHolders(
+									subForm);
 					fieldControlPlaceHolders.get(
 							lastFocusedFieldControlPlaceHolderIndex)
 							.requestFocus();
@@ -83,14 +84,14 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 	}
 
 	protected void forwardUpdatesToParentForm(JPanel subForm) {
-		final ModificationStack parentModifStack = ReflectionUIUtils
+		final ModificationStack parentModifStack = SwingRendererUtils
 				.findModificationStack(EmbeddedFormControl.this, reflectionUI);
-		reflectionUI.getModificationStackByForm().put(subForm,
-				new ModificationStack(null) {
+		reflectionUI.getSwingRenderer().getModificationStackByForm()
+				.put(subForm, new ModificationStack(null) {
 
 					@Override
 					public void pushUndo(IModification undoModif) {
-						updateFocusInformation();
+						saveFocusInformation();
 						Object oldValue = field.getValue(object);
 						if (reflectionUI.equals(oldValue, subFormObject)) {
 							parentModifStack.pushUndo(undoModif);
@@ -116,7 +117,7 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 
 					@Override
 					public void invalidate() {
-						updateFocusInformation();
+						saveFocusInformation();
 						Object oldValue = field.getValue(object);
 						if (!reflectionUI.equals(oldValue, subFormObject)) {
 							field.setValue(object, subFormObject);
@@ -127,11 +128,12 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 				});
 	}
 
-	protected void updateFocusInformation() {
-		lastFocusSubFormObjectType = reflectionUI
-				.getTypeInfo(reflectionUI
-						.getTypeInfoSource(subFormObject));
-		lastFocusedFieldControlPlaceHolderIndex = reflectionUI.getFocusedFieldControlPaceHolderIndex(subForm);
+	protected void saveFocusInformation() {
+		lastFocusSubFormObjectType = reflectionUI.getTypeInfo(reflectionUI
+				.getTypeInfoSource(subFormObject));
+		lastFocusedFieldControlPlaceHolderIndex = reflectionUI
+				.getSwingRenderer().getFocusedFieldControlPaceHolderIndex(
+						subForm);
 	}
 
 	@Override
@@ -149,14 +151,15 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 	public boolean refreshUI() {
 		if (subForm == null) {
 			subFormObject = field.getValue(object);
-			subForm = reflectionUI.createObjectForm(subFormObject);
+			subForm = reflectionUI.getSwingRenderer().createObjectForm(
+					subFormObject);
 			add(subForm, BorderLayout.CENTER);
-			reflectionUI.handleComponentSizeChange(this);
+			reflectionUI.getSwingRenderer().handleComponentSizeChange(this);
 		} else {
 			Object newSubFormObject = field.getValue(object);
 			if (reflectionUI.equals(newSubFormObject, subFormObject)) {
-				reflectionUI.refreshAllFieldControls(subForm);
-				reflectionUI.handleComponentSizeChange(this);
+				reflectionUI.getSwingRenderer()
+						.refreshAllFieldControls(subForm);
 			} else {
 				remove(subForm);
 				subForm = null;

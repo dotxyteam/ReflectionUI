@@ -38,8 +38,8 @@ public class SetFieldValueModification implements IModification {
 		};
 		field.setValue(object, value);
 		if (refreshView) {
-			for (JPanel form : reflectionUI.getForms(object)) {
-				reflectionUI.refreshFieldControlsByName(form,
+			for (JPanel form : reflectionUI.getSwingRenderer().getForms(object)) {
+				reflectionUI.getSwingRenderer().refreshFieldControlsByName(form,
 						field.getName());
 			}
 		}

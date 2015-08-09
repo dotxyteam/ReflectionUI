@@ -1,4 +1,4 @@
-package xy.reflect.ui.control;
+package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -70,6 +70,7 @@ import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.AbstractLazyTreeNode;
 import xy.reflect.ui.util.component.WrapLayout;
 
@@ -131,17 +132,17 @@ public class ListControl extends JPanel implements IFieldControl {
 			AbstractAction insertAction = createInsertAction(InsertPosition.UNKNOWN);
 			AbstractAction insertActionBefore = createInsertAction(InsertPosition.BEFORE);
 			AbstractAction insertActionAfter = createInsertAction(InsertPosition.AFTER);
-			toolbar.add(createTool(null, ReflectionUIUtils.ADD_ICON, true,
+			toolbar.add(createTool(null, SwingRendererUtils.ADD_ICON, true,
 					false, addChildAction, insertAction, insertActionBefore,
 					insertActionAfter));
 
-			toolbar.add(createTool(null, ReflectionUIUtils.REMOVE_ICON, true,
+			toolbar.add(createTool(null, SwingRendererUtils.REMOVE_ICON, true,
 					false, createRemoveAction()));
 
-			toolbar.add(createTool(null, ReflectionUIUtils.UP_ICON, false,
+			toolbar.add(createTool(null, SwingRendererUtils.UP_ICON, false,
 					false, createMoveAction(-1)));
 
-			toolbar.add(createTool(null, ReflectionUIUtils.DOWN_ICON, false,
+			toolbar.add(createTool(null, SwingRendererUtils.DOWN_ICON, false,
 					false, createMoveAction(1)));
 
 			for (IListAction listAction : getRootListType().getSpecificActions(
@@ -172,7 +173,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		}
 		if (actionsToPresent.size() > 0) {
 			if (actionsToPresent.size() == 1) {
-				ReflectionUIUtils.setMultilineToolTipText(result,
+				SwingRendererUtils.setMultilineToolTipText(result,
 						(String) actionsToPresent.get(0).getValue(Action.NAME));
 			}
 			result.addActionListener(new ActionListener() {
@@ -615,7 +616,7 @@ public class ListControl extends JPanel implements IFieldControl {
 						refreshStructure();
 					}
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(
+					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(
 							ListControl.this, t);
 				}
 			}
@@ -659,7 +660,7 @@ public class ListControl extends JPanel implements IFieldControl {
 					refreshStructure();
 					setSelection(newSelection);
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(
+					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(
 							ListControl.this, t);
 				}
 			}
@@ -792,7 +793,7 @@ public class ListControl extends JPanel implements IFieldControl {
 						setSelection(toPostSelect);
 					}
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(
+					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(
 							ListControl.this, t);
 				}
 			}
@@ -929,7 +930,7 @@ public class ListControl extends JPanel implements IFieldControl {
 								.getTypeInfo(new JavaTypeInfoSource(
 										Object.class));
 					}
-					Object newItem = reflectionUI.onTypeInstanciationRequest(
+					Object newItem = reflectionUI.getSwingRenderer().onTypeInstanciationRequest(
 							ListControl.this, typeToInstanciate, false);
 					if (newItem == null) {
 						return;
@@ -950,7 +951,7 @@ public class ListControl extends JPanel implements IFieldControl {
 						setSingleSelection(toSelect);
 					}
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(
+					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(
 							ListControl.this, t);
 				}
 			}
@@ -992,7 +993,7 @@ public class ListControl extends JPanel implements IFieldControl {
 								Object.class);
 					}
 					Object newSubListItem = reflectionUI
-							.onTypeInstanciationRequest(ListControl.this,
+							.getSwingRenderer().onTypeInstanciationRequest(ListControl.this,
 									typeToInstanciate, false);
 					if (newSubListItem == null) {
 						return;
@@ -1018,7 +1019,7 @@ public class ListControl extends JPanel implements IFieldControl {
 						setSingleSelection(toSelect);
 					}
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(
+					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(
 							ListControl.this, t);
 				}
 			}
@@ -1044,7 +1045,7 @@ public class ListControl extends JPanel implements IFieldControl {
 								.add(reflectionUI.copy(itemPosition.getItem()));
 					}
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(
+					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(
 							ListControl.this, t);
 				}
 			}
@@ -1095,7 +1096,7 @@ public class ListControl extends JPanel implements IFieldControl {
 					refreshStructure();
 					setSelection(toPostSelect);
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(
+					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(
 							ListControl.this, t);
 				}
 			}
@@ -1156,7 +1157,7 @@ public class ListControl extends JPanel implements IFieldControl {
 					}
 					setSelection(toPostSelect);
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(
+					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(
 							ListControl.this, t);
 				}
 			}
@@ -1207,7 +1208,7 @@ public class ListControl extends JPanel implements IFieldControl {
 					}
 					setSelection(toPostSelect);
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(
+					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(
 							ListControl.this, t);
 				}
 			}
@@ -1230,7 +1231,7 @@ public class ListControl extends JPanel implements IFieldControl {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					reflectionUI.showBusyDialogWhile(ListControl.this,
+					reflectionUI.getSwingRenderer().showBusyDialogWhile(ListControl.this,
 							new Runnable() {
 								@Override
 								public void run() {
@@ -1238,7 +1239,7 @@ public class ListControl extends JPanel implements IFieldControl {
 								}
 							}, action.getTitle());
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(
+					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(
 							ListControl.this, t);
 				}
 			}
@@ -1258,7 +1259,7 @@ public class ListControl extends JPanel implements IFieldControl {
 					}
 					onOpenDetaildsDialogRequest(itemPosition);
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(
+					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(
 							ListControl.this, t);
 				}
 			}
@@ -1274,7 +1275,7 @@ public class ListControl extends JPanel implements IFieldControl {
 						try {
 							updateToolbar();
 						} catch (Throwable t) {
-							reflectionUI.handleExceptionsFromDisplayedUI(
+							reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(
 									treeTableComponent, t);
 						}
 					}
@@ -1300,7 +1301,7 @@ public class ListControl extends JPanel implements IFieldControl {
 							.getUserObject();
 					onOpenDetaildsDialogRequest(itemPosition);
 				} catch (Throwable t) {
-					reflectionUI.handleExceptionsFromDisplayedUI(
+					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(
 							treeTableComponent, t);
 				}
 			}
@@ -1393,7 +1394,7 @@ public class ListControl extends JPanel implements IFieldControl {
 							.getTypeInfo(reflectionUI
 									.getTypeInfoSource(parentItempPosition
 											.getItem()));
-					result = reflectionUI.composeTitle(
+					result = ReflectionUIUtils.composeTitle(
 							prentItemType.getCaption(), result);
 				}
 				return result;
@@ -1415,12 +1416,12 @@ public class ListControl extends JPanel implements IFieldControl {
 				}
 			}
 		};
-		return reflectionUI.openValueDialog(treeTableComponent, valueAccessor,
+		return reflectionUI.getSwingRenderer().openValueDialog(treeTableComponent, valueAccessor,
 				settings, parentStack, title, changeDetectedArray);
 	}
 
 	protected ModificationStack getParentFormModificationStack() {
-		return ReflectionUIUtils.findModificationStack(
+		return SwingRendererUtils.findModificationStack(
 				ListControl.this, reflectionUI);
 	}
 
@@ -1471,7 +1472,7 @@ public class ListControl extends JPanel implements IFieldControl {
 			TableColumn col = columnModel.getColumn(i);
 			col.setPreferredWidth(col.getPreferredWidth()
 					+ 5
-					* ReflectionUIUtils
+					* SwingRendererUtils
 							.getStandardCharacterWidth(treeTableComponent));
 		}
 	}

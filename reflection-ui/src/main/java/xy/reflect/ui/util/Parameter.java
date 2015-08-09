@@ -30,7 +30,7 @@ public class Parameter extends AccessibleObject {
 			this.invokableParameterAnnotations = constructor
 					.getParameterAnnotations();
 		} else {
-			throw new AssertionError();
+			throw new ReflectionUIError();
 		}
 	}
 

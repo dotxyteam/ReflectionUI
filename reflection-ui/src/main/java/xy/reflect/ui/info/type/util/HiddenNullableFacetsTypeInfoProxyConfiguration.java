@@ -59,7 +59,7 @@ public class HiddenNullableFacetsTypeInfoProxyConfiguration extends
 		Object result = defaultValueByType.get(type);
 		if (result == null) {
 			try {
-				result = reflectionUI.onTypeInstanciationRequest(null, type,
+				result = reflectionUI.getSwingRenderer().onTypeInstanciationRequest(null, type,
 						true);
 				if (result == null) {
 					result = NULL_FOR_CACHE;

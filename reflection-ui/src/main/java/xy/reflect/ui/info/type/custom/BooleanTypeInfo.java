@@ -4,7 +4,7 @@ import java.awt.Component;
 import java.util.Collections;
 import java.util.List;
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.CheckBoxControl;
+import xy.reflect.ui.control.swing.CheckBoxControl;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;

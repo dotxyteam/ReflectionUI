@@ -232,14 +232,7 @@
         <string>Localized Message: </string>
         <string>Illegal Thread State Error</string>
         <string>Message: </string>
-        <string>Illegal Thread State Error</string>
         <string>Cause</string>
-        <string>Localized Message: </string>
-        <string>Illegal Thread State Error</string>
-        <string>Message: </string>
-        <string>Illegal Thread State Error</string>
-        <string>Cause: </string>
-        <string>Illegal Thread State Error</string>
         <string>...</string>
         <string>Stack Trace</string>
         <string>Is Native Method</string>
@@ -247,30 +240,8 @@
         <string>Class Name</string>
         <string>File Name</string>
         <string>Method Name</string>
-        <string>ReflectionUI.java</string>
-        <string>run</string>
-        <string>ReflectionUI.java</string>
         <string>run</string>
         <string>Print Stack Trace</string>
-        <string>Fill In Stack Trace</string>
-        <string>Print Stack Trace...</string>
-        <string>Print Stack Trace...</string>
-        <string>Init Cause...</string>
-        <string>Stack Trace</string>
-        <string>Is Native Method</string>
-        <string>Line Number</string>
-        <string>Class Name</string>
-        <string>File Name</string>
-        <string>Method Name</string>
-        <string>xy.reflect.ui.ReflectionUI</string>
-        <string>ReflectionUI.java</string>
-        <string>handleExceptionsFromDisplayedUI</string>
-        <string>ReflectionUI.java</string>
-        <string>run</string>
-        <string>Print Stack Trace</string>
-        <string>Fill In Stack Trace</string>
-        <string>Print Stack Trace...</string>
-        <string>Print Stack Trace...</string>
         <string>Init Cause...</string>
         <string>Close</string>
       </visibleStrings>

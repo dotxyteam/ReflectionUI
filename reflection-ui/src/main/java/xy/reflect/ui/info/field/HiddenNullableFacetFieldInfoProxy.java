@@ -28,7 +28,7 @@ public class HiddenNullableFacetFieldInfoProxy extends FieldInfoProxy {
 	}
 
 	protected Object getDefaultValue() {
-		Object result = reflectionUI.onTypeInstanciationRequest(null,
+		Object result = reflectionUI.getSwingRenderer().onTypeInstanciationRequest(null,
 				base.getType(), true);
 		if (result == null) {
 			throw new ReflectionUIError(

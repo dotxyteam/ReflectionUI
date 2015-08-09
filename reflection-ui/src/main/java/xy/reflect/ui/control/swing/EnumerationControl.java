@@ -1,4 +1,4 @@
-package xy.reflect.ui.control;
+package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -17,7 +17,7 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.IEnumerationTypeInfo;
-import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.SwingRendererUtils;
 
 public class EnumerationControl extends JPanel {
 	protected static final long serialVersionUID = 1L;
@@ -49,8 +49,8 @@ public class EnumerationControl extends JPanel {
 		if (field.isReadOnly()) {
 			comboBox.setEnabled(false);
 		} else {
-			comboBox.setBackground(ReflectionUIUtils
-					.fixSeveralColorRenderingIssues(ReflectionUIUtils
+			comboBox.setBackground(SwingRendererUtils
+					.fixSeveralColorRenderingIssues(SwingRendererUtils
 							.getTextBackgroundColor()));
 		}
 
@@ -90,7 +90,7 @@ public class EnumerationControl extends JPanel {
 						Object selected = e.getItem();
 						field.setValue(object, selected);
 					} catch (Throwable t) {
-						reflectionUI.handleExceptionsFromDisplayedUI(
+						reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(
 								EnumerationControl.this, t);
 					}
 				}

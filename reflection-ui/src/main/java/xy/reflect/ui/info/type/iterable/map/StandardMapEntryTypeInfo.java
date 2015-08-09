@@ -109,7 +109,7 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements
 						{
 							IFieldInfo keyField = getKeyField();
 							try {
-								key = reflectionUI.onTypeInstanciationRequest(
+								key = reflectionUI.getSwingRenderer().onTypeInstanciationRequest(
 										null, keyField.getType(), true);
 							} catch (Throwable ignore) {
 							}
@@ -122,7 +122,7 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements
 							IFieldInfo valueField = getValueField();
 							try {
 								value = reflectionUI
-										.onTypeInstanciationRequest(null,
+										.getSwingRenderer().onTypeInstanciationRequest(null,
 												valueField.getType(), true);
 							} catch (Throwable ignore) {
 							}

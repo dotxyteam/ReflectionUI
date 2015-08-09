@@ -1,4 +1,4 @@
-package xy.reflect.ui.control;
+package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,6 +18,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.SwingRendererUtils;
 
 public class TextControl extends JPanel implements IFieldControl {
 
@@ -39,8 +40,8 @@ public class TextControl extends JPanel implements IFieldControl {
 		setLayout(new BorderLayout());
 
 		textComponent = new JTextArea();
-		textComponent.setLineWrap(true);
-		textComponent.setWrapStyleWord(true);
+		// textComponent.setLineWrap(true);
+		// textComponent.setWrapStyleWord(true);
 
 		JScrollPane scrollPane = new JScrollPane(textComponent) {
 
@@ -49,16 +50,26 @@ public class TextControl extends JPanel implements IFieldControl {
 			@Override
 			public Dimension getPreferredSize() {
 				Dimension result = super.getPreferredSize();
+				result = fixScrollPaneSizeWHenVerticalBarVisible(result);
 				result.height = Math.min(result.height, Toolkit
 						.getDefaultToolkit().getScreenSize().height / 3);
 				return result;
+			}
+
+			private Dimension fixScrollPaneSizeWHenVerticalBarVisible(
+					Dimension size) {
+				if (getHorizontalScrollBar().isVisible()) {
+					size.height += getHorizontalScrollBar()
+							.getPreferredSize().height;
+				}
+				return size;
 			}
 		};
 		add(scrollPane, BorderLayout.CENTER);
 		textFieldNormalBorder = textComponent.getBorder();
 		if (field.isReadOnly()) {
 			textComponent.setEditable(false);
-			textComponent.setBackground(ReflectionUIUtils
+			textComponent.setBackground(SwingRendererUtils
 					.fixSeveralColorRenderingIssues(ReflectionUIUtils
 							.getDisabledTextBackgroundColor()));
 			scrollPane.setBorder(BorderFactory.createTitledBorder(""));
@@ -71,8 +82,9 @@ public class TextControl extends JPanel implements IFieldControl {
 							try {
 								onTextChange(textComponent.getText());
 							} catch (Throwable t) {
-								reflectionUI.handleExceptionsFromDisplayedUI(
-										TextControl.this, t);
+								reflectionUI.getSwingRenderer()
+										.handleExceptionsFromDisplayedUI(
+												TextControl.this, t);
 							}
 						}
 					});
@@ -98,15 +110,15 @@ public class TextControl extends JPanel implements IFieldControl {
 		if (error == null) {
 			setBorder(textFieldNormalBorder);
 			textComponent.setToolTipText("");
-			ReflectionUIUtils.showTooltipNow(textComponent);
+			SwingRendererUtils.showTooltipNow(textComponent);
 		} else {
 			TitledBorder border = BorderFactory.createTitledBorder("");
 			border.setTitleColor(Color.RED);
 			border.setBorder(BorderFactory.createLineBorder(Color.RED));
 			setBorder(border);
-			ReflectionUIUtils.setMultilineToolTipText(textComponent,
+			SwingRendererUtils.setMultilineToolTipText(textComponent,
 					reflectionUI.prepareUIString(error.toString()));
-			ReflectionUIUtils.showTooltipNow(textComponent);
+			SwingRendererUtils.showTooltipNow(textComponent);
 		}
 		return true;
 	}
@@ -120,7 +132,6 @@ public class TextControl extends JPanel implements IFieldControl {
 		} catch (Throwable t) {
 			displayError(new ReflectionUIError(t));
 		}
-		reflectionUI.handleComponentSizeChange(this);
 	}
 
 	@Override
@@ -132,13 +143,15 @@ public class TextControl extends JPanel implements IFieldControl {
 	public boolean refreshUI() {
 		textChangedByUser = false;
 		String newText = (String) field.getValue(object);
-		if(!ReflectionUIUtils.equalsOrBothNull(textComponent.getText(), newText)){
+		if (!ReflectionUIUtils.equalsOrBothNull(textComponent.getText(),
+				newText)) {
 			int lastCaretPosition = textComponent.getCaretPosition();
 			textComponent.setText(newText);
+			reflectionUI.getSwingRenderer().handleComponentSizeChange(this);
 			textComponent.setCaretPosition(Math.min(lastCaretPosition,
 					textComponent.getText().length()));
 		}
-		textChangedByUser = true;			
+		textChangedByUser = true;
 		return true;
 	}
 

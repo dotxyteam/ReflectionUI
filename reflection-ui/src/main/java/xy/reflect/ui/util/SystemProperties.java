@@ -47,9 +47,9 @@ public class SystemProperties {
 			try {
 				result.append("-D" + (String) field.get(null) + "=...\n  => " + usage.value());
 			} catch (IllegalArgumentException e) {
-				throw new AssertionError(e);
+				throw new ReflectionUIError(e);
 			} catch (IllegalAccessException e) {
-				throw new AssertionError(e);
+				throw new ReflectionUIError(e);
 			}
 		}
 		return result.toString();

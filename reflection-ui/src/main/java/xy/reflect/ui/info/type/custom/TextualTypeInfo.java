@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.List;
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.TextControl;
+import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;

@@ -1,4 +1,4 @@
-package xy.reflect.ui.control;
+package xy.reflect.ui.control.swing;
 
 import xy.reflect.ui.util.ReflectionUIError;
 
