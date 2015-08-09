@@ -145,7 +145,7 @@ public class ReflectionUI {
 		}
 	}
 
-	public void logError(ReflectionUIError t) {
+	public void logError(Throwable t) {
 		t.printStackTrace();
 	}
 

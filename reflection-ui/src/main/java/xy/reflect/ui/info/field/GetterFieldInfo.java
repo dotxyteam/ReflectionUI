@@ -3,6 +3,7 @@ package xy.reflect.ui.info.field;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -74,8 +75,7 @@ public class GetterFieldInfo implements IFieldInfo {
 
 	@Override
 	public Object getValue(Object object) {
-		return getGetterMethodInfo().invoke(object,
-				new InvocationData());
+		return getGetterMethodInfo().invoke(object, new InvocationData());
 	}
 
 	@Override
@@ -84,8 +84,8 @@ public class GetterFieldInfo implements IFieldInfo {
 		if (fieldName == null) {
 			return null;
 		}
-		return ReflectionUIUtils.getFieldValueOptionsFromAnnotatedMember(object, containingJavaClass,
-				fieldName, reflectionUI);
+		return ReflectionUIUtils.getFieldValueOptionsFromAnnotatedMember(
+				object, containingJavaClass, fieldName, reflectionUI);
 	}
 
 	@Override
@@ -180,10 +180,19 @@ public class GetterFieldInfo implements IFieldInfo {
 		if (javaMethod.getParameterTypes().length > 0) {
 			return false;
 		}
-		for (Method defaultMethod : Object.class.getMethods()) {
-			if (ReflectionUIUtils.getJavaMethodSignature(defaultMethod).equals(
+		for (Method commonMethod : Object.class.getMethods()) {
+			if (ReflectionUIUtils.getJavaMethodSignature(commonMethod).equals(
 					ReflectionUIUtils.getJavaMethodSignature(javaMethod))) {
 				return false;
+			}
+		}
+		for (Method commonExceptionMethod : Throwable.class.getMethods()) {
+			if (ReflectionUIUtils.getJavaMethodSignature(commonExceptionMethod)
+					.equals(ReflectionUIUtils
+							.getJavaMethodSignature(javaMethod))) {
+				if (Arrays.asList("getLocalizedMessage").contains(javaMethod.getName())) {
+					return false;
+				}
 			}
 		}
 		if (javaMethod.getExceptionTypes().length > 0) {
@@ -197,7 +206,7 @@ public class GetterFieldInfo implements IFieldInfo {
 		if (javaMethod.getAnnotation(ValueOptionsForField.class) != null) {
 			return false;
 		}
-		if(ReflectionUIUtils.isInfoHidden(javaMethod)){
+		if (ReflectionUIUtils.isInfoHidden(javaMethod)) {
 			return false;
 		}
 		return true;

@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -76,12 +77,9 @@ public class DefaultMethodInfo implements IMethodInfo {
 		}
 		return parameters;
 	}
-	
-
 
 	@Override
-	public Object invoke(Object object,
-			InvocationData invocationData) {
+	public Object invoke(Object object, InvocationData invocationData) {
 		Object[] args = new Object[javaMethod.getParameterTypes().length];
 		for (IParameterInfo param : getParameters()) {
 			args[param.getPosition()] = invocationData.getParameterValue(param);
@@ -148,10 +146,21 @@ public class DefaultMethodInfo implements IMethodInfo {
 		if (javaMethod.isBridge()) {
 			return false;
 		}
-		for (Method commonMethod : Object.class.getDeclaredMethods()) {
+		for (Method commonMethod : Object.class.getMethods()) {
 			if (ReflectionUIUtils.getJavaMethodSignature(commonMethod).equals(
 					ReflectionUIUtils.getJavaMethodSignature(javaMethod))) {
 				return false;
+			}
+		}
+		for (Method commonExceptionMethod : Throwable.class.getMethods()) {
+			if (ReflectionUIUtils.getJavaMethodSignature(commonExceptionMethod)
+					.equals(ReflectionUIUtils
+							.getJavaMethodSignature(javaMethod))) {
+				if (Arrays.asList("getLocalizedMessage", "initCause",
+						"fillInStackTrace", "printStackTrace").contains(
+						javaMethod.getName())) {
+					return false;
+				}
 			}
 		}
 		if (GetterFieldInfo.isCompatibleWith(javaMethod, containingJavaClass)) {
@@ -202,8 +211,8 @@ public class DefaultMethodInfo implements IMethodInfo {
 	}
 
 	@Override
-	public void validateParameters(Object object,
-			InvocationData invocationData) throws Exception {
+	public void validateParameters(Object object, InvocationData invocationData)
+			throws Exception {
 	}
 
 	@Override

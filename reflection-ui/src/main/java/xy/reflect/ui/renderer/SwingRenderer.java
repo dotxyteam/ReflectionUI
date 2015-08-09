@@ -739,10 +739,9 @@ public class SwingRenderer {
 
 	public void handleExceptionsFromDisplayedUI(Component activatorComponent,
 			final Throwable t) {
-		reflectionUI.logError(new ReflectionUIError(t));
+		reflectionUI.logError(t);
 		openErrorDialog(activatorComponent,
-				reflectionUI.prepareUIString("An Error Occured"),
-				new ReflectionUIError(t));
+				reflectionUI.prepareUIString("An Error Occured"), t);
 	}
 
 	public IFieldInfo handleValueChangeErrors(IFieldInfo field,
@@ -964,13 +963,12 @@ public class SwingRenderer {
 	}
 
 	public void openErrorDialog(Component activatorComponent, String title,
-			final ReflectionUIError error) {
+			final Throwable error) {
 		Component errorComponent = new JOptionPane(
 				createObjectForm(ReflectionUIUtils.wrapAsFieldValue(
-						reflectionUI, new Object[] { error.toString() },
-						reflectionUI.prepareUIString("Message"), "", true)),
-				JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION, null,
-				new Object[] {});
+						reflectionUI, new Object[] { ReflectionUIUtils.getPrettyMessage(error) },
+						"Message", "", true)), JOptionPane.ERROR_MESSAGE,
+				JOptionPane.DEFAULT_OPTION, null, new Object[] {});
 
 		JDialog[] dialogArray = new JDialog[1];
 

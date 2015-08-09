@@ -1093,4 +1093,10 @@ public class ReflectionUIUtils {
 		return contextTitle + " - " + localTitle;
 	}
 
+	public static String getPrettyMessage(Throwable t) {
+		return new ReflectionUIError(t).toString();
+	}
+
+	
+
 }
