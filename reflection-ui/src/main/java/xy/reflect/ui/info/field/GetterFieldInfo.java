@@ -2,7 +2,6 @@ package xy.reflect.ui.info.field;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
@@ -171,26 +170,27 @@ public class GetterFieldInfo implements IFieldInfo {
 
 	public static boolean isCompatibleWith(Method javaMethod,
 			Class<?> containingJavaClass) {
-		if (GetterFieldInfo.getFieldName(javaMethod.getName()) == null) {
+		if (javaMethod.isSynthetic()) {
 			return false;
 		}
-		if (Modifier.isStatic(javaMethod.getModifiers())) {
+		if (javaMethod.isBridge()) {
+			return false;
+		}
+		if (GetterFieldInfo.getFieldName(javaMethod.getName()) == null) {
 			return false;
 		}
 		if (javaMethod.getParameterTypes().length > 0) {
 			return false;
 		}
 		for (Method commonMethod : Object.class.getMethods()) {
-			if (ReflectionUIUtils.getJavaMethodSignature(commonMethod).equals(
-					ReflectionUIUtils.getJavaMethodSignature(javaMethod))) {
+			if (ReflectionUIUtils.isOverridenBy(commonMethod, javaMethod)) {
 				return false;
 			}
 		}
 		for (Method commonExceptionMethod : Throwable.class.getMethods()) {
-			if (ReflectionUIUtils.getJavaMethodSignature(commonExceptionMethod)
-					.equals(ReflectionUIUtils
-							.getJavaMethodSignature(javaMethod))) {
-				if (Arrays.asList("getLocalizedMessage").contains(javaMethod.getName())) {
+			if (ReflectionUIUtils.isOverridenBy(commonExceptionMethod, javaMethod)) {
+					if (Arrays.asList("getLocalizedMessage").contains(
+						javaMethod.getName())) {
 					return false;
 				}
 			}

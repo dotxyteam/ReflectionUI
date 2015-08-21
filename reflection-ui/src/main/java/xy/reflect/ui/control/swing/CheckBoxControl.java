@@ -8,6 +8,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.IFieldControl;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 

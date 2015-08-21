@@ -11,6 +11,7 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.IFieldControl;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.renderer.SwingRenderer.FieldControlPlaceHolder;

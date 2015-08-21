@@ -147,15 +147,13 @@ public class DefaultMethodInfo implements IMethodInfo {
 			return false;
 		}
 		for (Method commonMethod : Object.class.getMethods()) {
-			if (ReflectionUIUtils.getJavaMethodSignature(commonMethod).equals(
-					ReflectionUIUtils.getJavaMethodSignature(javaMethod))) {
+			if (ReflectionUIUtils.isOverridenBy(commonMethod, javaMethod)) {
 				return false;
 			}
 		}
 		for (Method commonExceptionMethod : Throwable.class.getMethods()) {
-			if (ReflectionUIUtils.getJavaMethodSignature(commonExceptionMethod)
-					.equals(ReflectionUIUtils
-							.getJavaMethodSignature(javaMethod))) {
+			if (ReflectionUIUtils.isOverridenBy(commonExceptionMethod,
+					javaMethod)) {
 				if (Arrays.asList("getLocalizedMessage", "initCause",
 						"fillInStackTrace", "printStackTrace").contains(
 						javaMethod.getName())) {
@@ -177,12 +175,12 @@ public class DefaultMethodInfo implements IMethodInfo {
 				}
 			}
 		}
+		if (ReflectionUIUtils.isJavaClassMainMethod(javaMethod)) {
+			return false;
+		}
 		if (ReflectionUIUtils
 				.getAnnotatedValidatingMethods(containingJavaClass).contains(
 						javaMethod)) {
-			return false;
-		}
-		if (ReflectionUIUtils.isJavaClassMainMethod(javaMethod)) {
 			return false;
 		}
 		if (javaMethod.getAnnotation(ValueOptionsForField.class) != null) {

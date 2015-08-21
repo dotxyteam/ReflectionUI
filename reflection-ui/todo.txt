@@ -1,4 +1,4 @@
-- add utilities classes type info
+- TextControl too high because of horizontal scrollbar
 - colors should never be set on components,
 otherwise lookandfeel dynamic change is not taken into account.
 See:

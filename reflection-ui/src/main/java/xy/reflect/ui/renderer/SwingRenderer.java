@@ -47,7 +47,7 @@ import javax.swing.SwingUtilities;
 import org.jdesktop.swingx.JXBusyLabel;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.swing.IFieldControl;
+import xy.reflect.ui.control.IFieldControl;
 import xy.reflect.ui.control.swing.MethodControl;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.InfoCategory;

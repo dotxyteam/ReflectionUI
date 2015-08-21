@@ -30,7 +30,7 @@ public class Example {
 				reflectionUI.getSwingRenderer().createObjectForm(myObject));
 
 		/*
-		 * The ReflectionUI generator assumes that that the Java coding
+		 * The ReflectionUI generator assumes that the Java coding
 		 * standards are respected for the instanciated classes. Otherwise
 		 * adjustments can be done by overriding some methods of the
 		 * ReflectionUI object:
@@ -84,8 +84,8 @@ public class Example {
 		};
 
 		/*
-		 * In order to customize the UI behavior, just override the ReflectionUI
-		 * object. For instance let set any window size to 300x300:
+		 * In order to customize the UI behavior, just override the renderer
+		 * object. For instance let set any swing window size to 300x300:
 		 */
 		reflectionUI = new ReflectionUI() {
 

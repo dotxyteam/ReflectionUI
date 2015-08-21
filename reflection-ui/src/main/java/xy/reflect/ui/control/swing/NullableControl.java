@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.IFieldControl;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -43,8 +44,9 @@ public class NullableControl extends JPanel implements IFieldControl {
 					onNullingControlStateChange();
 					subControl.requestFocus();
 				} catch (Throwable t) {
-					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(
-							NullableControl.this, t);
+					reflectionUI.getSwingRenderer()
+							.handleExceptionsFromDisplayedUI(
+									NullableControl.this, t);
 				}
 			}
 		});
@@ -54,6 +56,10 @@ public class NullableControl extends JPanel implements IFieldControl {
 		}
 
 		refreshUI();
+	}
+
+	public Component getSubControl() {
+		return subControl;
 	}
 
 	protected void setShouldBeNull(boolean b) {
@@ -68,9 +74,10 @@ public class NullableControl extends JPanel implements IFieldControl {
 	public boolean refreshUI() {
 		Object value = field.getValue(object);
 		setShouldBeNull(value == null);
-		boolean hadFocus = (subControl!=null) && SwingRendererUtils.hasOrContainsFocus(subControl);
+		boolean hadFocus = (subControl != null)
+				&& SwingRendererUtils.hasOrContainsFocus(subControl);
 		updateSubControl(value);
-		if(hadFocus && (subControl!=null)){
+		if (hadFocus && (subControl != null)) {
 			subControl.requestFocus();
 		}
 		return true;
@@ -82,15 +89,17 @@ public class NullableControl extends JPanel implements IFieldControl {
 			subControl.requestFocus();
 		}
 	}
-	
+
 	protected void onNullingControlStateChange() {
 		Object newValue;
 		if (!shoulBeNull()) {
 			try {
-				newValue = reflectionUI.getSwingRenderer().onTypeInstanciationRequest(this,
-						field.getType(), false);
+				newValue = reflectionUI.getSwingRenderer()
+						.onTypeInstanciationRequest(this, field.getType(),
+								false);
 			} catch (Throwable t) {
-				reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(this, t);
+				reflectionUI.getSwingRenderer()
+						.handleExceptionsFromDisplayedUI(this, t);
 				newValue = null;
 			}
 			if (newValue == null) {
@@ -131,7 +140,7 @@ public class NullableControl extends JPanel implements IFieldControl {
 				add(subControl, BorderLayout.CENTER);
 			}
 			reflectionUI.getSwingRenderer().handleComponentSizeChange(this);
-		}		
+		}
 	}
 
 	protected Component createNullControl(ReflectionUI reflectionUI,

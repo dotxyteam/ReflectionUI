@@ -1097,6 +1097,31 @@ public class ReflectionUIUtils {
 		return new ReflectionUIError(t).toString();
 	}
 
+	public static boolean isOverridenBy(Method baseMethod, Method overridingMethod) {
+		if(!baseMethod.getDeclaringClass().isAssignableFrom(overridingMethod.getDeclaringClass())){
+			return false;
+		}
+		if(!baseMethod.getName().equals(overridingMethod.getName())){
+			return false;
+		}
+		if(!baseMethod.getReturnType().isAssignableFrom(overridingMethod.getReturnType())){
+			return false;
+		}		
+		Class<?>[] baseMethodParamTypes = baseMethod.getParameterTypes();
+		Class<?>[] overridingMethodParamTypes = overridingMethod.getParameterTypes();
+		if(baseMethodParamTypes.length != overridingMethodParamTypes.length){
+			return false;
+		}		
+		for(int iParam=0; iParam<baseMethodParamTypes.length; iParam++){
+			Class<?> baseMethodParamType = baseMethodParamTypes[iParam];
+			Class<?> overridingMethodParamType = overridingMethodParamTypes[iParam];
+			if(!baseMethodParamType.isAssignableFrom(overridingMethodParamType)){
+				return false;
+			}			
+		}
+		return true;
+	}
+
 	
 
 }
