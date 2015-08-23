@@ -9,8 +9,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 
-import javax.swing.JOptionPane;
-
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MultiListField.MultiListVirtualParent;
@@ -46,6 +44,7 @@ public class ReflectionUI {
 			.asMap();
 
 	public static void main(String[] args) {
+		ReflectionUI reflectionUI = new ReflectionUI();
 		try {
 			Class<?> clazz = Object.class;
 			String usageText = "Expected arguments: [ <className> | --help ]"
@@ -66,10 +65,11 @@ public class ReflectionUI {
 			} else {
 				throw new IllegalArgumentException(usageText);
 			}
-			ReflectionUI reflectionUI = new ReflectionUI();
-			Object object = reflectionUI.getSwingRenderer().onTypeInstanciationRequest(null,
-					reflectionUI.getTypeInfo(new JavaTypeInfoSource(clazz)),
-					false);
+			Object object = reflectionUI.getSwingRenderer()
+					.onTypeInstanciationRequest(
+							null,
+							reflectionUI.getTypeInfo(new JavaTypeInfoSource(
+									clazz)), false);
 			if (object == null) {
 				return;
 			}
@@ -77,9 +77,8 @@ public class ReflectionUI {
 					reflectionUI.getObjectKind(object),
 					reflectionUI.getIconImage(object));
 		} catch (Throwable t) {
-			t.printStackTrace();
-			JOptionPane.showMessageDialog(null, t.toString(), null,
-					JOptionPane.ERROR_MESSAGE);
+			reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(
+					null, t);
 		}
 	}
 
@@ -127,6 +126,9 @@ public class ReflectionUI {
 	public Image getIconImage(Object object) {
 		if (object == null) {
 			return null;
+		}
+		if (object instanceof ITypeInfo) {
+			return ((ITypeInfo) object).getIconImage(null);
 		}
 		return getTypeInfo(getTypeInfoSource(object)).getIconImage(object);
 	}
@@ -242,7 +244,8 @@ public class ReflectionUI {
 	}
 
 	public String getFieldTitle(Object object, IFieldInfo field) {
-		String result = ReflectionUIUtils.composeTitle(getObjectKind(object), field.getCaption());
+		String result = ReflectionUIUtils.composeTitle(getObjectKind(object),
+				field.getCaption());
 		Object fieldValue = field.getValue(object);
 		if (fieldValue != null) {
 			String fieldValueKind = getObjectKind(field.getValue(object));
@@ -253,16 +256,19 @@ public class ReflectionUI {
 		return result;
 	}
 
-	public String getMethodTitle(Object object, IMethodInfo method, Object returnValue, String context) {
+	public String getMethodTitle(Object object, IMethodInfo method,
+			Object returnValue, String context) {
 		String result = method.getCaption();
 		if (object != null) {
-			result = ReflectionUIUtils.composeTitle(getObjectKind(object), result);
+			result = ReflectionUIUtils.composeTitle(getObjectKind(object),
+					result);
 		}
 		if (context != null) {
 			result = ReflectionUIUtils.composeTitle(result, context);
 		}
 		if (returnValue != null) {
-			result = ReflectionUIUtils.composeTitle(result, getObjectKind(returnValue));
+			result = ReflectionUIUtils.composeTitle(result,
+					getObjectKind(returnValue));
 		}
 		return result;
 	}

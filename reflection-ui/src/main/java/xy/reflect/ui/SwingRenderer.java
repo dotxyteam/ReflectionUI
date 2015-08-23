@@ -218,7 +218,7 @@ public class SwingRenderer {
 	public List<JButton> createDialogOkCancelButtons(
 			final JDialog[] dialogArray, final boolean[] okPressedArray,
 			String okCaption, final Runnable okAction,
-			boolean createCancelButton) {
+			boolean createCancelButton, String cancelCaption) {
 		List<JButton> result = new ArrayList<JButton>();
 
 		final JButton okButton = new JButton(
@@ -248,7 +248,9 @@ public class SwingRenderer {
 
 		if (createCancelButton) {
 			final JButton cancelButton = new JButton(
-					reflectionUI.prepareUIString("Cancel"));
+					reflectionUI
+							.prepareUIString((cancelCaption != null) ? cancelCaption
+									: "Cancel"));
 			result.add(cancelButton);
 			cancelButton.addActionListener(new ActionListener() {
 				@Override
@@ -664,7 +666,7 @@ public class SwingRenderer {
 		return ReflectionUIUtils.getKeysFromValue(getObjectByForm(), object);
 	}
 
-	public IFieldInfo getFormsUpdatingField(Object object, String fieldName) {
+	public IFieldInfo getFormUpdatingField(Object object, String fieldName) {
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI
 				.getTypeInfoSource(object));
 		IFieldInfo field = ReflectionUIUtils.findInfoByName(type.getFields(),
@@ -675,7 +677,7 @@ public class SwingRenderer {
 		return field;
 	}
 
-	public IMethodInfo getFormsUpdatingMethod(Object object,
+	public IMethodInfo getFormUpdatingMethod(Object object,
 			String methodSignature) {
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI
 				.getTypeInfoSource(object));
@@ -943,10 +945,8 @@ public class SwingRenderer {
 
 	public ITypeInfo openConcreteClassSelectionDialog(
 			Component parentComponent, ITypeInfo type) {
-		String className = JOptionPane.showInputDialog(
-				parentComponent,
-				reflectionUI.prepareUIString("Class name of the '"
-						+ type.getCaption() + "' you want to create:"));
+		String className = openInputDialog(parentComponent, "", "Class name of the '"
+						+ type.getCaption() + "' you want to create:", null);
 		if (className == null) {
 			return null;
 		}
@@ -980,7 +980,7 @@ public class SwingRenderer {
 		});
 		buttons.add(deatilsButton);
 		buttons.addAll(createDialogOkCancelButtons(dialogArray, null, "Close",
-				null, false));
+				null, false, null));
 
 		dialogArray[0] = createDialog(activatorComponent, errorComponent,
 				title, null, buttons, null);
@@ -991,8 +991,8 @@ public class SwingRenderer {
 	public void openErrorDetailsDialog(Component activatorComponent,
 			Throwable error) {
 		openObjectDialog(activatorComponent, error, "Error Details",
-				reflectionUI.getIconImage(error), true, null, null, null,
-				null, IInfoCollectionSettings.READ_ONLY);
+				reflectionUI.getIconImage(error), true, null, null, null, null,
+				IInfoCollectionSettings.READ_ONLY);
 	}
 
 	public void openMethodReturnValueWindow(Component activatorComponent,
@@ -1000,7 +1000,7 @@ public class SwingRenderer {
 		if (returnValue == null) {
 			String msg = "'" + method.getCaption()
 					+ "' excution returned no result!";
-			showMessageDialog(activatorComponent, msg,
+			openMessageDialog(activatorComponent, msg,
 					reflectionUI.getMethodTitle(object, method, null, "Result"));
 		} else {
 			openValueFrame(returnValue, IInfoCollectionSettings.DEFAULT,
@@ -1121,10 +1121,10 @@ public class SwingRenderer {
 		JDialog[] dialogArray = new JDialog[1];
 		if (settings.allReadOnly()) {
 			toolbarControls.addAll(createDialogOkCancelButtons(dialogArray,
-					null, "Close", null, false));
+					null, "Close", null, false, null));
 		} else {
 			toolbarControls.addAll(createDialogOkCancelButtons(dialogArray,
-					okPressedArray, "OK", null, true));
+					okPressedArray, "OK", null, true, null));
 		}
 		dialogArray[0] = createDialog(parent, form, title, iconImage,
 				toolbarControls, whenClosingDialog);
@@ -1169,6 +1169,48 @@ public class SwingRenderer {
 		} else {
 			return null;
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> T openInputDialog(Component parentComponent,
+			T initialValue, String message, String title) {
+		if(initialValue == null){
+			throw new ReflectionUIError();
+		}
+		final Object[] valueArray = new Object[] { initialValue };
+		final Object valueAsField = ValueAsFieldTypeInfo.wrap(
+				reflectionUI, valueArray, message, "Selection",
+				false);
+		if (openValueDialog(parentComponent,
+				Accessor.returning(valueAsField),
+				IInfoCollectionSettings.DEFAULT, null, title, new boolean[1])) {
+			return (T) valueArray[0];
+		} else {
+			return null;
+		}
+	}
+
+	public boolean openQuestionDialog(Component activatorComponent,
+			String question, String title) {
+		return openQuestionDialog(activatorComponent, question, title, "Yes",
+				"No");
+	}
+
+	public boolean openQuestionDialog(Component activatorComponent,
+			String question, String title, String yesCaption, String noCaption) {
+		JDialog[] dialogArray = new JDialog[1];
+		boolean[] okPressedArray = new boolean[] { false };
+		showDialog(
+				dialogArray[0] = createDialog(
+						activatorComponent,
+						new JLabel("<HTML><BR>" + question + "<BR><BR><HTML>",
+								SwingConstants.CENTER),
+						title,
+						null,
+						createDialogOkCancelButtons(dialogArray,
+								okPressedArray, yesCaption, null, true,
+								noCaption), null), true);
+		return okPressedArray[0];
 	}
 
 	public boolean openValueDialog(Component activatorComponent,
@@ -1258,8 +1300,7 @@ public class SwingRenderer {
 		} else {
 			toOpen = valueArray[0];
 		}
-		openObjectFrame(toOpen, title,
-				reflectionUI.getIconImage(valueArray[0]));
+		openObjectFrame(toOpen, title, reflectionUI.getIconImage(valueArray[0]));
 	}
 
 	public void refreshAllFieldControls(JPanel form) {
@@ -1349,7 +1390,7 @@ public class SwingRenderer {
 		}
 	}
 
-	public void showMessageDialog(Component activatorComponent, String msg,
+	public void openMessageDialog(Component activatorComponent, String msg,
 			String title) {
 		JDialog[] dialogArray = new JDialog[1];
 		showDialog(
@@ -1360,7 +1401,7 @@ public class SwingRenderer {
 						title,
 						null,
 						createDialogOkCancelButtons(dialogArray, null, null,
-								null, false), null), true);
+								null, false, null), null), true);
 	}
 
 	public void updateFieldControlLayout(

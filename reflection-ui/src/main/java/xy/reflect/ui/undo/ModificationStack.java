@@ -22,10 +22,10 @@ public class ModificationStack {
 
 	protected static final String UNDO_TITLE_PREFIX = "(Revert) ";
 
-	public static final IModification NULL_MODIFICATION = new IModification() {
+	public static final IModification EMPTY_MODIFICATION = new IModification() {
 		@Override
 		public IModification applyAndGetOpposite(boolean refreshView) {
-			return NULL_MODIFICATION;
+			return EMPTY_MODIFICATION;
 		}
 
 		@Override
@@ -97,11 +97,10 @@ public class ModificationStack {
 			compositeStack.peek().pushUndo(undoModif);
 			return;
 		}
-		if (undoModif.getNumberOfUnits() == 0) {
-			return;
+		if (undoModif.getNumberOfUnits() > 0) {
+			undoStack.push(undoModif);
+			redoStack.clear();
 		}
-		undoStack.push(undoModif);
-		redoStack.clear();
 		notifyListeners(DO_EVENT);
 	}
 
@@ -320,7 +319,8 @@ public class ModificationStack {
 				try {
 					action.run();
 				} catch (Throwable t) {
-					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(result, t);
+					reflectionUI.getSwingRenderer()
+							.handleExceptionsFromDisplayedUI(result, t);
 				}
 			}
 		});

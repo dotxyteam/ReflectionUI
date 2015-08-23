@@ -26,7 +26,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
@@ -152,7 +151,8 @@ public class ListControl extends JPanel implements IFieldControl {
 			}
 
 		}
-		reflectionUI.getSwingRenderer().handleComponentSizeChange(ListControl.this);
+		reflectionUI.getSwingRenderer().handleComponentSizeChange(
+				ListControl.this);
 		toolbar.repaint();
 	}
 
@@ -607,12 +607,7 @@ public class ListControl extends JPanel implements IFieldControl {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if (JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(
-							SwingUtilities
-									.getWindowAncestor(treeTableComponent),
-							reflectionUI
-									.prepareUIString("Remove all the items?"),
-							"", JOptionPane.OK_CANCEL_OPTION)) {
+					if (userConfirms("Remove all the items?")) {
 						getRootList().clear();
 						refreshStructure();
 					}
@@ -623,6 +618,12 @@ public class ListControl extends JPanel implements IFieldControl {
 				}
 			}
 		};
+	}
+
+	protected boolean userConfirms(String question) {
+		return reflectionUI.getSwingRenderer().openQuestionDialog(
+				SwingUtilities.getWindowAncestor(treeTableComponent),
+				question, null, "OK", "Cancel");
 	}
 
 	protected AbstractAction createMoveAction(final int offset) {
@@ -700,10 +701,10 @@ public class ListControl extends JPanel implements IFieldControl {
 
 	public AutoUpdatingFieldItemPosition findItemPosition(final Object item) {
 		final AutoUpdatingFieldItemPosition[] result = new AutoUpdatingFieldItemPosition[1];
-		visitItems(new IItemsVisitor() {			
+		visitItems(new IItemsVisitor() {
 			@Override
 			public boolean visitItem(AutoUpdatingFieldItemPosition itemPosition) {
-				if(reflectionUI.equals(itemPosition.getItem(), item)){
+				if (reflectionUI.equals(itemPosition.getItem(), item)) {
 					result[0] = itemPosition;
 					return false;
 				}
@@ -739,7 +740,11 @@ public class ListControl extends JPanel implements IFieldControl {
 		}
 		treeTableComponent.getTreeSelectionModel().setSelectionPaths(
 				treePaths.toArray(new TreePath[treePaths.size()]));
-		treeTableComponent.scrollRowToVisible(treeTableComponent.getRowForPath(treePaths.get(0)));
+		try {
+			treeTableComponent.scrollRowToVisible(treeTableComponent
+					.getRowForPath(treePaths.get(0)));
+		} catch (Throwable ignore) {
+		}
 		updateToolbar();
 	}
 
@@ -771,12 +776,7 @@ public class ListControl extends JPanel implements IFieldControl {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if (JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(
-							SwingUtilities
-									.getWindowAncestor(treeTableComponent),
-							reflectionUI
-									.prepareUIString("Remove the element(s)?"),
-							"", JOptionPane.OK_CANCEL_OPTION)) {
+					if (userConfirms("Remove the element(s)?")) {
 						List<AutoUpdatingFieldItemPosition> selection = getSelection();
 						selection = new ArrayList<AutoUpdatingFieldItemPosition>(
 								selection);
@@ -1520,7 +1520,7 @@ public class ListControl extends JPanel implements IFieldControl {
 				.getContainingAutoUpdatingFieldList();
 		for (int i = 0; i < list.size(); i++) {
 			currentListItemPosition = currentListItemPosition.getSibling(i);
-			if(!iItemsVisitor.visitItem(currentListItemPosition)){
+			if (!iItemsVisitor.visitItem(currentListItemPosition)) {
 				return;
 			}
 			IListStructuralInfo treeInfo = getStructuralInfo();

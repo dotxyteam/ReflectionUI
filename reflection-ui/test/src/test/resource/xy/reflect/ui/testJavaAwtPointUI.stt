@@ -69,5 +69,313 @@
       </visibleStrings>
       <windowIndex>0</windowIndex>
     </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+    <xy.ui.testing.action.component.SendKeysAction>
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>javax.swing.JTextArea</componentClassName>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <windowIndex>0</windowIndex>
+      </componentFinder>
+      <keyboardInteractions>
+        <xy.ui.testing.action.component.SendKeysAction_-SpecialKey_-CtrlA>
+          <altDown>false</altDown>
+          <altGrtDown>false</altGrtDown>
+          <ctrlDown>true</ctrlDown>
+          <keyName>KEY_A</keyName>
+          <metaDown>false</metaDown>
+          <shiftDown>false</shiftDown>
+        </xy.ui.testing.action.component.SendKeysAction_-SpecialKey_-CtrlA>
+        <xy.ui.testing.action.component.SendKeysAction_-WriteText>
+          <text>1</text>
+        </xy.ui.testing.action.component.SendKeysAction_-WriteText>
+      </keyboardInteractions>
+      <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
+    </xy.ui.testing.action.component.SendKeysAction>
+    <xy.ui.testing.action.component.SendKeysAction>
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>javax.swing.JTextArea</componentClassName>
+        <occurrencesToSkip>1</occurrencesToSkip>
+        <windowIndex>0</windowIndex>
+      </componentFinder>
+      <keyboardInteractions>
+        <xy.ui.testing.action.component.SendKeysAction_-SpecialKey_-CtrlA>
+          <altDown>false</altDown>
+          <altGrtDown>false</altGrtDown>
+          <ctrlDown>true</ctrlDown>
+          <keyName>KEY_A</keyName>
+          <metaDown>false</metaDown>
+          <shiftDown>false</shiftDown>
+        </xy.ui.testing.action.component.SendKeysAction_-SpecialKey_-CtrlA>
+        <xy.ui.testing.action.component.SendKeysAction_-WriteText>
+          <text>2</text>
+        </xy.ui.testing.action.component.SendKeysAction_-WriteText>
+      </keyboardInteractions>
+      <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
+    </xy.ui.testing.action.component.SendKeysAction>
+    <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+      <completenessChecked>false</completenessChecked>
+      <orderChecked>false</orderChecked>
+      <visibleStrings>
+        <string>Point</string>
+        <string>X: </string>
+        <string>1</string>
+        <string>Y: </string>
+        <string>2</string>
+        <string>Location: </string>
+        <string>Point[x=1,y=2]</string>
+        <string>...</string>
+        <string>Clone</string>
+        <string>Set Location...</string>
+        <string>Distance...</string>
+        <string>Distance Sq...</string>
+        <string>Distance...</string>
+        <string>Distance Sq...</string>
+        <string>Move...</string>
+        <string>Set Location...</string>
+        <string>Translate...</string>
+        <string>Set Location...</string>
+        <string>Distance...</string>
+        <string>Distance Sq...</string>
+        <string>Undo</string>
+        <string>Redo</string>
+        <string>Reset</string>
+      </visibleStrings>
+      <windowIndex>0</windowIndex>
+    </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>Move...</visibleString>
+        <windowIndex>0</windowIndex>
+      </componentFinder>
+      <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.SendKeysAction>
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>javax.swing.JTextArea</componentClassName>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <keyboardInteractions>
+        <xy.ui.testing.action.component.SendKeysAction_-SpecialKey_-CtrlA>
+          <altDown>false</altDown>
+          <altGrtDown>false</altGrtDown>
+          <ctrlDown>true</ctrlDown>
+          <keyName>KEY_A</keyName>
+          <metaDown>false</metaDown>
+          <shiftDown>false</shiftDown>
+        </xy.ui.testing.action.component.SendKeysAction_-SpecialKey_-CtrlA>
+        <xy.ui.testing.action.component.SendKeysAction_-WriteText>
+          <text>3</text>
+        </xy.ui.testing.action.component.SendKeysAction_-WriteText>
+      </keyboardInteractions>
+      <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
+    </xy.ui.testing.action.component.SendKeysAction>
+    <xy.ui.testing.action.component.SendKeysAction>
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>javax.swing.JTextArea</componentClassName>
+        <occurrencesToSkip>1</occurrencesToSkip>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <keyboardInteractions>
+        <xy.ui.testing.action.component.SendKeysAction_-SpecialKey_-CtrlA>
+          <altDown>false</altDown>
+          <altGrtDown>false</altGrtDown>
+          <ctrlDown>true</ctrlDown>
+          <keyName>KEY_A</keyName>
+          <metaDown>false</metaDown>
+          <shiftDown>false</shiftDown>
+        </xy.ui.testing.action.component.SendKeysAction_-SpecialKey_-CtrlA>
+        <xy.ui.testing.action.component.SendKeysAction_-WriteText>
+          <text>4</text>
+        </xy.ui.testing.action.component.SendKeysAction_-WriteText>
+      </keyboardInteractions>
+      <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
+    </xy.ui.testing.action.component.SendKeysAction>
+    <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+      <completenessChecked>false</completenessChecked>
+      <orderChecked>false</orderChecked>
+      <visibleStrings>
+        <string>Point - Move - Setting</string>
+        <string>X (Int): </string>
+        <string>3</string>
+        <string>Y (Int): </string>
+        <string>4</string>
+        <string>Move</string>
+        <string>Cancel</string>
+      </visibleStrings>
+      <windowIndex>1</windowIndex>
+    </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>Move</visibleString>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+      <completenessChecked>false</completenessChecked>
+      <orderChecked>false</orderChecked>
+      <visibleStrings>
+        <string>Point</string>
+        <string>X: </string>
+        <string>3</string>
+        <string>Y: </string>
+        <string>4</string>
+        <string>Location: </string>
+        <string>Point[x=3,y=4]</string>
+        <string>...</string>
+        <string>Clone</string>
+        <string>Set Location...</string>
+        <string>Distance...</string>
+        <string>Distance Sq...</string>
+        <string>Distance...</string>
+        <string>Distance Sq...</string>
+        <string>Move...</string>
+        <string>Set Location...</string>
+        <string>Translate...</string>
+        <string>Set Location...</string>
+        <string>Distance...</string>
+        <string>Distance Sq...</string>
+        <string>Undo</string>
+        <string>Redo</string>
+        <string>Reset</string>
+      </visibleStrings>
+      <windowIndex>0</windowIndex>
+    </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>...</visibleString>
+        <windowIndex>0</windowIndex>
+      </componentFinder>
+      <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+      <completenessChecked>false</completenessChecked>
+      <orderChecked>false</orderChecked>
+      <visibleStrings>
+        <string>Point - Location - Point</string>
+        <string>X: </string>
+        <string>3</string>
+        <string>Y: </string>
+        <string>4</string>
+        <string>Location: </string>
+        <string>Point[x=3,y=4]</string>
+        <string>...</string>
+        <string>Clone</string>
+        <string>Set Location...</string>
+        <string>Distance...</string>
+        <string>Distance Sq...</string>
+        <string>Distance...</string>
+        <string>Distance Sq...</string>
+        <string>Move...</string>
+        <string>Set Location...</string>
+        <string>Translate...</string>
+        <string>Set Location...</string>
+        <string>Distance...</string>
+        <string>Distance Sq...</string>
+        <string>Undo</string>
+        <string>Redo</string>
+        <string>Reset</string>
+        <string>OK</string>
+        <string>Cancel</string>
+      </visibleStrings>
+      <windowIndex>1</windowIndex>
+    </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>OK</visibleString>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>javax.swing.JCheckBox</componentClassName>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <windowIndex>0</windowIndex>
+      </componentFinder>
+      <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+      <completenessChecked>false</completenessChecked>
+      <orderChecked>false</orderChecked>
+      <visibleStrings>
+        <string>An Error Occured</string>
+        <string>Message: </string>
+        <string>Missing Value Error</string>
+        <string>Details</string>
+        <string>Close</string>
+      </visibleStrings>
+      <windowIndex>1</windowIndex>
+    </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>Details</visibleString>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+      <completenessChecked>false</completenessChecked>
+      <orderChecked>false</orderChecked>
+      <visibleStrings>
+        <string>Error Details</string>
+        <string>Localized Message: </string>
+        <string>Missing Value Error</string>
+        <string>Message: </string>
+        <string>Missing Value Error</string>
+        <string>Cause: </string>
+        <string>Missing Value Error</string>
+        <string>...</string>
+        <string>Stack Trace</string>
+        <string>Is Native Method</string>
+        <string>Line Number</string>
+        <string>Class Name</string>
+        <string>File Name</string>
+        <string>Method Name</string>
+        <string>Print Stack Trace</string>
+        <string>Fill In Stack Trace</string>
+        <string>Print Stack Trace...</string>
+        <string>Print Stack Trace...</string>
+        <string>Init Cause...</string>
+        <string>Close</string>
+      </visibleStrings>
+      <windowIndex>2</windowIndex>
+    </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+    <xy.ui.testing.action.window.CloseWindowAction>
+      <windowIndex>2</windowIndex>
+    </xy.ui.testing.action.window.CloseWindowAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>Close</visibleString>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.window.CloseWindowAction>
+      <windowIndex>0</windowIndex>
+    </xy.ui.testing.action.window.CloseWindowAction>
+    <xy.ui.testing.action.CheckNumberOfOpenWindowsAction>
+      <count>0</count>
+    </xy.ui.testing.action.CheckNumberOfOpenWindowsAction>
   </testActions>
 </xy.ui.testing.Tester>
