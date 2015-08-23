@@ -2,7 +2,6 @@ package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,10 +15,9 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.HiddenNullableFacetFieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
-import xy.reflect.ui.info.type.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.util.ArrayAsEnumerationTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
@@ -154,101 +152,14 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 
 			@Override
 			public ITypeInfo getType() {
-				return new IEnumerationTypeInfo() {
-
-					@Override
-					public String getName() {
-						return "";
-					}
-
-					@Override
-					public String getCaption() {
-						return "";
-					}
-
-					@Override
-					public Map<String, Object> getSpecificProperties() {
-						return Collections.emptyMap();
-					}
-
-					@Override
-					public boolean supportsInstance(Object object) {
-						return object instanceof ITypeInfo;
-					}
-
-					@Override
-					public boolean isConcrete() {
-						return true;
-					}
-
-					@Override
-					public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
-						return null;
-					}
-
-					@Override
-					public List<IMethodInfo> getMethods() {
-						return Collections.emptyList();
-					}
-
-					@Override
-					public List<IFieldInfo> getFields() {
-						return Collections.emptyList();
-					}
-
-					@Override
-					public List<IMethodInfo> getConstructors() {
-						return Collections.emptyList();
-					}
-
-					@Override
-					public Component createFieldControl(Object object,
-							IFieldInfo field) {
-						throw new ReflectionUIError();
-					}
-
-					@Override
-					public Object[] getPossibleValues() {
-						List<ITypeInfo> result = new ArrayList<ITypeInfo>();
-						if (PolymorphicEmbeddedForm.this.field.isNullable()) {
-							result.add(NULL_POLY_TYPE);
-						}
-						for (ITypeInfo subType : subTypes) {
-							result.add(subType);
-						}
-						return result.toArray();
-					}
-
-					@Override
-					public boolean hasCustomFieldControl() {
-						return true;
-					}
-
-					@Override
-					public String toString(Object object) {
-						return reflectionUI.toString(object);
-					}
-
-					@Override
-					public Image getIconImage(Object object) {
-						return reflectionUI.getIconImage(object);
-					}
-
-					@Override
-					public String getOnlineHelp() {
-						return null;
-					}
-
-					@Override
-					public String formatEnumerationItem(Object object) {
-						return ((ITypeInfo) object).getCaption();
-					}
-
-					@Override
-					public void validate(Object object) throws Exception {
-					}
-
-				};
+				List<ITypeInfo> possibleValues = new ArrayList<ITypeInfo>(
+						subTypes);
+				if (PolymorphicEmbeddedForm.this.field.isNullable()) {
+					possibleValues.add(0, NULL_POLY_TYPE);
+				}
+				return new ArrayAsEnumerationTypeInfo(reflectionUI,
+						possibleValues.toArray(), PolymorphicEmbeddedForm.class
+								.getSimpleName() + " Enumeration Type");
 			}
 
 			@Override
@@ -263,7 +174,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 	}
 
 	protected Component createDynamicControl(final ITypeInfo instanceType) {
-		return instanceType.createFieldControl(object,
+		return reflectionUI.getSwingRenderer().createFieldControl(object,
 				new HiddenNullableFacetFieldInfoProxy(reflectionUI, field) {
 
 					@Override

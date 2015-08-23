@@ -1,13 +1,11 @@
 package xy.reflect.ui.info.type.util;
 
-import java.awt.Component;
 import java.awt.Image;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.swing.EmbeddedFormControl;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -131,11 +129,6 @@ public class ValueAsFieldTypeInfo implements ITypeInfo {
 	}
 
 	@Override
-	public Component createFieldControl(Object object, IFieldInfo field) {
-		return new EmbeddedFormControl(reflectionUI, null, field);
-	}
-
-	@Override
 	public boolean supportsInstance(Object object) {
 		return object instanceof InstanceInfo;
 	}
@@ -143,11 +136,6 @@ public class ValueAsFieldTypeInfo implements ITypeInfo {
 	@Override
 	public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
 		return null;
-	}
-
-	@Override
-	public boolean hasCustomFieldControl() {
-		return false;
 	}
 
 	@Override
@@ -228,14 +216,6 @@ public class ValueAsFieldTypeInfo implements ITypeInfo {
 			final String wrapperTypeCaption, final boolean readOnly) {
 		final ITypeInfo fieldType = reflectionUI.getTypeInfo(reflectionUI
 				.getTypeInfoSource(fieldValueArray[0]));
-		return wrap(reflectionUI, fieldType, fieldValueArray, fieldCaption,
-				wrapperTypeCaption, readOnly);
-	}
-
-	public static Object wrap(ReflectionUI reflectionUI,
-			final ITypeInfo fieldType, final Object[] fieldValueArray,
-			final String fieldCaption, final String wrapperTypeCaption,
-			final boolean readOnly) {
 		ValueAsFieldTypeInfo wrapperType = new ValueAsFieldTypeInfo(
 				reflectionUI, fieldType, fieldCaption, readOnly,
 				wrapperTypeCaption);

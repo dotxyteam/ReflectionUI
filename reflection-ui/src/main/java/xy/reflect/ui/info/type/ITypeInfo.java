@@ -1,6 +1,5 @@
 package xy.reflect.ui.info.type;
 
-import java.awt.Component;
 import java.awt.Image;
 import java.util.List;
 
@@ -18,13 +17,9 @@ public interface ITypeInfo extends IInfo {
 
 	List<IMethodInfo> getMethods();
 
-	Component createFieldControl(Object object, IFieldInfo field);
-
 	boolean supportsInstance(Object object);
 
 	List<ITypeInfo> getPolymorphicInstanceSubTypes();
-
-	boolean hasCustomFieldControl();
 
 	String toString(Object object);
 	

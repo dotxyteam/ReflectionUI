@@ -1,6 +1,5 @@
 package xy.reflect.ui.info.type;
 
-import java.awt.Component;
 import java.awt.Image;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -9,32 +8,21 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.swing.DialogAccessControl;
-import xy.reflect.ui.control.swing.EmbeddedFormControl;
-import xy.reflect.ui.control.swing.EnumerationControl;
-import xy.reflect.ui.control.swing.NullableControl;
-import xy.reflect.ui.control.swing.PolymorphicEmbeddedForm;
-import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.PublicFieldInfo;
 import xy.reflect.ui.info.method.DefaultConstructorMethodInfo;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
-import xy.reflect.ui.info.type.util.TypeInfoProxyConfiguration;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class DefaultTypeInfo implements ITypeInfo {
 
-	protected static final String DO_NOT_CREATE_EMBEDDED_FORM_PROPRTY_KEY = DefaultTypeInfo.class
-			.getName() + "#IS_EMBEDDED_FORM_CONTENT_PROPRTY_KEY";
 	protected Class<?> javaType;
 	protected ReflectionUI reflectionUI;
 	protected List<IFieldInfo> fields;
@@ -148,210 +136,6 @@ public class DefaultTypeInfo implements ITypeInfo {
 	}
 
 	@Override
-	public Component createFieldControl(Object object, IFieldInfo field) {
-		if (field.getValueOptions(object) != null) {
-			return createOptionsControl(object, field);
-		} else if (field.getType().getPolymorphicInstanceSubTypes() != null) {
-			return new PolymorphicEmbeddedForm(reflectionUI, object, field);
-		} else if (field.isNullable()) {
-			return new NullableControl(reflectionUI, object, field, this);
-		} else {
-			return createNonNullFieldValueControl(object, field);
-		}
-	}
-
-	protected Component createOptionsControl(final Object object,
-			final IFieldInfo field) {
-		return new EnumerationControl(reflectionUI, object, new FieldInfoProxy(
-				field) {
-
-			@Override
-			public ITypeInfo getType() {
-				final ITypeInfo declaredType = field.getType();
-				return new IEnumerationTypeInfo() {
-
-					@Override
-					public Map<String, Object> getSpecificProperties() {
-						return Collections.emptyMap();
-					}
-
-					@Override
-					public String getName() {
-						return "";
-					}
-
-					@Override
-					public String getOnlineHelp() {
-						return null;
-					}
-
-					@Override
-					public String getCaption() {
-						return "";
-					}
-
-					@Override
-					public void validate(Object object) throws Exception {
-					}
-
-					@Override
-					public String toString(Object object) {
-						return reflectionUI.toString(object);
-					}
-
-					@Override
-					public boolean supportsInstance(Object object) {
-						return declaredType.supportsInstance(object);
-					}
-
-					@Override
-					public boolean isConcrete() {
-						return true;
-					}
-
-					@Override
-					public boolean hasCustomFieldControl() {
-						return true;
-					}
-
-					@Override
-					public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
-						return null;
-					}
-
-					@Override
-					public List<IMethodInfo> getMethods() {
-						return Collections.emptyList();
-					}
-
-					@Override
-					public List<IFieldInfo> getFields() {
-						return Collections.emptyList();
-					}
-
-					@Override
-					public List<IMethodInfo> getConstructors() {
-						return Collections.emptyList();
-					}
-
-					@Override
-					public Component createFieldControl(Object object,
-							IFieldInfo field) {
-						throw new ReflectionUIError();
-					}
-
-					@Override
-					public Object[] getPossibleValues() {
-						return field.getValueOptions(object);
-					}
-
-					@Override
-					public String formatEnumerationItem(Object object) {
-						return reflectionUI.toString(object);
-					}
-
-					@Override
-					public Image getIconImage(Object object) {
-						return reflectionUI.getIconImage(object);
-					}
-				};
-			}
-
-		});
-	}
-
-	public Component createNonNullFieldValueControl(Object object,
-			IFieldInfo field) {
-		Object fieldValue = field.getValue(object);
-		final ITypeInfo fieldValueType = reflectionUI.getTypeInfo(reflectionUI
-				.getTypeInfoSource(fieldValue));
-		if (!fieldValueType.equals(this)) {
-			if (fieldValueType instanceof DefaultTypeInfo) {
-				return ((DefaultTypeInfo) fieldValueType)
-						.createNonNullFieldValueControl(object,
-								new FieldInfoProxy(field) {
-									@Override
-									public ITypeInfo getType() {
-										return fieldValueType;
-									}
-								});
-			}
-		}
-		boolean shouldCreateEmbeddedForm = false;
-		if (shouldNotCreateEmbeddedForm(field)) {
-			field = preventRecursiveEmbeddedForm(field);
-		} else {
-			if (!fieldValueType.hasCustomFieldControl()) {
-				if ((fieldValueType.getFields().size() + fieldValueType
-						.getMethods().size() / 3) <= 4) {
-					shouldCreateEmbeddedForm = true;
-					field = preventRecursiveEmbeddedForm(field);
-				}
-			}
-		}
-		if (shouldCreateEmbeddedForm) {
-			return new EmbeddedFormControl(reflectionUI, object, field);
-		} else {
-			return new DialogAccessControl(reflectionUI, object, field);
-		}
-	}
-
-	protected boolean shouldNotCreateEmbeddedForm(IFieldInfo field) {
-		return Boolean.TRUE.equals(field.getSpecificProperties().get(
-				DO_NOT_CREATE_EMBEDDED_FORM_PROPRTY_KEY));
-	}
-
-	protected IFieldInfo preventRecursiveEmbeddedForm(IFieldInfo field) {
-		return new FieldInfoProxy(field) {
-
-			@Override
-			public Object getValue(Object object) {
-				Object result = super.getValue(object);
-				if (result != null) {
-					ITypeInfo resultType = reflectionUI
-							.getTypeInfo(reflectionUI.getTypeInfoSource(result));
-					resultType = new TypeInfoProxyConfiguration() {
-
-						@Override
-						protected List<IFieldInfo> getFields(ITypeInfo type) {
-							List<IFieldInfo> result = new ArrayList<IFieldInfo>();
-							for (IFieldInfo field : super.getFields(type)) {
-								field = new FieldInfoProxy(field) {
-									@Override
-									public Map<String, Object> getSpecificProperties() {
-										Map<String, Object> result = new HashMap<String, Object>(
-												super.getSpecificProperties());
-										result.put(
-												DO_NOT_CREATE_EMBEDDED_FORM_PROPRTY_KEY,
-												true);
-										return result;
-									}
-								};
-								result.add(field);
-							}
-							return result;
-						}
-
-					}.get(resultType);
-					result = new PrecomputedTypeInfoInstanceWrapper(result,
-							resultType);
-				}
-				return result;
-			}
-
-			@Override
-			public void setValue(Object object, Object value) {
-				if (value != null) {
-					value = ((PrecomputedTypeInfoInstanceWrapper) value)
-							.getInstance();
-				}
-				super.setValue(object, value);
-			}
-
-		};
-	}
-
-	@Override
 	public boolean supportsInstance(Object object) {
 		if (javaType.isPrimitive()) {
 			return ReflectionUIUtils.primitiveToWrapperType(javaType)
@@ -386,11 +170,6 @@ public class DefaultTypeInfo implements ITypeInfo {
 	@Override
 	public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
 		return null;
-	}
-
-	@Override
-	public boolean hasCustomFieldControl() {
-		return false;
 	}
 
 	@Override

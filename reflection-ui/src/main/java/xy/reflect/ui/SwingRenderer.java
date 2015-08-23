@@ -30,6 +30,7 @@ import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -46,8 +47,18 @@ import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.JXBusyLabel;
 
+import xy.reflect.ui.control.swing.CheckBoxControl;
+import xy.reflect.ui.control.swing.DialogAccessControl;
+import xy.reflect.ui.control.swing.EmbeddedFormControl;
+import xy.reflect.ui.control.swing.EnumerationControl;
+import xy.reflect.ui.control.swing.FileControl;
 import xy.reflect.ui.control.swing.IFieldControl;
+import xy.reflect.ui.control.swing.ListControl;
 import xy.reflect.ui.control.swing.MethodControl;
+import xy.reflect.ui.control.swing.NullControl;
+import xy.reflect.ui.control.swing.PolymorphicEmbeddedForm;
+import xy.reflect.ui.control.swing.PrimitiveValueControl;
+import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.FieldInfoProxy;
@@ -59,6 +70,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.ArrayAsEnumerationTypeInfo;
 import xy.reflect.ui.info.type.util.MethodParametersAsTypeInfo;
+import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.info.type.util.ValueAsFieldTypeInfo;
 import xy.reflect.ui.undo.CompositeModification;
 import xy.reflect.ui.undo.IModification;
@@ -77,6 +89,7 @@ import xy.reflect.ui.util.component.WrapLayout;
 import com.google.common.collect.MapMaker;
 
 public class SwingRenderer {
+
 	ReflectionUI reflectionUI;
 	protected Map<JPanel, Object> objectByForm = new MapMaker().weakKeys()
 			.makeMap();
@@ -945,8 +958,9 @@ public class SwingRenderer {
 
 	public ITypeInfo openConcreteClassSelectionDialog(
 			Component parentComponent, ITypeInfo type) {
-		String className = openInputDialog(parentComponent, "", "Class name of the '"
-						+ type.getCaption() + "' you want to create:", null);
+		String className = openInputDialog(parentComponent, "",
+				"Class name of the '" + type.getCaption()
+						+ "' you want to create:", null);
 		if (className == null) {
 			return null;
 		}
@@ -1159,12 +1173,15 @@ public class SwingRenderer {
 		final Object[] chosenItemArray = new Object[] { initialSelection };
 		ITypeInfo enumType = new ArrayAsEnumerationTypeInfo(reflectionUI,
 				choices.toArray(), "");
+		chosenItemArray[0] = new PrecomputedTypeInfoInstanceWrapper(
+				chosenItemArray[0], enumType);
 		final Object chosenItemAsField = ValueAsFieldTypeInfo.wrap(
-				reflectionUI, enumType, chosenItemArray, message, "Selection",
-				false);
+				reflectionUI, chosenItemArray, message, "Selection", false);
 		if (openValueDialog(parentComponent,
 				Accessor.returning(chosenItemAsField),
 				IInfoCollectionSettings.DEFAULT, null, title, new boolean[1])) {
+			chosenItemArray[0] = ((PrecomputedTypeInfoInstanceWrapper) chosenItemArray[0])
+					.getInstance();
 			return (T) chosenItemArray[0];
 		} else {
 			return null;
@@ -1172,17 +1189,15 @@ public class SwingRenderer {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> T openInputDialog(Component parentComponent,
-			T initialValue, String message, String title) {
-		if(initialValue == null){
+	public <T> T openInputDialog(Component parentComponent, T initialValue,
+			String message, String title) {
+		if (initialValue == null) {
 			throw new ReflectionUIError();
 		}
 		final Object[] valueArray = new Object[] { initialValue };
-		final Object valueAsField = ValueAsFieldTypeInfo.wrap(
-				reflectionUI, valueArray, message, "Selection",
-				false);
-		if (openValueDialog(parentComponent,
-				Accessor.returning(valueAsField),
+		final Object valueAsField = ValueAsFieldTypeInfo.wrap(reflectionUI,
+				valueArray, message, "Selection", false);
+		if (openValueDialog(parentComponent, Accessor.returning(valueAsField),
 				IInfoCollectionSettings.DEFAULT, null, title, new boolean[1])) {
 			return (T) valueArray[0];
 		} else {
@@ -1219,10 +1234,8 @@ public class SwingRenderer {
 			final ModificationStack parentModificationStack,
 			final String title, final boolean[] changeDetectedArray) {
 		final Object[] valueArray = new Object[] { valueAccessor.get() };
-		final ITypeInfo valueTypeInfo = reflectionUI.getTypeInfo(reflectionUI
-				.getTypeInfoSource(valueArray[0]));
 		final Object toOpen;
-		if (valueTypeInfo.hasCustomFieldControl()) {
+		if (hasCustomFieldControl(valueArray[0])) {
 			toOpen = ValueAsFieldTypeInfo.wrap(reflectionUI, valueArray,
 					"Value", title, settings.allReadOnly());
 		} else {
@@ -1291,10 +1304,8 @@ public class SwingRenderer {
 	public void openValueFrame(Object value,
 			final IInfoCollectionSettings settings, final String title) {
 		final Object[] valueArray = new Object[] { value };
-		final ITypeInfo valueTypeInfo = reflectionUI.getTypeInfo(reflectionUI
-				.getTypeInfoSource(valueArray[0]));
 		final Object toOpen;
-		if (valueTypeInfo.hasCustomFieldControl()) {
+		if (hasCustomFieldControl(value)) {
 			toOpen = ValueAsFieldTypeInfo.wrap(reflectionUI, valueArray,
 					"Value", title, settings.allReadOnly());
 		} else {
@@ -1478,6 +1489,84 @@ public class SwingRenderer {
 		}
 	}
 
+	final public Component createFieldControl(Object object, IFieldInfo field) {
+		if (field.getValueOptions(object) != null) {
+			return createOptionsControl(object, field);
+		} else if (field.getType().getPolymorphicInstanceSubTypes() != null) {
+			return new PolymorphicEmbeddedForm(reflectionUI, object, field);
+		} else if (field.isNullable()) {
+			return new NullableControl(reflectionUI, object, field);
+		} else {
+			return createNonNullFieldValueControl(object, field);
+		}
+	}
+
+	public Component createOptionsControl(final Object object,
+			final IFieldInfo field) {
+		return new EnumerationControl(reflectionUI, object, new FieldInfoProxy(
+				field) {
+
+			@Override
+			public ITypeInfo getType() {
+				return new ArrayAsEnumerationTypeInfo(reflectionUI,
+						field.getValueOptions(object), field.getCaption()
+								+ " Value Options");
+			}
+
+		});
+	}
+
+	final public Component createNonNullFieldValueControl(Object object,
+			IFieldInfo field) {
+		Component result = createCustomFieldControl(object, field);
+		if (result != null) {
+			return result;
+		} else {
+			field = SwingRendererUtils.prepareEmbeddedFormCreation(
+					reflectionUI, object, field);
+			if (SwingRendererUtils.isEmbeddedFormCreationForbidden(field)) {
+				return new DialogAccessControl(reflectionUI, object, field);
+			} else {
+				return new EmbeddedFormControl(reflectionUI, object, field);
+			}
+		}
+	}
+
+	public Component createCustomFieldControl(Object object, IFieldInfo field) {
+		Object fieldValue = field.getValue(object);
+		if (ListControl.isCompatibleWith(reflectionUI, fieldValue)) {
+			return new ListControl(reflectionUI, object, field);
+		} else if (EnumerationControl
+				.isCompatibleWith(reflectionUI, fieldValue)) {
+			return new EnumerationControl(reflectionUI, object, field);
+		} else if (CheckBoxControl.isCompatibleWith(reflectionUI, fieldValue)) {
+			return new CheckBoxControl(reflectionUI, object, field);
+		} else if (TextControl.isCompatibleWith(reflectionUI, fieldValue)) {
+			return new TextControl(reflectionUI, object, field);
+		} else if (ReflectionUIUtils.isPrimitiveTypeOrWrapper(fieldValue
+				.getClass())) {
+			return new PrimitiveValueControl(reflectionUI, object, field,
+					fieldValue.getClass()); 
+		} else if (FileControl.isCompatibleWith(reflectionUI, fieldValue)) {
+			return new FileControl(reflectionUI, object, field);
+		} else {
+			return null;
+		}
+	}
+
+	public final boolean hasCustomFieldControl(Object object, IFieldInfo field) {
+		return createCustomFieldControl(object, field) != null;
+	}
+
+	public final boolean hasCustomFieldControl(Object fieldValue) {
+		Object valueAsField = ValueAsFieldTypeInfo.wrap(reflectionUI,
+				new Object[] { fieldValue }, "", "", false);
+		ITypeInfo valueAsFieldType = reflectionUI.getTypeInfo(reflectionUI
+				.getTypeInfoSource(valueAsField));
+		IFieldInfo field = valueAsFieldType.getFields().get(0);
+		return createCustomFieldControl(valueAsField, field) != null;
+	}
+
 	public class FieldControlPlaceHolder extends JPanel {
 
 		protected static final long serialVersionUID = 1L;
@@ -1513,8 +1602,7 @@ public class SwingRenderer {
 
 		public void refreshUI() {
 			if (fieldControl == null) {
-				fieldControl = field.getType()
-						.createFieldControl(object, field);
+				fieldControl = createFieldControl(object, field);
 				add(fieldControl, BorderLayout.CENTER);
 				handleComponentSizeChange(this);
 			} else {
@@ -1559,4 +1647,161 @@ public class SwingRenderer {
 		}
 
 	}
+
+	public class NullableControl extends JPanel implements IFieldControl {
+
+		protected static final long serialVersionUID = 1L;
+		protected ReflectionUI reflectionUI;
+		protected Object object;
+		protected IFieldInfo field;
+		protected JCheckBox nullingControl;
+		protected Component subControl;
+
+		public NullableControl(ReflectionUI reflectionUI, Object object,
+				IFieldInfo field) {
+			this.reflectionUI = reflectionUI;
+			this.object = object;
+			this.field = field;
+
+			if (field == null) {
+				System.out.println("debug");
+			}
+
+			initialize();
+		}
+
+		protected void initialize() {
+			setLayout(new BorderLayout());
+			nullingControl = new JCheckBox();
+			nullingControl.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					try {
+						onNullingControlStateChange();
+						subControl.requestFocus();
+					} catch (Throwable t) {
+						reflectionUI.getSwingRenderer()
+								.handleExceptionsFromDisplayedUI(
+										NullableControl.this, t);
+					}
+				}
+			});
+
+			if (!field.isReadOnly()) {
+				add(nullingControl, BorderLayout.WEST);
+			}
+
+			refreshUI();
+		}
+
+		public Component getSubControl() {
+			return subControl;
+		}
+
+		protected void setShouldBeNull(boolean b) {
+			nullingControl.setSelected(!b);
+		}
+
+		protected boolean shoulBeNull() {
+			return !nullingControl.isSelected();
+		}
+
+		@Override
+		public boolean refreshUI() {
+			Object value = field.getValue(object);
+			setShouldBeNull(value == null);
+			boolean hadFocus = (subControl != null)
+					&& SwingRendererUtils.hasOrContainsFocus(subControl);
+			updateSubControl(value);
+			if (hadFocus && (subControl != null)) {
+				subControl.requestFocus();
+			}
+			return true;
+		}
+
+		@Override
+		public void requestFocus() {
+			if (subControl != null) {
+				subControl.requestFocus();
+			}
+		}
+
+		protected void onNullingControlStateChange() {
+			Object newValue;
+			if (!shoulBeNull()) {
+				try {
+					newValue = reflectionUI.getSwingRenderer()
+							.onTypeInstanciationRequest(this, field.getType(),
+									false);
+				} catch (Throwable t) {
+					reflectionUI.getSwingRenderer()
+							.handleExceptionsFromDisplayedUI(this, t);
+					newValue = null;
+				}
+				if (newValue == null) {
+					setShouldBeNull(true);
+					return;
+				}
+			} else {
+				newValue = null;
+				remove(subControl);
+				subControl = null;
+			}
+			field.setValue(object, newValue);
+			reflectionUI.getSwingRenderer().refreshFieldControlsByName(
+					SwingRendererUtils.findForm(this, reflectionUI),
+					field.getName());
+		}
+
+		public void updateSubControl(Object newValue) {
+			if (!((newValue != null) && (subControl instanceof IFieldControl) && (((IFieldControl) subControl)
+					.refreshUI()))) {
+				if (subControl != null) {
+					remove(subControl);
+				}
+				if (newValue != null) {
+					subControl = createNonNullFieldValueControl(object, field);
+					add(subControl, BorderLayout.CENTER);
+				} else {
+					subControl = createNullControl(reflectionUI,
+							new Runnable() {
+								@Override
+								public void run() {
+									if (!field.isReadOnly()) {
+										setShouldBeNull(false);
+										onNullingControlStateChange();
+									}
+								}
+							});
+					add(subControl, BorderLayout.CENTER);
+				}
+				reflectionUI.getSwingRenderer().handleComponentSizeChange(this);
+			}
+		}
+
+		protected Component createNullControl(ReflectionUI reflectionUI,
+				Runnable onMousePress) {
+			return new NullControl(reflectionUI, onMousePress);
+		}
+
+		@Override
+		public boolean showCaption() {
+			if (subControl instanceof IFieldControl) {
+				return ((IFieldControl) subControl).showCaption();
+			} else {
+				return false;
+			}
+		}
+
+		@Override
+		public boolean displayError(ReflectionUIError error) {
+			if (subControl instanceof IFieldControl) {
+				return ((IFieldControl) subControl).displayError(error);
+			} else {
+				return false;
+			}
+		}
+
+	}
+
 }

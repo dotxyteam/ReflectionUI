@@ -17,6 +17,7 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.IEnumerationTypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 public class EnumerationControl extends JPanel {
@@ -26,6 +27,13 @@ public class EnumerationControl extends JPanel {
 	protected Object object;
 	protected IFieldInfo field;
 	protected JComboBox comboBox;
+
+	public static boolean isCompatibleWith(ReflectionUI reflectionUI,
+			Object fieldValue) {
+		final ITypeInfo fieldValueType = reflectionUI.getTypeInfo(reflectionUI
+				.getTypeInfoSource(fieldValue));
+		return fieldValueType instanceof IEnumerationTypeInfo;
+	}
 
 	@SuppressWarnings({})
 	public EnumerationControl(final ReflectionUI reflectionUI,
@@ -90,8 +98,9 @@ public class EnumerationControl extends JPanel {
 						Object selected = e.getItem();
 						field.setValue(object, selected);
 					} catch (Throwable t) {
-						reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(
-								EnumerationControl.this, t);
+						reflectionUI.getSwingRenderer()
+								.handleExceptionsFromDisplayedUI(
+										EnumerationControl.this, t);
 					}
 				}
 			}

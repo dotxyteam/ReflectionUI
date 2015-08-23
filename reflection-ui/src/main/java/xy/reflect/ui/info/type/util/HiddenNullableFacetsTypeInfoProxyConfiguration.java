@@ -36,6 +36,9 @@ public class HiddenNullableFacetsTypeInfoProxyConfiguration extends
 	@Override
 	protected boolean isNullable(IParameterInfo param, IMethodInfo method,
 			ITypeInfo containingType) {
+		if(!param.isNullable()){
+			return false;
+		}
 		return (param.getDefaultValue() == null)
 				&& (generateDefaultValue(param.getType()) == null);
 	}
@@ -52,6 +55,9 @@ public class HiddenNullableFacetsTypeInfoProxyConfiguration extends
 
 	@Override
 	protected boolean isNullable(IFieldInfo field, ITypeInfo containingType) {
+		if(!field.isNullable()){
+			return false;
+		}
 		return generateDefaultValue(field.getType()) == null;
 	}
 

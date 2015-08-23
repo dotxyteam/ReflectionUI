@@ -1,6 +1,5 @@
 package xy.reflect.ui.info.type.iterable;
 
-import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -9,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.swing.ListControl;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -137,12 +135,6 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 	}
 
 	@Override
-	public Component createNonNullFieldValueControl(Object object,
-			IFieldInfo field) {
-		return new ListControl(reflectionUI, object, field);
-	}
-
-	@Override
 	public int hashCode() {
 		return javaType.hashCode() + itemJavaType.hashCode();
 	}
@@ -185,11 +177,6 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 			}
 		}
 		return false;
-	}
-
-	@Override
-	public boolean hasCustomFieldControl() {
-		return true;
 	}
 
 	@Override

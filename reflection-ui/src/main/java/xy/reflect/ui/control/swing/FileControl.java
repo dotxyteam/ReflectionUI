@@ -21,6 +21,11 @@ public class FileControl extends DialogAccessControl {
 
 	protected static File lastDirectory;
 
+	public static boolean isCompatibleWith(ReflectionUI reflectionUI,
+			Object fieldValue) {
+		return fieldValue instanceof File;
+	}
+
 	public FileControl(ReflectionUI reflectionUI, Object object,
 			IFieldInfo field) {
 		super(reflectionUI, object, field);
@@ -87,7 +92,6 @@ public class FileControl extends DialogAccessControl {
 			}
 		});
 	}
-
 
 	@Override
 	protected Component createButton() {

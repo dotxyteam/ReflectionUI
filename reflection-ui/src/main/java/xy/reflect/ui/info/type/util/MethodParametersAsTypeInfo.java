@@ -1,6 +1,5 @@
 package xy.reflect.ui.info.type.util;
 
-import java.awt.Component;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.swing.EmbeddedFormControl;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -165,11 +163,6 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 	}
 
 	@Override
-	public boolean hasCustomFieldControl() {
-		return false;
-	}
-
-	@Override
 	public String toString(Object object) {
 		InstanceInfo instance = (InstanceInfo) object;
 		return method.toString() + "\n<= invoked with: "
@@ -179,11 +172,6 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 	@Override
 	public Image getIconImage(Object object) {
 		return reflectionUI.getIconImage(object);
-	}
-
-	@Override
-	public Component createFieldControl(Object object, IFieldInfo field) {
-		return new EmbeddedFormControl(reflectionUI, object, field);
 	}
 
 	@Override

@@ -1,6 +1,5 @@
 package xy.reflect.ui.info.type.util;
 
-import java.awt.Component;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +11,6 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.custom.FileTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.map.IMapEntryTypeInfo;
 import xy.reflect.ui.info.type.iterable.util.IListAction;
@@ -202,11 +200,6 @@ public class TypeInfoProxyConfiguration {
 		return type.toArray(object);
 	}
 
-	protected Component createFieldControl(ITypeInfo type, Object object,
-			IFieldInfo field) {
-		return type.createFieldControl(object, field);
-	}
-
 	protected List<IMethodInfo> getConstructors(ITypeInfo type) {
 		List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 		for (IMethodInfo constructor : type.getConstructors()) {
@@ -235,10 +228,6 @@ public class TypeInfoProxyConfiguration {
 		return type.getPolymorphicInstanceSubTypes();
 	}
 
-	protected boolean hasCustomFieldControl(ITypeInfo type) {
-		return type.hasCustomFieldControl();
-	}
-
 	protected boolean isConcrete(ITypeInfo type) {
 		return type.isConcrete();
 	}
@@ -253,11 +242,6 @@ public class TypeInfoProxyConfiguration {
 
 	protected String getName(ITypeInfo type) {
 		return type.getName();
-	}
-
-	protected Component createNonNullFieldValueControl(Object object,
-			IFieldInfo field, FileTypeInfo type) {
-		return type.createNonNullFieldValueControl(object, field);
 	}
 
 	protected IFieldInfo getKeyField(IMapEntryTypeInfo type) {
@@ -413,11 +397,6 @@ public class TypeInfoProxyConfiguration {
 		}
 
 		@Override
-		public boolean hasCustomFieldControl() {
-			return TypeInfoProxyConfiguration.this.hasCustomFieldControl(type);
-		}
-
-		@Override
 		public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
 			return TypeInfoProxyConfiguration.this
 					.getPolymorphicInstanceSubTypes(type);
@@ -436,12 +415,6 @@ public class TypeInfoProxyConfiguration {
 		@Override
 		public List<IMethodInfo> getConstructors() {
 			return TypeInfoProxyConfiguration.this.getConstructors(type);
-		}
-
-		@Override
-		public Component createFieldControl(Object object, IFieldInfo field) {
-			return TypeInfoProxyConfiguration.this.createFieldControl(type,
-					object, field);
 		}
 
 		@Override

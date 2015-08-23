@@ -94,6 +94,13 @@ public class ListControl extends JPanel implements IFieldControl {
 		}
 	};
 
+	public static boolean isCompatibleWith(ReflectionUI reflectionUI,
+			Object fieldValue) {
+		final ITypeInfo fieldValueType = reflectionUI.getTypeInfo(reflectionUI
+				.getTypeInfoSource(fieldValue));
+		return fieldValueType instanceof IListTypeInfo;
+	}
+
 	public ListControl(final ReflectionUI reflectionUI, final Object object,
 			final IFieldInfo field) {
 		this.reflectionUI = reflectionUI;
@@ -563,12 +570,11 @@ public class ListControl extends JPanel implements IFieldControl {
 			}
 		}
 
-		result = removeAdjacentSeparators(result);
-
+		result = removeSeparatorsInExcess(result);
 		return result;
 	}
 
-	protected List<AbstractAction> removeAdjacentSeparators(
+	protected List<AbstractAction> removeSeparatorsInExcess(
 			List<AbstractAction> actions) {
 		List<AbstractAction> result = new ArrayList<AbstractAction>();
 		AbstractAction lastAction = null;
@@ -580,6 +586,16 @@ public class ListControl extends JPanel implements IFieldControl {
 			}
 			result.add(action);
 			lastAction = action;
+		}
+		if (result.size() > 0) {
+			if (SEPARATOR_ACTION == result.get(0)) {
+				result.remove(0);
+			}
+		}
+		if (result.size() > 0) {
+			if (SEPARATOR_ACTION == result.get(result.size() - 1)) {
+				result.remove(result.size() - 1);
+			}
 		}
 		return result;
 	}
@@ -622,8 +638,8 @@ public class ListControl extends JPanel implements IFieldControl {
 
 	protected boolean userConfirms(String question) {
 		return reflectionUI.getSwingRenderer().openQuestionDialog(
-				SwingUtilities.getWindowAncestor(treeTableComponent),
-				question, null, "OK", "Cancel");
+				SwingUtilities.getWindowAncestor(treeTableComponent), question,
+				null, "OK", "Cancel");
 	}
 
 	protected AbstractAction createMoveAction(final int offset) {
@@ -1465,7 +1481,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		}
 		ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI
 				.getTypeInfoSource(item));
-		if (actualItemType.hasCustomFieldControl()) {
+		if (reflectionUI.getSwingRenderer().hasCustomFieldControl(item)) {
 			return true;
 		}
 		List<IFieldInfo> fields = actualItemType.getFields();
@@ -1917,5 +1933,4 @@ public class ListControl extends JPanel implements IFieldControl {
 	protected enum InsertPosition {
 		AFTER, BEFORE, UNKNOWN
 	}
-
 }

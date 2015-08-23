@@ -1,6 +1,5 @@
 package xy.reflect.ui.info.field;
 
-import java.awt.Component;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.swing.ListControl;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -352,11 +350,6 @@ public class ImplicitListField implements IFieldInfo {
 		}
 
 		@Override
-		public boolean hasCustomFieldControl() {
-			return true;
-		}
-
-		@Override
 		public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
 			return null;
 		}
@@ -375,23 +368,6 @@ public class ImplicitListField implements IFieldInfo {
 		public List<IMethodInfo> getConstructors() {
 			return Collections.emptyList();
 		}
-
-		@Override
-		public Component createFieldControl(final Object object,
-				IFieldInfo field) {
-			return new ListControl(reflectionUI, object, new FieldInfoProxy(
-					field) {
-
-				@Override
-				public ITypeInfo getType() {
-					return PrecomputedTypeInfoInstanceWrapper
-							.adaptPrecomputedType(new ImplicitListFieldType(
-									object));
-				}
-
-			});
-		}
-
 		@Override
 		public Object[] toArray(Object listValue) {
 			ImplicitListFieldValue implicitListFieldValue = (ImplicitListFieldValue) listValue;

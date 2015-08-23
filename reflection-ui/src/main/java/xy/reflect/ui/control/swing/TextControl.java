@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -31,16 +32,21 @@ public class TextControl extends JPanel implements IFieldControl {
 	protected boolean textChangedByUser = true;
 	protected Border textFieldNormalBorder;
 
+	public static boolean isCompatibleWith(ReflectionUI reflectionUI,
+			Object fieldValue) {
+		return fieldValue instanceof String;
+	}
+
 	public TextControl(final ReflectionUI reflectionUI, final Object object,
 			final IFieldInfo field) {
 		this.reflectionUI = reflectionUI;
 		this.object = object;
 		this.field = field;
-
+		
 		setLayout(new BorderLayout());
 
 		textComponent = new JTextArea();
-		
+
 		JScrollPane scrollPane = new JScrollPane(textComponent) {
 
 			protected static final long serialVersionUID = 1L;
@@ -57,8 +63,7 @@ public class TextControl extends JPanel implements IFieldControl {
 			private Dimension fixScrollPaneSizeWHenVerticalBarVisible(
 					Dimension size) {
 				if (getHorizontalScrollBar().isVisible()) {
-					size.height += getHorizontalScrollBar()
-							.getPreferredSize().height;
+					size.height += getHorizontalScrollBar().getPreferredSize().height;
 				}
 				return size;
 			}
@@ -89,6 +94,42 @@ public class TextControl extends JPanel implements IFieldControl {
 		}
 		refreshUI();
 	}
+	
+	public static  String toText(Object object) {
+		return object.toString();
+	}
+
+	public static Object fromText(String text, Class<?> javaType) {
+		if (javaType.isPrimitive()) {
+			javaType = ReflectionUIUtils.primitiveToWrapperType(javaType);
+		}
+		if (javaType == Character.class) {
+			text = text.trim();
+			if (text.length() != 1) {
+				throw new RuntimeException("Invalid value: '" + text
+						+ "'. 1 character is expected");
+			}
+			return text.charAt(0);
+		} else {
+			try {
+				return javaType.getConstructor(new Class[] { String.class })
+						.newInstance(text);
+			} catch (IllegalArgumentException e) {
+				throw new ReflectionUIError(e);
+			} catch (SecurityException e) {
+				throw new ReflectionUIError(e);
+			} catch (InstantiationException e) {
+				throw new ReflectionUIError(e);
+			} catch (IllegalAccessException e) {
+				throw new ReflectionUIError(e);
+			} catch (InvocationTargetException e) {
+				throw new ReflectionUIError(e.getTargetException());
+			} catch (NoSuchMethodException e) {
+				throw new ReflectionUIError(e);
+			}
+		}
+	}
+
 
 	@Override
 	public Dimension getMinimumSize() {
