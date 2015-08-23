@@ -112,7 +112,7 @@ public class TabularTreetStructuralInfo extends
 	@Override
 	public Image getCellIconImage(ItemPosition itemPosition, int columnIndex) {
 		if (columnIndex == 0) {
-			return reflectionUI.getObjectIconImage(itemPosition.getItem());
+			return reflectionUI.getIconImage(itemPosition.getItem());
 		}
 		return null;
 	}

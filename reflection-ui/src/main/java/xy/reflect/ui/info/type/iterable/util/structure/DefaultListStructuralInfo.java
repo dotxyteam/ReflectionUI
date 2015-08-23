@@ -41,7 +41,7 @@ public class DefaultListStructuralInfo extends
 		if (columnIndex != 0) {
 			throw new ReflectionUIError();
 		}
-		return reflectionUI.getObjectIconImage(itemPosition.getItem());
+		return reflectionUI.getIconImage(itemPosition.getItem());
 	}
 
 	@Override

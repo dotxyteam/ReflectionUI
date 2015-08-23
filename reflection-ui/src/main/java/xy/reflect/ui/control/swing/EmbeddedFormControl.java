@@ -11,10 +11,10 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.IFieldControl;
+import xy.reflect.ui.SwingRenderer.FieldControlPlaceHolder;
+import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.renderer.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
@@ -58,6 +58,10 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 			}
 		});
 		refreshUI();
+	}
+
+	public JPanel getSubForm() {
+		return subForm;
 	}
 
 	protected void whenContainingWindowDisplayed() {
@@ -152,8 +156,10 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 	public boolean refreshUI() {
 		if (subForm == null) {
 			subFormObject = field.getValue(object);
+			IInfoCollectionSettings settings = field.isReadOnly() ? IInfoCollectionSettings.READ_ONLY
+					: IInfoCollectionSettings.DEFAULT;
 			subForm = reflectionUI.getSwingRenderer().createObjectForm(
-					subFormObject);
+					subFormObject, settings);
 			add(subForm, BorderLayout.CENTER);
 			reflectionUI.getSwingRenderer().handleComponentSizeChange(this);
 		} else {

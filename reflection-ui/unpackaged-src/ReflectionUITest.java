@@ -171,7 +171,7 @@ public class ReflectionUITest {
 			ReflectionUI thisReflectionUI = this;
 
 			@Override
-			public Image getObjectIconImage(Object object) {
+			public Image getIconImage(Object object) {
 				try {
 					return ImageIO.read(ReflectionUITest.class
 							.getResource("icon.gif"));

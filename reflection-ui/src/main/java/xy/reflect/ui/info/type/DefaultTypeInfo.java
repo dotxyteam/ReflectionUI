@@ -1,6 +1,7 @@
 package xy.reflect.ui.info.type;
 
 import java.awt.Component;
+import java.awt.Image;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -72,7 +73,8 @@ public class DefaultTypeInfo implements ITypeInfo {
 				return Collections.emptyList();
 			}
 			for (Constructor<?> javaConstructor : javaType.getConstructors()) {
-				if(!DefaultConstructorMethodInfo.isCompatibleWith(javaConstructor)){
+				if (!DefaultConstructorMethodInfo
+						.isCompatibleWith(javaConstructor)) {
 					continue;
 				}
 				constructors.add(new DefaultConstructorMethodInfo(reflectionUI,
@@ -98,6 +100,11 @@ public class DefaultTypeInfo implements ITypeInfo {
 	}
 
 	@Override
+	public Image getIconImage(Object object) {
+		return null;
+	}
+
+	@Override
 	public List<IFieldInfo> getFields() {
 		if (fields == null) {
 			fields = new ArrayList<IFieldInfo>();
@@ -105,7 +112,8 @@ public class DefaultTypeInfo implements ITypeInfo {
 				if (!PublicFieldInfo.isCompatibleWith(javaField)) {
 					continue;
 				}
-				fields.add(new PublicFieldInfo(reflectionUI, javaField, javaType));
+				fields.add(new PublicFieldInfo(reflectionUI, javaField,
+						javaType));
 			}
 			for (Method javaMethod : javaType.getMethods()) {
 				if (!GetterFieldInfo.isCompatibleWith(javaMethod, javaType)) {
@@ -152,96 +160,103 @@ public class DefaultTypeInfo implements ITypeInfo {
 		}
 	}
 
-	protected Component createOptionsControl(final Object object, final IFieldInfo field) {
-		return new EnumerationControl(reflectionUI, object, new FieldInfoProxy(field){
+	protected Component createOptionsControl(final Object object,
+			final IFieldInfo field) {
+		return new EnumerationControl(reflectionUI, object, new FieldInfoProxy(
+				field) {
 
 			@Override
 			public ITypeInfo getType() {
-				final ITypeInfo baseType = field.getType();
+				final ITypeInfo declaredType = field.getType();
 				return new IEnumerationTypeInfo() {
-					
+
 					@Override
 					public Map<String, Object> getSpecificProperties() {
 						return Collections.emptyMap();
 					}
-					
+
 					@Override
 					public String getName() {
 						return "";
 					}
-					
+
 					@Override
 					public String getOnlineHelp() {
 						return null;
 					}
-					
+
 					@Override
 					public String getCaption() {
 						return "";
 					}
-					
+
 					@Override
 					public void validate(Object object) throws Exception {
-						baseType.validate(object);
 					}
-					
+
 					@Override
 					public String toString(Object object) {
-						return baseType.toString(object);
+						return reflectionUI.toString(object);
 					}
-					
+
 					@Override
 					public boolean supportsInstance(Object object) {
-						return baseType.supportsInstance(object);
+						return declaredType.supportsInstance(object);
 					}
-					
+
 					@Override
 					public boolean isConcrete() {
-						return baseType.isConcrete();
+						return true;
 					}
-					
+
 					@Override
 					public boolean hasCustomFieldControl() {
 						return true;
 					}
-					
+
 					@Override
 					public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
 						return null;
 					}
-					
+
 					@Override
 					public List<IMethodInfo> getMethods() {
 						return Collections.emptyList();
 					}
-					
+
 					@Override
 					public List<IFieldInfo> getFields() {
 						return Collections.emptyList();
 					}
-					
+
 					@Override
 					public List<IMethodInfo> getConstructors() {
 						return Collections.emptyList();
 					}
-					
+
 					@Override
-					public Component createFieldControl(Object object, IFieldInfo field) {
+					public Component createFieldControl(Object object,
+							IFieldInfo field) {
 						throw new ReflectionUIError();
 					}
-					
+
 					@Override
 					public Object[] getPossibleValues() {
 						return field.getValueOptions(object);
 					}
-					
+
 					@Override
 					public String formatEnumerationItem(Object object) {
-						return baseType.toString(object);
+						return reflectionUI.toString(object);
+					}
+
+					@Override
+					public Image getIconImage(Object object) {
+						return reflectionUI.getIconImage(object);
 					}
 				};
 			}
-			
+
 		});
 	}
 
@@ -263,13 +278,12 @@ public class DefaultTypeInfo implements ITypeInfo {
 			}
 		}
 		boolean shouldCreateEmbeddedForm = false;
-		if (Boolean.TRUE.equals(field.getSpecificProperties().get(
-				DO_NOT_CREATE_EMBEDDED_FORM_PROPRTY_KEY))) {
+		if (shouldNotCreateEmbeddedForm(field)) {
 			field = preventRecursiveEmbeddedForm(field);
 		} else {
 			if (!fieldValueType.hasCustomFieldControl()) {
 				if ((fieldValueType.getFields().size() + fieldValueType
-						.getMethods().size() / 4) <= 5) {
+						.getMethods().size() / 3) <= 4) {
 					shouldCreateEmbeddedForm = true;
 					field = preventRecursiveEmbeddedForm(field);
 				}
@@ -280,6 +294,11 @@ public class DefaultTypeInfo implements ITypeInfo {
 		} else {
 			return new DialogAccessControl(reflectionUI, object, field);
 		}
+	}
+
+	protected boolean shouldNotCreateEmbeddedForm(IFieldInfo field) {
+		return Boolean.TRUE.equals(field.getSpecificProperties().get(
+				DO_NOT_CREATE_EMBEDDED_FORM_PROPRTY_KEY));
 	}
 
 	protected IFieldInfo preventRecursiveEmbeddedForm(IFieldInfo field) {
@@ -398,7 +417,8 @@ public class DefaultTypeInfo implements ITypeInfo {
 
 	@Override
 	public void validate(Object object) throws Exception {
-		for (Method method : ReflectionUIUtils.getAnnotatedValidatingMethods(javaType)) {
+		for (Method method : ReflectionUIUtils
+				.getAnnotatedValidatingMethods(javaType)) {
 			try {
 				method.invoke(object);
 			} catch (InvocationTargetException e) {
@@ -411,5 +431,4 @@ public class DefaultTypeInfo implements ITypeInfo {
 	public Map<String, Object> getSpecificProperties() {
 		return Collections.emptyMap();
 	}
-
 }

@@ -1,4 +1,4 @@
-package xy.reflect.ui.info.type.iterable;
+package xy.reflect.ui.info.type;
 
 import java.awt.Component;
 import java.util.Collections;
@@ -9,8 +9,6 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
-import xy.reflect.ui.info.type.DefaultTypeInfo;
-import xy.reflect.ui.info.type.IEnumerationTypeInfo;
 import xy.reflect.ui.info.method.InvocationData;
 
 @SuppressWarnings("rawtypes")

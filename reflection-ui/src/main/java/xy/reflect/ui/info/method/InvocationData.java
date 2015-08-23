@@ -30,10 +30,43 @@ public class InvocationData {
 	public void setparameterValue(IParameterInfo param, Object value) {
 		setparameterValue(param.getPosition(), value);
 	}
-	
-
 
 	public void setparameterValue(int parameterPosition, Object value) {
 		valueByParameterPosition.put(parameterPosition, value);
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime
+				* result
+				+ ((valueByParameterPosition == null) ? 0
+						: valueByParameterPosition.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		InvocationData other = (InvocationData) obj;
+		if (valueByParameterPosition == null) {
+			if (other.valueByParameterPosition != null)
+				return false;
+		} else if (!valueByParameterPosition
+				.equals(other.valueByParameterPosition))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return new HashMap<Integer, Object>(valueByParameterPosition).toString();
+	}
+
 }

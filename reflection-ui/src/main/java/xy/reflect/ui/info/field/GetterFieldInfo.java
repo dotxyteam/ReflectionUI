@@ -2,7 +2,6 @@ package xy.reflect.ui.info.field;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -185,14 +184,6 @@ public class GetterFieldInfo implements IFieldInfo {
 		for (Method commonMethod : Object.class.getMethods()) {
 			if (ReflectionUIUtils.isOverridenBy(commonMethod, javaMethod)) {
 				return false;
-			}
-		}
-		for (Method commonExceptionMethod : Throwable.class.getMethods()) {
-			if (ReflectionUIUtils.isOverridenBy(commonExceptionMethod, javaMethod)) {
-					if (Arrays.asList("getLocalizedMessage").contains(
-						javaMethod.getName())) {
-					return false;
-				}
 			}
 		}
 		if (javaMethod.getExceptionTypes().length > 0) {

@@ -1,6 +1,7 @@
 package xy.reflect.ui.info.type.util;
 
 import java.awt.Component;
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -86,7 +87,7 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 		return getCaption();
 	}
 
-	public static IFieldInfo getParameterAsField(final IParameterInfo param) {
+	protected static IFieldInfo getParameterAsField(final IParameterInfo param) {
 		return new IFieldInfo() {
 
 			@Override
@@ -170,7 +171,14 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 
 	@Override
 	public String toString(Object object) {
-		return method.toString();
+		InstanceInfo instance = (InstanceInfo) object;
+		return method.toString() + "\n<= invoked with: "
+				+ instance.invocationData.toString();
+	}
+
+	@Override
+	public Image getIconImage(Object object) {
+		return reflectionUI.getIconImage(object);
 	}
 
 	@Override
@@ -180,7 +188,7 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 
 	@Override
 	public boolean supportsInstance(Object object) {
-		return false;
+		return object instanceof InstanceInfo;
 	}
 
 	@Override
@@ -198,8 +206,7 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 			InvocationData invocationData) {
 		return new PrecomputedTypeInfoInstanceWrapper(
 				new MethodParametersAsTypeInfo.InstanceInfo(object,
-						invocationData), new MethodParametersAsTypeInfo(
-						reflectionUI, method));
+						invocationData), this);
 	}
 
 	protected static class InstanceInfo {

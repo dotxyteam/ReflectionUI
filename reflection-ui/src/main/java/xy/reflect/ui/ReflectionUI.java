@@ -18,13 +18,13 @@ import xy.reflect.ui.info.field.MultiListField.MultiListVirtualParentType;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.StandardEnumerationTypeInfo;
 import xy.reflect.ui.info.type.UtilitiesTypeInfo;
 import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
 import xy.reflect.ui.info.type.custom.FileTypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.info.type.iterable.ArrayTypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
-import xy.reflect.ui.info.type.iterable.StandardEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.map.StandardMapAsListTypeInfo;
 import xy.reflect.ui.info.type.iterable.map.StandardMapEntry;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
@@ -32,7 +32,6 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.util.HiddenNullableFacetsTypeInfoProxyConfiguration;
 import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
-import xy.reflect.ui.renderer.SwingRenderer;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
@@ -76,7 +75,7 @@ public class ReflectionUI {
 			}
 			reflectionUI.getSwingRenderer().openObjectFrame(object,
 					reflectionUI.getObjectKind(object),
-					reflectionUI.getObjectIconImage(object));
+					reflectionUI.getIconImage(object));
 		} catch (Throwable t) {
 			t.printStackTrace();
 			JOptionPane.showMessageDialog(null, t.toString(), null,
@@ -123,6 +122,13 @@ public class ReflectionUI {
 
 	public boolean equals(Object value1, Object value2) {
 		return ReflectionUIUtils.equalsOrBothNull(value1, value2);
+	}
+
+	public Image getIconImage(Object object) {
+		if (object == null) {
+			return null;
+		}
+		return getTypeInfo(getTypeInfoSource(object)).getIconImage(object);
 	}
 
 	public String toString(Object object) {
@@ -233,10 +239,6 @@ public class ReflectionUI {
 			}
 		}
 		return getTypeInfo(getTypeInfoSource(object)).getCaption();
-	}
-
-	public Image getObjectIconImage(Object object) {
-		return null;
 	}
 
 	public String getFieldTitle(Object object, IFieldInfo field) {

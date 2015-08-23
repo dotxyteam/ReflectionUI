@@ -1,6 +1,7 @@
 package xy.reflect.ui.info.type;
 
 import java.awt.Component;
+import java.awt.Image;
 import java.util.List;
 
 import xy.reflect.ui.info.IInfo;
@@ -28,4 +29,6 @@ public interface ITypeInfo extends IInfo {
 	String toString(Object object);
 	
 	void validate(Object object) throws Exception;
+
+	Image getIconImage(Object object);
 }

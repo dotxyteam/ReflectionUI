@@ -1,6 +1,7 @@
 package xy.reflect.ui.info.type.util;
 
 import java.awt.Component;
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -119,6 +120,10 @@ public class TypeInfoProxyConfiguration {
 		field.setValue(object, value);
 	}
 
+	protected Image getIconImage(ITypeInfo type, Object object) {
+		return type.getIconImage(object);
+	}
+
 	protected String toString(ITypeInfo type, Object object) {
 		return type.toString(object);
 	}
@@ -140,9 +145,8 @@ public class TypeInfoProxyConfiguration {
 		return method.isReadOnly();
 	}
 
-	protected Object invoke(Object object,
-			InvocationData invocationData, IMethodInfo method,
-			ITypeInfo containingType) {
+	protected Object invoke(Object object, InvocationData invocationData,
+			IMethodInfo method, ITypeInfo containingType) {
 		return method.invoke(object, invocationData);
 	}
 
@@ -172,7 +176,7 @@ public class TypeInfoProxyConfiguration {
 		return type.getPossibleValues();
 	}
 
-	protected Object fromListValue(IListTypeInfo type, Object[] listValue) {
+	protected Object fromArray(IListTypeInfo type, Object[] listValue) {
 		return type.fromArray(listValue);
 	}
 
@@ -194,7 +198,7 @@ public class TypeInfoProxyConfiguration {
 		return type.isOrdered();
 	}
 
-	protected Object[] toListValue(IListTypeInfo type, Object object) {
+	protected Object[] toArray(IListTypeInfo type, Object object) {
 		return type.toArray(object);
 	}
 
@@ -445,6 +449,11 @@ public class TypeInfoProxyConfiguration {
 			return TypeInfoProxyConfiguration.this.toString(type, object);
 		}
 
+		@Override
+		public Image getIconImage(Object object) {
+			return TypeInfoProxyConfiguration.this.getIconImage(type, object);
+		}
+
 		public TypeInfoProxyConfiguration getTypeInfoProxyConfiguration() {
 			return TypeInfoProxyConfiguration.this;
 		}
@@ -509,7 +518,7 @@ public class TypeInfoProxyConfiguration {
 
 		@Override
 		public Object[] toArray(Object listValue) {
-			return TypeInfoProxyConfiguration.this.toListValue(
+			return TypeInfoProxyConfiguration.this.toArray(
 					(IListTypeInfo) type, listValue);
 		}
 
@@ -533,7 +542,7 @@ public class TypeInfoProxyConfiguration {
 
 		@Override
 		public Object fromArray(Object[] array) {
-			return TypeInfoProxyConfiguration.this.fromListValue(
+			return TypeInfoProxyConfiguration.this.fromArray(
 					(IListTypeInfo) type, array);
 		}
 
@@ -737,8 +746,7 @@ public class TypeInfoProxyConfiguration {
 		}
 
 		@Override
-		public Object invoke(Object object,
-				InvocationData invocationData) {
+		public Object invoke(Object object, InvocationData invocationData) {
 			return TypeInfoProxyConfiguration.this.invoke(object,
 					invocationData, method, containingType);
 		}

@@ -51,7 +51,6 @@ import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.jdesktop.swingx.treetable.TreeTableModel;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.IFieldControl;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.InfoCollectionSettingsProxy;
 import xy.reflect.ui.info.field.FieldInfoProxy;
@@ -153,8 +152,8 @@ public class ListControl extends JPanel implements IFieldControl {
 			}
 
 		}
-		validate();
-		repaint();
+		reflectionUI.getSwingRenderer().handleComponentSizeChange(ListControl.this);
+		toolbar.repaint();
 	}
 
 	protected JButton createTool(String text, Icon icon,
@@ -387,7 +386,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		IListStructuralInfo tableInfo = getStructuralInfo();
 		if (tableInfo == null) {
 			Object item = itemPosition.getItem();
-			return reflectionUI.getObjectIconImage(item);
+			return reflectionUI.getIconImage(item);
 		} else {
 			return tableInfo.getCellIconImage(itemPosition, columnIndex);
 		}

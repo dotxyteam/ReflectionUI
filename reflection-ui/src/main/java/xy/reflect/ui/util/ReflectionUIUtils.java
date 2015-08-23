@@ -47,8 +47,6 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
-import xy.reflect.ui.info.type.util.TypeInfoProxyConfiguration;
 
 import com.fasterxml.classmate.MemberResolver;
 import com.fasterxml.classmate.ResolvedType;
@@ -783,91 +781,6 @@ public class ReflectionUIUtils {
 		return false;
 	}
 
-	public static Object wrapAsFieldValue(ReflectionUI reflectionUI,
-			final Object[] valueArray, final String fieldCaption,
-			final String WrapperTypeCaption, final boolean readOnly) {
-		final ITypeInfo valueTypeInfo = reflectionUI.getTypeInfo(reflectionUI
-				.getTypeInfoSource(valueArray[0]));
-		return new PrecomputedTypeInfoInstanceWrapper(valueArray,
-				new TypeInfoProxyConfiguration() {
-
-					@Override
-					protected List<IFieldInfo> getFields(ITypeInfo type) {
-						return Collections
-								.<IFieldInfo> singletonList(new IFieldInfo() {
-
-									@Override
-									public void setValue(Object object,
-											Object value) {
-										Array.set(object, 0, value);
-									}
-
-									@Override
-									public boolean isReadOnly() {
-										return readOnly;
-									}
-
-									@Override
-									public boolean isNullable() {
-										return false;
-									}
-
-									@Override
-									public Object getValue(Object object) {
-										return Array.get(object, 0);
-									}
-
-									@Override
-									public Object[] getValueOptions(
-											Object object) {
-										return null;
-									}
-
-									@Override
-									public ITypeInfo getType() {
-										return valueTypeInfo;
-									}
-
-									@Override
-									public String getName() {
-										return "";
-									}
-
-									@Override
-									public String getCaption() {
-										return fieldCaption;
-									}
-
-									@Override
-									public InfoCategory getCategory() {
-										return null;
-									}
-
-									@Override
-									public String getOnlineHelp() {
-										return null;
-									}
-
-									@Override
-									public Map<String, Object> getSpecificProperties() {
-										return Collections.emptyMap();
-									}
-								});
-					}
-
-					@Override
-					protected List<IMethodInfo> getMethods(ITypeInfo type) {
-						return Collections.emptyList();
-					}
-
-					@Override
-					protected String getCaption(ITypeInfo type) {
-						return WrapperTypeCaption;
-					}
-
-				}.get(valueTypeInfo));
-	}
-
 	public static <T extends Comparable<T>> int compareNullables(T c1, T c2) {
 		if (c1 == null) {
 			if (c2 == null) {
@@ -1097,31 +1010,34 @@ public class ReflectionUIUtils {
 		return new ReflectionUIError(t).toString();
 	}
 
-	public static boolean isOverridenBy(Method baseMethod, Method overridingMethod) {
-		if(!baseMethod.getDeclaringClass().isAssignableFrom(overridingMethod.getDeclaringClass())){
+	public static boolean isOverridenBy(Method baseMethod,
+			Method overridingMethod) {
+		if (!baseMethod.getDeclaringClass().isAssignableFrom(
+				overridingMethod.getDeclaringClass())) {
 			return false;
 		}
-		if(!baseMethod.getName().equals(overridingMethod.getName())){
+		if (!baseMethod.getName().equals(overridingMethod.getName())) {
 			return false;
 		}
-		if(!baseMethod.getReturnType().isAssignableFrom(overridingMethod.getReturnType())){
+		if (!baseMethod.getReturnType().isAssignableFrom(
+				overridingMethod.getReturnType())) {
 			return false;
-		}		
+		}
 		Class<?>[] baseMethodParamTypes = baseMethod.getParameterTypes();
-		Class<?>[] overridingMethodParamTypes = overridingMethod.getParameterTypes();
-		if(baseMethodParamTypes.length != overridingMethodParamTypes.length){
+		Class<?>[] overridingMethodParamTypes = overridingMethod
+				.getParameterTypes();
+		if (baseMethodParamTypes.length != overridingMethodParamTypes.length) {
 			return false;
-		}		
-		for(int iParam=0; iParam<baseMethodParamTypes.length; iParam++){
+		}
+		for (int iParam = 0; iParam < baseMethodParamTypes.length; iParam++) {
 			Class<?> baseMethodParamType = baseMethodParamTypes[iParam];
 			Class<?> overridingMethodParamType = overridingMethodParamTypes[iParam];
-			if(!baseMethodParamType.isAssignableFrom(overridingMethodParamType)){
+			if (!baseMethodParamType
+					.isAssignableFrom(overridingMethodParamType)) {
 				return false;
-			}			
+			}
 		}
 		return true;
 	}
-
-	
 
 }

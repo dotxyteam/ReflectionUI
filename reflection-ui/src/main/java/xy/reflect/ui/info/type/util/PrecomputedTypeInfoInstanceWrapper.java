@@ -1,5 +1,9 @@
 package xy.reflect.ui.info.type.util;
 
+import java.awt.Image;
+import java.util.ArrayList;
+import java.util.List;
+
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.IEnumerationTypeInfo;
@@ -31,6 +35,11 @@ public class PrecomputedTypeInfoInstanceWrapper {
 
 	public static ITypeInfo adaptPrecomputedType(final ITypeInfo precomputedType) {
 		return new TypeInfoProxyConfiguration() {
+
+			protected PrecomputedTypeInfoInstanceWrapper wrap(Object object) {
+				return new PrecomputedTypeInfoInstanceWrapper(object,
+						precomputedType);
+			}
 
 			protected Object unwrap(Object object) {
 				PrecomputedTypeInfoInstanceWrapper wrapper = (PrecomputedTypeInfoInstanceWrapper) object;
@@ -73,8 +82,8 @@ public class PrecomputedTypeInfoInstanceWrapper {
 
 			@Override
 			protected Object invoke(Object object,
-					InvocationData invocationData,
-					IMethodInfo method, ITypeInfo containingType) {
+					InvocationData invocationData, IMethodInfo method,
+					ITypeInfo containingType) {
 				object = unwrap(object);
 				return super.invoke(object, invocationData, method,
 						containingType);
@@ -94,11 +103,24 @@ public class PrecomputedTypeInfoInstanceWrapper {
 			}
 
 			@Override
-			protected Object fromListValue(IListTypeInfo type,
-					Object[] listValue) {
-				Object result = super.fromListValue(type, listValue);
-				return new PrecomputedTypeInfoInstanceWrapper(result,
-						precomputedType);
+			protected Image getIconImage(ITypeInfo type, Object object) {
+				object = unwrap(object);
+				return super.getIconImage(type, object);
+			}
+
+			@Override
+			protected Object fromArray(IListTypeInfo type, Object[] listValue) {
+				Object result = super.fromArray(type, listValue);
+				return wrap(result);
+			}
+
+			@Override
+			protected Object[] getPossibleValues(IEnumerationTypeInfo type) {
+				List<Object> result = new ArrayList<Object>();
+				for (Object item : super.getPossibleValues(type)) {
+					result.add(wrap(item));
+				}
+				return result.toArray();
 			}
 
 			@Override
@@ -109,9 +131,9 @@ public class PrecomputedTypeInfoInstanceWrapper {
 			}
 
 			@Override
-			protected Object[] toListValue(IListTypeInfo type, Object object) {
+			protected Object[] toArray(IListTypeInfo type, Object object) {
 				object = unwrap(object);
-				return super.toListValue(type, object);
+				return super.toArray(type, object);
 			}
 
 			@Override
@@ -123,8 +145,7 @@ public class PrecomputedTypeInfoInstanceWrapper {
 			@Override
 			protected void validateParameters(IMethodInfo method,
 					ITypeInfo containingType, Object object,
-					InvocationData invocationData)
-					throws Exception {
+					InvocationData invocationData) throws Exception {
 				object = unwrap(object);
 				super.validateParameters(method, containingType, object,
 						invocationData);
@@ -146,9 +167,6 @@ public class PrecomputedTypeInfoInstanceWrapper {
 		return instance;
 	}
 
-	
-	
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

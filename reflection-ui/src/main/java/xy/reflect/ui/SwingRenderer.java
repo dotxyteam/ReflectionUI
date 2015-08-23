@@ -1,4 +1,4 @@
-package xy.reflect.ui.renderer;
+package xy.reflect.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -46,8 +46,7 @@ import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.JXBusyLabel;
 
-import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.IFieldControl;
+import xy.reflect.ui.control.swing.IFieldControl;
 import xy.reflect.ui.control.swing.MethodControl;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.InfoCategory;
@@ -58,7 +57,9 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.util.ArrayAsEnumerationTypeInfo;
 import xy.reflect.ui.info.type.util.MethodParametersAsTypeInfo;
+import xy.reflect.ui.info.type.util.ValueAsFieldTypeInfo;
 import xy.reflect.ui.undo.CompositeModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.IModificationListener;
@@ -188,7 +189,7 @@ public class SwingRenderer {
 			final Runnable whenClosing) {
 		Window owner = SwingRendererUtils
 				.getWindowAncestorOrSelf(ownerComponent);
-		JDialog dialog = new JDialog(owner, title) {
+		JDialog dialog = new JDialog(owner, reflectionUI.prepareUIString(title)) {
 			protected static final long serialVersionUID = 1L;
 			protected boolean disposed = false;
 
@@ -740,8 +741,7 @@ public class SwingRenderer {
 	public void handleExceptionsFromDisplayedUI(Component activatorComponent,
 			final Throwable t) {
 		reflectionUI.logError(t);
-		openErrorDialog(activatorComponent,
-				reflectionUI.prepareUIString("An Error Occured"), t);
+		openErrorDialog(activatorComponent, "An Error Occured", t);
 	}
 
 	public IFieldInfo handleValueChangeErrors(IFieldInfo field,
@@ -869,13 +869,9 @@ public class SwingRenderer {
 					if (silent) {
 						type = polyTypes.get(0);
 					} else {
-						type = openSelectionDialog(
-								activatorComponent,
-								polyTypes,
-								null,
-								MessageFormat.format(
-										reflectionUI
-												.prepareUIString("Choose the type of ''{0}'':"),
+						type = openSelectionDialog(activatorComponent,
+								polyTypes, null, MessageFormat.format(
+										"Choose the type of ''{0}''",
 										type.getCaption()), null);
 						if (type == null) {
 							return null;
@@ -965,10 +961,11 @@ public class SwingRenderer {
 	public void openErrorDialog(Component activatorComponent, String title,
 			final Throwable error) {
 		Component errorComponent = new JOptionPane(
-				createObjectForm(ReflectionUIUtils.wrapAsFieldValue(
-						reflectionUI, new Object[] { ReflectionUIUtils.getPrettyMessage(error) },
-						"Message", "", true)), JOptionPane.ERROR_MESSAGE,
-				JOptionPane.DEFAULT_OPTION, null, new Object[] {});
+				createObjectForm(ValueAsFieldTypeInfo
+						.wrap(reflectionUI, new Object[] { ReflectionUIUtils
+								.getPrettyMessage(error) }, "Message", "", true)),
+				JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION, null,
+				new Object[] {});
 
 		JDialog[] dialogArray = new JDialog[1];
 
@@ -978,10 +975,7 @@ public class SwingRenderer {
 		deatilsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				openObjectDialog(deatilsButton, error,
-						reflectionUI.prepareUIString("Error Details"),
-						reflectionUI.getObjectIconImage(error), true, null,
-						null, null, null, IInfoCollectionSettings.READ_ONLY);
+				openErrorDetailsDialog(deatilsButton, error);
 			}
 		});
 		buttons.add(deatilsButton);
@@ -992,6 +986,13 @@ public class SwingRenderer {
 				title, null, buttons, null);
 		showDialog(dialogArray[0], true);
 
+	}
+
+	public void openErrorDetailsDialog(Component activatorComponent,
+			Throwable error) {
+		openObjectDialog(activatorComponent, error, "Error Details",
+				reflectionUI.getIconImage(error), true, null, null, null,
+				null, IInfoCollectionSettings.READ_ONLY);
 	}
 
 	public void openMethodReturnValueWindow(Component activatorComponent,
@@ -1086,7 +1087,7 @@ public class SwingRenderer {
 
 	public void openObjectDialog(Component parent, Object object, boolean modal) {
 		openObjectDialog(parent, object, reflectionUI.getObjectKind(object),
-				reflectionUI.getObjectIconImage(object), modal);
+				reflectionUI.getIconImage(object), modal);
 	}
 
 	public void openObjectDialog(Component parent, Object object, String title,
@@ -1132,7 +1133,7 @@ public class SwingRenderer {
 
 	public void openObjectFrame(Object object) {
 		openObjectFrame(object, reflectionUI.getObjectKind(object),
-				reflectionUI.getObjectIconImage(object));
+				reflectionUI.getIconImage(object));
 	}
 
 	public void openObjectFrame(Object object, String title, Image iconImage) {
@@ -1149,11 +1150,25 @@ public class SwingRenderer {
 	@SuppressWarnings("unchecked")
 	public <T> T openSelectionDialog(Component parentComponent,
 			List<T> choices, T initialSelection, String message, String title) {
-		return (T) JOptionPane.showInputDialog(parentComponent,
-				reflectionUI.prepareUIString(message),
-				reflectionUI.prepareUIString(title),
-				JOptionPane.QUESTION_MESSAGE, null, choices.toArray(),
-				initialSelection);
+		if (choices.size() == 0) {
+			throw new ReflectionUIError();
+		}
+		if (initialSelection == null) {
+			initialSelection = choices.get(0);
+		}
+		final Object[] chosenItemArray = new Object[] { initialSelection };
+		ITypeInfo enumType = new ArrayAsEnumerationTypeInfo(reflectionUI,
+				choices.toArray(), "");
+		final Object chosenItemAsField = ValueAsFieldTypeInfo.wrap(
+				reflectionUI, enumType, chosenItemArray, message, "Selection",
+				false);
+		if (openValueDialog(parentComponent,
+				Accessor.returning(chosenItemAsField),
+				IInfoCollectionSettings.DEFAULT, null, title, new boolean[1])) {
+			return (T) chosenItemArray[0];
+		} else {
+			return null;
+		}
 	}
 
 	public boolean openValueDialog(Component activatorComponent,
@@ -1166,8 +1181,8 @@ public class SwingRenderer {
 				.getTypeInfoSource(valueArray[0]));
 		final Object toOpen;
 		if (valueTypeInfo.hasCustomFieldControl()) {
-			toOpen = ReflectionUIUtils.wrapAsFieldValue(reflectionUI,
-					valueArray, "Value", title, settings.allReadOnly());
+			toOpen = ValueAsFieldTypeInfo.wrap(reflectionUI, valueArray,
+					"Value", title, settings.allReadOnly());
 		} else {
 			toOpen = valueArray[0];
 		}
@@ -1223,7 +1238,7 @@ public class SwingRenderer {
 		};
 
 		openObjectDialog(activatorComponent, toOpen, title,
-				reflectionUI.getObjectIconImage(valueArray[0]), true, null,
+				reflectionUI.getIconImage(valueArray[0]), true, null,
 				okPressedArray, whenClosingDialog, modificationstackArray,
 				settings);
 
@@ -1238,13 +1253,13 @@ public class SwingRenderer {
 				.getTypeInfoSource(valueArray[0]));
 		final Object toOpen;
 		if (valueTypeInfo.hasCustomFieldControl()) {
-			toOpen = ReflectionUIUtils.wrapAsFieldValue(reflectionUI,
-					valueArray, "Value", title, settings.allReadOnly());
+			toOpen = ValueAsFieldTypeInfo.wrap(reflectionUI, valueArray,
+					"Value", title, settings.allReadOnly());
 		} else {
 			toOpen = valueArray[0];
 		}
 		openObjectFrame(toOpen, title,
-				reflectionUI.getObjectIconImage(valueArray[0]));
+				reflectionUI.getIconImage(valueArray[0]));
 	}
 
 	public void refreshAllFieldControls(JPanel form) {

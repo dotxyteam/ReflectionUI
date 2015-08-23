@@ -212,7 +212,7 @@ public class DialogAccessControl extends JPanel {
 
 	protected void updateIconControl() {
 		Object fieldValue = field.getValue(object);
-		Image iconImage = reflectionUI.getObjectIconImage(fieldValue);
+		Image iconImage = reflectionUI.getIconImage(fieldValue);
 		if (iconImage != null) {
 			((JLabel) iconControl).setIcon(new ImageIcon(iconImage));
 			iconControl.setVisible(true);

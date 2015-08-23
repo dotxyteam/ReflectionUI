@@ -2,6 +2,7 @@ package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -12,7 +13,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.IFieldControl;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.HiddenNullableFacetFieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -226,7 +226,12 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 
 					@Override
 					public String toString(Object object) {
-						return object.toString();
+						return reflectionUI.toString(object);
+					}
+
+					@Override
+					public Image getIconImage(Object object) {
+						return reflectionUI.getIconImage(object);
 					}
 
 					@Override

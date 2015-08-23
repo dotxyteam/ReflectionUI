@@ -4,11 +4,11 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.SwingRenderer;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.util.TypeInfoProxyConfiguration;
-import xy.reflect.ui.renderer.SwingRenderer;
 
 /*
  * Read carefully the comments below. 
