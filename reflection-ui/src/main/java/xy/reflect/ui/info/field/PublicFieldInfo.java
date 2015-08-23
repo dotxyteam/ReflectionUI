@@ -117,10 +117,11 @@ public class PublicFieldInfo implements IFieldInfo {
 	}
 
 	public static boolean isCompatibleWith(Field field) {
-		if (Modifier.isStatic(field.getModifiers())) {
+		if (Modifier.isStatic(field.getModifiers())
+				&& Modifier.isFinal(field.getModifiers())) {
 			return false;
 		}
-		if(ReflectionUIUtils.isInfoHidden(field)){
+		if (ReflectionUIUtils.isInfoHidden(field)) {
 			return false;
 		}
 		return true;

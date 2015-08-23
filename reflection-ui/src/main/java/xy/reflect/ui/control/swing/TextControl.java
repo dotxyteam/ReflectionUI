@@ -40,9 +40,7 @@ public class TextControl extends JPanel implements IFieldControl {
 		setLayout(new BorderLayout());
 
 		textComponent = new JTextArea();
-		// textComponent.setLineWrap(true);
-		// textComponent.setWrapStyleWord(true);
-
+		
 		JScrollPane scrollPane = new JScrollPane(textComponent) {
 
 			protected static final long serialVersionUID = 1L;

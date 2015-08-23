@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +19,6 @@ import javax.swing.JPanel;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.InfoCategory;
-import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -45,49 +46,69 @@ public class DialogAccessControl extends JPanel {
 		this.field = field;
 		setLayout(new BorderLayout());
 
-		add(iconControl = createIconControl(), BorderLayout.EAST);
+		textControl = createTextControl();
+		button = createButton();
+		iconControl = createIconControl();
 
+		add(SwingRendererUtils.flowInLayout(button, FlowLayout.CENTER),
+				BorderLayout.WEST);
 		JPanel centerPanel = new JPanel();
-		add(centerPanel, BorderLayout.CENTER);
-		centerPanel.setLayout(new BorderLayout());
-		centerPanel.add(textControl = createTextControl(), BorderLayout.CENTER);
-		centerPanel.add(SwingRendererUtils.flowInLayout(button = createButton(),
-				FlowLayout.CENTER), BorderLayout.WEST);
+		{
+			add(centerPanel, BorderLayout.CENTER);
+			centerPanel.setLayout(new GridBagLayout());
+			GridBagConstraints c = new GridBagConstraints();
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 1.0;
+			centerPanel.add(textControl, c);
+		}
+		add(iconControl, BorderLayout.EAST);
 
-		int defaultHeight = new TextControl(reflectionUI, object,
-				new FieldInfoProxy(field) {
-
-					@Override
-					public Object getValue(Object object) {
-						return "";
-					}
-
-					@Override
-					public ITypeInfo getType() {
-						return new TextualTypeInfo(reflectionUI,
-								String.class);
-					}
-
-				}).getPreferredSize().height;
-		button.setPreferredSize(new Dimension(defaultHeight, defaultHeight));
-		iconControl
-				.setPreferredSize(new Dimension(defaultHeight, defaultHeight));
 		updateControls();
 	}
-	
 
-	
 	@Override
 	public void requestFocus() {
 		textControl.requestFocus();
 	}
 
 	protected Component createIconControl() {
-		return new JLabel();
+		return new JLabel() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Dimension getPreferredSize() {
+				Dimension result = super.getPreferredSize();
+				if (result != null) {
+					if (textControl != null) {
+						Dimension textControlPreferredSize = textControl
+								.getPreferredSize();
+						if (textControlPreferredSize != null) {
+							result.height = textControlPreferredSize.height;
+						}
+					}
+				}
+				return result;
+			}
+
+		};
 	}
 
 	protected Component createButton() {
-		final JButton result = new JButton("...");
+		final JButton result = new JButton("...") {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Dimension getPreferredSize() {
+				Dimension result = super.getPreferredSize();
+				if (result != null) {
+					result.width = result.height;
+				}
+				return result;
+			}
+
+		};
 		result.addActionListener(new ActionListener() {
 
 			@Override
@@ -95,7 +116,8 @@ public class DialogAccessControl extends JPanel {
 				try {
 					openDialog();
 				} catch (Throwable t) {
-					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(result, t);
+					reflectionUI.getSwingRenderer()
+							.handleExceptionsFromDisplayedUI(result, t);
 				}
 			}
 		});
@@ -197,8 +219,8 @@ public class DialogAccessControl extends JPanel {
 			}
 		};
 		boolean[] changeDetectedArray = new boolean[] { false };
-		reflectionUI.getSwingRenderer().openValueDialog(this, valueAccessor, settings,
-				parentStack, title, changeDetectedArray);
+		reflectionUI.getSwingRenderer().openValueDialog(this, valueAccessor,
+				settings, parentStack, title, changeDetectedArray);
 		if (changeDetectedArray[0]) {
 			updateControls();
 		}

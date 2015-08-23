@@ -1,3 +1,5 @@
+- Swing controls are references from ITypeInfo classes (createFieldControl)
+=> not good
 - Exception dialog shows cause as embedded form => not nice
 - TextControl too high because of horizontal scrollbar
 - colors should never be set on components,

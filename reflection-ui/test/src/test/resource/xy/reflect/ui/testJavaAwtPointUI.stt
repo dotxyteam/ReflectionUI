@@ -8,7 +8,7 @@
     </xy.ui.testing.action.CallMainMethodAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <componentClassName>javax.swing.plaf.basic.BasicOptionPaneUI$MultiplexingTextField</componentClassName>
+        <componentClassName>javax.swing.JTextArea</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>

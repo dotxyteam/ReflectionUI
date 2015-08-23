@@ -29,22 +29,22 @@ public class UtilitiesTypeInfo extends DefaultTypeInfo {
 	}
 
 	public static boolean isCompatibleWith(Class<?> javaType) {
-		if(Object.class.equals(javaType)){
+		if (Object.class.equals(javaType)) {
 			return false;
 		}
 		for (Field field : javaType.getFields()) {
 			if (PublicFieldInfo.isCompatibleWith(field)) {
-				return false;
-			}
-		}
-		for (Method method : javaType.getMethods()) {
-			if (DefaultMethodInfo.isCompatibleWith(method, javaType)) {
-				if (!Modifier.isStatic(method.getModifiers())) {
+				if (!Modifier.isStatic(field.getModifiers())) {
 					return false;
 				}
 			}
-			if (GetterFieldInfo.isCompatibleWith(method, javaType)) {
-				return false;
+		}
+		for (Method method : javaType.getMethods()) {
+			if (DefaultMethodInfo.isCompatibleWith(method, javaType)
+					|| GetterFieldInfo.isCompatibleWith(method, javaType)) {
+				if (!Modifier.isStatic(method.getModifiers())) {
+					return false;
+				}
 			}
 		}
 		return true;

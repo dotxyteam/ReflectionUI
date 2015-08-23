@@ -8,7 +8,7 @@
     </xy.ui.testing.action.CallMainMethodAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <componentClassName>javax.swing.plaf.basic.BasicOptionPaneUI$MultiplexingTextField</componentClassName>
+        <componentClassName>javax.swing.JTextArea</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
@@ -53,11 +53,10 @@
         <string>Name: </string>
         <string>State: </string>
         <string>NEW</string>
+        <string>Default Uncaught Exception Handler: </string>
         <string>Uncaught Exception Handler: </string>
-        <string>Thread Group[name=main,maxpri=10]</string>
         <string>...</string>
         <string>Thread Group: </string>
-        <string>Thread Group[name=main,maxpri=10]</string>
         <string>...</string>
         <string>Id: </string>
         <string>Stack Trace</string>
@@ -77,17 +76,14 @@
         <string>Stop</string>
         <string>Suspend</string>
         <string>Yield</string>
-        <string>Show All Stack Traces</string>
         <string>Interrupted</string>
         <string>Active Count</string>
         <string>Count Stack Frames</string>
         <string>Current Thread</string>
-        <string>Show Default Uncaught Exception Handler</string>
         <string>Enumerate...</string>
         <string>Join...</string>
         <string>Sleep...</string>
         <string>Holds Lock...</string>
-        <string>Set Default Uncaught Exception Handler...</string>
         <string>Stop...</string>
         <string>Join...</string>
         <string>Sleep...</string>
@@ -140,56 +136,10 @@
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
-      <orderChecked>false</orderChecked>
+      <orderChecked>true</orderChecked>
       <visibleStrings>
-        <string>Thread</string>
-        <string>Is Alive</string>
-        <string>Is Daemon</string>
-        <string>Is Interrupted</string>
-        <string>Priority: </string>
-        <string>5</string>
-        <string>Context Class Loader: </string>
-        <string>...</string>
-        <string>Name: </string>
         <string>State: </string>
         <string>TERMINATED</string>
-        <string>Uncaught Exception Handler: </string>
-        <string>Thread Group: </string>
-        <string>Id: </string>
-        <string>Stack Trace</string>
-        <string>Is Native Method</string>
-        <string>Line Number</string>
-        <string>Class Name</string>
-        <string>File Name</string>
-        <string>Method Name</string>
-        <string>Check Access</string>
-        <string>Destroy</string>
-        <string>Dump Stack</string>
-        <string>Interrupt</string>
-        <string>Join</string>
-        <string>Resume</string>
-        <string>Run</string>
-        <string>Start</string>
-        <string>Stop</string>
-        <string>Suspend</string>
-        <string>Yield</string>
-        <string>Show All Stack Traces</string>
-        <string>Interrupted</string>
-        <string>Active Count</string>
-        <string>Count Stack Frames</string>
-        <string>Current Thread</string>
-        <string>Show Default Uncaught Exception Handler</string>
-        <string>Enumerate...</string>
-        <string>Join...</string>
-        <string>Sleep...</string>
-        <string>Holds Lock...</string>
-        <string>Set Default Uncaught Exception Handler...</string>
-        <string>Stop...</string>
-        <string>Join...</string>
-        <string>Sleep...</string>
-        <string>Undo</string>
-        <string>Redo</string>
-        <string>Reset</string>
       </visibleStrings>
       <windowIndex>0</windowIndex>
     </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
@@ -232,8 +182,10 @@
         <string>Localized Message: </string>
         <string>Illegal Thread State Error</string>
         <string>Message: </string>
-        <string>Cause</string>
+        <string>Illegal Thread State Error</string>
+        <string>Cause: </string>
         <string>...</string>
+        <string>Illegal Thread State Error</string>
         <string>Stack Trace</string>
         <string>Is Native Method</string>
         <string>Line Number</string>
@@ -242,6 +194,9 @@
         <string>Method Name</string>
         <string>run</string>
         <string>Print Stack Trace</string>
+        <string>Fill In Stack Trace</string>
+        <string>Print Stack Trace...</string>
+        <string>Print Stack Trace...</string>
         <string>Init Cause...</string>
         <string>Close</string>
       </visibleStrings>
