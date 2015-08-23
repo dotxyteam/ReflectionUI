@@ -21,11 +21,11 @@
 <A NAME="4"></A><FONT ID="Import">import</FONT> javax.swing.JOptionPane;
 <A NAME="5"></A>
 <A NAME="6"></A><FONT ID="Import">import</FONT> xy.reflect.ui.ReflectionUI;
-<A NAME="7"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.field.IFieldInfo;
-<A NAME="8"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.type.ITypeInfo;
-<A NAME="9"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.type.source.ITypeInfoSource;
-<A NAME="10"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.type.util.TypeInfoProxyConfiguration;
-<A NAME="11"></A><FONT ID="Import">import</FONT> xy.reflect.ui.renderer.SwingRenderer;
+<A NAME="7"></A><FONT ID="Import">import</FONT> xy.reflect.ui.SwingRenderer;
+<A NAME="8"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.field.IFieldInfo;
+<A NAME="9"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.type.ITypeInfo;
+<A NAME="10"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.type.source.ITypeInfoSource;
+<A NAME="11"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.type.util.TypeInfoProxyConfiguration;
 <A NAME="12"></A>
 <A NAME="13"></A><FONT ID="MultiLineComment">/*
 <A NAME="14"></A> * Read carefully the comments below. 
@@ -47,7 +47,7 @@
 <A NAME="30"></A>                reflectionUI.getSwingRenderer().createObjectForm(myObject));
 <A NAME="31"></A>
 <A NAME="32"></A>        <FONT ID="MultiLineComment">/*
-<A NAME="33"></A>         * The ReflectionUI generator assumes that that the Java coding
+<A NAME="33"></A>         * The ReflectionUI generator assumes that the Java coding
 <A NAME="34"></A>         * standards are respected for the instanciated classes. Otherwise
 <A NAME="35"></A>         * adjustments can be done by overriding some methods of the
 <A NAME="36"></A>         * ReflectionUI object:
@@ -101,8 +101,8 @@
 <A NAME="84"></A>        };
 <A NAME="85"></A>
 <A NAME="86"></A>        <FONT ID="MultiLineComment">/*
-<A NAME="87"></A>         * In order to customize the UI behavior, just override the ReflectionUI
-<A NAME="88"></A>         * object. For instance let set any window size to 300x300:
+<A NAME="87"></A>         * In order to customize the UI behavior, just override the renderer
+<A NAME="88"></A>         * object. For instance let set any swing window size to 300x300:
 <A NAME="89"></A>         */</FONT>
 <A NAME="90"></A>        reflectionUI = <FONT ID="New">new</FONT> ReflectionUI() {
 <A NAME="91"></A>
