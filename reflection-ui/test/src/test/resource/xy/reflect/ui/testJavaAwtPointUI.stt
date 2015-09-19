@@ -3,7 +3,7 @@
   <minimumSecondsToWaitBetwneenActions>1</minimumSecondsToWaitBetwneenActions>
   <testActions>
     <xy.ui.testing.action.CallMainMethodAction>
-      <checkThrownExceptionAFterSeconds>2</checkThrownExceptionAFterSeconds>
+      <checkThrownExceptionAfterSeconds>2</checkThrownExceptionAfterSeconds>
       <className>xy.reflect.ui.ReflectionUI</className>
     </xy.ui.testing.action.CallMainMethodAction>
     <xy.ui.testing.action.component.SendKeysAction>

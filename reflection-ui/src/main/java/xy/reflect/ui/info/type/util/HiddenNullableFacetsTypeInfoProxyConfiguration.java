@@ -10,52 +10,51 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
-public class HiddenNullableFacetsTypeInfoProxyConfiguration extends
-		TypeInfoProxyConfiguration {
+public class HiddenNullableFacetsTypeInfoProxyConfiguration extends TypeInfoProxyConfiguration {
 
 	private static final Object NULL_FOR_CACHE = new Object();
 	protected ReflectionUI reflectionUI;
-	protected Map<ITypeInfo, Object> defaultValueByType = CacheBuilder
-			.newBuilder().maximumSize(100).<ITypeInfo, Object> build().asMap();
+	protected Map<ITypeInfo, Object> defaultValueByType = CacheBuilder.newBuilder().maximumSize(100)
+			.<ITypeInfo, Object> build().asMap();
 
-	public HiddenNullableFacetsTypeInfoProxyConfiguration(
-			ReflectionUI reflectionUI) {
+	public HiddenNullableFacetsTypeInfoProxyConfiguration(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
 	}
 
 	@Override
-	protected Object getDefaultValue(IParameterInfo param, IMethodInfo method,
-			ITypeInfo containingType) {
+	protected Object getDefaultValue(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
 		Object result = param.getDefaultValue();
-		if (result != null) {
-			return result;
+		if (result == null) {
+			if (!isNullable(param, method, containingType)) {
+				result = generateDefaultValue(param.getType());
+			}
 		}
-		return generateDefaultValue(param.getType());
+		return result;
+
 	}
 
 	@Override
-	protected boolean isNullable(IParameterInfo param, IMethodInfo method,
-			ITypeInfo containingType) {
-		if(!param.isNullable()){
+	protected boolean isNullable(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+		if (!param.isNullable()) {
 			return false;
 		}
-		return (param.getDefaultValue() == null)
-				&& (generateDefaultValue(param.getType()) == null);
+		return (param.getDefaultValue() == null) && (generateDefaultValue(param.getType()) == null);
 	}
 
 	@Override
-	protected Object getValue(Object object, IFieldInfo field,
-			ITypeInfo containingType) {
+	protected Object getValue(Object object, IFieldInfo field, ITypeInfo containingType) {
 		Object result = super.getValue(object, field, containingType);
 		if (result == null) {
-			result = generateDefaultValue(field.getType());
+			if (!isNullable(field, containingType)) {
+				result = generateDefaultValue(field.getType());
+			}
 		}
 		return result;
 	}
 
 	@Override
 	protected boolean isNullable(IFieldInfo field, ITypeInfo containingType) {
-		if(!field.isNullable()){
+		if (!field.isNullable()) {
 			return false;
 		}
 		return generateDefaultValue(field.getType()) == null;
@@ -65,8 +64,7 @@ public class HiddenNullableFacetsTypeInfoProxyConfiguration extends
 		Object result = defaultValueByType.get(type);
 		if (result == null) {
 			try {
-				result = reflectionUI.getSwingRenderer().onTypeInstanciationRequest(null, type,
-						true);
+				result = reflectionUI.getSwingRenderer().onTypeInstanciationRequest(null, type, true);
 				if (result == null) {
 					result = NULL_FOR_CACHE;
 				}

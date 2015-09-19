@@ -191,6 +191,7 @@ public class TextControl extends JPanel implements IFieldControl {
 					textComponent.getText().length()));
 		}
 		textChangedByUser = true;
+		displayError(null);
 		return true;
 	}
 

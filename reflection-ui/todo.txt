@@ -1,17 +1,12 @@
-- Swing controls are references from ITypeInfo classes (createFieldControl)
-=> not good
-- Exception dialog shows cause as embedded form => not nice
-- TextControl too high because of horizontal scrollbar
 - colors should never be set on components,
 otherwise lookandfeel dynamic change is not taken into account.
 See:
 	. TextControl
 	. listControl.treeControl
-- menus
+- menus???
 - listControl: 
 	. deatil view
 - update translatable strings
-- check getSubObjectEd is used where it should
 - private => protected
 - new controls:
 	. spinner, slider for numbers
