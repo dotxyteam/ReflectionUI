@@ -183,6 +183,12 @@ public class TypeInfoProxyConfiguration {
 			List<? extends ItemPosition> selection) {
 		return type.getSpecificActions(object, field, selection);
 	}
+	
+
+	protected List<IMethodInfo> getSpecificItemConstructors(IListTypeInfo type,
+			Object object, IFieldInfo field) {
+		return type.getSpecificItemConstructors(object, field);
+	}
 
 	protected ITypeInfo getItemType(IListTypeInfo type) {
 		return type.getItemType();
@@ -524,6 +530,12 @@ public class TypeInfoProxyConfiguration {
 				IFieldInfo field, List<? extends ItemPosition> selection) {
 			return TypeInfoProxyConfiguration.this.getSpecificListActions(
 					(IListTypeInfo) type, object, field, selection);
+		}
+
+		@Override
+		public List<IMethodInfo> getSpecificItemConstructors(Object object, IFieldInfo field) {
+			return TypeInfoProxyConfiguration.this.getSpecificItemConstructors(
+					(IListTypeInfo) type, object, field);
 		}
 
 	}
@@ -887,5 +899,6 @@ public class TypeInfoProxyConfiguration {
 		}
 
 	}
+
 
 }

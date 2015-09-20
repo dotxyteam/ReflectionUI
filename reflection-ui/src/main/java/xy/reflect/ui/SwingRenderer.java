@@ -814,7 +814,16 @@ public class SwingRenderer {
 				if (type.isConcrete() || silent) {
 					throw new ReflectionUIError("No accessible constructor found");
 				} else {
-					type = openConcreteClassSelectionDialog(activatorComponent, type);
+					String className = openInputDialog(activatorComponent, "",
+							"Class name of the '" + type.getCaption() + "' you want to create:", null);
+					if (className == null) {
+						type = null;
+					}
+					try {
+						type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(Class.forName(className)));
+					} catch (ClassNotFoundException e) {
+						throw new ReflectionUIError(e);
+					}
 					if (type == null) {
 						return null;
 					} else {
@@ -859,19 +868,6 @@ public class SwingRenderer {
 			throw new ReflectionUIError("Could not create an instance of type '" + type + "': " + t.toString(), t);
 		}
 
-	}
-
-	public ITypeInfo openConcreteClassSelectionDialog(Component parentComponent, ITypeInfo type) {
-		String className = openInputDialog(parentComponent, "",
-				"Class name of the '" + type.getCaption() + "' you want to create:", null);
-		if (className == null) {
-			return null;
-		}
-		try {
-			return reflectionUI.getTypeInfo(new JavaTypeInfoSource(Class.forName(className)));
-		} catch (ClassNotFoundException e) {
-			throw new ReflectionUIError(e);
-		}
 	}
 
 	public void openErrorDialog(Component activatorComponent, String title, final Throwable error) {

@@ -313,6 +313,13 @@ public class SwingRendererUtils {
 				super.setValue(object, value);
 			}
 
+			@Override
+			public ITypeInfo getType() {
+				return PrecomputedTypeInfoInstanceWrapper.adaptPrecomputedType(super.getType());
+			}
+			
+			
+
 		};
 	}
 

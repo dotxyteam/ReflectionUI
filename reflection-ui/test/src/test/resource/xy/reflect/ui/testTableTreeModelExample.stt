@@ -125,13 +125,13 @@
           <xy.ui.testing.finder.PropertyBasedComponentFinder>
             <componentClassName>javax.swing.JPopupMenu$1</componentClassName>
             <occurrencesToSkip>0</occurrencesToSkip>
-            <propertyCriteriaList>
-              <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyCriteria>
+            <propertyValueList>
+              <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
                 <propertyName>Text</propertyName>
                 <propertyValueExpected>Insert Product After ...</propertyValueExpected>
                 <outer-class reference="../../.."/>
-              </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyCriteria>
-            </propertyCriteriaList>
+              </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
+            </propertyValueList>
             <windowIndex>0</windowIndex>
           </xy.ui.testing.finder.PropertyBasedComponentFinder>
         </menuItemPath>
@@ -217,13 +217,13 @@
           <xy.ui.testing.finder.PropertyBasedComponentFinder>
             <componentClassName>javax.swing.JPopupMenu$1</componentClassName>
             <occurrencesToSkip>0</occurrencesToSkip>
-            <propertyCriteriaList>
-              <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyCriteria>
+            <propertyValueList>
+              <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
                 <propertyName>Text</propertyName>
                 <propertyValueExpected>Add Child Product...</propertyValueExpected>
                 <outer-class reference="../../.."/>
-              </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyCriteria>
-            </propertyCriteriaList>
+              </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
+            </propertyValueList>
             <windowIndex>0</windowIndex>
           </xy.ui.testing.finder.PropertyBasedComponentFinder>
         </menuItemPath>
@@ -321,13 +321,13 @@
           <xy.ui.testing.finder.PropertyBasedComponentFinder>
             <componentClassName>javax.swing.JPopupMenu$1</componentClassName>
             <occurrencesToSkip>0</occurrencesToSkip>
-            <propertyCriteriaList>
-              <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyCriteria>
+            <propertyValueList>
+              <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
                 <propertyName>Text</propertyName>
                 <propertyValueExpected>Insert Product After ...</propertyValueExpected>
                 <outer-class reference="../../.."/>
-              </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyCriteria>
-            </propertyCriteriaList>
+              </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
+            </propertyValueList>
             <windowIndex>0</windowIndex>
           </xy.ui.testing.finder.PropertyBasedComponentFinder>
         </menuItemPath>

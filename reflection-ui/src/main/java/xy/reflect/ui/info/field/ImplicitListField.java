@@ -11,6 +11,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
@@ -19,10 +20,8 @@ import xy.reflect.ui.info.type.iterable.util.IListAction;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.info.type.iterable.util.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
-import xy.reflect.ui.info.type.util.TypeInfoProxyConfiguration;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.info.method.InvocationData;
 
 public class ImplicitListField implements IFieldInfo {
 	protected String fieldName;
@@ -36,10 +35,8 @@ public class ImplicitListField implements IFieldInfo {
 	protected IListTypeInfo type;
 	private ITypeInfo parentType;
 
-	public ImplicitListField(ReflectionUI reflectionUI, String fieldName,
-			ITypeInfo parentType, String createMethodName,
-			String getMethodName, String addMethodName,
-			String removeMethodName, String sizeMethodName) {
+	public ImplicitListField(ReflectionUI reflectionUI, String fieldName, ITypeInfo parentType, String createMethodName,
+			String getMethodName, String addMethodName, String removeMethodName, String sizeMethodName) {
 		this.reflectionUI = reflectionUI;
 		this.fieldName = fieldName;
 		this.parentType = parentType;
@@ -53,28 +50,23 @@ public class ImplicitListField implements IFieldInfo {
 	}
 
 	protected IMethodInfo getCreateMethod() {
-		return ReflectionUIUtils.findInfoByName(parentType.getMethods(),
-				createMethodName);
+		return ReflectionUIUtils.findInfoByName(parentType.getMethods(), createMethodName);
 	}
 
 	protected IMethodInfo getGetMethod() {
-		return ReflectionUIUtils.findInfoByName(parentType.getMethods(),
-				getMethodName);
+		return ReflectionUIUtils.findInfoByName(parentType.getMethods(), getMethodName);
 	}
 
 	protected IMethodInfo getAddMethod() {
-		return ReflectionUIUtils.findInfoByName(parentType.getMethods(),
-				addMethodName);
+		return ReflectionUIUtils.findInfoByName(parentType.getMethods(), addMethodName);
 	}
 
 	protected IMethodInfo getRemoveMethod() {
-		return ReflectionUIUtils.findInfoByName(parentType.getMethods(),
-				removeMethodName);
+		return ReflectionUIUtils.findInfoByName(parentType.getMethods(), removeMethodName);
 	}
 
 	protected IFieldInfo getSizeField() {
-		return ReflectionUIUtils.findInfoByName(parentType.getFields(),
-				sizeMethodName);
+		return ReflectionUIUtils.findInfoByName(parentType.getFields(), sizeMethodName);
 	}
 
 	@Override
@@ -100,28 +92,26 @@ public class ImplicitListField implements IFieldInfo {
 	@Override
 	public IListTypeInfo getType() {
 		if (type == null) {
-			type = new ImplicitListFieldType(null);
+			type = new ImplicitListFieldType();
 		}
-		return type;
+		return (IListTypeInfo) PrecomputedTypeInfoInstanceWrapper.adaptPrecomputedType(type);
 	}
 
 	@Override
 	public Object getValue(Object object) {
 		Object result = new ImplicitListFieldValue(object);
-		result = new PrecomputedTypeInfoInstanceWrapper(result,
-				new ImplicitListFieldType(object));
+		result = new PrecomputedTypeInfoInstanceWrapper(result, new ImplicitListFieldType());
 		return result;
 	}
 
 	@Override
 	public void setValue(Object object, Object value) {
 		PrecomputedTypeInfoInstanceWrapper wrapper = (PrecomputedTypeInfoInstanceWrapper) value;
-		ImplicitListFieldValue implicitListFieldValue = (ImplicitListFieldValue) wrapper
-				.getInstance();
+		ImplicitListFieldValue implicitListFieldValue = (ImplicitListFieldValue) wrapper.getInstance();
 		if (!this.equals(implicitListFieldValue.getImplicitListField())) {
 			throw new ReflectionUIError();
 		}
-		Object[] array = getType().toArray(implicitListFieldValue);
+		Object[] array = getType().toArray(wrapper);
 		while (true) {
 			int size = (Integer) getSizeField().getValue(object);
 			if (size == 0) {
@@ -162,22 +152,13 @@ public class ImplicitListField implements IFieldInfo {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((addMethodName == null) ? 0 : addMethodName.hashCode());
-		result = prime
-				* result
-				+ ((createMethodName == null) ? 0 : createMethodName.hashCode());
-		result = prime * result
-				+ ((fieldName == null) ? 0 : fieldName.hashCode());
-		result = prime * result
-				+ ((getMethodName == null) ? 0 : getMethodName.hashCode());
-		result = prime * result
-				+ ((itemType == null) ? 0 : itemType.hashCode());
-		result = prime
-				* result
-				+ ((removeMethodName == null) ? 0 : removeMethodName.hashCode());
-		result = prime * result
-				+ ((sizeMethodName == null) ? 0 : sizeMethodName.hashCode());
+		result = prime * result + ((addMethodName == null) ? 0 : addMethodName.hashCode());
+		result = prime * result + ((createMethodName == null) ? 0 : createMethodName.hashCode());
+		result = prime * result + ((fieldName == null) ? 0 : fieldName.hashCode());
+		result = prime * result + ((getMethodName == null) ? 0 : getMethodName.hashCode());
+		result = prime * result + ((itemType == null) ? 0 : itemType.hashCode());
+		result = prime * result + ((removeMethodName == null) ? 0 : removeMethodName.hashCode());
+		result = prime * result + ((sizeMethodName == null) ? 0 : sizeMethodName.hashCode());
 		return result;
 	}
 
@@ -246,8 +227,7 @@ public class ImplicitListField implements IFieldInfo {
 			List<Object> result = new ArrayList<Object>();
 			int size = (Integer) getSizeField().getValue(object);
 			for (int i = 0; i < size; i++) {
-				Object item = getGetMethod().invoke(object,
-						new InvocationData(i));
+				Object item = getGetMethod().invoke(object, new InvocationData(i));
 				result.add(item);
 			}
 			return result.toArray();
@@ -291,19 +271,12 @@ public class ImplicitListField implements IFieldInfo {
 
 		@Override
 		public String toString() {
-			return ImplicitListFieldValue.class.getSimpleName() + ": "
-					+ Arrays.toString(getArray());
+			return ImplicitListFieldValue.class.getSimpleName() + ": " + Arrays.toString(getArray());
 		}
 
 	}
 
 	protected class ImplicitListFieldType implements IListTypeInfo {
-
-		protected Object object;
-
-		public ImplicitListFieldType(Object object) {
-			this.object = object;
-		}
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {
@@ -368,6 +341,7 @@ public class ImplicitListField implements IFieldInfo {
 		public List<IMethodInfo> getConstructors() {
 			return Collections.emptyList();
 		}
+
 		@Override
 		public Object[] toArray(Object listValue) {
 			ImplicitListFieldValue implicitListFieldValue = (ImplicitListFieldValue) listValue;
@@ -387,8 +361,7 @@ public class ImplicitListField implements IFieldInfo {
 
 		@Override
 		public IListStructuralInfo getStructuralInfo() {
-			return new StandardCollectionTypeInfo(reflectionUI, List.class,
-					Object.class) {
+			return new StandardCollectionTypeInfo(reflectionUI, List.class, Object.class) {
 
 				@Override
 				public ITypeInfo getItemType() {
@@ -399,44 +372,36 @@ public class ImplicitListField implements IFieldInfo {
 		}
 
 		@Override
-		public List<IListAction> getSpecificActions(Object object,
-				IFieldInfo field, List<? extends ItemPosition> selection) {
+		public List<IListAction> getSpecificActions(Object object, IFieldInfo field,
+				List<? extends ItemPosition> selection) {
 			return Collections.emptyList();
 		}
 
 		@Override
 		public ITypeInfo getItemType() {
-			return new TypeInfoProxyConfiguration() {
+			return itemType;
+		}
+		
+		
+		
+
+		@Override
+		public List<IMethodInfo> getSpecificItemConstructors(final Object object, IFieldInfo field) {
+			return Collections.<IMethodInfo> singletonList(
+					new AbstractConstructorMethodInfo(ImplicitListFieldType.this.getItemType()) {
 
 				@Override
-				protected List<IMethodInfo> getConstructors(ITypeInfo type) {
-					if (ImplicitListFieldType.this.object == null) {
-						return Collections.emptyList();
-					} else {
-						return Collections
-								.<IMethodInfo> singletonList(new AbstractConstructorMethodInfo(
-										ImplicitListFieldType.this
-												.getItemType()) {
-
-									@Override
-									public Object invoke(Object nullObject,
-											InvocationData invocationData) {
-										Object result = getCreateMethod()
-												.invoke(ImplicitListFieldType.this.object,
-														new InvocationData(
-																ImplicitListFieldType.this.object));
-										return result;
-									}
-
-									@Override
-									public List<IParameterInfo> getParameters() {
-										return Collections.emptyList();
-									}
-								});
-					}
+				public Object invoke(Object nullObject, InvocationData invocationData) {
+					Object result = getCreateMethod().invoke(object,
+							new InvocationData(object));
+					return result;
 				}
 
-			}.get(itemType);
+				@Override
+				public List<IParameterInfo> getParameters() {
+					return Collections.emptyList();
+				}
+			});
 		}
 
 		@Override
