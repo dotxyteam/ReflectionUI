@@ -8,9 +8,8 @@ import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
+import xy.reflect.ui.util.PrimitiveUtils;
 import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.ReflectionUIUtils.PrimitiveDefaults;
 import xy.reflect.ui.info.method.InvocationData;
 
 public class TextualTypeInfo extends DefaultTypeInfo {
@@ -35,11 +34,11 @@ public class TextualTypeInfo extends DefaultTypeInfo {
 							return new String();
 						}
 						Class<?> primitiveType = javaType;
-						if (ReflectionUIUtils.isPrimitiveWrapper(primitiveType)) {
-							primitiveType = ReflectionUIUtils
+						if (PrimitiveUtils.isPrimitiveWrapper(primitiveType)) {
+							primitiveType = PrimitiveUtils
 									.wrapperToPrimitiveType(javaType);
 						}
-						return PrimitiveDefaults.get(primitiveType);
+						return PrimitiveUtils.getDefaultValue(primitiveType);
 					}
 
 					@Override
@@ -51,7 +50,7 @@ public class TextualTypeInfo extends DefaultTypeInfo {
 	}
 
 	public static boolean isCompatibleWith(Class<?> javaType) {
-		return ReflectionUIUtils.isPrimitiveTypeOrWrapperOrString(javaType);
+		return PrimitiveUtils.isPrimitiveTypeOrWrapperOrString(javaType);
 	}
 
 	@Override

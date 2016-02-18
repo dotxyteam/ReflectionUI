@@ -7,6 +7,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.Parameter;
+import xy.reflect.ui.util.PrimitiveUtils;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class DefaultParameterInfo implements IParameterInfo {
@@ -92,7 +93,7 @@ public class DefaultParameterInfo implements IParameterInfo {
 	@Override
 	public Object getDefaultValue() {
 		if (javaParameter.getType().isPrimitive()) {
-			return ReflectionUIUtils.PrimitiveDefaults.get(javaParameter.getType());
+			return PrimitiveUtils.getDefaultValue(javaParameter.getType());
 		} else {
 			return null;
 		}

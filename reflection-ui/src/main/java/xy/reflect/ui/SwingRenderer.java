@@ -67,11 +67,12 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.ArrayAsEnumerationTypeInfo;
 import xy.reflect.ui.info.type.util.MethodParametersAsTypeInfo;
 import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
-import xy.reflect.ui.info.type.util.ValueAsFieldTypeInfo;
+import xy.reflect.ui.info.type.util.ValueFromVirtualFieldTypeInfo;
 import xy.reflect.ui.undo.CompositeModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.IModificationListener;
@@ -79,6 +80,7 @@ import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.SetFieldValueModification;
 import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.util.Accessor;
+import xy.reflect.ui.util.PrimitiveUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
@@ -815,7 +817,7 @@ public class SwingRenderer {
 					throw new ReflectionUIError("No accessible constructor found");
 				} else {
 					String className = openInputDialog(activatorComponent, "",
-							"Class name of the '" + type.getCaption() + "' you want to create:", null);
+							"Create '" + type.getCaption() + "' of type:", null);
 					if (className == null) {
 						type = null;
 					}
@@ -872,7 +874,7 @@ public class SwingRenderer {
 
 	public void openErrorDialog(Component activatorComponent, String title, final Throwable error) {
 		Component errorComponent = new JOptionPane(
-				createObjectForm(ValueAsFieldTypeInfo.wrap(reflectionUI,
+				createObjectForm(ValueFromVirtualFieldTypeInfo.wrap(reflectionUI,
 						new Object[] { ReflectionUIUtils.getPrettyMessage(error) }, "Message", "", true)),
 				JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[] {});
 
@@ -902,11 +904,10 @@ public class SwingRenderer {
 	public void openMethodReturnValueWindow(Component activatorComponent, Object object, IMethodInfo method,
 			Object returnValue) {
 		if (returnValue == null) {
-			String msg = "'" + method.getCaption() + "' excution returned no result!";
+			String msg = "No data returned!";
 			openMessageDialog(activatorComponent, msg, reflectionUI.getMethodTitle(object, method, null, "Result"));
 		} else {
-			openValueFrame(returnValue, IInfoCollectionSettings.DEFAULT,
-					reflectionUI.getMethodTitle(object, method, returnValue, "Execution Result"));
+			openValueFrame(returnValue, reflectionUI.getMethodTitle(object, method, returnValue, "Execution Result"));
 		}
 	}
 
@@ -1038,8 +1039,8 @@ public class SwingRenderer {
 		final Object[] chosenItemArray = new Object[] { initialSelection };
 		ITypeInfo enumType = new ArrayAsEnumerationTypeInfo(reflectionUI, choices.toArray(), "");
 		chosenItemArray[0] = new PrecomputedTypeInfoInstanceWrapper(chosenItemArray[0], enumType);
-		final Object chosenItemAsField = ValueAsFieldTypeInfo.wrap(reflectionUI, chosenItemArray, message, "Selection",
-				false);
+		final Object chosenItemAsField = ValueFromVirtualFieldTypeInfo.wrap(reflectionUI, chosenItemArray, message,
+				"Selection", false);
 		if (openValueDialog(parentComponent, Accessor.returning(chosenItemAsField), IInfoCollectionSettings.DEFAULT,
 				null, title, new boolean[1])) {
 			chosenItemArray[0] = ((PrecomputedTypeInfoInstanceWrapper) chosenItemArray[0]).getInstance();
@@ -1055,7 +1056,8 @@ public class SwingRenderer {
 			throw new ReflectionUIError();
 		}
 		final Object[] valueArray = new Object[] { initialValue };
-		final Object valueAsField = ValueAsFieldTypeInfo.wrap(reflectionUI, valueArray, message, "Selection", false);
+		final Object valueAsField = ValueFromVirtualFieldTypeInfo.wrap(reflectionUI, valueArray, message, "Selection",
+				false);
 		if (openValueDialog(parentComponent, Accessor.returning(valueAsField), IInfoCollectionSettings.DEFAULT, null,
 				title, new boolean[1])) {
 			return (T) valueArray[0];
@@ -1084,8 +1086,10 @@ public class SwingRenderer {
 			final boolean[] changeDetectedArray) {
 		final Object[] valueArray = new Object[] { valueAccessor.get() };
 		final Object toOpen;
+		String fieldName = BooleanTypeInfo.isCompatibleWith(valueArray[0].getClass()) ? "Is True" : "Value";
 		if (hasCustomFieldControl(valueArray[0])) {
-			toOpen = ValueAsFieldTypeInfo.wrap(reflectionUI, valueArray, "Value", title, settings.allReadOnly());
+			toOpen = ValueFromVirtualFieldTypeInfo.wrap(reflectionUI, valueArray, fieldName, title,
+					settings.allReadOnly());
 		} else {
 			toOpen = valueArray[0];
 		}
@@ -1135,15 +1139,16 @@ public class SwingRenderer {
 
 	}
 
-	public void openValueFrame(Object value, final IInfoCollectionSettings settings, final String title) {
+	public void openValueFrame(Object value, final String title) {
 		final Object[] valueArray = new Object[] { value };
 		final Object toOpen;
+		String fieldName = BooleanTypeInfo.isCompatibleWith(valueArray[0].getClass()) ? "Is True" : "Value";
 		if (hasCustomFieldControl(value)) {
-			toOpen = ValueAsFieldTypeInfo.wrap(reflectionUI, valueArray, "Value", title, settings.allReadOnly());
+			toOpen = ValueFromVirtualFieldTypeInfo.wrap(reflectionUI, valueArray, fieldName, title, true);
 		} else {
-			toOpen = valueArray[0];
+			toOpen = value;
 		}
-		openObjectFrame(toOpen, title, reflectionUI.getIconImage(valueArray[0]));
+		openObjectFrame(toOpen, title, reflectionUI.getIconImage(value));
 	}
 
 	public void refreshAllFieldControls(JPanel form) {
@@ -1357,7 +1362,7 @@ public class SwingRenderer {
 			return new CheckBoxControl(reflectionUI, object, field);
 		} else if (TextControl.isCompatibleWith(reflectionUI, fieldValue)) {
 			return new TextControl(reflectionUI, object, field);
-		} else if (ReflectionUIUtils.isPrimitiveTypeOrWrapper(fieldValue.getClass())) {
+		} else if (PrimitiveUtils.isPrimitiveTypeOrWrapper(fieldValue.getClass())) {
 			return new PrimitiveValueControl(reflectionUI, object, field, fieldValue.getClass());
 		} else if (FileControl.isCompatibleWith(reflectionUI, fieldValue)) {
 			return new FileControl(reflectionUI, object, field);
@@ -1371,7 +1376,8 @@ public class SwingRenderer {
 	}
 
 	public final boolean hasCustomFieldControl(Object fieldValue) {
-		Object valueAsField = ValueAsFieldTypeInfo.wrap(reflectionUI, new Object[] { fieldValue }, "", "", false);
+		Object valueAsField = ValueFromVirtualFieldTypeInfo.wrap(reflectionUI, new Object[] { fieldValue }, "", "",
+				false);
 		ITypeInfo valueAsFieldType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(valueAsField));
 		IFieldInfo field = valueAsFieldType.getFields().get(0);
 		return createCustomFieldControl(valueAsField, field) != null;

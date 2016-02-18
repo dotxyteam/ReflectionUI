@@ -18,6 +18,7 @@ import xy.reflect.ui.info.field.PublicFieldInfo;
 import xy.reflect.ui.info.method.DefaultConstructorMethodInfo;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.util.PrimitiveUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -138,7 +139,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 	@Override
 	public boolean supportsInstance(Object object) {
 		if (javaType.isPrimitive()) {
-			return ReflectionUIUtils.primitiveToWrapperType(javaType)
+			return PrimitiveUtils.primitiveToWrapperType(javaType)
 					.isInstance(object);
 		} else {
 			return javaType.isInstance(object);

@@ -9,8 +9,8 @@ import javax.swing.JCheckBox;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.util.PrimitiveUtils;
 import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class CheckBoxControl extends JCheckBox implements IFieldControl {
 
@@ -19,20 +19,17 @@ public class CheckBoxControl extends JCheckBox implements IFieldControl {
 	protected Object object;
 	protected IFieldInfo field;
 
-	public static boolean isCompatibleWith(ReflectionUI reflectionUI,
-			Object fieldValue) {
+	public static boolean isCompatibleWith(ReflectionUI reflectionUI, Object fieldValue) {
 		if (Boolean.class.equals(fieldValue.getClass())) {
 			return true;
 		}
-		if (Boolean.class.equals(ReflectionUIUtils
-				.primitiveToWrapperType(fieldValue.getClass()))) {
+		if (Boolean.class.equals(PrimitiveUtils.primitiveToWrapperType(fieldValue.getClass()))) {
 			return true;
 		}
 		return false;
 	}
 
-	public CheckBoxControl(final ReflectionUI reflectionUI,
-			final Object object, final IFieldInfo field) {
+	public CheckBoxControl(final ReflectionUI reflectionUI, final Object object, final IFieldInfo field) {
 		this.reflectionUI = reflectionUI;
 		this.object = object;
 		this.field = field;
@@ -45,7 +42,6 @@ public class CheckBoxControl extends JCheckBox implements IFieldControl {
 		}
 
 		Boolean initialValue = (Boolean) field.getValue(object);
-		setText(reflectionUI.prepareUIString("Is True"));
 		setSelected(initialValue);
 		addActionListener(new ActionListener() {
 
@@ -63,9 +59,6 @@ public class CheckBoxControl extends JCheckBox implements IFieldControl {
 	@Override
 	public boolean showCaption() {
 		String caption = field.getCaption();
-		if (!caption.startsWith("Is ") && !caption.startsWith("Has ")) {
-			caption += " (Is True)";
-		}
 		setText(reflectionUI.prepareUIString(caption));
 		return true;
 	}

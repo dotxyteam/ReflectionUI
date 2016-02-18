@@ -1,3 +1,7 @@
+- it is impossible for custom field controls to prevent 
+modfications of non-primitive values because readonly field
+does not imply ICollectionSettings.allreadOnly for the field 
+value  
 - colors should never be set on components,
 otherwise lookandfeel dynamic change is not taken into account.
 See:

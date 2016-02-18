@@ -12,7 +12,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 
-public class ValueAsFieldTypeInfo implements ITypeInfo {
+public class ValueFromVirtualFieldTypeInfo implements ITypeInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo fieldType;
@@ -20,7 +20,7 @@ public class ValueAsFieldTypeInfo implements ITypeInfo {
 	protected boolean fieldReadOnly;
 	protected String caption;
 
-	public ValueAsFieldTypeInfo(ReflectionUI reflectionUI, ITypeInfo fieldType,
+	public ValueFromVirtualFieldTypeInfo(ReflectionUI reflectionUI, ITypeInfo fieldType,
 			String fieldCaption, boolean fieldReadOnly, String caption) {
 		this.reflectionUI = reflectionUI;
 		this.fieldType = fieldType;
@@ -31,7 +31,7 @@ public class ValueAsFieldTypeInfo implements ITypeInfo {
 
 	@Override
 	public String getName() {
-		return ValueAsFieldTypeInfo.class.getSimpleName() + "(" + fieldCaption
+		return ValueFromVirtualFieldTypeInfo.class.getSimpleName() + "(" + fieldCaption
 				+ ")";
 	}
 
@@ -185,7 +185,7 @@ public class ValueAsFieldTypeInfo implements ITypeInfo {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ValueAsFieldTypeInfo other = (ValueAsFieldTypeInfo) obj;
+		ValueFromVirtualFieldTypeInfo other = (ValueFromVirtualFieldTypeInfo) obj;
 		if (caption == null) {
 			if (other.caption != null)
 				return false;
@@ -216,7 +216,7 @@ public class ValueAsFieldTypeInfo implements ITypeInfo {
 			final String wrapperTypeCaption, final boolean readOnly) {
 		final ITypeInfo fieldType = reflectionUI.getTypeInfo(reflectionUI
 				.getTypeInfoSource(fieldValueArray[0]));
-		ValueAsFieldTypeInfo wrapperType = new ValueAsFieldTypeInfo(
+		ValueFromVirtualFieldTypeInfo wrapperType = new ValueFromVirtualFieldTypeInfo(
 				reflectionUI, fieldType, fieldCaption, readOnly,
 				wrapperTypeCaption);
 		return wrapperType

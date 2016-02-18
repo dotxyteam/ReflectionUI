@@ -7,8 +7,8 @@ import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.util.PrimitiveUtils;
 import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class PrimitiveValueControl extends TextControl {
 
@@ -56,7 +56,7 @@ public class PrimitiveValueControl extends TextControl {
 
 	public static Object fromText(String text, Class<?> javaType) {
 		if (javaType.isPrimitive()) {
-			javaType = ReflectionUIUtils.primitiveToWrapperType(javaType);
+			javaType = PrimitiveUtils.primitiveToWrapperType(javaType);
 		}
 		if (javaType == Character.class) {
 			text = text.trim();
