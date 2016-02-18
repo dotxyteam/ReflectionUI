@@ -817,7 +817,7 @@ public class SwingRenderer {
 					throw new ReflectionUIError("No accessible constructor found");
 				} else {
 					String className = openInputDialog(activatorComponent, "",
-							"Create '" + type.getCaption() + "' of type:", null);
+							"Create '" + type.getCaption() + "' of type", null);
 					if (className == null) {
 						type = null;
 					}
@@ -1051,12 +1051,12 @@ public class SwingRenderer {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> T openInputDialog(Component parentComponent, T initialValue, String message, String title) {
+	public <T> T openInputDialog(Component parentComponent, T initialValue, String dataName, String title) {
 		if (initialValue == null) {
 			throw new ReflectionUIError();
 		}
 		final Object[] valueArray = new Object[] { initialValue };
-		final Object valueAsField = ValueFromVirtualFieldTypeInfo.wrap(reflectionUI, valueArray, message, "Selection",
+		final Object valueAsField = ValueFromVirtualFieldTypeInfo.wrap(reflectionUI, valueArray, dataName, "Selection",
 				false);
 		if (openValueDialog(parentComponent, Accessor.returning(valueAsField), IInfoCollectionSettings.DEFAULT, null,
 				title, new boolean[1])) {
