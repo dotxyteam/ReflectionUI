@@ -193,6 +193,7 @@ public class TextControl extends JPanel implements IFieldControl {
 		}
 		textChangedByUser = true;
 		displayError(null);
+		reflectionUI.getSwingRenderer().handleComponentSizeChange(this);
 		return true;
 	}
 
