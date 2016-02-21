@@ -12,8 +12,9 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.FileTypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
+import xy.reflect.ui.util.ReflectionUIError;
 
-public class FileControl extends DialogAccessControl {
+public class FileControl extends DialogAccessControl implements IFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 
@@ -131,5 +132,20 @@ public class FileControl extends DialogAccessControl {
 		lastDirectory = fileChooser.getCurrentDirectory();
 		field.setValue(object, fileChooser.getSelectedFile());
 		updateControls();
+	}
+
+	@Override
+	public boolean displayError(ReflectionUIError error) {
+		return false;
+	}
+
+	@Override
+	public boolean showCaption() {
+		return false;
+	}
+
+	@Override
+	public boolean refreshUI() {		
+		return this.textControl.refreshUI();
 	}
 }

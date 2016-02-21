@@ -44,8 +44,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 
 	@Override
 	public boolean isConcrete() {
-		if ((!javaType.isPrimitive())
-				&& Modifier.isAbstract(javaType.getModifiers())) {
+		if ((!javaType.isPrimitive()) && Modifier.isAbstract(javaType.getModifiers())) {
 			return false;
 		}
 		if (javaType == Object.class) {
@@ -62,12 +61,10 @@ public class DefaultTypeInfo implements ITypeInfo {
 				return Collections.emptyList();
 			}
 			for (Constructor<?> javaConstructor : javaType.getConstructors()) {
-				if (!DefaultConstructorMethodInfo
-						.isCompatibleWith(javaConstructor)) {
+				if (!DefaultConstructorMethodInfo.isCompatibleWith(javaConstructor)) {
 					continue;
 				}
-				constructors.add(new DefaultConstructorMethodInfo(reflectionUI,
-						this, javaConstructor));
+				constructors.add(new DefaultConstructorMethodInfo(reflectionUI, this, javaConstructor));
 			}
 		}
 		return constructors;
@@ -101,17 +98,14 @@ public class DefaultTypeInfo implements ITypeInfo {
 				if (!PublicFieldInfo.isCompatibleWith(javaField)) {
 					continue;
 				}
-				fields.add(new PublicFieldInfo(reflectionUI, javaField,
-						javaType));
+				fields.add(new PublicFieldInfo(reflectionUI, javaField, javaType));
 			}
 			for (Method javaMethod : javaType.getMethods()) {
 				if (!GetterFieldInfo.isCompatibleWith(javaMethod, javaType)) {
 					continue;
 				}
-				GetterFieldInfo getterFieldInfo = new GetterFieldInfo(
-						reflectionUI, javaMethod, javaType);
-				if (ReflectionUIUtils.findInfoByName(fields,
-						getterFieldInfo.getName()) != null) {
+				GetterFieldInfo getterFieldInfo = new GetterFieldInfo(reflectionUI, javaMethod, javaType);
+				if (ReflectionUIUtils.findInfoByName(fields, getterFieldInfo.getName()) != null) {
 					continue;
 				}
 				fields.add(getterFieldInfo);
@@ -139,8 +133,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 	@Override
 	public boolean supportsInstance(Object object) {
 		if (javaType.isPrimitive()) {
-			return PrimitiveUtils.primitiveToWrapperType(javaType)
-					.isInstance(object);
+			return PrimitiveUtils.primitiveToWrapperType(javaType).isInstance(object);
 		} else {
 			return javaType.isInstance(object);
 		}
@@ -180,11 +173,10 @@ public class DefaultTypeInfo implements ITypeInfo {
 		} else {
 			String result = object.toString();
 			String objectClassName = object.getClass().getName();
-			String objectClassCaption = reflectionUI.getTypeInfo(
-					reflectionUI.getTypeInfoSource(object)).getCaption();
-			result = result.replaceAll(objectClassName.replace(".", "\\.")
-					.replace("$", "\\$") + "@([0-9a-z]+)", objectClassCaption
-					+ " $1");
+			String objectClassCaption = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object)).getCaption();
+			result = result.replaceAll(
+					objectClassName.replace(".", "\\.").replace("$", "\\$").replace("[", "\\[") + "@([0-9a-z]+)",
+					objectClassCaption + " ($1)");
 			result = result.replace(objectClassName, objectClassCaption);
 			return result;
 		}
@@ -197,8 +189,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 
 	@Override
 	public void validate(Object object) throws Exception {
-		for (Method method : ReflectionUIUtils
-				.getAnnotatedValidatingMethods(javaType)) {
+		for (Method method : ReflectionUIUtils.getAnnotatedValidatingMethods(javaType)) {
 			try {
 				method.invoke(object);
 			} catch (InvocationTargetException e) {
