@@ -35,7 +35,7 @@ public class DialogAccessControl extends JPanel {
 	protected Object object;
 	protected IFieldInfo field;
 
-	protected TextControl textControl;
+	protected Component statusControl;
 	protected Component iconControl;
 	protected Component button;
 
@@ -46,7 +46,7 @@ public class DialogAccessControl extends JPanel {
 		this.field = field;
 		setLayout(new BorderLayout());
 
-		textControl = createTextControl();
+		statusControl = createStatusControl();
 		button = createButton();
 		iconControl = createIconControl();
 
@@ -59,7 +59,7 @@ public class DialogAccessControl extends JPanel {
 			GridBagConstraints c = new GridBagConstraints();
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 1.0;
-			centerPanel.add(textControl, c);
+			centerPanel.add(statusControl, c);
 		}
 		add(iconControl, BorderLayout.EAST);
 
@@ -68,7 +68,7 @@ public class DialogAccessControl extends JPanel {
 
 	@Override
 	public void requestFocus() {
-		textControl.requestFocus();
+		statusControl.requestFocus();
 	}
 
 	protected Component createIconControl() {
@@ -80,8 +80,8 @@ public class DialogAccessControl extends JPanel {
 			public Dimension getPreferredSize() {
 				Dimension result = super.getPreferredSize();
 				if (result != null) {
-					if (textControl != null) {
-						Dimension textControlPreferredSize = textControl
+					if (statusControl != null) {
+						Dimension textControlPreferredSize = statusControl
 								.getPreferredSize();
 						if (textControlPreferredSize != null) {
 							result.height = textControlPreferredSize.height;
@@ -124,7 +124,7 @@ public class DialogAccessControl extends JPanel {
 		return result;
 	}
 
-	protected TextControl createTextControl() {
+	protected Component createStatusControl() {
 		return new TextControl(reflectionUI, object, new IFieldInfo() {
 
 			@Override
@@ -228,7 +228,7 @@ public class DialogAccessControl extends JPanel {
 	}
 
 	protected void updateControls() {
-		updateTextControl();
+		updateStatusControl();
 		updateIconControl();
 	}
 
@@ -244,8 +244,8 @@ public class DialogAccessControl extends JPanel {
 		}
 	}
 
-	protected void updateTextControl() {
-		textControl.refreshUI();
+	protected void updateStatusControl() {
+		((TextControl)statusControl).refreshUI();
 	}
 
 }

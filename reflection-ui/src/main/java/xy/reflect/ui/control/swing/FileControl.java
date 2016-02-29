@@ -22,18 +22,16 @@ public class FileControl extends DialogAccessControl implements IFieldControl {
 
 	protected static File lastDirectory;
 
-	public static boolean isCompatibleWith(ReflectionUI reflectionUI,
-			Object fieldValue) {
+	public static boolean isCompatibleWith(ReflectionUI reflectionUI, Object fieldValue) {
 		return fieldValue instanceof File;
 	}
 
-	public FileControl(ReflectionUI reflectionUI, Object object,
-			IFieldInfo field) {
+	public FileControl(ReflectionUI reflectionUI, Object object, IFieldInfo field) {
 		super(reflectionUI, object, field);
 	}
 
 	@Override
-	protected TextControl createTextControl() {
+	protected TextControl createStatusControl() {
 		return new TextControl(reflectionUI, object, new IFieldInfo() {
 
 			@Override
@@ -103,10 +101,8 @@ public class FileControl extends DialogAccessControl implements IFieldControl {
 		return result;
 	}
 
-	protected void configureFileChooser(JFileChooser fileChooser,
-			File currentFile) {
-		if ((currentFile != null)
-				&& !currentFile.equals(FileTypeInfo.getDefaultFile())) {
+	protected void configureFileChooser(JFileChooser fileChooser, File currentFile) {
+		if ((currentFile != null) && !currentFile.equals(FileTypeInfo.getDefaultFile())) {
 			fileChooser.setSelectedFile(currentFile.getAbsoluteFile());
 		}
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -124,8 +120,7 @@ public class FileControl extends DialogAccessControl implements IFieldControl {
 			fileChooser.setCurrentDirectory(lastDirectory);
 		}
 		configureFileChooser(fileChooser, currentFile);
-		int returnVal = fileChooser.showDialog(this,
-				reflectionUI.prepareUIString(getDialogTitle()));
+		int returnVal = fileChooser.showDialog(this, reflectionUI.prepareUIString(getDialogTitle()));
 		if (returnVal != JFileChooser.APPROVE_OPTION) {
 			return;
 		}
@@ -145,7 +140,8 @@ public class FileControl extends DialogAccessControl implements IFieldControl {
 	}
 
 	@Override
-	public boolean refreshUI() {		
-		return this.textControl.refreshUI();
+	public boolean refreshUI() {
+		updateStatusControl();
+		return true;
 	}
 }

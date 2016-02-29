@@ -48,6 +48,7 @@ import javax.swing.SwingUtilities;
 import org.jdesktop.swingx.JXBusyLabel;
 
 import xy.reflect.ui.control.swing.CheckBoxControl;
+import xy.reflect.ui.control.swing.ColorControl;
 import xy.reflect.ui.control.swing.DialogAccessControl;
 import xy.reflect.ui.control.swing.EmbeddedFormControl;
 import xy.reflect.ui.control.swing.EnumerationControl;
@@ -92,7 +93,7 @@ import com.google.common.collect.MapMaker;
 
 public class SwingRenderer {
 
-	ReflectionUI reflectionUI;
+	protected ReflectionUI reflectionUI;
 	protected Map<JPanel, Object> objectByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, ModificationStack> modificationStackByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, IInfoCollectionSettings> infoCollectionSettingsByForm = new MapMaker().weakKeys().makeMap();
@@ -1366,6 +1367,8 @@ public class SwingRenderer {
 			return new PrimitiveValueControl(reflectionUI, object, field, fieldValue.getClass());
 		} else if (FileControl.isCompatibleWith(reflectionUI, fieldValue)) {
 			return new FileControl(reflectionUI, object, field);
+		} else if (ColorControl.isCompatibleWith(reflectionUI, fieldValue)) {
+			return new ColorControl(reflectionUI, object, field);
 		} else {
 			return null;
 		}
