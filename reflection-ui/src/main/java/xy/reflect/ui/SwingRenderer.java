@@ -103,6 +103,7 @@ public class SwingRenderer {
 	protected Map<JPanel, Map<InfoCategory, List<Component>>> methodControlsByCategoryByForm = new MapMaker().weakKeys()
 			.makeMap();
 	protected Map<Component, IMethodInfo> methodByControl = new MapMaker().weakKeys().makeMap();
+	protected Map<IMethodInfo, InvocationData> lastInvocationDataByMethod = new HashMap<IMethodInfo, InvocationData>();
 
 	public SwingRenderer(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
@@ -917,7 +918,13 @@ public class SwingRenderer {
 		final boolean shouldDisplayReturnValue = (returnValueArray == null) && (method.getReturnValueType() != null);
 		final boolean[] exceptionThrownArray = new boolean[] { false };
 		final Object[] returnValueToDisplay = new Object[1];
-		final InvocationData invocationData = new InvocationData();
+		final InvocationData invocationData;		
+		if(lastInvocationDataByMethod.containsKey(method)){
+			invocationData = lastInvocationDataByMethod.get(method);
+		}
+		else{
+			invocationData = new InvocationData();
+		}
 		JPanel methodForm = createObjectForm(new MethodParametersAsTypeInfo(reflectionUI, method)
 				.getPrecomputedTypeInfoInstanceWrapper(object, invocationData));
 		final boolean[] invokedStatusArray = new boolean[] { false };
@@ -932,6 +939,7 @@ public class SwingRenderer {
 			invokeButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					lastInvocationDataByMethod.put(method, invocationData);
 					showBusyDialogWhile(activatorComponent, new Runnable() {
 						@Override
 						public void run() {
