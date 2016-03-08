@@ -7,6 +7,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.Window;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,8 +64,7 @@ import com.thoughtworks.paranamer.Paranamer;
 
 public class ReflectionUIUtils {
 
-	public static final String[] NEW_LINE_SEQUENCES = new String[] { "\r\n",
-			"\n", "\r" };
+	public static final String[] NEW_LINE_SEQUENCES = new String[] { "\r\n", "\n", "\r" };
 
 	public static List<Class<?>> getAncestorClasses(Class<?> type) {
 		List<Class<?>> result = new ArrayList<Class<?>>();
@@ -86,10 +86,8 @@ public class ReflectionUIUtils {
 		return result;
 	}
 
-	public static Set<Class<?>> getAncestorsAndSelfClassesAndInterfaces(
-			Class<?> type) {
-		Set<Class<?>> result = new HashSet<Class<?>>(
-				getAncestorClassesAndInterfaces(type));
+	public static Set<Class<?>> getAncestorsAndSelfClassesAndInterfaces(Class<?> type) {
+		Set<Class<?>> result = new HashSet<Class<?>>(getAncestorClassesAndInterfaces(type));
 		result.add(type);
 		return result;
 	}
@@ -98,8 +96,7 @@ public class ReflectionUIUtils {
 		Set<Class<?>> allInterfaces = new HashSet<Class<?>>();
 		for (int i = 0; i < childInterfaces.length; i++) {
 			allInterfaces.add(childInterfaces[i]);
-			allInterfaces.addAll(getSuperInterfaces(childInterfaces[i]
-					.getInterfaces()));
+			allInterfaces.addAll(getSuperInterfaces(childInterfaces[i].getInterfaces()));
 		}
 		return allInterfaces;
 	}
@@ -187,13 +184,11 @@ public class ReflectionUIUtils {
 		for (char c : id.toCharArray()) {
 			if (i == 0) {
 				result.append(Character.toUpperCase(c));
-			} else if (Character.isUpperCase(c)
-					&& !Character.isUpperCase(lastC)) {
+			} else if (Character.isUpperCase(c) && !Character.isUpperCase(lastC)) {
 				result.append(" " + c);
 			} else if (Character.isDigit(c) && !Character.isDigit(lastC)) {
 				result.append(" " + c);
-			} else if (!Character.isLetterOrDigit(c)
-					&& Character.isLetterOrDigit(lastC)) {
+			} else if (!Character.isLetterOrDigit(c) && Character.isLetterOrDigit(lastC)) {
 				result.append(" " + c);
 			} else {
 				result.append(c);
@@ -214,8 +209,7 @@ public class ReflectionUIUtils {
 		return getNParametersMethod(type.getConstructors(), 0);
 	}
 
-	public static IMethodInfo getNParametersMethod(List<IMethodInfo> methods,
-			int n) {
+	public static IMethodInfo getNParametersMethod(List<IMethodInfo> methods, int n) {
 		for (IMethodInfo c : methods) {
 			if (c.getParameters().size() == n) {
 				return c;
@@ -234,11 +228,9 @@ public class ReflectionUIUtils {
 		return result;
 	}
 
-	public static boolean hasFileNameExtension(String fileName,
-			String[] extensions) {
+	public static boolean hasFileNameExtension(String fileName, String[] extensions) {
 		for (String ext : extensions) {
-			if (ext.toLowerCase().equals(
-					getFileNameExtension(fileName).toLowerCase())) {
+			if (ext.toLowerCase().equals(getFileNameExtension(fileName).toLowerCase())) {
 				return true;
 			}
 		}
@@ -254,8 +246,7 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static <T extends IMethodInfo> T findMethodBySignature(
-			List<T> methods, String signature) {
+	public static <T extends IMethodInfo> T findMethodBySignature(List<T> methods, String signature) {
 		for (T method : methods) {
 			String candidateMethodSignature = getMethodInfoSignature(method);
 			if (candidateMethodSignature.equals(signature)) {
@@ -274,8 +265,7 @@ public class ReflectionUIUtils {
 		return null;
 	}
 
-	public static <T extends IInfo> T findInfoByCaption(List<T> infos,
-			String caption) {
+	public static <T extends IInfo> T findInfoByCaption(List<T> infos, String caption) {
 		for (T info : infos) {
 			if (info.getCaption().equals(caption)) {
 				return info;
@@ -284,20 +274,17 @@ public class ReflectionUIUtils {
 		return null;
 	}
 
-	public static String changeCase(String result, boolean upperElseLower,
-			int subStringStart, int subStringEnd) {
+	public static String changeCase(String result, boolean upperElseLower, int subStringStart, int subStringEnd) {
 		String subString = result.substring(subStringStart, subStringEnd);
 		if (upperElseLower) {
 			subString = subString.toUpperCase();
 		} else {
 			subString = subString.toLowerCase();
 		}
-		return result.substring(0, subStringStart) + subString
-				+ result.substring(subStringEnd);
+		return result.substring(0, subStringStart) + subString + result.substring(subStringEnd);
 	}
 
-	public static List<Class<?>> getJavaGenericTypeParameters(
-			final Class<?> type, final Member ofMember,
+	public static List<Class<?>> getJavaGenericTypeParameters(final Class<?> type, final Member ofMember,
 			int methodArgumentPosition, Class<?> parameterizedBaseClass) {
 		TypeResolver typeResolver = new TypeResolver();
 		ResolvedType resolvedType = null;
@@ -305,13 +292,10 @@ public class ReflectionUIUtils {
 			resolvedType = typeResolver.resolve(type);
 		} else {
 			MemberResolver memberResolver = new MemberResolver(typeResolver);
-			ResolvedType declaringResolvedType = typeResolver.resolve(ofMember
-					.getDeclaringClass());
-			ResolvedTypeWithMembers resolvedTypeWithMembers = memberResolver
-					.resolve(declaringResolvedType, null, null);
+			ResolvedType declaringResolvedType = typeResolver.resolve(ofMember.getDeclaringClass());
+			ResolvedTypeWithMembers resolvedTypeWithMembers = memberResolver.resolve(declaringResolvedType, null, null);
 			if (ofMember instanceof Field) {
-				for (ResolvedField resolvedField : resolvedTypeWithMembers
-						.getMemberFields()) {
+				for (ResolvedField resolvedField : resolvedTypeWithMembers.getMemberFields()) {
 					if (resolvedField.getRawMember().equals(ofMember)) {
 						resolvedType = resolvedField.getType();
 						break;
@@ -320,32 +304,27 @@ public class ReflectionUIUtils {
 			} else if (ofMember instanceof Method) {
 				ResolvedMethod[] resolvedMethods;
 				if (Modifier.isStatic(ofMember.getModifiers())) {
-					resolvedMethods = resolvedTypeWithMembers
-							.getStaticMethods();
+					resolvedMethods = resolvedTypeWithMembers.getStaticMethods();
 				} else {
-					resolvedMethods = resolvedTypeWithMembers
-							.getMemberMethods();
+					resolvedMethods = resolvedTypeWithMembers.getMemberMethods();
 				}
 				for (ResolvedMethod resolvedMethod : resolvedMethods) {
 					if (resolvedMethod.getRawMember().equals(ofMember)) {
 						if (methodArgumentPosition == -1) {
 							resolvedType = resolvedMethod.getType();
 						} else {
-							resolvedType = resolvedMethod
-									.getArgumentType(methodArgumentPosition);
+							resolvedType = resolvedMethod.getArgumentType(methodArgumentPosition);
 						}
 						break;
 					}
 				}
 			} else if (ofMember instanceof Constructor) {
-				for (ResolvedConstructor resolvedConstructor : resolvedTypeWithMembers
-						.getConstructors()) {
+				for (ResolvedConstructor resolvedConstructor : resolvedTypeWithMembers.getConstructors()) {
 					if (resolvedConstructor.getRawMember().equals(ofMember)) {
 						if (methodArgumentPosition == -1) {
 							resolvedType = resolvedConstructor.getType();
 						} else {
-							resolvedType = resolvedConstructor
-									.getArgumentType(methodArgumentPosition);
+							resolvedType = resolvedConstructor.getArgumentType(methodArgumentPosition);
 						}
 						break;
 					}
@@ -358,8 +337,7 @@ public class ReflectionUIUtils {
 			}
 		}
 		List<Class<?>> result = new ArrayList<Class<?>>();
-		List<ResolvedType> resolvedTypeParameters = resolvedType
-				.typeParametersFor(parameterizedBaseClass);
+		List<ResolvedType> resolvedTypeParameters = resolvedType.typeParametersFor(parameterizedBaseClass);
 		if (resolvedTypeParameters == null) {
 			return null;
 		}
@@ -369,12 +347,10 @@ public class ReflectionUIUtils {
 		return result;
 	}
 
-	public static Class<?> getJavaGenericTypeParameter(
-			final JavaTypeInfoSource javaTypeSource,
+	public static Class<?> getJavaGenericTypeParameter(final JavaTypeInfoSource javaTypeSource,
 			Class<?> parameterizedBaseClass, int index) {
-		List<Class<?>> parameterClasses = getJavaGenericTypeParameters(
-				javaTypeSource.getJavaType(), javaTypeSource.getTypedMember(),
-				javaTypeSource.getParameterPosition(), parameterizedBaseClass);
+		List<Class<?>> parameterClasses = getJavaGenericTypeParameters(javaTypeSource.getJavaType(),
+				javaTypeSource.getTypedMember(), javaTypeSource.getParameterPosition(), parameterizedBaseClass);
 		if (parameterClasses == null) {
 			return null;
 		}
@@ -430,14 +406,11 @@ public class ReflectionUIUtils {
 
 	public static String[] getJavaParameterNames(Member owner) {
 		try {
-			URL jdkJavadocURL = ReflectionUI.class
-					.getResource("resource/jdk-apidocs");
+			URL jdkJavadocURL = ReflectionUI.class.getResource("resource/jdk-apidocs");
 			Paranamer paranamer;
-			paranamer = new AdaptiveParanamer(new DefaultParanamer(),
-					new BytecodeReadingParanamer(), new JavadocParanamer(
-							jdkJavadocURL));
-			String[] parameterNames = paranamer.lookupParameterNames(
-					(AccessibleObject) owner, false);
+			paranamer = new AdaptiveParanamer(new DefaultParanamer(), new BytecodeReadingParanamer(),
+					new JavadocParanamer(jdkJavadocURL));
+			String[] parameterNames = paranamer.lookupParameterNames((AccessibleObject) owner, false);
 			if ((parameterNames == null) || (parameterNames.length == 0)) {
 				return null;
 			}
@@ -447,8 +420,7 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static void transferStream(InputStream inputStream,
-			OutputStream outputStream) throws IOException {
+	public static void transferStream(InputStream inputStream, OutputStream outputStream) throws IOException {
 		int read = 0;
 		byte[] bytes = new byte[1024];
 		while ((read = inputStream.read(bytes)) != -1) {
@@ -473,8 +445,7 @@ public class ReflectionUIUtils {
 		return result.toString();
 	}
 
-	public static InfoCategory getAnnotatedInfoCategory(
-			AnnotatedElement annotated) {
+	public static InfoCategory getAnnotatedInfoCategory(AnnotatedElement annotated) {
 		Category annotation = annotated.getAnnotation(Category.class);
 		if (annotation == null) {
 			return null;
@@ -599,14 +570,11 @@ public class ReflectionUIUtils {
 			Validating annotation = method.getAnnotation(Validating.class);
 			if (annotation != null) {
 				if (method.getReturnType() != void.class) {
-					throw new ReflectionUIError(
-							"Invalid validating method, the return type is not 'void': "
-									+ method);
+					throw new ReflectionUIError("Invalid validating method, the return type is not 'void': " + method);
 				}
 				if (method.getParameterTypes().length > 0) {
 					throw new ReflectionUIError(
-							"Invalid validating method, the number of parameters is not 0: "
-									+ method);
+							"Invalid validating method, the number of parameters is not 0: " + method);
 				}
 				result.add(method);
 				continue;
@@ -615,21 +583,17 @@ public class ReflectionUIUtils {
 		return result;
 	}
 
-	public static Field getAnnotatedValueOptionsField(
-			Class<?> containingJavaType, String targetFieldName) {
+	public static Field getAnnotatedValueOptionsField(Class<?> containingJavaType, String targetFieldName) {
 		for (Field field : containingJavaType.getFields()) {
-			ValueOptionsForField annotation = field
-					.getAnnotation(ValueOptionsForField.class);
+			ValueOptionsForField annotation = field.getAnnotation(ValueOptionsForField.class);
 			if (annotation != null) {
 				if (!targetFieldName.equals(annotation.value())) {
 					continue;
 				}
 				if (!field.getType().isArray()) {
 					if (!Collection.class.isAssignableFrom(field.getType())) {
-						throw new ReflectionUIError(
-								"Invalid value options field: "
-										+ field
-										+ ". Invalid type: Expected type: <<array> or java.util.Collection");
+						throw new ReflectionUIError("Invalid value options field: " + field
+								+ ". Invalid type: Expected type: <<array> or java.util.Collection");
 
 					}
 				}
@@ -639,22 +603,17 @@ public class ReflectionUIUtils {
 		return null;
 	}
 
-	public static Method getAnnotatedValueOptionsMethod(
-			Class<?> containingJavaType, String baseFieldName) {
+	public static Method getAnnotatedValueOptionsMethod(Class<?> containingJavaType, String baseFieldName) {
 		for (Method method : containingJavaType.getMethods()) {
-			ValueOptionsForField annotation = method
-					.getAnnotation(ValueOptionsForField.class);
+			ValueOptionsForField annotation = method.getAnnotation(ValueOptionsForField.class);
 			if (annotation != null) {
 				if (!baseFieldName.equals(annotation.value())) {
 					continue;
 				}
 				if (!method.getReturnType().isArray()) {
-					if (!Collection.class.isAssignableFrom(method
-							.getReturnType())) {
-						throw new ReflectionUIError(
-								"Invalid value options method: "
-										+ method
-										+ ". Invalid return type: Expected return type: <<array> or java.util.Collection");
+					if (!Collection.class.isAssignableFrom(method.getReturnType())) {
+						throw new ReflectionUIError("Invalid value options method: " + method
+								+ ". Invalid return type: Expected return type: <<array> or java.util.Collection");
 					}
 				}
 				return method;
@@ -699,25 +658,20 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static StackTraceElement[] createDebugStackTrace(
-			int firstElementsToRemove) {
+	public static StackTraceElement[] createDebugStackTrace(int firstElementsToRemove) {
 		StackTraceElement[] result = new Exception().getStackTrace();
-		return Arrays.copyOfRange(result, 1 + firstElementsToRemove,
-				result.length);
+		return Arrays.copyOfRange(result, 1 + firstElementsToRemove, result.length);
 	}
 
-	public static Object[] getFieldValueOptionsFromAnnotatedMember(
-			Object object, Class<?> containingJavaClass, String fieldName,
-			ReflectionUI reflectionUI) {
+	public static Object[] getFieldValueOptionsFromAnnotatedMember(Object object, Class<?> containingJavaClass,
+			String fieldName, ReflectionUI reflectionUI) {
 		Object result = null;
 		try {
-			Field javaValueOptionsField = getAnnotatedValueOptionsField(
-					containingJavaClass, fieldName);
+			Field javaValueOptionsField = getAnnotatedValueOptionsField(containingJavaClass, fieldName);
 			if (javaValueOptionsField != null) {
 				result = javaValueOptionsField.get(object);
 			} else {
-				Method javaValueOptionsMethod = getAnnotatedValueOptionsMethod(
-						containingJavaClass, fieldName);
+				Method javaValueOptionsMethod = getAnnotatedValueOptionsMethod(containingJavaClass, fieldName);
 				if (javaValueOptionsMethod != null) {
 					result = javaValueOptionsMethod.invoke(object);
 				}
@@ -744,8 +698,7 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static <M extends Member> M findJavaMemberByName(M[] members,
-			String memberName) {
+	public static <M extends Member> M findJavaMemberByName(M[] members, String memberName) {
 		for (M member : members) {
 			if (member.getName().equals(memberName)) {
 				return member;
@@ -759,31 +712,20 @@ public class ReflectionUIUtils {
 	}
 
 	public static String getQualifiedName(Method method) {
-		return method.getDeclaringClass().getName() + "#" + method.getName()
-				+ "("
-				+ stringJoin(gatClassNames(method.getParameterTypes()), ",")
-				+ ")";
+		return method.getDeclaringClass().getName() + "#" + method.getName() + "("
+				+ stringJoin(gatClassNames(method.getParameterTypes()), ",") + ")";
 	}
 
 	public static String getQualifiedName(Constructor<?> constructor) {
-		return constructor.getDeclaringClass().getName()
-				+ "#"
-				+ constructor.getName()
-				+ "("
-				+ stringJoin(gatClassNames(constructor.getParameterTypes()),
-						",") + ")";
+		return constructor.getDeclaringClass().getName() + "#" + constructor.getName() + "("
+				+ stringJoin(gatClassNames(constructor.getParameterTypes()), ",") + ")";
 	}
 
 	public static String getQualifiedName(Parameter parameter) {
 		Member invokable = parameter.getDeclaringInvokable();
-		return invokable.getDeclaringClass().getName()
-				+ "#"
-				+ invokable.getName()
-				+ "("
-				+ stringJoin(
-						gatClassNames(parameter
-								.getDeclaringInvokableParameterTypes()),
-						",") + "):" + parameter.getPosition();
+		return invokable.getDeclaringClass().getName() + "#" + invokable.getName() + "("
+				+ stringJoin(gatClassNames(parameter.getDeclaringInvokableParameterTypes()), ",") + "):"
+				+ parameter.getPosition();
 	}
 
 	public static List<String> gatClassNames(Class<?>[] classes) {
@@ -794,23 +736,26 @@ public class ReflectionUIUtils {
 		return paramTypeNames;
 	}
 
-	public static Rectangle getMaximumWindowBounds() {
+	public static Rectangle getMaximumWindowBounds(Window window) {
 		Rectangle result = new Rectangle();
-		GraphicsEnvironment ge = GraphicsEnvironment
-				.getLocalGraphicsEnvironment();
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		for (GraphicsDevice gd : ge.getScreenDevices()) {
 			for (GraphicsConfiguration gc : gd.getConfigurations()) {
 				Rectangle screenBounds = gc.getBounds();
-				Insets screenInsets = Toolkit.getDefaultToolkit()
-						.getScreenInsets(gc);
-				Rectangle windowMaxBounds = new Rectangle();
-				windowMaxBounds.x = screenBounds.x + screenInsets.left;
-				windowMaxBounds.y = screenBounds.y + screenInsets.top;
-				windowMaxBounds.height = screenBounds.height - screenInsets.top
-						- screenInsets.bottom;
-				windowMaxBounds.width = screenBounds.width - screenInsets.left
-						- screenInsets.right;
-				result = result.union(windowMaxBounds);
+				Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(gc);
+				Rectangle candidateMaxBounds = new Rectangle();
+				candidateMaxBounds.x = screenBounds.x + screenInsets.left;
+				candidateMaxBounds.y = screenBounds.y + screenInsets.top;
+				candidateMaxBounds.height = screenBounds.height - screenInsets.top - screenInsets.bottom;
+				candidateMaxBounds.width = screenBounds.width - screenInsets.left - screenInsets.right;
+				if (window != null) {
+					Rectangle intersection = candidateMaxBounds.intersection(window.getBounds());
+					if ((intersection.width * intersection.height) > (result.width * result.height)) {
+						result = candidateMaxBounds;
+					}
+				} else {
+					result = result.union(candidateMaxBounds);
+				}
 			}
 		}
 		return result;
@@ -827,8 +772,7 @@ public class ReflectionUIUtils {
 					return result;
 				}
 
-				result = compareNullables(f1.getType().getName().toUpperCase(),
-						f2.getType().getName().toUpperCase());
+				result = compareNullables(f1.getType().getName().toUpperCase(), f2.getType().getName().toUpperCase());
 				if (result != 0) {
 					return result;
 				}
@@ -864,8 +808,7 @@ public class ReflectionUIUtils {
 					parameterTypeNames2.add(param.getType().getName());
 				}
 				Collections.sort(parameterTypeNames2);
-				result = stringJoin(parameterTypeNames1, "\n").compareTo(
-						stringJoin(parameterTypeNames2, "\n"));
+				result = stringJoin(parameterTypeNames1, "\n").compareTo(stringJoin(parameterTypeNames2, "\n"));
 				if (result != 0) {
 					return result;
 				}
@@ -912,30 +855,25 @@ public class ReflectionUIUtils {
 		return new ReflectionUIError(t).toString();
 	}
 
-	public static boolean isOverridenBy(Method baseMethod,
-			Method overridingMethod) {
-		if (!baseMethod.getDeclaringClass().isAssignableFrom(
-				overridingMethod.getDeclaringClass())) {
+	public static boolean isOverridenBy(Method baseMethod, Method overridingMethod) {
+		if (!baseMethod.getDeclaringClass().isAssignableFrom(overridingMethod.getDeclaringClass())) {
 			return false;
 		}
 		if (!baseMethod.getName().equals(overridingMethod.getName())) {
 			return false;
 		}
-		if (!baseMethod.getReturnType().isAssignableFrom(
-				overridingMethod.getReturnType())) {
+		if (!baseMethod.getReturnType().isAssignableFrom(overridingMethod.getReturnType())) {
 			return false;
 		}
 		Class<?>[] baseMethodParamTypes = baseMethod.getParameterTypes();
-		Class<?>[] overridingMethodParamTypes = overridingMethod
-				.getParameterTypes();
+		Class<?>[] overridingMethodParamTypes = overridingMethod.getParameterTypes();
 		if (baseMethodParamTypes.length != overridingMethodParamTypes.length) {
 			return false;
 		}
 		for (int iParam = 0; iParam < baseMethodParamTypes.length; iParam++) {
 			Class<?> baseMethodParamType = baseMethodParamTypes[iParam];
 			Class<?> overridingMethodParamType = overridingMethodParamTypes[iParam];
-			if (!baseMethodParamType
-					.isAssignableFrom(overridingMethodParamType)) {
+			if (!baseMethodParamType.isAssignableFrom(overridingMethodParamType)) {
 				return false;
 			}
 		}

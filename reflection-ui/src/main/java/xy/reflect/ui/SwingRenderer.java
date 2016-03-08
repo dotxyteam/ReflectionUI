@@ -139,7 +139,7 @@ public class SwingRenderer {
 
 	public void adjustWindowBounds(Window window) {
 		Rectangle bounds = window.getBounds();
-		Rectangle maxBounds = ReflectionUIUtils.getMaximumWindowBounds();
+		Rectangle maxBounds = ReflectionUIUtils.getMaximumWindowBounds(window);
 		if (bounds.width < maxBounds.width / 3) {
 			bounds.grow((maxBounds.width / 3 - bounds.width) / 2, 0);
 		}
@@ -1584,6 +1584,7 @@ public class SwingRenderer {
 							if (!field.isReadOnly()) {
 								setShouldBeNull(false);
 								onNullingControlStateChange();
+								subControl.requestFocus();
 							}
 						}
 					});
