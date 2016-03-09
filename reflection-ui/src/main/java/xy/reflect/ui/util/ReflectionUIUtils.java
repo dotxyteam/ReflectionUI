@@ -737,24 +737,31 @@ public class ReflectionUIUtils {
 	}
 
 	public static Rectangle getMaximumWindowBounds(Window window) {
-		Rectangle result = new Rectangle();
+		Rectangle result = null;
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		for (GraphicsDevice gd : ge.getScreenDevices()) {
 			for (GraphicsConfiguration gc : gd.getConfigurations()) {
 				Rectangle screenBounds = gc.getBounds();
 				Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(gc);
-				Rectangle candidateMaxBounds = new Rectangle();
-				candidateMaxBounds.x = screenBounds.x + screenInsets.left;
-				candidateMaxBounds.y = screenBounds.y + screenInsets.top;
-				candidateMaxBounds.height = screenBounds.height - screenInsets.top - screenInsets.bottom;
-				candidateMaxBounds.width = screenBounds.width - screenInsets.left - screenInsets.right;
-				if (window != null) {
-					Rectangle intersection = candidateMaxBounds.intersection(window.getBounds());
-					if ((intersection.width * intersection.height) > (result.width * result.height)) {
-						result = candidateMaxBounds;
-					}
+				Rectangle candidateResult = new Rectangle();
+				candidateResult.x = screenBounds.x + screenInsets.left;
+				candidateResult.y = screenBounds.y + screenInsets.top;
+				candidateResult.height = screenBounds.height - screenInsets.top - screenInsets.bottom;
+				candidateResult.width = screenBounds.width - screenInsets.left - screenInsets.right;
+				if (result == null) {
+					result = candidateResult;
 				} else {
-					result = result.union(candidateMaxBounds);
+					if (window == null) {
+						return result;
+					} else {
+						Rectangle candidateResultIntersection = candidateResult.intersection(window.getBounds());
+						Rectangle resultIntersection = result.intersection(window.getBounds());
+						if ((candidateResultIntersection.width
+								* candidateResultIntersection.height) > (resultIntersection.width
+										* resultIntersection.height)) {
+							result = candidateResult;
+						}
+					}
 				}
 			}
 		}
