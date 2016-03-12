@@ -33,7 +33,7 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 	protected JButton button;
 	protected Object subFormObject;
 	protected JPanel subForm;
-	protected int lastFocusedFieldControlPlaceHolderIndex;
+	protected int lastFocusedFieldControlPlaceHolderIndex = -1;
 	protected ITypeInfo lastFocusSubFormObjectType;
 
 	public EmbeddedFormControl(final ReflectionUI reflectionUI,

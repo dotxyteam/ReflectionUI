@@ -1,3 +1,9 @@
+- openObjectDialog() cannot detect changes of objects with only methods.
+Change should be detected each time a rw method is invoked???
+even if we o not know how to revert it
+- guessing rules are too complicated to understand by 
+developers. Maybe they should be moved to editable metadatas.
+- metatada wysiwyg editor???
 - it is impossible for custom field controls to prevent 
 modfications of non-primitive values because readonly field
 does not imply ICollectionSettings.allreadOnly for the field 

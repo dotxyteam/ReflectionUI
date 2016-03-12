@@ -918,11 +918,10 @@ public class SwingRenderer {
 		final boolean shouldDisplayReturnValue = (returnValueArray == null) && (method.getReturnValueType() != null);
 		final boolean[] exceptionThrownArray = new boolean[] { false };
 		final Object[] returnValueToDisplay = new Object[1];
-		final InvocationData invocationData;		
-		if(lastInvocationDataByMethod.containsKey(method)){
+		final InvocationData invocationData;
+		if (lastInvocationDataByMethod.containsKey(method)) {
 			invocationData = lastInvocationDataByMethod.get(method);
-		}
-		else{
+		} else {
 			invocationData = new InvocationData();
 		}
 		JPanel methodForm = createObjectForm(new MethodParametersAsTypeInfo(reflectionUI, method)
@@ -999,12 +998,12 @@ public class SwingRenderer {
 
 	public void openObjectDialog(Component parent, Object object, String title, Image iconImage, boolean modal,
 			List<Component> additionalToolbarControls, boolean[] okPressedArray, Runnable whenClosingDialog,
-			ModificationStack[] modificationstackArray, IInfoCollectionSettings settings) {
+			ModificationStack[] modificationStackArray, IInfoCollectionSettings settings) {
 		JPanel form = createObjectForm(object, settings);
-		if (modificationstackArray == null) {
-			modificationstackArray = new ModificationStack[1];
+		if (modificationStackArray == null) {
+			modificationStackArray = new ModificationStack[1];
 		}
-		modificationstackArray[0] = getModificationStackByForm().get(form);
+		modificationStackArray[0] = getModificationStackByForm().get(form);
 		List<Component> toolbarControls = new ArrayList<Component>();
 		if (!settings.allReadOnly()) {
 			List<Component> commonToolbarControls = createCommonToolbarControls(form, settings);
@@ -1094,6 +1093,7 @@ public class SwingRenderer {
 			final IInfoCollectionSettings settings, final ModificationStack parentModificationStack, final String title,
 			final boolean[] changeDetectedArray) {
 		final Object[] valueArray = new Object[] { valueAccessor.get() };
+		final String oldToString = valueArray[0].toString();
 		final Object toOpen;
 		String fieldName = BooleanTypeInfo.isCompatibleWith(valueArray[0].getClass()) ? "Is True" : "Value";
 		if (hasCustomFieldControl(valueArray[0])) {
@@ -1128,7 +1128,8 @@ public class SwingRenderer {
 						}
 					} else {
 						Object oldValue = valueAccessor.get();
-						if (!reflectionUI.equals(oldValue, valueArray[0])) {
+						if (!reflectionUI.equals(oldValue, valueArray[0])
+								|| !oldToString.equals(valueArray[0].toString())) {
 							changeDetectedArray[0] = true;
 							valueAccessor.set(valueArray[0]);
 						}

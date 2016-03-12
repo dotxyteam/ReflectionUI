@@ -157,7 +157,7 @@ public class DefaultMethodInfo implements IMethodInfo {
 			if (!otherJavaMethod.equals(javaMethod)) {
 				if (GetterFieldInfo.isCompatibleWith(otherJavaMethod,
 						containingJavaClass)) {
-					if (javaMethod.equals(GetterFieldInfo.getSetterMethod(
+					if (javaMethod.equals(GetterFieldInfo.getValidSetterMethod(
 							otherJavaMethod, containingJavaClass))) {
 						return false;
 					}

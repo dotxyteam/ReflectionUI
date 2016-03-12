@@ -43,7 +43,7 @@ public class GetterFieldInfo implements IFieldInfo {
 	}
 
 	protected IMethodInfo getSetterMethodInfo() {
-		Method javaSetterMethod = GetterFieldInfo.getSetterMethod(
+		Method javaSetterMethod = GetterFieldInfo.getValidSetterMethod(
 				javaGetterMethod, containingJavaClass);
 		if (javaSetterMethod == null) {
 			return null;
@@ -146,7 +146,7 @@ public class GetterFieldInfo implements IFieldInfo {
 		return result;
 	}
 
-	public static Method getSetterMethod(Method javaGetterMethod,
+	public static Method getValidSetterMethod(Method javaGetterMethod,
 			Class<?> containingJavaClass) {
 		String fieldName = getFieldName(javaGetterMethod.getName());
 		String setterMethodName = "set"
@@ -165,6 +165,9 @@ public class GetterFieldInfo implements IFieldInfo {
 				ReflectionUIUtils.getAnnotatedInfoCategory(result))) {
 			return null;
 		}
+		if(result.getExceptionTypes().length > 0){
+			return null;
+		}
 		return result;
 	}
 
@@ -181,7 +184,7 @@ public class GetterFieldInfo implements IFieldInfo {
 		}
 		if (Modifier.isStatic(javaMethod.getModifiers())) {
 			if (GetterFieldInfo
-					.getSetterMethod(javaMethod, containingJavaClass) == null) {
+					.getValidSetterMethod(javaMethod, containingJavaClass) == null) {
 				return false;
 			}
 		}
@@ -231,7 +234,7 @@ public class GetterFieldInfo implements IFieldInfo {
 		if (result == null) {
 			return null;
 		}
-		Method setter = getSetterMethod(javaGetterMethod, containingJavaClass);
+		Method setter = getValidSetterMethod(javaGetterMethod, containingJavaClass);
 		if (setter != null) {
 			String setterDoc = ReflectionUIUtils
 					.getAnnotatedInfoOnlineHelp(setter);

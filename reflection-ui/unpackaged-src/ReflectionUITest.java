@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -51,6 +52,17 @@ public class ReflectionUITest {
 		@OnlineHelp("This is the string var")
 		private String theString = "azerty";
 
+		public int getTheBoundedInt() {
+			return theBoundedInt;
+		}
+
+		public void setTheBoundedInt(int theBoundedInt) throws Exception {
+			if (theBoundedInt > 10) {
+				throw new Exception();
+			}
+			this.theBoundedInt = theBoundedInt;
+		}
+
 		@OnlineHelp("Returns 'theString'")
 		public String getTheString() {
 			return theString;
@@ -68,6 +80,8 @@ public class ReflectionUITest {
 
 		private int theInt = 50;
 
+		private int theBoundedInt = 0;
+
 		@OnlineHelp("Returns 'theInt' value")
 		public int getTheInt() {
 			return theInt;
@@ -83,35 +97,33 @@ public class ReflectionUITest {
 		public boolean theBooleanPrimitive;
 		public Boolean theBooleanObject;
 		public File theFile;
+		public Date theDate;
 		char c = 'a';
 		@Category("List")
-		public List<String> theStringList = new ArrayList<String>(
-				Arrays.asList("a", "b", "c", "d"));
+		public List<String> theStringList = new ArrayList<String>(Arrays.asList("a", "b", "c", "d"));
 		public Test2 test2 = new Test2();
 		@Category("List")
-		public AbstrcatTestDescendant[] theArrayTreeTable = new AbstrcatTestDescendant[] {
-				new Test2(), new Test3() };
+		public AbstrcatTestDescendant[] theArrayTreeTable = new AbstrcatTestDescendant[] { new Test2(), new Test3() };
 		@Category("List")
 		@SuppressWarnings({ "unchecked", "rawtypes" })
-		public Vector theGenericVector = new Vector(Arrays.asList(new Test2(),
-				new Test2()));
+		public Vector theGenericVector = new Vector(Arrays.asList(new Test2(), new Test2()));
 
 		@Category("List")
-		public Map<Integer, String> theMap = new HashMap<Integer, String>(
-				Collections.singletonMap(5, "five"));
+		public Map<Integer, String> theMap = new HashMap<Integer, String>(Collections.singletonMap(5, "five"));
 
 		@Category("List")
 		public Map<Integer, Test2> theTest2Map = new HashMap<Integer, Test2>();
 
 		@Category("List")
-		public List<File> theFileList = Arrays.asList(new File("."));
+		public List<File> theFileList = Arrays.asList(new File("./file1"));
 
 		@Category("List")
-		public Set<Integer> theSet = new HashSet<Integer>(
-				Arrays.asList(1, 2, 3));
+		public Set<Integer> theSet = new HashSet<Integer>(Arrays.asList(1, 2, 3));
 
 		@Category("List")
 		public Stack<Integer> theStack = new Stack<Integer>();
+
+		public Test4 test4 = new Test4();
 
 		@OnlineHelp("clears the 1st list of Strings")
 		public void resettheStringList() {
@@ -124,8 +136,7 @@ public class ReflectionUITest {
 		}
 
 		@OnlineHelp("multiplies the var 'theFloat' by the given factor")
-		public void multiplyTheFloat(
-				@OnlineHelp("the factor that will be applied") int factor) {
+		public void multiplyTheFloat(@OnlineHelp("the factor that will be applied") int factor) {
 			theFloat *= factor;
 		}
 
@@ -165,6 +176,81 @@ public class ReflectionUITest {
 		}
 	}
 
+	public static class Test4 {
+
+		private int i = 0;
+
+		public void modify1() {
+			i++;
+		}
+
+		public void modify2() {
+			i++;
+		}
+
+		public void modify3() {
+			i++;
+		}
+
+		public void modify4() {
+			i++;
+		}
+
+		public void modify5() {
+			i++;
+		}
+
+		public void modify6() {
+			i++;
+		}
+
+		public void modify7() {
+			i++;
+		}
+
+		public void modify8() {
+			i++;
+		}
+
+		public void modify9() {
+			i++;
+		}
+
+		public void modify10() {
+			i++;
+		}
+
+		public void modify11() {
+			i++;
+		}
+
+		public void modify12() {
+			i++;
+		}
+
+		public void modify13() {
+			i++;
+		}
+
+		public void modify14() {
+			i++;
+		}
+
+		public void modify15() {
+			i++;
+		}
+
+		public void modify16() {
+			i++;
+		}
+
+		@Override
+		public String toString() {
+			return "value" + Integer.toString(i);
+		}
+
+	}
+
 	public static void main(String[] args) {
 		ReflectionUI editor = new ReflectionUI() {
 
@@ -173,8 +259,7 @@ public class ReflectionUITest {
 			@Override
 			public Image getIconImage(Object object) {
 				try {
-					return ImageIO.read(ReflectionUITest.class
-							.getResource("icon.gif"));
+					return ImageIO.read(ReflectionUITest.class.getResource("icon.gif"));
 				} catch (IOException e) {
 					throw new AssertionError(e);
 				}
@@ -185,27 +270,20 @@ public class ReflectionUITest {
 				return new TypeInfoProxyConfiguration() {
 
 					@Override
-					public List<ITypeInfo> getPolymorphicInstanceSubTypes(
-							ITypeInfo type) {
+					public List<ITypeInfo> getPolymorphicInstanceSubTypes(ITypeInfo type) {
 						if (type.getName().equals(Exception.class.getName())) {
-							return Arrays.asList(
-									getTypeInfo(new JavaTypeInfoSource(
-											ParseException.class)),
-									getTypeInfo(new JavaTypeInfoSource(
-											GSSException.class)));
+							return Arrays.asList(getTypeInfo(new JavaTypeInfoSource(ParseException.class)),
+									getTypeInfo(new JavaTypeInfoSource(GSSException.class)));
 						} else {
 							return super.getPolymorphicInstanceSubTypes(type);
 						}
 					}
 
 					@Override
-					protected IModification getUndoModification(
-							final IMethodInfo method, ITypeInfo containingType,
-							final Object object,
-							final InvocationData invocationData) {
+					protected IModification getUndoModification(final IMethodInfo method, ITypeInfo containingType,
+							final Object object, final InvocationData invocationData) {
 						if (method.getName().equals("incrementTheInt")) {
-							return new AbstractMethodUndoModification(object,
-									method, invocationData) {
+							return new AbstractMethodUndoModification(object, method, invocationData) {
 								@Override
 								protected void revertMethod() {
 									Test test = (Test) object;
@@ -213,19 +291,16 @@ public class ReflectionUITest {
 								}
 							};
 						} else if (method.getName().equals("multiplyTheFloat")) {
-							return new AbstractMethodUndoModification(object,
-									method, invocationData) {
+							return new AbstractMethodUndoModification(object, method, invocationData) {
 								@Override
 								protected void revertMethod() {
 									Test test = (Test) object;
 									test.theFloat /= (Integer) invocationData
-											.getParameterValue(method
-													.getParameters().get(0));
+											.getParameterValue(method.getParameters().get(0));
 								}
 							};
 						} else {
-							return super.getUndoModification(method,
-									containingType, object, invocationData);
+							return super.getUndoModification(method, containingType, object, invocationData);
 						}
 					}
 
