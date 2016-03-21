@@ -9,23 +9,19 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collections;
-import java.util.Map;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfoCollectionSettings;
-import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
-import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 public class DialogAccessControl extends JPanel {
@@ -39,8 +35,7 @@ public class DialogAccessControl extends JPanel {
 	protected Component iconControl;
 	protected Component button;
 
-	public DialogAccessControl(final ReflectionUI reflectionUI,
-			final Object object, final IFieldInfo field) {
+	public DialogAccessControl(final ReflectionUI reflectionUI, final Object object, final IFieldInfo field) {
 		this.reflectionUI = reflectionUI;
 		this.object = object;
 		this.field = field;
@@ -50,8 +45,7 @@ public class DialogAccessControl extends JPanel {
 		button = createButton();
 		iconControl = createIconControl();
 
-		add(SwingRendererUtils.flowInLayout(button, FlowLayout.CENTER),
-				BorderLayout.WEST);
+		add(SwingRendererUtils.flowInLayout(button, FlowLayout.CENTER), BorderLayout.WEST);
 		JPanel centerPanel = new JPanel();
 		{
 			add(centerPanel, BorderLayout.CENTER);
@@ -81,8 +75,7 @@ public class DialogAccessControl extends JPanel {
 				Dimension result = super.getPreferredSize();
 				if (result != null) {
 					if (statusControl != null) {
-						Dimension textControlPreferredSize = statusControl
-								.getPreferredSize();
+						Dimension textControlPreferredSize = statusControl.getPreferredSize();
 						if (textControlPreferredSize != null) {
 							result.height = textControlPreferredSize.height;
 						}
@@ -116,8 +109,7 @@ public class DialogAccessControl extends JPanel {
 				try {
 					openDialog();
 				} catch (Throwable t) {
-					reflectionUI.getSwingRenderer()
-							.handleExceptionsFromDisplayedUI(result, t);
+					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(result, t);
 				}
 			}
 		});
@@ -125,27 +117,7 @@ public class DialogAccessControl extends JPanel {
 	}
 
 	protected Component createStatusControl() {
-		return new TextControl(reflectionUI, object, new IFieldInfo() {
-
-			@Override
-			public String getName() {
-				return "";
-			}
-
-			@Override
-			public String getCaption() {
-				return null;
-			}
-
-			@Override
-			public void setValue(Object object, Object value) {
-				throw new ReflectionUIError();
-			}
-
-			@Override
-			public boolean isReadOnly() {
-				return true;
-			}
+		return new TextControl(reflectionUI, object, new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
 
 			@Override
 			public boolean isNullable() {
@@ -159,29 +131,10 @@ public class DialogAccessControl extends JPanel {
 			}
 
 			@Override
-			public Object[] getValueOptions(Object object) {
-				return null;
-			}
-
-			@Override
 			public ITypeInfo getType() {
 				return new TextualTypeInfo(reflectionUI, String.class);
 			}
 
-			@Override
-			public InfoCategory getCategory() {
-				return null;
-			}
-
-			@Override
-			public String getOnlineHelp() {
-				return null;
-			}
-
-			@Override
-			public Map<String, Object> getSpecificProperties() {
-				return Collections.emptyMap();
-			}
 		});
 	}
 
@@ -199,8 +152,8 @@ public class DialogAccessControl extends JPanel {
 			}
 
 		};
-		ModificationStack parentStack = SwingRendererUtils
-				.findModificationStack(DialogAccessControl.this, reflectionUI);
+		ModificationStack parentStack = SwingRendererUtils.findModificationStack(DialogAccessControl.this,
+				reflectionUI);
 		String title = reflectionUI.getFieldTitle(object, field);
 		IInfoCollectionSettings settings = new IInfoCollectionSettings() {
 			@Override
@@ -219,8 +172,8 @@ public class DialogAccessControl extends JPanel {
 			}
 		};
 		boolean[] changeDetectedArray = new boolean[] { false };
-		reflectionUI.getSwingRenderer().openValueDialog(this, valueAccessor,
-				settings, parentStack, title, changeDetectedArray);
+		reflectionUI.getSwingRenderer().openValueDialog(this, valueAccessor, settings, parentStack, title,
+				changeDetectedArray);
 		if (changeDetectedArray[0]) {
 			updateControls();
 		}
@@ -245,7 +198,7 @@ public class DialogAccessControl extends JPanel {
 	}
 
 	protected void updateStatusControl() {
-		((TextControl)statusControl).refreshUI();
+		((TextControl) statusControl).refreshUI();
 	}
 
 }

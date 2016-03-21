@@ -17,6 +17,7 @@
 /ReflectionUITest$Test.class
 /ReflectionUITest$Test2.class
 /ReflectionUITest$Test3.class
+/ReflectionUITest$Test4.class
 /ReflectionUITest.class
 /Test.class
 /TestErrorDialog.class
@@ -30,4 +31,9 @@
 /UIManagerDefaults$SafeIcon.class
 /UIManagerDefaults$SampleRenderer.class
 /UIManagerDefaults.class
-/ReflectionUITest$Test4.class
+/TestSubFieldInfo.class
+/TestSubFieldInfo$A.class
+/TestSubFieldInfo$B.class
+/TestSubFieldInfo$C.class
+/TestSubFieldInfo$1$1.class
+/TestSubFieldInfo$1.class

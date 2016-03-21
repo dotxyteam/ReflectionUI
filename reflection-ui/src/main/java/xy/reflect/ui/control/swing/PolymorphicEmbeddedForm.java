@@ -3,7 +3,6 @@ package xy.reflect.ui.control.swing;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.HiddenNullableFacetFieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
@@ -32,8 +31,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 	protected EnumerationControl typeEnumerationControl;
 	protected ITypeInfo polymorphicType;
 
-	protected final ITypeInfo NULL_POLY_TYPE = new DefaultTypeInfo(
-			reflectionUI, Object.class) {
+	protected final ITypeInfo NULL_POLY_TYPE = new DefaultTypeInfo(reflectionUI, Object.class) {
 
 		@Override
 		public String getCaption() {
@@ -43,8 +41,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 	};
 	protected ITypeInfo lastInstanceType;
 
-	public PolymorphicEmbeddedForm(final ReflectionUI reflectionUI,
-			final Object object, final IFieldInfo field) {
+	public PolymorphicEmbeddedForm(final ReflectionUI reflectionUI, final Object object, final IFieldInfo field) {
 		this.reflectionUI = reflectionUI;
 		this.object = object;
 		this.field = field;
@@ -67,22 +64,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 	}
 
 	protected EnumerationControl createTypeEnumerationControl() {
-		return new EnumerationControl(reflectionUI, object, new IFieldInfo() {
-
-			@Override
-			public String getName() {
-				return "";
-			}
-
-			@Override
-			public String getCaption() {
-				return null;
-			}
-
-			@Override
-			public Map<String, Object> getSpecificProperties() {
-				return Collections.emptyMap();
-			}
+		return new EnumerationControl(reflectionUI, object, new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
 
 			@Override
 			public Object getValue(Object object) {
@@ -90,18 +72,10 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 				if (instance == null) {
 					return NULL_POLY_TYPE;
 				} else {
-					ITypeInfo actualFieldValueType = reflectionUI
-							.getTypeInfo(reflectionUI
-									.getTypeInfoSource(instance));
-					instanceByEnumerationValueCache.put(actualFieldValueType,
-							instance);
+					ITypeInfo actualFieldValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(instance));
+					instanceByEnumerationValueCache.put(actualFieldValueType, instance);
 					return actualFieldValueType;
 				}
-			}
-
-			@Override
-			public Object[] getValueOptions(Object object) {
-				return null;
 			}
 
 			@Override
@@ -117,13 +91,10 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 								break;
 							}
 						}
-						Object instance = instanceByEnumerationValueCache
-								.get(selectedPolyType);
+						Object instance = instanceByEnumerationValueCache.get(selectedPolyType);
 						if (instance == null) {
 							instance = reflectionUI.getSwingRenderer()
-									.onTypeInstanciationRequest(
-											PolymorphicEmbeddedForm.this,
-											selectedPolyType, false);
+									.onTypeInstanciationRequest(PolymorphicEmbeddedForm.this, selectedPolyType, false);
 							if (instance == null) {
 								return;
 							}
@@ -146,26 +117,15 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 			}
 
 			@Override
-			public InfoCategory getCategory() {
-				return null;
-			}
-
-			@Override
 			public ITypeInfo getType() {
-				List<ITypeInfo> possibleValues = new ArrayList<ITypeInfo>(
-						subTypes);
+				List<ITypeInfo> possibleValues = new ArrayList<ITypeInfo>(subTypes);
 				if (PolymorphicEmbeddedForm.this.field.isNullable()) {
 					possibleValues.add(0, NULL_POLY_TYPE);
 				}
-				return new ArrayAsEnumerationTypeInfo(reflectionUI,
-						possibleValues.toArray(), PolymorphicEmbeddedForm.class
-								.getSimpleName() + " Enumeration Type");
+				return new ArrayAsEnumerationTypeInfo(reflectionUI, possibleValues.toArray(),
+						PolymorphicEmbeddedForm.class.getSimpleName() + " Enumeration Type");
 			}
 
-			@Override
-			public String getOnlineHelp() {
-				return null;
-			}
 		});
 	}
 
@@ -215,8 +175,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 		if (typeEnumerationControl != null) {
 			remove(typeEnumerationControl);
 		}
-		add(typeEnumerationControl = createTypeEnumerationControl(),
-				BorderLayout.NORTH);
+		add(typeEnumerationControl = createTypeEnumerationControl(), BorderLayout.NORTH);
 		validate();
 	}
 
@@ -225,8 +184,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 		Object instance = field.getValue(object);
 		ITypeInfo instanceType = null;
 		if (instance != null) {
-			instanceType = reflectionUI.getTypeInfo(reflectionUI
-					.getTypeInfoSource(instance));
+			instanceType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(instance));
 		}
 		refreshTypeEnumerationControl();
 		refreshDynamicControl(instanceType);
@@ -242,8 +200,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 
 	@Override
 	public boolean displayError(ReflectionUIError error) {
-		return (dynamicControl instanceof IFieldControl)
-				&& ((IFieldControl) dynamicControl).displayError(error);
+		return (dynamicControl instanceof IFieldControl) && ((IFieldControl) dynamicControl).displayError(error);
 	}
 
 }

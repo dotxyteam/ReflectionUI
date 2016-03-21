@@ -124,7 +124,7 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 			public boolean isReadOnly() {
 				return false;
 			}
-
+			
 			@Override
 			public String getName() {
 				return param.getName();

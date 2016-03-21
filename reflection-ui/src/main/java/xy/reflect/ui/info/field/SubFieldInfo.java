@@ -82,12 +82,16 @@ public class SubFieldInfo implements IFieldInfo {
 		return field.isNullable() || theSubField.isNullable();
 	}
 
+	public boolean isUnsettable() {
+		return getFieldValueConstructor() == null;
+	}
+
 	public boolean isReadOnly() {
 		return getFieldValueConstructor() == null;
 	}
 
 	public IMethodInfo getFieldValueConstructor() {
-		return ReflectionUIUtils.getZeroParameterConstrucor(type);
+		return ReflectionUIUtils.getZeroParameterConstrucor(field.getType());
 	}
 
 	@Override

@@ -97,7 +97,7 @@ public class ReflectionUITest {
 		public boolean theBooleanPrimitive;
 		public Boolean theBooleanObject;
 		public File theFile;
-		public Date theDate;
+		private Date theDate= new Date();
 		char c = 'a';
 		@Category("List")
 		public List<String> theStringList = new ArrayList<String>(Arrays.asList("a", "b", "c", "d"));
@@ -124,6 +124,12 @@ public class ReflectionUITest {
 		public Stack<Integer> theStack = new Stack<Integer>();
 
 		public Test4 test4 = new Test4();
+
+		
+		
+		public Date getTheDate() {
+			return theDate;
+		}
 
 		@OnlineHelp("clears the 1st list of Strings")
 		public void resettheStringList() {

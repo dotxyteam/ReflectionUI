@@ -8,8 +8,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class FieldInfoProxy implements IFieldInfo {
 
-	protected StackTraceElement[] instanciationTrace = ReflectionUIUtils
-			.createDebugStackTrace(1);
+	protected StackTraceElement[] instanciationTrace = ReflectionUIUtils.createDebugStackTrace(1);
 
 	protected IFieldInfo base;
 
@@ -51,7 +50,7 @@ public class FieldInfoProxy implements IFieldInfo {
 	public boolean isReadOnly() {
 		return base.isReadOnly();
 	}
-	
+
 	@Override
 	public String toString() {
 		return base.toString();
@@ -69,13 +68,13 @@ public class FieldInfoProxy implements IFieldInfo {
 
 	@Override
 	public boolean equals(Object obj) {
-		if(obj == null){
+		if (obj == null) {
 			return false;
 		}
-		if(obj == this){
+		if (obj == this) {
 			return true;
 		}
-		if(!getClass().equals(obj.getClass())){
+		if (!getClass().equals(obj.getClass())) {
 			return false;
 		}
 		return base.equals(((FieldInfoProxy) obj).base);
@@ -95,7 +94,5 @@ public class FieldInfoProxy implements IFieldInfo {
 	public Map<String, Object> getSpecificProperties() {
 		return base.getSpecificProperties();
 	}
-	
-	
 
 }

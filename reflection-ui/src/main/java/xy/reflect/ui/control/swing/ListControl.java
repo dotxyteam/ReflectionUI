@@ -136,6 +136,9 @@ public class ListControl extends JPanel implements IFieldControl {
 			AbstractAction insertAction = createInsertAction(InsertPosition.UNKNOWN);
 			AbstractAction insertActionBefore = createInsertAction(InsertPosition.BEFORE);
 			AbstractAction insertActionAfter = createInsertAction(InsertPosition.AFTER);
+			
+			toolbar.add(createTool(null, SwingRendererUtils.DETAILS_ICON, false, false, createOpenItemAction()));
+			
 			toolbar.add(createTool(null, SwingRendererUtils.ADD_ICON, true, false, addChildAction, insertAction,
 					insertActionBefore, insertActionAfter));
 
@@ -408,7 +411,7 @@ public class ListControl extends JPanel implements IFieldControl {
 
 		if (singleSelectedPosition != null) {
 			if (hasItemDetails(singleSelectedPosition)) {
-				result.add(createOpenItemButton());
+				result.add(createOpenItemAction());
 			}
 		}
 
@@ -1199,7 +1202,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		};
 	}
 
-	protected AbstractAction createOpenItemButton() {
+	protected AbstractAction createOpenItemAction() {
 		return new AbstractAction(reflectionUI.prepareUIString("Open")) {
 			protected static final long serialVersionUID = 1L;
 

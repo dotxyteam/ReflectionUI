@@ -65,7 +65,7 @@ public class MultiListField implements IFieldInfo {
 	public boolean isReadOnly() {
 		return true;
 	}
-
+	
 	@Override
 	public void setValue(Object object, Object value) {
 		throw new ReflectionUIError();

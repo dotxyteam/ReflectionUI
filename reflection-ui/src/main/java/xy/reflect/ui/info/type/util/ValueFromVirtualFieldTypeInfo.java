@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -62,22 +62,7 @@ public class ValueFromVirtualFieldTypeInfo implements ITypeInfo {
 
 	@Override
 	public List<IFieldInfo> getFields() {
-		return Collections.<IFieldInfo> singletonList(new IFieldInfo() {
-
-			@Override
-			public Map<String, Object> getSpecificProperties() {
-				return Collections.emptyMap();
-			}
-
-			@Override
-			public String getOnlineHelp() {
-				return null;
-			}
-
-			@Override
-			public String getName() {
-				return "";
-			}
+		return Collections.<IFieldInfo> singletonList(new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
 
 			@Override
 			public String getCaption() {
@@ -101,11 +86,6 @@ public class ValueFromVirtualFieldTypeInfo implements ITypeInfo {
 			}
 
 			@Override
-			public Object[] getValueOptions(Object object) {
-				return null;
-			}
-
-			@Override
 			public Object getValue(Object object) {
 				InstanceInfo instance = (InstanceInfo) object;
 				return instance.fieldValueArray[0];
@@ -114,11 +94,6 @@ public class ValueFromVirtualFieldTypeInfo implements ITypeInfo {
 			@Override
 			public ITypeInfo getType() {
 				return fieldType;
-			}
-
-			@Override
-			public InfoCategory getCategory() {
-				return null;
 			}
 		});
 	}

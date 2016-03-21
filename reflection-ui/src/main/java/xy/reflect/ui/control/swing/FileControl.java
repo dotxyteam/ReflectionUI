@@ -7,7 +7,7 @@ import java.util.Map;
 
 import javax.swing.JFileChooser;
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.FileTypeInfo;
@@ -20,7 +20,7 @@ public class FileControl extends DialogAccessControl implements IFieldControl {
 
 	protected boolean textChangedByUser = true;
 
-	protected static File lastDirectory;
+	protected static File lastDirectory = new File(".").getAbsoluteFile();
 
 	public static boolean isCompatibleWith(ReflectionUI reflectionUI, Object fieldValue) {
 		return fieldValue instanceof File;
@@ -32,17 +32,7 @@ public class FileControl extends DialogAccessControl implements IFieldControl {
 
 	@Override
 	protected TextControl createStatusControl() {
-		return new TextControl(reflectionUI, object, new IFieldInfo() {
-
-			@Override
-			public String getName() {
-				return "";
-			}
-
-			@Override
-			public String getCaption() {
-				return null;
-			}
+		return new TextControl(reflectionUI, object, new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
 
 			@Override
 			public void setValue(Object object, Object value) {
@@ -66,23 +56,8 @@ public class FileControl extends DialogAccessControl implements IFieldControl {
 			}
 
 			@Override
-			public Object[] getValueOptions(Object object) {
-				return null;
-			}
-
-			@Override
 			public ITypeInfo getType() {
 				return new TextualTypeInfo(reflectionUI, String.class);
-			}
-
-			@Override
-			public InfoCategory getCategory() {
-				return null;
-			}
-
-			@Override
-			public String getOnlineHelp() {
-				return null;
 			}
 
 			@Override
@@ -116,9 +91,7 @@ public class FileControl extends DialogAccessControl implements IFieldControl {
 	protected void openDialog() {
 		final JFileChooser fileChooser = new JFileChooser();
 		File currentFile = (File) field.getValue(object);
-		if (lastDirectory != null) {
-			fileChooser.setCurrentDirectory(lastDirectory);
-		}
+		fileChooser.setCurrentDirectory(lastDirectory);
 		configureFileChooser(fileChooser, currentFile);
 		int returnVal = fileChooser.showDialog(this, reflectionUI.prepareUIString(getDialogTitle()));
 		if (returnVal != JFileChooser.APPROVE_OPTION) {

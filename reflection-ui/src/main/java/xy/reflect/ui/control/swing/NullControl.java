@@ -2,11 +2,8 @@ package xy.reflect.ui.control.swing;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Collections;
-import java.util.Map;
-
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
@@ -16,33 +13,8 @@ public class NullControl extends TextControl {
 
 	protected static final long serialVersionUID = 1L;
 
-	public NullControl(final ReflectionUI reflectionUI,
-			final Runnable onMousePress) {
-		super(reflectionUI, null, new IFieldInfo() {
-
-			@Override
-			public String getName() {
-				return "";
-			}
-
-			@Override
-			public String getOnlineHelp() {
-				return null;
-			}
-
-			@Override
-			public String getCaption() {
-				return "";
-			}
-
-			@Override
-			public void setValue(Object object, Object value) {
-			}
-
-			@Override
-			public boolean isReadOnly() {
-				return true;
-			}
+	public NullControl(final ReflectionUI reflectionUI, final Runnable onMousePress) {
+		super(reflectionUI, null, new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
 
 			@Override
 			public boolean isNullable() {
@@ -53,26 +25,12 @@ public class NullControl extends TextControl {
 			public Object getValue(Object object) {
 				return "";
 			}
-			@Override
-			public Object[] getValueOptions(Object object) {
-				return null;
-			}
 
-			
 			@Override
 			public ITypeInfo getType() {
 				return new TextualTypeInfo(reflectionUI, String.class);
 			}
 
-			@Override
-			public InfoCategory getCategory() {
-				return null;
-			}
-
-			@Override
-			public Map<String, Object> getSpecificProperties() {
-				return Collections.emptyMap();
-			}
 		});
 		if (onMousePress != null) {
 			textComponent.addMouseListener(new MouseAdapter() {
@@ -81,16 +39,14 @@ public class NullControl extends TextControl {
 					try {
 						onMousePress.run();
 					} catch (Throwable t) {
-						reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(
-								NullControl.this, t);
+						reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(NullControl.this, t);
 					}
 				}
 			});
 		}
 		textComponent.setEditable(false);
-		textComponent.setBackground(SwingRendererUtils
-				.fixSeveralColorRenderingIssues(reflectionUI
-						.getSwingRenderer().getNullColor()));
+		textComponent.setBackground(
+				SwingRendererUtils.fixSeveralColorRenderingIssues(reflectionUI.getSwingRenderer().getNullColor()));
 	}
 
 	@Override
@@ -102,8 +58,5 @@ public class NullControl extends TextControl {
 	public boolean showCaption() {
 		return false;
 	}
-	
-	
-	
 
 }

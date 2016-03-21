@@ -619,6 +619,8 @@ public class TypeInfoProxyConfiguration {
 			return TypeInfoProxyConfiguration.this.isReadOnly(field,
 					containingType);
 		}
+		
+		
 
 		@Override
 		public boolean isNullable() {

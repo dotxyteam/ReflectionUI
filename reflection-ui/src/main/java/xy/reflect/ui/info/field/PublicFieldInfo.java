@@ -19,8 +19,7 @@ public class PublicFieldInfo implements IFieldInfo {
 	protected ITypeInfo type;
 	protected Class<?> containingJavaClass;
 
-	public PublicFieldInfo(ReflectionUI reflectionUI, Field field,
-			Class<?> containingJavaClass) {
+	public PublicFieldInfo(ReflectionUI reflectionUI, Field field, Class<?> containingJavaClass) {
 		this.reflectionUI = reflectionUI;
 		this.javaField = field;
 		this.containingJavaClass = containingJavaClass;
@@ -59,15 +58,14 @@ public class PublicFieldInfo implements IFieldInfo {
 
 	@Override
 	public Object[] getValueOptions(Object object) {
-		return ReflectionUIUtils.getFieldValueOptionsFromAnnotatedMember(
-				object, containingJavaClass, javaField.getName(), reflectionUI);
+		return ReflectionUIUtils.getFieldValueOptionsFromAnnotatedMember(object, containingJavaClass,
+				javaField.getName(), reflectionUI);
 	}
 
 	@Override
 	public ITypeInfo getType() {
 		if (type == null) {
-			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaField
-					.getType(), javaField));
+			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaField.getType(), javaField));
 		}
 		return type;
 	}
@@ -117,8 +115,7 @@ public class PublicFieldInfo implements IFieldInfo {
 	}
 
 	public static boolean isCompatibleWith(Field field) {
-		if (Modifier.isStatic(field.getModifiers())
-				&& Modifier.isFinal(field.getModifiers())) {
+		if (Modifier.isStatic(field.getModifiers()) && Modifier.isFinal(field.getModifiers())) {
 			return false;
 		}
 		if (ReflectionUIUtils.isInfoHidden(field)) {

@@ -26,8 +26,7 @@ public class GetterFieldInfo implements IFieldInfo {
 	protected Class<?> containingJavaClass;
 	protected ITypeInfo type;
 
-	public GetterFieldInfo(ReflectionUI reflectionUI, Method javaGetterMethod,
-			Class<?> containingJavaClass) {
+	public GetterFieldInfo(ReflectionUI reflectionUI, Method javaGetterMethod, Class<?> containingJavaClass) {
 		this.reflectionUI = reflectionUI;
 		this.javaGetterMethod = javaGetterMethod;
 		this.containingJavaClass = containingJavaClass;
@@ -43,8 +42,7 @@ public class GetterFieldInfo implements IFieldInfo {
 	}
 
 	protected IMethodInfo getSetterMethodInfo() {
-		Method javaSetterMethod = GetterFieldInfo.getValidSetterMethod(
-				javaGetterMethod, containingJavaClass);
+		Method javaSetterMethod = GetterFieldInfo.getValidSetterMethod(javaGetterMethod, containingJavaClass);
 		if (javaSetterMethod == null) {
 			return null;
 		}
@@ -83,8 +81,8 @@ public class GetterFieldInfo implements IFieldInfo {
 		if (fieldName == null) {
 			return null;
 		}
-		return ReflectionUIUtils.getFieldValueOptionsFromAnnotatedMember(
-				object, containingJavaClass, fieldName, reflectionUI);
+		return ReflectionUIUtils.getFieldValueOptionsFromAnnotatedMember(object, containingJavaClass, fieldName,
+				reflectionUI);
 	}
 
 	@Override
@@ -129,13 +127,11 @@ public class GetterFieldInfo implements IFieldInfo {
 		if (!getClass().equals(obj.getClass())) {
 			return false;
 		}
-		return javaGetterMethod
-				.equals(((GetterFieldInfo) obj).javaGetterMethod);
+		return javaGetterMethod.equals(((GetterFieldInfo) obj).javaGetterMethod);
 	}
 
 	public static String getFieldName(String getterMethodName) {
-		Matcher m = Pattern.compile("^(?:get|is|has)([A-Z].*)").matcher(
-				getterMethodName);
+		Matcher m = Pattern.compile("^(?:get|is|has)([A-Z].*)").matcher(getterMethodName);
 		if (!m.matches()) {
 			return null;
 		}
@@ -146,33 +142,28 @@ public class GetterFieldInfo implements IFieldInfo {
 		return result;
 	}
 
-	public static Method getValidSetterMethod(Method javaGetterMethod,
-			Class<?> containingJavaClass) {
+	public static Method getValidSetterMethod(Method javaGetterMethod, Class<?> containingJavaClass) {
 		String fieldName = getFieldName(javaGetterMethod.getName());
-		String setterMethodName = "set"
-				+ ReflectionUIUtils.changeCase(fieldName, true, 0, 1);
+		String setterMethodName = "set" + ReflectionUIUtils.changeCase(fieldName, true, 0, 1);
 		Method result;
 		try {
-			result = containingJavaClass.getMethod(setterMethodName,
-					new Class[] { javaGetterMethod.getReturnType() });
+			result = containingJavaClass.getMethod(setterMethodName, new Class[] { javaGetterMethod.getReturnType() });
 		} catch (NoSuchMethodException e) {
 			return null;
 		} catch (SecurityException e) {
 			throw new ReflectionUIError(e);
 		}
-		if (!ReflectionUIUtils.equalsOrBothNull(
-				ReflectionUIUtils.getAnnotatedInfoCategory(javaGetterMethod),
+		if (!ReflectionUIUtils.equalsOrBothNull(ReflectionUIUtils.getAnnotatedInfoCategory(javaGetterMethod),
 				ReflectionUIUtils.getAnnotatedInfoCategory(result))) {
 			return null;
 		}
-		if(result.getExceptionTypes().length > 0){
+		if (result.getExceptionTypes().length > 0) {
 			return null;
 		}
 		return result;
 	}
 
-	public static boolean isCompatibleWith(Method javaMethod,
-			Class<?> containingJavaClass) {
+	public static boolean isCompatibleWith(Method javaMethod, Class<?> containingJavaClass) {
 		if (javaMethod.isSynthetic()) {
 			return false;
 		}
@@ -183,8 +174,7 @@ public class GetterFieldInfo implements IFieldInfo {
 			return false;
 		}
 		if (Modifier.isStatic(javaMethod.getModifiers())) {
-			if (GetterFieldInfo
-					.getValidSetterMethod(javaMethod, containingJavaClass) == null) {
+			if (GetterFieldInfo.getValidSetterMethod(javaMethod, containingJavaClass) == null) {
 				return false;
 			}
 		}
@@ -199,9 +189,7 @@ public class GetterFieldInfo implements IFieldInfo {
 		if (javaMethod.getExceptionTypes().length > 0) {
 			return false;
 		}
-		if (ReflectionUIUtils
-				.getAnnotatedValidatingMethods(containingJavaClass).contains(
-						javaMethod)) {
+		if (ReflectionUIUtils.getAnnotatedValidatingMethods(containingJavaClass).contains(javaMethod)) {
 			return false;
 		}
 		if (javaMethod.getAnnotation(ValueOptionsForField.class) != null) {
@@ -222,22 +210,19 @@ public class GetterFieldInfo implements IFieldInfo {
 	public String getOnlineHelp() {
 		for (Field field : ReflectionUIUtils.getALlFields(containingJavaClass)) {
 			if (field.getName().equals(getName())) {
-				String result = ReflectionUIUtils
-						.getAnnotatedInfoOnlineHelp(field);
+				String result = ReflectionUIUtils.getAnnotatedInfoOnlineHelp(field);
 				if (result != null) {
 					return result;
 				}
 			}
 		}
-		String result = ReflectionUIUtils
-				.getAnnotatedInfoOnlineHelp(javaGetterMethod);
+		String result = ReflectionUIUtils.getAnnotatedInfoOnlineHelp(javaGetterMethod);
 		if (result == null) {
 			return null;
 		}
 		Method setter = getValidSetterMethod(javaGetterMethod, containingJavaClass);
 		if (setter != null) {
-			String setterDoc = ReflectionUIUtils
-					.getAnnotatedInfoOnlineHelp(setter);
+			String setterDoc = ReflectionUIUtils.getAnnotatedInfoOnlineHelp(setter);
 			if (setterDoc != null) {
 				result += "\nand\n" + setterDoc;
 			}

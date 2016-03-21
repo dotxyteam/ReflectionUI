@@ -40,6 +40,8 @@ public class SwingRendererUtils {
 			ReflectionUI.class.getResource("resource/error.png"));
 	public static final Icon HELP_ICON = new ImageIcon(
 			ReflectionUI.class.getResource("resource/help.png"));
+	public static final Icon DETAILS_ICON = new ImageIcon(
+			ReflectionUI.class.getResource("resource/details.png"));
 	public static final Icon ADD_ICON = new ImageIcon(
 			ReflectionUI.class.getResource("resource/add.png"));
 	public static final Icon REMOVE_ICON = new ImageIcon(
