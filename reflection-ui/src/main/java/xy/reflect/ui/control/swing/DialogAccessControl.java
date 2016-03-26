@@ -17,7 +17,6 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.undo.ModificationStack;
@@ -155,25 +154,9 @@ public class DialogAccessControl extends JPanel {
 		ModificationStack parentStack = SwingRendererUtils.findModificationStack(DialogAccessControl.this,
 				reflectionUI);
 		String title = reflectionUI.getFieldTitle(object, field);
-		IInfoCollectionSettings settings = new IInfoCollectionSettings() {
-			@Override
-			public boolean allReadOnly() {
-				return field.isReadOnly();
-			}
-
-			@Override
-			public boolean excludeField(IFieldInfo field) {
-				return false;
-			}
-
-			@Override
-			public boolean excludeMethod(IMethodInfo method) {
-				return false;
-			}
-		};
 		boolean[] changeDetectedArray = new boolean[] { false };
-		reflectionUI.getSwingRenderer().openValueDialog(this, valueAccessor, settings, parentStack, title,
-				changeDetectedArray);
+		reflectionUI.getSwingRenderer().openValueDialog(this, valueAccessor, field.isReadOnly(),
+				IInfoCollectionSettings.DEFAULT, parentStack, title, changeDetectedArray);
 		if (changeDetectedArray[0]) {
 			updateControls();
 		}

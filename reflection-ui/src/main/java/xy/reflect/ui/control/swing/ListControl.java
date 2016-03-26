@@ -51,7 +51,6 @@ import org.jdesktop.swingx.treetable.TreeTableModel;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfoCollectionSettings;
-import xy.reflect.ui.info.InfoCollectionSettingsProxy;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -136,9 +135,9 @@ public class ListControl extends JPanel implements IFieldControl {
 			AbstractAction insertAction = createInsertAction(InsertPosition.UNKNOWN);
 			AbstractAction insertActionBefore = createInsertAction(InsertPosition.BEFORE);
 			AbstractAction insertActionAfter = createInsertAction(InsertPosition.AFTER);
-			
+
 			toolbar.add(createTool(null, SwingRendererUtils.DETAILS_ICON, false, false, createOpenItemAction()));
-			
+
 			toolbar.add(createTool(null, SwingRendererUtils.ADD_ICON, true, false, addChildAction, insertAction,
 					insertActionBefore, insertActionAfter));
 
@@ -1343,19 +1342,10 @@ public class ListControl extends JPanel implements IFieldControl {
 				return list.get(index);
 			}
 		});
-		IInfoCollectionSettings settings = new InfoCollectionSettingsProxy(
-				getStructuralInfo().getItemInfoSettings(itemPosition)) {
-			@Override
-			public boolean allReadOnly() {
-				if (itemPosition.getContainingListField().isReadOnly()) {
-					return true;
-				} else {
-					return super.allReadOnly();
-				}
-			}
-		};
-		return reflectionUI.getSwingRenderer().openValueDialog(treeTableComponent, valueAccessor, settings, parentStack,
-				title, changeDetectedArray);
+		IInfoCollectionSettings settings = getStructuralInfo().getItemInfoSettings(itemPosition);
+		boolean isGetOnly = itemPosition.getContainingListField().isReadOnly();
+		return reflectionUI.getSwingRenderer().openValueDialog(treeTableComponent, valueAccessor,
+				isGetOnly, settings, parentStack, title, changeDetectedArray);
 	}
 
 	protected ModificationStack getParentFormModificationStack() {

@@ -1005,17 +1005,15 @@ public class SwingRenderer {
 		}
 		modificationStackArray[0] = getModificationStackByForm().get(form);
 		List<Component> toolbarControls = new ArrayList<Component>();
-		if (!settings.allReadOnly()) {
-			List<Component> commonToolbarControls = createCommonToolbarControls(form, settings);
-			if (commonToolbarControls != null) {
-				toolbarControls.addAll(commonToolbarControls);
-			}
+		List<Component> commonToolbarControls = createCommonToolbarControls(form, settings);
+		if (commonToolbarControls != null) {
+			toolbarControls.addAll(commonToolbarControls);
 		}
 		if (additionalToolbarControls != null) {
 			toolbarControls.addAll(additionalToolbarControls);
 		}
 		JDialog[] dialogArray = new JDialog[1];
-		if (settings.allReadOnly()) {
+		if (okPressedArray == null) {
 			toolbarControls.addAll(createDialogOkCancelButtons(dialogArray, null, "Close", null, false, null));
 		} else {
 			toolbarControls.addAll(createDialogOkCancelButtons(dialogArray, okPressedArray, "OK", null, true, null));
@@ -1049,7 +1047,7 @@ public class SwingRenderer {
 		chosenItemArray[0] = new PrecomputedTypeInfoInstanceWrapper(chosenItemArray[0], enumType);
 		final Object chosenItemAsField = ValueFromVirtualFieldTypeInfo.wrap(reflectionUI, chosenItemArray, message,
 				"Selection", false);
-		if (openValueDialog(parentComponent, Accessor.returning(chosenItemAsField), IInfoCollectionSettings.DEFAULT,
+		if (openValueDialog(parentComponent, Accessor.returning(chosenItemAsField), false, IInfoCollectionSettings.DEFAULT,
 				null, title, new boolean[1])) {
 			chosenItemArray[0] = ((PrecomputedTypeInfoInstanceWrapper) chosenItemArray[0]).getInstance();
 			return (T) chosenItemArray[0];
@@ -1066,7 +1064,7 @@ public class SwingRenderer {
 		final Object[] valueArray = new Object[] { initialValue };
 		final Object valueAsField = ValueFromVirtualFieldTypeInfo.wrap(reflectionUI, valueArray, dataName, "Selection",
 				false);
-		if (openValueDialog(parentComponent, Accessor.returning(valueAsField), IInfoCollectionSettings.DEFAULT, null,
+		if (openValueDialog(parentComponent, Accessor.returning(valueAsField), false, IInfoCollectionSettings.DEFAULT, null,
 				title, new boolean[1])) {
 			return (T) valueArray[0];
 		} else {
@@ -1090,15 +1088,24 @@ public class SwingRenderer {
 	}
 
 	public boolean openValueDialog(Component activatorComponent, final Accessor<Object> valueAccessor,
-			final IInfoCollectionSettings settings, final ModificationStack parentModificationStack, final String title,
-			final boolean[] changeDetectedArray) {
+			boolean isGetOnly, final IInfoCollectionSettings settings, final ModificationStack parentModificationStack,
+			final String title, final boolean[] changeDetectedArray) {
 		final Object[] valueArray = new Object[] { valueAccessor.get() };
 		final String oldToString = valueArray[0].toString();
 		final Object toOpen;
 		String fieldName = BooleanTypeInfo.isCompatibleWith(valueArray[0].getClass()) ? "Is True" : "Value";
+		/*
+		 * Issue: field value read only is not the same as field value
+		 * sub-fields read only. If the field is read only then it must be
+		 * reflected when the field value is wrapped. If the field is not
+		 * wrapped then there is no need to reflect any read only feature in the
+		 * form. It must be rather reflected in the bottom buttons: read only
+		 * implies no OK button.
+		 * 
+		 */
 		if (hasCustomFieldControl(valueArray[0])) {
 			toOpen = ValueFromVirtualFieldTypeInfo.wrap(reflectionUI, valueArray, fieldName, title,
-					settings.allReadOnly());
+					isGetOnly);
 		} else {
 			toOpen = valueArray[0];
 		}
@@ -1143,7 +1150,7 @@ public class SwingRenderer {
 		};
 
 		openObjectDialog(activatorComponent, toOpen, title, reflectionUI.getIconImage(valueArray[0]), true, null,
-				okPressedArray, whenClosingDialog, modificationstackArray, settings);
+				isGetOnly ? null : okPressedArray, whenClosingDialog, modificationstackArray, settings);
 
 		return okPressedArray[0];
 
