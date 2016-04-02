@@ -56,6 +56,14 @@ public class MethodControl extends JButton {
 			}
 		});
 	}
+	
+	
+
+	public IMethodInfo getMethod() {
+		return method;
+	}
+
+
 
 	protected void activated() {
 		reflectionUI.getSwingRenderer().onMethodInvocationRequest(MethodControl.this,

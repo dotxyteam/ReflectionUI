@@ -24,6 +24,12 @@
 /TestOtherControls.class
 /TestPrecomputeTypeInfo.class
 /TestPrimitiveWrapperTypeEquality.class
+/TestSubFieldInfo$1$1.class
+/TestSubFieldInfo$1.class
+/TestSubFieldInfo$A.class
+/TestSubFieldInfo$B.class
+/TestSubFieldInfo$C.class
+/TestSubFieldInfo.class
 /UIManagerDefaults$1.class
 /UIManagerDefaults$ChangeLookAndFeelAction.class
 /UIManagerDefaults$ExitAction.class
@@ -31,9 +37,3 @@
 /UIManagerDefaults$SafeIcon.class
 /UIManagerDefaults$SampleRenderer.class
 /UIManagerDefaults.class
-/TestSubFieldInfo.class
-/TestSubFieldInfo$A.class
-/TestSubFieldInfo$B.class
-/TestSubFieldInfo$C.class
-/TestSubFieldInfo$1$1.class
-/TestSubFieldInfo$1.class

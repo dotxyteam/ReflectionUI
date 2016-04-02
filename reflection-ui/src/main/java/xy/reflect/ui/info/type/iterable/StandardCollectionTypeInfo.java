@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.type.iterable;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.swing.ListControl;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -24,13 +26,11 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.info.method.InvocationData;
 
-public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
-		IListTypeInfo {
+public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IListTypeInfo {
 
 	protected Class<?> itemJavaType;
 
-	public StandardCollectionTypeInfo(ReflectionUI reflectionUI,
-			Class<?> javaType, Class<?> itemJavaType) {
+	public StandardCollectionTypeInfo(ReflectionUI reflectionUI, Class<?> javaType, Class<?> itemJavaType) {
 		super(reflectionUI, javaType);
 		this.itemJavaType = itemJavaType;
 	}
@@ -67,51 +67,66 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		if (ReflectionUIUtils.getNParametersMethod(super.getConstructors(), 0) != null) {
+		if (ReflectionUIUtils.getZeroParameterMethod(super.getConstructors()) != null) {
 			return super.getConstructors();
 		} else {
-			List<IMethodInfo> result = new ArrayList<IMethodInfo>(
-					super.getConstructors());
-			result.add(new AbstractConstructorMethodInfo(this) {
+			IMethodInfo zeroParameterCtor = createZeroParameterContructor();
+			if (zeroParameterCtor != null) {
+				List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getConstructors());
+				result.add(zeroParameterCtor);
+				return result;
+			} else {
+				return super.getConstructors();
+			}
+		}
+	}
+
+	protected IMethodInfo createZeroParameterContructor() {
+		final Collection<?> newInstance;
+		if (javaType.isAssignableFrom(ArrayList.class)) {
+			newInstance = new ArrayList<Object>();
+		} else if (javaType.isAssignableFrom(HashSet.class)) {
+			newInstance = new HashSet<Object>();
+		} else {
+			newInstance = null;
+		}
+		if (newInstance != null) {
+			return new AbstractConstructorMethodInfo(this) {
 
 				@Override
-				public Object invoke(Object object,
-						InvocationData invocationData) {
-					if (javaType.isAssignableFrom(ArrayList.class)) {
-						return new ArrayList<Object>();
-					} else if (javaType.isAssignableFrom(HashSet.class)) {
-						return new HashSet<Object>();
-					} else {
-						throw new ReflectionUIError();
-					}
+				public Object invoke(Object object, InvocationData invocationData) {
+					return newInstance;
 				}
 
 				@Override
 				public List<IParameterInfo> getParameters() {
 					return Collections.emptyList();
 				}
-			});
-			return result;
+			};
 		}
+		return null;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Object fromArray(Object[] array) {
-		IMethodInfo constructor = ReflectionUIUtils
-				.getZeroParameterConstrucor(this);
-		Collection result = (Collection) constructor.invoke(null,
-				new InvocationData());
+		IMethodInfo constructor = ReflectionUIUtils.getZeroParameterConstrucor(this);
+		Collection result = (Collection) constructor.invoke(null, new InvocationData());
 		for (Object item : array) {
 			if (result instanceof Set) {
 				if (result.contains(item)) {
-					throw new ReflectionUIError("Duplicate item: '"
-							+ reflectionUI.toString(item) + "'");
+					throw new ReflectionUIError("Duplicate item: '" + reflectionUI.toString(item) + "'");
 				}
 			}
 			result.add(item);
 		}
 		return result;
+	}
+
+
+	@Override
+	public boolean canInstanciateFromArray() {
+		return ReflectionUIUtils.getZeroParameterConstrucor(this) != null;
 	}
 
 	@Override
@@ -123,8 +138,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 	public IListStructuralInfo getStructuralInfo() {
 		ITypeInfo itemType = getItemType();
 		try {
-			TabularTreetStructuralInfo tabularInfo = new TabularTreetStructuralInfo(
-					reflectionUI, itemType);
+			TabularTreetStructuralInfo tabularInfo = new TabularTreetStructuralInfo(reflectionUI, itemType);
 			if (tabularInfo.getColumnFields().size() >= 3) {
 				return tabularInfo;
 			}
@@ -150,8 +164,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 		if (!javaType.equals(((StandardCollectionTypeInfo) obj).javaType)) {
 			return false;
 		}
-		if (!ReflectionUIUtils.equalsOrBothNull(itemJavaType,
-				((StandardCollectionTypeInfo) obj).itemJavaType)) {
+		if (!ReflectionUIUtils.equalsOrBothNull(itemJavaType, ((StandardCollectionTypeInfo) obj).itemJavaType)) {
 			return false;
 		}
 		return true;
@@ -164,24 +177,14 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 
 	public static boolean isCompatibleWith(Class<?> javaType) {
 		if (Collection.class.isAssignableFrom(javaType)) {
-			if (ReflectionUIUtils
-					.getZeroParameterConstrucor(new DefaultTypeInfo(
-							new ReflectionUI(), javaType)) != null) {
-				return true;
-			}
-			if (javaType.isAssignableFrom(ArrayList.class)) {
-				return true;
-			}
-			if (javaType.isAssignableFrom(HashSet.class)) {
-				return true;
-			}
+			return true;
 		}
 		return false;
 	}
 
 	@Override
-	public List<IListAction> getSpecificActions(
-			Object object, IFieldInfo field, List<? extends ItemPosition> selection) {
+	public List<IListAction> getSpecificActions(Object object, IFieldInfo field,
+			List<? extends ItemPosition> selection) {
 		return Collections.emptyList();
 	}
 
@@ -189,7 +192,15 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements
 	public List<IMethodInfo> getSpecificItemConstructors(Object object, IFieldInfo field) {
 		return Collections.emptyList();
 	}
-	
-	
+
+	@Override
+	public Component createCustomFieldControl(Object object, IFieldInfo field) {
+		return new ListControl(reflectionUI, object, field);
+	}
+
+	@Override
+	public boolean hasCustomFieldControl() {
+		return true;
+	}
 
 }

@@ -47,8 +47,8 @@ public class FieldInfoProxy implements IFieldInfo {
 	}
 
 	@Override
-	public boolean isReadOnly() {
-		return base.isReadOnly();
+	public boolean isGetOnly() {
+		return base.isGetOnly();
 	}
 
 	@Override

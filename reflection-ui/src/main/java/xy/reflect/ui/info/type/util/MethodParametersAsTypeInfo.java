@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.type.util;
 
+import java.awt.Component;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -121,7 +122,7 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 			}
 
 			@Override
-			public boolean isReadOnly() {
+			public boolean isGetOnly() {
 				return false;
 			}
 			
@@ -206,6 +207,16 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 			this.methodOwner = methodowner;
 			this.invocationData = invocationData;
 		}
+	}
+
+	@Override
+	public Component createCustomFieldControl(Object object, IFieldInfo field) {
+		return null;
+	}
+
+	@Override
+	public boolean hasCustomFieldControl() {
+		return false;
 	}
 
 }

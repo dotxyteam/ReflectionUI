@@ -97,7 +97,7 @@ public class GetterFieldInfo implements IFieldInfo {
 	}
 
 	@Override
-	public boolean isReadOnly() {
+	public boolean isGetOnly() {
 		return getSetterMethodInfo() == null;
 	}
 

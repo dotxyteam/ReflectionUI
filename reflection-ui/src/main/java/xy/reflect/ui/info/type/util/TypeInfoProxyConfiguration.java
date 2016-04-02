@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.type.util;
 
+import java.awt.Component;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +23,7 @@ import xy.reflect.ui.info.method.InvocationData;
 
 public class TypeInfoProxyConfiguration {
 
-	protected StackTraceElement[] instanciationTrace = ReflectionUIUtils
-			.createDebugStackTrace(1);
+	protected StackTraceElement[] instanciationTrace = ReflectionUIUtils.createDebugStackTrace(1);
 
 	public ITypeInfo get(final ITypeInfo type) {
 		if (type instanceof IListTypeInfo) {
@@ -56,38 +56,31 @@ public class TypeInfoProxyConfiguration {
 		return true;
 	}
 
-	protected Object getDefaultValue(IParameterInfo param, IMethodInfo method,
-			ITypeInfo containingType) {
+	protected Object getDefaultValue(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
 		return param.getDefaultValue();
 	}
 
-	protected int getPosition(IParameterInfo param, IMethodInfo method,
-			ITypeInfo containingType) {
+	protected int getPosition(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
 		return param.getPosition();
 	}
 
-	protected ITypeInfo getType(IParameterInfo param, IMethodInfo method,
-			ITypeInfo containingType) {
+	protected ITypeInfo getType(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
 		return param.getType();
 	}
 
-	protected boolean isNullable(IParameterInfo param, IMethodInfo method,
-			ITypeInfo containingType) {
+	protected boolean isNullable(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
 		return param.isNullable();
 	}
 
-	protected String getCaption(IParameterInfo param, IMethodInfo method,
-			ITypeInfo containingType) {
+	protected String getCaption(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
 		return param.getCaption();
 	}
 
-	protected String getName(IParameterInfo param, IMethodInfo method,
-			ITypeInfo containingType) {
+	protected String getName(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
 		return param.getName();
 	}
 
-	protected InfoCategory getCategory(IFieldInfo field,
-			ITypeInfo containingType) {
+	protected InfoCategory getCategory(IFieldInfo field, ITypeInfo containingType) {
 		return field.getCategory();
 	}
 
@@ -95,13 +88,11 @@ public class TypeInfoProxyConfiguration {
 		return field.getType();
 	}
 
-	protected Object getValue(Object object, IFieldInfo field,
-			ITypeInfo containingType) {
+	protected Object getValue(Object object, IFieldInfo field, ITypeInfo containingType) {
 		return field.getValue(object);
 	}
 
-	protected Object[] getValueOptions(Object object, IFieldInfo field,
-			ITypeInfo containingType) {
+	protected Object[] getValueOptions(Object object, IFieldInfo field, ITypeInfo containingType) {
 		return field.getValueOptions(object);
 	}
 
@@ -109,12 +100,11 @@ public class TypeInfoProxyConfiguration {
 		return field.isNullable();
 	}
 
-	protected boolean isReadOnly(IFieldInfo field, ITypeInfo containingType) {
-		return field.isReadOnly();
+	protected boolean isGetOnly(IFieldInfo field, ITypeInfo containingType) {
+		return field.isGetOnly();
 	}
 
-	protected void setValue(Object object, Object value, IFieldInfo field,
-			ITypeInfo containingType) {
+	protected void setValue(Object object, Object value, IFieldInfo field, ITypeInfo containingType) {
 		field.setValue(object, value);
 	}
 
@@ -134,8 +124,7 @@ public class TypeInfoProxyConfiguration {
 		return field.getName();
 	}
 
-	protected InfoCategory getCategory(IMethodInfo method,
-			ITypeInfo containingType) {
+	protected InfoCategory getCategory(IMethodInfo method, ITypeInfo containingType) {
 		return method.getCategory();
 	}
 
@@ -143,13 +132,12 @@ public class TypeInfoProxyConfiguration {
 		return method.isReadOnly();
 	}
 
-	protected Object invoke(Object object, InvocationData invocationData,
-			IMethodInfo method, ITypeInfo containingType) {
+	protected Object invoke(Object object, InvocationData invocationData, IMethodInfo method,
+			ITypeInfo containingType) {
 		return method.invoke(object, invocationData);
 	}
 
-	protected List<IParameterInfo> getParameters(IMethodInfo method,
-			ITypeInfo containingType) {
+	protected List<IParameterInfo> getParameters(IMethodInfo method, ITypeInfo containingType) {
 		List<IParameterInfo> result = new ArrayList<IParameterInfo>();
 		for (IParameterInfo param : method.getParameters()) {
 			result.add(new ParameterInfoProxy(param, method, containingType));
@@ -157,8 +145,7 @@ public class TypeInfoProxyConfiguration {
 		return result;
 	}
 
-	protected ITypeInfo getReturnValueType(IMethodInfo method,
-			ITypeInfo containingType) {
+	protected ITypeInfo getReturnValueType(IMethodInfo method, ITypeInfo containingType) {
 		return method.getReturnValueType();
 	}
 
@@ -178,15 +165,16 @@ public class TypeInfoProxyConfiguration {
 		return type.fromArray(listValue);
 	}
 
-	protected List<IListAction> getSpecificListActions(IListTypeInfo type,
-			Object object, IFieldInfo field,
+
+	protected boolean canInstanciateFromArray(IListTypeInfo type) {
+		return type.canInstanciateFromArray();
+	}
+	protected List<IListAction> getSpecificListActions(IListTypeInfo type, Object object, IFieldInfo field,
 			List<? extends ItemPosition> selection) {
 		return type.getSpecificActions(object, field, selection);
 	}
-	
 
-	protected List<IMethodInfo> getSpecificItemConstructors(IListTypeInfo type,
-			Object object, IFieldInfo field) {
+	protected List<IMethodInfo> getSpecificItemConstructors(IListTypeInfo type, Object object, IFieldInfo field) {
 		return type.getSpecificItemConstructors(object, field);
 	}
 
@@ -262,24 +250,21 @@ public class TypeInfoProxyConfiguration {
 		return type.hashCode();
 	}
 
-	protected boolean equals(IParameterInfo param, IMethodInfo method,
-			ITypeInfo containingType, IParameterInfo param2,
+	protected boolean equals(IParameterInfo param, IMethodInfo method, ITypeInfo containingType, IParameterInfo param2,
 			IMethodInfo method2, ITypeInfo containingType2) {
 		return param.equals(param2);
 	}
 
-	protected int hashCode(IParameterInfo param, IMethodInfo method,
-			ITypeInfo containingType) {
+	protected int hashCode(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
 		return param.hashCode();
 	}
 
-	protected String toString(IParameterInfo param, IMethodInfo method,
-			ITypeInfo containingType) {
+	protected String toString(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
 		return param.toString();
 	}
 
-	protected boolean equals(IMethodInfo method, ITypeInfo containingType,
-			IMethodInfo method2, ITypeInfo containingType2) {
+	protected boolean equals(IMethodInfo method, ITypeInfo containingType, IMethodInfo method2,
+			ITypeInfo containingType2) {
 		return method.equals(method2);
 	}
 
@@ -299,8 +284,7 @@ public class TypeInfoProxyConfiguration {
 		return field.hashCode();
 	}
 
-	protected boolean equals(IFieldInfo field, ITypeInfo containingType,
-			IFieldInfo field2, ITypeInfo containingType2) {
+	protected boolean equals(IFieldInfo field, ITypeInfo containingType, IFieldInfo field2, ITypeInfo containingType2) {
 		return field.equals(field2);
 	}
 
@@ -316,18 +300,16 @@ public class TypeInfoProxyConfiguration {
 		return field.getOnlineHelp();
 	}
 
-	protected Map<String, Object> getSpecificProperties(IFieldInfo field,
-			ITypeInfo containingType) {
+	protected Map<String, Object> getSpecificProperties(IFieldInfo field, ITypeInfo containingType) {
 		return field.getSpecificProperties();
 	}
 
-	protected String getOnlineHelp(IParameterInfo param, IMethodInfo method,
-			ITypeInfo containingType) {
+	protected String getOnlineHelp(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
 		return param.getOnlineHelp();
 	}
 
-	protected Map<String, Object> getSpecificProperties(IParameterInfo param,
-			IMethodInfo method, ITypeInfo containingType) {
+	protected Map<String, Object> getSpecificProperties(IParameterInfo param, IMethodInfo method,
+			ITypeInfo containingType) {
 		return param.getSpecificProperties();
 	}
 
@@ -343,37 +325,40 @@ public class TypeInfoProxyConfiguration {
 		return type.getSpecificProperties();
 	}
 
+	public Component createFieldControl(ITypeInfo type, Object object, IFieldInfo field) {
+		return type.createCustomFieldControl(object, field);
+	}
+
+	public boolean hasCustomFieldControl(ITypeInfo type) {
+		return type.hasCustomFieldControl();
+	}
+
 	protected String getOnlineHelp(IMethodInfo method, ITypeInfo containingType) {
 		return method.getOnlineHelp();
 	}
 
-	protected Map<String, Object> getSpecificProperties(IMethodInfo method,
-			ITypeInfo containingType) {
+	protected Map<String, Object> getSpecificProperties(IMethodInfo method, ITypeInfo containingType) {
 		return method.getSpecificProperties();
 	}
 
-	protected void validateParameters(IMethodInfo method,
-			ITypeInfo containingType, Object object,
+	protected void validateParameters(IMethodInfo method, ITypeInfo containingType, Object object,
 			InvocationData invocationData) throws Exception {
 		method.validateParameters(object, invocationData);
 	}
 
-	protected IModification getUndoModification(IMethodInfo method,
-			ITypeInfo containingType, Object object,
+	protected IModification getUndoModification(IMethodInfo method, ITypeInfo containingType, Object object,
 			InvocationData invocationData) {
 		return method.getUndoModification(object, invocationData);
 	}
 
-	protected String formatEnumerationItem(Object object,
-			IEnumerationTypeInfo type) {
+	protected String formatEnumerationItem(Object object, IEnumerationTypeInfo type) {
 		return type.formatEnumerationItem(object);
 	}
 
 	private class BasicTypeInfoProxy implements ITypeInfo {
 
 		@SuppressWarnings("unused")
-		protected StackTraceElement[] instanciationTrace = ReflectionUIUtils
-				.createDebugStackTrace(1);
+		protected StackTraceElement[] instanciationTrace = ReflectionUIUtils.createDebugStackTrace(1);
 
 		protected ITypeInfo type;
 
@@ -393,8 +378,7 @@ public class TypeInfoProxyConfiguration {
 
 		@Override
 		public boolean supportsInstance(Object object) {
-			return TypeInfoProxyConfiguration.this.supportsInstance(type,
-					object);
+			return TypeInfoProxyConfiguration.this.supportsInstance(type, object);
 		}
 
 		@Override
@@ -404,8 +388,7 @@ public class TypeInfoProxyConfiguration {
 
 		@Override
 		public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
-			return TypeInfoProxyConfiguration.this
-					.getPolymorphicInstanceSubTypes(type);
+			return TypeInfoProxyConfiguration.this.getPolymorphicInstanceSubTypes(type);
 		}
 
 		@Override
@@ -441,8 +424,7 @@ public class TypeInfoProxyConfiguration {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result
-					+ getTypeInfoProxyConfiguration().hashCode();
+			result = prime * result + getTypeInfoProxyConfiguration().hashCode();
 			result = prime * result + ((type == null) ? 0 : type.hashCode());
 			return result;
 		}
@@ -456,8 +438,7 @@ public class TypeInfoProxyConfiguration {
 			if (getClass() != obj.getClass())
 				return false;
 			BasicTypeInfoProxy other = (BasicTypeInfoProxy) obj;
-			if (!getTypeInfoProxyConfiguration().equals(
-					other.getTypeInfoProxyConfiguration()))
+			if (!getTypeInfoProxyConfiguration().equals(other.getTypeInfoProxyConfiguration()))
 				return false;
 			if (type == null) {
 				if (other.type != null)
@@ -486,10 +467,19 @@ public class TypeInfoProxyConfiguration {
 		public Map<String, Object> getSpecificProperties() {
 			return TypeInfoProxyConfiguration.this.getSpecificProperties(type);
 		}
+
+		@Override
+		public Component createCustomFieldControl(Object object, IFieldInfo field) {
+			return TypeInfoProxyConfiguration.this.createFieldControl(type, object, field);
+		}
+
+		@Override
+		public boolean hasCustomFieldControl() {
+			return TypeInfoProxyConfiguration.this.hasCustomFieldControl(type);
+		}
 	}
 
-	private class ListTypeInfoProxy extends BasicTypeInfoProxy implements
-			IListTypeInfo {
+	private class ListTypeInfoProxy extends BasicTypeInfoProxy implements IListTypeInfo {
 
 		public ListTypeInfoProxy(IListTypeInfo type) {
 			super(type);
@@ -497,51 +487,49 @@ public class TypeInfoProxyConfiguration {
 
 		@Override
 		public Object[] toArray(Object listValue) {
-			return TypeInfoProxyConfiguration.this.toArray(
-					(IListTypeInfo) type, listValue);
+			return TypeInfoProxyConfiguration.this.toArray((IListTypeInfo) type, listValue);
 		}
 
 		@Override
 		public boolean isOrdered() {
-			return TypeInfoProxyConfiguration.this
-					.isOrdered((IListTypeInfo) type);
+			return TypeInfoProxyConfiguration.this.isOrdered((IListTypeInfo) type);
 		}
 
 		@Override
 		public IListStructuralInfo getStructuralInfo() {
-			return TypeInfoProxyConfiguration.this
-					.getStructuralInfo((IListTypeInfo) type);
+			return TypeInfoProxyConfiguration.this.getStructuralInfo((IListTypeInfo) type);
 		}
 
 		@Override
 		public ITypeInfo getItemType() {
-			return TypeInfoProxyConfiguration.this
-					.getItemType((IListTypeInfo) type);
+			return TypeInfoProxyConfiguration.this.getItemType((IListTypeInfo) type);
 		}
 
 		@Override
 		public Object fromArray(Object[] array) {
-			return TypeInfoProxyConfiguration.this.fromArray(
-					(IListTypeInfo) type, array);
+			return TypeInfoProxyConfiguration.this.fromArray((IListTypeInfo) type, array);
 		}
 
 		@Override
-		public List<IListAction> getSpecificActions(Object object,
-				IFieldInfo field, List<? extends ItemPosition> selection) {
-			return TypeInfoProxyConfiguration.this.getSpecificListActions(
-					(IListTypeInfo) type, object, field, selection);
+		public boolean canInstanciateFromArray() {
+			return TypeInfoProxyConfiguration.this.canInstanciateFromArray((IListTypeInfo) type);
+		}
+
+		@Override
+		public List<IListAction> getSpecificActions(Object object, IFieldInfo field,
+				List<? extends ItemPosition> selection) {
+			return TypeInfoProxyConfiguration.this.getSpecificListActions((IListTypeInfo) type, object, field,
+					selection);
 		}
 
 		@Override
 		public List<IMethodInfo> getSpecificItemConstructors(Object object, IFieldInfo field) {
-			return TypeInfoProxyConfiguration.this.getSpecificItemConstructors(
-					(IListTypeInfo) type, object, field);
+			return TypeInfoProxyConfiguration.this.getSpecificItemConstructors((IListTypeInfo) type, object, field);
 		}
 
 	}
 
-	private class EnumerationTypeInfoProxy extends BasicTypeInfoProxy implements
-			IEnumerationTypeInfo {
+	private class EnumerationTypeInfoProxy extends BasicTypeInfoProxy implements IEnumerationTypeInfo {
 
 		public EnumerationTypeInfoProxy(IEnumerationTypeInfo type) {
 			super(type);
@@ -549,20 +537,17 @@ public class TypeInfoProxyConfiguration {
 
 		@Override
 		public Object[] getPossibleValues() {
-			return TypeInfoProxyConfiguration.this
-					.getPossibleValues((IEnumerationTypeInfo) type);
+			return TypeInfoProxyConfiguration.this.getPossibleValues((IEnumerationTypeInfo) type);
 		}
 
 		@Override
 		public String formatEnumerationItem(Object object) {
-			return TypeInfoProxyConfiguration.this.formatEnumerationItem(
-					object, (IEnumerationTypeInfo) type);
+			return TypeInfoProxyConfiguration.this.formatEnumerationItem(object, (IEnumerationTypeInfo) type);
 		}
 
 	}
 
-	private class MapEntryTypeInfoProxy extends BasicTypeInfoProxy implements
-			IMapEntryTypeInfo {
+	private class MapEntryTypeInfoProxy extends BasicTypeInfoProxy implements IMapEntryTypeInfo {
 
 		public MapEntryTypeInfoProxy(IMapEntryTypeInfo type) {
 			super(type);
@@ -570,14 +555,12 @@ public class TypeInfoProxyConfiguration {
 
 		@Override
 		public IFieldInfo getKeyField() {
-			return TypeInfoProxyConfiguration.this
-					.getKeyField((IMapEntryTypeInfo) type);
+			return TypeInfoProxyConfiguration.this.getKeyField((IMapEntryTypeInfo) type);
 		}
 
 		@Override
 		public IFieldInfo getValueField() {
-			return TypeInfoProxyConfiguration.this
-					.getValueField((IMapEntryTypeInfo) type);
+			return TypeInfoProxyConfiguration.this.getValueField((IMapEntryTypeInfo) type);
 		}
 
 	}
@@ -585,8 +568,7 @@ public class TypeInfoProxyConfiguration {
 	private class FieldInfoProxy implements IFieldInfo {
 
 		@SuppressWarnings("unused")
-		protected StackTraceElement[] instanciationTrace = new Exception()
-				.getStackTrace();
+		protected StackTraceElement[] instanciationTrace = new Exception().getStackTrace();
 
 		protected IFieldInfo field;
 		protected ITypeInfo containingType;
@@ -598,82 +580,67 @@ public class TypeInfoProxyConfiguration {
 
 		@Override
 		public String getName() {
-			return TypeInfoProxyConfiguration.this.getName(field,
-					containingType);
+			return TypeInfoProxyConfiguration.this.getName(field, containingType);
 		}
 
 		@Override
 		public String getCaption() {
-			return TypeInfoProxyConfiguration.this.getCaption(field,
-					containingType);
+			return TypeInfoProxyConfiguration.this.getCaption(field, containingType);
 		}
 
 		@Override
 		public void setValue(Object object, Object value) {
-			TypeInfoProxyConfiguration.this.setValue(object, value, field,
-					containingType);
+			TypeInfoProxyConfiguration.this.setValue(object, value, field, containingType);
 		}
 
 		@Override
-		public boolean isReadOnly() {
-			return TypeInfoProxyConfiguration.this.isReadOnly(field,
-					containingType);
+		public boolean isGetOnly() {
+			return TypeInfoProxyConfiguration.this.isGetOnly(field, containingType);
 		}
-		
-		
 
 		@Override
 		public boolean isNullable() {
-			return TypeInfoProxyConfiguration.this.isNullable(field,
-					containingType);
+			return TypeInfoProxyConfiguration.this.isNullable(field, containingType);
 		}
 
 		@Override
 		public Object getValue(Object object) {
-			return TypeInfoProxyConfiguration.this.getValue(object, field,
-					containingType);
+			return TypeInfoProxyConfiguration.this.getValue(object, field, containingType);
 		}
 
 		@Override
 		public Object[] getValueOptions(Object object) {
-			return TypeInfoProxyConfiguration.this.getValueOptions(object,
-					field, containingType);
+			return TypeInfoProxyConfiguration.this.getValueOptions(object, field, containingType);
 		}
 
 		@Override
 		public ITypeInfo getType() {
-			return TypeInfoProxyConfiguration.this.getType(field,
-					containingType);
+			return TypeInfoProxyConfiguration.this.getType(field, containingType);
 		}
 
 		@Override
 		public InfoCategory getCategory() {
-			return TypeInfoProxyConfiguration.this.getCategory(field,
-					containingType);
+			return TypeInfoProxyConfiguration.this.getCategory(field, containingType);
 		}
 
 		@Override
 		public String getOnlineHelp() {
-			return TypeInfoProxyConfiguration.this.getOnlineHelp(field,
-					containingType);
+			return TypeInfoProxyConfiguration.this.getOnlineHelp(field, containingType);
 		}
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {
-			return TypeInfoProxyConfiguration.this.getSpecificProperties(field,
-					containingType);
+			return TypeInfoProxyConfiguration.this.getSpecificProperties(field, containingType);
 		}
 
 		@Override
 		public String toString() {
-			return TypeInfoProxyConfiguration.this.toString(field,
-					containingType);
+			return TypeInfoProxyConfiguration.this.toString(field, containingType);
 		}
 
 		@Override
 		public int hashCode() {
-			return TypeInfoProxyConfiguration.this.hashCode(field,
-					containingType);
+			return TypeInfoProxyConfiguration.this.hashCode(field, containingType);
 		}
 
 		@Override
@@ -687,8 +654,7 @@ public class TypeInfoProxyConfiguration {
 			if (!getClass().equals(obj.getClass())) {
 				return false;
 			}
-			return TypeInfoProxyConfiguration.this.equals(field,
-					containingType, ((FieldInfoProxy) obj).field,
+			return TypeInfoProxyConfiguration.this.equals(field, containingType, ((FieldInfoProxy) obj).field,
 					((FieldInfoProxy) obj).containingType);
 		}
 
@@ -697,8 +663,7 @@ public class TypeInfoProxyConfiguration {
 	private class MethodInfoProxy implements IMethodInfo {
 
 		@SuppressWarnings("unused")
-		protected StackTraceElement[] instanciationTrace = ReflectionUIUtils
-				.createDebugStackTrace(1);
+		protected StackTraceElement[] instanciationTrace = ReflectionUIUtils.createDebugStackTrace(1);
 
 		protected IMethodInfo method;
 		protected ITypeInfo containingType;
@@ -710,82 +675,67 @@ public class TypeInfoProxyConfiguration {
 
 		@Override
 		public String getName() {
-			return TypeInfoProxyConfiguration.this.getName(method,
-					containingType);
+			return TypeInfoProxyConfiguration.this.getName(method, containingType);
 		}
 
 		@Override
 		public String getCaption() {
-			return TypeInfoProxyConfiguration.this.getCaption(method,
-					containingType);
+			return TypeInfoProxyConfiguration.this.getCaption(method, containingType);
 		}
 
 		@Override
 		public ITypeInfo getReturnValueType() {
-			return TypeInfoProxyConfiguration.this.getReturnValueType(method,
-					containingType);
+			return TypeInfoProxyConfiguration.this.getReturnValueType(method, containingType);
 		}
 
 		@Override
 		public List<IParameterInfo> getParameters() {
-			return TypeInfoProxyConfiguration.this.getParameters(method,
-					containingType);
+			return TypeInfoProxyConfiguration.this.getParameters(method, containingType);
 		}
 
 		@Override
 		public Object invoke(Object object, InvocationData invocationData) {
-			return TypeInfoProxyConfiguration.this.invoke(object,
-					invocationData, method, containingType);
+			return TypeInfoProxyConfiguration.this.invoke(object, invocationData, method, containingType);
 		}
 
 		@Override
 		public boolean isReadOnly() {
-			return TypeInfoProxyConfiguration.this.isReadOnly(method,
-					containingType);
+			return TypeInfoProxyConfiguration.this.isReadOnly(method, containingType);
 		}
 
 		@Override
 		public InfoCategory getCategory() {
-			return TypeInfoProxyConfiguration.this.getCategory(method,
-					containingType);
+			return TypeInfoProxyConfiguration.this.getCategory(method, containingType);
 		}
 
 		@Override
 		public String getOnlineHelp() {
-			return TypeInfoProxyConfiguration.this.getOnlineHelp(method,
-					containingType);
+			return TypeInfoProxyConfiguration.this.getOnlineHelp(method, containingType);
 		}
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {
-			return TypeInfoProxyConfiguration.this.getSpecificProperties(
-					method, containingType);
+			return TypeInfoProxyConfiguration.this.getSpecificProperties(method, containingType);
 		}
 
 		@Override
-		public void validateParameters(Object object,
-				InvocationData invocationData) throws Exception {
-			TypeInfoProxyConfiguration.this.validateParameters(method,
-					containingType, object, invocationData);
+		public void validateParameters(Object object, InvocationData invocationData) throws Exception {
+			TypeInfoProxyConfiguration.this.validateParameters(method, containingType, object, invocationData);
 		}
 
 		@Override
-		public IModification getUndoModification(Object object,
-				InvocationData invocationData) {
-			return TypeInfoProxyConfiguration.this.getUndoModification(method,
-					containingType, object, invocationData);
+		public IModification getUndoModification(Object object, InvocationData invocationData) {
+			return TypeInfoProxyConfiguration.this.getUndoModification(method, containingType, object, invocationData);
 		}
 
 		@Override
 		public String toString() {
-			return TypeInfoProxyConfiguration.this.toString(method,
-					containingType);
+			return TypeInfoProxyConfiguration.this.toString(method, containingType);
 		}
 
 		@Override
 		public int hashCode() {
-			return TypeInfoProxyConfiguration.this.hashCode(method,
-					containingType);
+			return TypeInfoProxyConfiguration.this.hashCode(method, containingType);
 		}
 
 		@Override
@@ -799,8 +749,7 @@ public class TypeInfoProxyConfiguration {
 			if (!getClass().equals(obj.getClass())) {
 				return false;
 			}
-			return TypeInfoProxyConfiguration.this.equals(method,
-					containingType, ((MethodInfoProxy) obj).method,
+			return TypeInfoProxyConfiguration.this.equals(method, containingType, ((MethodInfoProxy) obj).method,
 					((MethodInfoProxy) obj).containingType);
 		}
 
@@ -809,15 +758,13 @@ public class TypeInfoProxyConfiguration {
 	private class ParameterInfoProxy implements IParameterInfo {
 
 		@SuppressWarnings("unused")
-		protected StackTraceElement[] instanciationTrace = ReflectionUIUtils
-				.createDebugStackTrace(1);
+		protected StackTraceElement[] instanciationTrace = ReflectionUIUtils.createDebugStackTrace(1);
 
 		protected IParameterInfo param;
 		protected IMethodInfo method;
 		protected ITypeInfo containingType;
 
-		public ParameterInfoProxy(IParameterInfo param, IMethodInfo method,
-				ITypeInfo containingType) {
+		public ParameterInfoProxy(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
 			this.param = param;
 			this.method = method;
 			this.containingType = containingType;
@@ -825,62 +772,52 @@ public class TypeInfoProxyConfiguration {
 
 		@Override
 		public String getName() {
-			return TypeInfoProxyConfiguration.this.getName(param, method,
-					containingType);
+			return TypeInfoProxyConfiguration.this.getName(param, method, containingType);
 		}
 
 		@Override
 		public String getCaption() {
-			return TypeInfoProxyConfiguration.this.getCaption(param, method,
-					containingType);
+			return TypeInfoProxyConfiguration.this.getCaption(param, method, containingType);
 		}
 
 		@Override
 		public boolean isNullable() {
-			return TypeInfoProxyConfiguration.this.isNullable(param, method,
-					containingType);
+			return TypeInfoProxyConfiguration.this.isNullable(param, method, containingType);
 		}
 
 		@Override
 		public ITypeInfo getType() {
-			return TypeInfoProxyConfiguration.this.getType(param, method,
-					containingType);
+			return TypeInfoProxyConfiguration.this.getType(param, method, containingType);
 		}
 
 		@Override
 		public int getPosition() {
-			return TypeInfoProxyConfiguration.this.getPosition(param, method,
-					containingType);
+			return TypeInfoProxyConfiguration.this.getPosition(param, method, containingType);
 		}
 
 		@Override
 		public Object getDefaultValue() {
-			return TypeInfoProxyConfiguration.this.getDefaultValue(param,
-					method, containingType);
+			return TypeInfoProxyConfiguration.this.getDefaultValue(param, method, containingType);
 		}
 
 		@Override
 		public String toString() {
-			return TypeInfoProxyConfiguration.this.toString(param, method,
-					containingType);
+			return TypeInfoProxyConfiguration.this.toString(param, method, containingType);
 		}
 
 		@Override
 		public String getOnlineHelp() {
-			return TypeInfoProxyConfiguration.this.getOnlineHelp(param, method,
-					containingType);
+			return TypeInfoProxyConfiguration.this.getOnlineHelp(param, method, containingType);
 		}
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {
-			return TypeInfoProxyConfiguration.this.getSpecificProperties(param,
-					method, containingType);
+			return TypeInfoProxyConfiguration.this.getSpecificProperties(param, method, containingType);
 		}
 
 		@Override
 		public int hashCode() {
-			return TypeInfoProxyConfiguration.this.hashCode(param, method,
-					containingType);
+			return TypeInfoProxyConfiguration.this.hashCode(param, method, containingType);
 		}
 
 		@Override
@@ -894,13 +831,11 @@ public class TypeInfoProxyConfiguration {
 			if (!getClass().equals(obj.getClass())) {
 				return false;
 			}
-			return TypeInfoProxyConfiguration.this.equals(param, method,
-					containingType, ((ParameterInfoProxy) obj).param,
-					((ParameterInfoProxy) obj).method,
+			return TypeInfoProxyConfiguration.this.equals(param, method, containingType,
+					((ParameterInfoProxy) obj).param, ((ParameterInfoProxy) obj).method,
 					((ParameterInfoProxy) obj).containingType);
 		}
 
 	}
-
 
 }

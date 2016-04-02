@@ -14,11 +14,6 @@ import xy.reflect.ui.info.field.IFieldInfo;
 public class ColorControl extends DialogAccessControl{
 	protected static final long serialVersionUID = 1L;
 
-	public static boolean isCompatibleWith(ReflectionUI reflectionUI,
-			Object fieldValue) {
-		return fieldValue instanceof Color;
-	}
-
 	public ColorControl(ReflectionUI reflectionUI, Object object,
 			IFieldInfo field) {
 		super(reflectionUI, object, field);
@@ -42,7 +37,7 @@ public class ColorControl extends DialogAccessControl{
 	@Override
 	protected Component createButton() {
 		Component result = super.createButton();
-		if (field.isReadOnly()) {
+		if (field.isGetOnly()) {
 			result.setVisible(false);
 		}
 		return result;

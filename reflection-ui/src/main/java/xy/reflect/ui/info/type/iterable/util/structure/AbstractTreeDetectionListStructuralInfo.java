@@ -129,11 +129,6 @@ public abstract class AbstractTreeDetectionListStructuralInfo implements
 				List<IFieldInfo> subListCandidateFields = getItemSubListCandidateFields(itemPosition);
 				return subListCandidateFields.contains(field);
 			}
-
-			@Override
-			public boolean allReadOnly() {
-				return false;
-			}
 		};
 	}
 

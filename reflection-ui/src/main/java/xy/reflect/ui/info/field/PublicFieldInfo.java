@@ -81,7 +81,7 @@ public class PublicFieldInfo implements IFieldInfo {
 	}
 
 	@Override
-	public boolean isReadOnly() {
+	public boolean isGetOnly() {
 		return Modifier.isFinal(javaField.getModifiers());
 	}
 

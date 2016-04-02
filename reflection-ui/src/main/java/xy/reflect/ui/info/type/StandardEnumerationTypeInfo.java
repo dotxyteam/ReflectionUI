@@ -1,8 +1,10 @@
 package xy.reflect.ui.info.type;
 
+import java.awt.Component;
 import java.util.Collections;
 import java.util.List;
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.swing.EnumerationControl;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -61,5 +63,18 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements
 			return reflectionUI.toString(object);
 		}
 	}
+
+	@Override
+	public Component createCustomFieldControl(Object object, IFieldInfo field) {
+		return new EnumerationControl(reflectionUI, object, field);
+	}
+	
+	@Override
+	public boolean hasCustomFieldControl() {
+		return true;
+	}
+	
+	
+	
 
 }

@@ -94,11 +94,6 @@ public class ListControl extends JPanel implements IFieldControl {
 		}
 	};
 
-	public static boolean isCompatibleWith(ReflectionUI reflectionUI, Object fieldValue) {
-		final ITypeInfo fieldValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(fieldValue));
-		return fieldValueType instanceof IListTypeInfo;
-	}
-
 	public ListControl(final ReflectionUI reflectionUI, final Object object, final IFieldInfo field) {
 		this.reflectionUI = reflectionUI;
 		this.object = object;
@@ -129,15 +124,14 @@ public class ListControl extends JPanel implements IFieldControl {
 
 	protected void updateToolbar() {
 		toolbar.removeAll();
-		if (!getRootListItemPosition().isContainingListReadOnly()) {
 
+		toolbar.add(createTool(null, SwingRendererUtils.DETAILS_ICON, false, false, createOpenItemAction()));
+
+		if (!getRootListItemPosition().isContainingListReadOnly()) {
 			AbstractAction addChildAction = createAddChildAction();
 			AbstractAction insertAction = createInsertAction(InsertPosition.UNKNOWN);
 			AbstractAction insertActionBefore = createInsertAction(InsertPosition.BEFORE);
 			AbstractAction insertActionAfter = createInsertAction(InsertPosition.AFTER);
-
-			toolbar.add(createTool(null, SwingRendererUtils.DETAILS_ICON, false, false, createOpenItemAction()));
-
 			toolbar.add(createTool(null, SwingRendererUtils.ADD_ICON, true, false, addChildAction, insertAction,
 					insertActionBefore, insertActionAfter));
 
@@ -147,11 +141,11 @@ public class ListControl extends JPanel implements IFieldControl {
 
 			toolbar.add(createTool(null, SwingRendererUtils.DOWN_ICON, false, false, createMoveAction(1)));
 
-			for (IListAction listAction : getRootListType().getSpecificActions(object, field, getSelection())) {
-				toolbar.add(createTool(listAction.getTitle(), null, true, false, createSpecificAction(listAction)));
-			}
-
 		}
+		for (IListAction listAction : getRootListType().getSpecificActions(object, field, getSelection())) {
+			toolbar.add(createTool(listAction.getTitle(), null, true, false, createSpecificAction(listAction)));
+		}
+
 		reflectionUI.getSwingRenderer().handleComponentSizeChange(ListControl.this);
 		toolbar.repaint();
 	}
@@ -1343,9 +1337,9 @@ public class ListControl extends JPanel implements IFieldControl {
 			}
 		});
 		IInfoCollectionSettings settings = getStructuralInfo().getItemInfoSettings(itemPosition);
-		boolean isGetOnly = itemPosition.getContainingListField().isReadOnly();
-		return reflectionUI.getSwingRenderer().openValueDialog(treeTableComponent, valueAccessor,
-				isGetOnly, settings, parentStack, title, changeDetectedArray);
+		boolean isGetOnly = itemPosition.getContainingListField().isGetOnly();
+		return reflectionUI.getSwingRenderer().openValueDialog(treeTableComponent, valueAccessor, isGetOnly, settings,
+				parentStack, title, changeDetectedArray);
 	}
 
 	protected ModificationStack getParentFormModificationStack() {
@@ -1617,7 +1611,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		protected void replaceUnderlyingListValue(Object[] listValue) {
 			ModificationStack modifStack = getParentFormModificationStack();
 			Object listOwner = getListOwner();
-			if (!getListField().isReadOnly()) {
+			if (!getListField().isGetOnly()) {
 				SetListValueModification modif = new SetListValueModification(reflectionUI, listValue, listOwner,
 						getListField());
 				if (itemPosition.isRootListItemPosition()) {

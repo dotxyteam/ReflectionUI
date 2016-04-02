@@ -1,5 +1,7 @@
 package xy.reflect.ui.info.type;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Image;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -12,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.swing.ColorControl;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.PublicFieldInfo;
@@ -202,4 +205,23 @@ public class DefaultTypeInfo implements ITypeInfo {
 	public Map<String, Object> getSpecificProperties() {
 		return Collections.emptyMap();
 	}
+
+	@Override
+	public Component createCustomFieldControl(Object object, IFieldInfo field) {
+		if (javaType == Color.class) {
+			return new ColorControl(reflectionUI, object, field);
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public boolean hasCustomFieldControl() {
+		if (javaType == Color.class) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }

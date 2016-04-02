@@ -26,6 +26,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.SwingRenderer;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
@@ -34,43 +35,31 @@ import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.info.type.util.TypeInfoProxyConfiguration;
 import xy.reflect.ui.undo.ModificationStack;
 
+@SuppressWarnings("unused")
 public class SwingRendererUtils {
 
-	public static final Icon ERROR_ICON = new ImageIcon(
-			ReflectionUI.class.getResource("resource/error.png"));
-	public static final Icon HELP_ICON = new ImageIcon(
-			ReflectionUI.class.getResource("resource/help.png"));
-	public static final Icon DETAILS_ICON = new ImageIcon(
-			ReflectionUI.class.getResource("resource/details.png"));
-	public static final Icon ADD_ICON = new ImageIcon(
-			ReflectionUI.class.getResource("resource/add.png"));
-	public static final Icon REMOVE_ICON = new ImageIcon(
-			ReflectionUI.class.getResource("resource/remove.png"));
-	public static final Icon UP_ICON = new ImageIcon(
-			ReflectionUI.class.getResource("resource/up.png"));
-	public static final Icon DOWN_ICON = new ImageIcon(
-			ReflectionUI.class.getResource("resource/down.png"));
-
-	private static final String DO_NOT_CREATE_EMBEDDED_FORM_PROPRTY_KEY = DefaultTypeInfo.class
-			.getName() + "#IS_EMBEDDED_FORM_CONTENT_PROPRTY_KEY";
+	public static final Icon ERROR_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/error.png"));
+	public static final Icon HELP_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/help.png"));
+	public static final Icon DETAILS_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/details.png"));
+	public static final Icon ADD_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/add.png"));
+	public static final Icon REMOVE_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/remove.png"));
+	public static final Icon UP_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/up.png"));
+	public static final Icon DOWN_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/down.png"));
 
 	public static void showTooltipNow(Component c) {
 		try {
-			Method showToolTipMehod = ToolTipManager.class.getDeclaredMethod(
-					"show", new Class<?>[] { JComponent.class });
+			Method showToolTipMehod = ToolTipManager.class.getDeclaredMethod("show",
+					new Class<?>[] { JComponent.class });
 			showToolTipMehod.setAccessible(true);
-			showToolTipMehod.invoke(ToolTipManager.sharedInstance(),
-					new Object[] { c });
+			showToolTipMehod.invoke(ToolTipManager.sharedInstance(), new Object[] { c });
 		} catch (Throwable e1) {
 			try {
-				KeyEvent ke = new KeyEvent(c, KeyEvent.KEY_PRESSED,
-						System.currentTimeMillis(), InputEvent.CTRL_MASK,
+				KeyEvent ke = new KeyEvent(c, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), InputEvent.CTRL_MASK,
 						KeyEvent.VK_F1, KeyEvent.CHAR_UNDEFINED);
 				c.dispatchEvent(ke);
 			} catch (Throwable e2) {
 				throw new ReflectionUIError(
-						"Failed to show tooltip programmatically: \n1st failure: "
-								+ e1 + "2nd failure: \n" + e2);
+						"Failed to show tooltip programmatically: \n1st failure: " + e1 + "2nd failure: \n" + e2);
 			}
 		}
 	}
@@ -101,20 +90,17 @@ public class SwingRendererUtils {
 		return result;
 	}
 
-	public static ModificationStack findModificationStack(Component component,
-			ReflectionUI reflectionUI) {
+	public static ModificationStack findModificationStack(Component component, ReflectionUI reflectionUI) {
 		JPanel form = findForm(component, reflectionUI);
 		if (form == null) {
 			return ModificationStack.NULL_MODIFICATION_STACK;
 		}
-		return reflectionUI.getSwingRenderer().getModificationStackByForm()
-				.get(form);
+		return reflectionUI.getSwingRenderer().getModificationStackByForm().get(form);
 	}
 
 	public static JPanel findForm(Component component, ReflectionUI reflectionUI) {
 		while (component != null) {
-			if (reflectionUI.getSwingRenderer().getObjectByForm().keySet()
-					.contains(component)) {
+			if (reflectionUI.getSwingRenderer().getObjectByForm().keySet().contains(component)) {
 				return (JPanel) component;
 			}
 			component = component.getParent();
@@ -122,17 +108,14 @@ public class SwingRendererUtils {
 		return null;
 	}
 
-	public static List<JPanel> findDescendantForms(Container container,
-			ReflectionUI reflectionUI) {
+	public static List<JPanel> findDescendantForms(Container container, ReflectionUI reflectionUI) {
 		List<JPanel> result = new ArrayList<JPanel>();
 		for (Component childComponent : container.getComponents()) {
-			if (reflectionUI.getSwingRenderer().getObjectByForm().keySet()
-					.contains(childComponent)) {
+			if (reflectionUI.getSwingRenderer().getObjectByForm().keySet().contains(childComponent)) {
 				result.add((JPanel) childComponent);
 			} else {
 				if (childComponent instanceof Container) {
-					result.addAll(findDescendantForms(
-							(Container) childComponent, reflectionUI));
+					result.addAll(findDescendantForms((Container) childComponent, reflectionUI));
 				}
 			}
 		}
@@ -151,9 +134,7 @@ public class SwingRendererUtils {
 		if (toolTipText == null) {
 			c.setToolTipText(null);
 		} else {
-			c.setToolTipText("<HTML>"
-					+ ReflectionUIUtils.escapeHTML(toolTipText, true)
-					+ "</HTML>");
+			c.setToolTipText("<HTML>" + ReflectionUIUtils.escapeHTML(toolTipText, true) + "</HTML>");
 		}
 	}
 
@@ -164,8 +145,7 @@ public class SwingRendererUtils {
 	public static void disableComponentTree(JComponent c, final boolean revert) {
 		String CONTAINER_LISTENER_KEY = ReflectionUIUtils.class.getName()
 				+ ".disableComponentTree.CONTAINER_LISTENER_KEY";
-		String LAST_STATE_KEY = ReflectionUIUtils.class.getName()
-				+ ".disableComponentTree.LAST_STATE_KEY";
+		String LAST_STATE_KEY = ReflectionUIUtils.class.getName() + ".disableComponentTree.LAST_STATE_KEY";
 		Boolean lastState = (Boolean) c.getClientProperty(LAST_STATE_KEY);
 		if (revert) {
 			if (lastState == null) {
@@ -175,8 +155,7 @@ public class SwingRendererUtils {
 				c.setEnabled(true);
 			}
 			c.putClientProperty(LAST_STATE_KEY, null);
-			ContainerListener containerListener = (ContainerListener) c
-					.getClientProperty(CONTAINER_LISTENER_KEY);
+			ContainerListener containerListener = (ContainerListener) c.getClientProperty(CONTAINER_LISTENER_KEY);
 			c.removeContainerListener(containerListener);
 		} else {
 			if (lastState != null) {
@@ -256,52 +235,79 @@ public class SwingRendererUtils {
 	}
 
 	public static Icon getHelpIcon() {
-		return new ImageIcon(
-				ReflectionUI.class.getResource("resource/help.png"));
+		return new ImageIcon(ReflectionUI.class.getResource("resource/help.png"));
 	}
 
+	public static final String DO_NOT_CREATE_EMBEDDED_FORM_PROPRTY_KEY = SwingRenderer.class.getName()
+			+ "#DO_NOT_CREATE_EMBEDDED_FORM_PROPRTY_KEY";
+	public static final String FORCE_CREATE_EMBEDDED_FORM_PROPRTY_KEY = SwingRenderer.class.getName()
+			+ "#FORCE_CREATE_EMBEDDED_FORM_PROPRTY_KEY";
+
 	public static boolean isEmbeddedFormCreationForbidden(IFieldInfo field) {
-		return Boolean.TRUE.equals(field.getSpecificProperties().get(
-				DO_NOT_CREATE_EMBEDDED_FORM_PROPRTY_KEY));
+		return Boolean.TRUE.equals(field.getSpecificProperties().get(DO_NOT_CREATE_EMBEDDED_FORM_PROPRTY_KEY));
+	}
+
+	public static boolean isEmbeddedFormCreationForced(IFieldInfo field) {
+		return Boolean.TRUE.equals(field.getSpecificProperties().get(FORCE_CREATE_EMBEDDED_FORM_PROPRTY_KEY));
 	}
 
 	public static IFieldInfo forbidEmbeddedFormCreation(IFieldInfo field) {
 		return new FieldInfoProxy(field) {
 			@Override
 			public Map<String, Object> getSpecificProperties() {
-				Map<String, Object> result = new HashMap<String, Object>(
-						super.getSpecificProperties());
-				result.put(DO_NOT_CREATE_EMBEDDED_FORM_PROPRTY_KEY,
-						Boolean.TRUE);
+				Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties());
+				result.put(DO_NOT_CREATE_EMBEDDED_FORM_PROPRTY_KEY, Boolean.TRUE);
+				return result;
+			}
+		};
+	}
+	
+	public static IFieldInfo forceEmbeddedFormCreation(IFieldInfo field) {
+		return new FieldInfoProxy(field) {
+			@Override
+			public Map<String, Object> getSpecificProperties() {
+				Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties());
+				result.put(FORCE_CREATE_EMBEDDED_FORM_PROPRTY_KEY, Boolean.TRUE);
 				return result;
 			}
 		};
 	}
 
-	public static IFieldInfo preventRecursiveEmbeddedForm(
-			final ReflectionUI reflectionUI, IFieldInfo field) {
+	public static IFieldInfo prepareEmbeddedFormCreation(ReflectionUI reflectionUI, Object object, IFieldInfo field) {
+		if (!isEmbeddedFormCreationForbidden(field)) {
+			Object fieldValue = field.getValue(object);
+			final ITypeInfo fieldValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(fieldValue));
+			if (isEmbeddedFormCreationForced(field)
+					|| (fieldValueType.getFields().size() + fieldValueType.getMethods().size() / 3) <= 4) {
+				field = preventRecursiveEmbeddedForm(reflectionUI, field);
+			} else {
+				field = forbidEmbeddedFormCreation(field);
+			}
+		}
+		return field;
+	}
+
+	public static IFieldInfo preventRecursiveEmbeddedForm(final ReflectionUI reflectionUI, IFieldInfo field) {
 		return new FieldInfoProxy(field) {
 
 			@Override
 			public Object getValue(Object object) {
 				Object result = super.getValue(object);
 				if (result != null) {
-					ITypeInfo resultType = reflectionUI
-							.getTypeInfo(reflectionUI.getTypeInfoSource(result));
+					ITypeInfo resultType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(result));
 					resultType = new TypeInfoProxyConfiguration() {
 
 						@Override
 						protected List<IFieldInfo> getFields(ITypeInfo type) {
 							List<IFieldInfo> result = new ArrayList<IFieldInfo>();
 							for (IFieldInfo field : super.getFields(type)) {
-								field = forbidEmbeddedFormCreation(field);
+								field = SwingRendererUtils.forbidEmbeddedFormCreation(field);
 								result.add(field);
 							}
 							return result;
 						}
 					}.get(resultType);
-					result = new PrecomputedTypeInfoInstanceWrapper(result,
-							resultType);
+					result = new PrecomputedTypeInfoInstanceWrapper(result, resultType);
 				}
 				return result;
 			}
@@ -309,8 +315,7 @@ public class SwingRendererUtils {
 			@Override
 			public void setValue(Object object, Object value) {
 				if (value != null) {
-					value = ((PrecomputedTypeInfoInstanceWrapper) value)
-							.getInstance();
+					value = ((PrecomputedTypeInfoInstanceWrapper) value).getInstance();
 				}
 				super.setValue(object, value);
 			}
@@ -319,26 +324,8 @@ public class SwingRendererUtils {
 			public ITypeInfo getType() {
 				return PrecomputedTypeInfoInstanceWrapper.adaptPrecomputedType(super.getType());
 			}
-			
-			
 
 		};
-	}
-
-	public static IFieldInfo prepareEmbeddedFormCreation(
-			ReflectionUI reflectionUI, Object object, IFieldInfo field) {
-		if (!isEmbeddedFormCreationForbidden(field)) {
-			Object fieldValue = field.getValue(object);
-			final ITypeInfo fieldValueType = reflectionUI
-					.getTypeInfo(reflectionUI.getTypeInfoSource(fieldValue));
-			if ((fieldValueType.getFields().size() + fieldValueType
-					.getMethods().size() / 3) <= 4) {
-				field = preventRecursiveEmbeddedForm(reflectionUI, field);
-			}else{
-				field = forbidEmbeddedFormCreation(field);
-			}
-		}
-		return field;
 	}
 
 }

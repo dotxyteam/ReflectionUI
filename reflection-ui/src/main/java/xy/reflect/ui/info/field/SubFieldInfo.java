@@ -86,7 +86,7 @@ public class SubFieldInfo implements IFieldInfo {
 		return getFieldValueConstructor() == null;
 	}
 
-	public boolean isReadOnly() {
+	public boolean isGetOnly() {
 		return getFieldValueConstructor() == null;
 	}
 

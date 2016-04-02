@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.field;
 
+import java.awt.Component;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.swing.ListControl;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -139,7 +141,7 @@ public class ImplicitListField implements IFieldInfo {
 	}
 
 	@Override
-	public boolean isReadOnly() {
+	public boolean isGetOnly() {
 		return false;
 	}
 
@@ -355,6 +357,11 @@ public class ImplicitListField implements IFieldInfo {
 		}
 
 		@Override
+		public boolean canInstanciateFromArray() {
+			return true;
+		}
+
+		@Override
 		public boolean isOrdered() {
 			return true;
 		}
@@ -425,6 +432,16 @@ public class ImplicitListField implements IFieldInfo {
 
 		public ImplicitListField getImplicitListField() {
 			return ImplicitListField.this;
+		}
+
+		@Override
+		public Component createCustomFieldControl(Object object, IFieldInfo field) {
+			return new ListControl(reflectionUI, object, field);
+		}
+
+		@Override
+		public boolean hasCustomFieldControl() {
+			return true;
 		}
 
 	}

@@ -1,6 +1,7 @@
 package xy.reflect.ui.util;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
 
 public class PrimitiveUtils {
 
@@ -110,6 +111,37 @@ public class PrimitiveUtils {
 			Array.set(result, i, wrapper);
 		}
 		return result;
+	}
+
+	public static Object primitiveFromText(String text, Class<?> javaType) {
+		if (javaType.isPrimitive()) {
+			javaType = primitiveToWrapperType(javaType);
+		}
+		if (javaType == Character.class) {
+			text = text.trim();
+			if (text.length() != 1) {
+				throw new RuntimeException("Invalid value: '" + text
+						+ "'. 1 character is expected");
+			}
+			return text.charAt(0);
+		} else {
+			try {
+				return javaType.getConstructor(new Class[] { String.class })
+						.newInstance(text);
+			} catch (IllegalArgumentException e) {
+				throw new ReflectionUIError(e);
+			} catch (SecurityException e) {
+				throw new ReflectionUIError(e);
+			} catch (InstantiationException e) {
+				throw new ReflectionUIError(e);
+			} catch (IllegalAccessException e) {
+				throw new ReflectionUIError(e);
+			} catch (InvocationTargetException e) {
+				throw new ReflectionUIError(e.getTargetException());
+			} catch (NoSuchMethodException e) {
+				throw new ReflectionUIError(e);
+			}
+		}
 	}
 
 }

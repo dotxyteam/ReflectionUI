@@ -25,5 +25,7 @@ public interface IListTypeInfo extends ITypeInfo {
 
 	List<IMethodInfo> getSpecificItemConstructors(Object object, IFieldInfo field);
 
+	boolean canInstanciateFromArray();
+
 
 }

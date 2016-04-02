@@ -16,8 +16,8 @@ public class ItemPosition {
 	protected int index;
 	protected Object rootListOwner;
 
-	public ItemPosition(IFieldInfo containingListField,
-			ItemPosition parentItemPosition, int index, Object rootListOwner) {
+	public ItemPosition(IFieldInfo containingListField, ItemPosition parentItemPosition, int index,
+			Object rootListOwner) {
 		this.containingListField = containingListField;
 		this.parentItemPosition = parentItemPosition;
 		this.index = index;
@@ -30,7 +30,10 @@ public class ItemPosition {
 	}
 
 	public boolean isContainingListReadOnly() {
-		if (getContainingListField().isReadOnly()) {
+		if (getContainingListField().isGetOnly()) {
+			return true;
+		}
+		if (!getContainingListType().canInstanciateFromArray()) { 
 			return true;
 		}
 		if (getParentItemPosition() == null) {
@@ -73,8 +76,7 @@ public class ItemPosition {
 
 	@Override
 	public String toString() {
-		return "Item(depth=" + getDepth() + ", position=" + getIndex()
-				+ ", value=" + getItem() + ")";
+		return "Item(depth=" + getDepth() + ", position=" + getIndex() + ", value=" + getItem() + ")";
 	}
 
 	public int getDepth() {
@@ -86,20 +88,19 @@ public class ItemPosition {
 		}
 		return result;
 	}
-	
-
 
 	public List<ItemPosition> getPreviousSiblings() {
 		List<ItemPosition> result = new ArrayList<ItemPosition>();
-		for(int i=0; i<getIndex(); i++){
+		for (int i = 0; i < getIndex(); i++) {
 			result.add(getSibling(i));
 		}
 		Collections.reverse(result);
 		return result;
 	}
+
 	public List<ItemPosition> getFollowingSiblings() {
 		List<ItemPosition> result = new ArrayList<ItemPosition>();
-		for(int i=getIndex()+1; i<getContainingListValue().length; i++){
+		for (int i = getIndex() + 1; i < getContainingListValue().length; i++) {
 			result.add(getSibling(i));
 		}
 		return result;
@@ -108,7 +109,7 @@ public class ItemPosition {
 	public List<ItemPosition> getAncestors() {
 		List<ItemPosition> result = new ArrayList<ItemPosition>();
 		ItemPosition ancestor = getParentItemPosition();
-		while(ancestor != null){
+		while (ancestor != null) {
 			result.add(ancestor);
 			ancestor = ancestor.getParentItemPosition();
 		}
@@ -121,8 +122,7 @@ public class ItemPosition {
 			return false;
 		}
 		ItemPosition other = (ItemPosition) obj;
-		if (!ReflectionUIUtils.equalsOrBothNull(getParentItemPosition(),
-				other.getParentItemPosition())) {
+		if (!ReflectionUIUtils.equalsOrBothNull(getParentItemPosition(), other.getParentItemPosition())) {
 			return false;
 		}
 		if (getIndex() != other.getIndex()) {
@@ -140,10 +140,8 @@ public class ItemPosition {
 
 	}
 
-	
 	public ItemPosition getSibling(int index2) {
-		return new ItemPosition(getContainingListField(),
-				getParentItemPosition(), index2, rootListOwner);
+		return new ItemPosition(getContainingListField(), getParentItemPosition(), index2, rootListOwner);
 	}
 
 	public boolean isRootListItemPosition() {

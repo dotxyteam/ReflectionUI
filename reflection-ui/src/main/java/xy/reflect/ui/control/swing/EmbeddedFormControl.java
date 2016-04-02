@@ -36,8 +36,7 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 	protected int lastFocusedFieldControlPlaceHolderIndex = -1;
 	protected ITypeInfo lastFocusSubFormObjectType;
 
-	public EmbeddedFormControl(final ReflectionUI reflectionUI,
-			final Object object, final IFieldInfo field) {
+	public EmbeddedFormControl(final ReflectionUI reflectionUI, final Object object, final IFieldInfo field) {
 		this.reflectionUI = reflectionUI;
 		this.object = object;
 		this.field = field;
@@ -72,16 +71,11 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 	public void requestFocus() {
 		if (subForm != null) {
 			if (lastFocusedFieldControlPlaceHolderIndex != -1) {
-				ITypeInfo subFormObjectType = reflectionUI
-						.getTypeInfo(reflectionUI
-								.getTypeInfoSource(subFormObject));
+				ITypeInfo subFormObjectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(subFormObject));
 				if (lastFocusSubFormObjectType.equals(subFormObjectType)) {
-					List<FieldControlPlaceHolder> fieldControlPlaceHolders = reflectionUI
-							.getSwingRenderer().getAllFieldControlPlaceHolders(
-									subForm);
-					fieldControlPlaceHolders.get(
-							lastFocusedFieldControlPlaceHolderIndex)
-							.requestFocus();
+					List<FieldControlPlaceHolder> fieldControlPlaceHolders = reflectionUI.getSwingRenderer()
+							.getAllFieldControlPlaceHolders(subForm);
+					fieldControlPlaceHolders.get(lastFocusedFieldControlPlaceHolderIndex).requestFocus();
 				}
 			}
 
@@ -89,56 +83,51 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 	}
 
 	protected void forwardUpdatesToParentForm(JPanel subForm) {
-		final ModificationStack parentModifStack = SwingRendererUtils
-				.findModificationStack(EmbeddedFormControl.this, reflectionUI);
-		reflectionUI.getSwingRenderer().getModificationStackByForm()
-				.put(subForm, new ModificationStack(null) {
+		final ModificationStack parentModifStack = SwingRendererUtils.findModificationStack(EmbeddedFormControl.this,
+				reflectionUI);
+		reflectionUI.getSwingRenderer().getModificationStackByForm().put(subForm, new ModificationStack(null) {
 
-					@Override
-					public void pushUndo(IModification undoModif) {
-						saveFocusInformation();
-						Object oldValue = field.getValue(object);
-						if (reflectionUI.equals(oldValue, subFormObject)) {
-							parentModifStack.pushUndo(undoModif);
-						} else {
-							parentModifStack.beginComposite();
-							parentModifStack.pushUndo(undoModif);
-							field.setValue(object, subFormObject);
-							parentModifStack.endComposite(ModificationStack
-									.getUndoTitle(undoModif.getTitle()),
-									UndoOrder.FIFO);
-						}
-					}
+			@Override
+			public void pushUndo(IModification undoModif) {
+				saveFocusInformation();
+				Object oldValue = field.getValue(object);
+				if (reflectionUI.equals(oldValue, subFormObject)) {
+					parentModifStack.pushUndo(undoModif);
+				} else {
+					parentModifStack.beginComposite();
+					parentModifStack.pushUndo(undoModif);
+					field.setValue(object, subFormObject);
+					parentModifStack.endComposite(ModificationStack.getUndoTitle(undoModif.getTitle()), UndoOrder.FIFO);
+				}
+			}
 
-					@Override
-					public void beginComposite() {
-						parentModifStack.beginComposite();
-					}
+			@Override
+			public void beginComposite() {
+				parentModifStack.beginComposite();
+			}
 
-					@Override
-					public void endComposite(String title, UndoOrder order) {
-						parentModifStack.endComposite(title, order);
-					}
+			@Override
+			public void endComposite(String title, UndoOrder order) {
+				parentModifStack.endComposite(title, order);
+			}
 
-					@Override
-					public void invalidate() {
-						saveFocusInformation();
-						Object oldValue = field.getValue(object);
-						if (!reflectionUI.equals(oldValue, subFormObject)) {
-							field.setValue(object, subFormObject);
-						}
-						parentModifStack.invalidate();
-					}
+			@Override
+			public void invalidate() {
+				saveFocusInformation();
+				Object oldValue = field.getValue(object);
+				if (!reflectionUI.equals(oldValue, subFormObject)) {
+					field.setValue(object, subFormObject);
+				}
+				parentModifStack.invalidate();
+			}
 
-				});
+		});
 	}
 
 	protected void saveFocusInformation() {
-		lastFocusSubFormObjectType = reflectionUI.getTypeInfo(reflectionUI
-				.getTypeInfoSource(subFormObject));
-		lastFocusedFieldControlPlaceHolderIndex = reflectionUI
-				.getSwingRenderer().getFocusedFieldControlPaceHolderIndex(
-						subForm);
+		lastFocusSubFormObjectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(subFormObject));
+		lastFocusedFieldControlPlaceHolderIndex = reflectionUI.getSwingRenderer()
+				.getFocusedFieldControlPaceHolderIndex(subForm);
 	}
 
 	@Override
@@ -156,17 +145,13 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 	public boolean refreshUI() {
 		if (subForm == null) {
 			subFormObject = field.getValue(object);
-			IInfoCollectionSettings settings = field.isReadOnly() ? IInfoCollectionSettings.READ_ONLY
-					: IInfoCollectionSettings.DEFAULT;
-			subForm = reflectionUI.getSwingRenderer().createObjectForm(
-					subFormObject, settings);
+			subForm = reflectionUI.getSwingRenderer().createObjectForm(subFormObject, IInfoCollectionSettings.DEFAULT);
 			add(subForm, BorderLayout.CENTER);
 			reflectionUI.getSwingRenderer().handleComponentSizeChange(this);
 		} else {
 			Object newSubFormObject = field.getValue(object);
 			if (reflectionUI.equals(newSubFormObject, subFormObject)) {
-				reflectionUI.getSwingRenderer()
-						.refreshAllFieldControls(subForm);
+				reflectionUI.getSwingRenderer().refreshAllFieldControls(subForm);
 			} else {
 				remove(subForm);
 				subForm = null;

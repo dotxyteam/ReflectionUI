@@ -12,10 +12,6 @@ public class InfoCollectionSettingsProxy implements IInfoCollectionSettings {
 		this.delegate = delegate;
 	}
 
-	public boolean allReadOnly() {
-		return delegate.allReadOnly();
-	}
-
 	public boolean excludeField(IFieldInfo field) {
 		return delegate.excludeField(field);
 	}

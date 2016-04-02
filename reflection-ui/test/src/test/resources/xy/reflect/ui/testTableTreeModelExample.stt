@@ -104,8 +104,7 @@
         <string>Undo</string>
         <string>Redo</string>
         <string>Reset</string>
-        <string>OK</string>
-        <string>Cancel</string>
+        <string>Close</string>
       </visibleStrings>
       <windowIndex>0</windowIndex>
     </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
@@ -196,8 +195,7 @@
         <string>Undo</string>
         <string>Redo</string>
         <string>Reset</string>
-        <string>OK</string>
-        <string>Cancel</string>
+        <string>Close</string>
       </visibleStrings>
       <windowIndex>0</windowIndex>
     </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
@@ -290,8 +288,7 @@
         <string>Undo</string>
         <string>Redo</string>
         <string>Reset</string>
-        <string>OK</string>
-        <string>Cancel</string>
+        <string>Close</string>
       </visibleStrings>
       <windowIndex>0</windowIndex>
     </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
@@ -456,8 +453,7 @@
         <string>Undo</string>
         <string>Redo</string>
         <string>Reset</string>
-        <string>OK</string>
-        <string>Cancel</string>
+        <string>Close</string>
       </visibleStrings>
       <windowIndex>0</windowIndex>
     </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
@@ -489,8 +485,7 @@
         <string>Undo</string>
         <string>Redo</string>
         <string>Reset</string>
-        <string>OK</string>
-        <string>Cancel</string>
+        <string>Close</string>
       </visibleStrings>
       <windowIndex>0</windowIndex>
     </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
@@ -517,8 +512,7 @@
         <string>Undo</string>
         <string>Redo</string>
         <string>Reset</string>
-        <string>OK</string>
-        <string>Cancel</string>
+        <string>Close</string>
       </visibleStrings>
       <windowIndex>0</windowIndex>
     </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>

@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.type.util;
 
+import java.awt.Component;
 import java.awt.Image;
 import java.util.Arrays;
 import java.util.Collections;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.swing.EnumerationControl;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -151,6 +153,16 @@ public class ArrayAsEnumerationTypeInfo implements IEnumerationTypeInfo {
 				return false;
 		} else if (!typeCaption.equals(other.typeCaption))
 			return false;
+		return true;
+	}
+
+	@Override
+	public Component createCustomFieldControl(Object object, IFieldInfo field) {
+		return new EnumerationControl(reflectionUI, object, field);
+	}
+
+	@Override
+	public boolean hasCustomFieldControl() {
 		return true;
 	}
 

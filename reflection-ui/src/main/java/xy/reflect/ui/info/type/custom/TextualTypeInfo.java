@@ -1,9 +1,13 @@
 package xy.reflect.ui.info.type.custom;
 
+import java.awt.Component;
 import java.util.Collections;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.swing.PrimitiveValueControl;
+import xy.reflect.ui.control.swing.TextControl;
+import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -23,35 +27,45 @@ public class TextualTypeInfo extends DefaultTypeInfo {
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		return Collections
-				.<IMethodInfo> singletonList(new AbstractConstructorMethodInfo(
-						TextualTypeInfo.this) {
+		return Collections.<IMethodInfo> singletonList(new AbstractConstructorMethodInfo(TextualTypeInfo.this) {
 
-					@Override
-					public Object invoke(Object object,
-							InvocationData invocationData) {
-						if (String.class.equals(javaType)) {
-							return new String();
-						}
-						Class<?> primitiveType = javaType;
-						if (PrimitiveUtils.isPrimitiveWrapper(primitiveType)) {
-							primitiveType = PrimitiveUtils
-									.wrapperToPrimitiveType(javaType);
-						}
-						return PrimitiveUtils.getDefaultValue(primitiveType);
-					}
+			@Override
+			public Object invoke(Object object, InvocationData invocationData) {
+				if (String.class.equals(javaType)) {
+					return new String();
+				}
+				Class<?> primitiveType = javaType;
+				if (PrimitiveUtils.isPrimitiveWrapper(primitiveType)) {
+					primitiveType = PrimitiveUtils.wrapperToPrimitiveType(javaType);
+				}
+				return PrimitiveUtils.getDefaultValue(primitiveType);
+			}
 
-					@Override
-					public List<IParameterInfo> getParameters() {
-						return Collections.emptyList();
-					}
+			@Override
+			public List<IParameterInfo> getParameters() {
+				return Collections.emptyList();
+			}
 
-				});
+		});
 	}
 
 	public static boolean isCompatibleWith(Class<?> javaType) {
 		return PrimitiveUtils.isPrimitiveTypeOrWrapperOrString(javaType);
 	}
 
+	@Override
+	public Component createCustomFieldControl(Object object, IFieldInfo field) {
+		if (javaType == String.class) {
+			return new TextControl(reflectionUI, object, field);
+		} else {
+			return new PrimitiveValueControl(reflectionUI, object, field, javaType);
+		}
+	}
+	
+	@Override
+	public boolean hasCustomFieldControl() {
+		return true;
+	}
+	
 
 }

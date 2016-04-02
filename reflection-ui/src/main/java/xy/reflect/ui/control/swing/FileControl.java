@@ -22,10 +22,6 @@ public class FileControl extends DialogAccessControl implements IFieldControl {
 
 	protected static File lastDirectory = new File(".").getAbsoluteFile();
 
-	public static boolean isCompatibleWith(ReflectionUI reflectionUI, Object fieldValue) {
-		return fieldValue instanceof File;
-	}
-
 	public FileControl(ReflectionUI reflectionUI, Object object, IFieldInfo field) {
 		super(reflectionUI, object, field);
 	}
@@ -40,8 +36,8 @@ public class FileControl extends DialogAccessControl implements IFieldControl {
 			}
 
 			@Override
-			public boolean isReadOnly() {
-				return field.isReadOnly();
+			public boolean isGetOnly() {
+				return field.isGetOnly();
 			}
 
 			@Override
@@ -70,7 +66,7 @@ public class FileControl extends DialogAccessControl implements IFieldControl {
 	@Override
 	protected Component createButton() {
 		Component result = super.createButton();
-		if (field.isReadOnly()) {
+		if (field.isGetOnly()) {
 			result.setEnabled(false);
 		}
 		return result;

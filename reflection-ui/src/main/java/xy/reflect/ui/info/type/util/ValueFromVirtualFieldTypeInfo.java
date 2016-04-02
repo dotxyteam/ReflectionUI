@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.type.util;
 
+import java.awt.Component;
 import java.awt.Image;
 import java.util.Collections;
 import java.util.List;
@@ -76,7 +77,7 @@ public class ValueFromVirtualFieldTypeInfo implements ITypeInfo {
 			}
 
 			@Override
-			public boolean isReadOnly() {
+			public boolean isGetOnly() {
 				return fieldReadOnly;
 			}
 
@@ -95,6 +96,13 @@ public class ValueFromVirtualFieldTypeInfo implements ITypeInfo {
 			public ITypeInfo getType() {
 				return fieldType;
 			}
+
+			@Override
+			public String toString() {
+				return fieldCaption;
+			}
+			
+			
 		});
 	}
 
@@ -205,5 +213,15 @@ public class ValueFromVirtualFieldTypeInfo implements ITypeInfo {
 			super();
 			this.fieldValueArray = fieldValueArray;
 		}
+	}
+
+	@Override
+	public Component createCustomFieldControl(Object object, IFieldInfo field) {
+		return null;
+	}
+
+	@Override
+	public boolean hasCustomFieldControl() {
+		return false;
 	}
 }

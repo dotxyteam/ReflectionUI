@@ -107,7 +107,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 			}
 
 			@Override
-			public boolean isReadOnly() {
+			public boolean isGetOnly() {
 				return false;
 			}
 

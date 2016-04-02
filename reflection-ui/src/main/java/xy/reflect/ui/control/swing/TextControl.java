@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -17,7 +16,6 @@ import javax.swing.event.UndoableEditListener;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.util.PrimitiveUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
@@ -32,11 +30,6 @@ public class TextControl extends JPanel implements IFieldControl {
 	protected JTextArea textComponent;
 	protected boolean textChangedByUser = true;
 	protected Border textFieldNormalBorder;
-
-	public static boolean isCompatibleWith(ReflectionUI reflectionUI,
-			Object fieldValue) {
-		return fieldValue instanceof String;
-	}
 
 	public TextControl(final ReflectionUI reflectionUI, final Object object,
 			final IFieldInfo field) {
@@ -71,7 +64,7 @@ public class TextControl extends JPanel implements IFieldControl {
 		};
 		add(scrollPane, BorderLayout.CENTER);
 		textFieldNormalBorder = textComponent.getBorder();
-		if (field.isReadOnly()) {
+		if (field.isGetOnly()) {
 			textComponent.setEditable(false);
 			textComponent.setBackground(SwingRendererUtils
 					.fixSeveralColorRenderingIssues(ReflectionUIUtils
@@ -99,38 +92,6 @@ public class TextControl extends JPanel implements IFieldControl {
 	public static  String toText(Object object) {
 		return object.toString();
 	}
-
-	public static Object fromText(String text, Class<?> javaType) {
-		if (javaType.isPrimitive()) {
-			javaType = PrimitiveUtils.primitiveToWrapperType(javaType);
-		}
-		if (javaType == Character.class) {
-			text = text.trim();
-			if (text.length() != 1) {
-				throw new RuntimeException("Invalid value: '" + text
-						+ "'. 1 character is expected");
-			}
-			return text.charAt(0);
-		} else {
-			try {
-				return javaType.getConstructor(new Class[] { String.class })
-						.newInstance(text);
-			} catch (IllegalArgumentException e) {
-				throw new ReflectionUIError(e);
-			} catch (SecurityException e) {
-				throw new ReflectionUIError(e);
-			} catch (InstantiationException e) {
-				throw new ReflectionUIError(e);
-			} catch (IllegalAccessException e) {
-				throw new ReflectionUIError(e);
-			} catch (InvocationTargetException e) {
-				throw new ReflectionUIError(e.getTargetException());
-			} catch (NoSuchMethodException e) {
-				throw new ReflectionUIError(e);
-			}
-		}
-	}
-
 
 	@Override
 	public Dimension getMinimumSize() {

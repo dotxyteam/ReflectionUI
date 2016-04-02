@@ -62,7 +62,7 @@ public class MultiListField implements IFieldInfo {
 	}
 
 	@Override
-	public boolean isReadOnly() {
+	public boolean isGetOnly() {
 		return true;
 	}
 	

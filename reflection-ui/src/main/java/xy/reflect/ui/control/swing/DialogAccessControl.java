@@ -155,7 +155,7 @@ public class DialogAccessControl extends JPanel {
 				reflectionUI);
 		String title = reflectionUI.getFieldTitle(object, field);
 		boolean[] changeDetectedArray = new boolean[] { false };
-		reflectionUI.getSwingRenderer().openValueDialog(this, valueAccessor, field.isReadOnly(),
+		reflectionUI.getSwingRenderer().openValueDialog(this, valueAccessor, field.isGetOnly(),
 				IInfoCollectionSettings.DEFAULT, parentStack, title, changeDetectedArray);
 		if (changeDetectedArray[0]) {
 			updateControls();

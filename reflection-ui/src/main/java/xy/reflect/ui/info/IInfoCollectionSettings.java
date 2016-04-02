@@ -9,11 +9,6 @@ public interface IInfoCollectionSettings {
 	public IInfoCollectionSettings DEFAULT = new IInfoCollectionSettings() {
 		
 		@Override
-		public boolean allReadOnly() {
-			return false;
-		}
-
-		@Override
 		public boolean excludeField(IFieldInfo field) {
 			return false;
 		}
@@ -25,27 +20,6 @@ public interface IInfoCollectionSettings {
 
 	};
 	
-	public IInfoCollectionSettings READ_ONLY = new IInfoCollectionSettings() {
-		
-		@Override
-		public boolean allReadOnly() {
-			return true;
-		}
-
-		@Override
-		public boolean excludeField(IFieldInfo field) {
-			return false;
-		}
-
-		@Override
-		public boolean excludeMethod(IMethodInfo method) {
-			return false;
-		}
-
-	};
-
-
-	boolean allReadOnly();
 
 	boolean excludeField(IFieldInfo field);
 

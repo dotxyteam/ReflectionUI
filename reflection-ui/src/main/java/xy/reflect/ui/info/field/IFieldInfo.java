@@ -32,7 +32,7 @@ public interface IFieldInfo extends IInfo {
 		}
 
 		@Override
-		public boolean isReadOnly() {
+		public boolean isGetOnly() {
 			return true;
 		}
 
@@ -66,6 +66,13 @@ public interface IFieldInfo extends IInfo {
 			return Collections.emptyMap();
 		}
 
+		@Override
+		public String toString() {
+			return "NULL_FIELD_INFO";
+		}
+		
+		
+
 	};
 
 	ITypeInfo getType();
@@ -78,7 +85,7 @@ public interface IFieldInfo extends IInfo {
 
 	boolean isNullable();
 
-	boolean isReadOnly();
+	boolean isGetOnly();
 
 	InfoCategory getCategory();
 }

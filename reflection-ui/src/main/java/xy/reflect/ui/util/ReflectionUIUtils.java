@@ -217,6 +217,11 @@ public class ReflectionUIUtils {
 		}
 		return null;
 	}
+	
+	public static IMethodInfo getZeroParameterMethod(List<IMethodInfo> methods) {
+		return getNParametersMethod(methods, 0);
+	}
+		
 
 	public static <K, V> List<K> getKeysFromValue(Map<K, V> map, Object value) {
 		List<K> result = new ArrayList<K>();
