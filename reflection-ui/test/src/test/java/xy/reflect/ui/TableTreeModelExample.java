@@ -2,6 +2,7 @@ package xy.reflect.ui;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +45,7 @@ public class TableTreeModelExample {
 	}
 
 	public static class Catalog {
-		private Product[] products;
+		private Product[] products = new Product[0];
 
 		public Product[] getProducts() {
 			return products;
@@ -57,8 +58,8 @@ public class TableTreeModelExample {
 	}
 
 	public static abstract class Product {
-		private String name;
-		private String description;
+		private String name="";
+		private String description="";
 		private int price;
 
 		public String getName() {
@@ -88,8 +89,8 @@ public class TableTreeModelExample {
 	}
 
 	public static class CompactDisc extends Product {
-		private String arstist;
-		private String genre;
+		private String arstist = "";
+		private String genre = "";
 
 		public String getArstist() {
 			return arstist;
@@ -109,7 +110,7 @@ public class TableTreeModelExample {
 	}
 
 	public static class Book extends Product {
-		private String author;
+		private String author="";
 
 		public String getAuthor() {
 			return author;
@@ -155,7 +156,7 @@ public class TableTreeModelExample {
 	}
 
 	public static class Loaning extends Product {
-		private Map<Integer, Product[]> productsByDuration;
+		private Map<Integer, Product[]> productsByDuration = new HashMap<Integer, TableTreeModelExample.Product[]>();
 
 		public Map<Integer, Product[]> getProductsByDuration() {
 			return productsByDuration;

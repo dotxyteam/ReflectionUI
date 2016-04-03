@@ -153,7 +153,6 @@ public class ReflectionUITest {
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 	public static abstract class AbstrcatTestDescendant {
@@ -170,6 +169,9 @@ public class ReflectionUITest {
 	@OnlineHelp("This type is used as a 2nd test case")
 	public static class Test2 extends AbstrcatTestDescendant {
 		public List<AbstrcatTestDescendant> theChildrenList = new ArrayList<ReflectionUITest.AbstrcatTestDescendant>();
+		public void doNothing(){
+			
+		}
 	}
 
 	@OnlineHelp("This type is used as a 3rd test case")

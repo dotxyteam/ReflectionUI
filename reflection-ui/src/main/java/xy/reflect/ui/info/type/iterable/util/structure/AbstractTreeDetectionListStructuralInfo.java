@@ -6,11 +6,10 @@ import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfoCollectionSettings;
-import xy.reflect.ui.info.field.HiddenNullableFacetFieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.MultiListField;
-import xy.reflect.ui.info.field.MultiListField.MultiListVirtualParent;
-import xy.reflect.ui.info.field.MultiListField.MultiListVirtualParentType;
+import xy.reflect.ui.info.field.MultipleFieldAsListListTypeInfo;
+import xy.reflect.ui.info.field.MultipleFieldAsListListTypeInfo.MultipleFieldAsListItem;
+import xy.reflect.ui.info.field.MultipleFieldAsListListTypeInfo.MultipleFieldAsListItemTypeInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
@@ -18,78 +17,68 @@ import xy.reflect.ui.info.type.iterable.map.IMapEntryTypeInfo;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public abstract class AbstractTreeDetectionListStructuralInfo implements
-		IListStructuralInfo {
+public abstract class AbstractTreeDetectionListStructuralInfo implements IListStructuralInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo rootItemType;
 
 	protected abstract boolean autoDetectTreeStructure();
 
-	public AbstractTreeDetectionListStructuralInfo(ReflectionUI reflectionUI,
-			ITypeInfo rootItemType) {
+	public AbstractTreeDetectionListStructuralInfo(ReflectionUI reflectionUI, ITypeInfo rootItemType) {
 		this.reflectionUI = reflectionUI;
 		this.rootItemType = rootItemType;
 	}
 
 	@Override
-	public IFieldInfo getItemSubListField(ItemPosition itemPosition) {
+	public IFieldInfo getItemSubListField(final ItemPosition itemPosition) {
 		if (!autoDetectTreeStructure()) {
 			return null;
 		}
-		List<IFieldInfo> candidateFields = new ArrayList<IFieldInfo>(
-				getItemSubListCandidateFields(itemPosition));
-		for (int i = 0; i < candidateFields.size(); i++) {
-			candidateFields.set(i, new HiddenNullableFacetFieldInfoProxy(
-					reflectionUI, candidateFields.get(i)));
-		}
+		List<IFieldInfo> candidateFields = getItemSubListCandidateFields(itemPosition);
 		if (candidateFields.size() == 0) {
 			return null;
 		} else if (candidateFields.size() == 1) {
 			IFieldInfo candidateField = candidateFields.get(0);
-			if (itemPosition.getItem() instanceof MultiListVirtualParent) {
+			if (itemPosition.getItem() instanceof MultipleFieldAsListItem) {
 				return candidateField;
-			} else if (displaysSubListFieldNameAsTreeNode(candidateField,
-					itemPosition)) {
-				return new MultiListField(reflectionUI,
-						Collections.singletonList(candidateField));
+			} else if (displaysSubListFieldNameAsTreeNode(candidateField, itemPosition)) {
+				return new MultipleFieldAsListListTypeInfo(reflectionUI, Collections.singletonList(candidateField));
 			} else {
 				return candidateField;
 			}
 		} else {
-			return new MultiListField(reflectionUI, candidateFields);
+			return new MultipleFieldAsListListTypeInfo(reflectionUI, candidateFields);
 		}
 	}
 
-	protected boolean displaysSubListFieldNameAsTreeNode(
-			IFieldInfo subListField, ItemPosition itemPosition) {
+	protected boolean displaysSubListFieldNameAsTreeNode(IFieldInfo subListField, ItemPosition itemPosition) {
 		ITypeInfo itemType = itemPosition.getContainingListType().getItemType();
 		if (itemType instanceof IMapEntryTypeInfo) {
 			return false;
 		}
-		if (itemType instanceof MultiListVirtualParentType) {
+		if (itemType instanceof MultipleFieldAsListItemTypeInfo) {
 			return false;
 		}
-		return !subListField.getName().equals(
-				itemPosition.getContainingListField().getName());
+		return !subListField.getName().equals(itemPosition.getContainingListField().getName());
 	}
 
-	protected List<IFieldInfo> getItemSubListCandidateFields(
-			ItemPosition itemPosition) {
+	protected List<IFieldInfo> getItemSubListCandidateFields(ItemPosition itemPosition) {
 		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
 		Object item = itemPosition.getItem();
-		ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI
-				.getTypeInfoSource(item));
-		List<IFieldInfo> itemFields = actualItemType.getFields();
-		for (IFieldInfo field : itemFields) {
-			ITypeInfo fieldType = field.getType();
-			if (fieldType instanceof IListTypeInfo) {
-				ITypeInfo subListItemType = ((IListTypeInfo) fieldType)
-						.getItemType();
-				if (item instanceof MultiListVirtualParent) {
-					result.add(field);
-				} else if (isValidTreeNodeItemType(subListItemType)) {
-					result.add(field);
+		ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
+		if (actualItemType instanceof MultipleFieldAsListItemTypeInfo) {
+			result.add(((MultipleFieldAsListItemTypeInfo)actualItemType).getValueField());
+		} else {
+			List<IFieldInfo> itemFields = actualItemType.getFields();
+			for (IFieldInfo field : itemFields) {
+				ITypeInfo fieldType = field.getType();
+				if (fieldType instanceof IListTypeInfo) {
+					ITypeInfo subListItemType = ((IListTypeInfo) fieldType).getItemType();
+					if (item instanceof MultipleFieldAsListItem) {
+						result.add(field);
+					} else if (isValidTreeNodeItemType(subListItemType)) {
+						result.add(field);
+					}
 				}
 			}
 		}
@@ -104,8 +93,7 @@ public abstract class AbstractTreeDetectionListStructuralInfo implements
 			IMapEntryTypeInfo entryType = (IMapEntryTypeInfo) type;
 			ITypeInfo entryValueType = entryType.getValueField().getType();
 			if (entryValueType instanceof IListTypeInfo) {
-				ITypeInfo entryValuListItemType = ((IListTypeInfo) entryValueType)
-						.getItemType();
+				ITypeInfo entryValuListItemType = ((IListTypeInfo) entryValueType).getItemType();
 				if (isValidTreeNodeItemType(entryValuListItemType)) {
 					return true;
 				}
@@ -115,8 +103,7 @@ public abstract class AbstractTreeDetectionListStructuralInfo implements
 	}
 
 	@Override
-	public IInfoCollectionSettings getItemInfoSettings(
-			final ItemPosition itemPosition) {
+	public IInfoCollectionSettings getItemInfoSettings(final ItemPosition itemPosition) {
 		return new IInfoCollectionSettings() {
 
 			@Override
@@ -136,8 +123,7 @@ public abstract class AbstractTreeDetectionListStructuralInfo implements
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((rootItemType == null) ? 0 : rootItemType.hashCode());
+		result = prime * result + ((rootItemType == null) ? 0 : rootItemType.hashCode());
 		return result;
 	}
 
@@ -157,6 +143,5 @@ public abstract class AbstractTreeDetectionListStructuralInfo implements
 			return false;
 		return true;
 	}
-	
 
 }

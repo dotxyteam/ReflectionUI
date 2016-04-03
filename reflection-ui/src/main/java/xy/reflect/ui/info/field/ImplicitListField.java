@@ -435,14 +435,16 @@ public class ImplicitListField implements IFieldInfo {
 		}
 
 		@Override
-		public Component createCustomFieldControl(Object object, IFieldInfo field) {
+		public Component createFieldControl(Object object, IFieldInfo field) {
 			return new ListControl(reflectionUI, object, field);
 		}
 
 		@Override
-		public boolean hasCustomFieldControl() {
+		public boolean hasCustomFieldControl(Object object, IFieldInfo field) {
 			return true;
 		}
+
+		
 
 	}
 }

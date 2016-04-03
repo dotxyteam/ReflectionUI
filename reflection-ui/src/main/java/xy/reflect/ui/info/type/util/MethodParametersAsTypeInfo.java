@@ -14,6 +14,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MethodParametersAsTypeInfo implements ITypeInfo {
@@ -210,12 +211,12 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 	}
 
 	@Override
-	public Component createCustomFieldControl(Object object, IFieldInfo field) {
-		return null;
+	public Component createFieldControl(Object object, IFieldInfo field) {
+		throw new ReflectionUIError();
 	}
 
 	@Override
-	public boolean hasCustomFieldControl() {
+	public boolean hasCustomFieldControl(Object object, IFieldInfo field) {
 		return false;
 	}
 

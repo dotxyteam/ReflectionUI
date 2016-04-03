@@ -105,8 +105,6 @@ public class TestIterableTypeInfos {
 				.getTypeInfoSource(subListNameNode));
 		IFieldInfo actualSubListField = subListNameNodeType.getFields().get(0);
 		Object subList = actualSubListField.getValue(subListNameNode);
-		Object[] subListArray = ((IListTypeInfo) actualSubListField.getType())
-				.toArray(subList);
-		Assert.assertTrue(subListArray.length == 0);
+		Assert.assertTrue(subList == null);
 	}
 }

@@ -134,7 +134,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 	}
 
 	protected Component createDynamicControl(final ITypeInfo instanceType) {
-		return reflectionUI.getSwingRenderer().createFieldControl(object,
+		return instanceType.createFieldControl(object,
 				new HiddenNullableFacetFieldInfoProxy(reflectionUI, field) {
 
 					@Override

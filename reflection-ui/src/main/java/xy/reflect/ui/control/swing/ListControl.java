@@ -51,7 +51,6 @@ import org.jdesktop.swingx.treetable.TreeTableModel;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfoCollectionSettings;
-import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
@@ -1318,24 +1317,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		} else {
 			parentStack = null;
 		}
-		String title = reflectionUI.getFieldTitle(object, new FieldInfoProxy(itemPosition.getContainingListField()) {
-			@Override
-			public String getCaption() {
-				String result = itemPosition.getContainingListField().getCaption() + " Item";
-				if (itemPosition.getParentItemPosition() != null) {
-					AutoUpdatingFieldItemPosition parentItempPosition = itemPosition.getParentItemPosition();
-					ITypeInfo prentItemType = reflectionUI
-							.getTypeInfo(reflectionUI.getTypeInfoSource(parentItempPosition.getItem()));
-					result = ReflectionUIUtils.composeTitle(prentItemType.getCaption(), result);
-				}
-				return result;
-			}
-
-			@Override
-			public Object getValue(Object object) {
-				return list.get(index);
-			}
-		});
+		String title = itemPosition.getContainingListField().getCaption() + " Item";
 		IInfoCollectionSettings settings = getStructuralInfo().getItemInfoSettings(itemPosition);
 		boolean isGetOnly = itemPosition.getContainingListField().isGetOnly();
 		return reflectionUI.getSwingRenderer().openValueDialog(treeTableComponent, valueAccessor, isGetOnly, settings,
@@ -1603,7 +1585,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		protected Object[] getUnderlyingListValue() {
 			Object listFieldValue = getListField().getValue(getListOwner());
 			if (listFieldValue == null) {
-				return null;
+				return new Object[0];
 			}
 			return getListType().toArray(listFieldValue);
 		}
@@ -1642,9 +1624,6 @@ public class ListControl extends JPanel implements IFieldControl {
 		@Override
 		public int size() {
 			Object[] underlyingListValue = getUnderlyingListValue();
-			if (underlyingListValue == null) {
-				return 0;
-			}
 			return underlyingListValue.length;
 		}
 

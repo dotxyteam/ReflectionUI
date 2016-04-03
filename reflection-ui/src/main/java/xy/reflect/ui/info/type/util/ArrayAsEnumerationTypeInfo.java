@@ -9,6 +9,7 @@ import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.EnumerationControl;
+import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -157,12 +158,17 @@ public class ArrayAsEnumerationTypeInfo implements IEnumerationTypeInfo {
 	}
 
 	@Override
-	public Component createCustomFieldControl(Object object, IFieldInfo field) {
-		return new EnumerationControl(reflectionUI, object, field);
+	public Component createFieldControl(Object object, IFieldInfo field) {
+		return new EnumerationControl(reflectionUI, object, new FieldInfoProxy(field) {
+
+			@Override
+			public ITypeInfo getType() {
+				return ArrayAsEnumerationTypeInfo.this;
+			}});
 	}
 
 	@Override
-	public boolean hasCustomFieldControl() {
+	public boolean hasCustomFieldControl(Object object, IFieldInfo field) {
 		return true;
 	}
 

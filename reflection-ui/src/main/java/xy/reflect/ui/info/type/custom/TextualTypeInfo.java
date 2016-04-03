@@ -54,7 +54,7 @@ public class TextualTypeInfo extends DefaultTypeInfo {
 	}
 
 	@Override
-	public Component createCustomFieldControl(Object object, IFieldInfo field) {
+	public Component createCustomNonNullFieldValueControl(Object object, IFieldInfo field) {
 		if (javaType == String.class) {
 			return new TextControl(reflectionUI, object, field);
 		} else {
@@ -63,7 +63,7 @@ public class TextualTypeInfo extends DefaultTypeInfo {
 	}
 	
 	@Override
-	public boolean hasCustomFieldControl() {
+	public boolean hasCustomFieldControl(Object object, IFieldInfo field) {
 		return true;
 	}
 	

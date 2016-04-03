@@ -52,23 +52,24 @@ public class UtilitiesTypeInfo extends DefaultTypeInfo {
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		return Collections
-				.<IMethodInfo> singletonList(new AbstractConstructorMethodInfo(
-						UtilitiesTypeInfo.this) {
+		return Collections.<IMethodInfo> singletonList(new AbstractConstructorMethodInfo(UtilitiesTypeInfo.this) {
 
-					@Override
-					public Object invoke(Object object,
-							InvocationData invocationData) {
-						return new PrecomputedTypeInfoInstanceWrapper(
-								NO_INSTANCE, UtilitiesTypeInfo.this);
-					}
+			@Override
+			public Object invoke(Object object, InvocationData invocationData) {
+				return new PrecomputedTypeInfoInstanceWrapper(NO_INSTANCE, UtilitiesTypeInfo.this);
+			}
 
-					@Override
-					public List<IParameterInfo> getParameters() {
-						return Collections.emptyList();
-					}
+			@Override
+			public List<IParameterInfo> getParameters() {
+				return Collections.emptyList();
+			}
 
-				});
+		});
+	}
+
+	@Override
+	public boolean supportsInstance(Object object) {
+		return (object == NO_INSTANCE) || super.supportsInstance(object);
 	}
 
 }

@@ -165,10 +165,10 @@ public class TypeInfoProxyConfiguration {
 		return type.fromArray(listValue);
 	}
 
-
 	protected boolean canInstanciateFromArray(IListTypeInfo type) {
 		return type.canInstanciateFromArray();
 	}
+
 	protected List<IListAction> getSpecificListActions(IListTypeInfo type, Object object, IFieldInfo field,
 			List<? extends ItemPosition> selection) {
 		return type.getSpecificActions(object, field, selection);
@@ -325,12 +325,12 @@ public class TypeInfoProxyConfiguration {
 		return type.getSpecificProperties();
 	}
 
-	public Component createFieldControl(ITypeInfo type, Object object, IFieldInfo field) {
-		return type.createCustomFieldControl(object, field);
+	protected Component createFieldControl(ITypeInfo type, Object object, IFieldInfo field) {
+		return type.createFieldControl(object, field);
 	}
 
-	public boolean hasCustomFieldControl(ITypeInfo type) {
-		return type.hasCustomFieldControl();
+	protected boolean hasCustomFieldControl(ITypeInfo type, Object object, IFieldInfo field) {
+		return type.hasCustomFieldControl(object, field);
 	}
 
 	protected String getOnlineHelp(IMethodInfo method, ITypeInfo containingType) {
@@ -469,13 +469,13 @@ public class TypeInfoProxyConfiguration {
 		}
 
 		@Override
-		public Component createCustomFieldControl(Object object, IFieldInfo field) {
+		public Component createFieldControl(Object object, IFieldInfo field) {
 			return TypeInfoProxyConfiguration.this.createFieldControl(type, object, field);
 		}
 
 		@Override
-		public boolean hasCustomFieldControl() {
-			return TypeInfoProxyConfiguration.this.hasCustomFieldControl(type);
+		public boolean hasCustomFieldControl(Object object, IFieldInfo field) {
+			return TypeInfoProxyConfiguration.this.hasCustomFieldControl(type, object, field);
 		}
 	}
 

@@ -261,7 +261,7 @@ public class SwingRendererUtils {
 			}
 		};
 	}
-	
+
 	public static IFieldInfo forceEmbeddedFormCreation(IFieldInfo field) {
 		return new FieldInfoProxy(field) {
 			@Override

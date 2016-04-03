@@ -1,4 +1,16 @@
 /*
+ * public boolean openValueDialog(...): This method must allow to edit a
+ * value, report the new value and the detailed value modifications.
+ * Value modifications are needed because there may not be any new
+ * object but rather an old object with its internal fields modified.
+ * Due to the opacity of methods invocation impacts, the modifications
+ * may not be well reported. If so, in the doubt the value must be
+ * considered as new. To allow that methods must report "UNKNOWN"
+ * modifications.
+ */
+
+
+/*
  * Issue: field value read only is not the same as field value
  * sub-fields read only. If the field is read only then it must be
  * reflected when the field value is wrapped. If the field is not

@@ -1,10 +1,12 @@
 package xy.reflect.ui.info.type.util;
 
+import java.awt.Component;
 import java.util.Map;
 
 import com.google.common.cache.CacheBuilder;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.swing.NullableControl;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -41,25 +43,6 @@ public class HiddenNullableFacetsTypeInfoProxyConfiguration extends TypeInfoProx
 		return (param.getDefaultValue() == null) && (generateDefaultValue(param.getType()) == null);
 	}
 
-	@Override
-	protected Object getValue(Object object, IFieldInfo field, ITypeInfo containingType) {
-		Object result = super.getValue(object, field, containingType);
-		if (result == null) {
-			if (!isNullable(field, containingType)) {
-				result = generateDefaultValue(field.getType());
-			}
-		}
-		return result;
-	}
-
-	@Override
-	protected boolean isNullable(IFieldInfo field, ITypeInfo containingType) {
-		if (!field.isNullable()) {
-			return false;
-		}
-		return generateDefaultValue(field.getType()) == null;
-	}
-
 	public Object generateDefaultValue(ITypeInfo type) {
 		Object result = defaultValueByType.get(type);
 		if (result == null) {
@@ -78,4 +61,25 @@ public class HiddenNullableFacetsTypeInfoProxyConfiguration extends TypeInfoProx
 		}
 		return result;
 	}
+
+	@Override
+	protected Component createFieldControl(ITypeInfo type, Object object, IFieldInfo field) {
+		Component result = super.createFieldControl(type, object, field);
+		if (result instanceof NullableControl) {
+			result = new NullableControl(reflectionUI, object, field,
+					((NullableControl) result).getNonNullFieldValueControlCreator()){
+
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						protected void setShouldBeNull(boolean b) {
+							super.setShouldBeNull(b);
+							nullingControl.setVisible(b);
+						}
+				
+			};
+		}
+		return result;
+	}
+
 }

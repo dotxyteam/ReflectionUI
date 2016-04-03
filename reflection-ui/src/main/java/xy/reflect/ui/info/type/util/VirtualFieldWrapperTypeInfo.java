@@ -7,13 +7,14 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.swing.EmbeddedFormControl;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 
-public class ValueFromVirtualFieldTypeInfo implements ITypeInfo {
+public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo fieldType;
@@ -21,7 +22,7 @@ public class ValueFromVirtualFieldTypeInfo implements ITypeInfo {
 	protected boolean fieldReadOnly;
 	protected String caption;
 
-	public ValueFromVirtualFieldTypeInfo(ReflectionUI reflectionUI, ITypeInfo fieldType,
+	public VirtualFieldWrapperTypeInfo(ReflectionUI reflectionUI, ITypeInfo fieldType,
 			String fieldCaption, boolean fieldReadOnly, String caption) {
 		this.reflectionUI = reflectionUI;
 		this.fieldType = fieldType;
@@ -32,7 +33,7 @@ public class ValueFromVirtualFieldTypeInfo implements ITypeInfo {
 
 	@Override
 	public String getName() {
-		return ValueFromVirtualFieldTypeInfo.class.getSimpleName() + "(" + fieldCaption
+		return VirtualFieldWrapperTypeInfo.class.getSimpleName() + "(" + fieldCaption
 				+ ")";
 	}
 
@@ -63,7 +64,11 @@ public class ValueFromVirtualFieldTypeInfo implements ITypeInfo {
 
 	@Override
 	public List<IFieldInfo> getFields() {
-		return Collections.<IFieldInfo> singletonList(new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
+		return Collections.<IFieldInfo> singletonList(getValueField());
+	}
+
+	public IFieldInfo getValueField() {
+		return new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
 
 			@Override
 			public String getCaption() {
@@ -73,7 +78,7 @@ public class ValueFromVirtualFieldTypeInfo implements ITypeInfo {
 			@Override
 			public void setValue(Object object, Object value) {
 				InstanceInfo instance = (InstanceInfo) object;
-				instance.fieldValueArray[0] = value;
+				instance.setValue(value);
 			}
 
 			@Override
@@ -89,7 +94,7 @@ public class ValueFromVirtualFieldTypeInfo implements ITypeInfo {
 			@Override
 			public Object getValue(Object object) {
 				InstanceInfo instance = (InstanceInfo) object;
-				return instance.fieldValueArray[0];
+				return instance.getValue();
 			}
 
 			@Override
@@ -103,7 +108,7 @@ public class ValueFromVirtualFieldTypeInfo implements ITypeInfo {
 			}
 			
 			
-		});
+		};
 	}
 
 	@Override
@@ -124,19 +129,19 @@ public class ValueFromVirtualFieldTypeInfo implements ITypeInfo {
 	@Override
 	public String toString(Object object) {
 		InstanceInfo instance = (InstanceInfo) object;
-		return reflectionUI.toString(instance.fieldValueArray[0]);
+		return reflectionUI.toString(instance.getValue());
 	}
 
 	@Override
 	public Image getIconImage(Object object) {
 		InstanceInfo instance = (InstanceInfo) object;
-		return reflectionUI.getIconImage(instance.fieldValueArray[0]);
+		return reflectionUI.getIconImage(instance.getValue());
 	}
 
 	@Override
 	public void validate(Object object) throws Exception {
 		InstanceInfo instance = (InstanceInfo) object;
-		fieldType.validate(instance.fieldValueArray[0]);
+		fieldType.validate(instance.getValue());
 	}
 
 	public Object getPrecomputedTypeInfoInstanceWrapper(Object[] fieldValueArray) {
@@ -168,7 +173,7 @@ public class ValueFromVirtualFieldTypeInfo implements ITypeInfo {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ValueFromVirtualFieldTypeInfo other = (ValueFromVirtualFieldTypeInfo) obj;
+		VirtualFieldWrapperTypeInfo other = (VirtualFieldWrapperTypeInfo) obj;
 		if (caption == null) {
 			if (other.caption != null)
 				return false;
@@ -199,7 +204,7 @@ public class ValueFromVirtualFieldTypeInfo implements ITypeInfo {
 			final String wrapperTypeCaption, final boolean readOnly) {
 		final ITypeInfo fieldType = reflectionUI.getTypeInfo(reflectionUI
 				.getTypeInfoSource(fieldValueArray[0]));
-		ValueFromVirtualFieldTypeInfo wrapperType = new ValueFromVirtualFieldTypeInfo(
+		VirtualFieldWrapperTypeInfo wrapperType = new VirtualFieldWrapperTypeInfo(
 				reflectionUI, fieldType, fieldCaption, readOnly,
 				wrapperTypeCaption);
 		return wrapperType
@@ -213,15 +218,34 @@ public class ValueFromVirtualFieldTypeInfo implements ITypeInfo {
 			super();
 			this.fieldValueArray = fieldValueArray;
 		}
+		
+		public Object getValue(){
+			return fieldValueArray[0];
+		}
+		
+		public void setValue(Object value){
+			fieldValueArray[0] = value;
+		}
+
+		@Override
+		public String toString() {
+			Object value = getValue();
+			if(value == null){
+				return null;
+			}
+			return value.toString();
+		}
+		
+		
 	}
 
 	@Override
-	public Component createCustomFieldControl(Object object, IFieldInfo field) {
-		return null;
+	public Component createFieldControl(Object object, IFieldInfo field) {
+		return new EmbeddedFormControl(reflectionUI, object, field);
 	}
 
 	@Override
-	public boolean hasCustomFieldControl() {
+	public boolean hasCustomFieldControl(Object object, IFieldInfo field) {
 		return false;
 	}
 }

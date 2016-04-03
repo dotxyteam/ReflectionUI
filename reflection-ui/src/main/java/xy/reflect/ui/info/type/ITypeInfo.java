@@ -28,7 +28,7 @@ public interface ITypeInfo extends IInfo {
 
 	Image getIconImage(Object object);
 	
-	Component createCustomFieldControl(Object object, IFieldInfo field);
+	Component createFieldControl(Object object, IFieldInfo field);
 
-	boolean hasCustomFieldControl();
+	boolean hasCustomFieldControl(Object object, IFieldInfo field);
 }

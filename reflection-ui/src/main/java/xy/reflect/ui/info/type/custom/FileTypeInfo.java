@@ -45,12 +45,12 @@ public class FileTypeInfo extends DefaultTypeInfo {
 	}
 
 	@Override
-	public Component createCustomFieldControl(Object object, IFieldInfo field) {
+	public Component createCustomNonNullFieldValueControl(Object object, IFieldInfo field) {
 		return new FileControl(reflectionUI, object, field);
 	}
 	
 	@Override
-	public boolean hasCustomFieldControl() {
+	public boolean hasCustomFieldControl(Object object, IFieldInfo field) {
 		return true;
 	}
 	

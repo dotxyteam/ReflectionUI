@@ -42,7 +42,7 @@ public class TestSystemProperties {
 		System.setProperty(SystemProperties.HIDE_NULLABLE_FACETS, "true");
 		typeInfo = reflectionUI.getTypeInfo(reflectionUI
 				.getTypeInfoSource(this));
-		Assert.assertTrue(!ReflectionUIUtils.findInfoByName(
+		Assert.assertTrue(ReflectionUIUtils.findInfoByName(
 				typeInfo.getFields(), "nullableField").isNullable());
 		Assert.assertTrue(ReflectionUIUtils.findInfoByName(
 				typeInfo.getFields(), "necessarilyNullableField").isNullable());

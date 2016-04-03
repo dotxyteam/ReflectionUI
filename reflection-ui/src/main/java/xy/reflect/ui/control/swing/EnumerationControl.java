@@ -49,7 +49,7 @@ public class EnumerationControl extends JPanel {
 		Object initialValue = field.getValue(object);
 		List<Object> possibleValues = new ArrayList<Object>(Arrays.asList(enumType.getPossibleValues()));
 		if (field.isNullable()) {
-			possibleValues.add(null);
+			possibleValues.add(0, null);
 		}
 		comboBox.setModel(new DefaultComboBoxModel(possibleValues.toArray()));
 		if (field.isGetOnly()) {

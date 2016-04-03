@@ -15,15 +15,24 @@ import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.ColorControl;
+import xy.reflect.ui.control.swing.DialogAccessControl;
+import xy.reflect.ui.control.swing.EmbeddedFormControl;
+import xy.reflect.ui.control.swing.EnumerationControl;
+import xy.reflect.ui.control.swing.NullableControl;
+import xy.reflect.ui.control.swing.PolymorphicEmbeddedForm;
+import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.PublicFieldInfo;
 import xy.reflect.ui.info.method.DefaultConstructorMethodInfo;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.type.util.ArrayAsEnumerationTypeInfo;
+import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.PrimitiveUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.SwingRendererUtils;
 
 public class DefaultTypeInfo implements ITypeInfo {
 
@@ -207,7 +216,42 @@ public class DefaultTypeInfo implements ITypeInfo {
 	}
 
 	@Override
-	public Component createCustomFieldControl(Object object, IFieldInfo field) {
+	public Component createFieldControl(final Object object, final IFieldInfo field) {
+		if (field.getType().getPolymorphicInstanceSubTypes() != null) {
+			return new PolymorphicEmbeddedForm(reflectionUI, object, field);
+		} else {
+			if (field.isNullable()) {
+				return new NullableControl(reflectionUI, object, field, new Accessor<Component>() {
+					@Override
+					public Component get() {
+						return createNonNullFieldValueControl(object, field);
+					}
+				});
+			} else {
+				return createNonNullFieldValueControl(object, field);
+			}
+		}
+	}
+
+	protected Component createNonNullFieldValueControl(Object object, IFieldInfo field) {
+		if (field.getValueOptions(object) != null) {
+			return createOptionsControl(object, field);
+		} else {
+			Component customFieldControl = createCustomNonNullFieldValueControl(object, field);
+			if (customFieldControl != null) {
+				return customFieldControl;
+			} else {
+				field = SwingRendererUtils.prepareEmbeddedFormCreation(reflectionUI, object, field);
+				if (SwingRendererUtils.isEmbeddedFormCreationForbidden(field)) {
+					return new DialogAccessControl(reflectionUI, object, field);
+				} else {
+					return new EmbeddedFormControl(reflectionUI, object, field);
+				}
+			}
+		}
+	}
+
+	protected Component createCustomNonNullFieldValueControl(Object object, IFieldInfo field) {
 		if (javaType == Color.class) {
 			return new ColorControl(reflectionUI, object, field);
 		} else {
@@ -215,12 +259,30 @@ public class DefaultTypeInfo implements ITypeInfo {
 		}
 	}
 
+	protected Component createOptionsControl(final Object object, final IFieldInfo field) {
+		return new EnumerationControl(reflectionUI, object, new FieldInfoProxy(field) {
+
+			@Override
+			public ITypeInfo getType() {
+				return new ArrayAsEnumerationTypeInfo(reflectionUI, field.getValueOptions(object),
+						field.getCaption() + " Value Options");
+			}
+
+		});
+	}
+
 	@Override
-	public boolean hasCustomFieldControl() {
-		if (javaType == Color.class) {
+	public boolean hasCustomFieldControl(Object object, IFieldInfo field) {
+		if (field.getType().getPolymorphicInstanceSubTypes() != null) {
+			return true;
+		} else if (field.getValueOptions(object) != null) {
 			return true;
 		} else {
-			return false;
+			if (javaType == Color.class) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 	}
 

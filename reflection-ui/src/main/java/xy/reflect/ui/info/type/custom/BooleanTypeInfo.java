@@ -44,12 +44,12 @@ public class BooleanTypeInfo extends DefaultTypeInfo {
 	}
 
 	@Override
-	public Component createCustomFieldControl(Object object, IFieldInfo field) {
+	public Component createCustomNonNullFieldValueControl(Object object, IFieldInfo field) {
 		return new CheckBoxControl(reflectionUI, object, field);
 	}
 
 	@Override
-	public boolean hasCustomFieldControl() {
+	public boolean hasCustomFieldControl(Object object, IFieldInfo field) {
 		return true;
 	}
 	

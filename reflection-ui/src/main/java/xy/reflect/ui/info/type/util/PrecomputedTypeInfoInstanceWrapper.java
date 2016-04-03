@@ -65,6 +65,8 @@ public class PrecomputedTypeInfoInstanceWrapper {
 				}
 				return wrapper.getInstance();
 			}
+			
+			
 
 			@Override
 			protected Object getValue(Object object, IFieldInfo field,

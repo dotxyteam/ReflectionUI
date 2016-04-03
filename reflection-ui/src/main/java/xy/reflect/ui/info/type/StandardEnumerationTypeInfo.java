@@ -63,14 +63,16 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements
 			return reflectionUI.toString(object);
 		}
 	}
+	
+	
 
 	@Override
-	public Component createCustomFieldControl(Object object, IFieldInfo field) {
+	public Component createFieldControl(Object object, IFieldInfo field) {
 		return new EnumerationControl(reflectionUI, object, field);
 	}
 	
 	@Override
-	public boolean hasCustomFieldControl() {
+	public boolean hasCustomFieldControl(Object object, IFieldInfo field) {
 		return true;
 	}
 	

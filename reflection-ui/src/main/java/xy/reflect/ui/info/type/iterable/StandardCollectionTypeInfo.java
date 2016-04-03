@@ -194,12 +194,12 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	}
 
 	@Override
-	public Component createCustomFieldControl(Object object, IFieldInfo field) {
+	public Component createCustomNonNullFieldValueControl(Object object, IFieldInfo field) {
 		return new ListControl(reflectionUI, object, field);
 	}
 
 	@Override
-	public boolean hasCustomFieldControl() {
+	public boolean hasCustomFieldControl(Object object, IFieldInfo field) {
 		return true;
 	}
 

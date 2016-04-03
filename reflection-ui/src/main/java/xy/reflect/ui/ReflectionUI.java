@@ -11,8 +11,8 @@ import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.MultiListField.MultiListVirtualParent;
-import xy.reflect.ui.info.field.MultiListField.MultiListVirtualParentType;
+import xy.reflect.ui.info.field.MultipleFieldAsListListTypeInfo.MultipleFieldAsListItem;
+import xy.reflect.ui.info.field.MultipleFieldAsListListTypeInfo.MultipleFieldAsListItemTypeInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -144,10 +144,10 @@ public class ReflectionUI {
 		if (object instanceof PrecomputedTypeInfoInstanceWrapper) {
 			return ((PrecomputedTypeInfoInstanceWrapper) object)
 					.getPrecomputedTypeInfoSource();
-		} else if (object instanceof MultiListVirtualParent) {
+		} else if (object instanceof MultipleFieldAsListItem) {
 			return new PrecomputedTypeInfoSource(
-					new MultiListVirtualParentType(this,
-							(MultiListVirtualParent) object));
+					new MultipleFieldAsListItemTypeInfo(this,
+							(MultipleFieldAsListItem) object));
 		} else {
 			return new JavaTypeInfoSource(object.getClass());
 		}
@@ -229,8 +229,8 @@ public class ReflectionUI {
 		if (object == null) {
 			return "(Missing Value)";
 		}
-		if (object instanceof MultiListVirtualParent) {
-			return ((MultiListVirtualParent) object).toString();
+		if (object instanceof MultipleFieldAsListItem) {
+			return ((MultipleFieldAsListItem) object).toString();
 		}
 		if (object instanceof StandardMapEntry<?, ?>) {
 			Object key = ((StandardMapEntry<?, ?>) object).getKey();
