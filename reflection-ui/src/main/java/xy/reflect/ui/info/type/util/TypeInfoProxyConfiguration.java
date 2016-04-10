@@ -3,6 +3,7 @@ package xy.reflect.ui.info.type.util;
 import java.awt.Component;
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,11 +19,14 @@ import xy.reflect.ui.info.type.iterable.util.IListAction;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.info.type.iterable.util.structure.IListStructuralInfo;
 import xy.reflect.ui.undo.IModification;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.info.method.InvocationData;
 
+@SuppressWarnings("unused")
 public class TypeInfoProxyConfiguration {
 
+	private static final String DEBUG_INFO_KEY = "DEBUG_INFO";
 	protected StackTraceElement[] instanciationTrace = ReflectionUIUtils.createDebugStackTrace(1);
 
 	public ITypeInfo get(final ITypeInfo type) {
@@ -54,6 +58,10 @@ public class TypeInfoProxyConfiguration {
 		if (getClass() != obj.getClass())
 			return false;
 		return true;
+	}
+
+	protected String getDebugInfo() {
+		return null;
 	}
 
 	protected Object getDefaultValue(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
@@ -175,7 +183,7 @@ public class TypeInfoProxyConfiguration {
 	}
 
 	protected List<IMethodInfo> getSpecificItemConstructors(IListTypeInfo type, Object object, IFieldInfo field) {
-		return type.getSpecificItemConstructors(object, field);
+		return type.getObjectSpecificItemConstructors(object, field);
 	}
 
 	protected ITypeInfo getItemType(IListTypeInfo type) {
@@ -322,7 +330,16 @@ public class TypeInfoProxyConfiguration {
 	}
 
 	protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
-		return type.getSpecificProperties();
+		Map<String, Object> result = new HashMap<String, Object>(type.getSpecificProperties());
+		String debugInfo = getDebugInfo();
+		if (debugInfo != null) {
+			String previousDebugInfo = (String) result.get(DEBUG_INFO_KEY);
+			if (previousDebugInfo != null) {
+				debugInfo = ReflectionUIUtils.composeTitle(previousDebugInfo, debugInfo);
+			}
+			result.put(DEBUG_INFO_KEY, debugInfo);
+		}
+		return result;
 	}
 
 	protected Component createFieldControl(ITypeInfo type, Object object, IFieldInfo field) {
@@ -357,13 +374,15 @@ public class TypeInfoProxyConfiguration {
 
 	private class BasicTypeInfoProxy implements ITypeInfo {
 
-		@SuppressWarnings("unused")
 		protected StackTraceElement[] instanciationTrace = ReflectionUIUtils.createDebugStackTrace(1);
 
 		protected ITypeInfo type;
 
+		private String debugInfo;
+
 		public BasicTypeInfoProxy(ITypeInfo type) {
 			this.type = type;
+			this.debugInfo = (String) TypeInfoProxyConfiguration.this.getSpecificProperties(type).get(DEBUG_INFO_KEY);
 		}
 
 		@Override
@@ -523,7 +542,7 @@ public class TypeInfoProxyConfiguration {
 		}
 
 		@Override
-		public List<IMethodInfo> getSpecificItemConstructors(Object object, IFieldInfo field) {
+		public List<IMethodInfo> getObjectSpecificItemConstructors(Object object, IFieldInfo field) {
 			return TypeInfoProxyConfiguration.this.getSpecificItemConstructors((IListTypeInfo) type, object, field);
 		}
 
@@ -567,7 +586,6 @@ public class TypeInfoProxyConfiguration {
 
 	private class FieldInfoProxy implements IFieldInfo {
 
-		@SuppressWarnings("unused")
 		protected StackTraceElement[] instanciationTrace = new Exception().getStackTrace();
 
 		protected IFieldInfo field;
@@ -662,7 +680,6 @@ public class TypeInfoProxyConfiguration {
 
 	private class MethodInfoProxy implements IMethodInfo {
 
-		@SuppressWarnings("unused")
 		protected StackTraceElement[] instanciationTrace = ReflectionUIUtils.createDebugStackTrace(1);
 
 		protected IMethodInfo method;
@@ -757,7 +774,6 @@ public class TypeInfoProxyConfiguration {
 
 	private class ParameterInfoProxy implements IParameterInfo {
 
-		@SuppressWarnings("unused")
 		protected StackTraceElement[] instanciationTrace = ReflectionUIUtils.createDebugStackTrace(1);
 
 		protected IParameterInfo param;

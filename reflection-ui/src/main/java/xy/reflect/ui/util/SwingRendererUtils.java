@@ -298,6 +298,11 @@ public class SwingRendererUtils {
 					resultType = new TypeInfoProxyConfiguration() {
 
 						@Override
+						protected String getDebugInfo() {
+							return "preventRecursiveEmbeddedForm";
+						}
+
+						@Override
 						protected List<IFieldInfo> getFields(ITypeInfo type) {
 							List<IFieldInfo> result = new ArrayList<IFieldInfo>();
 							for (IFieldInfo field : super.getFields(type)) {
@@ -307,7 +312,13 @@ public class SwingRendererUtils {
 							return result;
 						}
 					}.get(resultType);
-					result = new PrecomputedTypeInfoInstanceWrapper(result, resultType);
+					result = new PrecomputedTypeInfoInstanceWrapper(result, resultType){
+
+						@Override
+						protected String getDebugInfo() {
+							return "preventRecursiveEmbeddedForm";
+						}
+					};
 				}
 				return result;
 			}

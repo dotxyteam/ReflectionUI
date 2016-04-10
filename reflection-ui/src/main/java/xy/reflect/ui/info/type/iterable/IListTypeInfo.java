@@ -23,7 +23,7 @@ public interface IListTypeInfo extends ITypeInfo {
 	List<IListAction> getSpecificActions(Object object, IFieldInfo field,
 			List<? extends ItemPosition> selection);
 
-	List<IMethodInfo> getSpecificItemConstructors(Object object, IFieldInfo field);
+	List<IMethodInfo> getObjectSpecificItemConstructors(Object object, IFieldInfo field);
 
 	boolean canInstanciateFromArray();
 

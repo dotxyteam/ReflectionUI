@@ -24,15 +24,8 @@ public class HiddenNullableFacetsTypeInfoProxyConfiguration extends TypeInfoProx
 	}
 
 	@Override
-	protected Object getDefaultValue(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
-		Object result = param.getDefaultValue();
-		if (result == null) {
-			if (!isNullable(param, method, containingType)) {
-				result = generateDefaultValue(param.getType());
-			}
-		}
-		return result;
-
+	protected String getDebugInfo() {
+		return "HiddenNullableFacets";
 	}
 
 	@Override
@@ -67,16 +60,16 @@ public class HiddenNullableFacetsTypeInfoProxyConfiguration extends TypeInfoProx
 		Component result = super.createFieldControl(type, object, field);
 		if (result instanceof NullableControl) {
 			result = new NullableControl(reflectionUI, object, field,
-					((NullableControl) result).getNonNullFieldValueControlCreator()){
+					((NullableControl) result).getNonNullFieldValueControlCreator()) {
 
-						private static final long serialVersionUID = 1L;
+				private static final long serialVersionUID = 1L;
 
-						@Override
-						protected void setShouldBeNull(boolean b) {
-							super.setShouldBeNull(b);
-							nullingControl.setVisible(b);
-						}
-				
+				@Override
+				protected void setShouldBeNull(boolean b) {
+					super.setShouldBeNull(b);
+					nullingControl.setVisible(b);
+				}
+
 			};
 		}
 		return result;

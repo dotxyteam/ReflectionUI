@@ -19,81 +19,85 @@ public class PrecomputedTypeInfoInstanceWrapper {
 
 	protected Object instance;
 	protected ITypeInfo precomputedType;
-	protected StackTraceElement[] instanciationTrace = ReflectionUIUtils
-			.createDebugStackTrace(1);
+	protected StackTraceElement[] instanciationTrace = ReflectionUIUtils.createDebugStackTrace(1);
 
-	public PrecomputedTypeInfoInstanceWrapper(Object instance,
-			ITypeInfo precomputedType) {
+	public PrecomputedTypeInfoInstanceWrapper(Object instance, ITypeInfo precomputedType) {
 		this.instance = instance;
 		this.precomputedType = precomputedType;
 	}
 
 	public PrecomputedTypeInfoSource getPrecomputedTypeInfoSource() {
-		return new PrecomputedTypeInfoSource(
-				adaptPrecomputedType(precomputedType));
+		return new PrecomputedTypeInfoSource(adaptPrecomputedType(precomputedType, getDebugInfo()));
 	}
 
-	public static ITypeInfo adaptPrecomputedType(final ITypeInfo precomputedType) {
+	protected String getDebugInfo() {
+		return null;
+	}
+
+	public static ITypeInfo adaptPrecomputedType(ITypeInfo precomputedType) {
+		return adaptPrecomputedType(precomputedType, null);
+	}
+
+	public static ITypeInfo adaptPrecomputedType(final ITypeInfo precomputedType, final String debugInfo) {
 		return new TypeInfoProxyConfiguration() {
 
 			protected PrecomputedTypeInfoInstanceWrapper wrap(Object object) {
-				return new PrecomputedTypeInfoInstanceWrapper(object,
-						precomputedType);
+				return new PrecomputedTypeInfoInstanceWrapper(object, precomputedType){
+
+					@Override
+					protected String getDebugInfo() {
+						String result = "adaptPrecomputedType";
+						if(debugInfo!= null){
+							result = ReflectionUIUtils.composeTitle(result, debugInfo);
+						}
+						return result;
+					}
+				};
+			}
+
+			@Override
+			protected String getDebugInfo() {
+				String result = "adaptPrecomputedType";
+				if (debugInfo != null) {
+					result = ReflectionUIUtils.composeTitle(result, debugInfo);
+				}
+				return result;
 			}
 
 			protected Object unwrap(Object object) {
 				PrecomputedTypeInfoInstanceWrapper wrapper = (PrecomputedTypeInfoInstanceWrapper) object;
 				if (!wrapper.precomputedType.equals(precomputedType)) {
-					throw new ReflectionUIError(
-							PrecomputedTypeInfoInstanceWrapper.class
-									.getSimpleName()
-									+ " Error: "
-									+ "\nExpected precomputed type: "
-									+ precomputedType
-									+ " ("
-									+ precomputedType.getClass()
-									+ ")"
-									+ ";"
-									+ "\nFound precomputed type: "
-									+ wrapper.precomputedType
-									+ " ("
-									+ wrapper.precomputedType.getClass()
-									+ ")"
-									+ ";" +
+					throw new ReflectionUIError(PrecomputedTypeInfoInstanceWrapper.class.getSimpleName() + " Error: "
+							+ "\nExpected precomputed type: " + precomputedType + " (" + precomputedType.getClass()
+							+ ")" + ";" + "\nFound precomputed type: " + wrapper.precomputedType + " ("
+							+ wrapper.precomputedType.getClass() + ")" + ";" +
 
-									"\nInstance: " + wrapper.instance);
+					"\nInstance: " + wrapper.instance);
 				}
 				return wrapper.getInstance();
 			}
-			
-			
 
 			@Override
-			protected Object getValue(Object object, IFieldInfo field,
-					ITypeInfo containingType) {
+			protected Object getValue(Object object, IFieldInfo field, ITypeInfo containingType) {
 				object = unwrap(object);
 				return super.getValue(object, field, containingType);
 			}
 
 			@Override
-			protected void setValue(Object object, Object value,
-					IFieldInfo field, ITypeInfo containingType) {
+			protected void setValue(Object object, Object value, IFieldInfo field, ITypeInfo containingType) {
 				object = unwrap(object);
 				super.setValue(object, value, field, containingType);
 			}
 
 			@Override
-			protected Object invoke(Object object,
-					InvocationData invocationData, IMethodInfo method,
+			protected Object invoke(Object object, InvocationData invocationData, IMethodInfo method,
 					ITypeInfo containingType) {
 				object = unwrap(object);
-				return super.invoke(object, invocationData, method,
-						containingType);
+				return super.invoke(object, invocationData, method, containingType);
 			}
 
 			@Override
-			protected void validate(ITypeInfo type, Object object)
-					throws Exception {
+			protected void validate(ITypeInfo type, Object object) throws Exception {
 				object = unwrap(object);
 				super.validate(type, object);
 			}
@@ -126,8 +130,7 @@ public class PrecomputedTypeInfoInstanceWrapper {
 			}
 
 			@Override
-			protected String formatEnumerationItem(Object object,
-					IEnumerationTypeInfo type) {
+			protected String formatEnumerationItem(Object object, IEnumerationTypeInfo type) {
 				object = unwrap(object);
 				return super.formatEnumerationItem(object, type);
 			}
@@ -145,21 +148,17 @@ public class PrecomputedTypeInfoInstanceWrapper {
 			}
 
 			@Override
-			protected void validateParameters(IMethodInfo method,
-					ITypeInfo containingType, Object object,
+			protected void validateParameters(IMethodInfo method, ITypeInfo containingType, Object object,
 					InvocationData invocationData) throws Exception {
 				object = unwrap(object);
-				super.validateParameters(method, containingType, object,
-						invocationData);
+				super.validateParameters(method, containingType, object, invocationData);
 			}
 
 			@Override
-			protected IModification getUndoModification(IMethodInfo method,
-					ITypeInfo containingType, Object object,
+			protected IModification getUndoModification(IMethodInfo method, ITypeInfo containingType, Object object,
 					InvocationData invocationData) {
 				object = unwrap(object);
-				return super.getUndoModification(method, containingType,
-						object, invocationData);
+				return super.getUndoModification(method, containingType, object, invocationData);
 			}
 
 		}.get(precomputedType);
@@ -173,10 +172,8 @@ public class PrecomputedTypeInfoInstanceWrapper {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((instance == null) ? 0 : instance.hashCode());
-		result = prime * result
-				+ ((precomputedType == null) ? 0 : precomputedType.hashCode());
+		result = prime * result + ((instance == null) ? 0 : instance.hashCode());
+		result = prime * result + ((precomputedType == null) ? 0 : precomputedType.hashCode());
 		return result;
 	}
 

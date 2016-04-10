@@ -18,6 +18,7 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
+@SuppressWarnings("unused")
 public class ArrayAsEnumerationTypeInfo implements IEnumerationTypeInfo {
 	protected ReflectionUI reflectionUI;
 	protected Object[] array;
@@ -159,12 +160,7 @@ public class ArrayAsEnumerationTypeInfo implements IEnumerationTypeInfo {
 
 	@Override
 	public Component createFieldControl(Object object, IFieldInfo field) {
-		return new EnumerationControl(reflectionUI, object, new FieldInfoProxy(field) {
-
-			@Override
-			public ITypeInfo getType() {
-				return ArrayAsEnumerationTypeInfo.this;
-			}});
+		return new EnumerationControl(reflectionUI, object, field);
 	}
 
 	@Override

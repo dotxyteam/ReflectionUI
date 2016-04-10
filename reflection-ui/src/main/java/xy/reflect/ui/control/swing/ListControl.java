@@ -877,6 +877,12 @@ public class ListControl extends JPanel implements IFieldControl {
 				} else if (insertPosition == InsertPosition.BEFORE) {
 					buttonText += " Before";
 				}
+			} else {
+				if (insertPosition == InsertPosition.AFTER) {
+					return null;
+				} else if (insertPosition == InsertPosition.BEFORE) {
+					return null;
+				}
 			}
 			buttonText += " ...";
 		}
@@ -983,6 +989,11 @@ public class ListControl extends JPanel implements IFieldControl {
 		return new TypeInfoProxyConfiguration() {
 
 			@Override
+			protected String getDebugInfo() {
+				return "addSpecificItemContructors";
+			}
+
+			@Override
 			protected List<IMethodInfo> getConstructors(ITypeInfo type) {
 				List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getConstructors(type));
 				IListTypeInfo containingListType = newItemPosition.getContainingListType();
@@ -990,7 +1001,7 @@ public class ListControl extends JPanel implements IFieldControl {
 				if (containingListOwner != null) {
 					IFieldInfo containingListField = newItemPosition.getContainingListField();
 					List<IMethodInfo> specificItemConstructors = containingListType
-							.getSpecificItemConstructors(containingListOwner, containingListField);
+							.getObjectSpecificItemConstructors(containingListOwner, containingListField);
 					if (specificItemConstructors != null) {
 						result.addAll(specificItemConstructors);
 					}

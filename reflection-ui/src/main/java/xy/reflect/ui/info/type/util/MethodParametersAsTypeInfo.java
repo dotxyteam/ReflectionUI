@@ -22,8 +22,7 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 	protected IMethodInfo method;
 	protected ReflectionUI reflectionUI;
 
-	public MethodParametersAsTypeInfo(ReflectionUI reflectionUI,
-			IMethodInfo method) {
+	public MethodParametersAsTypeInfo(ReflectionUI reflectionUI, IMethodInfo method) {
 		this.method = method;
 		this.reflectionUI = reflectionUI;
 	}
@@ -54,8 +53,7 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 
 	@Override
 	public String getName() {
-		return MethodParametersAsTypeInfo.class.getSimpleName() + "("
-				+ method.getName() + ")";
+		return MethodParametersAsTypeInfo.class.getSimpleName() + "(" + method.getName() + ")";
 	}
 
 	@Override
@@ -126,7 +124,7 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 			public boolean isGetOnly() {
 				return false;
 			}
-			
+
 			@Override
 			public String getName() {
 				return param.getName();
@@ -167,8 +165,7 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 	@Override
 	public String toString(Object object) {
 		InstanceInfo instance = (InstanceInfo) object;
-		return method.toString() + "\n<= invoked with: "
-				+ instance.invocationData.toString();
+		return method.toString() + "\n<= invoked with: " + instance.invocationData.toString();
 	}
 
 	@Override
@@ -192,11 +189,15 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 		return Collections.emptyMap();
 	}
 
-	public Object getPrecomputedTypeInfoInstanceWrapper(Object object,
-			InvocationData invocationData) {
+	public Object getPrecomputedTypeInfoInstanceWrapper(Object object, InvocationData invocationData) {
 		return new PrecomputedTypeInfoInstanceWrapper(
-				new MethodParametersAsTypeInfo.InstanceInfo(object,
-						invocationData), this);
+				new MethodParametersAsTypeInfo.InstanceInfo(object, invocationData), this) {
+
+			@Override
+			protected String getDebugInfo() {
+				return "MethodParametersAsTypeInfo";
+			}
+		};
 	}
 
 	protected static class InstanceInfo {

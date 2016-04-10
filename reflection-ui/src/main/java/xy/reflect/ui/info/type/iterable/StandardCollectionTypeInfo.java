@@ -189,7 +189,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	}
 
 	@Override
-	public List<IMethodInfo> getSpecificItemConstructors(Object object, IFieldInfo field) {
+	public List<IMethodInfo> getObjectSpecificItemConstructors(Object object, IFieldInfo field) {
 		return Collections.emptyList();
 	}
 

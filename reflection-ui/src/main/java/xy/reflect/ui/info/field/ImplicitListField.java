@@ -102,7 +102,14 @@ public class ImplicitListField implements IFieldInfo {
 	@Override
 	public Object getValue(Object object) {
 		Object result = new ImplicitListFieldValue(object);
-		result = new PrecomputedTypeInfoInstanceWrapper(result, new ImplicitListFieldType());
+		result = new PrecomputedTypeInfoInstanceWrapper(result, new ImplicitListFieldType()){
+
+			@Override
+			protected String getDebugInfo() {
+				return "ImplicitListField";
+			}
+			
+		};
 		return result;
 	}
 
@@ -393,7 +400,7 @@ public class ImplicitListField implements IFieldInfo {
 		
 
 		@Override
-		public List<IMethodInfo> getSpecificItemConstructors(final Object object, IFieldInfo field) {
+		public List<IMethodInfo> getObjectSpecificItemConstructors(final Object object, IFieldInfo field) {
 			return Collections.<IMethodInfo> singletonList(
 					new AbstractConstructorMethodInfo(ImplicitListFieldType.this.getItemType()) {
 
