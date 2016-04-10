@@ -2,6 +2,7 @@ package xy.reflect.ui.info.type.util;
 
 import java.awt.Component;
 import java.awt.Image;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +27,8 @@ import xy.reflect.ui.info.method.InvocationData;
 @SuppressWarnings("unused")
 public class TypeInfoProxyConfiguration {
 
-	private static final String DEBUG_INFO_KEY = "DEBUG_INFO";
+	private static final String DEBUG_INFO_ENCLOSING_METHODS = TypeInfoProxyConfiguration.class.getName()
+			+ "#DEBUG_INFO_ENCLOSING_METHODS";
 	protected StackTraceElement[] instanciationTrace = ReflectionUIUtils.createDebugStackTrace(1);
 
 	public ITypeInfo get(final ITypeInfo type) {
@@ -60,8 +62,8 @@ public class TypeInfoProxyConfiguration {
 		return true;
 	}
 
-	protected String getDebugInfo() {
-		return null;
+	protected Method getDebugInfoEnclosingMethod() {
+		return getClass().getEnclosingMethod();
 	}
 
 	protected Object getDefaultValue(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
@@ -331,13 +333,16 @@ public class TypeInfoProxyConfiguration {
 
 	protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
 		Map<String, Object> result = new HashMap<String, Object>(type.getSpecificProperties());
-		String debugInfo = getDebugInfo();
-		if (debugInfo != null) {
-			String previousDebugInfo = (String) result.get(DEBUG_INFO_KEY);
-			if (previousDebugInfo != null) {
-				debugInfo = ReflectionUIUtils.composeTitle(previousDebugInfo, debugInfo);
+		Method method = getDebugInfoEnclosingMethod();
+		if (method != null) {
+			List<Method> methodList = new ArrayList<Method>();
+			methodList.add(method);
+			@SuppressWarnings("unchecked")
+			List<Method> previousMethods = (List<Method>) result.get(DEBUG_INFO_ENCLOSING_METHODS);
+			if (previousMethods != null) {
+				methodList.addAll(previousMethods);
 			}
-			result.put(DEBUG_INFO_KEY, debugInfo);
+			result.put(DEBUG_INFO_ENCLOSING_METHODS, methodList);
 		}
 		return result;
 	}
@@ -374,15 +379,16 @@ public class TypeInfoProxyConfiguration {
 
 	private class BasicTypeInfoProxy implements ITypeInfo {
 
-		protected StackTraceElement[] instanciationTrace = ReflectionUIUtils.createDebugStackTrace(1);
-
+		protected TypeInfoProxyConfiguration proxyConfiguration = TypeInfoProxyConfiguration.this;
+		protected List<Method> debugInfoEnclosingMethods;
 		protected ITypeInfo type;
-
-		private String debugInfo;
 
 		public BasicTypeInfoProxy(ITypeInfo type) {
 			this.type = type;
-			this.debugInfo = (String) TypeInfoProxyConfiguration.this.getSpecificProperties(type).get(DEBUG_INFO_KEY);
+			@SuppressWarnings("unchecked")
+			List<Method> list = (List<Method>) TypeInfoProxyConfiguration.this.getSpecificProperties(type)
+					.get(DEBUG_INFO_ENCLOSING_METHODS);
+			this.debugInfoEnclosingMethods = list;
 		}
 
 		@Override
@@ -586,14 +592,20 @@ public class TypeInfoProxyConfiguration {
 
 	private class FieldInfoProxy implements IFieldInfo {
 
-		protected StackTraceElement[] instanciationTrace = new Exception().getStackTrace();
+		protected TypeInfoProxyConfiguration proxyConfiguration = TypeInfoProxyConfiguration.this;
 
 		protected IFieldInfo field;
 		protected ITypeInfo containingType;
 
+		private List<Method> debugInfoEnclosingMethods;
+
 		public FieldInfoProxy(IFieldInfo field, ITypeInfo containingType) {
 			this.field = field;
 			this.containingType = containingType;
+			@SuppressWarnings("unchecked")
+			List<Method> list = (List<Method>) TypeInfoProxyConfiguration.this
+					.getSpecificProperties(field, containingType).get(DEBUG_INFO_ENCLOSING_METHODS);
+			this.debugInfoEnclosingMethods = list;
 		}
 
 		@Override
@@ -680,14 +692,20 @@ public class TypeInfoProxyConfiguration {
 
 	private class MethodInfoProxy implements IMethodInfo {
 
-		protected StackTraceElement[] instanciationTrace = ReflectionUIUtils.createDebugStackTrace(1);
+		protected TypeInfoProxyConfiguration proxyConfiguration = TypeInfoProxyConfiguration.this;
 
 		protected IMethodInfo method;
 		protected ITypeInfo containingType;
 
+		private List<Method> debugInfoEnclosingMethods;
+
 		public MethodInfoProxy(IMethodInfo method, ITypeInfo containingType) {
 			this.method = method;
 			this.containingType = containingType;
+			@SuppressWarnings("unchecked")
+			List<Method> list = (List<Method>) TypeInfoProxyConfiguration.this.getSpecificProperties(method, containingType)
+					.get(DEBUG_INFO_ENCLOSING_METHODS);
+			this.debugInfoEnclosingMethods = list;		
 		}
 
 		@Override

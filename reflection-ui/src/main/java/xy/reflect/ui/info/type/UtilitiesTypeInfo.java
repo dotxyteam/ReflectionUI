@@ -56,12 +56,7 @@ public class UtilitiesTypeInfo extends DefaultTypeInfo {
 
 			@Override
 			public Object invoke(Object object, InvocationData invocationData) {
-				return new PrecomputedTypeInfoInstanceWrapper(NO_INSTANCE, UtilitiesTypeInfo.this){
-					@Override
-					protected String getDebugInfo() {
-						return "UtilitiesTypeInfo";
-					}
-				};
+				return new PrecomputedTypeInfoInstanceWrapper(NO_INSTANCE, UtilitiesTypeInfo.this);
 			}
 
 			@Override

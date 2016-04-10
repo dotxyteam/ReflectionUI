@@ -989,11 +989,6 @@ public class ListControl extends JPanel implements IFieldControl {
 		return new TypeInfoProxyConfiguration() {
 
 			@Override
-			protected String getDebugInfo() {
-				return "addSpecificItemContructors";
-			}
-
-			@Override
 			protected List<IMethodInfo> getConstructors(ITypeInfo type) {
 				List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getConstructors(type));
 				IListTypeInfo containingListType = newItemPosition.getContainingListType();

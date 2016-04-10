@@ -131,14 +131,7 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements
 							}
 						}
 						return new PrecomputedTypeInfoInstanceWrapper(result,
-								StandardMapEntryTypeInfo.this){
-
-							@Override
-							protected String getDebugInfo() {
-								return "StandardMapEntryTypeInfo";
-							}
-					
-				};
+								StandardMapEntryTypeInfo.this);
 					}
 
 					@Override

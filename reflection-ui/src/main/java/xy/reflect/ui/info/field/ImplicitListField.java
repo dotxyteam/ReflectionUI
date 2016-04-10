@@ -102,14 +102,7 @@ public class ImplicitListField implements IFieldInfo {
 	@Override
 	public Object getValue(Object object) {
 		Object result = new ImplicitListFieldValue(object);
-		result = new PrecomputedTypeInfoInstanceWrapper(result, new ImplicitListFieldType()){
-
-			@Override
-			protected String getDebugInfo() {
-				return "ImplicitListField";
-			}
-			
-		};
+		result = new PrecomputedTypeInfoInstanceWrapper(result, new ImplicitListFieldType());
 		return result;
 	}
 

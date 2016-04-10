@@ -191,13 +191,7 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 
 	public Object getPrecomputedTypeInfoInstanceWrapper(Object object, InvocationData invocationData) {
 		return new PrecomputedTypeInfoInstanceWrapper(
-				new MethodParametersAsTypeInfo.InstanceInfo(object, invocationData), this) {
-
-			@Override
-			protected String getDebugInfo() {
-				return "MethodParametersAsTypeInfo";
-			}
-		};
+				new MethodParametersAsTypeInfo.InstanceInfo(object, invocationData), this);
 	}
 
 	protected static class InstanceInfo {

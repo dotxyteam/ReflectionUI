@@ -1043,14 +1043,7 @@ public class SwingRenderer {
 		}
 		final Object[] chosenItemArray = new Object[] { initialSelection };
 		ITypeInfo enumType = new ArrayAsEnumerationTypeInfo(reflectionUI, choices.toArray(), "Selection Dialog Array As Enumeration");
-		chosenItemArray[0] = new PrecomputedTypeInfoInstanceWrapper(chosenItemArray[0], enumType){
-
-			@Override
-			protected String getDebugInfo() {
-				return "openSelectionDialog";
-			}
-			
-		};
+		chosenItemArray[0] = new PrecomputedTypeInfoInstanceWrapper(chosenItemArray[0], enumType);
 		final Object chosenItemAsField = VirtualFieldWrapperTypeInfo.wrap(reflectionUI, chosenItemArray, message,
 				"Selection", false);
 		if (openValueDialog(parentComponent, Accessor.returning(chosenItemAsField, false), false,

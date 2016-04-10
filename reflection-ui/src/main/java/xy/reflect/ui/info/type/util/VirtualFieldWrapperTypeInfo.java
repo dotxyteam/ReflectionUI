@@ -149,13 +149,7 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 			throw new ReflectionUIError();
 		}
 		return new PrecomputedTypeInfoInstanceWrapper(new InstanceInfo(
-				fieldValueArray), this){
-
-			@Override
-			protected String getDebugInfo() {
-				return "VirtualFieldWrapperTypeInfo";
-			}
-		};
+				fieldValueArray), this);
 	}
 
 	@Override

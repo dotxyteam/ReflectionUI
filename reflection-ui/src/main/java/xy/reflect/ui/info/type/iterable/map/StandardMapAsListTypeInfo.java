@@ -108,14 +108,7 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 			Map.Entry entry = (Entry) obj;
 			result.add(new PrecomputedTypeInfoInstanceWrapper(
 					new StandardMapEntry(entry.getKey(), entry.getValue()),
-					getItemType()){
-
-						@Override
-						protected String getDebugInfo() {
-							return "StanardMapAsListToArray";
-						}
-				
-			});
+					getItemType()));
 		}
 		return result.toArray();
 	}

@@ -1,6 +1,7 @@
 package xy.reflect.ui.info.type.util;
 
 import java.awt.Image;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,42 +28,24 @@ public class PrecomputedTypeInfoInstanceWrapper {
 	}
 
 	public PrecomputedTypeInfoSource getPrecomputedTypeInfoSource() {
-		return new PrecomputedTypeInfoSource(adaptPrecomputedType(precomputedType, getDebugInfo()));
+		return new PrecomputedTypeInfoSource(adaptPrecomputedType(precomputedType, getDebugInfoEnclosingMethod()));
 	}
 
-	protected String getDebugInfo() {
-		return null;
+	protected Method getDebugInfoEnclosingMethod() {
+		return getClass().getEnclosingMethod();
 	}
 
 	public static ITypeInfo adaptPrecomputedType(ITypeInfo precomputedType) {
 		return adaptPrecomputedType(precomputedType, null);
 	}
 
-	public static ITypeInfo adaptPrecomputedType(final ITypeInfo precomputedType, final String debugInfo) {
+	public static ITypeInfo adaptPrecomputedType(final ITypeInfo precomputedType, final Object debugInfo) {
 		return new TypeInfoProxyConfiguration() {
 
 			protected PrecomputedTypeInfoInstanceWrapper wrap(Object object) {
-				return new PrecomputedTypeInfoInstanceWrapper(object, precomputedType){
-
-					@Override
-					protected String getDebugInfo() {
-						String result = "adaptPrecomputedType";
-						if(debugInfo!= null){
-							result = ReflectionUIUtils.composeTitle(result, debugInfo);
-						}
-						return result;
-					}
-				};
+				return new PrecomputedTypeInfoInstanceWrapper(object, precomputedType);
 			}
 
-			@Override
-			protected String getDebugInfo() {
-				String result = "adaptPrecomputedType";
-				if (debugInfo != null) {
-					result = ReflectionUIUtils.composeTitle(result, debugInfo);
-				}
-				return result;
-			}
 
 			protected Object unwrap(Object object) {
 				PrecomputedTypeInfoInstanceWrapper wrapper = (PrecomputedTypeInfoInstanceWrapper) object;

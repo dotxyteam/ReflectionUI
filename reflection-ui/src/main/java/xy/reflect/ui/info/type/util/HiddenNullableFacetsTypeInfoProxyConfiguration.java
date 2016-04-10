@@ -22,12 +22,6 @@ public class HiddenNullableFacetsTypeInfoProxyConfiguration extends TypeInfoProx
 	public HiddenNullableFacetsTypeInfoProxyConfiguration(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
 	}
-
-	@Override
-	protected String getDebugInfo() {
-		return "HiddenNullableFacets";
-	}
-
 	@Override
 	protected boolean isNullable(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
 		if (!param.isNullable()) {
