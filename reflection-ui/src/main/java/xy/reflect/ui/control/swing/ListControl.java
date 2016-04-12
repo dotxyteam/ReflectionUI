@@ -273,6 +273,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		treeTableComponent.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		treeTableComponent.setHorizontalScrollEnabled(true);
 		treeTableComponent.setColumnMargin(5);
+		treeTableComponent.getTableHeader().setReorderingAllowed(false);
 		fixCustomRenderingNotAppliedOnUnselectedCells();
 	}
 

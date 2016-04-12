@@ -1,3 +1,4 @@
+- For null field, allow custom instanciation
 - There are debugging issues with type proxies: a type proxy is designed
 to work with a specific kind of object. The stack of proxies can be so 
 important that when it mismatches the object instance it becomes

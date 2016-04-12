@@ -147,7 +147,9 @@ public class DialogAccessControl extends JPanel {
 
 			@Override
 			public void set(Object t) {
-				field.setValue(object, t);
+				if (!field.isGetOnly()) {
+					field.setValue(object, t);
+				}
 			}
 
 		};
