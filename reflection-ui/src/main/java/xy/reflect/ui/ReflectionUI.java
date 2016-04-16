@@ -221,7 +221,7 @@ public class ReflectionUI {
 		return result;
 	}
 
-	public String prepareUIString(String string) {
+	public String prepareStringToDisplay(String string) {
 		return string;
 	}
 

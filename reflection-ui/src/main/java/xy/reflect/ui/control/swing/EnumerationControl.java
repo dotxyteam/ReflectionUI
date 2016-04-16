@@ -72,7 +72,7 @@ public class EnumerationControl extends JPanel {
 					label.setText("");
 				} else {
 					String s = enumType.formatEnumerationItem(value);
-					label.setText(reflectionUI.prepareUIString(s));
+					label.setText(reflectionUI.prepareStringToDisplay(s));
 				}
 
 				Image imageIcon = reflectionUI.getIconImage(value);

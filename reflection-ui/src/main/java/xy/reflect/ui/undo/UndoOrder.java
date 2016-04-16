@@ -1,4 +1,8 @@
 package xy.reflect.ui.undo;
 public enum UndoOrder {
-	LIFO, FIFO
+	LIFO, FIFO;
+	
+	public static UndoOrder getDefault(){
+		return LIFO;
+	}
 };

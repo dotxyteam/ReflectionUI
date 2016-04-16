@@ -214,6 +214,11 @@ public class ModificationStack {
 		}
 		compositeParent.pushUndo(compositeUndoModif);
 	}
+	
+	public void cancelComposite() {
+		compositeStack.pop();
+	}
+
 
 	public void invalidate() {
 		redoStack.clear();
@@ -338,7 +343,7 @@ public class ModificationStack {
 
 	protected JButton createButton(final ReflectionUI reflectionUI, String label, final Runnable action,
 			final Accessor<Boolean> enabled, final Accessor<String> tooltipText) {
-		final JButton result = new JButton(reflectionUI.prepareUIString(label)) {
+		final JButton result = new JButton(reflectionUI.prepareStringToDisplay(label)) {
 
 			protected static final long serialVersionUID = 1L;
 			IModificationListener listener = new IModificationListener() {
@@ -362,7 +367,7 @@ public class ModificationStack {
 			protected void updateState() {
 				setEnabled(enabled.get());
 				SwingRendererUtils.setMultilineToolTipText(this,
-						reflectionUI.prepareUIString(reflectionUI.prepareUIString(tooltipText.get())));
+						reflectionUI.prepareStringToDisplay(reflectionUI.prepareStringToDisplay(tooltipText.get())));
 			}
 
 		};

@@ -36,9 +36,9 @@ public class MethodControl extends JButton {
 		}
 		if (toolTipText.length() > 0) {
 			SwingRendererUtils.setMultilineToolTipText(this,
-					reflectionUI.prepareUIString(toolTipText));
+					reflectionUI.prepareStringToDisplay(toolTipText));
 		}
-		setText(reflectionUI.prepareUIString(caption));
+		setText(reflectionUI.prepareStringToDisplay(caption));
 		this.reflectionUI = reflectionUI;
 		this.object = object;
 		this.method = method;

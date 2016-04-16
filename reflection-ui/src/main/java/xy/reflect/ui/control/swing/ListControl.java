@@ -61,9 +61,9 @@ import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.info.type.iterable.util.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.TypeInfoProxyConfiguration;
+import xy.reflect.ui.undo.CompositeModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.undo.SetListValueModification;
 import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -136,9 +136,12 @@ public class ListControl extends JPanel implements IFieldControl {
 
 			toolbar.add(createTool(null, SwingRendererUtils.REMOVE_ICON, true, false, createRemoveAction()));
 
-			toolbar.add(createTool(null, SwingRendererUtils.UP_ICON, false, false, createMoveAction(-1)));
-
-			toolbar.add(createTool(null, SwingRendererUtils.DOWN_ICON, false, false, createMoveAction(1)));
+			AbstractStandardListAction moveUpAction = createMoveAction(-1);
+			AbstractStandardListAction moveDownAction = createMoveAction(1);
+			if (moveUpAction.isEnabled() || moveDownAction.isEnabled()) {
+				toolbar.add(createTool(null, SwingRendererUtils.UP_ICON, true, false, moveUpAction));
+				toolbar.add(createTool(null, SwingRendererUtils.DOWN_ICON, true, false, moveDownAction));
+			}
 
 		}
 		for (IListAction listAction : getRootListType().getSpecificActions(object, field, getSelection())) {
@@ -153,14 +156,12 @@ public class ListControl extends JPanel implements IFieldControl {
 			AbstractAction... actions) {
 		final JButton result = new JButton(text, icon);
 		result.setFocusable(false);
-		List<AbstractAction> allActiveActions = createCurrentSelectionActions();
 		final List<AbstractAction> actionsToPresent = new ArrayList<AbstractAction>();
 		for (final AbstractAction action : actions) {
 			if (action == null) {
 				continue;
 			}
-			String actionTitle = (String) action.getValue(Action.NAME);
-			if (findActionByName(allActiveActions, actionTitle)) {
+			if (action.isEnabled()) {
 				actionsToPresent.add(action);
 			}
 		}
@@ -190,15 +191,6 @@ public class ListControl extends JPanel implements IFieldControl {
 			}
 		}
 		return result;
-	}
-
-	protected static boolean findActionByName(List<AbstractAction> actions, String name) {
-		for (AbstractAction action : actions) {
-			if (name.equals(action.getValue(Action.NAME))) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	protected void setupContexteMenu() {
@@ -260,9 +252,6 @@ public class ListControl extends JPanel implements IFieldControl {
 
 	protected void initializeTreeTableControl() {
 		rootNode = createRootNode();
-		final Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-		size.width /= 2;
-		size.height /= 3;
 		treeTableComponent = new JXTreeTable(createTreeTableModel());
 		treeTableComponent.setExpandsSelectedPaths(true);
 		treeTableComponent.getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -312,7 +301,7 @@ public class ListControl extends JPanel implements IFieldControl {
 
 			@Override
 			public String getColumnName(int column) {
-				return reflectionUI.prepareUIString(getColumnCaption(column));
+				return reflectionUI.prepareStringToDisplay(getColumnCaption(column));
 			}
 
 		};
@@ -354,7 +343,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		if (nodeValues.containsKey(columnIndex)) {
 			value = nodeValues.get(columnIndex);
 		} else {
-			AutoUpdatingFieldItemPosition itemPosition = (AutoUpdatingFieldItemPosition) node.getUserObject();
+			AutoFieldValueUpdatingItemPosition itemPosition = (AutoFieldValueUpdatingItemPosition) node.getUserObject();
 			IListStructuralInfo tableInfo = getStructuralInfo();
 			if (tableInfo == null) {
 				value = reflectionUI.toString(itemPosition.getItem());
@@ -367,7 +356,7 @@ public class ListControl extends JPanel implements IFieldControl {
 	}
 
 	protected Image getCellIconImage(ItemNode node, int columnIndex) {
-		AutoUpdatingFieldItemPosition itemPosition = (AutoUpdatingFieldItemPosition) node.getUserObject();
+		AutoFieldValueUpdatingItemPosition itemPosition = (AutoFieldValueUpdatingItemPosition) node.getUserObject();
 		IListStructuralInfo tableInfo = getStructuralInfo();
 		if (tableInfo == null) {
 			Object item = itemPosition.getItem();
@@ -378,9 +367,10 @@ public class ListControl extends JPanel implements IFieldControl {
 	}
 
 	protected List<AbstractAction> createCurrentSelectionActions() {
+
 		List<AbstractAction> result = new ArrayList<AbstractAction>();
 
-		List<AutoUpdatingFieldItemPosition> selection = getSelection();
+		List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
 
 		for (IListAction listAction : getRootListType().getSpecificActions(object, field, selection)) {
 			result.add(createSpecificAction(listAction));
@@ -388,154 +378,89 @@ public class ListControl extends JPanel implements IFieldControl {
 
 		result.add(SEPARATOR_ACTION);
 
-		AutoUpdatingFieldItemPosition singleSelectedPosition = null;
-		AutoUpdatingFieldItemPosition singleSelectedPositionSubItemPosition = null;
-		if (selection.size() == 1) {
-			singleSelectedPosition = selection.get(0);
-			singleSelectedPositionSubItemPosition = getSubItemPosition(singleSelectedPosition);
-		}
-		boolean anySelectionItemContainingListReadOnly = false;
-		for (AutoUpdatingFieldItemPosition selectionItem : selection) {
-			if (selectionItem.isContainingListReadOnly()) {
-				anySelectionItemContainingListReadOnly = true;
-				break;
-			}
-		}
+		AbstractStandardListAction standardAction;
 
-		if (singleSelectedPosition != null) {
-			if (hasItemDetails(singleSelectedPosition)) {
-				result.add(createOpenItemAction());
-			}
+		standardAction = createOpenItemAction();
+		if (standardAction.isValid()) {
+			result.add(standardAction);
 		}
 
 		result.add(SEPARATOR_ACTION);
 
-		if (selection.size() == 0) {
-			if (!getRootListItemPosition().isContainingListReadOnly()) {
-				result.add(createAddChildAction());
-			}
-		} else if (singleSelectedPositionSubItemPosition != null) {
-			if (!singleSelectedPositionSubItemPosition.isContainingListReadOnly()) {
-				result.add(createAddChildAction());
-			}
+		standardAction = createAddChildAction();
+		if (standardAction.isValid()) {
+			result.add(standardAction);
 		}
 
-		if (singleSelectedPosition != null) {
-			if (!singleSelectedPosition.isContainingListReadOnly()) {
-				if (singleSelectedPosition.getContainingListType().isOrdered()) {
-					result.add(createInsertAction(InsertPosition.BEFORE));
-					result.add(createInsertAction(InsertPosition.AFTER));
-				} else {
-					result.add(createInsertAction(InsertPosition.UNKNOWN));
-				}
-			}
+		standardAction = createInsertAction(InsertPosition.BEFORE);
+		if (standardAction.isValid()) {
+			result.add(standardAction);
 		}
 
-		result.add(SEPARATOR_ACTION);
-
-		if (selection.size() > 0) {
-			boolean canCopyAllSelection = true;
-			for (AutoUpdatingFieldItemPosition selectionItem : selection) {
-				if (!reflectionUI.canCopy(selectionItem.getItem())) {
-					canCopyAllSelection = false;
-					break;
-				}
-			}
-			if (canCopyAllSelection) {
-				result.add(createCopyAction());
-				if (!anySelectionItemContainingListReadOnly) {
-					result.add(createCutAction());
-				}
-			}
+		standardAction = createInsertAction(InsertPosition.AFTER);
+		if (standardAction.isValid()) {
+			result.add(standardAction);
 		}
 
-		if (clipboard.size() > 0) {
-			if (selection.size() == 0) {
-				AutoUpdatingFieldItemPosition rootItemPosition = getRootListItemPosition();
-				if (!rootItemPosition.isContainingListReadOnly()) {
-					boolean rootItemPositionSupportsAllClipboardItems = true;
-					for (Object clipboardItem : clipboard) {
-						if (!rootItemPosition.supportsItem(clipboardItem)) {
-							rootItemPositionSupportsAllClipboardItems = false;
-							break;
-						}
-					}
-					if (rootItemPositionSupportsAllClipboardItems) {
-						if (rootItemPosition.getContainingListType().isOrdered()) {
-							result.add(createPasteAction(InsertPosition.BEFORE));
-							result.add(createPasteAction(InsertPosition.AFTER));
-						} else {
-							result.add(createPasteAction(InsertPosition.UNKNOWN));
-						}
-					}
-				}
-			} else if (singleSelectedPosition != null) {
-				if (!singleSelectedPosition.isContainingListReadOnly()) {
-					boolean selectedItemPositionSupportsAllClipboardItems = true;
-					for (Object clipboardItem : clipboard) {
-						if (!singleSelectedPosition.supportsItem(clipboardItem)) {
-							selectedItemPositionSupportsAllClipboardItems = false;
-							break;
-						}
-					}
-					if (selectedItemPositionSupportsAllClipboardItems) {
-						if (singleSelectedPosition.getContainingListType().isOrdered()) {
-							result.add(createPasteAction(InsertPosition.BEFORE));
-							result.add(createPasteAction(InsertPosition.AFTER));
-						} else {
-							result.add(createPasteAction(InsertPosition.UNKNOWN));
-						}
-					}
-					if (singleSelectedPositionSubItemPosition != null) {
-						if (!singleSelectedPositionSubItemPosition.isContainingListReadOnly()) {
-							boolean singleSelectedPositionSubItemPositionSupportsAllClipboardItems = true;
-							for (Object clipboardItem : clipboard) {
-								if (!singleSelectedPositionSubItemPosition.supportsItem(clipboardItem)) {
-									singleSelectedPositionSubItemPositionSupportsAllClipboardItems = false;
-									break;
-								}
-							}
-							if (singleSelectedPositionSubItemPositionSupportsAllClipboardItems) {
-								result.add(createPasteInAction());
-							}
-						}
-					}
-				}
-			}
+		standardAction = createInsertAction(InsertPosition.UNKNOWN);
+		if (standardAction.isValid()) {
+			result.add(standardAction);
 		}
 
 		result.add(SEPARATOR_ACTION);
 
-		if (selection.size() > 0) {
-			if (!anySelectionItemContainingListReadOnly) {
-				boolean allSelectionItemsInSameList = true;
-				AutoUpdatingFieldItemPosition firstSelectionItem = selection.get(0);
-				for (AutoUpdatingFieldItemPosition selectionItem : selection) {
-					if (!ReflectionUIUtils.equalsOrBothNull(firstSelectionItem.getParentItemPosition(),
-							selectionItem.getParentItemPosition())) {
-						allSelectionItemsInSameList = false;
-						break;
-					}
-				}
-				if (allSelectionItemsInSameList && firstSelectionItem.getContainingListType().isOrdered()) {
-					result.add(createMoveAction(-1));
-					result.add(createMoveAction(+1));
-				}
-			}
+		standardAction = createCopyAction();
+		if (standardAction.isValid()) {
+			result.add(standardAction);
+		}
+
+		standardAction = createCutAction();
+		if (standardAction.isValid()) {
+			result.add(standardAction);
+		}
+
+		standardAction = createPasteAction(InsertPosition.BEFORE);
+		if (standardAction.isValid()) {
+			result.add(standardAction);
+		}
+
+		standardAction = createPasteAction(InsertPosition.AFTER);
+		if (standardAction.isValid()) {
+			result.add(standardAction);
+		}
+
+		standardAction = createPasteAction(InsertPosition.UNKNOWN);
+		if (standardAction.isValid()) {
+			result.add(standardAction);
+		}
+
+		standardAction = createPasteIntoAction();
+		if (standardAction.isValid()) {
+			result.add(standardAction);
 		}
 
 		result.add(SEPARATOR_ACTION);
 
-		if (selection.size() > 0) {
-			if (!anySelectionItemContainingListReadOnly) {
-				result.add(createRemoveAction());
-			}
+		standardAction = createMoveAction(-1);
+		if (standardAction.isValid()) {
+			result.add(standardAction);
 		}
 
-		if (getRootList().size() > 0) {
-			if (!getRootListItemPosition().isContainingListReadOnly()) {
-				result.add(createClearAction());
-			}
+		standardAction = createMoveAction(1);
+		if (standardAction.isValid()) {
+			result.add(standardAction);
+		}
+
+		result.add(SEPARATOR_ACTION);
+
+		standardAction = createRemoveAction();
+		if (standardAction.isValid()) {
+			result.add(standardAction);
+		}
+
+		standardAction = createClearAction();
+		if (standardAction.isValid()) {
+			result.add(standardAction);
 		}
 
 		result = removeSeparatorsInExcess(result);
@@ -567,33 +492,99 @@ public class ListControl extends JPanel implements IFieldControl {
 		return result;
 	}
 
-	protected AutoUpdatingFieldItemPosition getSubItemPosition(AutoUpdatingFieldItemPosition itemPosition) {
+	protected boolean anySelectionItemContainingListReadOnly() {
+		boolean result = false;
+		List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
+		for (AutoFieldValueUpdatingItemPosition selectionItem : selection) {
+			if (selectionItem.isContainingListReadOnly()) {
+				result = true;
+				break;
+			}
+		}
+		return result;
+	}
+
+	protected boolean canCopyAllSelection() {
+		boolean result = true;
+		List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
+		for (AutoFieldValueUpdatingItemPosition selectionItem : selection) {
+			if (!reflectionUI.canCopy(selectionItem.getItem())) {
+				result = false;
+				break;
+			}
+		}
+		return result;
+	}
+
+	protected boolean allSelectionItemsInSameList() {
+		boolean result = true;
+		List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
+		AutoFieldValueUpdatingItemPosition firstSelectionItem = selection.get(0);
+		for (AutoFieldValueUpdatingItemPosition selectionItem : selection) {
+			if (!ReflectionUIUtils.equalsOrBothNull(firstSelectionItem.getParentItemPosition(),
+					selectionItem.getParentItemPosition())) {
+				result = false;
+				break;
+			}
+		}
+		return result;
+	}
+
+	protected boolean itemPositionSupportsAllClipboardItems(AutoFieldValueUpdatingItemPosition itemPosition) {
+		boolean result = true;
+		for (Object clipboardItem : clipboard) {
+			if (!itemPosition.supportsItem(clipboardItem)) {
+				result = false;
+				break;
+			}
+		}
+		return result;
+	}
+
+	protected AutoFieldValueUpdatingItemPosition getSubItemPosition(AutoFieldValueUpdatingItemPosition itemPosition) {
 		if (itemPosition.getItem() != null) {
 			IListStructuralInfo treeInfo = getStructuralInfo();
 			if (treeInfo != null) {
 				IFieldInfo subListField = treeInfo.getItemSubListField(itemPosition);
 				if (subListField != null) {
-					return new AutoUpdatingFieldItemPosition(subListField, itemPosition, -1);
+					return new AutoFieldValueUpdatingItemPosition(subListField, itemPosition, -1);
 				}
 			}
 		}
 		return null;
 	}
 
-	protected AbstractAction createClearAction() {
-		return new AbstractAction(reflectionUI.prepareUIString("Remove All")) {
+	protected AbstractStandardListAction createClearAction() {
+		return new AbstractStandardListAction() {
 			protected static final long serialVersionUID = 1L;
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					if (userConfirms("Remove all the items?")) {
-						getRootList().clear();
-						refreshStructure();
-					}
-				} catch (Throwable t) {
-					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(ListControl.this, t);
+			protected List<AutoFieldValueUpdatingItemPosition> run() {
+				if (userConfirms("Remove all the items?")) {
+					getRootList().clear();
+					refreshStructure();
 				}
+				return Collections.emptyList();
+			}
+
+			@Override
+			protected String getTitle() {
+				return "Remove All";
+			}
+
+			@Override
+			protected String getCompositeModificationTitle() {
+				return "Clear '" + field.getCaption() + "'";
+			}
+
+			@Override
+			public boolean isValid() {
+				if (getRootList().size() > 0) {
+					if (!getRootListItemPosition().isContainingListReadOnly()) {
+						return true;
+					}
+				}
+				return false;
 			}
 		};
 	}
@@ -603,47 +594,73 @@ public class ListControl extends JPanel implements IFieldControl {
 				question, null, "OK", "Cancel");
 	}
 
-	protected AbstractAction createMoveAction(final int offset) {
-		String label = (offset > 0) ? "Move Down" : "Move Up";
-		return new AbstractAction(reflectionUI.prepareUIString(label)) {
+	protected AbstractStandardListAction createMoveAction(final int offset) {
+		return new AbstractStandardListAction() {
 			protected static final long serialVersionUID = 1L;
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					List<AutoUpdatingFieldItemPosition> selection = getSelection();
-					if (offset > 0) {
-						selection = new ArrayList<AutoUpdatingFieldItemPosition>(selection);
-						Collections.reverse(selection);
-					}
-					for (AutoUpdatingFieldItemPosition itemPosition : selection) {
-						AutoUpdatingFieldList list = itemPosition.getContainingAutoUpdatingFieldList();
-						int index = itemPosition.getIndex();
-						if ((index + offset) < 0) {
-							return;
-						}
-						if ((index + offset) >= list.size()) {
-							return;
-						}
-					}
-					List<AutoUpdatingFieldItemPosition> newSelection = new ArrayList<ListControl.AutoUpdatingFieldItemPosition>();
-					for (AutoUpdatingFieldItemPosition itemPosition : selection) {
-						AutoUpdatingFieldList list = itemPosition.getContainingAutoUpdatingFieldList();
-						int index = itemPosition.getIndex();
-						list.move(index, offset);
-						newSelection.add(itemPosition.getSibling(index + offset));
-					}
-					refreshStructure();
-					setSelection(newSelection);
-				} catch (Throwable t) {
-					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(ListControl.this, t);
+			protected List<AutoFieldValueUpdatingItemPosition> run() {
+				List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
+				if (offset > 0) {
+					selection = new ArrayList<AutoFieldValueUpdatingItemPosition>(selection);
+					Collections.reverse(selection);
 				}
+				List<AutoFieldValueUpdatingItemPosition> newSelection = new ArrayList<ListControl.AutoFieldValueUpdatingItemPosition>();
+				for (AutoFieldValueUpdatingItemPosition itemPosition : selection) {
+					AutoFieldValueUpdatingList list = itemPosition.getContainingAutoUpdatingFieldList();
+					int index = itemPosition.getIndex();
+					list.move(index, offset);
+					newSelection.add(itemPosition.getSibling(index + offset));
+				}
+				return newSelection;
 			}
+
+			@Override
+			protected String getTitle() {
+				return (offset > 0) ? "Move Down" : "Move Up";
+			}
+
+			@Override
+			protected String getCompositeModificationTitle() {
+				return "Move '" + field.getCaption() + "' item(s)";
+			}
+
+			@Override
+			public boolean isValid() {
+				List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
+				if (selection.size() > 0) {
+					if (!anySelectionItemContainingListReadOnly()) {
+						if (allSelectionItemsInSameList()) {
+							if (selection.get(0).getContainingListType().isOrdered()) {
+								boolean canMoveAllItems = true;
+								for (AutoFieldValueUpdatingItemPosition itemPosition : selection) {
+									AutoFieldValueUpdatingList list = itemPosition.getContainingAutoUpdatingFieldList();
+									int index = itemPosition.getIndex();
+									if ((index + offset) < 0) {
+										canMoveAllItems = false;
+										break;
+									}
+									if ((index + offset) >= list.size()) {
+										canMoveAllItems = false;
+										break;
+									}
+								}
+								if (canMoveAllItems) {
+									return true;
+								}
+							}
+						}
+					}
+				}
+				return false;
+			}
+
 		};
+
 	}
 
-	public AutoUpdatingFieldItemPosition getSingleSelection() {
-		List<AutoUpdatingFieldItemPosition> selection = getSelection();
+	public AutoFieldValueUpdatingItemPosition getSingleSelection() {
+		List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
 		if ((selection.size() == 0) || (selection.size() > 1)) {
 			return null;
 		} else {
@@ -651,29 +668,30 @@ public class ListControl extends JPanel implements IFieldControl {
 		}
 	}
 
-	public List<AutoUpdatingFieldItemPosition> getSelection() {
-		List<AutoUpdatingFieldItemPosition> result = new ArrayList<ListControl.AutoUpdatingFieldItemPosition>();
+	public List<AutoFieldValueUpdatingItemPosition> getSelection() {
+		List<AutoFieldValueUpdatingItemPosition> result = new ArrayList<ListControl.AutoFieldValueUpdatingItemPosition>();
 		for (int selectedRow : treeTableComponent.getSelectedRows()) {
 			TreePath path = treeTableComponent.getPathForRow(selectedRow);
 			if (path == null) {
 				return null;
 			}
 			ItemNode selectedNode = (ItemNode) path.getLastPathComponent();
-			AutoUpdatingFieldItemPosition itemPosition = (AutoUpdatingFieldItemPosition) selectedNode.getUserObject();
+			AutoFieldValueUpdatingItemPosition itemPosition = (AutoFieldValueUpdatingItemPosition) selectedNode
+					.getUserObject();
 			result.add(itemPosition);
 		}
 		return result;
 	}
 
-	public void setSingleSelection(AutoUpdatingFieldItemPosition toSelect) {
+	public void setSingleSelection(AutoFieldValueUpdatingItemPosition toSelect) {
 		setSelection(Collections.singletonList(toSelect));
 	}
 
-	public AutoUpdatingFieldItemPosition findItemPosition(final Object item) {
-		final AutoUpdatingFieldItemPosition[] result = new AutoUpdatingFieldItemPosition[1];
+	public AutoFieldValueUpdatingItemPosition findItemPosition(final Object item) {
+		final AutoFieldValueUpdatingItemPosition[] result = new AutoFieldValueUpdatingItemPosition[1];
 		visitItems(new IItemsVisitor() {
 			@Override
-			public boolean visitItem(AutoUpdatingFieldItemPosition itemPosition) {
+			public boolean visitItem(AutoFieldValueUpdatingItemPosition itemPosition) {
 				if (reflectionUI.equals(itemPosition.getItem(), item)) {
 					result[0] = itemPosition;
 					return false;
@@ -684,21 +702,21 @@ public class ListControl extends JPanel implements IFieldControl {
 		return result[0];
 	}
 
-	public void setSelection(List<AutoUpdatingFieldItemPosition> toSelect) {
+	public void setSelection(List<AutoFieldValueUpdatingItemPosition> toSelect) {
 		List<TreePath> treePaths = new ArrayList<TreePath>();
 		for (int i = 0; i < toSelect.size(); i++) {
-			AutoUpdatingFieldItemPosition itemPosition = toSelect.get(i);
+			AutoFieldValueUpdatingItemPosition itemPosition = toSelect.get(i);
 			if (itemPosition == null) {
 				treeTableComponent.clearSelection();
 			} else {
 				ItemNode itemNode = findNode(itemPosition);
 				if (itemNode == null) {
-					AutoUpdatingFieldItemPosition parentItemPosition = itemPosition.getParentItemPosition();
+					AutoFieldValueUpdatingItemPosition parentItemPosition = itemPosition.getParentItemPosition();
 					if (parentItemPosition == null) {
 						treeTableComponent.clearSelection();
 						return;
 					}
-					toSelect = new ArrayList<ListControl.AutoUpdatingFieldItemPosition>(toSelect);
+					toSelect = new ArrayList<ListControl.AutoFieldValueUpdatingItemPosition>(toSelect);
 					toSelect.set(i, parentItemPosition);
 					setSelection(toSelect);
 					return;
@@ -714,7 +732,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		updateToolbar();
 	}
 
-	protected ItemNode findNode(AutoUpdatingFieldItemPosition itemPosition) {
+	protected ItemNode findNode(AutoFieldValueUpdatingItemPosition itemPosition) {
 		ItemNode parentNode;
 		if (itemPosition.isRootListItemPosition()) {
 			parentNode = rootNode;
@@ -734,83 +752,79 @@ public class ListControl extends JPanel implements IFieldControl {
 		return result;
 	}
 
-	protected AbstractAction createRemoveAction() {
-		return new AbstractAction(reflectionUI.prepareUIString("Remove")) {
+	protected AbstractStandardListAction createRemoveAction() {
+		return new AbstractStandardListAction() {
 			protected static final long serialVersionUID = 1L;
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					if (userConfirms("Remove the element(s)?")) {
-						List<AutoUpdatingFieldItemPosition> selection = getSelection();
-						selection = new ArrayList<AutoUpdatingFieldItemPosition>(selection);
-						Collections.reverse(selection);
-						List<AutoUpdatingFieldItemPosition> toPostSelect = new ArrayList<ListControl.AutoUpdatingFieldItemPosition>();
-						if (selection.size() > 1) {
-							beginCompositeModification(false);
+			protected List<AutoFieldValueUpdatingItemPosition> run() {
+				if (userConfirms("Remove the element(s)?")) {
+					List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
+					selection = new ArrayList<AutoFieldValueUpdatingItemPosition>(selection);
+					Collections.reverse(selection);
+					List<AutoFieldValueUpdatingItemPosition> toPostSelect = new ArrayList<ListControl.AutoFieldValueUpdatingItemPosition>();
+					for (AutoFieldValueUpdatingItemPosition itemPosition : selection) {
+						if (itemPosition == null) {
+							return null;
 						}
-						for (AutoUpdatingFieldItemPosition itemPosition : selection) {
-							if (itemPosition == null) {
-								return;
-							}
-							AutoUpdatingFieldList list = itemPosition.getContainingAutoUpdatingFieldList();
-							int index = itemPosition.getIndex();
-							list.remove(index);
-							updateOnItemRemoval(toPostSelect, itemPosition);
-							if (itemPosition.getContainingListType().isOrdered() && (index > 0)) {
-								toPostSelect.add(itemPosition.getSibling(index - 1));
-							} else {
-								toPostSelect.add(itemPosition.getParentItemPosition());
-							}
+						AutoFieldValueUpdatingList list = itemPosition.getContainingAutoUpdatingFieldList();
+						int index = itemPosition.getIndex();
+						list.remove(index);
+						updateOnItemRemoval(toPostSelect, itemPosition);
+						if (itemPosition.getContainingListType().isOrdered() && (index > 0)) {
+							toPostSelect.add(itemPosition.getSibling(index - 1));
+						} else {
+							toPostSelect.add(itemPosition.getParentItemPosition());
 						}
-						if (selection.size() > 1) {
-							endCompositeModification("Remove " + selection.size() + " elements", false, UndoOrder.LIFO);
-						}
-						refreshStructure();
-						setSelection(toPostSelect);
 					}
-				} catch (Throwable t) {
-					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(ListControl.this, t);
+					return toPostSelect;
+				} else {
+					return null;
 				}
+			}
+
+			@Override
+			protected String getTitle() {
+				return "Remove";
+			}
+
+			@Override
+			protected String getCompositeModificationTitle() {
+				return "Remove '" + field.getCaption() + "' item(s)";
+			}
+
+			@Override
+			public boolean isValid() {
+				List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
+				if (selection.size() > 0) {
+					if (!anySelectionItemContainingListReadOnly()) {
+						return true;
+					}
+				}
+				return false;
 			}
 		};
 	}
 
-	protected void updateOnItemRemoval(List<AutoUpdatingFieldItemPosition> toUpdate,
-			AutoUpdatingFieldItemPosition itemPosition) {
+	protected void updateOnItemRemoval(List<AutoFieldValueUpdatingItemPosition> toUpdate,
+			AutoFieldValueUpdatingItemPosition itemPosition) {
 		for (int i = 0; i < toUpdate.size(); i++) {
-			AutoUpdatingFieldItemPosition toUpdateItem = toUpdate.get(i);
+			AutoFieldValueUpdatingItemPosition toUpdateItem = toUpdate.get(i);
 			if (toUpdateItem.equals(itemPosition) || toUpdateItem.getAncestors().contains(itemPosition)) {
 				toUpdate.remove(i);
 				i--;
 			} else if (toUpdateItem.getPreviousSiblings().contains(itemPosition)) {
-				toUpdate.set(i, new AutoUpdatingFieldItemPosition(toUpdateItem.getContainingListField(),
+				toUpdate.set(i, new AutoFieldValueUpdatingItemPosition(toUpdateItem.getContainingListField(),
 						toUpdateItem.getParentItemPosition(), toUpdateItem.getIndex() - 1));
 			}
 		}
 	}
 
-	protected void beginCompositeModification(boolean restoreSelection) {
-		ModificationStack modifStack = getParentFormModificationStack();
-		modifStack.beginComposite();
-		if (restoreSelection) {
-			modifStack.pushUndo(new ChangeListSelectionModification(getSelection(), getSelection()));
-		}
-	}
-
-	protected void endCompositeModification(String title, boolean restoreSelection, UndoOrder order) {
-		ModificationStack modifStack = getParentFormModificationStack();
-		if (restoreSelection) {
-			modifStack.pushUndo(new ChangeListSelectionModification(getSelection(), getSelection()));
-		}
-		modifStack.endComposite(title, order);
-	}
-
-	protected class GhostItemPosition extends AutoUpdatingFieldItemPosition {
+	protected class GhostItemPosition extends AutoFieldValueUpdatingItemPosition {
 
 		protected Object item;
 
-		public GhostItemPosition(AutoUpdatingFieldItemPosition itemPosition, Object item) {
+		public GhostItemPosition(AutoFieldValueUpdatingItemPosition itemPosition, Object item) {
 			super(itemPosition.getContainingListField(), itemPosition.getParentItemPosition(), itemPosition.getIndex());
 			this.item = item;
 		}
@@ -821,8 +835,8 @@ public class ListControl extends JPanel implements IFieldControl {
 		}
 
 		@Override
-		public AutoUpdatingFieldList getContainingAutoUpdatingFieldList() {
-			return new AutoUpdatingFieldList(this) {
+		public AutoFieldValueUpdatingList getContainingAutoUpdatingFieldList() {
+			return new AutoFieldValueUpdatingList(this) {
 
 				@Override
 				public Object get(int index) {
@@ -849,144 +863,211 @@ public class ListControl extends JPanel implements IFieldControl {
 
 	}
 
-	protected AbstractAction createInsertAction(final InsertPosition insertPosition) {
-		final AutoUpdatingFieldItemPosition itemPosition;
-		AutoUpdatingFieldItemPosition singleSelection = getSingleSelection();
-		final int index;
-		if (singleSelection == null) {
-			index = getRootList().size();
-			itemPosition = new AutoUpdatingFieldItemPosition(field, null, index);
-		} else {
-			if (insertPosition == InsertPosition.AFTER) {
-				index = singleSelection.getIndex() + 1;
-			} else {
-				index = singleSelection.getIndex();
-			}
-			itemPosition = singleSelection.getSibling(index);
-		}
-		final IListTypeInfo listType = itemPosition.getContainingListType();
-		final ITypeInfo itemType = listType.getItemType();
-
-		String buttonText = "Insert";
-		{
-			if (itemType != null) {
-				buttonText += " " + itemType.getCaption();
-			}
-			if (listType.isOrdered()) {
-				if (insertPosition == InsertPosition.AFTER) {
-					buttonText += " After";
-				} else if (insertPosition == InsertPosition.BEFORE) {
-					buttonText += " Before";
-				}
-			} else {
-				if (insertPosition == InsertPosition.AFTER) {
-					return null;
-				} else if (insertPosition == InsertPosition.BEFORE) {
-					return null;
-				}
-			}
-			buttonText += " ...";
-		}
-		return new AbstractAction(reflectionUI.prepareUIString(buttonText)) {
+	protected AbstractStandardListAction createInsertAction(final InsertPosition insertPosition) {
+		return new AbstractStandardListAction() {
 			protected static final long serialVersionUID = 1L;
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					ITypeInfo typeToInstanciate = itemType;
-					if (typeToInstanciate == null) {
-						typeToInstanciate = reflectionUI.getTypeInfo(new JavaTypeInfoSource(Object.class));
-					}
-					typeToInstanciate = addSpecificItemContructors(typeToInstanciate, itemPosition);
-					Object newItem = reflectionUI.getSwingRenderer().onTypeInstanciationRequest(ListControl.this,
-							typeToInstanciate, false);
-					if (newItem == null) {
-						return;
-					}
-					GhostItemPosition futureItemPosition = new GhostItemPosition(itemPosition, newItem);
-					if (openDetailsDialog(futureItemPosition, new boolean[1], false)) {
-						newItem = futureItemPosition.getItem();
-						AutoUpdatingFieldList list = itemPosition.getContainingAutoUpdatingFieldList();
-						list.add(index, newItem);
-						refreshStructure();
-						AutoUpdatingFieldItemPosition toSelect = itemPosition;
-						if (!listType.isOrdered()) {
-							int indexToSelect = list.indexOf(newItem);
-							toSelect = itemPosition.getSibling(indexToSelect);
-						}
-						setSingleSelection(toSelect);
-					}
-				} catch (Throwable t) {
-					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(ListControl.this, t);
+			protected List<AutoFieldValueUpdatingItemPosition> run() {
+				AutoFieldValueUpdatingItemPosition newItemPosition = getNewItemPosition();
+				IListTypeInfo listType = newItemPosition.getContainingListType();
+				ITypeInfo itemType = listType.getItemType();
+				ITypeInfo typeToInstanciate = itemType;
+				if (typeToInstanciate == null) {
+					typeToInstanciate = reflectionUI.getTypeInfo(new JavaTypeInfoSource(Object.class));
 				}
+				typeToInstanciate = addSpecificItemContructors(typeToInstanciate, newItemPosition);
+				Object newItem = reflectionUI.getSwingRenderer().onTypeInstanciationRequest(ListControl.this,
+						typeToInstanciate, false);
+				if (newItem == null) {
+					return null;
+				}
+				GhostItemPosition futureItemPosition = new GhostItemPosition(newItemPosition, newItem);
+				if (openDetailsDialog(futureItemPosition, new boolean[1], null)) {
+					newItem = futureItemPosition.getItem();
+					AutoFieldValueUpdatingList list = newItemPosition.getContainingAutoUpdatingFieldList();
+					list.add(newItemPosition.getIndex(), newItem);
+					refreshStructure();
+					AutoFieldValueUpdatingItemPosition toSelect = newItemPosition;
+					if (!listType.isOrdered()) {
+						int indexToSelect = list.indexOf(newItem);
+						toSelect = newItemPosition.getSibling(indexToSelect);
+					}
+					return Collections.singletonList(toSelect);
+				} else {
+					return null;
+				}
+			}
+
+			@Override
+			protected String getTitle() {
+				AutoFieldValueUpdatingItemPosition newItemPosition = getNewItemPosition();
+				IListTypeInfo listType = newItemPosition.getContainingListType();
+				ITypeInfo itemType = listType.getItemType();
+
+				String buttonText = "Insert";
+				{
+					if (itemType != null) {
+						buttonText += " " + itemType.getCaption();
+					}
+					if (listType.isOrdered()) {
+						if (insertPosition == InsertPosition.AFTER) {
+							buttonText += " After";
+						} else if (insertPosition == InsertPosition.BEFORE) {
+							buttonText += " Before";
+						}
+					} else {
+						if (insertPosition == InsertPosition.AFTER) {
+							return null;
+						} else if (insertPosition == InsertPosition.BEFORE) {
+							return null;
+						}
+					}
+					buttonText += " ...";
+				}
+				return buttonText;
+			}
+
+			private AutoFieldValueUpdatingItemPosition getNewItemPosition() {
+				AutoFieldValueUpdatingItemPosition singleSelection = getSingleSelection();
+				final int index;
+				if (singleSelection == null) {
+					index = getRootList().size();
+					return new AutoFieldValueUpdatingItemPosition(field, null, index);
+				} else {
+					if (insertPosition == InsertPosition.AFTER) {
+						index = singleSelection.getIndex() + 1;
+					} else {
+						index = singleSelection.getIndex();
+					}
+					return singleSelection.getSibling(index);
+				}
+			}
+
+			@Override
+			protected String getCompositeModificationTitle() {
+				return "Insert item into '" + field.getCaption() + "'";
+			}
+
+			@Override
+			public boolean isValid() {
+				AutoFieldValueUpdatingItemPosition singleSelection = getSingleSelection();
+				if (singleSelection != null) {
+					if (insertPosition == InsertPosition.BEFORE) {
+						if (!singleSelection.isContainingListReadOnly()) {
+							if (singleSelection.getContainingListType().isOrdered()) {
+								return true;
+							}
+						}
+					}
+					if (insertPosition == InsertPosition.AFTER) {
+						if (!singleSelection.isContainingListReadOnly()) {
+							if (singleSelection.getContainingListType().isOrdered()) {
+								return true;
+							}
+						}
+					}
+					if (insertPosition == InsertPosition.UNKNOWN) {
+						if (!singleSelection.isContainingListReadOnly()) {
+							if (!singleSelection.getContainingListType().isOrdered()) {
+								return true;
+							}
+						}
+					}
+				}
+				return false;
 			}
 		};
 	}
 
-	protected AbstractAction createAddChildAction() {
-		final AutoUpdatingFieldItemPosition itemPosition = getSingleSelection();
-		final AutoUpdatingFieldItemPosition subItemPosition;
-		if (itemPosition == null) {
-			subItemPosition = getRootListItemPosition();
-		} else {
-			subItemPosition = getSubItemPosition(itemPosition);
-		}
-		if (subItemPosition == null) {
-			return null;
-		}
-		final IListTypeInfo subListType = subItemPosition.getContainingListType();
-		final ITypeInfo subListItemType = subListType.getItemType();
-		String title = "Add";
-		if (subItemPosition.getDepth() > 0) {
-			title += " Child";
-		}
-		if (subListItemType != null) {
-			title += " " + subListItemType.getCaption();
-		}
-		title += "...";
-		return new AbstractAction(reflectionUI.prepareUIString(title)) {
+	protected AbstractStandardListAction createAddChildAction() {
+		return new AbstractStandardListAction() {
 
-			protected static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					ITypeInfo typeToInstanciate = subListItemType;
-					if (typeToInstanciate == null) {
-						typeToInstanciate = new DefaultTypeInfo(reflectionUI, Object.class);
-					}
-					typeToInstanciate = addSpecificItemContructors(typeToInstanciate, subItemPosition);
-					Object newSubListItem = reflectionUI.getSwingRenderer().onTypeInstanciationRequest(ListControl.this,
-							typeToInstanciate, false);
-					if (newSubListItem == null) {
-						return;
-					}
-
-					GhostItemPosition futureSubItemPosition = new GhostItemPosition(subItemPosition, newSubListItem);
-					if (openDetailsDialog(futureSubItemPosition, new boolean[1], false)) {
-						newSubListItem = futureSubItemPosition.getItem();
-						AutoUpdatingFieldList subList = new AutoUpdatingFieldItemPosition(
-								subItemPosition.getContainingListField(), itemPosition, -1)
-										.getContainingAutoUpdatingFieldList();
-						int newSubListItemIndex = subList.size();
-						subList.add(newSubListItemIndex, newSubListItem);
-						refreshStructure();
-						if (!subListType.isOrdered()) {
-							newSubListItemIndex = subList.indexOf(newSubListItem);
-						}
-						AutoUpdatingFieldItemPosition toSelect = subItemPosition.getSibling(newSubListItemIndex);
-						setSingleSelection(toSelect);
-					}
-				} catch (Throwable t) {
-					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(ListControl.this, t);
+			protected List<AutoFieldValueUpdatingItemPosition> run() {
+				AutoFieldValueUpdatingItemPosition itemPosition = getSingleSelection();
+				AutoFieldValueUpdatingItemPosition subItemPosition = getSubItemPosition();
+				IListTypeInfo subListType = subItemPosition.getContainingListType();
+				ITypeInfo subListItemType = subListType.getItemType();
+				ITypeInfo typeToInstanciate = subListItemType;
+				if (typeToInstanciate == null) {
+					typeToInstanciate = new DefaultTypeInfo(reflectionUI, Object.class);
 				}
+				typeToInstanciate = addSpecificItemContructors(typeToInstanciate, subItemPosition);
+				Object newSubListItem = reflectionUI.getSwingRenderer().onTypeInstanciationRequest(ListControl.this,
+						typeToInstanciate, false);
+				if (newSubListItem == null) {
+					return null;
+				}
+				GhostItemPosition futureSubItemPosition = new GhostItemPosition(subItemPosition, newSubListItem);
+				if (openDetailsDialog(futureSubItemPosition, new boolean[1], null)) {
+					newSubListItem = futureSubItemPosition.getItem();
+					AutoFieldValueUpdatingList subList = new AutoFieldValueUpdatingItemPosition(
+							subItemPosition.getContainingListField(), itemPosition, -1)
+									.getContainingAutoUpdatingFieldList();
+					int newSubListItemIndex = subList.size();
+					subList.add(newSubListItemIndex, newSubListItem);
+					refreshStructure();
+					if (!subListType.isOrdered()) {
+						newSubListItemIndex = subList.indexOf(newSubListItem);
+					}
+					AutoFieldValueUpdatingItemPosition toSelect = subItemPosition.getSibling(newSubListItemIndex);
+					return Collections.singletonList(toSelect);
+				}
+				return null;
+			}
+
+			@Override
+			public boolean isValid() {
+				AutoFieldValueUpdatingItemPosition subItemPosition = getSubItemPosition();
+				if (subItemPosition == null) {
+					return false;
+				}
+				if (subItemPosition.isContainingListReadOnly()) {
+					return false;
+				}
+				return true;
+			}
+
+			private AutoFieldValueUpdatingItemPosition getSubItemPosition() {
+				AutoFieldValueUpdatingItemPosition itemPosition = getSingleSelection();
+				AutoFieldValueUpdatingItemPosition subItemPosition;
+				if (itemPosition == null) {
+					subItemPosition = getRootListItemPosition();
+				} else {
+					subItemPosition = ListControl.this.getSubItemPosition(itemPosition);
+				}
+				return subItemPosition;
+			}
+
+			@Override
+			protected String getTitle() {
+				AutoFieldValueUpdatingItemPosition subItemPosition = getSubItemPosition();
+				final IListTypeInfo subListType = subItemPosition.getContainingListType();
+				final ITypeInfo subListItemType = subListType.getItemType();
+				String title = "Add";
+				if (subItemPosition.getDepth() > 0) {
+					title += " Child";
+				}
+				if (subListItemType != null) {
+					title += " " + subListItemType.getCaption();
+				}
+				title += "...";
+				return title;
+			}
+
+			@Override
+			protected String getCompositeModificationTitle() {
+				return "Add item into '" + field.getCaption() + "'";
 			}
 
 		};
 	}
 
 	protected ITypeInfo addSpecificItemContructors(ITypeInfo itemType,
-			final AutoUpdatingFieldItemPosition newItemPosition) {
+			final AutoFieldValueUpdatingItemPosition newItemPosition) {
 		return new TypeInfoProxyConfiguration() {
 
 			@Override
@@ -1008,167 +1089,261 @@ public class ListControl extends JPanel implements IFieldControl {
 		}.get(itemType);
 	}
 
-	protected AbstractAction createCopyAction() {
-		return new AbstractAction(reflectionUI.prepareUIString("Copy")) {
+	protected AbstractStandardListAction createCopyAction() {
+		return new AbstractStandardListAction() {
 			protected static final long serialVersionUID = 1L;
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					clipboard.clear();
-					List<AutoUpdatingFieldItemPosition> selection = getSelection();
-					for (AutoUpdatingFieldItemPosition itemPosition : selection) {
-						if (itemPosition == null) {
-							return;
-						}
-						clipboard.add(reflectionUI.copy(itemPosition.getItem()));
-					}
-				} catch (Throwable t) {
-					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(ListControl.this, t);
-				}
-			}
-		};
-	}
-
-	protected AbstractAction createCutAction() {
-		return new AbstractAction(reflectionUI.prepareUIString("Cut")) {
-
-			protected static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					clipboard.clear();
-					List<AutoUpdatingFieldItemPosition> selection = getSelection();
-					selection = new ArrayList<AutoUpdatingFieldItemPosition>(selection);
-					Collections.reverse(selection);
-					List<AutoUpdatingFieldItemPosition> toPostSelect = new ArrayList<ListControl.AutoUpdatingFieldItemPosition>();
-					if (selection.size() > 1) {
-						beginCompositeModification(false);
-					}
-					for (AutoUpdatingFieldItemPosition itemPosition : selection) {
-						if (itemPosition == null) {
-							return;
-						}
-						clipboard.add(0, reflectionUI.copy(itemPosition.getItem()));
-						AutoUpdatingFieldList list = itemPosition.getContainingAutoUpdatingFieldList();
-						int index = itemPosition.getIndex();
-						list.remove(index);
-						updateOnItemRemoval(toPostSelect, itemPosition);
-						if (itemPosition.getContainingListType().isOrdered() && (index > 0)) {
-							toPostSelect.add(itemPosition.getSibling(index - 1));
-						} else {
-							toPostSelect.add(itemPosition.getParentItemPosition());
-						}
-					}
-					if (selection.size() > 1) {
-						endCompositeModification("Cut " + selection.size() + " elements", false, UndoOrder.LIFO);
-					}
-					refreshStructure();
-					setSelection(toPostSelect);
-				} catch (Throwable t) {
-					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(ListControl.this, t);
-				}
-			}
-		};
-	}
-
-	protected AbstractAction createPasteAction(final InsertPosition insertPosition) {
-		String buttonText;
-		if (insertPosition == InsertPosition.AFTER) {
-			buttonText = "Paste After";
-		} else if (insertPosition == InsertPosition.BEFORE) {
-			buttonText = "Paste Before";
-		} else {
-			buttonText = "Paste";
-		}
-		return new AbstractAction(reflectionUI.prepareUIString(buttonText)) {
-
-			protected static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					AutoUpdatingFieldItemPosition itemPosition = getSingleSelection();
-					int index;
+			protected List<AutoFieldValueUpdatingItemPosition> run() {
+				clipboard.clear();
+				List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
+				for (AutoFieldValueUpdatingItemPosition itemPosition : selection) {
 					if (itemPosition == null) {
-						index = getRootList().size();
-						itemPosition = new AutoUpdatingFieldItemPosition(field, null, index);
+						return null;
+					}
+					clipboard.add(reflectionUI.copy(itemPosition.getItem()));
+				}
+				return null;
+			}
+
+			@Override
+			protected String getTitle() {
+				return "Copy";
+			}
+
+			@Override
+			protected String getCompositeModificationTitle() {
+				return null;
+			}
+
+			@Override
+			public boolean isValid() {
+				List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
+				if (selection.size() > 0) {
+					if (canCopyAllSelection()) {
+						return true;
+					}
+				}
+				return false;
+			}
+
+		};
+	}
+
+	protected AbstractStandardListAction createCutAction() {
+		return new AbstractStandardListAction() {
+
+			protected static final long serialVersionUID = 1L;
+
+			@Override
+			protected List<AutoFieldValueUpdatingItemPosition> run() {
+				clipboard.clear();
+				List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
+				selection = new ArrayList<AutoFieldValueUpdatingItemPosition>(selection);
+				Collections.reverse(selection);
+				List<AutoFieldValueUpdatingItemPosition> toPostSelect = new ArrayList<ListControl.AutoFieldValueUpdatingItemPosition>();
+				for (AutoFieldValueUpdatingItemPosition itemPosition : selection) {
+					if (itemPosition == null) {
+						return null;
+					}
+					clipboard.add(0, reflectionUI.copy(itemPosition.getItem()));
+					AutoFieldValueUpdatingList list = itemPosition.getContainingAutoUpdatingFieldList();
+					int index = itemPosition.getIndex();
+					list.remove(index);
+					updateOnItemRemoval(toPostSelect, itemPosition);
+					if (itemPosition.getContainingListType().isOrdered() && (index > 0)) {
+						toPostSelect.add(itemPosition.getSibling(index - 1));
 					} else {
-						index = itemPosition.getIndex();
-						if (insertPosition == InsertPosition.AFTER) {
-							index++;
-						}
+						toPostSelect.add(itemPosition.getParentItemPosition());
 					}
-					int initialIndex = index;
-					AutoUpdatingFieldList list = itemPosition.getContainingAutoUpdatingFieldList();
-					for (Object clipboardItyem : clipboard) {
-						list.add(index, clipboardItyem);
-						index++;
-					}
-					refreshStructure();
-					List<AutoUpdatingFieldItemPosition> toPostSelect = new ArrayList<ListControl.AutoUpdatingFieldItemPosition>();
-					IListTypeInfo listType = itemPosition.getContainingListType();
-					index = initialIndex;
-					for (int i = 0; i < clipboard.size(); i++) {
-						Object clipboardItem = clipboard.get(i);
-						if (listType.isOrdered()) {
-							index = initialIndex + i;
-						} else {
-							index = list.indexOf(clipboardItem);
-						}
-						if (index != -1) {
-							toPostSelect.add(itemPosition.getSibling(index));
-						}
-					}
-					setSelection(toPostSelect);
-				} catch (Throwable t) {
-					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(ListControl.this, t);
 				}
+				return toPostSelect;
 			}
+
+			@Override
+			protected String getTitle() {
+				return "Cut";
+			}
+
+			@Override
+			protected String getCompositeModificationTitle() {
+				return "Cut '" + field.getCaption() + "' item(s)";
+			}
+
+			@Override
+			public boolean isValid() {
+				List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
+				if (selection.size() > 0) {
+					if (canCopyAllSelection()) {
+						if (!anySelectionItemContainingListReadOnly()) {
+							return true;
+						}
+					}
+				}
+				return false;
+			}
+
 		};
 	}
 
-	protected AbstractAction createPasteInAction() {
-		return new AbstractAction(reflectionUI.prepareUIString("Paste")) {
+	protected AbstractStandardListAction createPasteAction(final InsertPosition insertPosition) {
+		return new AbstractStandardListAction() {
 
 			protected static final long serialVersionUID = 1L;
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					AutoUpdatingFieldItemPosition itemPosition = getSingleSelection();
-					if (itemPosition == null) {
-						return;
-					}
-					AutoUpdatingFieldItemPosition subItemPosition = getSubItemPosition(itemPosition);
-					AutoUpdatingFieldList subList = subItemPosition.getContainingAutoUpdatingFieldList();
-					int newSubListItemIndex = subList.size();
-					int newSubListItemInitialIndex = newSubListItemIndex;
-					subItemPosition = subItemPosition.getSibling(newSubListItemIndex);
-					for (Object clipboardItem : clipboard) {
-						subList.add(newSubListItemIndex, clipboardItem);
-						newSubListItemIndex++;
-					}
-					refreshStructure();
-					List<AutoUpdatingFieldItemPosition> toPostSelect = new ArrayList<ListControl.AutoUpdatingFieldItemPosition>();
-					IListTypeInfo subListType = subItemPosition.getContainingListType();
-					newSubListItemIndex = newSubListItemInitialIndex;
-					for (int i = 0; i < clipboard.size(); i++) {
-						Object clipboardItem = clipboard.get(i);
-						if (subListType.isOrdered()) {
-							newSubListItemInitialIndex = newSubListItemInitialIndex + i;
-						} else {
-							newSubListItemInitialIndex = subList.indexOf(clipboardItem);
-						}
-						if (newSubListItemInitialIndex != -1) {
-							toPostSelect.add(subItemPosition.getSibling(newSubListItemInitialIndex));
-						}
-					}
-					setSelection(toPostSelect);
-				} catch (Throwable t) {
-					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(ListControl.this, t);
+			protected List<AutoFieldValueUpdatingItemPosition> run() {
+				AutoFieldValueUpdatingItemPosition newItemPosition = getNewItemPosition();
+				int index = newItemPosition.getIndex();
+				int initialIndex = index;
+				AutoFieldValueUpdatingList list = newItemPosition.getContainingAutoUpdatingFieldList();
+				for (Object clipboardItyem : clipboard) {
+					list.add(index, clipboardItyem);
+					index++;
 				}
+				refreshStructure();
+				List<AutoFieldValueUpdatingItemPosition> toPostSelect = new ArrayList<ListControl.AutoFieldValueUpdatingItemPosition>();
+				IListTypeInfo listType = newItemPosition.getContainingListType();
+				index = initialIndex;
+				for (int i = 0; i < clipboard.size(); i++) {
+					Object clipboardItem = clipboard.get(i);
+					if (listType.isOrdered()) {
+						index = initialIndex + i;
+					} else {
+						index = list.indexOf(clipboardItem);
+					}
+					if (index != -1) {
+						toPostSelect.add(newItemPosition.getSibling(index));
+					}
+				}
+				return toPostSelect;
+			}
+
+			private AutoFieldValueUpdatingItemPosition getNewItemPosition() {
+				List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
+				if (selection.size() == 0) {
+					int index = getRootList().size();
+					return getRootListItemPosition().getSibling(index);
+				} else if (selection.size() == 1) {
+					AutoFieldValueUpdatingItemPosition singleSelection = selection.get(0);
+					int index = singleSelection.getIndex();
+					return singleSelection.getSibling(index + 1);
+				} else {
+					return null;
+				}
+			}
+
+			@Override
+			protected String getTitle() {
+				String result;
+				if (insertPosition == InsertPosition.AFTER) {
+					result = "Paste After";
+				} else if (insertPosition == InsertPosition.BEFORE) {
+					result = "Paste Before";
+				} else {
+					result = "Paste";
+				}
+				return result;
+			}
+
+			@Override
+			protected String getCompositeModificationTitle() {
+				return "Paste item(s) into '" + field.getCaption() + "'";
+			}
+
+			@Override
+			public boolean isValid() {
+				if (clipboard.size() > 0) {
+					AutoFieldValueUpdatingItemPosition newItemPosition = getNewItemPosition();
+					if (newItemPosition != null) {
+						if (!newItemPosition.isContainingListReadOnly()) {
+							if (itemPositionSupportsAllClipboardItems(newItemPosition)) {
+								if (newItemPosition.getContainingListType().isOrdered()) {
+									if (insertPosition == InsertPosition.BEFORE) {
+										return true;
+									}
+									if (insertPosition == InsertPosition.AFTER) {
+										return true;
+									}
+								} else {
+									if (insertPosition == InsertPosition.UNKNOWN) {
+										return true;
+									}
+								}
+							}
+						}
+					}
+				}
+				return false;
+			}
+		};
+	}
+
+	protected AbstractStandardListAction createPasteIntoAction() {
+		return new AbstractStandardListAction() {
+
+			protected static final long serialVersionUID = 1L;
+
+			@Override
+			protected List<AutoFieldValueUpdatingItemPosition> run() {
+				AutoFieldValueUpdatingItemPosition subItemPosition = getNewItemPosition();
+				AutoFieldValueUpdatingList subList = subItemPosition.getContainingAutoUpdatingFieldList();
+				int newSubListItemIndex = subList.size();
+				int newSubListItemInitialIndex = newSubListItemIndex;
+				subItemPosition = subItemPosition.getSibling(newSubListItemIndex);
+				for (Object clipboardItem : clipboard) {
+					subList.add(newSubListItemIndex, clipboardItem);
+					newSubListItemIndex++;
+				}
+				refreshStructure();
+				List<AutoFieldValueUpdatingItemPosition> toPostSelect = new ArrayList<ListControl.AutoFieldValueUpdatingItemPosition>();
+				IListTypeInfo subListType = subItemPosition.getContainingListType();
+				newSubListItemIndex = newSubListItemInitialIndex;
+				for (int i = 0; i < clipboard.size(); i++) {
+					Object clipboardItem = clipboard.get(i);
+					if (subListType.isOrdered()) {
+						newSubListItemInitialIndex = newSubListItemInitialIndex + i;
+					} else {
+						newSubListItemInitialIndex = subList.indexOf(clipboardItem);
+					}
+					if (newSubListItemInitialIndex != -1) {
+						toPostSelect.add(subItemPosition.getSibling(newSubListItemInitialIndex));
+					}
+				}
+				return toPostSelect;
+			}
+
+			private AutoFieldValueUpdatingItemPosition getNewItemPosition() {
+				AutoFieldValueUpdatingItemPosition itemPosition = getSingleSelection();
+				if (itemPosition == null) {
+					return null;
+				}
+				return getSubItemPosition(itemPosition);
+			}
+
+			@Override
+			protected String getTitle() {
+				return "Paste";
+			}
+
+			@Override
+			protected String getCompositeModificationTitle() {
+				return "Paste item(s) into '" + field.getCaption() + "'";
+			}
+
+			@Override
+			protected boolean isValid() {
+				if (clipboard.size() > 0) {
+					AutoFieldValueUpdatingItemPosition newItemPosition = getNewItemPosition();
+					if (newItemPosition != null) {
+						if (!newItemPosition.isContainingListReadOnly()) {
+							if (itemPositionSupportsAllClipboardItems(newItemPosition)) {
+								return true;
+							}
+						}
+					}
+				}
+				return false;
 			}
 		};
 	}
@@ -1182,7 +1357,7 @@ public class ListControl extends JPanel implements IFieldControl {
 	}
 
 	protected AbstractAction createSpecificAction(final IListAction action) {
-		return new AbstractAction(reflectionUI.prepareUIString(action.getTitle())) {
+		return new AbstractAction(reflectionUI.prepareStringToDisplay(action.getTitle())) {
 			protected static final long serialVersionUID = 1L;
 
 			@Override
@@ -1201,21 +1376,39 @@ public class ListControl extends JPanel implements IFieldControl {
 		};
 	}
 
-	protected AbstractAction createOpenItemAction() {
-		return new AbstractAction(reflectionUI.prepareUIString("Open")) {
+	protected AbstractStandardListAction createOpenItemAction() {
+		return new AbstractStandardListAction() {
 			protected static final long serialVersionUID = 1L;
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					AutoUpdatingFieldItemPosition itemPosition = getSingleSelection();
-					if (itemPosition == null) {
-						return;
-					}
-					onOpenDetaildsDialogRequest(itemPosition);
-				} catch (Throwable t) {
-					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(ListControl.this, t);
+			protected List<AutoFieldValueUpdatingItemPosition> run() {
+				AutoFieldValueUpdatingItemPosition itemPosition = getSingleSelection();
+				if (itemPosition == null) {
+					return null;
 				}
+				onOpenDetaildsDialogRequest(itemPosition);
+				return null;
+			}
+
+			@Override
+			protected String getTitle() {
+				return "Open";
+			}
+
+			@Override
+			protected String getCompositeModificationTitle() {
+				return null;
+			}
+
+			@Override
+			public boolean isValid() {
+				AutoFieldValueUpdatingItemPosition singleSelectedPosition = getSingleSelection();
+				if (singleSelectedPosition != null) {
+					if (hasItemDetails(singleSelectedPosition)) {
+						return true;
+					}
+				}
+				return false;
 			}
 		};
 	}
@@ -1247,7 +1440,7 @@ public class ListControl extends JPanel implements IFieldControl {
 						return;
 					}
 					ItemNode selectedNode = (ItemNode) path.getLastPathComponent();
-					AutoUpdatingFieldItemPosition itemPosition = (AutoUpdatingFieldItemPosition) selectedNode
+					AutoFieldValueUpdatingItemPosition itemPosition = (AutoFieldValueUpdatingItemPosition) selectedNode
 							.getUserObject();
 					onOpenDetaildsDialogRequest(itemPosition);
 				} catch (Throwable t) {
@@ -1257,39 +1450,59 @@ public class ListControl extends JPanel implements IFieldControl {
 		});
 	}
 
-	protected void onOpenDetaildsDialogRequest(AutoUpdatingFieldItemPosition itemPosition) {
+	protected void onOpenDetaildsDialogRequest(final AutoFieldValueUpdatingItemPosition itemPosition) {
 		Object value = itemPosition.getItem();
 		GhostItemPosition ghostItemPosition = new GhostItemPosition(itemPosition, value);
+		final ModificationStack ghostParentModifStack = new ModificationStack(null);
 		boolean[] changeDetectedArray = new boolean[] { false };
-		if (openDetailsDialog(ghostItemPosition, changeDetectedArray, true)) {
-			AutoUpdatingFieldList list = itemPosition.getContainingAutoUpdatingFieldList();
-			Object newValue = ghostItemPosition.getItem();
-			int index = itemPosition.getIndex();
-			Object newvalue = ghostItemPosition.getItem();
+		if (openDetailsDialog(ghostItemPosition, changeDetectedArray, ghostParentModifStack)) {
+			final AutoFieldValueUpdatingList list = itemPosition.getContainingAutoUpdatingFieldList();
+			final Object newValue = ghostItemPosition.getItem();
+			final int index = itemPosition.getIndex();
 			if (!changeDetectedArray[0]) {
 				return;
 			}
-			list.set(index, newvalue);
-			refreshStructure();
-			AutoUpdatingFieldItemPosition itemPositionToSelect = itemPosition;
-			if (!itemPosition.getContainingListType().isOrdered()) {
-				int newIndex = list.indexOf(newValue);
-				itemPositionToSelect = itemPositionToSelect.getSibling(newIndex);
-			}
-			setSingleSelection(itemPositionToSelect);
+			new AbstractStandardListAction() {
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				protected List<AutoFieldValueUpdatingItemPosition> run() {
+					ModificationStack parentModifStack = getParentFormModificationStack();
+					parentModifStack.pushUndo(new CompositeModification(null, UndoOrder.getDefault(),
+							ghostParentModifStack.getUndoModifications(UndoOrder.getDefault())));
+					list.set(index, newValue);
+					return Collections.singletonList(itemPosition);
+				}
+
+				@Override
+				protected boolean isValid() {
+					return true;
+				}
+
+				@Override
+				protected String getTitle() {
+					return null;
+				}
+
+				@Override
+				protected String getCompositeModificationTitle() {
+					return "Edit '" + field.getCaption() + "' item";
+				}
+			}.actionPerformed(null);
 		}
 	}
 
-	protected AutoUpdatingFieldList getRootList() {
+	protected AutoFieldValueUpdatingList getRootList() {
 		return getRootListItemPosition().getContainingAutoUpdatingFieldList();
 	}
 
-	protected AutoUpdatingFieldItemPosition getRootListItemPosition() {
-		return new AutoUpdatingFieldItemPosition(field, null, -1);
+	protected AutoFieldValueUpdatingItemPosition getRootListItemPosition() {
+		return new AutoFieldValueUpdatingItemPosition(field, null, -1);
 	}
 
-	protected boolean openDetailsDialog(final AutoUpdatingFieldItemPosition itemPosition, boolean[] changeDetectedArray,
-			boolean recordModifications) {
+	protected boolean openDetailsDialog(final AutoFieldValueUpdatingItemPosition itemPosition,
+			boolean[] changeDetectedArray, ModificationStack parentStack) {
 		ItemNode itemNode = findNode(itemPosition);
 		if (itemNode != null) {
 			TreePath treePath = new TreePath(itemNode.getPath());
@@ -1300,7 +1513,7 @@ public class ListControl extends JPanel implements IFieldControl {
 			return true;
 		}
 
-		final AutoUpdatingFieldList list = itemPosition.getContainingAutoUpdatingFieldList();
+		final AutoFieldValueUpdatingList list = itemPosition.getContainingAutoUpdatingFieldList();
 		final int index = itemPosition.getIndex();
 		final Object[] valueArray = new Object[1];
 		final Accessor<Object> valueAccessor = new Accessor<Object>() {
@@ -1318,12 +1531,6 @@ public class ListControl extends JPanel implements IFieldControl {
 			}
 
 		};
-		ModificationStack parentStack;
-		if (recordModifications) {
-			parentStack = getParentFormModificationStack();
-		} else {
-			parentStack = null;
-		}
 		String title = itemPosition.getContainingListField().getCaption() + " Item";
 		IInfoCollectionSettings settings = getStructuralInfo().getItemInfoSettings(itemPosition);
 		boolean isGetOnly = itemPosition.getContainingListField().isGetOnly();
@@ -1335,7 +1542,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		return SwingRendererUtils.findModificationStack(ListControl.this, reflectionUI);
 	}
 
-	protected boolean hasItemDetails(AutoUpdatingFieldItemPosition itemPosition) {
+	protected boolean hasItemDetails(AutoFieldValueUpdatingItemPosition itemPosition) {
 		Object item = itemPosition.getItem();
 		if (item == null) {
 			return false;
@@ -1387,8 +1594,8 @@ public class ListControl extends JPanel implements IFieldControl {
 		visitItems(iItemsVisitor, getRootListItemPosition());
 	}
 
-	protected void visitItems(IItemsVisitor iItemsVisitor, AutoUpdatingFieldItemPosition currentListItemPosition) {
-		AutoUpdatingFieldList list = currentListItemPosition.getContainingAutoUpdatingFieldList();
+	protected void visitItems(IItemsVisitor iItemsVisitor, AutoFieldValueUpdatingItemPosition currentListItemPosition) {
+		AutoFieldValueUpdatingList list = currentListItemPosition.getContainingAutoUpdatingFieldList();
 		for (int i = 0; i < list.size(); i++) {
 			currentListItemPosition = currentListItemPosition.getSibling(i);
 			if (!iItemsVisitor.visitItem(currentListItemPosition)) {
@@ -1400,7 +1607,7 @@ public class ListControl extends JPanel implements IFieldControl {
 				if (childrenField != null) {
 					if (childrenField.getValue(currentListItemPosition.getItem()) != null) {
 						visitItems(iItemsVisitor,
-								new AutoUpdatingFieldItemPosition(childrenField, currentListItemPosition, -1));
+								new AutoFieldValueUpdatingItemPosition(childrenField, currentListItemPosition, -1));
 					}
 				}
 
@@ -1419,11 +1626,11 @@ public class ListControl extends JPanel implements IFieldControl {
 	}
 
 	protected void restoringSelectionAsMuchAsPossible(Runnable runnable) {
-		List<AutoUpdatingFieldItemPosition> lastlySelectedItemPositions = getSelection();
+		List<AutoFieldValueUpdatingItemPosition> lastlySelectedItemPositions = getSelection();
 		List<Object> lastlySelectedItems = new ArrayList<Object>();
 		for (int i = 0; i < lastlySelectedItemPositions.size(); i++) {
 			try {
-				AutoUpdatingFieldItemPosition lastlySelectedItemPosition = lastlySelectedItemPositions.get(i);
+				AutoFieldValueUpdatingItemPosition lastlySelectedItemPosition = lastlySelectedItemPositions.get(i);
 				lastlySelectedItems.add(lastlySelectedItemPosition.getItem());
 			} catch (Throwable t) {
 				lastlySelectedItems.add(null);
@@ -1433,8 +1640,8 @@ public class ListControl extends JPanel implements IFieldControl {
 		runnable.run();
 
 		int i = 0;
-		for (Iterator<AutoUpdatingFieldItemPosition> it = lastlySelectedItemPositions.iterator(); it.hasNext();) {
-			AutoUpdatingFieldItemPosition lastlySelectedItemPosition = it.next();
+		for (Iterator<AutoFieldValueUpdatingItemPosition> it = lastlySelectedItemPositions.iterator(); it.hasNext();) {
+			AutoFieldValueUpdatingItemPosition lastlySelectedItemPosition = it.next();
 			try {
 				if (!lastlySelectedItemPosition.getContainingListType().isOrdered()) {
 					Object lastlySelectedItem = lastlySelectedItems.get(i);
@@ -1458,10 +1665,10 @@ public class ListControl extends JPanel implements IFieldControl {
 
 		protected static final long serialVersionUID = 1L;
 		protected IFieldInfo childrenField;
-		protected AutoUpdatingFieldItemPosition currentItemPosition;
+		protected AutoFieldValueUpdatingItemPosition currentItemPosition;
 		protected boolean childrenLoaded = false;;
 
-		public ItemNode(IFieldInfo childrenField, AutoUpdatingFieldItemPosition currentItemPosition) {
+		public ItemNode(IFieldInfo childrenField, AutoFieldValueUpdatingItemPosition currentItemPosition) {
 			this.childrenField = childrenField;
 			this.currentItemPosition = currentItemPosition;
 			setUserObject(currentItemPosition);
@@ -1473,11 +1680,11 @@ public class ListControl extends JPanel implements IFieldControl {
 				return Collections.emptyList();
 			}
 			List<AbstractLazyTreeNode> result = new ArrayList<AbstractLazyTreeNode>();
-			AutoUpdatingFieldItemPosition anyChildItemPosition = new AutoUpdatingFieldItemPosition(childrenField,
-					currentItemPosition, -1);
-			AutoUpdatingFieldList list = anyChildItemPosition.getContainingAutoUpdatingFieldList();
+			AutoFieldValueUpdatingItemPosition anyChildItemPosition = new AutoFieldValueUpdatingItemPosition(
+					childrenField, currentItemPosition, -1);
+			AutoFieldValueUpdatingList list = anyChildItemPosition.getContainingAutoUpdatingFieldList();
 			for (int i = 0; i < list.size(); i++) {
-				AutoUpdatingFieldItemPosition childItemPosition = anyChildItemPosition.getSibling(i);
+				AutoFieldValueUpdatingItemPosition childItemPosition = anyChildItemPosition.getSibling(i);
 				IFieldInfo grandChildrenField = null;
 				IListStructuralInfo treeInfo = getStructuralInfo();
 				if (treeInfo != null) {
@@ -1496,50 +1703,98 @@ public class ListControl extends JPanel implements IFieldControl {
 
 	}
 
-	public class AutoUpdatingFieldItemPosition extends ItemPosition {
+	public class AutoFieldValueUpdatingItemPosition extends ItemPosition {
 
-		public AutoUpdatingFieldItemPosition(IFieldInfo containingListField,
-				AutoUpdatingFieldItemPosition parentItemPosition, int index) {
+		public AutoFieldValueUpdatingItemPosition(IFieldInfo containingListField,
+				AutoFieldValueUpdatingItemPosition parentItemPosition, int index) {
 			super(containingListField, parentItemPosition, index, object);
 		}
 
-		public AutoUpdatingFieldList getContainingAutoUpdatingFieldList() {
-			return new AutoUpdatingFieldList(this);
+		public AutoFieldValueUpdatingList getContainingAutoUpdatingFieldList() {
+			return new AutoFieldValueUpdatingList(this);
 		}
 
 		@Override
-		public AutoUpdatingFieldItemPosition getParentItemPosition() {
-			return (AutoUpdatingFieldItemPosition) super.getParentItemPosition();
+		public AutoFieldValueUpdatingItemPosition getParentItemPosition() {
+			return (AutoFieldValueUpdatingItemPosition) super.getParentItemPosition();
 		}
 
 		@Override
-		public AutoUpdatingFieldItemPosition getSibling(int index2) {
+		public AutoFieldValueUpdatingItemPosition getSibling(int index2) {
 			ItemPosition result = super.getSibling(index2);
-			return new AutoUpdatingFieldItemPosition(result.getContainingListField(), getParentItemPosition(),
+			return new AutoFieldValueUpdatingItemPosition(result.getContainingListField(), getParentItemPosition(),
 					result.getIndex());
 		}
 
 		@Override
-		public AutoUpdatingFieldItemPosition getRootListItemPosition() {
+		public AutoFieldValueUpdatingItemPosition getRootListItemPosition() {
 			ItemPosition result = super.getRootListItemPosition();
-			return new AutoUpdatingFieldItemPosition(result.getContainingListField(), null, result.getIndex());
+			return new AutoFieldValueUpdatingItemPosition(result.getContainingListField(), null, result.getIndex());
+		}
+
+	}
+
+	protected class SetListValueModification implements IModification {
+		protected Object[] listValue;
+		protected Object listOwner;
+		protected IFieldInfo listField;
+		protected ReflectionUI reflectionUI;
+
+		public SetListValueModification(ReflectionUI reflectionUI, Object[] listValue, Object listOwner,
+				IFieldInfo listField) {
+			this.reflectionUI = reflectionUI;
+			this.listValue = listValue;
+			this.listOwner = listOwner;
+			this.listField = listField;
+		}
+
+		@Override
+		public int getNumberOfUnits() {
+			return 1;
+		}
+
+		@Override
+		public IModification applyAndGetOpposite(boolean refreshView) {
+			IListTypeInfo listType = (IListTypeInfo) listField.getType();
+			Object[] lastListValue = listType.toArray(listField.getValue(listOwner));
+
+			Object listFieldValue = listType.fromArray(listValue);
+			listField.setValue(listOwner, listFieldValue);
+
+			final SetListValueModification currentModif = this;
+			return new SetListValueModification(reflectionUI, lastListValue, listOwner, listField) {
+				@Override
+				public String getTitle() {
+					return ModificationStack.getUndoTitle(currentModif.getTitle());
+				}
+			};
+		}
+
+		@Override
+		public String toString() {
+			return getTitle();
+		}
+
+		@Override
+		public String getTitle() {
+			return "Edit '" + listField.getCaption() + "' of '" + reflectionUI.getObjectKind(listOwner) + "'";
 		}
 
 	}
 
 	protected class ChangeListSelectionModification implements IModification {
-		protected List<AutoUpdatingFieldItemPosition> toSelect;
-		protected List<AutoUpdatingFieldItemPosition> undoSelection;
+		protected List<AutoFieldValueUpdatingItemPosition> toSelect;
+		protected List<AutoFieldValueUpdatingItemPosition> undoSelection;
 
-		public ChangeListSelectionModification(List<AutoUpdatingFieldItemPosition> toSelect,
-				List<AutoUpdatingFieldItemPosition> undoSelection) {
+		public ChangeListSelectionModification(List<AutoFieldValueUpdatingItemPosition> toSelect,
+				List<AutoFieldValueUpdatingItemPosition> undoSelection) {
 			this.toSelect = toSelect;
 			this.undoSelection = undoSelection;
 		}
 
 		@Override
 		public IModification applyAndGetOpposite(boolean refreshView) {
-			List<AutoUpdatingFieldItemPosition> oppositeSelection;
+			List<AutoFieldValueUpdatingItemPosition> oppositeSelection;
 			if (undoSelection != null) {
 				oppositeSelection = undoSelection;
 			} else {
@@ -1570,10 +1825,10 @@ public class ListControl extends JPanel implements IFieldControl {
 
 	}
 
-	protected class AutoUpdatingFieldList extends AbstractList {
-		protected AutoUpdatingFieldItemPosition itemPosition;
+	protected class AutoFieldValueUpdatingList extends AbstractList {
+		protected AutoFieldValueUpdatingItemPosition itemPosition;
 
-		public AutoUpdatingFieldList(AutoUpdatingFieldItemPosition itemPosition) {
+		public AutoFieldValueUpdatingList(AutoFieldValueUpdatingItemPosition itemPosition) {
 			this.itemPosition = itemPosition;
 		}
 
@@ -1610,17 +1865,19 @@ public class ListControl extends JPanel implements IFieldControl {
 				}
 			}
 			if (!itemPosition.isRootListItemPosition()) {
-				AutoUpdatingFieldItemPosition listOwnerPosition = itemPosition.getParentItemPosition();
-				new AutoUpdatingFieldList(listOwnerPosition).set(listOwnerPosition.getIndex(), listOwner);
+				AutoFieldValueUpdatingItemPosition listOwnerPosition = itemPosition.getParentItemPosition();
+				new AutoFieldValueUpdatingList(listOwnerPosition).set(listOwnerPosition.getIndex(), listOwner);
 			}
 		}
 
 		protected void beginModification() {
-			beginCompositeModification(false);
+			ModificationStack modifStack = getParentFormModificationStack();
+			modifStack.beginComposite();
 		}
 
-		protected void endModification(String title) {
-			endCompositeModification(title, false, UndoOrder.FIFO);
+		protected void endModification() {
+			ModificationStack modifStack = getParentFormModificationStack();
+			modifStack.endComposite(null, UndoOrder.FIFO);
 		}
 
 		@Override
@@ -1641,7 +1898,7 @@ public class ListControl extends JPanel implements IFieldControl {
 			tmpList.add(index, element);
 			beginModification();
 			replaceUnderlyingListValue(tmpList.toArray());
-			endModification("Add item to '" + getListField().getCaption() + "'");
+			endModification();
 		}
 
 		@SuppressWarnings("unchecked")
@@ -1651,7 +1908,7 @@ public class ListControl extends JPanel implements IFieldControl {
 			Object result = tmpList.remove(index);
 			beginModification();
 			replaceUnderlyingListValue(tmpList.toArray());
-			endModification("Remove item from '" + getListField().getCaption() + "'");
+			endModification();
 			return result;
 		}
 
@@ -1662,7 +1919,7 @@ public class ListControl extends JPanel implements IFieldControl {
 			Object result = tmpList.set(index, element);
 			beginModification();
 			replaceUnderlyingListValue(tmpList.toArray());
-			endModification("Update '" + getListField().getCaption() + "' item " + index);
+			endModification();
 			return result;
 		}
 
@@ -1672,14 +1929,14 @@ public class ListControl extends JPanel implements IFieldControl {
 			tmpList.add(index + offset, tmpList.remove(index));
 			beginModification();
 			replaceUnderlyingListValue(tmpList.toArray());
-			endModification("Move '" + getListField().getCaption() + "' item");
+			endModification();
 		}
 
 		@Override
 		public void clear() {
 			beginModification();
 			replaceUnderlyingListValue(new Object[0]);
-			endModification("Clear '" + getListField().getCaption() + "'");
+			endModification();
 		}
 
 	}
@@ -1719,14 +1976,14 @@ public class ListControl extends JPanel implements IFieldControl {
 		protected void customizeComponent(JLabel label, ItemNode node, int rowIndex, int columnIndex,
 				boolean isSelected, boolean hasFocus) {
 			label.putClientProperty("html.disable", Boolean.TRUE);
-			if (!(node.getUserObject() instanceof AutoUpdatingFieldItemPosition)) {
+			if (!(node.getUserObject() instanceof AutoFieldValueUpdatingItemPosition)) {
 				return;
 			}
 			String text = getCellValue(node, columnIndex);
 			if (text == null) {
 				label.setText("");
 			} else {
-				label.setText(reflectionUI.prepareUIString(text));
+				label.setText(reflectionUI.prepareStringToDisplay(text));
 			}
 
 			Image imageIcon = getCellIconImage(node, columnIndex);
@@ -1738,9 +1995,65 @@ public class ListControl extends JPanel implements IFieldControl {
 		}
 	}
 
+	protected abstract class AbstractStandardListAction extends AbstractAction {
+
+		protected static final long serialVersionUID = 1L;
+
+		protected abstract List<AutoFieldValueUpdatingItemPosition> run();
+
+		protected abstract String getTitle();
+
+		protected abstract String getCompositeModificationTitle();
+
+		protected abstract boolean isValid();
+
+		@Override
+		public Object getValue(String key) {
+			if (Action.NAME.equals(key)) {
+				return reflectionUI.prepareStringToDisplay(getTitle());
+			} else {
+				return super.getValue(key);
+			}
+		}
+
+		@Override
+		public boolean isEnabled() {
+			return isValid();
+		}
+
+		@Override
+		final public void actionPerformed(ActionEvent e) {
+			String modifTitle = getCompositeModificationTitle();
+			if (modifTitle == null) {
+				List<AutoFieldValueUpdatingItemPosition> toPostSelect = run();
+				refreshStructure();
+				if (toPostSelect != null) {
+					setSelection(toPostSelect);
+				}
+			} else {
+				ModificationStack modifStack = getParentFormModificationStack();
+				try {
+					modifStack.beginComposite();
+					List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
+					modifStack.pushUndo(new ChangeListSelectionModification(selection, getSelection()));
+					List<AutoFieldValueUpdatingItemPosition> toPostSelect = run();
+					refreshStructure();
+					if (toPostSelect != null) {
+						modifStack.apply(new ChangeListSelectionModification(toPostSelect, getSelection()), false);
+					}
+					modifStack.endComposite(modifTitle, UndoOrder.LIFO);
+				} catch (Throwable t) {
+					modifStack.cancelComposite();
+					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(ListControl.this, t);
+				}
+			}
+		}
+
+	};
+
 	public interface IItemsVisitor {
 
-		boolean visitItem(AutoUpdatingFieldItemPosition itemPosition);
+		boolean visitItem(AutoFieldValueUpdatingItemPosition itemPosition);
 
 	}
 

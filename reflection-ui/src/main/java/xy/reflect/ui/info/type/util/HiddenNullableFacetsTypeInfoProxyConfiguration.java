@@ -29,7 +29,17 @@ public class HiddenNullableFacetsTypeInfoProxyConfiguration extends TypeInfoProx
 		}
 		return (param.getDefaultValue() == null) && (generateDefaultValue(param.getType()) == null);
 	}
+	
+	
 
+	@Override
+	protected Object getDefaultValue(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+		Object result = super.getDefaultValue(param, method, containingType);
+		if(result == null){
+			result = generateDefaultValue(param.getType());
+		}
+		return result;
+	}
 	public Object generateDefaultValue(ITypeInfo type) {
 		Object result = defaultValueByType.get(type);
 		if (result == null) {
