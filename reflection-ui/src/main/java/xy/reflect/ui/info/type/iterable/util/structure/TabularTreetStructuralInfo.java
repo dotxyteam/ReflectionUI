@@ -13,7 +13,7 @@ import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class TabularTreetStructuralInfo extends
-		AbstractTreeDetectionListStructuralInfo {
+		AbstractTreeListStructuralInfo {
 
 	protected List<IFieldInfo> columnFields;
 
@@ -82,7 +82,7 @@ public class TabularTreetStructuralInfo extends
 				@Override
 				public Object getValue(Object object) {
 					Object item = ((ItemPosition) object).getItem();
-					return reflectionUI.getObjectKind(item);
+					return reflectionUI.getObjectTitle(item);
 				}
 
 				@Override

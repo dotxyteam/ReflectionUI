@@ -40,7 +40,7 @@ public class ReflectionUI {
 
 	protected SwingRenderer swingRenderer = createSwingRenderer();
 	protected Map<ITypeInfoSource, ITypeInfo> typeInfoBySource = CacheBuilder
-			.newBuilder().maximumSize(100).<ITypeInfoSource, ITypeInfo> build()
+			.newBuilder().maximumSize(1000).<ITypeInfoSource, ITypeInfo> build()
 			.asMap();
 
 	public static void main(String[] args) {
@@ -74,7 +74,7 @@ public class ReflectionUI {
 				return;
 			}
 			reflectionUI.getSwingRenderer().openObjectFrame(object,
-					reflectionUI.getObjectKind(object),
+					reflectionUI.getObjectTitle(object),
 					reflectionUI.getIconImage(object));
 		} catch (Throwable t) {
 			reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(
@@ -82,7 +82,7 @@ public class ReflectionUI {
 		}
 	}
 
-	public SwingRenderer createSwingRenderer() {
+	protected SwingRenderer createSwingRenderer() {
 		return new SwingRenderer(this);
 	}
 
@@ -225,7 +225,7 @@ public class ReflectionUI {
 		return string;
 	}
 
-	public String getObjectKind(Object object) {
+	public String getObjectTitle(Object object) {
 		if (object == null) {
 			return "(Missing Value)";
 		}
@@ -244,11 +244,11 @@ public class ReflectionUI {
 	}
 
 	public String getFieldTitle(Object object, IFieldInfo field) {
-		String result = ReflectionUIUtils.composeTitle(getObjectKind(object),
+		String result = ReflectionUIUtils.composeTitle(getObjectTitle(object),
 				field.getCaption());
 		Object fieldValue = field.getValue(object);
 		if (fieldValue != null) {
-			String fieldValueKind = getObjectKind(field.getValue(object));
+			String fieldValueKind = getObjectTitle(field.getValue(object));
 			if (!field.getCaption().equals(fieldValueKind)) {
 				result = ReflectionUIUtils.composeTitle(result, fieldValueKind);
 			}
@@ -260,7 +260,7 @@ public class ReflectionUI {
 			Object returnValue, String context) {
 		String result = method.getCaption();
 		if (object != null) {
-			result = ReflectionUIUtils.composeTitle(getObjectKind(object),
+			result = ReflectionUIUtils.composeTitle(getObjectTitle(object),
 					result);
 		}
 		if (context != null) {
@@ -268,7 +268,7 @@ public class ReflectionUI {
 		}
 		if (returnValue != null) {
 			result = ReflectionUIUtils.composeTitle(result,
-					getObjectKind(returnValue));
+					getObjectTitle(returnValue));
 		}
 		return result;
 	}

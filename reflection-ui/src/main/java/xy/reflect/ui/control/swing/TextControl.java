@@ -28,7 +28,7 @@ public class TextControl extends JPanel implements IFieldControl {
 	protected IFieldInfo field;
 
 	protected JTextArea textComponent;
-	protected boolean textChangedByUser = true;
+	protected boolean ignoreEditEvents = true;
 	protected Border textFieldNormalBorder;
 
 	public TextControl(final ReflectionUI reflectionUI, final Object object,
@@ -39,7 +39,7 @@ public class TextControl extends JPanel implements IFieldControl {
 		
 		setLayout(new BorderLayout());
 
-		textComponent = new JTextArea();
+		textComponent = createTextComponent();
 
 		JScrollPane scrollPane = new JScrollPane(textComponent) {
 
@@ -76,6 +76,9 @@ public class TextControl extends JPanel implements IFieldControl {
 
 						@Override
 						public void undoableEditHappened(UndoableEditEvent e) {
+							if (ignoreEditEvents) {
+								return;
+							}
 							try {
 								onTextChange(textComponent.getText());
 							} catch (Throwable t) {
@@ -89,6 +92,23 @@ public class TextControl extends JPanel implements IFieldControl {
 		refreshUI();
 	}
 	
+	protected JTextArea createTextComponent() {
+		return new JTextArea(){
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void replaceSelection(String content) {
+				boolean wasIgnoringEditEvents = ignoreEditEvents;
+				ignoreEditEvents = true;
+				super.replaceSelection(content);
+				ignoreEditEvents = wasIgnoringEditEvents;
+				onTextChange(textComponent.getText());
+			}
+			
+		};
+	}
+
 	public static  String toText(Object object) {
 		return object.toString();
 	}
@@ -125,9 +145,6 @@ public class TextControl extends JPanel implements IFieldControl {
 	}
 
 	protected void onTextChange(String newStringValue) {
-		if (!textChangedByUser) {
-			return;
-		}
 		try {
 			field.setValue(object, newStringValue);
 		} catch (Throwable t) {
@@ -142,7 +159,7 @@ public class TextControl extends JPanel implements IFieldControl {
 
 	@Override
 	public boolean refreshUI() {
-		textChangedByUser = false;
+		ignoreEditEvents = true;
 		String newText = (String) field.getValue(object);
 		if (!ReflectionUIUtils.equalsOrBothNull(textComponent.getText(),
 				newText)) {
@@ -152,7 +169,7 @@ public class TextControl extends JPanel implements IFieldControl {
 			textComponent.setCaretPosition(Math.min(lastCaretPosition,
 					textComponent.getText().length()));
 		}
-		textChangedByUser = true;
+		ignoreEditEvents = false;
 		displayError(null);
 		reflectionUI.getSwingRenderer().handleComponentSizeChange(this);
 		return true;

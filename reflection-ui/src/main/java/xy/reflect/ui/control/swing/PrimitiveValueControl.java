@@ -59,7 +59,6 @@ public class PrimitiveValueControl extends TextControl {
 			javaType = PrimitiveUtils.primitiveToWrapperType(javaType);
 		}
 		if (javaType == Character.class) {
-			text = text.trim();
 			if (text.length() != 1) {
 				throw new RuntimeException("Invalid value: '" + text
 						+ "'. 1 character is expected");

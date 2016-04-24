@@ -17,14 +17,14 @@ import xy.reflect.ui.info.type.iterable.map.IMapEntryTypeInfo;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public abstract class AbstractTreeDetectionListStructuralInfo implements IListStructuralInfo {
+public abstract class AbstractTreeListStructuralInfo implements IListStructuralInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo rootItemType;
 
 	protected abstract boolean autoDetectTreeStructure();
 
-	public AbstractTreeDetectionListStructuralInfo(ReflectionUI reflectionUI, ITypeInfo rootItemType) {
+	public AbstractTreeListStructuralInfo(ReflectionUI reflectionUI, ITypeInfo rootItemType) {
 		this.reflectionUI = reflectionUI;
 		this.rootItemType = rootItemType;
 	}
@@ -135,7 +135,7 @@ public abstract class AbstractTreeDetectionListStructuralInfo implements IListSt
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AbstractTreeDetectionListStructuralInfo other = (AbstractTreeDetectionListStructuralInfo) obj;
+		AbstractTreeListStructuralInfo other = (AbstractTreeListStructuralInfo) obj;
 		if (rootItemType == null) {
 			if (other.rootItemType != null)
 				return false;

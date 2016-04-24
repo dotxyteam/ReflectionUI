@@ -195,7 +195,7 @@ public class SwingRenderer {
 		return result;
 	}
 
-	public JDialog createDialog(Component ownerComponent, Component content, String title, Image iconImage,
+	protected JDialog createDialog(Component ownerComponent, Component content, String title, Image iconImage,
 			List<? extends Component> toolbarControls, final Runnable whenClosing) {
 		Window owner = SwingRendererUtils.getWindowAncestorOrSelf(ownerComponent);
 		JDialog dialog = new JDialog(owner, reflectionUI.prepareStringToDisplay(title)) {
@@ -223,15 +223,15 @@ public class SwingRenderer {
 		return dialog;
 	}
 
-	public List<JButton> createDialogOkCancelButtons(final JDialog[] dialogArray, final boolean[] okPressedArray,
+	protected List<JButton> createDialogOkCancelButtons(final JDialog[] dialogHolder, final boolean[] okPressedHolder,
 			String okCaption, final Runnable okAction, boolean createCancelButton, String cancelCaption) {
 		List<JButton> result = new ArrayList<JButton>();
 
 		final JButton okButton = new JButton(
 				reflectionUI.prepareStringToDisplay((okCaption != null) ? okCaption : "OK"));
 		result.add(okButton);
-		if (okPressedArray != null) {
-			okPressedArray[0] = false;
+		if (okPressedHolder != null) {
+			okPressedHolder[0] = false;
 		}
 		okButton.addActionListener(new ActionListener() {
 			@Override
@@ -240,13 +240,13 @@ public class SwingRenderer {
 					if (okAction != null) {
 						okAction.run();
 					}
-					if (okPressedArray != null) {
-						okPressedArray[0] = true;
+					if (okPressedHolder != null) {
+						okPressedHolder[0] = true;
 					}
 				} catch (Throwable t) {
 					handleExceptionsFromDisplayedUI(okButton, t);
 				} finally {
-					dialogArray[0].dispose();
+					dialogHolder[0].dispose();
 				}
 			}
 		});
@@ -258,10 +258,10 @@ public class SwingRenderer {
 			cancelButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if (okPressedArray != null) {
-						okPressedArray[0] = false;
+					if (okPressedHolder != null) {
+						okPressedHolder[0] = false;
 					}
-					dialogArray[0].dispose();
+					dialogHolder[0].dispose();
 				}
 			});
 		}
@@ -299,7 +299,7 @@ public class SwingRenderer {
 		return fieldsPanel;
 	}
 
-	public JFrame createFrame(Component content, String title, Image iconImage,
+	protected JFrame createFrame(Component content, String title, Image iconImage,
 			List<? extends Component> toolbarControls) {
 		final JFrame frame = new JFrame();
 		applyCommonWindowConfiguration(frame, content, toolbarControls, title, iconImage);
@@ -406,7 +406,7 @@ public class SwingRenderer {
 	}
 
 	public JPanel createObjectForm(Object object, IInfoCollectionSettings settings) {
-		final ModificationStack modifStack = new ModificationStack(reflectionUI.getObjectKind(object));
+		final ModificationStack modifStack = new ModificationStack(reflectionUI.getObjectTitle(object));
 		JPanel result = new JPanel() {
 
 			private static final long serialVersionUID = 1L;
@@ -701,13 +701,13 @@ public class SwingRenderer {
 
 			@Override
 			public void setValue(Object object, Object value) {
-				try {
-					if (!reflectionUI.equals(super.getValue(object), value)) {
+				if (!reflectionUI.equals(super.getValue(object), value)) {
+					try {
 						super.setValue(object, value);
+						fieldControlPlaceHolder.displayError(null);
+					} catch (final Throwable t) {
+						fieldControlPlaceHolder.displayError(new ReflectionUIError(t));
 					}
-					fieldControlPlaceHolder.displayError(null);
-				} catch (final Throwable t) {
-					fieldControlPlaceHolder.displayError(new ReflectionUIError(t));
 				}
 			}
 
@@ -764,32 +764,32 @@ public class SwingRenderer {
 	}
 
 	public boolean onMethodInvocationRequest(final Component activatorComponent, final Object object,
-			final IMethodInfo method, final Object[] returnValueArray) {
+			final IMethodInfo method, final Object[] returnValueHolder) {
 		if (method.getParameters().size() > 0) {
-			return openMethoExecutionSettingDialog(activatorComponent, object, method, returnValueArray);
+			return openMethoExecutionSettingDialog(activatorComponent, object, method, returnValueHolder);
 		} else {
-			final boolean shouldDisplayReturnValue = (returnValueArray == null)
+			final boolean shouldDisplayReturnValue = (returnValueHolder == null)
 					&& (method.getReturnValueType() != null);
 			final Object[] returnValueToDisplay = new Object[1];
-			final boolean[] exceptionThrownArray = new boolean[] { false };
+			final boolean[] exceptionThrownHoler = new boolean[] { false };
 			showBusyDialogWhile(activatorComponent, new Runnable() {
 				@Override
 				public void run() {
 					try {
 						Object result = method.invoke(object, new InvocationData());
-						if (returnValueArray != null) {
-							returnValueArray[0] = result;
+						if (returnValueHolder != null) {
+							returnValueHolder[0] = result;
 						}
 						if (shouldDisplayReturnValue) {
 							returnValueToDisplay[0] = result;
 						}
 					} catch (Throwable t) {
-						exceptionThrownArray[0] = true;
+						exceptionThrownHoler[0] = true;
 						throw new ReflectionUIError(t);
 					}
 				}
 			}, reflectionUI.getMethodTitle(object, method, null, "Execution"));
-			if (shouldDisplayReturnValue && !exceptionThrownArray[0]) {
+			if (shouldDisplayReturnValue && !exceptionThrownHoler[0]) {
 				openMethodReturnValueWindow(activatorComponent, object, method, returnValueToDisplay[0]);
 			}
 		}
@@ -843,9 +843,9 @@ public class SwingRenderer {
 				if (silent) {
 					return constructor.invoke(null, new InvocationData());
 				} else {
-					Object[] returnValueArray = new Object[1];
-					onMethodInvocationRequest(activatorComponent, null, constructor, returnValueArray);
-					return returnValueArray[0];
+					Object[] returnValueHolder = new Object[1];
+					onMethodInvocationRequest(activatorComponent, null, constructor, returnValueHolder);
+					return returnValueHolder[0];
 				}
 			}
 
@@ -866,9 +866,9 @@ public class SwingRenderer {
 				if (chosenContructor == null) {
 					return null;
 				}
-				Object[] returnValueArray = new Object[1];
-				onMethodInvocationRequest(activatorComponent, null, chosenContructor, returnValueArray);
-				return returnValueArray[0];
+				Object[] returnValueHolder = new Object[1];
+				onMethodInvocationRequest(activatorComponent, null, chosenContructor, returnValueHolder);
+				return returnValueHolder[0];
 			}
 		} catch (Throwable t) {
 			throw new ReflectionUIError("Could not create an instance of type '" + type + "': " + t.toString(), t);
@@ -882,7 +882,7 @@ public class SwingRenderer {
 						new Object[] { ReflectionUIUtils.getPrettyMessage(error) }, "Message", "", true)),
 				JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[] {});
 
-		JDialog[] dialogArray = new JDialog[1];
+		JDialog[] dialogHolder = new JDialog[1];
 
 		List<Component> buttons = new ArrayList<Component>();
 		final JButton deatilsButton = new JButton(reflectionUI.prepareStringToDisplay("Details"));
@@ -893,10 +893,10 @@ public class SwingRenderer {
 			}
 		});
 		buttons.add(deatilsButton);
-		buttons.addAll(createDialogOkCancelButtons(dialogArray, null, "Close", null, false, null));
+		buttons.addAll(createDialogOkCancelButtons(dialogHolder, null, "Close", null, false, null));
 
-		dialogArray[0] = createDialog(activatorComponent, errorComponent, title, null, buttons, null);
-		showDialog(dialogArray[0], true);
+		dialogHolder[0] = createDialog(activatorComponent, errorComponent, title, null, buttons, null);
+		showDialog(dialogHolder[0], true);
 
 	}
 
@@ -916,9 +916,9 @@ public class SwingRenderer {
 	}
 
 	protected boolean openMethoExecutionSettingDialog(final Component activatorComponent, final Object object,
-			final IMethodInfo method, final Object[] returnValueArray) {
-		final boolean shouldDisplayReturnValue = (returnValueArray == null) && (method.getReturnValueType() != null);
-		final boolean[] exceptionThrownArray = new boolean[] { false };
+			final IMethodInfo method, final Object[] returnValueHolder) {
+		final boolean shouldDisplayReturnValue = (returnValueHolder == null) && (method.getReturnValueType() != null);
+		final boolean[] exceptionThrownHolder = new boolean[] { false };
 		final Object[] returnValueToDisplay = new Object[1];
 		final InvocationData invocationData;
 		if (lastInvocationDataByMethod.containsKey(method)) {
@@ -928,8 +928,8 @@ public class SwingRenderer {
 		}
 		JPanel methodForm = createObjectForm(new MethodParametersAsTypeInfo(reflectionUI, method)
 				.getPrecomputedTypeInfoInstanceWrapper(object, invocationData));
-		final boolean[] invokedStatusArray = new boolean[] { false };
-		final JDialog[] methodDialogArray = new JDialog[1];
+		final boolean[] invokedStatusHolder = new boolean[] { false };
+		final JDialog[] methodDialogHolder = new JDialog[1];
 		List<Component> toolbarControls = new ArrayList<Component>();
 		String doc = method.getOnlineHelp();
 		if ((doc != null) && (doc.trim().length() > 0)) {
@@ -946,24 +946,24 @@ public class SwingRenderer {
 						public void run() {
 							try {
 								Object result = method.invoke(object, invocationData);
-								if (returnValueArray != null) {
-									returnValueArray[0] = result;
+								if (returnValueHolder != null) {
+									returnValueHolder[0] = result;
 								}
 								if (shouldDisplayReturnValue) {
 									returnValueToDisplay[0] = result;
 								}
 							} catch (Throwable t) {
-								exceptionThrownArray[0] = true;
+								exceptionThrownHolder[0] = true;
 								throw new ReflectionUIError(t);
 							}
 						}
 					}, reflectionUI.getMethodTitle(object, method, null, "Execution"));
 					if (shouldDisplayReturnValue) {
-						if (!exceptionThrownArray[0]) {
+						if (!exceptionThrownHolder[0]) {
 							openMethodReturnValueWindow(activatorComponent, object, method, returnValueToDisplay[0]);
 						}
 					} else {
-						methodDialogArray[0].dispose();
+						methodDialogHolder[0].dispose();
 					}
 				}
 			});
@@ -975,24 +975,24 @@ public class SwingRenderer {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					methodDialogArray[0].dispose();
+					methodDialogHolder[0].dispose();
 				}
 
 			});
 			toolbarControls.add(closeButton);
 		}
-		methodDialogArray[0] = createDialog(activatorComponent, methodForm,
+		methodDialogHolder[0] = createDialog(activatorComponent, methodForm,
 				reflectionUI.getMethodTitle(object, method, null, "Setting"), null, toolbarControls, null);
-		showDialog(methodDialogArray[0], true);
+		showDialog(methodDialogHolder[0], true);
 		if (shouldDisplayReturnValue) {
 			return true;
 		} else {
-			return invokedStatusArray[0];
+			return invokedStatusHolder[0];
 		}
 	}
 
 	public void openObjectDialog(Component parent, Object object, boolean modal) {
-		openObjectDialog(parent, object, reflectionUI.getObjectKind(object), reflectionUI.getIconImage(object), modal);
+		openObjectDialog(parent, object, reflectionUI.getObjectTitle(object), reflectionUI.getIconImage(object), modal);
 	}
 
 	public void openObjectDialog(Component parent, Object object, String title, Image iconImage, boolean modal) {
@@ -1001,13 +1001,19 @@ public class SwingRenderer {
 	}
 
 	public void openObjectDialog(Component parent, Object object, String title, Image iconImage, boolean modal,
-			List<Component> additionalToolbarControls, boolean[] okPressedArray, Runnable whenClosingDialog,
-			ModificationStack[] modificationStackArray, IInfoCollectionSettings settings) {
-		JPanel form = createObjectForm(object, settings);
-		if (modificationStackArray == null) {
-			modificationStackArray = new ModificationStack[1];
+			List<Component> additionalToolbarControls, boolean[] okPressedHolder, Runnable whenClosingDialog,
+			ModificationStack[] modificationStackHolder, IInfoCollectionSettings settings) {
+		
+		if (hasCustomFieldControl(object)) {
+			String fieldName = getDefaultFieldCaption(object);
+			object = VirtualFieldWrapperTypeInfo.wrap(reflectionUI, new Object[]{object}, fieldName, title, true);
 		}
-		modificationStackArray[0] = getModificationStackByForm().get(form);
+
+		JPanel form = createObjectForm(object, settings);
+		if (modificationStackHolder == null) {
+			modificationStackHolder = new ModificationStack[1];
+		}
+		modificationStackHolder[0] = getModificationStackByForm().get(form);
 		List<Component> toolbarControls = new ArrayList<Component>();
 		List<Component> commonToolbarControls = createCommonToolbarControls(form);
 		if (commonToolbarControls != null) {
@@ -1016,18 +1022,18 @@ public class SwingRenderer {
 		if (additionalToolbarControls != null) {
 			toolbarControls.addAll(additionalToolbarControls);
 		}
-		JDialog[] dialogArray = new JDialog[1];
-		if (okPressedArray == null) {
-			toolbarControls.addAll(createDialogOkCancelButtons(dialogArray, null, "Close", null, false, null));
+		JDialog[] dialogHolder = new JDialog[1];
+		if (okPressedHolder == null) {
+			toolbarControls.addAll(createDialogOkCancelButtons(dialogHolder, null, "Close", null, false, null));
 		} else {
-			toolbarControls.addAll(createDialogOkCancelButtons(dialogArray, okPressedArray, "OK", null, true, null));
+			toolbarControls.addAll(createDialogOkCancelButtons(dialogHolder, okPressedHolder, "OK", null, true, null));
 		}
-		dialogArray[0] = createDialog(parent, form, title, iconImage, toolbarControls, whenClosingDialog);
-		showDialog(dialogArray[0], modal);
+		dialogHolder[0] = createDialog(parent, form, title, iconImage, toolbarControls, whenClosingDialog);
+		showDialog(dialogHolder[0], modal);
 	}
 
 	public void openObjectFrame(Object object) {
-		openObjectFrame(object, reflectionUI.getObjectKind(object), reflectionUI.getIconImage(object));
+		openObjectFrame(object, reflectionUI.getObjectTitle(object), reflectionUI.getIconImage(object));
 	}
 
 	public void openObjectFrame(Object object, String title, Image iconImage) {
@@ -1045,16 +1051,16 @@ public class SwingRenderer {
 		if (initialSelection == null) {
 			initialSelection = choices.get(0);
 		}
-		final Object[] chosenItemArray = new Object[] { initialSelection };
+		final Object[] chosenItemHolder = new Object[] { initialSelection };
 		ITypeInfo enumType = new ArrayAsEnumerationTypeInfo(reflectionUI, choices.toArray(),
 				"Selection Dialog Array As Enumeration");
-		chosenItemArray[0] = new PrecomputedTypeInfoInstanceWrapper(chosenItemArray[0], enumType);
-		final Object chosenItemAsField = VirtualFieldWrapperTypeInfo.wrap(reflectionUI, chosenItemArray, message,
+		chosenItemHolder[0] = new PrecomputedTypeInfoInstanceWrapper(chosenItemHolder[0], enumType);
+		final Object chosenItemAsField = VirtualFieldWrapperTypeInfo.wrap(reflectionUI, chosenItemHolder, message,
 				"Selection", false);
 		if (openValueDialog(parentComponent, Accessor.returning(chosenItemAsField, false), false,
 				IInfoCollectionSettings.DEFAULT, null, title, new boolean[1])) {
-			chosenItemArray[0] = ((PrecomputedTypeInfoInstanceWrapper) chosenItemArray[0]).getInstance();
-			return (T) chosenItemArray[0];
+			chosenItemHolder[0] = ((PrecomputedTypeInfoInstanceWrapper) chosenItemHolder[0]).getInstance();
+			return (T) chosenItemHolder[0];
 		} else {
 			return null;
 		}
@@ -1065,12 +1071,12 @@ public class SwingRenderer {
 		if (initialValue == null) {
 			throw new ReflectionUIError();
 		}
-		final Object[] valueArray = new Object[] { initialValue };
-		final Object valueAsField = VirtualFieldWrapperTypeInfo.wrap(reflectionUI, valueArray, dataName, "Selection",
+		final Object[] valueHolder = new Object[] { initialValue };
+		final Object valueAsField = VirtualFieldWrapperTypeInfo.wrap(reflectionUI, valueHolder, dataName, "Selection",
 				false);
 		if (openValueDialog(parentComponent, Accessor.returning(valueAsField, false), false,
 				IInfoCollectionSettings.DEFAULT, null, title, new boolean[1])) {
-			return (T) valueArray[0];
+			return (T) valueHolder[0];
 		} else {
 			return null;
 		}
@@ -1082,58 +1088,64 @@ public class SwingRenderer {
 
 	public boolean openQuestionDialog(Component activatorComponent, String question, String title, String yesCaption,
 			String noCaption) {
-		JDialog[] dialogArray = new JDialog[1];
-		boolean[] okPressedArray = new boolean[] { false };
-		showDialog(dialogArray[0] = createDialog(activatorComponent,
+		JDialog[] dialogHolder = new JDialog[1];
+		boolean[] okPressedHolder = new boolean[] { false };
+		showDialog(dialogHolder[0] = createDialog(activatorComponent,
 				new JLabel("<HTML><BR>" + question + "<BR><BR><HTML>", SwingConstants.CENTER), title, null,
-				createDialogOkCancelButtons(dialogArray, okPressedArray, yesCaption, null, true, noCaption), null),
+				createDialogOkCancelButtons(dialogHolder, okPressedHolder, yesCaption, null, true, noCaption), null),
 				true);
-		return okPressedArray[0];
+		return okPressedHolder[0];
 	}
 
 	public boolean openValueDialog(Component activatorComponent, final Accessor<Object> valueAccessor,
 			boolean isGetOnly, final IInfoCollectionSettings settings, final ModificationStack parentModificationStack,
-			final String title, final boolean[] changeDetectedArray) {
-		final Object[] valueArray = new Object[] { valueAccessor.get() };
+			final String title, final boolean[] changeDetectedHolder) {
+		final Object[] valueHolder = new Object[] { valueAccessor.get() };
 		final Object toOpen;
-		String fieldName = BooleanTypeInfo.isCompatibleWith(valueArray[0].getClass()) ? "Is True" : "Value";
-		if (hasCustomFieldControl(valueArray[0])) {
-			toOpen = VirtualFieldWrapperTypeInfo.wrap(reflectionUI, valueArray, fieldName, title, isGetOnly);
+		if (hasCustomFieldControl(valueHolder[0])) {
+			String fieldName = getDefaultFieldCaption(valueHolder[0]);
+			toOpen = VirtualFieldWrapperTypeInfo.wrap(reflectionUI, valueHolder, fieldName, title, isGetOnly);
 		} else {
-			toOpen = valueArray[0];
+			toOpen = valueHolder[0];
 		}
 
-		final boolean[] okPressedArray = new boolean[] { false };
-		final ModificationStack[] modificationstackArray = new ModificationStack[1];
+		final boolean[] okPressedHolder;
+		if (isGetOnly) {
+			okPressedHolder = null;
+		} else {
+			okPressedHolder = new boolean[] { false };
+		}
+		final ModificationStack[] modificationstackHolder = new ModificationStack[1];
 
 		Runnable whenClosingDialog = new Runnable() {
 			@Override
 			public void run() {
-				if (okPressedArray[0]) {
-					changeDetectedArray[0] = isChangeDetected();
-					if (changeDetectedArray[0]) {
+				changeDetectedHolder[0] = isChangeDetected();
+				if ((okPressedHolder == null) || okPressedHolder[0]) {
+					if (changeDetectedHolder[0]) {
 						if (parentModificationStack != null) {
-							if (modificationstackArray[0].getNumberOfUndoUnits() == 0) {
-								valueAccessor.set(valueArray[0]);
+							if (modificationstackHolder[0].getNumberOfUndoUnits() == 0) {
+								valueAccessor.set(valueHolder[0]);
 							} else {
 								parentModificationStack.beginComposite();
-								valueAccessor.set(valueArray[0]);
+								valueAccessor.set(valueHolder[0]);
 								parentModificationStack.pushUndo(new CompositeModification(null, UndoOrder.LIFO,
-										modificationstackArray[0].getUndoModifications(UndoOrder.LIFO)));
+										modificationstackHolder[0].getUndoModifications(UndoOrder.LIFO)));
 								parentModificationStack.endComposite(title, UndoOrder.FIFO);
 							}
-							if (modificationstackArray[0].isInvalidated()) {
+							if (modificationstackHolder[0].isInvalidated()) {
 								parentModificationStack.invalidate();
 							}
 						} else {
-							valueAccessor.set(valueArray[0]);
+							valueAccessor.set(valueHolder[0]);
 						}
 					}
 				} else {
-					if (modificationstackArray[0] != null) {
-						if (!modificationstackArray[0].isInvalidated()) {
-							if (modificationstackArray[0].getNumberOfUndoUnits() > 0) {
-								modificationstackArray[0].undoAll(false);
+					if (modificationstackHolder[0] != null) {
+						if (!modificationstackHolder[0].isInvalidated()) {
+							if (modificationstackHolder[0].getNumberOfUndoUnits() > 0) {
+								modificationstackHolder[0].undoAll(false);
+								changeDetectedHolder[0] = false;
 							}
 						}
 					}
@@ -1141,11 +1153,11 @@ public class SwingRenderer {
 			}
 
 			private boolean isChangeDetected() {
-				if (modificationstackArray[0] != null) {
-					if (modificationstackArray[0].getNumberOfUndoUnits() > 0) {
+				if (modificationstackHolder[0] != null) {
+					if (modificationstackHolder[0].getNumberOfUndoUnits() > 0) {
 						return true;
 					}
-					if (modificationstackArray[0].isInvalidated()) {
+					if (modificationstackHolder[0].isInvalidated()) {
 						return true;
 					}
 				}
@@ -1153,19 +1165,27 @@ public class SwingRenderer {
 			}
 		};
 
-		openObjectDialog(activatorComponent, toOpen, title, reflectionUI.getIconImage(valueArray[0]), true, null,
-				isGetOnly ? null : okPressedArray, whenClosingDialog, modificationstackArray, settings);
+		openObjectDialog(activatorComponent, toOpen, title, reflectionUI.getIconImage(valueHolder[0]), true, null,
+				okPressedHolder, whenClosingDialog, modificationstackHolder, settings);
 
-		return okPressedArray[0];
+		if (okPressedHolder != null) {
+			return okPressedHolder[0];
+		} else {
+			return false;
+		}
 
 	}
 
+	protected String getDefaultFieldCaption(Object fieldValue) {
+		return BooleanTypeInfo.isCompatibleWith(fieldValue.getClass()) ? "Is True" : "Value";
+	}
+
 	public void openValueFrame(Object value, final String title) {
-		final Object[] valueArray = new Object[] { value };
+		final Object[] valueHolder = new Object[] { value };
 		final Object toOpen;
-		String fieldName = BooleanTypeInfo.isCompatibleWith(valueArray[0].getClass()) ? "Is True" : "Value";
+		String fieldName = BooleanTypeInfo.isCompatibleWith(valueHolder[0].getClass()) ? "Is True" : "Value";
 		if (hasCustomFieldControl(value)) {
-			toOpen = VirtualFieldWrapperTypeInfo.wrap(reflectionUI, valueArray, fieldName, title, true);
+			toOpen = VirtualFieldWrapperTypeInfo.wrap(reflectionUI, valueHolder, fieldName, title, true);
 		} else {
 			toOpen = value;
 		}
@@ -1274,10 +1294,10 @@ public class SwingRenderer {
 	}
 
 	public void openMessageDialog(Component activatorComponent, String msg, String title) {
-		JDialog[] dialogArray = new JDialog[1];
-		showDialog(dialogArray[0] = createDialog(activatorComponent,
+		JDialog[] dialogHolder = new JDialog[1];
+		showDialog(dialogHolder[0] = createDialog(activatorComponent,
 				new JLabel("<HTML><BR>" + msg + "<BR><BR><HTML>", SwingConstants.CENTER), title, null,
-				createDialogOkCancelButtons(dialogArray, null, null, null, false, null), null), true);
+				createDialogOkCancelButtons(dialogHolder, null, null, null, false, null), null), true);
 	}
 
 	protected void updateFieldControlLayout(FieldControlPlaceHolder fieldControlPlaceHolder) {
@@ -1299,7 +1319,7 @@ public class SwingRenderer {
 				&& ((IFieldControl) fieldControl).showCaption();
 		int spacing = 5;
 		if (!fieldControlHasCaption) {
-			captionControl = new JLabel(reflectionUI.prepareStringToDisplay(field.getCaption() + ": "));
+			captionControl = createSeparateCaptionControl(field.getCaption());
 			GridBagConstraints layoutConstraints = new GridBagConstraints();
 			layoutConstraints.insets = new Insets(spacing, spacing, spacing, spacing);
 			layoutConstraints.gridx = 0;
@@ -1326,6 +1346,10 @@ public class SwingRenderer {
 		}
 
 		container.validate();
+	}
+
+	protected Component createSeparateCaptionControl(String caption) {
+		return new JLabel(reflectionUI.prepareStringToDisplay(caption + ": "));
 	}
 
 	protected void validateForm(JPanel form) {

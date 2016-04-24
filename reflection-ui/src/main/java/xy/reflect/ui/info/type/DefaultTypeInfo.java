@@ -123,7 +123,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 				fields.add(getterFieldInfo);
 			}
 			ReflectionUIUtils.sortFields(fields);
-		}
+		}		
 		return fields;
 	}
 

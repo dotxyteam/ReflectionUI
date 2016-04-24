@@ -282,6 +282,9 @@ public class ReflectionUITest {
 						if (type.getName().equals(Exception.class.getName())) {
 							return Arrays.asList(getTypeInfo(new JavaTypeInfoSource(ParseException.class)),
 									getTypeInfo(new JavaTypeInfoSource(GSSException.class)));
+						} else if (type.getName().equals(AbstrcatTestDescendant.class.getName())) {
+							return Arrays.asList(getTypeInfo(new JavaTypeInfoSource(Test2.class)),
+									getTypeInfo(new JavaTypeInfoSource(Test3.class)));
 						} else {
 							return super.getPolymorphicInstanceSubTypes(type);
 						}

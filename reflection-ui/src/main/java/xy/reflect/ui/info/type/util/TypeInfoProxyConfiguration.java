@@ -33,13 +33,13 @@ public class TypeInfoProxyConfiguration {
 
 	public ITypeInfo get(final ITypeInfo type) {
 		if (type instanceof IListTypeInfo) {
-			return new ListTypeInfoProxy((IListTypeInfo) type);
+			return new ConfiguredListTypeInfoProxy((IListTypeInfo) type);
 		} else if (type instanceof IEnumerationTypeInfo) {
-			return new EnumerationTypeInfoProxy((IEnumerationTypeInfo) type);
+			return new ConfiguredEnumerationTypeInfoProxy((IEnumerationTypeInfo) type);
 		} else if (type instanceof IMapEntryTypeInfo) {
-			return new MapEntryTypeInfoProxy((IMapEntryTypeInfo) type);
+			return new ConfiguredMapEntryTypeInfoProxy((IMapEntryTypeInfo) type);
 		} else {
-			return new BasicTypeInfoProxy(type);
+			return new ConfiguredBasicTypeInfoProxy(type);
 		}
 	}
 
@@ -150,7 +150,7 @@ public class TypeInfoProxyConfiguration {
 	protected List<IParameterInfo> getParameters(IMethodInfo method, ITypeInfo containingType) {
 		List<IParameterInfo> result = new ArrayList<IParameterInfo>();
 		for (IParameterInfo param : method.getParameters()) {
-			result.add(new ParameterInfoProxy(param, method, containingType));
+			result.add(new ConfiguredParameterInfoProxy(param, method, containingType));
 		}
 		return result;
 	}
@@ -207,7 +207,7 @@ public class TypeInfoProxyConfiguration {
 	protected List<IMethodInfo> getConstructors(ITypeInfo type) {
 		List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 		for (IMethodInfo constructor : type.getConstructors()) {
-			result.add(new MethodInfoProxy(constructor, type));
+			result.add(new ConfiguredMethodInfoProxy(constructor, type));
 		}
 		return result;
 	}
@@ -215,7 +215,7 @@ public class TypeInfoProxyConfiguration {
 	protected List<IFieldInfo> getFields(ITypeInfo type) {
 		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
 		for (IFieldInfo field : type.getFields()) {
-			result.add(new FieldInfoProxy(field, type));
+			result.add(new ConfiguredFieldInfoProxy(field, type));
 		}
 		return result;
 	}
@@ -223,7 +223,7 @@ public class TypeInfoProxyConfiguration {
 	protected List<IMethodInfo> getMethods(ITypeInfo type) {
 		List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 		for (IMethodInfo method : type.getMethods()) {
-			result.add(new MethodInfoProxy(method, type));
+			result.add(new ConfiguredMethodInfoProxy(method, type));
 		}
 		return result;
 	}
@@ -249,11 +249,11 @@ public class TypeInfoProxyConfiguration {
 	}
 
 	protected IFieldInfo getKeyField(IMapEntryTypeInfo type) {
-		return new FieldInfoProxy(type.getKeyField(), type);
+		return new ConfiguredFieldInfoProxy(type.getKeyField(), type);
 	}
 
 	protected IFieldInfo getValueField(IMapEntryTypeInfo type) {
-		return new FieldInfoProxy(type.getValueField(), type);
+		return new ConfiguredFieldInfoProxy(type.getValueField(), type);
 	}
 
 	protected int hashCode(ITypeInfo type) {
@@ -377,13 +377,13 @@ public class TypeInfoProxyConfiguration {
 		return type.formatEnumerationItem(object);
 	}
 
-	private class BasicTypeInfoProxy implements ITypeInfo {
+	private class ConfiguredBasicTypeInfoProxy implements ITypeInfo {
 
 		protected TypeInfoProxyConfiguration proxyConfiguration = TypeInfoProxyConfiguration.this;
 		protected List<Method> debugInfoEnclosingMethods;
 		protected ITypeInfo type;
 
-		public BasicTypeInfoProxy(ITypeInfo type) {
+		public ConfiguredBasicTypeInfoProxy(ITypeInfo type) {
 			this.type = type;
 			@SuppressWarnings("unchecked")
 			List<Method> list = (List<Method>) TypeInfoProxyConfiguration.this.getSpecificProperties(type)
@@ -462,7 +462,7 @@ public class TypeInfoProxyConfiguration {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			BasicTypeInfoProxy other = (BasicTypeInfoProxy) obj;
+			ConfiguredBasicTypeInfoProxy other = (ConfiguredBasicTypeInfoProxy) obj;
 			if (!getTypeInfoProxyConfiguration().equals(other.getTypeInfoProxyConfiguration()))
 				return false;
 			if (type == null) {
@@ -504,9 +504,9 @@ public class TypeInfoProxyConfiguration {
 		}
 	}
 
-	private class ListTypeInfoProxy extends BasicTypeInfoProxy implements IListTypeInfo {
+	private class ConfiguredListTypeInfoProxy extends ConfiguredBasicTypeInfoProxy implements IListTypeInfo {
 
-		public ListTypeInfoProxy(IListTypeInfo type) {
+		public ConfiguredListTypeInfoProxy(IListTypeInfo type) {
 			super(type);
 		}
 
@@ -554,9 +554,9 @@ public class TypeInfoProxyConfiguration {
 
 	}
 
-	private class EnumerationTypeInfoProxy extends BasicTypeInfoProxy implements IEnumerationTypeInfo {
+	private class ConfiguredEnumerationTypeInfoProxy extends ConfiguredBasicTypeInfoProxy implements IEnumerationTypeInfo {
 
-		public EnumerationTypeInfoProxy(IEnumerationTypeInfo type) {
+		public ConfiguredEnumerationTypeInfoProxy(IEnumerationTypeInfo type) {
 			super(type);
 		}
 
@@ -572,9 +572,9 @@ public class TypeInfoProxyConfiguration {
 
 	}
 
-	private class MapEntryTypeInfoProxy extends BasicTypeInfoProxy implements IMapEntryTypeInfo {
+	private class ConfiguredMapEntryTypeInfoProxy extends ConfiguredBasicTypeInfoProxy implements IMapEntryTypeInfo {
 
-		public MapEntryTypeInfoProxy(IMapEntryTypeInfo type) {
+		public ConfiguredMapEntryTypeInfoProxy(IMapEntryTypeInfo type) {
 			super(type);
 		}
 
@@ -590,7 +590,7 @@ public class TypeInfoProxyConfiguration {
 
 	}
 
-	private class FieldInfoProxy implements IFieldInfo {
+	private class ConfiguredFieldInfoProxy implements IFieldInfo {
 
 		protected TypeInfoProxyConfiguration proxyConfiguration = TypeInfoProxyConfiguration.this;
 
@@ -599,7 +599,7 @@ public class TypeInfoProxyConfiguration {
 
 		private List<Method> debugInfoEnclosingMethods;
 
-		public FieldInfoProxy(IFieldInfo field, ITypeInfo containingType) {
+		public ConfiguredFieldInfoProxy(IFieldInfo field, ITypeInfo containingType) {
 			this.field = field;
 			this.containingType = containingType;
 			@SuppressWarnings("unchecked")
@@ -684,13 +684,13 @@ public class TypeInfoProxyConfiguration {
 			if (!getClass().equals(obj.getClass())) {
 				return false;
 			}
-			return TypeInfoProxyConfiguration.this.equals(field, containingType, ((FieldInfoProxy) obj).field,
-					((FieldInfoProxy) obj).containingType);
+			return TypeInfoProxyConfiguration.this.equals(field, containingType, ((ConfiguredFieldInfoProxy) obj).field,
+					((ConfiguredFieldInfoProxy) obj).containingType);
 		}
 
 	}
 
-	private class MethodInfoProxy implements IMethodInfo {
+	private class ConfiguredMethodInfoProxy implements IMethodInfo {
 
 		protected TypeInfoProxyConfiguration proxyConfiguration = TypeInfoProxyConfiguration.this;
 
@@ -699,7 +699,7 @@ public class TypeInfoProxyConfiguration {
 
 		private List<Method> debugInfoEnclosingMethods;
 
-		public MethodInfoProxy(IMethodInfo method, ITypeInfo containingType) {
+		public ConfiguredMethodInfoProxy(IMethodInfo method, ITypeInfo containingType) {
 			this.method = method;
 			this.containingType = containingType;
 			@SuppressWarnings("unchecked")
@@ -784,13 +784,13 @@ public class TypeInfoProxyConfiguration {
 			if (!getClass().equals(obj.getClass())) {
 				return false;
 			}
-			return TypeInfoProxyConfiguration.this.equals(method, containingType, ((MethodInfoProxy) obj).method,
-					((MethodInfoProxy) obj).containingType);
+			return TypeInfoProxyConfiguration.this.equals(method, containingType, ((ConfiguredMethodInfoProxy) obj).method,
+					((ConfiguredMethodInfoProxy) obj).containingType);
 		}
 
 	}
 
-	private class ParameterInfoProxy implements IParameterInfo {
+	private class ConfiguredParameterInfoProxy implements IParameterInfo {
 
 		protected StackTraceElement[] instanciationTrace = ReflectionUIUtils.createDebugStackTrace(1);
 
@@ -798,7 +798,7 @@ public class TypeInfoProxyConfiguration {
 		protected IMethodInfo method;
 		protected ITypeInfo containingType;
 
-		public ParameterInfoProxy(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+		public ConfiguredParameterInfoProxy(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
 			this.param = param;
 			this.method = method;
 			this.containingType = containingType;
@@ -866,8 +866,8 @@ public class TypeInfoProxyConfiguration {
 				return false;
 			}
 			return TypeInfoProxyConfiguration.this.equals(param, method, containingType,
-					((ParameterInfoProxy) obj).param, ((ParameterInfoProxy) obj).method,
-					((ParameterInfoProxy) obj).containingType);
+					((ConfiguredParameterInfoProxy) obj).param, ((ConfiguredParameterInfoProxy) obj).method,
+					((ConfiguredParameterInfoProxy) obj).containingType);
 		}
 
 	}

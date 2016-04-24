@@ -8,7 +8,7 @@ import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class DefaultListStructuralInfo extends
-		AbstractTreeDetectionListStructuralInfo {
+		AbstractTreeListStructuralInfo {
 
 
 	public DefaultListStructuralInfo(ReflectionUI reflectionUI,

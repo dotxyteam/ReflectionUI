@@ -144,12 +144,12 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 		fieldType.validate(instance.getValue());
 	}
 
-	public Object getPrecomputedTypeInfoInstanceWrapper(Object[] fieldValueArray) {
-		if (!fieldType.supportsInstance(fieldValueArray[0])) {
+	public Object getPrecomputedTypeInfoInstanceWrapper(Object[] fieldValueHolder) {
+		if (!fieldType.supportsInstance(fieldValueHolder[0])) {
 			throw new ReflectionUIError();
 		}
 		return new PrecomputedTypeInfoInstanceWrapper(new InstanceInfo(
-				fieldValueArray), this);
+				fieldValueHolder), this);
 	}
 
 	@Override
@@ -200,31 +200,31 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 	}
 
 	public static Object wrap(ReflectionUI reflectionUI,
-			final Object[] fieldValueArray, final String fieldCaption,
+			final Object[] fieldValueHolder, final String fieldCaption,
 			final String wrapperTypeCaption, final boolean readOnly) {
 		final ITypeInfo fieldType = reflectionUI.getTypeInfo(reflectionUI
-				.getTypeInfoSource(fieldValueArray[0]));
+				.getTypeInfoSource(fieldValueHolder[0]));
 		VirtualFieldWrapperTypeInfo wrapperType = new VirtualFieldWrapperTypeInfo(
 				reflectionUI, fieldType, fieldCaption, readOnly,
 				wrapperTypeCaption);
 		return wrapperType
-				.getPrecomputedTypeInfoInstanceWrapper(fieldValueArray);
+				.getPrecomputedTypeInfoInstanceWrapper(fieldValueHolder);
 	}
 
 	protected static class InstanceInfo {
-		protected Object[] fieldValueArray;
+		protected Object[] fieldValueHolder;
 
-		public InstanceInfo(Object[] fieldValueArray) {
+		public InstanceInfo(Object[] fieldValueHolder) {
 			super();
-			this.fieldValueArray = fieldValueArray;
+			this.fieldValueHolder = fieldValueHolder;
 		}
 		
 		public Object getValue(){
-			return fieldValueArray[0];
+			return fieldValueHolder[0];
 		}
 		
 		public void setValue(Object value){
-			fieldValueArray[0] = value;
+			fieldValueHolder[0] = value;
 		}
 
 		@Override

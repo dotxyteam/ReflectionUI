@@ -46,16 +46,6 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements
 	}
 
 	@Override
-	public List<IFieldInfo> getFields() {
-		return Collections.emptyList();
-	}
-
-	@Override
-	public List<IMethodInfo> getMethods() {
-		return Collections.emptyList();
-	}
-
-	@Override
 	public String formatEnumerationItem(Object object) {
 		if (object == null) {
 			return "";
