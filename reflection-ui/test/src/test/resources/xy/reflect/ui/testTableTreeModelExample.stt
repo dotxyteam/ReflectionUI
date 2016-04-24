@@ -3,14 +3,22 @@
   <minimumSecondsToWaitBetwneenActions>1</minimumSecondsToWaitBetwneenActions>
   <testActions>
     <xy.ui.testing.action.CallMainMethodAction>
+      <arguments/>
       <checkThrownExceptionAfterSeconds>2</checkThrownExceptionAfterSeconds>
       <className>xy.reflect.ui.TableTreeModelExample</className>
     </xy.ui.testing.action.CallMainMethodAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
-      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+      <componentFinder class="xy.ui.testing.finder.PropertyBasedComponentFinder">
         <componentClassName>javax.swing.JButton</componentClassName>
-        <occurrencesToSkip>1</occurrencesToSkip>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <propertyValueList>
+          <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
+            <propertyName>Tool Tip Text</propertyName>
+            <propertyValueExpected>&lt;HTML&gt;Add Product...&lt;/HTML&gt;</propertyValueExpected>
+            <outer-class reference="../../.."/>
+          </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
+        </propertyValueList>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
@@ -110,9 +118,16 @@
     </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
-      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+      <componentFinder class="xy.ui.testing.finder.PropertyBasedComponentFinder">
         <componentClassName>javax.swing.JButton</componentClassName>
-        <occurrencesToSkip>1</occurrencesToSkip>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <propertyValueList>
+          <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
+            <propertyName>Tool Tip Text</propertyName>
+            <propertyValueExpected>&lt;HTML&gt;Insert Product Before ...&lt;br/&gt;or&lt;br/&gt;Insert Product After ...&lt;/HTML&gt;</propertyValueExpected>
+            <outer-class reference="../../.."/>
+          </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
+        </propertyValueList>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
@@ -201,9 +216,16 @@
     </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
-      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+      <componentFinder class="xy.ui.testing.finder.PropertyBasedComponentFinder">
         <componentClassName>javax.swing.JButton</componentClassName>
-        <occurrencesToSkip>1</occurrencesToSkip>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <propertyValueList>
+          <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
+            <propertyName>Tool Tip Text</propertyName>
+            <propertyValueExpected>&lt;HTML&gt;Add Child Product...&lt;br/&gt;or&lt;br/&gt;Insert Product Before ...&lt;br/&gt;or&lt;br/&gt;Insert Product After ...&lt;/HTML&gt;</propertyValueExpected>
+            <outer-class reference="../../.."/>
+          </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
+        </propertyValueList>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
@@ -304,9 +326,16 @@
     </xy.ui.testing.action.component.table.SelectTableRowAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
-      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+      <componentFinder class="xy.ui.testing.finder.PropertyBasedComponentFinder">
         <componentClassName>javax.swing.JButton</componentClassName>
-        <occurrencesToSkip>1</occurrencesToSkip>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <propertyValueList>
+          <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
+            <propertyName>Tool Tip Text</propertyName>
+            <propertyValueExpected>&lt;HTML&gt;Add Child Product...&lt;br/&gt;or&lt;br/&gt;Insert Product Before ...&lt;br/&gt;or&lt;br/&gt;Insert Product After ...&lt;/HTML&gt;</propertyValueExpected>
+            <outer-class reference="../../.."/>
+          </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
+        </propertyValueList>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
@@ -395,9 +424,16 @@
     </xy.ui.testing.action.component.table.SelectTableRowAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
-      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+      <componentFinder class="xy.ui.testing.finder.PropertyBasedComponentFinder">
         <componentClassName>javax.swing.JButton</componentClassName>
-        <occurrencesToSkip>1</occurrencesToSkip>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <propertyValueList>
+          <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
+            <propertyName>Tool Tip Text</propertyName>
+            <propertyValueExpected>&lt;HTML&gt;Add Child Entry...&lt;/HTML&gt;</propertyValueExpected>
+            <outer-class reference="../../.."/>
+          </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
+        </propertyValueList>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
