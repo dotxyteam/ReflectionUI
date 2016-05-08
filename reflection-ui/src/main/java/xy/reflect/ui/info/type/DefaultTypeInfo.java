@@ -2,7 +2,6 @@ package xy.reflect.ui.info.type;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Image;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -97,11 +96,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 		return getCaption();
 	}
 
-	@Override
-	public Image getIconImage(Object object) {
-		return null;
-	}
-
+	
 	@Override
 	public List<IFieldInfo> getFields() {
 		if (fields == null) {

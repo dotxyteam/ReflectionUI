@@ -19,6 +19,7 @@ import javax.imageio.ImageIO;
 import org.ietf.jgss.GSSException;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.SwingRenderer;
 import xy.reflect.ui.info.annotation.Category;
 import xy.reflect.ui.info.annotation.OnlineHelp;
 import xy.reflect.ui.info.annotation.ValueOptionsForField;
@@ -97,7 +98,7 @@ public class ReflectionUITest {
 		public boolean theBooleanPrimitive;
 		public Boolean theBooleanObject;
 		public File theFile;
-		private Date theDate= new Date();
+		private Date theDate = new Date();
 		char c = 'a';
 		@Category("List")
 		public List<String> theStringList = new ArrayList<String>(Arrays.asList("a", "b", "c", "d"));
@@ -125,8 +126,6 @@ public class ReflectionUITest {
 
 		public Test4 test4 = new Test4();
 
-		
-		
 		public Date getTheDate() {
 			return theDate;
 		}
@@ -169,8 +168,9 @@ public class ReflectionUITest {
 	@OnlineHelp("This type is used as a 2nd test case")
 	public static class Test2 extends AbstrcatTestDescendant {
 		public List<AbstrcatTestDescendant> theChildrenList = new ArrayList<ReflectionUITest.AbstrcatTestDescendant>();
-		public void doNothing(){
-			
+
+		public void doNothing() {
+
 		}
 	}
 
@@ -265,12 +265,18 @@ public class ReflectionUITest {
 			ReflectionUI thisReflectionUI = this;
 
 			@Override
-			public Image getIconImage(Object object) {
-				try {
-					return ImageIO.read(ReflectionUITest.class.getResource("icon.gif"));
-				} catch (IOException e) {
-					throw new AssertionError(e);
-				}
+			protected SwingRenderer createSwingRenderer() {
+				return new SwingRenderer(this) {
+					@Override
+					public Image getIconImage(Object object) {
+						try {
+							return ImageIO.read(ReflectionUITest.class.getResource("icon.gif"));
+						} catch (IOException e) {
+							throw new AssertionError(e);
+						}
+					}
+
+				};
 			}
 
 			@Override

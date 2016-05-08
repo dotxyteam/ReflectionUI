@@ -371,9 +371,12 @@ public class ListControl extends JPanel implements IFieldControl {
 		IListStructuralInfo tableInfo = getStructuralInfo();
 		if (tableInfo == null) {
 			Object item = itemPosition.getItem();
-			return reflectionUI.getIconImage(item);
+			return reflectionUI.getSwingRenderer().getIconImage(item);
 		} else {
-			return tableInfo.getCellIconImage(itemPosition, columnIndex);
+			if (columnIndex == 0) {
+				return reflectionUI.getSwingRenderer().getIconImage(itemPosition.getItem());
+			}
+			return null;
 		}
 	}
 

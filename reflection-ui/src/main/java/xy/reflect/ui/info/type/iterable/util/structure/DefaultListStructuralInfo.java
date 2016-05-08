@@ -1,7 +1,5 @@
 package xy.reflect.ui.info.type.iterable.util.structure;
 
-import java.awt.Image;
-
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
@@ -36,14 +34,6 @@ public class DefaultListStructuralInfo extends
 
 	
 	
-	@Override
-	public Image getCellIconImage(ItemPosition itemPosition, int columnIndex) {
-		if (columnIndex != 0) {
-			throw new ReflectionUIError();
-		}
-		return reflectionUI.getIconImage(itemPosition.getItem());
-	}
-
 	@Override
 	protected boolean autoDetectTreeStructure() {
 		return true;

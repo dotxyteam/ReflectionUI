@@ -1,7 +1,6 @@
 package xy.reflect.ui.info.type.util;
 
 import java.awt.Component;
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -168,10 +167,7 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 		return method.toString() + "\n<= invoked with: " + instance.invocationData.toString();
 	}
 
-	@Override
-	public Image getIconImage(Object object) {
-		return reflectionUI.getIconImage(object);
-	}
+	
 
 	@Override
 	public boolean supportsInstance(Object object) {

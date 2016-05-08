@@ -1,6 +1,5 @@
 package xy.reflect.ui.info.type.util;
 
-import java.awt.Image;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,12 +88,6 @@ public class PrecomputedTypeInfoInstanceWrapper {
 			protected String toString(ITypeInfo type, Object object) {
 				object = unwrap(object);
 				return super.toString(type, object);
-			}
-
-			@Override
-			protected Image getIconImage(ITypeInfo type, Object object) {
-				object = unwrap(object);
-				return super.getIconImage(type, object);
 			}
 
 			@Override

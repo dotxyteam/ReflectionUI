@@ -1,7 +1,6 @@
 package xy.reflect.ui.info.type.util;
 
 import java.awt.Component;
-import java.awt.Image;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -130,12 +129,6 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 	public String toString(Object object) {
 		InstanceInfo instance = (InstanceInfo) object;
 		return reflectionUI.toString(instance.getValue());
-	}
-
-	@Override
-	public Image getIconImage(Object object) {
-		InstanceInfo instance = (InstanceInfo) object;
-		return reflectionUI.getIconImage(instance.getValue());
 	}
 
 	@Override

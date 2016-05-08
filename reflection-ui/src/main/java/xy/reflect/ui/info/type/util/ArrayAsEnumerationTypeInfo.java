@@ -61,10 +61,7 @@ public class ArrayAsEnumerationTypeInfo implements IEnumerationTypeInfo {
 		return reflectionUI.toString(object);
 	}
 
-	@Override
-	public Image getIconImage(Object object) {
-		return reflectionUI.getIconImage(object);
-	}
+	
 
 	@Override
 	public boolean supportsInstance(Object object) {

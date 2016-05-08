@@ -1,6 +1,5 @@
 package xy.reflect.ui;
 
-import java.awt.Image;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
@@ -75,7 +74,7 @@ public class ReflectionUI {
 			}
 			reflectionUI.getSwingRenderer().openObjectFrame(object,
 					reflectionUI.getObjectTitle(object),
-					reflectionUI.getIconImage(object));
+					reflectionUI.getSwingRenderer().getIconImage(object));
 		} catch (Throwable t) {
 			reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(
 					null, t);
@@ -121,16 +120,6 @@ public class ReflectionUI {
 
 	public boolean equals(Object value1, Object value2) {
 		return ReflectionUIUtils.equalsOrBothNull(value1, value2);
-	}
-
-	public Image getIconImage(Object object) {
-		if (object == null) {
-			return null;
-		}
-		if (object instanceof ITypeInfo) {
-			return ((ITypeInfo) object).getIconImage(null);
-		}
-		return getTypeInfo(getTypeInfoSource(object)).getIconImage(object);
 	}
 
 	public String toString(Object object) {

@@ -118,10 +118,6 @@ public class TypeInfoProxyConfiguration {
 		field.setValue(object, value);
 	}
 
-	protected Image getIconImage(ITypeInfo type, Object object) {
-		return type.getIconImage(object);
-	}
-
 	protected String toString(ITypeInfo type, Object object) {
 		return type.toString(object);
 	}
@@ -434,11 +430,6 @@ public class TypeInfoProxyConfiguration {
 		@Override
 		public String toString(Object object) {
 			return TypeInfoProxyConfiguration.this.toString(type, object);
-		}
-
-		@Override
-		public Image getIconImage(Object object) {
-			return TypeInfoProxyConfiguration.this.getIconImage(type, object);
 		}
 
 		public TypeInfoProxyConfiguration getTypeInfoProxyConfiguration() {

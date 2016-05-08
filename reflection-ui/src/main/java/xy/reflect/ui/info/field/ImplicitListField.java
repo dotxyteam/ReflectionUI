@@ -1,7 +1,6 @@
 package xy.reflect.ui.info.field;
 
 import java.awt.Component;
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -307,11 +306,6 @@ public class ImplicitListField implements IFieldInfo {
 		@Override
 		public String toString(Object object) {
 			return object.toString();
-		}
-
-		@Override
-		public Image getIconImage(Object object) {
-			return reflectionUI.getIconImage(object);
 		}
 
 		@Override

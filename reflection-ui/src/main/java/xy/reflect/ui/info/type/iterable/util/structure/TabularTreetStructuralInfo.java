@@ -1,6 +1,5 @@
 package xy.reflect.ui.info.type.iterable.util.structure;
 
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,14 +106,6 @@ public class TabularTreetStructuralInfo extends
 	public String getCellValue(ItemPosition itemPosition, int columnIndex) {
 		IFieldInfo itemField = columnFields.get(columnIndex);
 		return (String) itemField.getValue(itemPosition);
-	}
-
-	@Override
-	public Image getCellIconImage(ItemPosition itemPosition, int columnIndex) {
-		if (columnIndex == 0) {
-			return reflectionUI.getIconImage(itemPosition.getItem());
-		}
-		return null;
 	}
 
 	@Override

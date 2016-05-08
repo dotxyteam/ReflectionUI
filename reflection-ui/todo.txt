@@ -1,3 +1,8 @@
+- type infos must not contains any specific GUI code. Ex: remove
+	. ITypeInfo.createFieldControl()
+	. ITypeInfo.getIcon()
+	. IFieldInfo.getIcon()
+	. *.getIcon()
 - For null field, allow custom instanciation
 - There are debugging issues with type proxies: a type proxy is designed
 to work with a specific kind of object. The stack of proxies can be so 

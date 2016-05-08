@@ -444,6 +444,12 @@ public class SwingRenderer {
 		return result;
 	}
 
+	protected Component createFieldControl(Object object, IFieldInfo field) {
+		return field.getType().createFieldControl(object, field);
+	}
+	
+	
+
 	protected Component createOnlineHelpControl(String onlineHelp) {
 		final JButton result = new JButton(SwingRendererUtils.HELP_ICON);
 		result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
@@ -663,6 +669,10 @@ public class SwingRenderer {
 
 	public Color getNullColor() {
 		return new JTextArea().getDisabledTextColor();
+	}
+
+	public Image getIconImage(Object object) {
+		return null;
 	}
 
 	public void handleComponentSizeChange(Component c) {
@@ -901,7 +911,7 @@ public class SwingRenderer {
 	}
 
 	public void openErrorDetailsDialog(Component activatorComponent, Throwable error) {
-		openObjectDialog(activatorComponent, error, "Error Details", reflectionUI.getIconImage(error), true, null, null,
+		openObjectDialog(activatorComponent, error, "Error Details", getIconImage(error), true, null, null,
 				null, null, IInfoCollectionSettings.DEFAULT);
 	}
 
@@ -992,7 +1002,7 @@ public class SwingRenderer {
 	}
 
 	public void openObjectDialog(Component parent, Object object, boolean modal) {
-		openObjectDialog(parent, object, reflectionUI.getObjectTitle(object), reflectionUI.getIconImage(object), modal);
+		openObjectDialog(parent, object, reflectionUI.getObjectTitle(object), getIconImage(object), modal);
 	}
 
 	public void openObjectDialog(Component parent, Object object, String title, Image iconImage, boolean modal) {
@@ -1003,10 +1013,10 @@ public class SwingRenderer {
 	public void openObjectDialog(Component parent, Object object, String title, Image iconImage, boolean modal,
 			List<Component> additionalToolbarControls, boolean[] okPressedHolder, Runnable whenClosingDialog,
 			ModificationStack[] modificationStackHolder, IInfoCollectionSettings settings) {
-		
+
 		if (hasCustomFieldControl(object)) {
 			String fieldName = getDefaultFieldCaption(object);
-			object = VirtualFieldWrapperTypeInfo.wrap(reflectionUI, new Object[]{object}, fieldName, title, true);
+			object = VirtualFieldWrapperTypeInfo.wrap(reflectionUI, new Object[] { object }, fieldName, title, true);
 		}
 
 		JPanel form = createObjectForm(object, settings);
@@ -1033,7 +1043,7 @@ public class SwingRenderer {
 	}
 
 	public void openObjectFrame(Object object) {
-		openObjectFrame(object, reflectionUI.getObjectTitle(object), reflectionUI.getIconImage(object));
+		openObjectFrame(object, reflectionUI.getObjectTitle(object), getIconImage(object));
 	}
 
 	public void openObjectFrame(Object object, String title, Image iconImage) {
@@ -1165,7 +1175,7 @@ public class SwingRenderer {
 			}
 		};
 
-		openObjectDialog(activatorComponent, toOpen, title, reflectionUI.getIconImage(valueHolder[0]), true, null,
+		openObjectDialog(activatorComponent, toOpen, title, getIconImage(valueHolder[0]), true, null,
 				okPressedHolder, whenClosingDialog, modificationstackHolder, settings);
 
 		if (okPressedHolder != null) {
@@ -1189,7 +1199,7 @@ public class SwingRenderer {
 		} else {
 			toOpen = value;
 		}
-		openObjectFrame(toOpen, title, reflectionUI.getIconImage(value));
+		openObjectFrame(toOpen, title, getIconImage(value));
 	}
 
 	public List<IFieldInfo> getDisplayedFields(JPanel form) {
@@ -1410,7 +1420,7 @@ public class SwingRenderer {
 
 		public void refreshUI() {
 			if (fieldControl == null) {
-				fieldControl = field.getType().createFieldControl(object, field);
+				fieldControl = SwingRenderer.this.createFieldControl(object, field);
 				add(fieldControl, BorderLayout.CENTER);
 				handleComponentSizeChange(this);
 			} else {
