@@ -10,7 +10,7 @@ import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
-import xy.reflect.ui.util.PrimitiveUtils;
+import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.info.method.InvocationData;
 
@@ -29,7 +29,7 @@ public class BooleanTypeInfo extends DefaultTypeInfo {
 
 			@Override
 			public Object invoke(Object object, InvocationData invocationData) {
-				return PrimitiveUtils.getDefaultValue(boolean.class);
+				return ClassUtils.getDefaultValue(boolean.class);
 			}
 
 			@Override

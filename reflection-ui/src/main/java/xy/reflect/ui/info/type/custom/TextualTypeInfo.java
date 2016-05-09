@@ -13,7 +13,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
-import xy.reflect.ui.util.PrimitiveUtils;
+import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class TextualTypeInfo extends DefaultTypeInfo {
@@ -35,10 +35,10 @@ public class TextualTypeInfo extends DefaultTypeInfo {
 					return new String();
 				}
 				Class<?> primitiveType = javaType;
-				if (PrimitiveUtils.isPrimitiveWrapper(primitiveType)) {
-					primitiveType = PrimitiveUtils.wrapperToPrimitiveType(javaType);
+				if (ClassUtils.isPrimitiveWrapper(primitiveType)) {
+					primitiveType = ClassUtils.wrapperToPrimitiveType(javaType);
 				}
-				return PrimitiveUtils.getDefaultValue(primitiveType);
+				return ClassUtils.getDefaultValue(primitiveType);
 			}
 
 			@Override
@@ -50,7 +50,7 @@ public class TextualTypeInfo extends DefaultTypeInfo {
 	}
 
 	public static boolean isCompatibleWith(Class<?> javaType) {
-		return PrimitiveUtils.isPrimitiveTypeOrWrapperOrString(javaType);
+		return ClassUtils.isPrimitiveTypeOrWrapperOrString(javaType);
 	}
 
 	@Override

@@ -28,7 +28,7 @@ import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.util.ArrayAsEnumerationTypeInfo;
 import xy.reflect.ui.util.Accessor;
-import xy.reflect.ui.util.PrimitiveUtils;
+import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
@@ -140,7 +140,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 	@Override
 	public boolean supportsInstance(Object object) {
 		if (javaType.isPrimitive()) {
-			return PrimitiveUtils.primitiveToWrapperType(javaType).isInstance(object);
+			return ClassUtils.primitiveToWrapperType(javaType).isInstance(object);
 		} else {
 			return javaType.isInstance(object);
 		}

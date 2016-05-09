@@ -1,42 +1,47 @@
 package xy.reflect.ui.info.type.util;
 
-import java.awt.Component;
-import java.util.Map;
-
-import com.google.common.cache.CacheBuilder;
-
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.util.ReflectionUIError;
 
 public class HiddenNullableFacetsTypeInfoProxyConfiguration extends TypeInfoProxyConfiguration {
 
-	private static final Object NULL_FOR_CACHE = new Object();
 	protected ReflectionUI reflectionUI;
-	protected Map<ITypeInfo, Object> defaultValueByType = CacheBuilder.newBuilder().maximumSize(100)
-			.<ITypeInfo, Object> build().asMap();
 
 	public HiddenNullableFacetsTypeInfoProxyConfiguration(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
 	}
 
+	public Object generateDefaultValue(ITypeInfo type) {
+		Object result;
+		try {
+			result = reflectionUI.getSwingRenderer().onTypeInstanciationRequest(null, type, true);
+		} catch (Throwable t) {
+			result = null;
+		}
+		if (result == null) {
+			throw new ReflectionUIError(HiddenNullableFacetsTypeInfoProxyConfiguration.class.getSimpleName()
+					+ " was unable to generate a default value for the type '" + type + "'");
+		}
+		return result;
+	}
+
 	@Override
 	protected boolean isNullable(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
-		if (!param.isNullable()) {
-			return false;
-		}
-		return (param.getDefaultValue() == null) && (generateDefaultValue(param.getType()) == null);
+		return false;
 	}
 
 	@Override
 	protected Object getDefaultValue(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
 		Object result = super.getDefaultValue(param, method, containingType);
 		if (result == null) {
-			result = generateDefaultValue(param.getType());
+			if (!isNullable(param, method, containingType)) {
+				result = generateDefaultValue(param, method);
+			}
 		}
 		return result;
 	}
@@ -48,40 +53,43 @@ public class HiddenNullableFacetsTypeInfoProxyConfiguration extends TypeInfoProx
 		for (IParameterInfo param : method.getParameters()) {
 			Object paramValue = invocationData.getParameterValue(param);
 			if (paramValue == null) {
-				paramValue = generateDefaultValue(param.getType());
+				paramValue = generateDefaultValue(param, method);
 			}
 			newIinvocationData.setparameterValue(param, paramValue);
 		}
 		return super.invoke(object, newIinvocationData, method, containingType);
 	}
 
-	public Object generateDefaultValue(ITypeInfo type) {
-		Object result = defaultValueByType.get(type);
-		if (result == null) {
-			try {
-				result = reflectionUI.getSwingRenderer().onTypeInstanciationRequest(null, type, true);
-				if (result == null) {
-					result = NULL_FOR_CACHE;
-				}
-			} catch (Throwable t) {
-				result = NULL_FOR_CACHE;
-			}
-			defaultValueByType.put(type, result);
+	protected Object generateDefaultValue(IParameterInfo param, IMethodInfo method) {
+		try {
+			return generateDefaultValue(param.getType());
+		} catch (ReflectionUIError e) {
+			throw new ReflectionUIError("Parameter '" + param + "' of Method '" + method + "': " + e.toString(), e);
 		}
-		if (result == NULL_FOR_CACHE) {
-			result = null;
+	}
+
+	@Override
+	protected boolean isNullable(IFieldInfo field, ITypeInfo containingType) {
+		return false;
+	}
+
+	@Override
+	protected Object getValue(Object object, IFieldInfo field, ITypeInfo containingType) {
+		Object result = super.getValue(object, field, containingType);
+		if (result == null) {
+			if (!isNullable(field, containingType)) {
+				result = generateDefaultValue(field);
+			}
 		}
 		return result;
 	}
 
-	@Override
-	protected Component createFieldControl(ITypeInfo type, final Object object, final IFieldInfo field) {
-		return super.createFieldControl(type, object, new FieldInfoProxy(field) {
-			@Override
-			public boolean isNullable() {
-				return field.getValue(object) == null;
-			}
-		});
+	protected Object generateDefaultValue(IFieldInfo field) {
+		try {
+			return generateDefaultValue(field.getType());
+		} catch (ReflectionUIError e) {
+			throw new ReflectionUIError("Field '" + field + "': " + e.toString(), e);
+		}
 	}
 
 }

@@ -47,8 +47,19 @@ import org.jdesktop.swingx.JXBusyLabel;
 
 import com.google.common.collect.MapMaker;
 
+import xy.reflect.ui.control.swing.CheckBoxControl;
+import xy.reflect.ui.control.swing.ColorControl;
+import xy.reflect.ui.control.swing.DialogAccessControl;
+import xy.reflect.ui.control.swing.EmbeddedFormControl;
+import xy.reflect.ui.control.swing.EnumerationControl;
+import xy.reflect.ui.control.swing.FileControl;
 import xy.reflect.ui.control.swing.IFieldControl;
+import xy.reflect.ui.control.swing.ListControl;
 import xy.reflect.ui.control.swing.MethodControl;
+import xy.reflect.ui.control.swing.NullableControl;
+import xy.reflect.ui.control.swing.PolymorphicEmbeddedForm;
+import xy.reflect.ui.control.swing.PrimitiveValueControl;
+import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.FieldInfoProxy;
@@ -56,8 +67,12 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
+import xy.reflect.ui.info.type.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
+import xy.reflect.ui.info.type.custom.FileTypeInfo;
+import xy.reflect.ui.info.type.custom.TextualTypeInfo;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.ArrayAsEnumerationTypeInfo;
 import xy.reflect.ui.info.type.util.MethodParametersAsTypeInfo;
@@ -70,6 +85,7 @@ import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.SetFieldValueModification;
 import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.util.Accessor;
+import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
@@ -444,11 +460,83 @@ public class SwingRenderer {
 		return result;
 	}
 
-	protected Component createFieldControl(Object object, IFieldInfo field) {
-		return field.getType().createFieldControl(object, field);
+	protected Component createFieldControl(final Object object, final IFieldInfo field) {
+		if (field.getType() instanceof IEnumerationTypeInfo) {
+			return new EnumerationControl(reflectionUI, object, field);
+		} else if (field.getType().getPolymorphicInstanceSubTypes() != null) {
+			return new PolymorphicEmbeddedForm(reflectionUI, object, field);
+		} else {
+			if (field.isNullable()) {
+				return new NullableControl(reflectionUI, object, field, new Accessor<Component>() {
+					@Override
+					public Component get() {
+						return createNonNullFieldValueControl(object, field);
+					}
+				});
+			} else {
+				return createNonNullFieldValueControl(object, field);
+			}
+		}
 	}
-	
-	
+
+	protected Component createNonNullFieldValueControl(Object object, IFieldInfo field) {
+		if (field.getValueOptions(object) != null) {
+			return createOptionsControl(object, field);
+		} else {
+			Component customFieldControl = createCustomNonNullFieldValueControl(object, field);
+			if (customFieldControl != null) {
+				return customFieldControl;
+			} else {
+				field = SwingRendererUtils.prepareEmbeddedFormCreation(reflectionUI, object, field);
+				if (SwingRendererUtils.isEmbeddedFormCreationForbidden(field)) {
+					return new DialogAccessControl(reflectionUI, object, field);
+				} else {
+					return new EmbeddedFormControl(reflectionUI, object, field);
+				}
+			}
+		}
+	}
+
+	protected Component createCustomNonNullFieldValueControl(Object object, IFieldInfo field) {
+		ITypeInfo fieldType = field.getType();
+		if (fieldType instanceof IListTypeInfo) {
+			return new ListControl(reflectionUI, object, field);
+		} else {
+			Class<?> javaType;
+			try {
+				javaType = ClassUtils.getCachedClassforName(fieldType.getName());
+			} catch (ClassNotFoundException e) {
+				return null;
+			}
+			if (javaType == Color.class) {
+				return new ColorControl(reflectionUI, object, field);
+			} else if (BooleanTypeInfo.isCompatibleWith(javaType)) {
+				return new CheckBoxControl(reflectionUI, object, field);
+			} else if (TextualTypeInfo.isCompatibleWith(javaType)) {
+				if (javaType == String.class) {
+					return new TextControl(reflectionUI, object, field);
+				} else {
+					return new PrimitiveValueControl(reflectionUI, object, field, javaType);
+				}
+			} else if (FileTypeInfo.isCompatibleWith(javaType)) {
+				return new FileControl(reflectionUI, object, field);
+			} else {
+				return null;
+			}
+		}
+	}
+
+	protected Component createOptionsControl(final Object object, final IFieldInfo field) {
+		return new EnumerationControl(reflectionUI, object, new FieldInfoProxy(field) {
+
+			@Override
+			public ITypeInfo getType() {
+				return new ArrayAsEnumerationTypeInfo(reflectionUI, field.getValueOptions(object),
+						field.getCaption() + " Value Options");
+			}
+
+		});
+	}
 
 	protected Component createOnlineHelpControl(String onlineHelp) {
 		final JButton result = new JButton(SwingRendererUtils.HELP_ICON);
@@ -911,8 +999,8 @@ public class SwingRenderer {
 	}
 
 	public void openErrorDetailsDialog(Component activatorComponent, Throwable error) {
-		openObjectDialog(activatorComponent, error, "Error Details", getIconImage(error), true, null, null,
-				null, null, IInfoCollectionSettings.DEFAULT);
+		openObjectDialog(activatorComponent, error, "Error Details", getIconImage(error), true, null, null, null, null,
+				IInfoCollectionSettings.DEFAULT);
 	}
 
 	public void openMethodReturnValueWindow(Component activatorComponent, Object object, IMethodInfo method,
@@ -1175,8 +1263,8 @@ public class SwingRenderer {
 			}
 		};
 
-		openObjectDialog(activatorComponent, toOpen, title, getIconImage(valueHolder[0]), true, null,
-				okPressedHolder, whenClosingDialog, modificationstackHolder, settings);
+		openObjectDialog(activatorComponent, toOpen, title, getIconImage(valueHolder[0]), true, null, okPressedHolder,
+				whenClosingDialog, modificationstackHolder, settings);
 
 		if (okPressedHolder != null) {
 			return okPressedHolder[0];

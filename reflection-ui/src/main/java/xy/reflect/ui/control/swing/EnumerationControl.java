@@ -70,22 +70,26 @@ public class EnumerationControl extends JPanel {
 						cellHasFocus);
 				if (value == null) {
 					label.setText("");
+					label.setIcon(null);
 				} else {
 					String s = enumType.formatEnumerationItem(value);
 					label.setText(reflectionUI.prepareStringToDisplay(s));
-				}
-
-				Image imageIcon = reflectionUI.getSwingRenderer().getIconImage(value);
-				if (imageIcon == null) {
-					label.setIcon(null);
-				} else {
-					label.setIcon(new ImageIcon(imageIcon));
+					Image imageIcon = reflectionUI.getSwingRenderer().getIconImage(value);
+					if (imageIcon == null) {
+						label.setIcon(null);
+					} else {
+						label.setIcon(new ImageIcon(imageIcon));
+					}
 				}
 
 				return label;
 			}
 		});
-		comboBox.setSelectedItem(initialValue);
+		if (possibleValues.contains(initialValue)) {
+			comboBox.setSelectedItem(initialValue);
+		} else {
+			comboBox.setSelectedIndex(-1);
+		}
 		comboBox.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {

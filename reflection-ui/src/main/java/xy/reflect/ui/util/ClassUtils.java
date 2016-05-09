@@ -2,8 +2,10 @@ package xy.reflect.ui.util;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 
-public class PrimitiveUtils {
+public class ClassUtils {
 
 	protected static boolean DEFAULT_BOOLEAN;
 	protected static byte DEFAULT_BYTE;
@@ -13,6 +15,40 @@ public class PrimitiveUtils {
 	protected static float DEFAULT_FLOAT;
 	protected static double DEFAULT_DOUBLE;
 	protected static char DEFAULT_CHAR;
+
+	protected static final Map<String, Class<?>> CLASS_BY_NAME_CACHE = new HashMap<String, Class<?>>();
+	protected static final Class<?> CLASS_NOT_FOUND = (new Object() {
+	}).getClass();
+
+	static {
+		for (Class<?> c : new Class[] { void.class, boolean.class, byte.class, char.class, short.class, int.class,
+				float.class, double.class, long.class })
+			CLASS_BY_NAME_CACHE.put(c.getName(), c);
+	}
+
+	public static Class<?> getCachedClassforName(String name) throws ClassNotFoundException {
+		synchronized (CLASS_BY_NAME_CACHE) {
+			Class<?> c = CLASS_BY_NAME_CACHE.get(name);
+			if (c == null) {
+				try {
+					c = Class.forName(name);
+				} catch (ClassNotFoundException e) {
+					c = CLASS_NOT_FOUND;
+				}
+			}
+			CLASS_BY_NAME_CACHE.put(name, c);
+			if (c == CLASS_NOT_FOUND) {
+				throw new ClassNotFoundException(name);
+			}
+			return c;
+		}
+	}
+
+	public static void resetClassCacheForName() {
+		synchronized (CLASS_BY_NAME_CACHE) {
+			CLASS_BY_NAME_CACHE.clear();
+		}
+	}
 
 	public static Class<?> primitiveToWrapperType(Class<?> class1) {
 		if (class1 == byte.class) {
@@ -105,7 +141,7 @@ public class PrimitiveUtils {
 		final int length = Array.getLength(primitiveArray);
 		Class<?> primitiveType = arrayType.getComponentType();
 		Class<?> wrapperType = primitiveToWrapperType(primitiveType);
-		Object	result = Array.newInstance(wrapperType, length);
+		Object result = Array.newInstance(wrapperType, length);
 		for (int i = 0; i < length; i++) {
 			final Object wrapper = Array.get(primitiveArray, i);
 			Array.set(result, i, wrapper);
@@ -120,14 +156,12 @@ public class PrimitiveUtils {
 		if (javaType == Character.class) {
 			text = text.trim();
 			if (text.length() != 1) {
-				throw new RuntimeException("Invalid value: '" + text
-						+ "'. 1 character is expected");
+				throw new RuntimeException("Invalid value: '" + text + "'. 1 character is expected");
 			}
 			return text.charAt(0);
 		} else {
 			try {
-				return javaType.getConstructor(new Class[] { String.class })
-						.newInstance(text);
+				return javaType.getConstructor(new Class[] { String.class }).newInstance(text);
 			} catch (IllegalArgumentException e) {
 				throw new ReflectionUIError(e);
 			} catch (SecurityException e) {

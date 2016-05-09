@@ -1,3 +1,6 @@
+- hideNullableConf must disappear: 
+the metadata editor will allow to specify how to handle and display 
+null values 
 - type infos must not contains any specific GUI code. Ex: remove
 	. ITypeInfo.createFieldControl()
 	. ITypeInfo.getIcon()
