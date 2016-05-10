@@ -155,14 +155,4 @@ public class ArrayAsEnumerationTypeInfo implements IEnumerationTypeInfo {
 		return true;
 	}
 
-	@Override
-	public Component createFieldControl(Object object, IFieldInfo field) {
-		return new EnumerationControl(reflectionUI, object, field);
-	}
-
-	@Override
-	public boolean hasCustomFieldControl(Object object, IFieldInfo field) {
-		return true;
-	}
-
 }

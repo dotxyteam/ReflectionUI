@@ -1,11 +1,8 @@
 package xy.reflect.ui.info.type.custom;
 
-import java.awt.Component;
 import java.util.Collections;
 import java.util.List;
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.swing.CheckBoxControl;
-import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -42,17 +39,5 @@ public class BooleanTypeInfo extends DefaultTypeInfo {
 	public static boolean isCompatibleWith(Class<?> javaType) {
 		return (javaType.equals(boolean.class)) || (javaType.equals(Boolean.class));
 	}
-
-	@Override
-	public Component createCustomNonNullFieldValueControl(Object object, IFieldInfo field) {
-		return new CheckBoxControl(reflectionUI, object, field);
-	}
-
-	@Override
-	public boolean hasCustomFieldControl(Object object, IFieldInfo field) {
-		return true;
-	}
-	
-	
 
 }

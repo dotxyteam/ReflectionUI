@@ -343,14 +343,6 @@ public class TypeInfoProxyConfiguration {
 		return result;
 	}
 
-	protected Component createFieldControl(ITypeInfo type, Object object, IFieldInfo field) {
-		return type.createFieldControl(object, field);
-	}
-
-	protected boolean hasCustomFieldControl(ITypeInfo type, Object object, IFieldInfo field) {
-		return type.hasCustomFieldControl(object, field);
-	}
-
 	protected String getOnlineHelp(IMethodInfo method, ITypeInfo containingType) {
 		return method.getOnlineHelp();
 	}
@@ -482,16 +474,6 @@ public class TypeInfoProxyConfiguration {
 		@Override
 		public Map<String, Object> getSpecificProperties() {
 			return TypeInfoProxyConfiguration.this.getSpecificProperties(type);
-		}
-
-		@Override
-		public Component createFieldControl(Object object, IFieldInfo field) {
-			return TypeInfoProxyConfiguration.this.createFieldControl(type, object, field);
-		}
-
-		@Override
-		public boolean hasCustomFieldControl(Object object, IFieldInfo field) {
-			return TypeInfoProxyConfiguration.this.hasCustomFieldControl(type, object, field);
 		}
 	}
 

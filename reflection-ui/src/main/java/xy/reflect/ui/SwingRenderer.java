@@ -460,7 +460,42 @@ public class SwingRenderer {
 		return result;
 	}
 
-	protected Component createFieldControl(final Object object, final IFieldInfo field) {
+	public boolean hasCustomFieldControl(Object object, IFieldInfo field) {
+		if (field.getType() instanceof IEnumerationTypeInfo) {
+			return true;
+		} else if (field.getType().getPolymorphicInstanceSubTypes() != null) {
+			return true;
+		} else {
+			if (field.getValueOptions(object) != null) {
+				return true;
+			} else {
+				ITypeInfo fieldType = field.getType();
+				if (fieldType instanceof IListTypeInfo) {
+					return true;
+				} else {
+					Class<?> javaType;
+					try {
+						javaType = ClassUtils.getCachedClassforName(fieldType.getName());
+					} catch (ClassNotFoundException e) {
+						return false;
+					}
+					if (javaType == Color.class) {
+						return true;
+					} else if (BooleanTypeInfo.isCompatibleWith(javaType)) {
+						return true;
+					} else if (TextualTypeInfo.isCompatibleWith(javaType)) {
+						return true;
+					} else if (FileTypeInfo.isCompatibleWith(javaType)) {
+						return true;
+					} else {
+						return false;
+					}
+				}
+			}
+		}
+	}
+
+	public Component createFieldControl(final Object object, final IFieldInfo field) {
 		if (field.getType() instanceof IEnumerationTypeInfo) {
 			return new EnumerationControl(reflectionUI, object, field);
 		} else if (field.getType().getPolymorphicInstanceSubTypes() != null) {
@@ -1479,7 +1514,7 @@ public class SwingRenderer {
 				false);
 		ITypeInfo valueAsFieldType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(valueAsField));
 		IFieldInfo field = valueAsFieldType.getFields().get(0);
-		return field.getType().hasCustomFieldControl(valueAsField, field);
+		return hasCustomFieldControl(valueAsField, field);
 	}
 
 	public class FieldControlPlaceHolder extends JPanel {

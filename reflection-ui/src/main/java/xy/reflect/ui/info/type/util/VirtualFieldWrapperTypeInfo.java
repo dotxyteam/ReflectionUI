@@ -1,12 +1,10 @@
 package xy.reflect.ui.info.type.util;
 
-import java.awt.Component;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.swing.EmbeddedFormControl;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -230,15 +228,5 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 		}
 		
 		
-	}
-
-	@Override
-	public Component createFieldControl(Object object, IFieldInfo field) {
-		return new EmbeddedFormControl(reflectionUI, object, field);
-	}
-
-	@Override
-	public boolean hasCustomFieldControl(Object object, IFieldInfo field) {
-		return false;
 	}
 }

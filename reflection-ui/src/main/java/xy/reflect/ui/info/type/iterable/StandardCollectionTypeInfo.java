@@ -1,6 +1,5 @@
 package xy.reflect.ui.info.type.iterable;
 
-import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -9,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.swing.ListControl;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -123,7 +121,6 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 		return result;
 	}
 
-
 	@Override
 	public boolean canInstanciateFromArray() {
 		return ReflectionUIUtils.getZeroParameterConstrucor(this) != null;
@@ -191,16 +188,6 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	@Override
 	public List<IMethodInfo> getObjectSpecificItemConstructors(Object object, IFieldInfo field) {
 		return Collections.emptyList();
-	}
-
-	@Override
-	public Component createCustomNonNullFieldValueControl(Object object, IFieldInfo field) {
-		return new ListControl(reflectionUI, object, field);
-	}
-
-	@Override
-	public boolean hasCustomFieldControl(Object object, IFieldInfo field) {
-		return true;
 	}
 
 }
