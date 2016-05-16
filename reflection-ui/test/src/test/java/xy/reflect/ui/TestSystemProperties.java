@@ -8,7 +8,7 @@ import org.junit.Test;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.util.HiddenNullableFacetsTypeInfoProxyConfiguration;
+import xy.reflect.ui.info.type.util.HiddenNullableFacetsInfoProxyGenerator;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
@@ -47,7 +47,7 @@ public class TestSystemProperties {
 			Assert.fail();
 		} catch (ReflectionUIError e) {
 			Assert.assertTrue(
-					e.toString().contains(HiddenNullableFacetsTypeInfoProxyConfiguration.class.getSimpleName()));
+					e.toString().contains(HiddenNullableFacetsInfoProxyGenerator.class.getSimpleName()));
 		}
 	}
 

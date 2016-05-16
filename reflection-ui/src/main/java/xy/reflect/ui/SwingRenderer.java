@@ -18,6 +18,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -75,6 +77,8 @@ import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.ArrayAsEnumerationTypeInfo;
+import xy.reflect.ui.info.type.util.InfoCustomizations;
+import xy.reflect.ui.info.type.util.InfoCustomizations.SpecificFieldCustomization;
 import xy.reflect.ui.info.type.util.MethodParametersAsTypeInfo;
 import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.info.type.util.VirtualFieldWrapperTypeInfo;
@@ -108,9 +112,11 @@ public class SwingRenderer {
 	protected Map<IMethodInfo, InvocationData> lastInvocationDataByMethod = new HashMap<IMethodInfo, InvocationData>();
 	protected Map<FieldControlPlaceHolder, Component> captionControlByFieldControlPlaceHolder = new MapMaker()
 			.weakKeys().makeMap();
+	protected InfoCustomizations infoCustomizations;
 
 	public SwingRenderer(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
+		loadInfoCustomizations();
 	}
 
 	public Map<JPanel, Object> getObjectByForm() {
@@ -239,49 +245,22 @@ public class SwingRenderer {
 		return dialog;
 	}
 
-	protected List<JButton> createDialogOkCancelButtons(final JDialog[] dialogHolder, final boolean[] okPressedHolder,
-			String okCaption, final Runnable okAction, boolean createCancelButton, String cancelCaption) {
-		List<JButton> result = new ArrayList<JButton>();
-
-		final JButton okButton = new JButton(
-				reflectionUI.prepareStringToDisplay((okCaption != null) ? okCaption : "OK"));
-		result.add(okButton);
-		if (okPressedHolder != null) {
-			okPressedHolder[0] = false;
-		}
-		okButton.addActionListener(new ActionListener() {
+	protected JButton createDialogClosingButton(String caption, final Runnable action, final JDialog[] dialogHolder) {
+		final JButton result = new JButton(reflectionUI.prepareStringToDisplay(caption));
+		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if (okAction != null) {
-						okAction.run();
-					}
-					if (okPressedHolder != null) {
-						okPressedHolder[0] = true;
+					if (action != null) {
+						action.run();
 					}
 				} catch (Throwable t) {
-					handleExceptionsFromDisplayedUI(okButton, t);
+					handleExceptionsFromDisplayedUI(result, t);
 				} finally {
 					dialogHolder[0].dispose();
 				}
 			}
 		});
-
-		if (createCancelButton) {
-			final JButton cancelButton = new JButton(
-					reflectionUI.prepareStringToDisplay((cancelCaption != null) ? cancelCaption : "Cancel"));
-			result.add(cancelButton);
-			cancelButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					if (okPressedHolder != null) {
-						okPressedHolder[0] = false;
-					}
-					dialogHolder[0].dispose();
-				}
-			});
-		}
-
 		return result;
 	}
 
@@ -433,7 +412,7 @@ public class SwingRenderer {
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override
 						public void run() {
-							refreshAllFieldControls(form);
+							refreshAllFieldControls(form, false);
 							validateForm(form);
 						}
 					});
@@ -631,6 +610,7 @@ public class SwingRenderer {
 		form.setLayout(new BorderLayout());
 
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		type = infoCustomizations.get(type);
 
 		Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = new HashMap<InfoCategory, List<FieldControlPlaceHolder>>();
 		getFieldControlPlaceHoldersByCategoryByForm().put(form, fieldControlPlaceHoldersByCategory);
@@ -707,6 +687,22 @@ public class SwingRenderer {
 			formContent.add(createMultipleInfoCategoriesComponent(allCategories, fieldControlPlaceHoldersByCategory,
 					methodControlsByCategory), BorderLayout.CENTER);
 		}
+	}
+
+	protected void loadInfoCustomizations() {
+		infoCustomizations = new InfoCustomizations(reflectionUI);
+		File file = getInfoCustomizationsFile();
+		if (file.exists()) {
+			try {
+				infoCustomizations.loadFromFile(file);
+			} catch (IOException e) {
+				throw new ReflectionUIError(e);
+			}
+		}
+	}
+
+	protected File getInfoCustomizationsFile() {
+		return new File(SwingRenderer.class.getSimpleName() + "-" + InfoCustomizations.class.getSimpleName() + ".dat");
 	}
 
 	public List<FieldControlPlaceHolder> getAllFieldControlPlaceHolders(JPanel form) {
@@ -1026,7 +1022,7 @@ public class SwingRenderer {
 			}
 		});
 		buttons.add(deatilsButton);
-		buttons.addAll(createDialogOkCancelButtons(dialogHolder, null, "Close", null, false, null));
+		buttons.add(createDialogClosingButton("Close", null, dialogHolder));
 
 		dialogHolder[0] = createDialog(activatorComponent, errorComponent, title, null, buttons, null);
 		showDialog(dialogHolder[0], true);
@@ -1034,8 +1030,8 @@ public class SwingRenderer {
 	}
 
 	public void openErrorDetailsDialog(Component activatorComponent, Throwable error) {
-		openObjectDialog(activatorComponent, error, "Error Details", getIconImage(error), true, null, null, null, null,
-				IInfoCollectionSettings.DEFAULT);
+		openObjectDialog(activatorComponent, Accessor.returning(error, false), "Error Details", getIconImage(error),
+				true, IInfoCollectionSettings.DEFAULT, null, false, null, null, null);
 	}
 
 	public void openMethodReturnValueWindow(Component activatorComponent, Object object, IMethodInfo method,
@@ -1124,28 +1120,107 @@ public class SwingRenderer {
 		}
 	}
 
-	public void openObjectDialog(Component parent, Object object, boolean modal) {
-		openObjectDialog(parent, object, reflectionUI.getObjectTitle(object), getIconImage(object), modal);
+	public boolean openObjectDialogAndGetConfirmation(Component activatorComponent, Object object, final String title,
+			Image iconImage, boolean modal) {
+		boolean[] okPressedHolder = new boolean[1];
+		openObjectDialog(activatorComponent, object, title, iconImage, modal, true, okPressedHolder);
+		return okPressedHolder[0];
 	}
 
-	public void openObjectDialog(Component parent, Object object, String title, Image iconImage, boolean modal) {
-		openObjectDialog(parent, object, title, iconImage, modal, null, null, null, null,
-				IInfoCollectionSettings.DEFAULT);
+	public boolean openObjectDialogAndGetConfirmation(Component activatorComponent, Object object, boolean modal) {
+		return openObjectDialogAndGetConfirmation(activatorComponent, object, reflectionUI.getObjectTitle(object),
+				getIconImage(object), modal);
 	}
 
-	public void openObjectDialog(Component parent, Object object, String title, Image iconImage, boolean modal,
-			List<Component> additionalToolbarControls, boolean[] okPressedHolder, Runnable whenClosingDialog,
-			ModificationStack[] modificationStackHolder, IInfoCollectionSettings settings) {
+	public void openObjectDialog(Component activatorComponent, Object object, boolean modal) {
+		openObjectDialog(activatorComponent, object, reflectionUI.getObjectTitle(object), getIconImage(object), modal);
+	}
 
-		if (hasCustomFieldControl(object)) {
-			String fieldName = getDefaultFieldCaption(object);
-			object = VirtualFieldWrapperTypeInfo.wrap(reflectionUI, new Object[] { object }, fieldName, title, true);
+	public void openObjectDialog(Component activatorComponent, Object object, final String title, Image iconImage,
+			boolean modal) {
+		openObjectDialog(activatorComponent, object, title, iconImage, modal, false, null);
+	}
+
+	public void openObjectDialog(Component activatorComponent, Object object, final String title, Image iconImage,
+			boolean modal, boolean cancellable, boolean[] okPressedHolder) {
+		Accessor<?> valueAccessor = Accessor.returning(object, false);
+		ModificationStack parentModificationStack = null;
+		List<Component> additionalToolbarControls = null;
+		boolean[] changeDetectedHolder = null;
+		openObjectDialog(activatorComponent, valueAccessor, title, iconImage, modal, IInfoCollectionSettings.DEFAULT,
+				parentModificationStack, cancellable, okPressedHolder, changeDetectedHolder, additionalToolbarControls);
+	}
+
+	public <T> void openObjectDialog(Component activatorComponent, final Accessor<T> valueAccessor, final String title,
+			Image iconImage, boolean modal, final IInfoCollectionSettings settings,
+			final ModificationStack parentModificationStack, boolean cancellable, final boolean[] okPressedHolder,
+			final boolean[] changeDetectedHolder, List<Component> additionalToolbarControls) {
+		final Object[] valueHolder = new Object[] { valueAccessor.get() };
+		final Object object;
+		if (hasCustomFieldControl(valueHolder[0])) {
+			String fieldName = getDefaultFieldCaption(valueHolder[0]);
+			boolean isGetOnly = (okPressedHolder == null);
+			object = VirtualFieldWrapperTypeInfo.wrap(reflectionUI, valueHolder, fieldName, title, isGetOnly);
+		} else {
+			object = valueHolder[0];
 		}
+
+		final ModificationStack[] modificationStackHolder = new ModificationStack[1];
+
+		Runnable whenClosingDialog = new Runnable() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public void run() {
+				if (changeDetectedHolder != null) {
+					changeDetectedHolder[0] = isChangeDetected();
+				}
+				if ((okPressedHolder == null) || okPressedHolder[0]) {
+					if (isChangeDetected()) {
+						if (parentModificationStack != null) {
+							if (modificationStackHolder[0].getNumberOfUndoUnits() == 0) {
+								valueAccessor.set((T) valueHolder[0]);
+							} else {
+								parentModificationStack.beginComposite();
+								valueAccessor.set((T) valueHolder[0]);
+								parentModificationStack.pushUndo(new CompositeModification(null, UndoOrder.LIFO,
+										modificationStackHolder[0].getUndoModifications(UndoOrder.LIFO)));
+								parentModificationStack.endComposite(title, UndoOrder.FIFO);
+							}
+							if (modificationStackHolder[0].isInvalidated()) {
+								parentModificationStack.invalidate();
+							}
+						} else {
+							valueAccessor.set((T) valueHolder[0]);
+						}
+					}
+				} else {
+					if (modificationStackHolder[0] != null) {
+						if (!modificationStackHolder[0].isInvalidated()) {
+							if (modificationStackHolder[0].getNumberOfUndoUnits() > 0) {
+								modificationStackHolder[0].undoAll(false);
+								if (changeDetectedHolder != null) {
+									changeDetectedHolder[0] = false;
+								}
+							}
+						}
+					}
+				}
+			}
+
+			private boolean isChangeDetected() {
+				if (modificationStackHolder[0] != null) {
+					if (modificationStackHolder[0].getNumberOfUndoUnits() > 0) {
+						return true;
+					}
+					if (modificationStackHolder[0].isInvalidated()) {
+						return true;
+					}
+				}
+				return false;
+			}
+		};
 
 		JPanel form = createObjectForm(object, settings);
-		if (modificationStackHolder == null) {
-			modificationStackHolder = new ModificationStack[1];
-		}
 		modificationStackHolder[0] = getModificationStackByForm().get(form);
 		List<Component> toolbarControls = new ArrayList<Component>();
 		List<Component> commonToolbarControls = createCommonToolbarControls(form);
@@ -1156,12 +1231,24 @@ public class SwingRenderer {
 			toolbarControls.addAll(additionalToolbarControls);
 		}
 		JDialog[] dialogHolder = new JDialog[1];
-		if (okPressedHolder == null) {
-			toolbarControls.addAll(createDialogOkCancelButtons(dialogHolder, null, "Close", null, false, null));
+		if (cancellable) {
+			final List<JButton> okCancelButtons = createStandardOKCancelDialogButtons(dialogHolder, okPressedHolder);
+			toolbarControls.addAll(okCancelButtons);
+			if (modificationStackHolder[0] != null) {
+				modificationStackHolder[0].addListener(new IModificationListener() {
+					@Override
+					public void handleEvent(Object event) {
+						if (modificationStackHolder[0].isInvalidated()) {
+							JButton cancelButton = okCancelButtons.get(1);
+							cancelButton.setEnabled(false);
+						}
+					}
+				});
+			}
 		} else {
-			toolbarControls.addAll(createDialogOkCancelButtons(dialogHolder, okPressedHolder, "OK", null, true, null));
+			toolbarControls.add(createDialogClosingButton("Close", null, dialogHolder));
 		}
-		dialogHolder[0] = createDialog(parent, form, title, iconImage, toolbarControls, whenClosingDialog);
+		dialogHolder[0] = createDialog(activatorComponent, form, title, iconImage, toolbarControls, whenClosingDialog);
 		showDialog(dialogHolder[0], modal);
 	}
 
@@ -1190,8 +1277,11 @@ public class SwingRenderer {
 		chosenItemHolder[0] = new PrecomputedTypeInfoInstanceWrapper(chosenItemHolder[0], enumType);
 		final Object chosenItemAsField = VirtualFieldWrapperTypeInfo.wrap(reflectionUI, chosenItemHolder, message,
 				"Selection", false);
-		if (openValueDialog(parentComponent, Accessor.returning(chosenItemAsField, false), false,
-				IInfoCollectionSettings.DEFAULT, null, title, new boolean[1])) {
+		boolean[] okPressedHolder = new boolean[1];
+		openObjectDialog(parentComponent, Accessor.returning(chosenItemAsField, false), title,
+				getIconImage(chosenItemAsField), true, IInfoCollectionSettings.DEFAULT, null, true, okPressedHolder,
+				null, null);
+		if (okPressedHolder[0]) {
 			chosenItemHolder[0] = ((PrecomputedTypeInfoInstanceWrapper) chosenItemHolder[0]).getInstance();
 			return (T) chosenItemHolder[0];
 		} else {
@@ -1207,8 +1297,10 @@ public class SwingRenderer {
 		final Object[] valueHolder = new Object[] { initialValue };
 		final Object valueAsField = VirtualFieldWrapperTypeInfo.wrap(reflectionUI, valueHolder, dataName, "Selection",
 				false);
-		if (openValueDialog(parentComponent, Accessor.returning(valueAsField, false), false,
-				IInfoCollectionSettings.DEFAULT, null, title, new boolean[1])) {
+		boolean[] okPressedHolder = new boolean[1];
+		openObjectDialog(parentComponent, Accessor.returning(valueAsField, false), title, getIconImage(valueAsField),
+				true, IInfoCollectionSettings.DEFAULT, null, true, okPressedHolder, null, null);
+		if (okPressedHolder[0]) {
 			return (T) valueHolder[0];
 		} else {
 			return null;
@@ -1222,91 +1314,37 @@ public class SwingRenderer {
 	public boolean openQuestionDialog(Component activatorComponent, String question, String title, String yesCaption,
 			String noCaption) {
 		JDialog[] dialogHolder = new JDialog[1];
-		boolean[] okPressedHolder = new boolean[] { false };
-		showDialog(dialogHolder[0] = createDialog(activatorComponent,
+		final boolean[] okPressedHolder = new boolean[] { false };
+
+		List<JButton> toolbarControls = createStandardOKCancelDialogButtons(dialogHolder, okPressedHolder);
+
+		dialogHolder[0] = createDialog(activatorComponent,
 				new JLabel("<HTML><BR>" + question + "<BR><BR><HTML>", SwingConstants.CENTER), title, null,
-				createDialogOkCancelButtons(dialogHolder, okPressedHolder, yesCaption, null, true, noCaption), null),
-				true);
+				toolbarControls, null);
+		showDialog(dialogHolder[0], true);
 		return okPressedHolder[0];
 	}
 
-	public boolean openValueDialog(Component activatorComponent, final Accessor<Object> valueAccessor,
-			boolean isGetOnly, final IInfoCollectionSettings settings, final ModificationStack parentModificationStack,
-			final String title, final boolean[] changeDetectedHolder) {
-		final Object[] valueHolder = new Object[] { valueAccessor.get() };
-		final Object toOpen;
-		if (hasCustomFieldControl(valueHolder[0])) {
-			String fieldName = getDefaultFieldCaption(valueHolder[0]);
-			toOpen = VirtualFieldWrapperTypeInfo.wrap(reflectionUI, valueHolder, fieldName, title, isGetOnly);
-		} else {
-			toOpen = valueHolder[0];
-		}
-
-		final boolean[] okPressedHolder;
-		if (isGetOnly) {
-			okPressedHolder = null;
-		} else {
-			okPressedHolder = new boolean[] { false };
-		}
-		final ModificationStack[] modificationstackHolder = new ModificationStack[1];
-
-		Runnable whenClosingDialog = new Runnable() {
+	protected List<JButton> createStandardOKCancelDialogButtons(JDialog[] dialogHolder,
+			final boolean[] okPressedHolder) {
+		List<JButton> result = new ArrayList<JButton>();
+		result.add(createDialogClosingButton("OK", new Runnable() {
 			@Override
 			public void run() {
-				changeDetectedHolder[0] = isChangeDetected();
-				if ((okPressedHolder == null) || okPressedHolder[0]) {
-					if (changeDetectedHolder[0]) {
-						if (parentModificationStack != null) {
-							if (modificationstackHolder[0].getNumberOfUndoUnits() == 0) {
-								valueAccessor.set(valueHolder[0]);
-							} else {
-								parentModificationStack.beginComposite();
-								valueAccessor.set(valueHolder[0]);
-								parentModificationStack.pushUndo(new CompositeModification(null, UndoOrder.LIFO,
-										modificationstackHolder[0].getUndoModifications(UndoOrder.LIFO)));
-								parentModificationStack.endComposite(title, UndoOrder.FIFO);
-							}
-							if (modificationstackHolder[0].isInvalidated()) {
-								parentModificationStack.invalidate();
-							}
-						} else {
-							valueAccessor.set(valueHolder[0]);
-						}
-					}
-				} else {
-					if (modificationstackHolder[0] != null) {
-						if (!modificationstackHolder[0].isInvalidated()) {
-							if (modificationstackHolder[0].getNumberOfUndoUnits() > 0) {
-								modificationstackHolder[0].undoAll(false);
-								changeDetectedHolder[0] = false;
-							}
-						}
-					}
+				if (okPressedHolder != null) {
+					okPressedHolder[0] = true;
 				}
 			}
-
-			private boolean isChangeDetected() {
-				if (modificationstackHolder[0] != null) {
-					if (modificationstackHolder[0].getNumberOfUndoUnits() > 0) {
-						return true;
-					}
-					if (modificationstackHolder[0].isInvalidated()) {
-						return true;
-					}
+		}, dialogHolder));
+		result.add(createDialogClosingButton("Cancel", new Runnable() {
+			@Override
+			public void run() {
+				if (okPressedHolder != null) {
+					okPressedHolder[0] = false;
 				}
-				return false;
 			}
-		};
-
-		openObjectDialog(activatorComponent, toOpen, title, getIconImage(valueHolder[0]), true, null, okPressedHolder,
-				whenClosingDialog, modificationstackHolder, settings);
-
-		if (okPressedHolder != null) {
-			return okPressedHolder[0];
-		} else {
-			return false;
-		}
-
+		}, dialogHolder));
+		return result;
 	}
 
 	protected String getDefaultFieldCaption(Object fieldValue) {
@@ -1341,10 +1379,10 @@ public class SwingRenderer {
 		return result;
 	}
 
-	public void refreshAllFieldControls(JPanel form) {
+	public void refreshAllFieldControls(JPanel form, boolean recreate) {
 		int focusedFieldControlPaceHolderIndex = getFocusedFieldControlPaceHolderIndex(form);
 		for (FieldControlPlaceHolder fieldControlPlaceHolder : getAllFieldControlPlaceHolders(form)) {
-			fieldControlPlaceHolder.refreshUI();
+			fieldControlPlaceHolder.refreshUI(recreate);
 			updateFieldControlLayout(fieldControlPlaceHolder);
 		}
 		if (focusedFieldControlPaceHolderIndex != -1) {
@@ -1354,10 +1392,10 @@ public class SwingRenderer {
 		}
 	}
 
-	public void refreshFieldControlsByName(JPanel form, String fieldName) {
+	public void refreshFieldControlsByName(JPanel form, String fieldName, boolean recreate) {
 		for (FieldControlPlaceHolder fieldControlPlaceHolder : getAllFieldControlPlaceHolders(form)) {
 			if (fieldName.equals(fieldControlPlaceHolder.getField().getName())) {
-				fieldControlPlaceHolder.refreshUI();
+				fieldControlPlaceHolder.refreshUI(recreate);
 				updateFieldControlLayout(fieldControlPlaceHolder);
 			}
 		}
@@ -1428,9 +1466,11 @@ public class SwingRenderer {
 
 	public void openMessageDialog(Component activatorComponent, String msg, String title) {
 		JDialog[] dialogHolder = new JDialog[1];
-		showDialog(dialogHolder[0] = createDialog(activatorComponent,
+		JButton okButton = createDialogClosingButton("Close", null, dialogHolder);
+		dialogHolder[0] = createDialog(activatorComponent,
 				new JLabel("<HTML><BR>" + msg + "<BR><BR><HTML>", SwingConstants.CENTER), title, null,
-				createDialogOkCancelButtons(dialogHolder, null, null, null, false, null), null), true);
+				Collections.singletonList(okButton), null);
+		showDialog(dialogHolder[0], true);
 	}
 
 	protected void updateFieldControlLayout(FieldControlPlaceHolder fieldControlPlaceHolder) {
@@ -1523,6 +1563,7 @@ public class SwingRenderer {
 		protected Object object;
 		protected IFieldInfo field;
 		protected Component fieldControl;
+		protected Component infoCustomizationsControl;
 
 		public FieldControlPlaceHolder(Object object, IFieldInfo field) {
 			super();
@@ -1530,7 +1571,7 @@ public class SwingRenderer {
 			field = handleValueChangeErrors(field, this);
 			this.field = field;
 			setLayout(new BorderLayout());
-			refreshUI();
+			refreshUI(false);
 		}
 
 		public Component getFieldControl() {
@@ -1541,7 +1582,14 @@ public class SwingRenderer {
 			return field;
 		}
 
-		public void refreshUI() {
+		public void refreshUI(boolean recreate) {
+			refreshInfoCustomizationsControl();
+			if (recreate) {
+				if (fieldControl != null) {
+					remove(fieldControl);
+					fieldControl = null;
+				}
+			}
 			if (fieldControl == null) {
 				fieldControl = SwingRenderer.this.createFieldControl(object, field);
 				add(fieldControl, BorderLayout.CENTER);
@@ -1551,7 +1599,7 @@ public class SwingRenderer {
 					boolean hadFocus = SwingRendererUtils.hasOrContainsFocus(fieldControl);
 					remove(fieldControl);
 					fieldControl = null;
-					refreshUI();
+					refreshUI(false);
 					if (hadFocus) {
 						fieldControl.requestFocus();
 					}
@@ -1559,11 +1607,25 @@ public class SwingRenderer {
 			}
 		}
 
+		protected void refreshInfoCustomizationsControl() {
+			if (infoCustomizationsControl == null) {
+				if (infoCustomizations.isEnabled()) {
+					infoCustomizationsControl = createFieldInfoCustomizationsControl(object, field);
+					add(infoCustomizationsControl, BorderLayout.EAST);
+					handleComponentSizeChange(this);
+				}
+			} else {
+				remove(infoCustomizationsControl);
+				infoCustomizationsControl = null;
+				refreshInfoCustomizationsControl();
+			}
+		}
+
 		public void displayError(ReflectionUIError error) {
 			if (!((fieldControl instanceof IFieldControl) && ((IFieldControl) fieldControl).displayError(error))) {
 				if (error != null) {
 					handleExceptionsFromDisplayedUI(fieldControl, error);
-					refreshUI();
+					refreshUI(false);
 				}
 			}
 		}
@@ -1583,6 +1645,49 @@ public class SwingRenderer {
 			}
 		}
 
+	}
+
+	public Component createFieldInfoCustomizationsControl(final Object object, final IFieldInfo field) {
+		final JButton result = new JButton(SwingRendererUtils.CUSTOM_ICON);
+		result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
+		result.setContentAreaFilled(false);
+		result.setFocusable(false);
+		SwingRendererUtils.setMultilineToolTipText(result,
+				reflectionUI.prepareStringToDisplay("Customize this field display"));
+		result.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+				SpecificFieldCustomization fc = infoCustomizations.getSpecificFieldCustomization(type, field, true);
+				if (new ReflectionUI() {
+
+					@Override
+					protected SwingRenderer createSwingRenderer() {
+						return new SwingRenderer(this) {
+
+							@Override
+							protected void loadInfoCustomizations() {
+								super.loadInfoCustomizations();
+								infoCustomizations.setEnabled(false);
+							}
+
+						};
+					}
+				}.getSwingRenderer().openObjectDialogAndGetConfirmation(result, fc, reflectionUI.getObjectTitle(fc),
+						SwingRendererUtils.CUSTOM_ICON.getImage(), true)) {
+					SwingUtilities.invokeLater(new Runnable() {
+
+						@Override
+						public void run() {
+							for (JPanel form : getForms(object)) {
+								refreshAllFieldControls(form, true);
+							}
+						}
+					});
+				}
+			}
+		});
+		return result;
 	}
 
 }

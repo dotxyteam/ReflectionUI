@@ -27,7 +27,7 @@ import xy.reflect.ui.info.type.iterable.map.StandardMapEntry;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
-import xy.reflect.ui.info.type.util.HiddenNullableFacetsTypeInfoProxyConfiguration;
+import xy.reflect.ui.info.type.util.HiddenNullableFacetsInfoProxyGenerator;
 import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -204,7 +204,7 @@ public class ReflectionUI {
 			typeInfoBySource.put(typeSource, result);
 		}
 		if (SystemProperties.hideNullablefacets()) {
-			result = new HiddenNullableFacetsTypeInfoProxyConfiguration(this)
+			result = new HiddenNullableFacetsInfoProxyGenerator(this)
 					.get(result);
 		}
 		return result;

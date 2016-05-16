@@ -39,7 +39,7 @@ public class PrecomputedTypeInfoInstanceWrapper {
 	}
 
 	public static ITypeInfo adaptPrecomputedType(final ITypeInfo precomputedType, final Object debugInfo) {
-		return new TypeInfoProxyConfiguration() {
+		return new InfoProxyGenerator() {
 
 			protected PrecomputedTypeInfoInstanceWrapper wrap(Object object) {
 				return new PrecomputedTypeInfoInstanceWrapper(object, precomputedType);

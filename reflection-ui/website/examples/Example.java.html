@@ -25,7 +25,7 @@
 <A NAME="8"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.field.IFieldInfo;
 <A NAME="9"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.type.ITypeInfo;
 <A NAME="10"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.type.source.ITypeInfoSource;
-<A NAME="11"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.type.util.TypeInfoProxyConfiguration;
+<A NAME="11"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.type.util.TypeInfoProxyGenerator;
 <A NAME="12"></A>
 <A NAME="13"></A><FONT ID="MultiLineComment">/*
 <A NAME="14"></A> * Read carefully the comments below. 
@@ -131,7 +131,7 @@
 <A NAME="114"></A>        reflectionUI = <FONT ID="New">new</FONT> ReflectionUI() {
 <A NAME="115"></A>            @Override
 <A NAME="116"></A>            <FONT ID="Public">public</FONT> ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-<A NAME="117"></A>                <FONT ID="Return">return</FONT> <FONT ID="New">new</FONT> TypeInfoProxyConfiguration() {
+<A NAME="117"></A>                <FONT ID="Return">return</FONT> <FONT ID="New">new</FONT> TypeInfoProxyGenerator() {
 <A NAME="118"></A>                    @Override
 <A NAME="119"></A>                    <FONT ID="Protected">protected</FONT> String getCaption(IFieldInfo field,
 <A NAME="120"></A>                            ITypeInfo containingType) {

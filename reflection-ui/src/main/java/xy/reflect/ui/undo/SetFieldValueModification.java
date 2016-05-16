@@ -40,7 +40,7 @@ public class SetFieldValueModification implements IModification {
 		if (refreshView) {
 			for (JPanel form : reflectionUI.getSwingRenderer().getForms(object)) {
 				reflectionUI.getSwingRenderer().refreshFieldControlsByName(form,
-						field.getName());
+						field.getName(), false);
 			}
 		}
 		return opposite;

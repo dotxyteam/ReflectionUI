@@ -9,7 +9,7 @@ import java.util.Map;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.util.HiddenNullableFacetsTypeInfoProxyConfiguration;
+import xy.reflect.ui.info.type.util.HiddenNullableFacetsInfoProxyGenerator;
 
 public class TableTreeModelExample {
 
@@ -19,7 +19,7 @@ public class TableTreeModelExample {
 
 			@Override
 			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-				return new HiddenNullableFacetsTypeInfoProxyConfiguration(
+				return new HiddenNullableFacetsInfoProxyGenerator(
 						thisReflectionUI) {
 
 					@Override

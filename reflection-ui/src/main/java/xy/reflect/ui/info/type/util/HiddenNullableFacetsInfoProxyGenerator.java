@@ -8,11 +8,11 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 
-public class HiddenNullableFacetsTypeInfoProxyConfiguration extends TypeInfoProxyConfiguration {
+public class HiddenNullableFacetsInfoProxyGenerator extends InfoProxyGenerator {
 
 	protected ReflectionUI reflectionUI;
 
-	public HiddenNullableFacetsTypeInfoProxyConfiguration(ReflectionUI reflectionUI) {
+	public HiddenNullableFacetsInfoProxyGenerator(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
 	}
 
@@ -24,7 +24,7 @@ public class HiddenNullableFacetsTypeInfoProxyConfiguration extends TypeInfoProx
 			result = null;
 		}
 		if (result == null) {
-			throw new ReflectionUIError(HiddenNullableFacetsTypeInfoProxyConfiguration.class.getSimpleName()
+			throw new ReflectionUIError(HiddenNullableFacetsInfoProxyGenerator.class.getSimpleName()
 					+ " was unable to generate a default value for the type '" + type + "'");
 		}
 		return result;
@@ -53,7 +53,9 @@ public class HiddenNullableFacetsTypeInfoProxyConfiguration extends TypeInfoProx
 		for (IParameterInfo param : method.getParameters()) {
 			Object paramValue = invocationData.getParameterValue(param);
 			if (paramValue == null) {
-				paramValue = generateDefaultValue(param, method);
+				if (!isNullable(param, method, containingType)) {
+					paramValue = generateDefaultValue(param, method);
+				}
 			}
 			newIinvocationData.setparameterValue(param, paramValue);
 		}

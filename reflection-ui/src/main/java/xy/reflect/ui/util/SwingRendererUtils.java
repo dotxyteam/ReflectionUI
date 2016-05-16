@@ -32,19 +32,20 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
-import xy.reflect.ui.info.type.util.TypeInfoProxyConfiguration;
+import xy.reflect.ui.info.type.util.InfoProxyGenerator;
 import xy.reflect.ui.undo.ModificationStack;
 
 @SuppressWarnings("unused")
 public class SwingRendererUtils {
 
-	public static final Icon ERROR_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/error.png"));
-	public static final Icon HELP_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/help.png"));
-	public static final Icon DETAILS_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/details.png"));
-	public static final Icon ADD_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/add.png"));
-	public static final Icon REMOVE_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/remove.png"));
-	public static final Icon UP_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/up.png"));
-	public static final Icon DOWN_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/down.png"));
+	public static final ImageIcon ERROR_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/error.png"));
+	public static final ImageIcon HELP_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/help.png"));
+	public static final ImageIcon DETAILS_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/details.png"));
+	public static final ImageIcon ADD_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/add.png"));
+	public static final ImageIcon REMOVE_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/remove.png"));
+	public static final ImageIcon UP_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/up.png"));
+	public static final ImageIcon DOWN_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/down.png"));
+	public static final ImageIcon CUSTOM_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/custom.png"));
 
 	public static void showTooltipNow(Component c) {
 		try {
@@ -295,7 +296,7 @@ public class SwingRendererUtils {
 				Object result = super.getValue(object);
 				if (result != null) {
 					ITypeInfo resultType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(result));
-					resultType = new TypeInfoProxyConfiguration() {
+					resultType = new InfoProxyGenerator() {
 
 						@Override
 						protected List<IFieldInfo> getFields(ITypeInfo type) {

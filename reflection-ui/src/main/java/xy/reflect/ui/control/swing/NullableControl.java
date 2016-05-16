@@ -117,7 +117,7 @@ public class NullableControl extends JPanel implements IFieldControl {
 		}
 		field.setValue(object, newValue);
 		this.reflectionUI.getSwingRenderer()
-				.refreshFieldControlsByName(SwingRendererUtils.findForm(this, this.reflectionUI), field.getName());
+				.refreshFieldControlsByName(SwingRendererUtils.findForm(this, this.reflectionUI), field.getName(), false);
 	}
 
 	public void updateSubControl(Object newValue) {

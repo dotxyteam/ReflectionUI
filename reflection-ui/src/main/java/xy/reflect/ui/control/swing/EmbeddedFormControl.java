@@ -151,7 +151,7 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 		} else {
 			Object newSubFormObject = field.getValue(object);
 			if (reflectionUI.equals(newSubFormObject, subFormObject)) {
-				reflectionUI.getSwingRenderer().refreshAllFieldControls(subForm);
+				reflectionUI.getSwingRenderer().refreshAllFieldControls(subForm, false);
 			} else {
 				remove(subForm);
 				subForm = null;

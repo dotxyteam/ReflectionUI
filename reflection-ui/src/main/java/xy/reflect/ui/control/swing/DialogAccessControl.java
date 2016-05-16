@@ -156,9 +156,11 @@ public class DialogAccessControl extends JPanel {
 		ModificationStack parentStack = SwingRendererUtils.findModificationStack(DialogAccessControl.this,
 				reflectionUI);
 		String title = reflectionUI.getFieldTitle(object, field);
+		Image iconImage = reflectionUI.getSwingRenderer().getIconImage(valueAccessor.get());
 		boolean[] changeDetectedHolder = new boolean[] { false };
-		reflectionUI.getSwingRenderer().openValueDialog(this, valueAccessor, field.isGetOnly(),
-				IInfoCollectionSettings.DEFAULT, parentStack, title, changeDetectedHolder);
+		boolean[] okPressedHolder = field.isGetOnly() ? null : new boolean[1];
+		reflectionUI.getSwingRenderer().openObjectDialog(this, valueAccessor, title, iconImage, true, IInfoCollectionSettings.DEFAULT,
+				parentStack, true, okPressedHolder, changeDetectedHolder, null);
 		if (changeDetectedHolder[0]) {
 			updateControls();
 		}

@@ -32,7 +32,7 @@ import xy.reflect.ui.info.type.iterable.util.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.structure.TabularTreetStructuralInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.util.TypeInfoProxyConfiguration;
+import xy.reflect.ui.info.type.util.InfoProxyGenerator;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.AbstractMethodUndoModification;
 import xy.reflect.ui.undo.ModificationStack;
@@ -281,7 +281,7 @@ public class ReflectionUITest {
 
 			@Override
 			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-				return new TypeInfoProxyConfiguration() {
+				return new InfoProxyGenerator() {
 
 					@Override
 					public List<ITypeInfo> getPolymorphicInstanceSubTypes(ITypeInfo type) {

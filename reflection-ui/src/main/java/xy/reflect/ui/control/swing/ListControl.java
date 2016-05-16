@@ -60,7 +60,7 @@ import xy.reflect.ui.info.type.iterable.util.IListAction;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.info.type.iterable.util.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.util.TypeInfoProxyConfiguration;
+import xy.reflect.ui.info.type.util.InfoProxyGenerator;
 import xy.reflect.ui.undo.CompositeModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
@@ -889,7 +889,7 @@ public class ListControl extends JPanel implements IFieldControl {
 				ITypeInfo typeToInstanciate = getTypeToInstanciate();
 				Object newItem = reflectionUI.getSwingRenderer().onTypeInstanciationRequest(ListControl.this,
 						typeToInstanciate, false);
-				if(newItem == null){
+				if (newItem == null) {
 					return false;
 				}
 				GhostItemPosition futureItemPosition = new GhostItemPosition(newItemPosition, newItem);
@@ -1018,7 +1018,7 @@ public class ListControl extends JPanel implements IFieldControl {
 				ITypeInfo typeToInstanciate = getTypeToInstanciate();
 				Object newSubListItem = reflectionUI.getSwingRenderer().onTypeInstanciationRequest(ListControl.this,
 						typeToInstanciate, false);
-				if(newSubListItem == null){
+				if (newSubListItem == null) {
 					return false;
 				}
 				GhostItemPosition futureSubItemPosition = new GhostItemPosition(subItemPosition, newSubListItem);
@@ -1102,7 +1102,7 @@ public class ListControl extends JPanel implements IFieldControl {
 
 	protected ITypeInfo addSpecificItemContructors(ITypeInfo itemType,
 			final AutoFieldValueUpdatingItemPosition newItemPosition) {
-		return new TypeInfoProxyConfiguration() {
+		return new InfoProxyGenerator() {
 
 			@Override
 			protected List<IMethodInfo> getConstructors(ITypeInfo type) {
@@ -1538,27 +1538,31 @@ public class ListControl extends JPanel implements IFieldControl {
 
 		final AutoFieldValueUpdatingList list = itemPosition.getContainingAutoUpdatingFieldList();
 		final int index = itemPosition.getIndex();
-		final Object[] valueHolder = new Object[1];
+		final Object[] valueHolder = new Object[] { list.get(index) };
 		final Accessor<Object> valueAccessor = new Accessor<Object>() {
 
 			@Override
 			public Object get() {
-				return (valueHolder[0] = list.get(index));
+				return valueHolder[0];
 			}
 
 			@Override
 			public void set(Object value) {
 				if (!itemPosition.isContainingListReadOnly()) {
-					list.set(index, (valueHolder[0] = value));
+					valueHolder[0] = value;
+					list.set(index, value);
 				}
 			}
 
 		};
 		String title = itemPosition.getContainingListField().getCaption() + " Item";
+		Image iconImage = reflectionUI.getSwingRenderer().getIconImage(valueHolder[0]);
 		IInfoCollectionSettings settings = getStructuralInfo().getItemInfoSettings(itemPosition);
 		boolean isGetOnly = itemPosition.getContainingListField().isGetOnly();
-		return reflectionUI.getSwingRenderer().openValueDialog(treeTableComponent, valueAccessor, isGetOnly, settings,
-				parentStack, title, changeDetectedHolder);
+		boolean[] okPressedHolder = isGetOnly ? null : new boolean[1];
+		reflectionUI.getSwingRenderer().openObjectDialog(treeTableComponent, valueAccessor, title, iconImage, true,
+				settings, parentStack, true, okPressedHolder, changeDetectedHolder, null);
+		return isGetOnly ? false : okPressedHolder[0];
 	}
 
 	protected ModificationStack getParentFormModificationStack() {
@@ -2055,7 +2059,7 @@ public class ListControl extends JPanel implements IFieldControl {
 					refreshStructure();
 					if (toPostSelectHolder[0] != null) {
 						setSelection(toPostSelectHolder[0]);
-					}else{
+					} else {
 						setSelection(initialSelection);
 					}
 				}

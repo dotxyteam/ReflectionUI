@@ -8,7 +8,7 @@ import xy.reflect.ui.SwingRenderer;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
-import xy.reflect.ui.info.type.util.TypeInfoProxyConfiguration;
+import xy.reflect.ui.info.type.util.InfoProxyGenerator;
 
 /*
  * Read carefully the comments below. 
@@ -114,7 +114,7 @@ public class Example {
 		reflectionUI = new ReflectionUI() {
 			@Override
 			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-				return new TypeInfoProxyConfiguration() {
+				return new InfoProxyGenerator() {
 					@Override
 					protected String getCaption(IFieldInfo field,
 							ITypeInfo containingType) {
