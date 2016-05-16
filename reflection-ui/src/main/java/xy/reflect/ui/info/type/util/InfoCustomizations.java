@@ -23,28 +23,27 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 @SuppressWarnings("unused")
 public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
 
-	
 	public InfoCustomizations(ReflectionUI reflectionUI) {
 		super(reflectionUI);
 	}
 
 	protected List<SpecificTypeCustomization> typeCustomizations = new ArrayList<InfoCustomizations.SpecificTypeCustomization>();
-	protected boolean enabled = true;
+	protected InfoCustomizationsSettings settings = new InfoCustomizationsSettings();
 
 	public List<SpecificTypeCustomization> getTypeCustomizations() {
 		return typeCustomizations;
 	}
 
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
-
 	public void setTypeCustomizations(List<SpecificTypeCustomization> typeCustomizations) {
 		this.typeCustomizations = typeCustomizations;
+	}
+
+	public InfoCustomizationsSettings getSettings() {
+		return settings;
+	}
+
+	public void setSettings(InfoCustomizationsSettings settings) {
+		this.settings = settings;
 	}
 
 	public void loadFromFile(File input) throws IOException {
@@ -63,7 +62,7 @@ public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
 		XStream xstream = getXStream();
 		InfoCustomizations loaded = (InfoCustomizations) xstream.fromXML(input);
 		typeCustomizations = loaded.typeCustomizations;
-		enabled = loaded.enabled;
+		settings = loaded.settings;
 	}
 
 	public void saveToFile(File output) throws IOException {
@@ -161,9 +160,6 @@ public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
 	}
 
 	public SpecificTypeCustomization getSpecificTypeCustomization(ITypeInfo containingType, boolean create) {
-		if (!enabled) {
-			return null;
-		}
 		for (SpecificTypeCustomization t : typeCustomizations) {
 			if (containingType.getCaption().equals(t.specificTypeCaption)) {
 				return t;
@@ -181,7 +177,7 @@ public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
 	protected boolean isNullable(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
 		SpecificParameterCustomization p = getSpecificParameterCustomization(containingType, method, param);
 		if (p != null) {
-			if (p.hideNullableFacet) {
+			if (p.nullableFacetHidden) {
 				return false;
 			}
 		}
@@ -203,19 +199,18 @@ public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
 	protected boolean isNullable(IFieldInfo field, ITypeInfo containingType) {
 		SpecificFieldCustomization f = getSpecificFieldCustomization(containingType, field);
 		if (f != null) {
-			if (f.hideNullableFacet) {
+			if (f.nullableFacetHidden) {
 				return false;
 			}
 		}
 		return field.isNullable();
 	}
 
-	
 	@Override
 	protected boolean isGetOnly(IFieldInfo field, ITypeInfo containingType) {
 		SpecificFieldCustomization f = getSpecificFieldCustomization(containingType, field);
 		if (f != null) {
-			if (f.forceGetOnly) {
+			if (f.getOnlyForced) {
 				return true;
 			}
 		}
@@ -237,7 +232,7 @@ public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
 	protected boolean isReadOnly(IMethodInfo method, ITypeInfo containingType) {
 		SpecificMethodCustomization m = getSpecificMethodCustomization(containingType, method);
 		if (m != null) {
-			if (m.forceReadOnly) {
+			if (m.readOnlyForced) {
 				return true;
 			}
 		}
@@ -250,7 +245,7 @@ public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
 		if (m != null) {
 			List<IParameterInfo> result = super.getParameters(method, containingType);
 			for (SpecificParameterCustomization p : m.parametersCustomizations) {
-				if (p.hide) {
+				if (p.hidden) {
 					IParameterInfo param = ReflectionUIUtils.findInfoByCaption(result, p.specificParameterCaption);
 					if (param != null) {
 						result = new ArrayList<IParameterInfo>(result);
@@ -280,7 +275,7 @@ public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
 		if (t != null) {
 			List<IFieldInfo> result = super.getFields(type);
 			for (SpecificFieldCustomization f : t.fieldsCustomizations) {
-				if (f.hide) {
+				if (f.hidden) {
 					IFieldInfo field = ReflectionUIUtils.findInfoByCaption(result, f.specificFieldCaption);
 					if (field != null) {
 						result = new ArrayList<IFieldInfo>(result);
@@ -299,7 +294,7 @@ public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
 		if (t != null) {
 			List<IMethodInfo> result = super.getMethods(type);
 			for (SpecificMethodCustomization m : t.methodsCustomizations) {
-				if (m.hide) {
+				if (m.hidden) {
 					IMethodInfo method = ReflectionUIUtils.findInfoByCaption(result, m.specificMethodCaption);
 					if (method != null) {
 						result = new ArrayList<IMethodInfo>(result);
@@ -401,9 +396,9 @@ public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
 	public static class SpecificFieldCustomization {
 		private String specificFieldCaption;
 		private String customFieldCaption;
-		private boolean hide = false;
-		private boolean hideNullableFacet = false;
-		private boolean forceGetOnly = false;
+		private boolean hidden = false;
+		private boolean nullableFacetHidden = false;
+		private boolean getOnlyForced = false;
 
 		public SpecificFieldCustomization(String specificFieldCaption) {
 			super();
@@ -418,36 +413,36 @@ public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
 			this.specificFieldCaption = specificFieldCaption;
 		}
 
+		public boolean isHidden() {
+			return hidden;
+		}
+
+		public void setHidden(boolean hidden) {
+			this.hidden = hidden;
+		}
+
+		public boolean isNullableFacetHidden() {
+			return nullableFacetHidden;
+		}
+
+		public void setNullableFacetHidden(boolean nullableFacetHidden) {
+			this.nullableFacetHidden = nullableFacetHidden;
+		}
+
+		public boolean isGetOnlyForced() {
+			return getOnlyForced;
+		}
+
+		public void setGetOnlyForced(boolean getOnlyForced) {
+			this.getOnlyForced = getOnlyForced;
+		}
+
 		public String getCustomFieldCaption() {
 			return customFieldCaption;
 		}
 
 		public void setCustomFieldCaption(String customFieldCaption) {
 			this.customFieldCaption = customFieldCaption;
-		}
-
-		public boolean isHide() {
-			return hide;
-		}
-
-		public void setHide(boolean hide) {
-			this.hide = hide;
-		}
-
-		public boolean isHideNullableFacet() {
-			return hideNullableFacet;
-		}
-
-		public void setHideNullableFacet(boolean hideNullableFacet) {
-			this.hideNullableFacet = hideNullableFacet;
-		}
-
-		public boolean isForceGetOnly() {
-			return forceGetOnly;
-		}
-
-		public void setForceGetOnly(boolean forceGetOnly) {
-			this.forceGetOnly = forceGetOnly;
 		}
 
 		@Override
@@ -484,9 +479,25 @@ public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
 	public static class SpecificMethodCustomization {
 		private String specificMethodCaption;
 		private String customMethodCaption;
-		private boolean hide = false;
-		private boolean forceReadOnly = false;
+		private boolean hidden = false;
+		private boolean readOnlyForced = false;
 		private List<SpecificParameterCustomization> parametersCustomizations = new ArrayList<InfoCustomizations.SpecificParameterCustomization>();
+
+		public boolean isHidden() {
+			return hidden;
+		}
+
+		public void setHidden(boolean hidden) {
+			this.hidden = hidden;
+		}
+
+		public boolean isReadOnlyForced() {
+			return readOnlyForced;
+		}
+
+		public void setReadOnlyForced(boolean readOnlyForced) {
+			this.readOnlyForced = readOnlyForced;
+		}
 
 		public String getSpecificMethodCaption() {
 			return specificMethodCaption;
@@ -507,22 +518,6 @@ public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
 
 		public void setCustomMethodCaption(String customMethodCaption) {
 			this.customMethodCaption = customMethodCaption;
-		}
-
-		public boolean isHide() {
-			return hide;
-		}
-
-		public void setHide(boolean hide) {
-			this.hide = hide;
-		}
-
-		public boolean isForceReadOnly() {
-			return forceReadOnly;
-		}
-
-		public void setForceReadOnly(boolean forceReadOnly) {
-			this.forceReadOnly = forceReadOnly;
 		}
 
 		public List<SpecificParameterCustomization> getParametersCustomizations() {
@@ -568,8 +563,8 @@ public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
 	public static class SpecificParameterCustomization {
 		private String specificParameterCaption;
 		private String customParameterCaption;
-		private boolean hide = false;
-		private boolean hideNullableFacet = false;
+		private boolean hidden = false;
+		private boolean nullableFacetHidden = false;
 
 		public SpecificParameterCustomization(String specificParameterCaption) {
 			super();
@@ -584,28 +579,28 @@ public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
 			this.specificParameterCaption = specificParameterCaption;
 		}
 
+		public boolean isHidden() {
+			return hidden;
+		}
+
+		public void setHidden(boolean hidden) {
+			this.hidden = hidden;
+		}
+
+		public boolean isNullableFacetHidden() {
+			return nullableFacetHidden;
+		}
+
+		public void setNullableFacetHidden(boolean nullableFacetHidden) {
+			this.nullableFacetHidden = nullableFacetHidden;
+		}
+
 		public String getCustomParameterCaption() {
 			return customParameterCaption;
 		}
 
 		public void setCustomParameterCaption(String customParameterCaption) {
 			this.customParameterCaption = customParameterCaption;
-		}
-
-		public boolean isHide() {
-			return hide;
-		}
-
-		public void setHide(boolean hide) {
-			this.hide = hide;
-		}
-
-		public boolean isHideNullableFacet() {
-			return hideNullableFacet;
-		}
-
-		public void setHideNullableFacet(boolean hideNullableFacet) {
-			this.hideNullableFacet = hideNullableFacet;
 		}
 
 		@Override
@@ -640,22 +635,25 @@ public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
 
 	}
 
-	protected class HiddenNullableFacetsUtil extends HiddenNullableFacetsInfoProxyGenerator {
+	public class InfoCustomizationsSettings {
+		protected boolean editorEnabled = true;
 
-		public HiddenNullableFacetsUtil() {
-			super(InfoCustomizations.this.reflectionUI);
+		public boolean isEditorEnabled() {
+			return editorEnabled;
 		}
 
-		@Override
-		public Object generateDefaultValue(IParameterInfo param, IMethodInfo method) {
-			return super.generateDefaultValue(param, method);
+		public void setEditorEnabled(boolean editorEnabled) {
+			this.editorEnabled = editorEnabled;
 		}
-
-		@Override
-		public Object generateDefaultValue(IFieldInfo field) {
-			return super.generateDefaultValue(field);
+		
+		public void saveToFile(File output) throws IOException {
+			InfoCustomizations.this.saveToFile(output);
 		}
-
+			
+		public void loadFromFile(File input) throws IOException {
+			InfoCustomizations.this.loadFromFile(input);
+		}
+			
 	}
 
 }

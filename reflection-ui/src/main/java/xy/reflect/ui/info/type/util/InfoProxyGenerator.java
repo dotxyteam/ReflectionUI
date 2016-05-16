@@ -33,14 +33,46 @@ public class InfoProxyGenerator {
 
 	public ITypeInfo get(final ITypeInfo type) {
 		if (type instanceof IListTypeInfo) {
-			return new ConfiguredListTypeInfoProxy((IListTypeInfo) type);
+			return new GeneratedListTypeInfoProxy((IListTypeInfo) type);
 		} else if (type instanceof IEnumerationTypeInfo) {
-			return new ConfiguredEnumerationTypeInfoProxy((IEnumerationTypeInfo) type);
+			return new GeneratedEnumerationTypeInfoProxy((IEnumerationTypeInfo) type);
 		} else if (type instanceof IMapEntryTypeInfo) {
-			return new ConfiguredMapEntryTypeInfoProxy((IMapEntryTypeInfo) type);
+			return new GeneratedMapEntryTypeInfoProxy((IMapEntryTypeInfo) type);
 		} else {
-			return new ConfiguredBasicTypeInfoProxy(type);
+			return new GeneratedBasicTypeInfoProxy(type);
 		}
+	}
+
+	public ITypeInfo getUnderProxy(final ITypeInfo type) {
+		GeneratedBasicTypeInfoProxy proxy = (GeneratedBasicTypeInfoProxy) type;
+		if (!proxy.generator.equals(InfoProxyGenerator.this)) {
+			throw new ReflectionUIError();
+		}
+		return proxy.type;
+	}
+
+	public IFieldInfo getUnderProxy(final IFieldInfo field) {
+		GeneratedFieldInfoProxy proxy = (GeneratedFieldInfoProxy) field;
+		if (!proxy.generator.equals(InfoProxyGenerator.this)) {
+			throw new ReflectionUIError();
+		}
+		return proxy.field;
+	}
+
+	public IMethodInfo getUnderProxy(final IMethodInfo method) {
+		GeneratedMethodInfoProxy proxy = (GeneratedMethodInfoProxy) method;
+		if (!proxy.generator.equals(InfoProxyGenerator.this)) {
+			throw new ReflectionUIError();
+		}
+		return proxy.method;
+	}
+
+	public IParameterInfo getUnderProxy(final IParameterInfo param) {
+		GeneratedParameterInfoProxy proxy = (GeneratedParameterInfoProxy) param;
+		if (!proxy.generator.equals(InfoProxyGenerator.this)) {
+			throw new ReflectionUIError();
+		}
+		return proxy.param;
 	}
 
 	@Override
@@ -146,7 +178,7 @@ public class InfoProxyGenerator {
 	protected List<IParameterInfo> getParameters(IMethodInfo method, ITypeInfo containingType) {
 		List<IParameterInfo> result = new ArrayList<IParameterInfo>();
 		for (IParameterInfo param : method.getParameters()) {
-			result.add(new ConfiguredParameterInfoProxy(param, method, containingType));
+			result.add(new GeneratedParameterInfoProxy(param, method, containingType));
 		}
 		return result;
 	}
@@ -203,7 +235,7 @@ public class InfoProxyGenerator {
 	protected List<IMethodInfo> getConstructors(ITypeInfo type) {
 		List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 		for (IMethodInfo constructor : type.getConstructors()) {
-			result.add(new ConfiguredMethodInfoProxy(constructor, type));
+			result.add(new GeneratedMethodInfoProxy(constructor, type));
 		}
 		return result;
 	}
@@ -211,7 +243,7 @@ public class InfoProxyGenerator {
 	protected List<IFieldInfo> getFields(ITypeInfo type) {
 		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
 		for (IFieldInfo field : type.getFields()) {
-			result.add(new ConfiguredFieldInfoProxy(field, type));
+			result.add(new GeneratedFieldInfoProxy(field, type));
 		}
 		return result;
 	}
@@ -219,7 +251,7 @@ public class InfoProxyGenerator {
 	protected List<IMethodInfo> getMethods(ITypeInfo type) {
 		List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 		for (IMethodInfo method : type.getMethods()) {
-			result.add(new ConfiguredMethodInfoProxy(method, type));
+			result.add(new GeneratedMethodInfoProxy(method, type));
 		}
 		return result;
 	}
@@ -245,11 +277,11 @@ public class InfoProxyGenerator {
 	}
 
 	protected IFieldInfo getKeyField(IMapEntryTypeInfo type) {
-		return new ConfiguredFieldInfoProxy(type.getKeyField(), type);
+		return new GeneratedFieldInfoProxy(type.getKeyField(), type);
 	}
 
 	protected IFieldInfo getValueField(IMapEntryTypeInfo type) {
-		return new ConfiguredFieldInfoProxy(type.getValueField(), type);
+		return new GeneratedFieldInfoProxy(type.getValueField(), type);
 	}
 
 	protected int hashCode(ITypeInfo type) {
@@ -307,7 +339,19 @@ public class InfoProxyGenerator {
 	}
 
 	protected Map<String, Object> getSpecificProperties(IFieldInfo field, ITypeInfo containingType) {
-		return field.getSpecificProperties();
+		Map<String, Object> result = new HashMap<String, Object>(field.getSpecificProperties());
+		Method method = getDebugInfoEnclosingMethod();
+		if (method != null) {
+			List<Method> methodList = new ArrayList<Method>();
+			methodList.add(method);
+			@SuppressWarnings("unchecked")
+			List<Method> previousMethods = (List<Method>) result.get(DEBUG_INFO_ENCLOSING_METHODS);
+			if (previousMethods != null) {
+				methodList.addAll(previousMethods);
+			}
+			result.put(DEBUG_INFO_ENCLOSING_METHODS, methodList);
+		}
+		return result;
 	}
 
 	protected String getOnlineHelp(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
@@ -316,7 +360,19 @@ public class InfoProxyGenerator {
 
 	protected Map<String, Object> getSpecificProperties(IParameterInfo param, IMethodInfo method,
 			ITypeInfo containingType) {
-		return param.getSpecificProperties();
+		Map<String, Object> result = new HashMap<String, Object>(param.getSpecificProperties());
+		Method javaMethod = getDebugInfoEnclosingMethod();
+		if (javaMethod != null) {
+			List<Method> methodList = new ArrayList<Method>();
+			methodList.add(javaMethod);
+			@SuppressWarnings("unchecked")
+			List<Method> previousMethods = (List<Method>) result.get(DEBUG_INFO_ENCLOSING_METHODS);
+			if (previousMethods != null) {
+				methodList.addAll(previousMethods);
+			}
+			result.put(DEBUG_INFO_ENCLOSING_METHODS, methodList);
+		}
+		return result;
 	}
 
 	protected String getOnlineHelp(ITypeInfo type) {
@@ -329,10 +385,10 @@ public class InfoProxyGenerator {
 
 	protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
 		Map<String, Object> result = new HashMap<String, Object>(type.getSpecificProperties());
-		Method method = getDebugInfoEnclosingMethod();
-		if (method != null) {
+		Method javaMethod = getDebugInfoEnclosingMethod();
+		if (javaMethod != null) {
 			List<Method> methodList = new ArrayList<Method>();
-			methodList.add(method);
+			methodList.add(javaMethod);
 			@SuppressWarnings("unchecked")
 			List<Method> previousMethods = (List<Method>) result.get(DEBUG_INFO_ENCLOSING_METHODS);
 			if (previousMethods != null) {
@@ -348,7 +404,19 @@ public class InfoProxyGenerator {
 	}
 
 	protected Map<String, Object> getSpecificProperties(IMethodInfo method, ITypeInfo containingType) {
-		return method.getSpecificProperties();
+		Map<String, Object> result = new HashMap<String, Object>(method.getSpecificProperties());
+		Method javaMethod = getDebugInfoEnclosingMethod();
+		if (javaMethod != null) {
+			List<Method> methodList = new ArrayList<Method>();
+			methodList.add(javaMethod);
+			@SuppressWarnings("unchecked")
+			List<Method> previousMethods = (List<Method>) result.get(DEBUG_INFO_ENCLOSING_METHODS);
+			if (previousMethods != null) {
+				methodList.addAll(previousMethods);
+			}
+			result.put(DEBUG_INFO_ENCLOSING_METHODS, methodList);
+		}
+		return result;
 	}
 
 	protected void validateParameters(IMethodInfo method, ITypeInfo containingType, Object object,
@@ -365,13 +433,13 @@ public class InfoProxyGenerator {
 		return type.formatEnumerationItem(object);
 	}
 
-	private class ConfiguredBasicTypeInfoProxy implements ITypeInfo {
+	private class GeneratedBasicTypeInfoProxy implements ITypeInfo {
 
-		protected InfoProxyGenerator proxyConfiguration = InfoProxyGenerator.this;
+		protected InfoProxyGenerator generator = InfoProxyGenerator.this;
 		protected List<Method> debugInfoEnclosingMethods;
 		protected ITypeInfo type;
 
-		public ConfiguredBasicTypeInfoProxy(ITypeInfo type) {
+		public GeneratedBasicTypeInfoProxy(ITypeInfo type) {
 			this.type = type;
 			@SuppressWarnings("unchecked")
 			List<Method> list = (List<Method>) InfoProxyGenerator.this.getSpecificProperties(type)
@@ -445,7 +513,7 @@ public class InfoProxyGenerator {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			ConfiguredBasicTypeInfoProxy other = (ConfiguredBasicTypeInfoProxy) obj;
+			GeneratedBasicTypeInfoProxy other = (GeneratedBasicTypeInfoProxy) obj;
 			if (!getTypeInfoProxyConfiguration().equals(other.getTypeInfoProxyConfiguration()))
 				return false;
 			if (type == null) {
@@ -477,9 +545,9 @@ public class InfoProxyGenerator {
 		}
 	}
 
-	private class ConfiguredListTypeInfoProxy extends ConfiguredBasicTypeInfoProxy implements IListTypeInfo {
+	private class GeneratedListTypeInfoProxy extends GeneratedBasicTypeInfoProxy implements IListTypeInfo {
 
-		public ConfiguredListTypeInfoProxy(IListTypeInfo type) {
+		public GeneratedListTypeInfoProxy(IListTypeInfo type) {
 			super(type);
 		}
 
@@ -516,8 +584,7 @@ public class InfoProxyGenerator {
 		@Override
 		public List<IListAction> getSpecificActions(Object object, IFieldInfo field,
 				List<? extends ItemPosition> selection) {
-			return InfoProxyGenerator.this.getSpecificListActions((IListTypeInfo) type, object, field,
-					selection);
+			return InfoProxyGenerator.this.getSpecificListActions((IListTypeInfo) type, object, field, selection);
 		}
 
 		@Override
@@ -527,9 +594,10 @@ public class InfoProxyGenerator {
 
 	}
 
-	private class ConfiguredEnumerationTypeInfoProxy extends ConfiguredBasicTypeInfoProxy implements IEnumerationTypeInfo {
+	private class GeneratedEnumerationTypeInfoProxy extends GeneratedBasicTypeInfoProxy
+			implements IEnumerationTypeInfo {
 
-		public ConfiguredEnumerationTypeInfoProxy(IEnumerationTypeInfo type) {
+		public GeneratedEnumerationTypeInfoProxy(IEnumerationTypeInfo type) {
 			super(type);
 		}
 
@@ -545,9 +613,9 @@ public class InfoProxyGenerator {
 
 	}
 
-	private class ConfiguredMapEntryTypeInfoProxy extends ConfiguredBasicTypeInfoProxy implements IMapEntryTypeInfo {
+	private class GeneratedMapEntryTypeInfoProxy extends GeneratedBasicTypeInfoProxy implements IMapEntryTypeInfo {
 
-		public ConfiguredMapEntryTypeInfoProxy(IMapEntryTypeInfo type) {
+		public GeneratedMapEntryTypeInfoProxy(IMapEntryTypeInfo type) {
 			super(type);
 		}
 
@@ -563,21 +631,21 @@ public class InfoProxyGenerator {
 
 	}
 
-	private class ConfiguredFieldInfoProxy implements IFieldInfo {
+	private class GeneratedFieldInfoProxy implements IFieldInfo {
 
-		protected InfoProxyGenerator proxyConfiguration = InfoProxyGenerator.this;
+		protected InfoProxyGenerator generator = InfoProxyGenerator.this;
 
 		protected IFieldInfo field;
 		protected ITypeInfo containingType;
 
-		private List<Method> debugInfoEnclosingMethods;
+		protected List<Method> debugInfoEnclosingMethods;
 
-		public ConfiguredFieldInfoProxy(IFieldInfo field, ITypeInfo containingType) {
+		public GeneratedFieldInfoProxy(IFieldInfo field, ITypeInfo containingType) {
 			this.field = field;
 			this.containingType = containingType;
 			@SuppressWarnings("unchecked")
-			List<Method> list = (List<Method>) InfoProxyGenerator.this
-					.getSpecificProperties(field, containingType).get(DEBUG_INFO_ENCLOSING_METHODS);
+			List<Method> list = (List<Method>) InfoProxyGenerator.this.getSpecificProperties(field, containingType)
+					.get(DEBUG_INFO_ENCLOSING_METHODS);
 			this.debugInfoEnclosingMethods = list;
 		}
 
@@ -657,28 +725,28 @@ public class InfoProxyGenerator {
 			if (!getClass().equals(obj.getClass())) {
 				return false;
 			}
-			return InfoProxyGenerator.this.equals(field, containingType, ((ConfiguredFieldInfoProxy) obj).field,
-					((ConfiguredFieldInfoProxy) obj).containingType);
+			return InfoProxyGenerator.this.equals(field, containingType, ((GeneratedFieldInfoProxy) obj).field,
+					((GeneratedFieldInfoProxy) obj).containingType);
 		}
 
 	}
 
-	private class ConfiguredMethodInfoProxy implements IMethodInfo {
+	private class GeneratedMethodInfoProxy implements IMethodInfo {
 
-		protected InfoProxyGenerator proxyConfiguration = InfoProxyGenerator.this;
+		protected InfoProxyGenerator generator = InfoProxyGenerator.this;
 
 		protected IMethodInfo method;
 		protected ITypeInfo containingType;
 
-		private List<Method> debugInfoEnclosingMethods;
+		protected List<Method> debugInfoEnclosingMethods;
 
-		public ConfiguredMethodInfoProxy(IMethodInfo method, ITypeInfo containingType) {
+		public GeneratedMethodInfoProxy(IMethodInfo method, ITypeInfo containingType) {
 			this.method = method;
 			this.containingType = containingType;
 			@SuppressWarnings("unchecked")
 			List<Method> list = (List<Method>) InfoProxyGenerator.this.getSpecificProperties(method, containingType)
 					.get(DEBUG_INFO_ENCLOSING_METHODS);
-			this.debugInfoEnclosingMethods = list;		
+			this.debugInfoEnclosingMethods = list;
 		}
 
 		@Override
@@ -757,24 +825,30 @@ public class InfoProxyGenerator {
 			if (!getClass().equals(obj.getClass())) {
 				return false;
 			}
-			return InfoProxyGenerator.this.equals(method, containingType, ((ConfiguredMethodInfoProxy) obj).method,
-					((ConfiguredMethodInfoProxy) obj).containingType);
+			return InfoProxyGenerator.this.equals(method, containingType, ((GeneratedMethodInfoProxy) obj).method,
+					((GeneratedMethodInfoProxy) obj).containingType);
 		}
 
 	}
 
-	private class ConfiguredParameterInfoProxy implements IParameterInfo {
+	private class GeneratedParameterInfoProxy implements IParameterInfo {
 
-		protected StackTraceElement[] instanciationTrace = ReflectionUIUtils.createDebugStackTrace(1);
+		protected InfoProxyGenerator generator = InfoProxyGenerator.this;
 
 		protected IParameterInfo param;
 		protected IMethodInfo method;
 		protected ITypeInfo containingType;
 
-		public ConfiguredParameterInfoProxy(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+		protected List<Method> debugInfoEnclosingMethods;
+
+		public GeneratedParameterInfoProxy(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
 			this.param = param;
 			this.method = method;
 			this.containingType = containingType;
+			@SuppressWarnings("unchecked")
+			List<Method> list = (List<Method>) InfoProxyGenerator.this.getSpecificProperties(param, method, containingType)
+					.get(DEBUG_INFO_ENCLOSING_METHODS);
+			this.debugInfoEnclosingMethods = list;
 		}
 
 		@Override
@@ -839,8 +913,8 @@ public class InfoProxyGenerator {
 				return false;
 			}
 			return InfoProxyGenerator.this.equals(param, method, containingType,
-					((ConfiguredParameterInfoProxy) obj).param, ((ConfiguredParameterInfoProxy) obj).method,
-					((ConfiguredParameterInfoProxy) obj).containingType);
+					((GeneratedParameterInfoProxy) obj).param, ((GeneratedParameterInfoProxy) obj).method,
+					((GeneratedParameterInfoProxy) obj).containingType);
 		}
 
 	}

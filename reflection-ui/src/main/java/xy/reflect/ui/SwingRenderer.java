@@ -18,8 +18,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -78,6 +76,7 @@ import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.ArrayAsEnumerationTypeInfo;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
+import xy.reflect.ui.info.type.util.InfoCustomizations.InfoCustomizationsSettings;
 import xy.reflect.ui.info.type.util.InfoCustomizations.SpecificFieldCustomization;
 import xy.reflect.ui.info.type.util.MethodParametersAsTypeInfo;
 import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
@@ -112,11 +111,10 @@ public class SwingRenderer {
 	protected Map<IMethodInfo, InvocationData> lastInvocationDataByMethod = new HashMap<IMethodInfo, InvocationData>();
 	protected Map<FieldControlPlaceHolder, Component> captionControlByFieldControlPlaceHolder = new MapMaker()
 			.weakKeys().makeMap();
-	protected InfoCustomizations infoCustomizations;
+	protected InfoCustomizations infoCustomizations = new InfoCustomizations(reflectionUI);
 
 	public SwingRenderer(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
-		loadInfoCustomizations();
 	}
 
 	public Map<JPanel, Object> getObjectByForm() {
@@ -435,7 +433,7 @@ public class SwingRenderer {
 		getObjectByForm().put(result, object);
 		getModificationStackByForm().put(result, modifStack);
 		getInfoCollectionSettingsByForm().put(result, settings);
-		fillForm(object, result, settings);
+		fillForm(result);
 		return result;
 	}
 
@@ -606,11 +604,25 @@ public class SwingRenderer {
 		return contentPane;
 	}
 
-	protected void fillForm(Object object, JPanel form, IInfoCollectionSettings settings) {
+	protected void recreateFormContent(JPanel form) {
+		form.removeAll();
+		fillForm(form);
+		SwingUtilities.getWindowAncestor(form).validate();
+	}
+
+	protected void fillForm(JPanel form) {
+		Object object = getObjectByForm().get(form);
+		IInfoCollectionSettings settings = getInfoCollectionSettingsByForm().get(form);
 		form.setLayout(new BorderLayout());
 
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+
 		type = infoCustomizations.get(type);
+		if (infoCustomizations.getSettings().isEditorEnabled()) {
+			form.add(
+					SwingRendererUtils.flowInLayout(createInfoCustomizationsSettingsControl(object), FlowLayout.CENTER),
+					BorderLayout.NORTH);
+		}
 
 		Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = new HashMap<InfoCategory, List<FieldControlPlaceHolder>>();
 		getFieldControlPlaceHoldersByCategoryByForm().put(form, fieldControlPlaceHoldersByCategory);
@@ -687,22 +699,6 @@ public class SwingRenderer {
 			formContent.add(createMultipleInfoCategoriesComponent(allCategories, fieldControlPlaceHoldersByCategory,
 					methodControlsByCategory), BorderLayout.CENTER);
 		}
-	}
-
-	protected void loadInfoCustomizations() {
-		infoCustomizations = new InfoCustomizations(reflectionUI);
-		File file = getInfoCustomizationsFile();
-		if (file.exists()) {
-			try {
-				infoCustomizations.loadFromFile(file);
-			} catch (IOException e) {
-				throw new ReflectionUIError(e);
-			}
-		}
-	}
-
-	protected File getInfoCustomizationsFile() {
-		return new File(SwingRenderer.class.getSimpleName() + "-" + InfoCustomizations.class.getSimpleName() + ".dat");
 	}
 
 	public List<FieldControlPlaceHolder> getAllFieldControlPlaceHolders(JPanel form) {
@@ -1234,17 +1230,6 @@ public class SwingRenderer {
 		if (cancellable) {
 			final List<JButton> okCancelButtons = createStandardOKCancelDialogButtons(dialogHolder, okPressedHolder);
 			toolbarControls.addAll(okCancelButtons);
-			if (modificationStackHolder[0] != null) {
-				modificationStackHolder[0].addListener(new IModificationListener() {
-					@Override
-					public void handleEvent(Object event) {
-						if (modificationStackHolder[0].isInvalidated()) {
-							JButton cancelButton = okCancelButtons.get(1);
-							cancelButton.setEnabled(false);
-						}
-					}
-				});
-			}
 		} else {
 			toolbarControls.add(createDialogClosingButton("Close", null, dialogHolder));
 		}
@@ -1557,6 +1542,83 @@ public class SwingRenderer {
 		return hasCustomFieldControl(valueAsField, field);
 	}
 
+	protected Component createInfoCustomizationsSettingsControl(final Object object) {
+		final JButton result = new JButton(
+				reflectionUI.prepareStringToDisplay(ReflectionUI.class.getSimpleName() + " Customizations Settings..."),
+				SwingRendererUtils.CUSTOM_ICON);
+		result.setContentAreaFilled(false);
+		result.setFocusable(false);
+		final InfoCustomizationsSettings s = infoCustomizations.getSettings();
+		result.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (new ReflectionUI() {
+
+					@Override
+					protected SwingRenderer createSwingRenderer() {
+						return new SwingRenderer(this) {
+							{
+								infoCustomizations.getSettings().setEditorEnabled(false);
+							}
+						};
+					}
+				}.getSwingRenderer().openObjectDialogAndGetConfirmation(result, s, reflectionUI.getObjectTitle(s),
+						SwingRendererUtils.CUSTOM_ICON.getImage(), true)) {
+					SwingUtilities.invokeLater(new Runnable() {
+
+						@Override
+						public void run() {
+							for (JPanel form : getForms(object)) {
+								recreateFormContent(form);
+							}
+						}
+					});
+				}
+			}
+		});
+		return result;
+	}
+
+	protected Component createFieldInfoCustomizationsControl(final Object object, final IFieldInfo field) {
+		final JButton result = new JButton(SwingRendererUtils.CUSTOM_ICON);
+		result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
+		result.setContentAreaFilled(false);
+		result.setFocusable(false);
+		SwingRendererUtils.setMultilineToolTipText(result,
+				reflectionUI.prepareStringToDisplay("Customize this field display"));
+		result.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+				IFieldInfo nonCustomizedField = ReflectionUIUtils.findInfoByName(type.getFields(), field.getName());  
+				SpecificFieldCustomization fc = infoCustomizations.getSpecificFieldCustomization(type, nonCustomizedField, true);
+				if (new ReflectionUI() {
+
+					@Override
+					protected SwingRenderer createSwingRenderer() {
+						return new SwingRenderer(this) {
+							{
+								infoCustomizations.getSettings().setEditorEnabled(false);
+							}
+						};
+					}
+				}.getSwingRenderer().openObjectDialogAndGetConfirmation(result, fc, reflectionUI.getObjectTitle(fc),
+						SwingRendererUtils.CUSTOM_ICON.getImage(), true)) {
+					SwingUtilities.invokeLater(new Runnable() {
+
+						@Override
+						public void run() {
+							for (JPanel form : getForms(object)) {
+								recreateFormContent(form);
+							}
+						}
+					});
+				}
+			}
+		});
+		return result;
+	}
+
 	public class FieldControlPlaceHolder extends JPanel {
 
 		protected static final long serialVersionUID = 1L;
@@ -1609,7 +1671,7 @@ public class SwingRenderer {
 
 		protected void refreshInfoCustomizationsControl() {
 			if (infoCustomizationsControl == null) {
-				if (infoCustomizations.isEnabled()) {
+				if (infoCustomizations.getSettings().isEditorEnabled()) {
 					infoCustomizationsControl = createFieldInfoCustomizationsControl(object, field);
 					add(infoCustomizationsControl, BorderLayout.EAST);
 					handleComponentSizeChange(this);
@@ -1645,49 +1707,6 @@ public class SwingRenderer {
 			}
 		}
 
-	}
-
-	public Component createFieldInfoCustomizationsControl(final Object object, final IFieldInfo field) {
-		final JButton result = new JButton(SwingRendererUtils.CUSTOM_ICON);
-		result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
-		result.setContentAreaFilled(false);
-		result.setFocusable(false);
-		SwingRendererUtils.setMultilineToolTipText(result,
-				reflectionUI.prepareStringToDisplay("Customize this field display"));
-		result.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-				SpecificFieldCustomization fc = infoCustomizations.getSpecificFieldCustomization(type, field, true);
-				if (new ReflectionUI() {
-
-					@Override
-					protected SwingRenderer createSwingRenderer() {
-						return new SwingRenderer(this) {
-
-							@Override
-							protected void loadInfoCustomizations() {
-								super.loadInfoCustomizations();
-								infoCustomizations.setEnabled(false);
-							}
-
-						};
-					}
-				}.getSwingRenderer().openObjectDialogAndGetConfirmation(result, fc, reflectionUI.getObjectTitle(fc),
-						SwingRendererUtils.CUSTOM_ICON.getImage(), true)) {
-					SwingUtilities.invokeLater(new Runnable() {
-
-						@Override
-						public void run() {
-							for (JPanel form : getForms(object)) {
-								refreshAllFieldControls(form, true);
-							}
-						}
-					});
-				}
-			}
-		});
-		return result;
 	}
 
 }
