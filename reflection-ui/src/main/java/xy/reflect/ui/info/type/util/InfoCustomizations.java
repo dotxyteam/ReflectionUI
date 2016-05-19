@@ -28,22 +28,13 @@ public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
 	}
 
 	protected List<SpecificTypeCustomization> typeCustomizations = new ArrayList<InfoCustomizations.SpecificTypeCustomization>();
-	protected InfoCustomizationsSettings settings = new InfoCustomizationsSettings();
-
+	
 	public List<SpecificTypeCustomization> getTypeCustomizations() {
 		return typeCustomizations;
 	}
 
 	public void setTypeCustomizations(List<SpecificTypeCustomization> typeCustomizations) {
 		this.typeCustomizations = typeCustomizations;
-	}
-
-	public InfoCustomizationsSettings getSettings() {
-		return settings;
-	}
-
-	public void setSettings(InfoCustomizationsSettings settings) {
-		this.settings = settings;
 	}
 
 	public void loadFromFile(File input) throws IOException {
@@ -62,7 +53,6 @@ public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
 		XStream xstream = getXStream();
 		InfoCustomizations loaded = (InfoCustomizations) xstream.fromXML(input);
 		typeCustomizations = loaded.typeCustomizations;
-		settings = loaded.settings;
 	}
 
 	public void saveToFile(File output) throws IOException {
@@ -633,27 +623,6 @@ public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
 			return "SpecificParameterCustomization [specificParameterCaption=" + specificParameterCaption + "]";
 		}
 
-	}
-
-	public class InfoCustomizationsSettings {
-		protected boolean editorEnabled = true;
-
-		public boolean isEditorEnabled() {
-			return editorEnabled;
-		}
-
-		public void setEditorEnabled(boolean editorEnabled) {
-			this.editorEnabled = editorEnabled;
-		}
-		
-		public void saveToFile(File output) throws IOException {
-			InfoCustomizations.this.saveToFile(output);
-		}
-			
-		public void loadFromFile(File input) throws IOException {
-			InfoCustomizations.this.loadFromFile(input);
-		}
-			
 	}
 
 }

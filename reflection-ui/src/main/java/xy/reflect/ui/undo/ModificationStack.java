@@ -15,11 +15,6 @@ import xy.reflect.ui.util.SwingRendererUtils;
 
 public class ModificationStack {
 
-	public static final Object DO_EVENT = new Object();
-	public static final Object UNDO_EVENT = new Object();
-	public static final Object REDO_EVENT = new Object();
-	public static final Object INVALIDATE_EVENT = new Object();
-
 	protected static final String UNDO_TITLE_PREFIX = "(Revert) ";
 
 	public static final IModification EMPTY_MODIFICATION = new IModification() {
@@ -128,7 +123,7 @@ public class ModificationStack {
 			undoStack.push(undoModif);
 			redoStack.clear();
 		}
-		notifyListeners(DO_EVENT);
+		notifyListeners(IModificationListener.DO_EVENT);
 	}
 
 	public int getUndoSize() {
@@ -165,7 +160,7 @@ public class ModificationStack {
 		}
 		IModification undoModif = undoStack.pop();
 		redoStack.push(undoModif.applyAndGetOpposite(refreshView));
-		notifyListeners(UNDO_EVENT);
+		notifyListeners(IModificationListener.UNDO_EVENT);
 	}
 
 	public void redo(boolean refreshView) {
@@ -178,7 +173,7 @@ public class ModificationStack {
 		}
 		IModification modif = redoStack.pop();
 		undoStack.push(modif.applyAndGetOpposite(refreshView));
-		notifyListeners(REDO_EVENT);
+		notifyListeners(IModificationListener.REDO_EVENT);
 	}
 
 	public void undoAll(boolean refreshView) {
@@ -225,7 +220,7 @@ public class ModificationStack {
 		undoStack.clear();
 		compositeStack.clear();
 		invalidated = true;
-		notifyListeners(INVALIDATE_EVENT);
+		notifyListeners(IModificationListener.INVALIDATE_EVENT);
 	}
 
 	public void notifyListeners(Object event) {

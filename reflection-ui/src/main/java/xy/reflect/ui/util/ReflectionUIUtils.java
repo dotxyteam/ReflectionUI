@@ -217,11 +217,10 @@ public class ReflectionUIUtils {
 		}
 		return null;
 	}
-	
+
 	public static IMethodInfo getZeroParameterMethod(List<IMethodInfo> methods) {
 		return getNParametersMethod(methods, 0);
 	}
-		
 
 	public static <K, V> List<K> getKeysFromValue(Map<K, V> map, Object value) {
 		List<K> result = new ArrayList<K>();
@@ -892,5 +891,16 @@ public class ReflectionUIUtils {
 		return true;
 	}
 
-	
+	public static List<Object> getKnownInstances(ITypeInfo type, ReflectionUI reflectionUI) {
+		List<Object> result = new ArrayList<Object>();
+		for (Map.Entry<JPanel, Object> entry : reflectionUI.getSwingRenderer().getObjectByForm().entrySet()) {
+			Object object = entry.getValue();
+			ITypeInfo objectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+			if (objectType.equals(type)) {
+				result.add(object);
+			}
+		}
+		return result;
+	}
+
 }

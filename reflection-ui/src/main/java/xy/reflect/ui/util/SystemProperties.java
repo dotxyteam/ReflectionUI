@@ -34,6 +34,10 @@ public class SystemProperties {
 	@Usage("Parameters that needs to be hidden in the UI can be specified in this property using this format: 'package.subpackage.TheClass#theMethod(parameterType1,parameterType2,...):<PARAMETER_INDEX>|package2.subpackage2.TheClass2#theMethod2(parameterType1,parameterType2,...):1|...'. Wildcard characters can be used.")
 	public static final String HIDE_PARAMETERS = PREFIX + ".hideParameters";
 
+	@Usage("If the value of this property is \"true\" then the UI customization controls will be displayed.")
+	public static final String ENABLE_INFO_CUSTOMIZATIONS_CONTROLS = PREFIX
+			+ ".infoCustomizationsControlsEnabled";
+
 	public static String describe() {
 		StringBuilder result = new StringBuilder();
 		for (Field field : SystemProperties.class.getFields()) {
