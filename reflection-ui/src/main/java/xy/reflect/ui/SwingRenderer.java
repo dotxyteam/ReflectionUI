@@ -1629,9 +1629,10 @@ public class SwingRenderer {
 		protected void refreshInfoCustomizationsControl() {
 			if (infoCustomizationsControl == null) {
 				if (areInfoCustomizationsControlsEnabled()) {
-					ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+					ITypeInfo nonCustomizedType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+					IFieldInfo nonCustomizedField = ReflectionUIUtils.findInfoByName(nonCustomizedType.getFields(), field.getName());
 					infoCustomizationsControl = infoCustomizationsControls
-							.createFieldInfoCustomizationsControl(reflectionUI, type, field);
+							.createFieldInfoCustomizationsControl(reflectionUI, nonCustomizedType, nonCustomizedField);
 					add(infoCustomizationsControl, BorderLayout.EAST);
 					handleComponentSizeChange(this);
 				}
@@ -1718,9 +1719,10 @@ public class SwingRenderer {
 		protected void refreshInfoCustomizationsControl() {
 			if (infoCustomizationsControl == null) {
 				if (areInfoCustomizationsControlsEnabled()) {
-					ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+					ITypeInfo nonCustomizedType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+					IMethodInfo nonCustomizedMethod = ReflectionUIUtils.findInfoByName(nonCustomizedType.getMethods(), method.getName());
 					infoCustomizationsControl = infoCustomizationsControls
-							.createMethodInfoCustomizationsControl(reflectionUI, type, method);
+							.createMethodInfoCustomizationsControl(reflectionUI, nonCustomizedType, nonCustomizedMethod);
 					add(infoCustomizationsControl, BorderLayout.WEST);
 					handleComponentSizeChange(this);
 				}

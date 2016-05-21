@@ -17,9 +17,9 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
-import xy.reflect.ui.info.type.util.InfoCustomizations.SpecificFieldCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizations.SpecificMethodCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizations.SpecificTypeCustomization;
+import xy.reflect.ui.info.type.util.InfoCustomizations.FieldCustomization;
+import xy.reflect.ui.info.type.util.InfoCustomizations.MethodCustomization;
+import xy.reflect.ui.info.type.util.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
@@ -53,7 +53,7 @@ public class InfoCustomizationsControls {
 				infoCustomizationsUI.prepareStringToDisplay("Type Customizations: " + type + "..."), getImageIcon());
 		result.setContentAreaFilled(false);
 		result.setFocusable(false);
-		final SpecificTypeCustomization t = infoCustomizations.getSpecificTypeCustomization(type, true);
+		final TypeCustomization t = infoCustomizations.getTypeCustomization(type, true);
 		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -89,9 +89,8 @@ public class InfoCustomizationsControls {
 		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				IFieldInfo nonCustomizedField = ReflectionUIUtils.findInfoByName(type.getFields(), field.getName());
-				SpecificFieldCustomization fc = infoCustomizations.getSpecificFieldCustomization(type,
-						nonCustomizedField, true);
+				FieldCustomization fc = infoCustomizations.getFieldCustomization(type,
+						field, true);
 				if (infoCustomizationsUI.getSwingRenderer().openObjectDialogAndGetConfirmation(result, fc,
 						infoCustomizationsUI.getObjectTitle(fc), getImageIcon().getImage(), true)) {
 					SwingUtilities.invokeLater(new Runnable() {
@@ -118,9 +117,8 @@ public class InfoCustomizationsControls {
 		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				IMethodInfo nonCustomizedMethod = ReflectionUIUtils.findInfoByName(type.getMethods(), method.getName());
-				SpecificMethodCustomization mc = infoCustomizations.getSpecificMethodCustomization(type,
-						nonCustomizedMethod, true);
+				MethodCustomization mc = infoCustomizations.getMethodCustomization(type,
+						method, true);
 				if (infoCustomizationsUI.getSwingRenderer().openObjectDialogAndGetConfirmation(result, mc,
 						infoCustomizationsUI.getObjectTitle(mc), getImageIcon().getImage(), true)) {
 					SwingUtilities.invokeLater(new Runnable() {
@@ -145,7 +143,7 @@ public class InfoCustomizationsControls {
 				reflectionUI.getSwingRenderer().recreateFormContent(form);
 			}
 		}
-		SpecificTypeCustomization t = infoCustomizations.getSpecificTypeCustomization(type);
+		TypeCustomization t = infoCustomizations.getTypeCustomization(type);
 		for (JPanel form : infoCustomizationsUI.getSwingRenderer().getForms(t)) {
 			infoCustomizationsUI.getSwingRenderer().refreshAllFieldControls(form, false);
 		}

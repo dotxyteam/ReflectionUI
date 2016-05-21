@@ -24,7 +24,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class InfoCustomizations {
 
 	protected CustomizationsProxyGenerator proxyGenerator;
-	protected List<SpecificTypeCustomization> typeCustomizations = new ArrayList<InfoCustomizations.SpecificTypeCustomization>();
+	protected List<TypeCustomization> typeCustomizations = new ArrayList<InfoCustomizations.TypeCustomization>();
 
 	public InfoCustomizations(ReflectionUI reflectionUI) {
 		proxyGenerator = new CustomizationsProxyGenerator(reflectionUI);
@@ -34,11 +34,11 @@ public class InfoCustomizations {
 		return proxyGenerator.get(type);
 	}
 
-	public List<SpecificTypeCustomization> getTypeCustomizations() {
+	public List<TypeCustomization> getTypeCustomizations() {
 		return typeCustomizations;
 	}
 
-	public void setTypeCustomizations(List<SpecificTypeCustomization> typeCustomizations) {
+	public void setTypeCustomizations(List<TypeCustomization> typeCustomizations) {
 		this.typeCustomizations = typeCustomizations;
 	}
 
@@ -83,22 +83,22 @@ public class InfoCustomizations {
 		return result;
 	}
 
-	public SpecificParameterCustomization getSpecificParameterCustomization(ITypeInfo containingType,
+	public ParameterCustomization getParameterCustomization(ITypeInfo containingType,
 			IMethodInfo method, IParameterInfo param) {
-		return getSpecificParameterCustomization(containingType, method, param, false);
+		return getParameterCustomization(containingType, method, param, false);
 	}
 
-	public SpecificParameterCustomization getSpecificParameterCustomization(ITypeInfo containingType,
+	public ParameterCustomization getParameterCustomization(ITypeInfo containingType,
 			IMethodInfo method, IParameterInfo param, boolean create) {
-		SpecificMethodCustomization m = getSpecificMethodCustomization(containingType, method, create);
+		MethodCustomization m = getMethodCustomization(containingType, method, create);
 		if (m != null) {
-			for (SpecificParameterCustomization p : m.parametersCustomizations) {
-				if (param.getCaption().equals(p.specificParameterCaption)) {
+			for (ParameterCustomization p : m.parametersCustomizations) {
+				if (param.getCaption().equals(p.ParameterCaption)) {
 					return p;
 				}
 			}
 			if (create) {
-				SpecificParameterCustomization p = new SpecificParameterCustomization(param.getCaption());
+				ParameterCustomization p = new ParameterCustomization(param.getCaption());
 				m.parametersCustomizations.add(p);
 				return p;
 			}
@@ -106,21 +106,21 @@ public class InfoCustomizations {
 		return null;
 	}
 
-	public SpecificFieldCustomization getSpecificFieldCustomization(ITypeInfo containingType, IFieldInfo field) {
-		return getSpecificFieldCustomization(containingType, field, false);
+	public FieldCustomization getFieldCustomization(ITypeInfo containingType, IFieldInfo field) {
+		return getFieldCustomization(containingType, field, false);
 	}
 
-	public SpecificFieldCustomization getSpecificFieldCustomization(ITypeInfo containingType, IFieldInfo field,
+	public FieldCustomization getFieldCustomization(ITypeInfo containingType, IFieldInfo field,
 			boolean create) {
-		SpecificTypeCustomization t = getSpecificTypeCustomization(containingType, create);
+		TypeCustomization t = getTypeCustomization(containingType, create);
 		if (t != null) {
-			for (SpecificFieldCustomization f : t.fieldsCustomizations) {
-				if (field.getCaption().equals(f.specificFieldCaption)) {
+			for (FieldCustomization f : t.fieldsCustomizations) {
+				if (field.getCaption().equals(f.FieldCaption)) {
 					return f;
 				}
 			}
 			if (create) {
-				SpecificFieldCustomization f = new SpecificFieldCustomization(field.getCaption());
+				FieldCustomization f = new FieldCustomization(field.getCaption());
 				t.fieldsCustomizations.add(f);
 				return f;
 			}
@@ -128,21 +128,21 @@ public class InfoCustomizations {
 		return null;
 	}
 
-	public SpecificMethodCustomization getSpecificMethodCustomization(ITypeInfo containingType, IMethodInfo method) {
-		return getSpecificMethodCustomization(containingType, method, false);
+	public MethodCustomization getMethodCustomization(ITypeInfo containingType, IMethodInfo method) {
+		return getMethodCustomization(containingType, method, false);
 	}
 
-	public SpecificMethodCustomization getSpecificMethodCustomization(ITypeInfo containingType, IMethodInfo method,
+	public MethodCustomization getMethodCustomization(ITypeInfo containingType, IMethodInfo method,
 			boolean create) {
-		SpecificTypeCustomization t = getSpecificTypeCustomization(containingType, create);
+		TypeCustomization t = getTypeCustomization(containingType, create);
 		if (t != null) {
-			for (SpecificMethodCustomization m : t.methodsCustomizations) {
-				if (method.getCaption().equals(m.specificMethodCaption)) {
+			for (MethodCustomization m : t.methodsCustomizations) {
+				if (method.getCaption().equals(m.MethodCaption)) {
 					return m;
 				}
 			}
 			if (create) {
-				SpecificMethodCustomization m = new SpecificMethodCustomization(method.getCaption());
+				MethodCustomization m = new MethodCustomization(method.getCaption());
 				t.methodsCustomizations.add(m);
 				return m;
 			}
@@ -150,37 +150,37 @@ public class InfoCustomizations {
 		return null;
 	}
 
-	public SpecificTypeCustomization getSpecificTypeCustomization(ITypeInfo containingType) {
-		return getSpecificTypeCustomization(containingType, false);
+	public TypeCustomization getTypeCustomization(ITypeInfo containingType) {
+		return getTypeCustomization(containingType, false);
 	}
 
-	public SpecificTypeCustomization getSpecificTypeCustomization(ITypeInfo containingType, boolean create) {
-		for (SpecificTypeCustomization t : typeCustomizations) {
-			if (containingType.getCaption().equals(t.specificTypeCaption)) {
+	public TypeCustomization getTypeCustomization(ITypeInfo containingType, boolean create) {
+		for (TypeCustomization t : typeCustomizations) {
+			if (containingType.getCaption().equals(t.TypeCaption)) {
 				return t;
 			}
 		}
 		if (create) {
-			SpecificTypeCustomization t = new SpecificTypeCustomization(containingType.getCaption());
+			TypeCustomization t = new TypeCustomization(containingType.getCaption());
 			typeCustomizations.add(t);
 			return t;
 		}
 		return null;
 	}
 
-	public static class SpecificTypeCustomization {
-		private String specificTypeCaption;
+	public static class TypeCustomization {
+		private String TypeCaption;
 		private String customTypeCaption;
-		private List<SpecificFieldCustomization> fieldsCustomizations = new ArrayList<InfoCustomizations.SpecificFieldCustomization>();
-		private List<SpecificMethodCustomization> methodsCustomizations = new ArrayList<InfoCustomizations.SpecificMethodCustomization>();
+		private List<FieldCustomization> fieldsCustomizations = new ArrayList<InfoCustomizations.FieldCustomization>();
+		private List<MethodCustomization> methodsCustomizations = new ArrayList<InfoCustomizations.MethodCustomization>();
 
-		public SpecificTypeCustomization(String specificTypeCaption) {
+		public TypeCustomization(String TypeCaption) {
 			super();
-			this.specificTypeCaption = specificTypeCaption;
+			this.TypeCaption = TypeCaption;
 		}
 
-		public String getSpecificTypeCaption() {
-			return specificTypeCaption;
+		public String getTypeCaption() {
+			return TypeCaption;
 		}
 
 		public String getCustomTypeCaption() {
@@ -191,19 +191,19 @@ public class InfoCustomizations {
 			this.customTypeCaption = customTypeCaption;
 		}
 
-		public List<SpecificFieldCustomization> getFieldsCustomizations() {
+		public List<FieldCustomization> getFieldsCustomizations() {
 			return fieldsCustomizations;
 		}
 
-		public void setFieldsCustomizations(List<SpecificFieldCustomization> fieldsCustomizations) {
+		public void setFieldsCustomizations(List<FieldCustomization> fieldsCustomizations) {
 			this.fieldsCustomizations = fieldsCustomizations;
 		}
 
-		public List<SpecificMethodCustomization> getMethodsCustomizations() {
+		public List<MethodCustomization> getMethodsCustomizations() {
 			return methodsCustomizations;
 		}
 
-		public void setMethodsCustomizations(List<SpecificMethodCustomization> methodsCustomizations) {
+		public void setMethodsCustomizations(List<MethodCustomization> methodsCustomizations) {
 			this.methodsCustomizations = methodsCustomizations;
 		}
 
@@ -211,7 +211,7 @@ public class InfoCustomizations {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((specificTypeCaption == null) ? 0 : specificTypeCaption.hashCode());
+			result = prime * result + ((TypeCaption == null) ? 0 : TypeCaption.hashCode());
 			return result;
 		}
 
@@ -223,36 +223,36 @@ public class InfoCustomizations {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			SpecificTypeCustomization other = (SpecificTypeCustomization) obj;
-			if (specificTypeCaption == null) {
-				if (other.specificTypeCaption != null)
+			TypeCustomization other = (TypeCustomization) obj;
+			if (TypeCaption == null) {
+				if (other.TypeCaption != null)
 					return false;
-			} else if (!specificTypeCaption.equals(other.specificTypeCaption))
+			} else if (!TypeCaption.equals(other.TypeCaption))
 				return false;
 			return true;
 		}
 
 		@Override
 		public String toString() {
-			return "SpecificTypeCustomization [specificTypeCaption=" + specificTypeCaption + "]";
+			return "TypeCustomization [TypeCaption=" + TypeCaption + "]";
 		}
 
 	}
 
-	public static class SpecificFieldCustomization {
-		private String specificFieldCaption;
+	public static class FieldCustomization {
+		private String FieldCaption;
 		private String customFieldCaption;
 		private boolean hidden = false;
 		private boolean nullableFacetHidden = false;
 		private boolean getOnlyForced = false;
 
-		public SpecificFieldCustomization(String specificFieldCaption) {
+		public FieldCustomization(String FieldCaption) {
 			super();
-			this.specificFieldCaption = specificFieldCaption;
+			this.FieldCaption = FieldCaption;
 		}
 
-		public String getSpecificFieldCaption() {
-			return specificFieldCaption;
+		public String getFieldCaption() {
+			return FieldCaption;
 		}
 
 		public boolean isHidden() {
@@ -291,7 +291,7 @@ public class InfoCustomizations {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((specificFieldCaption == null) ? 0 : specificFieldCaption.hashCode());
+			result = prime * result + ((FieldCaption == null) ? 0 : FieldCaption.hashCode());
 			return result;
 		}
 
@@ -303,27 +303,27 @@ public class InfoCustomizations {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			SpecificFieldCustomization other = (SpecificFieldCustomization) obj;
-			if (specificFieldCaption == null) {
-				if (other.specificFieldCaption != null)
+			FieldCustomization other = (FieldCustomization) obj;
+			if (FieldCaption == null) {
+				if (other.FieldCaption != null)
 					return false;
-			} else if (!specificFieldCaption.equals(other.specificFieldCaption))
+			} else if (!FieldCaption.equals(other.FieldCaption))
 				return false;
 			return true;
 		}
 
 		@Override
 		public String toString() {
-			return "SpecificFieldCustomization [specificFieldCaption=" + specificFieldCaption + "]";
+			return "FieldCustomization [FieldCaption=" + FieldCaption + "]";
 		}
 	}
 
-	public static class SpecificMethodCustomization {
-		private String specificMethodCaption;
+	public static class MethodCustomization {
+		private String MethodCaption;
 		private String customMethodCaption;
 		private boolean hidden = false;
 		private boolean readOnlyForced = false;
-		private List<SpecificParameterCustomization> parametersCustomizations = new ArrayList<InfoCustomizations.SpecificParameterCustomization>();
+		private List<ParameterCustomization> parametersCustomizations = new ArrayList<InfoCustomizations.ParameterCustomization>();
 
 		public boolean isHidden() {
 			return hidden;
@@ -341,13 +341,13 @@ public class InfoCustomizations {
 			this.readOnlyForced = readOnlyForced;
 		}
 
-		public String getSpecificMethodCaption() {
-			return specificMethodCaption;
+		public String getMethodCaption() {
+			return MethodCaption;
 		}
 
-		public SpecificMethodCustomization(String specificMethodCaption) {
+		public MethodCustomization(String MethodCaption) {
 			super();
-			this.specificMethodCaption = specificMethodCaption;
+			this.MethodCaption = MethodCaption;
 		}
 
 		public String getCustomMethodCaption() {
@@ -358,11 +358,11 @@ public class InfoCustomizations {
 			this.customMethodCaption = customMethodCaption;
 		}
 
-		public List<SpecificParameterCustomization> getParametersCustomizations() {
+		public List<ParameterCustomization> getParametersCustomizations() {
 			return parametersCustomizations;
 		}
 
-		public void setParametersCustomizations(List<SpecificParameterCustomization> parametersCustomizations) {
+		public void setParametersCustomizations(List<ParameterCustomization> parametersCustomizations) {
 			this.parametersCustomizations = parametersCustomizations;
 		}
 
@@ -382,7 +382,7 @@ public class InfoCustomizations {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			SpecificMethodCustomization other = (SpecificMethodCustomization) obj;
+			MethodCustomization other = (MethodCustomization) obj;
 			if (customMethodCaption == null) {
 				if (other.customMethodCaption != null)
 					return false;
@@ -393,24 +393,24 @@ public class InfoCustomizations {
 
 		@Override
 		public String toString() {
-			return "SpecificMethodCustomization [specificMethodCaption=" + specificMethodCaption + "]";
+			return "MethodCustomization [MethodCaption=" + MethodCaption + "]";
 		}
 
 	}
 
-	public static class SpecificParameterCustomization {
-		private String specificParameterCaption;
+	public static class ParameterCustomization {
+		private String ParameterCaption;
 		private String customParameterCaption;
 		private boolean hidden = false;
 		private boolean nullableFacetHidden = false;
 
-		public SpecificParameterCustomization(String specificParameterCaption) {
+		public ParameterCustomization(String ParameterCaption) {
 			super();
-			this.specificParameterCaption = specificParameterCaption;
+			this.ParameterCaption = ParameterCaption;
 		}
 
-		public String getSpecificParameterCaption() {
-			return specificParameterCaption;
+		public String getParameterCaption() {
+			return ParameterCaption;
 		}
 
 		public boolean isHidden() {
@@ -441,7 +441,7 @@ public class InfoCustomizations {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((specificParameterCaption == null) ? 0 : specificParameterCaption.hashCode());
+			result = prime * result + ((ParameterCaption == null) ? 0 : ParameterCaption.hashCode());
 			return result;
 		}
 
@@ -453,18 +453,18 @@ public class InfoCustomizations {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			SpecificParameterCustomization other = (SpecificParameterCustomization) obj;
-			if (specificParameterCaption == null) {
-				if (other.specificParameterCaption != null)
+			ParameterCustomization other = (ParameterCustomization) obj;
+			if (ParameterCaption == null) {
+				if (other.ParameterCaption != null)
 					return false;
-			} else if (!specificParameterCaption.equals(other.specificParameterCaption))
+			} else if (!ParameterCaption.equals(other.ParameterCaption))
 				return false;
 			return true;
 		}
 
 		@Override
 		public String toString() {
-			return "SpecificParameterCustomization [specificParameterCaption=" + specificParameterCaption + "]";
+			return "ParameterCustomization [ParameterCaption=" + ParameterCaption + "]";
 		}
 
 	}
@@ -477,7 +477,7 @@ public class InfoCustomizations {
 
 		@Override
 		protected boolean isNullable(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
-			SpecificParameterCustomization p = getSpecificParameterCustomization(containingType, method, param);
+			ParameterCustomization p = getParameterCustomization(containingType, method, param);
 			if (p != null) {
 				if (p.nullableFacetHidden) {
 					return false;
@@ -488,7 +488,7 @@ public class InfoCustomizations {
 
 		@Override
 		protected String getCaption(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
-			SpecificParameterCustomization p = getSpecificParameterCustomization(containingType, method, param);
+			ParameterCustomization p = getParameterCustomization(containingType, method, param);
 			if (p != null) {
 				if (p.customParameterCaption != null) {
 					return p.customParameterCaption;
@@ -499,7 +499,7 @@ public class InfoCustomizations {
 
 		@Override
 		protected boolean isNullable(IFieldInfo field, ITypeInfo containingType) {
-			SpecificFieldCustomization f = getSpecificFieldCustomization(containingType, field);
+			FieldCustomization f = getFieldCustomization(containingType, field);
 			if (f != null) {
 				if (f.nullableFacetHidden) {
 					return false;
@@ -510,7 +510,7 @@ public class InfoCustomizations {
 
 		@Override
 		protected boolean isGetOnly(IFieldInfo field, ITypeInfo containingType) {
-			SpecificFieldCustomization f = getSpecificFieldCustomization(containingType, field);
+			FieldCustomization f = getFieldCustomization(containingType, field);
 			if (f != null) {
 				if (f.getOnlyForced) {
 					return true;
@@ -521,7 +521,7 @@ public class InfoCustomizations {
 
 		@Override
 		protected String getCaption(IFieldInfo field, ITypeInfo containingType) {
-			SpecificFieldCustomization f = getSpecificFieldCustomization(containingType, field);
+			FieldCustomization f = getFieldCustomization(containingType, field);
 			if (f != null) {
 				if (f.customFieldCaption != null) {
 					return f.customFieldCaption;
@@ -532,7 +532,7 @@ public class InfoCustomizations {
 
 		@Override
 		protected boolean isReadOnly(IMethodInfo method, ITypeInfo containingType) {
-			SpecificMethodCustomization m = getSpecificMethodCustomization(containingType, method);
+			MethodCustomization m = getMethodCustomization(containingType, method);
 			if (m != null) {
 				if (m.readOnlyForced) {
 					return true;
@@ -543,12 +543,12 @@ public class InfoCustomizations {
 
 		@Override
 		protected List<IParameterInfo> getParameters(IMethodInfo method, ITypeInfo containingType) {
-			SpecificMethodCustomization m = getSpecificMethodCustomization(containingType, method);
+			MethodCustomization m = getMethodCustomization(containingType, method);
 			if (m != null) {
 				List<IParameterInfo> result = super.getParameters(method, containingType);
-				for (SpecificParameterCustomization p : m.parametersCustomizations) {
+				for (ParameterCustomization p : m.parametersCustomizations) {
 					if (p.hidden) {
-						IParameterInfo param = ReflectionUIUtils.findInfoByCaption(result, p.specificParameterCaption);
+						IParameterInfo param = ReflectionUIUtils.findInfoByCaption(result, p.ParameterCaption);
 						if (param != null) {
 							result = new ArrayList<IParameterInfo>(result);
 							result.remove(param);
@@ -562,7 +562,7 @@ public class InfoCustomizations {
 
 		@Override
 		protected String getCaption(IMethodInfo method, ITypeInfo containingType) {
-			SpecificMethodCustomization m = getSpecificMethodCustomization(containingType, method);
+			MethodCustomization m = getMethodCustomization(containingType, method);
 			if (m != null) {
 				if (m.customMethodCaption != null) {
 					return m.customMethodCaption;
@@ -573,12 +573,12 @@ public class InfoCustomizations {
 
 		@Override
 		protected List<IFieldInfo> getFields(ITypeInfo type) {
-			SpecificTypeCustomization t = getSpecificTypeCustomization(type);
+			TypeCustomization t = getTypeCustomization(type);
 			if (t != null) {
 				List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
-				for (SpecificFieldCustomization f : t.fieldsCustomizations) {
+				for (FieldCustomization f : t.fieldsCustomizations) {
 					if (f.hidden) {
-						IFieldInfo field = ReflectionUIUtils.findInfoByCaption(result, f.specificFieldCaption);
+						IFieldInfo field = ReflectionUIUtils.findInfoByCaption(result, f.FieldCaption);
 						if (field != null) {
 							result.remove(field);
 						}
@@ -591,12 +591,12 @@ public class InfoCustomizations {
 
 		@Override
 		protected List<IMethodInfo> getMethods(ITypeInfo type) {
-			SpecificTypeCustomization t = getSpecificTypeCustomization(type);
+			TypeCustomization t = getTypeCustomization(type);
 			if (t != null) {
 				List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getMethods(type));
-				for (SpecificMethodCustomization m : t.methodsCustomizations) {
+				for (MethodCustomization m : t.methodsCustomizations) {
 					if (m.hidden) {
-						IMethodInfo method = ReflectionUIUtils.findInfoByCaption(result, m.specificMethodCaption);
+						IMethodInfo method = ReflectionUIUtils.findInfoByCaption(result, m.MethodCaption);
 						if (method != null) {
 							result.remove(method);
 						}
@@ -609,7 +609,7 @@ public class InfoCustomizations {
 
 		@Override
 		protected String getCaption(ITypeInfo type) {
-			SpecificTypeCustomization t = getSpecificTypeCustomization(type);
+			TypeCustomization t = getTypeCustomization(type);
 			if (t != null) {
 				if (t.customTypeCaption != null) {
 					return t.customTypeCaption;
