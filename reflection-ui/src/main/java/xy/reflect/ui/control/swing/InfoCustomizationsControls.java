@@ -14,9 +14,11 @@ import javax.swing.SwingUtilities;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.SwingRenderer;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
 import xy.reflect.ui.info.type.util.InfoCustomizations.SpecificFieldCustomization;
+import xy.reflect.ui.info.type.util.InfoCustomizations.SpecificMethodCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.SpecificTypeCustomization;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
@@ -92,6 +94,35 @@ public class InfoCustomizationsControls {
 						nonCustomizedField, true);
 				if (infoCustomizationsUI.getSwingRenderer().openObjectDialogAndGetConfirmation(result, fc,
 						infoCustomizationsUI.getObjectTitle(fc), getImageIcon().getImage(), true)) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							update(type, reflectionUI);
+						}
+					});
+				}
+			}
+		});
+		return result;
+	}
+	
+	
+	public Component createMethodInfoCustomizationsControl(final ReflectionUI reflectionUI, final ITypeInfo type,
+			final IMethodInfo method) {
+		final JButton result = new JButton(getImageIcon());
+		result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
+		result.setContentAreaFilled(false);
+		result.setFocusable(false);
+		SwingRendererUtils.setMultilineToolTipText(result,
+				infoCustomizationsUI.prepareStringToDisplay("Customize this method display"));
+		result.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				IMethodInfo nonCustomizedMethod = ReflectionUIUtils.findInfoByName(type.getMethods(), method.getName());
+				SpecificMethodCustomization mc = infoCustomizations.getSpecificMethodCustomization(type,
+						nonCustomizedMethod, true);
+				if (infoCustomizationsUI.getSwingRenderer().openObjectDialogAndGetConfirmation(result, mc,
+						infoCustomizationsUI.getObjectTitle(mc), getImageIcon().getImage(), true)) {
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override
 						public void run() {

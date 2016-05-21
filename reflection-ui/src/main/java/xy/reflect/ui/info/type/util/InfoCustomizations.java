@@ -21,14 +21,19 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 @SuppressWarnings("unused")
-public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
+public class InfoCustomizations {
+
+	protected CustomizationsProxyGenerator proxyGenerator;
+	protected List<SpecificTypeCustomization> typeCustomizations = new ArrayList<InfoCustomizations.SpecificTypeCustomization>();
 
 	public InfoCustomizations(ReflectionUI reflectionUI) {
-		super(reflectionUI);
+		proxyGenerator = new CustomizationsProxyGenerator(reflectionUI);
 	}
 
-	protected List<SpecificTypeCustomization> typeCustomizations = new ArrayList<InfoCustomizations.SpecificTypeCustomization>();
-	
+	public ITypeInfo get(ITypeInfo type) {
+		return proxyGenerator.get(type);
+	}
+
 	public List<SpecificTypeCustomization> getTypeCustomizations() {
 		return typeCustomizations;
 	}
@@ -163,151 +168,6 @@ public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
 		return null;
 	}
 
-	@Override
-	protected boolean isNullable(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
-		SpecificParameterCustomization p = getSpecificParameterCustomization(containingType, method, param);
-		if (p != null) {
-			if (p.nullableFacetHidden) {
-				return false;
-			}
-		}
-		return param.isNullable();
-	}
-
-	@Override
-	protected String getCaption(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
-		SpecificParameterCustomization p = getSpecificParameterCustomization(containingType, method, param);
-		if (p != null) {
-			if (p.customParameterCaption != null) {
-				return p.customParameterCaption;
-			}
-		}
-		return super.getCaption(param, method, containingType);
-	}
-
-	@Override
-	protected boolean isNullable(IFieldInfo field, ITypeInfo containingType) {
-		SpecificFieldCustomization f = getSpecificFieldCustomization(containingType, field);
-		if (f != null) {
-			if (f.nullableFacetHidden) {
-				return false;
-			}
-		}
-		return field.isNullable();
-	}
-
-	@Override
-	protected boolean isGetOnly(IFieldInfo field, ITypeInfo containingType) {
-		SpecificFieldCustomization f = getSpecificFieldCustomization(containingType, field);
-		if (f != null) {
-			if (f.getOnlyForced) {
-				return true;
-			}
-		}
-		return super.isGetOnly(field, containingType);
-	}
-
-	@Override
-	protected String getCaption(IFieldInfo field, ITypeInfo containingType) {
-		SpecificFieldCustomization f = getSpecificFieldCustomization(containingType, field);
-		if (f != null) {
-			if (f.customFieldCaption != null) {
-				return f.customFieldCaption;
-			}
-		}
-		return super.getCaption(field, containingType);
-	}
-
-	@Override
-	protected boolean isReadOnly(IMethodInfo method, ITypeInfo containingType) {
-		SpecificMethodCustomization m = getSpecificMethodCustomization(containingType, method);
-		if (m != null) {
-			if (m.readOnlyForced) {
-				return true;
-			}
-		}
-		return super.isReadOnly(method, containingType);
-	}
-
-	@Override
-	protected List<IParameterInfo> getParameters(IMethodInfo method, ITypeInfo containingType) {
-		SpecificMethodCustomization m = getSpecificMethodCustomization(containingType, method);
-		if (m != null) {
-			List<IParameterInfo> result = super.getParameters(method, containingType);
-			for (SpecificParameterCustomization p : m.parametersCustomizations) {
-				if (p.hidden) {
-					IParameterInfo param = ReflectionUIUtils.findInfoByCaption(result, p.specificParameterCaption);
-					if (param != null) {
-						result = new ArrayList<IParameterInfo>(result);
-						result.remove(param);
-						return result;
-					}
-				}
-			}
-		}
-		return super.getParameters(method, containingType);
-	}
-
-	@Override
-	protected String getCaption(IMethodInfo method, ITypeInfo containingType) {
-		SpecificMethodCustomization m = getSpecificMethodCustomization(containingType, method);
-		if (m != null) {
-			if (m.customMethodCaption != null) {
-				return m.customMethodCaption;
-			}
-		}
-		return super.getCaption(method, containingType);
-	}
-
-	@Override
-	protected List<IFieldInfo> getFields(ITypeInfo type) {
-		SpecificTypeCustomization t = getSpecificTypeCustomization(type);
-		if (t != null) {
-			List<IFieldInfo> result = super.getFields(type);
-			for (SpecificFieldCustomization f : t.fieldsCustomizations) {
-				if (f.hidden) {
-					IFieldInfo field = ReflectionUIUtils.findInfoByCaption(result, f.specificFieldCaption);
-					if (field != null) {
-						result = new ArrayList<IFieldInfo>(result);
-						result.remove(field);
-						return result;
-					}
-				}
-			}
-		}
-		return super.getFields(type);
-	}
-
-	@Override
-	protected List<IMethodInfo> getMethods(ITypeInfo type) {
-		SpecificTypeCustomization t = getSpecificTypeCustomization(type);
-		if (t != null) {
-			List<IMethodInfo> result = super.getMethods(type);
-			for (SpecificMethodCustomization m : t.methodsCustomizations) {
-				if (m.hidden) {
-					IMethodInfo method = ReflectionUIUtils.findInfoByCaption(result, m.specificMethodCaption);
-					if (method != null) {
-						result = new ArrayList<IMethodInfo>(result);
-						result.remove(method);
-						return result;
-					}
-				}
-			}
-		}
-		return super.getMethods(type);
-	}
-
-	@Override
-	protected String getCaption(ITypeInfo type) {
-		SpecificTypeCustomization t = getSpecificTypeCustomization(type);
-		if (t != null) {
-			if (t.customTypeCaption != null) {
-				return t.customTypeCaption;
-			}
-		}
-		return super.getCaption(type);
-	}
-
 	public static class SpecificTypeCustomization {
 		private String specificTypeCaption;
 		private String customTypeCaption;
@@ -321,10 +181,6 @@ public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
 
 		public String getSpecificTypeCaption() {
 			return specificTypeCaption;
-		}
-
-		public void setSpecificTypeCaption(String specificTypeCaption) {
-			this.specificTypeCaption = specificTypeCaption;
 		}
 
 		public String getCustomTypeCaption() {
@@ -397,10 +253,6 @@ public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
 
 		public String getSpecificFieldCaption() {
 			return specificFieldCaption;
-		}
-
-		public void setSpecificFieldCaption(String specificFieldCaption) {
-			this.specificFieldCaption = specificFieldCaption;
 		}
 
 		public boolean isHidden() {
@@ -498,10 +350,6 @@ public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
 			this.specificMethodCaption = specificMethodCaption;
 		}
 
-		public void setSpecificMethodCaption(String specificMethodCaption) {
-			this.specificMethodCaption = specificMethodCaption;
-		}
-
 		public String getCustomMethodCaption() {
 			return customMethodCaption;
 		}
@@ -565,10 +413,6 @@ public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
 			return specificParameterCaption;
 		}
 
-		public void setSpecificParameterCaption(String specificParameterCaption) {
-			this.specificParameterCaption = specificParameterCaption;
-		}
-
 		public boolean isHidden() {
 			return hidden;
 		}
@@ -621,6 +465,157 @@ public class InfoCustomizations extends HiddenNullableFacetsInfoProxyGenerator {
 		@Override
 		public String toString() {
 			return "SpecificParameterCustomization [specificParameterCaption=" + specificParameterCaption + "]";
+		}
+
+	}
+
+	protected class CustomizationsProxyGenerator extends HiddenNullableFacetsInfoProxyGenerator {
+
+		public CustomizationsProxyGenerator(ReflectionUI reflectionUI) {
+			super(reflectionUI);
+		}
+
+		@Override
+		protected boolean isNullable(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+			SpecificParameterCustomization p = getSpecificParameterCustomization(containingType, method, param);
+			if (p != null) {
+				if (p.nullableFacetHidden) {
+					return false;
+				}
+			}
+			return param.isNullable();
+		}
+
+		@Override
+		protected String getCaption(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+			SpecificParameterCustomization p = getSpecificParameterCustomization(containingType, method, param);
+			if (p != null) {
+				if (p.customParameterCaption != null) {
+					return p.customParameterCaption;
+				}
+			}
+			return super.getCaption(param, method, containingType);
+		}
+
+		@Override
+		protected boolean isNullable(IFieldInfo field, ITypeInfo containingType) {
+			SpecificFieldCustomization f = getSpecificFieldCustomization(containingType, field);
+			if (f != null) {
+				if (f.nullableFacetHidden) {
+					return false;
+				}
+			}
+			return field.isNullable();
+		}
+
+		@Override
+		protected boolean isGetOnly(IFieldInfo field, ITypeInfo containingType) {
+			SpecificFieldCustomization f = getSpecificFieldCustomization(containingType, field);
+			if (f != null) {
+				if (f.getOnlyForced) {
+					return true;
+				}
+			}
+			return super.isGetOnly(field, containingType);
+		}
+
+		@Override
+		protected String getCaption(IFieldInfo field, ITypeInfo containingType) {
+			SpecificFieldCustomization f = getSpecificFieldCustomization(containingType, field);
+			if (f != null) {
+				if (f.customFieldCaption != null) {
+					return f.customFieldCaption;
+				}
+			}
+			return super.getCaption(field, containingType);
+		}
+
+		@Override
+		protected boolean isReadOnly(IMethodInfo method, ITypeInfo containingType) {
+			SpecificMethodCustomization m = getSpecificMethodCustomization(containingType, method);
+			if (m != null) {
+				if (m.readOnlyForced) {
+					return true;
+				}
+			}
+			return super.isReadOnly(method, containingType);
+		}
+
+		@Override
+		protected List<IParameterInfo> getParameters(IMethodInfo method, ITypeInfo containingType) {
+			SpecificMethodCustomization m = getSpecificMethodCustomization(containingType, method);
+			if (m != null) {
+				List<IParameterInfo> result = super.getParameters(method, containingType);
+				for (SpecificParameterCustomization p : m.parametersCustomizations) {
+					if (p.hidden) {
+						IParameterInfo param = ReflectionUIUtils.findInfoByCaption(result, p.specificParameterCaption);
+						if (param != null) {
+							result = new ArrayList<IParameterInfo>(result);
+							result.remove(param);
+							return result;
+						}
+					}
+				}
+			}
+			return super.getParameters(method, containingType);
+		}
+
+		@Override
+		protected String getCaption(IMethodInfo method, ITypeInfo containingType) {
+			SpecificMethodCustomization m = getSpecificMethodCustomization(containingType, method);
+			if (m != null) {
+				if (m.customMethodCaption != null) {
+					return m.customMethodCaption;
+				}
+			}
+			return super.getCaption(method, containingType);
+		}
+
+		@Override
+		protected List<IFieldInfo> getFields(ITypeInfo type) {
+			SpecificTypeCustomization t = getSpecificTypeCustomization(type);
+			if (t != null) {
+				List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
+				for (SpecificFieldCustomization f : t.fieldsCustomizations) {
+					if (f.hidden) {
+						IFieldInfo field = ReflectionUIUtils.findInfoByCaption(result, f.specificFieldCaption);
+						if (field != null) {
+							result.remove(field);
+						}
+					}
+				}
+				return result;
+			}
+			return super.getFields(type);
+		}
+
+		@Override
+		protected List<IMethodInfo> getMethods(ITypeInfo type) {
+			SpecificTypeCustomization t = getSpecificTypeCustomization(type);
+			if (t != null) {
+				List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getMethods(type));
+				for (SpecificMethodCustomization m : t.methodsCustomizations) {
+					if (m.hidden) {
+						IMethodInfo method = ReflectionUIUtils.findInfoByCaption(result, m.specificMethodCaption);
+						if (method != null) {
+							result.remove(method);
+						}
+					}
+				}
+				return result;
+			}
+			return super.getMethods(type);
+		}
+
+		@Override
+		protected String getCaption(ITypeInfo type) {
+			SpecificTypeCustomization t = getSpecificTypeCustomization(type);
+			if (t != null) {
+				if (t.customTypeCaption != null) {
+					return t.customTypeCaption;
+				}
+			}
+			return super.getCaption(type);
 		}
 
 	}
