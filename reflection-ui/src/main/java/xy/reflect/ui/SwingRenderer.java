@@ -18,6 +18,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -101,6 +103,7 @@ public class SwingRenderer {
 	protected ReflectionUI reflectionUI;
 	protected Map<JPanel, Object> objectByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, ModificationStack> modificationStackByForm = new MapMaker().weakKeys().makeMap();
+	protected Map<JPanel, Boolean> fieldsUpdateListenerDisabledByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, IInfoCollectionSettings> infoCollectionSettingsByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, JLabel> statusLabelByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, Map<InfoCategory, List<FieldControlPlaceHolder>>> fieldControlPlaceHoldersByCategoryByForm = new MapMaker()
@@ -112,12 +115,13 @@ public class SwingRenderer {
 	protected Map<IMethodInfo, InvocationData> lastInvocationDataByMethod = new HashMap<IMethodInfo, InvocationData>();
 	protected Map<FieldControlPlaceHolder, Component> captionControlByFieldControlPlaceHolder = new MapMaker()
 			.weakKeys().makeMap();
-	protected InfoCustomizations infoCustomizations = new InfoCustomizations(reflectionUI);
-	protected InfoCustomizationsControls infoCustomizationsControls = areInfoCustomizationsControlsEnabled()
-			? new InfoCustomizationsControls(infoCustomizations) : null;
+	protected InfoCustomizations infoCustomizations;
+	private String infoCustomizationsFilePath;
+	protected InfoCustomizationsControls infoCustomizationsControls;
 
 	public SwingRenderer(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
+		initializeInfoCustomizations();
 	}
 
 	public Map<JPanel, Object> getObjectByForm() {
@@ -126,6 +130,10 @@ public class SwingRenderer {
 
 	public Map<JPanel, ModificationStack> getModificationStackByForm() {
 		return modificationStackByForm;
+	}
+
+	protected Map<JPanel, Boolean> getFieldsUpdateListenerDisabledByForm() {
+		return fieldsUpdateListenerDisabledByForm;
 	}
 
 	public Map<JPanel, IInfoCollectionSettings> getInfoCollectionSettingsByForm() {
@@ -148,8 +156,37 @@ public class SwingRenderer {
 		return methodByControlPlaceHoler;
 	}
 
-	public boolean areInfoCustomizationsControlsEnabled() {
+	protected void initializeInfoCustomizations() {
+		try {
+			infoCustomizationsFilePath = getIInfoCustomizationsFilePath();
+			if (infoCustomizationsFilePath != null) {
+				infoCustomizations = new InfoCustomizations(reflectionUI);
+				File file = new File(infoCustomizationsFilePath);
+				if (file.exists()) {
+					infoCustomizations.loadFromFile(file);
+				}
+				if (areInfoCustomizationsControlsEnabled()) {
+					infoCustomizationsControls = new InfoCustomizationsControls(reflectionUI, infoCustomizations);
+					if (!file.exists()) {
+						infoCustomizations.saveToFile(file);
+					}
+				}
+			}
+		} catch (IOException e) {
+			handleExceptionsFromDisplayedUI(null, e);
+		}
+	}
+
+	protected String getIInfoCustomizationsFilePath() {
+		return System.getProperty(SystemProperties.INFO_CUSTOMIZATIONS_FILE);
+	}
+
+	protected boolean areInfoCustomizationsControlsEnabled() {
 		return "true".equals(System.getProperty(SystemProperties.ENABLE_INFO_CUSTOMIZATIONS_CONTROLS));
+	}
+
+	public void enableInfoCustomizationsControls(String infoCustomizationsFilePath) {
+		this.infoCustomizationsFilePath = infoCustomizationsFilePath;
 	}
 
 	protected void adjustWindowBounds(Window window) {
@@ -412,9 +449,12 @@ public class SwingRenderer {
 
 			private static final long serialVersionUID = 1L;
 			JPanel form = this;
-			IModificationListener modifListener = new IModificationListener() {
+			IModificationListener fieldsUpdateListener = new IModificationListener() {
 				@Override
 				public void handleEvent(Object event) {
+					if (Boolean.TRUE.equals(getFieldsUpdateListenerDisabledByForm().get(form))) {
+						return;
+					}
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override
 						public void run() {
@@ -422,8 +462,10 @@ public class SwingRenderer {
 							validateForm(form);
 							for (JPanel otherForm : getForms(object)) {
 								if (otherForm != form) {
-									ModificationStack otherModifStack = getModificationStackByForm().get(form);
-									otherModifStack.notifyListeners(IModificationListener.INVALIDATE_EVENT);
+									ModificationStack otherModifStack = getModificationStackByForm().get(otherForm);
+									getFieldsUpdateListenerDisabledByForm().put(otherForm, Boolean.TRUE);
+									otherModifStack.invalidate();
+									getFieldsUpdateListenerDisabledByForm().put(otherForm, Boolean.FALSE);
 								}
 							}
 						}
@@ -434,13 +476,13 @@ public class SwingRenderer {
 			@Override
 			public void addNotify() {
 				super.addNotify();
-				modifStack.addListener(modifListener);
+				modifStack.addListener(fieldsUpdateListener);
 			}
 
 			@Override
 			public void removeNotify() {
 				super.removeNotify();
-				modifStack.removeListener(modifListener);
+				modifStack.removeListener(fieldsUpdateListener);
 			}
 
 		};
@@ -631,13 +673,20 @@ public class SwingRenderer {
 
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 
-		if (areInfoCustomizationsControlsEnabled()) {
-			form.add(
-					SwingRendererUtils.flowInLayout(infoCustomizationsControls
-							.createSpecificTypeCustomizationsSettingsControl(reflectionUI, type), FlowLayout.CENTER),
-					BorderLayout.NORTH);
+		if (infoCustomizations != null) {
+			if (infoCustomizationsControls != null) {
+				JPanel mainCustomizationsControl = new JPanel();
+				mainCustomizationsControl.setLayout(new BorderLayout());
+				mainCustomizationsControl.add(infoCustomizationsControls.createTypeInfoCustomizer(type),
+						BorderLayout.CENTER);
+				mainCustomizationsControl.add(
+						infoCustomizationsControls.createSaveControl(new File(infoCustomizationsFilePath)),
+						BorderLayout.EAST);
+				form.add(SwingRendererUtils.flowInLayout(mainCustomizationsControl, FlowLayout.CENTER),
+						BorderLayout.NORTH);
+			}
+			type = infoCustomizations.get(type);
 		}
-		type = infoCustomizations.get(type);
 
 		Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = new HashMap<InfoCategory, List<FieldControlPlaceHolder>>();
 		getFieldControlPlaceHoldersByCategoryByForm().put(form, fieldControlPlaceHoldersByCategory);
@@ -1630,9 +1679,10 @@ public class SwingRenderer {
 			if (infoCustomizationsControl == null) {
 				if (areInfoCustomizationsControlsEnabled()) {
 					ITypeInfo nonCustomizedType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-					IFieldInfo nonCustomizedField = ReflectionUIUtils.findInfoByName(nonCustomizedType.getFields(), field.getName());
-					infoCustomizationsControl = infoCustomizationsControls
-							.createFieldInfoCustomizationsControl(reflectionUI, nonCustomizedType, nonCustomizedField);
+					IFieldInfo nonCustomizedField = ReflectionUIUtils.findInfoByName(nonCustomizedType.getFields(),
+							field.getName());
+					infoCustomizationsControl = infoCustomizationsControls.createFieldInfoCustomizer(nonCustomizedType,
+							nonCustomizedField);
 					add(infoCustomizationsControl, BorderLayout.EAST);
 					handleComponentSizeChange(this);
 				}
@@ -1720,9 +1770,10 @@ public class SwingRenderer {
 			if (infoCustomizationsControl == null) {
 				if (areInfoCustomizationsControlsEnabled()) {
 					ITypeInfo nonCustomizedType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-					IMethodInfo nonCustomizedMethod = ReflectionUIUtils.findInfoByName(nonCustomizedType.getMethods(), method.getName());
-					infoCustomizationsControl = infoCustomizationsControls
-							.createMethodInfoCustomizationsControl(reflectionUI, nonCustomizedType, nonCustomizedMethod);
+					IMethodInfo nonCustomizedMethod = ReflectionUIUtils.findMethodBySignature(
+							nonCustomizedType.getMethods(), ReflectionUIUtils.getMethodInfoSignature(method));
+					infoCustomizationsControl = infoCustomizationsControls.createMethodInfoCustomizer(nonCustomizedType,
+							nonCustomizedMethod);
 					add(infoCustomizationsControl, BorderLayout.WEST);
 					handleComponentSizeChange(this);
 				}

@@ -9,6 +9,8 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -65,6 +67,22 @@ import com.thoughtworks.paranamer.Paranamer;
 public class ReflectionUIUtils {
 
 	public static final String[] NEW_LINE_SEQUENCES = new String[] { "\r\n", "\n", "\r" };
+
+	public static File getStreamAsFile(InputStream in) throws IOException {
+		File tempFile = File.createTempFile(String.valueOf(in.hashCode()), ".tmp");
+		tempFile.deleteOnExit();
+		FileOutputStream out = new FileOutputStream(tempFile);
+		try {
+			byte[] buffer = new byte[1024];
+			int bytesRead;
+			while ((bytesRead = in.read(buffer)) != -1) {
+				out.write(buffer, 0, bytesRead);
+			}
+		} finally {
+			out.close();
+		}
+		return tempFile;
+	}
 
 	public static List<Class<?>> getAncestorClasses(Class<?> type) {
 		List<Class<?>> result = new ArrayList<Class<?>>();
@@ -417,6 +435,19 @@ public class ReflectionUIUtils {
 			String[] parameterNames = paranamer.lookupParameterNames((AccessibleObject) owner, false);
 			if ((parameterNames == null) || (parameterNames.length == 0)) {
 				return null;
+			}
+			if (owner instanceof Constructor) {
+				Constructor<?> ctor = (Constructor<?>) owner;
+				Class<?> ctorClass = ctor.getDeclaringClass();
+				if (ctorClass.isMemberClass()) {
+					if (!Modifier.isStatic(ctorClass.getModifiers())) {
+						if (parameterNames.length == (ctor.getParameterTypes().length - 1)) {
+							List<String> tmpList = new ArrayList<String>(Arrays.asList(parameterNames));
+							tmpList.add(0, "parent");
+							parameterNames = tmpList.toArray(new String[tmpList.size()]);
+						}
+					}
+				}
 			}
 			return parameterNames;
 		} catch (IOException e) {
@@ -891,7 +922,7 @@ public class ReflectionUIUtils {
 		return true;
 	}
 
-	public static List<Object> getKnownInstances(ITypeInfo type, ReflectionUI reflectionUI) {
+	public static List<Object> getActiveInstances(ITypeInfo type, ReflectionUI reflectionUI) {
 		List<Object> result = new ArrayList<Object>();
 		for (Map.Entry<JPanel, Object> entry : reflectionUI.getSwingRenderer().getObjectByForm().entrySet()) {
 			Object object = entry.getValue();

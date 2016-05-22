@@ -7,23 +7,28 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.javabean.JavaBeanConverter;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.IInfo;
+import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 @SuppressWarnings("unused")
 public class InfoCustomizations {
 
-	protected CustomizationsProxyGenerator proxyGenerator;
+	transient protected CustomizationsProxyGenerator proxyGenerator;
 	protected List<TypeCustomization> typeCustomizations = new ArrayList<InfoCustomizations.TypeCustomization>();
 
 	public InfoCustomizations(ReflectionUI reflectionUI) {
@@ -83,22 +88,22 @@ public class InfoCustomizations {
 		return result;
 	}
 
-	public ParameterCustomization getParameterCustomization(ITypeInfo containingType,
-			IMethodInfo method, IParameterInfo param) {
+	public ParameterCustomization getParameterCustomization(ITypeInfo containingType, IMethodInfo method,
+			IParameterInfo param) {
 		return getParameterCustomization(containingType, method, param, false);
 	}
 
-	public ParameterCustomization getParameterCustomization(ITypeInfo containingType,
-			IMethodInfo method, IParameterInfo param, boolean create) {
+	public ParameterCustomization getParameterCustomization(ITypeInfo containingType, IMethodInfo method,
+			IParameterInfo param, boolean create) {
 		MethodCustomization m = getMethodCustomization(containingType, method, create);
 		if (m != null) {
 			for (ParameterCustomization p : m.parametersCustomizations) {
-				if (param.getCaption().equals(p.ParameterCaption)) {
+				if (param.getName().equals(p.parameterName)) {
 					return p;
 				}
 			}
 			if (create) {
-				ParameterCustomization p = new ParameterCustomization(param.getCaption());
+				ParameterCustomization p = new ParameterCustomization(param.getName());
 				m.parametersCustomizations.add(p);
 				return p;
 			}
@@ -110,17 +115,16 @@ public class InfoCustomizations {
 		return getFieldCustomization(containingType, field, false);
 	}
 
-	public FieldCustomization getFieldCustomization(ITypeInfo containingType, IFieldInfo field,
-			boolean create) {
+	public FieldCustomization getFieldCustomization(ITypeInfo containingType, IFieldInfo field, boolean create) {
 		TypeCustomization t = getTypeCustomization(containingType, create);
 		if (t != null) {
 			for (FieldCustomization f : t.fieldsCustomizations) {
-				if (field.getCaption().equals(f.FieldCaption)) {
+				if (field.getName().equals(f.fieldName)) {
 					return f;
 				}
 			}
 			if (create) {
-				FieldCustomization f = new FieldCustomization(field.getCaption());
+				FieldCustomization f = new FieldCustomization(field.getName());
 				t.fieldsCustomizations.add(f);
 				return f;
 			}
@@ -132,17 +136,16 @@ public class InfoCustomizations {
 		return getMethodCustomization(containingType, method, false);
 	}
 
-	public MethodCustomization getMethodCustomization(ITypeInfo containingType, IMethodInfo method,
-			boolean create) {
+	public MethodCustomization getMethodCustomization(ITypeInfo containingType, IMethodInfo method, boolean create) {
 		TypeCustomization t = getTypeCustomization(containingType, create);
 		if (t != null) {
 			for (MethodCustomization m : t.methodsCustomizations) {
-				if (method.getCaption().equals(m.MethodCaption)) {
+				if (ReflectionUIUtils.getMethodInfoSignature(method).equals(m.methodSignature)) {
 					return m;
 				}
 			}
 			if (create) {
-				MethodCustomization m = new MethodCustomization(method.getCaption());
+				MethodCustomization m = new MethodCustomization(ReflectionUIUtils.getMethodInfoSignature(method));
 				t.methodsCustomizations.add(m);
 				return m;
 			}
@@ -156,31 +159,87 @@ public class InfoCustomizations {
 
 	public TypeCustomization getTypeCustomization(ITypeInfo containingType, boolean create) {
 		for (TypeCustomization t : typeCustomizations) {
-			if (containingType.getCaption().equals(t.TypeCaption)) {
+			if (containingType.getName().equals(t.typeName)) {
 				return t;
 			}
 		}
 		if (create) {
-			TypeCustomization t = new TypeCustomization(containingType.getCaption());
+			TypeCustomization t = new TypeCustomization(containingType.getName());
 			typeCustomizations.add(t);
 			return t;
 		}
 		return null;
 	}
 
+	protected static <I extends IInfo> List<String> getInfosOrderAfterMove(List<I> infos, I info, int offset) {
+		int index = infos.indexOf(info);
+		infos = new ArrayList<I>(infos);
+		infos.remove(index);
+		int offsetSign = ((offset > 0) ? 1 : -1);
+		InfoCategory infoCategory = getCategory(info);
+		for (int iOffset = 0; iOffset != offset; iOffset = iOffset + offsetSign) {
+			while (true) {
+				index = index + offsetSign;
+				if (index == 0) {
+					break;
+				}
+				if (index == infos.size()) {
+					break;
+				}
+				I otherInfo = infos.get(index);
+				InfoCategory otherFieldCategory = getCategory(otherInfo);
+				if (ReflectionUIUtils.equalsOrBothNull(infoCategory, otherFieldCategory)) {
+					break;
+				}
+			}
+			if (index == 0) {
+				break;
+			}
+			if (index == infos.size()) {
+				break;
+			}
+		}
+		infos.add(index, info);
+		ArrayList<String> newOrder = new ArrayList<String>();
+		for (I i : infos) {
+			newOrder.add(i.getName());
+		}
+		return newOrder;
+	}
+
+	protected static InfoCategory getCategory(IInfo info) {
+		if (info instanceof IFieldInfo) {
+			return ((IFieldInfo) info).getCategory();
+		} else if (info instanceof IMethodInfo) {
+			return ((IMethodInfo) info).getCategory();
+		} else {
+			return null;
+		}
+	}
+
 	public static class TypeCustomization {
-		private String TypeCaption;
+		private String typeName;
 		private String customTypeCaption;
 		private List<FieldCustomization> fieldsCustomizations = new ArrayList<InfoCustomizations.FieldCustomization>();
 		private List<MethodCustomization> methodsCustomizations = new ArrayList<InfoCustomizations.MethodCustomization>();
+		private List<String> customFieldsOrder;
+		private List<String> customMethodsOrder;
 
-		public TypeCustomization(String TypeCaption) {
+		public TypeCustomization(String TypeName) {
 			super();
-			this.TypeCaption = TypeCaption;
+			this.typeName = TypeName;
 		}
 
-		public String getTypeCaption() {
-			return TypeCaption;
+		public String getTypeName() {
+			return typeName;
+		}
+
+		public List<String> getCustomFieldsOrder() {
+			return customFieldsOrder;
+		}
+
+		public List<String> getCustomMethodsOrder() {
+			return customMethodsOrder;
 		}
 
 		public String getCustomTypeCaption() {
@@ -211,7 +270,7 @@ public class InfoCustomizations {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((TypeCaption == null) ? 0 : TypeCaption.hashCode());
+			result = prime * result + ((typeName == null) ? 0 : typeName.hashCode());
 			return result;
 		}
 
@@ -224,35 +283,53 @@ public class InfoCustomizations {
 			if (getClass() != obj.getClass())
 				return false;
 			TypeCustomization other = (TypeCustomization) obj;
-			if (TypeCaption == null) {
-				if (other.TypeCaption != null)
+			if (typeName == null) {
+				if (other.typeName != null)
 					return false;
-			} else if (!TypeCaption.equals(other.TypeCaption))
+			} else if (!typeName.equals(other.typeName))
 				return false;
 			return true;
 		}
 
 		@Override
 		public String toString() {
-			return "TypeCustomization [TypeCaption=" + TypeCaption + "]";
+			return "TypeCustomization [typeName=" + typeName + "]";
+		}
+
+		public void moveField(InfoCustomizations parent, ITypeInfo type, IFieldInfo field, int offset) {
+			List<IFieldInfo> customizedFields = parent.proxyGenerator.getFields(type);
+			IFieldInfo customizedField = ReflectionUIUtils.findInfoByName(customizedFields, field.getName());
+			if (customizedField == null) {
+				return;
+			}
+			customFieldsOrder = getInfosOrderAfterMove(customizedFields, customizedField, offset);
+		}
+
+		public void moveMethod(InfoCustomizations parent, ITypeInfo type, IMethodInfo method, int offset) {
+			List<IMethodInfo> customizedMethods = parent.proxyGenerator.getMethods(type);
+			IMethodInfo customizedMethod = ReflectionUIUtils.findInfoByName(customizedMethods, method.getName());
+			if (customizedMethod == null) {
+				return;
+			}
+			customMethodsOrder = getInfosOrderAfterMove(customizedMethods, customizedMethod, offset);
 		}
 
 	}
 
 	public static class FieldCustomization {
-		private String FieldCaption;
+		private String fieldName;
 		private String customFieldCaption;
 		private boolean hidden = false;
 		private boolean nullableFacetHidden = false;
 		private boolean getOnlyForced = false;
 
-		public FieldCustomization(String FieldCaption) {
+		public FieldCustomization(String FieldName) {
 			super();
-			this.FieldCaption = FieldCaption;
+			this.fieldName = FieldName;
 		}
 
-		public String getFieldCaption() {
-			return FieldCaption;
+		public String getFieldName() {
+			return fieldName;
 		}
 
 		public boolean isHidden() {
@@ -291,7 +368,7 @@ public class InfoCustomizations {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((FieldCaption == null) ? 0 : FieldCaption.hashCode());
+			result = prime * result + ((fieldName == null) ? 0 : fieldName.hashCode());
 			return result;
 		}
 
@@ -304,26 +381,31 @@ public class InfoCustomizations {
 			if (getClass() != obj.getClass())
 				return false;
 			FieldCustomization other = (FieldCustomization) obj;
-			if (FieldCaption == null) {
-				if (other.FieldCaption != null)
+			if (fieldName == null) {
+				if (other.fieldName != null)
 					return false;
-			} else if (!FieldCaption.equals(other.FieldCaption))
+			} else if (!fieldName.equals(other.fieldName))
 				return false;
 			return true;
 		}
 
 		@Override
 		public String toString() {
-			return "FieldCustomization [FieldCaption=" + FieldCaption + "]";
+			return "FieldCustomization [fieldName=" + fieldName + "]";
 		}
 	}
 
 	public static class MethodCustomization {
-		private String MethodCaption;
+		private String methodSignature;
 		private String customMethodCaption;
 		private boolean hidden = false;
 		private boolean readOnlyForced = false;
 		private List<ParameterCustomization> parametersCustomizations = new ArrayList<InfoCustomizations.ParameterCustomization>();
+
+		public MethodCustomization(String methodSignature) {
+			super();
+			this.methodSignature = methodSignature;
+		}
 
 		public boolean isHidden() {
 			return hidden;
@@ -341,13 +423,8 @@ public class InfoCustomizations {
 			this.readOnlyForced = readOnlyForced;
 		}
 
-		public String getMethodCaption() {
-			return MethodCaption;
-		}
-
-		public MethodCustomization(String MethodCaption) {
-			super();
-			this.MethodCaption = MethodCaption;
+		public String getMethodSignature() {
+			return methodSignature;
 		}
 
 		public String getCustomMethodCaption() {
@@ -393,24 +470,24 @@ public class InfoCustomizations {
 
 		@Override
 		public String toString() {
-			return "MethodCustomization [MethodCaption=" + MethodCaption + "]";
+			return "MethodCustomization [methodSignature=" + methodSignature + "]";
 		}
 
 	}
 
 	public static class ParameterCustomization {
-		private String ParameterCaption;
+		private String parameterName;
 		private String customParameterCaption;
 		private boolean hidden = false;
 		private boolean nullableFacetHidden = false;
 
-		public ParameterCustomization(String ParameterCaption) {
+		public ParameterCustomization(String ParameterName) {
 			super();
-			this.ParameterCaption = ParameterCaption;
+			this.parameterName = ParameterName;
 		}
 
-		public String getParameterCaption() {
-			return ParameterCaption;
+		public String getParameterName() {
+			return parameterName;
 		}
 
 		public boolean isHidden() {
@@ -441,7 +518,7 @@ public class InfoCustomizations {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((ParameterCaption == null) ? 0 : ParameterCaption.hashCode());
+			result = prime * result + ((parameterName == null) ? 0 : parameterName.hashCode());
 			return result;
 		}
 
@@ -454,17 +531,17 @@ public class InfoCustomizations {
 			if (getClass() != obj.getClass())
 				return false;
 			ParameterCustomization other = (ParameterCustomization) obj;
-			if (ParameterCaption == null) {
-				if (other.ParameterCaption != null)
+			if (parameterName == null) {
+				if (other.parameterName != null)
 					return false;
-			} else if (!ParameterCaption.equals(other.ParameterCaption))
+			} else if (!parameterName.equals(other.parameterName))
 				return false;
 			return true;
 		}
 
 		@Override
 		public String toString() {
-			return "ParameterCustomization [ParameterCaption=" + ParameterCaption + "]";
+			return "ParameterCustomization [parameterName=" + parameterName + "]";
 		}
 
 	}
@@ -548,7 +625,7 @@ public class InfoCustomizations {
 				List<IParameterInfo> result = super.getParameters(method, containingType);
 				for (ParameterCustomization p : m.parametersCustomizations) {
 					if (p.hidden) {
-						IParameterInfo param = ReflectionUIUtils.findInfoByCaption(result, p.ParameterCaption);
+						IParameterInfo param = ReflectionUIUtils.findInfoByCaption(result, p.parameterName);
 						if (param != null) {
 							result = new ArrayList<IParameterInfo>(result);
 							result.remove(param);
@@ -573,16 +650,20 @@ public class InfoCustomizations {
 
 		@Override
 		protected List<IFieldInfo> getFields(ITypeInfo type) {
-			TypeCustomization t = getTypeCustomization(type);
+			final TypeCustomization t = getTypeCustomization(type);
 			if (t != null) {
-				List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
+				final List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
 				for (FieldCustomization f : t.fieldsCustomizations) {
 					if (f.hidden) {
-						IFieldInfo field = ReflectionUIUtils.findInfoByCaption(result, f.FieldCaption);
+						IFieldInfo field = ReflectionUIUtils.findInfoByName(result, f.fieldName);
 						if (field != null) {
 							result.remove(field);
 						}
 					}
+				}
+				if (t.customFieldsOrder != null) {
+					Collections.sort(result,
+							getInfosComparator(t.customFieldsOrder, new ArrayList<IFieldInfo>(result)));
 				}
 				return result;
 			}
@@ -596,11 +677,15 @@ public class InfoCustomizations {
 				List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getMethods(type));
 				for (MethodCustomization m : t.methodsCustomizations) {
 					if (m.hidden) {
-						IMethodInfo method = ReflectionUIUtils.findInfoByCaption(result, m.MethodCaption);
+						IMethodInfo method = ReflectionUIUtils.findMethodBySignature(result, m.methodSignature);
 						if (method != null) {
 							result.remove(method);
 						}
 					}
+				}
+				if (t.customMethodsOrder != null) {
+					Collections.sort(result,
+							getInfosComparator(t.customMethodsOrder, new ArrayList<IMethodInfo>(result)));
 				}
 				return result;
 			}
@@ -618,6 +703,29 @@ public class InfoCustomizations {
 			return super.getCaption(type);
 		}
 
+	}
+
+	protected static <T extends IInfo> Comparator<T> getInfosComparator(final List<String> order,
+			final List<T> initialListCopy) {
+		return new Comparator<T>() {
+			@Override
+			public int compare(T o1, T o2) {
+				if (order.contains(o1.getName()) && order.contains(o2.getName())) {
+					Integer index1 = new Integer(order.indexOf(o1.getName()));
+					Integer index2 = new Integer(order.indexOf(o2.getName()));
+					return index1.compareTo(index2);
+				}
+				if (order.contains(o1.getName())) {
+					return 1;
+				}
+				if (order.contains(o2.getName())) {
+					return -1;
+				}
+				Integer index1 = new Integer(initialListCopy.indexOf(o1));
+				Integer index2 = new Integer(initialListCopy.indexOf(o2));
+				return index1.compareTo(index2);
+			}
+		};
 	}
 
 }

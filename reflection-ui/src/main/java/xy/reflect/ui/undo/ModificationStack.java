@@ -223,7 +223,7 @@ public class ModificationStack {
 		notifyListeners(IModificationListener.INVALIDATE_EVENT);
 	}
 
-	public void notifyListeners(Object event) {
+	protected void notifyListeners(Object event) {
 		for (IModificationListener listener : new ArrayList<IModificationListener>(listeners)) {
 			listener.handleEvent(event);
 		}

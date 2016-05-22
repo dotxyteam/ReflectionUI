@@ -18,12 +18,10 @@ public class SystemProperties {
 
 	}
 
-	private static final String PREFIX = ReflectionUI.class.getPackage()
-			.getName();
+	private static final String PREFIX = ReflectionUI.class.getPackage().getName();
 
 	@Usage("If the value of this property is \"true\" then the values in the UI will be dsiplayed as much as possible as not-nullable.")
-	public static final String HIDE_NULLABLE_FACETS = PREFIX
-			+ ".hideNullableFacets";
+	public static final String HIDE_NULLABLE_FACETS = PREFIX + ".hideNullableFacets";
 
 	@Usage("Fields that needs to be hidden in the UI can be specified in this property using this format: 'package.subpackage.TheClass#theField|package2.subpackage2.TheClass2#theField2|...'. Wildcard characters can be used.")
 	public static final String HIDE_FIELDS = PREFIX + ".hideFields";
@@ -34,9 +32,11 @@ public class SystemProperties {
 	@Usage("Parameters that needs to be hidden in the UI can be specified in this property using this format: 'package.subpackage.TheClass#theMethod(parameterType1,parameterType2,...):<PARAMETER_INDEX>|package2.subpackage2.TheClass2#theMethod2(parameterType1,parameterType2,...):1|...'. Wildcard characters can be used.")
 	public static final String HIDE_PARAMETERS = PREFIX + ".hideParameters";
 
+	@Usage("This property value specifies the path of the UI customization file.")
+	public static final String INFO_CUSTOMIZATIONS_FILE = PREFIX + ".infoCustomizationsFile";
+
 	@Usage("If the value of this property is \"true\" then the UI customization controls will be displayed.")
-	public static final String ENABLE_INFO_CUSTOMIZATIONS_CONTROLS = PREFIX
-			+ ".infoCustomizationsControlsEnabled";
+	public static final String ENABLE_INFO_CUSTOMIZATIONS_CONTROLS = PREFIX + ".infoCustomizationsControlsEnabled";
 
 	public static String describe() {
 		StringBuilder result = new StringBuilder();
@@ -60,12 +60,10 @@ public class SystemProperties {
 	}
 
 	public static boolean hideNullablefacets() {
-		return Boolean.valueOf(System
-				.getProperty(HIDE_NULLABLE_FACETS, "false"));
+		return Boolean.valueOf(System.getProperty(HIDE_NULLABLE_FACETS, "false"));
 	}
 
-	private static boolean matchesHiddenPattern(String qualifiedName,
-			String hiddenPattern) {
+	private static boolean matchesHiddenPattern(String qualifiedName, String hiddenPattern) {
 		String[] patterns = hiddenPattern.split("\\|");
 		return Wildcard.matchOne(qualifiedName, patterns) != -1;
 	}
