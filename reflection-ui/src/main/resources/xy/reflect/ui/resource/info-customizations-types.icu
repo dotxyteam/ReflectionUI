@@ -141,7 +141,29 @@
     </xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
     <xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
       <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization</typeName>
-      <fieldsCustomizations/>
+      <fieldsCustomizations>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <fieldName>hidden</fieldName>
+          <customFieldCaption>Hide</customFieldCaption>
+          <hidden>false</hidden>
+          <nullableFacetHidden>false</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <fieldName>getOnlyForced</fieldName>
+          <customFieldCaption>Force Get Only</customFieldCaption>
+          <hidden>false</hidden>
+          <nullableFacetHidden>false</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <fieldName>nullableFacetHidden</fieldName>
+          <customFieldCaption>Hide Nullable Facet</customFieldCaption>
+          <hidden>false</hidden>
+          <nullableFacetHidden>false</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+      </fieldsCustomizations>
       <methodsCustomizations/>
       <customFieldsOrder>
         <string>fieldName</string>
@@ -165,6 +187,20 @@
           <nullableFacetHidden>true</nullableFacetHidden>
           <getOnlyForced>false</getOnlyForced>
         </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <fieldName>hidden</fieldName>
+          <customFieldCaption>Hide</customFieldCaption>
+          <hidden>false</hidden>
+          <nullableFacetHidden>false</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <fieldName>readOnlyForced</fieldName>
+          <customFieldCaption>Force Read Only</customFieldCaption>
+          <hidden>false</hidden>
+          <nullableFacetHidden>false</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
       </fieldsCustomizations>
       <methodsCustomizations/>
       <customFieldsOrder>
@@ -182,7 +218,22 @@
     </xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
     <xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
       <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization</typeName>
-      <fieldsCustomizations/>
+      <fieldsCustomizations>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <fieldName>hidden</fieldName>
+          <customFieldCaption>Hide</customFieldCaption>
+          <hidden>false</hidden>
+          <nullableFacetHidden>false</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <fieldName>nullableFacetHidden</fieldName>
+          <customFieldCaption>Hide Nullable Facet</customFieldCaption>
+          <hidden>false</hidden>
+          <nullableFacetHidden>false</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+      </fieldsCustomizations>
       <methodsCustomizations/>
       <customFieldsOrder>
         <string>parameterName</string>

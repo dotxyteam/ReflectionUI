@@ -34,10 +34,6 @@ public class InfoCustomizationsControls {
 
 	protected ReflectionUI customizationsUI = new ReflectionUI() {
 
-		@Override
-		protected SwingRenderer createSwingRenderer() {
-			return new SwingRenderer(this) {
-
 				File customizationsFile;
 
 				@Override
@@ -46,7 +42,7 @@ public class InfoCustomizationsControls {
 				}
 
 				@Override
-				protected String getIInfoCustomizationsFilePath() {
+				protected String getInfoCustomizationsFilePath() {
 					if (customizationsFile == null) {
 						URL url = ReflectionUI.class.getResource("resource/info-customizations-types.icu");
 						try {
@@ -58,8 +54,6 @@ public class InfoCustomizationsControls {
 					return customizationsFile.getPath();
 				}
 
-			};
-		}
 	};
 	protected InfoCustomizations infoCustomizations;
 	private ReflectionUI reflectionUI;

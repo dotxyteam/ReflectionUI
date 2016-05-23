@@ -18,8 +18,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,7 +54,6 @@ import xy.reflect.ui.control.swing.EmbeddedFormControl;
 import xy.reflect.ui.control.swing.EnumerationControl;
 import xy.reflect.ui.control.swing.FileControl;
 import xy.reflect.ui.control.swing.IFieldControl;
-import xy.reflect.ui.control.swing.InfoCustomizationsControls;
 import xy.reflect.ui.control.swing.ListControl;
 import xy.reflect.ui.control.swing.MethodControl;
 import xy.reflect.ui.control.swing.NullableControl;
@@ -78,7 +75,6 @@ import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.ArrayAsEnumerationTypeInfo;
-import xy.reflect.ui.info.type.util.InfoCustomizations;
 import xy.reflect.ui.info.type.util.MethodParametersAsTypeInfo;
 import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.info.type.util.VirtualFieldWrapperTypeInfo;
@@ -93,7 +89,6 @@ import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
-import xy.reflect.ui.util.SystemProperties;
 import xy.reflect.ui.util.component.AutoResizeTabbedPane;
 import xy.reflect.ui.util.component.ScrollPaneOptions;
 import xy.reflect.ui.util.component.WrapLayout;
@@ -115,13 +110,9 @@ public class SwingRenderer {
 	protected Map<IMethodInfo, InvocationData> lastInvocationDataByMethod = new HashMap<IMethodInfo, InvocationData>();
 	protected Map<FieldControlPlaceHolder, Component> captionControlByFieldControlPlaceHolder = new MapMaker()
 			.weakKeys().makeMap();
-	protected InfoCustomizations infoCustomizations;
-	private String infoCustomizationsFilePath;
-	protected InfoCustomizationsControls infoCustomizationsControls;
 
 	public SwingRenderer(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
-		initializeInfoCustomizations();
 	}
 
 	public Map<JPanel, Object> getObjectByForm() {
@@ -154,39 +145,6 @@ public class SwingRenderer {
 
 	public Map<MethodControlPlaceHolder, IMethodInfo> getMethodByControl() {
 		return methodByControlPlaceHoler;
-	}
-
-	protected void initializeInfoCustomizations() {
-		try {
-			infoCustomizationsFilePath = getIInfoCustomizationsFilePath();
-			if (infoCustomizationsFilePath != null) {
-				infoCustomizations = new InfoCustomizations(reflectionUI);
-				File file = new File(infoCustomizationsFilePath);
-				if (file.exists()) {
-					infoCustomizations.loadFromFile(file);
-				}
-				if (areInfoCustomizationsControlsEnabled()) {
-					infoCustomizationsControls = new InfoCustomizationsControls(reflectionUI, infoCustomizations);
-					if (!file.exists()) {
-						infoCustomizations.saveToFile(file);
-					}
-				}
-			}
-		} catch (IOException e) {
-			handleExceptionsFromDisplayedUI(null, e);
-		}
-	}
-
-	protected String getIInfoCustomizationsFilePath() {
-		return System.getProperty(SystemProperties.INFO_CUSTOMIZATIONS_FILE);
-	}
-
-	protected boolean areInfoCustomizationsControlsEnabled() {
-		return "true".equals(System.getProperty(SystemProperties.ENABLE_INFO_CUSTOMIZATIONS_CONTROLS));
-	}
-
-	public void enableInfoCustomizationsControls(String infoCustomizationsFilePath) {
-		this.infoCustomizationsFilePath = infoCustomizationsFilePath;
 	}
 
 	protected void adjustWindowBounds(Window window) {
@@ -673,21 +631,6 @@ public class SwingRenderer {
 
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 
-		if (infoCustomizations != null) {
-			if (infoCustomizationsControls != null) {
-				JPanel mainCustomizationsControl = new JPanel();
-				mainCustomizationsControl.setLayout(new BorderLayout());
-				mainCustomizationsControl.add(infoCustomizationsControls.createTypeInfoCustomizer(type),
-						BorderLayout.CENTER);
-				mainCustomizationsControl.add(
-						infoCustomizationsControls.createSaveControl(new File(infoCustomizationsFilePath)),
-						BorderLayout.EAST);
-				form.add(SwingRendererUtils.flowInLayout(mainCustomizationsControl, FlowLayout.CENTER),
-						BorderLayout.NORTH);
-			}
-			type = infoCustomizations.get(type);
-		}
-
 		Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = new HashMap<InfoCategory, List<FieldControlPlaceHolder>>();
 		getFieldControlPlaceHoldersByCategoryByForm().put(form, fieldControlPlaceHoldersByCategory);
 		List<IFieldInfo> fields = type.getFields();
@@ -724,7 +667,7 @@ public class SwingRenderer {
 			if (!method.isReadOnly()) {
 				method = makeMethodModificationsUndoable(method, form);
 			}
-			MethodControlPlaceHolder methodControlPlaceHolder = new MethodControlPlaceHolder(object, method);
+			MethodControlPlaceHolder methodControlPlaceHolder = createMethodControlPlaceHolder(object, method);
 			getMethodByControl().put(methodControlPlaceHolder, method);
 			{
 				InfoCategory category = method.getCategory();
@@ -765,6 +708,10 @@ public class SwingRenderer {
 			formContent.add(createMultipleInfoCategoriesComponent(allCategories, fieldControlPlaceHoldersByCategory,
 					methodControlPlaceHoldersByCategory), BorderLayout.CENTER);
 		}
+	}
+
+	protected MethodControlPlaceHolder createMethodControlPlaceHolder(Object object, IMethodInfo method) {
+		return new MethodControlPlaceHolder(object, method);
 	}
 
 	public List<FieldControlPlaceHolder> getAllFieldControlPlaceHolders(JPanel form) {
@@ -1631,8 +1578,7 @@ public class SwingRenderer {
 		protected Object object;
 		protected IFieldInfo field;
 		protected Component fieldControl;
-		protected Component infoCustomizationsControl;
-
+		
 		public FieldControlPlaceHolder(Object object, IFieldInfo field) {
 			super();
 			this.object = object;
@@ -1651,7 +1597,6 @@ public class SwingRenderer {
 		}
 
 		public void refreshUI(boolean recreate) {
-			refreshInfoCustomizationsControl();
 			if (recreate) {
 				if (fieldControl != null) {
 					remove(fieldControl);
@@ -1672,24 +1617,6 @@ public class SwingRenderer {
 						fieldControl.requestFocus();
 					}
 				}
-			}
-		}
-
-		protected void refreshInfoCustomizationsControl() {
-			if (infoCustomizationsControl == null) {
-				if (areInfoCustomizationsControlsEnabled()) {
-					ITypeInfo nonCustomizedType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-					IFieldInfo nonCustomizedField = ReflectionUIUtils.findInfoByName(nonCustomizedType.getFields(),
-							field.getName());
-					infoCustomizationsControl = infoCustomizationsControls.createFieldInfoCustomizer(nonCustomizedType,
-							nonCustomizedField);
-					add(infoCustomizationsControl, BorderLayout.EAST);
-					handleComponentSizeChange(this);
-				}
-			} else {
-				remove(infoCustomizationsControl);
-				infoCustomizationsControl = null;
-				refreshInfoCustomizationsControl();
 			}
 		}
 
@@ -1725,8 +1652,7 @@ public class SwingRenderer {
 		protected Object object;
 		protected IMethodInfo method;
 		protected Component methodControl;
-		protected Component infoCustomizationsControl;
-
+		
 		public MethodControlPlaceHolder(Object object, IMethodInfo method) {
 			super();
 			this.object = object;
@@ -1744,7 +1670,6 @@ public class SwingRenderer {
 		}
 
 		public void refreshUI(boolean recreate) {
-			refreshInfoCustomizationsControl();
 			if (recreate) {
 				if (methodControl != null) {
 					remove(methodControl);
@@ -1766,24 +1691,7 @@ public class SwingRenderer {
 			}
 		}
 
-		protected void refreshInfoCustomizationsControl() {
-			if (infoCustomizationsControl == null) {
-				if (areInfoCustomizationsControlsEnabled()) {
-					ITypeInfo nonCustomizedType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-					IMethodInfo nonCustomizedMethod = ReflectionUIUtils.findMethodBySignature(
-							nonCustomizedType.getMethods(), ReflectionUIUtils.getMethodInfoSignature(method));
-					infoCustomizationsControl = infoCustomizationsControls.createMethodInfoCustomizer(nonCustomizedType,
-							nonCustomizedMethod);
-					add(infoCustomizationsControl, BorderLayout.WEST);
-					handleComponentSizeChange(this);
-				}
-			} else {
-				remove(infoCustomizationsControl);
-				infoCustomizationsControl = null;
-				refreshInfoCustomizationsControl();
-			}
-		}
-
+		
 		@Override
 		public void requestFocus() {
 			if (methodControl != null) {

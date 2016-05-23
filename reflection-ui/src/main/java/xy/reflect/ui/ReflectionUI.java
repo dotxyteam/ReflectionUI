@@ -1,13 +1,21 @@
 package xy.reflect.ui;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.FlowLayout;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 
+import javax.swing.JPanel;
+
+import xy.reflect.ui.control.swing.InfoCustomizationsControls;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MultipleFieldAsListListTypeInfo.MultipleFieldAsListItem;
@@ -28,19 +36,30 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.util.HiddenNullableFacetsInfoProxyGenerator;
+import xy.reflect.ui.info.type.util.InfoCustomizations;
 import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.SystemProperties;
 
 import com.google.common.cache.CacheBuilder;
 
 public class ReflectionUI {
 
-	protected SwingRenderer swingRenderer = createSwingRenderer();
-	protected Map<ITypeInfoSource, ITypeInfo> typeInfoBySource = CacheBuilder
-			.newBuilder().maximumSize(1000).<ITypeInfoSource, ITypeInfo> build()
-			.asMap();
+	protected Map<ITypeInfoSource, ITypeInfo> typeInfoBySource = CacheBuilder.newBuilder().maximumSize(1000)
+			.<ITypeInfoSource, ITypeInfo> build().asMap();
+
+	protected SwingRenderer swingRenderer;
+
+	protected InfoCustomizations infoCustomizations;
+	protected String infoCustomizationsFilePath;
+	protected InfoCustomizationsControls infoCustomizationsControls;
+
+	public ReflectionUI() {
+		initializeInfoCustomizations();
+		swingRenderer = createSwingRenderer();
+	}
 
 	public static void main(String[] args) {
 		ReflectionUI reflectionUI = new ReflectionUI();
@@ -48,10 +67,8 @@ public class ReflectionUI {
 			Class<?> clazz = Object.class;
 			String usageText = "Expected arguments: [ <className> | --help ]"
 					+ "\n  => <className>: Fully qualified name of a class to instanciate and display in a window"
-					+ "\n  => --help: Displays this help message"
-					+ "\n"
-					+ "\nAdditionally, the following JVM properties can be set:"
-					+ "\n" + SystemProperties.describe();
+					+ "\n  => --help: Displays this help message" + "\n"
+					+ "\nAdditionally, the following JVM properties can be set:" + "\n" + SystemProperties.describe();
 			if (args.length == 0) {
 				clazz = Object.class;
 			} else if (args.length == 1) {
@@ -64,25 +81,24 @@ public class ReflectionUI {
 			} else {
 				throw new IllegalArgumentException(usageText);
 			}
-			Object object = reflectionUI.getSwingRenderer()
-					.onTypeInstanciationRequest(
-							null,
-							reflectionUI.getTypeInfo(new JavaTypeInfoSource(
-									clazz)), false);
+			Object object = reflectionUI.getSwingRenderer().onTypeInstanciationRequest(null,
+					reflectionUI.getTypeInfo(new JavaTypeInfoSource(clazz)), false);
 			if (object == null) {
 				return;
 			}
-			reflectionUI.getSwingRenderer().openObjectFrame(object,
-					reflectionUI.getObjectTitle(object),
+			reflectionUI.getSwingRenderer().openObjectFrame(object, reflectionUI.getObjectTitle(object),
 					reflectionUI.getSwingRenderer().getIconImage(object));
 		} catch (Throwable t) {
-			reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(
-					null, t);
+			reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(null, t);
 		}
 	}
 
 	protected SwingRenderer createSwingRenderer() {
-		return new SwingRenderer(this);
+		if (infoCustomizationsControls != null) {
+			return new CustomizationsSwingRenderer(this);
+		} else {
+			return new SwingRenderer(this);
+		}
 	}
 
 	public final SwingRenderer getSwingRenderer() {
@@ -107,14 +123,12 @@ public class ReflectionUI {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ObjectOutputStream oos = new ObjectOutputStream(baos);
 			oos.writeObject(object);
-			ByteArrayInputStream bais = new ByteArrayInputStream(
-					baos.toByteArray());
+			ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
 			ObjectInputStream ois = new ObjectInputStream(bais);
 			Object copy = ois.readObject();
 			return copy;
 		} catch (Throwable t) {
-			throw new ReflectionUIError("Could not copy object: "
-					+ t.toString());
+			throw new ReflectionUIError("Could not copy object: " + t.toString());
 		}
 	}
 
@@ -131,12 +145,10 @@ public class ReflectionUI {
 
 	public ITypeInfoSource getTypeInfoSource(Object object) {
 		if (object instanceof PrecomputedTypeInfoInstanceWrapper) {
-			return ((PrecomputedTypeInfoInstanceWrapper) object)
-					.getPrecomputedTypeInfoSource();
+			return ((PrecomputedTypeInfoInstanceWrapper) object).getPrecomputedTypeInfoSource();
 		} else if (object instanceof MultipleFieldAsListItem) {
 			return new PrecomputedTypeInfoSource(
-					new MultipleFieldAsListItemTypeInfo(this,
-							(MultipleFieldAsListItem) object));
+					new MultipleFieldAsListItemTypeInfo(this, (MultipleFieldAsListItem) object));
 		} else {
 			return new JavaTypeInfoSource(object.getClass());
 		}
@@ -150,53 +162,32 @@ public class ReflectionUI {
 		ITypeInfo result = typeInfoBySource.get(typeSource);
 		if (result == null) {
 			if (typeSource instanceof PrecomputedTypeInfoSource) {
-				result = ((PrecomputedTypeInfoSource) typeSource)
-						.getPrecomputedType();
+				result = ((PrecomputedTypeInfoSource) typeSource).getPrecomputedType();
 			} else if (typeSource instanceof JavaTypeInfoSource) {
 				JavaTypeInfoSource javaTypeSource = (JavaTypeInfoSource) typeSource;
-				if (StandardCollectionTypeInfo.isCompatibleWith(javaTypeSource
-						.getJavaType())) {
-					Class<?> itemType = ReflectionUIUtils
-							.getJavaGenericTypeParameter(javaTypeSource,
-									Collection.class, 0);
-					result = new StandardCollectionTypeInfo(this,
-							javaTypeSource.getJavaType(), itemType);
-				} else if (StandardMapAsListTypeInfo
-						.isCompatibleWith(javaTypeSource.getJavaType())) {
-					Class<?> keyType = ReflectionUIUtils
-							.getJavaGenericTypeParameter(javaTypeSource,
-									Map.class, 0);
-					Class<?> valueType = ReflectionUIUtils
-							.getJavaGenericTypeParameter(javaTypeSource,
-									Map.class, 1);
-					result = new StandardMapAsListTypeInfo(this,
-							javaTypeSource.getJavaType(), keyType, valueType);
+				if (StandardCollectionTypeInfo.isCompatibleWith(javaTypeSource.getJavaType())) {
+					Class<?> itemType = ReflectionUIUtils.getJavaGenericTypeParameter(javaTypeSource, Collection.class,
+							0);
+					result = new StandardCollectionTypeInfo(this, javaTypeSource.getJavaType(), itemType);
+				} else if (StandardMapAsListTypeInfo.isCompatibleWith(javaTypeSource.getJavaType())) {
+					Class<?> keyType = ReflectionUIUtils.getJavaGenericTypeParameter(javaTypeSource, Map.class, 0);
+					Class<?> valueType = ReflectionUIUtils.getJavaGenericTypeParameter(javaTypeSource, Map.class, 1);
+					result = new StandardMapAsListTypeInfo(this, javaTypeSource.getJavaType(), keyType, valueType);
 				} else if (javaTypeSource.getJavaType().isArray()) {
-					Class<?> itemType = javaTypeSource.getJavaType()
-							.getComponentType();
-					result = new ArrayTypeInfo(this,
-							javaTypeSource.getJavaType(), itemType);
+					Class<?> itemType = javaTypeSource.getJavaType().getComponentType();
+					result = new ArrayTypeInfo(this, javaTypeSource.getJavaType(), itemType);
 				} else if (javaTypeSource.getJavaType().isEnum()) {
-					result = new StandardEnumerationTypeInfo(this,
-							javaTypeSource.getJavaType());
-				} else if (BooleanTypeInfo.isCompatibleWith(javaTypeSource
-						.getJavaType())) {
-					result = new BooleanTypeInfo(this,
-							javaTypeSource.getJavaType());
-				} else if (TextualTypeInfo.isCompatibleWith(javaTypeSource
-						.getJavaType())) {
-					result = new TextualTypeInfo(this,
-							javaTypeSource.getJavaType());
-				} else if (FileTypeInfo.isCompatibleWith(javaTypeSource
-						.getJavaType())) {
+					result = new StandardEnumerationTypeInfo(this, javaTypeSource.getJavaType());
+				} else if (BooleanTypeInfo.isCompatibleWith(javaTypeSource.getJavaType())) {
+					result = new BooleanTypeInfo(this, javaTypeSource.getJavaType());
+				} else if (TextualTypeInfo.isCompatibleWith(javaTypeSource.getJavaType())) {
+					result = new TextualTypeInfo(this, javaTypeSource.getJavaType());
+				} else if (FileTypeInfo.isCompatibleWith(javaTypeSource.getJavaType())) {
 					result = new FileTypeInfo(this);
-				} else if (UtilitiesTypeInfo.isCompatibleWith(javaTypeSource
-						.getJavaType())) {
-					result = new UtilitiesTypeInfo(this,
-							javaTypeSource.getJavaType());
+				} else if (UtilitiesTypeInfo.isCompatibleWith(javaTypeSource.getJavaType())) {
+					result = new UtilitiesTypeInfo(this, javaTypeSource.getJavaType());
 				} else {
-					result = new DefaultTypeInfo(this,
-							javaTypeSource.getJavaType());
+					result = new DefaultTypeInfo(this, javaTypeSource.getJavaType());
 				}
 			} else {
 				throw new ReflectionUIError();
@@ -204,8 +195,10 @@ public class ReflectionUI {
 			typeInfoBySource.put(typeSource, result);
 		}
 		if (SystemProperties.hideNullablefacets()) {
-			result = new HiddenNullableFacetsInfoProxyGenerator(this)
-					.get(result);
+			result = new HiddenNullableFacetsInfoProxyGenerator(this).get(result);
+		}
+		if (infoCustomizations != null) {
+			result = infoCustomizations.get(result);
 		}
 		return result;
 	}
@@ -233,8 +226,7 @@ public class ReflectionUI {
 	}
 
 	public String getFieldTitle(Object object, IFieldInfo field) {
-		String result = ReflectionUIUtils.composeTitle(getObjectTitle(object),
-				field.getCaption());
+		String result = ReflectionUIUtils.composeTitle(getObjectTitle(object), field.getCaption());
 		Object fieldValue = field.getValue(object);
 		if (fieldValue != null) {
 			String fieldValueKind = getObjectTitle(field.getValue(object));
@@ -245,25 +237,137 @@ public class ReflectionUI {
 		return result;
 	}
 
-	public String getMethodTitle(Object object, IMethodInfo method,
-			Object returnValue, String context) {
+	public String getMethodTitle(Object object, IMethodInfo method, Object returnValue, String context) {
 		String result = method.getCaption();
 		if (object != null) {
-			result = ReflectionUIUtils.composeTitle(getObjectTitle(object),
-					result);
+			result = ReflectionUIUtils.composeTitle(getObjectTitle(object), result);
 		}
 		if (context != null) {
 			result = ReflectionUIUtils.composeTitle(result, context);
 		}
 		if (returnValue != null) {
-			result = ReflectionUIUtils.composeTitle(result,
-					getObjectTitle(returnValue));
+			result = ReflectionUIUtils.composeTitle(result, getObjectTitle(returnValue));
 		}
 		return result;
 	}
 
 	public InfoCategory getNullInfoCategory() {
 		return new InfoCategory("General", -1);
+	}
+
+	protected void initializeInfoCustomizations() {
+		try {
+			infoCustomizationsFilePath = getInfoCustomizationsFilePath();
+			if (infoCustomizationsFilePath != null) {
+				infoCustomizations = new InfoCustomizations(this);
+				File file = new File(infoCustomizationsFilePath);
+				if (file.exists()) {
+					infoCustomizations.loadFromFile(file);
+				}
+				if (areInfoCustomizationsControlsEnabled()) {
+					infoCustomizationsControls = new InfoCustomizationsControls(this, infoCustomizations);
+					if (!file.exists()) {
+						infoCustomizations.saveToFile(file);
+					}
+				}
+			}
+		} catch (IOException e) {
+			throw new ReflectionUIError(e);
+		}
+	}
+
+	protected String getInfoCustomizationsFilePath() {
+		return System.getProperty(SystemProperties.INFO_CUSTOMIZATIONS_FILE);
+	}
+
+	protected boolean areInfoCustomizationsControlsEnabled() {
+		return "true".equals(System.getProperty(SystemProperties.ENABLE_INFO_CUSTOMIZATIONS_CONTROLS));
+	}
+
+	public class CustomizationsSwingRenderer extends SwingRenderer {
+
+		public CustomizationsSwingRenderer(ReflectionUI reflectionUI) {
+			super(reflectionUI);
+		}
+
+		@Override
+		protected void fillForm(JPanel form) {
+			Object object = getObjectByForm().get(form);
+			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+			JPanel mainCustomizationsControl = new JPanel();
+			mainCustomizationsControl.setLayout(new BorderLayout());
+			mainCustomizationsControl.add(infoCustomizationsControls.createTypeInfoCustomizer(type),
+					BorderLayout.CENTER);
+			mainCustomizationsControl.add(
+					infoCustomizationsControls.createSaveControl(new File(infoCustomizationsFilePath)),
+					BorderLayout.EAST);
+			form.add(SwingRendererUtils.flowInLayout(mainCustomizationsControl, FlowLayout.CENTER), BorderLayout.NORTH);
+			super.fillForm(form);
+		}
+
+		@Override
+		protected FieldControlPlaceHolder createFieldControlPlaceHolder(Object object, IFieldInfo field) {
+			return new FieldControlPlaceHolder(object, field) {
+
+				private static final long serialVersionUID = 1L;
+				Component infoCustomizationsControl;
+
+				@Override
+				public void refreshUI(boolean recreate) {
+					refreshInfoCustomizationsControl();
+					super.refreshUI(recreate);
+				}
+
+				void refreshInfoCustomizationsControl() {
+					if (infoCustomizationsControl == null) {
+						ITypeInfo nonCustomizedType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+						IFieldInfo nonCustomizedField = ReflectionUIUtils.findInfoByName(nonCustomizedType.getFields(),
+								field.getName());
+						infoCustomizationsControl = infoCustomizationsControls
+								.createFieldInfoCustomizer(nonCustomizedType, nonCustomizedField);
+						add(infoCustomizationsControl, BorderLayout.EAST);
+						handleComponentSizeChange(this);
+					} else {
+						remove(infoCustomizationsControl);
+						infoCustomizationsControl = null;
+						refreshInfoCustomizationsControl();
+					}
+				}
+
+			};
+		}
+
+		@Override
+		protected MethodControlPlaceHolder createMethodControlPlaceHolder(Object object, IMethodInfo method) {
+			return new MethodControlPlaceHolder(object, method) {
+
+				private static final long serialVersionUID = 1L;
+				Component infoCustomizationsControl;
+
+				@Override
+				public void refreshUI(boolean recreate) {
+					refreshInfoCustomizationsControl();
+					super.refreshUI(recreate);
+				}
+
+				void refreshInfoCustomizationsControl() {
+					if (infoCustomizationsControl == null) {
+						ITypeInfo nonCustomizedType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+						IMethodInfo nonCustomizedMethod = ReflectionUIUtils.findMethodBySignature(
+								nonCustomizedType.getMethods(), ReflectionUIUtils.getMethodInfoSignature(method));
+						infoCustomizationsControl = infoCustomizationsControls
+								.createMethodInfoCustomizer(nonCustomizedType, nonCustomizedMethod);
+						add(infoCustomizationsControl, BorderLayout.WEST);
+						handleComponentSizeChange(this);
+					} else {
+						remove(infoCustomizationsControl);
+						infoCustomizationsControl = null;
+						refreshInfoCustomizationsControl();
+					}
+				}
+
+			};
+		}
 	}
 
 }
