@@ -1,8 +1,5 @@
 package xy.reflect.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.FlowLayout;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -13,9 +10,8 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 
-import javax.swing.JPanel;
+import com.google.common.cache.CacheBuilder;
 
-import xy.reflect.ui.control.swing.InfoCustomizationsControls;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MultipleFieldAsListListTypeInfo.MultipleFieldAsListItem;
@@ -40,21 +36,15 @@ import xy.reflect.ui.info.type.util.InfoCustomizations;
 import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.SystemProperties;
-
-import com.google.common.cache.CacheBuilder;
 
 public class ReflectionUI {
 
 	protected Map<ITypeInfoSource, ITypeInfo> typeInfoBySource = CacheBuilder.newBuilder().maximumSize(1000)
 			.<ITypeInfoSource, ITypeInfo> build().asMap();
-
-	protected SwingRenderer swingRenderer;
-
+	protected SwingRenderer swingRenderer;	
 	protected InfoCustomizations infoCustomizations;
 	protected String infoCustomizationsFilePath;
-	protected InfoCustomizationsControls infoCustomizationsControls;
 
 	public ReflectionUI() {
 		initializeInfoCustomizations();
@@ -93,12 +83,31 @@ public class ReflectionUI {
 		}
 	}
 
-	protected SwingRenderer createSwingRenderer() {
-		if (infoCustomizationsControls != null) {
-			return new CustomizationsSwingRenderer(this);
-		} else {
-			return new SwingRenderer(this);
+	protected void initializeInfoCustomizations() {
+		try {
+			infoCustomizationsFilePath = getInfoCustomizationsFilePath();
+			if (infoCustomizationsFilePath != null) {
+				infoCustomizations = new InfoCustomizations(this);
+				File file = new File(infoCustomizationsFilePath);
+				if (file.exists()) {
+					infoCustomizations.loadFromFile(file);
+				}
+			}
+		} catch (IOException e) {
+			throw new ReflectionUIError(e);
 		}
+	}
+
+	public InfoCustomizations getInfoCustomizations() {
+		return infoCustomizations;
+	}
+
+	public String getInfoCustomizationsFilePath() {
+		return System.getProperty(SystemProperties.INFO_CUSTOMIZATIONS_FILE);
+	}
+
+	protected SwingRenderer createSwingRenderer() {
+		return new SwingRenderer(this);
 	}
 
 	public final SwingRenderer getSwingRenderer() {
@@ -253,121 +262,6 @@ public class ReflectionUI {
 
 	public InfoCategory getNullInfoCategory() {
 		return new InfoCategory("General", -1);
-	}
-
-	protected void initializeInfoCustomizations() {
-		try {
-			infoCustomizationsFilePath = getInfoCustomizationsFilePath();
-			if (infoCustomizationsFilePath != null) {
-				infoCustomizations = new InfoCustomizations(this);
-				File file = new File(infoCustomizationsFilePath);
-				if (file.exists()) {
-					infoCustomizations.loadFromFile(file);
-				}
-				if (areInfoCustomizationsControlsEnabled()) {
-					infoCustomizationsControls = new InfoCustomizationsControls(this, infoCustomizations);
-					if (!file.exists()) {
-						infoCustomizations.saveToFile(file);
-					}
-				}
-			}
-		} catch (IOException e) {
-			throw new ReflectionUIError(e);
-		}
-	}
-
-	protected String getInfoCustomizationsFilePath() {
-		return System.getProperty(SystemProperties.INFO_CUSTOMIZATIONS_FILE);
-	}
-
-	protected boolean areInfoCustomizationsControlsEnabled() {
-		return "true".equals(System.getProperty(SystemProperties.ENABLE_INFO_CUSTOMIZATIONS_CONTROLS));
-	}
-
-	public class CustomizationsSwingRenderer extends SwingRenderer {
-
-		public CustomizationsSwingRenderer(ReflectionUI reflectionUI) {
-			super(reflectionUI);
-		}
-
-		@Override
-		protected void fillForm(JPanel form) {
-			Object object = getObjectByForm().get(form);
-			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-			JPanel mainCustomizationsControl = new JPanel();
-			mainCustomizationsControl.setLayout(new BorderLayout());
-			mainCustomizationsControl.add(infoCustomizationsControls.createTypeInfoCustomizer(type),
-					BorderLayout.CENTER);
-			mainCustomizationsControl.add(
-					infoCustomizationsControls.createSaveControl(new File(infoCustomizationsFilePath)),
-					BorderLayout.EAST);
-			form.add(SwingRendererUtils.flowInLayout(mainCustomizationsControl, FlowLayout.CENTER), BorderLayout.NORTH);
-			super.fillForm(form);
-		}
-
-		@Override
-		protected FieldControlPlaceHolder createFieldControlPlaceHolder(Object object, IFieldInfo field) {
-			return new FieldControlPlaceHolder(object, field) {
-
-				private static final long serialVersionUID = 1L;
-				Component infoCustomizationsControl;
-
-				@Override
-				public void refreshUI(boolean recreate) {
-					refreshInfoCustomizationsControl();
-					super.refreshUI(recreate);
-				}
-
-				void refreshInfoCustomizationsControl() {
-					if (infoCustomizationsControl == null) {
-						ITypeInfo nonCustomizedType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-						IFieldInfo nonCustomizedField = ReflectionUIUtils.findInfoByName(nonCustomizedType.getFields(),
-								field.getName());
-						infoCustomizationsControl = infoCustomizationsControls
-								.createFieldInfoCustomizer(nonCustomizedType, nonCustomizedField);
-						add(infoCustomizationsControl, BorderLayout.EAST);
-						handleComponentSizeChange(this);
-					} else {
-						remove(infoCustomizationsControl);
-						infoCustomizationsControl = null;
-						refreshInfoCustomizationsControl();
-					}
-				}
-
-			};
-		}
-
-		@Override
-		protected MethodControlPlaceHolder createMethodControlPlaceHolder(Object object, IMethodInfo method) {
-			return new MethodControlPlaceHolder(object, method) {
-
-				private static final long serialVersionUID = 1L;
-				Component infoCustomizationsControl;
-
-				@Override
-				public void refreshUI(boolean recreate) {
-					refreshInfoCustomizationsControl();
-					super.refreshUI(recreate);
-				}
-
-				void refreshInfoCustomizationsControl() {
-					if (infoCustomizationsControl == null) {
-						ITypeInfo nonCustomizedType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-						IMethodInfo nonCustomizedMethod = ReflectionUIUtils.findMethodBySignature(
-								nonCustomizedType.getMethods(), ReflectionUIUtils.getMethodInfoSignature(method));
-						infoCustomizationsControl = infoCustomizationsControls
-								.createMethodInfoCustomizer(nonCustomizedType, nonCustomizedMethod);
-						add(infoCustomizationsControl, BorderLayout.WEST);
-						handleComponentSizeChange(this);
-					} else {
-						remove(infoCustomizationsControl);
-						infoCustomizationsControl = null;
-						refreshInfoCustomizationsControl();
-					}
-				}
-
-			};
-		}
 	}
 
 }

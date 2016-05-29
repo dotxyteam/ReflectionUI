@@ -34,33 +34,51 @@ public class InfoCustomizationsControls {
 
 	protected ReflectionUI customizationsUI = new ReflectionUI() {
 
-				File customizationsFile;
+		File customizationsFile;
 
-				@Override
-				protected boolean areInfoCustomizationsControlsEnabled() {
+		@Override
+		public String getInfoCustomizationsFilePath() {
+			if (customizationsFile == null) {
+				URL url = ReflectionUI.class.getResource("resource/info-customizations-types.icu");
+				try {
+					customizationsFile = ReflectionUIUtils.getStreamAsFile(url.openStream());
+				} catch (IOException e) {
+					throw new ReflectionUIError(e);
+				}
+			}
+			return customizationsFile.getPath();
+		}
+
+		@Override
+		protected SwingRenderer createSwingRenderer() {
+			return new SwingRenderer(this) {
+
+					@Override
+				protected boolean areInfoCustomizationsControlsAuthorized() {
 					return false;
 				}
 
-				@Override
-				protected String getInfoCustomizationsFilePath() {
-					if (customizationsFile == null) {
-						URL url = ReflectionUI.class.getResource("resource/info-customizations-types.icu");
-						try {
-							customizationsFile = ReflectionUIUtils.getStreamAsFile(url.openStream());
-						} catch (IOException e) {
-							throw new ReflectionUIError(e);
-						}
-					}
-					return customizationsFile.getPath();
-				}
-
+			};
+		}
 	};
 	protected InfoCustomizations infoCustomizations;
 	private ReflectionUI reflectionUI;
+	private String infoCustomizationsFilePath;
 
-	public InfoCustomizationsControls(ReflectionUI reflectionUI, InfoCustomizations infoCustomizations) {
+	public InfoCustomizationsControls(ReflectionUI reflectionUI, InfoCustomizations infoCustomizations,
+			String infoCustomizationsFilePath) {
 		this.reflectionUI = reflectionUI;
 		this.infoCustomizations = infoCustomizations;
+		this.infoCustomizationsFilePath = infoCustomizationsFilePath;
+		File file = new File(reflectionUI.getInfoCustomizationsFilePath());
+		if (!file.exists()) {
+			try {
+				infoCustomizations.saveToFile(file);
+			} catch (IOException e) {
+				throw new ReflectionUIError(e);
+			}
+		}
+
 	}
 
 	public void openInfoCustomizationsWindow(InfoCustomizations infoCustomizations) {
@@ -68,7 +86,8 @@ public class InfoCustomizationsControls {
 				customizationsUI.getObjectTitle(infoCustomizations), getMainImageIcon().getImage());
 	}
 
-	public JButton createSaveControl(final File file) {
+	public JButton createSaveControl() {
+		final File file = new File(infoCustomizationsFilePath);
 		final JButton result = new JButton(SwingRendererUtils.SAVE_ICON);
 		result.setContentAreaFilled(false);
 		result.setFocusable(false);
@@ -85,12 +104,12 @@ public class InfoCustomizationsControls {
 		return result;
 	}
 
-	public Component createTypeInfoCustomizer(final ITypeInfo type) {
+	public Component createTypeInfoCustomizer(final String typeName) {
 		final JButton result = new JButton(customizationsUI.prepareStringToDisplay("Customizations..."),
 				getMainImageIcon());
 		result.setContentAreaFilled(false);
 		result.setFocusable(false);
-		final TypeCustomization t = infoCustomizations.getTypeCustomization(type, true);
+		final TypeCustomization t = infoCustomizations.getTypeCustomization(typeName, true);
 		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -99,7 +118,7 @@ public class InfoCustomizationsControls {
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override
 						public void run() {
-							update(type);
+							update(typeName);
 						}
 					});
 				}
@@ -108,7 +127,7 @@ public class InfoCustomizationsControls {
 		return result;
 	}
 
-	public Component createFieldInfoCustomizer(final ITypeInfo type, final IFieldInfo field) {
+	public Component createFieldInfoCustomizer(final ITypeInfo customizedType, final String fieldName) {
 		final JButton result = new JButton(getMainImageIcon());
 		result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
 		result.setContentAreaFilled(false);
@@ -124,7 +143,7 @@ public class InfoCustomizationsControls {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						moveField(type, field, -1);
+						moveField(customizedType, fieldName, -1);
 					}
 				});
 				popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("Move Down")) {
@@ -132,7 +151,7 @@ public class InfoCustomizationsControls {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						moveField(type, field, 1);
+						moveField(customizedType, fieldName, 1);
 					}
 				});
 				popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("Move To Top")) {
@@ -140,7 +159,7 @@ public class InfoCustomizationsControls {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						moveField(type, field, Short.MIN_VALUE);
+						moveField(customizedType, fieldName, Short.MIN_VALUE);
 					}
 				});
 				popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("Move To Bottom")) {
@@ -148,7 +167,7 @@ public class InfoCustomizationsControls {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						moveField(type, field, Short.MAX_VALUE);
+						moveField(customizedType, fieldName, Short.MAX_VALUE);
 					}
 				});
 				popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("Other options...")) {
@@ -156,7 +175,7 @@ public class InfoCustomizationsControls {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						openFieldCutomizationDialog(result, type, field);
+						openFieldCutomizationDialog(result, customizedType, fieldName);
 					}
 				});
 				popupMenu.show(result, result.getWidth(), result.getHeight());
@@ -165,46 +184,46 @@ public class InfoCustomizationsControls {
 		return result;
 	}
 
-	protected void moveField(ITypeInfo type, IFieldInfo field, int offset) {
-		TypeCustomization tc = infoCustomizations.getTypeCustomization(type, true);
-		tc.moveField(infoCustomizations, type, field, offset);
-		update(type);
+	protected void moveField(ITypeInfo customizedType, String fieldName, int offset) {
+		TypeCustomization tc = infoCustomizations.getTypeCustomization(customizedType.getName(), true);
+		tc.moveField(infoCustomizations, customizedType.getFields(), fieldName, offset);
+		update(customizedType.getName());
 	}
 
-	protected void moveMethod(ITypeInfo type, IMethodInfo method, int offset) {
-		TypeCustomization tc = infoCustomizations.getTypeCustomization(type, true);
-		tc.moveMethod(infoCustomizations, type, method, offset);
-		update(type);
+	protected void moveMethod(ITypeInfo customizedType, String methodSignature, int offset) {
+		TypeCustomization tc = infoCustomizations.getTypeCustomization(customizedType.getName(), true);
+		tc.moveMethod(infoCustomizations, customizedType.getMethods(), methodSignature, offset);
+		update(customizedType.getName());
 	}
 
-	protected void openFieldCutomizationDialog(Component activatorComponent, final ITypeInfo type, IFieldInfo field) {
-		FieldCustomization fc = infoCustomizations.getFieldCustomization(type, field, true);
+	protected void openFieldCutomizationDialog(Component activatorComponent, final ITypeInfo customoizedType, String fieldName) {
+		FieldCustomization fc = infoCustomizations.getFieldCustomization(customoizedType.getName(),fieldName, true);
 		if (customizationsUI.getSwingRenderer().openObjectDialogAndGetConfirmation(activatorComponent, fc,
 				customizationsUI.getObjectTitle(fc), getMainImageIcon().getImage(), true)) {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					update(type);
+					update(customoizedType.getName());
 				}
 			});
 		}
 	}
 
-	protected void openMethodCutomizationDialog(Component activatorComponent, final ITypeInfo type,
-			IMethodInfo method) {
-		MethodCustomization mc = infoCustomizations.getMethodCustomization(type, method, true);
+	protected void openMethodCutomizationDialog(Component activatorComponent, final ITypeInfo customizedType,
+			String methodSignature) {
+		MethodCustomization mc = infoCustomizations.getMethodCustomization(customizedType.getName(), methodSignature, true);
 		if (customizationsUI.getSwingRenderer().openObjectDialogAndGetConfirmation(activatorComponent, mc,
 				customizationsUI.getObjectTitle(mc), getMainImageIcon().getImage(), true)) {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					update(type);
+					update(customizedType.getName());
 				}
 			});
 		}
 	}
 
-	public Component createMethodInfoCustomizer(final ITypeInfo type, final IMethodInfo method) {
+	public Component createMethodInfoCustomizer(final ITypeInfo customizedType, final String methodSignature) {
 		final JButton result = new JButton(getMainImageIcon());
 		result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
 		result.setContentAreaFilled(false);
@@ -220,7 +239,7 @@ public class InfoCustomizationsControls {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						moveMethod(type, method, -1);
+						moveMethod(customizedType, methodSignature, -1);
 					}
 				});
 				popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("Move Right")) {
@@ -228,7 +247,7 @@ public class InfoCustomizationsControls {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						moveMethod(type, method, 1);
+						moveMethod(customizedType, methodSignature, 1);
 					}
 				});
 				popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("Other options...")) {
@@ -236,7 +255,7 @@ public class InfoCustomizationsControls {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						openMethodCutomizationDialog(result, type, method);
+						openMethodCutomizationDialog(result, customizedType, methodSignature);
 					}
 				});
 				popupMenu.show(result, result.getWidth(), result.getHeight());
@@ -249,13 +268,16 @@ public class InfoCustomizationsControls {
 		return SwingRendererUtils.CUSTOMIZATION_ICON;
 	}
 
-	protected void update(ITypeInfo type) {
-		for (Object object : ReflectionUIUtils.getActiveInstances(type, reflectionUI)) {
-			for (JPanel form : reflectionUI.getSwingRenderer().getForms(object)) {
-				reflectionUI.getSwingRenderer().recreateFormContent(form);
+	protected void update(String typeName) {
+		for(Object object : reflectionUI.getSwingRenderer().getObjectByForm().values()){
+			ITypeInfo objectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+			if(typeName.equals(objectType.getName())){
+				for (JPanel form : reflectionUI.getSwingRenderer().getForms(object)) {
+					reflectionUI.getSwingRenderer().recreateFormContent(form);
+				}
 			}
 		}
-		TypeCustomization t = infoCustomizations.getTypeCustomization(type);
+		TypeCustomization t = infoCustomizations.getTypeCustomization(typeName);
 		for (JPanel form : customizationsUI.getSwingRenderer().getForms(t)) {
 			customizationsUI.getSwingRenderer().refreshAllFieldControls(form, false);
 		}

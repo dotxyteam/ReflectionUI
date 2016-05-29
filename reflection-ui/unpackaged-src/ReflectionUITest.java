@@ -260,13 +260,13 @@ public class ReflectionUITest {
 	}
 
 	public static void main(String[] args) {
-		ReflectionUI ui = new ReflectionUI() {
+		ReflectionUI editor = new ReflectionUI() {
 
 			ReflectionUI thisReflectionUI = this;
 
 			@Override
 			protected SwingRenderer createSwingRenderer() {
-				return new CustomizationsSwingRenderer(this) {
+				return new SwingRenderer(this) {
 					@Override
 					public Image getIconImage(Object object) {
 						try {
@@ -324,6 +324,6 @@ public class ReflectionUITest {
 				}.get(super.getTypeInfo(typeSource));
 			}
 		};
-		ui.getSwingRenderer().openObjectFrame(new Test(), "test", null);
+		editor.getSwingRenderer().openObjectFrame(new Test(), "test", null);
 	}
 }

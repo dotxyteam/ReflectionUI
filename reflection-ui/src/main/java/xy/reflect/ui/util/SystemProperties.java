@@ -36,7 +36,7 @@ public class SystemProperties {
 	public static final String INFO_CUSTOMIZATIONS_FILE = PREFIX + ".infoCustomizationsFile";
 
 	@Usage("If the value of this property is \"true\" then the UI customization controls will be displayed.")
-	public static final String ENABLE_INFO_CUSTOMIZATIONS_CONTROLS = PREFIX + ".infoCustomizationsControlsEnabled";
+	public static final String AUTHORIZE_INFO_CUSTOMIZATIONS_CONTROLS = PREFIX + ".infoCustomizationsControlsAuthorized";
 
 	public static String describe() {
 		StringBuilder result = new StringBuilder();

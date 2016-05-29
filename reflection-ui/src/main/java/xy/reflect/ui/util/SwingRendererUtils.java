@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -328,6 +329,18 @@ public class SwingRendererUtils {
 			}
 
 		};
+	}
+
+	public static List<Object> getActiveInstances(ITypeInfo type, ReflectionUI reflectionUI) {
+		List<Object> result = new ArrayList<Object>();
+		for (Map.Entry<JPanel, Object> entry : reflectionUI.getSwingRenderer().getObjectByForm().entrySet()) {
+			Object object = entry.getValue();
+			ITypeInfo objectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+			if (objectType.equals(type)) {
+				result.add(object);
+			}
+		}
+		return result;
 	}
 
 }
