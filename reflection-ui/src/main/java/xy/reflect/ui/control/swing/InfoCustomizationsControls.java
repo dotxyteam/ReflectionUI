@@ -28,32 +28,37 @@ import xy.reflect.ui.info.type.util.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
+import xy.reflect.ui.util.SystemProperties;
 
 @SuppressWarnings("unused")
 public class InfoCustomizationsControls {
 
 	protected ReflectionUI customizationsUI = new ReflectionUI() {
 
-		File customizationsFile;
+		String customizationsFilePath;
 
 		@Override
 		public String getInfoCustomizationsFilePath() {
-			if (customizationsFile == null) {
+			if ("true".equals(System.getProperty(SystemProperties.DISCARD_META_INFO_CUSTOMIZATIONS))) {
+				return null;
+			}
+			if(customizationsFilePath == null){
 				URL url = ReflectionUI.class.getResource("resource/info-customizations-types.icu");
 				try {
-					customizationsFile = ReflectionUIUtils.getStreamAsFile(url.openStream());
+					File customizationsFile = ReflectionUIUtils.getStreamAsFile(url.openStream());
+					customizationsFilePath = customizationsFile.getPath();
 				} catch (IOException e) {
 					throw new ReflectionUIError(e);
 				}
 			}
-			return customizationsFile.getPath();
+			return customizationsFilePath;
 		}
 
 		@Override
 		protected SwingRenderer createSwingRenderer() {
 			return new SwingRenderer(this) {
 
-					@Override
+				@Override
 				protected boolean areInfoCustomizationsControlsAuthorized() {
 					return false;
 				}
@@ -138,6 +143,14 @@ public class InfoCustomizationsControls {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				final JPopupMenu popupMenu = new JPopupMenu();
+				popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("Customize...")) {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						openFieldCutomizationDialog(result, customizedType, fieldName);
+					}
+				});
 				popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("Move Up")) {
 					private static final long serialVersionUID = 1L;
 
@@ -170,14 +183,6 @@ public class InfoCustomizationsControls {
 						moveField(customizedType, fieldName, Short.MAX_VALUE);
 					}
 				});
-				popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("Other options...")) {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						openFieldCutomizationDialog(result, customizedType, fieldName);
-					}
-				});
 				popupMenu.show(result, result.getWidth(), result.getHeight());
 			}
 		});
@@ -186,18 +191,19 @@ public class InfoCustomizationsControls {
 
 	protected void moveField(ITypeInfo customizedType, String fieldName, int offset) {
 		TypeCustomization tc = infoCustomizations.getTypeCustomization(customizedType.getName(), true);
-		tc.moveField(infoCustomizations, customizedType.getFields(), fieldName, offset);
+		tc.moveField(customizedType.getFields(), fieldName, offset);
 		update(customizedType.getName());
 	}
 
 	protected void moveMethod(ITypeInfo customizedType, String methodSignature, int offset) {
 		TypeCustomization tc = infoCustomizations.getTypeCustomization(customizedType.getName(), true);
-		tc.moveMethod(infoCustomizations, customizedType.getMethods(), methodSignature, offset);
+		tc.moveMethod(customizedType.getMethods(), methodSignature, offset);
 		update(customizedType.getName());
 	}
 
-	protected void openFieldCutomizationDialog(Component activatorComponent, final ITypeInfo customoizedType, String fieldName) {
-		FieldCustomization fc = infoCustomizations.getFieldCustomization(customoizedType.getName(),fieldName, true);
+	protected void openFieldCutomizationDialog(Component activatorComponent, final ITypeInfo customoizedType,
+			String fieldName) {
+		FieldCustomization fc = infoCustomizations.getFieldCustomization(customoizedType.getName(), fieldName, true);
 		if (customizationsUI.getSwingRenderer().openObjectDialogAndGetConfirmation(activatorComponent, fc,
 				customizationsUI.getObjectTitle(fc), getMainImageIcon().getImage(), true)) {
 			SwingUtilities.invokeLater(new Runnable() {
@@ -211,7 +217,8 @@ public class InfoCustomizationsControls {
 
 	protected void openMethodCutomizationDialog(Component activatorComponent, final ITypeInfo customizedType,
 			String methodSignature) {
-		MethodCustomization mc = infoCustomizations.getMethodCustomization(customizedType.getName(), methodSignature, true);
+		MethodCustomization mc = infoCustomizations.getMethodCustomization(customizedType.getName(), methodSignature,
+				true);
 		if (customizationsUI.getSwingRenderer().openObjectDialogAndGetConfirmation(activatorComponent, mc,
 				customizationsUI.getObjectTitle(mc), getMainImageIcon().getImage(), true)) {
 			SwingUtilities.invokeLater(new Runnable() {
@@ -234,6 +241,14 @@ public class InfoCustomizationsControls {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				final JPopupMenu popupMenu = new JPopupMenu();
+				popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("Customize...")) {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						openMethodCutomizationDialog(result, customizedType, methodSignature);
+					}
+				});
 				popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("Move Left")) {
 					private static final long serialVersionUID = 1L;
 
@@ -250,14 +265,6 @@ public class InfoCustomizationsControls {
 						moveMethod(customizedType, methodSignature, 1);
 					}
 				});
-				popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("Other options...")) {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						openMethodCutomizationDialog(result, customizedType, methodSignature);
-					}
-				});
 				popupMenu.show(result, result.getWidth(), result.getHeight());
 			}
 		});
@@ -269,9 +276,9 @@ public class InfoCustomizationsControls {
 	}
 
 	protected void update(String typeName) {
-		for(Object object : reflectionUI.getSwingRenderer().getObjectByForm().values()){
+		for (Object object : reflectionUI.getSwingRenderer().getObjectByForm().values()) {
 			ITypeInfo objectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-			if(typeName.equals(objectType.getName())){
+			if (typeName.equals(objectType.getName())) {
 				for (JPanel form : reflectionUI.getSwingRenderer().getForms(object)) {
 					reflectionUI.getSwingRenderer().recreateFormContent(form);
 				}

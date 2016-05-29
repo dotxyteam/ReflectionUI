@@ -38,6 +38,9 @@ public class SystemProperties {
 	@Usage("If the value of this property is \"true\" then the UI customization controls will be displayed.")
 	public static final String AUTHORIZE_INFO_CUSTOMIZATIONS_CONTROLS = PREFIX + ".infoCustomizationsControlsAuthorized";
 
+	@Usage("If the value of this property is \"true\" then the customizations that were specified for the UI customization controls will be discarded.")
+	public static final String DISCARD_META_INFO_CUSTOMIZATIONS = PREFIX + ".discardMetaInfoCustomizations";
+
 	public static String describe() {
 		StringBuilder result = new StringBuilder();
 		for (Field field : SystemProperties.class.getFields()) {

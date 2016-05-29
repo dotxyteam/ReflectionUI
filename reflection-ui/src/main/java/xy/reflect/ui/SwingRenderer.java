@@ -510,6 +510,8 @@ public class SwingRenderer {
 			return new EnumerationControl(reflectionUI, object, field);
 		} else if (field.getType().getPolymorphicInstanceSubTypes() != null) {
 			return new PolymorphicEmbeddedForm(reflectionUI, object, field);
+		} else if (field.getValueOptions(object) != null) {
+			return createOptionsControl(object, field);
 		} else {
 			if (field.isNullable()) {
 				return new NullableControl(reflectionUI, object, field, new Accessor<Component>() {
@@ -525,19 +527,15 @@ public class SwingRenderer {
 	}
 
 	protected Component createNonNullFieldValueControl(Object object, IFieldInfo field) {
-		if (field.getValueOptions(object) != null) {
-			return createOptionsControl(object, field);
+		Component customFieldControl = createCustomNonNullFieldValueControl(object, field);
+		if (customFieldControl != null) {
+			return customFieldControl;
 		} else {
-			Component customFieldControl = createCustomNonNullFieldValueControl(object, field);
-			if (customFieldControl != null) {
-				return customFieldControl;
+			field = SwingRendererUtils.prepareEmbeddedFormCreation(reflectionUI, object, field);
+			if (SwingRendererUtils.isEmbeddedFormCreationForbidden(field)) {
+				return new DialogAccessControl(reflectionUI, object, field);
 			} else {
-				field = SwingRendererUtils.prepareEmbeddedFormCreation(reflectionUI, object, field);
-				if (SwingRendererUtils.isEmbeddedFormCreationForbidden(field)) {
-					return new DialogAccessControl(reflectionUI, object, field);
-				} else {
-					return new EmbeddedFormControl(reflectionUI, object, field);
-				}
+				return new EmbeddedFormControl(reflectionUI, object, field);
 			}
 		}
 	}
@@ -1737,7 +1735,7 @@ public class SwingRenderer {
 
 		protected void refreshInfoCustomizationsControl() {
 			if (infoCustomizationsControl == null) {
-				if (infoCustomizationsControl != null) {
+				if (infoCustomizationsControls != null) {
 					ITypeInfo customizedType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 					infoCustomizationsControl = infoCustomizationsControls.createMethodInfoCustomizer(customizedType,
 							ReflectionUIUtils.getMethodInfoSignature(method));

@@ -22,6 +22,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -218,13 +219,15 @@ public class InfoCustomizations {
 		}
 	}
 
-	public static class TypeCustomization {
-		private String typeName;
-		private String customTypeCaption;
-		private List<FieldCustomization> fieldsCustomizations = new ArrayList<InfoCustomizations.FieldCustomization>();
-		private List<MethodCustomization> methodsCustomizations = new ArrayList<InfoCustomizations.MethodCustomization>();
-		private List<String> customFieldsOrder;
-		private List<String> customMethodsOrder;
+	public class TypeCustomization {
+		protected String typeName;
+		protected String customTypeCaption;
+		protected List<FieldCustomization> fieldsCustomizations = new ArrayList<InfoCustomizations.FieldCustomization>();
+		protected List<MethodCustomization> methodsCustomizations = new ArrayList<InfoCustomizations.MethodCustomization>();
+		protected List<String> customFieldsOrder;
+		protected List<String> customMethodsOrder;
+		protected String onlineHelp;
+		protected List<CustomizationCategory> memberCategories = new ArrayList<CustomizationCategory>();
 
 		public TypeCustomization(String TypeName) {
 			super();
@@ -233,6 +236,14 @@ public class InfoCustomizations {
 
 		public String getTypeName() {
 			return typeName;
+		}
+
+		public List<CustomizationCategory> getMemberCategories() {
+			return memberCategories;
+		}
+
+		public void setMemberCategories(List<CustomizationCategory> memberCategories) {
+			this.memberCategories = memberCategories;
 		}
 
 		public List<String> getCustomFieldsOrder() {
@@ -267,6 +278,14 @@ public class InfoCustomizations {
 			this.methodsCustomizations = methodsCustomizations;
 		}
 
+		public String getOnlineHelp() {
+			return onlineHelp;
+		}
+
+		public void setOnlineHelp(String onlineHelp) {
+			this.onlineHelp = onlineHelp;
+		}
+
 		@Override
 		public int hashCode() {
 			final int prime = 31;
@@ -297,7 +316,7 @@ public class InfoCustomizations {
 			return "TypeCustomization [typeName=" + typeName + "]";
 		}
 
-		public void moveField(InfoCustomizations parent, List<IFieldInfo> customizedFields, String fieldName, int offset) {
+		public void moveField(List<IFieldInfo> customizedFields, String fieldName, int offset) {
 			IFieldInfo customizedField = ReflectionUIUtils.findInfoByName(customizedFields, fieldName);
 			if (customizedField == null) {
 				return;
@@ -305,7 +324,7 @@ public class InfoCustomizations {
 			customFieldsOrder = getInfosOrderAfterMove(customizedFields, customizedField, offset);
 		}
 
-		public void moveMethod(InfoCustomizations parent, List<IMethodInfo> customizedMethods, String methodSignature, int offset) {
+		public void moveMethod(List<IMethodInfo> customizedMethods, String methodSignature, int offset) {
 			IMethodInfo customizedMethod = ReflectionUIUtils.findMethodBySignature(customizedMethods, methodSignature);
 			if (customizedMethod == null) {
 				return;
@@ -315,12 +334,94 @@ public class InfoCustomizations {
 
 	}
 
-	public static class FieldCustomization {
-		private String fieldName;
-		private String customFieldCaption;
-		private boolean hidden = false;
-		private boolean nullableFacetHidden = false;
-		private boolean getOnlyForced = false;
+	public static class CustomizationCategory {
+		protected String caption;
+
+		public String getCaption() {
+			return caption;
+		}
+
+		public void setCaption(String caption) {
+			this.caption = caption;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((caption == null) ? 0 : caption.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			CustomizationCategory other = (CustomizationCategory) obj;
+			if (caption == null) {
+				if (other.caption != null)
+					return false;
+			} else if (!caption.equals(other.caption))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "CustomizationCategory [caption=" + caption + "]";
+		}
+
+	}
+
+	public abstract class AbstractMemberCustomization {
+		protected boolean hidden = false;
+		protected CustomizationCategory category;
+		protected String onlineHelp;
+
+		public boolean isHidden() {
+			return hidden;
+		}
+
+		public void setHidden(boolean hidden) {
+			this.hidden = hidden;
+		}
+
+		public CustomizationCategory getCategory() {
+			return category;
+		}
+
+		public void setCategory(CustomizationCategory category) {
+			this.category = category;
+		}
+
+		public List<CustomizationCategory> getCategoryOptions() {
+			for (TypeCustomization tc : typeCustomizations) {
+				if (tc.fieldsCustomizations.contains(this) || tc.methodsCustomizations.contains(this)) {
+					return tc.memberCategories;
+				}
+			}
+			return null;
+		}
+
+		public String getOnlineHelp() {
+			return onlineHelp;
+		}
+
+		public void setOnlineHelp(String onlineHelp) {
+			this.onlineHelp = onlineHelp;
+		}
+	}
+
+	public class FieldCustomization extends AbstractMemberCustomization {
+		protected String fieldName;
+		protected String customFieldCaption;
+		protected boolean nullableFacetHidden = false;
+		protected boolean getOnlyForced = false;
+		protected String valueOptionsFieldName;
 
 		public FieldCustomization(String FieldName) {
 			super();
@@ -329,14 +430,6 @@ public class InfoCustomizations {
 
 		public String getFieldName() {
 			return fieldName;
-		}
-
-		public boolean isHidden() {
-			return hidden;
-		}
-
-		public void setHidden(boolean hidden) {
-			this.hidden = hidden;
 		}
 
 		public boolean isNullableFacetHidden() {
@@ -362,6 +455,15 @@ public class InfoCustomizations {
 		public void setCustomFieldCaption(String customFieldCaption) {
 			this.customFieldCaption = customFieldCaption;
 		}
+
+		public String getValueOptionsFieldName() {
+			return valueOptionsFieldName;
+		}
+
+		public void setValueOptionsFieldName(String valueOptionsFieldName) {
+			this.valueOptionsFieldName = valueOptionsFieldName;
+		}
+
 
 		@Override
 		public int hashCode() {
@@ -392,26 +494,18 @@ public class InfoCustomizations {
 		public String toString() {
 			return "FieldCustomization [fieldName=" + fieldName + "]";
 		}
+
 	}
 
-	public static class MethodCustomization {
-		private String methodSignature;
-		private String customMethodCaption;
-		private boolean hidden = false;
-		private boolean readOnlyForced = false;
-		private List<ParameterCustomization> parametersCustomizations = new ArrayList<InfoCustomizations.ParameterCustomization>();
+	public class MethodCustomization extends AbstractMemberCustomization {
+		protected String methodSignature;
+		protected String customMethodCaption;
+		protected boolean readOnlyForced = false;
+		protected List<ParameterCustomization> parametersCustomizations = new ArrayList<InfoCustomizations.ParameterCustomization>();
 
 		public MethodCustomization(String methodSignature) {
 			super();
 			this.methodSignature = methodSignature;
-		}
-
-		public boolean isHidden() {
-			return hidden;
-		}
-
-		public void setHidden(boolean hidden) {
-			this.hidden = hidden;
 		}
 
 		public boolean isReadOnlyForced() {
@@ -474,11 +568,12 @@ public class InfoCustomizations {
 
 	}
 
-	public static class ParameterCustomization {
-		private String parameterName;
-		private String customParameterCaption;
-		private boolean hidden = false;
-		private boolean nullableFacetHidden = false;
+	public class ParameterCustomization {
+		protected String parameterName;
+		protected String customParameterCaption;
+		protected boolean hidden = false;
+		protected boolean nullableFacetHidden = false;
+		protected String onlineHelp;
 
 		public ParameterCustomization(String ParameterName) {
 			super();
@@ -511,6 +606,14 @@ public class InfoCustomizations {
 
 		public void setCustomParameterCaption(String customParameterCaption) {
 			this.customParameterCaption = customParameterCaption;
+		}
+
+		public String getOnlineHelp() {
+			return onlineHelp;
+		}
+
+		public void setOnlineHelp(String onlineHelp) {
+			this.onlineHelp = onlineHelp;
 		}
 
 		@Override
@@ -702,6 +805,96 @@ public class InfoCustomizations {
 				}
 			}
 			return super.getCaption(type);
+		}
+
+		@Override
+		protected InfoCategory getCategory(IFieldInfo field, ITypeInfo containingType) {
+			FieldCustomization f = getFieldCustomization(containingType.getName(), field.getName());
+			if (f != null) {
+				CustomizationCategory category = f.getCategory();
+				List<CustomizationCategory> categories = getTypeCustomization(containingType.getName()).memberCategories;
+				int categoryPosition = categories.indexOf(category);
+				if (categoryPosition != -1) {
+					return new InfoCategory(category.getCaption(), categoryPosition);
+				}
+			}
+			return super.getCategory(field, containingType);
+		}
+
+		@Override
+		protected InfoCategory getCategory(IMethodInfo method, ITypeInfo containingType) {
+			MethodCustomization m = getMethodCustomization(containingType.getName(),
+					ReflectionUIUtils.getMethodInfoSignature(method));
+			if (m != null) {
+				CustomizationCategory category = m.getCategory();
+				List<CustomizationCategory> categories = getTypeCustomization(containingType.getName()).memberCategories;
+				int categoryPosition = categories.indexOf(category);
+				if (categoryPosition != -1) {
+					return new InfoCategory(category.getCaption(), categoryPosition);
+				}
+			}
+			return super.getCategory(method, containingType);
+		}
+
+		@Override
+		protected String getOnlineHelp(IFieldInfo field, ITypeInfo containingType) {
+			FieldCustomization f = getFieldCustomization(containingType.getName(), field.getName());
+			if (f != null) {
+				if (f.onlineHelp != null) {
+					return f.onlineHelp;
+				}
+			}
+			return super.getOnlineHelp(field, containingType);
+		}
+
+		@Override
+		protected String getOnlineHelp(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+			ParameterCustomization p = getParameterCustomization(containingType.getName(),
+					ReflectionUIUtils.getMethodInfoSignature(method), param.getName());
+			if (p != null) {
+				if (p.onlineHelp != null) {
+					return p.onlineHelp;
+				}
+			}
+			return super.getOnlineHelp(param, method, containingType);
+		}
+
+		@Override
+		protected String getOnlineHelp(ITypeInfo type) {
+			TypeCustomization t = getTypeCustomization(type.getName());
+			if (t != null) {
+				if (t.onlineHelp != null) {
+					return t.onlineHelp;
+				}
+			}
+			return super.getOnlineHelp(type);
+		}
+
+		@Override
+		protected String getOnlineHelp(IMethodInfo method, ITypeInfo containingType) {
+			MethodCustomization m = getMethodCustomization(containingType.getName(),
+					ReflectionUIUtils.getMethodInfoSignature(method));
+			if (m != null) {
+				if (m.onlineHelp != null) {
+					return m.onlineHelp;
+				}
+			}
+			return super.getOnlineHelp(method, containingType);
+		}
+
+		@Override
+		protected Object[] getValueOptions(Object object, IFieldInfo field, ITypeInfo containingType) {
+			FieldCustomization f = getFieldCustomization(containingType.getName(), field.getName());
+			if (f != null) {
+				if (f.valueOptionsFieldName != null) {
+					IFieldInfo valueOptionsfield = ReflectionUIUtils.findInfoByName(containingType.getFields(),
+							f.valueOptionsFieldName);
+					IListTypeInfo valueOptionsfieldType = (IListTypeInfo) valueOptionsfield.getType();
+					Object options = valueOptionsfield.getValue(object);
+					return valueOptionsfieldType.toArray(options);
+				}
+			}
+			return super.getValueOptions(object, field, containingType);
 		}
 
 	}
