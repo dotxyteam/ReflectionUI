@@ -12,8 +12,9 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
-import xy.reflect.ui.info.type.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
+import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.map.IMapEntryTypeInfo;
 import xy.reflect.ui.info.type.iterable.util.IListAction;
@@ -429,8 +430,8 @@ public class InfoProxyGenerator {
 		return method.getUndoModification(object, invocationData);
 	}
 
-	protected String formatEnumerationItem(Object object, IEnumerationTypeInfo type) {
-		return type.formatEnumerationItem(object);
+	protected IEnumerationItemInfo getValueInfo(Object object, IEnumerationTypeInfo type) {
+		return type.getValueInfo(object);
 	}
 
 	private class GeneratedBasicTypeInfoProxy implements ITypeInfo {
@@ -607,8 +608,8 @@ public class InfoProxyGenerator {
 		}
 
 		@Override
-		public String formatEnumerationItem(Object object) {
-			return InfoProxyGenerator.this.formatEnumerationItem(object, (IEnumerationTypeInfo) type);
+		public IEnumerationItemInfo getValueInfo(Object object) {
+			return InfoProxyGenerator.this.getValueInfo(object, (IEnumerationTypeInfo) type);
 		}
 
 	}

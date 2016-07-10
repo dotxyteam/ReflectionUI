@@ -68,11 +68,12 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
-import xy.reflect.ui.info.type.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
 import xy.reflect.ui.info.type.custom.FileTypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
+import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
+import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.ArrayAsEnumerationTypeInfo;
@@ -96,6 +97,7 @@ import xy.reflect.ui.util.component.AutoResizeTabbedPane;
 import xy.reflect.ui.util.component.ScrollPaneOptions;
 import xy.reflect.ui.util.component.WrapLayout;
 
+@SuppressWarnings("unused")
 public class SwingRenderer {
 
 	protected ReflectionUI reflectionUI;
@@ -825,6 +827,22 @@ public class SwingRenderer {
 	}
 
 	public Image getIconImage(Object object) {
+		if (object != null) {
+			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+			if (type instanceof IEnumerationTypeInfo) {
+				IEnumerationItemInfo valueInfo = ((IEnumerationTypeInfo) type).getValueInfo(object);
+				if (valueInfo != null) {
+					Image result = SwingRendererUtils.getIconImageFromInfo(valueInfo);
+					if (result != null) {
+						return result;
+					}
+				}
+			}
+			Image result = SwingRendererUtils.getIconImageFromInfo(type);
+			if (result != null) {
+				return result;
+			}
+		}
 		return null;
 	}
 
@@ -969,11 +987,50 @@ public class SwingRenderer {
 					if (silent) {
 						type = polyTypes.get(0);
 					} else {
-						type = openSelectionDialog(activatorComponent, polyTypes, null,
-								MessageFormat.format("Choose the type of ''{0}''", type.getCaption()), null);
-						if (type == null) {
+						ArrayAsEnumerationTypeInfo enumType = new ArrayAsEnumerationTypeInfo(reflectionUI,
+								polyTypes.toArray(), SwingRenderer.class.getName()
+										+ "#onTypeInstanciationRequest(): PolymorphicInstanceSubTypes As Enumeration") {
+
+							@Override
+							public IEnumerationItemInfo getValueInfo(Object object) {
+								final ITypeInfo polyTypesItem = (ITypeInfo) object;
+								final IEnumerationItemInfo baseValueInfo = super.getValueInfo(object);
+								return new IEnumerationItemInfo() {
+
+									@Override
+									public Map<String, Object> getSpecificProperties() {
+										Map<String, Object> result = new HashMap<String, Object>(
+												baseValueInfo.getSpecificProperties());
+										result.put(SwingSpecificProperty.ICON_IMAGE_FILE_PATH,
+												polyTypesItem.getSpecificProperties()
+														.get(SwingSpecificProperty.ICON_IMAGE_FILE_PATH));
+										return result;
+									}
+
+									@Override
+									public String getOnlineHelp() {
+										return baseValueInfo.getOnlineHelp();
+									}
+
+									@Override
+									public String getName() {
+										return baseValueInfo.getName();
+									}
+
+									@Override
+									public String getCaption() {
+										return baseValueInfo.getCaption();
+									}
+								};
+							}
+
+						};
+						Object resultEnumItem = openSelectionDialog(activatorComponent, enumType.forWrappedArrayItems(),
+								null, MessageFormat.format("Choose the type of ''{0}''", type.getCaption()), null);
+						if (resultEnumItem == null) {
 							return null;
 						}
+						type = (ITypeInfo) enumType.unwrapArrayItem(resultEnumItem);
 					}
 				}
 			}
@@ -1305,13 +1362,30 @@ public class SwingRenderer {
 		if (choices.size() == 0) {
 			throw new ReflectionUIError();
 		}
-		if (initialSelection == null) {
-			initialSelection = choices.get(0);
-		}
-		final Object[] chosenItemHolder = new Object[] { initialSelection };
-		ITypeInfo enumType = new ArrayAsEnumerationTypeInfo(reflectionUI, choices.toArray(),
+		ArrayAsEnumerationTypeInfo enumType = new ArrayAsEnumerationTypeInfo(reflectionUI, choices.toArray(),
 				"Selection Dialog Array As Enumeration");
-		chosenItemHolder[0] = new PrecomputedTypeInfoInstanceWrapper(chosenItemHolder[0], enumType);
+		Object initialEnumItem;
+		if (initialSelection != null) {
+			initialEnumItem = enumType.wrapArrayItem(initialSelection);
+		} else {
+			initialEnumItem = null;
+		}
+		Object resultEnumItem = openSelectionDialog(parentComponent, enumType.forWrappedArrayItems(), initialEnumItem,
+				message, title);
+		if (resultEnumItem == null) {
+			return null;
+		}
+		T result = (T) enumType.unwrapArrayItem(resultEnumItem);
+		return result;
+
+	}
+
+	public Object openSelectionDialog(Component parentComponent, IEnumerationTypeInfo enumType, Object initialEnumItem,
+			String message, String title) {
+		if (initialEnumItem == null) {
+			initialEnumItem = enumType.getPossibleValues()[0];
+		}
+		final Object[] chosenItemHolder = new Object[] { initialEnumItem };
 		final Object chosenItemAsField = VirtualFieldWrapperTypeInfo.wrap(reflectionUI, chosenItemHolder, message,
 				"Selection", false);
 		boolean[] okPressedHolder = new boolean[1];
@@ -1319,8 +1393,7 @@ public class SwingRenderer {
 				getIconImage(chosenItemAsField), true, IInfoCollectionSettings.DEFAULT, null, true, okPressedHolder,
 				null, null);
 		if (okPressedHolder[0]) {
-			chosenItemHolder[0] = ((PrecomputedTypeInfoInstanceWrapper) chosenItemHolder[0]).getInstance();
-			return (T) chosenItemHolder[0];
+			return chosenItemHolder[0];
 		} else {
 			return null;
 		}
@@ -1758,4 +1831,9 @@ public class SwingRenderer {
 
 	}
 
+	public static class SwingSpecificProperty {
+		public static String ICON_IMAGE_FILE_PATH = SwingSpecificProperty.class.getSimpleName()
+				+ ".ICON_IMAGE_FILE_PATH";
+
+	}
 }

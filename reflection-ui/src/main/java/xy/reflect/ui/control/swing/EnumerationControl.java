@@ -19,7 +19,8 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.type.IEnumerationTypeInfo;
+import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
+import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 public class EnumerationControl extends JPanel {
@@ -72,7 +73,13 @@ public class EnumerationControl extends JPanel {
 					label.setText("");
 					label.setIcon(null);
 				} else {
-					String s = enumType.formatEnumerationItem(value);
+					IEnumerationItemInfo itemInfo = enumType.getValueInfo(value);
+					String s;
+					if(itemInfo == null){
+						s = "";
+					}else{
+						s = itemInfo.getCaption();
+					}
 					label.setText(reflectionUI.prepareStringToDisplay(s));
 					Image imageIcon = reflectionUI.getSwingRenderer().getIconImage(value);
 					if (imageIcon == null) {

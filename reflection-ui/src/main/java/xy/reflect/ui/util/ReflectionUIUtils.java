@@ -68,6 +68,49 @@ public class ReflectionUIUtils {
 
 	public static final String[] NEW_LINE_SEQUENCES = new String[] { "\r\n", "\n", "\r" };
 
+	public static boolean canonicallyEquals(File file1, File file2) {
+		try {
+			return file1.getCanonicalFile().equals(file2.getCanonicalFile());
+		} catch (IOException e) {
+			throw new RuntimeException(e.toString(), e);
+		}
+	}
+
+	public static boolean isAncestor(File ancestor, File file) {
+		File mayBeAncestor = getCanonicalParent(file);
+		while (true) {
+			if (mayBeAncestor == null) {
+				return false;
+			}
+			if (canonicallyEquals(mayBeAncestor, ancestor)) {
+				return true;
+			}
+			mayBeAncestor = getCanonicalParent(mayBeAncestor);
+		}
+	}
+
+	public static File getCanonicalParent(File file) {
+		try {
+			return file.getCanonicalFile().getParentFile();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public static File relativizeFile(File ancestor, File file) {
+		if (!isAncestor(ancestor, file)) {
+			return null;
+		}
+		try {
+			ancestor = ancestor.getCanonicalFile();
+			file = file.getCanonicalFile();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		String relativePath = file.getPath().substring(ancestor.getPath().length() + 1, file.getPath().length());
+		return new File(relativePath);
+	}
+
 	public static File getStreamAsFile(InputStream in) throws IOException {
 		File tempFile = File.createTempFile(String.valueOf(in.hashCode()), ".tmp");
 		tempFile.deleteOnExit();

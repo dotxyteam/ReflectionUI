@@ -6,8 +6,9 @@ import java.util.List;
 
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.info.type.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
+import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.undo.IModification;
@@ -24,6 +25,10 @@ public class PrecomputedTypeInfoInstanceWrapper {
 	public PrecomputedTypeInfoInstanceWrapper(Object instance, ITypeInfo precomputedType) {
 		this.instance = instance;
 		this.precomputedType = precomputedType;
+	}
+
+	public ITypeInfo getPrecomputedType() {
+		return precomputedType;
 	}
 
 	public PrecomputedTypeInfoSource getPrecomputedTypeInfoSource() {
@@ -44,7 +49,6 @@ public class PrecomputedTypeInfoInstanceWrapper {
 			protected PrecomputedTypeInfoInstanceWrapper wrap(Object object) {
 				return new PrecomputedTypeInfoInstanceWrapper(object, precomputedType);
 			}
-
 
 			protected Object unwrap(Object object) {
 				PrecomputedTypeInfoInstanceWrapper wrapper = (PrecomputedTypeInfoInstanceWrapper) object;
@@ -106,9 +110,9 @@ public class PrecomputedTypeInfoInstanceWrapper {
 			}
 
 			@Override
-			protected String formatEnumerationItem(Object object, IEnumerationTypeInfo type) {
+			protected IEnumerationItemInfo getValueInfo(Object object, IEnumerationTypeInfo type) {
 				object = unwrap(object);
-				return super.formatEnumerationItem(object, type);
+				return super.getValueInfo(object, type);
 			}
 
 			@Override

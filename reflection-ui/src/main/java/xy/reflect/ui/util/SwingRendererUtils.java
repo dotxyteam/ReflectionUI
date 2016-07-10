@@ -4,11 +4,15 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.Window;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -28,6 +33,8 @@ import javax.swing.ToolTipManager;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.SwingRenderer;
+import xy.reflect.ui.SwingRenderer.SwingSpecificProperty;
+import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
@@ -48,6 +55,8 @@ public class SwingRendererUtils {
 	public static final ImageIcon DOWN_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/down.png"));
 	public static final ImageIcon CUSTOMIZATION_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/custom.png"));
 	public static final ImageIcon SAVE_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/save.png"));
+	public static final Image NULL_ICON_IMAGE = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+	private static Map<String, Image> iconImageCache = new HashMap<String, Image>();
 
 	public static void showTooltipNow(Component c) {
 		try {
@@ -343,4 +352,24 @@ public class SwingRendererUtils {
 		return result;
 	}
 
+	public static Image getIconImageFromInfo(IInfo info) {
+		String filePath = (String) info.getSpecificProperties().get(SwingRenderer.SwingSpecificProperty.ICON_IMAGE_FILE_PATH);
+		if (filePath == null) {
+			return null;
+		}
+		Image result = iconImageCache.get(filePath);
+		if (result == null) {
+			try {
+				result = ImageIO.read(new File(filePath));
+			} catch (IOException e) {
+				e.printStackTrace();
+				result = NULL_ICON_IMAGE;
+			}
+			iconImageCache.put(filePath, result);
+		}
+		if (result == NULL_ICON_IMAGE) {
+			return null;
+		}
+		return result;
+	}
 }

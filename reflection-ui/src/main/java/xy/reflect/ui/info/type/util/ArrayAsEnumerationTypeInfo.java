@@ -15,8 +15,10 @@ import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
-import xy.reflect.ui.info.type.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
+import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
+import xy.reflect.ui.util.ReflectionUIError;
 
 @SuppressWarnings("unused")
 public class ArrayAsEnumerationTypeInfo implements IEnumerationTypeInfo {
@@ -24,8 +26,7 @@ public class ArrayAsEnumerationTypeInfo implements IEnumerationTypeInfo {
 	protected Object[] array;
 	protected String typeCaption;
 
-	public ArrayAsEnumerationTypeInfo(ReflectionUI reflectionUI,
-			Object[] array, String typeCaption) {
+	public ArrayAsEnumerationTypeInfo(ReflectionUI reflectionUI, Object[] array, String typeCaption) {
 		super();
 		this.reflectionUI = reflectionUI;
 		this.array = array;
@@ -61,8 +62,6 @@ public class ArrayAsEnumerationTypeInfo implements IEnumerationTypeInfo {
 		return reflectionUI.toString(object);
 	}
 
-	
-
 	@Override
 	public boolean supportsInstance(Object object) {
 		return Arrays.asList(array).contains(object);
@@ -94,12 +93,10 @@ public class ArrayAsEnumerationTypeInfo implements IEnumerationTypeInfo {
 			return Collections.emptyList();
 		} else {
 			return Collections
-					.<IMethodInfo> singletonList(new AbstractConstructorMethodInfo(
-							ArrayAsEnumerationTypeInfo.this) {
+					.<IMethodInfo> singletonList(new AbstractConstructorMethodInfo(ArrayAsEnumerationTypeInfo.this) {
 
 						@Override
-						public Object invoke(Object object,
-								InvocationData invocationData) {
+						public Object invoke(Object object, InvocationData invocationData) {
 							return array[0];
 						}
 
@@ -117,8 +114,29 @@ public class ArrayAsEnumerationTypeInfo implements IEnumerationTypeInfo {
 	}
 
 	@Override
-	public String formatEnumerationItem(Object object) {
-		return reflectionUI.toString(object);
+	public IEnumerationItemInfo getValueInfo(final Object object) {
+		return new IEnumerationItemInfo() {
+
+			@Override
+			public Map<String, Object> getSpecificProperties() {
+				return Collections.emptyMap();
+			}
+
+			@Override
+			public String getOnlineHelp() {
+				return null;
+			}
+
+			@Override
+			public String getName() {
+				return reflectionUI.toString(object);
+			}
+
+			@Override
+			public String getCaption() {
+				return reflectionUI.toString(object);
+			}
+		};
 	}
 
 	@Override
@@ -131,8 +149,7 @@ public class ArrayAsEnumerationTypeInfo implements IEnumerationTypeInfo {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + Arrays.hashCode(array);
-		result = prime * result
-				+ ((typeCaption == null) ? 0 : typeCaption.hashCode());
+		result = prime * result + ((typeCaption == null) ? 0 : typeCaption.hashCode());
 		return result;
 	}
 
@@ -153,6 +170,23 @@ public class ArrayAsEnumerationTypeInfo implements IEnumerationTypeInfo {
 		} else if (!typeCaption.equals(other.typeCaption))
 			return false;
 		return true;
+	}
+
+	public Object unwrapArrayItem(Object resultEnumItem) {
+		PrecomputedTypeInfoInstanceWrapper wrapper = (PrecomputedTypeInfoInstanceWrapper) resultEnumItem;
+		if (!wrapper.getPrecomputedType().equals(this)) {
+			throw new ReflectionUIError("This " + ArrayAsEnumerationTypeInfo.class.getSimpleName()
+					+ " instance cannot unwrap an item that was wrapped with a different instance");
+		}
+		return wrapper.getInstance();
+	}
+
+	public Object wrapArrayItem(Object item) {
+		return new PrecomputedTypeInfoInstanceWrapper(item, this);
+	}
+	
+	public IEnumerationTypeInfo forWrappedArrayItems(){
+		return (IEnumerationTypeInfo) PrecomputedTypeInfoInstanceWrapper.adaptPrecomputedType(this);
 	}
 
 }

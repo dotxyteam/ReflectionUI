@@ -7,7 +7,10 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
@@ -18,10 +21,15 @@ import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.SwingRenderer;
+import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.custom.FileTypeInfo;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
+import xy.reflect.ui.info.type.util.InfoProxyGenerator;
 import xy.reflect.ui.info.type.util.InfoCustomizations.FieldCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.MethodCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.TypeCustomization;
@@ -36,13 +44,14 @@ public class InfoCustomizationsControls {
 	protected ReflectionUI customizationsUI = new ReflectionUI() {
 
 		String customizationsFilePath;
+		ReflectionUI thisReflectionUI = this;
 
 		@Override
 		public String getInfoCustomizationsFilePath() {
 			if ("true".equals(System.getProperty(SystemProperties.DISCARD_META_INFO_CUSTOMIZATIONS))) {
 				return null;
 			}
-			if(customizationsFilePath == null){
+			if (customizationsFilePath == null) {
 				URL url = ReflectionUI.class.getResource("resource/info-customizations-types.icu");
 				try {
 					File customizationsFile = ReflectionUIUtils.getStreamAsFile(url.openStream());
@@ -65,6 +74,117 @@ public class InfoCustomizationsControls {
 
 			};
 		}
+
+		@Override
+		public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
+			return new InfoProxyGenerator() {
+				@Override
+				protected List<IFieldInfo> getFields(ITypeInfo type) {
+					if (type.getName().equals(TypeCustomization.class.getName())) {
+						List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
+						result.add(getIconImageFileField());
+						return result;
+					} else {
+						return super.getFields(type);
+					}
+				}
+
+			}.get(super.getTypeInfo(typeSource));
+		}
+		
+		private IFieldInfo getIconImageFileField() {
+			return new IFieldInfo() {
+
+				@Override
+				public String getName() {
+					return "iconImageFile";
+				}
+
+				@Override
+				public String getCaption() {
+					return "Icon Image File";
+				}
+
+				@Override
+				public String getOnlineHelp() {
+					return null;
+				}
+
+				@Override
+				public Map<String, Object> getSpecificProperties() {
+					return null;
+				}
+
+				@Override
+				public ITypeInfo getType() {
+					return new FileTypeInfo(thisReflectionUI);
+				}
+
+				@Override
+				public Object getValue(Object object) {
+					TypeCustomization t = (TypeCustomization) object;
+					Map<String, Object> properties = t.getSpecificProperties();
+					if (properties == null) {
+						return new File("");
+					}
+					String filePath = (String) properties
+							.get(SwingRenderer.SwingSpecificProperty.ICON_IMAGE_FILE_PATH);
+					if (filePath == null) {
+						return new File("");
+					}
+					return new File(filePath);
+				}
+
+				@Override
+				public Object[] getValueOptions(Object object) {
+					return null;
+				}
+				
+				@Override
+				public void setValue(Object object, Object value) {
+					TypeCustomization t = (TypeCustomization) object;
+					File file = (File) value;
+					String filePath;
+					if(file == null){
+						filePath = null;
+					}
+					if(file.isAbsolute()){
+						if(thisReflectionUI.getSwingRenderer().openQuestionDialog(null, "Make this path relative ?", thisReflectionUI.getObjectTitle(t))){
+							file = ReflectionUIUtils.relativizeFile(new File("."), file);
+						}						
+					}
+					filePath = file.getPath();
+					if(filePath.length() == 0){
+						filePath = null;
+					}
+					Map<String, Object> properties = t.getSpecificProperties();
+					if(properties == null){
+						properties = new HashMap<String, Object>();
+						t.setSpecificProperties(properties);
+					}
+					properties.put(SwingRenderer.SwingSpecificProperty.ICON_IMAGE_FILE_PATH,
+							filePath);
+				}
+
+				@Override
+				public boolean isNullable() {
+					return false;
+				}
+
+				@Override
+				public boolean isGetOnly() {
+					return false;
+				}
+
+				@Override
+				public InfoCategory getCategory() {
+					return null;
+				}
+
+			};
+		}
+
+
 	};
 	protected InfoCustomizations infoCustomizations;
 	private ReflectionUI reflectionUI;
