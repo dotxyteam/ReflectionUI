@@ -98,16 +98,19 @@ public class ReflectionUIUtils {
 	}
 
 	public static File relativizeFile(File ancestor, File file) {
-		if (!isAncestor(ancestor, file)) {
-			return null;
-		}
 		try {
 			ancestor = ancestor.getCanonicalFile();
 			file = file.getCanonicalFile();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		String relativePath = file.getPath().substring(ancestor.getPath().length() + 1, file.getPath().length());
+		if (!isAncestor(ancestor, file)) {
+			return null;
+		}
+		String relativePath = file.getPath().substring(ancestor.getPath().length(), file.getPath().length());
+		if(relativePath.startsWith("/") ||relativePath.startsWith("\\")){
+			relativePath = relativePath.substring(1);
+		}
 		return new File(relativePath);
 	}
 

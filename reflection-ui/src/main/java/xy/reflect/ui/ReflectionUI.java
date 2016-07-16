@@ -103,7 +103,7 @@ public class ReflectionUI {
 	}
 
 	public String getInfoCustomizationsFilePath() {
-		return System.getProperty(SystemProperties.INFO_CUSTOMIZATIONS_FILE);
+		return SystemProperties.getInfoCustomizationsFilePath();
 	}
 
 	protected SwingRenderer createSwingRenderer() {

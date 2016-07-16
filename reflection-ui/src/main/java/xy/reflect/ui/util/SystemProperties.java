@@ -107,4 +107,15 @@ public class SystemProperties {
 		return matchesHiddenPattern(qualifiedName, hiddenPattern);
 	}
 
+	public static String getInfoCustomizationsFilePath() {
+		return System.getProperty(SystemProperties.INFO_CUSTOMIZATIONS_FILE);
+	}
+	
+	public static boolean areInfoCustomizationsControlsAuthorized() {
+		return "true".equals(System.getProperty(SystemProperties.AUTHORIZE_INFO_CUSTOMIZATIONS_CONTROLS));
+	}
+
+	public static boolean isMetaInfoCustomizationDiscarded() {
+		return "true".equals(System.getProperty(SystemProperties.DISCARD_META_INFO_CUSTOMIZATIONS));
+	}
 }

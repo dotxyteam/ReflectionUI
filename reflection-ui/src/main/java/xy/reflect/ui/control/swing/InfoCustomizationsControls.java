@@ -21,6 +21,7 @@ import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.SwingRenderer;
+import xy.reflect.ui.SwingRenderer.SwingSpecificProperty;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -48,7 +49,7 @@ public class InfoCustomizationsControls {
 
 		@Override
 		public String getInfoCustomizationsFilePath() {
-			if ("true".equals(System.getProperty(SystemProperties.DISCARD_META_INFO_CUSTOMIZATIONS))) {
+			if (SystemProperties.isMetaInfoCustomizationDiscarded()) {
 				return null;
 			}
 			if (customizationsFilePath == null) {
@@ -82,7 +83,7 @@ public class InfoCustomizationsControls {
 				protected List<IFieldInfo> getFields(ITypeInfo type) {
 					if (type.getName().equals(TypeCustomization.class.getName())) {
 						List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
-						result.add(getIconImageFileField());
+						result.add(getTypeIconImageFileField());
 						return result;
 					} else {
 						return super.getFields(type);
@@ -91,104 +92,11 @@ public class InfoCustomizationsControls {
 
 			}.get(super.getTypeInfo(typeSource));
 		}
-		
-		private IFieldInfo getIconImageFileField() {
-			return new IFieldInfo() {
-
-				@Override
-				public String getName() {
-					return "iconImageFile";
-				}
-
-				@Override
-				public String getCaption() {
-					return "Icon Image File";
-				}
-
-				@Override
-				public String getOnlineHelp() {
-					return null;
-				}
-
-				@Override
-				public Map<String, Object> getSpecificProperties() {
-					return null;
-				}
-
-				@Override
-				public ITypeInfo getType() {
-					return new FileTypeInfo(thisReflectionUI);
-				}
-
-				@Override
-				public Object getValue(Object object) {
-					TypeCustomization t = (TypeCustomization) object;
-					Map<String, Object> properties = t.getSpecificProperties();
-					if (properties == null) {
-						return new File("");
-					}
-					String filePath = (String) properties
-							.get(SwingRenderer.SwingSpecificProperty.ICON_IMAGE_FILE_PATH);
-					if (filePath == null) {
-						return new File("");
-					}
-					return new File(filePath);
-				}
-
-				@Override
-				public Object[] getValueOptions(Object object) {
-					return null;
-				}
-				
-				@Override
-				public void setValue(Object object, Object value) {
-					TypeCustomization t = (TypeCustomization) object;
-					File file = (File) value;
-					String filePath;
-					if(file == null){
-						filePath = null;
-					}
-					if(file.isAbsolute()){
-						if(thisReflectionUI.getSwingRenderer().openQuestionDialog(null, "Make this path relative ?", thisReflectionUI.getObjectTitle(t))){
-							file = ReflectionUIUtils.relativizeFile(new File("."), file);
-						}						
-					}
-					filePath = file.getPath();
-					if(filePath.length() == 0){
-						filePath = null;
-					}
-					Map<String, Object> properties = t.getSpecificProperties();
-					if(properties == null){
-						properties = new HashMap<String, Object>();
-						t.setSpecificProperties(properties);
-					}
-					properties.put(SwingRenderer.SwingSpecificProperty.ICON_IMAGE_FILE_PATH,
-							filePath);
-				}
-
-				@Override
-				public boolean isNullable() {
-					return false;
-				}
-
-				@Override
-				public boolean isGetOnly() {
-					return false;
-				}
-
-				@Override
-				public InfoCategory getCategory() {
-					return null;
-				}
-
-			};
-		}
-
 
 	};
 	protected InfoCustomizations infoCustomizations;
-	private ReflectionUI reflectionUI;
-	private String infoCustomizationsFilePath;
+	protected ReflectionUI reflectionUI;
+	protected String infoCustomizationsFilePath;
 
 	public InfoCustomizationsControls(ReflectionUI reflectionUI, InfoCustomizations infoCustomizations,
 			String infoCustomizationsFilePath) {
@@ -208,7 +116,7 @@ public class InfoCustomizationsControls {
 
 	public void openInfoCustomizationsWindow(InfoCustomizations infoCustomizations) {
 		customizationsUI.getSwingRenderer().openObjectFrame(infoCustomizations,
-				customizationsUI.getObjectTitle(infoCustomizations), getMainImageIcon().getImage());
+				customizationsUI.getObjectTitle(infoCustomizations), getCustomizationIcon().getImage());
 	}
 
 	public JButton createSaveControl() {
@@ -231,7 +139,7 @@ public class InfoCustomizationsControls {
 
 	public Component createTypeInfoCustomizer(final String typeName) {
 		final JButton result = new JButton(customizationsUI.prepareStringToDisplay("Customizations..."),
-				getMainImageIcon());
+				getCustomizationIcon());
 		result.setContentAreaFilled(false);
 		result.setFocusable(false);
 		final TypeCustomization t = infoCustomizations.getTypeCustomization(typeName, true);
@@ -239,7 +147,7 @@ public class InfoCustomizationsControls {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (customizationsUI.getSwingRenderer().openObjectDialogAndGetConfirmation(result, t,
-						customizationsUI.getObjectTitle(t), getMainImageIcon().getImage(), true)) {
+						customizationsUI.getObjectTitle(t), getCustomizationIcon().getImage(), true)) {
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override
 						public void run() {
@@ -253,7 +161,7 @@ public class InfoCustomizationsControls {
 	}
 
 	public Component createFieldInfoCustomizer(final ITypeInfo customizedType, final String fieldName) {
-		final JButton result = new JButton(getMainImageIcon());
+		final JButton result = new JButton(getCustomizationIcon());
 		result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
 		result.setContentAreaFilled(false);
 		result.setFocusable(false);
@@ -325,7 +233,7 @@ public class InfoCustomizationsControls {
 			String fieldName) {
 		FieldCustomization fc = infoCustomizations.getFieldCustomization(customoizedType.getName(), fieldName, true);
 		if (customizationsUI.getSwingRenderer().openObjectDialogAndGetConfirmation(activatorComponent, fc,
-				customizationsUI.getObjectTitle(fc), getMainImageIcon().getImage(), true)) {
+				customizationsUI.getObjectTitle(fc), getCustomizationIcon().getImage(), true)) {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
@@ -340,7 +248,7 @@ public class InfoCustomizationsControls {
 		MethodCustomization mc = infoCustomizations.getMethodCustomization(customizedType.getName(), methodSignature,
 				true);
 		if (customizationsUI.getSwingRenderer().openObjectDialogAndGetConfirmation(activatorComponent, mc,
-				customizationsUI.getObjectTitle(mc), getMainImageIcon().getImage(), true)) {
+				customizationsUI.getObjectTitle(mc), getCustomizationIcon().getImage(), true)) {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
@@ -351,7 +259,7 @@ public class InfoCustomizationsControls {
 	}
 
 	public Component createMethodInfoCustomizer(final ITypeInfo customizedType, final String methodSignature) {
-		final JButton result = new JButton(getMainImageIcon());
+		final JButton result = new JButton(getCustomizationIcon());
 		result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
 		result.setContentAreaFilled(false);
 		result.setFocusable(false);
@@ -391,8 +299,187 @@ public class InfoCustomizationsControls {
 		return result;
 	}
 
-	protected ImageIcon getMainImageIcon() {
+	protected ImageIcon getCustomizationIcon() {
 		return SwingRendererUtils.CUSTOMIZATION_ICON;
+	}
+
+	protected IFieldInfo getTypeIconImageFileField() {
+		return new IFieldInfo() {
+
+			@Override
+			public String getName() {
+				return "iconImageFile";
+			}
+
+			@Override
+			public String getCaption() {
+				return "Icon Image File";
+			}
+
+			@Override
+			public String getOnlineHelp() {
+				return null;
+			}
+
+			@Override
+			public Map<String, Object> getSpecificProperties() {
+				return null;
+			}
+
+			@Override
+			public ITypeInfo getType() {
+				return new FileTypeInfo(customizationsUI);
+			}
+
+			@Override
+			public Object getValue(Object object) {
+				TypeCustomization t = (TypeCustomization) object;
+				Map<String, Object> properties = t.getSpecificProperties();
+				if (properties == null) {
+					return new File("");
+				}
+				String filePath = (String) properties.get(SwingRenderer.SwingSpecificProperty.KEY_ICON_IMAGE_PATH);
+				if (filePath == null) {
+					return new File("");
+				}
+				String filePathKind = (String) properties
+						.get(SwingRenderer.SwingSpecificProperty.KEY_ICON_IMAGE_PATH_KIND);
+				if (SwingSpecificProperty.VALUE_PATH_TYPE_KIND_CLASSPATH_RESOURCE.equals(filePathKind)) {
+					filePath = getClassPathResourcePrefix() + filePath;
+				}
+				return new File(filePath);
+			}
+
+			private String getClassPathResourcePrefix() {
+				return "<class-path-resource> ";
+			}
+
+			@Override
+			public Object[] getValueOptions(Object object) {
+				return null;
+			}
+
+			@Override
+			public void setValue(Object object, Object value) {
+				TypeCustomization t = (TypeCustomization) object;
+				File file = (File) value;
+				String filePath = file.getPath();
+				if (file == null) {
+					filePath = null;
+				} else {
+					if (filePath.length() == 0) {
+						filePath = null;
+					}
+				}
+				String filePathKind = null;
+				if (filePath != null) {
+					if (filePath.startsWith(getClassPathResourcePrefix())) {
+						filePath = filePath.substring(getClassPathResourcePrefix().length());
+						filePathKind = SwingSpecificProperty.VALUE_PATH_TYPE_KIND_CLASSPATH_RESOURCE;
+					} else {
+						List<PathKindOption> pathKindOptions = getPathKindOptions(filePath);
+						PathKindOption chosenPathKindOption;
+						if (pathKindOptions.size() == 1) {
+							chosenPathKindOption = pathKindOptions.get(0);
+						} else {
+							chosenPathKindOption = customizationsUI.getSwingRenderer().openSelectionDialog(null,
+									pathKindOptions, null, "Choose an option", customizationsUI.getObjectTitle(t));
+							if (chosenPathKindOption == null) {
+								return;
+							}
+						}
+						filePath = chosenPathKindOption.path;
+						filePathKind = chosenPathKindOption.pathKind;
+					}
+				}
+				Map<String, Object> properties = t.getSpecificProperties();
+				if (properties == null) {
+					properties = new HashMap<String, Object>();
+					t.setSpecificProperties(properties);
+				}
+				properties.put(SwingRenderer.SwingSpecificProperty.KEY_ICON_IMAGE_PATH, filePath);
+				properties.put(SwingRenderer.SwingSpecificProperty.KEY_ICON_IMAGE_PATH_KIND, filePathKind);
+			}
+
+			private List<PathKindOption> getPathKindOptions(String filePath) {
+				List<PathKindOption> result = new ArrayList<PathKindOption>();
+				File file = new File(filePath);
+				{
+					File candidateResourceFile = new File(file.getAbsoluteFile().getPath());
+					while (true) {
+						File mostAncestorFile = candidateResourceFile.getParentFile();
+						if (mostAncestorFile == null) {
+							break;
+						}
+						while (mostAncestorFile.getParentFile() != null) {
+							mostAncestorFile = mostAncestorFile.getParentFile();
+						}
+						candidateResourceFile = ReflectionUIUtils.relativizeFile(mostAncestorFile,
+								candidateResourceFile);
+						String candidateResourcePath = candidateResourceFile.getPath().replaceAll("\\\\", "/");
+						URL resourceURL = getClass().getClassLoader().getResource(candidateResourcePath);
+						if (resourceURL != null) {
+							result.add(new PathKindOption(SwingSpecificProperty.VALUE_PATH_TYPE_KIND_CLASSPATH_RESOURCE,
+									candidateResourcePath));
+							break;
+						}
+					}
+				}
+				{
+					File currentDir = new File(".");
+					if (ReflectionUIUtils.isAncestor(currentDir, file)) {
+						File relativeFile = ReflectionUIUtils.relativizeFile(currentDir, file);
+						result.add(new PathKindOption(SwingSpecificProperty.VALUE_PATH_TYPE_KIND_RELATIVE_FILE,
+								relativeFile.getPath()));
+					}
+				}
+				{
+					result.add(new PathKindOption(SwingSpecificProperty.VALUE_PATH_TYPE_KIND_ABSOLUTE_FILE,
+							file.getAbsolutePath()));
+				}
+				return result;
+			}
+
+			@Override
+			public boolean isNullable() {
+				return false;
+			}
+
+			@Override
+			public boolean isGetOnly() {
+				return false;
+			}
+
+			@Override
+			public InfoCategory getCategory() {
+				return null;
+			}
+
+			class PathKindOption {
+				String path;
+				String pathKind;
+
+				public PathKindOption(String pathKind, String path) {
+					super();
+					this.path = path;
+					this.pathKind = pathKind;
+				}
+
+				@Override
+				public String toString() {
+					if (SwingSpecificProperty.VALUE_PATH_TYPE_KIND_ABSOLUTE_FILE.equals(pathKind)) {
+						return "<absolute-file> " + path;
+					} else if (SwingSpecificProperty.VALUE_PATH_TYPE_KIND_RELATIVE_FILE.equals(pathKind)) {
+						return "<relative-file> " + path;
+					} else if (SwingSpecificProperty.VALUE_PATH_TYPE_KIND_CLASSPATH_RESOURCE.equals(pathKind)) {
+						return getClassPathResourcePrefix() + path;
+					} else {
+						return "<illegal-path-kind: " + pathKind + "> " + path;
+					}
+				}
+			}
+
+		};
 	}
 
 	protected void update(String typeName) {
@@ -412,4 +499,5 @@ public class InfoCustomizationsControls {
 			customizationsUI.getSwingRenderer().refreshAllFieldControls(form, false);
 		}
 	}
+
 }

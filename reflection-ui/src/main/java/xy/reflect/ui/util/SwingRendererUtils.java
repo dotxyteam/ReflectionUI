@@ -14,6 +14,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -353,19 +355,30 @@ public class SwingRendererUtils {
 	}
 
 	public static Image getIconImageFromInfo(IInfo info) {
-		String filePath = (String) info.getSpecificProperties().get(SwingRenderer.SwingSpecificProperty.ICON_IMAGE_FILE_PATH);
-		if (filePath == null) {
+		URL imageUrl;
+		String imagePath = (String) info.getSpecificProperties().get(SwingRenderer.SwingSpecificProperty.KEY_ICON_IMAGE_PATH);
+		String pathKind = (String) info.getSpecificProperties().get(SwingRenderer.SwingSpecificProperty.KEY_ICON_IMAGE_PATH_KIND);
+		if (imagePath == null) {
 			return null;
 		}
-		Image result = iconImageCache.get(filePath);
+		if(SwingSpecificProperty.VALUE_PATH_TYPE_KIND_CLASSPATH_RESOURCE.equals(pathKind)){
+			imageUrl = SwingRendererUtils.class.getClassLoader().getResource(imagePath);
+		}else{
+			try {
+				imageUrl = new File(imagePath).toURI().toURL();
+			} catch (MalformedURLException e) {
+				throw new ReflectionUIError(e);
+			}
+		}
+		Image result = iconImageCache.get(imagePath);
 		if (result == null) {
 			try {
-				result = ImageIO.read(new File(filePath));
+				result = ImageIO.read(imageUrl);
 			} catch (IOException e) {
 				e.printStackTrace();
 				result = NULL_ICON_IMAGE;
 			}
-			iconImageCache.put(filePath, result);
+			iconImageCache.put(imagePath, result);
 		}
 		if (result == NULL_ICON_IMAGE) {
 			return null;

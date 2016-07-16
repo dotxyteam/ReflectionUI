@@ -165,7 +165,7 @@ public class SwingRenderer {
 	}
 
 	protected boolean areInfoCustomizationsControlsAuthorized() {
-		return "true".equals(System.getProperty(SystemProperties.AUTHORIZE_INFO_CUSTOMIZATIONS_CONTROLS));
+		return SystemProperties.areInfoCustomizationsControlsAuthorized();
 	}
 
 	protected void adjustWindowBounds(Window window) {
@@ -1001,9 +1001,9 @@ public class SwingRenderer {
 									public Map<String, Object> getSpecificProperties() {
 										Map<String, Object> result = new HashMap<String, Object>(
 												baseValueInfo.getSpecificProperties());
-										result.put(SwingSpecificProperty.ICON_IMAGE_FILE_PATH,
+										result.put(SwingSpecificProperty.KEY_ICON_IMAGE_PATH,
 												polyTypesItem.getSpecificProperties()
-														.get(SwingSpecificProperty.ICON_IMAGE_FILE_PATH));
+														.get(SwingSpecificProperty.KEY_ICON_IMAGE_PATH));
 										return result;
 									}
 
@@ -1131,7 +1131,7 @@ public class SwingRenderer {
 			String msg = "No data returned!";
 			openMessageDialog(activatorComponent, msg, reflectionUI.getMethodTitle(object, method, null, "Result"));
 		} else {
-			openValueFrame(returnValue, reflectionUI.getMethodTitle(object, method, returnValue, "Execution Result"));
+			openObjectFrame(returnValue, reflectionUI.getMethodTitle(object, method, returnValue, "Execution Result"));
 		}
 	}
 
@@ -1341,16 +1341,25 @@ public class SwingRenderer {
 		return dialogHolder[0];
 	}
 
-	public void openObjectFrame(Object object) {
-		openObjectFrame(object, reflectionUI.getObjectTitle(object), getIconImage(object));
-	}
-
 	public void openObjectFrame(Object object, String title, Image iconImage) {
 		JFrame frame = createObjectFrame(object, title, iconImage);
 		frame.setVisible(true);
 	}
 
+	public void openObjectFrame(Object object, final String title) {
+		openObjectFrame(object, title, getIconImage(object));
+	}
+
+	public void openObjectFrame(Object object) {
+		openObjectFrame(object, reflectionUI.getObjectTitle(object), getIconImage(object));
+	}
+
 	public JFrame createObjectFrame(Object object, String title, Image iconImage) {
+		final Object[] valueHolder = new Object[] { object };
+		String fieldName = BooleanTypeInfo.isCompatibleWith(valueHolder[0].getClass()) ? "Is True" : "Value";
+		if (hasCustomFieldControl(object)) {
+			object = VirtualFieldWrapperTypeInfo.wrap(reflectionUI, valueHolder, fieldName, title, true);
+		}
 		JPanel form = createObjectForm(object);
 		JFrame frame = createFrame(form, title, iconImage, createCommonToolbarControls(form));
 		return frame;
@@ -1459,18 +1468,6 @@ public class SwingRenderer {
 
 	protected String getDefaultFieldCaption(Object fieldValue) {
 		return BooleanTypeInfo.isCompatibleWith(fieldValue.getClass()) ? "Is True" : "Value";
-	}
-
-	public void openValueFrame(Object value, final String title) {
-		final Object[] valueHolder = new Object[] { value };
-		final Object toOpen;
-		String fieldName = BooleanTypeInfo.isCompatibleWith(valueHolder[0].getClass()) ? "Is True" : "Value";
-		if (hasCustomFieldControl(value)) {
-			toOpen = VirtualFieldWrapperTypeInfo.wrap(reflectionUI, valueHolder, fieldName, title, true);
-		} else {
-			toOpen = value;
-		}
-		openObjectFrame(toOpen, title, getIconImage(value));
 	}
 
 	public List<IFieldInfo> getDisplayedFields(JPanel form) {
@@ -1832,8 +1829,16 @@ public class SwingRenderer {
 	}
 
 	public static class SwingSpecificProperty {
-		public static String ICON_IMAGE_FILE_PATH = SwingSpecificProperty.class.getSimpleName()
-				+ ".ICON_IMAGE_FILE_PATH";
+		public static String KEY_ICON_IMAGE_PATH = SwingSpecificProperty.class.getSimpleName()
+				+ ".KEY_ICON_IMAGE_PATH";
+		public static String KEY_ICON_IMAGE_PATH_KIND = SwingSpecificProperty.class.getSimpleName()
+				+ ".KEY_ICON_IMAGE_PATH_KIND";
+		public static final String VALUE_PATH_TYPE_KIND_ABSOLUTE_FILE = SwingSpecificProperty.class.getSimpleName()
+				+ ".VALUE_PATH_TYPE_KIND_ABSOLUTE_FILE";
+		public static final String VALUE_PATH_TYPE_KIND_RELATIVE_FILE = SwingSpecificProperty.class.getSimpleName()
+				+ ".VALUE_PATH_TYPE_KIND_RELATIVE_FILE";
+		public static final String VALUE_PATH_TYPE_KIND_CLASSPATH_RESOURCE = SwingSpecificProperty.class.getSimpleName()
+				+ ".VALUE_PATH_TYPE_KIND_CLASSPATH_RESOURCE";
 
 	}
 }
