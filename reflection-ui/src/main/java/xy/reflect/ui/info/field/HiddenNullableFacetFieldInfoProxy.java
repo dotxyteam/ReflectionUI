@@ -3,6 +3,7 @@ package xy.reflect.ui.info.field;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.util.HiddenNullableFacetsInfoProxyGenerator;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class HiddenNullableFacetFieldInfoProxy extends FieldInfoProxy {
 
@@ -28,8 +29,7 @@ public class HiddenNullableFacetFieldInfoProxy extends FieldInfoProxy {
 	}
 
 	protected Object getDefaultValue() {
-		Object result = reflectionUI.getSwingRenderer().onTypeInstanciationRequest(null,
-				base.getType(), true);
+		Object result = ReflectionUIUtils.onTypeInstanciationRequest(reflectionUI, base.getType());
 		if (result == null) {
 			throw new ReflectionUIError(
 					"Failed to instanciate automatically the value of the field '"

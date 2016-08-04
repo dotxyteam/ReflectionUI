@@ -11,10 +11,10 @@ public  class ModificationProxy implements IModification {
 		this.configuration = configuration;
 	}
 
-	final public IModification applyAndGetOpposite(boolean refreshView) {
+	final public IModification applyAndGetOpposite() {
 		try {
 			return new ModificationProxy(
-					delegate.applyAndGetOpposite(refreshView),
+					delegate.applyAndGetOpposite(),
 					configuration);
 		} finally {
 			configuration.executeAfterApplication();

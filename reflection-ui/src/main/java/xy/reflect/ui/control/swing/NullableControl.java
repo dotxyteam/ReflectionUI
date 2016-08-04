@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
-import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -16,7 +15,7 @@ import xy.reflect.ui.util.SwingRendererUtils;
 
 public class NullableControl extends JPanel implements IFieldControl {
 
-	protected ReflectionUI reflectionUI;
+	protected SwingRenderer swingRenderer;
 	protected static final long serialVersionUID = 1L;
 	protected Object object;
 	protected IFieldInfo field;
@@ -24,9 +23,9 @@ public class NullableControl extends JPanel implements IFieldControl {
 	protected Component subControl;
 	protected Accessor<Component> nonNullFieldValueControlCreator;
 
-	public NullableControl(ReflectionUI reflectionUI, Object object, IFieldInfo field,
+	public NullableControl(SwingRenderer swingRenderer, Object object, IFieldInfo field,
 			Accessor<Component> nonNullFieldValueControlCreator) {
-		this.reflectionUI = reflectionUI;
+		this.swingRenderer = swingRenderer;
 		this.object = object;
 		this.field = field;
 		this.nonNullFieldValueControlCreator = nonNullFieldValueControlCreator;
@@ -43,8 +42,7 @@ public class NullableControl extends JPanel implements IFieldControl {
 					onNullingControlStateChange();
 					subControl.requestFocus();
 				} catch (Throwable t) {
-					NullableControl.this.reflectionUI.getSwingRenderer()
-							.handleExceptionsFromDisplayedUI(NullableControl.this, t);
+					NullableControl.this.swingRenderer.handleExceptionsFromDisplayedUI(NullableControl.this, t);
 				}
 			}
 		});
@@ -96,14 +94,14 @@ public class NullableControl extends JPanel implements IFieldControl {
 		if (!shoulBeNull()) {
 			Object[] valueOptions = field.getValueOptions(object);
 			try {
-				if ((valueOptions != null) && (valueOptions.length > 0)){
+				if ((valueOptions != null) && (valueOptions.length > 0)) {
 					newValue = valueOptions[0];
 				} else {
-					newValue = this.reflectionUI.getSwingRenderer().onTypeInstanciationRequest(this, field.getType(),
+					newValue = this.swingRenderer.onTypeInstanciationRequest(this, field.getType(),
 							false);
 				}
 			} catch (Throwable t) {
-				this.reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(this, t);
+				swingRenderer.handleExceptionsFromDisplayedUI(this, t);
 				newValue = null;
 			}
 			if (newValue == null) {
@@ -116,8 +114,8 @@ public class NullableControl extends JPanel implements IFieldControl {
 			subControl = null;
 		}
 		field.setValue(object, newValue);
-		this.reflectionUI.getSwingRenderer()
-				.refreshFieldControlsByName(SwingRendererUtils.findForm(this, this.reflectionUI), field.getName(), false);
+		swingRenderer.refreshFieldControlsByName(
+				SwingRendererUtils.findForm(this, swingRenderer), field.getName(), false);
 	}
 
 	public void updateSubControl(Object newValue) {
@@ -138,7 +136,7 @@ public class NullableControl extends JPanel implements IFieldControl {
 				subControl = nonNullFieldValueControlCreator.get();
 				add(subControl, BorderLayout.CENTER);
 			} else {
-				subControl = createNullControl(this.reflectionUI, new Runnable() {
+				subControl = createNullControl(swingRenderer, new Runnable() {
 					@Override
 					public void run() {
 						if (!field.isGetOnly()) {
@@ -150,12 +148,12 @@ public class NullableControl extends JPanel implements IFieldControl {
 				});
 				add(subControl, BorderLayout.CENTER);
 			}
-			this.reflectionUI.getSwingRenderer().handleComponentSizeChange(this);
+			swingRenderer.handleComponentSizeChange(this);
 		}
 	}
 
-	protected Component createNullControl(ReflectionUI reflectionUI, Runnable onMousePress) {
-		return new NullControl(reflectionUI, onMousePress);
+	protected Component createNullControl(SwingRenderer swingRenderer, Runnable onMousePress) {
+		return new NullControl(swingRenderer, onMousePress);
 	}
 
 	@Override

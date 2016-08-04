@@ -1,6 +1,6 @@
 package xy.reflect.ui.undo;
 public interface IModification {
-	IModification applyAndGetOpposite(boolean refreshView);
+	IModification applyAndGetOpposite();
 
 	int getNumberOfUnits();
 

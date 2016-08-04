@@ -13,7 +13,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -26,7 +25,7 @@ import xy.reflect.ui.util.SwingRendererUtils;
 public class DialogAccessControl extends JPanel {
 
 	protected static final long serialVersionUID = 1L;
-	protected ReflectionUI reflectionUI;
+	protected SwingRenderer swingRenderer;
 	protected Object object;
 	protected IFieldInfo field;
 
@@ -34,8 +33,8 @@ public class DialogAccessControl extends JPanel {
 	protected Component iconControl;
 	protected Component button;
 
-	public DialogAccessControl(final ReflectionUI reflectionUI, final Object object, final IFieldInfo field) {
-		this.reflectionUI = reflectionUI;
+	public DialogAccessControl(final SwingRenderer swingRenderer, final Object object, final IFieldInfo field) {
+		this.swingRenderer = swingRenderer;
 		this.object = object;
 		this.field = field;
 		setLayout(new BorderLayout());
@@ -108,7 +107,7 @@ public class DialogAccessControl extends JPanel {
 				try {
 					openDialog();
 				} catch (Throwable t) {
-					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(result, t);
+					swingRenderer.handleExceptionsFromDisplayedUI(result, t);
 				}
 			}
 		});
@@ -116,7 +115,7 @@ public class DialogAccessControl extends JPanel {
 	}
 
 	protected Component createStatusControl() {
-		return new TextControl(reflectionUI, object, new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
+		return new TextControl(swingRenderer, object, new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
 
 			@Override
 			public boolean isNullable() {
@@ -126,12 +125,12 @@ public class DialogAccessControl extends JPanel {
 			@Override
 			public Object getValue(Object object) {
 				Object fieldValue = field.getValue(object);
-				return reflectionUI.toString(fieldValue);
+				return swingRenderer.getReflectionUI().toString(fieldValue);
 			}
 
 			@Override
 			public ITypeInfo getType() {
-				return new TextualTypeInfo(reflectionUI, String.class);
+				return new TextualTypeInfo(swingRenderer.getReflectionUI(), String.class);
 			}
 
 		});
@@ -154,12 +153,12 @@ public class DialogAccessControl extends JPanel {
 
 		};
 		ModificationStack parentStack = SwingRendererUtils.findModificationStack(DialogAccessControl.this,
-				reflectionUI);
-		String title = reflectionUI.getFieldTitle(object, field);
-		Image iconImage = reflectionUI.getSwingRenderer().getIconImage(valueAccessor.get());
+				swingRenderer);
+		String title = swingRenderer.getReflectionUI().getFieldTitle(object, field);
+		Image iconImage = swingRenderer.getIconImage(valueAccessor.get());
 		boolean[] changeDetectedHolder = new boolean[] { false };
 		boolean[] okPressedHolder = field.isGetOnly() ? null : new boolean[1];
-		reflectionUI.getSwingRenderer().openObjectDialog(this, valueAccessor, title, iconImage, true, IInfoCollectionSettings.DEFAULT,
+		swingRenderer.openObjectDialog(this, valueAccessor, title, iconImage, true, IInfoCollectionSettings.DEFAULT,
 				parentStack, true, okPressedHolder, changeDetectedHolder, null);
 		if (changeDetectedHolder[0]) {
 			updateControls();
@@ -174,7 +173,7 @@ public class DialogAccessControl extends JPanel {
 
 	protected void updateIconControl() {
 		Object fieldValue = field.getValue(object);
-		Image iconImage = reflectionUI.getSwingRenderer().getIconImage(fieldValue);
+		Image iconImage = swingRenderer.getIconImage(fieldValue);
 		if (iconImage != null) {
 			((JLabel) iconControl).setIcon(new ImageIcon(iconImage));
 			iconControl.setVisible(true);

@@ -35,15 +35,15 @@ public class CompositeModification implements IModification {
 	}
 
 	@Override
-	public IModification applyAndGetOpposite(boolean refreshView) {
+	public IModification applyAndGetOpposite() {
 		List<IModification> oppositeModifications = new ArrayList<IModification>();
 		for (IModification modif : modifications) {
 			if (undoOrder == UndoOrder.LIFO) {
 				oppositeModifications.add(0,
-						modif.applyAndGetOpposite(refreshView));
+						modif.applyAndGetOpposite());
 			} else if (undoOrder == UndoOrder.FIFO) {
 				oppositeModifications.add(modif
-						.applyAndGetOpposite(refreshView));
+						.applyAndGetOpposite());
 			} else {
 				throw new ReflectionUIError();
 			}

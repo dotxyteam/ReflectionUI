@@ -38,6 +38,7 @@ import java.util.Set;
 import javax.swing.JPanel;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.annotation.Category;
@@ -108,7 +109,7 @@ public class ReflectionUIUtils {
 			return null;
 		}
 		String relativePath = file.getPath().substring(ancestor.getPath().length(), file.getPath().length());
-		if(relativePath.startsWith("/") ||relativePath.startsWith("\\")){
+		if (relativePath.startsWith("/") || relativePath.startsWith("\\")) {
 			relativePath = relativePath.substring(1);
 		}
 		return new File(relativePath);
@@ -966,6 +967,10 @@ public class ReflectionUIUtils {
 			}
 		}
 		return true;
+	}
+
+	public static Object onTypeInstanciationRequest(ReflectionUI reflectionUI, ITypeInfo type) {
+		return new SwingRenderer(reflectionUI).onTypeInstanciationRequest(null, type, true);
 	}
 
 }

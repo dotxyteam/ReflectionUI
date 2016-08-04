@@ -7,6 +7,7 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class HiddenNullableFacetsInfoProxyGenerator extends InfoProxyGenerator {
 
@@ -19,7 +20,7 @@ public class HiddenNullableFacetsInfoProxyGenerator extends InfoProxyGenerator {
 	public Object generateDefaultValue(ITypeInfo type) {
 		Object result;
 		try {
-			result = reflectionUI.getSwingRenderer().onTypeInstanciationRequest(null, type, true);
+			result = ReflectionUIUtils.onTypeInstanciationRequest(reflectionUI, type);
 		} catch (Throwable t) {
 			result = null;
 		}

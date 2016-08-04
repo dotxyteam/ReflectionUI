@@ -14,7 +14,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
-import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -23,7 +22,7 @@ import xy.reflect.ui.util.SwingRendererUtils;
 public class TextControl extends JPanel implements IFieldControl {
 
 	protected static final long serialVersionUID = 1L;
-	protected ReflectionUI reflectionUI;
+	protected SwingRenderer swingRenderer;
 	protected Object object;
 	protected IFieldInfo field;
 
@@ -31,9 +30,9 @@ public class TextControl extends JPanel implements IFieldControl {
 	protected boolean ignoreEditEvents = true;
 	protected Border textFieldNormalBorder;
 
-	public TextControl(final ReflectionUI reflectionUI, final Object object,
+	public TextControl(final SwingRenderer swingRenderer, final Object object,
 			final IFieldInfo field) {
-		this.reflectionUI = reflectionUI;
+		this.swingRenderer = swingRenderer;
 		this.object = object;
 		this.field = field;
 		
@@ -82,7 +81,7 @@ public class TextControl extends JPanel implements IFieldControl {
 							try {
 								onTextChange(textComponent.getText());
 							} catch (Throwable t) {
-								reflectionUI.getSwingRenderer()
+								swingRenderer
 										.handleExceptionsFromDisplayedUI(
 												TextControl.this, t);
 							}
@@ -126,7 +125,7 @@ public class TextControl extends JPanel implements IFieldControl {
 			return true;
 		}
 		if (error != null) {
-			reflectionUI.logError(error);
+			swingRenderer.getReflectionUI().logError(error);
 		}
 		if (error == null) {
 			setBorder(textFieldNormalBorder);
@@ -138,7 +137,7 @@ public class TextControl extends JPanel implements IFieldControl {
 			border.setBorder(BorderFactory.createLineBorder(Color.RED));
 			setBorder(border);
 			SwingRendererUtils.setMultilineToolTipText(textComponent,
-					reflectionUI.prepareStringToDisplay(error.toString()));
+					swingRenderer.getReflectionUI().prepareStringToDisplay(error.toString()));
 			SwingRendererUtils.showTooltipNow(textComponent);
 		}
 		return true;
@@ -165,13 +164,13 @@ public class TextControl extends JPanel implements IFieldControl {
 				newText)) {
 			int lastCaretPosition = textComponent.getCaretPosition();
 			textComponent.setText(newText);
-			reflectionUI.getSwingRenderer().handleComponentSizeChange(this);
+			swingRenderer.handleComponentSizeChange(this);
 			textComponent.setCaretPosition(Math.min(lastCaretPosition,
 					textComponent.getText().length()));
 		}
 		ignoreEditEvents = false;
 		displayError(null);
-		reflectionUI.getSwingRenderer().handleComponentSizeChange(this);
+		swingRenderer.handleComponentSizeChange(this);
 		return true;
 	}
 

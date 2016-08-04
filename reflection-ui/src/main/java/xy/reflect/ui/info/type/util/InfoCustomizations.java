@@ -34,11 +34,14 @@ public class InfoCustomizations {
 	transient protected CustomizationsProxyGenerator proxyGenerator;
 	protected List<TypeCustomization> typeCustomizations = new ArrayList<InfoCustomizations.TypeCustomization>();
 
-	public InfoCustomizations(ReflectionUI reflectionUI) {
-		proxyGenerator = new CustomizationsProxyGenerator(reflectionUI);
+	protected CustomizationsProxyGenerator createCustomizationsProxyGenerator(ReflectionUI reflectionUI) {
+		return new CustomizationsProxyGenerator(reflectionUI);
 	}
 
-	public ITypeInfo get(ITypeInfo type) {
+	public ITypeInfo get(ReflectionUI reflectionUI, ITypeInfo type) {
+		if (proxyGenerator == null) {
+			proxyGenerator = createCustomizationsProxyGenerator(reflectionUI);
+		}
 		return proxyGenerator.get(type);
 	}
 
@@ -175,10 +178,10 @@ public class InfoCustomizations {
 		return null;
 	}
 
-	protected static <I extends IInfo> List<String> getInfosOrderAfterMove(List<I> infos, I info, int offset) {
-		int index = infos.indexOf(info);
-		infos = new ArrayList<I>(infos);
-		infos.remove(index);
+	protected static <I extends IInfo> List<String> getInfosOrderAfterMove(List<I> list, I info, int offset) {
+		int index = list.indexOf(info);
+		List<I> resultList = new ArrayList<I>(list);
+		resultList.remove(index);
 		int offsetSign = ((offset > 0) ? 1 : -1);
 		InfoCategory infoCategory = getCategory(info);
 		for (int iOffset = 0; iOffset != offset; iOffset = iOffset + offsetSign) {
@@ -187,10 +190,10 @@ public class InfoCustomizations {
 				if (index == 0) {
 					break;
 				}
-				if (index == infos.size()) {
+				if (index == resultList.size()) {
 					break;
 				}
-				I otherInfo = infos.get(index);
+				I otherInfo = resultList.get(index);
 				InfoCategory otherFieldCategory = getCategory(otherInfo);
 				if (ReflectionUIUtils.equalsOrBothNull(infoCategory, otherFieldCategory)) {
 					break;
@@ -199,14 +202,19 @@ public class InfoCustomizations {
 			if (index == 0) {
 				break;
 			}
-			if (index == infos.size()) {
+			if (index == resultList.size()) {
 				break;
 			}
 		}
-		infos.add(index, info);
+		resultList.add(index, info);
 		ArrayList<String> newOrder = new ArrayList<String>();
-		for (I i : infos) {
-			newOrder.add(i.getName());
+		for (I info2:  resultList) {
+			String name = info2.getName();
+			if ((name == null) || (name.trim().length() == 0)) {
+				throw new ReflectionUIError("Cannot move item order. 'getName()' method returned an empty value for item n°"
+						+ (list.indexOf(info2) + 1) + " (caption='" + info2.getCaption() + "')");
+			}
+			newOrder.add(name);
 		}
 		return newOrder;
 	}

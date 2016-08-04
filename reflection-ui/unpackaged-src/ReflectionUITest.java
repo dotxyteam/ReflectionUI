@@ -19,7 +19,7 @@ import javax.imageio.ImageIO;
 import org.ietf.jgss.GSSException;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.SwingRenderer;
+import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.annotation.Category;
 import xy.reflect.ui.info.annotation.OnlineHelp;
 import xy.reflect.ui.info.annotation.ValueOptionsForField;
@@ -265,21 +265,6 @@ public class ReflectionUITest {
 			ReflectionUI thisReflectionUI = this;
 
 			@Override
-			protected SwingRenderer createSwingRenderer() {
-				return new SwingRenderer(this) {
-					@Override
-					public Image getIconImage(Object object) {
-						try {
-							return ImageIO.read(ReflectionUITest.class.getResource("icon.gif"));
-						} catch (IOException e) {
-							throw new AssertionError(e);
-						}
-					}
-
-				};
-			}
-
-			@Override
 			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
 				return new InfoProxyGenerator() {
 
@@ -324,6 +309,18 @@ public class ReflectionUITest {
 				}.get(super.getTypeInfo(typeSource));
 			}
 		};
-		editor.getSwingRenderer().openObjectFrame(new Test(), "test", null);
+		SwingRenderer renderer = new SwingRenderer(editor) {
+			@Override
+			public Image getIconImage(Object object) {
+				try {
+					return ImageIO.read(ReflectionUITest.class.getResource("icon.gif"));
+				} catch (IOException e) {
+					throw new AssertionError(e);
+				}
+			}
+
+		};
+	
+		renderer.openObjectFrame(new Test(), "test", null);
 	}
 }

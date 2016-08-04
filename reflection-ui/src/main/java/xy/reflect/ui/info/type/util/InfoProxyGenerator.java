@@ -448,6 +448,10 @@ public class InfoProxyGenerator {
 			this.debugInfoEnclosingMethods = list;
 		}
 
+		public InfoProxyGenerator getGenerator() {
+			return generator;
+		}
+
 		@Override
 		public String getName() {
 			return InfoProxyGenerator.this.getName(type);
@@ -847,8 +851,8 @@ public class InfoProxyGenerator {
 			this.method = method;
 			this.containingType = containingType;
 			@SuppressWarnings("unchecked")
-			List<Method> list = (List<Method>) InfoProxyGenerator.this.getSpecificProperties(param, method, containingType)
-					.get(DEBUG_INFO_ENCLOSING_METHODS);
+			List<Method> list = (List<Method>) InfoProxyGenerator.this
+					.getSpecificProperties(param, method, containingType).get(DEBUG_INFO_ENCLOSING_METHODS);
 			this.debugInfoEnclosingMethods = list;
 		}
 

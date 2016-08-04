@@ -1,7 +1,5 @@
 package xy.reflect.ui.undo;
 
-import javax.swing.JPanel;
-
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 
@@ -26,7 +24,7 @@ public class SetFieldValueModification implements IModification {
 	}
 
 	@Override
-	public IModification applyAndGetOpposite(boolean refreshView) {
+	public IModification applyAndGetOpposite() {
 		Object currentValue = field.getValue(object);
 		final SetFieldValueModification currentModif = this;
 		SetFieldValueModification opposite = new SetFieldValueModification(
@@ -37,12 +35,6 @@ public class SetFieldValueModification implements IModification {
 			}
 		};
 		field.setValue(object, value);
-		if (refreshView) {
-			for (JPanel form : reflectionUI.getSwingRenderer().getForms(object)) {
-				reflectionUI.getSwingRenderer().refreshFieldControlsByName(form,
-						field.getName(), false);
-			}
-		}
 		return opposite;
 	}
 

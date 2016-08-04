@@ -34,8 +34,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.SwingRenderer;
-import xy.reflect.ui.SwingRenderer.SwingSpecificProperty;
+import xy.reflect.ui.control.swing.SwingRenderer;
+import xy.reflect.ui.control.swing.SwingRenderer.SwingSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -55,7 +55,8 @@ public class SwingRendererUtils {
 	public static final ImageIcon REMOVE_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/remove.png"));
 	public static final ImageIcon UP_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/up.png"));
 	public static final ImageIcon DOWN_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/down.png"));
-	public static final ImageIcon CUSTOMIZATION_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/custom.png"));
+	public static final ImageIcon CUSTOMIZATION_ICON = new ImageIcon(
+			ReflectionUI.class.getResource("resource/custom.png"));
 	public static final ImageIcon SAVE_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/save.png"));
 	public static final Image NULL_ICON_IMAGE = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
 	private static Map<String, Image> iconImageCache = new HashMap<String, Image>();
@@ -104,17 +105,17 @@ public class SwingRendererUtils {
 		return result;
 	}
 
-	public static ModificationStack findModificationStack(Component component, ReflectionUI reflectionUI) {
-		JPanel form = findForm(component, reflectionUI);
+	public static ModificationStack findModificationStack(Component component, SwingRenderer swingRenderer) {
+		JPanel form = findForm(component, swingRenderer);
 		if (form == null) {
 			return ModificationStack.NULL_MODIFICATION_STACK;
 		}
-		return reflectionUI.getSwingRenderer().getModificationStackByForm().get(form);
+		return swingRenderer.getModificationStackByForm().get(form);
 	}
 
-	public static JPanel findForm(Component component, ReflectionUI reflectionUI) {
+	public static JPanel findForm(Component component, SwingRenderer swingRenderer) {
 		while (component != null) {
-			if (reflectionUI.getSwingRenderer().getObjectByForm().keySet().contains(component)) {
+			if (swingRenderer.getObjectByForm().keySet().contains(component)) {
 				return (JPanel) component;
 			}
 			component = component.getParent();
@@ -122,14 +123,14 @@ public class SwingRendererUtils {
 		return null;
 	}
 
-	public static List<JPanel> findDescendantForms(Container container, ReflectionUI reflectionUI) {
+	public static List<JPanel> findDescendantForms(Container container, SwingRenderer swingRenderer) {
 		List<JPanel> result = new ArrayList<JPanel>();
 		for (Component childComponent : container.getComponents()) {
-			if (reflectionUI.getSwingRenderer().getObjectByForm().keySet().contains(childComponent)) {
+			if (swingRenderer.getObjectByForm().keySet().contains(childComponent)) {
 				result.add((JPanel) childComponent);
 			} else {
 				if (childComponent instanceof Container) {
-					result.addAll(findDescendantForms((Container) childComponent, reflectionUI));
+					result.addAll(findDescendantForms((Container) childComponent, swingRenderer));
 				}
 			}
 		}
@@ -342,11 +343,12 @@ public class SwingRendererUtils {
 		};
 	}
 
-	public static List<Object> getActiveInstances(ITypeInfo type, ReflectionUI reflectionUI) {
+	public static List<Object> getActiveInstances(ITypeInfo type, SwingRenderer swingRenderer) {
 		List<Object> result = new ArrayList<Object>();
-		for (Map.Entry<JPanel, Object> entry : reflectionUI.getSwingRenderer().getObjectByForm().entrySet()) {
+		for (Map.Entry<JPanel, Object> entry : swingRenderer.getObjectByForm().entrySet()) {
 			Object object = entry.getValue();
-			ITypeInfo objectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+			ITypeInfo objectType = swingRenderer.getReflectionUI()
+					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
 			if (objectType.equals(type)) {
 				result.add(object);
 			}
@@ -356,14 +358,16 @@ public class SwingRendererUtils {
 
 	public static Image getIconImageFromInfo(IInfo info) {
 		URL imageUrl;
-		String imagePath = (String) info.getSpecificProperties().get(SwingRenderer.SwingSpecificProperty.KEY_ICON_IMAGE_PATH);
-		String pathKind = (String) info.getSpecificProperties().get(SwingRenderer.SwingSpecificProperty.KEY_ICON_IMAGE_PATH_KIND);
+		String imagePath = (String) info.getSpecificProperties()
+				.get(SwingRenderer.SwingSpecificProperty.KEY_ICON_IMAGE_PATH);
+		String pathKind = (String) info.getSpecificProperties()
+				.get(SwingRenderer.SwingSpecificProperty.KEY_ICON_IMAGE_PATH_KIND);
 		if (imagePath == null) {
 			return null;
 		}
-		if(SwingSpecificProperty.VALUE_PATH_TYPE_KIND_CLASSPATH_RESOURCE.equals(pathKind)){
+		if (SwingSpecificProperty.VALUE_PATH_TYPE_KIND_CLASSPATH_RESOURCE.equals(pathKind)) {
 			imageUrl = SwingRendererUtils.class.getClassLoader().getResource(imagePath);
-		}else{
+		} else {
 			try {
 				imageUrl = new File(imagePath).toURI().toURL();
 			} catch (MalformedURLException e) {

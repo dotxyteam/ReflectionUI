@@ -17,7 +17,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
-import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
@@ -26,14 +25,14 @@ import xy.reflect.ui.util.SwingRendererUtils;
 public class EnumerationControl extends JPanel {
 	protected static final long serialVersionUID = 1L;
 	protected IEnumerationTypeInfo enumType;
-	protected ReflectionUI reflectionUI;
+	protected SwingRenderer swingRenderer;
 	protected Object object;
 	protected IFieldInfo field;
 	protected JComboBox comboBox;
 
 	@SuppressWarnings({})
-	public EnumerationControl(final ReflectionUI reflectionUI, final Object object, final IFieldInfo field) {
-		this.reflectionUI = reflectionUI;
+	public EnumerationControl(final SwingRenderer swingRenderer, final Object object, final IFieldInfo field) {
+		this.swingRenderer = swingRenderer;
 		this.object = object;
 		this.field = field;
 		this.enumType = (IEnumerationTypeInfo) field.getType();
@@ -75,13 +74,13 @@ public class EnumerationControl extends JPanel {
 				} else {
 					IEnumerationItemInfo itemInfo = enumType.getValueInfo(value);
 					String s;
-					if(itemInfo == null){
+					if (itemInfo == null) {
 						s = "";
-					}else{
+					} else {
 						s = itemInfo.getCaption();
 					}
-					label.setText(reflectionUI.prepareStringToDisplay(s));
-					Image imageIcon = reflectionUI.getSwingRenderer().getIconImage(value);
+					label.setText(swingRenderer.getReflectionUI().prepareStringToDisplay(s));
+					Image imageIcon = swingRenderer.getIconImage(value);
 					if (imageIcon == null) {
 						label.setIcon(null);
 					} else {
@@ -105,7 +104,7 @@ public class EnumerationControl extends JPanel {
 						Object selected = e.getItem();
 						field.setValue(object, selected);
 					} catch (Throwable t) {
-						reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(EnumerationControl.this, t);
+						swingRenderer.handleExceptionsFromDisplayedUI(EnumerationControl.this, t);
 					}
 				}
 			}

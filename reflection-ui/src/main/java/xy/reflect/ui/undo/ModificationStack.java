@@ -1,17 +1,9 @@
 package xy.reflect.ui.undo;
 
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
-
-import javax.swing.JButton;
-import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.util.Accessor;
-import xy.reflect.ui.util.SwingRendererUtils;
 
 public class ModificationStack {
 
@@ -19,7 +11,7 @@ public class ModificationStack {
 
 	public static final IModification EMPTY_MODIFICATION = new IModification() {
 		@Override
-		public IModification applyAndGetOpposite(boolean refreshView) {
+		public IModification applyAndGetOpposite() {
 			return EMPTY_MODIFICATION;
 		}
 
@@ -41,7 +33,7 @@ public class ModificationStack {
 	};
 	public static final IModification INVALID_MODIFICATION = new IModification() {
 		@Override
-		public IModification applyAndGetOpposite(boolean refreshView) {
+		public IModification applyAndGetOpposite() {
 			return INVALID_MODIFICATION;
 		}
 
@@ -69,11 +61,11 @@ public class ModificationStack {
 		}
 
 		@Override
-		public void undo(boolean refreshView) {
+		public void undo() {
 		}
 
 		@Override
-		public void redo(boolean refreshView) {
+		public void redo() {
 		}
 
 	};
@@ -87,6 +79,10 @@ public class ModificationStack {
 
 	public ModificationStack(String name) {
 		this.name = name;
+	}
+
+	public List<IModificationListener> getListeners() {
+		return listeners;
 	}
 
 	public String getName() {
@@ -110,8 +106,8 @@ public class ModificationStack {
 		return getClass().getSimpleName() + "(" + name + ")";
 	}
 
-	public void apply(IModification modif, boolean refreshView) {
-		pushUndo(modif.applyAndGetOpposite(refreshView));
+	public void apply(IModification modif) {
+		pushUndo(modif.applyAndGetOpposite());
 	}
 
 	public void pushUndo(IModification undoModif) {
@@ -150,39 +146,39 @@ public class ModificationStack {
 		return result;
 	}
 
-	public void undo(boolean refreshView) {
+	public void undo() {
 		if (compositeStack.size() > 0) {
-			compositeStack.peek().undo(refreshView);
+			compositeStack.peek().undo();
 			return;
 		}
 		if (undoStack.size() == 0) {
 			return;
 		}
 		IModification undoModif = undoStack.pop();
-		redoStack.push(undoModif.applyAndGetOpposite(refreshView));
+		redoStack.push(undoModif.applyAndGetOpposite());
 		notifyListeners(IModificationListener.UNDO_EVENT);
 	}
 
-	public void redo(boolean refreshView) {
+	public void redo() {
 		if (compositeStack.size() > 0) {
-			compositeStack.peek().redo(refreshView);
+			compositeStack.peek().redo();
 			return;
 		}
 		if (redoStack.size() == 0) {
 			return;
 		}
 		IModification modif = redoStack.pop();
-		undoStack.push(modif.applyAndGetOpposite(refreshView));
+		undoStack.push(modif.applyAndGetOpposite());
 		notifyListeners(IModificationListener.REDO_EVENT);
 	}
 
-	public void undoAll(boolean refreshView) {
+	public void undoAll() {
 		if (compositeStack.size() > 0) {
-			compositeStack.peek().undoAll(refreshView);
+			compositeStack.peek().undoAll();
 			return;
 		}
 		while (undoStack.size() > 0) {
-			undo(refreshView);
+			undo();
 		}
 	}
 
@@ -193,6 +189,15 @@ public class ModificationStack {
 		}
 		return list.toArray(new IModification[list.size()]);
 	}
+	
+	public IModification[] getRedoModifications(UndoOrder order) {
+		List<IModification> list = new ArrayList<IModification>(redoStack);
+		if (order == UndoOrder.LIFO) {
+			Collections.reverse(list);
+		}
+		return list.toArray(new IModification[list.size()]);
+	}
+
 
 	public void beginComposite() {
 		compositeStack.push(new ModificationStack("(composite level " + compositeStack.size() + ") " + name));
@@ -209,11 +214,10 @@ public class ModificationStack {
 		}
 		compositeParent.pushUndo(compositeUndoModif);
 	}
-	
+
 	public void cancelComposite() {
 		compositeStack.pop();
 	}
-
 
 	public void invalidate() {
 		redoStack.clear();
@@ -229,98 +233,11 @@ public class ModificationStack {
 		}
 	}
 
-	public List<Component> createControls(final ReflectionUI reflectionUI) {
-		List<Component> result = new ArrayList<Component>();
-
-		result.add(createUndoButton(reflectionUI));
-		result.add(createRedoButton(reflectionUI));
-		result.add(createResetButton(reflectionUI));
-
-		return result;
-	}
-
-	protected Component createResetButton(final ReflectionUI reflectionUI) {
-		Runnable action = new Runnable() {
-			@Override
-			public void run() {
-				undoAll(true);
-			}
-		};
-		Accessor<Boolean> enabled = new Accessor<Boolean>() {
-			@Override
-			public Boolean get() {
-				return canUndo() && !isInvalidated();
-			}
-		};
-		Accessor<String> tooltipText = new Accessor<String>() {
-			@Override
-			public String get() {
-				return null;
-			}
-		};
-		JButton button = createButton(reflectionUI, "Reset", action, enabled, tooltipText);
-		return button;
-	}
-
-	protected Component createRedoButton(final ReflectionUI reflectionUI) {
-		Runnable action = new Runnable() {
-			@Override
-			public void run() {
-				redo(true);
-			}
-		};
-		Accessor<Boolean> enabled = new Accessor<Boolean>() {
-			@Override
-			public Boolean get() {
-				return canRedo();
-			}
-		};
-		Accessor<String> tooltipText = new Accessor<String>() {
-			@Override
-			public String get() {
-				if (redoStack.size() > 0) {
-					return redoStack.peek().getTitle();
-				} else {
-					return null;
-				}
-			}
-		};
-		JButton button = createButton(reflectionUI, "Redo", action, enabled, tooltipText);
-		return button;
-	}
-
-	protected Boolean canRedo() {
+	public Boolean canRedo() {
 		return redoStack.size() > 0;
 	}
 
-	protected Component createUndoButton(final ReflectionUI reflectionUI) {
-		Runnable action = new Runnable() {
-			@Override
-			public void run() {
-				undo(true);
-			}
-		};
-		Accessor<Boolean> enabled = new Accessor<Boolean>() {
-			@Override
-			public Boolean get() {
-				return canUndo();
-			}
-		};
-		Accessor<String> tooltipText = new Accessor<String>() {
-			@Override
-			public String get() {
-				if (undoStack.size() > 0) {
-					return undoStack.peek().getTitle();
-				} else {
-					return null;
-				}
-			}
-		};
-		JButton button = createButton(reflectionUI, "Undo", action, enabled, tooltipText);
-		return button;
-	}
-
-	protected Boolean canUndo() {
+	public Boolean canUndo() {
 		return undoStack.size() > 0;
 	}
 
@@ -333,50 +250,6 @@ public class ModificationStack {
 		} else {
 			result = UNDO_TITLE_PREFIX + title;
 		}
-		return result;
-	}
-
-	protected JButton createButton(final ReflectionUI reflectionUI, String label, final Runnable action,
-			final Accessor<Boolean> enabled, final Accessor<String> tooltipText) {
-		final JButton result = new JButton(reflectionUI.prepareStringToDisplay(label)) {
-
-			protected static final long serialVersionUID = 1L;
-			IModificationListener listener = new IModificationListener() {
-				@Override
-				public void handleEvent(Object event) {
-					updateState();
-				}
-			};
-
-			{
-				updateState();
-				listeners.add(listener);
-			}
-
-			@Override
-			public void removeNotify() {
-				super.removeNotify();
-				listeners.remove(listener);
-			}
-
-			protected void updateState() {
-				setEnabled(enabled.get());
-				SwingRendererUtils.setMultilineToolTipText(this,
-						reflectionUI.prepareStringToDisplay(reflectionUI.prepareStringToDisplay(tooltipText.get())));
-			}
-
-		};
-		result.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					action.run();
-				} catch (Throwable t) {
-					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(result, t);
-				}
-			}
-		});
-		result.setEnabled(enabled.get());
 		return result;
 	}
 

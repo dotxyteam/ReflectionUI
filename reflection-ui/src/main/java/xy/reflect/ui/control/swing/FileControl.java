@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.Map;
 
 import javax.swing.JFileChooser;
-import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -22,13 +21,13 @@ public class FileControl extends DialogAccessControl implements IFieldControl {
 
 	protected static File lastDirectory = new File(".").getAbsoluteFile();
 
-	public FileControl(ReflectionUI reflectionUI, Object object, IFieldInfo field) {
-		super(reflectionUI, object, field);
+	public FileControl(SwingRenderer swingRenderer, Object object, IFieldInfo field) {
+		super(swingRenderer, object, field);
 	}
 
 	@Override
 	protected TextControl createStatusControl() {
-		return new TextControl(reflectionUI, object, new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
+		return new TextControl(swingRenderer, object, new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
 
 			@Override
 			public void setValue(Object object, Object value) {
@@ -53,7 +52,7 @@ public class FileControl extends DialogAccessControl implements IFieldControl {
 
 			@Override
 			public ITypeInfo getType() {
-				return new TextualTypeInfo(reflectionUI, String.class);
+				return new TextualTypeInfo(swingRenderer.getReflectionUI(), String.class);
 			}
 
 			@Override
@@ -89,7 +88,7 @@ public class FileControl extends DialogAccessControl implements IFieldControl {
 		File currentFile = (File) field.getValue(object);
 		fileChooser.setCurrentDirectory(lastDirectory);
 		configureFileChooser(fileChooser, currentFile);
-		int returnVal = fileChooser.showDialog(this, reflectionUI.prepareStringToDisplay(getDialogTitle()));
+		int returnVal = fileChooser.showDialog(this, swingRenderer.getReflectionUI().prepareStringToDisplay(getDialogTitle()));
 		if (returnVal != JFileChooser.APPROVE_OPTION) {
 			return;
 		}

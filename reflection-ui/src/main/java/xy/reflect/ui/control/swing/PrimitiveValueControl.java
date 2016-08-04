@@ -14,14 +14,13 @@ public class PrimitiveValueControl extends TextControl {
 
 	private static final long serialVersionUID = 1L;
 
-	public PrimitiveValueControl(ReflectionUI reflectionUI, Object object,
-			IFieldInfo field, Class<? extends Object> primitiveJavaType) {
-		super(reflectionUI, object, handleFieldValueConversions(reflectionUI,
-				field, primitiveJavaType));
+	public PrimitiveValueControl(SwingRenderer swingRenderer, Object object, IFieldInfo field,
+			Class<? extends Object> primitiveJavaType) {
+		super(swingRenderer, object,
+				handleFieldValueConversions(swingRenderer.getReflectionUI(), field, primitiveJavaType));
 	}
 
-	protected static IFieldInfo handleFieldValueConversions(
-			final ReflectionUI reflectionUI, IFieldInfo field,
+	protected static IFieldInfo handleFieldValueConversions(final ReflectionUI reflectionUI, IFieldInfo field,
 			final Class<?> primitiveJavaType) {
 		return new FieldInfoProxy(field) {
 
@@ -60,14 +59,12 @@ public class PrimitiveValueControl extends TextControl {
 		}
 		if (javaType == Character.class) {
 			if (text.length() != 1) {
-				throw new RuntimeException("Invalid value: '" + text
-						+ "'. 1 character is expected");
+				throw new RuntimeException("Invalid value: '" + text + "'. 1 character is expected");
 			}
 			return text.charAt(0);
 		} else {
 			try {
-				return javaType.getConstructor(new Class[] { String.class })
-						.newInstance(text);
+				return javaType.getConstructor(new Class[] { String.class }).newInstance(text);
 			} catch (IllegalArgumentException e) {
 				throw new ReflectionUIError(e);
 			} catch (SecurityException e) {

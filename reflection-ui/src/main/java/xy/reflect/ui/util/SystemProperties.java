@@ -32,9 +32,6 @@ public class SystemProperties {
 	@Usage("Parameters that needs to be hidden in the UI can be specified in this property using this format: 'package.subpackage.TheClass#theMethod(parameterType1,parameterType2,...):<PARAMETER_INDEX>|package2.subpackage2.TheClass2#theMethod2(parameterType1,parameterType2,...):1|...'. Wildcard characters can be used.")
 	public static final String HIDE_PARAMETERS = PREFIX + ".hideParameters";
 
-	@Usage("This property value specifies the path of the UI customization file.")
-	public static final String INFO_CUSTOMIZATIONS_FILE = PREFIX + ".infoCustomizationsFile";
-
 	@Usage("If the value of this property is \"true\" then the UI customization controls will be displayed.")
 	public static final String AUTHORIZE_INFO_CUSTOMIZATIONS_CONTROLS = PREFIX + ".infoCustomizationsControlsAuthorized";
 
@@ -107,10 +104,6 @@ public class SystemProperties {
 		return matchesHiddenPattern(qualifiedName, hiddenPattern);
 	}
 
-	public static String getInfoCustomizationsFilePath() {
-		return System.getProperty(SystemProperties.INFO_CUSTOMIZATIONS_FILE);
-	}
-	
 	public static boolean areInfoCustomizationsControlsAuthorized() {
 		return "true".equals(System.getProperty(SystemProperties.AUTHORIZE_INFO_CUSTOMIZATIONS_CONTROLS));
 	}

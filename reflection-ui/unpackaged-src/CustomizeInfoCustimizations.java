@@ -1,15 +1,27 @@
+import java.io.File;
+import java.io.IOException;
+
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.swing.CustomizedSwingRenderer;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SystemProperties;
 
 public class CustomizeInfoCustimizations {
 
 	public static void main(String[] args) {
 		System.setProperty(SystemProperties.AUTHORIZE_INFO_CUSTOMIZATIONS_CONTROLS, "true");
-		System.setProperty(SystemProperties.INFO_CUSTOMIZATIONS_FILE, "D:/prog/git/ReflectionUI/reflection-ui/src/main/resources/xy/reflect/ui/resource/info-customizations-types.icu");
 		System.setProperty(SystemProperties.DISCARD_META_INFO_CUSTOMIZATIONS, "true");
 		ReflectionUI reflectionUI = new ReflectionUI();
-		reflectionUI.getSwingRenderer().openObjectFrame(new InfoCustomizations(reflectionUI));
+		InfoCustomizations infoCustomizations = new InfoCustomizations();
+		String infoCustomizationsOutputFilePath = "D:/prog/git/ReflectionUI/reflection-ui/src/main/resources/xy/reflect/ui/resource/info-customizations-types.icu";
+		try {
+			infoCustomizations.loadFromFile(new File(infoCustomizationsOutputFilePath));
+		} catch (IOException e) {
+			throw new ReflectionUIError(e);
+		}
+		CustomizedSwingRenderer renderer = new CustomizedSwingRenderer(reflectionUI, infoCustomizations, infoCustomizationsOutputFilePath);
+		renderer.openObjectFrame(new InfoCustomizations());
 	}
 
 }

@@ -8,15 +8,14 @@ import javax.swing.JColorChooser;
 import javax.swing.JLabel;
 import javax.swing.border.EtchedBorder;
 
-import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 
 public class ColorControl extends DialogAccessControl{
 	protected static final long serialVersionUID = 1L;
 
-	public ColorControl(ReflectionUI reflectionUI, Object object,
+	public ColorControl(SwingRenderer swingRenderer, Object object,
 			IFieldInfo field) {
-		super(reflectionUI, object, field);
+		super(swingRenderer, object, field);
 	}
 
 	@Override

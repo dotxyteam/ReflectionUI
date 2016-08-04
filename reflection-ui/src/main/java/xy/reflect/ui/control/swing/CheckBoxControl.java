@@ -7,20 +7,19 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 
-import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class CheckBoxControl extends JCheckBox implements IFieldControl {
 
 	protected static final long serialVersionUID = 1L;
-	protected ReflectionUI reflectionUI;
+	protected SwingRenderer swingRenderer;
 	protected Object object;
 	protected IFieldInfo field;
 
 
-	public CheckBoxControl(final ReflectionUI reflectionUI, final Object object, final IFieldInfo field) {
-		this.reflectionUI = reflectionUI;
+	public CheckBoxControl(final SwingRenderer swingRenderer, final Object object, final IFieldInfo field) {
+		this.swingRenderer = swingRenderer;
 		this.object = object;
 		this.field = field;
 
@@ -49,7 +48,7 @@ public class CheckBoxControl extends JCheckBox implements IFieldControl {
 	@Override
 	public boolean showCaption() {
 		String caption = field.getCaption();
-		setText(reflectionUI.prepareStringToDisplay(caption));
+		setText(swingRenderer.getReflectionUI().prepareStringToDisplay(caption));
 		return true;
 	}
 

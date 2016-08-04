@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
@@ -14,21 +15,18 @@ import xy.reflect.ui.info.type.util.HiddenNullableFacetsInfoProxyGenerator;
 public class TableTreeModelExample {
 
 	public static void main(String[] args) {
-		new ReflectionUI() {
+		ReflectionUI reflectionUI = new ReflectionUI() {
 			ReflectionUI thisReflectionUI = this;
 
 			@Override
 			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-				return new HiddenNullableFacetsInfoProxyGenerator(
-						thisReflectionUI) {
+				return new HiddenNullableFacetsInfoProxyGenerator(thisReflectionUI) {
 
 					@Override
-					protected List<ITypeInfo> getPolymorphicInstanceSubTypes(
-							ITypeInfo type) {
+					protected List<ITypeInfo> getPolymorphicInstanceSubTypes(ITypeInfo type) {
 						if (type.getName().equals(Product.class.getName())) {
 							List<ITypeInfo> result = new ArrayList<ITypeInfo>();
-							for (Class<?> c : Arrays.<Class<?>> asList(
-									Book.class, CompactDisc.class, Shoes.class,
+							for (Class<?> c : Arrays.<Class<?>> asList(Book.class, CompactDisc.class, Shoes.class,
 									Package.class, Loaning.class)) {
 								result.add(getTypeInfo(new JavaTypeInfoSource(c)));
 							}
@@ -40,7 +38,8 @@ public class TableTreeModelExample {
 				}.get(super.getTypeInfo(typeSource));
 			}
 
-		}.getSwingRenderer().openObjectDialog(null, new Catalog(), false);
+		};
+		new SwingRenderer(reflectionUI).openObjectDialog(null, new Catalog(), false);
 
 	}
 
@@ -58,8 +57,8 @@ public class TableTreeModelExample {
 	}
 
 	public static abstract class Product {
-		private String name="";
-		private String description="";
+		private String name = "";
+		private String description = "";
 		private int price;
 
 		public String getName() {
@@ -110,7 +109,7 @@ public class TableTreeModelExample {
 	}
 
 	public static class Book extends Product {
-		private String author="";
+		private String author = "";
 
 		public String getAuthor() {
 			return author;
@@ -162,8 +161,7 @@ public class TableTreeModelExample {
 			return productsByDuration;
 		}
 
-		public void setProductsByDuration(
-				Map<Integer, Product[]> productsByDuration) {
+		public void setProductsByDuration(Map<Integer, Product[]> productsByDuration) {
 			this.productsByDuration = productsByDuration;
 		}
 

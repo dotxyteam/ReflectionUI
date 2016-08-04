@@ -29,7 +29,7 @@ public abstract class AbstractMethodUndoModification implements IModification {
 	}
 
 	@Override
-	public IModification applyAndGetOpposite(boolean refreshView) {
+	public IModification applyAndGetOpposite() {
 		revertMethod();
 		return new IModification() {
 			
@@ -44,7 +44,7 @@ public abstract class AbstractMethodUndoModification implements IModification {
 			}
 			
 			@Override
-			public IModification applyAndGetOpposite(boolean refreshView) {
+			public IModification applyAndGetOpposite() {
 				method.invoke(object, invocationData);
 				return AbstractMethodUndoModification.this;
 			}

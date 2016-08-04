@@ -10,8 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
-import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.SwingRenderer.FieldControlPlaceHolder;
+import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -24,7 +23,7 @@ import xy.reflect.ui.util.SwingRendererUtils;
 public class EmbeddedFormControl extends JPanel implements IFieldControl {
 
 	protected static final long serialVersionUID = 1L;
-	protected ReflectionUI reflectionUI;
+	protected SwingRenderer swingRenderer;
 	protected Object object;
 	protected IFieldInfo field;
 
@@ -36,8 +35,8 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 	protected int lastFocusedFieldControlPlaceHolderIndex = -1;
 	protected ITypeInfo lastFocusSubFormObjectType;
 
-	public EmbeddedFormControl(final ReflectionUI reflectionUI, final Object object, final IFieldInfo field) {
-		this.reflectionUI = reflectionUI;
+	public EmbeddedFormControl(final SwingRenderer swingRenderer, final Object object, final IFieldInfo field) {
+		this.swingRenderer = swingRenderer;
 		this.object = object;
 		this.field = field;
 		setLayout(new BorderLayout());
@@ -71,9 +70,10 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 	public void requestFocus() {
 		if (subForm != null) {
 			if (lastFocusedFieldControlPlaceHolderIndex != -1) {
-				ITypeInfo subFormObjectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(subFormObject));
+				ITypeInfo subFormObjectType = swingRenderer.getReflectionUI()
+						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(subFormObject));
 				if (lastFocusSubFormObjectType.equals(subFormObjectType)) {
-					List<FieldControlPlaceHolder> fieldControlPlaceHolders = reflectionUI.getSwingRenderer()
+					List<FieldControlPlaceHolder> fieldControlPlaceHolders = swingRenderer
 							.getAllFieldControlPlaceHolders(subForm);
 					fieldControlPlaceHolders.get(lastFocusedFieldControlPlaceHolderIndex).requestFocus();
 				}
@@ -84,14 +84,14 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 
 	protected void forwardUpdatesToParentForm(JPanel subForm) {
 		final ModificationStack parentModifStack = SwingRendererUtils.findModificationStack(EmbeddedFormControl.this,
-				reflectionUI);
-		reflectionUI.getSwingRenderer().getModificationStackByForm().put(subForm, new ModificationStack(null) {
+				swingRenderer);
+		swingRenderer.getModificationStackByForm().put(subForm, new ModificationStack(null) {
 
 			@Override
 			public void pushUndo(IModification undoModif) {
 				saveFocusInformation();
 				Object oldValue = field.getValue(object);
-				if (reflectionUI.equals(oldValue, subFormObject)) {
+				if (swingRenderer.getReflectionUI().equals(oldValue, subFormObject)) {
 					parentModifStack.pushUndo(undoModif);
 				} else {
 					parentModifStack.beginComposite();
@@ -115,7 +115,7 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 			public void invalidate() {
 				saveFocusInformation();
 				Object oldValue = field.getValue(object);
-				if (!reflectionUI.equals(oldValue, subFormObject)) {
+				if (!swingRenderer.getReflectionUI().equals(oldValue, subFormObject)) {
 					field.setValue(object, subFormObject);
 				}
 				parentModifStack.invalidate();
@@ -125,9 +125,9 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 	}
 
 	protected void saveFocusInformation() {
-		lastFocusSubFormObjectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(subFormObject));
-		lastFocusedFieldControlPlaceHolderIndex = reflectionUI.getSwingRenderer()
-				.getFocusedFieldControlPaceHolderIndex(subForm);
+		lastFocusSubFormObjectType = swingRenderer.getReflectionUI()
+				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(subFormObject));
+		lastFocusedFieldControlPlaceHolderIndex = swingRenderer.getFocusedFieldControlPaceHolderIndex(subForm);
 	}
 
 	@Override
@@ -145,13 +145,13 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 	public boolean refreshUI() {
 		if (subForm == null) {
 			subFormObject = field.getValue(object);
-			subForm = reflectionUI.getSwingRenderer().createObjectForm(subFormObject, IInfoCollectionSettings.DEFAULT);
+			subForm = swingRenderer.createObjectForm(subFormObject, IInfoCollectionSettings.DEFAULT);
 			add(subForm, BorderLayout.CENTER);
-			reflectionUI.getSwingRenderer().handleComponentSizeChange(this);
+			swingRenderer.handleComponentSizeChange(this);
 		} else {
 			Object newSubFormObject = field.getValue(object);
-			if (reflectionUI.equals(newSubFormObject, subFormObject)) {
-				reflectionUI.getSwingRenderer().refreshAllFieldControls(subForm, false);
+			if (swingRenderer.getReflectionUI().equals(newSubFormObject, subFormObject)) {
+				swingRenderer.refreshAllFieldControls(subForm, false);
 			} else {
 				remove(subForm);
 				subForm = null;

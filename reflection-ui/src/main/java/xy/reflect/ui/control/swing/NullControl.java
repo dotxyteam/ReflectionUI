@@ -2,7 +2,6 @@ package xy.reflect.ui.control.swing;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -13,8 +12,8 @@ public class NullControl extends TextControl {
 
 	protected static final long serialVersionUID = 1L;
 
-	public NullControl(final ReflectionUI reflectionUI, final Runnable onMousePress) {
-		super(reflectionUI, null, new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
+	public NullControl(final SwingRenderer swingRenderer, final Runnable onMousePress) {
+		super(swingRenderer, null, new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
 
 			@Override
 			public boolean isNullable() {
@@ -28,7 +27,7 @@ public class NullControl extends TextControl {
 
 			@Override
 			public ITypeInfo getType() {
-				return new TextualTypeInfo(reflectionUI, String.class);
+				return new TextualTypeInfo(swingRenderer.getReflectionUI(), String.class);
 			}
 
 		});
@@ -39,14 +38,13 @@ public class NullControl extends TextControl {
 					try {
 						onMousePress.run();
 					} catch (Throwable t) {
-						reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(NullControl.this, t);
+						swingRenderer.handleExceptionsFromDisplayedUI(NullControl.this, t);
 					}
 				}
 			});
 		}
 		textComponent.setEditable(false);
-		textComponent.setBackground(
-				SwingRendererUtils.fixSeveralColorRenderingIssues(reflectionUI.getSwingRenderer().getNullColor()));
+		textComponent.setBackground(SwingRendererUtils.fixSeveralColorRenderingIssues(swingRenderer.getNullColor()));
 	}
 
 	@Override

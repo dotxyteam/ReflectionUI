@@ -2,8 +2,6 @@ package xy.reflect.ui;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -12,6 +10,7 @@ import java.util.Map;
 
 import com.google.common.cache.CacheBuilder;
 
+import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MultipleFieldAsListListTypeInfo.MultipleFieldAsListItem;
@@ -32,7 +31,6 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.util.HiddenNullableFacetsInfoProxyGenerator;
-import xy.reflect.ui.info.type.util.InfoCustomizations;
 import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -42,17 +40,10 @@ public class ReflectionUI {
 
 	protected Map<ITypeInfoSource, ITypeInfo> typeInfoBySource = CacheBuilder.newBuilder().maximumSize(1000)
 			.<ITypeInfoSource, ITypeInfo> build().asMap();
-	protected SwingRenderer swingRenderer;	
-	protected InfoCustomizations infoCustomizations;
-	protected String infoCustomizationsFilePath;
-
-	public ReflectionUI() {
-		initializeInfoCustomizations();
-		swingRenderer = createSwingRenderer();
-	}
 
 	public static void main(String[] args) {
 		ReflectionUI reflectionUI = new ReflectionUI();
+		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
 		try {
 			Class<?> clazz = Object.class;
 			String usageText = "Expected arguments: [ <className> | --help ]"
@@ -71,47 +62,16 @@ public class ReflectionUI {
 			} else {
 				throw new IllegalArgumentException(usageText);
 			}
-			Object object = reflectionUI.getSwingRenderer().onTypeInstanciationRequest(null,
+			Object object = swingRenderer.onTypeInstanciationRequest(null,
 					reflectionUI.getTypeInfo(new JavaTypeInfoSource(clazz)), false);
 			if (object == null) {
 				return;
 			}
-			reflectionUI.getSwingRenderer().openObjectFrame(object, reflectionUI.getObjectTitle(object),
-					reflectionUI.getSwingRenderer().getIconImage(object));
+			swingRenderer.openObjectFrame(object, reflectionUI.getObjectTitle(object),
+					swingRenderer.getIconImage(object));
 		} catch (Throwable t) {
-			reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(null, t);
+			swingRenderer.handleExceptionsFromDisplayedUI(null, t);
 		}
-	}
-
-	protected void initializeInfoCustomizations() {
-		try {
-			infoCustomizationsFilePath = getInfoCustomizationsFilePath();
-			if (infoCustomizationsFilePath != null) {
-				infoCustomizations = new InfoCustomizations(this);
-				File file = new File(infoCustomizationsFilePath);
-				if (file.exists()) {
-					infoCustomizations.loadFromFile(file);
-				}
-			}
-		} catch (IOException e) {
-			throw new ReflectionUIError(e);
-		}
-	}
-
-	public InfoCustomizations getInfoCustomizations() {
-		return infoCustomizations;
-	}
-
-	public String getInfoCustomizationsFilePath() {
-		return SystemProperties.getInfoCustomizationsFilePath();
-	}
-
-	protected SwingRenderer createSwingRenderer() {
-		return new SwingRenderer(this);
-	}
-
-	public final SwingRenderer getSwingRenderer() {
-		return swingRenderer;
 	}
 
 	public boolean canCopy(Object object) {
@@ -205,9 +165,6 @@ public class ReflectionUI {
 		}
 		if (SystemProperties.hideNullablefacets()) {
 			result = new HiddenNullableFacetsInfoProxyGenerator(this).get(result);
-		}
-		if (infoCustomizations != null) {
-			result = infoCustomizations.get(result);
 		}
 		return result;
 	}

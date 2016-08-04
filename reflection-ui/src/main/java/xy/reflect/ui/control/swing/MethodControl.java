@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
@@ -13,11 +12,11 @@ import xy.reflect.ui.util.SwingRendererUtils;
 public class MethodControl extends JButton {
 
 	protected static final long serialVersionUID = 1L;
-	protected ReflectionUI reflectionUI;
+	protected SwingRenderer swingRenderer;
 	protected Object object;
 	protected IMethodInfo method;
 
-	public MethodControl(final ReflectionUI reflectionUI, Object object,
+	public MethodControl(final SwingRenderer swingRenderer, Object object,
 			IMethodInfo method) {
 		String caption = method.getCaption();
 		String toolTipText = "";
@@ -36,10 +35,10 @@ public class MethodControl extends JButton {
 		}
 		if (toolTipText.length() > 0) {
 			SwingRendererUtils.setMultilineToolTipText(this,
-					reflectionUI.prepareStringToDisplay(toolTipText));
+					swingRenderer.getReflectionUI().prepareStringToDisplay(toolTipText));
 		}
-		setText(reflectionUI.prepareStringToDisplay(caption));
-		this.reflectionUI = reflectionUI;
+		setText(swingRenderer.getReflectionUI().prepareStringToDisplay(caption));
+		this.swingRenderer = swingRenderer;
 		this.object = object;
 		this.method = method;
 
@@ -49,7 +48,7 @@ public class MethodControl extends JButton {
 				try {
 					activated();
 				} catch (Throwable t) {
-					reflectionUI.getSwingRenderer().handleExceptionsFromDisplayedUI(
+					swingRenderer.handleExceptionsFromDisplayedUI(
 							MethodControl.this, t);
 				}
 
@@ -66,7 +65,7 @@ public class MethodControl extends JButton {
 
 
 	protected void activated() {
-		reflectionUI.getSwingRenderer().onMethodInvocationRequest(MethodControl.this,
+		swingRenderer.onMethodInvocationRequest(MethodControl.this,
 				MethodControl.this.object, MethodControl.this.method, null);
 	}
 }
