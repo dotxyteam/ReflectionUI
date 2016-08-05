@@ -36,6 +36,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
 
+@SuppressWarnings("unused")
 public class ReflectionUI {
 
 	protected Map<ITypeInfoSource, ITypeInfo> typeInfoBySource = CacheBuilder.newBuilder().maximumSize(1000)
@@ -216,9 +217,4 @@ public class ReflectionUI {
 		}
 		return result;
 	}
-
-	public InfoCategory getNullInfoCategory() {
-		return new InfoCategory("General", -1);
-	}
-
 }

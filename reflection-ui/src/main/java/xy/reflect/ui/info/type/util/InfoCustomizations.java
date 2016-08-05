@@ -208,11 +208,12 @@ public class InfoCustomizations {
 		}
 		resultList.add(index, info);
 		ArrayList<String> newOrder = new ArrayList<String>();
-		for (I info2:  resultList) {
+		for (I info2 : resultList) {
 			String name = info2.getName();
 			if ((name == null) || (name.trim().length() == 0)) {
-				throw new ReflectionUIError("Cannot move item order. 'getName()' method returned an empty value for item n°"
-						+ (list.indexOf(info2) + 1) + " (caption='" + info2.getCaption() + "')");
+				throw new ReflectionUIError(
+						"Cannot move item order. 'getName()' method returned an empty value for item n°"
+								+ (list.indexOf(info2) + 1) + " (caption='" + info2.getCaption() + "')");
 			}
 			newOrder.add(name);
 		}
@@ -423,8 +424,15 @@ public class InfoCustomizations {
 
 		public List<CustomizationCategory> getCategoryOptions() {
 			for (TypeCustomization tc : typeCustomizations) {
-				if (tc.fieldsCustomizations.contains(this) || tc.methodsCustomizations.contains(this)) {
-					return tc.memberCategories;
+				for (FieldCustomization fc : tc.fieldsCustomizations) {
+					if (fc == this) {
+						return tc.memberCategories;
+					}
+				}
+				for (MethodCustomization mc : tc.methodsCustomizations) {
+					if (mc == this) {
+						return tc.memberCategories;
+					}
 				}
 			}
 			return null;

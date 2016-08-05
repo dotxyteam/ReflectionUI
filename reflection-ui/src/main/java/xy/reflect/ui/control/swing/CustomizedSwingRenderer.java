@@ -429,6 +429,14 @@ public class CustomizedSwingRenderer extends SwingRenderer {
 						openFieldCutomizationDialog(result, customizedType, fieldName);
 					}
 				});
+				popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("Hide")) {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						hideField(result, customizedType, fieldName);
+					}
+				});
 				popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("Move Up")) {
 					private static final long serialVersionUID = 1L;
 
@@ -465,6 +473,18 @@ public class CustomizedSwingRenderer extends SwingRenderer {
 			}
 		});
 		return result;
+	}
+
+	protected void hideMethod(Component activatorComponent, ITypeInfo customizedType, String methodSignature) {
+		MethodCustomization mc = infoCustomizations.getMethodCustomization(customizedType.getName(), methodSignature, true);
+		mc.setHidden(true);
+		update(customizedType.getName());
+	}
+
+	protected void hideField(Component activatorComponent, ITypeInfo customizedType, String fieldName) {
+		FieldCustomization fc = infoCustomizations.getFieldCustomization(customizedType.getName(), fieldName, true);
+		fc.setHidden(true);
+		update(customizedType.getName());
 	}
 
 	protected void moveField(Component activatorComponent, ITypeInfo customizedType, String fieldName, int offset) {
@@ -538,6 +558,14 @@ public class CustomizedSwingRenderer extends SwingRenderer {
 						openMethodCutomizationDialog(result, customizedType, methodSignature);
 					}
 				});
+				popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("Hide")) {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						hideMethod(result, customizedType, methodSignature);
+					}
+				});
 				popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("Move Left")) {
 					private static final long serialVersionUID = 1L;
 
@@ -583,8 +611,7 @@ public class CustomizedSwingRenderer extends SwingRenderer {
 	}
 
 	protected boolean areCustomizationsEditable() {
-		return SystemProperties.areInfoCustomizationsControlsAuthorized() 
-				&& (infoCustomizationsOutputFilePath != null);
+		return SystemProperties.areInfoCustomizationsControlsAuthorized() && (infoCustomizationsOutputFilePath != null);
 	}
 
 }

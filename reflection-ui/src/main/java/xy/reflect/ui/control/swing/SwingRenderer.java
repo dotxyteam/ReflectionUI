@@ -102,6 +102,7 @@ public class SwingRenderer {
 	protected Map<IMethodInfo, InvocationData> lastInvocationDataByMethod = new HashMap<IMethodInfo, InvocationData>();
 	protected Map<FieldControlPlaceHolder, Component> captionControlByFieldControlPlaceHolder = new MapMaker()
 			.weakKeys().makeMap();
+	protected Map<JPanel, JTabbedPane> categoriesTabbedPaneByForm = new MapMaker().weakKeys().makeMap();
 
 	public SwingRenderer(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
@@ -334,7 +335,7 @@ public class SwingRenderer {
 		return methodsPanel;
 	}
 
-	protected Component createMultipleInfoCategoriesComponent(final SortedSet<InfoCategory> allCategories,
+	protected JTabbedPane createMultipleInfoCategoriesComponent(final SortedSet<InfoCategory> allCategories,
 			Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
 			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory) {
 		final JTabbedPane tabbedPane = new AutoResizeTabbedPane();
@@ -431,12 +432,14 @@ public class SwingRenderer {
 			public void addNotify() {
 				super.addNotify();
 				modifStack.addListener(fieldsUpdateListener);
+				getObjectByForm().put(this, object);
 			}
 
 			@Override
 			public void removeNotify() {
 				super.removeNotify();
 				modifStack.removeListener(fieldsUpdateListener);
+				getObjectByForm().remove(this);
 			}
 
 		};
@@ -613,9 +616,46 @@ public class SwingRenderer {
 	}
 
 	public void recreateFormContent(JPanel form) {
+		InfoCategory category = getDisplayedInfoCategory(form);
 		form.removeAll();
 		fillForm(form);
-		SwingUtilities.getWindowAncestor(form).validate();
+		if (category != null) {
+			setDisplayedInfoCategory(form, category);
+		}
+		Window window = SwingUtilities.getWindowAncestor(form);
+		if (window != null) {
+			window.validate();
+		}
+	}
+
+	public void setDisplayedInfoCategory(JPanel form, InfoCategory category) {
+		JTabbedPane categoriesControl = categoriesTabbedPaneByForm.get(form);
+		if (categoriesControl != null) {
+			for (int i = 0; i < categoriesControl.getTabCount(); i++) {
+				String categoryCaption = categoriesControl.getTitleAt(i);
+				if (category.getCaption().equals(categoryCaption)) {
+					if (category.getPosition() != -1) {
+						if (category.getPosition() != i) {
+							continue;
+						}
+					}
+					categoriesControl.setSelectedIndex(i);
+					return;
+				}
+			}
+		}
+	}
+
+	public InfoCategory getDisplayedInfoCategory(JPanel form) {
+		JTabbedPane categoriesControl = categoriesTabbedPaneByForm.get(form);
+		if (categoriesControl != null) {
+			int currentCategoryIndex = categoriesControl.getSelectedIndex();
+			if (currentCategoryIndex != -1) {
+				String currentCategoryCaption = categoriesControl.getTitleAt(currentCategoryIndex);
+				return new InfoCategory(currentCategoryCaption, currentCategoryIndex);
+			}
+		}
+		return null;
 	}
 
 	protected void fillForm(JPanel form) {
@@ -642,7 +682,7 @@ public class SwingRenderer {
 			{
 				InfoCategory category = field.getCategory();
 				if (category == null) {
-					category = reflectionUI.getNullInfoCategory();
+					category = getNullInfoCategory();
 				}
 				List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
 						.get(category);
@@ -669,7 +709,7 @@ public class SwingRenderer {
 			{
 				InfoCategory category = method.getCategory();
 				if (category == null) {
-					category = reflectionUI.getNullInfoCategory();
+					category = getNullInfoCategory();
 				}
 				List<MethodControlPlaceHolder> methodControlPlaceHolders = methodControlPlaceHoldersByCategory
 						.get(category);
@@ -686,7 +726,7 @@ public class SwingRenderer {
 		SortedSet<InfoCategory> allCategories = new TreeSet<InfoCategory>();
 		allCategories.addAll(fieldControlPlaceHoldersByCategory.keySet());
 		allCategories.addAll(methodControlPlaceHoldersByCategory.keySet());
-		if (allCategories.size() == 1) {
+		if ((allCategories.size() == 1) && (getNullInfoCategory().equals(allCategories.iterator().next()))) {
 			form.add(formContent, BorderLayout.CENTER);
 			List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
 					.get(allCategories.first());
@@ -699,12 +739,18 @@ public class SwingRenderer {
 				methodControlPlaceHolders = Collections.emptyList();
 			}
 			layoutControls(fieldControlPlaceHolders, methodControlPlaceHolders, formContent);
-		} else if (allCategories.size() > 1) {
+		} else {
 			form.add(formContent, BorderLayout.CENTER);
 			formContent.setLayout(new BorderLayout());
-			formContent.add(createMultipleInfoCategoriesComponent(allCategories, fieldControlPlaceHoldersByCategory,
-					methodControlPlaceHoldersByCategory), BorderLayout.CENTER);
+			JTabbedPane categoriesControl = createMultipleInfoCategoriesComponent(allCategories,
+					fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory);
+			categoriesTabbedPaneByForm.put(form, categoriesControl);
+			formContent.add(categoriesControl, BorderLayout.CENTER);
 		}
+	}
+
+	protected InfoCategory getNullInfoCategory() {
+		return new InfoCategory("General", -1);
 	}
 
 	protected MethodControlPlaceHolder createMethodControlPlaceHolder(Object object, IMethodInfo method) {
