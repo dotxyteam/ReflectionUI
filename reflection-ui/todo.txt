@@ -1,3 +1,10 @@
+- need a way to check info proxy wrap/unwrap
+- add Customizations:
+	. list column order
+	. constructors (hide, ...)
+	. methods default param values
+- ReflectionUIUtils.onTypeInstanciation()
+must not use SwingRenderer
 - hideNullableConf must disappear: 
 the metadata editor will allow to specify how to handle and display 
 null values 

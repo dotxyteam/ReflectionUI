@@ -44,14 +44,14 @@ import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.SystemProperties;
 
 @SuppressWarnings("unused")
-public class CustomizedSwingRenderer extends SwingRenderer {
+public class CustomizableSwingRenderer extends SwingRenderer {
 
 	protected static SwingRenderer customizationsUIRenderer = createCustomizationsUIRenderer();
 
 	protected InfoCustomizations infoCustomizations;
 	protected String infoCustomizationsOutputFilePath;
 
-	public CustomizedSwingRenderer(ReflectionUI reflectionUI, InfoCustomizations infoCustomizations,
+	public CustomizableSwingRenderer(ReflectionUI reflectionUI, InfoCustomizations infoCustomizations,
 			String infoCustomizationsOutputFilePath) {
 		super(reflectionUI);
 		this.infoCustomizations = infoCustomizations;
@@ -285,7 +285,7 @@ public class CustomizedSwingRenderer extends SwingRenderer {
 		if (SystemProperties.isMetaInfoCustomizationDiscarded()) {
 			return new SwingRenderer(customizationsUI);
 		} else {
-			return new CustomizedSwingRenderer(customizationsUI, metaInfoCustomizations, null);
+			return new CustomizableSwingRenderer(customizationsUI, metaInfoCustomizations, null);
 		}
 	}
 

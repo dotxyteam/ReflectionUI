@@ -2,7 +2,7 @@ import java.io.File;
 import java.io.IOException;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.swing.CustomizedSwingRenderer;
+import xy.reflect.ui.control.swing.CustomizableSwingRenderer;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
@@ -29,7 +29,7 @@ public class CustomizeInfoCustimizations {
 			}
 
 		};
-		CustomizedSwingRenderer renderer = new CustomizedSwingRenderer(reflectionUI, infoCustomizations,
+		CustomizableSwingRenderer renderer = new CustomizableSwingRenderer(reflectionUI, infoCustomizations,
 				infoCustomizationsOutputFilePath);
 		renderer.openObjectFrame(new InfoCustomizations());
 	}

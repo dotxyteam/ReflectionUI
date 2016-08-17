@@ -140,7 +140,6 @@ public class PrecomputedTypeInfoInstanceWrapper {
 				object = unwrap(object);
 				return super.getUndoModification(method, containingType, object, invocationData);
 			}
-
 		}.get(precomputedType);
 	}
 

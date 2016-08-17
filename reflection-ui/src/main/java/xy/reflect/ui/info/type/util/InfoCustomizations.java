@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -96,7 +97,7 @@ public class InfoCustomizations {
 
 	public ParameterCustomization getParameterCustomization(String containingTypeName, String methodSignature,
 			String paramName) {
-		return getParameterCustomization(containingTypeName, methodSignature, paramName, false);
+		return getParameterCustomization(containingTypeName, methodSignature, paramName, true);
 	}
 
 	public ParameterCustomization getParameterCustomization(String containingTypeName, String methodSignature,
@@ -118,7 +119,7 @@ public class InfoCustomizations {
 	}
 
 	public FieldCustomization getFieldCustomization(String containingTypeName, String fieldName) {
-		return getFieldCustomization(containingTypeName, fieldName, false);
+		return getFieldCustomization(containingTypeName, fieldName, true);
 	}
 
 	public FieldCustomization getFieldCustomization(String containingTypeName, String fieldName, boolean create) {
@@ -139,7 +140,7 @@ public class InfoCustomizations {
 	}
 
 	public MethodCustomization getMethodCustomization(String containingTypeName, String methodSignature) {
-		return getMethodCustomization(containingTypeName, methodSignature, false);
+		return getMethodCustomization(containingTypeName, methodSignature, true);
 	}
 
 	public MethodCustomization getMethodCustomization(String containingTypeName, String methodSignature,
@@ -161,7 +162,7 @@ public class InfoCustomizations {
 	}
 
 	public TypeCustomization getTypeCustomization(String containingTypeName) {
-		return getTypeCustomization(containingTypeName, false);
+		return getTypeCustomization(containingTypeName, true);
 	}
 
 	public TypeCustomization getTypeCustomization(String containingTypeName, boolean create) {
@@ -821,17 +822,17 @@ public class InfoCustomizations {
 		protected List<IParameterInfo> getParameters(IMethodInfo method, ITypeInfo containingType) {
 			MethodCustomization m = getMethodCustomization(containingType.getName(), method.getName());
 			if (m != null) {
-				List<IParameterInfo> result = super.getParameters(method, containingType);
-				for (ParameterCustomization p : m.parametersCustomizations) {
-					if (p.hidden) {
-						IParameterInfo param = ReflectionUIUtils.findInfoByCaption(result, p.parameterName);
-						if (param != null) {
-							result = new ArrayList<IParameterInfo>(result);
-							result.remove(param);
-							return result;
-						}
+				List<IParameterInfo> result = new ArrayList<IParameterInfo>(
+						super.getParameters(method, containingType));
+				for (Iterator<IParameterInfo> it = result.iterator(); it.hasNext();) {
+					IParameterInfo param = it.next();
+					ParameterCustomization p = getParameterCustomization(containingType.getName(),
+							ReflectionUIUtils.getMethodInfoSignature(method), param.getName());
+					if ((p != null) && p.hidden) {
+						it.remove();
 					}
 				}
+
 			}
 			return super.getParameters(method, containingType);
 		}
@@ -852,12 +853,11 @@ public class InfoCustomizations {
 			final TypeCustomization t = getTypeCustomization(type.getName());
 			if (t != null) {
 				final List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
-				for (FieldCustomization f : t.fieldsCustomizations) {
-					if (f.hidden) {
-						IFieldInfo field = ReflectionUIUtils.findInfoByName(result, f.fieldName);
-						if (field != null) {
-							result.remove(field);
-						}
+				for (Iterator<IFieldInfo> it = result.iterator(); it.hasNext();) {
+					IFieldInfo field = it.next();
+					FieldCustomization f = getFieldCustomization(type.getName(), field.getName());
+					if ((f != null) && f.hidden) {
+						it.remove();
 					}
 				}
 				if (t.customFieldsOrder != null) {
@@ -874,12 +874,12 @@ public class InfoCustomizations {
 			TypeCustomization t = getTypeCustomization(type.getName());
 			if (t != null) {
 				List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getMethods(type));
-				for (MethodCustomization m : t.methodsCustomizations) {
-					if (m.hidden) {
-						IMethodInfo method = ReflectionUIUtils.findMethodBySignature(result, m.methodSignature);
-						if (method != null) {
-							result.remove(method);
-						}
+				for (Iterator<IMethodInfo> it = result.iterator(); it.hasNext();) {
+					IMethodInfo method = it.next();
+					MethodCustomization m = getMethodCustomization(type.getName(),
+							ReflectionUIUtils.getMethodInfoSignature(method));
+					if ((m != null) && m.hidden) {
+						it.remove();
 					}
 				}
 				if (t.customMethodsOrder != null) {
