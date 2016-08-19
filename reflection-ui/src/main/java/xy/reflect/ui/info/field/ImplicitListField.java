@@ -15,10 +15,9 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
-import xy.reflect.ui.info.type.iterable.util.IListAction;
+import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.info.type.iterable.util.structure.IListStructuralInfo;
-import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -93,24 +92,23 @@ public class ImplicitListField implements IFieldInfo {
 		if (type == null) {
 			type = new ImplicitListFieldType();
 		}
-		return (IListTypeInfo) PrecomputedTypeInfoInstanceWrapper.adaptPrecomputedType(type);
+		return type;
 	}
 
 	@Override
 	public Object getValue(Object object) {
 		Object result = new ImplicitListFieldValue(object);
-		result = new PrecomputedTypeInfoInstanceWrapper(result, new ImplicitListFieldType());
+		reflectionUI.registerPrecomputedTypeInfoObject(result, new ImplicitListFieldType());
 		return result;
 	}
 
 	@Override
 	public void setValue(Object object, Object value) {
-		PrecomputedTypeInfoInstanceWrapper wrapper = (PrecomputedTypeInfoInstanceWrapper) value;
-		ImplicitListFieldValue implicitListFieldValue = (ImplicitListFieldValue) wrapper.getInstance();
+		ImplicitListFieldValue implicitListFieldValue = (ImplicitListFieldValue) value;
 		if (!this.equals(implicitListFieldValue.getImplicitListField())) {
 			throw new ReflectionUIError();
 		}
-		Object[] array = getType().toArray(wrapper);
+		Object[] array = getType().toArray(implicitListFieldValue);
 		while (true) {
 			int size = (Integer) getSizeField().getValue(object);
 			if (size == 0) {
@@ -371,7 +369,7 @@ public class ImplicitListField implements IFieldInfo {
 		}
 
 		@Override
-		public List<IListAction> getSpecificActions(Object object, IFieldInfo field,
+		public List<AbstractListAction> getSpecificActions(Object object, IFieldInfo field,
 				List<? extends ItemPosition> selection) {
 			return Collections.emptyList();
 		}

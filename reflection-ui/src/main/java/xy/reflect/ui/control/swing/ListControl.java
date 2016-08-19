@@ -56,7 +56,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
-import xy.reflect.ui.info.type.iterable.util.IListAction;
+import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.info.type.iterable.util.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
@@ -144,8 +144,8 @@ public class ListControl extends JPanel implements IFieldControl {
 			}
 
 		}
-		for (IListAction listAction : getRootListType().getSpecificActions(object, field, getSelection())) {
-			toolbar.add(createTool(listAction.getTitle(), null, true, false, createSpecificAction(listAction)));
+		for (AbstractListAction listAction : getRootListType().getSpecificActions(object, field, getSelection())) {
+			toolbar.add(createTool(listAction.getCaption(), null, true, false, createSpecificAction(listAction)));
 		}
 
 		swingRenderer.handleComponentSizeChange(ListControl.this);
@@ -386,7 +386,7 @@ public class ListControl extends JPanel implements IFieldControl {
 
 		List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
 
-		for (IListAction listAction : getRootListType().getSpecificActions(object, field, selection)) {
+		for (AbstractListAction listAction : getRootListType().getSpecificActions(object, field, selection)) {
 			result.add(createSpecificAction(listAction));
 		}
 
@@ -1386,22 +1386,16 @@ public class ListControl extends JPanel implements IFieldControl {
 		return (IListTypeInfo) field.getType();
 	}
 
-	protected AbstractAction createSpecificAction(final IListAction action) {
-		return new AbstractAction(swingRenderer.getReflectionUI().prepareStringToDisplay(action.getTitle())) {
+	protected AbstractAction createSpecificAction(final AbstractListAction action) {
+		return new AbstractAction(swingRenderer.getReflectionUI().prepareStringToDisplay(action.getCaption())) {
 			protected static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					swingRenderer.showBusyDialogWhile(ListControl.this, new Runnable() {
-						@Override
-						public void run() {
-							action.perform(ListControl.this);
-						}
-					}, action.getTitle());
-				} catch (Throwable t) {
-					swingRenderer.handleExceptionsFromDisplayedUI(ListControl.this, t);
-				}
+				action.setListControl(ListControl.this);
+				JPanel form = SwingRendererUtils.findForm(ListControl.this, swingRenderer);
+				IMethodInfo method = swingRenderer.makeMethodModificationsUndoable(action, form);
+				swingRenderer.onMethodInvocationRequest(ListControl.this, ListControl.this.object, method, null);
 			}
 		};
 	}

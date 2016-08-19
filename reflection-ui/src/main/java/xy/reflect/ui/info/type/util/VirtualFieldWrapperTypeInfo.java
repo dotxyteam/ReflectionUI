@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.type.util;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +20,8 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 	protected boolean fieldReadOnly;
 	protected String caption;
 
-	public VirtualFieldWrapperTypeInfo(ReflectionUI reflectionUI, ITypeInfo fieldType,
-			String fieldCaption, boolean fieldReadOnly, String caption) {
+	public VirtualFieldWrapperTypeInfo(ReflectionUI reflectionUI, ITypeInfo fieldType, String fieldCaption,
+			boolean fieldReadOnly, String caption) {
 		this.reflectionUI = reflectionUI;
 		this.fieldType = fieldType;
 		this.fieldCaption = fieldCaption;
@@ -30,8 +31,7 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 
 	@Override
 	public String getName() {
-		return VirtualFieldWrapperTypeInfo.class.getSimpleName() + "(" + fieldCaption
-				+ ")";
+		return VirtualFieldWrapperTypeInfo.class.getSimpleName() + "(" + fieldCaption + ")";
 	}
 
 	@Override
@@ -103,8 +103,7 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 			public String toString() {
 				return fieldCaption;
 			}
-			
-			
+
 		};
 	}
 
@@ -135,12 +134,13 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 		fieldType.validate(instance.getValue());
 	}
 
-	public Object getPrecomputedTypeInfoInstanceWrapper(Object[] fieldValueHolder) {
+	public Object getInstance(Object[] fieldValueHolder) {
 		if (!fieldType.supportsInstance(fieldValueHolder[0])) {
 			throw new ReflectionUIError();
 		}
-		return new PrecomputedTypeInfoInstanceWrapper(new InstanceInfo(
-				fieldValueHolder), this);
+		InstanceInfo result = new InstanceInfo(fieldValueHolder);
+		reflectionUI.registerPrecomputedTypeInfoObject(result, this);
+		return result;
 	}
 
 	@Override
@@ -148,11 +148,9 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((caption == null) ? 0 : caption.hashCode());
-		result = prime * result
-				+ ((fieldCaption == null) ? 0 : fieldCaption.hashCode());
+		result = prime * result + ((fieldCaption == null) ? 0 : fieldCaption.hashCode());
 		result = prime * result + (fieldReadOnly ? 1231 : 1237);
-		result = prime * result
-				+ ((fieldType == null) ? 0 : fieldType.hashCode());
+		result = prime * result + ((fieldType == null) ? 0 : fieldType.hashCode());
 		return result;
 	}
 
@@ -190,16 +188,12 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 		return getCaption();
 	}
 
-	public static Object wrap(ReflectionUI reflectionUI,
-			final Object[] fieldValueHolder, final String fieldCaption,
+	public static Object wrap(ReflectionUI reflectionUI, final Object[] fieldValueHolder, final String fieldCaption,
 			final String wrapperTypeCaption, final boolean readOnly) {
-		final ITypeInfo fieldType = reflectionUI.getTypeInfo(reflectionUI
-				.getTypeInfoSource(fieldValueHolder[0]));
-		VirtualFieldWrapperTypeInfo wrapperType = new VirtualFieldWrapperTypeInfo(
-				reflectionUI, fieldType, fieldCaption, readOnly,
-				wrapperTypeCaption);
-		return wrapperType
-				.getPrecomputedTypeInfoInstanceWrapper(fieldValueHolder);
+		final ITypeInfo fieldType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(fieldValueHolder[0]));
+		VirtualFieldWrapperTypeInfo wrapperType = new VirtualFieldWrapperTypeInfo(reflectionUI, fieldType, fieldCaption,
+				readOnly, wrapperTypeCaption);
+		return wrapperType.getInstance(fieldValueHolder);
 	}
 
 	protected static class InstanceInfo {
@@ -209,24 +203,47 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 			super();
 			this.fieldValueHolder = fieldValueHolder;
 		}
-		
-		public Object getValue(){
+
+		public Object getValue() {
 			return fieldValueHolder[0];
 		}
-		
-		public void setValue(Object value){
+
+		public void setValue(Object value) {
 			fieldValueHolder[0] = value;
 		}
 
 		@Override
 		public String toString() {
 			Object value = getValue();
-			if(value == null){
+			if (value == null) {
 				return null;
 			}
 			return value.toString();
 		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + Arrays.hashCode(fieldValueHolder);
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			InstanceInfo other = (InstanceInfo) obj;
+			if (!Arrays.equals(fieldValueHolder, other.fieldValueHolder))
+				return false;
+			return true;
+		}
 		
 		
+
 	}
 }

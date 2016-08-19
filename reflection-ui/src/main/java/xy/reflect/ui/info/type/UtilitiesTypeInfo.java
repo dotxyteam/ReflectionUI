@@ -14,18 +14,19 @@ import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
-import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 
 public class UtilitiesTypeInfo extends DefaultTypeInfo {
-	protected static final Object NO_INSTANCE = new Object() {
-		@Override
-		public String toString() {
-			return UtilitiesTypeInfo.class.getName() + "#" + "NO_INSTANCE";
-		}
-	};
+	protected final Object singleton;
 
 	public UtilitiesTypeInfo(ReflectionUI reflectionUI, Class<?> javaType) {
 		super(reflectionUI, javaType);
+		singleton = new Object() {
+			@Override
+			public String toString() {
+				return UtilitiesTypeInfo.this.toString() + "#" + "SINGLETON";
+			}
+		};
+		reflectionUI.registerPrecomputedTypeInfoObject(singleton, this);
 	}
 
 	public static boolean isCompatibleWith(Class<?> javaType) {
@@ -56,7 +57,7 @@ public class UtilitiesTypeInfo extends DefaultTypeInfo {
 
 			@Override
 			public Object invoke(Object object, InvocationData invocationData) {
-				return new PrecomputedTypeInfoInstanceWrapper(NO_INSTANCE, UtilitiesTypeInfo.this);
+				return singleton;
 			}
 
 			@Override
@@ -69,7 +70,7 @@ public class UtilitiesTypeInfo extends DefaultTypeInfo {
 
 	@Override
 	public boolean supportsInstance(Object object) {
-		return (object == NO_INSTANCE) || super.supportsInstance(object);
+		return (object == singleton) || super.supportsInstance(object);
 	}
 
 }

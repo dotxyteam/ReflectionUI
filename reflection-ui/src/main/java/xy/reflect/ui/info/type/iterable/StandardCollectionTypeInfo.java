@@ -14,7 +14,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.iterable.util.IListAction;
+import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.info.type.iterable.util.structure.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.structure.IListStructuralInfo;
@@ -180,7 +180,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	}
 
 	@Override
-	public List<IListAction> getSpecificActions(Object object, IFieldInfo field,
+	public List<AbstractListAction> getSpecificActions(Object object, IFieldInfo field,
 			List<? extends ItemPosition> selection) {
 		return Collections.emptyList();
 	}

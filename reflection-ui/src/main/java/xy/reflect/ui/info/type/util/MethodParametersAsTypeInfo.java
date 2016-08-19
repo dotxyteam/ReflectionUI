@@ -183,9 +183,11 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 		return Collections.emptyMap();
 	}
 
-	public Object getPrecomputedTypeInfoInstanceWrapper(Object object, InvocationData invocationData) {
-		return new PrecomputedTypeInfoInstanceWrapper(
-				new MethodParametersAsTypeInfo.InstanceInfo(object, invocationData), this);
+	public InstanceInfo getInstance(Object object, InvocationData invocationData) {
+		InstanceInfo result = new MethodParametersAsTypeInfo.InstanceInfo(object, invocationData);
+		reflectionUI.registerPrecomputedTypeInfoObject(
+				result, this);
+		return result;
 	}
 
 	protected static class InstanceInfo {

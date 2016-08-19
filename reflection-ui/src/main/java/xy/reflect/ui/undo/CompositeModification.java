@@ -12,8 +12,7 @@ public class CompositeModification implements IModification {
 	protected String title;
 	protected UndoOrder undoOrder;
 
-	public CompositeModification(String title, UndoOrder undoOrder,
-			IModification... modifications) {
+	public CompositeModification(String title, UndoOrder undoOrder, IModification... modifications) {
 		this.title = title;
 		this.undoOrder = undoOrder;
 		this.modifications = modifications;
@@ -28,10 +27,8 @@ public class CompositeModification implements IModification {
 		return result;
 	}
 
-	public CompositeModification(String title, UndoOrder undoOrder,
-			List<IModification> modifications) {
-		this(title, undoOrder, modifications
-				.toArray(new IModification[modifications.size()]));
+	public CompositeModification(String title, UndoOrder undoOrder, List<IModification> modifications) {
+		this(title, undoOrder, modifications.toArray(new IModification[modifications.size()]));
 	}
 
 	@Override
@@ -39,22 +36,50 @@ public class CompositeModification implements IModification {
 		List<IModification> oppositeModifications = new ArrayList<IModification>();
 		for (IModification modif : modifications) {
 			if (undoOrder == UndoOrder.LIFO) {
-				oppositeModifications.add(0,
-						modif.applyAndGetOpposite());
+				oppositeModifications.add(0, modif.applyAndGetOpposite());
 			} else if (undoOrder == UndoOrder.FIFO) {
-				oppositeModifications.add(modif
-						.applyAndGetOpposite());
+				oppositeModifications.add(modif.applyAndGetOpposite());
 			} else {
 				throw new ReflectionUIError();
 			}
 		}
-		return new CompositeModification(ModificationStack.getUndoTitle(title),
-				undoOrder, oppositeModifications);
+		return new CompositeModification(ModificationStack.getUndoTitle(title), undoOrder, oppositeModifications);
 	}
 
 	@Override
 	public String toString() {
 		return getTitle();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(modifications);
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		result = prime * result + ((undoOrder == null) ? 0 : undoOrder.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CompositeModification other = (CompositeModification) obj;
+		if (!Arrays.equals(modifications, other.modifications))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		if (undoOrder != other.undoOrder)
+			return false;
+		return true;
 	}
 
 	public void setTitle(String title) {
@@ -66,8 +91,7 @@ public class CompositeModification implements IModification {
 		if (title != null) {
 			return title;
 		} else {
-			return ReflectionUIUtils.stringJoin(Arrays.asList(modifications),
-					", ");
+			return ReflectionUIUtils.stringJoin(Arrays.asList(modifications), ", ");
 		}
 	}
 

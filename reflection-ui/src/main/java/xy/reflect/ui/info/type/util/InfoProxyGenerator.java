@@ -17,7 +17,7 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.map.IMapEntryTypeInfo;
-import xy.reflect.ui.info.type.iterable.util.IListAction;
+import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.info.type.iterable.util.structure.IListStructuralInfo;
 import xy.reflect.ui.undo.IModification;
@@ -208,7 +208,7 @@ public class InfoProxyGenerator {
 		return type.canInstanciateFromArray();
 	}
 
-	protected List<IListAction> getSpecificListActions(IListTypeInfo type, Object object, IFieldInfo field,
+	protected List<AbstractListAction> getSpecificListActions(IListTypeInfo type, Object object, IFieldInfo field,
 			List<? extends ItemPosition> selection) {
 		return type.getSpecificActions(object, field, selection);
 	}
@@ -497,15 +497,11 @@ public class InfoProxyGenerator {
 			return InfoProxyGenerator.this.toString(type, object);
 		}
 
-		public InfoProxyGenerator getTypeInfoProxyConfiguration() {
-			return InfoProxyGenerator.this;
-		}
-
 		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + getTypeInfoProxyConfiguration().hashCode();
+			result = prime * result + getGenerator().hashCode();
 			result = prime * result + ((type == null) ? 0 : type.hashCode());
 			return result;
 		}
@@ -519,7 +515,7 @@ public class InfoProxyGenerator {
 			if (getClass() != obj.getClass())
 				return false;
 			GeneratedBasicTypeInfoProxy other = (GeneratedBasicTypeInfoProxy) obj;
-			if (!getTypeInfoProxyConfiguration().equals(other.getTypeInfoProxyConfiguration()))
+			if (!getGenerator().equals(other.getGenerator()))
 				return false;
 			if (type == null) {
 				if (other.type != null)
@@ -587,7 +583,7 @@ public class InfoProxyGenerator {
 		}
 
 		@Override
-		public List<IListAction> getSpecificActions(Object object, IFieldInfo field,
+		public List<AbstractListAction> getSpecificActions(Object object, IFieldInfo field,
 				List<? extends ItemPosition> selection) {
 			return InfoProxyGenerator.this.getSpecificListActions((IListTypeInfo) type, object, field, selection);
 		}

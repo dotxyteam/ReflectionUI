@@ -41,7 +41,6 @@ import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.info.type.util.InfoProxyGenerator;
 import xy.reflect.ui.undo.ModificationStack;
 
@@ -253,96 +252,7 @@ public class SwingRendererUtils {
 		return new ImageIcon(ReflectionUI.class.getResource("resource/help.png"));
 	}
 
-	public static final String DO_NOT_CREATE_EMBEDDED_FORM_PROPRTY_KEY = SwingRenderer.class.getName()
-			+ "#DO_NOT_CREATE_EMBEDDED_FORM_PROPRTY_KEY";
-	public static final String FORCE_CREATE_EMBEDDED_FORM_PROPRTY_KEY = SwingRenderer.class.getName()
-			+ "#FORCE_CREATE_EMBEDDED_FORM_PROPRTY_KEY";
-
-	public static boolean isEmbeddedFormCreationForbidden(IFieldInfo field) {
-		return Boolean.TRUE.equals(field.getSpecificProperties().get(DO_NOT_CREATE_EMBEDDED_FORM_PROPRTY_KEY));
-	}
-
-	public static boolean isEmbeddedFormCreationForced(IFieldInfo field) {
-		return Boolean.TRUE.equals(field.getSpecificProperties().get(FORCE_CREATE_EMBEDDED_FORM_PROPRTY_KEY));
-	}
-
-	public static IFieldInfo forbidEmbeddedFormCreation(IFieldInfo field) {
-		return new FieldInfoProxy(field) {
-			@Override
-			public Map<String, Object> getSpecificProperties() {
-				Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties());
-				result.put(DO_NOT_CREATE_EMBEDDED_FORM_PROPRTY_KEY, Boolean.TRUE);
-				return result;
-			}
-		};
-	}
-
-	public static IFieldInfo forceEmbeddedFormCreation(IFieldInfo field) {
-		return new FieldInfoProxy(field) {
-			@Override
-			public Map<String, Object> getSpecificProperties() {
-				Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties());
-				result.put(FORCE_CREATE_EMBEDDED_FORM_PROPRTY_KEY, Boolean.TRUE);
-				return result;
-			}
-		};
-	}
-
-	public static IFieldInfo prepareEmbeddedFormCreation(ReflectionUI reflectionUI, Object object, IFieldInfo field) {
-		if (!isEmbeddedFormCreationForbidden(field)) {
-			Object fieldValue = field.getValue(object);
-			final ITypeInfo fieldValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(fieldValue));
-			if (isEmbeddedFormCreationForced(field)
-					|| (fieldValueType.getFields().size() + fieldValueType.getMethods().size() / 3) <= 4) {
-				field = preventRecursiveEmbeddedForm(reflectionUI, field);
-			} else {
-				field = forbidEmbeddedFormCreation(field);
-			}
-		}
-		return field;
-	}
-
-	public static IFieldInfo preventRecursiveEmbeddedForm(final ReflectionUI reflectionUI, IFieldInfo field) {
-		return new FieldInfoProxy(field) {
-
-			@Override
-			public Object getValue(Object object) {
-				Object result = super.getValue(object);
-				if (result != null) {
-					ITypeInfo resultType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(result));
-					resultType = new InfoProxyGenerator() {
-
-						@Override
-						protected List<IFieldInfo> getFields(ITypeInfo type) {
-							List<IFieldInfo> result = new ArrayList<IFieldInfo>();
-							for (IFieldInfo field : super.getFields(type)) {
-								field = SwingRendererUtils.forbidEmbeddedFormCreation(field);
-								result.add(field);
-							}
-							return result;
-						}
-					}.get(resultType);
-					result = new PrecomputedTypeInfoInstanceWrapper(result, resultType);
-				}
-				return result;
-			}
-
-			@Override
-			public void setValue(Object object, Object value) {
-				if (value != null) {
-					value = ((PrecomputedTypeInfoInstanceWrapper) value).getInstance();
-				}
-				super.setValue(object, value);
-			}
-
-			@Override
-			public ITypeInfo getType() {
-				return PrecomputedTypeInfoInstanceWrapper.adaptPrecomputedType(super.getType());
-			}
-
-		};
-	}
-
+	
 	public static List<Object> getActiveInstances(ITypeInfo type, SwingRenderer swingRenderer) {
 		List<Object> result = new ArrayList<Object>();
 		for (Map.Entry<JPanel, Object> entry : swingRenderer.getObjectByForm().entrySet()) {
@@ -357,6 +267,12 @@ public class SwingRendererUtils {
 	}
 
 	public static Image getIconImageFromInfo(IInfo info) {
+		Image result;
+		result = (Image) info.getSpecificProperties()
+				.get(SwingRenderer.SwingSpecificProperty.KEY_ICON_IMAGE);
+		if(result != null){
+			return result;
+		}
 		URL imageUrl;
 		String imagePath = (String) info.getSpecificProperties()
 				.get(SwingRenderer.SwingSpecificProperty.KEY_ICON_IMAGE_PATH);
@@ -374,7 +290,7 @@ public class SwingRendererUtils {
 				throw new ReflectionUIError(e);
 			}
 		}
-		Image result = iconImageCache.get(imagePath);
+		result = iconImageCache.get(imagePath);
 		if (result == null) {
 			try {
 				result = ImageIO.read(imageUrl);

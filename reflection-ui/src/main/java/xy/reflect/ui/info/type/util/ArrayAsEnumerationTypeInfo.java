@@ -59,7 +59,7 @@ public class ArrayAsEnumerationTypeInfo implements IEnumerationTypeInfo {
 
 	@Override
 	public String toString(Object object) {
-		return reflectionUI.toString(object);
+		return object.toString();
 	}
 
 	@Override
@@ -172,21 +172,12 @@ public class ArrayAsEnumerationTypeInfo implements IEnumerationTypeInfo {
 		return true;
 	}
 
-	public Object unwrapArrayItem(Object resultEnumItem) {
-		PrecomputedTypeInfoInstanceWrapper wrapper = (PrecomputedTypeInfoInstanceWrapper) resultEnumItem;
-		if (!wrapper.getPrecomputedType().equals(this)) {
-			throw new ReflectionUIError("This " + ArrayAsEnumerationTypeInfo.class.getSimpleName()
-					+ " instance cannot unwrap an item that was wrapped with a different instance");
-		}
-		return wrapper.getInstance();
+	public void unregisterArrayItem(Object resultEnumItem) {
+		reflectionUI.unregisterPrecomputedTypeInfoObject(resultEnumItem);
 	}
 
-	public Object wrapArrayItem(Object item) {
-		return new PrecomputedTypeInfoInstanceWrapper(item, this);
-	}
-	
-	public IEnumerationTypeInfo forWrappedArrayItems(){
-		return (IEnumerationTypeInfo) PrecomputedTypeInfoInstanceWrapper.adaptPrecomputedType(this);
+	public void registerArrayItem(Object item) {
+		reflectionUI.registerPrecomputedTypeInfoObject(item, this);
 	}
 
 }

@@ -16,7 +16,6 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
-import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.info.method.InvocationData;
@@ -89,8 +88,7 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 		Map result = (Map) constructor.invoke(null,
 				new InvocationData());
 		for (Object item : array) {
-			PrecomputedTypeInfoInstanceWrapper wrapper = (PrecomputedTypeInfoInstanceWrapper) item;
-			StandardMapEntry entry = (StandardMapEntry) wrapper.getInstance();
+			StandardMapEntry entry = (StandardMapEntry)item;
 			if (result.containsKey(entry.getKey())) {
 				throw new ReflectionUIError("Duplicate key: '"
 						+ reflectionUI.toString(entry.getKey()) + "'");
@@ -103,12 +101,12 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Object[] toArray(Object listValue) {
-		List<PrecomputedTypeInfoInstanceWrapper> result = new ArrayList<PrecomputedTypeInfoInstanceWrapper>();
+		List<StandardMapEntry> result = new ArrayList<StandardMapEntry>();
 		for (Object obj : ((Map) listValue).entrySet()) {
 			Map.Entry entry = (Entry) obj;
-			result.add(new PrecomputedTypeInfoInstanceWrapper(
-					new StandardMapEntry(entry.getKey(), entry.getValue()),
-					getItemType()));
+			StandardMapEntry standardMapEntry = new StandardMapEntry(entry.getKey(), entry.getValue());
+			reflectionUI.registerPrecomputedTypeInfoObject(standardMapEntry, getItemType());
+			result.add(standardMapEntry);
 		}
 		return result.toArray();
 	}

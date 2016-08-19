@@ -12,7 +12,6 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.info.method.InvocationData;
@@ -116,8 +115,9 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 							if (value != null) {
 								valueField.setValue(result, value);
 							}
-						}
-						return new PrecomputedTypeInfoInstanceWrapper(result, StandardMapEntryTypeInfo.this);
+						}						
+						reflectionUI.registerPrecomputedTypeInfoObject(result, StandardMapEntryTypeInfo.this);
+						return result;
 					}
 
 					@Override

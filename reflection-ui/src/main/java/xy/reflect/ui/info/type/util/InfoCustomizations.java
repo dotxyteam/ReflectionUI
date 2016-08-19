@@ -231,6 +231,31 @@ public class InfoCustomizations {
 		}
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((typeCustomizations == null) ? 0 : typeCustomizations.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		InfoCustomizations other = (InfoCustomizations) obj;
+		if (typeCustomizations == null) {
+			if (other.typeCustomizations != null)
+				return false;
+		} else if (!typeCustomizations.equals(other.typeCustomizations))
+			return false;
+		return true;
+	}
+
 	public abstract class AbstractInfoCustomization {
 		protected Map<String, Object> specificProperties;
 

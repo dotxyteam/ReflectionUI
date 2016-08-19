@@ -151,6 +151,39 @@ public class MultipleFieldAsListListTypeInfo implements IFieldInfo {
 			wrappedFieldInfo.setValue(object, listValue);
 		}
 
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((object == null) ? 0 : object.hashCode());
+			result = prime * result + ((wrappedFieldInfo == null) ? 0 : wrappedFieldInfo.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			MultipleFieldAsListItem other = (MultipleFieldAsListItem) obj;
+			if (object == null) {
+				if (other.object != null)
+					return false;
+			} else if (!object.equals(other.object))
+				return false;
+			if (wrappedFieldInfo == null) {
+				if (other.wrappedFieldInfo != null)
+					return false;
+			} else if (!wrappedFieldInfo.equals(other.wrappedFieldInfo))
+				return false;
+			return true;
+		}
+		
+		
+
 	}
 
 	public static class MultipleFieldAsListItemTypeInfo extends DefaultTypeInfo {
@@ -180,6 +213,32 @@ public class MultipleFieldAsListListTypeInfo implements IFieldInfo {
 		public List<IFieldInfo> getFields() {
 			return Collections.<IFieldInfo> singletonList(getValueField());
 		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = super.hashCode();
+			result = prime * result + ((item == null) ? 0 : item.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (!super.equals(obj))
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			MultipleFieldAsListItemTypeInfo other = (MultipleFieldAsListItemTypeInfo) obj;
+			if (item == null) {
+				if (other.item != null)
+					return false;
+			} else if (!item.equals(other.item))
+				return false;
+			return true;
+		}
+		
 
 	}
 

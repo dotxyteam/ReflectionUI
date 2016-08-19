@@ -31,7 +31,6 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.util.HiddenNullableFacetsInfoProxyGenerator;
-import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
@@ -41,6 +40,8 @@ public class ReflectionUI {
 
 	protected Map<ITypeInfoSource, ITypeInfo> typeInfoBySource = CacheBuilder.newBuilder().maximumSize(1000)
 			.<ITypeInfoSource, ITypeInfo> build().asMap();
+	protected Map<Object, ITypeInfo> precomputedTypeInfoByObject = CacheBuilder.newBuilder().weakKeys()
+			.<Object, ITypeInfo> build().asMap();
 
 	public static void main(String[] args) {
 		ReflectionUI reflectionUI = new ReflectionUI();
@@ -73,6 +74,14 @@ public class ReflectionUI {
 		} catch (Throwable t) {
 			swingRenderer.handleExceptionsFromDisplayedUI(null, t);
 		}
+	}
+
+	public void registerPrecomputedTypeInfoObject(Object object, ITypeInfo type) {
+		precomputedTypeInfoByObject.put(object, type);
+	}
+
+	public void unregisterPrecomputedTypeInfoObject(Object object) {
+		precomputedTypeInfoByObject.remove(object);
 	}
 
 	public boolean canCopy(Object object) {
@@ -114,8 +123,9 @@ public class ReflectionUI {
 	}
 
 	public ITypeInfoSource getTypeInfoSource(Object object) {
-		if (object instanceof PrecomputedTypeInfoInstanceWrapper) {
-			return ((PrecomputedTypeInfoInstanceWrapper) object).getPrecomputedTypeInfoSource();
+		ITypeInfo precomputedType = precomputedTypeInfoByObject.get(object);
+		if (precomputedType != null) {
+			return new PrecomputedTypeInfoSource(precomputedType);
 		} else if (object instanceof MultipleFieldAsListItem) {
 			return new PrecomputedTypeInfoSource(
 					new MultipleFieldAsListItemTypeInfo(this, (MultipleFieldAsListItem) object));
@@ -159,10 +169,10 @@ public class ReflectionUI {
 				} else {
 					result = new DefaultTypeInfo(this, javaTypeSource.getJavaType());
 				}
+				typeInfoBySource.put(typeSource, result);
 			} else {
 				throw new ReflectionUIError();
 			}
-			typeInfoBySource.put(typeSource, result);
 		}
 		if (SystemProperties.hideNullablefacets()) {
 			result = new HiddenNullableFacetsInfoProxyGenerator(this).get(result);

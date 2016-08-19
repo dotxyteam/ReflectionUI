@@ -66,7 +66,6 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.ArrayAsEnumerationTypeInfo;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
 import xy.reflect.ui.info.type.util.MethodParametersAsTypeInfo;
-import xy.reflect.ui.info.type.util.PrecomputedTypeInfoInstanceWrapper;
 import xy.reflect.ui.info.type.util.VirtualFieldWrapperTypeInfo;
 import xy.reflect.ui.undo.CompositeModification;
 import xy.reflect.ui.undo.IModification;
@@ -511,11 +510,10 @@ public class SwingRenderer {
 		if (customFieldControl != null) {
 			return customFieldControl;
 		} else {
-			field = SwingRendererUtils.prepareEmbeddedFormCreation(reflectionUI, object, field);
-			if (SwingRendererUtils.isEmbeddedFormCreationForbidden(field)) {
-				return new DialogAccessControl(this, object, field);
-			} else {
+			if (Boolean.TRUE.equals(field.getSpecificProperties().get(SwingSpecificProperty.CREATE_EMBEDDED_FORM))) {
 				return new EmbeddedFormControl(this, object, field);
+			} else {
+				return new DialogAccessControl(this, object, field);
 			}
 		}
 	}
@@ -927,7 +925,7 @@ public class SwingRenderer {
 		layoutControlPanels(parentForm, fieldsPanel, methodsPanel);
 	}
 
-	protected IFieldInfo makeFieldModificationsUndoable(final IFieldInfo field, final JPanel form) {
+	public IFieldInfo makeFieldModificationsUndoable(final IFieldInfo field, final JPanel form) {
 		return new FieldInfoProxy(field) {
 			@Override
 			public void setValue(Object object, Object newValue) {
@@ -937,7 +935,7 @@ public class SwingRenderer {
 		};
 	}
 
-	protected IMethodInfo makeMethodModificationsUndoable(final IMethodInfo method, final JPanel form) {
+	public IMethodInfo makeMethodModificationsUndoable(final IMethodInfo method, final JPanel form) {
 		return new MethodInfoProxy(method) {
 
 			@Override
@@ -1047,12 +1045,22 @@ public class SwingRenderer {
 							}
 
 						};
-						Object resultEnumItem = openSelectionDialog(activatorComponent, enumType.forWrappedArrayItems(),
-								null, MessageFormat.format("Choose the type of ''{0}''", type.getCaption()), null);
-						if (resultEnumItem == null) {
-							return null;
+						for (ITypeInfo polyType : polyTypes) {
+							enumType.registerArrayItem(polyType);
 						}
-						type = (ITypeInfo) enumType.unwrapArrayItem(resultEnumItem);
+						Object resultEnumItem;
+						try {
+							resultEnumItem = openSelectionDialog(activatorComponent, enumType, null,
+									MessageFormat.format("Choose the type of ''{0}''", type.getCaption()), null);
+							if (resultEnumItem == null) {
+								return null;
+							}
+						} finally {
+							for (ITypeInfo polyType : polyTypes) {
+								enumType.unregisterArrayItem(polyType);
+							}
+						}
+						type = (ITypeInfo) resultEnumItem;
 					}
 				}
 			}
@@ -1168,8 +1176,8 @@ public class SwingRenderer {
 		} else {
 			invocationData = new InvocationData();
 		}
-		JPanel methodForm = createObjectForm(new MethodParametersAsTypeInfo(reflectionUI, method)
-				.getPrecomputedTypeInfoInstanceWrapper(object, invocationData));
+		JPanel methodForm = createObjectForm(
+				new MethodParametersAsTypeInfo(reflectionUI, method).getInstance(object, invocationData));
 		final boolean[] invokedStatusHolder = new boolean[] { false };
 		final JDialog[] methodDialogHolder = new JDialog[1];
 		List<Component> toolbarControls = new ArrayList<Component>();
@@ -1388,25 +1396,66 @@ public class SwingRenderer {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> T openSelectionDialog(Component parentComponent, List<T> choices, T initialSelection, String message,
-			String title) {
+	public <T> T openSelectionDialog(Component parentComponent, final List<T> choices, T initialSelection,
+			String message, String title) {
 		if (choices.size() == 0) {
 			throw new ReflectionUIError();
 		}
 		ArrayAsEnumerationTypeInfo enumType = new ArrayAsEnumerationTypeInfo(reflectionUI, choices.toArray(),
-				"Selection Dialog Array As Enumeration");
-		Object initialEnumItem;
-		if (initialSelection != null) {
-			initialEnumItem = enumType.wrapArrayItem(initialSelection);
-		} else {
-			initialEnumItem = null;
+				"Selection Dialog Array As Enumeration") {
+			Map<Object, String> captions = new HashMap<Object, String>();
+			Map<Object, Image> iconImages = new HashMap<Object, Image>();
+
+			{
+				for (Object choice : choices) {
+					captions.put(choice, SwingRenderer.this.reflectionUI.toString(choice));
+					iconImages.put(choice, getIconImage(choice));
+				}
+			}
+
+			@Override
+			public IEnumerationItemInfo getValueInfo(final Object object) {
+				return new IEnumerationItemInfo() {
+					@Override
+					public Map<String, Object> getSpecificProperties() {
+						Map<String, Object> result = new HashMap<String, Object>();
+						result.put(SwingSpecificProperty.KEY_ICON_IMAGE, iconImages.get(object));
+						return result;
+					}
+
+					@Override
+					public String getOnlineHelp() {
+						return null;
+					}
+
+					@Override
+					public String getName() {
+						return captions.get(object);
+					}
+
+					@Override
+					public String getCaption() {
+						return captions.get(object);
+					}
+				};
+			}
+
+		};
+		Object resultEnumItem;
+		for (Object choice : choices) {
+			enumType.registerArrayItem(choice);
 		}
-		Object resultEnumItem = openSelectionDialog(parentComponent, enumType.forWrappedArrayItems(), initialEnumItem,
-				message, title);
+		try {
+			resultEnumItem = openSelectionDialog(parentComponent, enumType, initialSelection, message, title);
+		} finally {
+			for (Object choice : choices) {
+				enumType.unregisterArrayItem(choice);
+			}
+		}
 		if (resultEnumItem == null) {
 			return null;
 		}
-		T result = (T) enumType.unwrapArrayItem(resultEnumItem);
+		T result = (T) resultEnumItem;
 		return result;
 
 	}
@@ -1815,9 +1864,13 @@ public class SwingRenderer {
 	}
 
 	public static class SwingSpecificProperty {
-		public static String KEY_ICON_IMAGE_PATH = SwingSpecificProperty.class.getSimpleName() + ".KEY_ICON_IMAGE_PATH";
-		public static String KEY_ICON_IMAGE_PATH_KIND = SwingSpecificProperty.class.getSimpleName()
+		public static final String KEY_ICON_IMAGE = SwingSpecificProperty.class.getSimpleName() + ".KEY_ICON_IMAGE";
+		public static final String KEY_ICON_IMAGE_PATH = SwingSpecificProperty.class.getSimpleName() + ".KEY_ICON_IMAGE_PATH";
+		public static final String KEY_ICON_IMAGE_PATH_KIND = SwingSpecificProperty.class.getSimpleName()
 				+ ".KEY_ICON_IMAGE_PATH_KIND";
+		public static final String CREATE_EMBEDDED_FORM = SwingSpecificProperty.class.getSimpleName()
+				+ ".CREATE_EMBEDDED_FORM";
+
 		public static final String VALUE_PATH_TYPE_KIND_ABSOLUTE_FILE = SwingSpecificProperty.class.getSimpleName()
 				+ ".VALUE_PATH_TYPE_KIND_ABSOLUTE_FILE";
 		public static final String VALUE_PATH_TYPE_KIND_RELATIVE_FILE = SwingSpecificProperty.class.getSimpleName()
