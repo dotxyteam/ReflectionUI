@@ -1548,7 +1548,7 @@ public class ListControl extends JPanel implements IFieldControl {
 			}
 
 		};
-		String title = itemPosition.getContainingListField().getCaption() + " Item";
+		String title = ReflectionUIUtils.composeTitle(itemPosition.getContainingListField().getCaption(), "Item");
 		Image iconImage = swingRenderer.getIconImage(valueHolder[0]);
 		IInfoCollectionSettings settings = getStructuralInfo().getItemInfoSettings(itemPosition);
 		boolean isGetOnly = itemPosition.getContainingListField().isGetOnly();

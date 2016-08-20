@@ -2,6 +2,7 @@ package xy.reflect.ui.info.method;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,6 +123,12 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 	public static boolean isCompatibleWith(Constructor<?> constructor) {
 		if (ReflectionUIUtils.isInfoHidden(constructor)) {
 			return false;
+		}
+		Class<?> declaringClass = constructor.getDeclaringClass();
+		if(declaringClass.getEnclosingClass() != null){
+			if(!Modifier.isStatic(declaringClass.getModifiers())){
+				return false;
+			}
 		}
 		return true;
 	}

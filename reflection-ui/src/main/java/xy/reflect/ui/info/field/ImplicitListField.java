@@ -33,7 +33,7 @@ public class ImplicitListField implements IFieldInfo {
 	protected IListTypeInfo type;
 	private ITypeInfo parentType;
 
-	public ImplicitListField(ReflectionUI reflectionUI, String fieldName, ITypeInfo parentType, String createMethodName,
+	public ImplicitListField(ReflectionUI reflectionUI, String fieldName, ITypeInfo parentType, ITypeInfo itemType, String createMethodName,
 			String getMethodName, String addMethodName, String removeMethodName, String sizeMethodName) {
 		this.reflectionUI = reflectionUI;
 		this.fieldName = fieldName;
@@ -43,7 +43,7 @@ public class ImplicitListField implements IFieldInfo {
 		this.addMethodName = addMethodName;
 		this.removeMethodName = removeMethodName;
 		this.sizeMethodName = sizeMethodName;
-		this.itemType = getCreateMethod().getReturnValueType();
+		this.itemType = itemType;
 
 	}
 
