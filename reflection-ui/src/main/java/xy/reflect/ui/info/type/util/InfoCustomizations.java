@@ -761,7 +761,8 @@ public class InfoCustomizations {
 
 		@Override
 		protected Map<String, Object> getSpecificProperties(IMethodInfo method, ITypeInfo containingType) {
-			MethodCustomization m = getMethodCustomization(containingType.getName(), method.getName());
+			MethodCustomization m = getMethodCustomization(containingType.getName(),
+					ReflectionUIUtils.getMethodInfoSignature(method));
 			if (m != null) {
 				if (m.specificProperties != null) {
 					if (m.specificProperties.entrySet().size() > 0) {
@@ -834,7 +835,8 @@ public class InfoCustomizations {
 
 		@Override
 		protected boolean isReadOnly(IMethodInfo method, ITypeInfo containingType) {
-			MethodCustomization m = getMethodCustomization(containingType.getName(), method.getName());
+			MethodCustomization m = getMethodCustomization(containingType.getName(),
+					ReflectionUIUtils.getMethodInfoSignature(method));
 			if (m != null) {
 				if (m.readOnlyForced) {
 					return true;
@@ -845,7 +847,8 @@ public class InfoCustomizations {
 
 		@Override
 		protected List<IParameterInfo> getParameters(IMethodInfo method, ITypeInfo containingType) {
-			MethodCustomization m = getMethodCustomization(containingType.getName(), method.getName());
+			MethodCustomization m = getMethodCustomization(containingType.getName(),
+					ReflectionUIUtils.getMethodInfoSignature(method));
 			if (m != null) {
 				List<IParameterInfo> result = new ArrayList<IParameterInfo>(
 						super.getParameters(method, containingType));
@@ -864,7 +867,8 @@ public class InfoCustomizations {
 
 		@Override
 		protected String getCaption(IMethodInfo method, ITypeInfo containingType) {
-			MethodCustomization m = getMethodCustomization(containingType.getName(), method.getName());
+			MethodCustomization m = getMethodCustomization(containingType.getName(),
+					ReflectionUIUtils.getMethodInfoSignature(method));
 			if (m != null) {
 				if (m.customMethodCaption != null) {
 					return m.customMethodCaption;
@@ -1013,6 +1017,9 @@ public class InfoCustomizations {
 							f.valueOptionsFieldName);
 					IListTypeInfo valueOptionsfieldType = (IListTypeInfo) valueOptionsfield.getType();
 					Object options = valueOptionsfield.getValue(object);
+					if(options == null){
+						return null;
+					}
 					return valueOptionsfieldType.toArray(options);
 				}
 			}

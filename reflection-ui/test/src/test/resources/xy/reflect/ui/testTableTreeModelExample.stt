@@ -72,7 +72,7 @@
       <completenessChecked>false</completenessChecked>
       <orderChecked>false</orderChecked>
       <visibleStrings>
-        <string>Products Item</string>
+        <string>Products - Item</string>
         <string>Name: </string>
         <string>b1</string>
         <string>Price: </string>
@@ -151,7 +151,7 @@
         </menuItemPath>
       </componentFinder>
     </xy.ui.testing.action.component.ClickOnMenuItemAction>
-    <xy.ui.testing.action.component.combobox.SelectComboBoxItemAction>
+    <xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <componentClassName>javax.swing.JComboBox</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
@@ -159,7 +159,7 @@
       </componentFinder>
       <optionToSelect>Package</optionToSelect>
       <selectionMode>BY_LABEL_TEXT</selectionMode>
-    </xy.ui.testing.action.component.combobox.SelectComboBoxItemAction>
+    </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
@@ -249,7 +249,7 @@
         </menuItemPath>
       </componentFinder>
     </xy.ui.testing.action.component.ClickOnMenuItemAction>
-    <xy.ui.testing.action.component.combobox.SelectComboBoxItemAction>
+    <xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <componentClassName>javax.swing.JComboBox</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
@@ -257,7 +257,7 @@
       </componentFinder>
       <optionToSelect>Shoes</optionToSelect>
       <selectionMode>BY_LABEL_TEXT</selectionMode>
-    </xy.ui.testing.action.component.combobox.SelectComboBoxItemAction>
+    </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
@@ -314,7 +314,7 @@
       </visibleStrings>
       <windowIndex>0</windowIndex>
     </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
-    <xy.ui.testing.action.component.table.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTableRowAction>
       <addedToExistingSelection>false</addedToExistingSelection>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <componentClassName>org.jdesktop.swingx.JXTreeTable</componentClassName>
@@ -323,7 +323,7 @@
       </componentFinder>
       <firstItemToSelect>1</firstItemToSelect>
       <lastItemToSelect>1</lastItemToSelect>
-    </xy.ui.testing.action.component.table.SelectTableRowAction>
+    </xy.ui.testing.action.component.specific.SelectTableRowAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.PropertyBasedComponentFinder">
@@ -359,7 +359,7 @@
         </menuItemPath>
       </componentFinder>
     </xy.ui.testing.action.component.ClickOnMenuItemAction>
-    <xy.ui.testing.action.component.combobox.SelectComboBoxItemAction>
+    <xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <componentClassName>javax.swing.JComboBox</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
@@ -367,7 +367,7 @@
       </componentFinder>
       <optionToSelect>Loaning</optionToSelect>
       <selectionMode>BY_LABEL_TEXT</selectionMode>
-    </xy.ui.testing.action.component.combobox.SelectComboBoxItemAction>
+    </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
@@ -401,7 +401,7 @@
       <doubleClick>false</doubleClick>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
-    <xy.ui.testing.action.component.treetable.ExpandTreetTableToItemAction>
+    <xy.ui.testing.action.component.specific.ExpandTreetTableToItemAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <componentClassName>org.jdesktop.swingx.JXTreeTable</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
@@ -411,8 +411,8 @@
         <int>2</int>
         <int>0</int>
       </itemPath>
-    </xy.ui.testing.action.component.treetable.ExpandTreetTableToItemAction>
-    <xy.ui.testing.action.component.table.SelectTableRowAction>
+    </xy.ui.testing.action.component.specific.ExpandTreetTableToItemAction>
+    <xy.ui.testing.action.component.specific.SelectTableRowAction>
       <addedToExistingSelection>false</addedToExistingSelection>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <componentClassName>org.jdesktop.swingx.JXTreeTable</componentClassName>
@@ -421,7 +421,7 @@
       </componentFinder>
       <firstItemToSelect>3</firstItemToSelect>
       <lastItemToSelect>3</lastItemToSelect>
-    </xy.ui.testing.action.component.table.SelectTableRowAction>
+    </xy.ui.testing.action.component.specific.SelectTableRowAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.PropertyBasedComponentFinder">
