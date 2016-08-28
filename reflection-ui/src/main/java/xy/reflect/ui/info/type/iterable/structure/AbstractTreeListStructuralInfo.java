@@ -1,4 +1,4 @@
-package xy.reflect.ui.info.type.iterable.util.structure;
+package xy.reflect.ui.info.type.iterable.structure;
 
 import java.util.ArrayList;
 import java.util.Collections;

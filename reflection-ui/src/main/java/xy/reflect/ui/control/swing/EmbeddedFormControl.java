@@ -52,7 +52,7 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 
 			@Override
 			public void ancestorAdded(AncestorEvent event) {
-				whenContainingWindowDisplayed();
+				onceContainingWindowDisplayed();
 			}
 		});
 		refreshUI();
@@ -62,8 +62,8 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 		return subForm;
 	}
 
-	protected void whenContainingWindowDisplayed() {
-		forwardUpdatesToParentForm(subForm);
+	protected void onceContainingWindowDisplayed() {
+		forwardModificationsToParentForm(subForm);
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 		}
 	}
 
-	protected void forwardUpdatesToParentForm(JPanel subForm) {
+	protected void forwardModificationsToParentForm(JPanel subForm) {
 		final ModificationStack parentModifStack = SwingRendererUtils.findModificationStack(EmbeddedFormControl.this,
 				swingRenderer);
 		swingRenderer.getModificationStackByForm().put(subForm, new ModificationStack(null) {
@@ -90,14 +90,13 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 			@Override
 			public void pushUndo(IModification undoModif) {
 				saveFocusInformation();
-				Object oldValue = field.getValue(object);
-				if (swingRenderer.getReflectionUI().equals(oldValue, subFormObject)) {
-					parentModifStack.pushUndo(undoModif);
-				} else {
+				if (shouldUpdateField()) {
 					parentModifStack.beginComposite();
 					parentModifStack.pushUndo(undoModif);
 					field.setValue(object, subFormObject);
 					parentModifStack.endComposite(ModificationStack.getUndoTitle(undoModif.getTitle()), UndoOrder.FIFO);
+				} else {
+					parentModifStack.pushUndo(undoModif);
 				}
 			}
 
@@ -114,14 +113,18 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 			@Override
 			public void invalidate() {
 				saveFocusInformation();
-				Object oldValue = field.getValue(object);
-				if (!swingRenderer.getReflectionUI().equals(oldValue, subFormObject)) {
+				if (shouldUpdateField()) {
 					field.setValue(object, subFormObject);
 				}
 				parentModifStack.invalidate();
 			}
 
 		});
+	}
+
+	protected boolean shouldUpdateField() {
+		Object oldValue = field.getValue(object);
+		return (!field.isGetOnly()) && (!swingRenderer.getReflectionUI().equals(oldValue, subFormObject));
 	}
 
 	protected void saveFocusInformation() {
@@ -156,7 +159,7 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 				remove(subForm);
 				subForm = null;
 				refreshUI();
-				forwardUpdatesToParentForm(subForm);
+				forwardModificationsToParentForm(subForm);
 			}
 		}
 		return true;

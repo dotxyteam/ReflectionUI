@@ -6,7 +6,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.swing.CustomizingSwingRenderer;
+import xy.reflect.ui.control.swing.SwingCustomizer;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -52,7 +52,7 @@ public class Example {
 				return customizations.get(this, super.getTypeInfo(typeSource));
 			}
 		};
-		swingRenderer = new CustomizingSwingRenderer(reflectionUI, customizations, customizationsFilePath);
+		swingRenderer = new SwingCustomizer(reflectionUI, customizations, customizationsFilePath);
 
 		/*
 		 * The ReflectionUI generator assumes that the Java coding standards are

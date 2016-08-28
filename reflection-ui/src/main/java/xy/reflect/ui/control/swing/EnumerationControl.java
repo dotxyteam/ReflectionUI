@@ -80,7 +80,7 @@ public class EnumerationControl extends JPanel {
 						s = itemInfo.getCaption();
 					}
 					label.setText(swingRenderer.getReflectionUI().prepareStringToDisplay(s));
-					Image imageIcon = swingRenderer.getIconImage(value);
+					Image imageIcon = swingRenderer.getObjectIconImage(value);
 					if (imageIcon == null) {
 						label.setIcon(null);
 					} else {

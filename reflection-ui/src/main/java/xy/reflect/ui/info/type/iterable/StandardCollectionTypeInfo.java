@@ -11,18 +11,17 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
+import xy.reflect.ui.info.type.iterable.structure.column.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
-import xy.reflect.ui.info.type.iterable.util.structure.DefaultListStructuralInfo;
-import xy.reflect.ui.info.type.iterable.util.structure.IListStructuralInfo;
-import xy.reflect.ui.info.type.iterable.util.structure.TabularTreetStructuralInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.info.method.InvocationData;
 
 public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IListTypeInfo {
 
@@ -105,6 +104,23 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 		return null;
 	}
 
+
+	
+	@Override
+	public boolean canReplaceContent() {
+		return true;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public void replaceContent(Object listValue, Object[] array) {
+		Collection collection = (Collection) listValue;
+		collection.clear();
+		for(Object item: array){
+			collection.add(item);
+		}		
+	}
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Object fromArray(Object[] array) {
@@ -133,16 +149,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 
 	@Override
 	public IListStructuralInfo getStructuralInfo() {
-		ITypeInfo itemType = getItemType();
-		try {
-			TabularTreetStructuralInfo tabularInfo = new TabularTreetStructuralInfo(reflectionUI, itemType);
-			if (tabularInfo.getColumnFields().size() >= 3) {
-				return tabularInfo;
-			}
-		} catch (Exception ignore) {
-		}
-		return new DefaultListStructuralInfo(reflectionUI, itemType);
-
+		return new DefaultListStructuralInfo(reflectionUI);
 	}
 
 	@Override

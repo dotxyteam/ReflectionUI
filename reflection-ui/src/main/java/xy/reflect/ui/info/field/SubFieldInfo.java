@@ -16,33 +16,30 @@ public class SubFieldInfo implements IFieldInfo {
 	protected IFieldInfo theSubField;
 	protected ITypeInfo type;
 
-	public SubFieldInfo(ITypeInfo typeInfo, String fieldName,
-			String subFieldName) {
+	public SubFieldInfo(ITypeInfo typeInfo, String fieldName, String subFieldName) {
 		this.type = typeInfo;
-		this.field = ReflectionUIUtils.findInfoByName(type.getFields(),
-				fieldName);
+		this.field = ReflectionUIUtils.findInfoByName(type.getFields(), fieldName);
 		if (this.field == null) {
-			throw new ReflectionUIError("Field '" + fieldName
-					+ "' not found in type '" + type.getName() + "'");
+			throw new ReflectionUIError("Field '" + fieldName + "' not found in type '" + type.getName() + "'");
 		}
-		this.theSubField = ReflectionUIUtils.findInfoByName(field.getType()
-				.getFields(), subFieldName);
+		this.theSubField = ReflectionUIUtils.findInfoByName(field.getType().getFields(), subFieldName);
 		if (this.field == null) {
-			throw new ReflectionUIError("Field '" + subFieldName
-					+ "' not found in type '" + field.getType().getName()
-					+ "'");
+			throw new ReflectionUIError(
+					"Field '" + subFieldName + "' not found in type '" + field.getType().getName() + "'");
 		}
 	}
 
+	@Override
 	public ITypeInfo getType() {
 		return theSubField.getType();
 	}
 
+	@Override
 	public String getName() {
-		return SubFieldInfo.class.getSimpleName() + "(" + field.getName()
-				+ "." + theSubField.getName() + ")";
+		return SubFieldInfo.class.getSimpleName() + "(" + field.getName() + "." + theSubField.getName() + ")";
 	}
 
+	@Override
 	public String getCaption() {
 		return field.getCaption() + " " + theSubField.getCaption();
 	}
@@ -52,6 +49,7 @@ public class SubFieldInfo implements IFieldInfo {
 		return getCaption();
 	}
 
+	@Override
 	public Object getValue(Object object) {
 		Object fieldValue = field.getValue(object);
 		if (fieldValue == null) {
@@ -60,6 +58,7 @@ public class SubFieldInfo implements IFieldInfo {
 		return theSubField.getValue(fieldValue);
 	}
 
+	@Override
 	public Object[] getValueOptions(Object object) {
 		Object fieldValue = field.getValue(object);
 		if (fieldValue == null) {
@@ -68,30 +67,37 @@ public class SubFieldInfo implements IFieldInfo {
 		return theSubField.getValueOptions(fieldValue);
 	}
 
-	public void setValue(Object object, Object value) {
+	@Override
+	public void setValue(Object object, Object subFieldValue) {
 		Object fieldValue = field.getValue(object);
-		if (fieldValue == null) {
-			fieldValue = getFieldValueConstructor().invoke(null,
-					new InvocationData());
+		if (subFieldValue == null) {
+			if (fieldValue != null) {
+				theSubField.setValue(fieldValue, null);
+			}
+		} else {
+			if (fieldValue == null) {
+				IMethodInfo fieldCtor = ReflectionUIUtils.getZeroParameterConstrucor(field.getType());
+				if (fieldCtor == null) {
+					throw new ReflectionUIError(
+							"Cannot set sub-field value: Parent field value is null and cannot be constructed: Default constructor not found");
+				}
+				fieldValue = fieldCtor.invoke(null, new InvocationData());
+			}
+			theSubField.setValue(fieldValue, subFieldValue);
+			if (!field.isGetOnly()) {
+				field.setValue(object, fieldValue);
+			}
 		}
-		theSubField.setValue(fieldValue, value);
-		field.setValue(object, fieldValue);
 	}
 
+	@Override
 	public boolean isNullable() {
 		return field.isNullable() || theSubField.isNullable();
 	}
 
-	public boolean isUnsettable() {
-		return getFieldValueConstructor() == null;
-	}
-
+	@Override
 	public boolean isGetOnly() {
-		return getFieldValueConstructor() == null;
-	}
-
-	public IMethodInfo getFieldValueConstructor() {
-		return ReflectionUIUtils.getZeroParameterConstrucor(field.getType());
+		return theSubField.isGetOnly();
 	}
 
 	@Override

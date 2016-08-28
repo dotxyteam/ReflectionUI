@@ -7,8 +7,10 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.info.method.InvocationData;
 
+@SuppressWarnings("unused")
 public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 
 	public ArrayTypeInfo(ReflectionUI reflectionUI, Class<?> javaType,
@@ -39,7 +41,7 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 	public List<IMethodInfo> getConstructors() {
 		return Collections
 				.<IMethodInfo> singletonList(new AbstractConstructorMethodInfo(
-						new ArrayTypeInfo(reflectionUI, javaType, itemJavaType)) {
+						this) {
 
 					@Override
 					public Object invoke(Object object,
@@ -54,6 +56,17 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 
 				});
 	}
+	
+	
+	@Override
+	public boolean canReplaceContent() {
+		return super.canReplaceContent();
+	}
+
+	@Override
+	public void replaceContent(Object listValue, Object[] array) {
+		new UnsupportedOperationException();
+	}
 
 	@Override
 	public Object fromArray(Object[] array) {
@@ -63,6 +76,8 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 		}
 		return value;
 	}
+	
+	
 
 	@Override
 	public boolean isOrdered() {

@@ -17,9 +17,9 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.map.IMapEntryTypeInfo;
+import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
-import xy.reflect.ui.info.type.iterable.util.structure.IListStructuralInfo;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -200,8 +200,12 @@ public class InfoProxyGenerator {
 		return type.getPossibleValues();
 	}
 
-	protected Object fromArray(IListTypeInfo type, Object[] listValue) {
-		return type.fromArray(listValue);
+	protected void fromArray(IListTypeInfo type, Object listValue, Object[] array) {
+		type.replaceContent(listValue, array);
+	}
+
+	protected Object fromArray(IListTypeInfo type, Object[] array) {
+		return type.fromArray(array);
 	}
 
 	protected boolean canInstanciateFromArray(IListTypeInfo type) {
@@ -215,6 +219,10 @@ public class InfoProxyGenerator {
 
 	protected List<IMethodInfo> getSpecificItemConstructors(IListTypeInfo type, Object object, IFieldInfo field) {
 		return type.getObjectSpecificItemConstructors(object, field);
+	}
+
+	public boolean isStructureMutable(IListTypeInfo type) {
+		return type.canReplaceContent();
 	}
 
 	protected ITypeInfo getItemType(IListTypeInfo type) {
@@ -573,6 +581,11 @@ public class InfoProxyGenerator {
 		}
 
 		@Override
+		public void replaceContent(Object listValue, Object[] array) {
+			InfoProxyGenerator.this.fromArray((IListTypeInfo) type, listValue, array);
+		}
+
+		@Override
 		public Object fromArray(Object[] array) {
 			return InfoProxyGenerator.this.fromArray((IListTypeInfo) type, array);
 		}
@@ -591,6 +604,11 @@ public class InfoProxyGenerator {
 		@Override
 		public List<IMethodInfo> getObjectSpecificItemConstructors(Object object, IFieldInfo field) {
 			return InfoProxyGenerator.this.getSpecificItemConstructors((IListTypeInfo) type, object, field);
+		}
+
+		@Override
+		public boolean canReplaceContent() {
+			return InfoProxyGenerator.this.isStructureMutable((IListTypeInfo) type);
 		}
 
 	}

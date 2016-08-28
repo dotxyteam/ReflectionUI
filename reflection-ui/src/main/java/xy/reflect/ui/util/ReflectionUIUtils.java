@@ -516,7 +516,7 @@ public class ReflectionUIUtils {
 		for (IParameterInfo param : parameters) {
 			if (iParam > 0) {
 				if (iParam == parameters.size() - 1) {
-					result.append(" and ");
+					result.append(" AND ");
 				} else {
 					result.append(", ");
 				}
@@ -971,6 +971,31 @@ public class ReflectionUIUtils {
 
 	public static Object onTypeInstanciationRequest(ReflectionUI reflectionUI, ITypeInfo type) {
 		return new SwingRenderer(reflectionUI).onTypeInstanciationRequest(null, type, true);
+	}
+
+	public static <T extends IInfo> Comparator<T> getInfosComparator(final List<String> expectedOrderSpecification,
+			List<T> initialOrder) {
+		final List<T> initialOrderCopy = new ArrayList<T>(initialOrder);
+		return new Comparator<T>() {
+			@Override
+			public int compare(T o1, T o2) {
+				if (expectedOrderSpecification.contains(o1.getName())
+						&& expectedOrderSpecification.contains(o2.getName())) {
+					Integer index1 = new Integer(expectedOrderSpecification.indexOf(o1.getName()));
+					Integer index2 = new Integer(expectedOrderSpecification.indexOf(o2.getName()));
+					return index1.compareTo(index2);
+				}
+				if (expectedOrderSpecification.contains(o1.getName())) {
+					return 1;
+				}
+				if (expectedOrderSpecification.contains(o2.getName())) {
+					return -1;
+				}
+				Integer index1 = new Integer(initialOrderCopy.indexOf(o1));
+				Integer index2 = new Integer(initialOrderCopy.indexOf(o2));
+				return index1.compareTo(index2);
+			}
+		};
 	}
 
 }

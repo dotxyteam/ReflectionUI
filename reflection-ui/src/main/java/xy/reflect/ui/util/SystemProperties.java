@@ -35,8 +35,8 @@ public class SystemProperties {
 	@Usage("If the value of this property is \"true\" then the UI customization controls will be displayed.")
 	public static final String AUTHORIZE_INFO_CUSTOMIZATIONS_CONTROLS = PREFIX + ".infoCustomizationsControlsAuthorized";
 
-	@Usage("If the value of this property is \"true\" then the customizations that were specified for the UI customization controls will be discarded.")
-	public static final String DISCARD_META_INFO_CUSTOMIZATIONS = PREFIX + ".discardMetaInfoCustomizations";
+	@Usage("If the value of this property is set then the customizations that were specified for the UI customization tools will be editable and saved to the specified output file.")
+	public static final String CUSTOMIZATION_TOOLS_CUSTOMIZATIONS_FILE_PATH = PREFIX + ".customizationToolsCustomizationsFilePath";
 
 	public static String describe() {
 		StringBuilder result = new StringBuilder();
@@ -108,7 +108,7 @@ public class SystemProperties {
 		return "true".equals(System.getProperty(SystemProperties.AUTHORIZE_INFO_CUSTOMIZATIONS_CONTROLS));
 	}
 
-	public static boolean isMetaInfoCustomizationDiscarded() {
-		return "true".equals(System.getProperty(SystemProperties.DISCARD_META_INFO_CUSTOMIZATIONS));
+	public static boolean isCustomizationToolsCustomizationAllowed() {
+		return System.getProperty(SystemProperties.CUSTOMIZATION_TOOLS_CUSTOMIZATIONS_FILE_PATH) != null;
 	}
 }

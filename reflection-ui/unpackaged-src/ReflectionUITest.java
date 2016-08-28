@@ -27,9 +27,8 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
-import xy.reflect.ui.info.type.iterable.util.structure.DefaultListStructuralInfo;
-import xy.reflect.ui.info.type.iterable.util.structure.IListStructuralInfo;
-import xy.reflect.ui.info.type.iterable.util.structure.TabularTreetStructuralInfo;
+import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
+import xy.reflect.ui.info.type.iterable.structure.column.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.InfoProxyGenerator;
@@ -311,7 +310,7 @@ public class ReflectionUITest {
 		};
 		SwingRenderer renderer = new SwingRenderer(editor) {
 			@Override
-			public Image getIconImage(Object object) {
+			public Image getObjectIconImage(Object object) {
 				try {
 					return ImageIO.read(ReflectionUITest.class.getResource("icon.gif"));
 				} catch (IOException e) {

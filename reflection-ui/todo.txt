@@ -1,4 +1,13 @@
-- need a way to check info proxy wrap/unwrap
+- openDialog() must be getOnly for immutable types
+- add Customizations:
+	. lists:
+		* onlyToString value
+		* columns order
+		* override item type???
+		* add type column
+		* change tree column
+	. field:
+		* override type???
 - add Customizations:
 	. list column order
 	. constructors (hide, ...)

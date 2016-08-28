@@ -70,7 +70,7 @@ public class ReflectionUI {
 				return;
 			}
 			swingRenderer.openObjectFrame(object, reflectionUI.getObjectTitle(object),
-					swingRenderer.getIconImage(object));
+					swingRenderer.getObjectIconImage(object));
 		} catch (Throwable t) {
 			swingRenderer.handleExceptionsFromDisplayedUI(null, t);
 		}

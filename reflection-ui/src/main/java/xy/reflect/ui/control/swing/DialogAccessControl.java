@@ -22,6 +22,7 @@ import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.SwingRendererUtils;
 
+@SuppressWarnings("unused")
 public class DialogAccessControl extends JPanel {
 
 	protected static final long serialVersionUID = 1L;
@@ -155,12 +156,8 @@ public class DialogAccessControl extends JPanel {
 		ModificationStack parentStack = SwingRendererUtils.findModificationStack(DialogAccessControl.this,
 				swingRenderer);
 		String title = swingRenderer.getReflectionUI().getFieldTitle(object, field);
-		Image iconImage = swingRenderer.getIconImage(valueAccessor.get());
-		boolean[] changeDetectedHolder = new boolean[] { false };
-		boolean[] okPressedHolder = field.isGetOnly() ? null : new boolean[1];
-		swingRenderer.openObjectDialog(this, valueAccessor, title, iconImage, true, IInfoCollectionSettings.DEFAULT,
-				parentStack, true, okPressedHolder, changeDetectedHolder, null);
-		if (changeDetectedHolder[0]) {
+		Image iconImage = swingRenderer.getObjectIconImage(valueAccessor.get());
+		if (swingRenderer.openObjectDialogAndGetUpdateStatus(this, valueAccessor, field.isGetOnly(), title, iconImage, parentStack)) {
 			updateControls();
 		}
 
@@ -173,7 +170,7 @@ public class DialogAccessControl extends JPanel {
 
 	protected void updateIconControl() {
 		Object fieldValue = field.getValue(object);
-		Image iconImage = swingRenderer.getIconImage(fieldValue);
+		Image iconImage = swingRenderer.getObjectIconImage(fieldValue);
 		if (iconImage != null) {
 			((JLabel) iconControl).setIcon(new ImageIcon(iconImage));
 			iconControl.setVisible(true);

@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -19,6 +18,7 @@ import com.thoughtworks.xstream.converters.javabean.JavaBeanConverter;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfo;
+import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -26,6 +26,12 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.iterable.structure.CustomizedStructuralInfo;
+import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
+import xy.reflect.ui.info.type.iterable.structure.ListStructuralInfoProxy;
+import xy.reflect.ui.info.type.iterable.structure.column.DefaultListStructuralInfo;
+import xy.reflect.ui.info.type.iterable.util.ItemPosition;
+import xy.reflect.ui.info.type.util.InfoCustomizations.ColumnCustomization;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -34,6 +40,7 @@ public class InfoCustomizations {
 
 	transient protected CustomizationsProxyGenerator proxyGenerator;
 	protected List<TypeCustomization> typeCustomizations = new ArrayList<InfoCustomizations.TypeCustomization>();
+	protected List<ListStructureCustomization> listStructures = new ArrayList<InfoCustomizations.ListStructureCustomization>();
 
 	protected CustomizationsProxyGenerator createCustomizationsProxyGenerator(ReflectionUI reflectionUI) {
 		return new CustomizationsProxyGenerator(reflectionUI);
@@ -54,6 +61,14 @@ public class InfoCustomizations {
 		this.typeCustomizations = typeCustomizations;
 	}
 
+	public List<ListStructureCustomization> getListStructures() {
+		return listStructures;
+	}
+
+	public void setListStructures(List<ListStructureCustomization> listStructures) {
+		this.listStructures = listStructures;
+	}
+
 	public void loadFromFile(File input) throws IOException {
 		FileInputStream stream = new FileInputStream(input);
 		try {
@@ -70,6 +85,7 @@ public class InfoCustomizations {
 		XStream xstream = getXStream();
 		InfoCustomizations loaded = (InfoCustomizations) xstream.fromXML(input);
 		typeCustomizations = loaded.typeCustomizations;
+		listStructures = loaded.listStructures;
 	}
 
 	public void saveToFile(File output) throws IOException {
@@ -179,6 +195,53 @@ public class InfoCustomizations {
 		return null;
 	}
 
+	public ListStructureCustomization getListStructureCustomization(String listTypeName, String itemTypeName) {
+		return getListStructureCustomization(listTypeName, itemTypeName, true);
+	}
+
+	public ListStructureCustomization getListStructureCustomization(String listTypeName, String itemTypeName,
+			boolean create) {
+		for (ListStructureCustomization l : listStructures) {
+			if (listTypeName.equals(l.listTypeName)) {
+				if (ReflectionUIUtils.equalsOrBothNull(l.itemTypeName, itemTypeName)) {
+					return l;
+				}
+			}
+		}
+		if (create) {
+			ListStructureCustomization l = new ListStructureCustomization(listTypeName, itemTypeName);
+			listStructures.add(l);
+			return l;
+		}
+		return null;
+	}
+
+	public ColumnCustomization getColumnCustomization(String listTypeName, String itemTypeName, String columnName) {
+		return getColumnCustomization(listTypeName, itemTypeName, columnName, true);
+	}
+
+	public ColumnCustomization getColumnCustomization(String listTypeName, String itemTypeName, String columnName,
+			boolean create) {
+		for (ListStructureCustomization l : listStructures) {
+			if (listTypeName.equals(l.listTypeName)) {
+				if (ReflectionUIUtils.equalsOrBothNull(itemTypeName, l.itemTypeName)) {
+					for (ColumnCustomization c : l.columnsCustomizations) {
+						if (columnName.equals(c.columnName)) {
+							return c;
+						}
+					}
+				}
+			}
+		}
+		if (create) {
+			ListStructureCustomization l = getListStructureCustomization(listTypeName, itemTypeName, true);
+			ColumnCustomization c = new ColumnCustomization(columnName);
+			l.columnsCustomizations.add(c);
+			return c;
+		}
+		return null;
+	}
+
 	protected static <I extends IInfo> List<String> getInfosOrderAfterMove(List<I> list, I info, int offset) {
 		int index = list.indexOf(info);
 		List<I> resultList = new ArrayList<I>(list);
@@ -235,6 +298,7 @@ public class InfoCustomizations {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((listStructures == null) ? 0 : listStructures.hashCode());
 		result = prime * result + ((typeCustomizations == null) ? 0 : typeCustomizations.hashCode());
 		return result;
 	}
@@ -248,6 +312,11 @@ public class InfoCustomizations {
 		if (getClass() != obj.getClass())
 			return false;
 		InfoCustomizations other = (InfoCustomizations) obj;
+		if (listStructures == null) {
+			if (other.listStructures != null)
+				return false;
+		} else if (!listStructures.equals(other.listStructures))
+			return false;
 		if (typeCustomizations == null) {
 			if (other.typeCustomizations != null)
 				return false;
@@ -363,7 +432,7 @@ public class InfoCustomizations {
 
 		@Override
 		public String toString() {
-			return "TypeCustomization [typeName=" + typeName + "]";
+			return typeName;
 		}
 
 		public void moveField(List<IFieldInfo> customizedFields, String fieldName, int offset) {
@@ -422,7 +491,7 @@ public class InfoCustomizations {
 
 		@Override
 		public String toString() {
-			return "CustomizationCategory [caption=" + caption + "]";
+			return caption;
 		}
 
 	}
@@ -548,7 +617,7 @@ public class InfoCustomizations {
 
 		@Override
 		public String toString() {
-			return "FieldCustomization [fieldName=" + fieldName + "]";
+			return fieldName;
 		}
 
 	}
@@ -561,6 +630,9 @@ public class InfoCustomizations {
 
 		public MethodCustomization(String methodSignature) {
 			super();
+			if (!methodSignature.contains("(")) {
+				System.out.println("debug");
+			}
 			this.methodSignature = methodSignature;
 		}
 
@@ -596,7 +668,7 @@ public class InfoCustomizations {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((customMethodCaption == null) ? 0 : customMethodCaption.hashCode());
+			result = prime * result + ((methodSignature == null) ? 0 : methodSignature.hashCode());
 			return result;
 		}
 
@@ -609,19 +681,18 @@ public class InfoCustomizations {
 			if (getClass() != obj.getClass())
 				return false;
 			MethodCustomization other = (MethodCustomization) obj;
-			if (customMethodCaption == null) {
-				if (other.customMethodCaption != null)
+			if (methodSignature == null) {
+				if (other.methodSignature != null)
 					return false;
-			} else if (!customMethodCaption.equals(other.customMethodCaption))
+			} else if (!methodSignature.equals(other.methodSignature))
 				return false;
 			return true;
 		}
 
 		@Override
 		public String toString() {
-			return "MethodCustomization [methodSignature=" + methodSignature + "]";
+			return methodSignature;
 		}
-
 	}
 
 	public class ParameterCustomization extends AbstractInfoCustomization {
@@ -699,7 +770,196 @@ public class InfoCustomizations {
 
 		@Override
 		public String toString() {
-			return "ParameterCustomization [parameterName=" + parameterName + "]";
+			return parameterName;
+		}
+
+	}
+
+	public class ListStructureCustomization {
+		protected String listTypeName;
+		protected String itemTypeName;
+		protected boolean itemTypeColumnAdded;
+		protected boolean positionColumnAdded;
+		protected boolean fieldColumnsAdded;
+		protected List<ColumnCustomization> columnsCustomizations = new ArrayList<ColumnCustomization>();
+		protected List<String> columnsCustomOrder;
+		protected TreeStructureDiscoverySettings treeStructureDiscoverySettings;
+
+		public ListStructureCustomization(String listTypeName, String itemTypeName) {
+			super();
+			this.listTypeName = listTypeName;
+			this.itemTypeName = itemTypeName;
+		}
+
+		public List<String> getColumnsCustomOrder() {
+			return columnsCustomOrder;
+		}
+
+		public void setColumnsCustomOrder(List<String> columnsCustomOrder) {
+			this.columnsCustomOrder = columnsCustomOrder;
+		}
+
+		public TreeStructureDiscoverySettings getTreeStructureDiscoverySettings() {
+			return treeStructureDiscoverySettings;
+		}
+
+		public void setTreeStructureDiscoverySettings(TreeStructureDiscoverySettings treeStructureDiscoverySettings) {
+			this.treeStructureDiscoverySettings = treeStructureDiscoverySettings;
+		}
+
+		public String getListTypeName() {
+			return listTypeName;
+		}
+
+		public String getItemTypeName() {
+			return itemTypeName;
+		}
+
+		public List<ColumnCustomization> getColumnsCustomizations() {
+			return columnsCustomizations;
+		}
+
+		public void setColumnsCustomizations(List<ColumnCustomization> columnsCustomizations) {
+			this.columnsCustomizations = columnsCustomizations;
+		}
+
+		public boolean isItemTypeColumnAdded() {
+			return itemTypeColumnAdded;
+		}
+
+		public void setItemTypeColumnAdded(boolean itemTypeColumnAdded) {
+			this.itemTypeColumnAdded = itemTypeColumnAdded;
+		}
+
+		public boolean isPositionColumnAdded() {
+			return positionColumnAdded;
+		}
+
+		public void setPositionColumnAdded(boolean positionColumnAdded) {
+			this.positionColumnAdded = positionColumnAdded;
+		}
+
+		public boolean isFieldColumnsAdded() {
+			return fieldColumnsAdded;
+		}
+
+		public void setFieldColumnsAdded(boolean fieldColumnsAdded) {
+			this.fieldColumnsAdded = fieldColumnsAdded;
+		}
+
+		public ColumnCustomization getColumnCustomization(String columnName) {
+			return InfoCustomizations.this.getColumnCustomization(listTypeName, itemTypeName, columnName);
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((itemTypeName == null) ? 0 : itemTypeName.hashCode());
+			result = prime * result + ((listTypeName == null) ? 0 : listTypeName.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			ListStructureCustomization other = (ListStructureCustomization) obj;
+			if (itemTypeName == null) {
+				if (other.itemTypeName != null)
+					return false;
+			} else if (!itemTypeName.equals(other.itemTypeName))
+				return false;
+			if (listTypeName == null) {
+				if (other.listTypeName != null)
+					return false;
+			} else if (!listTypeName.equals(other.listTypeName))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return listTypeName + "(" + itemTypeName + ")";
+		}
+
+	}
+
+	public static class TreeStructureDiscoverySettings {
+		protected String treeColumnFieldName;
+
+		public String getTreeColumnFieldName() {
+			return treeColumnFieldName;
+		}
+
+		public void setTreeColumnFieldName(String treeColumnFieldName) {
+			this.treeColumnFieldName = treeColumnFieldName;
+		}
+
+	}
+
+	public class ColumnCustomization {
+		protected String columnName;
+		protected String customCaption;
+		protected boolean hidden = false;
+
+		public ColumnCustomization(String columnName) {
+			super();
+			this.columnName = columnName;
+		}
+
+		public String getColumnName() {
+			return columnName;
+		}
+
+		public boolean isHidden() {
+			return hidden;
+		}
+
+		public void setHidden(boolean hidden) {
+			this.hidden = hidden;
+		}
+
+		public String getCustomCaption() {
+			return customCaption;
+		}
+
+		public void setCustomCaption(String customCaption) {
+			this.customCaption = customCaption;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((columnName == null) ? 0 : columnName.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			ColumnCustomization other = (ColumnCustomization) obj;
+			if (columnName == null) {
+				if (other.columnName != null)
+					return false;
+			} else if (!columnName.equals(other.columnName))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return columnName;
 		}
 
 	}
@@ -742,6 +1002,18 @@ public class InfoCustomizations {
 				}
 			}
 			return super.getSpecificProperties(param, method, containingType);
+		}
+
+		@Override
+		protected IListStructuralInfo getStructuralInfo(IListTypeInfo listType) {
+			ITypeInfo itemType = listType.getItemType();
+			final ListStructureCustomization customization = getListStructureCustomization(listType.getName(),
+					(itemType == null) ? null : itemType.getName());
+			if (customization != null) {
+				final IListStructuralInfo base = super.getStructuralInfo(listType);
+				return new CustomizedStructuralInfo(reflectionUI, base, listType, customization);
+			}
+			return super.getStructuralInfo(listType);
 		}
 
 		@Override
@@ -890,12 +1162,32 @@ public class InfoCustomizations {
 					}
 				}
 				if (t.customFieldsOrder != null) {
-					Collections.sort(result,
-							getInfosComparator(t.customFieldsOrder, new ArrayList<IFieldInfo>(result)));
+					Collections.sort(result, ReflectionUIUtils.getInfosComparator(t.customFieldsOrder, result));
 				}
 				return result;
 			}
 			return super.getFields(type);
+		}
+
+		@Override
+		protected List<IMethodInfo> getConstructors(ITypeInfo type) {
+			TypeCustomization t = getTypeCustomization(type.getName());
+			if (t != null) {
+				List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getConstructors(type));
+				for (Iterator<IMethodInfo> it = result.iterator(); it.hasNext();) {
+					IMethodInfo method = it.next();
+					MethodCustomization m = getMethodCustomization(type.getName(),
+							ReflectionUIUtils.getMethodInfoSignature(method));
+					if ((m != null) && m.hidden) {
+						it.remove();
+					}
+				}
+				if (t.customMethodsOrder != null) {
+					Collections.sort(result, ReflectionUIUtils.getInfosComparator(t.customMethodsOrder, result));
+				}
+				return result;
+			}
+			return super.getConstructors(type);
 		}
 
 		@Override
@@ -912,8 +1204,7 @@ public class InfoCustomizations {
 					}
 				}
 				if (t.customMethodsOrder != null) {
-					Collections.sort(result,
-							getInfosComparator(t.customMethodsOrder, new ArrayList<IMethodInfo>(result)));
+					Collections.sort(result, ReflectionUIUtils.getInfosComparator(t.customMethodsOrder, result));
 				}
 				return result;
 			}
@@ -1017,7 +1308,7 @@ public class InfoCustomizations {
 							f.valueOptionsFieldName);
 					IListTypeInfo valueOptionsfieldType = (IListTypeInfo) valueOptionsfield.getType();
 					Object options = valueOptionsfield.getValue(object);
-					if(options == null){
+					if (options == null) {
 						return null;
 					}
 					return valueOptionsfieldType.toArray(options);
@@ -1026,29 +1317,6 @@ public class InfoCustomizations {
 			return super.getValueOptions(object, field, containingType);
 		}
 
-	}
-
-	protected static <T extends IInfo> Comparator<T> getInfosComparator(final List<String> namesOrder,
-			final List<T> infoListCopy) {
-		return new Comparator<T>() {
-			@Override
-			public int compare(T o1, T o2) {
-				if (namesOrder.contains(o1.getName()) && namesOrder.contains(o2.getName())) {
-					Integer index1 = new Integer(namesOrder.indexOf(o1.getName()));
-					Integer index2 = new Integer(namesOrder.indexOf(o2.getName()));
-					return index1.compareTo(index2);
-				}
-				if (namesOrder.contains(o1.getName())) {
-					return 1;
-				}
-				if (namesOrder.contains(o2.getName())) {
-					return -1;
-				}
-				Integer index1 = new Integer(infoListCopy.indexOf(o1));
-				Integer index2 = new Integer(infoListCopy.indexOf(o2));
-				return index1.compareTo(index2);
-			}
-		};
 	}
 
 }

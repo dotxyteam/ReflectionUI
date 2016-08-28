@@ -1,7 +1,10 @@
-package xy.reflect.ui.info.type.iterable.util.structure;
+package xy.reflect.ui.info.type.iterable.structure;
+
+import java.util.List;
 
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 
 public class ListStructuralInfoProxy implements IListStructuralInfo{
@@ -12,18 +15,11 @@ public class ListStructuralInfoProxy implements IListStructuralInfo{
 		this.base = base;
 	}
 
-	public String getCellValue(ItemPosition itemPosition, int columnIndex) {
-		return base.getCellValue(itemPosition, columnIndex);
-	}
-
 	
-	public String getColumnCaption(int columnIndex) {
-		return base.getColumnCaption(columnIndex);
+	public List<IColumnInfo> getColumns() {
+		return base.getColumns();
 	}
 
-	public int getColumnCount() {
-		return base.getColumnCount();
-	}
 
 	public IFieldInfo getItemSubListField(ItemPosition itemPosition) {
 		return base.getItemSubListField(itemPosition);

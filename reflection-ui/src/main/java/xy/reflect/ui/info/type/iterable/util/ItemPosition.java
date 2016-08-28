@@ -30,16 +30,19 @@ public class ItemPosition {
 	}
 
 	public boolean isContainingListReadOnly() {
-		if (getContainingListField().isGetOnly()) {
-			return true;
+		ItemPosition parent = getParentItemPosition();
+		if (parent != null) {
+			if (parent.isContainingListReadOnly()) {
+				return true;
+			}
 		}
-		if (!getContainingListType().canInstanciateFromArray()) { 
-			return true;
+		IListTypeInfo containingListType = getContainingListType();
+		if (!containingListType.canReplaceContent()) {
+			if (!(containingListType.canInstanciateFromArray() && !getContainingListField().isGetOnly())) {
+				return true;
+			}
 		}
-		if (getParentItemPosition() == null) {
-			return false;
-		}
-		return getRootListItemPosition().isContainingListReadOnly();
+		return false;
 	}
 
 	public int getIndex() {
@@ -47,7 +50,7 @@ public class ItemPosition {
 	}
 
 	public Object getItem() {
-		Object[] listValue = getContainingListValue();
+		Object[] listValue = getContainingListRawValue();
 		if (index < 0) {
 			return null;
 		}
@@ -61,7 +64,7 @@ public class ItemPosition {
 		return containingListField;
 	}
 
-	public Object[] getContainingListValue() {
+	public Object[] getContainingListRawValue() {
 		Object list = getContainingListField().getValue(getContainingListOwner());
 		return getContainingListType().toArray(list);
 	}
@@ -100,7 +103,7 @@ public class ItemPosition {
 
 	public List<ItemPosition> getFollowingSiblings() {
 		List<ItemPosition> result = new ArrayList<ItemPosition>();
-		for (int i = getIndex() + 1; i < getContainingListValue().length; i++) {
+		for (int i = getIndex() + 1; i < getContainingListRawValue().length; i++) {
 			result.add(getSibling(i));
 		}
 		return result;
