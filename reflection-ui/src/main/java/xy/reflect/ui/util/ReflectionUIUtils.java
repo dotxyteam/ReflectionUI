@@ -998,4 +998,9 @@ public class ReflectionUIUtils {
 		};
 	}
 
+	public static boolean hasPolymorphicInstanceSubTypes(ITypeInfo type) {
+		List<ITypeInfo> polyTypes = type.getPolymorphicInstanceSubTypes();
+		return (polyTypes != null) && (polyTypes.size() > 0);
+	}
+
 }

@@ -30,12 +30,11 @@ public class TextControl extends JPanel implements IFieldControl {
 	protected boolean ignoreEditEvents = true;
 	protected Border textFieldNormalBorder;
 
-	public TextControl(final SwingRenderer swingRenderer, final Object object,
-			final IFieldInfo field) {
+	public TextControl(final SwingRenderer swingRenderer, final Object object, final IFieldInfo field) {
 		this.swingRenderer = swingRenderer;
 		this.object = object;
 		this.field = field;
-		
+
 		setLayout(new BorderLayout());
 
 		textComponent = createTextComponent();
@@ -48,13 +47,12 @@ public class TextControl extends JPanel implements IFieldControl {
 			public Dimension getPreferredSize() {
 				Dimension result = super.getPreferredSize();
 				result = fixScrollPaneSizeWHenVerticalBarVisible(result);
-				result.height = Math.min(result.height, Toolkit
-						.getDefaultToolkit().getScreenSize().height / 3);
+				result.width = Math.min(result.width, Toolkit.getDefaultToolkit().getScreenSize().width / 3);
+				result.height = Math.min(result.height, Toolkit.getDefaultToolkit().getScreenSize().height / 3);
 				return result;
 			}
 
-			private Dimension fixScrollPaneSizeWHenVerticalBarVisible(
-					Dimension size) {
+			private Dimension fixScrollPaneSizeWHenVerticalBarVisible(Dimension size) {
 				if (getHorizontalScrollBar().isVisible()) {
 					size.height += getHorizontalScrollBar().getPreferredSize().height;
 				}
@@ -66,33 +64,29 @@ public class TextControl extends JPanel implements IFieldControl {
 		if (field.isGetOnly()) {
 			textComponent.setEditable(false);
 			textComponent.setBackground(SwingRendererUtils
-					.fixSeveralColorRenderingIssues(ReflectionUIUtils
-							.getDisabledTextBackgroundColor()));
+					.fixSeveralColorRenderingIssues(ReflectionUIUtils.getDisabledTextBackgroundColor()));
 			scrollPane.setBorder(BorderFactory.createTitledBorder(""));
 		} else {
-			textComponent.getDocument().addUndoableEditListener(
-					new UndoableEditListener() {
+			textComponent.getDocument().addUndoableEditListener(new UndoableEditListener() {
 
-						@Override
-						public void undoableEditHappened(UndoableEditEvent e) {
-							if (ignoreEditEvents) {
-								return;
-							}
-							try {
-								onTextChange(textComponent.getText());
-							} catch (Throwable t) {
-								swingRenderer
-										.handleExceptionsFromDisplayedUI(
-												TextControl.this, t);
-							}
-						}
-					});
+				@Override
+				public void undoableEditHappened(UndoableEditEvent e) {
+					if (ignoreEditEvents) {
+						return;
+					}
+					try {
+						onTextChange(textComponent.getText());
+					} catch (Throwable t) {
+						swingRenderer.handleExceptionsFromDisplayedUI(TextControl.this, t);
+					}
+				}
+			});
 		}
 		refreshUI();
 	}
-	
+
 	protected JTextArea createTextComponent() {
-		return new JTextArea(){
+		return new JTextArea() {
 
 			private static final long serialVersionUID = 1L;
 
@@ -104,11 +98,11 @@ public class TextControl extends JPanel implements IFieldControl {
 				ignoreEditEvents = wasIgnoringEditEvents;
 				onTextChange(textComponent.getText());
 			}
-			
+
 		};
 	}
 
-	public static  String toText(Object object) {
+	public static String toText(Object object) {
 		return object.toString();
 	}
 
@@ -119,8 +113,7 @@ public class TextControl extends JPanel implements IFieldControl {
 
 	@Override
 	public boolean displayError(ReflectionUIError error) {
-		boolean changed = !ReflectionUIUtils.equalsOrBothNull(error,
-				textComponent.getToolTipText());
+		boolean changed = !ReflectionUIUtils.equalsOrBothNull(error, textComponent.getToolTipText());
 		if (!changed) {
 			return true;
 		}
@@ -160,13 +153,11 @@ public class TextControl extends JPanel implements IFieldControl {
 	public boolean refreshUI() {
 		ignoreEditEvents = true;
 		String newText = (String) field.getValue(object);
-		if (!ReflectionUIUtils.equalsOrBothNull(textComponent.getText(),
-				newText)) {
+		if (!ReflectionUIUtils.equalsOrBothNull(textComponent.getText(), newText)) {
 			int lastCaretPosition = textComponent.getCaretPosition();
 			textComponent.setText(newText);
 			swingRenderer.handleComponentSizeChange(this);
-			textComponent.setCaretPosition(Math.min(lastCaretPosition,
-					textComponent.getText().length()));
+			textComponent.setCaretPosition(Math.min(lastCaretPosition, textComponent.getText().length()));
 		}
 		ignoreEditEvents = false;
 		displayError(null);

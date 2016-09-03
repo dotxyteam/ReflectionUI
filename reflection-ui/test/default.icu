@@ -1,0 +1,527 @@
+<xy.reflect.ui.info.type.util.InfoCustomizations>
+  <typeCustomizations>
+    <xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization">
+        <typeCustomizations reference="../../.."/>
+        <listStructures>
+          <xy.reflect.ui.info.type.util.InfoCustomizations_-ListStructureCustomization>
+            <listTypeName>[Lxy.reflect.ui.TableTreeModelExample$Product;</listTypeName>
+            <itemTypeName>xy.reflect.ui.TableTreeModelExample$Product</itemTypeName>
+            <itemTypeColumnAdded>false</itemTypeColumnAdded>
+            <positionColumnAdded>false</positionColumnAdded>
+            <fieldColumnsAdded>true</fieldColumnsAdded>
+            <columnsCustomizations>
+              <xy.reflect.ui.info.type.util.InfoCustomizations_-ColumnCustomization>
+                <columnName>toStringValue</columnName>
+                <hidden>true</hidden>
+                <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+              </xy.reflect.ui.info.type.util.InfoCustomizations_-ColumnCustomization>
+              <xy.reflect.ui.info.type.util.InfoCustomizations_-ColumnCustomization>
+                <columnName>price</columnName>
+                <hidden>false</hidden>
+                <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+              </xy.reflect.ui.info.type.util.InfoCustomizations_-ColumnCustomization>
+              <xy.reflect.ui.info.type.util.InfoCustomizations_-ColumnCustomization>
+                <columnName>description</columnName>
+                <hidden>false</hidden>
+                <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+              </xy.reflect.ui.info.type.util.InfoCustomizations_-ColumnCustomization>
+              <xy.reflect.ui.info.type.util.InfoCustomizations_-ColumnCustomization>
+                <columnName>name</columnName>
+                <hidden>false</hidden>
+                <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+              </xy.reflect.ui.info.type.util.InfoCustomizations_-ColumnCustomization>
+            </columnsCustomizations>
+            <columnsCustomOrder>
+              <string>name</string>
+              <string>description</string>
+              <string>price</string>
+            </columnsCustomOrder>
+            <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../.."/>
+          </xy.reflect.ui.info.type.util.InfoCustomizations_-ListStructureCustomization>
+        </listStructures>
+      </outer-class>
+      <typeName>xy.reflect.ui.TableTreeModelExample$Catalog</typeName>
+      <fieldsCustomizations>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../outer-class"/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../outer-class"/>
+          <fieldName>products</fieldName>
+          <nullableFacetHidden>true</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../outer-class"/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+      </fieldsCustomizations>
+      <methodsCustomizations/>
+      <memberCategories/>
+      <polymorphicSubTypeFinders/>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../outer-class"/>
+    </xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+    <xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization/outer-class"/>
+      <typeName>VirtualFieldWrapperTypeInfo()</typeName>
+      <fieldsCustomizations>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization/outer-class"/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization/outer-class"/>
+          <fieldName></fieldName>
+          <nullableFacetHidden>false</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization/outer-class"/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+      </fieldsCustomizations>
+      <methodsCustomizations/>
+      <memberCategories/>
+      <polymorphicSubTypeFinders/>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization/outer-class"/>
+    </xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+    <xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization/outer-class"/>
+      <typeName>[Lxy.reflect.ui.TableTreeModelExample$Product;</typeName>
+      <fieldsCustomizations/>
+      <methodsCustomizations/>
+      <memberCategories/>
+      <polymorphicSubTypeFinders/>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization/outer-class"/>
+    </xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+    <xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization/outer-class"/>
+      <typeName>xy.reflect.ui.TableTreeModelExample$Product</typeName>
+      <fieldsCustomizations>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization/outer-class"/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization/outer-class"/>
+          <fieldName>price</fieldName>
+          <nullableFacetHidden>false</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization/outer-class"/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization/outer-class"/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization/outer-class"/>
+          <fieldName>description</fieldName>
+          <nullableFacetHidden>false</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization/outer-class"/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization/outer-class"/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization/outer-class"/>
+          <fieldName>name</fieldName>
+          <nullableFacetHidden>false</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization/outer-class"/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+      </fieldsCustomizations>
+      <methodsCustomizations/>
+      <memberCategories/>
+      <polymorphicSubTypeFinders>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-JavaClassBasedTypeInfoFinder>
+          <className>xy.reflect.ui.TableTreeModelExample$Book</className>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-JavaClassBasedTypeInfoFinder>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-JavaClassBasedTypeInfoFinder>
+          <className>xy.reflect.ui.TableTreeModelExample$CompactDisc</className>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-JavaClassBasedTypeInfoFinder>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-JavaClassBasedTypeInfoFinder>
+          <className>xy.reflect.ui.TableTreeModelExample$Shoes</className>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-JavaClassBasedTypeInfoFinder>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-JavaClassBasedTypeInfoFinder>
+          <className>xy.reflect.ui.TableTreeModelExample$Loaning</className>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-JavaClassBasedTypeInfoFinder>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-JavaClassBasedTypeInfoFinder>
+          <className>xy.reflect.ui.TableTreeModelExample$Package</className>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-JavaClassBasedTypeInfoFinder>
+      </polymorphicSubTypeFinders>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization/outer-class"/>
+    </xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+    <xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization/outer-class"/>
+      <typeName>java.lang.String</typeName>
+      <fieldsCustomizations/>
+      <methodsCustomizations/>
+      <memberCategories/>
+      <polymorphicSubTypeFinders/>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization/outer-class"/>
+    </xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+    <xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization/outer-class"/>
+      <typeName>int</typeName>
+      <fieldsCustomizations/>
+      <methodsCustomizations/>
+      <memberCategories/>
+      <polymorphicSubTypeFinders/>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization/outer-class"/>
+    </xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+    <xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization">
+        <typeCustomizations reference="../../.."/>
+        <listStructures reference="../../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization/outer-class/listStructures"/>
+      </outer-class>
+      <typeName>xy.reflect.ui.TableTreeModelExample$Book</typeName>
+      <fieldsCustomizations>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <fieldName>price</fieldName>
+          <nullableFacetHidden>false</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <fieldName>author</fieldName>
+          <nullableFacetHidden>true</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <fieldName>description</fieldName>
+          <nullableFacetHidden>true</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <fieldName>name</fieldName>
+          <nullableFacetHidden>true</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+      </fieldsCustomizations>
+      <methodsCustomizations>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-MethodCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <methodSignature>xy.reflect.ui.TableTreeModelExample$Book Book()</methodSignature>
+          <readOnlyForced>false</readOnlyForced>
+          <parametersCustomizations/>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-MethodCustomization>
+      </methodsCustomizations>
+      <memberCategories/>
+      <polymorphicSubTypeFinders/>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../outer-class"/>
+    </xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+    <xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization[7]/outer-class"/>
+      <typeName>xy.reflect.ui.TableTreeModelExample$CompactDisc</typeName>
+      <fieldsCustomizations>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <fieldName>price</fieldName>
+          <nullableFacetHidden>false</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <fieldName>arstist</fieldName>
+          <nullableFacetHidden>true</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <fieldName>description</fieldName>
+          <nullableFacetHidden>true</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <fieldName>genre</fieldName>
+          <nullableFacetHidden>true</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <fieldName>name</fieldName>
+          <nullableFacetHidden>true</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+      </fieldsCustomizations>
+      <methodsCustomizations>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-MethodCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <methodSignature>xy.reflect.ui.TableTreeModelExample$CompactDisc CompactDisc()</methodSignature>
+          <readOnlyForced>false</readOnlyForced>
+          <parametersCustomizations/>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-MethodCustomization>
+      </methodsCustomizations>
+      <memberCategories/>
+      <polymorphicSubTypeFinders/>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization[7]/outer-class"/>
+    </xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+    <xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization[7]/outer-class"/>
+      <typeName>xy.reflect.ui.TableTreeModelExample$Shoes</typeName>
+      <fieldsCustomizations>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <fieldName>female</fieldName>
+          <nullableFacetHidden>false</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <fieldName>price</fieldName>
+          <nullableFacetHidden>false</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <fieldName>size</fieldName>
+          <nullableFacetHidden>false</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <fieldName>description</fieldName>
+          <nullableFacetHidden>true</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <fieldName>name</fieldName>
+          <nullableFacetHidden>true</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+      </fieldsCustomizations>
+      <methodsCustomizations>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-MethodCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <methodSignature>xy.reflect.ui.TableTreeModelExample$Shoes Shoes()</methodSignature>
+          <readOnlyForced>false</readOnlyForced>
+          <parametersCustomizations/>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-MethodCustomization>
+      </methodsCustomizations>
+      <memberCategories/>
+      <polymorphicSubTypeFinders/>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization[7]/outer-class"/>
+    </xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+    <xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization[7]/outer-class"/>
+      <typeName>xy.reflect.ui.TableTreeModelExample$Loaning</typeName>
+      <fieldsCustomizations>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <fieldName>price</fieldName>
+          <nullableFacetHidden>false</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <fieldName>description</fieldName>
+          <nullableFacetHidden>true</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <fieldName>name</fieldName>
+          <nullableFacetHidden>true</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <fieldName>productsByDuration</fieldName>
+          <nullableFacetHidden>false</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+      </fieldsCustomizations>
+      <methodsCustomizations>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-MethodCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <methodSignature>xy.reflect.ui.TableTreeModelExample$Loaning Loaning()</methodSignature>
+          <readOnlyForced>false</readOnlyForced>
+          <parametersCustomizations/>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-MethodCustomization>
+      </methodsCustomizations>
+      <memberCategories/>
+      <polymorphicSubTypeFinders/>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization[7]/outer-class"/>
+    </xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+    <xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization[7]/outer-class"/>
+      <typeName>xy.reflect.ui.TableTreeModelExample$Package</typeName>
+      <fieldsCustomizations>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <fieldName>price</fieldName>
+          <nullableFacetHidden>false</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <fieldName>description</fieldName>
+          <nullableFacetHidden>true</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <fieldName>name</fieldName>
+          <nullableFacetHidden>true</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <fieldName>products</fieldName>
+          <nullableFacetHidden>false</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+      </fieldsCustomizations>
+      <methodsCustomizations>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-MethodCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
+          <methodSignature>xy.reflect.ui.TableTreeModelExample$Package Package()</methodSignature>
+          <readOnlyForced>false</readOnlyForced>
+          <parametersCustomizations/>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../.."/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-MethodCustomization>
+      </methodsCustomizations>
+      <memberCategories/>
+      <polymorphicSubTypeFinders/>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization[7]/outer-class"/>
+    </xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+    <xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization[7]/outer-class"/>
+      <typeName></typeName>
+      <fieldsCustomizations/>
+      <methodsCustomizations/>
+      <memberCategories/>
+      <polymorphicSubTypeFinders/>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization[7]/outer-class"/>
+    </xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+    <xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization[7]/outer-class"/>
+      <typeName>VirtualFieldWrapperTypeInfo(Choose a type:)</typeName>
+      <fieldsCustomizations>
+        <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization[7]/outer-class"/>
+          <hidden>false</hidden>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization[7]/outer-class"/>
+          <fieldName></fieldName>
+          <nullableFacetHidden>false</nullableFacetHidden>
+          <getOnlyForced>false</getOnlyForced>
+          <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization[7]/outer-class"/>
+        </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+      </fieldsCustomizations>
+      <methodsCustomizations/>
+      <memberCategories/>
+      <polymorphicSubTypeFinders/>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization[7]/outer-class"/>
+    </xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+    <xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../.."/>
+      <typeName>java.lang.Integer</typeName>
+      <fieldsCustomizations/>
+      <methodsCustomizations/>
+      <memberCategories/>
+      <polymorphicSubTypeFinders/>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../.."/>
+    </xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+    <xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../.."/>
+      <typeName>boolean</typeName>
+      <fieldsCustomizations/>
+      <methodsCustomizations/>
+      <memberCategories/>
+      <polymorphicSubTypeFinders/>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../.."/>
+    </xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+    <xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../.."/>
+      <typeName>java.util.List</typeName>
+      <fieldsCustomizations/>
+      <methodsCustomizations/>
+      <memberCategories/>
+      <polymorphicSubTypeFinders/>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../.."/>
+    </xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+    <xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../.."/>
+      <typeName>java.util.Map</typeName>
+      <fieldsCustomizations/>
+      <methodsCustomizations/>
+      <memberCategories/>
+      <polymorphicSubTypeFinders/>
+      <outer-class class="xy.reflect.ui.info.type.util.InfoCustomizations$1" reference="../../.."/>
+    </xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
+  </typeCustomizations>
+  <listStructures reference="../typeCustomizations/xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization/outer-class/listStructures"/>
+</xy.reflect.ui.info.type.util.InfoCustomizations>

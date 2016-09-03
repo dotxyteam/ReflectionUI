@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -31,12 +32,31 @@ import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.ListStructuralInfoProxy;
 import xy.reflect.ui.info.type.iterable.structure.column.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.InfoCustomizations.ColumnCustomization;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.SystemProperties;
 
 @SuppressWarnings("unused")
-public class InfoCustomizations {
+public final class InfoCustomizations {
+
+	public static final InfoCustomizations DEFAULT = new InfoCustomizations();
+	static {
+		{
+			if (SystemProperties.areDefaultInfoCustomizationsActive()) {
+				String filePath = SystemProperties.getDefaultInfoCustomizationsFilePath();
+				File file = new File(filePath);
+				if (file.exists()) {
+					try {
+						DEFAULT.loadFromFile(file);
+					} catch (Exception e) {
+						throw new ReflectionUIError(e);
+					}
+				}
+			}
+		}
+	};
 
 	transient protected CustomizationsProxyGenerator proxyGenerator;
 	protected List<TypeCustomization> typeCustomizations = new ArrayList<InfoCustomizations.TypeCustomization>();
@@ -102,7 +122,10 @@ public class InfoCustomizations {
 
 	public void saveToStream(OutputStream output) throws IOException {
 		XStream xstream = getXStream();
-		xstream.toXML(this, output);
+		InfoCustomizations toSave = new InfoCustomizations();
+		toSave.typeCustomizations = typeCustomizations;
+		toSave.listStructures = listStructures;
+		xstream.toXML(toSave, output);
 	}
 
 	protected XStream getXStream() {
@@ -177,18 +200,18 @@ public class InfoCustomizations {
 		return null;
 	}
 
-	public TypeCustomization getTypeCustomization(String containingTypeName) {
-		return getTypeCustomization(containingTypeName, true);
+	public TypeCustomization getTypeCustomization(String typeName) {
+		return getTypeCustomization(typeName, true);
 	}
 
-	public TypeCustomization getTypeCustomization(String containingTypeName, boolean create) {
+	public TypeCustomization getTypeCustomization(String typeName, boolean create) {
 		for (TypeCustomization t : typeCustomizations) {
-			if (containingTypeName.equals(t.typeName)) {
+			if (typeName.equals(t.typeName)) {
 				return t;
 			}
 		}
 		if (create) {
-			TypeCustomization t = new TypeCustomization(containingTypeName);
+			TypeCustomization t = new TypeCustomization(typeName);
 			typeCustomizations.add(t);
 			return t;
 		}
@@ -347,6 +370,7 @@ public class InfoCustomizations {
 		protected List<String> customMethodsOrder;
 		protected String onlineHelp;
 		protected List<CustomizationCategory> memberCategories = new ArrayList<CustomizationCategory>();
+		protected List<ITypeInfoFinder> polymorphicSubTypeFinders = new ArrayList<ITypeInfoFinder>();
 
 		public TypeCustomization(String TypeName) {
 			super();
@@ -355,6 +379,14 @@ public class InfoCustomizations {
 
 		public String getTypeName() {
 			return typeName;
+		}
+
+		public List<ITypeInfoFinder> getPolymorphicSubTypeFinders() {
+			return polymorphicSubTypeFinders;
+		}
+
+		public void setPolymorphicSubTypeFinders(List<ITypeInfoFinder> polymorphicSubTypeFinders) {
+			this.polymorphicSubTypeFinders = polymorphicSubTypeFinders;
 		}
 
 		public List<CustomizationCategory> getMemberCategories() {
@@ -630,9 +662,6 @@ public class InfoCustomizations {
 
 		public MethodCustomization(String methodSignature) {
 			super();
-			if (!methodSignature.contains("(")) {
-				System.out.println("debug");
-			}
 			this.methodSignature = methodSignature;
 		}
 
@@ -789,6 +818,13 @@ public class InfoCustomizations {
 			super();
 			this.listTypeName = listTypeName;
 			this.itemTypeName = itemTypeName;
+		}
+
+		public TypeCustomization getItemTypeCustomization() {
+			if (itemTypeName == null) {
+				return null;
+			}
+			return getTypeCustomization(itemTypeName);
 		}
 
 		public List<String> getColumnsCustomOrder() {
@@ -968,6 +1004,26 @@ public class InfoCustomizations {
 
 		public CustomizationsProxyGenerator(ReflectionUI reflectionUI) {
 			super(reflectionUI);
+		}
+
+		@Override
+		protected List<ITypeInfo> getPolymorphicInstanceSubTypes(ITypeInfo type) {
+			TypeCustomization tc = getTypeCustomization(type.getName());
+			if (tc != null) {
+				if (tc.polymorphicSubTypeFinders != null) {
+					List<ITypeInfo> result = new ArrayList<ITypeInfo>();
+					List<ITypeInfo> baseResult = super.getPolymorphicInstanceSubTypes(type);
+					if (baseResult != null) {
+						result.addAll(baseResult);
+					}
+					for (ITypeInfoFinder finder : tc.polymorphicSubTypeFinders) {
+						ITypeInfo subType = finder.find(reflectionUI);
+						result.add(subType);
+					}
+					return result;
+				}
+			}
+			return super.getPolymorphicInstanceSubTypes(type);
 		}
 
 		@Override
@@ -1315,6 +1371,119 @@ public class InfoCustomizations {
 				}
 			}
 			return super.getValueOptions(object, field, containingType);
+		}
+
+	}
+
+	public static interface ITypeInfoFinder {
+		ITypeInfo find(ReflectionUI reflectionUI);
+	}
+
+	public static class JavaClassBasedTypeInfoFinder implements ITypeInfoFinder {
+
+		protected String className;
+
+		public String getClassName() {
+			return className;
+		}
+
+		public void setClassName(String className) {
+			this.className = className;
+		}
+
+		@Override
+		public ITypeInfo find(ReflectionUI reflectionUI) {
+			Class<?> javaType;
+			try {
+				javaType = Class.forName(className);
+			} catch (ClassNotFoundException e) {
+				throw new ReflectionUIError(e);
+			}
+			return reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaType));
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((className == null) ? 0 : className.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			JavaClassBasedTypeInfoFinder other = (JavaClassBasedTypeInfoFinder) obj;
+			if (className == null) {
+				if (other.className != null)
+					return false;
+			} else if (!className.equals(other.className))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "ITypeInfo based on the java class: '" + className + "'";
+		}
+
+	}
+
+	public static class CustomTypeInfoFinder implements ITypeInfoFinder {
+
+		protected String implementationClassName;
+
+		public String getImplementationClassName() {
+			return implementationClassName;
+		}
+
+		public void setImplementationClassName(String implementationClassName) {
+			this.implementationClassName = implementationClassName;
+		}
+
+		@Override
+		public ITypeInfo find(ReflectionUI reflectionUI) {
+			try {
+				Class<?> implementationClass = Class.forName(implementationClassName);
+				return (ITypeInfo) implementationClass.newInstance();
+			} catch (Exception e) {
+				throw new ReflectionUIError("Failed to instanciate class implenation class: " + e.toString(), e);
+			}
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((implementationClassName == null) ? 0 : implementationClassName.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			CustomTypeInfoFinder other = (CustomTypeInfoFinder) obj;
+			if (implementationClassName == null) {
+				if (other.implementationClassName != null)
+					return false;
+			} else if (!implementationClassName.equals(other.implementationClassName))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "ITypeInfo custom implementation: '" + implementationClassName + "'";
 		}
 
 	}

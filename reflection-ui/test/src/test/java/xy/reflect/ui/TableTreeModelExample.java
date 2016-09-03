@@ -1,46 +1,17 @@
 package xy.reflect.ui;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.control.swing.SwingRenderer;
-import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.source.ITypeInfoSource;
-import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.util.HiddenNullableFacetsInfoProxyGenerator;
 
 public class TableTreeModelExample {
 
 	public static void main(String[] args) {
-		ReflectionUI reflectionUI = new ReflectionUI() {
-			ReflectionUI thisReflectionUI = this;
-
-			@Override
-			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-				return new HiddenNullableFacetsInfoProxyGenerator(thisReflectionUI) {
-
-					@Override
-					protected List<ITypeInfo> getPolymorphicInstanceSubTypes(ITypeInfo type) {
-						if (type.getName().equals(Product.class.getName())) {
-							List<ITypeInfo> result = new ArrayList<ITypeInfo>();
-							for (Class<?> c : Arrays.<Class<?>> asList(Book.class, CompactDisc.class, Shoes.class,
-									Package.class, Loaning.class)) {
-								result.add(getTypeInfo(new JavaTypeInfoSource(c)));
-							}
-							return result;
-						}
-						return super.getPolymorphicInstanceSubTypes(type);
-					}
-
-				}.get(super.getTypeInfo(typeSource));
-			}
-
-		};
-		new SwingRenderer(reflectionUI).openObjectDialog(null, new Catalog(), false);
-
+		TestWithAutomation.setupConceptionEnvironment();
+		SwingRenderer.DEFAULT.openObjectDialog(null, new Catalog(), false);
 	}
 
 	public static class Catalog {

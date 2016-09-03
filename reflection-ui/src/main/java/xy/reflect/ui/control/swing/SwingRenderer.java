@@ -86,6 +86,17 @@ import xy.reflect.ui.util.component.WrapLayout;
 @SuppressWarnings("unused")
 public class SwingRenderer {
 
+	public static final SwingRenderer DEFAULT;
+	static{
+		if (SystemProperties.areDefaultInfoCustomizationsActive()
+				&& SystemProperties.areDefaultInfoCustomizationsEditable()) {
+			DEFAULT = new SwingCustomizer(ReflectionUI.DEFAULT, InfoCustomizations.DEFAULT,
+					SystemProperties.getDefaultInfoCustomizationsFilePath());
+		} else {
+			DEFAULT =  new SwingRenderer(ReflectionUI.DEFAULT);
+		}
+	}
+
 	protected ReflectionUI reflectionUI;
 	protected Map<JPanel, Object> objectByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, ModificationStack> modificationStackByForm = new MapMaker().weakKeys().makeMap();
@@ -107,6 +118,7 @@ public class SwingRenderer {
 		this.reflectionUI = reflectionUI;
 	}
 
+	
 	public ReflectionUI getReflectionUI() {
 		return reflectionUI;
 	}
@@ -119,7 +131,7 @@ public class SwingRenderer {
 		return modificationStackByForm;
 	}
 
-	protected Map<JPanel, Boolean> getFieldsUpdateListenerDisabledByForm() {
+	public Map<JPanel, Boolean> getFieldsUpdateListenerDisabledByForm() {
 		return fieldsUpdateListenerDisabledByForm;
 	}
 
@@ -143,7 +155,7 @@ public class SwingRenderer {
 		return methodByControlPlaceHoler;
 	}
 
-	protected void adjustWindowBounds(Window window) {
+	public void adjustWindowBounds(Window window) {
 		Rectangle bounds = window.getBounds();
 		Rectangle maxBounds = ReflectionUIUtils.getMaximumWindowBounds(window);
 		if (bounds.width < maxBounds.width / 3) {
@@ -153,7 +165,7 @@ public class SwingRenderer {
 		window.setBounds(bounds);
 	}
 
-	protected void applyCommonWindowConfiguration(Window window, Component content,
+	public void applyCommonWindowConfiguration(Window window, Component content,
 			List<? extends Component> toolbarControls, String title, Image iconImage) {
 		if (window instanceof JFrame) {
 			((JFrame) window).setTitle(title);
@@ -175,7 +187,7 @@ public class SwingRenderer {
 		}
 	}
 
-	protected List<Component> createCommonToolbarControls(final JPanel form) {
+	public List<Component> createCommonToolbarControls(final JPanel form) {
 		List<Component> result = new ArrayList<Component>();
 		Object object = getObjectByForm().get(form);
 		if (object != null) {
@@ -213,7 +225,7 @@ public class SwingRenderer {
 		return result;
 	}
 
-	protected JDialog createDialog(Component ownerComponent, Component content, String title, Image iconImage,
+	public JDialog createDialog(Component ownerComponent, Component content, String title, Image iconImage,
 			List<? extends Component> toolbarControls, final Runnable whenClosing) {
 		Window owner = SwingRendererUtils.getWindowAncestorOrSelf(ownerComponent);
 		JDialog dialog = new JDialog(owner, reflectionUI.prepareStringToDisplay(title)) {
@@ -241,7 +253,7 @@ public class SwingRenderer {
 		return dialog;
 	}
 
-	protected JButton createDialogClosingButton(String caption, final Runnable action, final JDialog[] dialogHolder) {
+	public JButton createDialogClosingButton(String caption, final Runnable action, final JDialog[] dialogHolder) {
 		final JButton result = new JButton(reflectionUI.prepareStringToDisplay(caption));
 		result.addActionListener(new ActionListener() {
 			@Override
@@ -260,11 +272,11 @@ public class SwingRenderer {
 		return result;
 	}
 
-	protected FieldControlPlaceHolder createFieldControlPlaceHolder(Object object, IFieldInfo field) {
+	public FieldControlPlaceHolder createFieldControlPlaceHolder(Object object, IFieldInfo field) {
 		return new FieldControlPlaceHolder(object, field);
 	}
 
-	protected JPanel createFieldsPanel(List<FieldControlPlaceHolder> fielControlPlaceHolders) {
+	public JPanel createFieldsPanel(List<FieldControlPlaceHolder> fielControlPlaceHolders) {
 		JPanel fieldsPanel = new JPanel();
 		fieldsPanel.setLayout(new GridBagLayout());
 		int spacing = 5;
@@ -290,7 +302,7 @@ public class SwingRenderer {
 		return fieldsPanel;
 	}
 
-	protected JFrame createFrame(Component content, String title, Image iconImage,
+	public JFrame createFrame(Component content, String title, Image iconImage,
 			List<? extends Component> toolbarControls) {
 		final JFrame frame = new JFrame();
 		applyCommonWindowConfiguration(frame, content, toolbarControls, title, iconImage);
@@ -298,11 +310,11 @@ public class SwingRenderer {
 		return frame;
 	}
 
-	protected MethodControl createMethodControl(final Object object, final IMethodInfo method) {
+	public MethodControl createMethodControl(final Object object, final IMethodInfo method) {
 		return new MethodControl(this, object, method);
 	}
 
-	protected JPanel createMethodsPanel(final List<MethodControlPlaceHolder> methodControlPlaceHolders) {
+	public JPanel createMethodsPanel(final List<MethodControlPlaceHolder> methodControlPlaceHolders) {
 		JPanel methodsPanel = new JPanel();
 		methodsPanel.setLayout(new WrapLayout(WrapLayout.CENTER));
 		for (final Component methodControl : methodControlPlaceHolders) {
@@ -334,7 +346,7 @@ public class SwingRenderer {
 		return methodsPanel;
 	}
 
-	protected JTabbedPane createMultipleInfoCategoriesComponent(final SortedSet<InfoCategory> allCategories,
+	public JTabbedPane createMultipleInfoCategoriesComponent(final SortedSet<InfoCategory> allCategories,
 			Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
 			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory) {
 		final JTabbedPane tabbedPane = new AutoResizeTabbedPane();
@@ -356,38 +368,9 @@ public class SwingRenderer {
 			JPanel tabContent = new JPanel();
 			tab.add(tabContent, BorderLayout.NORTH);
 			layoutControls(fieldControlPlaceHolders, methodControlPlaceHolders, tabContent);
-
-			JPanel buttonsPanel = new JPanel();
-			tab.add(buttonsPanel, BorderLayout.SOUTH);
-			buttonsPanel.setLayout(new BorderLayout());
-			buttonsPanel.setBorder(BorderFactory.createTitledBorder(""));
-
-			ArrayList<InfoCategory> allCategoriesAsList = new ArrayList<InfoCategory>(allCategories);
-			final int tabIndex = allCategoriesAsList.indexOf(category);
-			int tabCount = allCategoriesAsList.size();
-
-			if (tabIndex > 0) {
-				JButton previousCategoryButton = new JButton(reflectionUI.prepareStringToDisplay("<"));
-				buttonsPanel.add(previousCategoryButton, BorderLayout.WEST);
-				previousCategoryButton.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						tabbedPane.setSelectedIndex(tabIndex - 1);
-					}
-				});
-			}
-
-			if (tabIndex < (tabCount - 1)) {
-				JButton nextCategoryButton = new JButton(reflectionUI.prepareStringToDisplay(">"));
-				buttonsPanel.add(nextCategoryButton, BorderLayout.EAST);
-				nextCategoryButton.addActionListener(new ActionListener() {
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		tabbedPane.setSelectedIndex(tabIndex + 1);
+		}
+		return tabbedPane;
 	}
-
-	});}}return tabbedPane;}
 
 	public JPanel createObjectForm(Object object) {
 		return createObjectForm(object, IInfoCollectionSettings.DEFAULT);
@@ -448,7 +431,7 @@ public class SwingRenderer {
 	public boolean hasCustomFieldControl(Object object, IFieldInfo field) {
 		if (field.getType() instanceof IEnumerationTypeInfo) {
 			return true;
-		} else if (field.getType().getPolymorphicInstanceSubTypes() != null) {
+		} else if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(field.getType())) {
 			return true;
 		} else {
 			if (field.getValueOptions(object) != null) {
@@ -483,7 +466,7 @@ public class SwingRenderer {
 	public Component createFieldControl(final Object object, final IFieldInfo field) {
 		if (field.getType() instanceof IEnumerationTypeInfo) {
 			return new EnumerationControl(this, object, field);
-		} else if (field.getType().getPolymorphicInstanceSubTypes() != null) {
+		} else if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(field.getType())) {
 			return new PolymorphicEmbeddedForm(this, object, field);
 		} else if (field.getValueOptions(object) != null) {
 			return createOptionsControl(object, field);
@@ -501,7 +484,7 @@ public class SwingRenderer {
 		}
 	}
 
-	protected Component createNonNullFieldValueControl(Object object, IFieldInfo field) {
+	public Component createNonNullFieldValueControl(Object object, IFieldInfo field) {
 		Component customFieldControl = createCustomNonNullFieldValueControl(object, field);
 		if (customFieldControl != null) {
 			return customFieldControl;
@@ -514,7 +497,7 @@ public class SwingRenderer {
 		}
 	}
 
-	protected Component createCustomNonNullFieldValueControl(Object object, IFieldInfo field) {
+	public Component createCustomNonNullFieldValueControl(Object object, IFieldInfo field) {
 		ITypeInfo fieldType = field.getType();
 		if (fieldType instanceof IListTypeInfo) {
 			return new ListControl(this, object, field);
@@ -543,7 +526,7 @@ public class SwingRenderer {
 		}
 	}
 
-	protected Component createOptionsControl(final Object object, final IFieldInfo field) {
+	public Component createOptionsControl(final Object object, final IFieldInfo field) {
 		return new EnumerationControl(this, object, new FieldInfoProxy(field) {
 
 			@Override
@@ -555,7 +538,7 @@ public class SwingRenderer {
 		});
 	}
 
-	protected Component createOnlineHelpControl(String onlineHelp) {
+	public Component createOnlineHelpControl(String onlineHelp) {
 		final JButton result = new JButton(SwingRendererUtils.HELP_ICON);
 		result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
 		result.setContentAreaFilled(false);
@@ -570,7 +553,7 @@ public class SwingRenderer {
 		return result;
 	}
 
-	protected Component createStatusBar(JPanel form) {
+	public Component createStatusBar(JPanel form) {
 		JLabel result = new JLabel();
 		result.setOpaque(true);
 		result.setFont(new JToolTip().getFont());
@@ -580,7 +563,7 @@ public class SwingRenderer {
 		return result;
 	}
 
-	protected Component createToolBar(List<? extends Component> toolbarControls) {
+	public Component createToolBar(List<? extends Component> toolbarControls) {
 		JPanel result = new JPanel();
 		result.setBorder(BorderFactory.createRaisedBevelBorder());
 		result.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -590,7 +573,7 @@ public class SwingRenderer {
 		return result;
 	}
 
-	protected Container createWindowContentPane(Window window, Component content,
+	public Container createWindowContentPane(Window window, Component content,
 			List<? extends Component> toolbarControls) {
 		JPanel contentPane = new JPanel();
 		contentPane.setLayout(new BorderLayout());
@@ -652,14 +635,14 @@ public class SwingRenderer {
 		return null;
 	}
 
-	protected void fillForm(JPanel form) {
+	public void fillForm(JPanel form) {
 		Object object = getObjectByForm().get(form);
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		form.setLayout(new BorderLayout());
 		fillForm(form, object, type);
 	}
 
-	protected void fillForm(JPanel form, Object object, ITypeInfo type) {
+	public void fillForm(JPanel form, Object object, ITypeInfo type) {
 		IInfoCollectionSettings settings = getInfoCollectionSettingsByForm().get(form);
 
 		Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = new HashMap<InfoCategory, List<FieldControlPlaceHolder>>();
@@ -743,11 +726,11 @@ public class SwingRenderer {
 		}
 	}
 
-	protected InfoCategory getNullInfoCategory() {
+	public InfoCategory getNullInfoCategory() {
 		return new InfoCategory("General", -1);
 	}
 
-	protected MethodControlPlaceHolder createMethodControlPlaceHolder(Object object, IMethodInfo method) {
+	public MethodControlPlaceHolder createMethodControlPlaceHolder(Object object, IMethodInfo method) {
 		return new MethodControlPlaceHolder(object, method);
 	}
 
@@ -889,7 +872,7 @@ public class SwingRenderer {
 		openErrorDialog(activatorComponent, "An Error Occured", t);
 	}
 
-	protected IFieldInfo handleValueChangeErrors(IFieldInfo field,
+	public IFieldInfo handleValueChangeErrors(IFieldInfo field,
 			final FieldControlPlaceHolder fieldControlPlaceHolder) {
 		return new FieldInfoProxy(field) {
 
@@ -908,13 +891,13 @@ public class SwingRenderer {
 		};
 	}
 
-	protected void layoutControlPanels(JPanel parentForm, JPanel fieldsPanel, JPanel methodsPanel) {
+	public void layoutControlPanels(JPanel parentForm, JPanel fieldsPanel, JPanel methodsPanel) {
 		parentForm.setLayout(new BorderLayout());
 		parentForm.add(fieldsPanel, BorderLayout.CENTER);
 		parentForm.add(methodsPanel, BorderLayout.SOUTH);
 	}
 
-	protected void layoutControls(List<FieldControlPlaceHolder> fielControlPlaceHolders,
+	public void layoutControls(List<FieldControlPlaceHolder> fielControlPlaceHolders,
 			final List<MethodControlPlaceHolder> methodControlPlaceHolders, JPanel parentForm) {
 		JPanel fieldsPanel = createFieldsPanel(fielControlPlaceHolders);
 		JPanel methodsPanel = createMethodsPanel(methodControlPlaceHolders);
@@ -992,8 +975,8 @@ public class SwingRenderer {
 
 	public Object onTypeInstanciationRequest(Component activatorComponent, ITypeInfo type, boolean silent) {
 		try {
-			List<ITypeInfo> polyTypes = type.getPolymorphicInstanceSubTypes();
-			if ((polyTypes != null) && (polyTypes.size() > 0)) {
+			if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(type)) {
+				List<ITypeInfo> polyTypes = type.getPolymorphicInstanceSubTypes();
 				if (polyTypes.size() == 1) {
 					type = polyTypes.get(0);
 				} else {
@@ -1046,8 +1029,8 @@ public class SwingRenderer {
 						}
 						Object resultEnumItem;
 						try {
-							resultEnumItem = openSelectionDialog(activatorComponent, enumType, null,
-									MessageFormat.format("Choose the type of ''{0}''", type.getCaption()), null);
+							resultEnumItem = openSelectionDialog(activatorComponent, enumType, null, "Choose a type:",
+									"New '" + type.getCaption() + "'");
 							if (resultEnumItem == null) {
 								return null;
 							}
@@ -1098,26 +1081,33 @@ public class SwingRenderer {
 			constructors = new ArrayList<IMethodInfo>(constructors);
 			Collections.sort(constructors, new Comparator<IMethodInfo>() {
 
-	@Override
-	public int compare(IMethodInfo o1, IMethodInfo o2) {
-		return new Integer(o1.getParameters().size()).compareTo(new Integer(o2.getParameters().size()));
-	}});
+				@Override
+				public int compare(IMethodInfo o1, IMethodInfo o2) {
+					return new Integer(o1.getParameters().size()).compareTo(new Integer(o2.getParameters().size()));
+				}
+			});
 
-	if(silent){
+			if (silent) {
 
-	IMethodInfo smallerConstructor = constructors
-			.get(0);return smallerConstructor.invoke(null,new InvocationData());}else{
-	IMethodInfo chosenContructor = openSelectionDialog(activatorComponent, constructors, null,
-			reflectionUI.prepareStringToDisplay("Choose an option:"), null);if(chosenContructor==null){return null;}
-	Object[] returnValueHolder = new Object[1];
+				IMethodInfo smallerConstructor = constructors.get(0);
+				return smallerConstructor.invoke(null, new InvocationData());
+			} else {
+				IMethodInfo chosenContructor = openSelectionDialog(activatorComponent, constructors, null,
+						reflectionUI.prepareStringToDisplay("Choose an option:"), null);
+				if (chosenContructor == null) {
+					return null;
+				}
+				Object[] returnValueHolder = new Object[1];
 
-	onMethodInvocationRequest(activatorComponent, null, chosenContructor, returnValueHolder);
+				onMethodInvocationRequest(activatorComponent, null, chosenContructor, returnValueHolder);
 				return returnValueHolder[0];
-			}}catch(
+			}
+		} catch (
 
-	Throwable t){throw new ReflectionUIError("Could not create an instance of type '"+type+"': "+t.toString(),t);
+		Throwable t) {
+			throw new ReflectionUIError("Could not create an instance of type '" + type + "': " + t.toString(), t);
 
-	}
+		}
 
 	}
 
@@ -1159,7 +1149,7 @@ public class SwingRenderer {
 		}
 	}
 
-	protected boolean openMethoExecutionSettingDialog(final Component activatorComponent, final Object object,
+	public boolean openMethoExecutionSettingDialog(final Component activatorComponent, final Object object,
 			final IMethodInfo method, final Object[] returnValueHolder) {
 		final boolean shouldDisplayReturnValue = (returnValueHolder == null) && (method.getReturnValueType() != null);
 		final boolean[] exceptionThrownHolder = new boolean[] { false };
@@ -1217,27 +1207,37 @@ public class SwingRenderer {
 		{
 			closeButton.addActionListener(new ActionListener() {
 
-	@Override
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					methodDialogHolder[0].dispose();
 				}
 
-	});toolbarControls.add(closeButton);}methodDialogHolder[0]=createDialog(activatorComponent,methodForm,reflectionUI.getMethodTitle(object,method,null,"Setting"),null,toolbarControls,null);showDialog(methodDialogHolder[0],true);if(shouldDisplayReturnValue){return true;}else{return invokedStatusHolder[0];}}
-
-	public boolean openObjectDialogAndGetUpdateStatus(Component activatorComponent,
-			Accessor<Object> valueAccessor, boolean isGetOnly, 
-			ModificationStack parentStack) {
-		Image iconImage = getObjectIconImage(valueAccessor.get());
-		String title = reflectionUI.getObjectTitle(valueAccessor.get());
-		return openObjectDialogAndGetUpdateStatus(activatorComponent, valueAccessor, isGetOnly, title, iconImage, parentStack);
+			});
+			toolbarControls.add(closeButton);
+		}
+		methodDialogHolder[0] = createDialog(activatorComponent, methodForm,
+				reflectionUI.getMethodTitle(object, method, null, "Setting"), null, toolbarControls, null);
+		showDialog(methodDialogHolder[0], true);
+		if (shouldDisplayReturnValue) {
+			return true;
+		} else {
+			return invokedStatusHolder[0];
+		}
 	}
 
-	public boolean openObjectDialogAndGetUpdateStatus(Component activatorComponent,
-			Accessor<Object> valueAccessor, boolean isGetOnly, String title, Image iconImage,
-			ModificationStack parentStack) {
+	public boolean openObjectDialogAndGetUpdateStatus(Component activatorComponent, Accessor<Object> valueAccessor,
+			boolean isGetOnly, ModificationStack parentStack) {
+		Image iconImage = getObjectIconImage(valueAccessor.get());
+		String title = reflectionUI.getObjectTitle(valueAccessor.get());
+		return openObjectDialogAndGetUpdateStatus(activatorComponent, valueAccessor, isGetOnly, title, iconImage,
+				parentStack);
+	}
+
+	public boolean openObjectDialogAndGetUpdateStatus(Component activatorComponent, Accessor<Object> valueAccessor,
+			boolean isGetOnly, String title, Image iconImage, ModificationStack parentStack) {
 		boolean[] changeDetectedHolder = new boolean[] { false };
-		openObjectDialog(activatorComponent, valueAccessor, isGetOnly, title, iconImage, true, IInfoCollectionSettings.DEFAULT,
-				parentStack, true, null, changeDetectedHolder, null);
+		openObjectDialog(activatorComponent, valueAccessor, isGetOnly, title, iconImage, true,
+				IInfoCollectionSettings.DEFAULT, parentStack, true, null, changeDetectedHolder, null);
 		return changeDetectedHolder[0];
 	}
 
@@ -1254,7 +1254,8 @@ public class SwingRenderer {
 	}
 
 	public void openObjectDialog(Component activatorComponent, Object object, boolean modal) {
-		openObjectDialog(activatorComponent, object, reflectionUI.getObjectTitle(object), getObjectIconImage(object), modal);
+		openObjectDialog(activatorComponent, object, reflectionUI.getObjectTitle(object), getObjectIconImage(object),
+				modal);
 	}
 
 	public void openObjectDialog(Component activatorComponent, Object object, final String title, Image iconImage,
@@ -1521,7 +1522,7 @@ public class SwingRenderer {
 		return okPressedHolder[0];
 	}
 
-	protected List<JButton> createStandardOKCancelDialogButtons(JDialog[] dialogHolder,
+	public List<JButton> createStandardOKCancelDialogButtons(JDialog[] dialogHolder,
 			final boolean[] okPressedHolder) {
 		List<JButton> result = new ArrayList<JButton>();
 		result.add(createDialogClosingButton("OK", new Runnable() {
@@ -1539,7 +1540,7 @@ public class SwingRenderer {
 		return result;
 	}
 
-	protected String getDefaultFieldCaption(Object fieldValue) {
+	public String getDefaultFieldCaption(Object fieldValue) {
 		return BooleanTypeInfo.isCompatibleWith(fieldValue.getClass()) ? "Is True" : "Value";
 	}
 
@@ -1619,11 +1620,11 @@ public class SwingRenderer {
 		}
 	}
 
-	protected void showDialog(JDialog dialog, boolean modal) {
+	public void showDialog(JDialog dialog, boolean modal) {
 		showDialog(dialog, modal, true);
 	}
 
-	protected void showDialog(JDialog dialog, boolean modal, boolean closeable) {
+	public void showDialog(JDialog dialog, boolean modal, boolean closeable) {
 		if (modal) {
 			dialog.setModalityType(ModalityType.DOCUMENT_MODAL);
 			if (closeable) {
@@ -1653,7 +1654,7 @@ public class SwingRenderer {
 		showDialog(dialogHolder[0], true);
 	}
 
-	protected void updateFieldControlLayout(FieldControlPlaceHolder fieldControlPlaceHolder) {
+	public void updateFieldControlLayout(FieldControlPlaceHolder fieldControlPlaceHolder) {
 		Component fieldControl = fieldControlPlaceHolder.getFieldControl();
 		IFieldInfo field = fieldControlPlaceHolder.getField();
 		Container container = fieldControlPlaceHolder.getParent();
@@ -1701,11 +1702,11 @@ public class SwingRenderer {
 		container.validate();
 	}
 
-	protected Component createSeparateCaptionControl(String caption) {
+	public Component createSeparateCaptionControl(String caption) {
 		return new JLabel(reflectionUI.prepareStringToDisplay(caption + ": "));
 	}
 
-	protected void validateForm(JPanel form) {
+	public void validateForm(JPanel form) {
 		Object object = getObjectByForm().get(form);
 		if (object == null) {
 			return;

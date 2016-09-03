@@ -177,7 +177,9 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 		if (typeEnumerationControl != null) {
 			remove(typeEnumerationControl);
 		}
-		add(typeEnumerationControl = createTypeEnumerationControl(), BorderLayout.NORTH);
+		if (!field.isGetOnly()) {
+			add(typeEnumerationControl = createTypeEnumerationControl(), BorderLayout.NORTH);
+		}
 		validate();
 	}
 

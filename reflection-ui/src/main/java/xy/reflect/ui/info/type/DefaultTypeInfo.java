@@ -166,9 +166,17 @@ public class DefaultTypeInfo implements ITypeInfo {
 		if (object == null) {
 			return null;
 		} else {
-			return object.toString();
+			String result = object.toString();
+			String objectClassName = object.getClass().getName();
+			String objectClassCaption = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object)).getCaption();
+			result = result.replaceAll(
+					objectClassName.replace(".", "\\.").replace("$", "\\$").replace("[", "\\[") + "@([0-9a-z]+)",
+					objectClassCaption + " ($1)");
+			result = result.replace(objectClassName, objectClassCaption);
+			return result;
 		}
 	}
+
 
 	@Override
 	public String getOnlineHelp() {

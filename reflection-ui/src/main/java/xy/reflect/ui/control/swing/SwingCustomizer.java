@@ -80,7 +80,7 @@ public class SwingCustomizer extends SwingRenderer {
 	}
 
 	@Override
-	protected void fillForm(JPanel form, Object object, ITypeInfo type) {
+	public void fillForm(JPanel form, Object object, ITypeInfo type) {
 		if (areCustomizationsEditable()) {
 			JPanel mainCustomizationsControl = new JPanel();
 			mainCustomizationsControl.setLayout(new BorderLayout());
@@ -93,7 +93,7 @@ public class SwingCustomizer extends SwingRenderer {
 	}
 
 	@Override
-	protected FieldControlPlaceHolder createFieldControlPlaceHolder(Object object, IFieldInfo field) {
+	public FieldControlPlaceHolder createFieldControlPlaceHolder(Object object, IFieldInfo field) {
 		return new FieldControlPlaceHolder(object, field) {
 			private static final long serialVersionUID = 1L;
 			protected Component infoCustomizationsComponent;
@@ -124,7 +124,7 @@ public class SwingCustomizer extends SwingRenderer {
 	}
 
 	@Override
-	protected MethodControlPlaceHolder createMethodControlPlaceHolder(Object object, IMethodInfo method) {
+	public MethodControlPlaceHolder createMethodControlPlaceHolder(Object object, IMethodInfo method) {
 		return new MethodControlPlaceHolder(object, method) {
 			private static final long serialVersionUID = 1L;
 			protected Component infoCustomizationsComponent;
@@ -182,9 +182,9 @@ public class SwingCustomizer extends SwingRenderer {
 		}
 
 		protected SwingRenderer createCustomizationToolsRenderer() {
-			if (SystemProperties.isCustomizationToolsCustomizationAllowed()) {
+			if (SystemProperties.isInfoCustomizationToolsCustomizationAllowed()) {
 				String customizationToolsCustomizationsOutputFilePath = System
-						.getProperty(SystemProperties.CUSTOMIZATION_TOOLS_CUSTOMIZATIONS_FILE_PATH);
+						.getProperty(SystemProperties.INFO_CUSTOMIZATION_TOOLS_CUSTOMIZATIONS_FILE_PATH);
 				return new SwingCustomizer(customizationToolsUI, customizationToolsCustomizations,
 						customizationToolsCustomizationsOutputFilePath) {
 
@@ -607,13 +607,13 @@ public class SwingCustomizer extends SwingRenderer {
 						JMenu listSubMenu = new JMenu(reflectionUI.prepareStringToDisplay("List Structure"));
 						{
 							popupMenu.add(listSubMenu);
-							listSubMenu.add(
-									new AbstractAction(reflectionUI.prepareStringToDisplay("Columns Settings...")) {
+							listSubMenu.add(new AbstractAction(
+									reflectionUI.prepareStringToDisplay("Move Columns...")) {
 								private static final long serialVersionUID = 1L;
 
 								@Override
 								public void actionPerformed(ActionEvent e) {
-									openListColumnCustomizationsDialog(result,
+									openListColumnsOrderDialog(result,
 											(IListTypeInfo) customizedField.getType());
 								}
 							});
@@ -677,63 +677,42 @@ public class SwingCustomizer extends SwingRenderer {
 			update(customizedType.getName());
 		}
 
-		protected void openListColumnCustomizationsDialog(Component activatorComponent,
+		protected void openListColumnsOrderDialog(Component activatorComponent,
 				final IListTypeInfo customizedListType) {
 			ITypeInfo customizedItemType = customizedListType.getItemType();
 			String itemTypeName = (customizedItemType == null) ? null : customizedItemType.getName();
 			ListStructureCustomization lc = infoCustomizations
 					.getListStructureCustomization(customizedListType.getName(), itemTypeName, true);
 			IListStructuralInfo customizedListStructure = customizedListType.getStructuralInfo();
-			class ColumnSetting {
+			class ColumnOrderItem {
 				IColumnInfo columnInfo;
-				ColumnCustomization columnCustomization;
 
-				public ColumnSetting(IColumnInfo columnInfo, ColumnCustomization columnCustomization) {
+				public ColumnOrderItem(IColumnInfo columnInfo, ColumnCustomization columnCustomization) {
 					super();
 					this.columnInfo = columnInfo;
-					this.columnCustomization = columnCustomization;
 				}
 
-				public String getCaption() {
-					return columnInfo.getCaption();
-				}
-
-				public String getColumnName() {
-					return columnCustomization.getColumnName();
-				}
-
-				public boolean isHidden() {
-					return columnCustomization.isHidden();
-				}
-
-				public void setHidden(boolean hidden) {
-					columnCustomization.setHidden(hidden);
-				}
-
-				public String getCustomCaption() {
-					return columnCustomization.getCustomCaption();
-				}
-
-				public void setCustomCaption(String customCaption) {
-					columnCustomization.setCustomCaption(customCaption);
+				public IColumnInfo getColumnInfo() {
+					return columnInfo;
 				}
 
 				@Override
 				public String toString() {
-					return getCaption();
+					return columnInfo.getCaption();
 				}
+
 			}
-			List<ColumnSetting> columnSettings = new ArrayList<ColumnSetting>();
+			List<ColumnOrderItem> columnOrder = new ArrayList<ColumnOrderItem>();
 			for (final IColumnInfo c : customizedListStructure.getColumns()) {
-				ColumnSetting setting = new ColumnSetting(c, lc.getColumnCustomization(c.getName()));
-				columnSettings.add(setting);
+				ColumnOrderItem orderItem = new ColumnOrderItem(c, lc.getColumnCustomization(c.getName()));
+				columnOrder.add(orderItem);
 			}
-			if (customizationToolsRenderer.openObjectDialogAndGetConfirmation(activatorComponent, columnSettings,
-					customizationToolsRenderer.getReflectionUI().prepareStringToDisplay("Columns Settings"),
+			if (customizationToolsRenderer.openObjectDialogAndGetConfirmation(activatorComponent, columnOrder,
+					customizationToolsRenderer.getReflectionUI().prepareStringToDisplay("Columns Order"),
 					getCustomizationIcon().getImage(), true)) {
 				List<String> newOrder = new ArrayList<String>();
-				for (ColumnSetting columnSetting : columnSettings) {
-					newOrder.add(columnSetting.getColumnName());
+				for (ColumnOrderItem item : columnOrder) {
+					newOrder.add(item.getColumnInfo().getName());
 				}
 				lc.setColumnsCustomOrder(newOrder);
 				SwingUtilities.invokeLater(new Runnable() {

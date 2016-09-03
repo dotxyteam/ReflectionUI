@@ -60,12 +60,12 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 	
 	@Override
 	public boolean canReplaceContent() {
-		return super.canReplaceContent();
+		return false;
 	}
 
 	@Override
 	public void replaceContent(Object listValue, Object[] array) {
-		new UnsupportedOperationException();
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
