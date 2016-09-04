@@ -1322,6 +1322,9 @@
                   <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
                     <outer-class defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
                     <hidden>false</hidden>
+                    <category>
+                      <caption>Columns</caption>
+                    </category>
                     <outer-class defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
                     <fieldName>fieldColumnsAdded</fieldName>
                     <customFieldCaption>Add Field Columns</customFieldCaption>
@@ -1332,6 +1335,7 @@
                   <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
                     <outer-class defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
                     <hidden>false</hidden>
+                    <category reference="../../xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization/category"/>
                     <outer-class defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
                     <fieldName>itemTypeColumnAdded</fieldName>
                     <customFieldCaption>Add Item Type Column</customFieldCaption>
@@ -1342,6 +1346,7 @@
                   <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
                     <outer-class defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
                     <hidden>false</hidden>
+                    <category reference="../../xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization/category"/>
                     <outer-class defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
                     <fieldName>positionColumnAdded</fieldName>
                     <customFieldCaption>Add Item position Column</customFieldCaption>
@@ -1381,9 +1386,10 @@
                   <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
                     <outer-class defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
                     <hidden>false</hidden>
+                    <category reference="../../xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization/category"/>
                     <outer-class defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
                     <fieldName>columnsCustomizations</fieldName>
-                    <customFieldCaption>Columns</customFieldCaption>
+                    <customFieldCaption>Customize Columns Display</customFieldCaption>
                     <nullableFacetHidden>true</nullableFacetHidden>
                     <getOnlyForced>false</getOnlyForced>
                     <outer-class reference="../../../../.."/>
@@ -1397,6 +1403,9 @@
                     </specificProperties>
                     <outer-class defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../../.."/>
                     <hidden>false</hidden>
+                    <category>
+                      <caption>Tree Structure</caption>
+                    </category>
                     <outer-class defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../../.."/>
                     <fieldName>treeStructureDiscoverySettings</fieldName>
                     <customFieldCaption>Auto-Discover Tree Structure</customFieldCaption>
@@ -1443,14 +1452,40 @@
                   <string>positionColumnAdded</string>
                   <string>treeStructureDiscoverySettings</string>
                 </customFieldsOrder>
-                <memberCategories/>
+                <memberCategories>
+                  <xy.reflect.ui.info.type.util.InfoCustomizations_-CustomizationCategory reference="../../fieldsCustomizations/xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization/category"/>
+                  <xy.reflect.ui.info.type.util.InfoCustomizations_-CustomizationCategory reference="../../fieldsCustomizations/xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization[8]/category"/>
+                </memberCategories>
                 <outer-class reference="../../.."/>
               </xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
               <xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>
                 <outer-class defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../.."/>
                 <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$TreeStructureDiscoverySettings</typeName>
-                <fieldsCustomizations/>
-                <methodsCustomizations/>
+                <fieldsCustomizations>
+                  <xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+                    <outer-class defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization">
+                      <listStructures reference="../../../../../../../../../.."/>
+                      <typeCustomizations reference="../../../../.."/>
+                    </outer-class>
+                    <hidden>false</hidden>
+                    <outer-class defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../outer-class"/>
+                    <fieldName>treeColumnFieldName</fieldName>
+                    <nullableFacetHidden>false</nullableFacetHidden>
+                    <getOnlyForced>false</getOnlyForced>
+                    <outer-class reference="../outer-class"/>
+                  </xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization>
+                </fieldsCustomizations>
+                <methodsCustomizations>
+                  <xy.reflect.ui.info.type.util.InfoCustomizations_-MethodCustomization>
+                    <outer-class defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractInfoCustomization" reference="../../../fieldsCustomizations/xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization/outer-class"/>
+                    <hidden>false</hidden>
+                    <outer-class defined-in="xy.reflect.ui.info.type.util.InfoCustomizations$AbstractMemberCustomization" reference="../../../fieldsCustomizations/xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization/outer-class"/>
+                    <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$TreeStructureDiscoverySettings TreeStructureDiscoverySettings()</methodSignature>
+                    <readOnlyForced>false</readOnlyForced>
+                    <parametersCustomizations/>
+                    <outer-class reference="../../../fieldsCustomizations/xy.reflect.ui.info.type.util.InfoCustomizations_-FieldCustomization/outer-class"/>
+                  </xy.reflect.ui.info.type.util.InfoCustomizations_-MethodCustomization>
+                </methodsCustomizations>
                 <memberCategories/>
                 <outer-class reference="../../.."/>
               </xy.reflect.ui.info.type.util.InfoCustomizations_-TypeCustomization>

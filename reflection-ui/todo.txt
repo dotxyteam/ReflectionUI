@@ -1,3 +1,12 @@
+- list control:
+	. hide edit button when useless??? 
+- customizations edition:
+	. sort lists (fileds, methods, columns, ...)
+	. filter lists: remove renamed or deleted targets
+	. remove adequately list control buttons (move, delete, ...)  
+- preset customizations object names must be special 
+	. ex: prefixe with '.': Field ".position" or ".type"
+- add class MetodSignature
 - openDialog() must be getOnly for immutable types
 - add Customizations:
 	. lists:
