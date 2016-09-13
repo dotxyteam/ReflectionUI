@@ -38,13 +38,13 @@ import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
-import xy.reflect.ui.info.type.util.InfoCustomizationsNew;
+import xy.reflect.ui.info.type.util.InfoCustomizations;
 import xy.reflect.ui.info.type.util.InfoProxyGenerator;
-import xy.reflect.ui.info.type.util.InfoCustomizationsNew.ColumnCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizationsNew.FieldCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizationsNew.ListStructureCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizationsNew.MethodCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizationsNew.TypeCustomization;
+import xy.reflect.ui.info.type.util.InfoCustomizations.ColumnCustomization;
+import xy.reflect.ui.info.type.util.InfoCustomizations.FieldCustomization;
+import xy.reflect.ui.info.type.util.InfoCustomizations.ListStructureCustomization;
+import xy.reflect.ui.info.type.util.InfoCustomizations.MethodCustomization;
+import xy.reflect.ui.info.type.util.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.util.FileUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -55,10 +55,10 @@ import xy.reflect.ui.util.SystemProperties;
 public class SwingCustomizer extends SwingRenderer {
 
 	protected CustomizationTools customizationTools;
-	protected InfoCustomizationsNew infoCustomizations;
+	protected InfoCustomizations infoCustomizations;
 	protected String infoCustomizationsOutputFilePath;
 
-	public SwingCustomizer(ReflectionUI reflectionUI, InfoCustomizationsNew infoCustomizations,
+	public SwingCustomizer(ReflectionUI reflectionUI, InfoCustomizations infoCustomizations,
 			String infoCustomizationsOutputFilePath) {
 		super(reflectionUI);
 		customizationTools = createCustomizationTools();
@@ -165,10 +165,10 @@ public class SwingCustomizer extends SwingRenderer {
 	protected class CustomizationTools {
 		protected SwingRenderer customizationToolsRenderer;
 		protected ReflectionUI customizationToolsUI;
-		protected InfoCustomizationsNew customizationToolsCustomizations;
+		protected InfoCustomizations customizationToolsCustomizations;
 
 		public CustomizationTools() {
-			customizationToolsCustomizations = new InfoCustomizationsNew();
+			customizationToolsCustomizations = new InfoCustomizations();
 			URL url = ReflectionUI.class.getResource("resource/customizations-tools.icu");
 			try {
 				File customizationsFile = FileUtils.getStreamAsFile(url.openStream());
@@ -502,7 +502,7 @@ public class SwingCustomizer extends SwingRenderer {
 			};
 		}
 
-		protected void openInfoCustomizationsWindow(InfoCustomizationsNew infoCustomizations) {
+		protected void openInfoCustomizationsWindow(InfoCustomizations infoCustomizations) {
 			customizationToolsRenderer.openObjectFrame(infoCustomizations,
 					customizationToolsRenderer.getReflectionUI().getObjectTitle(infoCustomizations),
 					getCustomizationIcon().getImage());

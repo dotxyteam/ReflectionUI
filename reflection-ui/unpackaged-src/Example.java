@@ -11,7 +11,7 @@ import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
-import xy.reflect.ui.info.type.util.InfoCustomizationsNew;
+import xy.reflect.ui.info.type.util.InfoCustomizations;
 import xy.reflect.ui.info.type.util.InfoProxyGenerator;
 
 /*
@@ -39,7 +39,7 @@ public class Example {
 		 * enable this editor create the reflectionUI and the renderer objects
 		 * with the following code:
 		 */
-		final InfoCustomizationsNew customizations = new InfoCustomizationsNew();
+		final InfoCustomizations customizations = new InfoCustomizations();
 		String customizationsFilePath = "path/to/a/customizations/file.xml";
 		try {
 			customizations.loadFromFile(new File(customizationsFilePath));

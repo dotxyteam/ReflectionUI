@@ -64,7 +64,7 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.ArrayAsEnumerationTypeInfo;
-import xy.reflect.ui.info.type.util.InfoCustomizationsNew;
+import xy.reflect.ui.info.type.util.InfoCustomizations;
 import xy.reflect.ui.info.type.util.MethodParametersAsTypeInfo;
 import xy.reflect.ui.info.type.util.VirtualFieldWrapperTypeInfo;
 import xy.reflect.ui.undo.CompositeModification;
@@ -90,7 +90,7 @@ public class SwingRenderer {
 	static{
 		if (SystemProperties.areDefaultInfoCustomizationsActive()
 				&& SystemProperties.areDefaultInfoCustomizationsEditable()) {
-			DEFAULT = new SwingCustomizer(ReflectionUI.DEFAULT, InfoCustomizationsNew.DEFAULT,
+			DEFAULT = new SwingCustomizer(ReflectionUI.DEFAULT, InfoCustomizations.DEFAULT,
 					SystemProperties.getDefaultInfoCustomizationsFilePath());
 		} else {
 			DEFAULT =  new SwingRenderer(ReflectionUI.DEFAULT);
@@ -846,24 +846,6 @@ public class SwingRenderer {
 		Window window = SwingUtilities.getWindowAncestor(c);
 		if (window != null) {
 			window.validate();
-			JScrollPane scrollPane = null;
-			Container contentPane = SwingRendererUtils.getContentPane(window);
-			if (contentPane != null) {
-				for (Component mayBeScrollPanel : contentPane.getComponents()) {
-					if (mayBeScrollPanel instanceof JScrollPane) {
-						scrollPane = (JScrollPane) mayBeScrollPanel;
-						break;
-					}
-				}
-			}
-			if (scrollPane != null) {
-				JScrollBar verticalScrollBVar = scrollPane.getVerticalScrollBar();
-				int heightToGrow = verticalScrollBVar.getMaximum() - verticalScrollBVar.getVisibleAmount();
-				Dimension windowSize = window.getSize();
-				windowSize.height += heightToGrow;
-				window.setSize(windowSize);
-				adjustWindowBounds(window);
-			}
 		}
 	}
 
