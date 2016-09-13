@@ -121,10 +121,6 @@ public final class InfoCustomizations {
 	public void loadFromStream(InputStream input) throws IOException {
 		InfoCustomizations loaded;
 		try {
-			// InputStreamReader reader = new InputStreamReader(input);
-			// loaded = (InfoCustomizations)
-			// org.exolab.castor.xml.Unmarshaller.unmarshal(InfoCustomizations.class,
-			// reader);
 			XMLDecoder decoder = new XMLDecoder(input);
 			try {
 				loaded = (InfoCustomizations) decoder.readObject();
@@ -136,6 +132,23 @@ public final class InfoCustomizations {
 		}
 		typeCustomizations = loaded.typeCustomizations;
 		listStructures = loaded.listStructures;
+
+		fillXMLCodecParentReferenceGap();
+	}
+
+	protected void fillXMLCodecParentReferenceGap() {
+		for (TypeCustomization t : typeCustomizations) {
+			t.parent = this;
+			for (FieldCustomization f : t.fieldsCustomizations) {
+				f.parent = t;
+			}
+			for (MethodCustomization m : t.methodsCustomizations) {
+				m.parent = t;
+			}
+		}
+		for (ListStructureCustomization l : listStructures) {
+			l.parent = this;
+		}
 	}
 
 	public void saveToFile(File output) throws IOException {
@@ -157,8 +170,6 @@ public final class InfoCustomizations {
 		toSave.typeCustomizations = typeCustomizations;
 		toSave.listStructures = listStructures;
 		try {
-			// OutputStreamWriter writer = new OutputStreamWriter(output);
-			// org.exolab.castor.xml.Marshaller.marshal(toSave, writer);
 			XMLEncoder encoder = new XMLEncoder(output);
 			try {
 				encoder.writeObject(toSave);
@@ -205,7 +216,6 @@ public final class InfoCustomizations {
 		if (t != null) {
 			for (FieldCustomization f : t.fieldsCustomizations) {
 				if (fieldName.equals(f.fieldName)) {
-					f.parent = t;
 					return f;
 				}
 			}
@@ -230,7 +240,6 @@ public final class InfoCustomizations {
 		if (t != null) {
 			for (MethodCustomization m : t.methodsCustomizations) {
 				if (methodSignature.equals(m.methodSignature)) {
-					m.parent = t;
 					return m;
 				}
 			}
@@ -252,7 +261,6 @@ public final class InfoCustomizations {
 	public TypeCustomization getTypeCustomization(String typeName, boolean create) {
 		for (TypeCustomization t : typeCustomizations) {
 			if (typeName.equals(t.typeName)) {
-				t.parent = this;
 				return t;
 			}
 		}
@@ -275,7 +283,6 @@ public final class InfoCustomizations {
 		for (ListStructureCustomization l : listStructures) {
 			if (listTypeName.equals(l.listTypeName)) {
 				if (ReflectionUIUtils.equalsOrBothNull(l.itemTypeName, itemTypeName)) {
-					l.parent = this;
 					return l;
 				}
 			}
@@ -415,7 +422,7 @@ public final class InfoCustomizations {
 	}
 
 	public static class TypeCustomization extends AbstractInfoCustomization implements Comparable<TypeCustomization> {
-		protected InfoCustomizations parent;
+		protected transient InfoCustomizations parent;
 		protected String typeName;
 		protected String customTypeCaption;
 		protected Set<FieldCustomization> fieldsCustomizations = new TreeSet<InfoCustomizations.FieldCustomization>();
@@ -610,7 +617,7 @@ public final class InfoCustomizations {
 	}
 
 	public static abstract class AbstractMemberCustomization extends AbstractInfoCustomization {
-		protected TypeCustomization parent;
+		protected transient TypeCustomization parent;
 		protected boolean hidden = false;
 		protected CustomizationCategory category;
 		protected String onlineHelp;
@@ -910,12 +917,14 @@ public final class InfoCustomizations {
 	}
 
 	public static class ListStructureCustomization implements Comparable<ListStructureCustomization> {
-		protected InfoCustomizations parent;
+		protected transient InfoCustomizations parent;
 		protected String listTypeName;
 		protected String itemTypeName;
 		protected boolean itemTypeColumnAdded;
 		protected boolean positionColumnAdded;
 		protected boolean fieldColumnsAdded;
+		protected boolean itemCreationDisabled;
+		protected boolean itemDeletionDisabled;
 		protected Set<ColumnCustomization> columnsCustomizations = new TreeSet<ColumnCustomization>();
 		protected List<String> columnsCustomOrder;
 		protected TreeStructureDiscoverySettings treeStructureDiscoverySettings;
@@ -979,6 +988,22 @@ public final class InfoCustomizations {
 				this.columnsCustomizations = null;
 			}
 			this.columnsCustomizations = new TreeSet<ColumnCustomization>(columnsCustomizations);
+		}
+
+		public boolean isItemCreationDisabled() {
+			return itemCreationDisabled;
+		}
+
+		public void setItemCreationDisabled(boolean itemCreationDisabled) {
+			this.itemCreationDisabled = itemCreationDisabled;
+		}
+
+		public boolean isItemDeletionDisabled() {
+			return itemDeletionDisabled;
+		}
+
+		public void setItemDeletionDisabled(boolean itemDeletionDisabled) {
+			this.itemDeletionDisabled = itemDeletionDisabled;
 		}
 
 		public boolean isItemTypeColumnAdded() {
@@ -1135,6 +1160,32 @@ public final class InfoCustomizations {
 
 		public CustomizationsProxyGenerator(ReflectionUI reflectionUI) {
 			super(reflectionUI);
+		}
+
+		@Override
+		protected boolean canAdd(IListTypeInfo listType) {
+			ITypeInfo itemType = listType.getItemType();
+			final ListStructureCustomization l = getListStructureCustomization(listType.getName(),
+					(itemType == null) ? null : itemType.getName());
+			if (l != null) {
+				if (l.itemCreationDisabled) {
+					return false;
+				}
+			}
+			return super.canAdd(listType);
+		}
+
+		@Override
+		protected boolean canRemove(IListTypeInfo listType) {
+			ITypeInfo itemType = listType.getItemType();
+			final ListStructureCustomization l = getListStructureCustomization(listType.getName(),
+					(itemType == null) ? null : itemType.getName());
+			if (l != null) {
+				if (l.itemDeletionDisabled) {
+					return false;
+				}
+			}
+			return super.canRemove(listType);
 		}
 
 		@Override

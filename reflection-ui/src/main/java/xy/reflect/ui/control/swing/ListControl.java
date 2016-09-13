@@ -597,7 +597,9 @@ public class ListControl extends JPanel implements IFieldControl {
 			public boolean isValid() {
 				if (getRootList().size() > 0) {
 					if (!getRootListItemPosition().isContainingListReadOnly()) {
-						return true;
+						if (getRootListType().canRemove()) {
+							return true;
+						}
 					}
 				}
 				return false;
@@ -811,12 +813,20 @@ public class ListControl extends JPanel implements IFieldControl {
 			@Override
 			public boolean isValid() {
 				List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
+				if (selection.size() == 0) {
+					return false;
+				}
 				if (selection.size() > 0) {
-					if (!anySelectionItemContainingListReadOnly()) {
-						return true;
+					for (AutoFieldValueUpdatingItemPosition selectionItem : selection) {
+						if (selectionItem.isContainingListReadOnly()) {
+							return false;
+						}
+						if (!selectionItem.getContainingListType().canRemove()) {
+							return false;
+						}
 					}
 				}
-				return false;
+				return true;
 			}
 		};
 	}
@@ -981,20 +991,22 @@ public class ListControl extends JPanel implements IFieldControl {
 			public boolean isValid() {
 				AutoFieldValueUpdatingItemPosition newItemPosition = getNewItemPosition();
 				if (newItemPosition != null) {
-					if (!newItemPosition.isContainingListReadOnly()) {
-						if (insertPosition == InsertPosition.BEFORE) {
-							if (newItemPosition.getContainingListType().isOrdered()) {
-								return true;
+					if (newItemPosition.getContainingListType().canAdd()) {
+						if (!newItemPosition.isContainingListReadOnly()) {
+							if (insertPosition == InsertPosition.BEFORE) {
+								if (newItemPosition.getContainingListType().isOrdered()) {
+									return true;
+								}
 							}
-						}
-						if (insertPosition == InsertPosition.AFTER) {
-							if (newItemPosition.getContainingListType().isOrdered()) {
-								return true;
+							if (insertPosition == InsertPosition.AFTER) {
+								if (newItemPosition.getContainingListType().isOrdered()) {
+									return true;
+								}
 							}
-						}
-						if (insertPosition == InsertPosition.UNKNOWN) {
-							if (!newItemPosition.getContainingListType().isOrdered()) {
-								return true;
+							if (insertPosition == InsertPosition.UNKNOWN) {
+								if (!newItemPosition.getContainingListType().isOrdered()) {
+									return true;
+								}
 							}
 						}
 					}
@@ -1059,6 +1071,9 @@ public class ListControl extends JPanel implements IFieldControl {
 					return false;
 				}
 				if (subItemPosition.isContainingListReadOnly()) {
+					return false;
+				}
+				if (!subItemPosition.getContainingListType().canAdd()) {
 					return false;
 				}
 				return true;
@@ -1761,13 +1776,74 @@ public class ListControl extends JPanel implements IFieldControl {
 
 	}
 
-	protected class ReplaceListValueModification implements IModification {
+	protected class ReplaceListValueContentModification implements IModification {
+		protected Object[] listRawValue;
+		protected Object listOwner;
+		protected IFieldInfo listField;
+		protected ReflectionUI reflectionUI;
+		private boolean discardFieldValueSetting;
+		private Object listValue;
+
+		public ReplaceListValueContentModification(ReflectionUI reflectionUI, Object[] listRawValue, Object listOwner,
+				IFieldInfo listField, boolean discardFieldValueSetting) {
+			this.reflectionUI = reflectionUI;
+			this.listRawValue = listRawValue;
+			this.listOwner = listOwner;
+			this.listField = listField;
+			this.discardFieldValueSetting = discardFieldValueSetting;
+		}
+
+		@Override
+		public int getNumberOfUnits() {
+			return 1;
+		}
+
+		@Override
+		public IModification applyAndGetOpposite() {
+			IListTypeInfo listType = (IListTypeInfo) listField.getType();
+			listValue = listField.getValue(listOwner);
+			Object[] lastListRawValue = listType.toArray(listValue);
+
+			listType.replaceContent(listValue, listRawValue);
+			if (!discardFieldValueSetting) {
+				if (!listField.isGetOnly()) {
+					listField.setValue(listOwner, listValue);
+				}
+			}
+
+			final ReplaceListValueContentModification currentModif = this;
+			return new ReplaceListValueContentModification(reflectionUI, lastListRawValue, listOwner, listField,
+					discardFieldValueSetting) {
+				@Override
+				public String getTitle() {
+					return ModificationStack.getUndoTitle(currentModif.getTitle());
+				}
+			};
+		}
+
+		@Override
+		public String toString() {
+			return getTitle();
+		}
+
+		@Override
+		public String getTitle() {
+			return "Edit '" + listField.getCaption() + "' of '" + reflectionUI.getObjectTitle(listOwner) + "'";
+		}
+
+		public Object getLastListValue() {
+			return listValue;
+		}
+
+	}
+
+	protected class SetListValueModification implements IModification {
 		protected Object[] listRawValue;
 		protected Object listOwner;
 		protected IFieldInfo listField;
 		protected ReflectionUI reflectionUI;
 
-		public ReplaceListValueModification(ReflectionUI reflectionUI, Object[] listRawValue, Object listOwner,
+		public SetListValueModification(ReflectionUI reflectionUI, Object[] listRawValue, Object listOwner,
 				IFieldInfo listField) {
 			this.reflectionUI = reflectionUI;
 			this.listRawValue = listRawValue;
@@ -1786,17 +1862,11 @@ public class ListControl extends JPanel implements IFieldControl {
 			Object listValue = listField.getValue(listOwner);
 			Object[] lastListRawValue = listType.toArray(listValue);
 
-			if (listType.canReplaceContent()) {
-				listType.replaceContent(listValue, listRawValue);
-			} else {
-				listValue = listType.fromArray(listRawValue);
-			}
-			if (!listField.isGetOnly()) {
-				listField.setValue(listOwner, listValue);
-			}
+			listValue = listType.fromArray(listRawValue);
+			listField.setValue(listOwner, listValue);
 
-			final ReplaceListValueModification currentModif = this;
-			return new ReplaceListValueModification(reflectionUI, lastListRawValue, listOwner, listField) {
+			final SetListValueModification currentModif = this;
+			return new SetListValueModification(reflectionUI, lastListRawValue, listOwner, listField) {
 				@Override
 				public String getTitle() {
 					return ModificationStack.getUndoTitle(currentModif.getTitle());
@@ -1886,16 +1956,25 @@ public class ListControl extends JPanel implements IFieldControl {
 			return getListType().toArray(listFieldValue);
 		}
 
-		protected void replaceUnderlyingListValue(Object[] listValue) {
+		protected void replaceUnderlyingListValue(Object[] listRawValue) {
 			ModificationStack modifStack = getParentFormModificationStack();
 			Object listOwner = getListOwner();
-			ReplaceListValueModification modif = new ReplaceListValueModification(swingRenderer.getReflectionUI(),
-					listValue, listOwner, getListField());
-			if (itemPosition.isRootListItemPosition()) {
-				modif.applyAndGetOpposite();
+			if (itemPosition.getContainingListType().canReplaceContent()) {
+				boolean rootListUpdate = itemPosition.isRootListItemPosition();
+				ReplaceListValueContentModification modif = new ReplaceListValueContentModification(
+						swingRenderer.getReflectionUI(), listRawValue, listOwner, getListField(), rootListUpdate);
+				modifStack.apply(modif);
+				if (rootListUpdate) {
+					if (!field.isGetOnly()) {
+						field.setValue(object, modif.getLastListValue());
+					}
+				}
 			} else {
+				SetListValueModification modif = new SetListValueModification(swingRenderer.getReflectionUI(),
+						listRawValue, listOwner, getListField());
 				modifStack.apply(modif);
 			}
+
 			if (!itemPosition.isRootListItemPosition()) {
 				AutoFieldValueUpdatingItemPosition listOwnerPosition = itemPosition.getParentItemPosition();
 				new AutoFieldValueUpdatingList(listOwnerPosition).set(listOwnerPosition.getIndex(), listOwner);

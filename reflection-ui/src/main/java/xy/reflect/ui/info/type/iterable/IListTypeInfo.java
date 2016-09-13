@@ -25,6 +25,8 @@ public interface IListTypeInfo extends ITypeInfo {
 	IListStructuralInfo getStructuralInfo();
 
 	boolean isOrdered();
+	boolean canAdd();
+	boolean canRemove();
 
 	List<AbstractListAction> getSpecificActions(Object object, IFieldInfo field,
 			List<? extends ItemPosition> selection);

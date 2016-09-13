@@ -237,6 +237,14 @@ public class InfoProxyGenerator {
 		return type.isOrdered();
 	}
 
+	protected boolean canAdd(IListTypeInfo type) {
+		return type.canAdd();
+	}
+
+	protected boolean canRemove(IListTypeInfo type) {
+		return type.canRemove();
+	}
+
 	protected Object[] toArray(IListTypeInfo type, Object object) {
 		return type.toArray(object);
 	}
@@ -569,6 +577,17 @@ public class InfoProxyGenerator {
 		public boolean isOrdered() {
 			return InfoProxyGenerator.this.isOrdered((IListTypeInfo) type);
 		}
+		
+		@Override
+		public boolean canAdd() {
+			return InfoProxyGenerator.this.canAdd((IListTypeInfo) type);
+		}
+
+		@Override
+		public boolean canRemove() {
+			return InfoProxyGenerator.this.canRemove((IListTypeInfo) type);
+		}
+
 
 		@Override
 		public IListStructuralInfo getStructuralInfo() {

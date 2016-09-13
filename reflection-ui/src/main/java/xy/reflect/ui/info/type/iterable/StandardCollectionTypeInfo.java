@@ -104,8 +104,6 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 		return null;
 	}
 
-
-	
 	@Override
 	public boolean canReplaceContent() {
 		return true;
@@ -116,11 +114,11 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	public void replaceContent(Object listValue, Object[] array) {
 		Collection collection = (Collection) listValue;
 		collection.clear();
-		for(Object item: array){
+		for (Object item : array) {
 			collection.add(item);
-		}		
+		}
 	}
-	
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Object fromArray(Object[] array) {
@@ -177,6 +175,16 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	@Override
 	public boolean isOrdered() {
 		return List.class.isAssignableFrom(javaType);
+	}
+
+	@Override
+	public boolean canAdd() {
+		return true;
+	}
+
+	@Override
+	public boolean canRemove() {
+		return true;
 	}
 
 	public static boolean isCompatibleWith(Class<?> javaType) {

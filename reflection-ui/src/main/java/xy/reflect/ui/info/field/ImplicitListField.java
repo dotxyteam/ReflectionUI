@@ -369,6 +369,16 @@ public class ImplicitListField implements IFieldInfo {
 		}
 
 		@Override
+		public boolean canAdd() {
+			return createMethodName != null;
+		}
+
+		@Override
+		public boolean canRemove() {
+			return removeMethodName != null;
+		}
+
+		@Override
 		public IListStructuralInfo getStructuralInfo() {
 			return new StandardCollectionTypeInfo(reflectionUI, List.class, Object.class) {
 
