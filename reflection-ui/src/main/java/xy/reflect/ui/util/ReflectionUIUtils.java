@@ -10,7 +10,6 @@ import java.awt.Toolkit;
 import java.awt.Window;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -69,66 +68,12 @@ public class ReflectionUIUtils {
 
 	public static final String[] NEW_LINE_SEQUENCES = new String[] { "\r\n", "\n", "\r" };
 
-	public static boolean canonicallyEquals(File file1, File file2) {
-		try {
-			return file1.getCanonicalFile().equals(file2.getCanonicalFile());
-		} catch (IOException e) {
-			throw new RuntimeException(e.toString(), e);
-		}
-	}
-
-	public static boolean isAncestor(File ancestor, File file) {
-		File mayBeAncestor = getCanonicalParent(file);
-		while (true) {
-			if (mayBeAncestor == null) {
-				return false;
-			}
-			if (canonicallyEquals(mayBeAncestor, ancestor)) {
-				return true;
-			}
-			mayBeAncestor = getCanonicalParent(mayBeAncestor);
-		}
-	}
-
 	public static File getCanonicalParent(File file) {
 		try {
 			return file.getCanonicalFile().getParentFile();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-	}
-
-	public static File relativizeFile(File ancestor, File file) {
-		try {
-			ancestor = ancestor.getCanonicalFile();
-			file = file.getCanonicalFile();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-		if (!isAncestor(ancestor, file)) {
-			return null;
-		}
-		String relativePath = file.getPath().substring(ancestor.getPath().length(), file.getPath().length());
-		if (relativePath.startsWith("/") || relativePath.startsWith("\\")) {
-			relativePath = relativePath.substring(1);
-		}
-		return new File(relativePath);
-	}
-
-	public static File getStreamAsFile(InputStream in) throws IOException {
-		File tempFile = File.createTempFile(String.valueOf(in.hashCode()), ".tmp");
-		tempFile.deleteOnExit();
-		FileOutputStream out = new FileOutputStream(tempFile);
-		try {
-			byte[] buffer = new byte[1024];
-			int bytesRead;
-			while ((bytesRead = in.read(buffer)) != -1) {
-				out.write(buffer, 0, bytesRead);
-			}
-		} finally {
-			out.close();
-		}
-		return tempFile;
 	}
 
 	public static List<Class<?>> getAncestorClasses(Class<?> type) {
@@ -299,20 +244,11 @@ public class ReflectionUIUtils {
 
 	public static boolean hasFileNameExtension(String fileName, String[] extensions) {
 		for (String ext : extensions) {
-			if (ext.toLowerCase().equals(getFileNameExtension(fileName).toLowerCase())) {
+			if (ext.toLowerCase().equals(FileUtils.getFileNameExtension(fileName).toLowerCase())) {
 				return true;
 			}
 		}
 		return false;
-	}
-
-	public static String getFileNameExtension(String fileName) {
-		int lastDotIndex = fileName.lastIndexOf(".");
-		if (lastDotIndex == -1) {
-			return "";
-		} else {
-			return fileName.substring(lastDotIndex + 1);
-		}
 	}
 
 	public static <T extends IMethodInfo> T findMethodBySignature(List<T> methods, String signature) {

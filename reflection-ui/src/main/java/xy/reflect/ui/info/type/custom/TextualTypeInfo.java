@@ -34,7 +34,7 @@ public class TextualTypeInfo extends DefaultTypeInfo {
 				if (ClassUtils.isPrimitiveWrapper(primitiveType)) {
 					primitiveType = ClassUtils.wrapperToPrimitiveType(javaType);
 				}
-				return ClassUtils.getDefaultValue(primitiveType);
+				return ClassUtils.getDefaultPrimitiveValue(primitiveType);
 			}
 
 			@Override

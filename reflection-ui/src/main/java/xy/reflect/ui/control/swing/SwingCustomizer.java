@@ -38,13 +38,14 @@ import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
-import xy.reflect.ui.info.type.util.InfoCustomizations;
+import xy.reflect.ui.info.type.util.InfoCustomizationsNew;
 import xy.reflect.ui.info.type.util.InfoProxyGenerator;
-import xy.reflect.ui.info.type.util.InfoCustomizations.ColumnCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizations.FieldCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizations.ListStructureCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizations.MethodCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizations.TypeCustomization;
+import xy.reflect.ui.info.type.util.InfoCustomizationsNew.ColumnCustomization;
+import xy.reflect.ui.info.type.util.InfoCustomizationsNew.FieldCustomization;
+import xy.reflect.ui.info.type.util.InfoCustomizationsNew.ListStructureCustomization;
+import xy.reflect.ui.info.type.util.InfoCustomizationsNew.MethodCustomization;
+import xy.reflect.ui.info.type.util.InfoCustomizationsNew.TypeCustomization;
+import xy.reflect.ui.util.FileUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
@@ -54,10 +55,10 @@ import xy.reflect.ui.util.SystemProperties;
 public class SwingCustomizer extends SwingRenderer {
 
 	protected CustomizationTools customizationTools;
-	protected InfoCustomizations infoCustomizations;
+	protected InfoCustomizationsNew infoCustomizations;
 	protected String infoCustomizationsOutputFilePath;
 
-	public SwingCustomizer(ReflectionUI reflectionUI, InfoCustomizations infoCustomizations,
+	public SwingCustomizer(ReflectionUI reflectionUI, InfoCustomizationsNew infoCustomizations,
 			String infoCustomizationsOutputFilePath) {
 		super(reflectionUI);
 		customizationTools = createCustomizationTools();
@@ -158,19 +159,19 @@ public class SwingCustomizer extends SwingRenderer {
 	}
 
 	protected boolean areCustomizationsEditable() {
-		return SystemProperties.areInfoCustomizationsControlsAuthorized() && (infoCustomizationsOutputFilePath != null);
+		return SystemProperties.areInfoCustomizationToolsAuthorized() && (infoCustomizationsOutputFilePath != null);
 	}
 
 	protected class CustomizationTools {
 		protected SwingRenderer customizationToolsRenderer;
 		protected ReflectionUI customizationToolsUI;
-		protected InfoCustomizations customizationToolsCustomizations;
+		protected InfoCustomizationsNew customizationToolsCustomizations;
 
 		public CustomizationTools() {
-			customizationToolsCustomizations = new InfoCustomizations();
+			customizationToolsCustomizations = new InfoCustomizationsNew();
 			URL url = ReflectionUI.class.getResource("resource/customizations-tools.icu");
 			try {
-				File customizationsFile = ReflectionUIUtils.getStreamAsFile(url.openStream());
+				File customizationsFile = FileUtils.getStreamAsFile(url.openStream());
 				String customizationsFilePath = customizationsFile.getPath();
 				customizationToolsCustomizations.loadFromFile(new File(customizationsFilePath));
 			} catch (IOException e) {
@@ -427,7 +428,7 @@ public class SwingCustomizer extends SwingRenderer {
 							while (mostAncestorFile.getParentFile() != null) {
 								mostAncestorFile = mostAncestorFile.getParentFile();
 							}
-							candidateResourceFile = ReflectionUIUtils.relativizeFile(mostAncestorFile,
+							candidateResourceFile = FileUtils.relativizeFile(mostAncestorFile,
 									candidateResourceFile);
 							String candidateResourcePath = candidateResourceFile.getPath().replaceAll("\\\\", "/");
 							URL resourceURL = getClass().getClassLoader().getResource(candidateResourcePath);
@@ -441,8 +442,8 @@ public class SwingCustomizer extends SwingRenderer {
 					}
 					{
 						File currentDir = new File(".");
-						if (ReflectionUIUtils.isAncestor(currentDir, file)) {
-							File relativeFile = ReflectionUIUtils.relativizeFile(currentDir, file);
+						if (FileUtils.isAncestor(currentDir, file)) {
+							File relativeFile = FileUtils.relativizeFile(currentDir, file);
 							result.add(new PathKindOption(SwingSpecificProperty.VALUE_PATH_TYPE_KIND_RELATIVE_FILE,
 									relativeFile.getPath()));
 						}
@@ -501,7 +502,7 @@ public class SwingCustomizer extends SwingRenderer {
 			};
 		}
 
-		protected void openInfoCustomizationsWindow(InfoCustomizations infoCustomizations) {
+		protected void openInfoCustomizationsWindow(InfoCustomizationsNew infoCustomizations) {
 			customizationToolsRenderer.openObjectFrame(infoCustomizations,
 					customizationToolsRenderer.getReflectionUI().getObjectTitle(infoCustomizations),
 					getCustomizationIcon().getImage());

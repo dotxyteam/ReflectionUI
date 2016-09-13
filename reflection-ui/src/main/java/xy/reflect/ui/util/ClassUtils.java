@@ -7,6 +7,17 @@ import java.util.Map;
 
 public class ClassUtils {
 
+	public static Class<?>[] PRIMITIVE_CLASSES = new Class<?>[] { boolean.class, byte.class, short.class, int.class,
+			long.class, float.class, double.class, char.class };
+	protected static Map<String, Class<?>> PRIMITIVE_CLASS_BY_NAME = new HashMap<String, Class<?>>() {
+		private static final long serialVersionUID = 1L;
+		{
+			for(Class<?> c: PRIMITIVE_CLASSES){
+				put(c.getName(), c);
+			}
+		}
+	};
+
 	protected static boolean DEFAULT_BOOLEAN;
 	protected static byte DEFAULT_BYTE;
 	protected static short DEFAULT_SHORT;
@@ -31,7 +42,7 @@ public class ClassUtils {
 			Class<?> c = CLASS_BY_NAME_CACHE.get(name);
 			if (c == null) {
 				try {
-					c = Class.forName(name);
+					c = forNameEvenPrimitive(name);
 				} catch (ClassNotFoundException e) {
 					c = CLASS_NOT_FOUND;
 				}
@@ -42,6 +53,15 @@ public class ClassUtils {
 			}
 			return c;
 		}
+	}
+
+	public static Class<?> forNameEvenPrimitive(String name) throws ClassNotFoundException {
+		Class<?> result = PRIMITIVE_CLASS_BY_NAME.get(name);
+		if(result != null){
+			return result;
+		}
+		result = Class.forName(name);
+		return result;
 	}
 
 	public static void resetClassCacheForName() {
@@ -99,22 +119,18 @@ public class ClassUtils {
 	}
 
 	public static boolean isPrimitiveTypeOrWrapper(Class<?> class1) {
-		if (class1.isArray()) {
-			return false;
-		} else if (primitiveToWrapperType(class1) != null) {
-			return true;
-		} else if (wrapperToPrimitiveType(class1) != null) {
-			return true;
-		} else {
-			return false;
-		}
+		return isPrimitive(class1) || isPrimitiveWrapper(class1);
+	}
+
+	public static boolean isPrimitive(Class<?> class1) {
+		return primitiveToWrapperType(class1) != null;
 	}
 
 	public static boolean isPrimitiveWrapper(Class<?> class1) {
 		return wrapperToPrimitiveType(class1) != null;
 	}
 
-	public static Object getDefaultValue(Class<?> clazz) {
+	public static Object getDefaultPrimitiveValue(Class<?> clazz) {
 		if (clazz.equals(boolean.class)) {
 			return DEFAULT_BOOLEAN;
 		} else if (clazz.equals(byte.class)) {

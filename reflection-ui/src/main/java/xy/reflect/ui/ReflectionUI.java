@@ -31,7 +31,7 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.util.HiddenNullableFacetsInfoProxyGenerator;
-import xy.reflect.ui.info.type.util.InfoCustomizations;
+import xy.reflect.ui.info.type.util.InfoCustomizationsNew;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
@@ -45,7 +45,7 @@ public class ReflectionUI {
 		public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
 			ITypeInfo result = super.getTypeInfo(typeSource);
 			if (SystemProperties.areDefaultInfoCustomizationsActive()) {
-				result = InfoCustomizations.DEFAULT.get(this, result);
+				result = InfoCustomizationsNew.DEFAULT.get(this, result);
 			}
 			return result;
 		}

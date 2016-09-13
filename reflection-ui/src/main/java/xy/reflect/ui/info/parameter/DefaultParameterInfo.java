@@ -93,7 +93,7 @@ public class DefaultParameterInfo implements IParameterInfo {
 	@Override
 	public Object getDefaultValue() {
 		if (javaParameter.getType().isPrimitive()) {
-			return ClassUtils.getDefaultValue(javaParameter.getType());
+			return ClassUtils.getDefaultPrimitiveValue(javaParameter.getType());
 		} else {
 			return null;
 		}

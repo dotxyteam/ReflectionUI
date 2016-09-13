@@ -7,14 +7,14 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
+import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.info.method.InvocationData;
 
 @SuppressWarnings("unused")
 public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 
-	public ArrayTypeInfo(ReflectionUI reflectionUI, Class<?> javaType,
-			Class<?> itemJavaType) {
+	public ArrayTypeInfo(ReflectionUI reflectionUI, Class<?> javaType, Class<?> itemJavaType) {
 		super(reflectionUI, javaType, itemJavaType);
 	}
 
@@ -28,8 +28,13 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 	}
 
 	@Override
-	public String toString() {
-		return itemJavaType + "[]";
+	public String getCaption() {
+		ITypeInfo itemType = getItemType();
+		if (itemType != null) {
+			return "Array Of " + itemType.getCaption();
+		} else {
+			return "Array";
+		}
 	}
 
 	@Override
@@ -39,25 +44,21 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		return Collections
-				.<IMethodInfo> singletonList(new AbstractConstructorMethodInfo(
-						this) {
+		return Collections.<IMethodInfo> singletonList(new AbstractConstructorMethodInfo(this) {
 
-					@Override
-					public Object invoke(Object object,
-							InvocationData invocationData) {
-						return Array.newInstance(itemJavaType, 0);
-					}
+			@Override
+			public Object invoke(Object object, InvocationData invocationData) {
+				return Array.newInstance(itemJavaType, 0);
+			}
 
-					@Override
-					public List<IParameterInfo> getParameters() {
-						return Collections.emptyList();
-					}
+			@Override
+			public List<IParameterInfo> getParameters() {
+				return Collections.emptyList();
+			}
 
-				});
+		});
 	}
-	
-	
+
 	@Override
 	public boolean canReplaceContent() {
 		return false;
@@ -76,14 +77,10 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 		}
 		return value;
 	}
-	
-	
 
 	@Override
 	public boolean isOrdered() {
 		return true;
 	}
 
-	
-	
 }

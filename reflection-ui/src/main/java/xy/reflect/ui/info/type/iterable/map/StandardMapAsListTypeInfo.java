@@ -12,21 +12,21 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.DefaultConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.info.method.InvocationData;
 
 public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 
 	protected Class<?> keyJavaType;
 	protected Class<?> valueJavaType;
 
-	public StandardMapAsListTypeInfo(ReflectionUI reflectionUI,
-			Class<?> javaType, Class<?> keyJavaType, Class<?> valueJavaType) {
+	public StandardMapAsListTypeInfo(ReflectionUI reflectionUI, Class<?> javaType, Class<?> keyJavaType,
+			Class<?> valueJavaType) {
 		super(reflectionUI, javaType, StandardMapEntry.class);
 		this.keyJavaType = keyJavaType;
 		this.valueJavaType = valueJavaType;
@@ -42,8 +42,7 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 
 	@Override
 	public ITypeInfo getItemType() {
-		return new StandardMapEntryTypeInfo(reflectionUI, keyJavaType,
-				valueJavaType);
+		return new StandardMapEntryTypeInfo(reflectionUI, keyJavaType, valueJavaType);
 	}
 
 	@Override
@@ -51,23 +50,20 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 		List<IMethodInfo> defaultConstructors = new ArrayList<IMethodInfo>();
 		if (isConcrete()) {
 			for (Constructor<?> javaConstructor : javaType.getConstructors()) {
-				if(!DefaultConstructorMethodInfo.isCompatibleWith(javaConstructor)){
+				if (!DefaultConstructorMethodInfo.isCompatibleWith(javaConstructor)) {
 					continue;
 				}
-				defaultConstructors.add(new DefaultConstructorMethodInfo(
-						reflectionUI, this, javaConstructor));
+				defaultConstructors.add(new DefaultConstructorMethodInfo(reflectionUI, this, javaConstructor));
 			}
 		}
 		if (ReflectionUIUtils.getNParametersMethod(defaultConstructors, 0) != null) {
 			return defaultConstructors;
 		} else {
-			List<IMethodInfo> result = new ArrayList<IMethodInfo>(
-					defaultConstructors);
+			List<IMethodInfo> result = new ArrayList<IMethodInfo>(defaultConstructors);
 			result.add(new AbstractConstructorMethodInfo(this) {
 
 				@Override
-				public Object invoke(Object object,
-						InvocationData invocationData) {
+				public Object invoke(Object object, InvocationData invocationData) {
 					return new HashMap<Object, Object>();
 				}
 
@@ -80,18 +76,31 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 		}
 	}
 
+	@Override
+	public boolean canReplaceContent() {
+		return true;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public void replaceContent(Object listValue, Object[] array) {
+		Map map = (Map) listValue;
+		map.clear();
+		for (Object item : array) {
+			StandardMapEntry standardMapEntry = (StandardMapEntry) item;
+			map.put(standardMapEntry.getKey(), standardMapEntry.getValue());
+		}
+	}
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Object fromArray(Object[] array) {
-		IMethodInfo constructor = ReflectionUIUtils
-				.getZeroParameterConstrucor(this);
-		Map result = (Map) constructor.invoke(null,
-				new InvocationData());
+		IMethodInfo constructor = ReflectionUIUtils.getZeroParameterConstrucor(this);
+		Map result = (Map) constructor.invoke(null, new InvocationData());
 		for (Object item : array) {
-			StandardMapEntry entry = (StandardMapEntry)item;
+			StandardMapEntry entry = (StandardMapEntry) item;
 			if (result.containsKey(entry.getKey())) {
-				throw new ReflectionUIError("Duplicate key: '"
-						+ reflectionUI.toString(entry.getKey()) + "'");
+				throw new ReflectionUIError("Duplicate key: '" + reflectionUI.toString(entry.getKey()) + "'");
 			}
 			result.put(entry.getKey(), entry.getValue());
 		}
@@ -115,10 +124,8 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result
-				+ ((keyJavaType == null) ? 0 : keyJavaType.hashCode());
-		result = prime * result
-				+ ((valueJavaType == null) ? 0 : valueJavaType.hashCode());
+		result = prime * result + ((keyJavaType == null) ? 0 : keyJavaType.hashCode());
+		result = prime * result + ((valueJavaType == null) ? 0 : valueJavaType.hashCode());
 		return result;
 	}
 
@@ -152,8 +159,7 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 	public static boolean isCompatibleWith(Class<?> javaType) {
 		if (Map.class.isAssignableFrom(javaType)) {
 			if (ReflectionUIUtils
-					.getZeroParameterConstrucor(new DefaultTypeInfo(
-							new ReflectionUI(), javaType)) != null) {
+					.getZeroParameterConstrucor(new DefaultTypeInfo(new ReflectionUI(), javaType)) != null) {
 				return true;
 			}
 			if (javaType.isAssignableFrom(HashMap.class)) {

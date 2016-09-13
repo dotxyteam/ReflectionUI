@@ -26,7 +26,7 @@ public class BooleanTypeInfo extends DefaultTypeInfo {
 
 			@Override
 			public Object invoke(Object object, InvocationData invocationData) {
-				return ClassUtils.getDefaultValue(boolean.class);
+				return ClassUtils.getDefaultPrimitiveValue(boolean.class);
 			}
 
 			@Override

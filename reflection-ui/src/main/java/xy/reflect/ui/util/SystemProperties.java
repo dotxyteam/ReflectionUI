@@ -115,7 +115,7 @@ public class SystemProperties {
 		return matchesHiddenPattern(qualifiedName, hiddenPattern);
 	}
 
-	public static boolean areInfoCustomizationsControlsAuthorized() {
+	public static boolean areInfoCustomizationToolsAuthorized() {
 		return !"true".equals(System.getProperty(SystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS, "false"));
 	}
 

@@ -22,9 +22,9 @@ import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.PositionColumnInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.TypeNameColumnInfo;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
-import xy.reflect.ui.info.type.util.InfoCustomizations.ColumnCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizations.ListStructureCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizations.TreeStructureDiscoverySettings;
+import xy.reflect.ui.info.type.util.InfoCustomizationsNew.ColumnCustomization;
+import xy.reflect.ui.info.type.util.InfoCustomizationsNew.ListStructureCustomization;
+import xy.reflect.ui.info.type.util.InfoCustomizationsNew.TreeStructureDiscoverySettings;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 @SuppressWarnings("unused")
