@@ -53,6 +53,8 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
@@ -253,6 +255,11 @@ public class ListControl extends JPanel implements IFieldControl {
 	@Override
 	public boolean displayError(ReflectionUIError error) {
 		return false;
+	}
+
+	@Override
+	public boolean handlesModificationStackUpdate() {
+		return true;
 	}
 
 	public IListStructuralInfo getStructuralInfo() {
@@ -1408,8 +1415,14 @@ public class ListControl extends JPanel implements IFieldControl {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				action.setListControl(ListControl.this);
-				JPanel form = SwingRendererUtils.findForm(ListControl.this, swingRenderer);
-				IMethodInfo method = swingRenderer.makeMethodModificationsUndoable(action, form);
+				final JPanel form = SwingRendererUtils.findForm(ListControl.this, swingRenderer);
+				IMethodInfo method = new MethodInfoProxy(action) {
+					@Override
+					public Object invoke(Object object, InvocationData invocationData) {
+						return SwingRendererUtils.invokeMethodAndAllowToUndo(object, action, invocationData, form,
+								swingRenderer);
+					}
+				};
 				swingRenderer.onMethodInvocationRequest(ListControl.this, ListControl.this.object, method, null);
 			}
 		};
@@ -1960,15 +1973,9 @@ public class ListControl extends JPanel implements IFieldControl {
 			ModificationStack modifStack = getParentFormModificationStack();
 			Object listOwner = getListOwner();
 			if (itemPosition.getContainingListType().canReplaceContent()) {
-				boolean rootListUpdate = itemPosition.isRootListItemPosition();
 				ReplaceListValueContentModification modif = new ReplaceListValueContentModification(
-						swingRenderer.getReflectionUI(), listRawValue, listOwner, getListField(), rootListUpdate);
+						swingRenderer.getReflectionUI(), listRawValue, listOwner, getListField(), false);
 				modifStack.apply(modif);
-				if (rootListUpdate) {
-					if (!field.isGetOnly()) {
-						field.setValue(object, modif.getLastListValue());
-					}
-				}
 			} else {
 				SetListValueModification modif = new SetListValueModification(swingRenderer.getReflectionUI(),
 						listRawValue, listOwner, getListField());
@@ -2091,7 +2098,7 @@ public class ListControl extends JPanel implements IFieldControl {
 				return;
 			}
 			String text = getCellValue(node, columnIndex);
-			if ((text == null) || (text.length()==0)){
+			if ((text == null) || (text.length() == 0)) {
 				label.setText(" ");
 			} else {
 				label.setText(swingRenderer.getReflectionUI().prepareStringToDisplay(text));

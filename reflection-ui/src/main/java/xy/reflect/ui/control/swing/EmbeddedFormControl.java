@@ -16,6 +16,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.undo.SetFieldValueModification;
 import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
@@ -93,7 +94,8 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 				if (shouldUpdateField()) {
 					parentModifStack.beginComposite();
 					parentModifStack.pushUndo(undoModif);
-					field.setValue(object, subFormObject);
+					parentModifStack.apply(new SetFieldValueModification(swingRenderer.getReflectionUI(), object, field,
+							subFormObject));
 					parentModifStack.endComposite(ModificationStack.getUndoTitle(undoModif.getTitle()), UndoOrder.FIFO);
 				} else {
 					parentModifStack.pushUndo(undoModif);
@@ -167,6 +169,11 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 				forwardModificationsToParentForm(subForm);
 			}
 		}
+		return true;
+	}
+
+	@Override
+	public boolean handlesModificationStackUpdate() {
 		return true;
 	}
 

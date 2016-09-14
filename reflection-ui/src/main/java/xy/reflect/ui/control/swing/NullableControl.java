@@ -173,5 +173,14 @@ public class NullableControl extends JPanel implements IFieldControl {
 			return false;
 		}
 	}
+	
+	@Override
+	public boolean handlesModificationStackUpdate() {
+		if (subControl instanceof IFieldControl) {
+			return ((IFieldControl) subControl).handlesModificationStackUpdate();
+		} else {
+			return false;
+		}
+	}
 
 }

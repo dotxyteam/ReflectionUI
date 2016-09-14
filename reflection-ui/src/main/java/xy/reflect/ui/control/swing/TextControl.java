@@ -170,4 +170,9 @@ public class TextControl extends JPanel implements IFieldControl {
 		return false;
 	}
 
+	@Override
+	public boolean handlesModificationStackUpdate() {
+		return false;
+	}
+
 }

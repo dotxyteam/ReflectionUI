@@ -1,3 +1,4 @@
+- ListControl does not filter item fields
 - undo/redo bug (testable with TreeTableModelExample)
 - delete class ABstractTreeStructuralInfo
 - add IFieldControl.handlesModificationStackUpdate()

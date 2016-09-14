@@ -39,9 +39,12 @@ import xy.reflect.ui.control.swing.SwingRenderer.SwingSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.util.InfoProxyGenerator;
+import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 
 @SuppressWarnings("unused")
@@ -304,5 +307,23 @@ public class SwingRendererUtils {
 			return null;
 		}
 		return result;
+	}
+
+	public static Object invokeMethodAndAllowToUndo(Object object, IMethodInfo method, InvocationData invocationData, JPanel form, SwingRenderer swingRenderer) {
+		ModificationStack stack = swingRenderer.getModificationStackByForm().get(form);
+		Object result;
+		try {
+			result = method.invoke(object, invocationData);
+		} catch (Throwable t) {
+			stack.invalidate();
+			throw new ReflectionUIError(t);
+		}
+		IModification undoModif = method.getUndoModification(object, invocationData);
+		if (undoModif == null) {
+			stack.invalidate();
+		} else {
+			stack.pushUndo(undoModif);
+		}
+		return result;	
 	}
 }

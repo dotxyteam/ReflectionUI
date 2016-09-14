@@ -61,4 +61,11 @@ public class CheckBoxControl extends JCheckBox implements IFieldControl {
 	public boolean refreshUI() {
 		return false;
 	}
+
+	@Override
+	public boolean handlesModificationStackUpdate() {
+		return false;
+	}
+	
+	
 }

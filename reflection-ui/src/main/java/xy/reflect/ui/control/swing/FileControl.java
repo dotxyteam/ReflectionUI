@@ -88,7 +88,8 @@ public class FileControl extends DialogAccessControl implements IFieldControl {
 		File currentFile = (File) field.getValue(object);
 		fileChooser.setCurrentDirectory(lastDirectory);
 		configureFileChooser(fileChooser, currentFile);
-		int returnVal = fileChooser.showDialog(this, swingRenderer.getReflectionUI().prepareStringToDisplay(getDialogTitle()));
+		int returnVal = fileChooser.showDialog(this,
+				swingRenderer.getReflectionUI().prepareStringToDisplay(getDialogTitle()));
 		if (returnVal != JFileChooser.APPROVE_OPTION) {
 			return;
 		}
@@ -112,4 +113,10 @@ public class FileControl extends DialogAccessControl implements IFieldControl {
 		updateStatusControl();
 		return true;
 	}
+
+	@Override
+	public boolean handlesModificationStackUpdate() {
+		return false;
+	}
+
 }

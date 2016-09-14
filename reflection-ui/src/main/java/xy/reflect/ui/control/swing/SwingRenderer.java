@@ -87,13 +87,13 @@ import xy.reflect.ui.util.component.WrapLayout;
 public class SwingRenderer {
 
 	public static final SwingRenderer DEFAULT;
-	static{
+	static {
 		if (SystemProperties.areDefaultInfoCustomizationsActive()
 				&& SystemProperties.areDefaultInfoCustomizationsEditable()) {
 			DEFAULT = new SwingCustomizer(ReflectionUI.DEFAULT, InfoCustomizations.DEFAULT,
 					SystemProperties.getDefaultInfoCustomizationsFilePath());
 		} else {
-			DEFAULT =  new SwingRenderer(ReflectionUI.DEFAULT);
+			DEFAULT = new SwingRenderer(ReflectionUI.DEFAULT);
 		}
 	}
 
@@ -107,8 +107,6 @@ public class SwingRenderer {
 			.weakKeys().makeMap();
 	protected Map<JPanel, Map<InfoCategory, List<MethodControlPlaceHolder>>> methodControlPlaceHoldersByCategoryByForm = new MapMaker()
 			.weakKeys().makeMap();
-	protected Map<MethodControlPlaceHolder, IMethodInfo> methodByControlPlaceHoler = new MapMaker().weakKeys()
-			.makeMap();
 	protected Map<IMethodInfo, InvocationData> lastInvocationDataByMethod = new HashMap<IMethodInfo, InvocationData>();
 	protected Map<FieldControlPlaceHolder, Component> captionControlByFieldControlPlaceHolder = new MapMaker()
 			.weakKeys().makeMap();
@@ -118,7 +116,6 @@ public class SwingRenderer {
 		this.reflectionUI = reflectionUI;
 	}
 
-	
 	public ReflectionUI getReflectionUI() {
 		return reflectionUI;
 	}
@@ -149,10 +146,6 @@ public class SwingRenderer {
 
 	public Map<JPanel, Map<InfoCategory, List<MethodControlPlaceHolder>>> getMethodControlPlaceHoldersByCategoryByForm() {
 		return methodControlPlaceHoldersByCategoryByForm;
-	}
-
-	public Map<MethodControlPlaceHolder, IMethodInfo> getMethodByControl() {
-		return methodByControlPlaceHoler;
 	}
 
 	public void adjustWindowBounds(Window window) {
@@ -652,9 +645,6 @@ public class SwingRenderer {
 			if (settings.excludeField(field)) {
 				continue;
 			}
-			if (!field.isGetOnly()) {
-				field = makeFieldModificationsUndoable(field, form);
-			}
 			FieldControlPlaceHolder fieldControlPlaceHolder = createFieldControlPlaceHolder(object, field);
 			{
 				InfoCategory category = field.getCategory();
@@ -678,11 +668,7 @@ public class SwingRenderer {
 			if (settings.excludeMethod(method)) {
 				continue;
 			}
-			if (!method.isReadOnly()) {
-				method = makeMethodModificationsUndoable(method, form);
-			}
 			MethodControlPlaceHolder methodControlPlaceHolder = createMethodControlPlaceHolder(object, method);
-			getMethodByControl().put(methodControlPlaceHolder, method);
 			{
 				InfoCategory category = method.getCategory();
 				if (category == null) {
@@ -757,16 +743,6 @@ public class SwingRenderer {
 		return result;
 	}
 
-	public List<Component> getFieldControlsByName(JPanel form, String fieldName) {
-		List<Component> result = new ArrayList<Component>();
-		for (FieldControlPlaceHolder fieldControlPlaceHolder : getAllFieldControlPlaceHolders(form)) {
-			if (fieldName.equals(fieldControlPlaceHolder.getField().getName())) {
-				result.add(fieldControlPlaceHolder.getFieldControl());
-			}
-		}
-		return result;
-	}
-
 	public int getFocusedFieldControlPaceHolderIndex(JPanel subForm) {
 		int i = 0;
 		for (FieldControlPlaceHolder fieldControlPlaceHolder : getAllFieldControlPlaceHolders(subForm)) {
@@ -786,7 +762,9 @@ public class SwingRenderer {
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		IFieldInfo field = ReflectionUIUtils.findInfoByName(type.getFields(), fieldName);
 		for (JPanel form : getForms(object)) {
-			field = makeFieldModificationsUndoable(field, form);
+			for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHoldersByName(form, fieldName)) {
+				field = makeFieldModificationsUndoable(field, fieldControlPlaceHolder);
+			}
 		}
 		return field;
 	}
@@ -798,21 +776,30 @@ public class SwingRenderer {
 			return null;
 		}
 		for (JPanel form : getForms(object)) {
-			method = makeMethodModificationsUndoable(method, form);
+			for (MethodControlPlaceHolder methodControlPlaceHolder : getMethodControlPlaceHoldersBySignature(form,
+					methodSignature)) {
+				method = makeMethodModificationsUndoable(method, methodControlPlaceHolder);
+			}
 		}
 		return method;
 	}
 
-	public List<Component> getMethodControlsBySignature(JPanel form, String methodSignature) {
-		List<Component> result = new ArrayList<Component>();
-		Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHolderByCategory = getMethodControlPlaceHoldersByCategoryByForm()
-				.get(form);
-		for (List<MethodControlPlaceHolder> methodControlPlaceHolders : methodControlPlaceHolderByCategory.values()) {
-			for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHolders) {
-				IMethodInfo method = getMethodByControl().get(methodControlPlaceHolder);
-				if (ReflectionUIUtils.getMethodInfoSignature(method).equals(methodSignature)) {
-					result.add(methodControlPlaceHolder.getMethodControl());
-				}
+	public List<FieldControlPlaceHolder> getFieldControlPlaceHoldersByName(JPanel form, String fieldName) {
+		List<FieldControlPlaceHolder> result = new ArrayList<FieldControlPlaceHolder>();
+		for (FieldControlPlaceHolder fieldControlPlaceHolder : getAllFieldControlPlaceHolders(form)) {
+			if (fieldName.equals(fieldControlPlaceHolder.getField().getName())) {
+				result.add(fieldControlPlaceHolder);
+			}
+		}
+		return result;
+	}
+
+	public List<MethodControlPlaceHolder> getMethodControlPlaceHoldersBySignature(JPanel form, String methodSignature) {
+		List<MethodControlPlaceHolder> result = new ArrayList<MethodControlPlaceHolder>();
+		for (MethodControlPlaceHolder methodControlPlaceHolder : getAllMethodControlPlaceHolders(form)) {
+			if (ReflectionUIUtils.getMethodInfoSignature(methodControlPlaceHolder.getMethod())
+					.equals(methodSignature)) {
+				result.add(methodControlPlaceHolder);
 			}
 		}
 		return result;
@@ -854,19 +841,16 @@ public class SwingRenderer {
 		openErrorDialog(activatorComponent, "An Error Occured", t);
 	}
 
-	public IFieldInfo handleValueChangeErrors(IFieldInfo field,
-			final FieldControlPlaceHolder fieldControlPlaceHolder) {
+	public IFieldInfo handleValueUpdateErrors(IFieldInfo field, final FieldControlPlaceHolder fieldControlPlaceHolder) {
 		return new FieldInfoProxy(field) {
 
 			@Override
 			public void setValue(Object object, Object value) {
-				if (!reflectionUI.equals(super.getValue(object), value)) {
-					try {
-						super.setValue(object, value);
-						fieldControlPlaceHolder.displayError(null);
-					} catch (final Throwable t) {
-						fieldControlPlaceHolder.displayError(new ReflectionUIError(t));
-					}
+				try {
+					super.setValue(object, value);
+					fieldControlPlaceHolder.displayError(null);
+				} catch (final Throwable t) {
+					fieldControlPlaceHolder.displayError(new ReflectionUIError(t));
 				}
 			}
 
@@ -886,37 +870,34 @@ public class SwingRenderer {
 		layoutControlPanels(parentForm, fieldsPanel, methodsPanel);
 	}
 
-	public IFieldInfo makeFieldModificationsUndoable(final IFieldInfo field, final JPanel form) {
+	public IFieldInfo makeFieldModificationsUndoable(final IFieldInfo field,
+			final FieldControlPlaceHolder fieldControlPlaceHolder) {
 		return new FieldInfoProxy(field) {
 			@Override
 			public void setValue(Object object, Object newValue) {
+				Component c = fieldControlPlaceHolder.getFieldControl();
+				if ((c instanceof IFieldControl)) {
+					IFieldControl fieldControl = (IFieldControl) c;
+					if (fieldControl.handlesModificationStackUpdate()) {
+						super.setValue(object, newValue);
+						return;
+					}
+				}
+				JPanel form = SwingRendererUtils.findForm(fieldControlPlaceHolder, SwingRenderer.this);
 				ModificationStack stack = getModificationStackByForm().get(form);
 				stack.apply(new SetFieldValueModification(reflectionUI, object, field, newValue));
 			}
 		};
 	}
 
-	public IMethodInfo makeMethodModificationsUndoable(final IMethodInfo method, final JPanel form) {
+	public IMethodInfo makeMethodModificationsUndoable(final IMethodInfo method,
+			final MethodControlPlaceHolder methodControlPlaceHolder) {
 		return new MethodInfoProxy(method) {
 
 			@Override
 			public Object invoke(Object object, InvocationData invocationData) {
-				ModificationStack stack = getModificationStackByForm().get(form);
-				Object result;
-				try {
-					result = super.invoke(object, invocationData);
-				} catch (Throwable t) {
-					stack.invalidate();
-					throw new ReflectionUIError(t);
-				}
-				IModification undoModif = method.getUndoModification(object, invocationData);
-				if (undoModif == null) {
-					stack.invalidate();
-				} else {
-					stack.pushUndo(undoModif);
-				}
-				return result;
-
+				JPanel form = SwingRendererUtils.findForm(methodControlPlaceHolder, SwingRenderer.this);
+				return SwingRendererUtils.invokeMethodAndAllowToUndo(object, method, invocationData, form, SwingRenderer.this);
 			}
 
 		};
@@ -1504,8 +1485,7 @@ public class SwingRenderer {
 		return okPressedHolder[0];
 	}
 
-	public List<JButton> createStandardOKCancelDialogButtons(JDialog[] dialogHolder,
-			final boolean[] okPressedHolder) {
+	public List<JButton> createStandardOKCancelDialogButtons(JDialog[] dialogHolder, final boolean[] okPressedHolder) {
 		List<JButton> result = new ArrayList<JButton>();
 		result.add(createDialogClosingButton("OK", new Runnable() {
 			@Override
@@ -1730,7 +1710,10 @@ public class SwingRenderer {
 		public FieldControlPlaceHolder(Object object, IFieldInfo field) {
 			super();
 			this.object = object;
-			field = handleValueChangeErrors(field, this);
+			if (!field.isGetOnly()) {
+				field = makeFieldModificationsUndoable(field, this);
+			}
+			field = handleValueUpdateErrors(field, this);
 			this.field = field;
 			setLayout(new BorderLayout());
 			refreshUI(false);
@@ -1804,6 +1787,9 @@ public class SwingRenderer {
 		public MethodControlPlaceHolder(Object object, IMethodInfo method) {
 			super();
 			this.object = object;
+			if (!method.isReadOnly()) {
+				method = makeMethodModificationsUndoable(method, this);
+			}
 			this.method = method;
 			setLayout(new BorderLayout());
 			refreshUI(false);

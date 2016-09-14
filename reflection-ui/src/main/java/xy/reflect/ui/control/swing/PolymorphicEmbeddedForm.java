@@ -32,6 +32,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 
 	protected final ITypeInfo NULL_POLY_TYPE;
 	protected ITypeInfo lastInstanceType;
+	protected boolean updatingEnumeration = false;
 
 	public PolymorphicEmbeddedForm(final SwingRenderer swingRenderer, final Object object, final IFieldInfo field) {
 		this.swingRenderer = swingRenderer;
@@ -84,7 +85,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 			public void setValue(Object object, Object value) {
 				try {
 					if (value == NULL_POLY_TYPE) {
-						field.setValue(object, null);
+						setFieldValue(object, null);
 					} else {
 						ITypeInfo selectedPolyType = null;
 						for (ITypeInfo subType : subTypes) {
@@ -101,11 +102,17 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 								return;
 							}
 						}
-						field.setValue(object, instance);
+						setFieldValue(object, instance);
 					}
 				} finally {
 					refreshUI();
 				}
+			}
+
+			private void setFieldValue(Object object, Object value) {
+				updatingEnumeration = true;
+				field.setValue(object, value);
+				updatingEnumeration = false;
 			}
 
 			@Override
@@ -206,6 +213,19 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 	@Override
 	public boolean displayError(ReflectionUIError error) {
 		return (dynamicControl instanceof IFieldControl) && ((IFieldControl) dynamicControl).displayError(error);
+	}
+
+	@Override
+	public boolean handlesModificationStackUpdate() {
+		if (updatingEnumeration ) {
+			return false;
+		} else if (dynamicControl == null) {
+			return false;
+		} else if (dynamicControl instanceof IFieldControl) {
+			return ((IFieldControl)dynamicControl).handlesModificationStackUpdate();
+		} else {
+			return false;
+		}
 	}
 
 }

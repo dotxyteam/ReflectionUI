@@ -9,4 +9,6 @@ public interface IFieldControl {
 
 	boolean refreshUI();
 
+	boolean handlesModificationStackUpdate();
+
 }
