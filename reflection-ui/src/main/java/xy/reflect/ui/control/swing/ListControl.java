@@ -2149,8 +2149,8 @@ public class ListControl extends JPanel implements IFieldControl {
 				}
 			} else {
 				ModificationStack modifStack = getParentFormModificationStack();
+				modifStack.beginComposite();
 				try {
-					modifStack.beginComposite();
 					List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
 					modifStack.pushUndo(new ChangeListSelectionModification(selection, getSelection()));
 					@SuppressWarnings("unchecked")

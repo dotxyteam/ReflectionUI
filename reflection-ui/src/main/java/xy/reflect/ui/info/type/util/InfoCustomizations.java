@@ -465,8 +465,8 @@ public final class InfoCustomizations {
 			this.typeName = typeName;
 		}
 
-		@XmlElements({ @XmlElement(type = JavaClassBasedTypeInfoFinder.class),
-				@XmlElement(type = CustomTypeInfoFinder.class) })
+		@XmlElements({ @XmlElement(name = "javaClassBasedTypeInfoFinder", type = JavaClassBasedTypeInfoFinder.class),
+				@XmlElement(name = "customTypeInfoFinder", type = CustomTypeInfoFinder.class) })
 		public List<ITypeInfoFinder> getPolymorphicSubTypeFinders() {
 			return polymorphicSubTypeFinders;
 		}

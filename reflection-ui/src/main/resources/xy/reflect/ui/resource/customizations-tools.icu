@@ -795,8 +795,8 @@
         <customFieldsOrder>hidden</customFieldsOrder>
         <customFieldsOrder>nullableFacetHidden</customFieldsOrder>
         <customFieldsOrder>expandSubForm</customFieldsOrder>
-        <customFieldsOrder>valueOptionsFieldName</customFieldsOrder>
         <customFieldsOrder>category</customFieldsOrder>
+        <customFieldsOrder>valueOptionsFieldName</customFieldsOrder>
         <customFieldsOrder>onlineHelp</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -888,8 +888,12 @@
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization</typeName>
     </typeCustomizations>
     <typeCustomizations>
-        <polymorphicSubTypeFinders/>
-        <polymorphicSubTypeFinders/>
+        <javaClassBasedTypeInfoFinder>
+            <className>xy.reflect.ui.info.type.util.InfoCustomizations$JavaClassBasedTypeInfoFinder</className>
+        </javaClassBasedTypeInfoFinder>
+        <javaClassBasedTypeInfoFinder>
+            <className>xy.reflect.ui.info.type.util.InfoCustomizations$CustomTypeInfoFinder</className>
+        </javaClassBasedTypeInfoFinder>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$ITypeInfoFinder</typeName>
     </typeCustomizations>
     <typeCustomizations>
