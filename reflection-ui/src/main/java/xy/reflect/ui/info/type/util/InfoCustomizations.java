@@ -40,9 +40,9 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.CustomizedStructuralInfo;
+import xy.reflect.ui.info.type.iterable.structure.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.ListStructuralInfoProxy;
-import xy.reflect.ui.info.type.iterable.structure.column.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.InfoCustomizations.ColumnCustomization;
@@ -941,6 +941,7 @@ public final class InfoCustomizations {
 		protected boolean itemTypeColumnAdded;
 		protected boolean positionColumnAdded;
 		protected boolean fieldColumnsAdded;
+		protected boolean stringValueColumnAdded;
 		protected boolean itemCreationDisabled;
 		protected boolean itemDeletionDisabled;
 		protected Set<ColumnCustomization> columnsCustomizations = new TreeSet<ColumnCustomization>();
@@ -1049,6 +1050,14 @@ public final class InfoCustomizations {
 			this.fieldColumnsAdded = fieldColumnsAdded;
 		}
 
+		public boolean isStringValueColumnAdded() {
+			return stringValueColumnAdded;
+		}
+
+		public void setStringValueColumnAdded(boolean stringValueColumnAdded) {
+			this.stringValueColumnAdded = stringValueColumnAdded;
+		}
+
 		public ColumnCustomization getColumnCustomization(String columnName) {
 			return parent.getColumnCustomization(listTypeName, itemTypeName, columnName);
 		}
@@ -1097,14 +1106,14 @@ public final class InfoCustomizations {
 	}
 
 	public static class TreeStructureDiscoverySettings {
-		protected String treeColumnFieldName;
+		protected boolean heterogeneousTree;
 
-		public String getTreeColumnFieldName() {
-			return treeColumnFieldName;
+		public boolean isHeterogeneousTree() {
+			return heterogeneousTree;
 		}
 
-		public void setTreeColumnFieldName(String treeColumnFieldName) {
-			this.treeColumnFieldName = treeColumnFieldName;
+		public void setHeterogeneousTree(boolean heterogeneousTree) {
+			this.heterogeneousTree = heterogeneousTree;
 		}
 
 	}

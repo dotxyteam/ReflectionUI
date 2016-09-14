@@ -12,6 +12,7 @@
         <itemTypeName>java.lang.Object</itemTypeName>
         <listTypeName>java.util.ArrayList</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
+        <stringValueColumnAdded>false</stringValueColumnAdded>
     </listStructures>
     <listStructures>
         <columnsCustomizations>
@@ -25,6 +26,7 @@
         <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization</itemTypeName>
         <listTypeName>java.util.List</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
+        <stringValueColumnAdded>false</stringValueColumnAdded>
     </listStructures>
     <listStructures>
         <columnsCustomizations>
@@ -38,6 +40,7 @@
         <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization</itemTypeName>
         <listTypeName>java.util.Set</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
+        <stringValueColumnAdded>false</stringValueColumnAdded>
     </listStructures>
     <typeCustomizations>
         <typeName></typeName>
@@ -1018,6 +1021,12 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>stringValueColumnAdded</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
             <specificProperties>
                 <entry>
                     <key>SwingSpecificProperty.CREATE_EMBEDDED_FORM</key>
@@ -1197,6 +1206,13 @@
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization</typeName>
     </typeCustomizations>
     <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Allow Various Branch Types (Different Sub-List Types)</customFieldCaption>
+            <fieldName>heterogeneousTree</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <fieldName>treeColumnFieldName</fieldName>

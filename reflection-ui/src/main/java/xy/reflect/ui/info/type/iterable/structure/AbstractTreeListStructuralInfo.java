@@ -76,7 +76,7 @@ public abstract class AbstractTreeListStructuralInfo implements IListStructuralI
 					ITypeInfo subListItemType = ((IListTypeInfo) fieldType).getItemType();
 					if (item instanceof MultipleFieldAsListItem) {
 						result.add(field);
-					} else if (isValidTreeNodeItemType(subListItemType)) {
+					} else if (isValidSubListNodeItemType(subListItemType)) {
 						result.add(field);
 					}
 				}
@@ -85,7 +85,7 @@ public abstract class AbstractTreeListStructuralInfo implements IListStructuralI
 		return result;
 	}
 
-	protected boolean isValidTreeNodeItemType(ITypeInfo type) {
+	protected boolean isValidSubListNodeItemType(ITypeInfo type) {
 		if (ReflectionUIUtils.equalsOrBothNull(rootItemType, type)) {
 			return true;
 		}
@@ -94,7 +94,7 @@ public abstract class AbstractTreeListStructuralInfo implements IListStructuralI
 			ITypeInfo entryValueType = entryType.getValueField().getType();
 			if (entryValueType instanceof IListTypeInfo) {
 				ITypeInfo entryValuListItemType = ((IListTypeInfo) entryValueType).getItemType();
-				if (isValidTreeNodeItemType(entryValuListItemType)) {
+				if (isValidSubListNodeItemType(entryValuListItemType)) {
 					return true;
 				}
 			}

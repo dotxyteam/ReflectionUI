@@ -1,5 +1,10 @@
+- undo/redo bug (testable with TreeTableModelExample)
+- delete class ABstractTreeStructuralInfo
+- add IFieldControl.handlesModificationStackUpdate()
+	. if true then the form delgetes ModificationStack 
+	update entirely to (the control
 - list control:
-	. hide edit button when useless??? 
+	. hide edit button when useless???
 - customizations edition:
 	. sort lists (fileds, methods, columns, ...)
 	. filter lists: remove renamed or deleted targets

@@ -1,11 +1,12 @@
-package xy.reflect.ui.info.type.iterable.structure.column;
+package xy.reflect.ui.info.type.iterable.structure;
 
 import java.util.Collections;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.iterable.structure.AbstractTreeListStructuralInfo;
+import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
+import xy.reflect.ui.info.type.iterable.structure.column.StringValueColumnInfo;
 
 public class DefaultListStructuralInfo extends AbstractTreeListStructuralInfo {
 
@@ -14,7 +15,7 @@ public class DefaultListStructuralInfo extends AbstractTreeListStructuralInfo {
 	}
 
 	@Override
-	protected boolean isValidTreeNodeItemType(ITypeInfo type) {
+	protected boolean isValidSubListNodeItemType(ITypeInfo type) {
 		return false;
 	}
 

@@ -3,20 +3,32 @@ package xy.reflect.ui.info.type.iterable.structure.column;
 import java.util.Collections;
 import java.util.Map;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 
 public class FieldColumnInfo implements IColumnInfo {
 
 	protected IFieldInfo field;
+	protected ITypeInfo containingType;
+	protected ReflectionUI reflectionUI;
 
-	public FieldColumnInfo(IFieldInfo field) {
+	public FieldColumnInfo(ReflectionUI reflectionUI, ITypeInfo containingType, IFieldInfo field) {
+		this.reflectionUI = reflectionUI;
+		this.containingType = containingType;
 		this.field = field;
 	}
 
 	@Override
 	public String getCellValue(ItemPosition itemPosition) {
-		return (String) field.getValue(itemPosition);
+		Object item = itemPosition.getItem();
+		if (containingType.supportsInstance(item)) {
+			Object value = field.getValue(item);
+			return reflectionUI.toString(value);
+		} else {
+			return null;
+		}
 	}
 
 	@Override

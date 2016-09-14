@@ -9,7 +9,11 @@ public class PositionColumnInfo implements IColumnInfo {
 
 	@Override
 	public String getCellValue(ItemPosition itemPosition) {
-		return Integer.toString(itemPosition.getIndex()) + 1;
+		if (itemPosition.isRootListItemPosition()) {
+			return Integer.toString(itemPosition.getIndex()) + 1;
+		} else {
+			return null;
+		}
 	}
 
 	@Override
@@ -31,10 +35,10 @@ public class PositionColumnInfo implements IColumnInfo {
 	public Map<String, Object> getSpecificProperties() {
 		return Collections.emptyMap();
 	}
-	
+
 	@Override
 	public String toString() {
 		return getCaption();
 	}
-	
+
 }

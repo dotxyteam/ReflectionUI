@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <infoCustomizations>
     <listStructures>
+        <columnsCustomOrder>typeName</columnsCustomOrder>
+        <columnsCustomOrder>name</columnsCustomOrder>
+        <columnsCustomOrder>description</columnsCustomOrder>
+        <columnsCustomOrder>price</columnsCustomOrder>
         <columnsCustomizations>
             <columnName>description</columnName>
             <hidden>false</hidden>
@@ -28,6 +32,24 @@
         <itemTypeName>xy.reflect.ui.TableTreeModelExample$Product</itemTypeName>
         <listTypeName>[Lxy.reflect.ui.TableTreeModelExample$Product;</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
+        <stringValueColumnAdded>false</stringValueColumnAdded>
+        <treeStructureDiscoverySettings>
+            <heterogeneousTree>false</heterogeneousTree>
+        </treeStructureDiscoverySettings>
+    </listStructures>
+    <listStructures>
+        <columnsCustomizations>
+            <columnName>toStringValue</columnName>
+            <hidden>false</hidden>
+        </columnsCustomizations>
+        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <itemCreationDisabled>false</itemCreationDisabled>
+        <itemDeletionDisabled>false</itemDeletionDisabled>
+        <itemTypeColumnAdded>false</itemTypeColumnAdded>
+        <itemTypeName>xy.reflect.ui.TableTreeModelExample$Product</itemTypeName>
+        <listTypeName>java.util.List</listTypeName>
+        <positionColumnAdded>false</positionColumnAdded>
+        <stringValueColumnAdded>false</stringValueColumnAdded>
     </listStructures>
     <typeCustomizations>
         <typeName></typeName>
@@ -76,6 +98,9 @@
     </typeCustomizations>
     <typeCustomizations>
         <typeName>int</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>java.lang.Integer</typeName>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>java.lang.String</typeName>

@@ -111,6 +111,11 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 			}
 
 			@Override
+			public void cancelComposite() {
+				parentModifStack.cancelComposite();
+			}
+
+			@Override
 			public void invalidate() {
 				saveFocusInformation();
 				if (shouldUpdateField()) {

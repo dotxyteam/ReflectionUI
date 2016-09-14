@@ -2091,8 +2091,8 @@ public class ListControl extends JPanel implements IFieldControl {
 				return;
 			}
 			String text = getCellValue(node, columnIndex);
-			if (text == null) {
-				label.setText("");
+			if ((text == null) || (text.length()==0)){
+				label.setText(" ");
 			} else {
 				label.setText(swingRenderer.getReflectionUI().prepareStringToDisplay(text));
 			}
