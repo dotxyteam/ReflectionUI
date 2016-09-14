@@ -22,6 +22,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElements;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.IInfoCollectionSettings;
@@ -50,6 +57,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
 
 @SuppressWarnings("unused")
+@XmlRootElement
 public final class InfoCustomizations {
 
 	public static final InfoCustomizations DEFAULT = new InfoCustomizations();
@@ -121,22 +129,19 @@ public final class InfoCustomizations {
 	public void loadFromStream(InputStream input) throws IOException {
 		InfoCustomizations loaded;
 		try {
-			XMLDecoder decoder = new XMLDecoder(input);
-			try {
-				loaded = (InfoCustomizations) decoder.readObject();
-			} finally {
-				decoder.close();
-			}
+			JAXBContext jaxbContext = JAXBContext.newInstance(InfoCustomizations.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			loaded = (InfoCustomizations) jaxbUnmarshaller.unmarshal(input);
 		} catch (Exception e) {
 			throw new IOException(e);
 		}
 		typeCustomizations = loaded.typeCustomizations;
 		listStructures = loaded.listStructures;
 
-		fillXMLCodecParentReferenceGap();
+		fillXMLSerializationGap();
 	}
 
-	protected void fillXMLCodecParentReferenceGap() {
+	protected void fillXMLSerializationGap() {
 		for (TypeCustomization t : typeCustomizations) {
 			t.parent = this;
 			for (FieldCustomization f : t.fieldsCustomizations) {
@@ -144,6 +149,18 @@ public final class InfoCustomizations {
 			}
 			for (MethodCustomization m : t.methodsCustomizations) {
 				m.parent = t;
+			}
+			List<AbstractMemberCustomization> allMembers = new ArrayList<AbstractMemberCustomization>();
+			allMembers.addAll(t.fieldsCustomizations);
+			allMembers.addAll(t.methodsCustomizations);
+			for (AbstractMemberCustomization m : allMembers) {
+				if (m.category != null) {
+					for (CustomizationCategory c : t.memberCategories) {
+						if (m.category.caption.equals(c.caption)) {
+							m.category = c;
+						}
+					}
+				}
 			}
 		}
 		for (ListStructureCustomization l : listStructures) {
@@ -170,13 +187,10 @@ public final class InfoCustomizations {
 		toSave.typeCustomizations = typeCustomizations;
 		toSave.listStructures = listStructures;
 		try {
-			XMLEncoder encoder = new XMLEncoder(output);
-			try {
-				encoder.writeObject(toSave);
-				encoder.flush();
-			} finally {
-				encoder.close();
-			}
+			JAXBContext jaxbContext = JAXBContext.newInstance(InfoCustomizations.class);
+			javax.xml.bind.Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.marshal(toSave, output);
 		} catch (Exception e) {
 			throw new IOException(e);
 		}
@@ -434,6 +448,7 @@ public final class InfoCustomizations {
 
 		protected List<ITypeInfoFinder> polymorphicSubTypeFinders = new ArrayList<ITypeInfoFinder>();
 
+		@XmlTransient
 		public InfoCustomizations getParent() {
 			return parent;
 		}
@@ -450,6 +465,8 @@ public final class InfoCustomizations {
 			this.typeName = typeName;
 		}
 
+		@XmlElements({ @XmlElement(type = JavaClassBasedTypeInfoFinder.class),
+				@XmlElement(type = CustomTypeInfoFinder.class) })
 		public List<ITypeInfoFinder> getPolymorphicSubTypeFinders() {
 			return polymorphicSubTypeFinders;
 		}
@@ -622,6 +639,7 @@ public final class InfoCustomizations {
 		protected CustomizationCategory category;
 		protected String onlineHelp;
 
+		@XmlTransient
 		public TypeCustomization getParent() {
 			return parent;
 		}
@@ -929,6 +947,7 @@ public final class InfoCustomizations {
 		protected List<String> columnsCustomOrder;
 		protected TreeStructureDiscoverySettings treeStructureDiscoverySettings;
 
+		@XmlTransient
 		public InfoCustomizations getParent() {
 			return parent;
 		}

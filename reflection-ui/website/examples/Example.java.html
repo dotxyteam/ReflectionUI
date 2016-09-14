@@ -28,7 +28,7 @@
 <A NAME="11"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.field.IFieldInfo;
 <A NAME="12"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.type.ITypeInfo;
 <A NAME="13"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.type.source.ITypeInfoSource;
-<A NAME="14"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.type.util.InfoCustomizationsNew;
+<A NAME="14"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.type.util.InfoCustomizations;
 <A NAME="15"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.type.util.InfoProxyGenerator;
 <A NAME="16"></A>
 <A NAME="17"></A><FONT ID="MultiLineComment">/*
@@ -56,7 +56,7 @@
 <A NAME="39"></A>         * enable this editor create the reflectionUI and the renderer objects
 <A NAME="40"></A>         * with the following code:
 <A NAME="41"></A>         */</FONT>
-<A NAME="42"></A>        <FONT ID="Final">final</FONT> InfoCustomizationsNew customizations = <FONT ID="New">new</FONT> InfoCustomizationsNew();
+<A NAME="42"></A>        <FONT ID="Final">final</FONT> InfoCustomizations customizations = <FONT ID="New">new</FONT> InfoCustomizations();
 <A NAME="43"></A>        String customizationsFilePath = <FONT ID="StringLiteral">"path/to/a/customizations/file.xml"</FONT>;
 <A NAME="44"></A>        <FONT ID="Try">try</FONT> {
 <A NAME="45"></A>            customizations.loadFromFile(<FONT ID="New">new</FONT> File(customizationsFilePath));

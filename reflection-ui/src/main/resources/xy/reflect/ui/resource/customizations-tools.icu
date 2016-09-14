@@ -1,3101 +1,1389 @@
-<?xml version="1.0" encoding="UTF-8"?> 
-<java version="1.6.0_45" class="java.beans.XMLDecoder"> 
- <object class="xy.reflect.ui.info.type.util.InfoCustomizations"> 
-  <void property="listStructures"> 
-   <void method="add"> 
-    <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ListStructureCustomization"> 
-     <void property="columnsCustomizations"> 
-      <void method="add"> 
-       <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization"> 
-        <void property="columnName"> 
-         <string>toStringValue</string> 
-        </void> 
-       </object> 
-      </void> 
-     </void> 
-     <void property="fieldColumnsAdded"> 
-      <boolean>true</boolean> 
-     </void> 
-     <void property="itemCreationDisabled"> 
-      <boolean>true</boolean> 
-     </void> 
-     <void property="itemDeletionDisabled"> 
-      <boolean>true</boolean> 
-     </void> 
-     <void property="itemTypeName"> 
-      <string>java.lang.Object</string> 
-     </void> 
-     <void property="listTypeName"> 
-      <string>java.util.ArrayList</string> 
-     </void> 
-     <void property="parent"> 
-      <object id="InfoCustomizations0" class="xy.reflect.ui.info.type.util.InfoCustomizations"> 
-       <void id="TreeSet0" property="typeCustomizations"> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string></string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>MethodParametersAsTypeInfo(CustomizationCategory)</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>MethodParametersAsTypeInfo(FieldCustomization)</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>MethodParametersAsTypeInfo(InfoCustomizations)</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization0" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>javaType</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization0"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>MethodParametersAsTypeInfo(JavaTypeInfoSource)</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization1" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>containingTypeName</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization1"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>create</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization1"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>fieldName</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization1"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>MethodParametersAsTypeInfo(getFieldCustomization)</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>MethodParametersAsTypeInfo(getMethodCustomization)</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>MethodParametersAsTypeInfo(getParameterCustomization)</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization2" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>containingTypeName</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization2"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>create</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization2"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>MethodParametersAsTypeInfo(getTypeCustomization)</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization3" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string></string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization3"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>VirtualFieldWrapperTypeInfo()</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization4" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string></string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization4"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>VirtualFieldWrapperTypeInfo(Choose a type:)</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization5" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string></string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization5"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>VirtualFieldWrapperTypeInfo(Choose an option:)</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization6" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string></string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization6"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>VirtualFieldWrapperTypeInfo(Choose the type of &apos;IType Info Finder&apos;)</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization7" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string></string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization7"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>VirtualFieldWrapperTypeInfo(Choose the type:)</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization8" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string></string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization8"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>VirtualFieldWrapperTypeInfo(Create &apos;IType Info Finder&apos; of type)</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization9" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string></string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization9"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>VirtualFieldWrapperTypeInfo(Create &apos;Object&apos; of type)</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization10" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string></string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization10"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>VirtualFieldWrapperTypeInfo(Message)</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization11" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="customFieldCaption"> 
-              <string>Change Columns Order</string> 
-             </void> 
-             <void property="fieldName"> 
-              <string></string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization11"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>VirtualFieldWrapperTypeInfo(Value)</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>[B</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>[Lxy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory;</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>boolean</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>byte</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>int</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>java.io.File</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>java.io.InputStream</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>java.io.OutputStream</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>java.lang.Class</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>java.lang.Object</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization12" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>bytes</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization12"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>empty</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization12"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="methodsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string></string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization12"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>java.lang.String ()</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization12"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>java.lang.String</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>java.lang.reflect.Member</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>java.util.ArrayList</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization13" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="methodsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>java.util.List ()</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization13"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>java.util.List</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>java.util.Map</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>java.util.Set</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>xy.reflect.ui.ReflectionUI</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization14" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>columnInfo</string> 
-             </void> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization14"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>xy.reflect.ui.control.swing.SwingCustomizer$CustomizationTools$1ColumnOrderItem</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization15" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="customFieldsOrder"> 
-           <object class="java.util.ArrayList"> 
-            <void method="add"> 
-             <string></string> 
-            </void> 
-            <void method="add"> 
-             <string></string> 
-            </void> 
-            <void method="add"> 
-             <string></string> 
-            </void> 
-            <void method="add"> 
-             <string></string> 
-            </void> 
-           </object> 
-          </void> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>caption</string> 
-             </void> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization15"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>columnName</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization15"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>customCaption</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization15"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="customFieldCaption"> 
-              <string>Hide</string> 
-             </void> 
-             <void property="fieldName"> 
-              <string>hidden</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization15"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>xy.reflect.ui.control.swing.SwingCustomizer$CustomizationTools$1ColumnSetting</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>xy.reflect.ui.info.type.ITypeInfo</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>xy.reflect.ui.info.type.iterable.structure.column.PositionColumnInfo</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization16" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="methodsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>xy.reflect.ui.info.type.source.JavaTypeInfoSource JavaTypeInfoSource(java.lang.Class)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>javaType</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization16"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>xy.reflect.ui.info.type.source.JavaTypeInfoSource JavaTypeInfoSource(java.lang.Class, java.lang.reflect.Member)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>javaType</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>typedMember</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization16"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>xy.reflect.ui.info.type.source.JavaTypeInfoSource JavaTypeInfoSource(java.lang.Class, java.lang.reflect.Member, int)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>javaType</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>typedMember</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>parameterPosition</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization16"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>xy.reflect.ui.info.type.source.JavaTypeInfoSource</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization17" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="customFieldsOrder"> 
-           <object class="java.util.ArrayList"> 
-            <void method="add"> 
-             <string>typeCustomizations</string> 
-            </void> 
-            <void method="add"> 
-             <string>listStructures</string> 
-            </void> 
-           </object> 
-          </void> 
-          <void property="customMethodsOrder"> 
-           <object class="java.util.ArrayList"> 
-            <void method="add"> 
-             <string>getTypeCustomization</string> 
-            </void> 
-            <void method="add"> 
-             <string>getListStructureCustomization</string> 
-            </void> 
-            <void method="add"> 
-             <string>getFieldCustomization</string> 
-            </void> 
-            <void method="add"> 
-             <string>getMethodCustomization</string> 
-            </void> 
-            <void method="add"> 
-             <string>getColumnCustomization</string> 
-            </void> 
-            <void method="add"> 
-             <string>loadFromFile</string> 
-            </void> 
-            <void method="add"> 
-             <string>saveToFile</string> 
-            </void> 
-            <void method="add"> 
-             <string>getColumnCustomization</string> 
-            </void> 
-           </object> 
-          </void> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>listStructures</string> 
-             </void> 
-             <void property="nullableFacetHidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>typeCustomizations</string> 
-             </void> 
-             <void property="nullableFacetHidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="methodsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>get</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>getFieldCustomization</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>getMethodCustomization</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>getParameterCustomization</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>getTypeCustomization</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>loadFromFile</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>loadFromStream</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>saveToFile</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>saveToStream</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>void loadFromFile(java.io.File)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>input</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="methodSignature"> 
-              <string>void loadFromStream(java.io.InputStream)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>input</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>void saveToFile(java.io.File)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>output</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="methodSignature"> 
-              <string>void saveToStream(java.io.OutputStream)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>output</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="methodSignature"> 
-              <string>xy.reflect.ui.info.type.ITypeInfo get(xy.reflect.ui.ReflectionUI, xy.reflect.ui.info.type.ITypeInfo)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>reflectionUI</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>type</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="methodSignature"> 
-              <string>xy.reflect.ui.info.type.ITypeInfo get(xy.reflect.ui.info.type.ITypeInfo)</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="methodSignature"> 
-              <string>xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization getColumnCustomization(java.lang.String, java.lang.String, java.lang.String)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>listTypeName</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>itemTypeName</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>columnName</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization getColumnCustomization(java.lang.String, java.lang.String, java.lang.String, boolean)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>listTypeName</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>itemTypeName</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>columnName</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>create</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="methodSignature"> 
-              <string>xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization getFieldCustomization(java.lang.String, java.lang.String)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>containingTypeName</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>fieldName</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization getFieldCustomization(java.lang.String, java.lang.String, boolean)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>containingTypeName</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>fieldName</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>create</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="methodSignature"> 
-              <string>xy.reflect.ui.info.type.util.InfoCustomizations$ListStructureCustomization getListStructureCustomization(java.lang.String, java.lang.String)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>listTypeName</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>itemTypeName</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>xy.reflect.ui.info.type.util.InfoCustomizations$ListStructureCustomization getListStructureCustomization(java.lang.String, java.lang.String, boolean)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>listTypeName</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>itemTypeName</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>create</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="methodSignature"> 
-              <string>xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization getMethodCustomization(java.lang.String, java.lang.String)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>containingTypeName</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>methodSignature</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization getMethodCustomization(java.lang.String, java.lang.String, boolean)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>containingTypeName</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>methodSignature</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>create</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="methodSignature"> 
-              <string>xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization getParameterCustomization(java.lang.String, java.lang.String, java.lang.String)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>containingTypeName</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>methodSignature</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>paramName</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="methodSignature"> 
-              <string>xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization getParameterCustomization(java.lang.String, java.lang.String, java.lang.String, boolean)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>containingTypeName</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>methodSignature</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>paramName</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>create</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="methodSignature"> 
-              <string>xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization getTypeCustomization(java.lang.String)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>containingTypeName</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>typeName</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization getTypeCustomization(java.lang.String, boolean)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>containingTypeName</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>create</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>typeName</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization17"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>xy.reflect.ui.info.type.util.InfoCustomizations</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization18" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="customFieldsOrder"> 
-           <object class="java.util.ArrayList"> 
-            <void method="add"> 
-             <string>columnName</string> 
-            </void> 
-            <void method="add"> 
-             <string>customCaption</string> 
-            </void> 
-            <void method="add"> 
-             <string>hidden</string> 
-            </void> 
-           </object> 
-          </void> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>columnName</string> 
-             </void> 
-             <void property="getOnlyForced"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization18"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>customCaption</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization18"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="customFieldCaption"> 
-              <string>Hide</string> 
-             </void> 
-             <void property="fieldName"> 
-              <string>hidden</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization18"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="methodsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="methodSignature"> 
-              <string>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>o</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization18"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization19" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>implementationClassName</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization19"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="methodsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="methodSignature"> 
-              <string>xy.reflect.ui.info.type.ITypeInfo find(xy.reflect.ui.ReflectionUI)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>reflectionUI</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization19"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>xy.reflect.ui.info.type.util.InfoCustomizations$CustomTypeInfoFinder CustomTypeInfoFinder()</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization19"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>xy.reflect.ui.info.type.util.InfoCustomizations$CustomTypeInfoFinder</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization20" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>caption</string> 
-             </void> 
-             <void property="nullableFacetHidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization20"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization21" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="customFieldsOrder"> 
-           <object class="java.util.ArrayList"> 
-            <void method="add"> 
-             <string>fieldName</string> 
-            </void> 
-            <void method="add"> 
-             <string>customFieldCaption</string> 
-            </void> 
-            <void method="add"> 
-             <string>getOnlyForced</string> 
-            </void> 
-            <void method="add"> 
-             <string>hidden</string> 
-            </void> 
-            <void method="add"> 
-             <string>nullableFacetHidden</string> 
-            </void> 
-            <void method="add"> 
-             <string>expandSubForm</string> 
-            </void> 
-            <void method="add"> 
-             <string>valueOptionsFieldName</string> 
-            </void> 
-            <void method="add"> 
-             <string>category</string> 
-            </void> 
-            <void method="add"> 
-             <string>onlineHelp</string> 
-            </void> 
-           </object> 
-          </void> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>category</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization21"/> 
-             </void> 
-             <void property="valueOptionsFieldName"> 
-              <string>categoryOptions</string> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>categoryOptions</string> 
-             </void> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization21"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>customFieldCaption</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization21"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="customFieldCaption"> 
-              <string>Display Sub-Form </string> 
-             </void> 
-             <void property="fieldName"> 
-              <string>expandSubForm</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization21"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>fieldName</string> 
-             </void> 
-             <void property="getOnlyForced"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization21"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="customFieldCaption"> 
-              <string>Get-Only</string> 
-             </void> 
-             <void property="fieldName"> 
-              <string>getOnlyForced</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization21"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="customFieldCaption"> 
-              <string>Hide</string> 
-             </void> 
-             <void property="fieldName"> 
-              <string>hidden</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization21"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="customFieldCaption"> 
-              <string>Hide Nullable Facet</string> 
-             </void> 
-             <void property="fieldName"> 
-              <string>nullableFacetHidden</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization21"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>onlineHelp</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization21"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>parent</string> 
-             </void> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization21"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>specificProperties</string> 
-             </void> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization21"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>valueOptionsFieldName</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization21"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="methodsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="methodSignature"> 
-              <string>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>o</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization21"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="polymorphicSubTypeFinders"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$JavaClassBasedTypeInfoFinder"> 
-             <void property="className"> 
-              <string>xy.reflect.ui.info.type.util.InfoCustomizations$JavaClassBasedTypeInfoFinder</string> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$JavaClassBasedTypeInfoFinder"> 
-             <void property="className"> 
-              <string>xy.reflect.ui.info.type.util.InfoCustomizations$CustomTypeInfoFinder</string> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="typeName"> 
-           <string>xy.reflect.ui.info.type.util.InfoCustomizations$ITypeInfoFinder</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization22" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>className</string> 
-             </void> 
-             <void property="nullableFacetHidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization22"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="methodsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="methodSignature"> 
-              <string>xy.reflect.ui.info.type.ITypeInfo find(xy.reflect.ui.ReflectionUI)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>reflectionUI</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization22"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>xy.reflect.ui.info.type.util.InfoCustomizations$JavaClassBasedTypeInfoFinder JavaClassBasedTypeInfoFinder()</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization22"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>xy.reflect.ui.info.type.util.InfoCustomizations$JavaClassBasedTypeInfoFinder</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization23" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="customFieldsOrder"> 
-           <object class="java.util.ArrayList"> 
-            <void method="add"> 
-             <string>fieldColumnsAdded</string> 
-            </void> 
-            <void method="add"> 
-             <string>itemTypeColumnAdded</string> 
-            </void> 
-            <void method="add"> 
-             <string>positionColumnAdded</string> 
-            </void> 
-            <void method="add"> 
-             <string>listTypeName</string> 
-            </void> 
-            <void method="add"> 
-             <string>columnsCustomizations</string> 
-            </void> 
-            <void method="add"> 
-             <string>treeStructureDiscoverySettings</string> 
-            </void> 
-            <void method="add"> 
-             <string>itemTypeCustomization</string> 
-            </void> 
-            <void method="add"> 
-             <string>itemCreationDisabled</string> 
-            </void> 
-            <void method="add"> 
-             <string>itemDeletionDisabled</string> 
-            </void> 
-           </object> 
-          </void> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>columnsCustomOrder</string> 
-             </void> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization23"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="category"> 
-              <object class="xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory"> 
-               <void property="caption"> 
-                <string>Columns</string> 
-               </void> 
-              </object> 
-             </void> 
-             <void property="customFieldCaption"> 
-              <string>Customize Columns Display</string> 
-             </void> 
-             <void property="fieldName"> 
-              <string>columnsCustomizations</string> 
-             </void> 
-             <void property="nullableFacetHidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization23"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="category"> 
-              <object class="xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory"> 
-               <void property="caption"> 
-                <string>Columns</string> 
-               </void> 
-              </object> 
-             </void> 
-             <void property="customFieldCaption"> 
-              <string>Add Field Columns</string> 
-             </void> 
-             <void property="fieldName"> 
-              <string>fieldColumnsAdded</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization23"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="customFieldCaption"> 
-              <string>Disable &apos;Add&apos; Action</string> 
-             </void> 
-             <void property="fieldName"> 
-              <string>itemCreationDisabled</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization23"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="customFieldCaption"> 
-              <string>Disable &apos;Remove&apos; Action</string> 
-             </void> 
-             <void property="fieldName"> 
-              <string>itemDeletionDisabled</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization23"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="category"> 
-              <object class="xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory"> 
-               <void property="caption"> 
-                <string>Columns</string> 
-               </void> 
-              </object> 
-             </void> 
-             <void property="customFieldCaption"> 
-              <string>Add Item Type Column</string> 
-             </void> 
-             <void property="fieldName"> 
-              <string>itemTypeColumnAdded</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization23"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="customFieldCaption"> 
-              <string>Item Type</string> 
-             </void> 
-             <void property="fieldName"> 
-              <string>itemTypeCustomization</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization23"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="customFieldCaption"> 
-              <string>Item Type</string> 
-             </void> 
-             <void property="fieldName"> 
-              <string>itemTypeName</string> 
-             </void> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization23"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="customFieldCaption"> 
-              <string>List Type</string> 
-             </void> 
-             <void property="fieldName"> 
-              <string>listTypeName</string> 
-             </void> 
-             <void property="getOnlyForced"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization23"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>parent</string> 
-             </void> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization23"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="category"> 
-              <object class="xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory"> 
-               <void property="caption"> 
-                <string>Columns</string> 
-               </void> 
-              </object> 
-             </void> 
-             <void property="customFieldCaption"> 
-              <string>Add Item position Column</string> 
-             </void> 
-             <void property="fieldName"> 
-              <string>positionColumnAdded</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization23"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="category"> 
-              <object class="xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory"> 
-               <void property="caption"> 
-                <string>Tree Structure</string> 
-               </void> 
-              </object> 
-             </void> 
-             <void property="customFieldCaption"> 
-              <string>Auto-Discover Tree Structure</string> 
-             </void> 
-             <void property="fieldName"> 
-              <string>treeStructureDiscoverySettings</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization23"/> 
-             </void> 
-             <void property="specificProperties"> 
-              <object class="java.util.HashMap"> 
-               <void method="put"> 
-                <string>SwingSpecificProperty.CREATE_EMBEDDED_FORM</string> 
-                <boolean>true</boolean> 
-               </void> 
-              </object> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="memberCategories"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory"> 
-             <void property="caption"> 
-              <string>Columns</string> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory"> 
-             <void property="caption"> 
-              <string>Tree Structure</string> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="methodsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="methodSignature"> 
-              <string>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$ListStructureCustomization)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>o</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization23"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="methodSignature"> 
-              <string>xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization getColumnCustomization(java.lang.String)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>columnName</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization23"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>xy.reflect.ui.info.type.util.InfoCustomizations$ListStructureCustomization</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization24" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="customFieldsOrder"> 
-           <object class="java.util.ArrayList"> 
-            <void method="add"> 
-             <string>methodSignature</string> 
-            </void> 
-            <void method="add"> 
-             <string>customMethodCaption</string> 
-            </void> 
-            <void method="add"> 
-             <string>hidden</string> 
-            </void> 
-            <void method="add"> 
-             <string>readOnlyForced</string> 
-            </void> 
-            <void method="add"> 
-             <string>parametersCustomizations</string> 
-            </void> 
-            <void method="add"> 
-             <string>category</string> 
-            </void> 
-            <void method="add"> 
-             <string>onlineHelp</string> 
-            </void> 
-           </object> 
-          </void> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>category</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization24"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>categoryOptions</string> 
-             </void> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization24"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>customMethodCaption</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization24"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="customFieldCaption"> 
-              <string>Hide</string> 
-             </void> 
-             <void property="fieldName"> 
-              <string>hidden</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization24"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>methodSignature</string> 
-             </void> 
-             <void property="getOnlyForced"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization24"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>onlineHelp</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization24"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="category"> 
-              <object class="xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory"> 
-               <void property="caption"> 
-                <string>Parameters</string> 
-               </void> 
-              </object> 
-             </void> 
-             <void property="fieldName"> 
-              <string>parametersCustomizations</string> 
-             </void> 
-             <void property="nullableFacetHidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization24"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>parent</string> 
-             </void> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization24"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="customFieldCaption"> 
-              <string>Read-Only</string> 
-             </void> 
-             <void property="fieldName"> 
-              <string>readOnlyForced</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization24"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>specificProperties</string> 
-             </void> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization24"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="memberCategories"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory"> 
-             <void property="caption"> 
-              <string>Parameters</string> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="methodsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="methodSignature"> 
-              <string>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>o</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization24"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization25" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="customFieldsOrder"> 
-           <object class="java.util.ArrayList"> 
-            <void method="add"> 
-             <string>parameterName</string> 
-            </void> 
-            <void method="add"> 
-             <string>customParameterCaption</string> 
-            </void> 
-            <void method="add"> 
-             <string>nullableFacetHidden</string> 
-            </void> 
-            <void method="add"> 
-             <string>hidden</string> 
-            </void> 
-            <void method="add"> 
-             <string>onlineHelp</string> 
-            </void> 
-            <void method="add"> 
-             <string>specificProperties</string> 
-            </void> 
-           </object> 
-          </void> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>customParameterCaption</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization25"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="customFieldCaption"> 
-              <string>Hide</string> 
-             </void> 
-             <void property="fieldName"> 
-              <string>hidden</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization25"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="customFieldCaption"> 
-              <string>Hide Nullable Facet</string> 
-             </void> 
-             <void property="fieldName"> 
-              <string>nullableFacetHidden</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization25"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>onlineHelp</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization25"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>parameterName</string> 
-             </void> 
-             <void property="getOnlyForced"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization25"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>specificProperties</string> 
-             </void> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization25"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization26" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>treeColumnFieldName</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization26"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="methodsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>xy.reflect.ui.info.type.util.InfoCustomizations$TreeStructureDiscoverySettings TreeStructureDiscoverySettings()</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization26"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>xy.reflect.ui.info.type.util.InfoCustomizations$TreeStructureDiscoverySettings</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object id="InfoCustomizations$TypeCustomization27" class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="customFieldsOrder"> 
-           <object class="java.util.ArrayList"> 
-            <void method="add"> 
-             <string>typeName</string> 
-            </void> 
-            <void method="add"> 
-             <string>customTypeCaption</string> 
-            </void> 
-            <void method="add"> 
-             <string>iconImageFile</string> 
-            </void> 
-            <void method="add"> 
-             <string>onlineHelp</string> 
-            </void> 
-            <void method="add"> 
-             <string>memberCategories</string> 
-            </void> 
-            <void method="add"> 
-             <string>polymorphicSubTypeFinders</string> 
-            </void> 
-            <void method="add"> 
-             <string>fieldsCustomizations</string> 
-            </void> 
-            <void method="add"> 
-             <string>methodsCustomizations</string> 
-            </void> 
-           </object> 
-          </void> 
-          <void property="fieldsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="category"> 
-              <object class="xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory"> 
-               <void property="caption"> 
-                <string>Fields</string> 
-               </void> 
-              </object> 
-             </void> 
-             <void property="fieldName"> 
-              <string>customFieldsOrder</string> 
-             </void> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization27"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="category"> 
-              <object class="xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory"> 
-               <void property="caption"> 
-                <string>Methods</string> 
-               </void> 
-              </object> 
-             </void> 
-             <void property="fieldName"> 
-              <string>customMethodsOrder</string> 
-             </void> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization27"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>customTypeCaption</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization27"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="category"> 
-              <object class="xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory"> 
-               <void property="caption"> 
-                <string>Fields</string> 
-               </void> 
-              </object> 
-             </void> 
-             <void property="customFieldCaption"> 
-              <string>Customize Fields Display</string> 
-             </void> 
-             <void property="fieldName"> 
-              <string>fieldsCustomizations</string> 
-             </void> 
-             <void property="nullableFacetHidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization27"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>iconImageFile</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization27"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="category"> 
-              <object class="xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory"> 
-               <void property="caption"> 
-                <string>Categories</string> 
-               </void> 
-              </object> 
-             </void> 
-             <void property="customFieldCaption"> 
-              <string>Allow to Classify Fields and Methods</string> 
-             </void> 
-             <void property="fieldName"> 
-              <string>memberCategories</string> 
-             </void> 
-             <void property="nullableFacetHidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization27"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="category"> 
-              <object class="xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory"> 
-               <void property="caption"> 
-                <string>Methods</string> 
-               </void> 
-              </object> 
-             </void> 
-             <void property="customFieldCaption"> 
-              <string>Customize Methods Display</string> 
-             </void> 
-             <void property="fieldName"> 
-              <string>methodsCustomizations</string> 
-             </void> 
-             <void property="nullableFacetHidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization27"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>onlineHelp</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization27"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>parent</string> 
-             </void> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization27"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="category"> 
-              <object class="xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory"> 
-               <void property="caption"> 
-                <string>Sub-Types</string> 
-               </void> 
-              </object> 
-             </void> 
-             <void property="customFieldCaption"> 
-              <string>Specify Implementations of Abstract Types</string> 
-             </void> 
-             <void property="fieldName"> 
-              <string>polymorphicSubTypeFinders</string> 
-             </void> 
-             <void property="nullableFacetHidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization27"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>specificProperties</string> 
-             </void> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization27"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization"> 
-             <void property="fieldName"> 
-              <string>typeName</string> 
-             </void> 
-             <void property="getOnlyForced"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization27"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="memberCategories"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory"> 
-             <void property="caption"> 
-              <string>Fields</string> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory"> 
-             <void property="caption"> 
-              <string>Methods</string> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory"> 
-             <void property="caption"> 
-              <string>Categories</string> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory"> 
-             <void property="caption"> 
-              <string>Sub-Types</string> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="methodsCustomizations"> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="methodSignature"> 
-              <string>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>o</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization27"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>moveField</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization27"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="methodSignature"> 
-              <string>moveMethod</string> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization27"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="methodSignature"> 
-              <string>void moveField(java.util.List, java.lang.String, int)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>customizedFields</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>fieldName</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>offset</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization27"/> 
-             </void> 
-            </object> 
-           </void> 
-           <void method="add"> 
-            <object class="xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization"> 
-             <void property="hidden"> 
-              <boolean>true</boolean> 
-             </void> 
-             <void property="methodSignature"> 
-              <string>void moveMethod(java.util.List, java.lang.String, int)</string> 
-             </void> 
-             <void property="parametersCustomizations"> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>customizedMethods</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>methodSignature</string> 
-                </void> 
-               </object> 
-              </void> 
-              <void method="add"> 
-               <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization"> 
-                <void property="parameterName"> 
-                 <string>offset</string> 
-                </void> 
-               </object> 
-              </void> 
-             </void> 
-             <void property="parent"> 
-              <object idref="InfoCustomizations$TypeCustomization27"/> 
-             </void> 
-            </object> 
-           </void> 
-          </void> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization"> 
-          <void property="parent"> 
-           <object idref="InfoCustomizations0"/> 
-          </void> 
-          <void property="typeName"> 
-           <string>xy.reflect.ui.info.type.util.InfoProxyGenerator$GeneratedMethodInfoProxy</string> 
-          </void> 
-         </object> 
-        </void> 
-       </void> 
-      </object> 
-     </void> 
-    </object> 
-   </void> 
-   <void method="add"> 
-    <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ListStructureCustomization"> 
-     <void property="columnsCustomizations"> 
-      <void method="add"> 
-       <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization"> 
-        <void property="columnName"> 
-         <string>toStringValue</string> 
-        </void> 
-       </object> 
-      </void> 
-     </void> 
-     <void property="itemTypeName"> 
-      <string>xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization</string> 
-     </void> 
-     <void property="listTypeName"> 
-      <string>java.util.List</string> 
-     </void> 
-     <void property="parent"> 
-      <object idref="InfoCustomizations0"/> 
-     </void> 
-    </object> 
-   </void> 
-   <void method="add"> 
-    <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ListStructureCustomization"> 
-     <void property="columnsCustomizations"> 
-      <void method="add"> 
-       <object class="xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization"> 
-        <void property="columnName"> 
-         <string>toStringValue</string> 
-        </void> 
-       </object> 
-      </void> 
-     </void> 
-     <void property="itemCreationDisabled"> 
-      <boolean>true</boolean> 
-     </void> 
-     <void property="itemTypeName"> 
-      <string>xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization</string> 
-     </void> 
-     <void property="listTypeName"> 
-      <string>java.util.Set</string> 
-     </void> 
-     <void property="parent"> 
-      <object idref="InfoCustomizations0"/> 
-     </void> 
-    </object> 
-   </void> 
-  </void> 
-  <void property="typeCustomizations"> 
-   <object idref="TreeSet0"/> 
-  </void> 
- </object> 
-</java> 
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<infoCustomizations>
+    <listStructures>
+        <columnsCustomizations>
+            <columnName>toStringValue</columnName>
+            <hidden>false</hidden>
+        </columnsCustomizations>
+        <fieldColumnsAdded>true</fieldColumnsAdded>
+        <itemCreationDisabled>true</itemCreationDisabled>
+        <itemDeletionDisabled>true</itemDeletionDisabled>
+        <itemTypeColumnAdded>false</itemTypeColumnAdded>
+        <itemTypeName>java.lang.Object</itemTypeName>
+        <listTypeName>java.util.ArrayList</listTypeName>
+        <positionColumnAdded>false</positionColumnAdded>
+    </listStructures>
+    <listStructures>
+        <columnsCustomizations>
+            <columnName>toStringValue</columnName>
+            <hidden>false</hidden>
+        </columnsCustomizations>
+        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <itemCreationDisabled>false</itemCreationDisabled>
+        <itemDeletionDisabled>false</itemDeletionDisabled>
+        <itemTypeColumnAdded>false</itemTypeColumnAdded>
+        <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization</itemTypeName>
+        <listTypeName>java.util.List</listTypeName>
+        <positionColumnAdded>false</positionColumnAdded>
+    </listStructures>
+    <listStructures>
+        <columnsCustomizations>
+            <columnName>toStringValue</columnName>
+            <hidden>false</hidden>
+        </columnsCustomizations>
+        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <itemCreationDisabled>true</itemCreationDisabled>
+        <itemDeletionDisabled>false</itemDeletionDisabled>
+        <itemTypeColumnAdded>false</itemTypeColumnAdded>
+        <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization</itemTypeName>
+        <listTypeName>java.util.Set</listTypeName>
+        <positionColumnAdded>false</positionColumnAdded>
+    </listStructures>
+    <typeCustomizations>
+        <typeName></typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>MethodParametersAsTypeInfo(CustomizationCategory)</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>MethodParametersAsTypeInfo(FieldCustomization)</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>MethodParametersAsTypeInfo(InfoCustomizations)</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>javaType</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>MethodParametersAsTypeInfo(JavaTypeInfoSource)</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>containingTypeName</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>create</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>fieldName</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>MethodParametersAsTypeInfo(getFieldCustomization)</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>MethodParametersAsTypeInfo(getMethodCustomization)</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>MethodParametersAsTypeInfo(getParameterCustomization)</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>containingTypeName</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>create</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>MethodParametersAsTypeInfo(getTypeCustomization)</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>VirtualFieldWrapperTypeInfo()</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>VirtualFieldWrapperTypeInfo(Choose a type:)</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>VirtualFieldWrapperTypeInfo(Choose an option:)</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>VirtualFieldWrapperTypeInfo(Choose the type of 'IType Info Finder')</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>VirtualFieldWrapperTypeInfo(Choose the type:)</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>VirtualFieldWrapperTypeInfo(Create 'IType Info Finder' of type)</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>VirtualFieldWrapperTypeInfo(Create 'Object' of type)</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>VirtualFieldWrapperTypeInfo(Message)</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Change Columns Order</customFieldCaption>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>VirtualFieldWrapperTypeInfo(Value)</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>[B</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>[Lxy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory;</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>boolean</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>byte</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>int</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>java.io.File</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>java.io.InputStream</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>java.io.OutputStream</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>java.lang.Class</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>java.lang.Object</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>bytes</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>empty</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature></methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>java.lang.String ()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <typeName>java.lang.String</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>java.lang.reflect.Member</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>java.util.ArrayList</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>java.util.List ()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <typeName>java.util.List</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>java.util.Map</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>java.util.Set</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>xy.reflect.ui.ReflectionUI</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>true</hidden>
+            <fieldName>columnInfo</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>xy.reflect.ui.control.swing.SwingCustomizer$CustomizationTools$1ColumnOrderItem</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <customFieldsOrder></customFieldsOrder>
+        <customFieldsOrder></customFieldsOrder>
+        <customFieldsOrder></customFieldsOrder>
+        <customFieldsOrder></customFieldsOrder>
+        <fieldsCustomizations>
+            <hidden>true</hidden>
+            <fieldName>caption</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>columnName</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>customCaption</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Hide</customFieldCaption>
+            <fieldName>hidden</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>xy.reflect.ui.control.swing.SwingCustomizer$CustomizationTools$1ColumnSetting</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>xy.reflect.ui.info.type.ITypeInfo</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>xy.reflect.ui.info.type.iterable.structure.column.PositionColumnInfo</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>xy.reflect.ui.info.type.source.JavaTypeInfoSource JavaTypeInfoSource(java.lang.Class)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>javaType</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>xy.reflect.ui.info.type.source.JavaTypeInfoSource JavaTypeInfoSource(java.lang.Class, java.lang.reflect.Member)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>javaType</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>typedMember</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>xy.reflect.ui.info.type.source.JavaTypeInfoSource JavaTypeInfoSource(java.lang.Class, java.lang.reflect.Member, int)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>javaType</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>typedMember</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameterPosition</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <typeName>xy.reflect.ui.info.type.source.JavaTypeInfoSource</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <customFieldsOrder>typeCustomizations</customFieldsOrder>
+        <customFieldsOrder>listStructures</customFieldsOrder>
+        <customMethodsOrder>getTypeCustomization</customMethodsOrder>
+        <customMethodsOrder>getListStructureCustomization</customMethodsOrder>
+        <customMethodsOrder>getFieldCustomization</customMethodsOrder>
+        <customMethodsOrder>getMethodCustomization</customMethodsOrder>
+        <customMethodsOrder>getColumnCustomization</customMethodsOrder>
+        <customMethodsOrder>loadFromFile</customMethodsOrder>
+        <customMethodsOrder>saveToFile</customMethodsOrder>
+        <customMethodsOrder>getColumnCustomization</customMethodsOrder>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>listStructures</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>typeCustomizations</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>get</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>getFieldCustomization</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>getMethodCustomization</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>getParameterCustomization</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>getTypeCustomization</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>loadFromFile</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>loadFromStream</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>saveToFile</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>saveToStream</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void loadFromFile(java.io.File)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>input</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>true</hidden>
+            <methodSignature>void loadFromStream(java.io.InputStream)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>input</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void saveToFile(java.io.File)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>output</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>true</hidden>
+            <methodSignature>void saveToStream(java.io.OutputStream)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>output</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>true</hidden>
+            <methodSignature>xy.reflect.ui.info.type.ITypeInfo get(xy.reflect.ui.ReflectionUI, xy.reflect.ui.info.type.ITypeInfo)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>reflectionUI</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>type</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>true</hidden>
+            <methodSignature>xy.reflect.ui.info.type.ITypeInfo get(xy.reflect.ui.info.type.ITypeInfo)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>true</hidden>
+            <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization getColumnCustomization(java.lang.String, java.lang.String, java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>listTypeName</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>itemTypeName</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>columnName</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization getColumnCustomization(java.lang.String, java.lang.String, java.lang.String, boolean)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>listTypeName</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>itemTypeName</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>columnName</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>create</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>true</hidden>
+            <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization getFieldCustomization(java.lang.String, java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>containingTypeName</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>fieldName</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization getFieldCustomization(java.lang.String, java.lang.String, boolean)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>containingTypeName</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>fieldName</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>create</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>true</hidden>
+            <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ListStructureCustomization getListStructureCustomization(java.lang.String, java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>listTypeName</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>itemTypeName</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ListStructureCustomization getListStructureCustomization(java.lang.String, java.lang.String, boolean)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>listTypeName</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>itemTypeName</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>create</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>true</hidden>
+            <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization getMethodCustomization(java.lang.String, java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>containingTypeName</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>methodSignature</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization getMethodCustomization(java.lang.String, java.lang.String, boolean)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>containingTypeName</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>methodSignature</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>create</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>true</hidden>
+            <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization getParameterCustomization(java.lang.String, java.lang.String, java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>containingTypeName</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>methodSignature</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>paramName</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>true</hidden>
+            <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization getParameterCustomization(java.lang.String, java.lang.String, java.lang.String, boolean)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>containingTypeName</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>methodSignature</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>paramName</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>create</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>true</hidden>
+            <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization getTypeCustomization(java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>containingTypeName</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>typeName</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization getTypeCustomization(java.lang.String, boolean)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>containingTypeName</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>create</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>typeName</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <typeName>xy.reflect.ui.info.type.util.InfoCustomizations</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <customFieldsOrder>columnName</customFieldsOrder>
+        <customFieldsOrder>customCaption</customFieldsOrder>
+        <customFieldsOrder>hidden</customFieldsOrder>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>columnName</fieldName>
+            <getOnlyForced>true</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>customCaption</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Hide</customFieldCaption>
+            <fieldName>hidden</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <methodsCustomizations>
+            <hidden>true</hidden>
+            <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>o</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>implementationClassName</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <methodsCustomizations>
+            <hidden>true</hidden>
+            <methodSignature>xy.reflect.ui.info.type.ITypeInfo find(xy.reflect.ui.ReflectionUI)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>reflectionUI</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$CustomTypeInfoFinder CustomTypeInfoFinder()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$CustomTypeInfoFinder</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>caption</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <customFieldsOrder>fieldName</customFieldsOrder>
+        <customFieldsOrder>customFieldCaption</customFieldsOrder>
+        <customFieldsOrder>getOnlyForced</customFieldsOrder>
+        <customFieldsOrder>hidden</customFieldsOrder>
+        <customFieldsOrder>nullableFacetHidden</customFieldsOrder>
+        <customFieldsOrder>expandSubForm</customFieldsOrder>
+        <customFieldsOrder>valueOptionsFieldName</customFieldsOrder>
+        <customFieldsOrder>category</customFieldsOrder>
+        <customFieldsOrder>onlineHelp</customFieldsOrder>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>category</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <valueOptionsFieldName>categoryOptions</valueOptionsFieldName>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>true</hidden>
+            <fieldName>categoryOptions</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>customFieldCaption</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Display Sub-Form </customFieldCaption>
+            <fieldName>expandSubForm</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>fieldName</fieldName>
+            <getOnlyForced>true</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Get-Only</customFieldCaption>
+            <fieldName>getOnlyForced</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Hide</customFieldCaption>
+            <fieldName>hidden</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Hide Nullable Facet</customFieldCaption>
+            <fieldName>nullableFacetHidden</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>onlineHelp</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>true</hidden>
+            <fieldName>parent</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>true</hidden>
+            <fieldName>specificProperties</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>valueOptionsFieldName</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <methodsCustomizations>
+            <hidden>true</hidden>
+            <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>o</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <polymorphicSubTypeFinders/>
+        <polymorphicSubTypeFinders/>
+        <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$ITypeInfoFinder</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>className</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <methodsCustomizations>
+            <hidden>true</hidden>
+            <methodSignature>xy.reflect.ui.info.type.ITypeInfo find(xy.reflect.ui.ReflectionUI)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>reflectionUI</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$JavaClassBasedTypeInfoFinder JavaClassBasedTypeInfoFinder()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$JavaClassBasedTypeInfoFinder</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <customFieldsOrder>fieldColumnsAdded</customFieldsOrder>
+        <customFieldsOrder>itemTypeColumnAdded</customFieldsOrder>
+        <customFieldsOrder>positionColumnAdded</customFieldsOrder>
+        <customFieldsOrder>listTypeName</customFieldsOrder>
+        <customFieldsOrder>columnsCustomizations</customFieldsOrder>
+        <customFieldsOrder>treeStructureDiscoverySettings</customFieldsOrder>
+        <customFieldsOrder>itemTypeCustomization</customFieldsOrder>
+        <customFieldsOrder>itemCreationDisabled</customFieldsOrder>
+        <customFieldsOrder>itemDeletionDisabled</customFieldsOrder>
+        <fieldsCustomizations>
+            <hidden>true</hidden>
+            <fieldName>columnsCustomOrder</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Columns</caption>
+            </category>
+            <hidden>false</hidden>
+            <customFieldCaption>Customize Columns Display</customFieldCaption>
+            <fieldName>columnsCustomizations</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Columns</caption>
+            </category>
+            <hidden>false</hidden>
+            <customFieldCaption>Add Field Columns</customFieldCaption>
+            <fieldName>fieldColumnsAdded</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Disable 'Add' Action</customFieldCaption>
+            <fieldName>itemCreationDisabled</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Disable 'Remove' Action</customFieldCaption>
+            <fieldName>itemDeletionDisabled</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Columns</caption>
+            </category>
+            <hidden>false</hidden>
+            <customFieldCaption>Add Item Type Column</customFieldCaption>
+            <fieldName>itemTypeColumnAdded</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Item Type</customFieldCaption>
+            <fieldName>itemTypeCustomization</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>true</hidden>
+            <customFieldCaption>Item Type</customFieldCaption>
+            <fieldName>itemTypeName</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>List Type</customFieldCaption>
+            <fieldName>listTypeName</fieldName>
+            <getOnlyForced>true</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>true</hidden>
+            <fieldName>parent</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Columns</caption>
+            </category>
+            <hidden>false</hidden>
+            <customFieldCaption>Add Item position Column</customFieldCaption>
+            <fieldName>positionColumnAdded</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>SwingSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <category>
+                <caption>Tree Structure</caption>
+            </category>
+            <hidden>false</hidden>
+            <customFieldCaption>Auto-Discover Tree Structure</customFieldCaption>
+            <fieldName>treeStructureDiscoverySettings</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <memberCategories>
+            <caption>Columns</caption>
+        </memberCategories>
+        <memberCategories>
+            <caption>Tree Structure</caption>
+        </memberCategories>
+        <methodsCustomizations>
+            <hidden>true</hidden>
+            <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$ListStructureCustomization)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>o</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>true</hidden>
+            <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization getColumnCustomization(java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>columnName</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$ListStructureCustomization</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <customFieldsOrder>methodSignature</customFieldsOrder>
+        <customFieldsOrder>customMethodCaption</customFieldsOrder>
+        <customFieldsOrder>hidden</customFieldsOrder>
+        <customFieldsOrder>readOnlyForced</customFieldsOrder>
+        <customFieldsOrder>parametersCustomizations</customFieldsOrder>
+        <customFieldsOrder>category</customFieldsOrder>
+        <customFieldsOrder>onlineHelp</customFieldsOrder>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>category</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>true</hidden>
+            <fieldName>categoryOptions</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>customMethodCaption</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Hide</customFieldCaption>
+            <fieldName>hidden</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>methodSignature</fieldName>
+            <getOnlyForced>true</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>onlineHelp</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Parameters</caption>
+            </category>
+            <hidden>false</hidden>
+            <fieldName>parametersCustomizations</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>true</hidden>
+            <fieldName>parent</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Read-Only</customFieldCaption>
+            <fieldName>readOnlyForced</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>true</hidden>
+            <fieldName>specificProperties</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <memberCategories>
+            <caption>Parameters</caption>
+        </memberCategories>
+        <methodsCustomizations>
+            <hidden>true</hidden>
+            <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>o</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <customFieldsOrder>parameterName</customFieldsOrder>
+        <customFieldsOrder>customParameterCaption</customFieldsOrder>
+        <customFieldsOrder>nullableFacetHidden</customFieldsOrder>
+        <customFieldsOrder>hidden</customFieldsOrder>
+        <customFieldsOrder>onlineHelp</customFieldsOrder>
+        <customFieldsOrder>specificProperties</customFieldsOrder>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>customParameterCaption</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Hide</customFieldCaption>
+            <fieldName>hidden</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Hide Nullable Facet</customFieldCaption>
+            <fieldName>nullableFacetHidden</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>onlineHelp</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>parameterName</fieldName>
+            <getOnlyForced>true</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>true</hidden>
+            <fieldName>specificProperties</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>treeColumnFieldName</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$TreeStructureDiscoverySettings TreeStructureDiscoverySettings()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$TreeStructureDiscoverySettings</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <customFieldsOrder>typeName</customFieldsOrder>
+        <customFieldsOrder>customTypeCaption</customFieldsOrder>
+        <customFieldsOrder>iconImageFile</customFieldsOrder>
+        <customFieldsOrder>onlineHelp</customFieldsOrder>
+        <customFieldsOrder>memberCategories</customFieldsOrder>
+        <customFieldsOrder>polymorphicSubTypeFinders</customFieldsOrder>
+        <customFieldsOrder>fieldsCustomizations</customFieldsOrder>
+        <customFieldsOrder>methodsCustomizations</customFieldsOrder>
+        <fieldsCustomizations>
+            <category>
+                <caption>Fields</caption>
+            </category>
+            <hidden>true</hidden>
+            <fieldName>customFieldsOrder</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Methods</caption>
+            </category>
+            <hidden>true</hidden>
+            <fieldName>customMethodsOrder</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>customTypeCaption</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Fields</caption>
+            </category>
+            <hidden>false</hidden>
+            <customFieldCaption>Customize Fields Display</customFieldCaption>
+            <fieldName>fieldsCustomizations</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>iconImageFile</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Categories</caption>
+            </category>
+            <hidden>false</hidden>
+            <customFieldCaption>Allow to Classify Fields and Methods</customFieldCaption>
+            <fieldName>memberCategories</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Methods</caption>
+            </category>
+            <hidden>false</hidden>
+            <customFieldCaption>Customize Methods Display</customFieldCaption>
+            <fieldName>methodsCustomizations</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>onlineHelp</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>true</hidden>
+            <fieldName>parent</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Sub-Types</caption>
+            </category>
+            <hidden>false</hidden>
+            <customFieldCaption>Specify Implementations of Abstract Types</customFieldCaption>
+            <fieldName>polymorphicSubTypeFinders</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>true</hidden>
+            <fieldName>specificProperties</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>typeName</fieldName>
+            <getOnlyForced>true</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <memberCategories>
+            <caption>Fields</caption>
+        </memberCategories>
+        <memberCategories>
+            <caption>Methods</caption>
+        </memberCategories>
+        <memberCategories>
+            <caption>Categories</caption>
+        </memberCategories>
+        <memberCategories>
+            <caption>Sub-Types</caption>
+        </memberCategories>
+        <methodsCustomizations>
+            <hidden>true</hidden>
+            <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>o</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>moveField</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>moveMethod</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>true</hidden>
+            <methodSignature>void moveField(java.util.List, java.lang.String, int)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>customizedFields</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>fieldName</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>offset</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>true</hidden>
+            <methodSignature>void moveMethod(java.util.List, java.lang.String, int)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>customizedMethods</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>methodSignature</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>offset</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>xy.reflect.ui.info.type.util.InfoProxyGenerator$GeneratedMethodInfoProxy</typeName>
+    </typeCustomizations>
+</infoCustomizations>
