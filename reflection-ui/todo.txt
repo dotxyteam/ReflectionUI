@@ -1,3 +1,6 @@
+- add concept IFieldInfo.isValueCopy()
+- Cannot insert sub item into MultipleFieldAsList item
+- MultipleFieldAsList with only 1 item???
 - ListControl does not filter item fields
 - undo/redo bug (testable with TreeTableModelExample)
 - delete class ABstractTreeStructuralInfo

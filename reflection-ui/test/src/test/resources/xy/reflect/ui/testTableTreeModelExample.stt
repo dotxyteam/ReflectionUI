@@ -195,7 +195,7 @@
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
-      <orderChecked>true</orderChecked>
+      <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>Catalog</string>
         <string>Products</string>

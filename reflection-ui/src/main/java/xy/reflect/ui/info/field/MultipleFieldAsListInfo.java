@@ -12,24 +12,36 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 
-public class MultipleFieldAsListListTypeInfo implements IFieldInfo {
+public class MultipleFieldAsListInfo implements IFieldInfo {
 
 	protected List<IFieldInfo> listFieldInfos;
 	protected ReflectionUI reflectionUI;
 
-	public MultipleFieldAsListListTypeInfo(ReflectionUI reflectionUI, List<IFieldInfo> listFieldInfos) {
+	public MultipleFieldAsListInfo(ReflectionUI reflectionUI, List<IFieldInfo> listFieldInfos) {
 		this.reflectionUI = reflectionUI;
 		this.listFieldInfos = listFieldInfos;
 	}
 
 	@Override
 	public ITypeInfo getType() {
-		return new StandardCollectionTypeInfo(reflectionUI, List.class, MultipleFieldAsListItem.class);
+		return new StandardCollectionTypeInfo(reflectionUI, List.class, MultipleFieldAsListItem.class){
+
+			@Override
+			public boolean canAdd() {
+				return false;
+			}
+
+			@Override
+			public boolean canRemove() {
+				return false;
+			}
+			
+		};
 	}
 
 	@Override
 	public String getCaption() {
-		StringBuilder result = new StringBuilder(MultipleFieldAsListListTypeInfo.class.getSimpleName());
+		StringBuilder result = new StringBuilder(MultipleFieldAsListInfo.class.getSimpleName());
 		result.append("(");
 		int i = 0;
 		for (IFieldInfo field : listFieldInfos) {
@@ -85,8 +97,8 @@ public class MultipleFieldAsListListTypeInfo implements IFieldInfo {
 
 	@Override
 	public String getName() {
-		StringBuilder result = new StringBuilder(MultipleFieldAsListListTypeInfo.class.getSimpleName());
-		result.append(MultipleFieldAsListListTypeInfo.class.getSimpleName() + "(");
+		StringBuilder result = new StringBuilder(MultipleFieldAsListInfo.class.getSimpleName());
+		result.append(MultipleFieldAsListInfo.class.getSimpleName() + "(");
 		int i = 0;
 		for (IFieldInfo field : listFieldInfos) {
 			if (i > 0) {
@@ -115,7 +127,7 @@ public class MultipleFieldAsListListTypeInfo implements IFieldInfo {
 		if (!getClass().equals(obj.getClass())) {
 			return false;
 		}
-		return listFieldInfos.equals(((MultipleFieldAsListListTypeInfo) obj).listFieldInfos);
+		return listFieldInfos.equals(((MultipleFieldAsListInfo) obj).listFieldInfos);
 	}
 
 	@Override

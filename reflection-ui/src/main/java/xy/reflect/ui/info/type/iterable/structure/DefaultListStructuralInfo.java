@@ -4,29 +4,38 @@ import java.util.Collections;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.IInfoCollectionSettings;
+import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.StringValueColumnInfo;
+import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 
-public class DefaultListStructuralInfo extends AbstractTreeListStructuralInfo {
+public class DefaultListStructuralInfo implements IListStructuralInfo {
+
+	protected ReflectionUI reflectionUI;
 
 	public DefaultListStructuralInfo(ReflectionUI reflectionUI) {
-		super(reflectionUI, null);
+		this.reflectionUI=reflectionUI;
 	}
 
-	@Override
-	protected boolean isValidSubListNodeItemType(ITypeInfo type) {
-		return false;
-	}
-
+	
 	@Override
 	public List<IColumnInfo> getColumns() {
 		return Collections.<IColumnInfo>singletonList(new StringValueColumnInfo(reflectionUI));
 	}
 
+
 	@Override
-	protected boolean autoDetectTreeStructure() {
-		return true;
+	public IFieldInfo getItemSubListField(ItemPosition itemPosition) {
+		return null;
 	}
+
+
+	@Override
+	public IInfoCollectionSettings getItemInfoSettings(ItemPosition itemPosition) {
+		return IInfoCollectionSettings.DEFAULT;
+	}
+
+	
 
 }
