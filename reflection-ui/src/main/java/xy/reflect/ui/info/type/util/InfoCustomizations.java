@@ -60,22 +60,7 @@ import xy.reflect.ui.util.SystemProperties;
 @XmlRootElement
 public final class InfoCustomizations {
 
-	public static final InfoCustomizations DEFAULT = new InfoCustomizations();
-	static {
-		{
-			if (SystemProperties.areDefaultInfoCustomizationsActive()) {
-				String filePath = SystemProperties.getDefaultInfoCustomizationsFilePath();
-				File file = new File(filePath);
-				if (file.exists()) {
-					try {
-						DEFAULT.loadFromFile(file);
-					} catch (Exception e) {
-						throw new ReflectionUIError(e);
-					}
-				}
-			}
-		}
-	};
+	public static final InfoCustomizations DEFAULT = createDefault();
 
 	transient protected CustomizationsProxyGenerator proxyGenerator;
 	protected Set<TypeCustomization> typeCustomizations = new TreeSet<InfoCustomizations.TypeCustomization>();
@@ -83,6 +68,22 @@ public final class InfoCustomizations {
 
 	protected CustomizationsProxyGenerator createCustomizationsProxyGenerator(ReflectionUI reflectionUI) {
 		return new CustomizationsProxyGenerator(reflectionUI);
+	}
+
+	protected static InfoCustomizations createDefault() {
+		InfoCustomizations result = new InfoCustomizations();
+		if (SystemProperties.areDefaultInfoCustomizationsActive()) {
+			String filePath = SystemProperties.getDefaultInfoCustomizationsFilePath();
+			File file = new File(filePath);
+			if (file.exists()) {
+				try {
+					result.loadFromFile(file);
+				} catch (Exception e) {
+					throw new ReflectionUIError(e);
+				}
+			}
+		}
+		return result;
 	}
 
 	public ITypeInfo get(ReflectionUI reflectionUI, ITypeInfo type) {

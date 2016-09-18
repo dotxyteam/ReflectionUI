@@ -397,7 +397,7 @@ public class SwingCustomizer extends SwingRenderer {
 							} else {
 								chosenPathKindOption = customizationToolsRenderer.openSelectionDialog(null,
 										pathKindOptions, null, "Choose an option",
-										customizationToolsRenderer.getReflectionUI().getObjectTitle(t));
+										customizationToolsRenderer.getObjectTitle(t));
 								if (chosenPathKindOption == null) {
 									return;
 								}
@@ -504,7 +504,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 		protected void openInfoCustomizationsWindow(InfoCustomizations infoCustomizations) {
 			customizationToolsRenderer.openObjectFrame(infoCustomizations,
-					customizationToolsRenderer.getReflectionUI().getObjectTitle(infoCustomizations),
+					customizationToolsRenderer.getObjectTitle(infoCustomizations),
 					getCustomizationIcon().getImage());
 		}
 
@@ -528,7 +528,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 		protected Component createTypeInfoCustomizer(final String typeName) {
 			final JButton result = new JButton(
-					customizationToolsRenderer.getReflectionUI().prepareStringToDisplay("Customizations..."),
+					customizationToolsRenderer.prepareStringToDisplay("Customizations..."),
 					getCustomizationIcon());
 			result.setContentAreaFilled(false);
 			result.setFocusable(false);
@@ -537,7 +537,7 @@ public class SwingCustomizer extends SwingRenderer {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (customizationToolsRenderer.openObjectDialogAndGetConfirmation(result, t,
-							customizationToolsRenderer.getReflectionUI().getObjectTitle(t),
+							customizationToolsRenderer.getObjectTitle(t),
 							getCustomizationIcon().getImage(), true)) {
 						SwingUtilities.invokeLater(new Runnable() {
 							@Override
@@ -556,13 +556,13 @@ public class SwingCustomizer extends SwingRenderer {
 			result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
 			result.setContentAreaFilled(false);
 			result.setFocusable(false);
-			SwingRendererUtils.setMultilineToolTipText(result, customizationToolsRenderer.getReflectionUI()
+			SwingRendererUtils.setMultilineToolTipText(result, customizationToolsRenderer
 					.prepareStringToDisplay("Customize this field display"));
 			result.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					final JPopupMenu popupMenu = new JPopupMenu();
-					popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("Hide")) {
+					popupMenu.add(new AbstractAction(prepareStringToDisplay("Hide")) {
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -570,7 +570,7 @@ public class SwingCustomizer extends SwingRenderer {
 							hideField(result, customizedType, fieldName);
 						}
 					});
-					popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("Move Up")) {
+					popupMenu.add(new AbstractAction(prepareStringToDisplay("Move Up")) {
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -578,7 +578,7 @@ public class SwingCustomizer extends SwingRenderer {
 							moveField(result, customizedType, fieldName, -1);
 						}
 					});
-					popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("Move Down")) {
+					popupMenu.add(new AbstractAction(prepareStringToDisplay("Move Down")) {
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -586,7 +586,7 @@ public class SwingCustomizer extends SwingRenderer {
 							moveField(result, customizedType, fieldName, 1);
 						}
 					});
-					popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("Move To Top")) {
+					popupMenu.add(new AbstractAction(prepareStringToDisplay("Move To Top")) {
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -594,7 +594,7 @@ public class SwingCustomizer extends SwingRenderer {
 							moveField(result, customizedType, fieldName, Short.MIN_VALUE);
 						}
 					});
-					popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("Move To Bottom")) {
+					popupMenu.add(new AbstractAction(prepareStringToDisplay("Move To Bottom")) {
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -605,11 +605,11 @@ public class SwingCustomizer extends SwingRenderer {
 					final IFieldInfo customizedField = ReflectionUIUtils.findInfoByName(customizedType.getFields(),
 							fieldName);
 					if (customizedField.getType() instanceof IListTypeInfo) {
-						JMenu listSubMenu = new JMenu(reflectionUI.prepareStringToDisplay("List Structure"));
+						JMenu listSubMenu = new JMenu(prepareStringToDisplay("List Structure"));
 						{
 							popupMenu.add(listSubMenu);
 							listSubMenu.add(new AbstractAction(
-									reflectionUI.prepareStringToDisplay("Move Columns...")) {
+									prepareStringToDisplay("Move Columns...")) {
 								private static final long serialVersionUID = 1L;
 
 								@Override
@@ -618,7 +618,7 @@ public class SwingCustomizer extends SwingRenderer {
 											(IListTypeInfo) customizedField.getType());
 								}
 							});
-							listSubMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("More Options...")) {
+							listSubMenu.add(new AbstractAction(prepareStringToDisplay("More Options...")) {
 								private static final long serialVersionUID = 1L;
 
 								@Override
@@ -629,7 +629,7 @@ public class SwingCustomizer extends SwingRenderer {
 							});
 						}
 					}
-					popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("More Options...")) {
+					popupMenu.add(new AbstractAction(prepareStringToDisplay("More Options...")) {
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -709,7 +709,7 @@ public class SwingCustomizer extends SwingRenderer {
 				columnOrder.add(orderItem);
 			}
 			if (customizationToolsRenderer.openObjectDialogAndGetConfirmation(activatorComponent, columnOrder,
-					customizationToolsRenderer.getReflectionUI().prepareStringToDisplay("Columns Order"),
+					customizationToolsRenderer.prepareStringToDisplay("Columns Order"),
 					getCustomizationIcon().getImage(), true)) {
 				List<String> newOrder = new ArrayList<String>();
 				for (ColumnOrderItem item : columnOrder) {
@@ -732,7 +732,7 @@ public class SwingCustomizer extends SwingRenderer {
 			ListStructureCustomization lc = infoCustomizations
 					.getListStructureCustomization(customizedListType.getName(), itemTypeName, true);
 			if (customizationToolsRenderer.openObjectDialogAndGetConfirmation(activatorComponent, lc,
-					customizationToolsRenderer.getReflectionUI().getObjectTitle(lc), getCustomizationIcon().getImage(),
+					customizationToolsRenderer.getObjectTitle(lc), getCustomizationIcon().getImage(),
 					true)) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
@@ -748,7 +748,7 @@ public class SwingCustomizer extends SwingRenderer {
 			FieldCustomization fc = infoCustomizations.getFieldCustomization(customoizedType.getName(), fieldName,
 					true);
 			if (customizationToolsRenderer.openObjectDialogAndGetConfirmation(activatorComponent, fc,
-					customizationToolsRenderer.getReflectionUI().getObjectTitle(fc), getCustomizationIcon().getImage(),
+					customizationToolsRenderer.getObjectTitle(fc), getCustomizationIcon().getImage(),
 					true)) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
@@ -764,7 +764,7 @@ public class SwingCustomizer extends SwingRenderer {
 			MethodCustomization mc = infoCustomizations.getMethodCustomization(customizedType.getName(),
 					methodSignature, true);
 			if (customizationToolsRenderer.openObjectDialogAndGetConfirmation(activatorComponent, mc,
-					customizationToolsRenderer.getReflectionUI().getObjectTitle(mc), getCustomizationIcon().getImage(),
+					customizationToolsRenderer.getObjectTitle(mc), getCustomizationIcon().getImage(),
 					true)) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
@@ -780,13 +780,13 @@ public class SwingCustomizer extends SwingRenderer {
 			result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
 			result.setContentAreaFilled(false);
 			result.setFocusable(false);
-			SwingRendererUtils.setMultilineToolTipText(result, customizationToolsRenderer.getReflectionUI()
+			SwingRendererUtils.setMultilineToolTipText(result, customizationToolsRenderer
 					.prepareStringToDisplay("Customize this method display"));
 			result.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					final JPopupMenu popupMenu = new JPopupMenu();
-					popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("Hide")) {
+					popupMenu.add(new AbstractAction(prepareStringToDisplay("Hide")) {
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -794,7 +794,7 @@ public class SwingCustomizer extends SwingRenderer {
 							hideMethod(result, customizedType, methodSignature);
 						}
 					});
-					popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("Move Left")) {
+					popupMenu.add(new AbstractAction(prepareStringToDisplay("Move Left")) {
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -802,7 +802,7 @@ public class SwingCustomizer extends SwingRenderer {
 							moveMethod(result, customizedType, methodSignature, -1);
 						}
 					});
-					popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("Move Right")) {
+					popupMenu.add(new AbstractAction(prepareStringToDisplay("Move Right")) {
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -810,7 +810,7 @@ public class SwingCustomizer extends SwingRenderer {
 							moveMethod(result, customizedType, methodSignature, 1);
 						}
 					});
-					popupMenu.add(new AbstractAction(reflectionUI.prepareStringToDisplay("More Options...")) {
+					popupMenu.add(new AbstractAction(prepareStringToDisplay("More Options...")) {
 						private static final long serialVersionUID = 1L;
 
 						@Override

@@ -89,7 +89,7 @@ public class FileControl extends DialogAccessControl implements IFieldControl {
 		fileChooser.setCurrentDirectory(lastDirectory);
 		configureFileChooser(fileChooser, currentFile);
 		int returnVal = fileChooser.showDialog(this,
-				swingRenderer.getReflectionUI().prepareStringToDisplay(getDialogTitle()));
+				swingRenderer.prepareStringToDisplay(getDialogTitle()));
 		if (returnVal != JFileChooser.APPROVE_OPTION) {
 			return;
 		}

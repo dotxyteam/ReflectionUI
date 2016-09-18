@@ -928,6 +928,7 @@
         <customFieldsOrder>itemTypeColumnAdded</customFieldsOrder>
         <customFieldsOrder>positionColumnAdded</customFieldsOrder>
         <customFieldsOrder>listTypeName</customFieldsOrder>
+        <customFieldsOrder>stringValueColumnAdded</customFieldsOrder>
         <customFieldsOrder>columnsCustomizations</customFieldsOrder>
         <customFieldsOrder>treeStructureDiscoverySettings</customFieldsOrder>
         <customFieldsOrder>itemTypeCustomization</customFieldsOrder>
@@ -1021,7 +1022,11 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
+            <category>
+                <caption>Columns</caption>
+            </category>
             <hidden>false</hidden>
+            <customFieldCaption>Add toString() Column</customFieldCaption>
             <fieldName>stringValueColumnAdded</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>

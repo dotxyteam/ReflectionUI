@@ -15,150 +15,104 @@
 </tr>
 </TABLE>
 <pre ID="Classes">
-<A NAME="1"></A><FONT ID="Import">import</FONT> java.awt.Window;
-<A NAME="2"></A><FONT ID="Import">import</FONT> java.io.File;
-<A NAME="3"></A><FONT ID="Import">import</FONT> java.io.IOException;
-<A NAME="4"></A><FONT ID="Import">import</FONT> java.util.Date;
-<A NAME="5"></A>
-<A NAME="6"></A><FONT ID="Import">import</FONT> javax.swing.JOptionPane;
-<A NAME="7"></A>
-<A NAME="8"></A><FONT ID="Import">import</FONT> xy.reflect.ui.ReflectionUI;
-<A NAME="9"></A><FONT ID="Import">import</FONT> xy.reflect.ui.control.swing.SwingCustomizer;
-<A NAME="10"></A><FONT ID="Import">import</FONT> xy.reflect.ui.control.swing.SwingRenderer;
-<A NAME="11"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.field.IFieldInfo;
-<A NAME="12"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.type.ITypeInfo;
-<A NAME="13"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.type.source.ITypeInfoSource;
-<A NAME="14"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.type.util.InfoCustomizations;
-<A NAME="15"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.type.util.InfoProxyGenerator;
+<A NAME="1"></A><FONT ID="Import">import</FONT> java.util.Date;
+<A NAME="2"></A>
+<A NAME="3"></A><FONT ID="Import">import</FONT> javax.swing.JOptionPane;
+<A NAME="4"></A>
+<A NAME="5"></A><FONT ID="Import">import</FONT> xy.reflect.ui.ReflectionUI;
+<A NAME="6"></A><FONT ID="Import">import</FONT> xy.reflect.ui.control.swing.SwingRenderer;
+<A NAME="7"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.field.IFieldInfo;
+<A NAME="8"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.type.ITypeInfo;
+<A NAME="9"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.type.source.ITypeInfoSource;
+<A NAME="10"></A><FONT ID="Import">import</FONT> xy.reflect.ui.info.type.util.InfoProxyGenerator;
+<A NAME="11"></A>
+<A NAME="12"></A><FONT ID="MultiLineComment">/*
+<A NAME="13"></A> * Read carefully the comments below. 
+<A NAME="14"></A> */</FONT>
+<A NAME="15"></A><FONT ID="Public">public</FONT> <FONT ID="Class">class</FONT> Example {
 <A NAME="16"></A>
-<A NAME="17"></A><FONT ID="MultiLineComment">/*
-<A NAME="18"></A> * Read carefully the comments below. 
-<A NAME="19"></A> */</FONT>
-<A NAME="20"></A><FONT ID="Public">public</FONT> <FONT ID="Class">class</FONT> Example {
-<A NAME="21"></A>
-<A NAME="22"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> <FONT ID="Void">void</FONT> main(String[] args) {
-<A NAME="23"></A>
-<A NAME="24"></A>        <FONT ID="MultiLineComment">/* The Hello world: */</FONT>
-<A NAME="25"></A>        Object myObject = <FONT ID="New">new</FONT> Date();
-<A NAME="26"></A>        ReflectionUI reflectionUI = <FONT ID="New">new</FONT> ReflectionUI();
-<A NAME="27"></A>        SwingRenderer swingRenderer = <FONT ID="New">new</FONT> SwingRenderer(reflectionUI);
-<A NAME="28"></A>        swingRenderer.openObjectFrame(myObject);
-<A NAME="29"></A>
-<A NAME="30"></A>        <FONT ID="MultiLineComment">/* You can open a dialog instead of a frame: */</FONT>
-<A NAME="31"></A>        swingRenderer.openObjectDialog(<FONT ID="Null">null</FONT>, myObject, <FONT ID="True">true</FONT>);
-<A NAME="32"></A>
-<A NAME="33"></A>        <FONT ID="MultiLineComment">/* You can just create a form and then insert it in any container: */</FONT>
-<A NAME="34"></A>        JOptionPane.showMessageDialog(<FONT ID="Null">null</FONT>, swingRenderer.createObjectForm(myObject));
-<A NAME="35"></A>
-<A NAME="36"></A>        <FONT ID="MultiLineComment">/*
-<A NAME="37"></A>         * You can customize some aspects (field labels, hide some methods, ...)
-<A NAME="38"></A>         * of the generated UI by using an integrated customizations editor. To
-<A NAME="39"></A>         * enable this editor create the reflectionUI and the renderer objects
-<A NAME="40"></A>         * with the following code:
+<A NAME="17"></A>    <FONT ID="Public">public</FONT> <FONT ID="Static">static</FONT> <FONT ID="Void">void</FONT> main(String[] args) {
+<A NAME="18"></A>
+<A NAME="19"></A>        <FONT ID="MultiLineComment">/* The Hello world: */</FONT>
+<A NAME="20"></A>        Object myObject = <FONT ID="New">new</FONT> Date();
+<A NAME="21"></A>        SwingRenderer.DEFAULT.openObjectFrame(myObject);
+<A NAME="22"></A>
+<A NAME="23"></A>        <FONT ID="MultiLineComment">/* You can open a dialog instead of a frame: */</FONT>
+<A NAME="24"></A>        SwingRenderer.DEFAULT.openObjectDialog(<FONT ID="Null">null</FONT>, myObject, <FONT ID="True">true</FONT>);
+<A NAME="25"></A>
+<A NAME="26"></A>        <FONT ID="MultiLineComment">/* You can just create a form and then insert it in any container: */</FONT>
+<A NAME="27"></A>        JOptionPane.showMessageDialog(<FONT ID="Null">null</FONT>, SwingRenderer.DEFAULT.createObjectForm(myObject));
+<A NAME="28"></A>
+<A NAME="29"></A>        <FONT ID="MultiLineComment">/*
+<A NAME="30"></A>         * You can customize some aspects (field labels, hide some methods, ...)
+<A NAME="31"></A>         * of the generated UI by using an integrated customizations editor. To
+<A NAME="32"></A>         * enable this editor set the following JVM properties:
+<A NAME="33"></A>         */</FONT>
+<A NAME="34"></A>        <FONT ID="SingleLineComment">// -Dxy.reflect.ui.defaultCustomizationsActive=true
+<A NAME="35"></A></FONT>        <FONT ID="SingleLineComment">// -Dxy.reflect.ui.defaultCustomizationsEditable=true
+<A NAME="36"></A></FONT>
+<A NAME="37"></A>        <FONT ID="MultiLineComment">/*
+<A NAME="38"></A>         * The SwingRenderer.DEFAULT assumes that the Java coding standards are
+<A NAME="39"></A>         * respected for the classes of the objects for which it generates UI.
+<A NAME="40"></A>         * Otherwise adjustments can be done by overriding some methods:
 <A NAME="41"></A>         */</FONT>
-<A NAME="42"></A>        <FONT ID="Final">final</FONT> InfoCustomizations customizations = <FONT ID="New">new</FONT> InfoCustomizations();
-<A NAME="43"></A>        String customizationsFilePath = <FONT ID="StringLiteral">"path/to/a/customizations/file.xml"</FONT>;
-<A NAME="44"></A>        <FONT ID="Try">try</FONT> {
-<A NAME="45"></A>            customizations.loadFromFile(<FONT ID="New">new</FONT> File(customizationsFilePath));
-<A NAME="46"></A>        } <FONT ID="Catch">catch</FONT> (IOException e) {
-<A NAME="47"></A>            <FONT ID="Throw">throw</FONT> <FONT ID="New">new</FONT> AssertionError(e);
-<A NAME="48"></A>        }
-<A NAME="49"></A>        reflectionUI = <FONT ID="New">new</FONT> ReflectionUI() {
-<A NAME="50"></A>            @Override
-<A NAME="51"></A>            <FONT ID="Public">public</FONT> ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-<A NAME="52"></A>                <FONT ID="Return">return</FONT> customizations.get(<FONT ID="This">this</FONT>, <FONT ID="Super">super</FONT>.getTypeInfo(typeSource));
-<A NAME="53"></A>            }
-<A NAME="54"></A>        };
-<A NAME="55"></A>        swingRenderer = <FONT ID="New">new</FONT> SwingCustomizer(reflectionUI, customizations, customizationsFilePath);
-<A NAME="56"></A>
-<A NAME="57"></A>        <FONT ID="MultiLineComment">/*
-<A NAME="58"></A>         * The ReflectionUI generator assumes that the Java coding standards are
-<A NAME="59"></A>         * respected for the instanciated classes. Otherwise adjustments can be
-<A NAME="60"></A>         * done by overriding some methods of the ReflectionUI object:
-<A NAME="61"></A>         */</FONT>
-<A NAME="62"></A>        reflectionUI = <FONT ID="New">new</FONT> ReflectionUI() {
-<A NAME="63"></A>
-<A NAME="64"></A>            <FONT ID="MultiLineComment">/* if your class "equals" method is not well implemented then: */</FONT>
-<A NAME="65"></A>            @Override
-<A NAME="66"></A>            <FONT ID="Public">public</FONT> <FONT ID="Boolean">boolean</FONT> equals(Object value1, Object value2) {
-<A NAME="67"></A>                <FONT ID="If">if</FONT> (value1 <FONT ID="InstanceOf">instanceof</FONT> <A HREF="Example.java.html">Example</A>) {
-<A NAME="68"></A>                    <FONT ID="SingleLineComment">// TODO: replace with your code
-<A NAME="69"></A></FONT>                    <FONT ID="Return">return</FONT> <FONT ID="False">false</FONT>;
-<A NAME="70"></A>                } <FONT ID="Else">else</FONT> {
-<A NAME="71"></A>                    <FONT ID="Return">return</FONT> <FONT ID="Super">super</FONT>.equals(value1, value2);
-<A NAME="72"></A>                }
-<A NAME="73"></A>            }
-<A NAME="74"></A>
-<A NAME="75"></A>            <FONT ID="MultiLineComment">/* if your class "toString" method is not well implemented then: */</FONT>
-<A NAME="76"></A>            @Override
-<A NAME="77"></A>            <FONT ID="Public">public</FONT> String toString(Object object) {
-<A NAME="78"></A>                <FONT ID="If">if</FONT> (object <FONT ID="InstanceOf">instanceof</FONT> <A HREF="Example.java.html">Example</A>) {
-<A NAME="79"></A>                    <FONT ID="SingleLineComment">// TODO: replace with your code
-<A NAME="80"></A></FONT>                    <FONT ID="Return">return</FONT> <FONT ID="StringLiteral">""</FONT>;
-<A NAME="81"></A>                } <FONT ID="Else">else</FONT> {
-<A NAME="82"></A>                    <FONT ID="Return">return</FONT> <FONT ID="Super">super</FONT>.toString(object);
-<A NAME="83"></A>                }
-<A NAME="84"></A>            }
-<A NAME="85"></A>
-<A NAME="86"></A>        };
-<A NAME="87"></A>
-<A NAME="88"></A>        <FONT ID="MultiLineComment">/*
-<A NAME="89"></A>         * How to enable copy/cut/paste: By default this functionality is
-<A NAME="90"></A>         * enabled only for Serializable objects. If your class does not
-<A NAME="91"></A>         * implement the Serializable interface then override the following
-<A NAME="92"></A>         * methods of the ReflectionUI object:
-<A NAME="93"></A>         */</FONT>
-<A NAME="94"></A>        reflectionUI = <FONT ID="New">new</FONT> ReflectionUI() {
+<A NAME="42"></A>        ReflectionUI reflectionUI = <FONT ID="New">new</FONT> ReflectionUI() {
+<A NAME="43"></A>
+<A NAME="44"></A>            <FONT ID="MultiLineComment">/* if your class "equals" method is not well implemented then: */</FONT>
+<A NAME="45"></A>            @Override
+<A NAME="46"></A>            <FONT ID="Public">public</FONT> <FONT ID="Boolean">boolean</FONT> equals(Object value1, Object value2) {
+<A NAME="47"></A>                <FONT ID="Return">return</FONT> <FONT ID="Super">super</FONT>.equals(value1, value2);
+<A NAME="48"></A>            }
+<A NAME="49"></A>
+<A NAME="50"></A>            <FONT ID="MultiLineComment">/* if your class "toString" method is not well implemented then: */</FONT>
+<A NAME="51"></A>            @Override
+<A NAME="52"></A>            <FONT ID="Public">public</FONT> String toString(Object object) {
+<A NAME="53"></A>                <FONT ID="Return">return</FONT> <FONT ID="Super">super</FONT>.toString(object);
+<A NAME="54"></A>            }
+<A NAME="55"></A>
+<A NAME="56"></A>            <FONT ID="MultiLineComment">/*
+<A NAME="57"></A>             * copy/cut/paste: By default this functionality is enabled only for
+<A NAME="58"></A>             * Serializable objects. If your class does not implement the
+<A NAME="59"></A>             * Serializable interface then override the following methods of the
+<A NAME="60"></A>             * ReflectionUI object:
+<A NAME="61"></A>             */</FONT>
+<A NAME="62"></A>            @Override
+<A NAME="63"></A>            <FONT ID="Public">public</FONT> <FONT ID="Boolean">boolean</FONT> canCopy(Object object) {
+<A NAME="64"></A>                <FONT ID="SingleLineComment">// TODO: replace with your code
+<A NAME="65"></A></FONT>                <FONT ID="Return">return</FONT> <FONT ID="Super">super</FONT>.canCopy(object);
+<A NAME="66"></A>            }
+<A NAME="67"></A>
+<A NAME="68"></A>            @Override
+<A NAME="69"></A>            <FONT ID="Public">public</FONT> Object copy(Object object) {
+<A NAME="70"></A>                <FONT ID="SingleLineComment">// TODO: replace with your code
+<A NAME="71"></A></FONT>                <FONT ID="Return">return</FONT> <FONT ID="Super">super</FONT>.copy(object);
+<A NAME="72"></A>            }
+<A NAME="73"></A>
+<A NAME="74"></A>            <FONT ID="MultiLineComment">/*
+<A NAME="75"></A>             * If you specifically want to take control over the object
+<A NAME="76"></A>             * discovery and interpretation process, then you must override the
+<A NAME="77"></A>             * getTypeInfo() method. For instance you can uppercase all the
+<A NAME="78"></A>             * field captions this way:
+<A NAME="79"></A>             */</FONT>
+<A NAME="80"></A>            @Override
+<A NAME="81"></A>            <FONT ID="Public">public</FONT> ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
+<A NAME="82"></A>                <FONT ID="Return">return</FONT> <FONT ID="New">new</FONT> InfoProxyGenerator() {
+<A NAME="83"></A>                    @Override
+<A NAME="84"></A>                    <FONT ID="Protected">protected</FONT> String getCaption(IFieldInfo field, ITypeInfo containingType) {
+<A NAME="85"></A>                        <FONT ID="Return">return</FONT> <FONT ID="Super">super</FONT>.getCaption(field, containingType).toUpperCase();
+<A NAME="86"></A>                    }
+<A NAME="87"></A>                }.get(<FONT ID="Super">super</FONT>.getTypeInfo(typeSource));
+<A NAME="88"></A>            }
+<A NAME="89"></A>
+<A NAME="90"></A>        };
+<A NAME="91"></A>        SwingRenderer swingRenderer = <FONT ID="New">new</FONT> SwingRenderer(reflectionUI);
+<A NAME="92"></A>        swingRenderer.openObjectDialog(<FONT ID="Null">null</FONT>, myObject, <FONT ID="True">true</FONT>);
+<A NAME="93"></A>
+<A NAME="94"></A>        swingRenderer.openObjectDialog(<FONT ID="Null">null</FONT>, myObject, <FONT ID="StringLiteral">"uppercase field captions"</FONT>, <FONT ID="Null">null</FONT>, <FONT ID="True">true</FONT>);
 <A NAME="95"></A>
-<A NAME="96"></A>            @Override
-<A NAME="97"></A>            <FONT ID="Public">public</FONT> <FONT ID="Boolean">boolean</FONT> canCopy(Object object) {
-<A NAME="98"></A>                <FONT ID="SingleLineComment">// TODO: replace with your code
-<A NAME="99"></A></FONT>                <FONT ID="Return">return</FONT> <FONT ID="Super">super</FONT>.canCopy(object);
-<A NAME="100"></A>            }
-<A NAME="101"></A>
-<A NAME="102"></A>            @Override
-<A NAME="103"></A>            <FONT ID="Public">public</FONT> Object copy(Object object) {
-<A NAME="104"></A>                <FONT ID="SingleLineComment">// TODO: replace with your code
-<A NAME="105"></A></FONT>                <FONT ID="Return">return</FONT> <FONT ID="Super">super</FONT>.copy(object);
-<A NAME="106"></A>            }
-<A NAME="107"></A>
-<A NAME="108"></A>        };
-<A NAME="109"></A>
-<A NAME="110"></A>        <FONT ID="MultiLineComment">/*
-<A NAME="111"></A>         * In order to customize the UI behavior, just override the renderer
-<A NAME="112"></A>         * object. For instance let set any swing window size to 300x300:
-<A NAME="113"></A>         */</FONT>
-<A NAME="114"></A>        swingRenderer = <FONT ID="New">new</FONT> SwingRenderer(reflectionUI) {
-<A NAME="115"></A>            @Override
-<A NAME="116"></A>            <FONT ID="Public">public</FONT> <FONT ID="Void">void</FONT> adjustWindowBounds(Window window) {
-<A NAME="117"></A>                <FONT ID="Super">super</FONT>.adjustWindowBounds(window);
-<A NAME="118"></A>                window.setSize(<FONT ID="IntegerLiteral">300</FONT>, <FONT ID="IntegerLiteral">300</FONT>);
-<A NAME="119"></A>            }
-<A NAME="120"></A>        };
-<A NAME="121"></A>        swingRenderer.openObjectDialog(<FONT ID="Null">null</FONT>, myObject, <FONT ID="StringLiteral">"300x300 window"</FONT>, <FONT ID="Null">null</FONT>, <FONT ID="True">true</FONT>);
-<A NAME="122"></A>
-<A NAME="123"></A>        <FONT ID="MultiLineComment">/*
-<A NAME="124"></A>         * If you specifically want to take control over the object discovery
-<A NAME="125"></A>         * and interpretation process, then you must override the getTypeInfo()
-<A NAME="126"></A>         * method. For instance we can uppercase all the field captions
-<A NAME="127"></A>         */</FONT>
-<A NAME="128"></A>        reflectionUI = <FONT ID="New">new</FONT> ReflectionUI() {
-<A NAME="129"></A>            @Override
-<A NAME="130"></A>            <FONT ID="Public">public</FONT> ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-<A NAME="131"></A>                <FONT ID="Return">return</FONT> <FONT ID="New">new</FONT> InfoProxyGenerator() {
-<A NAME="132"></A>                    @Override
-<A NAME="133"></A>                    <FONT ID="Protected">protected</FONT> String getCaption(IFieldInfo field, ITypeInfo containingType) {
-<A NAME="134"></A>                        <FONT ID="Return">return</FONT> <FONT ID="Super">super</FONT>.getCaption(field, containingType).toUpperCase();
-<A NAME="135"></A>                    }
-<A NAME="136"></A>                }.get(<FONT ID="Super">super</FONT>.getTypeInfo(typeSource));
-<A NAME="137"></A>            }
-<A NAME="138"></A>
-<A NAME="139"></A>        };
-<A NAME="140"></A>        swingRenderer.openObjectDialog(<FONT ID="Null">null</FONT>, myObject, <FONT ID="StringLiteral">"uppercase field captions"</FONT>, <FONT ID="Null">null</FONT>, <FONT ID="True">true</FONT>);
-<A NAME="141"></A>
-<A NAME="142"></A>    }
-<A NAME="143"></A>}
-<A NAME="144"></A></pre><TABLE id="Header" border="0" cellpadding="0" cellspacing="0" width="100%">
+<A NAME="96"></A>    }
+<A NAME="97"></A>}
+<A NAME="98"></A></pre><TABLE id="Header" border="0" cellpadding="0" cellspacing="0" width="100%">
 <tr>
 <td colspan="2" width="33%">&nbsp;</td>
 <td align="center" colspan="2" width="33%">

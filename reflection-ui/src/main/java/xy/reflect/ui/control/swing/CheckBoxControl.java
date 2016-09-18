@@ -48,7 +48,7 @@ public class CheckBoxControl extends JCheckBox implements IFieldControl {
 	@Override
 	public boolean showCaption() {
 		String caption = field.getCaption();
-		setText(swingRenderer.getReflectionUI().prepareStringToDisplay(caption));
+		setText(swingRenderer.prepareStringToDisplay(caption));
 		return true;
 	}
 

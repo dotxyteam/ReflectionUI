@@ -23,7 +23,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -36,21 +35,6 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 
-import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.swing.SwingRenderer;
-import xy.reflect.ui.info.IInfo;
-import xy.reflect.ui.info.InfoCategory;
-import xy.reflect.ui.info.annotation.Category;
-import xy.reflect.ui.info.annotation.Hidden;
-import xy.reflect.ui.info.annotation.OnlineHelp;
-import xy.reflect.ui.info.annotation.ValueOptionsForField;
-import xy.reflect.ui.info.annotation.Validating;
-import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.info.parameter.IParameterInfo;
-import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-
 import com.fasterxml.classmate.MemberResolver;
 import com.fasterxml.classmate.ResolvedType;
 import com.fasterxml.classmate.ResolvedTypeWithMembers;
@@ -61,8 +45,22 @@ import com.fasterxml.classmate.members.ResolvedMethod;
 import com.thoughtworks.paranamer.AdaptiveParanamer;
 import com.thoughtworks.paranamer.BytecodeReadingParanamer;
 import com.thoughtworks.paranamer.DefaultParanamer;
-import com.thoughtworks.paranamer.JavadocParanamer;
 import com.thoughtworks.paranamer.Paranamer;
+
+import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.swing.SwingRenderer;
+import xy.reflect.ui.info.IInfo;
+import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.annotation.Category;
+import xy.reflect.ui.info.annotation.Hidden;
+import xy.reflect.ui.info.annotation.OnlineHelp;
+import xy.reflect.ui.info.annotation.Validating;
+import xy.reflect.ui.info.annotation.ValueOptionsForField;
+import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.parameter.IParameterInfo;
+import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 
 public class ReflectionUIUtils {
 
@@ -410,32 +408,25 @@ public class ReflectionUIUtils {
 	}
 
 	public static String[] getJavaParameterNames(Member owner) {
-		try {
-			URL jdkJavadocURL = ReflectionUI.class.getResource("resource/jdk-apidocs");
-			Paranamer paranamer;
-			paranamer = new AdaptiveParanamer(new DefaultParanamer(), new BytecodeReadingParanamer(),
-					new JavadocParanamer(jdkJavadocURL));
-			String[] parameterNames = paranamer.lookupParameterNames((AccessibleObject) owner, false);
-			if ((parameterNames == null) || (parameterNames.length == 0)) {
-				return null;
-			}
-			if (owner instanceof Constructor) {
-				Constructor<?> ctor = (Constructor<?>) owner;
-				Class<?> ctorClass = ctor.getDeclaringClass();
-				if (ctorClass.isMemberClass()) {
-					if (!Modifier.isStatic(ctorClass.getModifiers())) {
-						if (parameterNames.length == (ctor.getParameterTypes().length - 1)) {
-							List<String> tmpList = new ArrayList<String>(Arrays.asList(parameterNames));
-							tmpList.add(0, "parent");
-							parameterNames = tmpList.toArray(new String[tmpList.size()]);
-						}
+		Paranamer paranamer = new AdaptiveParanamer(new DefaultParanamer(), new BytecodeReadingParanamer());
+		String[] parameterNames = paranamer.lookupParameterNames((AccessibleObject) owner, false);
+		if ((parameterNames == null) || (parameterNames.length == 0)) {
+			return null;
+		}
+		if (owner instanceof Constructor) {
+			Constructor<?> ctor = (Constructor<?>) owner;
+			Class<?> ctorClass = ctor.getDeclaringClass();
+			if (ctorClass.isMemberClass()) {
+				if (!Modifier.isStatic(ctorClass.getModifiers())) {
+					if (parameterNames.length == (ctor.getParameterTypes().length - 1)) {
+						List<String> tmpList = new ArrayList<String>(Arrays.asList(parameterNames));
+						tmpList.add(0, "parent");
+						parameterNames = tmpList.toArray(new String[tmpList.size()]);
 					}
 				}
 			}
-			return parameterNames;
-		} catch (IOException e) {
-			throw new ReflectionUIError(e);
 		}
+		return parameterNames;
 	}
 
 	public static void transferStream(InputStream inputStream, OutputStream outputStream) throws IOException {
@@ -547,9 +538,9 @@ public class ReflectionUIUtils {
 				else if (c == '\n')
 					// Handle Newline
 					if (preserveNewLines) {
-						sb.append("<br/>");
+					sb.append("<br/>");
 					} else {
-						sb.append(c);
+					sb.append(c);
 					}
 				else {
 					int ci = 0xffff & c;
@@ -938,5 +929,4 @@ public class ReflectionUIUtils {
 		List<ITypeInfo> polyTypes = type.getPolymorphicInstanceSubTypes();
 		return (polyTypes != null) && (polyTypes.size() > 0);
 	}
-
 }

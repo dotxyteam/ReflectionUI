@@ -32,6 +32,7 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.util.HiddenNullableFacetsInfoProxyGenerator;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
+import xy.reflect.ui.info.type.util.InfoProxyGenerator;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
@@ -39,55 +40,26 @@ import xy.reflect.ui.util.SystemProperties;
 @SuppressWarnings("unused")
 public class ReflectionUI {
 
-	public static final ReflectionUI DEFAULT = new ReflectionUI() {
-
-		@Override
-		public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-			ITypeInfo result = super.getTypeInfo(typeSource);
-			if (SystemProperties.areDefaultInfoCustomizationsActive()) {
-				result = InfoCustomizations.DEFAULT.get(this, result);
-			}
-			return result;
-		}
-
-	};
+	public static final ReflectionUI DEFAULT = createDefault();
 
 	protected Map<ITypeInfoSource, ITypeInfo> typeInfoBySource = CacheBuilder.newBuilder().maximumSize(1000)
 			.<ITypeInfoSource, ITypeInfo> build().asMap();
 	protected Map<Object, ITypeInfo> precomputedTypeInfoByObject = CacheBuilder.newBuilder().weakKeys()
 			.<Object, ITypeInfo> build().asMap();
 
-	public static void main(String[] args) {
-		ReflectionUI reflectionUI = new ReflectionUI();
-		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
-		try {
-			Class<?> clazz = Object.class;
-			String usageText = "Expected arguments: [ <className> | --help ]"
-					+ "\n  => <className>: Fully qualified name of a class to instanciate and display in a window"
-					+ "\n  => --help: Displays this help message" + "\n"
-					+ "\nAdditionally, the following JVM properties can be set:" + "\n" + SystemProperties.describe();
-			if (args.length == 0) {
-				clazz = Object.class;
-			} else if (args.length == 1) {
-				if (args[0].equals("--help")) {
-					System.out.println(usageText);
-					return;
-				} else {
-					clazz = Class.forName(args[0]);
+	protected static ReflectionUI createDefault() {
+		return new ReflectionUI() {
+
+			@Override
+			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
+				ITypeInfo result = super.getTypeInfo(typeSource);
+				if (SystemProperties.areDefaultInfoCustomizationsActive()) {
+					result = InfoCustomizations.DEFAULT.get(this, result);
 				}
-			} else {
-				throw new IllegalArgumentException(usageText);
+				return result;
 			}
-			Object object = swingRenderer.onTypeInstanciationRequest(null,
-					reflectionUI.getTypeInfo(new JavaTypeInfoSource(clazz)), false);
-			if (object == null) {
-				return;
-			}
-			swingRenderer.openObjectFrame(object, reflectionUI.getObjectTitle(object),
-					swingRenderer.getObjectIconImage(object));
-		} catch (Throwable t) {
-			swingRenderer.handleExceptionsFromDisplayedUI(null, t);
-		}
+
+		};
 	}
 
 	public void registerPrecomputedTypeInfoObject(Object object, ITypeInfo type) {
@@ -148,10 +120,6 @@ public class ReflectionUI {
 		}
 	}
 
-	public void logError(Throwable t) {
-		t.printStackTrace();
-	}
-
 	public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
 		ITypeInfo result = typeInfoBySource.get(typeSource);
 		if (result == null) {
@@ -194,51 +162,35 @@ public class ReflectionUI {
 		return result;
 	}
 
-	public String prepareStringToDisplay(String string) {
-		return string;
-	}
+	
 
-	public String getObjectTitle(Object object) {
-		if (object == null) {
-			return "(Missing Value)";
-		}
-		if (object instanceof MultipleFieldAsListItem) {
-			return ((MultipleFieldAsListItem) object).toString();
-		}
-		if (object instanceof StandardMapEntry<?, ?>) {
-			Object key = ((StandardMapEntry<?, ?>) object).getKey();
-			if (key == null) {
-				return "";
+	public static void main(String[] args) {
+		try {
+			Class<?> clazz = Object.class;
+			String usageText = "Expected arguments: [ <className> | --help ]"
+					+ "\n  => <className>: Fully qualified name of a class to instanciate and display in a window"
+					+ "\n  => --help: Displays this help message" + "\n"
+					+ "\nAdditionally, the following JVM properties can be set:" + "\n" + SystemProperties.describe();
+			if (args.length == 0) {
+				clazz = Object.class;
+			} else if (args.length == 1) {
+				if (args[0].equals("--help")) {
+					System.out.println(usageText);
+					return;
+				} else {
+					clazz = Class.forName(args[0]);
+				}
 			} else {
-				return toString(key);
+				throw new IllegalArgumentException(usageText);
 			}
-		}
-		return getTypeInfo(getTypeInfoSource(object)).getCaption();
-	}
-
-	public String getFieldTitle(Object object, IFieldInfo field) {
-		String result = ReflectionUIUtils.composeTitle(getObjectTitle(object), field.getCaption());
-		Object fieldValue = field.getValue(object);
-		if (fieldValue != null) {
-			String fieldValueKind = getObjectTitle(field.getValue(object));
-			if (!field.getCaption().equals(fieldValueKind)) {
-				result = ReflectionUIUtils.composeTitle(result, fieldValueKind);
+			Object object = SwingRenderer.DEFAULT.onTypeInstanciationRequest(null,
+					ReflectionUI.DEFAULT.getTypeInfo(new JavaTypeInfoSource(clazz)), false);
+			if (object == null) {
+				return;
 			}
+			SwingRenderer.DEFAULT.openObjectFrame(object);
+		} catch (Throwable t) {
+			SwingRenderer.DEFAULT.handleExceptionsFromDisplayedUI(null, t);
 		}
-		return result;
-	}
-
-	public String getMethodTitle(Object object, IMethodInfo method, Object returnValue, String context) {
-		String result = method.getCaption();
-		if (object != null) {
-			result = ReflectionUIUtils.composeTitle(getObjectTitle(object), result);
-		}
-		if (context != null) {
-			result = ReflectionUIUtils.composeTitle(result, context);
-		}
-		if (returnValue != null) {
-			result = ReflectionUIUtils.composeTitle(result, getObjectTitle(returnValue));
-		}
-		return result;
 	}
 }

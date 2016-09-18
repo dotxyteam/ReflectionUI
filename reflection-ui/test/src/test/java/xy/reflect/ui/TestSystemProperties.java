@@ -13,7 +13,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
 
-public class TestSystemProperties {
+public class TestSystemProperties extends AbstractTest {
 
 	public String nullableField;
 
@@ -46,8 +46,7 @@ public class TestSystemProperties {
 			ReflectionUIUtils.findInfoByName(typeInfo.getFields(), "necessarilyNullableField").getValue(this);
 			Assert.fail();
 		} catch (ReflectionUIError e) {
-			Assert.assertTrue(
-					e.toString().contains(HiddenNullableFacetsInfoProxyGenerator.class.getSimpleName()));
+			Assert.assertTrue(e.toString().contains(HiddenNullableFacetsInfoProxyGenerator.class.getSimpleName()));
 		}
 	}
 

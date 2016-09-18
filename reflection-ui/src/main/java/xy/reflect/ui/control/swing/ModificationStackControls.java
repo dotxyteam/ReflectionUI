@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.swing.JButton;
 
-import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
@@ -24,9 +23,9 @@ public class ModificationStackControls {
 		this.modificationStack = modificationStack;
 	}
 
-	protected JButton createButton(final ReflectionUI reflectionUI, String label, final Runnable action,
+	protected JButton createButton(final SwingRenderer swingRenderer, String label, final Runnable action,
 			final Accessor<Boolean> enabled, final Accessor<String> tooltipText) {
-		final JButton result = new JButton(reflectionUI.prepareStringToDisplay(label)) {
+		final JButton result = new JButton(swingRenderer.prepareStringToDisplay(label)) {
 
 			protected static final long serialVersionUID = 1L;
 			IModificationListener listener = new IModificationListener() {
@@ -50,7 +49,7 @@ public class ModificationStackControls {
 			protected void updateState() {
 				setEnabled(enabled.get());
 				SwingRendererUtils.setMultilineToolTipText(this,
-						reflectionUI.prepareStringToDisplay(reflectionUI.prepareStringToDisplay(tooltipText.get())));
+						swingRenderer.prepareStringToDisplay(tooltipText.get()));
 			}
 
 		};
@@ -60,7 +59,7 @@ public class ModificationStackControls {
 				try {
 					action.run();
 				} catch (Throwable t) {
-					new SwingRenderer(reflectionUI).handleExceptionsFromDisplayedUI(result, t);
+					swingRenderer.handleExceptionsFromDisplayedUI(result, t);
 				}
 			}
 		});
@@ -68,15 +67,15 @@ public class ModificationStackControls {
 		return result;
 	}
 
-	public List<Component> createControls(ReflectionUI reflectionUI) {
+	public List<Component> createControls(SwingRenderer swingRenderer) {
 		List<Component> result = new ArrayList<Component>();
-		result.add(createUndoButton(reflectionUI));
-		result.add(createRedoButton(reflectionUI));
-		result.add(createResetButton(reflectionUI));
+		result.add(createUndoButton(swingRenderer));
+		result.add(createRedoButton(swingRenderer));
+		result.add(createResetButton(swingRenderer));
 		return result;
 	}
 
-	protected Component createRedoButton(final ReflectionUI reflectionUI) {
+	protected Component createRedoButton(final SwingRenderer swingRenderer) {
 		Runnable action = new Runnable() {
 			@Override
 			public void run() {
@@ -99,11 +98,11 @@ public class ModificationStackControls {
 				}
 			}
 		};
-		JButton button = createButton(reflectionUI, "Redo", action, enabled, tooltipText);
+		JButton button = createButton(swingRenderer, "Redo", action, enabled, tooltipText);
 		return button;
 	}
 
-	protected Component createResetButton(final ReflectionUI reflectionUI) {
+	protected Component createResetButton(final SwingRenderer swingRenderer) {
 		Runnable action = new Runnable() {
 			@Override
 			public void run() {
@@ -122,11 +121,11 @@ public class ModificationStackControls {
 				return null;
 			}
 		};
-		JButton button = createButton(reflectionUI, "Reset", action, enabled, tooltipText);
+		JButton button = createButton(swingRenderer, "Reset", action, enabled, tooltipText);
 		return button;
 	}
 
-	protected Component createUndoButton(final ReflectionUI reflectionUI) {
+	protected Component createUndoButton(final SwingRenderer swingRenderer) {
 		Runnable action = new Runnable() {
 			@Override
 			public void run() {
@@ -149,7 +148,7 @@ public class ModificationStackControls {
 				}
 			}
 		};
-		JButton button = createButton(reflectionUI, "Undo", action, enabled, tooltipText);
+		JButton button = createButton(swingRenderer, "Undo", action, enabled, tooltipText);
 		return button;
 	}
 

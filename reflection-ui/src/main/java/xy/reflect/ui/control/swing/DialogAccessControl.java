@@ -155,7 +155,7 @@ public class DialogAccessControl extends JPanel {
 		};
 		ModificationStack parentStack = SwingRendererUtils.findModificationStack(DialogAccessControl.this,
 				swingRenderer);
-		String title = swingRenderer.getReflectionUI().getFieldTitle(object, field);
+		String title = swingRenderer.getObjectTitle(valueAccessor.get());
 		Image iconImage = swingRenderer.getObjectIconImage(valueAccessor.get());
 		if (swingRenderer.openObjectDialogAndGetUpdateStatus(this, valueAccessor, field.isGetOnly(), title, iconImage, parentStack)) {
 			updateControls();

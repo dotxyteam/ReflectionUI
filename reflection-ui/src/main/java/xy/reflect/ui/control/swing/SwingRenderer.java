@@ -52,6 +52,7 @@ import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.field.MultipleFieldAsListInfo.MultipleFieldAsListItem;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
@@ -62,6 +63,7 @@ import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.iterable.map.StandardMapEntry;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.ArrayAsEnumerationTypeInfo;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
@@ -86,16 +88,7 @@ import xy.reflect.ui.util.component.WrapLayout;
 @SuppressWarnings("unused")
 public class SwingRenderer {
 
-	public static final SwingRenderer DEFAULT;
-	static {
-		if (SystemProperties.areDefaultInfoCustomizationsActive()
-				&& SystemProperties.areDefaultInfoCustomizationsEditable()) {
-			DEFAULT = new SwingCustomizer(ReflectionUI.DEFAULT, InfoCustomizations.DEFAULT,
-					SystemProperties.getDefaultInfoCustomizationsFilePath());
-		} else {
-			DEFAULT = new SwingRenderer(ReflectionUI.DEFAULT);
-		}
-	}
+	public static final SwingRenderer DEFAULT = createDefault();
 
 	protected ReflectionUI reflectionUI;
 	protected Map<JPanel, Object> objectByForm = new MapMaker().weakKeys().makeMap();
@@ -114,6 +107,16 @@ public class SwingRenderer {
 
 	public SwingRenderer(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
+	}
+
+	protected static SwingRenderer createDefault() {
+		if (SystemProperties.areDefaultInfoCustomizationsActive()
+				&& SystemProperties.areDefaultInfoCustomizationsEditable()) {
+			return new SwingCustomizer(ReflectionUI.DEFAULT, InfoCustomizations.DEFAULT,
+					SystemProperties.getDefaultInfoCustomizationsFilePath());
+		} else {
+			return new SwingRenderer(ReflectionUI.DEFAULT);
+		}
 	}
 
 	public ReflectionUI getReflectionUI() {
@@ -148,6 +151,44 @@ public class SwingRenderer {
 		return methodControlPlaceHoldersByCategoryByForm;
 	}
 
+	public void logError(Throwable t) {
+		t.printStackTrace();
+	}
+
+	public String prepareStringToDisplay(String string) {
+		return string;
+	}
+
+	public String getObjectTitle(Object object) {
+		if (object == null) {
+			return "(Missing Value)";
+		}
+		if (object instanceof MultipleFieldAsListItem) {
+			return ((MultipleFieldAsListItem) object).toString();
+		}
+		if (object instanceof StandardMapEntry<?, ?>) {
+			Object key = ((StandardMapEntry<?, ?>) object).getKey();
+			if (key == null) {
+				return "";
+			} else {
+				return reflectionUI.toString(key);
+			}
+		}
+		return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object)).getCaption();
+	}
+
+
+	public String getMethodTitle(Object object, IMethodInfo method, String context) {
+		String result = method.getCaption();
+		if (object != null) {
+			result = ReflectionUIUtils.composeTitle(getObjectTitle(object), result);
+		}
+		if (context != null) {
+			result = ReflectionUIUtils.composeTitle(result, context);
+		}
+		return result;
+	}
+	
 	public void adjustWindowBounds(Window window) {
 		Rectangle bounds = window.getBounds();
 		Rectangle maxBounds = ReflectionUIUtils.getMaximumWindowBounds(window);
@@ -213,7 +254,7 @@ public class SwingRenderer {
 			if (stack == null) {
 				return null;
 			}
-			result.addAll(new ModificationStackControls(stack).createControls(reflectionUI));
+			result.addAll(new ModificationStackControls(stack).createControls(this));
 		}
 		return result;
 	}
@@ -221,7 +262,7 @@ public class SwingRenderer {
 	public JDialog createDialog(Component ownerComponent, Component content, String title, Image iconImage,
 			List<? extends Component> toolbarControls, final Runnable whenClosing) {
 		Window owner = SwingRendererUtils.getWindowAncestorOrSelf(ownerComponent);
-		JDialog dialog = new JDialog(owner, reflectionUI.prepareStringToDisplay(title)) {
+		JDialog dialog = new JDialog(owner, prepareStringToDisplay(title)) {
 			protected static final long serialVersionUID = 1L;
 			protected boolean disposed = false;
 
@@ -247,7 +288,7 @@ public class SwingRenderer {
 	}
 
 	public JButton createDialogClosingButton(String caption, final Runnable action, final JDialog[] dialogHolder) {
-		final JButton result = new JButton(reflectionUI.prepareStringToDisplay(caption));
+		final JButton result = new JButton(prepareStringToDisplay(caption));
 		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -355,7 +396,7 @@ public class SwingRenderer {
 			}
 
 			JPanel tab = new JPanel();
-			tabbedPane.addTab(reflectionUI.prepareStringToDisplay(category.getCaption()), tab);
+			tabbedPane.addTab(prepareStringToDisplay(category.getCaption()), tab);
 			tab.setLayout(new BorderLayout());
 
 			JPanel tabContent = new JPanel();
@@ -370,7 +411,7 @@ public class SwingRenderer {
 	}
 
 	public JPanel createObjectForm(final Object object, IInfoCollectionSettings settings) {
-		final ModificationStack modifStack = new ModificationStack(reflectionUI.getObjectTitle(object));
+		final ModificationStack modifStack = new ModificationStack(getObjectTitle(object));
 		JPanel result = new JPanel() {
 
 			private static final long serialVersionUID = 1L;
@@ -536,7 +577,7 @@ public class SwingRenderer {
 		result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
 		result.setContentAreaFilled(false);
 		result.setFocusable(false);
-		SwingRendererUtils.setMultilineToolTipText(result, reflectionUI.prepareStringToDisplay(onlineHelp));
+		SwingRendererUtils.setMultilineToolTipText(result, prepareStringToDisplay(onlineHelp));
 		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -837,7 +878,7 @@ public class SwingRenderer {
 	}
 
 	public void handleExceptionsFromDisplayedUI(Component activatorComponent, final Throwable t) {
-		reflectionUI.logError(t);
+		logError(t);
 		openErrorDialog(activatorComponent, "An Error Occured", t);
 	}
 
@@ -897,7 +938,8 @@ public class SwingRenderer {
 			@Override
 			public Object invoke(Object object, InvocationData invocationData) {
 				JPanel form = SwingRendererUtils.findForm(methodControlPlaceHolder, SwingRenderer.this);
-				return SwingRendererUtils.invokeMethodAndAllowToUndo(object, method, invocationData, form, SwingRenderer.this);
+				return SwingRendererUtils.invokeMethodAndAllowToUndo(object, method, invocationData, form,
+						SwingRenderer.this);
 			}
 
 		};
@@ -928,7 +970,7 @@ public class SwingRenderer {
 						throw new ReflectionUIError(t);
 					}
 				}
-			}, reflectionUI.getMethodTitle(object, method, null, "Execution"));
+			}, getMethodTitle(object, method, "Execution"));
 			if (shouldDisplayReturnValue && !exceptionThrownHoler[0]) {
 				openMethodReturnValueWindow(activatorComponent, object, method, returnValueToDisplay[0]);
 			}
@@ -1056,7 +1098,7 @@ public class SwingRenderer {
 				return smallerConstructor.invoke(null, new InvocationData());
 			} else {
 				IMethodInfo chosenContructor = openSelectionDialog(activatorComponent, constructors, null,
-						reflectionUI.prepareStringToDisplay("Choose an option:"), null);
+						prepareStringToDisplay("Choose an option:"), null);
 				if (chosenContructor == null) {
 					return null;
 				}
@@ -1083,7 +1125,7 @@ public class SwingRenderer {
 		JDialog[] dialogHolder = new JDialog[1];
 
 		List<Component> buttons = new ArrayList<Component>();
-		final JButton deatilsButton = new JButton(reflectionUI.prepareStringToDisplay("Details"));
+		final JButton deatilsButton = new JButton(prepareStringToDisplay("Details"));
 		deatilsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1106,9 +1148,9 @@ public class SwingRenderer {
 			Object returnValue) {
 		if (returnValue == null) {
 			String msg = "No data returned!";
-			openMessageDialog(activatorComponent, msg, reflectionUI.getMethodTitle(object, method, null, "Result"));
+			openMessageDialog(activatorComponent, msg, getMethodTitle(object, method, "Result"));
 		} else {
-			openObjectFrame(returnValue, reflectionUI.getMethodTitle(object, method, returnValue, "Execution Result"));
+			openObjectFrame(returnValue, getMethodTitle(object, method, "Execution Result"));
 		}
 	}
 
@@ -1154,7 +1196,7 @@ public class SwingRenderer {
 								throw new ReflectionUIError(t);
 							}
 						}
-					}, reflectionUI.getMethodTitle(object, method, null, "Execution"));
+					}, getMethodTitle(object, method, "Execution"));
 					if (shouldDisplayReturnValue) {
 						if (!exceptionThrownHolder[0]) {
 							openMethodReturnValueWindow(activatorComponent, object, method, returnValueToDisplay[0]);
@@ -1179,7 +1221,7 @@ public class SwingRenderer {
 			toolbarControls.add(closeButton);
 		}
 		methodDialogHolder[0] = createDialog(activatorComponent, methodForm,
-				reflectionUI.getMethodTitle(object, method, null, "Setting"), null, toolbarControls, null);
+				getMethodTitle(object, method, "Setting"), null, toolbarControls, null);
 		showDialog(methodDialogHolder[0], true);
 		if (shouldDisplayReturnValue) {
 			return true;
@@ -1191,7 +1233,7 @@ public class SwingRenderer {
 	public boolean openObjectDialogAndGetUpdateStatus(Component activatorComponent, Accessor<Object> valueAccessor,
 			boolean isGetOnly, ModificationStack parentStack) {
 		Image iconImage = getObjectIconImage(valueAccessor.get());
-		String title = reflectionUI.getObjectTitle(valueAccessor.get());
+		String title = getObjectTitle(valueAccessor.get());
 		return openObjectDialogAndGetUpdateStatus(activatorComponent, valueAccessor, isGetOnly, title, iconImage,
 				parentStack);
 	}
@@ -1212,12 +1254,12 @@ public class SwingRenderer {
 	}
 
 	public boolean openObjectDialogAndGetConfirmation(Component activatorComponent, Object object, boolean modal) {
-		return openObjectDialogAndGetConfirmation(activatorComponent, object, reflectionUI.getObjectTitle(object),
+		return openObjectDialogAndGetConfirmation(activatorComponent, object, getObjectTitle(object),
 				getObjectIconImage(object), modal);
 	}
 
 	public void openObjectDialog(Component activatorComponent, Object object, boolean modal) {
-		openObjectDialog(activatorComponent, object, reflectionUI.getObjectTitle(object), getObjectIconImage(object),
+		openObjectDialog(activatorComponent, object, getObjectTitle(object), getObjectIconImage(object),
 				modal);
 	}
 
@@ -1356,7 +1398,7 @@ public class SwingRenderer {
 	}
 
 	public void openObjectFrame(Object object) {
-		openObjectFrame(object, reflectionUI.getObjectTitle(object), getObjectIconImage(object));
+		openObjectFrame(object, getObjectTitle(object), getObjectIconImage(object));
 	}
 
 	public JFrame createObjectFrame(Object object, String title, Image iconImage) {
@@ -1665,7 +1707,7 @@ public class SwingRenderer {
 	}
 
 	public Component createSeparateCaptionControl(String caption) {
-		return new JLabel(reflectionUI.prepareStringToDisplay(caption + ": "));
+		return new JLabel(prepareStringToDisplay(caption + ": "));
 	}
 
 	public void validateForm(JPanel form) {

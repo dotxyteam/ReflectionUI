@@ -3,6 +3,7 @@
   <minimumSecondsToWaitBetwneenActions>1</minimumSecondsToWaitBetwneenActions>
   <testActions>
     <xy.ui.testing.action.CallMainMethodAction>
+      <arguments/>
       <checkThrownExceptionAfterSeconds>2</checkThrownExceptionAfterSeconds>
       <className>xy.reflect.ui.ReflectionUI</className>
     </xy.ui.testing.action.CallMainMethodAction>
@@ -198,9 +199,7 @@
       <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>Point - Move - Setting</string>
-        <string>X (Int): </string>
         <string>3</string>
-        <string>Y (Int): </string>
         <string>4</string>
         <string>Move</string>
         <string>Cancel</string>
@@ -261,7 +260,6 @@
       <completenessChecked>false</completenessChecked>
       <orderChecked>false</orderChecked>
       <visibleStrings>
-        <string>Point - Location - Point</string>
         <string>X: </string>
         <string>3</string>
         <string>Y: </string>
@@ -335,7 +333,6 @@
       <completenessChecked>false</completenessChecked>
       <orderChecked>false</orderChecked>
       <visibleStrings>
-        <string>Error Details</string>
         <string>Localized Message: </string>
         <string>Missing Value Error</string>
         <string>Message: </string>

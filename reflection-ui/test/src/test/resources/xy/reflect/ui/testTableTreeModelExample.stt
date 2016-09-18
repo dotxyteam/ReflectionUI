@@ -72,7 +72,6 @@
       <completenessChecked>false</completenessChecked>
       <orderChecked>false</orderChecked>
       <visibleStrings>
-        <string>Products - Item</string>
         <string>Name: </string>
         <string>b1</string>
         <string>Price: </string>
@@ -222,7 +221,7 @@
         <propertyValueList>
           <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
             <propertyName>Tool Tip Text</propertyName>
-            <propertyValueExpected>&lt;HTML&gt;Insert Product Before ...&lt;br/&gt;or&lt;br/&gt;Insert Product After ...&lt;/HTML&gt;</propertyValueExpected>
+            <propertyValueExpected>&lt;HTML&gt;Add Child Product...&lt;br/&gt;or&lt;br/&gt;Insert Product Before ...&lt;br/&gt;or&lt;br/&gt;Insert Product After ...&lt;/HTML&gt;</propertyValueExpected>
             <outer-class reference="../../.."/>
           </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
         </propertyValueList>

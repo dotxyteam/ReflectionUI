@@ -38,7 +38,8 @@ public class TextControl extends JPanel implements IFieldControl {
 		setLayout(new BorderLayout());
 
 		textComponent = createTextComponent();
-
+		updateTextComponent();
+		
 		JScrollPane scrollPane = new JScrollPane(textComponent) {
 
 			protected static final long serialVersionUID = 1L;
@@ -82,7 +83,6 @@ public class TextControl extends JPanel implements IFieldControl {
 				}
 			});
 		}
-		refreshUI();
 	}
 
 	protected JTextArea createTextComponent() {
@@ -102,6 +102,18 @@ public class TextControl extends JPanel implements IFieldControl {
 		};
 	}
 
+	protected void updateTextComponent() {
+		ignoreEditEvents = true;
+		String newText = (String) field.getValue(object);
+		if (!ReflectionUIUtils.equalsOrBothNull(textComponent.getText(), newText)) {
+			int lastCaretPosition = textComponent.getCaretPosition();
+			textComponent.setText(newText);
+			swingRenderer.handleComponentSizeChange(this);
+			textComponent.setCaretPosition(Math.min(lastCaretPosition, textComponent.getText().length()));
+		}
+		ignoreEditEvents = false;
+	}
+
 	public static String toText(Object object) {
 		return object.toString();
 	}
@@ -118,7 +130,7 @@ public class TextControl extends JPanel implements IFieldControl {
 			return true;
 		}
 		if (error != null) {
-			swingRenderer.getReflectionUI().logError(error);
+			swingRenderer.logError(error);
 		}
 		if (error == null) {
 			setBorder(textFieldNormalBorder);
@@ -130,7 +142,7 @@ public class TextControl extends JPanel implements IFieldControl {
 			border.setBorder(BorderFactory.createLineBorder(Color.RED));
 			setBorder(border);
 			SwingRendererUtils.setMultilineToolTipText(textComponent,
-					swingRenderer.getReflectionUI().prepareStringToDisplay(error.toString()));
+					swingRenderer.prepareStringToDisplay(error.toString()));
 			SwingRendererUtils.showTooltipNow(textComponent);
 		}
 		return true;
@@ -151,15 +163,7 @@ public class TextControl extends JPanel implements IFieldControl {
 
 	@Override
 	public boolean refreshUI() {
-		ignoreEditEvents = true;
-		String newText = (String) field.getValue(object);
-		if (!ReflectionUIUtils.equalsOrBothNull(textComponent.getText(), newText)) {
-			int lastCaretPosition = textComponent.getCaretPosition();
-			textComponent.setText(newText);
-			swingRenderer.handleComponentSizeChange(this);
-			textComponent.setCaretPosition(Math.min(lastCaretPosition, textComponent.getText().length()));
-		}
-		ignoreEditEvents = false;
+		updateTextComponent();
 		displayError(null);
 		swingRenderer.handleComponentSizeChange(this);
 		return true;

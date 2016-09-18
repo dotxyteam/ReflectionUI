@@ -28,7 +28,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
-import xy.reflect.ui.info.type.iterable.structure.column.DefaultListStructuralInfo;
+import xy.reflect.ui.info.type.iterable.structure.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.InfoProxyGenerator;

@@ -1,3 +1,7 @@
+- update ScreenShots
+- update Example
+- Fix all the tests
+- Add ctor ReflectionUI(TypeInfoProxyGenerator... proxyGenerators)
 - add concept IFieldInfo.isValueCopy()
 - Cannot insert sub item into MultipleFieldAsList item
 - MultipleFieldAsList with only 1 item???

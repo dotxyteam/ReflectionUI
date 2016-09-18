@@ -1,6 +1,54 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <infoCustomizations>
     <listStructures>
+        <columnsCustomizations>
+            <columnName>className</columnName>
+            <hidden>false</hidden>
+        </columnsCustomizations>
+        <columnsCustomizations>
+            <columnName>fileName</columnName>
+            <hidden>false</hidden>
+        </columnsCustomizations>
+        <columnsCustomizations>
+            <columnName>lineNumber</columnName>
+            <hidden>false</hidden>
+        </columnsCustomizations>
+        <columnsCustomizations>
+            <columnName>methodName</columnName>
+            <hidden>false</hidden>
+        </columnsCustomizations>
+        <columnsCustomizations>
+            <columnName>nativeMethod</columnName>
+            <hidden>false</hidden>
+        </columnsCustomizations>
+        <columnsCustomizations>
+            <columnName>toStringValue</columnName>
+            <hidden>true</hidden>
+        </columnsCustomizations>
+        <fieldColumnsAdded>true</fieldColumnsAdded>
+        <itemCreationDisabled>false</itemCreationDisabled>
+        <itemDeletionDisabled>false</itemDeletionDisabled>
+        <itemTypeColumnAdded>false</itemTypeColumnAdded>
+        <itemTypeName>java.lang.StackTraceElement</itemTypeName>
+        <listTypeName>[Ljava.lang.StackTraceElement;</listTypeName>
+        <positionColumnAdded>false</positionColumnAdded>
+        <stringValueColumnAdded>false</stringValueColumnAdded>
+    </listStructures>
+    <listStructures>
+        <columnsCustomizations>
+            <columnName>toStringValue</columnName>
+            <hidden>false</hidden>
+        </columnsCustomizations>
+        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <itemCreationDisabled>false</itemCreationDisabled>
+        <itemDeletionDisabled>false</itemDeletionDisabled>
+        <itemTypeColumnAdded>false</itemTypeColumnAdded>
+        <itemTypeName>java.lang.Throwable</itemTypeName>
+        <listTypeName>[Ljava.lang.Throwable;</listTypeName>
+        <positionColumnAdded>false</positionColumnAdded>
+        <stringValueColumnAdded>false</stringValueColumnAdded>
+    </listStructures>
+    <listStructures>
         <columnsCustomOrder>typeName</columnsCustomOrder>
         <columnsCustomOrder>name</columnsCustomOrder>
         <columnsCustomOrder>description</columnsCustomOrder>
@@ -79,6 +127,24 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <typeName>VirtualFieldWrapperTypeInfo(Choose an option:)</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>VirtualFieldWrapperTypeInfo(Create 'Object' of type)</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
         <typeName>VirtualFieldWrapperTypeInfo(Create 'Product' of type)</typeName>
     </typeCustomizations>
     <typeCustomizations>
@@ -91,19 +157,335 @@
         <typeName>VirtualFieldWrapperTypeInfo(Message)</typeName>
     </typeCustomizations>
     <typeCustomizations>
+        <typeName>[Ljava.lang.StackTraceElement;</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>[Ljava.lang.Throwable;</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
         <typeName>[Lxy.reflect.ui.TableTreeModelExample$Product;</typeName>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>boolean</typeName>
     </typeCustomizations>
     <typeCustomizations>
+        <typeName>double</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
         <typeName>int</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>location</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>x</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>y</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>double distance(double, double)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>px</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>py</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>double distance(double, double, double, double)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>x1</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>y1</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>x2</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>y2</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>double distance(java.awt.geom.Point2D)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>pt</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>double distanceSq(double, double)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>px</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>py</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>double distanceSq(double, double, double, double)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>x1</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>y1</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>x2</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>y2</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>double distanceSq(java.awt.geom.Point2D)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>pt</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>java.awt.Point Point()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>java.awt.Point Point(int, int)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>x</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>y</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>java.awt.Point Point(java.awt.Point)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>p</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>java.lang.Object clone()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void move(int, int)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>x</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>y</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void setLocation(double, double)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>x</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>y</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void setLocation(int, int)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>x</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>y</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void setLocation(java.awt.geom.Point2D)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>p</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void translate(int, int)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>dx</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>dy</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <typeName>java.awt.Point</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>java.awt.geom.Point2D</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>java.io.PrintStream</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>java.io.PrintWriter</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>java.lang.Boolean</typeName>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>java.lang.Integer</typeName>
     </typeCustomizations>
     <typeCustomizations>
+        <typeName>java.lang.Object</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>className</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>fileName</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>lineNumber</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>methodName</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>nativeMethod</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>java.lang.StackTraceElement</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
         <typeName>java.lang.String</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>cause</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>localizedMessage</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>message</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>stackTrace</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>suppressed</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>java.lang.Throwable</typeName>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>java.util.List</typeName>
@@ -332,5 +714,91 @@
             <readOnlyForced>false</readOnlyForced>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.TableTreeModelExample$Shoes</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>xy.reflect.ui.info.type.util.InfoProxyGenerator$GeneratedMethodInfoProxy</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>cause</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>localizedMessage</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>message</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>stackTrace</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>suppressed</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>java.lang.Throwable fillInStackTrace()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>java.lang.Throwable initCause(java.lang.Throwable)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>cause</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void addSuppressed(java.lang.Throwable)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void printStackTrace()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void printStackTrace(java.io.PrintStream)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>s</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void printStackTrace(java.io.PrintWriter)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>s</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <typeName>xy.reflect.ui.util.ReflectionUIError</typeName>
     </typeCustomizations>
 </infoCustomizations>

@@ -4,8 +4,10 @@ import java.util.Collections;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 
+@SuppressWarnings("unused")
 public class TypeNameColumnInfo implements IColumnInfo {
 
 	protected ReflectionUI reflectionUI;
@@ -18,7 +20,7 @@ public class TypeNameColumnInfo implements IColumnInfo {
 	@Override
 	public String getCellValue(ItemPosition itemPosition) {
 		Object item = itemPosition.getItem();
-		return reflectionUI.getObjectTitle(item);
+		return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item)).getCaption();
 	}
 
 	@Override

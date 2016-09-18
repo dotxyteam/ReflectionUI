@@ -13,10 +13,14 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.util.InfoCustomizations;
+import xy.reflect.ui.info.type.util.InfoCustomizations.ListStructureCustomization;
+import xy.reflect.ui.info.type.util.InfoCustomizations.TreeStructureDiscoverySettings;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class TestIterableTypeInfos {
+public class TestIterableTypeInfos  extends AbstractTest{
 
 	public abstract class AbstractItem {
 		public int abstractValue;
@@ -50,11 +54,24 @@ public class TestIterableTypeInfos {
 
 	@Test
 	public void test() {
-		ReflectionUI reflectionUI = new ReflectionUI();
+		final InfoCustomizations customizations = new InfoCustomizations();
+		ReflectionUI reflectionUI = new ReflectionUI() {
+			@Override
+			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
+				return customizations.get(this, super.getTypeInfo(typeSource));
+			}
+		};
 		ITypeInfo typeInfo = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(this));
 
 		IFieldInfo itemListInfo = ReflectionUIUtils.findInfoByName(typeInfo.getFields(), "itemList");
 		IListTypeInfo itemListTypeInfo = (IListTypeInfo) itemListInfo.getType();
+		ListStructureCustomization itemListTypeCustomization = customizations
+				.getListStructureCustomization(itemListTypeInfo.getName(), itemListTypeInfo.getItemType().getName());
+		itemListTypeCustomization.setFieldColumnsAdded(true);
+		itemListTypeCustomization.setItemTypeColumnAdded(true);
+		TreeStructureDiscoverySettings treeSettings = new TreeStructureDiscoverySettings();
+		itemListTypeCustomization.setTreeStructureDiscoverySettings(treeSettings);
+		treeSettings.setHeterogeneousTree(false);
 
 		Object[] itemLisRawValue = itemListTypeInfo.toArray(itemListInfo.getValue(this));
 		Assert.assertArrayEquals(itemLisRawValue, itemList.toArray());

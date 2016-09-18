@@ -9,7 +9,7 @@
 		<dependency>
 			<groupId>com.github.dotxyteam</groupId>
 			<artifactId>reflection-ui</artifactId>
-			<version>3.0.0</version>
+			<version>3.0.0-alpha</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.dotxyteam</groupId>

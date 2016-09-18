@@ -28,6 +28,13 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 	}
 
 	@Override
+	public String getName() {
+		String keyTypeName = (keyJavaType == null) ? Object.class.getName() : keyJavaType.getName();
+		String valueTypeName = (valueJavaType == null) ? Object.class.getName() : valueJavaType.getName();
+		return StandardMapEntry.class.getName() + "<" + keyTypeName + "," + valueTypeName + ">";
+	}
+
+	@Override
 	public String getCaption() {
 		return "Entry";
 	}
@@ -115,7 +122,7 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 							if (value != null) {
 								valueField.setValue(result, value);
 							}
-						}						
+						}
 						reflectionUI.registerPrecomputedTypeInfoObject(result, StandardMapEntryTypeInfo.this);
 						return result;
 					}

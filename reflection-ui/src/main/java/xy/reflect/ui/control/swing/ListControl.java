@@ -320,7 +320,7 @@ public class ListControl extends JPanel implements IFieldControl {
 
 			@Override
 			public String getColumnName(int column) {
-				return swingRenderer.getReflectionUI().prepareStringToDisplay(getColumnCaption(column));
+				return swingRenderer.prepareStringToDisplay(getColumnCaption(column));
 			}
 
 		};
@@ -1409,7 +1409,7 @@ public class ListControl extends JPanel implements IFieldControl {
 	}
 
 	protected AbstractAction createSpecificAction(final AbstractListAction action) {
-		return new AbstractAction(swingRenderer.getReflectionUI().prepareStringToDisplay(action.getCaption())) {
+		return new AbstractAction(swingRenderer.prepareStringToDisplay(action.getCaption())) {
 			protected static final long serialVersionUID = 1L;
 
 			@Override
@@ -1580,7 +1580,7 @@ public class ListControl extends JPanel implements IFieldControl {
 			}
 
 		};
-		String title = ReflectionUIUtils.composeTitle(itemPosition.getContainingListField().getCaption(), "Item");
+		String title = swingRenderer.getObjectTitle(valueHolder[0]);
 		Image iconImage = swingRenderer.getObjectIconImage(valueHolder[0]);
 		IInfoCollectionSettings settings = getStructuralInfo().getItemInfoSettings(itemPosition);
 		boolean isGetOnly = itemPosition.getContainingListField().isGetOnly();
@@ -1841,7 +1841,7 @@ public class ListControl extends JPanel implements IFieldControl {
 
 		@Override
 		public String getTitle() {
-			return "Edit '" + listField.getCaption() + "' of '" + reflectionUI.getObjectTitle(listOwner) + "'";
+			return "Edit '" + listField.getCaption() + "' of '" + swingRenderer.getObjectTitle(listOwner) + "'";
 		}
 
 		public Object getLastListValue() {
@@ -1894,7 +1894,7 @@ public class ListControl extends JPanel implements IFieldControl {
 
 		@Override
 		public String getTitle() {
-			return "Edit '" + listField.getCaption() + "' of '" + reflectionUI.getObjectTitle(listOwner) + "'";
+			return "Edit '" + listField.getCaption() + "' of '" + swingRenderer.getObjectTitle(listOwner) + "'";
 		}
 
 	}
@@ -2101,7 +2101,7 @@ public class ListControl extends JPanel implements IFieldControl {
 			if ((text == null) || (text.length() == 0)) {
 				label.setText(" ");
 			} else {
-				label.setText(swingRenderer.getReflectionUI().prepareStringToDisplay(text));
+				label.setText(swingRenderer.prepareStringToDisplay(text));
 			}
 
 			Image imageIcon = getCellIconImage(node, columnIndex);
@@ -2128,7 +2128,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		@Override
 		public Object getValue(String key) {
 			if (Action.NAME.equals(key)) {
-				return swingRenderer.getReflectionUI().prepareStringToDisplay(getTitle());
+				return swingRenderer.prepareStringToDisplay(getTitle());
 			} else {
 				return super.getValue(key);
 			}

@@ -3,6 +3,7 @@
   <minimumSecondsToWaitBetwneenActions>1</minimumSecondsToWaitBetwneenActions>
   <testActions>
     <xy.ui.testing.action.CallMainMethodAction>
+      <arguments/>
       <checkThrownExceptionAfterSeconds>2</checkThrownExceptionAfterSeconds>
       <className>xy.reflect.ui.ReflectionUI</className>
     </xy.ui.testing.action.CallMainMethodAction>
@@ -178,7 +179,6 @@
       <completenessChecked>false</completenessChecked>
       <orderChecked>false</orderChecked>
       <visibleStrings>
-        <string>Error Details</string>
         <string>Localized Message: </string>
         <string>Illegal Thread State Error</string>
         <string>Message: </string>
