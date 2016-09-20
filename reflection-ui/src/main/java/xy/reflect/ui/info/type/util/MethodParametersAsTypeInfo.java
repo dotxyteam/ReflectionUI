@@ -87,7 +87,7 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 
 			@Override
 			public void setValue(Object object, Object value) {
-				InstanceInfo instance = (InstanceInfo) object;
+				Instance instance = (Instance) object;
 				instance.invocationData.setparameterValue(param, value);
 			}
 
@@ -98,7 +98,7 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 
 			@Override
 			public Object getValue(Object object) {
-				InstanceInfo instance = (InstanceInfo) object;
+				Instance instance = (Instance) object;
 				return instance.invocationData.getParameterValue(param);
 			}
 
@@ -161,7 +161,7 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 
 	@Override
 	public String toString(Object object) {
-		InstanceInfo instance = (InstanceInfo) object;
+		Instance instance = (Instance) object;
 		return method.toString() + "\n<= invoked with: " + instance.invocationData.toString();
 	}
 
@@ -169,12 +169,12 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 
 	@Override
 	public boolean supportsInstance(Object object) {
-		return object instanceof InstanceInfo;
+		return object instanceof Instance;
 	}
 
 	@Override
 	public void validate(Object object) throws Exception {
-		InstanceInfo instance = (InstanceInfo) object;
+		Instance instance = (Instance) object;
 		method.validateParameters(instance.methodOwner, instance.invocationData);
 	}
 
@@ -183,18 +183,18 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 		return Collections.emptyMap();
 	}
 
-	public InstanceInfo getInstance(Object object, InvocationData invocationData) {
-		InstanceInfo result = new MethodParametersAsTypeInfo.InstanceInfo(object, invocationData);
+	public Instance getInstance(Object object, InvocationData invocationData) {
+		Instance result = new MethodParametersAsTypeInfo.Instance(object, invocationData);
 		reflectionUI.registerPrecomputedTypeInfoObject(
 				result, this);
 		return result;
 	}
 
-	protected static class InstanceInfo {
+	protected static class Instance {
 		protected Object methodOwner;
 		protected InvocationData invocationData;
 
-		public InstanceInfo(Object methodowner, InvocationData invocationData) {
+		public Instance(Object methodowner, InvocationData invocationData) {
 			super();
 			this.methodOwner = methodowner;
 			this.invocationData = invocationData;

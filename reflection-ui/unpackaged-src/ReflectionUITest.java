@@ -31,6 +31,7 @@ import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.util.InfoCustomizations;
 import xy.reflect.ui.info.type.util.InfoProxyGenerator;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.AbstractMethodUndoModification;
@@ -76,6 +77,11 @@ public class ReflectionUITest {
 		@OnlineHelp("returns the mathematic PI constant value'")
 		public double getPI() {
 			return Math.PI;
+		}
+		
+		@OnlineHelp("returns the mathematic PI constant value'")
+		public String getExceptionneableInfo() throws Exception{
+			return "ExceptionneableInfo";
 		}
 
 		private int theInt = 50;
@@ -259,67 +265,6 @@ public class ReflectionUITest {
 	}
 
 	public static void main(String[] args) {
-		ReflectionUI editor = new ReflectionUI() {
-
-			ReflectionUI thisReflectionUI = this;
-
-			@Override
-			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-				return new InfoProxyGenerator() {
-
-					@Override
-					public List<ITypeInfo> getPolymorphicInstanceSubTypes(ITypeInfo type) {
-						if (type.getName().equals(Exception.class.getName())) {
-							return Arrays.asList(getTypeInfo(new JavaTypeInfoSource(ParseException.class)),
-									getTypeInfo(new JavaTypeInfoSource(GSSException.class)));
-						} else if (type.getName().equals(AbstrcatTestDescendant.class.getName())) {
-							return Arrays.asList(getTypeInfo(new JavaTypeInfoSource(Test2.class)),
-									getTypeInfo(new JavaTypeInfoSource(Test3.class)));
-						} else {
-							return super.getPolymorphicInstanceSubTypes(type);
-						}
-					}
-
-					@Override
-					protected IModification getUndoModification(final IMethodInfo method, ITypeInfo containingType,
-							final Object object, final InvocationData invocationData) {
-						if (method.getName().equals("incrementTheInt")) {
-							return new AbstractMethodUndoModification(object, method, invocationData) {
-								@Override
-								protected void revertMethod() {
-									Test test = (Test) object;
-									test.theInt--;
-								}
-							};
-						} else if (method.getName().equals("multiplyTheFloat")) {
-							return new AbstractMethodUndoModification(object, method, invocationData) {
-								@Override
-								protected void revertMethod() {
-									Test test = (Test) object;
-									test.theFloat /= (Integer) invocationData
-											.getParameterValue(method.getParameters().get(0));
-								}
-							};
-						} else {
-							return super.getUndoModification(method, containingType, object, invocationData);
-						}
-					}
-
-				}.get(super.getTypeInfo(typeSource));
-			}
-		};
-		SwingRenderer renderer = new SwingRenderer(editor) {
-			@Override
-			public Image getObjectIconImage(Object object) {
-				try {
-					return ImageIO.read(ReflectionUITest.class.getResource("icon.gif"));
-				} catch (IOException e) {
-					throw new AssertionError(e);
-				}
-			}
-
-		};
-	
-		renderer.openObjectFrame(new Test(), "test", null);
+		SwingRenderer.DEFAULT.openObjectFrame(new Test(), "test", null);
 	}
 }

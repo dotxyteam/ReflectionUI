@@ -74,7 +74,7 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 
 			@Override
 			public void setValue(Object object, Object value) {
-				InstanceInfo instance = (InstanceInfo) object;
+				Instance instance = (Instance) object;
 				instance.setValue(value);
 			}
 
@@ -90,7 +90,7 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 
 			@Override
 			public Object getValue(Object object) {
-				InstanceInfo instance = (InstanceInfo) object;
+				Instance instance = (Instance) object;
 				return instance.getValue();
 			}
 
@@ -114,7 +114,7 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 
 	@Override
 	public boolean supportsInstance(Object object) {
-		return object instanceof InstanceInfo;
+		return object instanceof Instance;
 	}
 
 	@Override
@@ -124,13 +124,13 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 
 	@Override
 	public String toString(Object object) {
-		InstanceInfo instance = (InstanceInfo) object;
+		Instance instance = (Instance) object;
 		return reflectionUI.toString(instance.getValue());
 	}
 
 	@Override
 	public void validate(Object object) throws Exception {
-		InstanceInfo instance = (InstanceInfo) object;
+		Instance instance = (Instance) object;
 		fieldType.validate(instance.getValue());
 	}
 
@@ -138,7 +138,7 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 		if (!fieldType.supportsInstance(fieldValueHolder[0])) {
 			throw new ReflectionUIError();
 		}
-		InstanceInfo result = new InstanceInfo(fieldValueHolder);
+		Instance result = new Instance(fieldValueHolder);
 		reflectionUI.registerPrecomputedTypeInfoObject(result, this);
 		return result;
 	}
@@ -196,10 +196,10 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 		return wrapperType.getInstance(fieldValueHolder);
 	}
 
-	protected static class InstanceInfo {
+	protected static class Instance {
 		protected Object[] fieldValueHolder;
 
-		public InstanceInfo(Object[] fieldValueHolder) {
+		public Instance(Object[] fieldValueHolder) {
 			super();
 			this.fieldValueHolder = fieldValueHolder;
 		}
@@ -237,7 +237,7 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			InstanceInfo other = (InstanceInfo) obj;
+			Instance other = (Instance) obj;
 			if (!Arrays.equals(fieldValueHolder, other.fieldValueHolder))
 				return false;
 			return true;

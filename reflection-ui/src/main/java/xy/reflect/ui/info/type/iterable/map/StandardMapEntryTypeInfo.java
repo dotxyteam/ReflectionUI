@@ -27,6 +27,10 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 		this.valueJavaType = valueJavaType;
 	}
 
+	public static boolean isCompatibleWith(Class<?> javaType) {
+		return javaType.equals(StandardMapEntry.class);
+	}
+
 	@Override
 	public String getName() {
 		String keyTypeName = (keyJavaType == null) ? Object.class.getName() : keyJavaType.getName();

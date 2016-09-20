@@ -52,7 +52,7 @@ import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.MultipleFieldAsListInfo.MultipleFieldAsListItem;
+import xy.reflect.ui.info.field.MultipleFieldAsOne.ListItem;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
@@ -163,32 +163,9 @@ public class SwingRenderer {
 		if (object == null) {
 			return "(Missing Value)";
 		}
-		if (object instanceof MultipleFieldAsListItem) {
-			return ((MultipleFieldAsListItem) object).toString();
-		}
-		if (object instanceof StandardMapEntry<?, ?>) {
-			Object key = ((StandardMapEntry<?, ?>) object).getKey();
-			if (key == null) {
-				return "";
-			} else {
-				return reflectionUI.toString(key);
-			}
-		}
 		return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object)).getCaption();
 	}
 
-
-	public String getMethodTitle(Object object, IMethodInfo method, String context) {
-		String result = method.getCaption();
-		if (object != null) {
-			result = ReflectionUIUtils.composeTitle(getObjectTitle(object), result);
-		}
-		if (context != null) {
-			result = ReflectionUIUtils.composeTitle(result, context);
-		}
-		return result;
-	}
-	
 	public void adjustWindowBounds(Window window) {
 		Rectangle bounds = window.getBounds();
 		Rectangle maxBounds = ReflectionUIUtils.getMaximumWindowBounds(window);
@@ -230,26 +207,31 @@ public class SwingRenderer {
 				result.add(createOnlineHelpControl(type.getOnlineHelp()));
 			}
 		}
-		boolean addModificationStackControls = false;
+		boolean editable = false;
 		{
 			for (IFieldInfo field : getDisplayedFields(form)) {
-				if (addModificationStackControls) {
+				if (editable) {
 					break;
 				}
 				if (!field.isGetOnly()) {
-					addModificationStackControls = true;
+					editable = true;
 				}
 			}
 			for (IMethodInfo method : getDisplayedMethods(form)) {
-				if (addModificationStackControls) {
+				if (editable) {
 					break;
 				}
 				if (!method.isReadOnly()) {
-					addModificationStackControls = true;
+					editable = true;
 				}
 			}
 		}
-		if (addModificationStackControls) {
+		boolean undoManagementHidden = false;
+		if (object != null) {
+			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+			undoManagementHidden = SwingSpecificProperty.isUndoManagementHidden(SwingSpecificProperty.accessInfoProperties(type));
+		}
+		if (editable && (!undoManagementHidden)) {
 			final ModificationStack stack = getModificationStackByForm().get(form);
 			if (stack == null) {
 				return null;
@@ -523,7 +505,7 @@ public class SwingRenderer {
 		if (customFieldControl != null) {
 			return customFieldControl;
 		} else {
-			if (Boolean.TRUE.equals(field.getSpecificProperties().get(SwingSpecificProperty.CREATE_EMBEDDED_FORM))) {
+			if (SwingSpecificProperty.isSubFormExpanded(SwingSpecificProperty.accessInfoProperties(field))) {
 				return new EmbeddedFormControl(this, object, field);
 			} else {
 				return new DialogAccessControl(this, object, field);
@@ -970,7 +952,7 @@ public class SwingRenderer {
 						throw new ReflectionUIError(t);
 					}
 				}
-			}, getMethodTitle(object, method, "Execution"));
+			}, ReflectionUIUtils.composeTitle(method.getCaption(), "Execution"));
 			if (shouldDisplayReturnValue && !exceptionThrownHoler[0]) {
 				openMethodReturnValueWindow(activatorComponent, object, method, returnValueToDisplay[0]);
 			}
@@ -1002,12 +984,9 @@ public class SwingRenderer {
 									public Map<String, Object> getSpecificProperties() {
 										Map<String, Object> result = new HashMap<String, Object>(
 												baseValueInfo.getSpecificProperties());
-										result.put(SwingSpecificProperty.KEY_ICON_IMAGE_PATH,
-												polyTypesItem.getSpecificProperties()
-														.get(SwingSpecificProperty.KEY_ICON_IMAGE_PATH));
-										result.put(SwingSpecificProperty.KEY_ICON_IMAGE_PATH_KIND,
-												polyTypesItem.getSpecificProperties()
-														.get(SwingSpecificProperty.KEY_ICON_IMAGE_PATH_KIND));
+										Image iconImage = SwingSpecificProperty.getIconImage(
+												SwingSpecificProperty.accessInfoProperties(polyTypesItem));
+										SwingSpecificProperty.setIconImage(result, iconImage);
 										return result;
 									}
 
@@ -1148,9 +1127,9 @@ public class SwingRenderer {
 			Object returnValue) {
 		if (returnValue == null) {
 			String msg = "No data returned!";
-			openMessageDialog(activatorComponent, msg, getMethodTitle(object, method, "Result"));
+			openMessageDialog(activatorComponent, msg, "Result");
 		} else {
-			openObjectFrame(returnValue, getMethodTitle(object, method, "Execution Result"));
+			openObjectFrame(returnValue);
 		}
 	}
 
@@ -1196,7 +1175,7 @@ public class SwingRenderer {
 								throw new ReflectionUIError(t);
 							}
 						}
-					}, getMethodTitle(object, method, "Execution"));
+					}, ReflectionUIUtils.composeTitle(method.getCaption(), "Execution"));
 					if (shouldDisplayReturnValue) {
 						if (!exceptionThrownHolder[0]) {
 							openMethodReturnValueWindow(activatorComponent, object, method, returnValueToDisplay[0]);
@@ -1221,7 +1200,7 @@ public class SwingRenderer {
 			toolbarControls.add(closeButton);
 		}
 		methodDialogHolder[0] = createDialog(activatorComponent, methodForm,
-				getMethodTitle(object, method, "Setting"), null, toolbarControls, null);
+				ReflectionUIUtils.composeTitle(method.getCaption(), "Setup"), null, toolbarControls, null);
 		showDialog(methodDialogHolder[0], true);
 		if (shouldDisplayReturnValue) {
 			return true;
@@ -1259,8 +1238,7 @@ public class SwingRenderer {
 	}
 
 	public void openObjectDialog(Component activatorComponent, Object object, boolean modal) {
-		openObjectDialog(activatorComponent, object, getObjectTitle(object), getObjectIconImage(object),
-				modal);
+		openObjectDialog(activatorComponent, object, getObjectTitle(object), getObjectIconImage(object), modal);
 	}
 
 	public void openObjectDialog(Component activatorComponent, Object object, final String title, Image iconImage,
@@ -1435,9 +1413,9 @@ public class SwingRenderer {
 				return new IEnumerationItemInfo() {
 					@Override
 					public Map<String, Object> getSpecificProperties() {
-						Map<String, Object> result = new HashMap<String, Object>();
-						result.put(SwingSpecificProperty.KEY_ICON_IMAGE, iconImages.get(object));
-						return result;
+						Map<String, Object> properties = new HashMap<String, Object>();
+						SwingSpecificProperty.setIconImage(properties, iconImages.get(object));
+						return properties;
 					}
 
 					@Override
@@ -1873,24 +1851,6 @@ public class SwingRenderer {
 				methodControl.requestFocus();
 			}
 		}
-
-	}
-
-	public static class SwingSpecificProperty {
-		public static final String KEY_ICON_IMAGE = SwingSpecificProperty.class.getSimpleName() + ".KEY_ICON_IMAGE";
-		public static final String KEY_ICON_IMAGE_PATH = SwingSpecificProperty.class.getSimpleName()
-				+ ".KEY_ICON_IMAGE_PATH";
-		public static final String KEY_ICON_IMAGE_PATH_KIND = SwingSpecificProperty.class.getSimpleName()
-				+ ".KEY_ICON_IMAGE_PATH_KIND";
-		public static final String CREATE_EMBEDDED_FORM = SwingSpecificProperty.class.getSimpleName()
-				+ ".CREATE_EMBEDDED_FORM";
-
-		public static final String VALUE_PATH_TYPE_KIND_ABSOLUTE_FILE = SwingSpecificProperty.class.getSimpleName()
-				+ ".VALUE_PATH_TYPE_KIND_ABSOLUTE_FILE";
-		public static final String VALUE_PATH_TYPE_KIND_RELATIVE_FILE = SwingSpecificProperty.class.getSimpleName()
-				+ ".VALUE_PATH_TYPE_KIND_RELATIVE_FILE";
-		public static final String VALUE_PATH_TYPE_KIND_CLASSPATH_RESOURCE = SwingSpecificProperty.class.getSimpleName()
-				+ ".VALUE_PATH_TYPE_KIND_CLASSPATH_RESOURCE";
 
 	}
 }

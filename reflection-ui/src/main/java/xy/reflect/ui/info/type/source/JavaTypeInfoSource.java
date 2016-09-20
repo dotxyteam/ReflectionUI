@@ -7,10 +7,17 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 	protected Class<?> javaType;
 	protected Member typedMember;
 	protected int parameterPosition;
+	protected Class<?>[] genericTypeParameters;
 
 	public JavaTypeInfoSource(Class<?> javaType) {
-		this(javaType, null);
+		this.javaType = javaType;
 	}
+	
+	public JavaTypeInfoSource(Class<?> javaType, Class<?>... genericTypeParameters) {
+		this.javaType = javaType;
+		this.genericTypeParameters = genericTypeParameters;
+	}
+	
 	
 	public JavaTypeInfoSource(Class<?> javaType, Member typedMember) {
 		this(javaType, typedMember, -1);
@@ -34,6 +41,14 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 
 	public int getParameterPosition() {
 		return parameterPosition;
+	}
+
+	public Class<?>[] getGenericTypeParameters() {
+		return genericTypeParameters;
+	}
+
+	public void setGenericTypeParameters(Class<?>[] genericTypeParameters) {
+		this.genericTypeParameters = genericTypeParameters;
 	}
 
 	@Override

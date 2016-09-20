@@ -1235,6 +1235,7 @@
         <customFieldsOrder>typeName</customFieldsOrder>
         <customFieldsOrder>customTypeCaption</customFieldsOrder>
         <customFieldsOrder>iconImageFile</customFieldsOrder>
+        <customFieldsOrder>unoManagementHidden</customFieldsOrder>
         <customFieldsOrder>onlineHelp</customFieldsOrder>
         <customFieldsOrder>memberCategories</customFieldsOrder>
         <customFieldsOrder>polymorphicSubTypeFinders</customFieldsOrder>
@@ -1332,6 +1333,12 @@
             <hidden>false</hidden>
             <fieldName>typeName</fieldName>
             <getOnlyForced>true</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>unoManagementHidden</fieldName>
+            <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <memberCategories>

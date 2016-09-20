@@ -26,7 +26,6 @@ import javax.swing.SwingUtilities;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.SwingRenderer.MethodControlPlaceHolder;
-import xy.reflect.ui.control.swing.SwingRenderer.SwingSpecificProperty;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -221,6 +220,7 @@ public class SwingCustomizer extends SwingRenderer {
 							if (type.getName().equals(TypeCustomization.class.getName())) {
 								List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
 								result.add(getTypeIconImageFileField());
+								result.add(getUnoManagementHiddenField());
 								return result;
 							} else if (type.getName().equals(FieldCustomization.class.getName())) {
 								List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
@@ -231,6 +231,7 @@ public class SwingCustomizer extends SwingRenderer {
 							}
 						}
 
+						
 					}.get(result);
 					result = customizationToolsCustomizations.get(thisReflectionUI, result);
 					return result;
@@ -270,27 +271,19 @@ public class SwingCustomizer extends SwingRenderer {
 				@Override
 				public Object getValue(Object object) {
 					FieldCustomization f = (FieldCustomization) object;
-					Map<String, Object> properties = f.getSpecificProperties();
-					if (properties == null) {
-						return false;
-					}
-					return Boolean.TRUE.equals(properties.get(SwingSpecificProperty.CREATE_EMBEDDED_FORM));
-				}
-
-				@Override
-				public Object[] getValueOptions(Object object) {
-					return null;
+					return SwingSpecificProperty
+							.isSubFormExpanded(SwingSpecificProperty.accessCustomizationsProperties(f));
 				}
 
 				@Override
 				public void setValue(Object object, Object value) {
 					FieldCustomization f = (FieldCustomization) object;
-					Map<String, Object> properties = f.getSpecificProperties();
-					if (properties == null) {
-						properties = new HashMap<String, Object>();
-						f.setSpecificProperties(properties);
-					}
-					properties.put(SwingSpecificProperty.CREATE_EMBEDDED_FORM, true);
+					SwingSpecificProperty.setSubFormExpanded(SwingSpecificProperty.accessCustomizationsProperties(f), (Boolean)value);
+				}
+
+				@Override
+				public Object[] getValueOptions(Object object) {
+					return null;
 				}
 
 				@Override
@@ -313,6 +306,75 @@ public class SwingCustomizer extends SwingRenderer {
 					return getCaption();
 				}
 
+			};
+		}
+
+		protected IFieldInfo getUnoManagementHiddenField() {
+			return new IFieldInfo() {
+
+				@Override
+				public String getName() {
+					return "unoManagementHidden";
+				}
+
+				@Override
+				public String getCaption() {
+					return "Hide Undo/Redo Buttons";
+				}
+
+				@Override
+				public String getOnlineHelp() {
+					return null;
+				}
+
+				@Override
+				public Map<String, Object> getSpecificProperties() {
+					return Collections.emptyMap();
+				}
+
+				@Override
+				public ITypeInfo getType() {
+					return new BooleanTypeInfo(customizationToolsRenderer.getReflectionUI(), boolean.class);
+				}
+
+				@Override
+				public Object getValue(Object object) {
+					TypeCustomization t = (TypeCustomization) object;
+					return SwingSpecificProperty
+							.isUndoManagementHidden(SwingSpecificProperty.accessCustomizationsProperties(t));
+				}
+
+				@Override
+				public Object[] getValueOptions(Object object) {
+					return null;
+				}
+
+				@Override
+				public void setValue(Object object, Object value) {
+					TypeCustomization t = (TypeCustomization) object;
+					SwingSpecificProperty.setUndoManagementHidden(SwingSpecificProperty.accessCustomizationsProperties(t), (Boolean)value);
+				}
+
+				
+				@Override
+				public boolean isNullable() {
+					return false;
+				}
+
+				@Override
+				public boolean isGetOnly() {
+					return false;
+				}
+
+				@Override
+				public InfoCategory getCategory() {
+					return null;
+				}
+
+				@Override
+				public String toString() {
+					return getCaption();
+				}
 			};
 		}
 
@@ -347,24 +409,8 @@ public class SwingCustomizer extends SwingRenderer {
 				@Override
 				public Object getValue(Object object) {
 					TypeCustomization t = (TypeCustomization) object;
-					Map<String, Object> properties = t.getSpecificProperties();
-					if (properties == null) {
-						return new File("");
-					}
-					String filePath = (String) properties.get(SwingRenderer.SwingSpecificProperty.KEY_ICON_IMAGE_PATH);
-					if (filePath == null) {
-						return new File("");
-					}
-					String filePathKind = (String) properties
-							.get(SwingRenderer.SwingSpecificProperty.KEY_ICON_IMAGE_PATH_KIND);
-					if (SwingSpecificProperty.VALUE_PATH_TYPE_KIND_CLASSPATH_RESOURCE.equals(filePathKind)) {
-						filePath = getClassPathResourcePrefix() + filePath;
-					}
-					return new File(filePath);
-				}
-
-				private String getClassPathResourcePrefix() {
-					return "<class-path-resource> ";
+					return SwingSpecificProperty
+							.getIconImageFile(SwingSpecificProperty.accessCustomizationsProperties(t));
 				}
 
 				@Override
@@ -375,86 +421,10 @@ public class SwingCustomizer extends SwingRenderer {
 				@Override
 				public void setValue(Object object, Object value) {
 					TypeCustomization t = (TypeCustomization) object;
-					File file = (File) value;
-					String filePath = file.getPath();
-					if (file == null) {
-						filePath = null;
-					} else {
-						if (filePath.length() == 0) {
-							filePath = null;
-						}
-					}
-					String filePathKind = null;
-					if (filePath != null) {
-						if (filePath.startsWith(getClassPathResourcePrefix())) {
-							filePath = filePath.substring(getClassPathResourcePrefix().length());
-							filePathKind = SwingSpecificProperty.VALUE_PATH_TYPE_KIND_CLASSPATH_RESOURCE;
-						} else {
-							List<PathKindOption> pathKindOptions = getPathKindOptions(filePath);
-							PathKindOption chosenPathKindOption;
-							if (pathKindOptions.size() == 1) {
-								chosenPathKindOption = pathKindOptions.get(0);
-							} else {
-								chosenPathKindOption = customizationToolsRenderer.openSelectionDialog(null,
-										pathKindOptions, null, "Choose an option",
-										customizationToolsRenderer.getObjectTitle(t));
-								if (chosenPathKindOption == null) {
-									return;
-								}
-							}
-							filePath = chosenPathKindOption.path;
-							filePathKind = chosenPathKindOption.pathKind;
-						}
-					}
-					Map<String, Object> properties = t.getSpecificProperties();
-					if (properties == null) {
-						properties = new HashMap<String, Object>();
-						t.setSpecificProperties(properties);
-					}
-					properties.put(SwingRenderer.SwingSpecificProperty.KEY_ICON_IMAGE_PATH, filePath);
-					properties.put(SwingRenderer.SwingSpecificProperty.KEY_ICON_IMAGE_PATH_KIND, filePathKind);
+					SwingSpecificProperty.setIconImageFile(SwingSpecificProperty.accessCustomizationsProperties(t), (File)value);
 				}
 
-				private List<PathKindOption> getPathKindOptions(String filePath) {
-					List<PathKindOption> result = new ArrayList<PathKindOption>();
-					File file = new File(filePath);
-					{
-						File candidateResourceFile = new File(file.getAbsoluteFile().getPath());
-						while (true) {
-							File mostAncestorFile = candidateResourceFile.getParentFile();
-							if (mostAncestorFile == null) {
-								break;
-							}
-							while (mostAncestorFile.getParentFile() != null) {
-								mostAncestorFile = mostAncestorFile.getParentFile();
-							}
-							candidateResourceFile = FileUtils.relativizeFile(mostAncestorFile,
-									candidateResourceFile);
-							String candidateResourcePath = candidateResourceFile.getPath().replaceAll("\\\\", "/");
-							URL resourceURL = getClass().getClassLoader().getResource(candidateResourcePath);
-							if (resourceURL != null) {
-								result.add(new PathKindOption(
-										SwingSpecificProperty.VALUE_PATH_TYPE_KIND_CLASSPATH_RESOURCE,
-										candidateResourcePath));
-								break;
-							}
-						}
-					}
-					{
-						File currentDir = new File(".");
-						if (FileUtils.isAncestor(currentDir, file)) {
-							File relativeFile = FileUtils.relativizeFile(currentDir, file);
-							result.add(new PathKindOption(SwingSpecificProperty.VALUE_PATH_TYPE_KIND_RELATIVE_FILE,
-									relativeFile.getPath()));
-						}
-					}
-					{
-						result.add(new PathKindOption(SwingSpecificProperty.VALUE_PATH_TYPE_KIND_ABSOLUTE_FILE,
-								file.getAbsolutePath()));
-					}
-					return result;
-				}
-
+				
 				@Override
 				public boolean isNullable() {
 					return false;
@@ -474,38 +444,12 @@ public class SwingCustomizer extends SwingRenderer {
 				public String toString() {
 					return getCaption();
 				}
-
-				class PathKindOption {
-					String path;
-					String pathKind;
-
-					public PathKindOption(String pathKind, String path) {
-						super();
-						this.path = path;
-						this.pathKind = pathKind;
-					}
-
-					@Override
-					public String toString() {
-						if (SwingSpecificProperty.VALUE_PATH_TYPE_KIND_ABSOLUTE_FILE.equals(pathKind)) {
-							return "<absolute-file> " + path;
-						} else if (SwingSpecificProperty.VALUE_PATH_TYPE_KIND_RELATIVE_FILE.equals(pathKind)) {
-							return "<relative-file> " + path;
-						} else if (SwingSpecificProperty.VALUE_PATH_TYPE_KIND_CLASSPATH_RESOURCE.equals(pathKind)) {
-							return getClassPathResourcePrefix() + path;
-						} else {
-							return "<illegal-path-kind: " + pathKind + "> " + path;
-						}
-					}
-				}
-
 			};
 		}
 
 		protected void openInfoCustomizationsWindow(InfoCustomizations infoCustomizations) {
 			customizationToolsRenderer.openObjectFrame(infoCustomizations,
-					customizationToolsRenderer.getObjectTitle(infoCustomizations),
-					getCustomizationIcon().getImage());
+					customizationToolsRenderer.getObjectTitle(infoCustomizations), getCustomizationIcon().getImage());
 		}
 
 		protected JButton createSaveControl() {
@@ -527,8 +471,7 @@ public class SwingCustomizer extends SwingRenderer {
 		}
 
 		protected Component createTypeInfoCustomizer(final String typeName) {
-			final JButton result = new JButton(
-					customizationToolsRenderer.prepareStringToDisplay("Customizations..."),
+			final JButton result = new JButton(customizationToolsRenderer.prepareStringToDisplay("Customizations..."),
 					getCustomizationIcon());
 			result.setContentAreaFilled(false);
 			result.setFocusable(false);
@@ -537,8 +480,7 @@ public class SwingCustomizer extends SwingRenderer {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (customizationToolsRenderer.openObjectDialogAndGetConfirmation(result, t,
-							customizationToolsRenderer.getObjectTitle(t),
-							getCustomizationIcon().getImage(), true)) {
+							customizationToolsRenderer.getObjectTitle(t), getCustomizationIcon().getImage(), true)) {
 						SwingUtilities.invokeLater(new Runnable() {
 							@Override
 							public void run() {
@@ -556,8 +498,8 @@ public class SwingCustomizer extends SwingRenderer {
 			result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
 			result.setContentAreaFilled(false);
 			result.setFocusable(false);
-			SwingRendererUtils.setMultilineToolTipText(result, customizationToolsRenderer
-					.prepareStringToDisplay("Customize this field display"));
+			SwingRendererUtils.setMultilineToolTipText(result,
+					customizationToolsRenderer.prepareStringToDisplay("Customize this field display"));
 			result.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -608,14 +550,12 @@ public class SwingCustomizer extends SwingRenderer {
 						JMenu listSubMenu = new JMenu(prepareStringToDisplay("List Structure"));
 						{
 							popupMenu.add(listSubMenu);
-							listSubMenu.add(new AbstractAction(
-									prepareStringToDisplay("Move Columns...")) {
+							listSubMenu.add(new AbstractAction(prepareStringToDisplay("Move Columns...")) {
 								private static final long serialVersionUID = 1L;
 
 								@Override
 								public void actionPerformed(ActionEvent e) {
-									openListColumnsOrderDialog(result,
-											(IListTypeInfo) customizedField.getType());
+									openListColumnsOrderDialog(result, (IListTypeInfo) customizedField.getType());
 								}
 							});
 							listSubMenu.add(new AbstractAction(prepareStringToDisplay("More Options...")) {
@@ -732,8 +672,7 @@ public class SwingCustomizer extends SwingRenderer {
 			ListStructureCustomization lc = infoCustomizations
 					.getListStructureCustomization(customizedListType.getName(), itemTypeName, true);
 			if (customizationToolsRenderer.openObjectDialogAndGetConfirmation(activatorComponent, lc,
-					customizationToolsRenderer.getObjectTitle(lc), getCustomizationIcon().getImage(),
-					true)) {
+					customizationToolsRenderer.getObjectTitle(lc), getCustomizationIcon().getImage(), true)) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
@@ -748,8 +687,7 @@ public class SwingCustomizer extends SwingRenderer {
 			FieldCustomization fc = infoCustomizations.getFieldCustomization(customoizedType.getName(), fieldName,
 					true);
 			if (customizationToolsRenderer.openObjectDialogAndGetConfirmation(activatorComponent, fc,
-					customizationToolsRenderer.getObjectTitle(fc), getCustomizationIcon().getImage(),
-					true)) {
+					customizationToolsRenderer.getObjectTitle(fc), getCustomizationIcon().getImage(), true)) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
@@ -764,8 +702,7 @@ public class SwingCustomizer extends SwingRenderer {
 			MethodCustomization mc = infoCustomizations.getMethodCustomization(customizedType.getName(),
 					methodSignature, true);
 			if (customizationToolsRenderer.openObjectDialogAndGetConfirmation(activatorComponent, mc,
-					customizationToolsRenderer.getObjectTitle(mc), getCustomizationIcon().getImage(),
-					true)) {
+					customizationToolsRenderer.getObjectTitle(mc), getCustomizationIcon().getImage(), true)) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
@@ -780,8 +717,8 @@ public class SwingCustomizer extends SwingRenderer {
 			result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
 			result.setContentAreaFilled(false);
 			result.setFocusable(false);
-			SwingRendererUtils.setMultilineToolTipText(result, customizationToolsRenderer
-					.prepareStringToDisplay("Customize this method display"));
+			SwingRendererUtils.setMultilineToolTipText(result,
+					customizationToolsRenderer.prepareStringToDisplay("Customize this method display"));
 			result.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {

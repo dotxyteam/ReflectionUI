@@ -35,7 +35,7 @@ import javax.swing.ToolTipManager;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.SwingRenderer;
-import xy.reflect.ui.control.swing.SwingRenderer.SwingSpecificProperty;
+import xy.reflect.ui.control.swing.SwingSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -60,9 +60,7 @@ public class SwingRendererUtils {
 	public static final ImageIcon CUSTOMIZATION_ICON = new ImageIcon(
 			ReflectionUI.class.getResource("resource/custom.png"));
 	public static final ImageIcon SAVE_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/save.png"));
-	public static final Image NULL_ICON_IMAGE = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-	private static Map<String, Image> iconImageCache = new HashMap<String, Image>();
-
+	
 	public static void showTooltipNow(Component c) {
 		try {
 			Method showToolTipMehod = ToolTipManager.class.getDeclaredMethod("show",
@@ -270,43 +268,7 @@ public class SwingRendererUtils {
 	}
 
 	public static Image getIconImageFromInfo(IInfo info) {
-		Image result;
-		result = (Image) info.getSpecificProperties()
-				.get(SwingRenderer.SwingSpecificProperty.KEY_ICON_IMAGE);
-		if(result != null){
-			return result;
-		}
-		URL imageUrl;
-		String imagePath = (String) info.getSpecificProperties()
-				.get(SwingRenderer.SwingSpecificProperty.KEY_ICON_IMAGE_PATH);
-		String pathKind = (String) info.getSpecificProperties()
-				.get(SwingRenderer.SwingSpecificProperty.KEY_ICON_IMAGE_PATH_KIND);
-		if (imagePath == null) {
-			return null;
-		}
-		if (SwingSpecificProperty.VALUE_PATH_TYPE_KIND_CLASSPATH_RESOURCE.equals(pathKind)) {
-			imageUrl = SwingRendererUtils.class.getClassLoader().getResource(imagePath);
-		} else {
-			try {
-				imageUrl = new File(imagePath).toURI().toURL();
-			} catch (MalformedURLException e) {
-				throw new ReflectionUIError(e);
-			}
-		}
-		result = iconImageCache.get(imagePath);
-		if (result == null) {
-			try {
-				result = ImageIO.read(imageUrl);
-			} catch (IOException e) {
-				e.printStackTrace();
-				result = NULL_ICON_IMAGE;
-			}
-			iconImageCache.put(imagePath, result);
-		}
-		if (result == NULL_ICON_IMAGE) {
-			return null;
-		}
-		return result;
+		return SwingSpecificProperty.getIconImage(SwingSpecificProperty.accessInfoProperties(info));
 	}
 
 	public static Object invokeMethodAndAllowToUndo(Object object, IMethodInfo method, InvocationData invocationData, JPanel form, SwingRenderer swingRenderer) {

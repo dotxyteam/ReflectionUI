@@ -134,10 +134,10 @@ public class ListControl extends JPanel implements IFieldControl {
 			AbstractAction insertAction = createInsertAction(InsertPosition.UNKNOWN);
 			AbstractAction insertActionBefore = createInsertAction(InsertPosition.BEFORE);
 			AbstractAction insertActionAfter = createInsertAction(InsertPosition.AFTER);
-			toolbar.add(createTool(null, SwingRendererUtils.ADD_ICON, true, false, addChildAction, insertAction,
+			toolbar.add(createTool(null, SwingRendererUtils.ADD_ICON, false, false, addChildAction, insertAction,
 					insertActionBefore, insertActionAfter));
 
-			toolbar.add(createTool(null, SwingRendererUtils.REMOVE_ICON, true, false, createRemoveAction()));
+			toolbar.add(createTool(null, SwingRendererUtils.REMOVE_ICON, false, false, createRemoveAction()));
 
 			AbstractStandardListAction moveUpAction = createMoveAction(-1);
 			AbstractStandardListAction moveDownAction = createMoveAction(1);

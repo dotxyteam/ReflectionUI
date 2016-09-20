@@ -12,7 +12,7 @@ public class StandardMapEntry<K, V> {
 
 	@Override
 	public String toString() {
-		return "" + key + "";
+		return key + ": " + value;
 	}
 
 	public K getKey() {

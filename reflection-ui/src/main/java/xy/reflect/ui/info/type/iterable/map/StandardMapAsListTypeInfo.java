@@ -17,6 +17,7 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -42,7 +43,7 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 
 	@Override
 	public ITypeInfo getItemType() {
-		return new StandardMapEntryTypeInfo(reflectionUI, keyJavaType, valueJavaType);
+		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(StandardMapEntry.class, keyJavaType, valueJavaType));
 	}
 
 	@Override

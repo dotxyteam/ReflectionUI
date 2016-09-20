@@ -14,7 +14,7 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
-import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
+import xy.reflect.ui.info.type.iterable.structure.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
@@ -91,21 +91,21 @@ public class ImplicitListField implements IFieldInfo {
 	@Override
 	public IListTypeInfo getType() {
 		if (type == null) {
-			type = new ImplicitListFieldType();
+			type = new TypeInfo();
 		}
 		return type;
 	}
 
 	@Override
 	public Object getValue(Object object) {
-		Object result = new ImplicitListFieldValue(object);
-		reflectionUI.registerPrecomputedTypeInfoObject(result, new ImplicitListFieldType());
+		Object result = new Instance(object);
+		reflectionUI.registerPrecomputedTypeInfoObject(result, new TypeInfo());
 		return result;
 	}
 
 	@Override
 	public void setValue(Object object, Object value) {
-		ImplicitListFieldValue implicitListFieldValue = (ImplicitListFieldValue) value;
+		Instance implicitListFieldValue = (Instance) value;
 		if (!this.equals(implicitListFieldValue.getImplicitListField())) {
 			throw new ReflectionUIError();
 		}
@@ -212,11 +212,11 @@ public class ImplicitListField implements IFieldInfo {
 		return getCaption();
 	}
 
-	protected class ImplicitListFieldValue {
+	protected class Instance {
 		protected Object object;
 		protected Object[] array;
 
-		public ImplicitListFieldValue(Object object) {
+		public Instance(Object object) {
 			this.object = object;
 			array = buildArrayFromObject();
 		}
@@ -231,7 +231,7 @@ public class ImplicitListField implements IFieldInfo {
 			return result.toArray();
 		}
 
-		public ImplicitListFieldValue(Object[] precomputedArray) {
+		public Instance(Object[] precomputedArray) {
 			this.array = precomputedArray;
 		}
 
@@ -260,7 +260,7 @@ public class ImplicitListField implements IFieldInfo {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			ImplicitListFieldValue other = (ImplicitListFieldValue) obj;
+			Instance other = (Instance) obj;
 			if (!Arrays.equals(getArray(), other.getArray())) {
 				return false;
 			}
@@ -269,12 +269,12 @@ public class ImplicitListField implements IFieldInfo {
 
 		@Override
 		public String toString() {
-			return ImplicitListFieldValue.class.getSimpleName() + ": " + Arrays.toString(getArray());
+			return Instance.class.getSimpleName() + ": " + Arrays.toString(getArray());
 		}
 
 	}
 
-	protected class ImplicitListFieldType implements IListTypeInfo {
+	protected class TypeInfo implements IListTypeInfo {
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {
@@ -307,7 +307,7 @@ public class ImplicitListField implements IFieldInfo {
 
 		@Override
 		public boolean supportsInstance(Object object) {
-			return object instanceof ImplicitListFieldValue;
+			return object instanceof Instance;
 		}
 
 		@Override
@@ -337,7 +337,7 @@ public class ImplicitListField implements IFieldInfo {
 
 		@Override
 		public Object[] toArray(Object listValue) {
-			ImplicitListFieldValue implicitListFieldValue = (ImplicitListFieldValue) listValue;
+			Instance implicitListFieldValue = (Instance) listValue;
 			return implicitListFieldValue.getArray();
 
 		}
@@ -349,13 +349,13 @@ public class ImplicitListField implements IFieldInfo {
 
 		@Override
 		public void replaceContent(Object listValue, Object[] array) {
-			ImplicitListFieldValue implicitListFieldValue = (ImplicitListFieldValue) listValue;
+			Instance implicitListFieldValue = (Instance) listValue;
 			implicitListFieldValue.array = array;
 		}
 
 		@Override
 		public Object fromArray(Object[] array) {
-			return new ImplicitListFieldValue(array);
+			return new Instance(array);
 		}
 
 		@Override
@@ -380,14 +380,7 @@ public class ImplicitListField implements IFieldInfo {
 
 		@Override
 		public IListStructuralInfo getStructuralInfo() {
-			return new StandardCollectionTypeInfo(reflectionUI, List.class, Object.class) {
-
-				@Override
-				public ITypeInfo getItemType() {
-					return ImplicitListField.this.getType().getItemType();
-				}
-
-			}.getStructuralInfo();
+			return new DefaultListStructuralInfo(reflectionUI);
 		}
 
 		@Override
@@ -404,7 +397,7 @@ public class ImplicitListField implements IFieldInfo {
 		@Override
 		public List<IMethodInfo> getObjectSpecificItemConstructors(final Object object, IFieldInfo field) {
 			return Collections.<IMethodInfo> singletonList(
-					new AbstractConstructorMethodInfo(ImplicitListFieldType.this.getItemType()) {
+					new AbstractConstructorMethodInfo(TypeInfo.this.getItemType()) {
 
 						@Override
 						public Object invoke(Object nullObject, InvocationData invocationData) {
@@ -432,7 +425,7 @@ public class ImplicitListField implements IFieldInfo {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			ImplicitListFieldType other = (ImplicitListFieldType) obj;
+			TypeInfo other = (TypeInfo) obj;
 			if (!getImplicitListField().equals(other.getImplicitListField()))
 				return false;
 			return true;

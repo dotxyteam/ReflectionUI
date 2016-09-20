@@ -9,39 +9,43 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.util.InfoProxyGenerator;
 import xy.reflect.ui.util.ReflectionUIError;
 
-public class MultipleFieldAsListInfo implements IFieldInfo {
+@SuppressWarnings("unused")
+public class MultipleFieldAsOne implements IFieldInfo {
 
 	protected List<IFieldInfo> listFieldInfos;
 	protected ReflectionUI reflectionUI;
 
-	public MultipleFieldAsListInfo(ReflectionUI reflectionUI, List<IFieldInfo> listFieldInfos) {
+	public MultipleFieldAsOne(ReflectionUI reflectionUI, List<IFieldInfo> listFieldInfos) {
 		this.reflectionUI = reflectionUI;
 		this.listFieldInfos = listFieldInfos;
 	}
 
 	@Override
 	public ITypeInfo getType() {
-		return new StandardCollectionTypeInfo(reflectionUI, List.class, MultipleFieldAsListItem.class){
+		return new InfoProxyGenerator() {
 
 			@Override
-			public boolean canAdd() {
+			protected boolean canAdd(IListTypeInfo type) {
 				return false;
 			}
 
 			@Override
-			public boolean canRemove() {
+			protected boolean canRemove(IListTypeInfo type) {
 				return false;
 			}
-			
-		};
+
+		}.get(reflectionUI.getTypeInfo(new JavaTypeInfoSource(List.class)));
 	}
 
 	@Override
 	public String getCaption() {
-		StringBuilder result = new StringBuilder(MultipleFieldAsListInfo.class.getSimpleName());
+		StringBuilder result = new StringBuilder(MultipleFieldAsOne.class.getSimpleName());
 		result.append("(");
 		int i = 0;
 		for (IFieldInfo field : listFieldInfos) {
@@ -57,9 +61,10 @@ public class MultipleFieldAsListInfo implements IFieldInfo {
 
 	@Override
 	public Object getValue(Object object) {
-		List<MultipleFieldAsListItem> result = new ArrayList<MultipleFieldAsListItem>();
+		List<ListItem> result = new ArrayList<ListItem>();
 		for (IFieldInfo listFieldInfo : listFieldInfos) {
-			MultipleFieldAsListItem item = new MultipleFieldAsListItem(object, listFieldInfo);
+			ListItem item = new ListItem(object, listFieldInfo);
+			reflectionUI.registerPrecomputedTypeInfoObject(item, new ListItemTypeInfo(reflectionUI, item));
 			result.add(item);
 		}
 		return result;
@@ -97,8 +102,8 @@ public class MultipleFieldAsListInfo implements IFieldInfo {
 
 	@Override
 	public String getName() {
-		StringBuilder result = new StringBuilder(MultipleFieldAsListInfo.class.getSimpleName());
-		result.append(MultipleFieldAsListInfo.class.getSimpleName() + "(");
+		StringBuilder result = new StringBuilder(MultipleFieldAsOne.class.getSimpleName());
+		result.append(MultipleFieldAsOne.class.getSimpleName() + "(");
 		int i = 0;
 		for (IFieldInfo field : listFieldInfos) {
 			if (i > 0) {
@@ -127,7 +132,7 @@ public class MultipleFieldAsListInfo implements IFieldInfo {
 		if (!getClass().equals(obj.getClass())) {
 			return false;
 		}
-		return listFieldInfos.equals(((MultipleFieldAsListInfo) obj).listFieldInfos);
+		return listFieldInfos.equals(((MultipleFieldAsOne) obj).listFieldInfos);
 	}
 
 	@Override
@@ -140,12 +145,12 @@ public class MultipleFieldAsListInfo implements IFieldInfo {
 		return Collections.emptyMap();
 	}
 
-	public static class MultipleFieldAsListItem {
+	public static class ListItem {
 
 		protected Object object;
 		protected IFieldInfo wrappedFieldInfo;
 
-		public MultipleFieldAsListItem(Object object, IFieldInfo wrappedListFieldInfo) {
+		public ListItem(Object object, IFieldInfo wrappedListFieldInfo) {
 			this.object = object;
 			this.wrappedFieldInfo = wrappedListFieldInfo;
 		}
@@ -156,7 +161,7 @@ public class MultipleFieldAsListInfo implements IFieldInfo {
 		}
 
 		public Object getValue() {
-			return wrappedFieldInfo.getValue(object);			
+			return wrappedFieldInfo.getValue(object);
 		}
 
 		public void setValue(Object listValue) {
@@ -180,7 +185,7 @@ public class MultipleFieldAsListInfo implements IFieldInfo {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			MultipleFieldAsListItem other = (MultipleFieldAsListItem) obj;
+			ListItem other = (ListItem) obj;
 			if (object == null) {
 				if (other.object != null)
 					return false;
@@ -193,17 +198,15 @@ public class MultipleFieldAsListInfo implements IFieldInfo {
 				return false;
 			return true;
 		}
-		
-		
 
 	}
 
-	public static class MultipleFieldAsListItemTypeInfo extends DefaultTypeInfo {
+	public static class ListItemTypeInfo extends DefaultTypeInfo {
 
-		protected MultipleFieldAsListItem item;
+		protected ListItem item;
 
-		public MultipleFieldAsListItemTypeInfo(ReflectionUI reflectionUI, MultipleFieldAsListItem item) {
-			super(reflectionUI, MultipleFieldAsListItem.class);
+		public ListItemTypeInfo(ReflectionUI reflectionUI, ListItem item) {
+			super(reflectionUI, ListItem.class);
 			this.item = item;
 		}
 
@@ -211,8 +214,8 @@ public class MultipleFieldAsListInfo implements IFieldInfo {
 		public String getCaption() {
 			return item.toString();
 		}
-		
-		public IFieldInfo getValueField(){
+
+		public IFieldInfo getValueField() {
 			return new FieldInfoProxy(super.getFields().get(0)) {
 				@Override
 				public ITypeInfo getType() {
@@ -242,7 +245,7 @@ public class MultipleFieldAsListInfo implements IFieldInfo {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			MultipleFieldAsListItemTypeInfo other = (MultipleFieldAsListItemTypeInfo) obj;
+			ListItemTypeInfo other = (ListItemTypeInfo) obj;
 			if (item == null) {
 				if (other.item != null)
 					return false;
@@ -250,7 +253,6 @@ public class MultipleFieldAsListInfo implements IFieldInfo {
 				return false;
 			return true;
 		}
-		
 
 	}
 

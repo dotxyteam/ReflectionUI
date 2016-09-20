@@ -13,8 +13,8 @@ import com.google.common.cache.CacheBuilder;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.MultipleFieldAsListInfo.MultipleFieldAsListItem;
-import xy.reflect.ui.info.field.MultipleFieldAsListInfo.MultipleFieldAsListItemTypeInfo;
+import xy.reflect.ui.info.field.MultipleFieldAsOne.ListItem;
+import xy.reflect.ui.info.field.MultipleFieldAsOne.ListItemTypeInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -27,6 +27,7 @@ import xy.reflect.ui.info.type.iterable.ArrayTypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.iterable.map.StandardMapAsListTypeInfo;
 import xy.reflect.ui.info.type.iterable.map.StandardMapEntry;
+import xy.reflect.ui.info.type.iterable.map.StandardMapEntryTypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
@@ -112,9 +113,6 @@ public class ReflectionUI {
 		ITypeInfo precomputedType = precomputedTypeInfoByObject.get(object);
 		if (precomputedType != null) {
 			return new PrecomputedTypeInfoSource(precomputedType);
-		} else if (object instanceof MultipleFieldAsListItem) {
-			return new PrecomputedTypeInfoSource(
-					new MultipleFieldAsListItemTypeInfo(this, (MultipleFieldAsListItem) object));
 		} else {
 			return new JavaTypeInfoSource(object.getClass());
 		}
@@ -135,6 +133,10 @@ public class ReflectionUI {
 					Class<?> keyType = ReflectionUIUtils.getJavaGenericTypeParameter(javaTypeSource, Map.class, 0);
 					Class<?> valueType = ReflectionUIUtils.getJavaGenericTypeParameter(javaTypeSource, Map.class, 1);
 					result = new StandardMapAsListTypeInfo(this, javaTypeSource.getJavaType(), keyType, valueType);
+				} else if (StandardMapEntryTypeInfo.isCompatibleWith(javaTypeSource.getJavaType())) {
+					Class<?> keyType = javaTypeSource.getGenericTypeParameters()[0];
+					Class<?> valueType = javaTypeSource.getGenericTypeParameters()[1];
+					result = new StandardMapEntryTypeInfo(this, keyType, valueType);
 				} else if (javaTypeSource.getJavaType().isArray()) {
 					Class<?> itemType = javaTypeSource.getJavaType().getComponentType();
 					result = new ArrayTypeInfo(this, javaTypeSource.getJavaType(), itemType);

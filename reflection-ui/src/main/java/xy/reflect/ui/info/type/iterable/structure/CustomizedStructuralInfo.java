@@ -10,9 +10,9 @@ import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.InfoCollectionSettingsProxy;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.MultipleFieldAsListInfo;
-import xy.reflect.ui.info.field.MultipleFieldAsListInfo.MultipleFieldAsListItem;
-import xy.reflect.ui.info.field.MultipleFieldAsListInfo.MultipleFieldAsListItemTypeInfo;
+import xy.reflect.ui.info.field.MultipleFieldAsOne;
+import xy.reflect.ui.info.field.MultipleFieldAsOne.ListItem;
+import xy.reflect.ui.info.field.MultipleFieldAsOne.ListItemTypeInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
@@ -62,15 +62,15 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 			return null;
 		} else if (candidateFields.size() == 1) {
 			IFieldInfo candidateField = candidateFields.get(0);
-			if (itemPosition.getItem() instanceof MultipleFieldAsListItem) {
+			if (itemPosition.getItem() instanceof ListItem) {
 				return candidateField;
 			} else if (displaysSubListFieldNameAsTreeNode(candidateField, itemPosition)) {
-				return new MultipleFieldAsListInfo(reflectionUI, Collections.singletonList(candidateField));
+				return new MultipleFieldAsOne(reflectionUI, Collections.singletonList(candidateField));
 			} else {
 				return candidateField;
 			}
 		} else {
-			return new MultipleFieldAsListInfo(reflectionUI, candidateFields);
+			return new MultipleFieldAsOne(reflectionUI, candidateFields);
 		}
 	}
 
@@ -78,15 +78,15 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
 		Object item = itemPosition.getItem();
 		ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
-		if (actualItemType instanceof MultipleFieldAsListItemTypeInfo) {
-			result.add(((MultipleFieldAsListItemTypeInfo) actualItemType).getValueField());
+		if (actualItemType instanceof ListItemTypeInfo) {
+			result.add(((ListItemTypeInfo) actualItemType).getValueField());
 		} else {
 			List<IFieldInfo> itemFields = actualItemType.getFields();
 			for (IFieldInfo field : itemFields) {
 				ITypeInfo fieldType = field.getType();
 				if (fieldType instanceof IListTypeInfo) {
 					ITypeInfo subListItemType = ((IListTypeInfo) fieldType).getItemType();
-					if (item instanceof MultipleFieldAsListItem) {
+					if (item instanceof ListItem) {
 						result.add(field);
 					} else if (isValidSubListNodeItemType(subListItemType)) {
 						result.add(field);
@@ -220,7 +220,7 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 		if (itemType instanceof IMapEntryTypeInfo) {
 			return false;
 		}
-		if (itemType instanceof MultipleFieldAsListItemTypeInfo) {
+		if (itemType instanceof ListItemTypeInfo) {
 			return false;
 		}
 		return !subListField.getName().equals(itemPosition.getContainingListField().getName());
