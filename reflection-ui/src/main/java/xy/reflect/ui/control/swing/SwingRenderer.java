@@ -226,12 +226,7 @@ public class SwingRenderer {
 				}
 			}
 		}
-		boolean undoManagementHidden = false;
-		if (object != null) {
-			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-			undoManagementHidden = SwingSpecificProperty.isUndoManagementHidden(SwingSpecificProperty.accessInfoProperties(type));
-		}
-		if (editable && (!undoManagementHidden)) {
+		if (editable) {
 			final ModificationStack stack = getModificationStackByForm().get(form);
 			if (stack == null) {
 				return null;

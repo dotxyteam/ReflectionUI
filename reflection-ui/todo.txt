@@ -1,5 +1,3 @@
-. Allow to remove undo/redo buttons
-. Compareable is used in Set operations
 . Item Method as list action???
 - update ScreenShots
 - update Example

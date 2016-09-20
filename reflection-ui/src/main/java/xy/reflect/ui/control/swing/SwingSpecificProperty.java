@@ -30,9 +30,6 @@ public class SwingSpecificProperty {
 			+ ".KEY_ICON_IMAGE_PATH_KIND";
 	private static final String CREATE_EMBEDDED_FORM = SwingSpecificProperty.class.getSimpleName()
 			+ ".CREATE_EMBEDDED_FORM";
-	private static final String HIDE_UNDO_MANAGEMENT_CONTROLS = SwingSpecificProperty.class.getSimpleName()
-			+ ".HIDE_UNDO_MANAGEMENT_CONTROLS";
-
 	private static final String VALUE_PATH_TYPE_KIND_ABSOLUTE_FILE = SwingSpecificProperty.class.getSimpleName()
 			+ ".VALUE_PATH_TYPE_KIND_ABSOLUTE_FILE";
 	private static final String VALUE_PATH_TYPE_KIND_RELATIVE_FILE = SwingSpecificProperty.class.getSimpleName()
@@ -88,14 +85,6 @@ public class SwingSpecificProperty {
 		properties.put(SwingSpecificProperty.CREATE_EMBEDDED_FORM, b);
 	}
 	
-	public static boolean isUndoManagementHidden(Map<String, Object> properties) {
-		return Boolean.TRUE.equals(properties.get(SwingSpecificProperty.HIDE_UNDO_MANAGEMENT_CONTROLS));
-	}
-
-	public static void setUndoManagementHidden(Map<String, Object> properties, boolean b) {
-		properties.put(SwingSpecificProperty.HIDE_UNDO_MANAGEMENT_CONTROLS, b);
-	}
-
 	public static File getIconImageFile(Map<String, Object> properties) {
 		String filePath = (String) properties.get(SwingSpecificProperty.KEY_ICON_IMAGE_PATH);
 		if (filePath == null) {

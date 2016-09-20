@@ -3,7 +3,10 @@ package xy.reflect.ui.control.swing;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,6 +37,7 @@ import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -73,7 +77,6 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.AbstractLazyTreeNode;
-import xy.reflect.ui.util.component.WrapLayout;
 
 @SuppressWarnings("rawtypes")
 public class ListControl extends JPanel implements IFieldControl {
@@ -106,27 +109,47 @@ public class ListControl extends JPanel implements IFieldControl {
 		initializeTreeTableControl();
 		add(new JScrollPane(treeTableComponent), BorderLayout.CENTER);
 
-		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-		size.width = size.width / 2;
-		size.height = size.height / 3;
-		setPreferredSize(size);
-		setMinimumSize(size);
-
 		refreshStructure();
 		openDetailsDialogOnItemDoubleClick();
 		updateToolbarOnItemSelection();
 		setupContexteMenu();
 
 		toolbar = new JPanel();
-		toolbar.setLayout(new WrapLayout(WrapLayout.LEFT));
-		add(toolbar, BorderLayout.NORTH);
+		add(toolbar, BorderLayout.EAST);
 		updateToolbar();
 
 	}
 
+	@Override
+	public Dimension getPreferredSize() {
+		Dimension result = Toolkit.getDefaultToolkit().getScreenSize();
+		result.width = result.width / 2;
+		result.height = result.height / 3;
+		Dimension toolbarSize = toolbar.getPreferredSize();
+		if (toolbarSize != null) {
+			result.height = Math.max(result.height, toolbarSize.height);
+			Border border = getBorder();
+			if (border != null) {
+				Insets borderInsets = border.getBorderInsets(this);
+				if (borderInsets != null) {
+					result.height += borderInsets.bottom + borderInsets.top;
+				}
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public Dimension getMinimumSize() {
+		return getPreferredSize();
+	}
+
 	protected void updateToolbar() {
 		toolbar.removeAll();
-
+		
+		GridBagLayout layout = new GridBagLayout();
+		toolbar.setLayout(layout);
+		
 		toolbar.add(createTool(null, SwingRendererUtils.DETAILS_ICON, true, false, createOpenItemAction()));
 
 		if (!getRootListItemPosition().isContainingListReadOnly()) {
@@ -136,21 +159,31 @@ public class ListControl extends JPanel implements IFieldControl {
 			AbstractAction insertActionAfter = createInsertAction(InsertPosition.AFTER);
 			toolbar.add(createTool(null, SwingRendererUtils.ADD_ICON, false, false, addChildAction, insertAction,
 					insertActionBefore, insertActionAfter));
-
 			toolbar.add(createTool(null, SwingRendererUtils.REMOVE_ICON, false, false, createRemoveAction()));
-
 			AbstractStandardListAction moveUpAction = createMoveAction(-1);
 			AbstractStandardListAction moveDownAction = createMoveAction(1);
 			if (moveUpAction.isEnabled() || moveDownAction.isEnabled()) {
 				toolbar.add(createTool(null, SwingRendererUtils.UP_ICON, true, false, moveUpAction));
 				toolbar.add(createTool(null, SwingRendererUtils.DOWN_ICON, true, false, moveDownAction));
 			}
-
 		}
 		for (AbstractListAction listAction : getRootListType().getSpecificActions(object, field, getSelection())) {
 			toolbar.add(createTool(listAction.getCaption(), null, true, false, createSpecificAction(listAction)));
 		}
-
+		
+		for (int i = 0; i < toolbar.getComponentCount(); i++) {
+			Component c = toolbar.getComponent(i);
+			GridBagConstraints constraints = new GridBagConstraints();
+			constraints.gridx = 0;
+			constraints.fill = GridBagConstraints.HORIZONTAL;
+			constraints.insets = new Insets(0, 5, 2, 5);
+			layout.setConstraints(c, constraints);
+		}
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.gridx = 0;
+		constraints.weighty = 1;
+		toolbar.add(new JSeparator(), constraints);
+		
 		swingRenderer.handleComponentSizeChange(ListControl.this);
 		toolbar.repaint();
 	}

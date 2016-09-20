@@ -1096,7 +1096,11 @@ public final class InfoCustomizations {
 
 		@Override
 		public int compareTo(ListStructureCustomization o) {
-			return listTypeName.compareTo(o.listTypeName);
+			int result = listTypeName.compareTo(o.listTypeName);
+			if (result == 0) {
+				result = ReflectionUIUtils.compareNullables(itemTypeName, o.itemTypeName);
+			}
+			return result;
 		}
 
 		@Override

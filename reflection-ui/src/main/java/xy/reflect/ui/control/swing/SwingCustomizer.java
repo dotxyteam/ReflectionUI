@@ -220,7 +220,6 @@ public class SwingCustomizer extends SwingRenderer {
 							if (type.getName().equals(TypeCustomization.class.getName())) {
 								List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
 								result.add(getTypeIconImageFileField());
-								result.add(getUnoManagementHiddenField());
 								return result;
 							} else if (type.getName().equals(FieldCustomization.class.getName())) {
 								List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
@@ -306,75 +305,6 @@ public class SwingCustomizer extends SwingRenderer {
 					return getCaption();
 				}
 
-			};
-		}
-
-		protected IFieldInfo getUnoManagementHiddenField() {
-			return new IFieldInfo() {
-
-				@Override
-				public String getName() {
-					return "unoManagementHidden";
-				}
-
-				@Override
-				public String getCaption() {
-					return "Hide Undo/Redo Buttons";
-				}
-
-				@Override
-				public String getOnlineHelp() {
-					return null;
-				}
-
-				@Override
-				public Map<String, Object> getSpecificProperties() {
-					return Collections.emptyMap();
-				}
-
-				@Override
-				public ITypeInfo getType() {
-					return new BooleanTypeInfo(customizationToolsRenderer.getReflectionUI(), boolean.class);
-				}
-
-				@Override
-				public Object getValue(Object object) {
-					TypeCustomization t = (TypeCustomization) object;
-					return SwingSpecificProperty
-							.isUndoManagementHidden(SwingSpecificProperty.accessCustomizationsProperties(t));
-				}
-
-				@Override
-				public Object[] getValueOptions(Object object) {
-					return null;
-				}
-
-				@Override
-				public void setValue(Object object, Object value) {
-					TypeCustomization t = (TypeCustomization) object;
-					SwingSpecificProperty.setUndoManagementHidden(SwingSpecificProperty.accessCustomizationsProperties(t), (Boolean)value);
-				}
-
-				
-				@Override
-				public boolean isNullable() {
-					return false;
-				}
-
-				@Override
-				public boolean isGetOnly() {
-					return false;
-				}
-
-				@Override
-				public InfoCategory getCategory() {
-					return null;
-				}
-
-				@Override
-				public String toString() {
-					return getCaption();
-				}
 			};
 		}
 
