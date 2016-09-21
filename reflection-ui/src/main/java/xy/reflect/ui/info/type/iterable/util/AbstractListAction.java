@@ -16,6 +16,10 @@ public abstract class AbstractListAction implements IMethodInfo{
 
 	protected ListControl listControl;
 
+	public boolean isEnabled() {
+		return true;
+	}
+
 	@Override
 	public InfoCategory getCategory() {
 		return null;
@@ -73,6 +77,7 @@ public abstract class AbstractListAction implements IMethodInfo{
 		return getCaption();
 	}
 
+	
 	
 	
 	

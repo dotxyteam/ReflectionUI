@@ -19,6 +19,11 @@ public class TypeNameColumnInfo implements IColumnInfo {
 	}
 
 	@Override
+	public boolean hasCellValue(ItemPosition itemPosition) {
+		return true;
+	}
+
+	@Override
 	public String getCellValue(ItemPosition itemPosition) {
 		Object item = itemPosition.getItem();
 		if (item instanceof StandardMapEntry) {

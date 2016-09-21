@@ -23,12 +23,14 @@ public class FieldColumnInfo implements IColumnInfo {
 	@Override
 	public String getCellValue(ItemPosition itemPosition) {
 		Object item = itemPosition.getItem();
-		if (containingType.supportsInstance(item)) {
-			Object value = field.getValue(item);
-			return reflectionUI.toString(value);
-		} else {
-			return null;
-		}
+		Object value = field.getValue(item);
+		return reflectionUI.toString(value);
+	}
+
+	@Override
+	public boolean hasCellValue(ItemPosition itemPosition) {
+		Object item = itemPosition.getItem();
+		return containingType.supportsInstance(item);
 	}
 
 	@Override
@@ -80,6 +82,5 @@ public class FieldColumnInfo implements IColumnInfo {
 	public String toString() {
 		return getCaption();
 	}
-	
 
 }

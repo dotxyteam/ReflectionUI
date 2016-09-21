@@ -17,6 +17,11 @@ public class PositionColumnInfo implements IColumnInfo {
 	}
 
 	@Override
+	public boolean hasCellValue(ItemPosition itemPosition) {
+		return itemPosition.isRootListItemPosition();		
+	}
+
+	@Override
 	public String getCaption() {
 		return "N°";
 	}

@@ -230,7 +230,6 @@ public class SwingCustomizer extends SwingRenderer {
 							}
 						}
 
-						
 					}.get(result);
 					result = customizationToolsCustomizations.get(thisReflectionUI, result);
 					return result;
@@ -277,7 +276,8 @@ public class SwingCustomizer extends SwingRenderer {
 				@Override
 				public void setValue(Object object, Object value) {
 					FieldCustomization f = (FieldCustomization) object;
-					SwingSpecificProperty.setSubFormExpanded(SwingSpecificProperty.accessCustomizationsProperties(f), (Boolean)value);
+					SwingSpecificProperty.setSubFormExpanded(SwingSpecificProperty.accessCustomizationsProperties(f),
+							(Boolean) value);
 				}
 
 				@Override
@@ -351,10 +351,10 @@ public class SwingCustomizer extends SwingRenderer {
 				@Override
 				public void setValue(Object object, Object value) {
 					TypeCustomization t = (TypeCustomization) object;
-					SwingSpecificProperty.setIconImageFile(SwingSpecificProperty.accessCustomizationsProperties(t), (File)value);
+					SwingSpecificProperty.setIconImageFile(SwingSpecificProperty.accessCustomizationsProperties(t),
+							(File) value);
 				}
 
-				
 				@Override
 				public boolean isNullable() {
 					return false;
@@ -384,7 +384,8 @@ public class SwingCustomizer extends SwingRenderer {
 
 		protected JButton createSaveControl() {
 			final File file = new File(infoCustomizationsOutputFilePath);
-			final JButton result = new JButton(SwingRendererUtils.SAVE_ICON);
+			final JButton result = new JButton(SwingRendererUtils.SAVE_ALL_ICON);
+			result.setToolTipText(customizationToolsRenderer.prepareStringToDisplay("Save all the customizations"));
 			result.setContentAreaFilled(false);
 			result.setFocusable(false);
 			result.addActionListener(new ActionListener() {
@@ -401,8 +402,9 @@ public class SwingCustomizer extends SwingRenderer {
 		}
 
 		protected Component createTypeInfoCustomizer(final String typeName) {
-			final JButton result = new JButton(customizationToolsRenderer.prepareStringToDisplay("Customizations..."),
-					getCustomizationIcon());
+			final JButton result = new JButton(getCustomizationIcon());
+			result.setToolTipText(
+					customizationToolsRenderer.prepareStringToDisplay("Customize the type <" + typeName + "> display"));
 			result.setContentAreaFilled(false);
 			result.setFocusable(false);
 			final TypeCustomization t = infoCustomizations.getTypeCustomization(typeName, true);

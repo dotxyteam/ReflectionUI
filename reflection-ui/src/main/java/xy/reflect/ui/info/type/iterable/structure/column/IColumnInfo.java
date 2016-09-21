@@ -7,4 +7,6 @@ public interface IColumnInfo extends IInfo{
 
 	String getCellValue(ItemPosition itemPosition);
 
+	boolean hasCellValue(ItemPosition itemPosition);
+
 }

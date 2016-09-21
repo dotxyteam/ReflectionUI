@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <infoCustomizations>
     <listStructures>
+        <allowedItemMethodShortcuts>
+            <alwaysShown>true</alwaysShown>
+            <caption>Nothing</caption>
+            <methodSignature>void doNothing()</methodSignature>
+        </allowedItemMethodShortcuts>
         <columnsCustomizations>
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
@@ -23,7 +28,35 @@
         <itemCreationDisabled>false</itemCreationDisabled>
         <itemDeletionDisabled>false</itemDeletionDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
+        <itemTypeName>ReflectionUITest$AbstrcatTestDescendant</itemTypeName>
+        <listTypeName>java.util.List</listTypeName>
+        <positionColumnAdded>false</positionColumnAdded>
+        <stringValueColumnAdded>false</stringValueColumnAdded>
+    </listStructures>
+    <listStructures>
+        <columnsCustomizations>
+            <columnName>toStringValue</columnName>
+            <hidden>false</hidden>
+        </columnsCustomizations>
+        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <itemCreationDisabled>false</itemCreationDisabled>
+        <itemDeletionDisabled>false</itemDeletionDisabled>
+        <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.io.File</itemTypeName>
+        <listTypeName>java.util.List</listTypeName>
+        <positionColumnAdded>false</positionColumnAdded>
+        <stringValueColumnAdded>false</stringValueColumnAdded>
+    </listStructures>
+    <listStructures>
+        <columnsCustomizations>
+            <columnName>toStringValue</columnName>
+            <hidden>false</hidden>
+        </columnsCustomizations>
+        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <itemCreationDisabled>false</itemCreationDisabled>
+        <itemDeletionDisabled>false</itemDeletionDisabled>
+        <itemTypeColumnAdded>false</itemTypeColumnAdded>
+        <itemTypeName>java.lang.String</itemTypeName>
         <listTypeName>java.util.List</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
@@ -290,9 +323,62 @@
         <typeName>ReflectionUITest$Test</typeName>
     </typeCustomizations>
     <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>the2ndShort</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>theChildrenList</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>theDay</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>theShort</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void doNothing()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
         <typeName>ReflectionUITest$Test2</typeName>
     </typeCustomizations>
     <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>reference</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>the2ndShort</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>theDay</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>theShort</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
         <typeName>ReflectionUITest$Test3</typeName>
     </typeCustomizations>
     <typeCustomizations>
@@ -306,6 +392,15 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>VirtualFieldWrapperTypeInfo()</typeName>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>VirtualFieldWrapperTypeInfo(Create 'Abstrcat Test Descendant' of type)</typeName>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>[B</typeName>

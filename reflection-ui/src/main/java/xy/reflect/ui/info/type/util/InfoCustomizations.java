@@ -43,6 +43,7 @@ import xy.reflect.ui.info.type.iterable.structure.CustomizedStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.ListStructuralInfoProxy;
+import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.InfoCustomizations.ColumnCustomization;
@@ -565,7 +566,7 @@ public final class InfoCustomizations {
 
 		@Override
 		public int compareTo(TypeCustomization o) {
-			return typeName.compareTo(o.typeName);
+			return ReflectionUIUtils.compareNullables(typeName, o.typeName);
 		}
 
 		@Override
@@ -771,7 +772,7 @@ public final class InfoCustomizations {
 
 		@Override
 		public int compareTo(FieldCustomization o) {
-			return fieldName.compareTo(o.fieldName);
+			return ReflectionUIUtils.compareNullables(fieldName, o.fieldName);
 		}
 
 		@Override
@@ -847,7 +848,7 @@ public final class InfoCustomizations {
 
 		@Override
 		public int compareTo(MethodCustomization o) {
-			return methodSignature.compareTo(o.methodSignature);
+			return ReflectionUIUtils.compareNullables(methodSignature, o.methodSignature);
 		}
 
 		@Override
@@ -935,6 +936,67 @@ public final class InfoCustomizations {
 
 	}
 
+	public static class ListItemMethodShortcut {
+		protected String methodSignature;
+		protected boolean alwaysShown;
+		protected String caption;
+
+		public String getMethodSignature() {
+			return methodSignature;
+		}
+
+		public void setMethodSignature(String methodSignature) {
+			this.methodSignature = methodSignature;
+		}
+
+		public boolean isAlwaysShown() {
+			return alwaysShown;
+		}
+
+		public void setAlwaysShown(boolean alwaysShown) {
+			this.alwaysShown = alwaysShown;
+		}
+
+		public String getCaption() {
+			return caption;
+		}
+
+		public void setCaption(String caption) {
+			this.caption = caption;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((methodSignature == null) ? 0 : methodSignature.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			ListItemMethodShortcut other = (ListItemMethodShortcut) obj;
+			if (methodSignature == null) {
+				if (other.methodSignature != null)
+					return false;
+			} else if (!methodSignature.equals(other.methodSignature))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return methodSignature;
+		}
+
+	}
+
 	public static class ListStructureCustomization implements Comparable<ListStructureCustomization> {
 		protected transient InfoCustomizations parent;
 		protected String listTypeName;
@@ -945,9 +1007,11 @@ public final class InfoCustomizations {
 		protected boolean stringValueColumnAdded;
 		protected boolean itemCreationDisabled;
 		protected boolean itemDeletionDisabled;
+		protected boolean itemMoveDisabled;
 		protected Set<ColumnCustomization> columnsCustomizations = new TreeSet<ColumnCustomization>();
 		protected List<String> columnsCustomOrder;
 		protected TreeStructureDiscoverySettings treeStructureDiscoverySettings;
+		protected List<ListItemMethodShortcut> allowedItemMethodShortcuts = new ArrayList<ListItemMethodShortcut>();
 
 		@XmlTransient
 		public InfoCustomizations getParent() {
@@ -966,6 +1030,14 @@ public final class InfoCustomizations {
 				return null;
 			}
 			return parent.getTypeCustomization(itemTypeName);
+		}
+
+		public List<ListItemMethodShortcut> getAllowedItemMethodShortcuts() {
+			return allowedItemMethodShortcuts;
+		}
+
+		public void setAllowedItemMethodShortcuts(List<ListItemMethodShortcut> allowedItemMethodShortcuts) {
+			this.allowedItemMethodShortcuts = allowedItemMethodShortcuts;
 		}
 
 		public List<String> getColumnsCustomOrder() {
@@ -1025,6 +1097,14 @@ public final class InfoCustomizations {
 
 		public void setItemDeletionDisabled(boolean itemDeletionDisabled) {
 			this.itemDeletionDisabled = itemDeletionDisabled;
+		}
+
+		public boolean isItemMoveDisabled() {
+			return itemMoveDisabled;
+		}
+
+		public void setItemMoveDisabled(boolean itemMoveDisabled) {
+			this.itemMoveDisabled = itemMoveDisabled;
 		}
 
 		public boolean isItemTypeColumnAdded() {
@@ -1096,7 +1176,7 @@ public final class InfoCustomizations {
 
 		@Override
 		public int compareTo(ListStructureCustomization o) {
-			int result = listTypeName.compareTo(o.listTypeName);
+			int result = ReflectionUIUtils.compareNullables(listTypeName, o.listTypeName);
 			if (result == 0) {
 				result = ReflectionUIUtils.compareNullables(itemTypeName, o.itemTypeName);
 			}
@@ -1179,7 +1259,7 @@ public final class InfoCustomizations {
 
 		@Override
 		public int compareTo(ColumnCustomization o) {
-			return columnName.compareTo(o.columnName);
+			return ReflectionUIUtils.compareNullables(columnName, o.columnName);
 		}
 
 		@Override
@@ -1193,6 +1273,100 @@ public final class InfoCustomizations {
 
 		public CustomizationsProxyGenerator(ReflectionUI reflectionUI) {
 			super(reflectionUI);
+		}
+
+		@Override
+		protected List<AbstractListAction> getSpecificListActions(IListTypeInfo listType, Object object,
+				IFieldInfo field, List<? extends ItemPosition> selection) {
+			List<AbstractListAction> result = super.getSpecificListActions(listType, object, field, selection);
+			result = new ArrayList<AbstractListAction>(result);
+			ITypeInfo itemType = listType.getItemType();
+			final ListStructureCustomization l = getListStructureCustomization(listType.getName(),
+					(itemType == null) ? null : itemType.getName());
+			for (final ListItemMethodShortcut s : l.allowedItemMethodShortcuts) {
+				boolean methodFound = false;
+				if (selection.size() == 1) {
+					ItemPosition itemPosition = selection.get(0);
+					final Object item = itemPosition.getItem();
+					ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
+					for (final IMethodInfo method : actualItemType.getMethods()) {
+						if (ReflectionUIUtils.getMethodInfoSignature(method).equals(s.methodSignature)) {
+							AbstractListAction action = new AbstractListAction() {
+
+								@Override
+								public String getName() {
+									return method.getName();
+								}
+
+								@Override
+								public String getCaption() {
+									return s.caption;
+								}
+
+								@Override
+								public boolean isEnabled() {
+									return s.alwaysShown;
+								}
+
+								@Override
+								public boolean isReadOnly() {
+									return true;
+								}
+
+								@Override
+								public void validateParameters(Object object, InvocationData invocationData)
+										throws Exception {
+									method.validateParameters(item, invocationData);
+								}
+
+								@Override
+								public String getOnlineHelp() {
+									return method.getOnlineHelp();
+								}
+
+								@Override
+								public ITypeInfo getReturnValueType() {
+									return method.getReturnValueType();
+								}
+
+								@Override
+								public List<IParameterInfo> getParameters() {
+									return method.getParameters();
+								}
+
+								@Override
+								public Object invoke(Object object, InvocationData invocationData) {
+									return method.invoke(item, invocationData);
+								}
+
+							};
+							result.add(action);
+							methodFound = true;
+							break;
+						}
+					}
+				}
+				if ((!methodFound) && s.alwaysShown) {
+					result.add(new AbstractListAction() {
+
+						@Override
+						public String getCaption() {
+							return s.caption;
+						}
+
+						@Override
+						public boolean isEnabled() {
+							return false;
+						}
+
+						@Override
+						public Object invoke(Object object, InvocationData invocationData) {
+							throw new UnsupportedOperationException();
+						}
+					});
+				}
+			}
+			return result;
 		}
 
 		@Override
@@ -1219,6 +1393,19 @@ public final class InfoCustomizations {
 				}
 			}
 			return super.canRemove(listType);
+		}
+		
+		@Override
+		protected boolean isOrdered(IListTypeInfo listType) {
+			ITypeInfo itemType = listType.getItemType();
+			final ListStructureCustomization l = getListStructureCustomization(listType.getName(),
+					(itemType == null) ? null : itemType.getName());
+			if (l != null) {
+				if (l.itemMoveDisabled) {
+					return false;
+				}
+			}
+			return super.isOrdered(listType);
 		}
 
 		@Override

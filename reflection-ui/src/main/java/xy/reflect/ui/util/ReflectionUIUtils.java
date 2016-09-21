@@ -1,5 +1,5 @@
 package xy.reflect.ui.util;
-
+ 
 import java.awt.Color;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;

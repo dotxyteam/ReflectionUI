@@ -16,6 +16,10 @@ public class ColumnInfoProxy implements IColumnInfo {
 		return base.getCaption();
 	}
 
+	public boolean hasCellValue(ItemPosition itemPosition) {
+		return base.hasCellValue(itemPosition);
+	}
+
 	public String getCellValue(ItemPosition itemPosition) {
 		return base.getCellValue(itemPosition);
 	}

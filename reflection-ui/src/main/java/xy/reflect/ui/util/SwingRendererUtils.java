@@ -59,8 +59,8 @@ public class SwingRendererUtils {
 	public static final ImageIcon DOWN_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/down.png"));
 	public static final ImageIcon CUSTOMIZATION_ICON = new ImageIcon(
 			ReflectionUI.class.getResource("resource/custom.png"));
-	public static final ImageIcon SAVE_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/save.png"));
-	
+	public static final ImageIcon SAVE_ALL_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/save-all.png"));
+
 	public static void showTooltipNow(Component c) {
 		try {
 			Method showToolTipMehod = ToolTipManager.class.getDeclaredMethod("show",
@@ -253,7 +253,6 @@ public class SwingRendererUtils {
 		return new ImageIcon(ReflectionUI.class.getResource("resource/help.png"));
 	}
 
-	
 	public static List<Object> getActiveInstances(ITypeInfo type, SwingRenderer swingRenderer) {
 		List<Object> result = new ArrayList<Object>();
 		for (Map.Entry<JPanel, Object> entry : swingRenderer.getObjectByForm().entrySet()) {
@@ -271,7 +270,8 @@ public class SwingRendererUtils {
 		return SwingSpecificProperty.getIconImage(SwingSpecificProperty.accessInfoProperties(info));
 	}
 
-	public static Object invokeMethodAndAllowToUndo(Object object, IMethodInfo method, InvocationData invocationData, JPanel form, SwingRenderer swingRenderer) {
+	public static Object invokeMethodAndAllowToUndo(Object object, IMethodInfo method, InvocationData invocationData,
+			JPanel form, SwingRenderer swingRenderer) {
 		ModificationStack stack = swingRenderer.getModificationStackByForm().get(form);
 		Object result;
 		try {
@@ -286,6 +286,6 @@ public class SwingRendererUtils {
 		} else {
 			stack.pushUndo(undoModif);
 		}
-		return result;	
+		return result;
 	}
 }

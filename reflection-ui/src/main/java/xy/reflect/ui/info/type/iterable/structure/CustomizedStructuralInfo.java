@@ -154,22 +154,8 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 	@Override
 	public List<IColumnInfo> getColumns() {
 		final List<IColumnInfo> result = new ArrayList<IColumnInfo>();
-		for (IColumnInfo column : super.getColumns()) {
-			if (customization.getTreeStructureDiscoverySettings() == null) {
-				result.add(column);
-			} else {
-				result.add(new ColumnInfoProxy(column) {
-					@Override
-					public String getCellValue(ItemPosition itemPosition) {
-						if (itemPosition.isRootListItemPosition()) {
-							return super.getCellValue(itemPosition);
-						} else {
-							return null;
-						}
-					}
-				});
-			}
-		}
+		result.addAll(super.getColumns());
+		
 		if (customization.isStringValueColumnAdded()) {
 			result.add(0, new StringValueColumnInfo(reflectionUI));
 		}

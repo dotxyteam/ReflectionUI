@@ -146,10 +146,10 @@ public class ListControl extends JPanel implements IFieldControl {
 
 	protected void updateToolbar() {
 		toolbar.removeAll();
-		
+
 		GridBagLayout layout = new GridBagLayout();
 		toolbar.setLayout(layout);
-		
+
 		toolbar.add(createTool(null, SwingRendererUtils.DETAILS_ICON, true, false, createOpenItemAction()));
 
 		if (!getRootListItemPosition().isContainingListReadOnly()) {
@@ -168,9 +168,9 @@ public class ListControl extends JPanel implements IFieldControl {
 			}
 		}
 		for (AbstractListAction listAction : getRootListType().getSpecificActions(object, field, getSelection())) {
-			toolbar.add(createTool(listAction.getCaption(), null, true, false, createSpecificAction(listAction)));
+			toolbar.add(createTool(listAction.getCaption(), null, true, false, createSpecificActionHook(listAction)));
 		}
-		
+
 		for (int i = 0; i < toolbar.getComponentCount(); i++) {
 			Component c = toolbar.getComponent(i);
 			GridBagConstraints constraints = new GridBagConstraints();
@@ -183,7 +183,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		constraints.gridx = 0;
 		constraints.weighty = 1;
 		toolbar.add(new JSeparator(), constraints);
-		
+
 		swingRenderer.handleComponentSizeChange(ListControl.this);
 		toolbar.repaint();
 	}
@@ -402,7 +402,12 @@ public class ListControl extends JPanel implements IFieldControl {
 			} else {
 				List<IColumnInfo> columns = tableInfo.getColumns();
 				if (columnIndex < columns.size()) {
-					value = tableInfo.getColumns().get(columnIndex).getCellValue(itemPosition);
+					IColumnInfo column = tableInfo.getColumns().get(columnIndex);
+					if (column.hasCellValue(itemPosition)) {
+						value = column.getCellValue(itemPosition);
+					} else {
+						value = null;
+					}
 				} else {
 					value = null;
 				}
@@ -427,7 +432,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
 
 		for (AbstractListAction listAction : getRootListType().getSpecificActions(object, field, selection)) {
-			result.add(createSpecificAction(listAction));
+			result.add(createSpecificActionHook(listAction));
 		}
 
 		result.add(SEPARATOR_ACTION);
@@ -1441,23 +1446,29 @@ public class ListControl extends JPanel implements IFieldControl {
 		return (IListTypeInfo) field.getType();
 	}
 
-	protected AbstractAction createSpecificAction(final AbstractListAction action) {
-		return new AbstractAction(swingRenderer.prepareStringToDisplay(action.getCaption())) {
+	protected AbstractAction createSpecificActionHook(final AbstractListAction listAction) {
+		return new AbstractAction(swingRenderer.prepareStringToDisplay(listAction.getCaption())) {
 			protected static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				action.setListControl(ListControl.this);
+				listAction.setListControl(ListControl.this);
 				final JPanel form = SwingRendererUtils.findForm(ListControl.this, swingRenderer);
-				IMethodInfo method = new MethodInfoProxy(action) {
+				IMethodInfo method = new MethodInfoProxy(listAction) {
 					@Override
 					public Object invoke(Object object, InvocationData invocationData) {
-						return SwingRendererUtils.invokeMethodAndAllowToUndo(object, action, invocationData, form,
+						return SwingRendererUtils.invokeMethodAndAllowToUndo(object, listAction, invocationData, form,
 								swingRenderer);
 					}
 				};
 				swingRenderer.onMethodInvocationRequest(ListControl.this, ListControl.this.object, method, null);
 			}
+
+			@Override
+			public boolean isEnabled() {
+				return listAction.isEnabled();
+			}
+
 		};
 	}
 

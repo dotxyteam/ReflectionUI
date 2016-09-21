@@ -36,6 +36,11 @@ public class StringValueColumnInfo implements IColumnInfo {
 	}
 
 	@Override
+	public boolean hasCellValue(ItemPosition itemPosition) {
+		return true;
+	}
+
+	@Override
 	public String getCellValue(ItemPosition itemPosition) {
 		return reflectionUI.toString(itemPosition.getItem());
 	}

@@ -288,7 +288,7 @@ public class ImplicitListField implements IFieldInfo {
 
 		@Override
 		public String getName() {
-			return ImplicitListField.this.getName() + "Type";
+			return ImplicitListField.class.getName() + "Type";
 		}
 
 		@Override
