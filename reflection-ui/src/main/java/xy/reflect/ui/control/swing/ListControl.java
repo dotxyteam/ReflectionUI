@@ -150,7 +150,9 @@ public class ListControl extends JPanel implements IFieldControl {
 		GridBagLayout layout = new GridBagLayout();
 		toolbar.setLayout(layout);
 
-		toolbar.add(createTool(null, SwingRendererUtils.DETAILS_ICON, true, false, createOpenItemAction()));
+		if (getActiveListItemPosition().getContainingListType().canViewItemDetails()) {
+			toolbar.add(createTool(null, SwingRendererUtils.DETAILS_ICON, true, false, createOpenItemAction()));
+		}
 
 		if (!getRootListItemPosition().isContainingListReadOnly()) {
 			AbstractAction addChildAction = createAddChildAction();
@@ -163,26 +165,36 @@ public class ListControl extends JPanel implements IFieldControl {
 			AbstractStandardListAction moveUpAction = createMoveAction(-1);
 			AbstractStandardListAction moveDownAction = createMoveAction(1);
 			if (moveUpAction.isEnabled() || moveDownAction.isEnabled()) {
+				toolbar.add(new JSeparator());
 				toolbar.add(createTool(null, SwingRendererUtils.UP_ICON, true, false, moveUpAction));
 				toolbar.add(createTool(null, SwingRendererUtils.DOWN_ICON, true, false, moveDownAction));
 			}
 		}
-		for (AbstractListAction listAction : getRootListType().getSpecificActions(object, field, getSelection())) {
-			toolbar.add(createTool(listAction.getCaption(), null, true, false, createSpecificActionHook(listAction)));
+
+		List<AbstractListAction> specificActions = getRootListType().getSpecificActions(object, field, getSelection());
+		if (specificActions.size() > 0) {
+			toolbar.add(new JSeparator());
+			for (AbstractListAction listAction : specificActions) {
+				toolbar.add(
+						createTool(listAction.getCaption(), null, true, false, createSpecificActionHook(listAction)));
+			}
 		}
+
+		toolbar.add(new JSeparator());
 
 		for (int i = 0; i < toolbar.getComponentCount(); i++) {
 			Component c = toolbar.getComponent(i);
 			GridBagConstraints constraints = new GridBagConstraints();
 			constraints.gridx = 0;
-			constraints.fill = GridBagConstraints.HORIZONTAL;
-			constraints.insets = new Insets(0, 5, 2, 5);
+			if (c instanceof JSeparator) {
+				constraints.gridx = 0;
+				constraints.weighty = 1;
+			} else {
+				constraints.fill = GridBagConstraints.HORIZONTAL;
+				constraints.insets = new Insets(0, 5, 0, 5);
+			}
 			layout.setConstraints(c, constraints);
 		}
-		GridBagConstraints constraints = new GridBagConstraints();
-		constraints.gridx = 0;
-		constraints.weighty = 1;
-		toolbar.add(new JSeparator(), constraints);
 
 		swingRenderer.handleComponentSizeChange(ListControl.this);
 		toolbar.repaint();
@@ -1497,7 +1509,9 @@ public class ListControl extends JPanel implements IFieldControl {
 				AutoFieldValueUpdatingItemPosition singleSelectedPosition = getSingleSelection();
 				if (singleSelectedPosition != null) {
 					if (hasItemDetails(singleSelectedPosition)) {
-						return true;
+						if (singleSelectedPosition.getContainingListType().canViewItemDetails()) {
+							return true;
+						}
 					}
 				}
 				return false;
@@ -1591,6 +1605,18 @@ public class ListControl extends JPanel implements IFieldControl {
 
 	protected AutoFieldValueUpdatingItemPosition getRootListItemPosition() {
 		return new AutoFieldValueUpdatingItemPosition(field, null, -1);
+	}
+
+	protected AutoFieldValueUpdatingItemPosition getActiveListItemPosition() {
+		AutoFieldValueUpdatingItemPosition result = getSingleSelection();
+		if (result == null) {
+			result = getRootListItemPosition();
+			Object[] listRawValue = result.getContainingListRawValue();
+			if (listRawValue != null) {
+				result = result.getSibling(listRawValue.length);
+			}
+		}
+		return result;
 	}
 
 	protected boolean openDetailsDialog(final AutoFieldValueUpdatingItemPosition itemPosition,

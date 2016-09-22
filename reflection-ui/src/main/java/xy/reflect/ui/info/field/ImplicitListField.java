@@ -379,6 +379,11 @@ public class ImplicitListField implements IFieldInfo {
 		}
 
 		@Override
+		public boolean canViewItemDetails() {
+			return true;
+		}
+
+		@Override
 		public IListStructuralInfo getStructuralInfo() {
 			return new DefaultListStructuralInfo(reflectionUI);
 		}

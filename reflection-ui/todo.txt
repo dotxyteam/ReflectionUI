@@ -1,4 +1,4 @@
-. Item Method as list action???
+- allow to sort list view
 - update ScreenShots
 - update Example
 - Fix all the tests

@@ -244,6 +244,10 @@ public class InfoProxyGenerator {
 	protected boolean canRemove(IListTypeInfo type) {
 		return type.canRemove();
 	}
+	
+	protected boolean canViewItemDetails(IListTypeInfo type) {
+		return type.canViewItemDetails();
+	}
 
 	protected Object[] toArray(IListTypeInfo type, Object object) {
 		return type.toArray(object);
@@ -586,6 +590,11 @@ public class InfoProxyGenerator {
 		@Override
 		public boolean canRemove() {
 			return InfoProxyGenerator.this.canRemove((IListTypeInfo) type);
+		}
+		
+		@Override
+		public boolean canViewItemDetails() {
+			return InfoProxyGenerator.this.canViewItemDetails((IListTypeInfo) type);
 		}
 
 

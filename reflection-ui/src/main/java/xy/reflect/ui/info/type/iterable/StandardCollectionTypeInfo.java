@@ -187,6 +187,11 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 		return true;
 	}
 
+	@Override
+	public boolean canViewItemDetails() {
+		return true;
+	}
+
 	public static boolean isCompatibleWith(Class<?> javaType) {
 		if (Collection.class.isAssignableFrom(javaType)) {
 			return true;

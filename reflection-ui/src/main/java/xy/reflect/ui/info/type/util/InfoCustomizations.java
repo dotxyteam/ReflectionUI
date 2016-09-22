@@ -1008,6 +1008,7 @@ public final class InfoCustomizations {
 		protected boolean itemCreationDisabled;
 		protected boolean itemDeletionDisabled;
 		protected boolean itemMoveDisabled;
+		protected boolean itemDetailsViewDisabled;
 		protected Set<ColumnCustomization> columnsCustomizations = new TreeSet<ColumnCustomization>();
 		protected List<String> columnsCustomOrder;
 		protected TreeStructureDiscoverySettings treeStructureDiscoverySettings;
@@ -1089,6 +1090,14 @@ public final class InfoCustomizations {
 
 		public void setItemCreationDisabled(boolean itemCreationDisabled) {
 			this.itemCreationDisabled = itemCreationDisabled;
+		}
+
+		public boolean isItemDetailsViewDisabled() {
+			return itemDetailsViewDisabled;
+		}
+
+		public void setItemDetailsViewDisabled(boolean itemDetailsViewDisabled) {
+			this.itemDetailsViewDisabled = itemDetailsViewDisabled;
 		}
 
 		public boolean isItemDeletionDisabled() {
@@ -1393,6 +1402,19 @@ public final class InfoCustomizations {
 				}
 			}
 			return super.canRemove(listType);
+		}
+		
+		@Override
+		protected boolean canViewItemDetails(IListTypeInfo listType) {
+			ITypeInfo itemType = listType.getItemType();
+			final ListStructureCustomization l = getListStructureCustomization(listType.getName(),
+					(itemType == null) ? null : itemType.getName());
+			if (l != null) {
+				if (l.itemDetailsViewDisabled) {
+					return false;
+				}
+			}
+			return super.canViewItemDetails(listType);
 		}
 		
 		@Override
