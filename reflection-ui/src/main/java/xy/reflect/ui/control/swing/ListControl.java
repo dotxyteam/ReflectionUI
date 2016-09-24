@@ -1458,18 +1458,19 @@ public class ListControl extends JPanel implements IFieldControl {
 		return (IListTypeInfo) field.getType();
 	}
 
-	protected AbstractAction createSpecificActionHook(final AbstractListAction listAction) {
-		return new AbstractAction(swingRenderer.prepareStringToDisplay(listAction.getCaption())) {
+	protected AbstractAction createSpecificActionHook(final AbstractListAction specificAction) {
+		return new AbstractAction(swingRenderer.prepareStringToDisplay(specificAction.getCaption())) {
 			protected static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				listAction.setListControl(ListControl.this);
+				specificAction.setListControl(ListControl.this);
+				specificAction.setListField(ListControl.this.field);
 				final JPanel form = SwingRendererUtils.findForm(ListControl.this, swingRenderer);
-				IMethodInfo method = new MethodInfoProxy(listAction) {
+				IMethodInfo method = new MethodInfoProxy(specificAction) {
 					@Override
 					public Object invoke(Object object, InvocationData invocationData) {
-						return SwingRendererUtils.invokeMethodAndAllowToUndo(object, listAction, invocationData, form,
+						return SwingRendererUtils.invokeMethodAndAllowToUndo(object, specificAction, invocationData, form,
 								swingRenderer);
 					}
 				};
@@ -1478,7 +1479,7 @@ public class ListControl extends JPanel implements IFieldControl {
 
 			@Override
 			public boolean isEnabled() {
-				return listAction.isEnabled();
+				return specificAction.isEnabled();
 			}
 
 		};

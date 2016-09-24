@@ -6,15 +6,17 @@ import java.util.Map;
 
 import xy.reflect.ui.control.swing.ListControl;
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.IModification;
 
-public abstract class AbstractListAction implements IMethodInfo{
+public abstract class AbstractListAction implements IMethodInfo {
 
 	protected ListControl listControl;
+	protected IFieldInfo listField;
 
 	public boolean isEnabled() {
 		return true;
@@ -25,11 +27,19 @@ public abstract class AbstractListAction implements IMethodInfo{
 		return null;
 	}
 
+	public IFieldInfo getListField() {
+		return listField;
+	}
+
+	public void setListField(IFieldInfo listField) {
+		this.listField = listField;
+	}
+
 	public ListControl getListControl() {
 		return listControl;
 	}
-	
-	public void setListControl(ListControl listControl){
+
+	public void setListControl(ListControl listControl) {
 		this.listControl = listControl;
 	}
 
@@ -76,10 +86,5 @@ public abstract class AbstractListAction implements IMethodInfo{
 	public String toString() {
 		return getCaption();
 	}
-
-	
-	
-	
-	
 
 }

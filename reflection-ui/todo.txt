@@ -1,3 +1,13 @@
+- allow to hide undo management in customizations:
+	. windows toolbars must be refreshable
+	. add undoManagementHiden field 
+- list customization item action undo not handled properly:
+item does not have a modif stack. Check.
+- field auto-update???
+- move from ReflectionUI.java to ITypeInfo.java
+	. copy methods
+	. equals method
+	...
 - allow to sort list view
 - update ScreenShots
 - update Example

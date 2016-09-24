@@ -51,6 +51,7 @@ import xy.reflect.ui.info.type.util.InfoCustomizations.FieldCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.ListStructureCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.MethodCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.TypeCustomization;
+import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.FileUtils;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -1345,7 +1346,13 @@ public final class InfoCustomizations {
 
 								@Override
 								public Object invoke(Object object, InvocationData invocationData) {
-									return method.invoke(item, invocationData);
+									Object result = method.invoke(item, invocationData);									
+									return result;
+								}
+
+								@Override
+								public IModification getUndoModification(Object object, InvocationData invocationData) {
+									return method.getUndoModification(item, invocationData);
 								}
 
 							};
@@ -1403,7 +1410,7 @@ public final class InfoCustomizations {
 			}
 			return super.canRemove(listType);
 		}
-		
+
 		@Override
 		protected boolean canViewItemDetails(IListTypeInfo listType) {
 			ITypeInfo itemType = listType.getItemType();
@@ -1416,7 +1423,7 @@ public final class InfoCustomizations {
 			}
 			return super.canViewItemDetails(listType);
 		}
-		
+
 		@Override
 		protected boolean isOrdered(IListTypeInfo listType) {
 			ITypeInfo itemType = listType.getItemType();
