@@ -9,51 +9,6 @@ public class ModificationStack {
 
 	protected static final String UNDO_TITLE_PREFIX = "(Revert) ";
 
-	public static final IModification EMPTY_MODIFICATION = new IModification() {
-		@Override
-		public IModification applyAndGetOpposite() {
-			return EMPTY_MODIFICATION;
-		}
-
-		@Override
-		public int getNumberOfUnits() {
-			return 0;
-		}
-
-		@Override
-		public String toString() {
-			return getTitle();
-		}
-
-		@Override
-		public String getTitle() {
-			return "NULL_MODIFICATION";
-		}
-
-	};
-	public static final IModification INVALID_MODIFICATION = new IModification() {
-		@Override
-		public IModification applyAndGetOpposite() {
-			return INVALID_MODIFICATION;
-		}
-
-		@Override
-		public int getNumberOfUnits() {
-			return 1;
-		}
-
-		@Override
-		public String toString() {
-			return getTitle();
-		}
-
-		@Override
-		public String getTitle() {
-			return "INVALID_MODIFICATION";
-		}
-
-	};
-
 	public static final ModificationStack NULL_MODIFICATION_STACK = new ModificationStack(null) {
 
 		@Override
@@ -189,7 +144,7 @@ public class ModificationStack {
 		}
 		return list.toArray(new IModification[list.size()]);
 	}
-	
+
 	public IModification[] getRedoModifications(UndoOrder order) {
 		List<IModification> list = new ArrayList<IModification>(redoStack);
 		if (order == UndoOrder.LIFO) {
@@ -197,7 +152,6 @@ public class ModificationStack {
 		}
 		return list.toArray(new IModification[list.size()]);
 	}
-
 
 	public void beginComposite() {
 		compositeStack.push(new ModificationStack("(composite level " + compositeStack.size() + ") " + name));
@@ -252,7 +206,19 @@ public class ModificationStack {
 		}
 		return result;
 	}
-	
-	
+
+	public boolean isNull() {
+		if (getNumberOfUndoUnits() > 0) {
+			return false;
+		}
+		if (isInvalidated()) {
+			return false;
+		}
+		return true;
+	}
+
+	public IModification toCompositeModification() {
+		return new CompositeModification(null, UndoOrder.LIFO, getUndoModifications(UndoOrder.LIFO));
+	}
 
 }

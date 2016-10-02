@@ -71,6 +71,7 @@ import xy.reflect.ui.info.type.util.InfoProxyGenerator;
 import xy.reflect.ui.undo.CompositeModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.undo.SetFieldValueModification;
 import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -78,7 +79,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.AbstractLazyTreeNode;
 
-@SuppressWarnings("rawtypes")
+@SuppressWarnings({ "rawtypes", "unused" })
 public class ListControl extends JPanel implements IFieldControl {
 
 	protected static final long serialVersionUID = 1L;
@@ -959,8 +960,12 @@ public class ListControl extends JPanel implements IFieldControl {
 					return false;
 				}
 				GhostItemPosition futureItemPosition = new GhostItemPosition(newItemPosition, newItem);
-				if (openDetailsDialog(futureItemPosition, new boolean[1], null)) {
-					newItem = futureItemPosition.getItem();
+				ObjectDialogBuilder dialogStatus = (openDetailsDialog(futureItemPosition));
+				if (dialogStatus == null) {
+					return false;
+				}
+				if (dialogStatus.isOkPressed()) {
+					newItem = dialogStatus.getValue();
 					AutoFieldValueUpdatingList list = newItemPosition.getContainingAutoUpdatingFieldList();
 					list.add(newItemPosition.getIndex(), newItem);
 					refreshStructure();
@@ -1090,8 +1095,12 @@ public class ListControl extends JPanel implements IFieldControl {
 					return false;
 				}
 				GhostItemPosition futureSubItemPosition = new GhostItemPosition(subItemPosition, newSubListItem);
-				if (openDetailsDialog(futureSubItemPosition, new boolean[1], null)) {
-					newSubListItem = futureSubItemPosition.getItem();
+				ObjectDialogBuilder dialogStatus = openDetailsDialog(futureSubItemPosition);
+				if (dialogStatus == null) {
+					return false;
+				}
+				if (dialogStatus.isOkPressed()) {
+					newSubListItem = dialogStatus.getValue();
 					AutoFieldValueUpdatingList subList = new AutoFieldValueUpdatingItemPosition(
 							subItemPosition.getContainingListField(), itemPosition, -1)
 									.getContainingAutoUpdatingFieldList();
@@ -1470,8 +1479,8 @@ public class ListControl extends JPanel implements IFieldControl {
 				IMethodInfo method = new MethodInfoProxy(specificAction) {
 					@Override
 					public Object invoke(Object object, InvocationData invocationData) {
-						return SwingRendererUtils.invokeMethodAndAllowToUndo(object, specificAction, invocationData, form,
-								swingRenderer);
+						return SwingRendererUtils.invokeMethodAndAllowToUndo(object, specificAction, invocationData,
+								form, swingRenderer);
 					}
 				};
 				swingRenderer.onMethodInvocationRequest(ListControl.this, ListControl.this.object, method, null);
@@ -1492,7 +1501,38 @@ public class ListControl extends JPanel implements IFieldControl {
 			@Override
 			protected boolean perform(List<AutoFieldValueUpdatingItemPosition>[] toPostSelectHolder) {
 				AutoFieldValueUpdatingItemPosition itemPosition = getSingleSelection();
-				return onOpenDetaildsDialogRequest(itemPosition);
+				Object value = itemPosition.getItem();
+				final ObjectDialogBuilder dialogStatus = openDetailsDialog(itemPosition);
+				if (!dialogStatus.isModificationDetected()) {
+					return false;
+				}
+				AutoFieldValueUpdatingList autoList = itemPosition.getContainingAutoUpdatingFieldList();
+				IFieldInfo listField = itemPosition.getContainingListField();
+				int index = itemPosition.getIndex();
+
+				ModificationStack parentModifStack = getParentFormModificationStack();
+				if (parentModifStack != null) {
+					ModificationStack dialogModifStack = dialogStatus.getModificationStack();
+					if (dialogModifStack.isInvalidated()) {
+						if (!listField.isGetOnly()) {
+							autoList.set(index, dialogStatus.getValue());
+						}
+						parentModifStack.invalidate();
+					} else {
+						parentModifStack.beginComposite();
+						if (!listField.isGetOnly()) {
+							autoList.set(index, dialogStatus.getValue());
+						}
+						parentModifStack.pushUndo(dialogModifStack.toCompositeModification());
+						parentModifStack.endComposite("Edit '" + field.getCaption() + "' item", UndoOrder.FIFO);
+					}
+				} else {
+					if (!listField.isGetOnly()) {
+						autoList.set(index, dialogStatus.getValue());
+					}
+				}
+				toPostSelectHolder[0] = Collections.singletonList(itemPosition);
+				return true;
 			}
 
 			@Override
@@ -1502,7 +1542,7 @@ public class ListControl extends JPanel implements IFieldControl {
 
 			@Override
 			protected String getCompositeModificationTitle() {
-				return null;
+				return "Edit '" + field.getCaption() + "' item";
 			}
 
 			@Override
@@ -1542,6 +1582,10 @@ public class ListControl extends JPanel implements IFieldControl {
 					if (me.getClickCount() != 2) {
 						return;
 					}
+					int row = treeTableComponent.rowAtPoint(me.getPoint());
+					if(row == -1){
+						return;
+					}
 					AbstractStandardListAction action = createOpenItemAction();
 					if (!action.isValid()) {
 						return;
@@ -1552,52 +1596,6 @@ public class ListControl extends JPanel implements IFieldControl {
 				}
 			}
 		});
-	}
-
-	protected boolean onOpenDetaildsDialogRequest(final AutoFieldValueUpdatingItemPosition itemPosition) {
-		Object value = itemPosition.getItem();
-		final GhostItemPosition ghostItemPosition = new GhostItemPosition(itemPosition, value);
-		final ModificationStack ghostParentModifStack = new ModificationStack(null);
-		boolean[] changeDetectedHolder = new boolean[] { false };
-		openDetailsDialog(ghostItemPosition, changeDetectedHolder, ghostParentModifStack);
-		if (!changeDetectedHolder[0]) {
-			return false;
-		}
-		if (itemPosition.isContainingListReadOnly()) {
-			return false;
-		}
-		new AbstractStandardListAction() {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected boolean perform(List<AutoFieldValueUpdatingItemPosition>[] toPostSelectHolder) {
-				ModificationStack parentModifStack = getParentFormModificationStack();
-				parentModifStack.pushUndo(new CompositeModification(null, UndoOrder.getDefault(),
-						ghostParentModifStack.getUndoModifications(UndoOrder.getDefault())));
-				final AutoFieldValueUpdatingList list = itemPosition.getContainingAutoUpdatingFieldList();
-				final Object newValue = ghostItemPosition.getItem();
-				final int index = itemPosition.getIndex();
-				list.set(index, newValue);
-				return false;
-			}
-
-			@Override
-			protected boolean isValid() {
-				return true;
-			}
-
-			@Override
-			protected String getTitle() {
-				return null;
-			}
-
-			@Override
-			protected String getCompositeModificationTitle() {
-				return "Edit '" + field.getCaption() + "' item";
-			}
-		}.actionPerformed(null);
-		return true;
 	}
 
 	protected AutoFieldValueUpdatingList getRootList() {
@@ -1620,8 +1618,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		return result;
 	}
 
-	protected boolean openDetailsDialog(final AutoFieldValueUpdatingItemPosition itemPosition,
-			boolean[] changeDetectedHolder, ModificationStack parentStack) {
+	protected ObjectDialogBuilder openDetailsDialog(final AutoFieldValueUpdatingItemPosition itemPosition) {
 		ItemNode itemNode = findNode(itemPosition);
 		if (itemNode != null) {
 			TreePath treePath = new TreePath(itemNode.getPath());
@@ -1629,37 +1626,21 @@ public class ListControl extends JPanel implements IFieldControl {
 		}
 
 		if (!hasItemDetails(itemPosition)) {
-			return true;
+			return null;
 		}
 
-		final AutoFieldValueUpdatingList list = itemPosition.getContainingAutoUpdatingFieldList();
+		final AutoFieldValueUpdatingList autoList = itemPosition.getContainingAutoUpdatingFieldList();
 		final int index = itemPosition.getIndex();
-		final Object[] valueHolder = new Object[] { list.get(index) };
-		final Accessor<Object> valueAccessor = new Accessor<Object>() {
+		IFieldInfo listField = itemPosition.getContainingListField();
 
-			@Override
-			public Object get() {
-				return valueHolder[0];
-			}
+		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, autoList.get(index));
 
-			@Override
-			public void set(Object value) {
-				if (!itemPosition.isContainingListReadOnly()) {
-					valueHolder[0] = value;
-					list.set(index, value);
-				}
-			}
+		dialogBuilder.setInfoSettings(getStructuralInfo().getItemInfoSettings(itemPosition));
+		dialogBuilder.setGetOnly(listField.isGetOnly());
+		dialogBuilder.setCancellable(true);
+		swingRenderer.showDialog(dialogBuilder.build(), true);
 
-		};
-		String title = swingRenderer.getObjectTitle(valueHolder[0]);
-		Image iconImage = swingRenderer.getObjectIconImage(valueHolder[0]);
-		IInfoCollectionSettings settings = getStructuralInfo().getItemInfoSettings(itemPosition);
-		boolean isGetOnly = itemPosition.getContainingListField().isGetOnly();
-		boolean[] okPressedHolder = isGetOnly ? null : new boolean[1];
-		boolean cancellable = true;
-		swingRenderer.openObjectDialog(treeTableComponent, valueAccessor, isGetOnly, title, iconImage, true, settings,
-				parentStack, cancellable, okPressedHolder, changeDetectedHolder, null);
-		return isGetOnly ? false : okPressedHolder[0];
+		return dialogBuilder;
 	}
 
 	protected ModificationStack getParentFormModificationStack() {

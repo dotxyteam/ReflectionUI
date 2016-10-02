@@ -236,52 +236,9 @@ public class SwingRenderer {
 		return result;
 	}
 
-	public JDialog createDialog(Component ownerComponent, Component content, String title, Image iconImage,
-			List<? extends Component> toolbarControls, final Runnable whenClosing) {
-		Window owner = SwingRendererUtils.getWindowAncestorOrSelf(ownerComponent);
-		JDialog dialog = new JDialog(owner, prepareStringToDisplay(title)) {
-			protected static final long serialVersionUID = 1L;
-			protected boolean disposed = false;
+	
 
-			@Override
-			public void dispose() {
-				if (disposed) {
-					return;
-				}
-				super.dispose();
-				if (whenClosing != null) {
-					try {
-						whenClosing.run();
-					} catch (Throwable t) {
-						handleExceptionsFromDisplayedUI(this, t);
-					}
-				}
-				disposed = true;
-			}
-		};
-		applyCommonWindowConfiguration(dialog, content, toolbarControls, title, iconImage);
-		dialog.setResizable(true);
-		return dialog;
-	}
-
-	public JButton createDialogClosingButton(String caption, final Runnable action, final JDialog[] dialogHolder) {
-		final JButton result = new JButton(prepareStringToDisplay(caption));
-		result.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					if (action != null) {
-						action.run();
-					}
-				} catch (Throwable t) {
-					handleExceptionsFromDisplayedUI(result, t);
-				} finally {
-					dialogHolder[0].dispose();
-				}
-			}
-		});
-		return result;
-	}
+	
 
 	public FieldControlPlaceHolder createFieldControlPlaceHolder(Object object, IFieldInfo field) {
 		return new FieldControlPlaceHolder(object, field);
@@ -1091,6 +1048,8 @@ public class SwingRenderer {
 	}
 
 	public void openErrorDialog(Component activatorComponent, String title, final Throwable error) {
+		DialogBuilder dialogBuilder = new DialogBuilder(this);
+		
 		Component errorComponent = new JOptionPane(
 				createObjectForm(VirtualFieldWrapperTypeInfo.wrap(reflectionUI,
 						new Object[] { ReflectionUIUtils.getPrettyMessage(error) }, "Message", "", true)),
@@ -1107,10 +1066,14 @@ public class SwingRenderer {
 			}
 		});
 		buttons.add(deatilsButton);
-		buttons.add(createDialogClosingButton("Close", null, dialogHolder));
-
-		dialogHolder[0] = createDialog(activatorComponent, errorComponent, title, null, buttons, null);
-		showDialog(dialogHolder[0], true);
+		buttons.add(dialogBuilder.createDialogClosingButton("Close", null));
+		
+		dialogBuilder.setOwnerComponent(activatorComponent);
+		dialogBuilder.setTitle(title);
+		dialogBuilder.setContentComponent(errorComponent);
+		dialogBuilder.setToolbarComponents(buttons);
+		
+		showDialog(dialogBuilder.build(), true);
 
 	}
 
@@ -1194,9 +1157,14 @@ public class SwingRenderer {
 			});
 			toolbarControls.add(closeButton);
 		}
-		methodDialogHolder[0] = createDialog(activatorComponent, methodForm,
-				ReflectionUIUtils.composeTitle(method.getCaption(), "Setup"), null, toolbarControls, null);
-		showDialog(methodDialogHolder[0], true);
+		
+		DialogBuilder dialogBuilder = new DialogBuilder(this);
+		dialogBuilder.setOwnerComponent(activatorComponent);
+		dialogBuilder.setContentComponent(methodForm);
+		dialogBuilder.setTitle(ReflectionUIUtils.composeTitle(method.getCaption(), "Setup"));
+		dialogBuilder.setToolbarComponents(toolbarControls);
+		
+		showDialog(dialogBuilder.build(), true);
 		if (shouldDisplayReturnValue) {
 			return true;
 		} else {
@@ -1204,27 +1172,18 @@ public class SwingRenderer {
 		}
 	}
 
-	public boolean openObjectDialogAndGetUpdateStatus(Component activatorComponent, Accessor<Object> valueAccessor,
-			boolean isGetOnly, ModificationStack parentStack) {
-		Image iconImage = getObjectIconImage(valueAccessor.get());
-		String title = getObjectTitle(valueAccessor.get());
-		return openObjectDialogAndGetUpdateStatus(activatorComponent, valueAccessor, isGetOnly, title, iconImage,
-				parentStack);
-	}
+	
 
-	public boolean openObjectDialogAndGetUpdateStatus(Component activatorComponent, Accessor<Object> valueAccessor,
-			boolean isGetOnly, String title, Image iconImage, ModificationStack parentStack) {
-		boolean[] changeDetectedHolder = new boolean[] { false };
-		openObjectDialog(activatorComponent, valueAccessor, isGetOnly, title, iconImage, true,
-				IInfoCollectionSettings.DEFAULT, parentStack, true, null, changeDetectedHolder, null);
-		return changeDetectedHolder[0];
-	}
-
+	
 	public boolean openObjectDialogAndGetConfirmation(Component activatorComponent, Object object, final String title,
 			Image iconImage, boolean modal) {
-		boolean[] okPressedHolder = new boolean[1];
-		openObjectDialog(activatorComponent, object, title, iconImage, modal, true, okPressedHolder);
-		return okPressedHolder[0];
+		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(this, object);
+		dialogBuilder.setOwnerComponent(activatorComponent);
+		dialogBuilder.setTitle(title);
+		dialogBuilder.setIconImage(iconImage);
+		dialogBuilder.setCancellable(true);
+		showDialog(dialogBuilder.build(), modal);
+		return dialogBuilder.isOkPressed();
 	}
 
 	public boolean openObjectDialogAndGetConfirmation(Component activatorComponent, Object object, boolean modal) {
@@ -1238,128 +1197,16 @@ public class SwingRenderer {
 
 	public void openObjectDialog(Component activatorComponent, Object object, final String title, Image iconImage,
 			boolean modal) {
-		openObjectDialog(activatorComponent, object, title, iconImage, modal, false, null);
+		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(this, object);
+		dialogBuilder.setOwnerComponent(activatorComponent);
+		dialogBuilder.setTitle(title);
+		dialogBuilder.setIconImage(iconImage);
+		showDialog(dialogBuilder.build(), modal);
 	}
 
-	public void openObjectDialog(Component activatorComponent, Object object, final String title, Image iconImage,
-			boolean modal, boolean cancellable, boolean[] okPressedHolder) {
-		Accessor<?> valueAccessor = Accessor.returning(object, false);
-		boolean isGetOnly = true;
-		ModificationStack parentModificationStack = null;
-		List<Component> additionalToolbarControls = null;
-		boolean[] changeDetectedHolder = null;
-		openObjectDialog(activatorComponent, valueAccessor, isGetOnly, title, iconImage, modal,
-				IInfoCollectionSettings.DEFAULT, parentModificationStack, cancellable, okPressedHolder,
-				changeDetectedHolder, additionalToolbarControls);
-	}
+	
 
-	public <T> void openObjectDialog(Component activatorComponent, Accessor<T> valueAccessor, boolean isGetOnly,
-			String title, Image iconImage, boolean modal, IInfoCollectionSettings settings,
-			ModificationStack parentModificationStack, boolean cancellable, boolean[] okPressedHolder,
-			boolean[] changeDetectedHolder, List<Component> additionalToolbarControls) {
-		JDialog dialog = createObjectDialog(activatorComponent, valueAccessor, isGetOnly, title, iconImage, settings,
-				parentModificationStack, cancellable, okPressedHolder, changeDetectedHolder, additionalToolbarControls);
-		showDialog(dialog, modal);
-	}
-
-	public <T> JDialog createObjectDialog(Component activatorComponent, final Accessor<T> valueAccessor,
-			final boolean isGetOnly, final String title, Image iconImage, final IInfoCollectionSettings settings,
-			final ModificationStack parentModificationStack, boolean cancellable, boolean[] okPressedHolder,
-			final boolean[] changeDetectedHolder, List<Component> additionalToolbarControls) {
-		final Object[] valueHolder = new Object[] { valueAccessor.get() };
-		final Object object;
-		if (hasCustomFieldControl(valueHolder[0])) {
-			String fieldName = getDefaultFieldCaption(valueHolder[0]);
-			object = VirtualFieldWrapperTypeInfo.wrap(reflectionUI, valueHolder, fieldName, title, isGetOnly);
-		} else {
-			object = valueHolder[0];
-		}
-
-		final ModificationStack[] modificationStackHolder = new ModificationStack[1];
-		final boolean[] finalOkPressedHolder;
-		if (okPressedHolder == null) {
-			finalOkPressedHolder = new boolean[] { false };
-		} else {
-			finalOkPressedHolder = okPressedHolder;
-		}
-		Runnable whenClosingDialog = new Runnable() {
-			@SuppressWarnings("unchecked")
-			@Override
-			public void run() {
-				if (changeDetectedHolder != null) {
-					changeDetectedHolder[0] = isChangeDetected();
-				}
-				if ((finalOkPressedHolder == null) || finalOkPressedHolder[0]) {
-					if (isChangeDetected()) {
-						if (parentModificationStack != null) {
-							if (modificationStackHolder[0].isInvalidated()) {
-								if (!isGetOnly) {
-									valueAccessor.set((T) valueHolder[0]);
-								}
-								parentModificationStack.invalidate();
-							} else {
-								parentModificationStack.beginComposite();
-								if (!isGetOnly) {
-									valueAccessor.set((T) valueHolder[0]);
-								}
-								parentModificationStack.pushUndo(new CompositeModification(null, UndoOrder.LIFO,
-										modificationStackHolder[0].getUndoModifications(UndoOrder.LIFO)));
-								parentModificationStack.endComposite(title, UndoOrder.FIFO);
-							}
-						} else {
-							if (!isGetOnly) {
-								valueAccessor.set((T) valueHolder[0]);
-							}
-						}
-					}
-				} else {
-					if (modificationStackHolder[0] != null) {
-						if (!modificationStackHolder[0].isInvalidated()) {
-							if (modificationStackHolder[0].getNumberOfUndoUnits() > 0) {
-								modificationStackHolder[0].undoAll();
-								if (changeDetectedHolder != null) {
-									changeDetectedHolder[0] = false;
-								}
-							}
-						}
-					}
-				}
-			}
-
-			private boolean isChangeDetected() {
-				if (modificationStackHolder[0] != null) {
-					if (modificationStackHolder[0].getNumberOfUndoUnits() > 0) {
-						return true;
-					}
-					if (modificationStackHolder[0].isInvalidated()) {
-						return true;
-					}
-				}
-				return false;
-			}
-		};
-
-		JPanel form = createObjectForm(object, settings);
-		modificationStackHolder[0] = getModificationStackByForm().get(form);
-		List<Component> toolbarControls = new ArrayList<Component>();
-		List<Component> commonToolbarControls = createCommonToolbarControls(form);
-		if (commonToolbarControls != null) {
-			toolbarControls.addAll(commonToolbarControls);
-		}
-		if (additionalToolbarControls != null) {
-			toolbarControls.addAll(additionalToolbarControls);
-		}
-		JDialog[] dialogHolder = new JDialog[1];
-		if (cancellable) {
-			final List<JButton> okCancelButtons = createStandardOKCancelDialogButtons(dialogHolder,
-					finalOkPressedHolder);
-			toolbarControls.addAll(okCancelButtons);
-		} else {
-			toolbarControls.add(createDialogClosingButton("Close", null, dialogHolder));
-		}
-		dialogHolder[0] = createDialog(activatorComponent, form, title, iconImage, toolbarControls, whenClosingDialog);
-		return dialogHolder[0];
-	}
+	
 
 	public void openObjectFrame(Object object, String title, Image iconImage) {
 		JFrame frame = createObjectFrame(object, title, iconImage);
@@ -1488,35 +1335,15 @@ public class SwingRenderer {
 
 	public boolean openQuestionDialog(Component activatorComponent, String question, String title, String yesCaption,
 			String noCaption) {
-		JDialog[] dialogHolder = new JDialog[1];
-		final boolean[] okPressedHolder = new boolean[] { false };
-
-		List<JButton> toolbarControls = createStandardOKCancelDialogButtons(dialogHolder, okPressedHolder);
-
-		dialogHolder[0] = createDialog(activatorComponent,
-				new JLabel("<HTML><BR>" + question + "<BR><BR><HTML>", SwingConstants.CENTER), title, null,
-				toolbarControls, null);
-		showDialog(dialogHolder[0], true);
-		return okPressedHolder[0];
+		DialogBuilder dialogBuilder = new DialogBuilder(this);
+		dialogBuilder.setToolbarComponents(dialogBuilder.createStandardOKCancelDialogButtons());
+		dialogBuilder.setContentComponent(new JLabel("<HTML><BR>" + question + "<BR><BR><HTML>", SwingConstants.CENTER));
+		dialogBuilder.setTitle(title);
+		showDialog(dialogBuilder.build(), true);
+		return dialogBuilder.isOkPressed();
 	}
 
-	public List<JButton> createStandardOKCancelDialogButtons(JDialog[] dialogHolder, final boolean[] okPressedHolder) {
-		List<JButton> result = new ArrayList<JButton>();
-		result.add(createDialogClosingButton("OK", new Runnable() {
-			@Override
-			public void run() {
-				okPressedHolder[0] = true;
-			}
-		}, dialogHolder));
-		result.add(createDialogClosingButton("Cancel", new Runnable() {
-			@Override
-			public void run() {
-				okPressedHolder[0] = false;
-			}
-		}, dialogHolder));
-		return result;
-	}
-
+	
 	public String getDefaultFieldCaption(Object fieldValue) {
 		return BooleanTypeInfo.isCompatibleWith(fieldValue.getClass()) ? "Is True" : "Value";
 	}
@@ -1565,7 +1392,13 @@ public class SwingRenderer {
 		busyLabel.setText("Please wait...");
 		busyLabel.setVerticalTextPosition(SwingConstants.TOP);
 		busyLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-		final JDialog dialog = createDialog(ownerComponent, busyLabel, title, null, null, null);
+		
+		DialogBuilder dialogBuilder = new DialogBuilder(this);
+		dialogBuilder.setOwnerComponent(ownerComponent);
+		dialogBuilder.setContentComponent(busyLabel);
+		dialogBuilder.setTitle(title);		
+		final JDialog dialog = dialogBuilder.build();
+		
 		final Thread thread = new Thread(title) {
 			@Override
 			public void run() {
@@ -1623,12 +1456,12 @@ public class SwingRenderer {
 	}
 
 	public void openMessageDialog(Component activatorComponent, String msg, String title) {
-		JDialog[] dialogHolder = new JDialog[1];
-		JButton okButton = createDialogClosingButton("Close", null, dialogHolder);
-		dialogHolder[0] = createDialog(activatorComponent,
-				new JLabel("<HTML><BR>" + msg + "<BR><BR><HTML>", SwingConstants.CENTER), title, null,
-				Collections.singletonList(okButton), null);
-		showDialog(dialogHolder[0], true);
+		DialogBuilder dialogBuilder = new DialogBuilder(this);
+		JButton okButton = dialogBuilder.createDialogClosingButton("Close", null);
+		dialogBuilder.setToolbarComponents(Collections.singletonList(okButton));
+		dialogBuilder.setContentComponent(new JLabel("<HTML><BR>" + msg + "<BR><BR><HTML>", SwingConstants.CENTER));
+		dialogBuilder.setTitle(title);
+		showDialog(dialogBuilder.build(), true);		
 	}
 
 	public void updateFieldControlLayout(FieldControlPlaceHolder fieldControlPlaceHolder) {

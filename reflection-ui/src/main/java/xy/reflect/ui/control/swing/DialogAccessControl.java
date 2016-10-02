@@ -19,11 +19,14 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.undo.SetFieldValueModification;
+import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.util.Accessor;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 @SuppressWarnings("unused")
-public class DialogAccessControl extends JPanel {
+public class DialogAccessControl extends JPanel implements IFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
@@ -138,29 +141,38 @@ public class DialogAccessControl extends JPanel {
 	}
 
 	protected void openDialog() {
-		final Accessor<Object> valueAccessor = new Accessor<Object>() {
+		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, field.getValue(object));
+		
+		dialogBuilder.setGetOnly(field.isGetOnly());
+		dialogBuilder.setCancellable(true);
+		swingRenderer.showDialog(dialogBuilder.build(), true);
 
-			@Override
-			public Object get() {
-				return field.getValue(object);
-			}
-
-			@Override
-			public void set(Object t) {
+		if (dialogBuilder.isModificationDetected()) {
+			ModificationStack parentModificationStack = SwingRendererUtils
+					.findModificationStack(DialogAccessControl.this, swingRenderer);
+			if (parentModificationStack != null) {
+				ModificationStack dialogModifStack = dialogBuilder.getModificationStack();
+				if (dialogModifStack.isInvalidated()) {
+					if (!field.isGetOnly()) {
+						field.setValue(object, dialogBuilder.getValue());
+					}
+					parentModificationStack.invalidate();
+				} else {
+					parentModificationStack.beginComposite();
+					if (!field.isGetOnly()) {
+						parentModificationStack.apply(new SetFieldValueModification(swingRenderer.getReflectionUI(),
+								dialogModifStack, field, dialogBuilder.getValue()));
+					}
+					parentModificationStack.pushUndo(dialogModifStack.toCompositeModification());
+					parentModificationStack.endComposite("Edit '" + field.getCaption() + "'", UndoOrder.FIFO);
+				}
+			} else {
 				if (!field.isGetOnly()) {
-					field.setValue(object, t);
+					field.setValue(object, dialogBuilder.getValue());
 				}
 			}
-
-		};
-		ModificationStack parentStack = SwingRendererUtils.findModificationStack(DialogAccessControl.this,
-				swingRenderer);
-		String title = swingRenderer.getObjectTitle(valueAccessor.get());
-		Image iconImage = swingRenderer.getObjectIconImage(valueAccessor.get());
-		if (swingRenderer.openObjectDialogAndGetUpdateStatus(this, valueAccessor, field.isGetOnly(), title, iconImage, parentStack)) {
 			updateControls();
 		}
-
 	}
 
 	protected void updateControls() {
@@ -182,6 +194,26 @@ public class DialogAccessControl extends JPanel {
 
 	protected void updateStatusControl() {
 		((TextControl) statusControl).refreshUI();
+	}
+
+	@Override
+	public boolean displayError(ReflectionUIError error) {
+		return false;
+	}
+
+	@Override
+	public boolean showCaption() {
+		return false;
+	}
+
+	@Override
+	public boolean refreshUI() {
+		return false;
+	}
+
+	@Override
+	public boolean handlesModificationStackUpdate() {
+		return true;
 	}
 
 }

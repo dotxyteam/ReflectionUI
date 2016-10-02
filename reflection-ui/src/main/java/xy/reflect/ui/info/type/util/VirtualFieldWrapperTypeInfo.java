@@ -10,8 +10,11 @@ import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.util.Accessor;
+import xy.reflect.ui.util.ArrayAccessor;
 import xy.reflect.ui.util.ReflectionUIError;
 
+@SuppressWarnings("unused")
 public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 
 	protected ReflectionUI reflectionUI;
@@ -134,13 +137,17 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 		fieldType.validate(instance.getValue());
 	}
 
-	public Object getInstance(Object[] fieldValueHolder) {
-		if (!fieldType.supportsInstance(fieldValueHolder[0])) {
+	public Object getInstance(Accessor<Object> fieldValueAccessor) {
+		if (!fieldType.supportsInstance(fieldValueAccessor.get())) {
 			throw new ReflectionUIError();
 		}
-		Instance result = new Instance(fieldValueHolder);
+		Instance result = new Instance(fieldValueAccessor);
 		reflectionUI.registerPrecomputedTypeInfoObject(result, this);
 		return result;
+	}
+
+	public Object getInstance(Object[] fieldValueHolder) {
+		return getInstance(new ArrayAccessor<Object>(fieldValueHolder));
 	}
 
 	@Override
@@ -188,28 +195,37 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 		return getCaption();
 	}
 
-	public static Object wrap(ReflectionUI reflectionUI, final Object[] fieldValueHolder, final String fieldCaption,
+	public static Object wrap(ReflectionUI reflectionUI, final Accessor<Object> fieldValueAccessor, final String fieldCaption,
 			final String wrapperTypeCaption, final boolean readOnly) {
-		final ITypeInfo fieldType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(fieldValueHolder[0]));
+		final ITypeInfo fieldType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(fieldValueAccessor.get()));
 		VirtualFieldWrapperTypeInfo wrapperType = new VirtualFieldWrapperTypeInfo(reflectionUI, fieldType, fieldCaption,
 				readOnly, wrapperTypeCaption);
-		return wrapperType.getInstance(fieldValueHolder);
+		return wrapperType.getInstance(fieldValueAccessor);
+	}
+	
+	public static Object wrap(ReflectionUI reflectionUI, final Object[] fieldValueHolder, final String fieldCaption,
+			final String wrapperTypeCaption, final boolean readOnly) {
+		return wrap(reflectionUI, new ArrayAccessor<Object>(fieldValueHolder), fieldCaption, wrapperTypeCaption, readOnly);
 	}
 
 	protected static class Instance {
-		protected Object[] fieldValueHolder;
+		protected Accessor<Object> fieldValueAccessor;
 
-		public Instance(Object[] fieldValueHolder) {
+		public Instance(final Object[] fieldValueHolder) {
+			this(new ArrayAccessor<Object>(fieldValueHolder));
+		}
+
+		public Instance(Accessor<Object> fieldValueAccessor) {
 			super();
-			this.fieldValueHolder = fieldValueHolder;
+			this.fieldValueAccessor = fieldValueAccessor;
 		}
 
 		public Object getValue() {
-			return fieldValueHolder[0];
+			return fieldValueAccessor.get();
 		}
 
 		public void setValue(Object value) {
-			fieldValueHolder[0] = value;
+			fieldValueAccessor.set(value);
 		}
 
 		@Override
@@ -225,7 +241,7 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + Arrays.hashCode(fieldValueHolder);
+			result = prime * result + ((fieldValueAccessor == null) ? 0 : fieldValueAccessor.hashCode());
 			return result;
 		}
 
@@ -238,12 +254,13 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 			if (getClass() != obj.getClass())
 				return false;
 			Instance other = (Instance) obj;
-			if (!Arrays.equals(fieldValueHolder, other.fieldValueHolder))
+			if (fieldValueAccessor == null) {
+				if (other.fieldValueAccessor != null)
+					return false;
+			} else if (!fieldValueAccessor.equals(other.fieldValueAccessor))
 				return false;
 			return true;
 		}
-		
-		
 
 	}
 }

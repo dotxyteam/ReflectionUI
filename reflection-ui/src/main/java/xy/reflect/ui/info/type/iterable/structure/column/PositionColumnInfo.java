@@ -10,7 +10,7 @@ public class PositionColumnInfo implements IColumnInfo {
 	@Override
 	public String getCellValue(ItemPosition itemPosition) {
 		if (itemPosition.isRootListItemPosition()) {
-			return Integer.toString(itemPosition.getIndex()) + 1;
+			return Integer.toString(itemPosition.getIndex() + 1);
 		} else {
 			return null;
 		}
