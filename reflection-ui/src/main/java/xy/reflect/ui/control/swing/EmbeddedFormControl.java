@@ -19,6 +19,7 @@ import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.SetFieldValueModification;
 import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 public class EmbeddedFormControl extends JPanel implements IFieldControl {
@@ -131,7 +132,8 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 
 	protected boolean shouldUpdateField() {
 		Object oldValue = field.getValue(object);
-		return (!field.isGetOnly()) && (!swingRenderer.getReflectionUI().equals(oldValue, subFormObject));
+		return (!field.isGetOnly())
+				&& (!ReflectionUIUtils.equals(swingRenderer.getReflectionUI(), oldValue, subFormObject));
 	}
 
 	protected void saveFocusInformation() {
@@ -160,7 +162,7 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 			swingRenderer.handleComponentSizeChange(this);
 		} else {
 			Object newSubFormObject = field.getValue(object);
-			if (swingRenderer.getReflectionUI().equals(newSubFormObject, subFormObject)) {
+			if (ReflectionUIUtils.equals(swingRenderer.getReflectionUI(), newSubFormObject, subFormObject)) {
 				swingRenderer.refreshAllFieldControls(subForm, false);
 			} else {
 				remove(subForm);

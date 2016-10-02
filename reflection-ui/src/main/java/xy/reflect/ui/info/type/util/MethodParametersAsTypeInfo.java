@@ -12,6 +12,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MethodParametersAsTypeInfo implements ITypeInfo {
@@ -166,6 +167,23 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 	}
 
 	
+
+	@Override
+	public boolean canCopy(Object object) {
+		ReflectionUIUtils.checkInstance(this, object);
+		return false;
+	}
+
+	@Override
+	public Object copy(Object object) {
+		throw new ReflectionUIError();
+	}
+
+	@Override
+	public boolean equals(Object value1, Object value2) {
+		ReflectionUIUtils.checkInstance(this, value1);
+		return ReflectionUIUtils.equalsOrBothNull(value1, value2);
+	}
 
 	@Override
 	public boolean supportsInstance(Object object) {

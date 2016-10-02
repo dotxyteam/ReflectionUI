@@ -8,6 +8,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.util.InfoProxyGenerator;
+import xy.reflect.ui.util.SystemProperties;
 
 /*
  * Read carefully the comments below. 
@@ -29,61 +30,80 @@ public class Example {
 		/*
 		 * You can customize some aspects (field labels, hide some methods, ...)
 		 * of the generated UI by using an integrated customizations editor. To
-		 * enable this editor set the following JVM properties:
+		 * enable this editor set the following JVM property:
+		 * -Dxy.reflect.ui.defaultCustomizationsActive=true You can also do it
+		 * programmatically before any reference to the SwingRenderer.DEFAULT:
 		 */
-		// -Dxy.reflect.ui.defaultCustomizationsActive=true
-		// -Dxy.reflect.ui.defaultCustomizationsEditable=true
+		System.setProperty(SystemProperties.DEFAULT_INFO_CUSTOMIZATIONS_ACTIVE, "true");
+
+		/*
+		 * When you are done customizing the UI the customizations editor must
+		 * be hidden by setting the following JVM property:
+		 * -Dxy.reflect.ui.defaultCustomizationsEditable=false You can also do
+		 * it programmatically before any reference to the
+		 * SwingRenderer.DEFAULT:
+		 */
+		System.setProperty(SystemProperties.DEFAULT_INFO_CUSTOMIZATIONS_EDITABLE, "false");
 
 		/*
 		 * The SwingRenderer.DEFAULT assumes that the Java coding standards are
 		 * respected for the classes of the objects for which it generates UI.
-		 * Otherwise adjustments can be done by overriding some methods:
+		 * If you want to take control over the object discovery and
+		 * interpretation process, then you must create custom ReflectionUI and
+		 * SwingRenderer objects and override the ReflectionUI.getTypeInfo()
+		 * method:
 		 */
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
-			/* if your class "equals" method is not well implemented then: */
-			@Override
-			public boolean equals(Object value1, Object value2) {
-				return super.equals(value1, value2);
-			}
-
-			/* if your class "toString" method is not well implemented then: */
-			@Override
-			public String toString(Object object) {
-				return super.toString(object);
-			}
-
-			/*
-			 * copy/cut/paste: By default this functionality is enabled only for
-			 * Serializable objects. If your class does not implement the
-			 * Serializable interface then override the following methods of the
-			 * ReflectionUI object:
-			 */
-			@Override
-			public boolean canCopy(Object object) {
-				// TODO: replace with your code
-				return super.canCopy(object);
-			}
-
-			@Override
-			public Object copy(Object object) {
-				// TODO: replace with your code
-				return super.copy(object);
-			}
-
-			/*
-			 * If you specifically want to take control over the object
-			 * discovery and interpretation process, then you must override the
-			 * getTypeInfo() method. For instance you can uppercase all the
-			 * field captions this way:
-			 */
 			@Override
 			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
 				return new InfoProxyGenerator() {
+
+					/*
+					 * For instance you can uppercase all the field captions
+					 * this way:
+					 */
 					@Override
 					protected String getCaption(IFieldInfo field, ITypeInfo containingType) {
 						return super.getCaption(field, containingType).toUpperCase();
 					}
+
+					/*
+					 * if your class "equals" method is not implemented as you want
+					 * then:
+					 */
+					@Override
+					public boolean equals(ITypeInfo type, Object value1, Object value2) {
+						return super.equals(type, value1, value2);
+					}
+
+					/*
+					 * if your class "toString" method is not implemented as you want
+					 * then:
+					 */
+					@Override
+					public String toString(ITypeInfo type, Object object) {
+						return super.toString(type, object);
+					}
+
+					/*
+					 * copy/cut/paste: By default this functionality is enabled
+					 * only for Serializable objects. If your class does not
+					 * implement the Serializable interface then override the
+					 * following methods:
+					 */
+					@Override
+					public boolean canCopy(ITypeInfo type, Object object) {
+						// TODO: replace with your code
+						return super.canCopy(type, object);
+					}
+
+					@Override
+					public Object copy(ITypeInfo type, Object object) {
+						// TODO: replace with your code
+						return super.copy(type, object);
+					}
+
 				}.get(super.getTypeInfo(typeSource));
 			}
 

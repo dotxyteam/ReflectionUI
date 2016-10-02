@@ -10,6 +10,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
+import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.info.method.InvocationData;
 
 @SuppressWarnings("rawtypes")
@@ -65,12 +66,12 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements
 				
 				@Override
 				public String getName() {
-					return reflectionUI.toString(object);
+					return ReflectionUIUtils.toString(reflectionUI, object);
 				}
 				
 				@Override
 				public String getCaption() {
-					return reflectionUI.toString(object);
+					return ReflectionUIUtils.toString(reflectionUI, object);
 				}
 			};
 		}

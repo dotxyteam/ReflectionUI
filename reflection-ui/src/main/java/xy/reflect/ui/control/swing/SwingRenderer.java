@@ -68,7 +68,7 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.ArrayAsEnumerationTypeInfo;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
 import xy.reflect.ui.info.type.util.MethodParametersAsTypeInfo;
-import xy.reflect.ui.info.type.util.VirtualFieldWrapperTypeInfo;
+import xy.reflect.ui.info.type.util.EncapsulationTypeInfo;
 import xy.reflect.ui.undo.CompositeModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.IModificationListener;
@@ -235,10 +235,6 @@ public class SwingRenderer {
 		}
 		return result;
 	}
-
-	
-
-	
 
 	public FieldControlPlaceHolder createFieldControlPlaceHolder(Object object, IFieldInfo field) {
 		return new FieldControlPlaceHolder(object, field);
@@ -1049,9 +1045,9 @@ public class SwingRenderer {
 
 	public void openErrorDialog(Component activatorComponent, String title, final Throwable error) {
 		DialogBuilder dialogBuilder = new DialogBuilder(this);
-		
+
 		Component errorComponent = new JOptionPane(
-				createObjectForm(VirtualFieldWrapperTypeInfo.wrap(reflectionUI,
+				createObjectForm(EncapsulationTypeInfo.encapsulate(reflectionUI,
 						new Object[] { ReflectionUIUtils.getPrettyMessage(error) }, "Message", "", true)),
 				JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[] {});
 
@@ -1067,12 +1063,12 @@ public class SwingRenderer {
 		});
 		buttons.add(deatilsButton);
 		buttons.add(dialogBuilder.createDialogClosingButton("Close", null));
-		
+
 		dialogBuilder.setOwnerComponent(activatorComponent);
 		dialogBuilder.setTitle(title);
 		dialogBuilder.setContentComponent(errorComponent);
 		dialogBuilder.setToolbarComponents(buttons);
-		
+
 		showDialog(dialogBuilder.build(), true);
 
 	}
@@ -1093,6 +1089,8 @@ public class SwingRenderer {
 
 	public boolean openMethoExecutionSettingDialog(final Component activatorComponent, final Object object,
 			final IMethodInfo method, final Object[] returnValueHolder) {
+		final DialogBuilder dialogBuilder = new DialogBuilder(this);
+		
 		final boolean shouldDisplayReturnValue = (returnValueHolder == null) && (method.getReturnValueType() != null);
 		final boolean[] exceptionThrownHolder = new boolean[] { false };
 		final Object[] returnValueToDisplay = new Object[1];
@@ -1105,7 +1103,6 @@ public class SwingRenderer {
 		JPanel methodForm = createObjectForm(
 				new MethodParametersAsTypeInfo(reflectionUI, method).getInstance(object, invocationData));
 		final boolean[] invokedStatusHolder = new boolean[] { false };
-		final JDialog[] methodDialogHolder = new JDialog[1];
 		List<Component> toolbarControls = new ArrayList<Component>();
 		String doc = method.getOnlineHelp();
 		if ((doc != null) && (doc.trim().length() > 0)) {
@@ -1139,7 +1136,7 @@ public class SwingRenderer {
 							openMethodReturnValueWindow(activatorComponent, object, method, returnValueToDisplay[0]);
 						}
 					} else {
-						methodDialogHolder[0].dispose();
+						dialogBuilder.getBuiltDialog().dispose();
 					}
 				}
 			});
@@ -1151,19 +1148,18 @@ public class SwingRenderer {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					methodDialogHolder[0].dispose();
+					dialogBuilder.getBuiltDialog().dispose();
 				}
 
 			});
 			toolbarControls.add(closeButton);
 		}
-		
-		DialogBuilder dialogBuilder = new DialogBuilder(this);
+
 		dialogBuilder.setOwnerComponent(activatorComponent);
 		dialogBuilder.setContentComponent(methodForm);
 		dialogBuilder.setTitle(ReflectionUIUtils.composeTitle(method.getCaption(), "Setup"));
 		dialogBuilder.setToolbarComponents(toolbarControls);
-		
+
 		showDialog(dialogBuilder.build(), true);
 		if (shouldDisplayReturnValue) {
 			return true;
@@ -1172,9 +1168,6 @@ public class SwingRenderer {
 		}
 	}
 
-	
-
-	
 	public boolean openObjectDialogAndGetConfirmation(Component activatorComponent, Object object, final String title,
 			Image iconImage, boolean modal) {
 		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(this, object);
@@ -1204,10 +1197,6 @@ public class SwingRenderer {
 		showDialog(dialogBuilder.build(), modal);
 	}
 
-	
-
-	
-
 	public void openObjectFrame(Object object, String title, Image iconImage) {
 		JFrame frame = createObjectFrame(object, title, iconImage);
 		frame.setVisible(true);
@@ -1225,7 +1214,7 @@ public class SwingRenderer {
 		final Object[] valueHolder = new Object[] { object };
 		String fieldName = BooleanTypeInfo.isCompatibleWith(valueHolder[0].getClass()) ? "Is True" : "Value";
 		if (hasCustomFieldControl(object)) {
-			object = VirtualFieldWrapperTypeInfo.wrap(reflectionUI, valueHolder, fieldName, title, true);
+			object = EncapsulationTypeInfo.encapsulate(reflectionUI, valueHolder, fieldName, title, true);
 		}
 		JPanel form = createObjectForm(object);
 		JFrame frame = createFrame(form, title, iconImage, createCommonToolbarControls(form));
@@ -1245,7 +1234,7 @@ public class SwingRenderer {
 
 			{
 				for (Object choice : choices) {
-					captions.put(choice, SwingRenderer.this.reflectionUI.toString(choice));
+					captions.put(choice, ReflectionUIUtils.toString(SwingRenderer.this.reflectionUI, choice));
 					iconImages.put(choice, getObjectIconImage(choice));
 				}
 			}
@@ -1303,10 +1292,10 @@ public class SwingRenderer {
 			initialEnumItem = enumType.getPossibleValues()[0];
 		}
 		final Object[] chosenItemHolder = new Object[] { initialEnumItem };
-		final Object chosenItemAsField = VirtualFieldWrapperTypeInfo.wrap(reflectionUI, chosenItemHolder, message,
+		final Object encapsulatedChosenItem = EncapsulationTypeInfo.encapsulate(reflectionUI, chosenItemHolder, message,
 				"Selection", false);
-		if (openObjectDialogAndGetConfirmation(parentComponent, chosenItemAsField, title,
-				getObjectIconImage(chosenItemAsField), true)) {
+		if (openObjectDialogAndGetConfirmation(parentComponent, encapsulatedChosenItem, title,
+				getObjectIconImage(encapsulatedChosenItem), true)) {
 			return chosenItemHolder[0];
 		} else {
 			return null;
@@ -1319,9 +1308,9 @@ public class SwingRenderer {
 			throw new ReflectionUIError();
 		}
 		final Object[] valueHolder = new Object[] { initialValue };
-		final Object valueAsField = VirtualFieldWrapperTypeInfo.wrap(reflectionUI, valueHolder, dataName, "Selection",
+		final Object encapsulatedValue = EncapsulationTypeInfo.encapsulate(reflectionUI, valueHolder, dataName, "Selection",
 				false);
-		if (openObjectDialogAndGetConfirmation(parentComponent, valueAsField, title, getObjectIconImage(valueAsField),
+		if (openObjectDialogAndGetConfirmation(parentComponent, encapsulatedValue, title, getObjectIconImage(encapsulatedValue),
 				true)) {
 			return (T) valueHolder[0];
 		} else {
@@ -1337,13 +1326,13 @@ public class SwingRenderer {
 			String noCaption) {
 		DialogBuilder dialogBuilder = new DialogBuilder(this);
 		dialogBuilder.setToolbarComponents(dialogBuilder.createStandardOKCancelDialogButtons());
-		dialogBuilder.setContentComponent(new JLabel("<HTML><BR>" + question + "<BR><BR><HTML>", SwingConstants.CENTER));
+		dialogBuilder
+				.setContentComponent(new JLabel("<HTML><BR>" + question + "<BR><BR><HTML>", SwingConstants.CENTER));
 		dialogBuilder.setTitle(title);
 		showDialog(dialogBuilder.build(), true);
 		return dialogBuilder.isOkPressed();
 	}
 
-	
 	public String getDefaultFieldCaption(Object fieldValue) {
 		return BooleanTypeInfo.isCompatibleWith(fieldValue.getClass()) ? "Is True" : "Value";
 	}
@@ -1392,13 +1381,13 @@ public class SwingRenderer {
 		busyLabel.setText("Please wait...");
 		busyLabel.setVerticalTextPosition(SwingConstants.TOP);
 		busyLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-		
+
 		DialogBuilder dialogBuilder = new DialogBuilder(this);
 		dialogBuilder.setOwnerComponent(ownerComponent);
 		dialogBuilder.setContentComponent(busyLabel);
-		dialogBuilder.setTitle(title);		
+		dialogBuilder.setTitle(title);
 		final JDialog dialog = dialogBuilder.build();
-		
+
 		final Thread thread = new Thread(title) {
 			@Override
 			public void run() {
@@ -1461,7 +1450,7 @@ public class SwingRenderer {
 		dialogBuilder.setToolbarComponents(Collections.singletonList(okButton));
 		dialogBuilder.setContentComponent(new JLabel("<HTML><BR>" + msg + "<BR><BR><HTML>", SwingConstants.CENTER));
 		dialogBuilder.setTitle(title);
-		showDialog(dialogBuilder.build(), true);		
+		showDialog(dialogBuilder.build(), true);
 	}
 
 	public void updateFieldControlLayout(FieldControlPlaceHolder fieldControlPlaceHolder) {
@@ -1541,11 +1530,11 @@ public class SwingRenderer {
 	}
 
 	public final boolean hasCustomFieldControl(Object fieldValue) {
-		Object valueAsField = VirtualFieldWrapperTypeInfo.wrap(reflectionUI, new Object[] { fieldValue }, "", "",
+		Object encapsulatedValue = EncapsulationTypeInfo.encapsulate(reflectionUI, new Object[] { fieldValue }, "", "",
 				false);
-		ITypeInfo valueAsFieldType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(valueAsField));
+		ITypeInfo valueAsFieldType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(encapsulatedValue));
 		IFieldInfo field = valueAsFieldType.getFields().get(0);
-		return hasCustomFieldControl(valueAsField, field);
+		return hasCustomFieldControl(encapsulatedValue, field);
 	}
 
 	public class FieldControlPlaceHolder extends JPanel {

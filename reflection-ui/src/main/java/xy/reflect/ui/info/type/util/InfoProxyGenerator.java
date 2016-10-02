@@ -155,6 +155,18 @@ public class InfoProxyGenerator {
 		return type.toString(object);
 	}
 
+	protected boolean canCopy(ITypeInfo type, Object object) {
+		return type.canCopy(object);
+	}
+
+	protected Object copy(ITypeInfo type, Object object) {
+		return type.copy(object);
+	}
+
+	protected boolean equals(ITypeInfo type, Object value1, Object value2) {
+		return type.equals(value1, value2);
+	}
+
 	protected String getCaption(IFieldInfo field, ITypeInfo containingType) {
 		return field.getCaption();
 	}
@@ -244,7 +256,7 @@ public class InfoProxyGenerator {
 	protected boolean canRemove(IListTypeInfo type) {
 		return type.canRemove();
 	}
-	
+
 	protected boolean canViewItemDetails(IListTypeInfo type) {
 		return type.canViewItemDetails();
 	}
@@ -518,6 +530,21 @@ public class InfoProxyGenerator {
 		}
 
 		@Override
+		public boolean canCopy(Object object) {
+			return InfoProxyGenerator.this.canCopy(type, object);
+		}
+
+		@Override
+		public Object copy(Object object) {
+			return InfoProxyGenerator.this.copy(type, object);
+		}
+
+		@Override
+		public boolean equals(Object value1, Object value2) {
+			return InfoProxyGenerator.this.equals(type, value1, value2);
+		}
+
+		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
@@ -581,7 +608,7 @@ public class InfoProxyGenerator {
 		public boolean isOrdered() {
 			return InfoProxyGenerator.this.isOrdered((IListTypeInfo) type);
 		}
-		
+
 		@Override
 		public boolean canAdd() {
 			return InfoProxyGenerator.this.canAdd((IListTypeInfo) type);
@@ -591,12 +618,11 @@ public class InfoProxyGenerator {
 		public boolean canRemove() {
 			return InfoProxyGenerator.this.canRemove((IListTypeInfo) type);
 		}
-		
+
 		@Override
 		public boolean canViewItemDetails() {
 			return InfoProxyGenerator.this.canViewItemDetails((IListTypeInfo) type);
 		}
-
 
 		@Override
 		public IListStructuralInfo getStructuralInfo() {

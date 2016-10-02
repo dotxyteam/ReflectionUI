@@ -101,7 +101,8 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 		for (Object item : array) {
 			StandardMapEntry entry = (StandardMapEntry) item;
 			if (result.containsKey(entry.getKey())) {
-				throw new ReflectionUIError("Duplicate key: '" + reflectionUI.toString(entry.getKey()) + "'");
+				throw new ReflectionUIError(
+						"Duplicate key: '" + ReflectionUIUtils.toString(reflectionUI, entry.getKey()) + "'");
 			}
 			result.put(entry.getKey(), entry.getValue());
 		}

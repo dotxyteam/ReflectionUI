@@ -7,6 +7,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class FieldColumnInfo implements IColumnInfo {
 
@@ -24,7 +25,7 @@ public class FieldColumnInfo implements IColumnInfo {
 	public String getCellValue(ItemPosition itemPosition) {
 		Object item = itemPosition.getItem();
 		Object value = field.getValue(item);
-		return reflectionUI.toString(value);
+		return ReflectionUIUtils.toString(reflectionUI, value);
 	}
 
 	@Override

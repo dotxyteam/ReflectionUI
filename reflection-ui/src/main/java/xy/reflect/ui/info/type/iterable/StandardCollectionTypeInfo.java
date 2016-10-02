@@ -127,7 +127,8 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 		for (Object item : array) {
 			if (result instanceof Set) {
 				if (result.contains(item)) {
-					throw new ReflectionUIError("Duplicate item: '" + reflectionUI.toString(item) + "'");
+					throw new ReflectionUIError(
+							"Duplicate item: '" + ReflectionUIUtils.toString(reflectionUI, item) + "'");
 				}
 			}
 			result.add(item);

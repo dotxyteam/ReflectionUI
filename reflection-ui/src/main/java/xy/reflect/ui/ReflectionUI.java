@@ -71,44 +71,6 @@ public class ReflectionUI {
 		precomputedTypeInfoByObject.remove(object);
 	}
 
-	public boolean canCopy(Object object) {
-		if (object == null) {
-			return true;
-		}
-		if (object instanceof Serializable) {
-			return true;
-		}
-		return false;
-	}
-
-	public Object copy(Object object) {
-		if (object == null) {
-			return null;
-		}
-		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(baos);
-			oos.writeObject(object);
-			ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-			ObjectInputStream ois = new ObjectInputStream(bais);
-			Object copy = ois.readObject();
-			return copy;
-		} catch (Throwable t) {
-			throw new ReflectionUIError("Could not copy object: " + t.toString());
-		}
-	}
-
-	public boolean equals(Object value1, Object value2) {
-		return ReflectionUIUtils.equalsOrBothNull(value1, value2);
-	}
-
-	public String toString(Object object) {
-		if (object == null) {
-			return null;
-		}
-		return getTypeInfo(getTypeInfoSource(object)).toString(object);
-	}
-
 	public ITypeInfoSource getTypeInfoSource(Object object) {
 		ITypeInfo precomputedType = precomputedTypeInfoByObject.get(object);
 		if (precomputedType != null) {

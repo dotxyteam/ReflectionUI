@@ -13,9 +13,10 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ArrayAccessor;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 @SuppressWarnings("unused")
-public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
+public class EncapsulationTypeInfo implements ITypeInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo fieldType;
@@ -23,7 +24,7 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 	protected boolean fieldReadOnly;
 	protected String caption;
 
-	public VirtualFieldWrapperTypeInfo(ReflectionUI reflectionUI, ITypeInfo fieldType, String fieldCaption,
+	public EncapsulationTypeInfo(ReflectionUI reflectionUI, ITypeInfo fieldType, String fieldCaption,
 			boolean fieldReadOnly, String caption) {
 		this.reflectionUI = reflectionUI;
 		this.fieldType = fieldType;
@@ -34,7 +35,7 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 
 	@Override
 	public String getName() {
-		return VirtualFieldWrapperTypeInfo.class.getSimpleName() + "(" + fieldCaption + ")";
+		return EncapsulationTypeInfo.class.getSimpleName() + "(" + fieldCaption + ")";
 	}
 
 	@Override
@@ -128,7 +129,26 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 	@Override
 	public String toString(Object object) {
 		Instance instance = (Instance) object;
-		return reflectionUI.toString(instance.getValue());
+		return ReflectionUIUtils.toString(reflectionUI, instance.getValue());
+	}
+
+	@Override
+	public boolean canCopy(Object object) {
+		Instance instance = (Instance) object;
+		return ReflectionUIUtils.canCopy(reflectionUI, instance.getValue());
+	}
+
+	@Override
+	public Object copy(Object object) {
+		Instance instance = (Instance) object;
+		Object instanceValueCopy = ReflectionUIUtils.copy(reflectionUI, instance.getValue());
+		return new Instance(new Object[] { instanceValueCopy });
+	}
+
+	@Override
+	public boolean equals(Object value1, Object value2) {
+		ReflectionUIUtils.checkInstance(this, value1);
+		return ReflectionUIUtils.equalsOrBothNull(value1, value2);
 	}
 
 	@Override
@@ -169,7 +189,7 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		VirtualFieldWrapperTypeInfo other = (VirtualFieldWrapperTypeInfo) obj;
+		EncapsulationTypeInfo other = (EncapsulationTypeInfo) obj;
 		if (caption == null) {
 			if (other.caption != null)
 				return false;
@@ -195,17 +215,18 @@ public class VirtualFieldWrapperTypeInfo implements ITypeInfo {
 		return getCaption();
 	}
 
-	public static Object wrap(ReflectionUI reflectionUI, final Accessor<Object> fieldValueAccessor, final String fieldCaption,
-			final String wrapperTypeCaption, final boolean readOnly) {
+	public static Object encapsulate(ReflectionUI reflectionUI, final Accessor<Object> fieldValueAccessor,
+			final String fieldCaption, final String wrapperTypeCaption, final boolean readOnly) {
 		final ITypeInfo fieldType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(fieldValueAccessor.get()));
-		VirtualFieldWrapperTypeInfo wrapperType = new VirtualFieldWrapperTypeInfo(reflectionUI, fieldType, fieldCaption,
-				readOnly, wrapperTypeCaption);
+		EncapsulationTypeInfo wrapperType = new EncapsulationTypeInfo(reflectionUI, fieldType, fieldCaption, readOnly,
+				wrapperTypeCaption);
 		return wrapperType.getInstance(fieldValueAccessor);
 	}
-	
-	public static Object wrap(ReflectionUI reflectionUI, final Object[] fieldValueHolder, final String fieldCaption,
-			final String wrapperTypeCaption, final boolean readOnly) {
-		return wrap(reflectionUI, new ArrayAccessor<Object>(fieldValueHolder), fieldCaption, wrapperTypeCaption, readOnly);
+
+	public static Object encapsulate(ReflectionUI reflectionUI, final Object[] fieldValueHolder,
+			final String fieldCaption, final String wrapperTypeCaption, final boolean readOnly) {
+		return encapsulate(reflectionUI, new ArrayAccessor<Object>(fieldValueHolder), fieldCaption, wrapperTypeCaption,
+				readOnly);
 	}
 
 	protected static class Instance {

@@ -19,6 +19,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 @SuppressWarnings("unused")
 public class ArrayAsEnumerationTypeInfo implements IEnumerationTypeInfo {
@@ -51,20 +52,6 @@ public class ArrayAsEnumerationTypeInfo implements IEnumerationTypeInfo {
 	@Override
 	public String getCaption() {
 		return typeCaption;
-	}
-
-	@Override
-	public void validate(Object object) throws Exception {
-	}
-
-	@Override
-	public String toString(Object object) {
-		return object.toString();
-	}
-
-	@Override
-	public boolean supportsInstance(Object object) {
-		return Arrays.asList(array).contains(object);
 	}
 
 	@Override
@@ -129,12 +116,12 @@ public class ArrayAsEnumerationTypeInfo implements IEnumerationTypeInfo {
 
 			@Override
 			public String getName() {
-				return reflectionUI.toString(object);
+				return ReflectionUIUtils.toString(reflectionUI, object);
 			}
 
 			@Override
 			public String getCaption() {
-				return reflectionUI.toString(object);
+				return ReflectionUIUtils.toString(reflectionUI, object);
 			}
 		};
 	}
@@ -172,12 +159,47 @@ public class ArrayAsEnumerationTypeInfo implements IEnumerationTypeInfo {
 		return true;
 	}
 
-	public void unregisterArrayItem(Object resultEnumItem) {
-		reflectionUI.unregisterPrecomputedTypeInfoObject(resultEnumItem);
+	@Override
+	public boolean supportsInstance(Object object) {
+		return Arrays.asList(array).contains(object);
+	}
+
+	@Override
+	public void validate(Object object) throws Exception {
+		ReflectionUIUtils.checkInstance(this, object);
+	}
+
+	@Override
+	public String toString(Object object) {
+		ReflectionUIUtils.checkInstance(this, object);
+		return object.toString();
+	}
+
+	public void unregisterArrayItem(Object item) {
+		ReflectionUIUtils.checkInstance(this, item);
+		reflectionUI.unregisterPrecomputedTypeInfoObject(item);
 	}
 
 	public void registerArrayItem(Object item) {
+		ReflectionUIUtils.checkInstance(this, item);
 		reflectionUI.registerPrecomputedTypeInfoObject(item, this);
+	}
+
+	@Override
+	public boolean canCopy(Object object) {
+		ReflectionUIUtils.checkInstance(this, object);
+		return false;
+	}
+
+	@Override
+	public Object copy(Object object) {
+		throw new ReflectionUIError();
+	}
+
+	@Override
+	public boolean equals(Object value1, Object value2) {
+		ReflectionUIUtils.checkInstance(this, value1);
+		return ReflectionUIUtils.equalsOrBothNull(value1, value2);
 	}
 
 }

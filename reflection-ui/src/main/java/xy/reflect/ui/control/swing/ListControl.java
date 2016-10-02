@@ -411,7 +411,7 @@ public class ListControl extends JPanel implements IFieldControl {
 			AutoFieldValueUpdatingItemPosition itemPosition = (AutoFieldValueUpdatingItemPosition) node.getUserObject();
 			IListStructuralInfo tableInfo = getStructuralInfo();
 			if (tableInfo == null) {
-				value = swingRenderer.getReflectionUI().toString(itemPosition.getItem());
+				value = ReflectionUIUtils.toString(swingRenderer.getReflectionUI(), itemPosition.getItem());
 			} else {
 				List<IColumnInfo> columns = tableInfo.getColumns();
 				if (columnIndex < columns.size()) {
@@ -580,7 +580,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		boolean result = true;
 		List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
 		for (AutoFieldValueUpdatingItemPosition selectionItem : selection) {
-			if (!swingRenderer.getReflectionUI().canCopy(selectionItem.getItem())) {
+			if (!ReflectionUIUtils.canCopy(swingRenderer.getReflectionUI(), selectionItem.getItem())) {
 				result = false;
 				break;
 			}
@@ -769,7 +769,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		visitItems(new IItemsVisitor() {
 			@Override
 			public boolean visitItem(AutoFieldValueUpdatingItemPosition itemPosition) {
-				if (swingRenderer.getReflectionUI().equals(itemPosition.getItem(), item)) {
+				if (ReflectionUIUtils.equals(swingRenderer.getReflectionUI(), itemPosition.getItem(), item)) {
 					result[0] = itemPosition;
 					return false;
 				}
@@ -1212,7 +1212,7 @@ public class ListControl extends JPanel implements IFieldControl {
 				clipboard.clear();
 				List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
 				for (AutoFieldValueUpdatingItemPosition itemPosition : selection) {
-					clipboard.add(swingRenderer.getReflectionUI().copy(itemPosition.getItem()));
+					clipboard.add(ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), itemPosition.getItem()));
 				}
 				return false;
 			}
@@ -1254,7 +1254,7 @@ public class ListControl extends JPanel implements IFieldControl {
 				Collections.reverse(selection);
 				List<AutoFieldValueUpdatingItemPosition> toPostSelect = new ArrayList<ListControl.AutoFieldValueUpdatingItemPosition>();
 				for (AutoFieldValueUpdatingItemPosition itemPosition : selection) {
-					clipboard.add(0, swingRenderer.getReflectionUI().copy(itemPosition.getItem()));
+					clipboard.add(0, ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), itemPosition.getItem()));
 					AutoFieldValueUpdatingList list = itemPosition.getContainingAutoUpdatingFieldList();
 					int index = itemPosition.getIndex();
 					list.remove(index);
@@ -1583,7 +1583,7 @@ public class ListControl extends JPanel implements IFieldControl {
 						return;
 					}
 					int row = treeTableComponent.rowAtPoint(me.getPoint());
-					if(row == -1){
+					if (row == -1) {
 						return;
 					}
 					AbstractStandardListAction action = createOpenItemAction();

@@ -1,5 +1,5 @@
 package xy.reflect.ui.util;
- 
+
 import java.awt.Color;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
@@ -928,5 +928,34 @@ public class ReflectionUIUtils {
 	public static boolean hasPolymorphicInstanceSubTypes(ITypeInfo type) {
 		List<ITypeInfo> polyTypes = type.getPolymorphicInstanceSubTypes();
 		return (polyTypes != null) && (polyTypes.size() > 0);
+	}
+
+	public static String toString(ReflectionUI reflectionUI, Object object) {
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		return type.toString(object);
+	}
+
+	public static boolean canCopy(ReflectionUI reflectionUI, Object object) {
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		return type.canCopy(object);
+	}
+
+	public static Object copy(ReflectionUI reflectionUI, Object object) {
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		return type.copy(object);
+	}
+
+	public static boolean equals(ReflectionUI reflectionUI, Object value1, Object value2) {
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value1));
+		return type.equals(value1, value2);
+	}
+
+	public static void checkInstance(ITypeInfo type, Object object) {
+		if (object == null) {
+			return;
+		}
+		if (!type.supportsInstance(object)) {
+			throw new ReflectionUIError();
+		}
 	}
 }

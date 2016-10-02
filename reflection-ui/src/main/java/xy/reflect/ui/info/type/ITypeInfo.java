@@ -21,6 +21,12 @@ public interface ITypeInfo extends IInfo {
 	List<ITypeInfo> getPolymorphicInstanceSubTypes();
 
 	String toString(Object object);
-	
+
 	void validate(Object object) throws Exception;
+
+	boolean canCopy(Object object);
+
+	Object copy(Object object);
+
+	boolean equals(Object value1, Object value2);
 }

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class StringValueColumnInfo implements IColumnInfo {
 
@@ -42,7 +43,7 @@ public class StringValueColumnInfo implements IColumnInfo {
 
 	@Override
 	public String getCellValue(ItemPosition itemPosition) {
-		return reflectionUI.toString(itemPosition.getItem());
+		return ReflectionUIUtils.toString(reflectionUI, itemPosition.getItem());
 	}
 
 	@Override

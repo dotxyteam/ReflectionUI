@@ -36,6 +36,10 @@ public class DialogBuilder {
 		return okPressed;
 	}
 
+	public JDialog getBuiltDialog() {
+		return dialog;
+	}
+
 	public Component getOwnerComponent() {
 		return ownerComponent;
 	}

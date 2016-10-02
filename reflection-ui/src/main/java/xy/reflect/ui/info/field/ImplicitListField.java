@@ -301,11 +301,6 @@ public class ImplicitListField implements IFieldInfo {
 		}
 
 		@Override
-		public String toString(Object object) {
-			return object.toString();
-		}
-
-		@Override
 		public boolean supportsInstance(Object object) {
 			return object instanceof Instance;
 		}
@@ -401,8 +396,8 @@ public class ImplicitListField implements IFieldInfo {
 
 		@Override
 		public List<IMethodInfo> getObjectSpecificItemConstructors(final Object object, IFieldInfo field) {
-			return Collections.<IMethodInfo> singletonList(
-					new AbstractConstructorMethodInfo(TypeInfo.this.getItemType()) {
+			return Collections
+					.<IMethodInfo> singletonList(new AbstractConstructorMethodInfo(TypeInfo.this.getItemType()) {
 
 						@Override
 						public Object invoke(Object nullObject, InvocationData invocationData) {
@@ -415,6 +410,29 @@ public class ImplicitListField implements IFieldInfo {
 							return Collections.emptyList();
 						}
 					});
+		}
+
+		@Override
+		public String toString(Object object) {
+			ReflectionUIUtils.checkInstance(this, object);
+			return object.toString();
+		}
+
+		@Override
+		public boolean canCopy(Object object) {
+			ReflectionUIUtils.checkInstance(this, object);
+			return false;
+		}
+
+		@Override
+		public Object copy(Object object) {
+			throw new ReflectionUIError();
+		}
+
+		@Override
+		public boolean equals(Object value1, Object value2) {
+			ReflectionUIUtils.checkInstance(this, value1);
+			return ReflectionUIUtils.equalsOrBothNull(value1, value2);
 		}
 
 		@Override

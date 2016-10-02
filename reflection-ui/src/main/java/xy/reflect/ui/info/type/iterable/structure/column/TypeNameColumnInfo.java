@@ -7,6 +7,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.type.iterable.map.StandardMapEntry;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 @SuppressWarnings("unused")
 public class TypeNameColumnInfo implements IColumnInfo {
@@ -27,7 +28,7 @@ public class TypeNameColumnInfo implements IColumnInfo {
 	public String getCellValue(ItemPosition itemPosition) {
 		Object item = itemPosition.getItem();
 		if (item instanceof StandardMapEntry) {
-			return reflectionUI.toString(((StandardMapEntry<?,?>) item).getKey());
+			return ReflectionUIUtils.toString(reflectionUI, ((StandardMapEntry<?, ?>) item).getKey());
 		} else {
 			return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item)).getCaption();
 		}

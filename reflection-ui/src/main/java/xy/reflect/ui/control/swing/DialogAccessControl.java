@@ -23,6 +23,7 @@ import xy.reflect.ui.undo.SetFieldValueModification;
 import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 @SuppressWarnings("unused")
@@ -129,7 +130,7 @@ public class DialogAccessControl extends JPanel implements IFieldControl {
 			@Override
 			public Object getValue(Object object) {
 				Object fieldValue = field.getValue(object);
-				return swingRenderer.getReflectionUI().toString(fieldValue);
+				return ReflectionUIUtils.toString(swingRenderer.getReflectionUI(), fieldValue);
 			}
 
 			@Override
@@ -142,7 +143,7 @@ public class DialogAccessControl extends JPanel implements IFieldControl {
 
 	protected void openDialog() {
 		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, field.getValue(object));
-		
+
 		dialogBuilder.setGetOnly(field.isGetOnly());
 		dialogBuilder.setCancellable(true);
 		swingRenderer.showDialog(dialogBuilder.build(), true);

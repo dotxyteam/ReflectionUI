@@ -1,5 +1,10 @@
 package xy.reflect.ui.info.type;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -163,6 +168,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 
 	@Override
 	public String toString(Object object) {
+		ReflectionUIUtils.checkInstance(this, object);
 		if (object == null) {
 			return null;
 		} else {
@@ -178,6 +184,8 @@ public class DefaultTypeInfo implements ITypeInfo {
 	}
 
 
+	
+
 	@Override
 	public String getOnlineHelp() {
 		return ReflectionUIUtils.getAnnotatedInfoOnlineHelp(javaType);
@@ -185,6 +193,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 
 	@Override
 	public void validate(Object object) throws Exception {
+		ReflectionUIUtils.checkInstance(this, object);
 		for (Method method : ReflectionUIUtils.getAnnotatedValidatingMethods(javaType)) {
 			try {
 				method.invoke(object);
@@ -198,5 +207,45 @@ public class DefaultTypeInfo implements ITypeInfo {
 	public Map<String, Object> getSpecificProperties() {
 		return Collections.emptyMap();
 	}
+	
+	@Override
+	public boolean canCopy(Object object) {
+		ReflectionUIUtils.checkInstance(this, object);
+		if (object == null) {
+			return true;
+		}
+		if (object instanceof Serializable) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Object copy(Object object) {
+		ReflectionUIUtils.checkInstance(this, object);
+		if (object == null) {
+			return null;
+		}
+		try {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ObjectOutputStream oos = new ObjectOutputStream(baos);
+			oos.writeObject(object);
+			ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+			ObjectInputStream ois = new ObjectInputStream(bais);
+			Object copy = ois.readObject();
+			return copy;
+		} catch (Throwable t) {
+			throw new ReflectionUIError("Could not copy object: " + t.toString());
+		}
+	}
+
+	@Override
+	public boolean equals(Object value1, Object value2) {
+		ReflectionUIUtils.checkInstance(this, value1);
+		return ReflectionUIUtils.equalsOrBothNull(value1, value2);
+	}
+
+	
+	
 
 }

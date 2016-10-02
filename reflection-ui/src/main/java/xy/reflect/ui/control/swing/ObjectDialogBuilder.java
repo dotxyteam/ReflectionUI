@@ -10,7 +10,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import xy.reflect.ui.info.IInfoCollectionSettings;
-import xy.reflect.ui.info.type.util.VirtualFieldWrapperTypeInfo;
+import xy.reflect.ui.info.type.util.EncapsulationTypeInfo;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
 
@@ -133,7 +133,7 @@ public class ObjectDialogBuilder {
 					ObjectDialogBuilder.this.value = t;
 				}
 			};
-			toDisplay = VirtualFieldWrapperTypeInfo.wrap(swingRenderer.getReflectionUI(), valueAccessor, fieldName,
+			toDisplay = EncapsulationTypeInfo.encapsulate(swingRenderer.getReflectionUI(), valueAccessor, fieldName,
 					getTitle(), getOnly);
 		}
 
