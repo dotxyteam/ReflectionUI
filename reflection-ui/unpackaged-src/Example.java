@@ -31,16 +31,17 @@ public class Example {
 		 * You can customize some aspects (field labels, hide some methods, ...)
 		 * of the generated UI by using an integrated customizations editor. To
 		 * enable this editor set the following JVM property:
-		 * -Dxy.reflect.ui.defaultCustomizationsActive=true You can also do it
-		 * programmatically before any reference to the SwingRenderer.DEFAULT:
+		 * "-Dxy.reflect.ui.defaultCustomizationsActive=true". You can also do
+		 * it programmatically before any reference to the
+		 * SwingRenderer.DEFAULT:
 		 */
 		System.setProperty(SystemProperties.DEFAULT_INFO_CUSTOMIZATIONS_ACTIVE, "true");
 
 		/*
 		 * When you are done customizing the UI the customizations editor must
 		 * be hidden by setting the following JVM property:
-		 * -Dxy.reflect.ui.defaultCustomizationsEditable=false You can also do
-		 * it programmatically before any reference to the
+		 * "-Dxy.reflect.ui.defaultCustomizationsEditable=false". You can also
+		 * do it programmatically before any reference to the
 		 * SwingRenderer.DEFAULT:
 		 */
 		System.setProperty(SystemProperties.DEFAULT_INFO_CUSTOMIZATIONS_EDITABLE, "false");
@@ -69,8 +70,8 @@ public class Example {
 					}
 
 					/*
-					 * if your class "equals" method is not implemented as you want
-					 * then:
+					 * if your class "equals" method is not implemented as you
+					 * want then:
 					 */
 					@Override
 					public boolean equals(ITypeInfo type, Object value1, Object value2) {
@@ -78,8 +79,8 @@ public class Example {
 					}
 
 					/*
-					 * if your class "toString" method is not implemented as you want
-					 * then:
+					 * if your class "toString" method is not implemented as you
+					 * want then:
 					 */
 					@Override
 					public String toString(ITypeInfo type, Object object) {

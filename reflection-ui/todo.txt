@@ -4,24 +4,14 @@
 - list customization item action undo not handled properly:
 item does not have a modif stack. Check.
 - field auto-update???
-- move from ReflectionUI.java to ITypeInfo.java
-	. copy methods
-	. equals method
-	...
 - allow to sort list view
 - update ScreenShots
 - update Example
 - Fix all the tests
-- Add ctor ReflectionUI(TypeInfoProxyGenerator... proxyGenerators)
 - add concept IFieldInfo.isValueCopy()
 - Cannot insert sub item into MultipleFieldAsList item
 - MultipleFieldAsList with only 1 item???
-- ListControl does not filter item fields
 - undo/redo bug (testable with TreeTableModelExample)
-- delete class ABstractTreeStructuralInfo
-- add IFieldControl.handlesModificationStackUpdate()
-	. if true then the form delgetes ModificationStack 
-	update entirely to (the control
 - list control:
 	. hide edit button when useless???
 - customizations edition:
@@ -34,74 +24,14 @@ item does not have a modif stack. Check.
 - openDialog() must be getOnly for immutable types
 - add Customizations:
 	. lists:
-		* onlyToString value
-		* columns order
 		* override item type???
-		* add type column
-		* change tree column
 	. field:
 		* override type???
 - add Customizations:
-	. list column order
-	. constructors (hide, ...)
 	. methods default param values
 - ReflectionUIUtils.onTypeInstanciation()
 must not use SwingRenderer
-- hideNullableConf must disappear: 
-the metadata editor will allow to specify how to handle and display 
-null values 
-- type infos must not contains any specific GUI code. Ex: remove
-	. ITypeInfo.createFieldControl()
-	. ITypeInfo.getIcon()
-	. IFieldInfo.getIcon()
-	. *.getIcon()
 - For null field, allow custom instanciation
-- There are debugging issues with type proxies: a type proxy is designed
-to work with a specific kind of object. The stack of proxies can be so 
-important that when it mismatches the object instance it becomes
-difficult to find where the bug is. The solution would be to be able to
-check the compatibility between the proxy type and the object. Some
-proxies have the same compatibility as their underlying type making it 
-more difficult to know the actual compatibility. Actually the 
-compatibility check is already done by the supports() method. But this 
-method is barely invoked. It may help to call it systematically in the
-base proxy configuration or to add an information in all the proxies
-that visually indicates the object compatibility. 
-   
-
-/*
- * public boolean openValueDialog(...): This method must allow to edit a
- * value, report the new value and the detailed value modifications.
- * Value modifications are needed because there may not be any new
- * object but rather an old object with its internal fields modified.
- * Due to the opacity of methods invocation impacts, the modifications
- * may not be well reported. If so, in the doubt the value must be
- * considered as new. To allow that methods must report "UNKNOWN"
- * modifications.
- */
-
-
-/*
- * Issue: field value read only is not the same as field value
- * sub-fields read only. If the field is read only then it must be
- * reflected when the field value is wrapped. If the field is not
- * wrapped then there is no need to reflect any read only feature in the
- * form. It must be rather reflected in the bottom buttons: read only
- * implies no OK button. But if it is so, then there is no way to create 
- read only viewers when needed, for instance to display Exceptions. But
- why would it be necessary for exception dialog to be read only, more
- over if the developers explicitly allowed to modify them. But it would
- anyway be interesting to have the possibility to build read only viewers.    
- * 
- */
-		
-
-- openObjectDialog() cannot detect changes of objects with only methods.
-Change should be detected each time a rw method is invoked???
-even if we o not know how to revert it
-- guessing rules are too complicated to understand by 
-developers. Maybe they should be moved to editable metadatas.
-- metatada wysiwyg editor???
 - it is impossible for custom field controls to prevent 
 modfications of non-primitive values because readonly field
 does not imply ICollectionSettings.allreadOnly for the field 

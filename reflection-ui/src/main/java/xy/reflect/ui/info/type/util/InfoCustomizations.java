@@ -448,6 +448,7 @@ public final class InfoCustomizations {
 		protected List<String> customMethodsOrder;
 		protected String onlineHelp;
 		protected List<CustomizationCategory> memberCategories = new ArrayList<CustomizationCategory>();
+		protected boolean undoManagementHidden = false;
 
 		protected List<ITypeInfoFinder> polymorphicSubTypeFinders = new ArrayList<ITypeInfoFinder>();
 
@@ -538,6 +539,14 @@ public final class InfoCustomizations {
 
 		public void setOnlineHelp(String onlineHelp) {
 			this.onlineHelp = onlineHelp;
+		}
+
+		public boolean isUndoManagementHidden() {
+			return undoManagementHidden;
+		}
+
+		public void setUndoManagementHidden(boolean undoManagementHidden) {
+			this.undoManagementHidden = undoManagementHidden;
 		}
 
 		@Override
@@ -1346,7 +1355,7 @@ public final class InfoCustomizations {
 
 								@Override
 								public Object invoke(Object object, InvocationData invocationData) {
-									Object result = method.invoke(item, invocationData);									
+									Object result = method.invoke(item, invocationData);
 									return result;
 								}
 
@@ -1435,6 +1444,17 @@ public final class InfoCustomizations {
 				}
 			}
 			return super.isOrdered(listType);
+		}
+
+		@Override
+		protected boolean isModificationStackAccessible(ITypeInfo type) {
+			TypeCustomization tc = getTypeCustomization(type.getName());
+			if (tc != null) {
+				if(tc.isUndoManagementHidden()){
+					return false;
+				}
+			}
+			return super.isModificationStackAccessible(type);
 		}
 
 		@Override

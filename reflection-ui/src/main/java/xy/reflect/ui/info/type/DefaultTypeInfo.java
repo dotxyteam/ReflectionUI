@@ -56,6 +56,11 @@ public class DefaultTypeInfo implements ITypeInfo {
 		}
 		return true;
 	}
+	
+	@Override
+	public boolean isModificationStackAccessible() {
+		return true;
+	}
 
 	@Override
 	public List<IMethodInfo> getConstructors() {

@@ -60,6 +60,11 @@ public class ArrayAsEnumerationTypeInfo implements IEnumerationTypeInfo {
 	}
 
 	@Override
+	public boolean isModificationStackAccessible() {
+		return false;
+	}
+
+	@Override
 	public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
 		return null;
 	}

@@ -309,6 +309,11 @@ public class ImplicitListField implements IFieldInfo {
 		public boolean isConcrete() {
 			return true;
 		}
+		
+		@Override
+		public boolean isModificationStackAccessible() {
+			return false;
+		}
 
 		@Override
 		public List<ITypeInfo> getPolymorphicInstanceSubTypes() {

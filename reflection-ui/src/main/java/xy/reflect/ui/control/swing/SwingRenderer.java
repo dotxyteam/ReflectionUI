@@ -176,12 +176,12 @@ public class SwingRenderer {
 		window.setBounds(bounds);
 	}
 
-	public void applyCommonWindowConfiguration(Window window, Component content,
-			List<? extends Component> toolbarControls, String title, Image iconImage) {
+	public void setupWindow(Window window, Component content, List<? extends Component> toolbarControls, String title,
+			Image iconImage) {
 		if (window instanceof JFrame) {
-			((JFrame) window).setTitle(title);
+			((JFrame) window).setTitle(prepareStringToDisplay(title));
 		} else if (window instanceof JDialog) {
-			((JDialog) window).setTitle(title);
+			((JDialog) window).setTitle(prepareStringToDisplay(title));
 		}
 		Container contentPane = createWindowContentPane(window, content, toolbarControls);
 		SwingRendererUtils.setContentPane(window, contentPane);
@@ -199,41 +199,23 @@ public class SwingRenderer {
 	}
 
 	public List<Component> createCommonToolbarControls(final JPanel form) {
-		List<Component> result = new ArrayList<Component>();
 		Object object = getObjectByForm().get(form);
-		if (object != null) {
-			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-			if ((type.getOnlineHelp() != null) && (type.getOnlineHelp().trim().length() > 0)) {
-				result.add(createOnlineHelpControl(type.getOnlineHelp()));
-			}
+		if (object == null) {
+			return null;
 		}
-		boolean editable = false;
-		{
-			for (IFieldInfo field : getDisplayedFields(form)) {
-				if (editable) {
-					break;
-				}
-				if (!field.isGetOnly()) {
-					editable = true;
-				}
-			}
-			for (IMethodInfo method : getDisplayedMethods(form)) {
-				if (editable) {
-					break;
-				}
-				if (!method.isReadOnly()) {
-					editable = true;
-				}
-			}
+		List<Component> result = new ArrayList<Component>();
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		if ((type.getOnlineHelp() != null) && (type.getOnlineHelp().trim().length() > 0)) {
+			result.add(createOnlineHelpControl(type.getOnlineHelp()));
 		}
-		if (editable) {
+		if (type.isModificationStackAccessible()) {
 			final ModificationStack stack = getModificationStackByForm().get(form);
-			if (stack == null) {
-				return null;
+			if (stack != null) {
+				result.addAll(new ModificationStackControls(stack).createControls(this));
 			}
-			result.addAll(new ModificationStackControls(stack).createControls(this));
 		}
 		return result;
+
 	}
 
 	public FieldControlPlaceHolder createFieldControlPlaceHolder(Object object, IFieldInfo field) {
@@ -269,7 +251,7 @@ public class SwingRenderer {
 	public JFrame createFrame(Component content, String title, Image iconImage,
 			List<? extends Component> toolbarControls) {
 		final JFrame frame = new JFrame();
-		applyCommonWindowConfiguration(frame, content, toolbarControls, title, iconImage);
+		setupWindow(frame, content, toolbarControls, title, iconImage);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		return frame;
 	}
@@ -551,7 +533,9 @@ public class SwingRenderer {
 			contentPane.add(content, BorderLayout.CENTER);
 		}
 		if (toolbarControls != null) {
-			contentPane.add(createToolBar(toolbarControls), BorderLayout.SOUTH);
+			if (toolbarControls.size() > 0) {
+				contentPane.add(createToolBar(toolbarControls), BorderLayout.SOUTH);
+			}
 		}
 		return contentPane;
 	}
@@ -1090,7 +1074,7 @@ public class SwingRenderer {
 	public boolean openMethoExecutionSettingDialog(final Component activatorComponent, final Object object,
 			final IMethodInfo method, final Object[] returnValueHolder) {
 		final DialogBuilder dialogBuilder = new DialogBuilder(this);
-		
+
 		final boolean shouldDisplayReturnValue = (returnValueHolder == null) && (method.getReturnValueType() != null);
 		final boolean[] exceptionThrownHolder = new boolean[] { false };
 		final Object[] returnValueToDisplay = new Object[1];
@@ -1308,10 +1292,10 @@ public class SwingRenderer {
 			throw new ReflectionUIError();
 		}
 		final Object[] valueHolder = new Object[] { initialValue };
-		final Object encapsulatedValue = EncapsulationTypeInfo.encapsulate(reflectionUI, valueHolder, dataName, "Selection",
-				false);
-		if (openObjectDialogAndGetConfirmation(parentComponent, encapsulatedValue, title, getObjectIconImage(encapsulatedValue),
-				true)) {
+		final Object encapsulatedValue = EncapsulationTypeInfo.encapsulate(reflectionUI, valueHolder, dataName,
+				"Selection", false);
+		if (openObjectDialogAndGetConfirmation(parentComponent, encapsulatedValue, title,
+				getObjectIconImage(encapsulatedValue), true)) {
 			return (T) valueHolder[0];
 		} else {
 			return null;

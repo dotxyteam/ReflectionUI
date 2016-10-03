@@ -126,7 +126,7 @@ public class DialogBuilder {
 
 	public JDialog build() {
 		Window owner = SwingRendererUtils.getWindowAncestorOrSelf(ownerComponent);
-		dialog = new JDialog(owner, swingRenderer.prepareStringToDisplay(title)) {
+		dialog = new JDialog(owner) {
 			protected static final long serialVersionUID = 1L;
 			protected boolean disposed = false;
 
@@ -146,7 +146,7 @@ public class DialogBuilder {
 				disposed = true;
 			}
 		};
-		swingRenderer.applyCommonWindowConfiguration(dialog, contentComponent, toolbarComponents, title, iconImage);
+		swingRenderer.setupWindow(dialog, contentComponent, toolbarComponents, title, iconImage);
 		dialog.setResizable(true);
 		return dialog;
 	}

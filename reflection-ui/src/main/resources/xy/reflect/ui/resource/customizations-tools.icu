@@ -146,15 +146,29 @@
     </listStructures>
     <typeCustomizations>
         <typeName></typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulationTypeInfo()</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>MethodParametersAsTypeInfo(CustomizationCategory)</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>MethodParametersAsTypeInfo(FieldCustomization)</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>MethodParametersAsTypeInfo(InfoCustomizations)</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
@@ -164,6 +178,7 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>MethodParametersAsTypeInfo(JavaTypeInfoSource)</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
@@ -185,12 +200,15 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>MethodParametersAsTypeInfo(getFieldCustomization)</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>MethodParametersAsTypeInfo(getMethodCustomization)</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>MethodParametersAsTypeInfo(getParameterCustomization)</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
@@ -206,6 +224,7 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>MethodParametersAsTypeInfo(getTypeCustomization)</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
@@ -215,6 +234,7 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>VirtualFieldWrapperTypeInfo()</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
@@ -224,6 +244,7 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>VirtualFieldWrapperTypeInfo(Choose a type:)</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
@@ -233,6 +254,7 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>VirtualFieldWrapperTypeInfo(Choose an option:)</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
@@ -242,6 +264,7 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>VirtualFieldWrapperTypeInfo(Choose the type of 'IType Info Finder')</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
@@ -251,6 +274,7 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>VirtualFieldWrapperTypeInfo(Choose the type:)</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
@@ -260,6 +284,7 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>VirtualFieldWrapperTypeInfo(Create 'IType Info Finder' of type)</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
@@ -269,6 +294,7 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>VirtualFieldWrapperTypeInfo(Create 'Object' of type)</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
@@ -278,6 +304,7 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>VirtualFieldWrapperTypeInfo(Message)</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
@@ -288,36 +315,47 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>VirtualFieldWrapperTypeInfo(Value)</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>[B</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>[Lxy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory;</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>boolean</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>byte</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>int</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>java.io.File</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>java.io.InputStream</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>java.io.OutputStream</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>java.lang.Class</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>java.lang.Object</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
@@ -343,12 +381,15 @@
             <readOnlyForced>false</readOnlyForced>
         </methodsCustomizations>
         <typeName>java.lang.String</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>java.lang.reflect.Member</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>java.util.ArrayList</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <methodsCustomizations>
@@ -357,15 +398,19 @@
             <readOnlyForced>false</readOnlyForced>
         </methodsCustomizations>
         <typeName>java.util.List</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>java.util.Map</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>java.util.Set</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>xy.reflect.ui.ReflectionUI</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
@@ -375,6 +420,7 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>xy.reflect.ui.control.swing.SwingCustomizer$CustomizationTools$1ColumnOrderItem</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <customFieldsOrder></customFieldsOrder>
@@ -407,15 +453,19 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>xy.reflect.ui.control.swing.SwingCustomizer$CustomizationTools$1ColumnSetting</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>xy.reflect.ui.info.type.ITypeInfo</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>xy.reflect.ui.info.type.iterable.structure.column.PositionColumnInfo</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <methodsCustomizations>
@@ -464,6 +514,7 @@
             <readOnlyForced>false</readOnlyForced>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.source.JavaTypeInfoSource</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <customFieldsOrder>typeCustomizations</customFieldsOrder>
@@ -824,6 +875,7 @@
             <readOnlyForced>false</readOnlyForced>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <customFieldsOrder>columnName</customFieldsOrder>
@@ -859,6 +911,7 @@
             <readOnlyForced>false</readOnlyForced>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
@@ -883,6 +936,7 @@
             <readOnlyForced>false</readOnlyForced>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$CustomTypeInfoFinder</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
@@ -892,6 +946,7 @@
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <customFieldsOrder>fieldName</customFieldsOrder>
@@ -991,6 +1046,7 @@
             <readOnlyForced>false</readOnlyForced>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <javaClassBasedTypeInfoFinder>
@@ -1000,6 +1056,7 @@
             <className>xy.reflect.ui.info.type.util.InfoCustomizations$CustomTypeInfoFinder</className>
         </javaClassBasedTypeInfoFinder>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$ITypeInfoFinder</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
@@ -1024,6 +1081,7 @@
             <readOnlyForced>false</readOnlyForced>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$JavaClassBasedTypeInfoFinder</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <customFieldsOrder>methodSignature</customFieldsOrder>
@@ -1055,6 +1113,7 @@
             <readOnlyForced>false</readOnlyForced>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$ListItemMethodShortcut</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <customFieldsOrder>fieldColumnsAdded</customFieldsOrder>
@@ -1249,6 +1308,7 @@
             <readOnlyForced>false</readOnlyForced>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$ListStructureCustomization</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <customFieldsOrder>methodSignature</customFieldsOrder>
@@ -1337,6 +1397,7 @@
             <readOnlyForced>false</readOnlyForced>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <customFieldsOrder>parameterName</customFieldsOrder>
@@ -1384,6 +1445,7 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
@@ -1405,12 +1467,13 @@
             <readOnlyForced>false</readOnlyForced>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$TreeStructureDiscoverySettings</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <customFieldsOrder>typeName</customFieldsOrder>
         <customFieldsOrder>customTypeCaption</customFieldsOrder>
         <customFieldsOrder>iconImageFile</customFieldsOrder>
-        <customFieldsOrder>unoManagementHidden</customFieldsOrder>
+        <customFieldsOrder>undoManagementHidden</customFieldsOrder>
         <customFieldsOrder>onlineHelp</customFieldsOrder>
         <customFieldsOrder>memberCategories</customFieldsOrder>
         <customFieldsOrder>polymorphicSubTypeFinders</customFieldsOrder>
@@ -1512,6 +1575,13 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <customFieldCaption>Hide Undo/Redo Options</customFieldCaption>
+            <fieldName>undoManagementHidden</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
             <fieldName>unoManagementHidden</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1589,8 +1659,10 @@
             <readOnlyForced>false</readOnlyForced>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoProxyGenerator$GeneratedMethodInfoProxy</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

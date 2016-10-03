@@ -297,6 +297,10 @@ public class InfoProxyGenerator {
 		return type.isConcrete();
 	}
 
+	protected boolean isModificationStackAccessible(ITypeInfo type) {
+		return type.isModificationStackAccessible();
+	}
+	
 	protected boolean supportsInstance(ITypeInfo type, Object object) {
 		return type.supportsInstance(object);
 	}
@@ -502,6 +506,11 @@ public class InfoProxyGenerator {
 		@Override
 		public boolean isConcrete() {
 			return InfoProxyGenerator.this.isConcrete(type);
+		}
+
+		@Override
+		public boolean isModificationStackAccessible() {
+			return InfoProxyGenerator.this.isModificationStackAccessible(type);
 		}
 
 		@Override

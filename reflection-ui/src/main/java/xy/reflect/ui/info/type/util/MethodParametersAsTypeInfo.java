@@ -35,6 +35,11 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 	}
 
 	@Override
+	public boolean isModificationStackAccessible() {
+		return true;
+	}
+
+	@Override
 	public List<IMethodInfo> getConstructors() {
 		return Collections.<IMethodInfo> emptyList();
 	}
