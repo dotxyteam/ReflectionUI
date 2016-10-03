@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
+import xy.reflect.ui.info.IInfo;
+
 public class ModificationStack {
 
 	protected static final String UNDO_TITLE_PREFIX = "(Revert) ";
@@ -31,6 +33,42 @@ public class ModificationStack {
 	protected Stack<ModificationStack> compositeStack = new Stack<ModificationStack>();
 	protected List<IModificationListener> listeners = new ArrayList<IModificationListener>();
 	protected boolean invalidated = false;
+
+	protected IModificationListener ALL_LISTENERS = new IModificationListener() {
+
+		@Override
+		public void handleDo(IModification modification) {
+			for (IModificationListener listener : new ArrayList<IModificationListener>(
+					ModificationStack.this.listeners)) {
+				listener.handleDo(modification);
+			}
+		}
+
+		@Override
+		public void handleUdno(IModification undoModification) {
+			for (IModificationListener listener : new ArrayList<IModificationListener>(
+					ModificationStack.this.listeners)) {
+				listener.handleUdno(undoModification);
+			}
+		}
+
+		@Override
+		public void handleRedo(IModification modification) {
+			for (IModificationListener listener : new ArrayList<IModificationListener>(
+					ModificationStack.this.listeners)) {
+				listener.handleRedo(modification);
+			}
+		}
+
+		@Override
+		public void handleInvalidate() {
+			for (IModificationListener listener : new ArrayList<IModificationListener>(
+					ModificationStack.this.listeners)) {
+				listener.handleInvalidate();
+			}
+		}
+
+	};
 
 	public ModificationStack(String name) {
 		this.name = name;
@@ -74,7 +112,8 @@ public class ModificationStack {
 			undoStack.push(undoModif);
 			redoStack.clear();
 		}
-		notifyListeners(IModificationListener.DO_EVENT);
+		ALL_LISTENERS.handleDo(undoModif);
+		;
 	}
 
 	public int getUndoSize() {
@@ -111,7 +150,7 @@ public class ModificationStack {
 		}
 		IModification undoModif = undoStack.pop();
 		redoStack.push(undoModif.applyAndGetOpposite());
-		notifyListeners(IModificationListener.UNDO_EVENT);
+		ALL_LISTENERS.handleUdno(undoModif);
 	}
 
 	public void redo() {
@@ -124,7 +163,7 @@ public class ModificationStack {
 		}
 		IModification modif = redoStack.pop();
 		undoStack.push(modif.applyAndGetOpposite());
-		notifyListeners(IModificationListener.REDO_EVENT);
+		ALL_LISTENERS.handleRedo(modif);
 	}
 
 	public void undoAll() {
@@ -157,8 +196,8 @@ public class ModificationStack {
 		compositeStack.push(new ModificationStack("(composite level " + compositeStack.size() + ") " + name));
 	}
 
-	public void endComposite(String title, UndoOrder order) {
-		CompositeModification compositeUndoModif = new CompositeModification(getUndoTitle(title), order,
+	public void endComposite(IInfo target, String title, UndoOrder order) {
+		CompositeModification compositeUndoModif = new CompositeModification(target, getUndoTitle(title), order,
 				compositeStack.pop().getUndoModifications(order));
 		ModificationStack compositeParent;
 		if (compositeStack.size() > 0) {
@@ -178,13 +217,7 @@ public class ModificationStack {
 		undoStack.clear();
 		compositeStack.clear();
 		invalidated = true;
-		notifyListeners(IModificationListener.INVALIDATE_EVENT);
-	}
-
-	protected void notifyListeners(Object event) {
-		for (IModificationListener listener : new ArrayList<IModificationListener>(listeners)) {
-			listener.handleEvent(event);
-		}
+		ALL_LISTENERS.handleInvalidate();
 	}
 
 	public Boolean canRedo() {
@@ -217,8 +250,8 @@ public class ModificationStack {
 		return true;
 	}
 
-	public IModification toCompositeModification() {
-		return new CompositeModification(null, UndoOrder.LIFO, getUndoModifications(UndoOrder.LIFO));
+	public IModification toCompositeModification(IInfo target, String title) {
+		return new CompositeModification(target, title, UndoOrder.LIFO, getUndoModifications(UndoOrder.LIFO));
 	}
 
 }

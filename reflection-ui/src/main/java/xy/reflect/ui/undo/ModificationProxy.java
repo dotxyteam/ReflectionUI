@@ -1,11 +1,12 @@
 package xy.reflect.ui.undo;
 
-public  class ModificationProxy implements IModification {
+import xy.reflect.ui.info.IInfo;
+
+public class ModificationProxy implements IModification {
 	protected IModification delegate;
 	protected ModificationProxyConfiguration configuration;
 
-	public ModificationProxy(IModification delegate,
-			ModificationProxyConfiguration configuration) {
+	public ModificationProxy(IModification delegate, ModificationProxyConfiguration configuration) {
 		super();
 		this.delegate = delegate;
 		this.configuration = configuration;
@@ -13,12 +14,14 @@ public  class ModificationProxy implements IModification {
 
 	final public IModification applyAndGetOpposite() {
 		try {
-			return new ModificationProxy(
-					delegate.applyAndGetOpposite(),
-					configuration);
+			return new ModificationProxy(delegate.applyAndGetOpposite(), configuration);
 		} finally {
 			configuration.executeAfterApplication();
 		}
+	}
+
+	public IInfo getTarget() {
+		return delegate.getTarget();
 	}
 
 	final public int getNumberOfUnits() {

@@ -54,6 +54,7 @@ import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.jdesktop.swingx.treetable.TreeTableModel;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -1523,8 +1524,8 @@ public class ListControl extends JPanel implements IFieldControl {
 						if (!listField.isGetOnly()) {
 							autoList.set(index, dialogStatus.getValue());
 						}
-						parentModifStack.pushUndo(dialogModifStack.toCompositeModification());
-						parentModifStack.endComposite("Edit '" + field.getCaption() + "' item", UndoOrder.FIFO);
+						parentModifStack.pushUndo(dialogModifStack.toCompositeModification(null, null));
+						parentModifStack.endComposite(field, "Edit '" + field.getCaption() + "' item", UndoOrder.FIFO);
 					}
 				} else {
 					if (!listField.isGetOnly()) {
@@ -1859,6 +1860,11 @@ public class ListControl extends JPanel implements IFieldControl {
 		}
 
 		@Override
+		public IInfo getTarget() {
+			return listField;
+		}
+
+		@Override
 		public int getNumberOfUnits() {
 			return 1;
 		}
@@ -1917,6 +1923,11 @@ public class ListControl extends JPanel implements IFieldControl {
 		}
 
 		@Override
+		public IInfo getTarget() {
+			return listField;
+		}
+
+		@Override
 		public int getNumberOfUnits() {
 			return 1;
 		}
@@ -1959,6 +1970,11 @@ public class ListControl extends JPanel implements IFieldControl {
 				List<AutoFieldValueUpdatingItemPosition> undoSelection) {
 			this.toSelect = toSelect;
 			this.undoSelection = undoSelection;
+		}
+
+		@Override
+		public IInfo getTarget() {
+			return field;
 		}
 
 		@Override
@@ -2047,7 +2063,7 @@ public class ListControl extends JPanel implements IFieldControl {
 
 		protected void endModification() {
 			ModificationStack modifStack = getParentFormModificationStack();
-			modifStack.endComposite(null, UndoOrder.FIFO);
+			modifStack.endComposite(field, "Edit " + itemPosition.getContainingListPath(), UndoOrder.FIFO);
 		}
 
 		@Override
@@ -2220,7 +2236,7 @@ public class ListControl extends JPanel implements IFieldControl {
 							modifStack
 									.apply(new ChangeListSelectionModification(toPostSelectHolder[0], getSelection()));
 						}
-						modifStack.endComposite(modifTitle, UndoOrder.LIFO);
+						modifStack.endComposite(field, modifTitle, UndoOrder.LIFO);
 					} else {
 						modifStack.cancelComposite();
 					}

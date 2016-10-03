@@ -18,6 +18,7 @@ import java.util.Map;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JMenu;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -26,6 +27,7 @@ import javax.swing.SwingUtilities;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.SwingRenderer.MethodControlPlaceHolder;
+import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -44,6 +46,9 @@ import xy.reflect.ui.info.type.util.InfoCustomizations.FieldCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.ListStructureCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.MethodCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.TypeCustomization;
+import xy.reflect.ui.undo.AbstractSimpleModificationListener;
+import xy.reflect.ui.undo.IModification;
+import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.util.FileUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -411,8 +416,15 @@ public class SwingCustomizer extends SwingRenderer {
 			result.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if (customizationToolsRenderer.openObjectDialogAndGetConfirmation(result, t,
-							customizationToolsRenderer.getObjectTitle(t), getCustomizationIcon().getImage(), true)) {
+					final ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(customizationToolsRenderer, t);
+					dialogBuilder.setIconImage(getCustomizationIcon().getImage());
+					dialogBuilder.setCancellable(true);
+					dialogBuilder.build();
+					dialogBuilder.getModificationStack()
+							.addListener(getCustomizedWindowsReloadingAdvicer(dialogBuilder.getBuiltDialog()));
+					customizationToolsRenderer.showDialog(dialogBuilder.getBuiltDialog(), true);
+
+					if (dialogBuilder.isOkPressed()) {
 						SwingUtilities.invokeLater(new Runnable() {
 							@Override
 							public void run() {
@@ -423,6 +435,50 @@ public class SwingCustomizer extends SwingRenderer {
 				}
 			});
 			return result;
+		}
+
+		protected IModificationListener getCustomizedWindowsReloadingAdvicer(final Component ownerComponent) {
+			return new IModificationListener() {
+
+				@Override
+				public void handleUdno(IModification undoModification) {
+				}
+
+				@Override
+				public void handleRedo(IModification modification) {
+				}
+
+				@Override
+				public void handleInvalidate() {
+				}
+
+				@Override
+				public void handleDo(IModification modification) {
+					if (modification != null) {
+						boolean showReloadWarning = false;
+						IInfo modifTarget = modification.getTarget();
+						if (modifTarget instanceof IFieldInfo) {
+							IFieldInfo field = (IFieldInfo) modifTarget;
+							if (field.getName().equals("undoManagementHidden")) {
+								showReloadWarning = true;
+							}
+							if (field.getName().equals(getTypeIconImageFileField().getName())) {
+								showReloadWarning = true;
+							}
+						}
+						if (showReloadWarning) {
+							SwingUtilities.invokeLater(new Runnable() {
+								@Override
+								public void run() {
+									customizationToolsRenderer.openMessageDialog(ownerComponent,
+											"You must reload the customized windows\nto view all this change effects.",
+											"Information", getCustomizationIcon().getImage());
+								}
+							});
+						}
+					}
+				}
+			};
 		}
 
 		protected Component createFieldInfoCustomizer(final ITypeInfo customizedType, final String fieldName) {

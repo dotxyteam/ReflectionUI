@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.swing.JButton;
 
+import xy.reflect.ui.undo.AbstractSimpleModificationListener;
+import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
@@ -28,9 +30,9 @@ public class ModificationStackControls {
 		final JButton result = new JButton(swingRenderer.prepareStringToDisplay(label)) {
 
 			protected static final long serialVersionUID = 1L;
-			IModificationListener listener = new IModificationListener() {
+			IModificationListener listener = new AbstractSimpleModificationListener() {
 				@Override
-				public void handleEvent(Object event) {
+				protected void handleAnyEvent(IModification modification) {
 					updateState();
 				}
 			};

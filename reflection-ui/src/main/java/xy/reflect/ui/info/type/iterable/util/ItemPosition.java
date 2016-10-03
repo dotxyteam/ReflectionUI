@@ -92,6 +92,17 @@ public class ItemPosition {
 		return result;
 	}
 
+	public String getContainingListPath() {
+		String result = this.containingListField.getName();
+		ItemPosition parent = getParentItemPosition();
+		if (parent == null) {
+			result = "<root>/" + result;
+		} else {
+			result = parent.getContainingListPath() + "/" + result;
+		}
+		return result;
+	}
+
 	public List<ItemPosition> getPreviousSiblings() {
 		List<ItemPosition> result = new ArrayList<ItemPosition>();
 		for (int i = 0; i < getIndex(); i++) {

@@ -3,6 +3,8 @@ package xy.reflect.ui.undo;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -11,11 +13,24 @@ public class CompositeModification implements IModification {
 	protected IModification[] modifications;
 	protected String title;
 	protected UndoOrder undoOrder;
+	protected IInfo target;
 
-	public CompositeModification(String title, UndoOrder undoOrder, IModification... modifications) {
+	public CompositeModification(IInfo target, String title, UndoOrder undoOrder, IModification... modifications) {
+		this.target = target;
 		this.title = title;
 		this.undoOrder = undoOrder;
 		this.modifications = modifications;
+	}
+	
+	public CompositeModification(IInfo target, String title, UndoOrder undoOrder, List<IModification> modifications) {
+		this(target, title, undoOrder, modifications.toArray(new IModification[modifications.size()]));
+	}
+
+	
+
+	@Override
+	public IInfo getTarget() {
+		return target;
 	}
 
 	@Override
@@ -25,10 +40,6 @@ public class CompositeModification implements IModification {
 			result += modif.getNumberOfUnits();
 		}
 		return result;
-	}
-
-	public CompositeModification(String title, UndoOrder undoOrder, List<IModification> modifications) {
-		this(title, undoOrder, modifications.toArray(new IModification[modifications.size()]));
 	}
 
 	@Override
@@ -43,7 +54,7 @@ public class CompositeModification implements IModification {
 				throw new ReflectionUIError();
 			}
 		}
-		return new CompositeModification(ModificationStack.getUndoTitle(title), undoOrder, oppositeModifications);
+		return new CompositeModification(target, ModificationStack.getUndoTitle(title), undoOrder, oppositeModifications);
 	}
 
 	@Override

@@ -1,4 +1,7 @@
 package xy.reflect.ui.undo;
+
+import xy.reflect.ui.info.IInfo;
+
 public interface IModification {
 	IModification NULL_MODIFICATION = new IModification() {
 		@Override
@@ -20,6 +23,11 @@ public interface IModification {
 		public String getTitle() {
 			return "NULL_MODIFICATION";
 		}
+
+		@Override
+		public IInfo getTarget() {
+			return null;
+		}
 	
 	};
 
@@ -28,4 +36,6 @@ public interface IModification {
 	int getNumberOfUnits();
 
 	String getTitle();
+
+	IInfo getTarget();
 }

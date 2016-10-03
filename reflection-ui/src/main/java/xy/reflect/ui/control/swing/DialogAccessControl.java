@@ -164,8 +164,8 @@ public class DialogAccessControl extends JPanel implements IFieldControl {
 						parentModificationStack.apply(new SetFieldValueModification(swingRenderer.getReflectionUI(),
 								dialogModifStack, field, dialogBuilder.getValue()));
 					}
-					parentModificationStack.pushUndo(dialogModifStack.toCompositeModification());
-					parentModificationStack.endComposite("Edit '" + field.getCaption() + "'", UndoOrder.FIFO);
+					parentModificationStack.pushUndo(dialogModifStack.toCompositeModification(null, null));
+					parentModificationStack.endComposite(field, "Edit '" + field.getCaption() + "'", UndoOrder.FIFO);
 				}
 			} else {
 				if (!field.isGetOnly()) {

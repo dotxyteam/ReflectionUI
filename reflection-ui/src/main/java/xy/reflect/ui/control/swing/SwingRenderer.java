@@ -69,6 +69,7 @@ import xy.reflect.ui.info.type.util.ArrayAsEnumerationTypeInfo;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
 import xy.reflect.ui.info.type.util.MethodParametersAsTypeInfo;
 import xy.reflect.ui.info.type.util.EncapsulationTypeInfo;
+import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.CompositeModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.IModificationListener;
@@ -328,9 +329,9 @@ public class SwingRenderer {
 
 			private static final long serialVersionUID = 1L;
 			JPanel form = this;
-			IModificationListener fieldsUpdateListener = new IModificationListener() {
+			IModificationListener fieldsUpdateListener = new AbstractSimpleModificationListener() {
 				@Override
-				public void handleEvent(Object event) {
+				protected void handleAnyEvent(IModification modification) {
 					if (Boolean.TRUE.equals(getFieldsUpdateListenerDisabledByForm().get(form))) {
 						return;
 					}
@@ -1065,7 +1066,7 @@ public class SwingRenderer {
 			Object returnValue) {
 		if (returnValue == null) {
 			String msg = "No data returned!";
-			openMessageDialog(activatorComponent, msg, "Result");
+			openMessageDialog(activatorComponent, msg, "Result", null);
 		} else {
 			openObjectFrame(returnValue);
 		}
@@ -1428,12 +1429,14 @@ public class SwingRenderer {
 		}
 	}
 
-	public void openMessageDialog(Component activatorComponent, String msg, String title) {
+	public void openMessageDialog(Component activatorComponent, String msg, String title, Image iconImage) {
 		DialogBuilder dialogBuilder = new DialogBuilder(this);
 		JButton okButton = dialogBuilder.createDialogClosingButton("Close", null);
 		dialogBuilder.setToolbarComponents(Collections.singletonList(okButton));
-		dialogBuilder.setContentComponent(new JLabel("<HTML><BR>" + msg + "<BR><BR><HTML>", SwingConstants.CENTER));
+		dialogBuilder.setContentComponent(new JLabel(
+				"<HTML><BR><CENTER>" + ReflectionUIUtils.escapeHTML(msg, true) + "</CENTER><BR><BR><HTML>", SwingConstants.CENTER));
 		dialogBuilder.setTitle(title);
+		dialogBuilder.setIconImage(iconImage);
 		showDialog(dialogBuilder.build(), true);
 	}
 

@@ -11,6 +11,7 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
+import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -97,7 +98,7 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 					parentModifStack.pushUndo(undoModif);
 					parentModifStack.apply(new SetFieldValueModification(swingRenderer.getReflectionUI(), object, field,
 							subFormObject));
-					parentModifStack.endComposite(ModificationStack.getUndoTitle(undoModif.getTitle()), UndoOrder.FIFO);
+					parentModifStack.endComposite(field, ModificationStack.getUndoTitle(undoModif.getTitle()), UndoOrder.FIFO);
 				} else {
 					parentModifStack.pushUndo(undoModif);
 				}
@@ -109,8 +110,8 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 			}
 
 			@Override
-			public void endComposite(String title, UndoOrder order) {
-				parentModifStack.endComposite(title, order);
+			public void endComposite(IInfo target, String title, UndoOrder order) {
+				parentModifStack.endComposite(field, title, order);
 			}
 
 			@Override

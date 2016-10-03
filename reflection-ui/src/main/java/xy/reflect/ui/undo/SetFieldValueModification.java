@@ -1,6 +1,7 @@
 package xy.reflect.ui.undo;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 
 public class SetFieldValueModification implements IModification {
@@ -10,12 +11,16 @@ public class SetFieldValueModification implements IModification {
 	protected Object value;
 	protected ReflectionUI reflectionUI;
 
-	public SetFieldValueModification(ReflectionUI reflectionUI,
-			Object object, IFieldInfo field, Object value) {
+	public SetFieldValueModification(ReflectionUI reflectionUI, Object object, IFieldInfo field, Object value) {
 		this.reflectionUI = reflectionUI;
 		this.object = object;
 		this.field = field;
 		this.value = value;
+	}
+
+	@Override
+	public IInfo getTarget() {
+		return field;
 	}
 
 	@Override
@@ -27,8 +32,7 @@ public class SetFieldValueModification implements IModification {
 	public IModification applyAndGetOpposite() {
 		Object currentValue = field.getValue(object);
 		final SetFieldValueModification currentModif = this;
-		SetFieldValueModification opposite = new SetFieldValueModification(
-				reflectionUI, object, field, currentValue) {
+		SetFieldValueModification opposite = new SetFieldValueModification(reflectionUI, object, field, currentValue) {
 			@Override
 			public String getTitle() {
 				return ModificationStack.getUndoTitle(currentModif.getTitle());
@@ -92,4 +96,3 @@ public class SetFieldValueModification implements IModification {
 	}
 
 }
-

@@ -71,6 +71,10 @@ public class ObjectDialogBuilder {
 		this.cancellable = cancellable;
 	}
 
+	public JDialog getBuiltDialog() {
+		return delegate.getBuiltDialog();
+	}
+
 	public boolean isOkPressed() {
 		return delegate.isOkPressed();
 	}
@@ -106,13 +110,13 @@ public class ObjectDialogBuilder {
 	public ModificationStack getModificationStack() {
 		return swingRenderer.getModificationStackByForm().get(objectForm);
 	}
-	
+
 	public boolean isModificationDetected() {
 		ModificationStack modifStack = getModificationStack();
-		if(modifStack == null){
+		if (modifStack == null) {
 			return false;
 		}
-		if(modifStack.isNull()){
+		if (modifStack.isNull()) {
 			return false;
 		}
 		return true;
@@ -156,10 +160,10 @@ public class ObjectDialogBuilder {
 		}
 		delegate.setToolbarComponents(toolbarControls);
 
-		delegate.setWhenClosing(new Runnable() {			
+		delegate.setWhenClosing(new Runnable() {
 			@Override
 			public void run() {
-				if(cancellable && !isOkPressed()){
+				if (cancellable && !isOkPressed()) {
 					ModificationStack modificationStack = getModificationStack();
 					if (modificationStack != null) {
 						if (!modificationStack.isInvalidated()) {
@@ -171,7 +175,7 @@ public class ObjectDialogBuilder {
 				}
 			}
 		});
-		
+
 		return delegate.build();
 	}
 

@@ -1,5 +1,6 @@
 package xy.reflect.ui.undo;
 
+import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 
@@ -33,6 +34,11 @@ public abstract class AbstractMethodUndoModification implements IModification {
 		revertMethod();
 		return new IModification() {
 			
+			@Override
+			public IInfo getTarget() {
+				return method;
+			}
+
 			@Override
 			public String getTitle() {
 				return method.getCaption();
