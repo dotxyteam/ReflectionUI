@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import xy.reflect.ui.control.swing.ListControl;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -15,7 +14,6 @@ import xy.reflect.ui.undo.IModification;
 
 public abstract class AbstractListAction implements IMethodInfo {
 
-	protected ListControl listControl;
 	protected IFieldInfo listField;
 
 	public boolean isEnabled() {
@@ -33,14 +31,6 @@ public abstract class AbstractListAction implements IMethodInfo {
 
 	public void setListField(IFieldInfo listField) {
 		this.listField = listField;
-	}
-
-	public ListControl getListControl() {
-		return listControl;
-	}
-
-	public void setListControl(ListControl listControl) {
-		this.listControl = listControl;
 	}
 
 	@Override

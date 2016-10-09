@@ -1103,6 +1103,12 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <fieldName>customMethodCaption</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
             <fieldName>methodSignature</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -1134,7 +1140,7 @@
                 <caption>Actions</caption>
             </category>
             <hidden>false</hidden>
-            <customFieldCaption>Allow Item Method Shortcut Actions</customFieldCaption>
+            <customFieldCaption>Allow Item Method Shortcuts</customFieldCaption>
             <fieldName>allowedItemMethodShortcuts</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>

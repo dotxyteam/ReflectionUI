@@ -59,7 +59,8 @@ public class SwingRendererUtils {
 	public static final ImageIcon DOWN_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/down.png"));
 	public static final ImageIcon CUSTOMIZATION_ICON = new ImageIcon(
 			ReflectionUI.class.getResource("resource/custom.png"));
-	public static final ImageIcon SAVE_ALL_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/save-all.png"));
+	public static final ImageIcon SAVE_ALL_ICON = new ImageIcon(
+			ReflectionUI.class.getResource("resource/save-all.png"));
 
 	public static void showTooltipNow(Component c) {
 		try {
@@ -271,21 +272,24 @@ public class SwingRendererUtils {
 	}
 
 	public static Object invokeMethodAndAllowToUndo(Object object, IMethodInfo method, InvocationData invocationData,
-			JPanel form, SwingRenderer swingRenderer) {
-		ModificationStack stack = swingRenderer.getModificationStackByForm().get(form);
-		Object result;
-		try {
-			result = method.invoke(object, invocationData);
-		} catch (Throwable t) {
-			stack.invalidate();
-			throw new ReflectionUIError(t);
-		}
-		IModification undoModif = method.getUndoModification(object, invocationData);
-		if (undoModif == null) {
-			stack.invalidate();
+			ModificationStack stack) {
+		if (method.isReadOnly()) {
+			return method.invoke(object, invocationData);
 		} else {
-			stack.pushUndo(undoModif);
+			Object result;
+			try {
+				result = method.invoke(object, invocationData);
+			} catch (Throwable t) {
+				stack.invalidate();
+				throw new ReflectionUIError(t);
+			}
+			IModification undoModif = method.getUndoModification(object, invocationData);
+			if (undoModif == null) {
+				stack.invalidate();
+			} else {
+				stack.pushUndo(undoModif);
+			}
+			return result;
 		}
-		return result;
 	}
 }

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Stack;
 
 import xy.reflect.ui.info.IInfo;
+import xy.reflect.ui.util.Accessor;
+import xy.reflect.ui.util.ReflectionUIError;
 
 public class ModificationStack {
 
@@ -111,9 +113,8 @@ public class ModificationStack {
 		if (undoModif.getNumberOfUnits() > 0) {
 			undoStack.push(undoModif);
 			redoStack.clear();
+			ALL_LISTENERS.handleDo(undoModif);
 		}
-		ALL_LISTENERS.handleDo(undoModif);
-		;
 	}
 
 	public int getUndoSize() {
@@ -206,6 +207,23 @@ public class ModificationStack {
 			compositeParent = this;
 		}
 		compositeParent.pushUndo(compositeUndoModif);
+	}
+
+	public boolean insideComposite(IInfo target, String title, UndoOrder order, Accessor<Boolean> compositeValidated) {
+		beginComposite();
+		try {
+			if (compositeValidated.get()) {
+				endComposite(target, title, order);
+				return true;
+			} else {
+				cancelComposite();
+				return false;
+			}
+		} catch (Throwable t) {
+			cancelComposite();
+			throw new ReflectionUIError(t);
+		}
+
 	}
 
 	public void cancelComposite() {

@@ -32,6 +32,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JPanel;
 
@@ -61,6 +63,9 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.undo.IModification;
+import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.undo.UndoOrder;
 
 public class ReflectionUIUtils {
 
@@ -164,6 +169,16 @@ public class ReflectionUIUtils {
 		result.append(")");
 		return result.toString();
 	}
+	
+	public static String extractMethodNameFromSignature(String methodSignature) {
+		Pattern pattern = Pattern.compile("([^ ]+)\\s+([^ ]+)\\(([^ ]+\\s+[^ ]+,?)*\\)");
+		Matcher matcher = pattern.matcher(methodSignature);
+		if(!matcher.matches()){
+			return null;
+		}
+		return matcher.group(2);
+	}
+
 
 	public static List<Parameter> getJavaParameters(Method javaMethod) {
 		List<Parameter> result = new ArrayList<Parameter>();
@@ -957,5 +972,39 @@ public class ReflectionUIUtils {
 		if (!type.supportsInstance(object)) {
 			throw new ReflectionUIError();
 		}
+	}
+
+	public static boolean integrateSubModification(ModificationStack parentModifStack,
+			ModificationStack childModifStack, boolean childModifAccepted, IModification commitModif,
+			IInfo childModifTarget, String childModifTitle) {
+		if ((childModifStack != null) && !childModifStack.isNull()) {
+			if (parentModifStack != null) {
+				if (childModifStack.isInvalidated()) {
+					if (childModifAccepted) {
+						if (commitModif != null) {
+							commitModif.applyAndGetOpposite();
+						}
+					}
+					parentModifStack.invalidate();
+				} else {
+					parentModifStack.beginComposite();
+					if (commitModif != null) {
+						parentModifStack.apply(commitModif);
+					}
+					parentModifStack.pushUndo(childModifStack.toCompositeModification(null, null));
+					parentModifStack.endComposite(childModifTarget, childModifTitle + "'", UndoOrder.FIFO);
+				}
+			} else {
+				if (childModifAccepted) {
+					if (commitModif != null) {
+						commitModif.applyAndGetOpposite();
+					}
+				}
+			}
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 }

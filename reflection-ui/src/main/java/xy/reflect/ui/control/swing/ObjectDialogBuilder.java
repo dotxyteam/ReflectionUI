@@ -111,17 +111,6 @@ public class ObjectDialogBuilder {
 		return swingRenderer.getModificationStackByForm().get(objectForm);
 	}
 
-	public boolean isModificationDetected() {
-		ModificationStack modifStack = getModificationStack();
-		if (modifStack == null) {
-			return false;
-		}
-		if (modifStack.isNull()) {
-			return false;
-		}
-		return true;
-	}
-
 	public JDialog build() {
 		Object toDisplay = value;
 		if (swingRenderer.hasCustomFieldControl(value)) {

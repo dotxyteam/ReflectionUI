@@ -831,6 +831,10 @@ public class SwingRenderer {
 		return new FieldInfoProxy(field) {
 			@Override
 			public void setValue(Object object, Object newValue) {
+				if (field.isGetOnly()) {
+					super.setValue(object, newValue);
+					return;
+				}
 				Component c = fieldControlPlaceHolder.getFieldControl();
 				if ((c instanceof IFieldControl)) {
 					IFieldControl fieldControl = (IFieldControl) c;
@@ -841,7 +845,13 @@ public class SwingRenderer {
 				}
 				JPanel form = SwingRendererUtils.findForm(fieldControlPlaceHolder, SwingRenderer.this);
 				ModificationStack stack = getModificationStackByForm().get(form);
-				stack.apply(new SetFieldValueModification(reflectionUI, object, field, newValue));
+				SetFieldValueModification modif = new SetFieldValueModification(reflectionUI, object, field, newValue);
+				try {
+					stack.apply(modif);					
+				} catch (Throwable t) {
+					stack.invalidate();
+					throw new ReflectionUIError(t);
+				}
 			}
 		};
 	}
@@ -853,8 +863,8 @@ public class SwingRenderer {
 			@Override
 			public Object invoke(Object object, InvocationData invocationData) {
 				JPanel form = SwingRendererUtils.findForm(methodControlPlaceHolder, SwingRenderer.this);
-				return SwingRendererUtils.invokeMethodAndAllowToUndo(object, method, invocationData, form,
-						SwingRenderer.this);
+				ModificationStack stack = getModificationStackByForm().get(form);
+				return SwingRendererUtils.invokeMethodAndAllowToUndo(object, method, invocationData, stack);
 			}
 
 		};
@@ -1433,8 +1443,9 @@ public class SwingRenderer {
 		DialogBuilder dialogBuilder = new DialogBuilder(this);
 		JButton okButton = dialogBuilder.createDialogClosingButton("Close", null);
 		dialogBuilder.setToolbarComponents(Collections.singletonList(okButton));
-		dialogBuilder.setContentComponent(new JLabel(
-				"<HTML><BR><CENTER>" + ReflectionUIUtils.escapeHTML(msg, true) + "</CENTER><BR><BR><HTML>", SwingConstants.CENTER));
+		dialogBuilder.setContentComponent(
+				new JLabel("<HTML><BR><CENTER>" + ReflectionUIUtils.escapeHTML(msg, true) + "</CENTER><BR><BR><HTML>",
+						SwingConstants.CENTER));
 		dialogBuilder.setTitle(title);
 		dialogBuilder.setIconImage(iconImage);
 		showDialog(dialogBuilder.build(), true);
@@ -1534,9 +1545,7 @@ public class SwingRenderer {
 		public FieldControlPlaceHolder(Object object, IFieldInfo field) {
 			super();
 			this.object = object;
-			if (!field.isGetOnly()) {
-				field = makeFieldModificationsUndoable(field, this);
-			}
+			field = makeFieldModificationsUndoable(field, this);
 			field = handleValueUpdateErrors(field, this);
 			this.field = field;
 			setLayout(new BorderLayout());
@@ -1611,9 +1620,7 @@ public class SwingRenderer {
 		public MethodControlPlaceHolder(Object object, IMethodInfo method) {
 			super();
 			this.object = object;
-			if (!method.isReadOnly()) {
-				method = makeMethodModificationsUndoable(method, this);
-			}
+			method = makeMethodModificationsUndoable(method, this);
 			this.method = method;
 			setLayout(new BorderLayout());
 			refreshUI(false);

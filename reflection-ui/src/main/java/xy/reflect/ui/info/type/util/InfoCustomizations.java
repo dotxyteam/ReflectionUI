@@ -52,6 +52,8 @@ import xy.reflect.ui.info.type.util.InfoCustomizations.ListStructureCustomizatio
 import xy.reflect.ui.info.type.util.InfoCustomizations.MethodCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.undo.IModification;
+import xy.reflect.ui.undo.ModificationProxy;
+import xy.reflect.ui.undo.UpdateListValueModification;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.FileUtils;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -949,7 +951,7 @@ public final class InfoCustomizations {
 	public static class ListItemMethodShortcut {
 		protected String methodSignature;
 		protected boolean alwaysShown;
-		protected String caption;
+		protected String customMethodCaption;
 
 		public String getMethodSignature() {
 			return methodSignature;
@@ -967,12 +969,12 @@ public final class InfoCustomizations {
 			this.alwaysShown = alwaysShown;
 		}
 
-		public String getCaption() {
-			return caption;
+		public String getCustomMethodCaption() {
+			return customMethodCaption;
 		}
 
-		public void setCaption(String caption) {
-			this.caption = caption;
+		public void setCustomMethodCaption(String customMethodCaption) {
+			this.customMethodCaption = customMethodCaption;
 		}
 
 		@Override
@@ -1303,14 +1305,23 @@ public final class InfoCustomizations {
 			final ListStructureCustomization l = getListStructureCustomization(listType.getName(),
 					(itemType == null) ? null : itemType.getName());
 			for (final ListItemMethodShortcut s : l.allowedItemMethodShortcuts) {
+				final String methodCaption;
+				if (s.customMethodCaption != null) {
+					methodCaption = s.customMethodCaption;
+				} else {
+					String methodName = ReflectionUIUtils.extractMethodNameFromSignature(s.methodSignature);
+					methodCaption = ReflectionUIUtils.identifierToCaption(methodName);
+				}
 				boolean methodFound = false;
 				if (selection.size() == 1) {
-					ItemPosition itemPosition = selection.get(0);
+					final ItemPosition itemPosition = selection.get(0);
 					final Object item = itemPosition.getItem();
 					ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
 					for (final IMethodInfo method : actualItemType.getMethods()) {
 						if (ReflectionUIUtils.getMethodInfoSignature(method).equals(s.methodSignature)) {
 							AbstractListAction action = new AbstractListAction() {
+
+								private IModification oppositeUpdateListValueModification;
 
 								@Override
 								public String getName() {
@@ -1319,7 +1330,7 @@ public final class InfoCustomizations {
 
 								@Override
 								public String getCaption() {
-									return s.caption;
+									return methodCaption;
 								}
 
 								@Override
@@ -1329,7 +1340,7 @@ public final class InfoCustomizations {
 
 								@Override
 								public boolean isReadOnly() {
-									return true;
+									return method.isReadOnly() || itemPosition.isContainingListReadOnly();
 								}
 
 								@Override
@@ -1356,12 +1367,36 @@ public final class InfoCustomizations {
 								@Override
 								public Object invoke(Object object, InvocationData invocationData) {
 									Object result = method.invoke(item, invocationData);
+									Object[] listRawValue = itemPosition.getContainingListRawValue();
+									listRawValue[itemPosition.getIndex()] = item;
+									oppositeUpdateListValueModification = new UpdateListValueModification(reflectionUI,
+											itemPosition, listRawValue).applyAndGetOpposite();
 									return result;
 								}
 
 								@Override
 								public IModification getUndoModification(Object object, InvocationData invocationData) {
-									return method.getUndoModification(item, invocationData);
+									IModification result = method.getUndoModification(item, invocationData);
+									if (result != null) {
+										result = new ModificationProxy(result) {
+
+											@Override
+											public IModification applyAndGetOpposite() {
+												oppositeUpdateListValueModification = oppositeUpdateListValueModification
+														.applyAndGetOpposite();
+												delegate = delegate.applyAndGetOpposite();
+												return this;
+											}
+
+											@Override
+											public int getNumberOfUnits() {
+												return super.getNumberOfUnits()
+														+ oppositeUpdateListValueModification.getNumberOfUnits();
+											}
+
+										};
+									}
+									return result;
 								}
 
 							};
@@ -1376,7 +1411,7 @@ public final class InfoCustomizations {
 
 						@Override
 						public String getCaption() {
-							return s.caption;
+							return methodCaption;
 						}
 
 						@Override
@@ -1450,7 +1485,7 @@ public final class InfoCustomizations {
 		protected boolean isModificationStackAccessible(ITypeInfo type) {
 			TypeCustomization tc = getTypeCustomization(type.getName());
 			if (tc != null) {
-				if(tc.isUndoManagementHidden()){
+				if (tc.isUndoManagementHidden()) {
 					return false;
 				}
 			}

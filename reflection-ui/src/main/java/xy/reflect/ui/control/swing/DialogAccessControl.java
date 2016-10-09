@@ -13,11 +13,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
+import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.SetFieldValueModification;
 import xy.reflect.ui.undo.UndoOrder;
@@ -148,30 +151,20 @@ public class DialogAccessControl extends JPanel implements IFieldControl {
 		dialogBuilder.setCancellable(true);
 		swingRenderer.showDialog(dialogBuilder.build(), true);
 
-		if (dialogBuilder.isModificationDetected()) {
-			ModificationStack parentModificationStack = SwingRendererUtils
-					.findModificationStack(DialogAccessControl.this, swingRenderer);
-			if (parentModificationStack != null) {
-				ModificationStack dialogModifStack = dialogBuilder.getModificationStack();
-				if (dialogModifStack.isInvalidated()) {
-					if (!field.isGetOnly()) {
-						field.setValue(object, dialogBuilder.getValue());
-					}
-					parentModificationStack.invalidate();
-				} else {
-					parentModificationStack.beginComposite();
-					if (!field.isGetOnly()) {
-						parentModificationStack.apply(new SetFieldValueModification(swingRenderer.getReflectionUI(),
-								dialogModifStack, field, dialogBuilder.getValue()));
-					}
-					parentModificationStack.pushUndo(dialogModifStack.toCompositeModification(null, null));
-					parentModificationStack.endComposite(field, "Edit '" + field.getCaption() + "'", UndoOrder.FIFO);
-				}
-			} else {
-				if (!field.isGetOnly()) {
-					field.setValue(object, dialogBuilder.getValue());
-				}
-			}
+		ModificationStack parentModifStack = SwingRendererUtils.findModificationStack(DialogAccessControl.this,
+				swingRenderer);
+		ModificationStack childModifStack = dialogBuilder.getModificationStack();
+		String childModifTitle = "Edit '" + field.getCaption() + "'";
+		IInfo childModifTarget = field;
+		IModification commitModif;
+		if (field.isGetOnly()) {
+			commitModif = null;
+		} else {
+			commitModif = new SetFieldValueModification(swingRenderer.getReflectionUI(), childModifStack, field,
+					dialogBuilder.getValue());
+		}
+		if (ReflectionUIUtils.integrateSubModification(parentModifStack, childModifStack, dialogBuilder.isOkPressed(),
+				commitModif, childModifTarget, childModifTitle)) {
 			updateControls();
 		}
 	}
