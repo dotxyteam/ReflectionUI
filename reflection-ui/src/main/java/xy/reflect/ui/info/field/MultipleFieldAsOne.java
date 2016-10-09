@@ -40,6 +40,21 @@ public class MultipleFieldAsOne implements IFieldInfo {
 				return false;
 			}
 
+			@Override
+			protected boolean canInstanciateFromArray(IListTypeInfo type) {
+				return false;
+			}
+
+			@Override
+			protected boolean canReplaceContent(IListTypeInfo type) {
+				return false;
+			}
+
+			@Override
+			protected boolean canViewItemDetails(IListTypeInfo type) {
+				return false;
+			}
+
 		}.get(reflectionUI.getTypeInfo(new JavaTypeInfoSource(List.class)));
 	}
 

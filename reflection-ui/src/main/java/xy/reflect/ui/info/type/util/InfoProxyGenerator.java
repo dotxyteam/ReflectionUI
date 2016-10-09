@@ -224,6 +224,10 @@ public class InfoProxyGenerator {
 		return type.canInstanciateFromArray();
 	}
 
+	protected boolean canReplaceContent(IListTypeInfo type) {
+		return type.canReplaceContent();
+	}
+
 	protected List<AbstractListAction> getSpecificListActions(IListTypeInfo type, Object object, IFieldInfo field,
 			List<? extends ItemPosition> selection) {
 		return type.getSpecificActions(object, field, selection);
@@ -300,7 +304,7 @@ public class InfoProxyGenerator {
 	protected boolean isModificationStackAccessible(ITypeInfo type) {
 		return type.isModificationStackAccessible();
 	}
-	
+
 	protected boolean supportsInstance(ITypeInfo type, Object object) {
 		return type.supportsInstance(object);
 	}
@@ -659,6 +663,11 @@ public class InfoProxyGenerator {
 		}
 
 		@Override
+		public boolean canReplaceContent() {
+			return InfoProxyGenerator.this.canReplaceContent((IListTypeInfo) type);
+		}
+
+		@Override
 		public List<AbstractListAction> getSpecificActions(Object object, IFieldInfo field,
 				List<? extends ItemPosition> selection) {
 			return InfoProxyGenerator.this.getSpecificListActions((IListTypeInfo) type, object, field, selection);
@@ -667,11 +676,6 @@ public class InfoProxyGenerator {
 		@Override
 		public List<IMethodInfo> getObjectSpecificItemConstructors(Object object, IFieldInfo field) {
 			return InfoProxyGenerator.this.getSpecificItemConstructors((IListTypeInfo) type, object, field);
-		}
-
-		@Override
-		public boolean canReplaceContent() {
-			return InfoProxyGenerator.this.isStructureMutable((IListTypeInfo) type);
 		}
 
 	}

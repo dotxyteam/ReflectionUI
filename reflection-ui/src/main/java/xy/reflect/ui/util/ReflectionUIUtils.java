@@ -974,8 +974,8 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static boolean integrateSubModification(ModificationStack parentModifStack,
-			ModificationStack childModifStack, boolean childModifAccepted, IModification commitModif,
+	public static boolean integrateSubModification(final ModificationStack parentModifStack,
+			final ModificationStack childModifStack, boolean childModifAccepted, final IModification commitModif,
 			IInfo childModifTarget, String childModifTitle) {
 		if ((childModifStack != null) && !childModifStack.isNull()) {
 			if (parentModifStack != null) {
@@ -987,12 +987,16 @@ public class ReflectionUIUtils {
 					}
 					parentModifStack.invalidate();
 				} else {
-					parentModifStack.beginComposite();
-					if (commitModif != null) {
-						parentModifStack.apply(commitModif);
-					}
-					parentModifStack.pushUndo(childModifStack.toCompositeModification(null, null));
-					parentModifStack.endComposite(childModifTarget, childModifTitle + "'", UndoOrder.FIFO);
+					parentModifStack.insideComposite(childModifTarget, childModifTitle + "'", UndoOrder.FIFO, new Accessor<Boolean>() {
+						@Override
+						public Boolean get() {
+							if (commitModif != null) {
+								parentModifStack.apply(commitModif);
+							}
+							parentModifStack.pushUndo(childModifStack.toCompositeModification(null, null));
+							return true;
+						}
+					});
 				}
 			} else {
 				if (childModifAccepted) {

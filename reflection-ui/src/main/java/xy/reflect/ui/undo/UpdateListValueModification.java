@@ -18,6 +18,16 @@ public class UpdateListValueModification implements IModification {
 		this.listRawValue = listRawValue;
 	}
 
+	public static boolean isContainingListItemsLocked(ItemPosition itemPosition) {
+		IListTypeInfo containingListType = itemPosition.getContainingListType();
+		if (!containingListType.canReplaceContent()) {
+			if (!(containingListType.canInstanciateFromArray() && !itemPosition.getContainingListField().isGetOnly())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@Override
 	public IModification applyAndGetOpposite() {
 		Object[] lastListRawValue = itemPosition.getContainingListRawValue();
@@ -25,19 +35,20 @@ public class UpdateListValueModification implements IModification {
 		return new UpdateListValueModification(reflectionUI, itemPosition, lastListRawValue);
 	}
 
-	private void updateListValueRecursively(ItemPosition itemPosition,
-			Object[] listRawValue) {
-		Object listOwner = itemPosition.getContainingListOwner();
-		IFieldInfo listField = itemPosition.getContainingListField();
-		if (itemPosition.getContainingListType().canReplaceContent()) {
-			replaceListValueContent(reflectionUI, listRawValue, listOwner, listField);
-		} else {
-			setListValue(reflectionUI, listRawValue, listOwner, listField);
+	private void updateListValueRecursively(ItemPosition itemPosition, Object[] listRawValue) {
+		if (!isContainingListItemsLocked(itemPosition)) {
+			Object listOwner = itemPosition.getContainingListOwner();
+			IFieldInfo listField = itemPosition.getContainingListField();
+			if (itemPosition.getContainingListType().canReplaceContent()) {
+				replaceListValueContent(reflectionUI, listRawValue, listOwner, listField);
+			} else {
+				setListValue(reflectionUI, listRawValue, listOwner, listField);
+			}
 		}
 		ItemPosition parentItemPosition = itemPosition.getParentItemPosition();
 		if (parentItemPosition != null) {
 			Object[] parentListRawValue = parentItemPosition.getContainingListRawValue();
-			parentListRawValue[parentItemPosition.getIndex()] = listOwner;
+			parentListRawValue[parentItemPosition.getIndex()] = parentItemPosition.getItem();
 			updateListValueRecursively(parentItemPosition, parentListRawValue);
 		}
 	}
@@ -45,7 +56,7 @@ public class UpdateListValueModification implements IModification {
 	private void setListValue(ReflectionUI reflectionUI, Object[] listRawValue, Object listOwner,
 			IFieldInfo listField) {
 		IListTypeInfo listType = (IListTypeInfo) listField.getType();
-		Object listValue = listField.getValue(listOwner);		
+		Object listValue = listField.getValue(listOwner);
 		listValue = listType.fromArray(listRawValue);
 		listField.setValue(listOwner, listValue);
 	}

@@ -3,10 +3,6 @@
 	. exclude list item methods from details view (method signatures)
 	. list item field shortcut
 	. list item details view detached	
-- list customization item action undo not handled properly:
-	. need to create UpdateListFieldModification that will slowly
-	removes the need of AUtoUpdateList
-	. create a modification type for item method shortcut customization		
 - field auto-update???
 - allow to sort list view
 - update ScreenShots

@@ -220,7 +220,7 @@ public class ModificationStack {
 				return false;
 			}
 		} catch (Throwable t) {
-			cancelComposite();
+			invalidate();
 			throw new ReflectionUIError(t);
 		}
 

@@ -1340,7 +1340,8 @@ public final class InfoCustomizations {
 
 								@Override
 								public boolean isReadOnly() {
-									return method.isReadOnly() || itemPosition.isContainingListReadOnly();
+									return method.isReadOnly()
+											|| UpdateListValueModification.isContainingListItemsLocked(itemPosition);
 								}
 
 								@Override

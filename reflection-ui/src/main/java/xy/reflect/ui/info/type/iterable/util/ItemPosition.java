@@ -29,22 +29,6 @@ public class ItemPosition {
 		return (itemType == null) || (itemType.supportsInstance(object));
 	}
 
-	public boolean isContainingListReadOnly() {
-		ItemPosition parent = getParentItemPosition();
-		if (parent != null) {
-			if (parent.isContainingListReadOnly()) {
-				return true;
-			}
-		}
-		IListTypeInfo containingListType = getContainingListType();
-		if (!containingListType.canReplaceContent()) {
-			if (!(containingListType.canInstanciateFromArray() && !getContainingListField().isGetOnly())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public int getIndex() {
 		return index;
 	}
