@@ -847,7 +847,7 @@ public class SwingRenderer {
 				ModificationStack stack = getModificationStackByForm().get(form);
 				SetFieldValueModification modif = new SetFieldValueModification(reflectionUI, object, field, newValue);
 				try {
-					stack.apply(modif);					
+					stack.apply(modif);
 				} catch (Throwable t) {
 					stack.invalidate();
 					throw new ReflectionUIError(t);
@@ -1040,10 +1040,14 @@ public class SwingRenderer {
 
 	public void openErrorDialog(Component activatorComponent, String title, final Throwable error) {
 		DialogBuilder dialogBuilder = new DialogBuilder(this);
-
+		EncapsulationTypeInfo encapsulation = new EncapsulationTypeInfo(reflectionUI, new TextualTypeInfo(reflectionUI, String.class));
+		encapsulation.setCaption("Error");
+		encapsulation.setFieldCaption("Message");;
+		encapsulation.setFieldGetOnly(true);
+		encapsulation.setFieldNullable(false);
+		Object toDisplay = encapsulation.getInstance(new Object[] { ReflectionUIUtils.getPrettyMessage(error) });
 		Component errorComponent = new JOptionPane(
-				createObjectForm(EncapsulationTypeInfo.encapsulate(reflectionUI,
-						new Object[] { ReflectionUIUtils.getPrettyMessage(error) }, "Message", "", true)),
+				createObjectForm(toDisplay),
 				JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[] {});
 
 		JDialog[] dialogHolder = new JDialog[1];
@@ -1207,9 +1211,15 @@ public class SwingRenderer {
 
 	public JFrame createObjectFrame(Object object, String title, Image iconImage) {
 		final Object[] valueHolder = new Object[] { object };
-		String fieldName = BooleanTypeInfo.isCompatibleWith(valueHolder[0].getClass()) ? "Is True" : "Value";
-		if (hasCustomFieldControl(object)) {
-			object = EncapsulationTypeInfo.encapsulate(reflectionUI, valueHolder, fieldName, title, true);
+		String fieldCaption = BooleanTypeInfo.isCompatibleWith(valueHolder[0].getClass()) ? "Is True" : "Value";
+		ITypeInfo objectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		if (hasCustomFieldControl(object, objectType)) {
+			EncapsulationTypeInfo encapsulation = new EncapsulationTypeInfo(reflectionUI, objectType);
+			encapsulation.setCaption(title);
+			encapsulation.setFieldCaption(fieldCaption);;
+			encapsulation.setFieldGetOnly(false);
+			encapsulation.setFieldNullable(false);
+			object = encapsulation.getInstance(valueHolder);
 		}
 		JPanel form = createObjectForm(object);
 		JFrame frame = createFrame(form, title, iconImage, createCommonToolbarControls(form));
@@ -1287,8 +1297,14 @@ public class SwingRenderer {
 			initialEnumItem = enumType.getPossibleValues()[0];
 		}
 		final Object[] chosenItemHolder = new Object[] { initialEnumItem };
-		final Object encapsulatedChosenItem = EncapsulationTypeInfo.encapsulate(reflectionUI, chosenItemHolder, message,
-				"Selection", false);
+		
+		EncapsulationTypeInfo encapsulation = new EncapsulationTypeInfo(reflectionUI, enumType);
+		encapsulation.setCaption("Selection");
+		encapsulation.setFieldCaption(message);
+		encapsulation.setFieldGetOnly(false);
+		encapsulation.setFieldNullable(false);
+		Object encapsulatedChosenItem = encapsulation.getInstance(chosenItemHolder);
+		
 		if (openObjectDialogAndGetConfirmation(parentComponent, encapsulatedChosenItem, title,
 				getObjectIconImage(encapsulatedChosenItem), true)) {
 			return chosenItemHolder[0];
@@ -1303,8 +1319,15 @@ public class SwingRenderer {
 			throw new ReflectionUIError();
 		}
 		final Object[] valueHolder = new Object[] { initialValue };
-		final Object encapsulatedValue = EncapsulationTypeInfo.encapsulate(reflectionUI, valueHolder, dataName,
-				"Selection", false);
+		ITypeInfo initialValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(initialValue));
+		
+		EncapsulationTypeInfo encapsulation = new EncapsulationTypeInfo(reflectionUI, initialValueType);
+		encapsulation.setCaption("Input");
+		encapsulation.setFieldCaption(dataName);
+		encapsulation.setFieldGetOnly(false);
+		encapsulation.setFieldNullable(false);
+		Object encapsulatedValue = encapsulation.getInstance(valueHolder);
+		
 		if (openObjectDialogAndGetConfirmation(parentComponent, encapsulatedValue, title,
 				getObjectIconImage(encapsulatedValue), true)) {
 			return (T) valueHolder[0];
@@ -1527,9 +1550,9 @@ public class SwingRenderer {
 		}
 	}
 
-	public final boolean hasCustomFieldControl(Object fieldValue) {
-		Object encapsulatedValue = EncapsulationTypeInfo.encapsulate(reflectionUI, new Object[] { fieldValue }, "", "",
-				false);
+	public final boolean hasCustomFieldControl(Object fieldValue, ITypeInfo fieldType) {
+		EncapsulationTypeInfo encapsulation = new EncapsulationTypeInfo(reflectionUI, fieldType);
+		Object encapsulatedValue = encapsulation.getInstance(new Object[] { fieldValue });
 		ITypeInfo valueAsFieldType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(encapsulatedValue));
 		IFieldInfo field = valueAsFieldType.getFields().get(0);
 		return hasCustomFieldControl(encapsulatedValue, field);

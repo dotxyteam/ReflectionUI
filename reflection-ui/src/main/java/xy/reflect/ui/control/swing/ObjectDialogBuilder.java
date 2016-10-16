@@ -10,6 +10,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import xy.reflect.ui.info.IInfoCollectionSettings;
+import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.util.EncapsulationTypeInfo;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
@@ -24,8 +25,8 @@ public class ObjectDialogBuilder {
 	protected DialogBuilder delegate;
 	protected SwingRenderer swingRenderer;
 	protected Object value;
-	private JPanel objectForm;
-
+	protected JPanel objectForm;
+	
 	public ObjectDialogBuilder(SwingRenderer swingRenderer, Object value) {
 		this.swingRenderer = swingRenderer;
 		this.value = value;
@@ -113,8 +114,9 @@ public class ObjectDialogBuilder {
 
 	public JDialog build() {
 		Object toDisplay = value;
-		if (swingRenderer.hasCustomFieldControl(value)) {
-			String fieldName = swingRenderer.getDefaultFieldCaption(toDisplay);
+		ITypeInfo valueType = swingRenderer.getReflectionUI().getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(value));
+		if (swingRenderer.hasCustomFieldControl(value, valueType)) {
+			String fieldCaption = swingRenderer.getDefaultFieldCaption(toDisplay);
 			Accessor<Object> valueAccessor = new Accessor<Object>() {
 				@Override
 				public Object get() {
@@ -126,8 +128,12 @@ public class ObjectDialogBuilder {
 					ObjectDialogBuilder.this.value = t;
 				}
 			};
-			toDisplay = EncapsulationTypeInfo.encapsulate(swingRenderer.getReflectionUI(), valueAccessor, fieldName,
-					getTitle(), getOnly);
+			EncapsulationTypeInfo encapsulation = new EncapsulationTypeInfo(swingRenderer.getReflectionUI(), valueType);
+			encapsulation.setCaption(getTitle());
+			encapsulation.setFieldCaption(fieldCaption);;
+			encapsulation.setFieldGetOnly(getOnly);
+			encapsulation.setFieldNullable(false);
+			toDisplay = encapsulation.getInstance(valueAccessor);
 		}
 
 		objectForm = swingRenderer.createObjectForm(toDisplay, infoSettings);

@@ -1,7 +1,23 @@
+- some field modifications may not be revertable in the
+usual way (ex: set list size value). There must be a
+IFieldInfo.getSetterUndoModfication() for such cases
+- remove IListTypeInfo.getObjectSpecificItemConstructors???
+- move MoifStack swing code into SwingRenderer
+- move canViewDetails into nListStructuralInfo
+- add ReflectionUIUtils.isImmutable(ITypeInfo)
+	. cache results
+	. compute recursively
+	. avoid infinite loops
+- ObjectDialogBuilder.setCancellable(
+	!ReflectionUIUtils.isImmutable(ITypeInfo)
+  ) by default
+- ITypeInfo.isModificationStackAccessible
+	=> must be a SwingSpecificProperty
 - add customization options:
 	. exclude list item fields from details view (field names)
 	. exclude list item methods from details view (method signatures)
-	. list item field shortcut
+	. list item field shortcut 
+		=> needs to add IMethodInfo.isParameterModificationImpacting(int param index)
 	. list item details view detached	
 - field auto-update???
 - allow to sort list view

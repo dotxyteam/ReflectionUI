@@ -7,6 +7,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
+import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 
 public interface IListTypeInfo extends ITypeInfo {
@@ -29,7 +30,10 @@ public interface IListTypeInfo extends ITypeInfo {
 	boolean canRemove();
 	boolean canViewItemDetails();
 
-	List<AbstractListAction> getSpecificActions(Object object, IFieldInfo field,
+	List<AbstractListAction> getDynamicActions(Object object, IFieldInfo field,
+			List<? extends ItemPosition> selection);
+
+	List<AbstractListProperty> getDynamicProperties(Object object, IFieldInfo field,
 			List<? extends ItemPosition> selection);
 
 	List<IMethodInfo> getObjectSpecificItemConstructors(Object object, IFieldInfo field);

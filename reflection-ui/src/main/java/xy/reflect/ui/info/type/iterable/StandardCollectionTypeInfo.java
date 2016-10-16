@@ -18,6 +18,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
+import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -201,7 +202,13 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	}
 
 	@Override
-	public List<AbstractListAction> getSpecificActions(Object object, IFieldInfo field,
+	public List<AbstractListAction> getDynamicActions(Object object, IFieldInfo field,
+			List<? extends ItemPosition> selection) {
+		return Collections.emptyList();
+	}
+
+	@Override
+	public List<AbstractListProperty> getDynamicProperties(Object object, IFieldInfo field,
 			List<? extends ItemPosition> selection) {
 		return Collections.emptyList();
 	}

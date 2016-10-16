@@ -17,6 +17,7 @@ import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
+import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -389,7 +390,13 @@ public class ImplicitListField implements IFieldInfo {
 		}
 
 		@Override
-		public List<AbstractListAction> getSpecificActions(Object object, IFieldInfo field,
+		public List<AbstractListAction> getDynamicActions(Object object, IFieldInfo field,
+				List<? extends ItemPosition> selection) {
+			return Collections.emptyList();
+		}
+
+		@Override
+		public List<AbstractListProperty> getDynamicProperties(Object object, IFieldInfo field,
 				List<? extends ItemPosition> selection) {
 			return Collections.emptyList();
 		}

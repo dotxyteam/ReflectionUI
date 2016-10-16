@@ -20,22 +20,52 @@ public class EncapsulationTypeInfo implements ITypeInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo fieldType;
-	protected String fieldCaption;
-	protected boolean fieldReadOnly;
-	protected String caption;
 
-	public EncapsulationTypeInfo(ReflectionUI reflectionUI, ITypeInfo fieldType, String fieldCaption,
-			boolean fieldReadOnly, String caption) {
+	protected String caption = "";
+	protected String fieldCaption = "Value";
+	protected boolean fieldGetOnly = false;
+	protected boolean fieldNullable = true;
+
+	public EncapsulationTypeInfo(ReflectionUI reflectionUI, ITypeInfo fieldType) {
 		this.reflectionUI = reflectionUI;
 		this.fieldType = fieldType;
+	}
+
+	public String getFieldCaption() {
+		return fieldCaption;
+	}
+
+	public void setFieldCaption(String fieldCaption) {
 		this.fieldCaption = fieldCaption;
-		this.fieldReadOnly = fieldReadOnly;
+	}
+
+	public boolean isFieldGetOnly() {
+		return fieldGetOnly;
+	}
+
+	public void setFieldGetOnly(boolean fieldGetOnly) {
+		this.fieldGetOnly = fieldGetOnly;
+	}
+
+	public boolean isFieldNullable() {
+		return fieldNullable;
+	}
+
+	public void setFieldNullable(boolean fieldNullable) {
+		this.fieldNullable = fieldNullable;
+	}
+
+	public ITypeInfo getFieldType() {
+		return fieldType;
+	}
+
+	public void setCaption(String caption) {
 		this.caption = caption;
 	}
 
 	@Override
 	public String getName() {
-		return EncapsulationTypeInfo.class.getSimpleName() + "(" + fieldCaption + ")";
+		return EncapsulationTypeInfo.class.getSimpleName() + " [fieldType=" + fieldType + ", fieldCaption=" + fieldCaption + "]";
 	}
 
 	@Override
@@ -89,12 +119,12 @@ public class EncapsulationTypeInfo implements ITypeInfo {
 
 			@Override
 			public boolean isGetOnly() {
-				return fieldReadOnly;
+				return fieldGetOnly;
 			}
 
 			@Override
 			public boolean isNullable() {
-				return false;
+				return fieldNullable;
 			}
 
 			@Override
@@ -131,11 +161,6 @@ public class EncapsulationTypeInfo implements ITypeInfo {
 		return null;
 	}
 
-	@Override
-	public String toString(Object object) {
-		Instance instance = (Instance) object;
-		return ReflectionUIUtils.toString(reflectionUI, instance.getValue());
-	}
 
 	@Override
 	public boolean canCopy(Object object) {
@@ -181,7 +206,7 @@ public class EncapsulationTypeInfo implements ITypeInfo {
 		int result = 1;
 		result = prime * result + ((caption == null) ? 0 : caption.hashCode());
 		result = prime * result + ((fieldCaption == null) ? 0 : fieldCaption.hashCode());
-		result = prime * result + (fieldReadOnly ? 1231 : 1237);
+		result = prime * result + (fieldGetOnly ? 1231 : 1237);
 		result = prime * result + ((fieldType == null) ? 0 : fieldType.hashCode());
 		return result;
 	}
@@ -205,7 +230,7 @@ public class EncapsulationTypeInfo implements ITypeInfo {
 				return false;
 		} else if (!fieldCaption.equals(other.fieldCaption))
 			return false;
-		if (fieldReadOnly != other.fieldReadOnly)
+		if (fieldGetOnly != other.fieldGetOnly)
 			return false;
 		if (fieldType == null) {
 			if (other.fieldType != null)
@@ -216,22 +241,9 @@ public class EncapsulationTypeInfo implements ITypeInfo {
 	}
 
 	@Override
-	public String toString() {
-		return getCaption();
-	}
-
-	public static Object encapsulate(ReflectionUI reflectionUI, final Accessor<Object> fieldValueAccessor,
-			final String fieldCaption, final String wrapperTypeCaption, final boolean readOnly) {
-		final ITypeInfo fieldType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(fieldValueAccessor.get()));
-		EncapsulationTypeInfo wrapperType = new EncapsulationTypeInfo(reflectionUI, fieldType, fieldCaption, readOnly,
-				wrapperTypeCaption);
-		return wrapperType.getInstance(fieldValueAccessor);
-	}
-
-	public static Object encapsulate(ReflectionUI reflectionUI, final Object[] fieldValueHolder,
-			final String fieldCaption, final String wrapperTypeCaption, final boolean readOnly) {
-		return encapsulate(reflectionUI, new ArrayAccessor<Object>(fieldValueHolder), fieldCaption, wrapperTypeCaption,
-				readOnly);
+	public String toString(Object object) {
+		Instance instance = (Instance) object;
+		return ReflectionUIUtils.toString(reflectionUI, instance.getValue());
 	}
 
 	protected static class Instance {

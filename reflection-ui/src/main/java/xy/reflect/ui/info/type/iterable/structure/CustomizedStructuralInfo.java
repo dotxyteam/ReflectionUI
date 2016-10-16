@@ -25,6 +25,7 @@ import xy.reflect.ui.info.type.iterable.structure.column.StringValueColumnInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.TypeNameColumnInfo;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.info.type.util.InfoCustomizations.ColumnCustomization;
+import xy.reflect.ui.info.type.util.InfoCustomizations.InfoFilter;
 import xy.reflect.ui.info.type.util.InfoCustomizations.ListStructureCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.TreeStructureDiscoverySettings;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -126,13 +127,27 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 
 			@Override
 			public boolean excludeMethod(IMethodInfo method) {
+				String methodSignature = ReflectionUIUtils.getMethodInfoSignature(method);
+				for(InfoFilter filter: customization.getMethodsExcludedFromItemDetails()){
+					if(filter.matches(methodSignature)){
+						return true;
+					}
+				}				
 				return false;
 			}
 
 			@Override
 			public boolean excludeField(IFieldInfo field) {
 				List<IFieldInfo> subListCandidateFields = getItemSubListCandidateFields(itemPosition);
-				return subListCandidateFields.contains(field);
+				if( subListCandidateFields.contains(field)){
+					return true;
+				}
+				for(InfoFilter filter: customization.getFieldsExcludedFromItemDetails()){
+					if(filter.matches(field.getName())){
+						return true;
+					}
+				}				
+				return false;
 			}
 		};
 	}

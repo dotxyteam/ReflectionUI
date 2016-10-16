@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <infoCustomizations>
     <listStructures>
+        <allowedItemFieldShortcuts>
+            <alwaysShown>true</alwaysShown>
+            <fieldName>theDay</fieldName>
+        </allowedItemFieldShortcuts>
         <allowedItemMethodShortcuts>
             <alwaysShown>true</alwaysShown>
-            <caption>Nothing</caption>
             <methodSignature>void doNothing()</methodSignature>
         </allowedItemMethodShortcuts>
         <columnsCustomizations>
@@ -13,6 +16,8 @@
         <fieldColumnsAdded>false</fieldColumnsAdded>
         <itemCreationDisabled>false</itemCreationDisabled>
         <itemDeletionDisabled>false</itemDeletionDisabled>
+        <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>ReflectionUITest$AbstrcatTestDescendant</itemTypeName>
         <listTypeName>[LReflectionUITest$AbstrcatTestDescendant;</listTypeName>
@@ -27,6 +32,8 @@
         <fieldColumnsAdded>false</fieldColumnsAdded>
         <itemCreationDisabled>false</itemCreationDisabled>
         <itemDeletionDisabled>false</itemDeletionDisabled>
+        <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>ReflectionUITest$AbstrcatTestDescendant</itemTypeName>
         <listTypeName>java.util.List</listTypeName>
@@ -41,6 +48,8 @@
         <fieldColumnsAdded>false</fieldColumnsAdded>
         <itemCreationDisabled>false</itemCreationDisabled>
         <itemDeletionDisabled>false</itemDeletionDisabled>
+        <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.io.File</itemTypeName>
         <listTypeName>java.util.List</listTypeName>
@@ -55,6 +64,8 @@
         <fieldColumnsAdded>false</fieldColumnsAdded>
         <itemCreationDisabled>false</itemCreationDisabled>
         <itemDeletionDisabled>false</itemDeletionDisabled>
+        <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.lang.String</itemTypeName>
         <listTypeName>java.util.List</listTypeName>
@@ -69,6 +80,8 @@
         <fieldColumnsAdded>false</fieldColumnsAdded>
         <itemCreationDisabled>false</itemCreationDisabled>
         <itemDeletionDisabled>false</itemDeletionDisabled>
+        <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,java.lang.String&gt;</itemTypeName>
         <listTypeName>java.util.Map</listTypeName>
@@ -83,6 +96,8 @@
         <fieldColumnsAdded>false</fieldColumnsAdded>
         <itemCreationDisabled>false</itemCreationDisabled>
         <itemDeletionDisabled>false</itemDeletionDisabled>
+        <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.lang.Integer</itemTypeName>
         <listTypeName>java.util.Set</listTypeName>
@@ -97,6 +112,8 @@
         <fieldColumnsAdded>false</fieldColumnsAdded>
         <itemCreationDisabled>false</itemCreationDisabled>
         <itemDeletionDisabled>false</itemDeletionDisabled>
+        <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.lang.Integer</itemTypeName>
         <listTypeName>java.util.Stack</listTypeName>
@@ -111,12 +128,24 @@
         <fieldColumnsAdded>false</fieldColumnsAdded>
         <itemCreationDisabled>false</itemCreationDisabled>
         <itemDeletionDisabled>false</itemDeletionDisabled>
+        <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.lang.Object</itemTypeName>
         <listTypeName>java.util.Vector</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
     </listStructures>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulationTypeInfo()</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -137,9 +166,11 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>ReflectionUITest$AbstrcatTestDescendant</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>ReflectionUITest$AbstrcatTestDescendant$Day</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <specificProperties>
@@ -321,6 +352,7 @@
             <readOnlyForced>false</readOnlyForced>
         </methodsCustomizations>
         <typeName>ReflectionUITest$Test</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
@@ -353,6 +385,7 @@
             <readOnlyForced>false</readOnlyForced>
         </methodsCustomizations>
         <typeName>ReflectionUITest$Test2</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
@@ -380,9 +413,11 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>ReflectionUITest$Test3</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>ReflectionUITest$Test4</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
@@ -392,6 +427,7 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>VirtualFieldWrapperTypeInfo()</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
@@ -401,24 +437,31 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>VirtualFieldWrapperTypeInfo(Create 'Abstrcat Test Descendant' of type)</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>[B</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>[LReflectionUITest$AbstrcatTestDescendant;</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>boolean</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>double</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>float</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>int</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
@@ -500,21 +543,27 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>java.io.File</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>java.lang.Boolean</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>java.lang.Double</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>java.lang.Exception</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>java.lang.Integer</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>java.lang.Object</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
@@ -530,30 +579,39 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>java.lang.String</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>java.util.Date</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>java.util.List</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>java.util.Map</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>java.util.Set</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>java.util.Stack</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>java.util.Vector</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>long</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <typeName>short</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
@@ -569,5 +627,6 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,java.lang.String&gt;</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

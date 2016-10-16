@@ -75,6 +75,38 @@
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
+        <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$InfoFilter</itemTypeName>
+        <listTypeName>java.util.List</listTypeName>
+        <positionColumnAdded>false</positionColumnAdded>
+        <stringValueColumnAdded>false</stringValueColumnAdded>
+    </listStructures>
+    <listStructures>
+        <columnsCustomizations>
+            <columnName>toStringValue</columnName>
+            <hidden>false</hidden>
+        </columnsCustomizations>
+        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <itemCreationDisabled>false</itemCreationDisabled>
+        <itemDeletionDisabled>false</itemDeletionDisabled>
+        <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+        <itemMoveDisabled>false</itemMoveDisabled>
+        <itemTypeColumnAdded>false</itemTypeColumnAdded>
+        <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$ListItemFieldShortcut</itemTypeName>
+        <listTypeName>java.util.List</listTypeName>
+        <positionColumnAdded>false</positionColumnAdded>
+        <stringValueColumnAdded>false</stringValueColumnAdded>
+    </listStructures>
+    <listStructures>
+        <columnsCustomizations>
+            <columnName>toStringValue</columnName>
+            <hidden>false</hidden>
+        </columnsCustomizations>
+        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <itemCreationDisabled>false</itemCreationDisabled>
+        <itemDeletionDisabled>false</itemDeletionDisabled>
+        <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+        <itemMoveDisabled>false</itemMoveDisabled>
+        <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$ListItemMethodShortcut</itemTypeName>
         <listTypeName>java.util.List</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
@@ -156,6 +188,16 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>EncapsulationTypeInfo()</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulationTypeInfo(Message)</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1061,6 +1103,22 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <fieldName>regularExpression</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$InfoFilter</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
             <fieldName>className</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -1084,8 +1142,39 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <customFieldsOrder>fieldName</customFieldsOrder>
+        <customFieldsOrder>customFieldCaption</customFieldsOrder>
+        <customFieldsOrder>alwaysShown</customFieldsOrder>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Shortcut Always Displayed</customFieldCaption>
+            <fieldName>alwaysShown</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>customFieldCaption</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>fieldName</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ListItemFieldShortcut ListItemFieldShortcut()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$ListItemFieldShortcut</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
         <customFieldsOrder>methodSignature</customFieldsOrder>
-        <customFieldsOrder>caption</customFieldsOrder>
+        <customFieldsOrder>customMethodCaption</customFieldsOrder>
         <customFieldsOrder>alwaysShown</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -1122,6 +1211,8 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <customFieldsOrder>fieldsExcludedFromItemDetails</customFieldsOrder>
+        <customFieldsOrder>methodsExcludedFromItemDetails</customFieldsOrder>
         <customFieldsOrder>fieldColumnsAdded</customFieldsOrder>
         <customFieldsOrder>itemTypeColumnAdded</customFieldsOrder>
         <customFieldsOrder>positionColumnAdded</customFieldsOrder>
@@ -1135,6 +1226,16 @@
         <customFieldsOrder>itemMoveDisabled</customFieldsOrder>
         <customFieldsOrder>itemDetailsViewDisabled</customFieldsOrder>
         <customFieldsOrder>allowedItemMethodShortcuts</customFieldsOrder>
+        <customFieldsOrder>allowedItemFieldShortcuts</customFieldsOrder>
+        <fieldsCustomizations>
+            <category>
+                <caption>Actions</caption>
+            </category>
+            <hidden>false</hidden>
+            <fieldName>allowedItemFieldShortcuts</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
         <fieldsCustomizations>
             <category>
                 <caption>Actions</caption>
@@ -1168,6 +1269,12 @@
             <hidden>false</hidden>
             <customFieldCaption>Add Field Columns</customFieldCaption>
             <fieldName>fieldColumnsAdded</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>fieldsExcludedFromItemDetails</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
@@ -1240,6 +1347,12 @@
             <customFieldCaption>List Type</customFieldCaption>
             <fieldName>listTypeName</fieldName>
             <getOnlyForced>true</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>methodsExcludedFromItemDetails</fieldName>
+            <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>

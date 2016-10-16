@@ -19,6 +19,7 @@ import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.map.IMapEntryTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
+import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -228,9 +229,14 @@ public class InfoProxyGenerator {
 		return type.canReplaceContent();
 	}
 
-	protected List<AbstractListAction> getSpecificListActions(IListTypeInfo type, Object object, IFieldInfo field,
+	protected List<AbstractListAction> getDynamicActions(IListTypeInfo type, Object object, IFieldInfo field,
 			List<? extends ItemPosition> selection) {
-		return type.getSpecificActions(object, field, selection);
+		return type.getDynamicActions(object, field, selection);
+	}
+
+	protected List<AbstractListProperty> getDynamicProperties(IListTypeInfo type, Object object, IFieldInfo field,
+			List<? extends ItemPosition> selection) {
+		return type.getDynamicProperties(object, field, selection);
 	}
 
 	protected List<IMethodInfo> getSpecificItemConstructors(IListTypeInfo type, Object object, IFieldInfo field) {
@@ -668,9 +674,15 @@ public class InfoProxyGenerator {
 		}
 
 		@Override
-		public List<AbstractListAction> getSpecificActions(Object object, IFieldInfo field,
+		public List<AbstractListAction> getDynamicActions(Object object, IFieldInfo field,
 				List<? extends ItemPosition> selection) {
-			return InfoProxyGenerator.this.getSpecificListActions((IListTypeInfo) type, object, field, selection);
+			return InfoProxyGenerator.this.getDynamicActions((IListTypeInfo) type, object, field, selection);
+		}
+
+		@Override
+		public List<AbstractListProperty> getDynamicProperties(Object object, IFieldInfo field,
+				List<? extends ItemPosition> selection) {
+			return InfoProxyGenerator.this.getDynamicProperties((IListTypeInfo) type, object, field, selection);
 		}
 
 		@Override

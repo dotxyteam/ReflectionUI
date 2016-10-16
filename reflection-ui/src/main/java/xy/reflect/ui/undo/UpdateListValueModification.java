@@ -9,13 +9,20 @@ import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 public class UpdateListValueModification implements IModification {
 
 	protected ItemPosition itemPosition;
-	protected Object[] listRawValue;
+	protected Object[] newListRawValue;
 	protected ReflectionUI reflectionUI;
+	private Object[] oldListRawValue;
 
-	public UpdateListValueModification(ReflectionUI reflectionUI, ItemPosition itemPosition, Object[] listRawValue) {
+	public UpdateListValueModification(ReflectionUI reflectionUI, ItemPosition itemPosition, Object[] oldListRawValue,
+			Object[] newListRawValue) {
 		this.reflectionUI = reflectionUI;
 		this.itemPosition = itemPosition;
-		this.listRawValue = listRawValue;
+		this.newListRawValue = newListRawValue;
+		this.oldListRawValue = oldListRawValue;
+	}
+
+	public UpdateListValueModification(ReflectionUI reflectionUI, ItemPosition itemPosition, Object[] newListRawValue) {
+		this(reflectionUI, itemPosition, itemPosition.getContainingListRawValue(), newListRawValue);
 	}
 
 	public static boolean isContainingListItemsLocked(ItemPosition itemPosition) {
@@ -30,12 +37,11 @@ public class UpdateListValueModification implements IModification {
 
 	@Override
 	public IModification applyAndGetOpposite() {
-		Object[] lastListRawValue = itemPosition.getContainingListRawValue();
-		updateListValueRecursively(itemPosition, listRawValue);
-		return new UpdateListValueModification(reflectionUI, itemPosition, lastListRawValue);
+		updateListValueRecursively(itemPosition, newListRawValue);
+		return new UpdateListValueModification(reflectionUI, itemPosition, oldListRawValue);
 	}
 
-	private void updateListValueRecursively(ItemPosition itemPosition, Object[] listRawValue) {
+	protected void updateListValueRecursively(ItemPosition itemPosition, Object[] listRawValue) {
 		if (!isContainingListItemsLocked(itemPosition)) {
 			Object listOwner = itemPosition.getContainingListOwner();
 			IFieldInfo listField = itemPosition.getContainingListField();
@@ -53,7 +59,7 @@ public class UpdateListValueModification implements IModification {
 		}
 	}
 
-	private void setListValue(ReflectionUI reflectionUI, Object[] listRawValue, Object listOwner,
+	protected void setListValue(ReflectionUI reflectionUI, Object[] listRawValue, Object listOwner,
 			IFieldInfo listField) {
 		IListTypeInfo listType = (IListTypeInfo) listField.getType();
 		Object listValue = listField.getValue(listOwner);
@@ -61,7 +67,7 @@ public class UpdateListValueModification implements IModification {
 		listField.setValue(listOwner, listValue);
 	}
 
-	private void replaceListValueContent(ReflectionUI reflectionUI, Object[] listRawValue, Object listOwner,
+	protected void replaceListValueContent(ReflectionUI reflectionUI, Object[] listRawValue, Object listOwner,
 			IFieldInfo listField) {
 		IListTypeInfo listType = (IListTypeInfo) listField.getType();
 		Object listValue = listField.getValue(listOwner);

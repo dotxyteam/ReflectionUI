@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
@@ -44,6 +46,7 @@ import xy.reflect.ui.info.type.iterable.structure.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.ListStructuralInfoProxy;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
+import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.InfoCustomizations.ColumnCustomization;
@@ -948,6 +951,67 @@ public final class InfoCustomizations {
 
 	}
 
+	public static class ListItemFieldShortcut {
+		protected String fieldName;
+		protected boolean alwaysShown;
+		protected String customFieldCaption;
+
+		public String getFieldName() {
+			return fieldName;
+		}
+
+		public void setFieldName(String fieldName) {
+			this.fieldName = fieldName;
+		}
+
+		public boolean isAlwaysShown() {
+			return alwaysShown;
+		}
+
+		public void setAlwaysShown(boolean alwaysShown) {
+			this.alwaysShown = alwaysShown;
+		}
+
+		public String getCustomFieldCaption() {
+			return customFieldCaption;
+		}
+
+		public void setCustomFieldCaption(String customFieldCaption) {
+			this.customFieldCaption = customFieldCaption;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((fieldName == null) ? 0 : fieldName.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			ListItemFieldShortcut other = (ListItemFieldShortcut) obj;
+			if (fieldName == null) {
+				if (other.fieldName != null)
+					return false;
+			} else if (!fieldName.equals(other.fieldName))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return fieldName;
+		}
+
+	}
+
 	public static class ListItemMethodShortcut {
 		protected String methodSignature;
 		protected boolean alwaysShown;
@@ -1009,6 +1073,38 @@ public final class InfoCustomizations {
 
 	}
 
+	public static class InfoFilter {
+		protected String value;
+		protected boolean regularExpression;
+
+		public String getValue() {
+			return value;
+		}
+
+		public void setValue(String value) {
+			this.value = value;
+		}
+
+		public boolean isRegularExpression() {
+			return regularExpression;
+		}
+
+		public void setRegularExpression(boolean regularExpression) {
+			this.regularExpression = regularExpression;
+		}
+
+		public boolean matches(String s) {
+			if (regularExpression) {
+				Pattern pattern = Pattern.compile(value);
+				Matcher matcher = pattern.matcher(s);
+				return matcher.matches();
+			} else {
+				return s.equals(value);
+			}
+		}
+
+	}
+
 	public static class ListStructureCustomization implements Comparable<ListStructureCustomization> {
 		protected transient InfoCustomizations parent;
 		protected String listTypeName;
@@ -1024,7 +1120,10 @@ public final class InfoCustomizations {
 		protected Set<ColumnCustomization> columnsCustomizations = new TreeSet<ColumnCustomization>();
 		protected List<String> columnsCustomOrder;
 		protected TreeStructureDiscoverySettings treeStructureDiscoverySettings;
+		protected List<ListItemFieldShortcut> allowedItemFieldShortcuts = new ArrayList<ListItemFieldShortcut>();
 		protected List<ListItemMethodShortcut> allowedItemMethodShortcuts = new ArrayList<ListItemMethodShortcut>();
+		protected List<InfoFilter> methodsExcludedFromItemDetails = new ArrayList<InfoFilter>();
+		protected List<InfoFilter> fieldsExcludedFromItemDetails = new ArrayList<InfoFilter>();
 
 		@XmlTransient
 		public InfoCustomizations getParent() {
@@ -1043,6 +1142,30 @@ public final class InfoCustomizations {
 				return null;
 			}
 			return parent.getTypeCustomization(itemTypeName);
+		}
+
+		public List<InfoFilter> getFieldsExcludedFromItemDetails() {
+			return fieldsExcludedFromItemDetails;
+		}
+
+		public void setFieldsExcludedFromItemDetails(List<InfoFilter> fieldsExcludedFromItemDetails) {
+			this.fieldsExcludedFromItemDetails = fieldsExcludedFromItemDetails;
+		}
+
+		public List<InfoFilter> getMethodsExcludedFromItemDetails() {
+			return methodsExcludedFromItemDetails;
+		}
+
+		public void setMethodsExcludedFromItemDetails(List<InfoFilter> methods) {
+			this.methodsExcludedFromItemDetails = methods;
+		}
+
+		public List<ListItemFieldShortcut> getAllowedItemFieldShortcuts() {
+			return allowedItemFieldShortcuts;
+		}
+
+		public void setAllowedItemFieldShortcuts(List<ListItemFieldShortcut> allowedItemFieldShortcuts) {
+			this.allowedItemFieldShortcuts = allowedItemFieldShortcuts;
 		}
 
 		public List<ListItemMethodShortcut> getAllowedItemMethodShortcuts() {
@@ -1297,9 +1420,122 @@ public final class InfoCustomizations {
 		}
 
 		@Override
-		protected List<AbstractListAction> getSpecificListActions(IListTypeInfo listType, Object object,
-				IFieldInfo field, List<? extends ItemPosition> selection) {
-			List<AbstractListAction> result = super.getSpecificListActions(listType, object, field, selection);
+		protected List<AbstractListProperty> getDynamicProperties(IListTypeInfo listType, Object object,
+				IFieldInfo listField, List<? extends ItemPosition> selection) {
+			List<AbstractListProperty> result = super.getDynamicProperties(listType, object, listField, selection);
+			result = new ArrayList<AbstractListProperty>(result);
+			ITypeInfo itemType = listType.getItemType();
+			final ListStructureCustomization l = getListStructureCustomization(listType.getName(),
+					(itemType == null) ? null : itemType.getName());
+			for (final ListItemFieldShortcut s : l.allowedItemFieldShortcuts) {
+				final String fieldCaption;
+				if (s.customFieldCaption != null) {
+					fieldCaption = s.customFieldCaption;
+				} else {
+					fieldCaption = ReflectionUIUtils.identifierToCaption(s.fieldName);
+				}
+				boolean fieldFound = false;
+				if (selection.size() == 1) {
+					final ItemPosition itemPosition = selection.get(0);
+					final Object item = itemPosition.getItem();
+					ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
+					for (final IFieldInfo itemField : actualItemType.getFields()) {
+						if (itemField.getName().equals(s.fieldName)) {
+							AbstractListProperty property = new AbstractListProperty() {
+
+								@Override
+								public boolean isEnabled() {
+									return true;
+								}
+
+								@Override
+								public String getCaption() {
+									return fieldCaption;
+								}
+
+								@Override
+								public void setValue(Object object, Object value) {
+									itemField.setValue(item, value);
+									Object[] listRawValue = itemPosition.getContainingListRawValue();
+									listRawValue[itemPosition.getIndex()] = item;
+									new UpdateListValueModification(reflectionUI, itemPosition, listRawValue)
+											.applyAndGetOpposite();
+								}
+
+								@Override
+								public boolean isNullable() {
+									return itemField.isNullable();
+								}
+
+								@Override
+								public boolean isGetOnly() {
+									return itemField.isGetOnly();
+								}
+
+								@Override
+								public Object getValue(Object object) {
+									return itemField.getValue(item);
+								}
+
+								@Override
+								public ITypeInfo getType() {
+									return itemField.getType();
+								}
+							};
+							result.add(property);
+							fieldFound = true;
+							break;
+						}
+					}
+				}
+				if ((!fieldFound) && s.alwaysShown) {
+					AbstractListProperty property = new AbstractListProperty() {
+
+						@Override
+						public boolean isEnabled() {
+							return false;
+						}
+
+						@Override
+						public String getCaption() {
+							return fieldCaption;
+						}
+
+						@Override
+						public void setValue(Object object, Object value) {
+							throw new UnsupportedOperationException();
+						}
+
+						@Override
+						public boolean isNullable() {
+							throw new UnsupportedOperationException();
+						}
+
+						@Override
+						public boolean isGetOnly() {
+							throw new UnsupportedOperationException();
+						}
+
+						@Override
+						public Object getValue(Object object) {
+							throw new UnsupportedOperationException();
+						}
+
+						@Override
+						public ITypeInfo getType() {
+							throw new UnsupportedOperationException();
+						}
+					};
+					result.add(property);
+				}
+			}
+			return result;
+		}
+
+		@Override
+		protected List<AbstractListAction> getDynamicActions(IListTypeInfo listType, Object object, IFieldInfo field,
+				List<? extends ItemPosition> selection) {
+			List<AbstractListAction> result = super.getDynamicActions(listType, object, field, selection);
 			result = new ArrayList<AbstractListAction>(result);
 			ITypeInfo itemType = listType.getItemType();
 			final ListStructureCustomization l = getListStructureCustomization(listType.getName(),
@@ -1325,7 +1561,7 @@ public final class InfoCustomizations {
 
 								@Override
 								public String getName() {
-									return method.getName();
+									return "callItem-" + method.getName();
 								}
 
 								@Override
@@ -1335,7 +1571,7 @@ public final class InfoCustomizations {
 
 								@Override
 								public boolean isEnabled() {
-									return s.alwaysShown;
+									return true;
 								}
 
 								@Override

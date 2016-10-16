@@ -56,7 +56,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean isModificationStackAccessible() {
 		return true;
@@ -94,7 +94,6 @@ public class DefaultTypeInfo implements ITypeInfo {
 		return getCaption();
 	}
 
-	
 	@Override
 	public List<IFieldInfo> getFields() {
 		if (fields == null) {
@@ -116,7 +115,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 				fields.add(getterFieldInfo);
 			}
 			ReflectionUIUtils.sortFields(fields);
-		}		
+		}
 		return fields;
 	}
 
@@ -140,7 +139,11 @@ public class DefaultTypeInfo implements ITypeInfo {
 		if (javaType.isPrimitive()) {
 			return ClassUtils.primitiveToWrapperType(javaType).isInstance(object);
 		} else {
-			return javaType.isInstance(object);
+			if (object == null) {
+				return true;
+			} else {
+				return javaType.isInstance(object);
+			}
 		}
 	}
 
@@ -178,6 +181,9 @@ public class DefaultTypeInfo implements ITypeInfo {
 			return null;
 		} else {
 			String result = object.toString();
+			if (result == null) {
+				result = "";
+			}
 			String objectClassName = object.getClass().getName();
 			String objectClassCaption = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object)).getCaption();
 			result = result.replaceAll(
@@ -187,9 +193,6 @@ public class DefaultTypeInfo implements ITypeInfo {
 			return result;
 		}
 	}
-
-
-	
 
 	@Override
 	public String getOnlineHelp() {
@@ -212,7 +215,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 	public Map<String, Object> getSpecificProperties() {
 		return Collections.emptyMap();
 	}
-	
+
 	@Override
 	public boolean canCopy(Object object) {
 		ReflectionUIUtils.checkInstance(this, object);
@@ -249,8 +252,5 @@ public class DefaultTypeInfo implements ITypeInfo {
 		ReflectionUIUtils.checkInstance(this, value1);
 		return ReflectionUIUtils.equalsOrBothNull(value1, value2);
 	}
-
-	
-	
 
 }

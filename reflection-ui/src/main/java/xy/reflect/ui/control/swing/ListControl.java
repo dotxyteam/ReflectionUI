@@ -65,11 +65,14 @@ import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
+import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.util.EncapsulationTypeInfo;
 import xy.reflect.ui.info.type.util.InfoProxyGenerator;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.undo.SetFieldValueModification;
 import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.undo.UpdateListValueModification;
 import xy.reflect.ui.util.Accessor;
@@ -170,12 +173,25 @@ public class ListControl extends JPanel implements IFieldControl {
 			}
 		}
 
-		List<AbstractListAction> specificActions = getRootListType().getSpecificActions(object, field, getSelection());
-		if (specificActions.size() > 0) {
+		List<AbstractListProperty> dynamicProperties = getRootListType().getDynamicProperties(object, field,
+				getSelection());
+		if (dynamicProperties.size() > 0) {
 			toolbar.add(new JSeparator());
-			for (AbstractListAction listAction : specificActions) {
-				toolbar.add(
-						createTool(listAction.getCaption(), null, true, false, createSpecificActionHook(listAction)));
+			for (AbstractListProperty listProperty : getRootListType().getDynamicProperties(object, field,
+					getSelection())) {
+				AbstractAction dynamicPropertyHook = createDynamicPropertyHook(listProperty);
+				toolbar.add(createTool((String) dynamicPropertyHook.getValue(AbstractAction.NAME), null, true, false,
+						dynamicPropertyHook));
+			}
+		}
+
+		List<AbstractListAction> dynamicActions = getRootListType().getDynamicActions(object, field, getSelection());
+		if (dynamicActions.size() > 0) {
+			toolbar.add(new JSeparator());
+			for (AbstractListAction listAction : dynamicActions) {
+				AbstractAction dynamicActionHook = createDynamicActionHook(listAction);
+				toolbar.add(createTool((String) dynamicActionHook.getValue(AbstractAction.NAME), null, true, false,
+						dynamicActionHook));
 			}
 		}
 
@@ -442,8 +458,11 @@ public class ListControl extends JPanel implements IFieldControl {
 
 		List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
 
-		for (AbstractListAction listAction : getRootListType().getSpecificActions(object, field, selection)) {
-			result.add(createSpecificActionHook(listAction));
+		for (AbstractListProperty listProperty : getRootListType().getDynamicProperties(object, field, selection)) {
+			result.add(createDynamicPropertyHook(listProperty));
+		}
+		for (AbstractListAction listAction : getRootListType().getDynamicActions(object, field, selection)) {
+			result.add(createDynamicActionHook(listAction));
 		}
 
 		result.add(SEPARATOR_ACTION);
@@ -1462,17 +1481,67 @@ public class ListControl extends JPanel implements IFieldControl {
 		return (IListTypeInfo) field.getType();
 	}
 
-	protected AbstractAction createSpecificActionHook(final AbstractListAction specificAction) {
-		return new AbstractAction(swingRenderer.prepareStringToDisplay(specificAction.getCaption())) {
+	protected AbstractAction createDynamicPropertyHook(final AbstractListProperty dynamicProperty) {
+		return new AbstractStandardListAction() {
+			protected static final long serialVersionUID = 1L;
+
+			@Override
+			protected boolean perform(List<AutoFieldValueUpdatingItemPosition>[] toPostSelectHolder) {
+				Object[] propertyValueHolder = new Object[] { dynamicProperty.getValue(object) };
+				EncapsulationTypeInfo encapsulation = new EncapsulationTypeInfo(swingRenderer.getReflectionUI(), dynamicProperty.getType());
+				encapsulation.setCaption("");
+				encapsulation.setFieldCaption(dynamicProperty.getCaption());;
+				encapsulation.setFieldGetOnly(dynamicProperty.isGetOnly());
+				encapsulation.setFieldNullable(dynamicProperty.isNullable());
+				Object encapsulatedPropertyValue = encapsulation.getInstance(propertyValueHolder);
+				
+				ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, encapsulatedPropertyValue);
+				dialogBuilder.setGetOnly(dynamicProperty.isGetOnly());
+				dialogBuilder.setCancellable(true);
+				swingRenderer.showDialog(dialogBuilder.build(), true);
+
+				ModificationStack parentModifStack = getParentFormModificationStack();
+				ModificationStack childModifStack = dialogBuilder.getModificationStack();
+				IInfo childModifTarget = dynamicProperty;
+				IModification commitModif;
+				if (dynamicProperty.isGetOnly()) {
+					commitModif = null;
+				} else {
+					commitModif = new SetFieldValueModification(swingRenderer.getReflectionUI(), object,
+							dynamicProperty, propertyValueHolder[0]);
+				}
+				return ReflectionUIUtils.integrateSubModification(parentModifStack, childModifStack,
+						dialogBuilder.isOkPressed(), commitModif, childModifTarget, null);
+			}
+
+			@Override
+			protected String getTitle() {
+				return dynamicProperty.getCaption() + "...";
+			}
+
+			@Override
+			protected String getCompositeModificationTitle() {
+				return "Edit '" + dynamicProperty.getCaption();
+			}
+
+			@Override
+			public boolean isValid() {
+				return dynamicProperty.isEnabled();
+			}
+
+		};
+	}
+
+	protected AbstractAction createDynamicActionHook(final AbstractListAction dynamicAction) {
+		return new AbstractAction(swingRenderer.prepareStringToDisplay(dynamicAction.getCaption())) {
 			protected static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				specificAction.setListField(ListControl.this.field);
-				IMethodInfo method = new MethodInfoProxy(specificAction) {
+				IMethodInfo method = new MethodInfoProxy(dynamicAction) {
 					@Override
 					public Object invoke(Object object, InvocationData invocationData) {
-						return SwingRendererUtils.invokeMethodAndAllowToUndo(object, specificAction, invocationData,
+						return SwingRendererUtils.invokeMethodAndAllowToUndo(object, dynamicAction, invocationData,
 								getParentFormModificationStack());
 					}
 				};
@@ -1481,7 +1550,7 @@ public class ListControl extends JPanel implements IFieldControl {
 
 			@Override
 			public boolean isEnabled() {
-				return specificAction.isEnabled();
+				return dynamicAction.isEnabled();
 			}
 
 		};
@@ -1498,7 +1567,6 @@ public class ListControl extends JPanel implements IFieldControl {
 
 				ModificationStack parentModifStack = getParentFormModificationStack();
 				ModificationStack childModifStack = dialogStatus.getModificationStack();
-				String childModifTitle = "Edit '" + field.getCaption() + "' item";
 				IInfo childModifTarget = field;
 				IModification commitModif;
 				if (UpdateListValueModification.isContainingListItemsLocked(itemPosition)) {
@@ -1511,7 +1579,7 @@ public class ListControl extends JPanel implements IFieldControl {
 				}
 				toPostSelectHolder[0] = Collections.singletonList(itemPosition);
 				return ReflectionUIUtils.integrateSubModification(parentModifStack, childModifStack,
-						dialogStatus.isOkPressed(), commitModif, childModifTarget, childModifTitle);
+						dialogStatus.isOkPressed(), commitModif, childModifTarget, null);
 
 			}
 
@@ -1629,7 +1697,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		}
 		ITypeInfo actualItemType = swingRenderer.getReflectionUI()
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(item));
-		if (swingRenderer.hasCustomFieldControl(item)) {
+		if (swingRenderer.hasCustomFieldControl(item, actualItemType)) {
 			return true;
 		}
 		List<IFieldInfo> fields = actualItemType.getFields();
