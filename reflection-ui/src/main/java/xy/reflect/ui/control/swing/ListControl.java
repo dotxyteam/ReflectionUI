@@ -62,6 +62,7 @@ import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.iterable.structure.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
@@ -81,6 +82,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.AbstractLazyTreeNode;
 
+@SuppressWarnings("unused")
 public class ListControl extends JPanel implements IFieldControl {
 
 	protected static final long serialVersionUID = 1L;
@@ -324,7 +326,12 @@ public class ListControl extends JPanel implements IFieldControl {
 
 	public IListStructuralInfo getStructuralInfo() {
 		if (structuralInfo == null) {
-			structuralInfo = getRootListType().getStructuralInfo();
+			IListTypeInfo listType = getRootListType();
+			structuralInfo = listType.getStructuralInfo();
+			if (structuralInfo == null) {
+				throw new ReflectionUIError(
+						"No " + IListStructuralInfo.class.getSimpleName() + " found on the type '" + listType.getName());
+			}
 		}
 		return structuralInfo;
 	}
@@ -1488,13 +1495,15 @@ public class ListControl extends JPanel implements IFieldControl {
 			@Override
 			protected boolean perform(List<AutoFieldValueUpdatingItemPosition>[] toPostSelectHolder) {
 				Object[] propertyValueHolder = new Object[] { dynamicProperty.getValue(object) };
-				EncapsulationTypeInfo encapsulation = new EncapsulationTypeInfo(swingRenderer.getReflectionUI(), dynamicProperty.getType());
+				EncapsulationTypeInfo encapsulation = new EncapsulationTypeInfo(swingRenderer.getReflectionUI(),
+						dynamicProperty.getType());
 				encapsulation.setCaption("");
-				encapsulation.setFieldCaption(dynamicProperty.getCaption());;
+				encapsulation.setFieldCaption(dynamicProperty.getCaption());
+				;
 				encapsulation.setFieldGetOnly(dynamicProperty.isGetOnly());
 				encapsulation.setFieldNullable(dynamicProperty.isNullable());
 				Object encapsulatedPropertyValue = encapsulation.getInstance(propertyValueHolder);
-				
+
 				ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, encapsulatedPropertyValue);
 				dialogBuilder.setGetOnly(dynamicProperty.isGetOnly());
 				dialogBuilder.setCancellable(true);

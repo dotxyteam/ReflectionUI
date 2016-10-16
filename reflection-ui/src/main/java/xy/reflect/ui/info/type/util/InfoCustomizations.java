@@ -55,6 +55,7 @@ import xy.reflect.ui.info.type.util.InfoCustomizations.ListStructureCustomizatio
 import xy.reflect.ui.info.type.util.InfoCustomizations.MethodCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.undo.IModification;
+import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.ModificationProxy;
 import xy.reflect.ui.undo.UpdateListValueModification;
 import xy.reflect.ui.util.ClassUtils;
@@ -1074,8 +1075,8 @@ public final class InfoCustomizations {
 	}
 
 	public static class InfoFilter {
-		protected String value;
-		protected boolean regularExpression;
+		protected String value = "";
+		protected boolean regularExpression = false;
 
 		public String getValue() {
 			return value;
@@ -1102,6 +1103,45 @@ public final class InfoCustomizations {
 				return s.equals(value);
 			}
 		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + (regularExpression ? 1231 : 1237);
+			result = prime * result + ((value == null) ? 0 : value.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			InfoFilter other = (InfoFilter) obj;
+			if (regularExpression != other.regularExpression)
+				return false;
+			if (value == null) {
+				if (other.value != null)
+					return false;
+			} else if (!value.equals(other.value))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			String result = value;
+			if(regularExpression){
+				result = "(Regular Expression) " + value;
+			}
+			return result;
+		}
+		
+		
 
 	}
 
@@ -1560,11 +1600,6 @@ public final class InfoCustomizations {
 								private IModification oppositeUpdateListValueModification;
 
 								@Override
-								public String getName() {
-									return "callItem-" + method.getName();
-								}
-
-								@Override
 								public String getCaption() {
 									return methodCaption;
 								}
@@ -1612,28 +1647,23 @@ public final class InfoCustomizations {
 								}
 
 								@Override
-								public IModification getUndoModification(Object object, InvocationData invocationData) {
-									IModification result = method.getUndoModification(item, invocationData);
-									if (result != null) {
-										result = new ModificationProxy(result) {
-
+								public Runnable getUndoJob(Object object, final InvocationData invocationData) {
+									final Runnable undoJob = method.getUndoJob(item, invocationData);
+									if (undoJob == null) {
+										return null;
+									} else {
+										return new Runnable() {
+											
 											@Override
-											public IModification applyAndGetOpposite() {
-												oppositeUpdateListValueModification = oppositeUpdateListValueModification
-														.applyAndGetOpposite();
-												delegate = delegate.applyAndGetOpposite();
-												return this;
-											}
-
-											@Override
-											public int getNumberOfUnits() {
-												return super.getNumberOfUnits()
-														+ oppositeUpdateListValueModification.getNumberOfUnits();
+											public void run() {
+												undoJob.run();
+												oppositeUpdateListValueModification
+														.applyAndGetOpposite();												
 											}
 
 										};
+
 									}
-									return result;
 								}
 
 							};

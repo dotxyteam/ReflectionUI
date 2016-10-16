@@ -11,7 +11,6 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.parameter.DefaultParameterInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.util.Parameter;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -110,7 +109,7 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 	}
 
 	@Override
-	public IModification getUndoModification(Object object,
+	public Runnable getUndoJob(Object object,
 			InvocationData invocationData) {
 		return null;
 	}

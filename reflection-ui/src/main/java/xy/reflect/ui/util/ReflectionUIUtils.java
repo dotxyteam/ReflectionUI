@@ -946,6 +946,9 @@ public class ReflectionUIUtils {
 	}
 
 	public static String toString(ReflectionUI reflectionUI, Object object) {
+		if(object == null){
+			return "";
+		}
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		return type.toString(object);
 	}

@@ -471,9 +471,9 @@ public class InfoProxyGenerator {
 		method.validateParameters(object, invocationData);
 	}
 
-	protected IModification getUndoModification(IMethodInfo method, ITypeInfo containingType, Object object,
+	protected Runnable getUndoModification(IMethodInfo method, ITypeInfo containingType, Object object,
 			InvocationData invocationData) {
-		return method.getUndoModification(object, invocationData);
+		return method.getUndoJob(object, invocationData);
 	}
 
 	protected IEnumerationItemInfo getValueInfo(Object object, IEnumerationTypeInfo type) {
@@ -898,7 +898,7 @@ public class InfoProxyGenerator {
 		}
 
 		@Override
-		public IModification getUndoModification(Object object, InvocationData invocationData) {
+		public Runnable getUndoJob(Object object, InvocationData invocationData) {
 			return InfoProxyGenerator.this.getUndoModification(method, containingType, object, invocationData);
 		}
 

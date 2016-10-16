@@ -8,16 +8,12 @@ IFieldInfo.getSetterUndoModfication() for such cases
 	. cache results
 	. compute recursively
 	. avoid infinite loops
-- ObjectDialogBuilder.setCancellable(
-	!ReflectionUIUtils.isImmutable(ITypeInfo)
-  ) by default
+	. ObjectDialogBuilder.setCancellable(
+		!ReflectionUIUtils.isImmutable(ITypeInfo)
+  	) by default
 - ITypeInfo.isModificationStackAccessible
 	=> must be a SwingSpecificProperty
 - add customization options:
-	. exclude list item fields from details view (field names)
-	. exclude list item methods from details view (method signatures)
-	. list item field shortcut 
-		=> needs to add IMethodInfo.isParameterModificationImpacting(int param index)
 	. list item details view detached	
 - field auto-update???
 - allow to sort list view

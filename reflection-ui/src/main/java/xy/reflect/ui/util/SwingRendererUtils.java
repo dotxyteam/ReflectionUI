@@ -41,10 +41,12 @@ import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.util.InfoProxyGenerator;
 import xy.reflect.ui.undo.IModification;
+import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.ModificationStack;
 
 @SuppressWarnings("unused")
@@ -276,20 +278,28 @@ public class SwingRendererUtils {
 		if (method.isReadOnly()) {
 			return method.invoke(object, invocationData);
 		} else {
-			Object result;
-			try {
-				result = method.invoke(object, invocationData);
-			} catch (Throwable t) {
-				stack.invalidate();
-				throw new ReflectionUIError(t);
-			}
-			IModification undoModif = method.getUndoModification(object, invocationData);
-			if (undoModif == null) {
-				stack.invalidate();
+			Runnable undoJob = method.getUndoJob(object, invocationData);
+			if (undoJob != null) {
+				final Object[] resultHolder = new Object[1];
+				method = new MethodInfoProxy(method) {
+					@Override
+					public Object invoke(Object object, InvocationData invocationData) {
+						return resultHolder[0] = super.invoke(object, invocationData);
+					}
+				};
+				InvokeMethodModification modif = new InvokeMethodModification(object, method, invocationData);
+				try {
+					stack.apply(modif);
+				} catch (Throwable t) {
+					stack.invalidate();
+					throw new ReflectionUIError(t);
+				}
+				return resultHolder[0];
 			} else {
-				stack.pushUndo(undoModif);
+				Object result = method.invoke(object, invocationData);
+				stack.invalidate();
+				return result;
 			}
-			return result;
 		}
 	}
 }

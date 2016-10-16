@@ -6,7 +6,6 @@ import java.util.Map;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MethodInfoProxy implements IMethodInfo {
@@ -81,9 +80,9 @@ public class MethodInfoProxy implements IMethodInfo {
 	}
 
 	@Override
-	public IModification getUndoModification(Object object,
+	public Runnable getUndoJob(Object object,
 			InvocationData invocationData) {
-		return base.getUndoModification(object, invocationData);
+		return base.getUndoJob(object, invocationData);
 	}
 
 	@Override

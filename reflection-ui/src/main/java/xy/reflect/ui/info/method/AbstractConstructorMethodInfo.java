@@ -5,7 +5,6 @@ import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public abstract class AbstractConstructorMethodInfo implements IMethodInfo {
@@ -66,7 +65,7 @@ public abstract class AbstractConstructorMethodInfo implements IMethodInfo {
 	}
 	
 	@Override
-	public IModification getUndoModification(Object object, InvocationData invocationData) {
+	public Runnable getUndoJob(Object object, InvocationData invocationData) {
 		return null;
 	}
 	

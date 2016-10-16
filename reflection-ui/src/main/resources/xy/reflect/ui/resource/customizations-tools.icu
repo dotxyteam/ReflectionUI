@@ -187,6 +187,46 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <typeName>EncapsulationTypeInfo [fieldType=Column Customization, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulationTypeInfo [fieldType=Info Filter, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulationTypeInfo [fieldType=List Item Field Shortcut, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulationTypeInfo [fieldType=List Structure Customization, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
         <typeName>EncapsulationTypeInfo()</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1101,8 +1141,11 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <customFieldsOrder>value</customFieldsOrder>
+        <customFieldsOrder>regularExpression</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <customFieldCaption>Regular Expression</customFieldCaption>
             <fieldName>regularExpression</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1111,8 +1154,23 @@
             <hidden>false</hidden>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>false</nullableFacetHidden>
+            <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
+        <methodsCustomizations>
+            <hidden>true</hidden>
+            <methodSignature>boolean matches(java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>s</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$InfoFilter InfoFilter()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$InfoFilter</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1211,8 +1269,6 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
-        <customFieldsOrder>fieldsExcludedFromItemDetails</customFieldsOrder>
-        <customFieldsOrder>methodsExcludedFromItemDetails</customFieldsOrder>
         <customFieldsOrder>fieldColumnsAdded</customFieldsOrder>
         <customFieldsOrder>itemTypeColumnAdded</customFieldsOrder>
         <customFieldsOrder>positionColumnAdded</customFieldsOrder>
@@ -1227,6 +1283,8 @@
         <customFieldsOrder>itemDetailsViewDisabled</customFieldsOrder>
         <customFieldsOrder>allowedItemMethodShortcuts</customFieldsOrder>
         <customFieldsOrder>allowedItemFieldShortcuts</customFieldsOrder>
+        <customFieldsOrder>fieldsExcludedFromItemDetails</customFieldsOrder>
+        <customFieldsOrder>methodsExcludedFromItemDetails</customFieldsOrder>
         <fieldsCustomizations>
             <category>
                 <caption>Actions</caption>
@@ -1273,10 +1331,13 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
+            <category>
+                <caption>Item Details</caption>
+            </category>
             <hidden>false</hidden>
             <fieldName>fieldsExcludedFromItemDetails</fieldName>
             <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>false</nullableFacetHidden>
+            <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <category>
@@ -1350,10 +1411,13 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
+            <category>
+                <caption>Item Details</caption>
+            </category>
             <hidden>false</hidden>
             <fieldName>methodsExcludedFromItemDetails</fieldName>
             <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>false</nullableFacetHidden>
+            <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
@@ -1405,6 +1469,9 @@
         </memberCategories>
         <memberCategories>
             <caption>Actions</caption>
+        </memberCategories>
+        <memberCategories>
+            <caption>Item Details</caption>
         </memberCategories>
         <methodsCustomizations>
             <hidden>true</hidden>

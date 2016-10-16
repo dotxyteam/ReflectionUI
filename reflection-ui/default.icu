@@ -10,17 +10,41 @@
             <methodSignature>void doNothing()</methodSignature>
         </allowedItemMethodShortcuts>
         <columnsCustomizations>
-            <columnName>toStringValue</columnName>
+            <columnName>the2ndShort</columnName>
             <hidden>false</hidden>
         </columnsCustomizations>
-        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <columnsCustomizations>
+            <columnName>theDay</columnName>
+            <hidden>false</hidden>
+        </columnsCustomizations>
+        <columnsCustomizations>
+            <columnName>theShort</columnName>
+            <hidden>false</hidden>
+        </columnsCustomizations>
+        <columnsCustomizations>
+            <columnName>toStringValue</columnName>
+            <hidden>true</hidden>
+        </columnsCustomizations>
+        <columnsCustomizations>
+            <columnName>typeName</columnName>
+            <hidden>false</hidden>
+        </columnsCustomizations>
+        <fieldColumnsAdded>true</fieldColumnsAdded>
+        <fieldsExcludedFromItemDetails>
+            <regularExpression>true</regularExpression>
+            <value>theDa.</value>
+        </fieldsExcludedFromItemDetails>
         <itemCreationDisabled>false</itemCreationDisabled>
         <itemDeletionDisabled>false</itemDeletionDisabled>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemMoveDisabled>false</itemMoveDisabled>
-        <itemTypeColumnAdded>false</itemTypeColumnAdded>
+        <itemTypeColumnAdded>true</itemTypeColumnAdded>
         <itemTypeName>ReflectionUITest$AbstrcatTestDescendant</itemTypeName>
         <listTypeName>[LReflectionUITest$AbstrcatTestDescendant;</listTypeName>
+        <methodsExcludedFromItemDetails>
+            <regularExpression>false</regularExpression>
+            <value>void doNothing()</value>
+        </methodsExcludedFromItemDetails>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
     </listStructures>
@@ -136,6 +160,56 @@
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
     </listStructures>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulationTypeInfo [fieldType=Day, fieldCaption=The Day]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulationTypeInfo [fieldType=Test 2, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulationTypeInfo [fieldType=Test 3, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulationTypeInfo [fieldType=Test, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulationTypeInfo [fieldType=xy.reflect.ui.info.type.util.EncapsulationTypeInfo@f4863541, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -563,6 +637,10 @@
     </typeCustomizations>
     <typeCustomizations>
         <typeName>java.lang.Object</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>java.lang.Short</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>

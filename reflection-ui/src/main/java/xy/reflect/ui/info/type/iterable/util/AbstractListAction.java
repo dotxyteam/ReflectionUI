@@ -9,7 +9,6 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.undo.IModification;
 
 public abstract class AbstractListAction implements IMethodInfo {
 
@@ -53,7 +52,7 @@ public abstract class AbstractListAction implements IMethodInfo {
 	}
 
 	@Override
-	public IModification getUndoModification(Object object, InvocationData invocationData) {
+	public Runnable getUndoJob(Object object, InvocationData invocationData) {
 		return null;
 	}
 

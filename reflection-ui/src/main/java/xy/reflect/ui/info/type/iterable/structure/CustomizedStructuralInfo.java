@@ -120,34 +120,33 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 
 	@Override
 	public IInfoCollectionSettings getItemInfoSettings(final ItemPosition itemPosition) {
-		if (customization.getTreeStructureDiscoverySettings() == null) {
-			return super.getItemInfoSettings(itemPosition);
-		}
-		return new IInfoCollectionSettings() {
+		return new InfoCollectionSettingsProxy(super.getItemInfoSettings(itemPosition)) {
 
 			@Override
 			public boolean excludeMethod(IMethodInfo method) {
 				String methodSignature = ReflectionUIUtils.getMethodInfoSignature(method);
-				for(InfoFilter filter: customization.getMethodsExcludedFromItemDetails()){
-					if(filter.matches(methodSignature)){
+				for (InfoFilter filter : customization.getMethodsExcludedFromItemDetails()) {
+					if (filter.matches(methodSignature)) {
 						return true;
 					}
-				}				
-				return false;
+				}
+				return super.excludeMethod(method);
 			}
 
 			@Override
 			public boolean excludeField(IFieldInfo field) {
-				List<IFieldInfo> subListCandidateFields = getItemSubListCandidateFields(itemPosition);
-				if( subListCandidateFields.contains(field)){
-					return true;
-				}
-				for(InfoFilter filter: customization.getFieldsExcludedFromItemDetails()){
-					if(filter.matches(field.getName())){
+				if (customization.getTreeStructureDiscoverySettings() != null) {
+					List<IFieldInfo> subListCandidateFields = getItemSubListCandidateFields(itemPosition);
+					if (subListCandidateFields.contains(field)) {
 						return true;
 					}
-				}				
-				return false;
+				}
+				for (InfoFilter filter : customization.getFieldsExcludedFromItemDetails()) {
+					if (filter.matches(field.getName())) {
+						return true;
+					}
+				}
+				return super.excludeField(field);
 			}
 		};
 	}
@@ -170,7 +169,7 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 	public List<IColumnInfo> getColumns() {
 		final List<IColumnInfo> result = new ArrayList<IColumnInfo>();
 		result.addAll(super.getColumns());
-		
+
 		if (customization.isStringValueColumnAdded()) {
 			result.add(0, new StringValueColumnInfo(reflectionUI));
 		}

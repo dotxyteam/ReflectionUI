@@ -8,7 +8,6 @@ import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.undo.IModification;
 
 public interface IMethodInfo extends IInfo {
 
@@ -60,7 +59,7 @@ public interface IMethodInfo extends IInfo {
 		}
 
 		@Override
-		public IModification getUndoModification(Object object, InvocationData invocationData) {
+		public Runnable getUndoJob(Object object, InvocationData invocationData) {
 			return null;
 		}
 
@@ -81,7 +80,7 @@ public interface IMethodInfo extends IInfo {
 
 	InfoCategory getCategory();
 
-	IModification getUndoModification(Object object,
+	Runnable getUndoJob(Object object,
 			InvocationData invocationData);
 
 	void validateParameters(Object object,
