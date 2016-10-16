@@ -1516,7 +1516,7 @@ public class ListControl extends JPanel implements IFieldControl {
 				if (dynamicProperty.isGetOnly()) {
 					commitModif = null;
 				} else {
-					commitModif = new SetFieldValueModification(swingRenderer.getReflectionUI(), object,
+					commitModif = SetFieldValueModification.create(swingRenderer.getReflectionUI(), object,
 							dynamicProperty, propertyValueHolder[0]);
 				}
 				return ReflectionUIUtils.integrateSubModification(parentModifStack, childModifStack,

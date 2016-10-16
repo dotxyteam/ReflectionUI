@@ -46,6 +46,11 @@ public class PublicFieldInfo implements IFieldInfo {
 	}
 
 	@Override
+	public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+		return null;
+	}
+
+	@Override
 	public Object getValue(Object object) {
 		try {
 			return javaField.get(object);

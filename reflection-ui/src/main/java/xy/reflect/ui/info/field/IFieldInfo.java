@@ -47,6 +47,11 @@ public interface IFieldInfo extends IInfo {
 		}
 
 		@Override
+		public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+			return null;
+		}
+
+		@Override
 		public Object[] getValueOptions(Object object) {
 			return null;
 		}
@@ -82,6 +87,8 @@ public interface IFieldInfo extends IInfo {
 	Object[] getValueOptions(Object object);
 
 	void setValue(Object object, Object value);
+	
+	Runnable getCustomUndoUpdateJob(Object object, Object value);
 
 	boolean isNullable();
 

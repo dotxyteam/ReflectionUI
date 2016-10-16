@@ -96,7 +96,7 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 				if (shouldUpdateField()) {
 					parentModifStack.beginComposite();
 					parentModifStack.pushUndo(undoModif);
-					parentModifStack.apply(new SetFieldValueModification(swingRenderer.getReflectionUI(), object, field,
+					parentModifStack.apply(SetFieldValueModification.create(swingRenderer.getReflectionUI(), object, field,
 							subFormObject));
 					parentModifStack.endComposite(field, ModificationStack.getUndoTitle(undoModif.getTitle()), UndoOrder.FIFO);
 				} else {

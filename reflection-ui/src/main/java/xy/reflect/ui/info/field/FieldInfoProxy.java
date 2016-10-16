@@ -21,6 +21,10 @@ public class FieldInfoProxy implements IFieldInfo {
 		return base.getValue(object);
 	}
 
+	public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+		return base.getCustomUndoUpdateJob(object, value);
+	}
+
 	@Override
 	public Object[] getValueOptions(Object object) {
 		return base.getValueOptions(object);

@@ -76,6 +76,11 @@ public class GetterFieldInfo implements IFieldInfo {
 	}
 
 	@Override
+	public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+		return null;
+	}
+
+	@Override
 	public Object[] getValueOptions(Object object) {
 		String fieldName = getFieldName(javaGetterMethod.getName());
 		if (fieldName == null) {

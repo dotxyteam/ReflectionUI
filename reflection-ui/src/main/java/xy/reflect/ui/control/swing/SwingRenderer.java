@@ -845,7 +845,7 @@ public class SwingRenderer {
 				}
 				JPanel form = SwingRendererUtils.findForm(fieldControlPlaceHolder, SwingRenderer.this);
 				ModificationStack stack = getModificationStackByForm().get(form);
-				SetFieldValueModification modif = new SetFieldValueModification(reflectionUI, object, field, newValue);
+				SetFieldValueModification modif = SetFieldValueModification.create(reflectionUI, object, field, newValue);
 				try {
 					stack.apply(modif);
 				} catch (Throwable t) {

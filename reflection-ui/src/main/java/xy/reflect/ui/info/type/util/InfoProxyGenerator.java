@@ -152,6 +152,10 @@ public class InfoProxyGenerator {
 		field.setValue(object, value);
 	}
 
+	protected Runnable getCustomUndoUpdateJob(Object object, Object value, IFieldInfo field, ITypeInfo containingType) {
+		return field.getCustomUndoUpdateJob(object, value);
+	}
+
 	protected String toString(ITypeInfo type, Object object) {
 		return type.toString(object);
 	}
@@ -760,6 +764,11 @@ public class InfoProxyGenerator {
 		@Override
 		public void setValue(Object object, Object value) {
 			InfoProxyGenerator.this.setValue(object, value, field, containingType);
+		}
+
+		@Override
+		public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+			return InfoProxyGenerator.this.getCustomUndoUpdateJob(object, value, field, containingType);
 		}
 
 		@Override

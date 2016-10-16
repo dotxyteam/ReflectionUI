@@ -86,6 +86,11 @@ public class MultipleFieldAsOne implements IFieldInfo {
 	}
 
 	@Override
+	public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+		return null;
+	}
+
+	@Override
 	public Object[] getValueOptions(Object object) {
 		return null;
 	}

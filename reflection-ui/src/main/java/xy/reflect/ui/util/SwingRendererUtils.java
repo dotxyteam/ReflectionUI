@@ -287,7 +287,7 @@ public class SwingRendererUtils {
 						return resultHolder[0] = super.invoke(object, invocationData);
 					}
 				};
-				InvokeMethodModification modif = new InvokeMethodModification(object, method, invocationData);
+				InvokeMethodModification modif = InvokeMethodModification.create(object, method, invocationData);
 				try {
 					stack.apply(modif);
 				} catch (Throwable t) {

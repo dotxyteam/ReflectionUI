@@ -286,6 +286,11 @@ public class SwingCustomizer extends SwingRenderer {
 				}
 
 				@Override
+				public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+					return null;
+				}
+
+				@Override
 				public Object[] getValueOptions(Object object) {
 					return null;
 				}
@@ -358,6 +363,11 @@ public class SwingCustomizer extends SwingRenderer {
 					TypeCustomization t = (TypeCustomization) object;
 					SwingSpecificProperty.setIconImageFile(SwingSpecificProperty.accessCustomizationsProperties(t),
 							(File) value);
+				}
+
+				@Override
+				public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+					return null;
 				}
 
 				@Override

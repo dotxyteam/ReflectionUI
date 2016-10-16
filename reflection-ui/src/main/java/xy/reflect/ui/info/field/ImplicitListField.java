@@ -105,6 +105,11 @@ public class ImplicitListField implements IFieldInfo {
 	}
 
 	@Override
+	public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+		return null;
+	}
+
+	@Override
 	public void setValue(Object object, Object value) {
 		Instance implicitListFieldValue = (Instance) value;
 		if (!this.equals(implicitListFieldValue.getImplicitListField())) {
@@ -310,7 +315,7 @@ public class ImplicitListField implements IFieldInfo {
 		public boolean isConcrete() {
 			return true;
 		}
-		
+
 		@Override
 		public boolean isModificationStackAccessible() {
 			return false;

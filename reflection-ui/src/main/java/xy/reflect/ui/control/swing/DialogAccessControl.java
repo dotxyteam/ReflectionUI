@@ -160,7 +160,7 @@ public class DialogAccessControl extends JPanel implements IFieldControl {
 		if (field.isGetOnly()) {
 			commitModif = null;
 		} else {
-			commitModif = new SetFieldValueModification(swingRenderer.getReflectionUI(), childModifStack, field,
+			commitModif = SetFieldValueModification.create(swingRenderer.getReflectionUI(), childModifStack, field,
 					dialogBuilder.getValue());
 		}
 		if (ReflectionUIUtils.integrateSubModification(parentModifStack, childModifStack, dialogBuilder.isOkPressed(),

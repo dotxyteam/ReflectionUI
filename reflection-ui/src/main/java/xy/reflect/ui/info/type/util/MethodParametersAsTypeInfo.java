@@ -98,6 +98,11 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 			}
 
 			@Override
+			public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+				return null;
+			}
+
+			@Override
 			public boolean isNullable() {
 				return param.isNullable();
 			}
@@ -171,8 +176,6 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 		return method.toString() + "\n<= invoked with: " + instance.invocationData.toString();
 	}
 
-	
-
 	@Override
 	public boolean canCopy(Object object) {
 		ReflectionUIUtils.checkInstance(this, object);
@@ -208,8 +211,7 @@ public class MethodParametersAsTypeInfo implements ITypeInfo {
 
 	public Instance getInstance(Object object, InvocationData invocationData) {
 		Instance result = new MethodParametersAsTypeInfo.Instance(object, invocationData);
-		reflectionUI.registerPrecomputedTypeInfoObject(
-				result, this);
+		reflectionUI.registerPrecomputedTypeInfoObject(result, this);
 		return result;
 	}
 

@@ -1135,13 +1135,11 @@ public final class InfoCustomizations {
 		@Override
 		public String toString() {
 			String result = value;
-			if(regularExpression){
+			if (regularExpression) {
 				result = "(Regular Expression) " + value;
 			}
 			return result;
 		}
-		
-		
 
 	}
 
@@ -1503,6 +1501,11 @@ public final class InfoCustomizations {
 								}
 
 								@Override
+								public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+									return null;
+								}
+
+								@Override
 								public boolean isNullable() {
 									return itemField.isNullable();
 								}
@@ -1653,12 +1656,11 @@ public final class InfoCustomizations {
 										return null;
 									} else {
 										return new Runnable() {
-											
+
 											@Override
 											public void run() {
 												undoJob.run();
-												oppositeUpdateListValueModification
-														.applyAndGetOpposite();												
+												oppositeUpdateListValueModification.applyAndGetOpposite();
 											}
 
 										};

@@ -91,6 +91,11 @@ public class SubFieldInfo implements IFieldInfo {
 	}
 
 	@Override
+	public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+		return null;
+	}
+
+	@Override
 	public boolean isNullable() {
 		return field.isNullable() || theSubField.isNullable();
 	}

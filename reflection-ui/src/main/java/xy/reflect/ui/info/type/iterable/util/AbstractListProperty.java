@@ -42,4 +42,8 @@ public abstract class AbstractListProperty implements IFieldInfo {
 		return null;
 	}
 
+	@Override
+	public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+		return null;
+	}
 }
