@@ -22,12 +22,12 @@ public class SetFieldValueModification implements IModification {
 				field.setValue(object, value);
 			}
 		};
-		Runnable undoJob = null;
+		Runnable undoJob = field.getCustomUndoUpdateJob(object, value);
 		return new SetFieldValueModification(reflectionUI, title, object, field, doJob, undoJob);
 	}
 
-	public SetFieldValueModification(ReflectionUI reflectionUI, String title, Object object, IFieldInfo field, Runnable doJob,
-			Runnable undoJob) {
+	public SetFieldValueModification(ReflectionUI reflectionUI, String title, Object object, IFieldInfo field,
+			Runnable doJob, Runnable undoJob) {
 		this.reflectionUI = reflectionUI;
 		this.title = title;
 		this.object = object;
@@ -58,8 +58,8 @@ public class SetFieldValueModification implements IModification {
 			};
 		}
 		doJob.run();
-		return new SetFieldValueModification(reflectionUI, ModificationStack.getUndoTitle(getTitle()), object, field, undoJob,
-				doJob);
+		return new SetFieldValueModification(reflectionUI, ModificationStack.getUndoTitle(getTitle()), object, field,
+				undoJob, doJob);
 	}
 
 	@Override

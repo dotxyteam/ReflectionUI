@@ -1,9 +1,4 @@
-- some field modifications may not be revertable in the
-usual way (ex: set list size value). There must be a
-IFieldInfo.getSetterUndoModfication() for such cases
 - remove IListTypeInfo.getObjectSpecificItemConstructors???
-- move MoifStack swing code into SwingRenderer
-- move canViewDetails into nListStructuralInfo
 - add ReflectionUIUtils.isImmutable(ITypeInfo)
 	. cache results
 	. compute recursively
