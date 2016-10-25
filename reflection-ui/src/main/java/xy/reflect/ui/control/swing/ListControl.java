@@ -329,8 +329,8 @@ public class ListControl extends JPanel implements IFieldControl {
 			IListTypeInfo listType = getRootListType();
 			structuralInfo = listType.getStructuralInfo();
 			if (structuralInfo == null) {
-				throw new ReflectionUIError(
-						"No " + IListStructuralInfo.class.getSimpleName() + " found on the type '" + listType.getName());
+				throw new ReflectionUIError("No " + IListStructuralInfo.class.getSimpleName() + " found on the type '"
+						+ listType.getName());
 			}
 		}
 		return structuralInfo;
@@ -1499,14 +1499,12 @@ public class ListControl extends JPanel implements IFieldControl {
 						dynamicProperty.getType());
 				encapsulation.setCaption("");
 				encapsulation.setFieldCaption(dynamicProperty.getCaption());
-				;
 				encapsulation.setFieldGetOnly(dynamicProperty.isGetOnly());
 				encapsulation.setFieldNullable(dynamicProperty.isNullable());
 				Object encapsulatedPropertyValue = encapsulation.getInstance(propertyValueHolder);
 
 				ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, encapsulatedPropertyValue);
 				dialogBuilder.setGetOnly(dynamicProperty.isGetOnly());
-				dialogBuilder.setCancellable(true);
 				swingRenderer.showDialog(dialogBuilder.build(), true);
 
 				ModificationStack parentModifStack = getParentFormModificationStack();
@@ -1519,8 +1517,9 @@ public class ListControl extends JPanel implements IFieldControl {
 					commitModif = SetFieldValueModification.create(swingRenderer.getReflectionUI(), object,
 							dynamicProperty, propertyValueHolder[0]);
 				}
-				return ReflectionUIUtils.integrateSubModification(parentModifStack, childModifStack,
-						dialogBuilder.isOkPressed(), commitModif, childModifTarget, null);
+				boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.isOkPressed();
+				return ReflectionUIUtils.integrateSubModification(parentModifStack, childModifStack, childModifAccepted,
+						commitModif, childModifTarget, null);
 			}
 
 			@Override
@@ -1587,8 +1586,9 @@ public class ListControl extends JPanel implements IFieldControl {
 							listRawValue);
 				}
 				toPostSelectHolder[0] = Collections.singletonList(itemPosition);
+				boolean childModifAccepted = (!dialogStatus.isCancellable()) || dialogStatus.isOkPressed();
 				return ReflectionUIUtils.integrateSubModification(parentModifStack, childModifStack,
-						dialogStatus.isOkPressed(), commitModif, childModifTarget, null);
+						childModifAccepted, commitModif, childModifTarget, null);
 
 			}
 
@@ -1689,7 +1689,6 @@ public class ListControl extends JPanel implements IFieldControl {
 
 		dialogBuilder.setInfoSettings(getStructuralInfo().getItemInfoSettings(itemPosition));
 		dialogBuilder.setGetOnly(UpdateListValueModification.isContainingListItemsLocked(itemPosition));
-		dialogBuilder.setCancellable(true);
 		swingRenderer.showDialog(dialogBuilder.build(), true);
 
 		return dialogBuilder;

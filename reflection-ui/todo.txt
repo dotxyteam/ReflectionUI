@@ -1,5 +1,8 @@
 - remove IListTypeInfo.getObjectSpecificItemConstructors???
 - add ReflectionUIUtils.isImmutable(ITypeInfo)
+	. ??? cannot efficiently run it without object value
+	and cannot explore object tree just to know this.
+	Instead allow to remove cancel button???
 	. cache results
 	. compute recursively
 	. avoid infinite loops
@@ -7,7 +10,7 @@
 		!ReflectionUIUtils.isImmutable(ITypeInfo)
   	) by default
 - ITypeInfo.isModificationStackAccessible
-	=> must be a SwingSpecificProperty
+	=> must be a SwingSpecificProperty???
 - add customization options:
 	. list item details view detached	
 - field auto-update???

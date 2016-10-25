@@ -26,18 +26,56 @@ public class ObjectDialogBuilder {
 	protected SwingRenderer swingRenderer;
 	protected Object value;
 	protected JPanel objectForm;
-	
+	protected Object displayValue;
+	protected ITypeInfo displayValueType;
+
 	public ObjectDialogBuilder(SwingRenderer swingRenderer, Object value) {
 		this.swingRenderer = swingRenderer;
 		this.value = value;
 		delegate = new DialogBuilder(swingRenderer);
+		
+		displayValue = value;
+		displayValueType = swingRenderer.getReflectionUI()
+				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(value));
+		if (swingRenderer.hasCustomFieldControl(value, displayValueType)) {
+			String fieldCaption = swingRenderer.getDefaultFieldCaption(displayValue);
+			Accessor<Object> valueAccessor = new Accessor<Object>() {
+				@Override
+				public Object get() {
+					return ObjectDialogBuilder.this.value;
+				}
 
+				@Override
+				public void set(Object t) {
+					ObjectDialogBuilder.this.value = t;
+				}
+			};
+			EncapsulationTypeInfo encapsulation = new EncapsulationTypeInfo(swingRenderer.getReflectionUI(),
+					displayValueType);
+			encapsulation.setCaption(getTitle());
+			encapsulation.setFieldCaption(fieldCaption);
+			encapsulation.setFieldGetOnly(getOnly);
+			encapsulation.setFieldNullable(false);
+			displayValue = encapsulation.getInstance(valueAccessor);
+		}
+
+		
+		setCancellable(displayValueType.isModificationStackAccessible());
 		setTitle(swingRenderer.getObjectTitle(value));
 		setIconImage(swingRenderer.getObjectIconImage(value));
+
 	}
 
 	public Object getValue() {
 		return value;
+	}
+
+	public Object getDisplayValue() {
+		return displayValue;
+	}
+
+	public ITypeInfo getDisplayValueType() {
+		return displayValueType;
 	}
 
 	public boolean isGetOnly() {
@@ -113,30 +151,8 @@ public class ObjectDialogBuilder {
 	}
 
 	public JDialog build() {
-		Object toDisplay = value;
-		ITypeInfo valueType = swingRenderer.getReflectionUI().getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(value));
-		if (swingRenderer.hasCustomFieldControl(value, valueType)) {
-			String fieldCaption = swingRenderer.getDefaultFieldCaption(toDisplay);
-			Accessor<Object> valueAccessor = new Accessor<Object>() {
-				@Override
-				public Object get() {
-					return ObjectDialogBuilder.this.value;
-				}
 
-				@Override
-				public void set(Object t) {
-					ObjectDialogBuilder.this.value = t;
-				}
-			};
-			EncapsulationTypeInfo encapsulation = new EncapsulationTypeInfo(swingRenderer.getReflectionUI(), valueType);
-			encapsulation.setCaption(getTitle());
-			encapsulation.setFieldCaption(fieldCaption);;
-			encapsulation.setFieldGetOnly(getOnly);
-			encapsulation.setFieldNullable(false);
-			toDisplay = encapsulation.getInstance(valueAccessor);
-		}
-
-		objectForm = swingRenderer.createObjectForm(toDisplay, infoSettings);
+		objectForm = swingRenderer.createObjectForm(displayValue, infoSettings);
 		delegate.setContentComponent(objectForm);
 
 		List<Component> toolbarControls = new ArrayList<Component>();

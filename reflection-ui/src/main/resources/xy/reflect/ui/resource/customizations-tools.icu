@@ -197,6 +197,16 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <typeName>EncapsulationTypeInfo [fieldType=Field Customization, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
         <typeName>EncapsulationTypeInfo [fieldType=Info Filter, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1287,7 +1297,7 @@
         <customFieldsOrder>methodsExcludedFromItemDetails</customFieldsOrder>
         <fieldsCustomizations>
             <category>
-                <caption>Actions</caption>
+                <caption>Edition</caption>
             </category>
             <hidden>false</hidden>
             <fieldName>allowedItemFieldShortcuts</fieldName>
@@ -1296,7 +1306,7 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <category>
-                <caption>Actions</caption>
+                <caption>Edition</caption>
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Allow Item Method Shortcuts</customFieldCaption>
@@ -1341,40 +1351,40 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <category>
-                <caption>Actions</caption>
+                <caption>Edition</caption>
             </category>
             <hidden>false</hidden>
-            <customFieldCaption>Disable &lt;Add&gt; Action</customFieldCaption>
+            <customFieldCaption>Disable &lt;Add&gt; Option</customFieldCaption>
             <fieldName>itemCreationDisabled</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <category>
-                <caption>Actions</caption>
+                <caption>Edition</caption>
             </category>
             <hidden>false</hidden>
-            <customFieldCaption>Disable &lt;Remove&gt; Action</customFieldCaption>
+            <customFieldCaption>Disable &lt;Remove&gt; Option</customFieldCaption>
             <fieldName>itemDeletionDisabled</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <category>
-                <caption>Actions</caption>
+                <caption>Edition</caption>
             </category>
             <hidden>false</hidden>
-            <customFieldCaption>Disable &lt;Details&gt; Action</customFieldCaption>
+            <customFieldCaption>Disable &lt;Details&gt; Option</customFieldCaption>
             <fieldName>itemDetailsViewDisabled</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <category>
-                <caption>Actions</caption>
+                <caption>Edition</caption>
             </category>
             <hidden>false</hidden>
-            <customFieldCaption>Disable &lt;Move&gt; Actions</customFieldCaption>
+            <customFieldCaption>Disable &lt;Move&gt; Option</customFieldCaption>
             <fieldName>itemMoveDisabled</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1468,7 +1478,7 @@
             <caption>Tree Structure</caption>
         </memberCategories>
         <memberCategories>
-            <caption>Actions</caption>
+            <caption>Edition</caption>
         </memberCategories>
         <memberCategories>
             <caption>Item Details</caption>
