@@ -1173,7 +1173,6 @@ public class SwingRenderer {
 		dialogBuilder.setOwnerComponent(activatorComponent);
 		dialogBuilder.setTitle(title);
 		dialogBuilder.setIconImage(iconImage);
-		dialogBuilder.setCancellable(true);
 		showDialog(dialogBuilder.build(), modal);
 		return dialogBuilder.isOkPressed();
 	}

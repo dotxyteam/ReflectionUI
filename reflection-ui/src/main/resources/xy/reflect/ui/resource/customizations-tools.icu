@@ -5,11 +5,13 @@
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
         </columnsCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
         <fieldColumnsAdded>true</fieldColumnsAdded>
-        <itemCreationDisabled>true</itemCreationDisabled>
-        <itemDeletionDisabled>true</itemDeletionDisabled>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.lang.Object</itemTypeName>
         <listTypeName>java.util.ArrayList</listTypeName>
@@ -21,11 +23,13 @@
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
         </columnsCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
         <fieldColumnsAdded>false</fieldColumnsAdded>
-        <itemCreationDisabled>false</itemCreationDisabled>
-        <itemDeletionDisabled>false</itemDeletionDisabled>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization</itemTypeName>
         <listTypeName>java.util.List</listTypeName>
@@ -37,11 +41,13 @@
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
         </columnsCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
         <fieldColumnsAdded>false</fieldColumnsAdded>
-        <itemCreationDisabled>false</itemCreationDisabled>
-        <itemDeletionDisabled>false</itemDeletionDisabled>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory</itemTypeName>
         <listTypeName>java.util.List</listTypeName>
@@ -53,11 +59,13 @@
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
         </columnsCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
         <fieldColumnsAdded>false</fieldColumnsAdded>
-        <itemCreationDisabled>false</itemCreationDisabled>
-        <itemDeletionDisabled>false</itemDeletionDisabled>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$ITypeInfoFinder</itemTypeName>
         <listTypeName>java.util.List</listTypeName>
@@ -69,11 +77,13 @@
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
         </columnsCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
         <fieldColumnsAdded>false</fieldColumnsAdded>
-        <itemCreationDisabled>false</itemCreationDisabled>
-        <itemDeletionDisabled>false</itemDeletionDisabled>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$InfoFilter</itemTypeName>
         <listTypeName>java.util.List</listTypeName>
@@ -85,11 +95,13 @@
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
         </columnsCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
         <fieldColumnsAdded>false</fieldColumnsAdded>
-        <itemCreationDisabled>false</itemCreationDisabled>
-        <itemDeletionDisabled>false</itemDeletionDisabled>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$ListItemFieldShortcut</itemTypeName>
         <listTypeName>java.util.List</listTypeName>
@@ -101,11 +113,13 @@
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
         </columnsCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
         <fieldColumnsAdded>false</fieldColumnsAdded>
-        <itemCreationDisabled>false</itemCreationDisabled>
-        <itemDeletionDisabled>false</itemDeletionDisabled>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$ListItemMethodShortcut</itemTypeName>
         <listTypeName>java.util.List</listTypeName>
@@ -117,11 +131,13 @@
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
         </columnsCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
         <fieldColumnsAdded>false</fieldColumnsAdded>
-        <itemCreationDisabled>false</itemCreationDisabled>
-        <itemDeletionDisabled>false</itemDeletionDisabled>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization</itemTypeName>
         <listTypeName>java.util.List</listTypeName>
@@ -133,11 +149,13 @@
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
         </columnsCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
         <fieldColumnsAdded>false</fieldColumnsAdded>
-        <itemCreationDisabled>false</itemCreationDisabled>
-        <itemDeletionDisabled>false</itemDeletionDisabled>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization</itemTypeName>
         <listTypeName>java.util.Set</listTypeName>
@@ -149,11 +167,13 @@
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
         </columnsCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
         <fieldColumnsAdded>false</fieldColumnsAdded>
-        <itemCreationDisabled>true</itemCreationDisabled>
-        <itemDeletionDisabled>false</itemDeletionDisabled>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization</itemTypeName>
         <listTypeName>java.util.Set</listTypeName>
@@ -165,11 +185,13 @@
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
         </columnsCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
         <fieldColumnsAdded>false</fieldColumnsAdded>
-        <itemCreationDisabled>false</itemCreationDisabled>
-        <itemDeletionDisabled>false</itemDeletionDisabled>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization</itemTypeName>
         <listTypeName>java.util.Set</listTypeName>
@@ -218,6 +240,16 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>EncapsulationTypeInfo [fieldType=List Item Field Shortcut, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulationTypeInfo [fieldType=List Item Method Shortcut, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1210,6 +1242,36 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Enable Option &lt;Add&gt;</customFieldCaption>
+            <fieldName>itemCreationEnabled</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Enable Option &lt;Delete&gt;</customFieldCaption>
+            <fieldName>itemDeletionEnabled</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Enable Option &lt;Move&gt;</customFieldCaption>
+            <fieldName>itemMoveEnabled</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ListEditOptions ListEditOptions()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$ListEditOptions</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
         <customFieldsOrder>fieldName</customFieldsOrder>
         <customFieldsOrder>customFieldCaption</customFieldsOrder>
         <customFieldsOrder>alwaysShown</customFieldsOrder>
@@ -1300,6 +1362,7 @@
                 <caption>Edition</caption>
             </category>
             <hidden>false</hidden>
+            <customFieldCaption>Item Field Shortcuts</customFieldCaption>
             <fieldName>allowedItemFieldShortcuts</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -1309,7 +1372,7 @@
                 <caption>Edition</caption>
             </category>
             <hidden>false</hidden>
-            <customFieldCaption>Allow Item Method Shortcuts</customFieldCaption>
+            <customFieldCaption> Item Method Shortcuts</customFieldCaption>
             <fieldName>allowedItemMethodShortcuts</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -1329,6 +1392,22 @@
             <fieldName>columnsCustomizations</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>SwingSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <category>
+                <caption>Edition</caption>
+            </category>
+            <hidden>false</hidden>
+            <customFieldCaption>Editable</customFieldCaption>
+            <fieldName>editOptions</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <category>
@@ -1371,7 +1450,7 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <category>
-                <caption>Edition</caption>
+                <caption>Item Details</caption>
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Disable &lt;Details&gt; Option</customFieldCaption>
@@ -1475,13 +1554,13 @@
             <caption>Columns</caption>
         </memberCategories>
         <memberCategories>
-            <caption>Tree Structure</caption>
-        </memberCategories>
-        <memberCategories>
             <caption>Edition</caption>
         </memberCategories>
         <memberCategories>
             <caption>Item Details</caption>
+        </memberCategories>
+        <memberCategories>
+            <caption>Tree Structure</caption>
         </memberCategories>
         <methodsCustomizations>
             <hidden>true</hidden>

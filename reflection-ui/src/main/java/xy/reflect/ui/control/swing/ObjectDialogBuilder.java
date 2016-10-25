@@ -20,25 +20,30 @@ public class ObjectDialogBuilder {
 	protected boolean getOnly;
 	protected IInfoCollectionSettings infoSettings = IInfoCollectionSettings.DEFAULT;
 	protected List<Component> additionalToolbarComponents;
-	protected boolean cancellable = false;
-
+	
 	protected DialogBuilder delegate;
 	protected SwingRenderer swingRenderer;
 	protected Object value;
 	protected JPanel objectForm;
-	protected Object displayValue;
-	protected ITypeInfo displayValueType;
 
 	public ObjectDialogBuilder(SwingRenderer swingRenderer, Object value) {
 		this.swingRenderer = swingRenderer;
 		this.value = value;
 		delegate = new DialogBuilder(swingRenderer);
-		
-		displayValue = value;
-		displayValueType = swingRenderer.getReflectionUI()
+
+		setTitle(swingRenderer.getObjectTitle(value));
+		setIconImage(swingRenderer.getObjectIconImage(value));
+	}
+
+	public Object getValue() {
+		return value;
+	}
+
+	protected Object getDisplayValue() {
+		ITypeInfo valueType = swingRenderer.getReflectionUI()
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(value));
-		if (swingRenderer.hasCustomFieldControl(value, displayValueType)) {
-			String fieldCaption = swingRenderer.getDefaultFieldCaption(displayValue);
+		if (swingRenderer.hasCustomFieldControl(value, valueType)) {
+			String fieldCaption = swingRenderer.getDefaultFieldCaption(value);
 			Accessor<Object> valueAccessor = new Accessor<Object>() {
 				@Override
 				public Object get() {
@@ -50,32 +55,21 @@ public class ObjectDialogBuilder {
 					ObjectDialogBuilder.this.value = t;
 				}
 			};
-			EncapsulationTypeInfo encapsulation = new EncapsulationTypeInfo(swingRenderer.getReflectionUI(),
-					displayValueType);
+			EncapsulationTypeInfo encapsulation = new EncapsulationTypeInfo(swingRenderer.getReflectionUI(), valueType);
 			encapsulation.setCaption(getTitle());
 			encapsulation.setFieldCaption(fieldCaption);
 			encapsulation.setFieldGetOnly(getOnly);
 			encapsulation.setFieldNullable(false);
-			displayValue = encapsulation.getInstance(valueAccessor);
+			return encapsulation.getInstance(valueAccessor);
+		} else {
+			return value;
 		}
-
-		
-		setCancellable(displayValueType.isModificationStackAccessible());
-		setTitle(swingRenderer.getObjectTitle(value));
-		setIconImage(swingRenderer.getObjectIconImage(value));
-
 	}
 
-	public Object getValue() {
-		return value;
-	}
-
-	public Object getDisplayValue() {
-		return displayValue;
-	}
-
-	public ITypeInfo getDisplayValueType() {
-		return displayValueType;
+	protected ITypeInfo getDisplayValueType() {
+		Object displayValue = getDisplayValue();
+		return swingRenderer.getReflectionUI()
+				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(displayValue));
 	}
 
 	public boolean isGetOnly() {
@@ -103,11 +97,7 @@ public class ObjectDialogBuilder {
 	}
 
 	public boolean isCancellable() {
-		return cancellable;
-	}
-
-	public void setCancellable(boolean cancellable) {
-		this.cancellable = cancellable;
+		return getDisplayValueType().isModificationStackAccessible();
 	}
 
 	public JDialog getBuiltDialog() {
@@ -151,7 +141,7 @@ public class ObjectDialogBuilder {
 	}
 
 	public JDialog build() {
-
+		Object displayValue = getDisplayValue();
 		objectForm = swingRenderer.createObjectForm(displayValue, infoSettings);
 		delegate.setContentComponent(objectForm);
 
@@ -163,6 +153,7 @@ public class ObjectDialogBuilder {
 		if (additionalToolbarComponents != null) {
 			toolbarControls.addAll(additionalToolbarComponents);
 		}
+		final boolean cancellable = isCancellable();
 		if (cancellable) {
 			List<JButton> okCancelButtons = delegate.createStandardOKCancelDialogButtons();
 			toolbarControls.addAll(okCancelButtons);

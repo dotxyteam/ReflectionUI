@@ -1143,6 +1143,37 @@ public final class InfoCustomizations {
 
 	}
 
+	public static class ListEditOptions {
+		protected boolean itemCreationEnabled = true;
+		protected boolean itemDeletionEnabled = true;
+		protected boolean itemMoveEnabled = true;
+
+		public boolean isItemCreationEnabled() {
+			return itemCreationEnabled;
+		}
+
+		public void setItemCreationEnabled(boolean itemCreationEnabled) {
+			this.itemCreationEnabled = itemCreationEnabled;
+		}
+
+		public boolean isItemDeletionEnabled() {
+			return itemDeletionEnabled;
+		}
+
+		public void setItemDeletionEnabled(boolean itemDeletionEnabled) {
+			this.itemDeletionEnabled = itemDeletionEnabled;
+		}
+
+		public boolean isItemMoveEnabled() {
+			return itemMoveEnabled;
+		}
+
+		public void setItemMoveEnabled(boolean itemMoveEnabled) {
+			this.itemMoveEnabled = itemMoveEnabled;
+		}
+
+	}
+
 	public static class ListStructureCustomization implements Comparable<ListStructureCustomization> {
 		protected transient InfoCustomizations parent;
 		protected String listTypeName;
@@ -1151,10 +1182,6 @@ public final class InfoCustomizations {
 		protected boolean positionColumnAdded;
 		protected boolean fieldColumnsAdded;
 		protected boolean stringValueColumnAdded;
-		protected boolean itemCreationDisabled;
-		protected boolean itemDeletionDisabled;
-		protected boolean itemMoveDisabled;
-		protected boolean itemDetailsViewDisabled;
 		protected Set<ColumnCustomization> columnsCustomizations = new TreeSet<ColumnCustomization>();
 		protected List<String> columnsCustomOrder;
 		protected TreeStructureDiscoverySettings treeStructureDiscoverySettings;
@@ -1162,6 +1189,8 @@ public final class InfoCustomizations {
 		protected List<ListItemMethodShortcut> allowedItemMethodShortcuts = new ArrayList<ListItemMethodShortcut>();
 		protected List<InfoFilter> methodsExcludedFromItemDetails = new ArrayList<InfoFilter>();
 		protected List<InfoFilter> fieldsExcludedFromItemDetails = new ArrayList<InfoFilter>();
+		protected boolean itemDetailsViewDisabled;
+		protected ListEditOptions editOptions = new ListEditOptions();
 
 		@XmlTransient
 		public InfoCustomizations getParent() {
@@ -1180,6 +1209,14 @@ public final class InfoCustomizations {
 				return null;
 			}
 			return parent.getTypeCustomization(itemTypeName);
+		}
+
+		public ListEditOptions getEditOptions() {
+			return editOptions;
+		}
+
+		public void setEditOptions(ListEditOptions editOptions) {
+			this.editOptions = editOptions;
 		}
 
 		public List<InfoFilter> getFieldsExcludedFromItemDetails() {
@@ -1257,36 +1294,12 @@ public final class InfoCustomizations {
 			this.columnsCustomizations = new TreeSet<ColumnCustomization>(columnsCustomizations);
 		}
 
-		public boolean isItemCreationDisabled() {
-			return itemCreationDisabled;
-		}
-
-		public void setItemCreationDisabled(boolean itemCreationDisabled) {
-			this.itemCreationDisabled = itemCreationDisabled;
-		}
-
 		public boolean isItemDetailsViewDisabled() {
 			return itemDetailsViewDisabled;
 		}
 
 		public void setItemDetailsViewDisabled(boolean itemDetailsViewDisabled) {
 			this.itemDetailsViewDisabled = itemDetailsViewDisabled;
-		}
-
-		public boolean isItemDeletionDisabled() {
-			return itemDeletionDisabled;
-		}
-
-		public void setItemDeletionDisabled(boolean itemDeletionDisabled) {
-			this.itemDeletionDisabled = itemDeletionDisabled;
-		}
-
-		public boolean isItemMoveDisabled() {
-			return itemMoveDisabled;
-		}
-
-		public void setItemMoveDisabled(boolean itemMoveDisabled) {
-			this.itemMoveDisabled = itemMoveDisabled;
 		}
 
 		public boolean isItemTypeColumnAdded() {
@@ -1697,6 +1710,34 @@ public final class InfoCustomizations {
 			}
 			return result;
 		}
+		
+		
+
+		@Override
+		protected boolean canInstanciateFromArray(IListTypeInfo listType) {
+			ITypeInfo itemType = listType.getItemType();
+			final ListStructureCustomization l = getListStructureCustomization(listType.getName(),
+					(itemType == null) ? null : itemType.getName());
+			if (l != null) {
+				if (l.editOptions == null) {
+					return false;
+				}
+			}
+			return super.canInstanciateFromArray(listType);
+		}
+
+		@Override
+		protected boolean canReplaceContent(IListTypeInfo listType) {
+			ITypeInfo itemType = listType.getItemType();
+			final ListStructureCustomization l = getListStructureCustomization(listType.getName(),
+					(itemType == null) ? null : itemType.getName());
+			if (l != null) {
+				if (l.editOptions == null) {
+					return false;
+				}
+			}
+			return super.canReplaceContent(listType);
+		}
 
 		@Override
 		protected boolean canAdd(IListTypeInfo listType) {
@@ -1704,7 +1745,7 @@ public final class InfoCustomizations {
 			final ListStructureCustomization l = getListStructureCustomization(listType.getName(),
 					(itemType == null) ? null : itemType.getName());
 			if (l != null) {
-				if (l.itemCreationDisabled) {
+				if ((l.editOptions == null) || !l.editOptions.itemCreationEnabled) {
 					return false;
 				}
 			}
@@ -1717,11 +1758,24 @@ public final class InfoCustomizations {
 			final ListStructureCustomization l = getListStructureCustomization(listType.getName(),
 					(itemType == null) ? null : itemType.getName());
 			if (l != null) {
-				if (l.itemDeletionDisabled) {
+				if ((l.editOptions == null) || !l.editOptions.itemDeletionEnabled) {
 					return false;
 				}
 			}
 			return super.canRemove(listType);
+		}
+
+		@Override
+		protected boolean isOrdered(IListTypeInfo listType) {
+			ITypeInfo itemType = listType.getItemType();
+			final ListStructureCustomization l = getListStructureCustomization(listType.getName(),
+					(itemType == null) ? null : itemType.getName());
+			if (l != null) {
+				if ((l.editOptions == null) || !l.editOptions.itemMoveEnabled) {
+					return false;
+				}
+			}
+			return super.isOrdered(listType);
 		}
 
 		@Override
@@ -1735,19 +1789,6 @@ public final class InfoCustomizations {
 				}
 			}
 			return super.canViewItemDetails(listType);
-		}
-
-		@Override
-		protected boolean isOrdered(IListTypeInfo listType) {
-			ITypeInfo itemType = listType.getItemType();
-			final ListStructureCustomization l = getListStructureCustomization(listType.getName(),
-					(itemType == null) ? null : itemType.getName());
-			if (l != null) {
-				if (l.itemMoveDisabled) {
-					return false;
-				}
-			}
-			return super.isOrdered(listType);
 		}
 
 		@Override

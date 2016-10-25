@@ -428,7 +428,6 @@ public class SwingCustomizer extends SwingRenderer {
 				public void actionPerformed(ActionEvent e) {
 					final ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(customizationToolsRenderer, t);
 					dialogBuilder.setIconImage(getCustomizationIcon().getImage());
-					dialogBuilder.setCancellable(true);
 					dialogBuilder.build();
 					dialogBuilder.getModificationStack()
 							.addListener(getCustomizedWindowsReloadingAdvicer(dialogBuilder.getBuiltDialog()));
