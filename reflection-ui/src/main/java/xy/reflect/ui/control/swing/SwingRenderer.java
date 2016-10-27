@@ -67,8 +67,8 @@ import xy.reflect.ui.info.type.iterable.map.StandardMapEntry;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.ArrayAsEnumerationTypeInfo;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
-import xy.reflect.ui.info.type.util.MethodParametersAsTypeInfo;
-import xy.reflect.ui.info.type.util.EncapsulationTypeInfo;
+import xy.reflect.ui.info.type.util.MethodInvocationObjectFactory;
+import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.CompositeModification;
 import xy.reflect.ui.undo.IModification;
@@ -1040,7 +1040,7 @@ public class SwingRenderer {
 
 	public void openErrorDialog(Component activatorComponent, String title, final Throwable error) {
 		DialogBuilder dialogBuilder = new DialogBuilder(this);
-		EncapsulationTypeInfo encapsulation = new EncapsulationTypeInfo(reflectionUI, new TextualTypeInfo(reflectionUI, String.class));
+		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, new TextualTypeInfo(reflectionUI, String.class));
 		encapsulation.setCaption("Error");
 		encapsulation.setFieldCaption("Message");;
 		encapsulation.setFieldGetOnly(true);
@@ -1100,7 +1100,7 @@ public class SwingRenderer {
 			invocationData = new InvocationData();
 		}
 		JPanel methodForm = createObjectForm(
-				new MethodParametersAsTypeInfo(reflectionUI, method).getInstance(object, invocationData));
+				new MethodInvocationObjectFactory(reflectionUI, method).getInstance(object, invocationData));
 		final boolean[] invokedStatusHolder = new boolean[] { false };
 		List<Component> toolbarControls = new ArrayList<Component>();
 		String doc = method.getOnlineHelp();
@@ -1173,6 +1173,7 @@ public class SwingRenderer {
 		dialogBuilder.setOwnerComponent(activatorComponent);
 		dialogBuilder.setTitle(title);
 		dialogBuilder.setIconImage(iconImage);
+		dialogBuilder.setCancellable(true);
 		showDialog(dialogBuilder.build(), modal);
 		return dialogBuilder.isOkPressed();
 	}
@@ -1213,7 +1214,7 @@ public class SwingRenderer {
 		String fieldCaption = BooleanTypeInfo.isCompatibleWith(valueHolder[0].getClass()) ? "Is True" : "Value";
 		ITypeInfo objectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		if (hasCustomFieldControl(object, objectType)) {
-			EncapsulationTypeInfo encapsulation = new EncapsulationTypeInfo(reflectionUI, objectType);
+			EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, objectType);
 			encapsulation.setCaption(title);
 			encapsulation.setFieldCaption(fieldCaption);;
 			encapsulation.setFieldGetOnly(false);
@@ -1297,7 +1298,7 @@ public class SwingRenderer {
 		}
 		final Object[] chosenItemHolder = new Object[] { initialEnumItem };
 		
-		EncapsulationTypeInfo encapsulation = new EncapsulationTypeInfo(reflectionUI, enumType);
+		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, enumType);
 		encapsulation.setCaption("Selection");
 		encapsulation.setFieldCaption(message);
 		encapsulation.setFieldGetOnly(false);
@@ -1320,7 +1321,7 @@ public class SwingRenderer {
 		final Object[] valueHolder = new Object[] { initialValue };
 		ITypeInfo initialValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(initialValue));
 		
-		EncapsulationTypeInfo encapsulation = new EncapsulationTypeInfo(reflectionUI, initialValueType);
+		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, initialValueType);
 		encapsulation.setCaption("Input");
 		encapsulation.setFieldCaption(dataName);
 		encapsulation.setFieldGetOnly(false);
@@ -1550,7 +1551,7 @@ public class SwingRenderer {
 	}
 
 	public final boolean hasCustomFieldControl(Object fieldValue, ITypeInfo fieldType) {
-		EncapsulationTypeInfo encapsulation = new EncapsulationTypeInfo(reflectionUI, fieldType);
+		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, fieldType);
 		Object encapsulatedValue = encapsulation.getInstance(new Object[] { fieldValue });
 		ITypeInfo valueAsFieldType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(encapsulatedValue));
 		IFieldInfo field = valueAsFieldType.getFields().get(0);

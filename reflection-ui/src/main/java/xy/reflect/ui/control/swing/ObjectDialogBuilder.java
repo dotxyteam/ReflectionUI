@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.util.EncapsulationTypeInfo;
+import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
 
@@ -25,6 +25,7 @@ public class ObjectDialogBuilder {
 	protected SwingRenderer swingRenderer;
 	protected Object value;
 	protected JPanel objectForm;
+	protected boolean cancellable = false;
 
 	public ObjectDialogBuilder(SwingRenderer swingRenderer, Object value) {
 		this.swingRenderer = swingRenderer;
@@ -55,7 +56,7 @@ public class ObjectDialogBuilder {
 					ObjectDialogBuilder.this.value = t;
 				}
 			};
-			EncapsulationTypeInfo encapsulation = new EncapsulationTypeInfo(swingRenderer.getReflectionUI(), valueType);
+			EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(), valueType);
 			encapsulation.setCaption(getTitle());
 			encapsulation.setFieldCaption(fieldCaption);
 			encapsulation.setFieldGetOnly(getOnly);
@@ -97,7 +98,11 @@ public class ObjectDialogBuilder {
 	}
 
 	public boolean isCancellable() {
-		return getDisplayValueType().isModificationStackAccessible();
+		return cancellable;
+	}
+
+	public void setCancellable(boolean cancellable) {
+		this.cancellable = cancellable;
 	}
 
 	public JDialog getBuiltDialog() {
@@ -153,8 +158,7 @@ public class ObjectDialogBuilder {
 		if (additionalToolbarComponents != null) {
 			toolbarControls.addAll(additionalToolbarComponents);
 		}
-		final boolean cancellable = isCancellable();
-		if (cancellable) {
+		if (cancellable ) {
 			List<JButton> okCancelButtons = delegate.createStandardOKCancelDialogButtons();
 			toolbarControls.addAll(okCancelButtons);
 		} else {

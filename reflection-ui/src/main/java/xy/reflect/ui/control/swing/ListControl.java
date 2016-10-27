@@ -69,7 +69,7 @@ import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.util.EncapsulationTypeInfo;
+import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
 import xy.reflect.ui.info.type.util.InfoProxyGenerator;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
@@ -983,7 +983,7 @@ public class ListControl extends JPanel implements IFieldControl {
 					return false;
 				}
 				GhostItemPosition futureItemPosition = new GhostItemPosition(newItemPosition, newItem);
-				ObjectDialogBuilder dialogStatus = (openDetailsDialog(futureItemPosition));
+				ObjectDialogBuilder dialogStatus = openDetailsDialog(futureItemPosition);
 				if (dialogStatus == null) {
 					return false;
 				}
@@ -1495,16 +1495,19 @@ public class ListControl extends JPanel implements IFieldControl {
 			@Override
 			protected boolean perform(List<AutoFieldValueUpdatingItemPosition>[] toPostSelectHolder) {
 				Object[] propertyValueHolder = new Object[] { dynamicProperty.getValue(object) };
-				EncapsulationTypeInfo encapsulation = new EncapsulationTypeInfo(swingRenderer.getReflectionUI(),
+				EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
 						dynamicProperty.getType());
 				encapsulation.setCaption("");
 				encapsulation.setFieldCaption(dynamicProperty.getCaption());
 				encapsulation.setFieldGetOnly(dynamicProperty.isGetOnly());
 				encapsulation.setFieldNullable(dynamicProperty.isNullable());
 				Object encapsulatedPropertyValue = encapsulation.getInstance(propertyValueHolder);
+				ITypeInfo encapsulatedPropertyValueType = swingRenderer.getReflectionUI()
+						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(encapsulatedPropertyValue));
 
 				ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, encapsulatedPropertyValue);
 				dialogBuilder.setGetOnly(dynamicProperty.isGetOnly());
+				dialogBuilder.setCancellable(encapsulatedPropertyValueType.isModificationStackAccessible());
 				swingRenderer.showDialog(dialogBuilder.build(), true);
 
 				ModificationStack parentModifStack = getParentFormModificationStack();
@@ -1587,8 +1590,8 @@ public class ListControl extends JPanel implements IFieldControl {
 				}
 				toPostSelectHolder[0] = Collections.singletonList(itemPosition);
 				boolean childModifAccepted = (!dialogStatus.isCancellable()) || dialogStatus.isOkPressed();
-				return ReflectionUIUtils.integrateSubModification(parentModifStack, childModifStack,
-						childModifAccepted, commitModif, childModifTarget, null);
+				return ReflectionUIUtils.integrateSubModification(parentModifStack, childModifStack, childModifAccepted,
+						commitModif, childModifTarget, null);
 
 			}
 
@@ -1689,6 +1692,7 @@ public class ListControl extends JPanel implements IFieldControl {
 
 		dialogBuilder.setInfoSettings(getStructuralInfo().getItemInfoSettings(itemPosition));
 		dialogBuilder.setGetOnly(UpdateListValueModification.isContainingListItemsLocked(itemPosition));
+		dialogBuilder.setCancellable(dialogBuilder.getDisplayValueType().isModificationStackAccessible());
 		swingRenderer.showDialog(dialogBuilder.build(), true);
 
 		return dialogBuilder;

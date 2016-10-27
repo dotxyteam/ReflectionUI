@@ -148,6 +148,7 @@ public class DialogAccessControl extends JPanel implements IFieldControl {
 		Object value = field.getValue(object);
 		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, value);
 		dialogBuilder.setGetOnly(field.isGetOnly());
+		dialogBuilder.setCancellable(dialogBuilder.getDisplayValueType().isModificationStackAccessible());
 		swingRenderer.showDialog(dialogBuilder.build(), true);
 
 		ModificationStack parentModifStack = SwingRendererUtils.findModificationStack(DialogAccessControl.this,
@@ -159,7 +160,7 @@ public class DialogAccessControl extends JPanel implements IFieldControl {
 		if (field.isGetOnly()) {
 			commitModif = null;
 		} else {
-			commitModif = SetFieldValueModification.create(swingRenderer.getReflectionUI(), childModifStack, field,
+			commitModif = SetFieldValueModification.create(swingRenderer.getReflectionUI(), object, field,
 					dialogBuilder.getValue());
 		}
 		boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.isOkPressed();
