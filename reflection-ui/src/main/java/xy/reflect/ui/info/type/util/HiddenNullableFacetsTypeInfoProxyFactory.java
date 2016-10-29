@@ -9,11 +9,11 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class HiddenNullableFacetsInfoProxyGenerator extends InfoProxyGenerator {
+public class HiddenNullableFacetsTypeInfoProxyFactory extends TypeInfoProxyFactory {
 
 	protected ReflectionUI reflectionUI;
 
-	public HiddenNullableFacetsInfoProxyGenerator(ReflectionUI reflectionUI) {
+	public HiddenNullableFacetsTypeInfoProxyFactory(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
 	}
 
@@ -25,7 +25,7 @@ public class HiddenNullableFacetsInfoProxyGenerator extends InfoProxyGenerator {
 			result = null;
 		}
 		if (result == null) {
-			throw new ReflectionUIError(HiddenNullableFacetsInfoProxyGenerator.class.getSimpleName()
+			throw new ReflectionUIError(HiddenNullableFacetsTypeInfoProxyFactory.class.getSimpleName()
 					+ " was unable to generate a default value for the type '" + type + "'");
 		}
 		return result;

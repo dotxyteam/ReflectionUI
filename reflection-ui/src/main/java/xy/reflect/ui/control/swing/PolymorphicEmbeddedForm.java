@@ -17,6 +17,7 @@ import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.util.ArrayAsEnumerationTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.SwingRendererUtils;
 
 public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 
@@ -54,15 +55,6 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 
 		setBorder(BorderFactory.createTitledBorder(""));
 		refreshUI();
-	}
-
-	@Override
-	public void requestFocus() {
-		if (dynamicControl != null) {
-			dynamicControl.requestFocus();
-		} else {
-			typeEnumerationControl.requestFocus();
-		}
 	}
 
 	protected EnumerationControl createTypeEnumerationControl() {
@@ -143,18 +135,24 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 	}
 
 	protected Component createDynamicControl(final ITypeInfo instanceType) {
-		return swingRenderer.createFieldControl(object,
-				new HiddenNullableFacetFieldInfoProxy(swingRenderer.getReflectionUI(), field) {
+		IFieldInfo fiedlProxy = new HiddenNullableFacetFieldInfoProxy(swingRenderer.getReflectionUI(), field) {
 
-					@Override
-					public ITypeInfo getType() {
-						return instanceType;
-					}
+			@Override
+			public ITypeInfo getType() {
+				return instanceType;
+			}
 
-				});
+		};
+		return swingRenderer.createFieldControl(object, fiedlProxy);
 	}
 
-	protected void refreshDynamicControl(ITypeInfo instanceType) {
+	protected void refreshDynamicControl() {
+		Object instance = field.getValue(object);
+		ITypeInfo instanceType = null;
+		if (instance != null) {
+			instanceType = swingRenderer.getReflectionUI()
+					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(instance));
+		}
 		if ((lastInstanceType == null) && (instanceType == null)) {
 			return;
 		} else if ((lastInstanceType != null) && (instanceType == null)) {
@@ -178,6 +176,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 			add(dynamicControl, BorderLayout.CENTER);
 			swingRenderer.handleComponentSizeChange(this);
 		}
+		lastInstanceType = instanceType;
 	}
 
 	protected void refreshTypeEnumerationControl() {
@@ -192,15 +191,8 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 
 	@Override
 	public boolean refreshUI() {
-		Object instance = field.getValue(object);
-		ITypeInfo instanceType = null;
-		if (instance != null) {
-			instanceType = swingRenderer.getReflectionUI()
-					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(instance));
-		}
 		refreshTypeEnumerationControl();
-		refreshDynamicControl(instanceType);
-		lastInstanceType = instanceType;
+		refreshDynamicControl();
 		return true;
 	}
 
@@ -217,14 +209,62 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 
 	@Override
 	public boolean handlesModificationStackUpdate() {
-		if (updatingEnumeration ) {
+		if (updatingEnumeration) {
 			return false;
 		} else if (dynamicControl == null) {
 			return false;
 		} else if (dynamicControl instanceof IFieldControl) {
-			return ((IFieldControl)dynamicControl).handlesModificationStackUpdate();
+			return ((IFieldControl) dynamicControl).handlesModificationStackUpdate();
 		} else {
 			return false;
+		}
+	}
+
+	@Override
+	public Object getFocusDetails() {
+		boolean typeEnumerationControlFocused = SwingRendererUtils.hasOrContainsFocus(typeEnumerationControl);
+		boolean dynamicControlFocused = false;
+		Class<?> dynamicControlClass = null;
+		Object dynamicControlFocusDetails = null;
+		{
+			if (dynamicControl != null) {
+				dynamicControlFocused = SwingRendererUtils.hasOrContainsFocus(dynamicControl);
+				if (dynamicControlFocused) {
+					if (dynamicControl instanceof IFieldControl) {
+						dynamicControlFocusDetails = ((IFieldControl) dynamicControl).getFocusDetails();
+						dynamicControlClass = dynamicControl.getClass();
+					}
+				}
+			}
+		}
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("typeEnumerationControlFocused", typeEnumerationControlFocused);
+		result.put("dynamicControlFocused", dynamicControlFocused);
+		result.put("dynamicControlClass", dynamicControlClass);
+		result.put("dynamicControlFocusDetails", dynamicControlFocusDetails);
+		return result;
+	}
+
+	@Override
+	public void requestDetailedFocus(Object value) {
+		@SuppressWarnings("unchecked")
+		Map<String, Object> focusDetails = (Map<String, Object>) value;
+		boolean typeEnumerationControlFocused = (Boolean) focusDetails.get("typeEnumerationControlFocused");
+		boolean dynamicControlFocused = (Boolean) focusDetails.get("dynamicControlFocused");
+		Class<?> dynamicControlClass = (Class<?>) focusDetails.get("dynamicControlClass");
+		Object dynamicControlFocusDetails = focusDetails.get("dynamicControlFocusDetails");
+		if (typeEnumerationControlFocused) {
+			typeEnumerationControl.requestFocus();
+		}
+		if (dynamicControlFocused) {
+			if (dynamicControl != null) {
+				dynamicControl.requestFocus();
+				if (dynamicControl instanceof IFieldControl) {
+					if (dynamicControl.getClass().equals(dynamicControlClass)) {
+						((IFieldControl) dynamicControl).requestDetailedFocus(dynamicControlFocusDetails);
+					}
+				}
+			}
 		}
 	}
 

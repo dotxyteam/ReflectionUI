@@ -12,7 +12,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.util.InfoProxyGenerator;
+import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 
 @SuppressWarnings("unused")
@@ -28,7 +28,7 @@ public class MultipleFieldAsOne implements IFieldInfo {
 
 	@Override
 	public ITypeInfo getType() {
-		return new InfoProxyGenerator() {
+		return new TypeInfoProxyFactory() {
 
 			@Override
 			protected boolean canAdd(IListTypeInfo type) {

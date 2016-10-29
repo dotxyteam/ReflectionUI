@@ -68,7 +68,7 @@ public class DialogAccessControl extends JPanel implements IFieldControl {
 
 	@Override
 	public void requestFocus() {
-		statusControl.requestFocus();
+		button.requestFocus();
 	}
 
 	protected Component createIconControl() {
@@ -151,8 +151,8 @@ public class DialogAccessControl extends JPanel implements IFieldControl {
 		dialogBuilder.setCancellable(dialogBuilder.getDisplayValueType().isModificationStackAccessible());
 		swingRenderer.showDialog(dialogBuilder.build(), true);
 
-		ModificationStack parentModifStack = SwingRendererUtils.findModificationStack(DialogAccessControl.this,
-				swingRenderer);
+		ModificationStack parentModifStack = SwingRendererUtils
+				.findParentFormModificationStack(DialogAccessControl.this, swingRenderer);
 		ModificationStack childModifStack = dialogBuilder.getModificationStack();
 		String childModifTitle = "Edit '" + field.getCaption() + "'";
 		IInfo childModifTarget = field;
@@ -164,7 +164,7 @@ public class DialogAccessControl extends JPanel implements IFieldControl {
 					dialogBuilder.getValue());
 		}
 		boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.isOkPressed();
-		if (ReflectionUIUtils.integrateSubModification(parentModifStack, childModifStack, childModifAccepted,
+		if (ReflectionUIUtils.integrateSubModifications(parentModifStack, childModifStack, childModifAccepted,
 				commitModif, childModifTarget, childModifTitle)) {
 			updateControls();
 		}
@@ -211,4 +211,12 @@ public class DialogAccessControl extends JPanel implements IFieldControl {
 		return true;
 	}
 
+	@Override
+	public Object getFocusDetails() {
+		return null;
+	}
+
+	@Override
+	public void requestDetailedFocus(Object focusDetails) {
+	}
 }

@@ -18,6 +18,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -37,6 +38,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.control.swing.SwingSpecificProperty;
 import xy.reflect.ui.info.IInfo;
+import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -44,7 +46,9 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.util.InfoProxyGenerator;
+import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
+import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
+import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.ModificationStack;
@@ -108,20 +112,21 @@ public class SwingRendererUtils {
 		return result;
 	}
 
-	public static ModificationStack findModificationStack(Component component, SwingRenderer swingRenderer) {
-		JPanel form = findForm(component, swingRenderer);
+	public static ModificationStack findParentFormModificationStack(Component component, SwingRenderer swingRenderer) {
+		JPanel form = findParentForm(component, swingRenderer);
 		if (form == null) {
-			return ModificationStack.NULL_MODIFICATION_STACK;
+			return null;
 		}
 		return swingRenderer.getModificationStackByForm().get(form);
 	}
 
-	public static JPanel findForm(Component component, SwingRenderer swingRenderer) {
-		while (component != null) {
-			if (swingRenderer.getObjectByForm().keySet().contains(component)) {
-				return (JPanel) component;
+	public static JPanel findParentForm(Component component, SwingRenderer swingRenderer) {
+		Component candidateForm = component.getParent();
+		while (candidateForm != null) {
+			if (swingRenderer.getObjectByForm().keySet().contains(candidateForm)) {
+				return (JPanel) candidateForm;
 			}
-			component = component.getParent();
+			candidateForm = candidateForm.getParent();			
 		}
 		return null;
 	}
@@ -301,5 +306,55 @@ public class SwingRendererUtils {
 				return result;
 			}
 		}
+	}
+
+	public static boolean isFormEmpty(ITypeInfo type, IInfoCollectionSettings infoSettings,
+			SwingRenderer swingRenderer) {
+		List<IFieldInfo> fields = type.getFields();
+		List<IMethodInfo> methods = type.getMethods();
+
+		fields = new ArrayList<IFieldInfo>(fields);
+		for (Iterator<IFieldInfo> it = fields.iterator(); it.hasNext();) {
+			IFieldInfo field = it.next();
+			if (infoSettings.excludeField(field)) {
+				it.remove();
+			}
+		}
+
+		methods = new ArrayList<IMethodInfo>(methods);
+		for (Iterator<IMethodInfo> it = methods.iterator(); it.hasNext();) {
+			IMethodInfo method = it.next();
+			if (infoSettings.excludeMethod(method)) {
+				it.remove();
+			}
+		}
+
+		return (fields.size() + methods.size()) == 0;
+	}
+
+	public static boolean isObjectDisplayEmpty(Object value, IInfoCollectionSettings infoSettings,
+			SwingRenderer swingRenderer) {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
+		if (SwingRendererUtils.hasCustomControl(value, valueType, swingRenderer)) {
+			return false;
+		}
+		if (!isFormEmpty(valueType, infoSettings, swingRenderer)) {
+			return false;
+		}
+		return true;
+	}
+
+	public static final boolean hasCustomControl(Object fieldValue, ITypeInfo fieldType, SwingRenderer swingRenderer) {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, fieldType);
+		Object encapsulatedValue = encapsulation.getInstance(new Object[] { fieldValue });
+		ITypeInfo valueAsFieldType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(encapsulatedValue));
+		IFieldInfo field = valueAsFieldType.getFields().get(0);
+		return swingRenderer.hasCustomFieldControl(encapsulatedValue, field);
+	}
+
+	public static boolean isForm(Component c, SwingRenderer swingRenderer) {
+		return swingRenderer.getObjectByForm().keySet().contains(c);
 	}
 }

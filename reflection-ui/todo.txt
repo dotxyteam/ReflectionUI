@@ -1,3 +1,14 @@
+- bexpose liscontrol selectionListening
+- embedded details view
+	- **** Initial **** Details View Occupation
+	- focus lost on update: 
+	an item update must trigger the recreation of 
+	the details control 
+- busy indicator when opening window
+- add ITypeInfo.hasValueOptions()???
+- icons, expanded field value, ... should be part of basic type info,
+not swing specific properties, as it common to most renderers and can
+be ignored if not displayable??? 
 - add customization options:
 	. list item details view detached	
 - remove IListTypeInfo.getObjectSpecificItemConstructors???

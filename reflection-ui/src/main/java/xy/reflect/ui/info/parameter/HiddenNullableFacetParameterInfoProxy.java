@@ -3,7 +3,7 @@ package xy.reflect.ui.info.parameter;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.parameter.ParameterInfoProxy;
-import xy.reflect.ui.info.type.util.HiddenNullableFacetsInfoProxyGenerator;
+import xy.reflect.ui.info.type.util.HiddenNullableFacetsTypeInfoProxyFactory;
 
 public class HiddenNullableFacetParameterInfoProxy extends ParameterInfoProxy {
 
@@ -20,7 +20,7 @@ public class HiddenNullableFacetParameterInfoProxy extends ParameterInfoProxy {
 	@Override
 	public Object getDefaultValue() {
 		final Object[] result = new Object[1];
-		new HiddenNullableFacetsInfoProxyGenerator(reflectionUI){
+		new HiddenNullableFacetsTypeInfoProxyFactory(reflectionUI){
 			{
 				result[0] = getDefaultValue(base, null, null);
 			}

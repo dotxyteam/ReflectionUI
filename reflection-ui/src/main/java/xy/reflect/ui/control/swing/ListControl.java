@@ -10,6 +10,8 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.AbstractList;
@@ -33,6 +35,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
@@ -53,8 +56,10 @@ import org.jdesktop.swingx.JXTreeTable;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.jdesktop.swingx.treetable.TreeTableModel;
 
+import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.IInfoCollectionSettings;
+import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -62,6 +67,8 @@ import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.iterable.item.ItemDetailsAreaPosition;
+import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.structure.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
@@ -70,13 +77,14 @@ import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
-import xy.reflect.ui.info.type.util.InfoProxyGenerator;
+import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.SetFieldValueModification;
 import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.undo.UpdateListValueModification;
 import xy.reflect.ui.util.Accessor;
+import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
@@ -87,14 +95,27 @@ public class ListControl extends JPanel implements IFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
+
 	protected Object object;
 	protected IFieldInfo field;
+
 	protected JXTreeTable treeTableComponent;
-	protected ItemNode rootNode;
 	protected JPanel toolbar;
+	protected ItemNode rootNode;
+	protected static List<Object> clipboard = new ArrayList<Object>();
 	protected Map<ItemNode, Map<Integer, String>> valuesByNode = new HashMap<ItemNode, Map<Integer, String>>();
 	protected IListStructuralInfo structuralInfo;
-	protected static List<Object> clipboard = new ArrayList<Object>();
+
+	protected JPanel detailsArea;
+	protected Component detailsControl;
+	protected IListItemDetailsAccessMode detailsMode;
+	protected ITypeInfo detailsControlItemType;
+	protected AutoFieldValueUpdatingItemPosition detailsControlItemPosition;
+	protected Object detailsControlItem;
+
+	protected List<Runnable> selectionListeners = new ArrayList<Runnable>();
+	protected boolean selectionListenersEnabled = true;
+
 	protected static AbstractAction SEPARATOR_ACTION = new AbstractAction("") {
 		protected static final long serialVersionUID = 1L;
 
@@ -108,20 +129,81 @@ public class ListControl extends JPanel implements IFieldControl {
 		this.object = object;
 		this.field = field;
 
-		setLayout(new BorderLayout());
-
 		initializeTreeTableControl();
-		add(new JScrollPane(treeTableComponent), BorderLayout.CENTER);
-
+		layoutControls();
 		refreshStructure();
-		openDetailsDialogOnItemDoubleClick();
-		updateToolbarOnItemSelection();
+		if (getDetailsAccessMode().hasDetailsDisplayOption()) {
+			openDetailsDialogOnItemDoubleClick();
+		} else {
+			updateDetailsAreaOnSelection();
+		}
+		updateToolbarOnSelection();
 		setupContexteMenu();
+		updateToolbar();
+		initializeSelectionListening();
+	}
 
+	protected void updateToolbarOnSelection() {
+		selectionListeners.add(new Runnable() {
+			@Override
+			public void run() {
+				updateToolbar();
+			}
+		});
+
+	}
+
+	protected void updateDetailsAreaOnSelection() {
+		selectionListeners.add(new Runnable() {
+			@Override
+			public void run() {
+				updateDetailsArea();
+			}
+		});
+	}
+
+	protected void layoutControls() {
+		setLayout(new BorderLayout());
+		if (getDetailsAccessMode().hasDetailsDisplayArea()) {
+			detailsArea = new JPanel();
+			detailsArea.setLayout(new BorderLayout());
+			final JSplitPane splitPane = new JSplitPane();
+			add(splitPane, BorderLayout.CENTER);
+			final double dividerLocation;
+			if (getDetailsAccessMode().getDetailsAreaPosition() == ItemDetailsAreaPosition.RIGHT) {
+				splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+				splitPane.setLeftComponent(new JScrollPane(treeTableComponent));
+				splitPane.setRightComponent(new JScrollPane(detailsArea));
+				dividerLocation = 1.0 - getDetailsAccessMode().getDetailsAreaOccupationRatio();
+			} else if (getDetailsAccessMode().getDetailsAreaPosition() == ItemDetailsAreaPosition.LEFT) {
+				splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+				splitPane.setRightComponent(new JScrollPane(treeTableComponent));
+				splitPane.setLeftComponent(new JScrollPane(detailsArea));
+				dividerLocation = getDetailsAccessMode().getDetailsAreaOccupationRatio();
+			} else if (getDetailsAccessMode().getDetailsAreaPosition() == ItemDetailsAreaPosition.BOTTOM) {
+				splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+				splitPane.setTopComponent(new JScrollPane(treeTableComponent));
+				splitPane.setBottomComponent(new JScrollPane(detailsArea));
+				dividerLocation = 1.0 - getDetailsAccessMode().getDetailsAreaOccupationRatio();
+			} else if (getDetailsAccessMode().getDetailsAreaPosition() == ItemDetailsAreaPosition.TOP) {
+				splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+				splitPane.setBottomComponent(new JScrollPane(treeTableComponent));
+				splitPane.setTopComponent(new JScrollPane(detailsArea));
+				dividerLocation = getDetailsAccessMode().getDetailsAreaOccupationRatio();
+			} else {
+				throw new ReflectionUIError();
+			}
+			splitPane.addComponentListener(new ComponentAdapter() {
+				public void componentResized(ComponentEvent event) {
+					splitPane.setDividerLocation(dividerLocation);
+					removeComponentListener(this);
+				}
+			});
+		} else {
+			add(new JScrollPane(treeTableComponent), BorderLayout.CENTER);
+		}
 		toolbar = new JPanel();
 		add(toolbar, BorderLayout.EAST);
-		updateToolbar();
-
 	}
 
 	@Override
@@ -154,8 +236,10 @@ public class ListControl extends JPanel implements IFieldControl {
 		GridBagLayout layout = new GridBagLayout();
 		toolbar.setLayout(layout);
 
-		if (getActiveListItemPosition().getContainingListType().canViewItemDetails()) {
-			toolbar.add(createTool(null, SwingRendererUtils.DETAILS_ICON, true, false, createOpenItemAction()));
+		if (getDetailsAccessMode().hasDetailsDisplayOption()) {
+			if (getActiveListItemPosition().getContainingListType().canViewItemDetails()) {
+				toolbar.add(createTool(null, SwingRendererUtils.DETAILS_ICON, true, false, createOpenItemAction()));
+			}
 		}
 
 		if (!UpdateListValueModification.isContainingListItemsLocked(getRootListItemPosition())) {
@@ -334,6 +418,18 @@ public class ListControl extends JPanel implements IFieldControl {
 			}
 		}
 		return structuralInfo;
+	}
+
+	public IListItemDetailsAccessMode getDetailsAccessMode() {
+		if (detailsMode == null) {
+			IListTypeInfo listType = getRootListType();
+			detailsMode = listType.getDetailsAccessMode();
+			if (detailsMode == null) {
+				throw new ReflectionUIError("No " + IListItemDetailsAccessMode.class.getSimpleName()
+						+ " found on the type '" + listType.getName());
+			}
+		}
+		return detailsMode;
 	}
 
 	protected void initializeTreeTableControl() {
@@ -829,7 +925,6 @@ public class ListControl extends JPanel implements IFieldControl {
 			treeTableComponent.scrollRowToVisible(treeTableComponent.getRowForPath(treePaths.get(0)));
 		} catch (Throwable ignore) {
 		}
-		updateToolbar();
 	}
 
 	protected ItemNode findNode(AutoFieldValueUpdatingItemPosition itemPosition) {
@@ -1205,7 +1300,7 @@ public class ListControl extends JPanel implements IFieldControl {
 
 	protected ITypeInfo addSpecificItemContructors(ITypeInfo itemType,
 			final AutoFieldValueUpdatingItemPosition newItemPosition) {
-		return new InfoProxyGenerator() {
+		return new TypeInfoProxyFactory() {
 
 			@Override
 			protected List<IMethodInfo> getConstructors(ITypeInfo type) {
@@ -1521,8 +1616,8 @@ public class ListControl extends JPanel implements IFieldControl {
 							dynamicProperty, propertyValueHolder[0]);
 				}
 				boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.isOkPressed();
-				return ReflectionUIUtils.integrateSubModification(parentModifStack, childModifStack, childModifAccepted,
-						commitModif, childModifTarget, null);
+				return ReflectionUIUtils.integrateSubModifications(parentModifStack, childModifStack,
+						childModifAccepted, commitModif, childModifTarget, null);
 			}
 
 			@Override
@@ -1590,8 +1685,8 @@ public class ListControl extends JPanel implements IFieldControl {
 				}
 				toPostSelectHolder[0] = Collections.singletonList(itemPosition);
 				boolean childModifAccepted = (!dialogStatus.isCancellable()) || dialogStatus.isOkPressed();
-				return ReflectionUIUtils.integrateSubModification(parentModifStack, childModifStack, childModifAccepted,
-						commitModif, childModifTarget, null);
+				return ReflectionUIUtils.integrateSubModifications(parentModifStack, childModifStack,
+						childModifAccepted, commitModif, childModifTarget, null);
 
 			}
 
@@ -1620,18 +1715,93 @@ public class ListControl extends JPanel implements IFieldControl {
 		};
 	}
 
-	protected void updateToolbarOnItemSelection() {
-		treeTableComponent.addTreeSelectionListener(new TreeSelectionListener() {
+	public List<Runnable> getSelectionListeners() {
+		return selectionListeners;
+	}
 
+	protected void initializeSelectionListening() {
+		treeTableComponent.addTreeSelectionListener(new TreeSelectionListener() {
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
+				if (!selectionListenersEnabled) {
+					return;
+				}
 				try {
-					updateToolbar();
+					fireSelectionEvent();
 				} catch (Throwable t) {
 					swingRenderer.handleExceptionsFromDisplayedUI(treeTableComponent, t);
 				}
 			}
 		});
+	}
+
+	protected void fireSelectionEvent() {
+		for (Runnable listener : selectionListeners) {
+			listener.run();
+		}
+	}
+
+	protected void updateDetailsArea() {
+		detailsControlItemPosition = getSingleSelection();
+		if ((detailsControlItemPosition == null)
+				|| (!detailsControlItemPosition.getContainingListType().canViewItemDetails())) {
+			detailsArea.removeAll();
+			detailsControlItemPosition = null;
+			detailsControlItem = null;
+			detailsControlItemType = null;
+			detailsControl = null;
+			swingRenderer.handleComponentSizeChange(ListControl.this);
+			return;
+
+		}
+		ITypeInfo iItemType = swingRenderer.getReflectionUI()
+				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(detailsControlItemPosition.getItem()));
+		if (iItemType.equals(detailsControlItemType)) {
+			if (detailsControl instanceof IFieldControl) {
+				IFieldControl fieldControl = (IFieldControl) detailsControl;
+				if (fieldControl.refreshUI()) {
+					return;
+				}
+			}
+		}
+		detailsControlItemType = iItemType;
+		detailsArea.removeAll();
+		detailsControl = swingRenderer.createFieldControl(null, new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
+
+			@Override
+			public Object getValue(Object object) {
+				return detailsControlItem = detailsControlItemPosition.getItem();
+			}
+
+			@Override
+			public void setValue(Object object, Object value) {
+				Object[] listRawValue = detailsControlItemPosition.getContainingListRawValue();
+				listRawValue[detailsControlItemPosition.getIndex()] = value;
+				new UpdateListValueModification(swingRenderer.getReflectionUI(), detailsControlItemPosition,
+						listRawValue).applyAndGetOpposite();
+			}
+
+			@Override
+			public boolean isNullable() {
+				return false;
+			}
+
+			@Override
+			public boolean isGetOnly() {
+				return UpdateListValueModification.isContainingListItemsLocked(detailsControlItemPosition);
+			}
+
+			@Override
+			public Map<String, Object> getSpecificProperties() {
+				Map<String, Object> properties = new HashMap<String, Object>();
+				SwingSpecificProperty.setSubFormExpanded(properties, true);
+				return properties;
+			}
+
+		});
+		detailsArea.setLayout(new BorderLayout());
+		detailsArea.add(detailsControl, BorderLayout.CENTER);
+		swingRenderer.handleComponentSizeChange(ListControl.this);
 	}
 
 	protected void openDetailsDialogOnItemDoubleClick() {
@@ -1679,6 +1849,12 @@ public class ListControl extends JPanel implements IFieldControl {
 	}
 
 	protected ObjectDialogBuilder openDetailsDialog(final AutoFieldValueUpdatingItemPosition itemPosition) {
+		ObjectDialogBuilder dialogBuilder = getDetailsDialogBuilder(itemPosition);
+		swingRenderer.showDialog(dialogBuilder.build(), true);
+		return dialogBuilder;
+	}
+
+	protected ObjectDialogBuilder getDetailsDialogBuilder(AutoFieldValueUpdatingItemPosition itemPosition) {
 		ItemNode itemNode = findNode(itemPosition);
 		if (itemNode != null) {
 			TreePath treePath = new TreePath(itemNode.getPath());
@@ -1693,13 +1869,12 @@ public class ListControl extends JPanel implements IFieldControl {
 		dialogBuilder.setInfoSettings(getStructuralInfo().getItemInfoSettings(itemPosition));
 		dialogBuilder.setGetOnly(UpdateListValueModification.isContainingListItemsLocked(itemPosition));
 		dialogBuilder.setCancellable(dialogBuilder.getDisplayValueType().isModificationStackAccessible());
-		swingRenderer.showDialog(dialogBuilder.build(), true);
 
 		return dialogBuilder;
 	}
 
 	protected ModificationStack getParentFormModificationStack() {
-		return SwingRendererUtils.findModificationStack(ListControl.this, swingRenderer);
+		return SwingRendererUtils.findParentFormModificationStack(ListControl.this, swingRenderer);
 	}
 
 	protected boolean hasItemDetails(AutoFieldValueUpdatingItemPosition itemPosition) {
@@ -1707,36 +1882,11 @@ public class ListControl extends JPanel implements IFieldControl {
 		if (item == null) {
 			return false;
 		}
-		ITypeInfo actualItemType = swingRenderer.getReflectionUI()
-				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(item));
-		if (swingRenderer.hasCustomFieldControl(item, actualItemType)) {
-			return true;
+		IInfoCollectionSettings infoSettings = getStructuralInfo().getItemInfoSettings(itemPosition);
+		if (SwingRendererUtils.isObjectDisplayEmpty(item, infoSettings, swingRenderer)) {
+			return false;
 		}
-		List<IFieldInfo> fields = actualItemType.getFields();
-		List<IMethodInfo> methods = actualItemType.getMethods();
-
-		IListStructuralInfo structuralInfo = getStructuralInfo();
-		if (structuralInfo != null) {
-			IInfoCollectionSettings infoSettings = structuralInfo.getItemInfoSettings(itemPosition);
-
-			fields = new ArrayList<IFieldInfo>(fields);
-			for (Iterator<IFieldInfo> it = fields.iterator(); it.hasNext();) {
-				IFieldInfo field = it.next();
-				if (infoSettings.excludeField(field)) {
-					it.remove();
-				}
-			}
-
-			methods = new ArrayList<IMethodInfo>(methods);
-			for (Iterator<IMethodInfo> it = methods.iterator(); it.hasNext();) {
-				IMethodInfo method = it.next();
-				if (infoSettings.excludeMethod(method)) {
-					it.remove();
-				}
-			}
-
-		}
-		return (fields.size() + methods.size()) > 0;
+		return true;
 	}
 
 	protected void refreshStructure() {
@@ -1787,30 +1937,71 @@ public class ListControl extends JPanel implements IFieldControl {
 		return true;
 	}
 
+	@Override
+	public Object getFocusDetails() {
+		Object detailsControlFocus = null;
+		{
+			if (detailsControl instanceof IFieldControl) {
+				detailsControlFocus = ((IFieldControl) detailsControl).getFocusDetails();
+			}
+		}
+		if (detailsControlFocus == null) {
+			return null;
+		}
+		if (detailsControlItemType == null) {
+			return null;
+		}
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("detailsControlFocus", detailsControlFocus);
+		result.put("detailsControlItemType", detailsControlItemType);
+		return result;
+	}
+
+	@Override
+	public void requestDetailedFocus(Object value) {
+		@SuppressWarnings("unchecked")
+		Map<String, Object> focusDetails = (Map<String, Object>) value;
+		Object detailsControlFocus = focusDetails.get("detailsControlFocus");
+		ITypeInfo savedDetailsControlItemType = (ITypeInfo) focusDetails.get("detailsControlItemType");
+		detailsControl.requestFocus();
+		if (savedDetailsControlItemType.equals(detailsControlItemType)) {
+			((IFieldControl) detailsControl).requestDetailedFocus(detailsControlFocus);
+		}
+	}
+
+	@Override
+	public void requestFocus() {
+		if (detailsControl != null) {
+			detailsControl.requestFocus();
+		}
+	}
+
 	protected void restoringSelectionAsMuchAsPossible(Runnable runnable) {
-		List<AutoFieldValueUpdatingItemPosition> lastlySelectedItemPositions = getSelection();
-		List<Object> lastlySelectedItems = new ArrayList<Object>();
-		for (int i = 0; i < lastlySelectedItemPositions.size(); i++) {
+		List<AutoFieldValueUpdatingItemPosition> wereSelectedPositions = getSelection();
+		List<Object> wereSelected = new ArrayList<Object>();
+		for (int i = 0; i < wereSelectedPositions.size(); i++) {
 			try {
-				AutoFieldValueUpdatingItemPosition lastlySelectedItemPosition = lastlySelectedItemPositions.get(i);
-				lastlySelectedItems.add(lastlySelectedItemPosition.getItem());
+				AutoFieldValueUpdatingItemPosition wasSelectedPosition = wereSelectedPositions.get(i);
+				wereSelected.add(wasSelectedPosition.getItem());
 			} catch (Throwable t) {
-				lastlySelectedItems.add(null);
+				wereSelected.add(null);
 			}
 		}
 
+		selectionListenersEnabled = false;
+
 		runnable.run();
 
+		setSelection(Collections.<AutoFieldValueUpdatingItemPosition> emptyList());
 		int i = 0;
-		for (Iterator<AutoFieldValueUpdatingItemPosition> it = lastlySelectedItemPositions.iterator(); it.hasNext();) {
-			AutoFieldValueUpdatingItemPosition lastlySelectedItemPosition = it.next();
+		for (Iterator<AutoFieldValueUpdatingItemPosition> it = wereSelectedPositions.iterator(); it.hasNext();) {
+			AutoFieldValueUpdatingItemPosition wasSelectedPosition = it.next();
 			try {
-				if (!lastlySelectedItemPosition.getContainingListType().isOrdered()) {
-					Object lastlySelectedItem = lastlySelectedItems.get(i);
-					int index = lastlySelectedItemPosition.getContainingAutoUpdatingFieldList()
-							.indexOf(lastlySelectedItem);
-					lastlySelectedItemPosition = lastlySelectedItemPosition.getSibling(index);
-					lastlySelectedItemPositions.set(i, lastlySelectedItemPosition);
+				if (!wasSelectedPosition.getContainingListType().isOrdered()) {
+					Object wasSelected = wereSelected.get(i);
+					int index = wasSelectedPosition.getContainingAutoUpdatingFieldList().indexOf(wasSelected);
+					wasSelectedPosition = wasSelectedPosition.getSibling(index);
+					wereSelectedPositions.set(i, wasSelectedPosition);
 				}
 			} catch (Throwable t) {
 				it.remove();
@@ -1818,9 +2009,13 @@ public class ListControl extends JPanel implements IFieldControl {
 			i++;
 		}
 		try {
-			setSelection(lastlySelectedItemPositions);
+			setSelection(wereSelectedPositions);
 		} catch (Throwable ignore) {
 		}
+
+		selectionListenersEnabled = true;
+
+		fireSelectionEvent();
 	}
 
 	protected class ItemNode extends AbstractLazyTreeNode {

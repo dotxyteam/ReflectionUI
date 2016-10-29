@@ -209,6 +209,46 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <typeName>EncapsulatedObjectFactory [fieldType=Embedded Item Details Access Mode, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulatedObjectFactory [fieldType=Input, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulatedObjectFactory [fieldType=List Structure Customization, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulatedObjectFactory [fieldType=String, fieldCaption=Create 'IList Details Access Mode' of type]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
         <typeName>EncapsulationTypeInfo [fieldType=Column Customization, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -537,6 +577,10 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <typeName>xy.reflect.ui.control.swing.PolymorphicEmbeddedForm$1</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
             <fieldName>columnInfo</fieldName>
@@ -581,6 +625,81 @@
     </typeCustomizations>
     <typeCustomizations>
         <typeName>xy.reflect.ui.info.type.ITypeInfo</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>true</hidden>
+            <fieldName>detailsAreaPosition</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>true</hidden>
+            <fieldName>detailsDisplayArea</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>true</hidden>
+            <fieldName>detailsDisplayOption</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode DetachedItemDetailsAccessMode()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <typeName>xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <customFieldsOrder>detailsAreaPosition</customFieldsOrder>
+        <customFieldsOrder>detailsDisplayArea</customFieldsOrder>
+        <customFieldsOrder>detailsDisplayOption</customFieldsOrder>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>detailsAreaPosition</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>true</hidden>
+            <fieldName>detailsDisplayArea</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>true</hidden>
+            <fieldName>detailsDisplayOption</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode EmbeddedItemDetailsAccessMode()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <typeName>xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <javaClassBasedTypeInfoFinder>
+            <className>xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode</className>
+        </javaClassBasedTypeInfoFinder>
+        <javaClassBasedTypeInfoFinder>
+            <className>xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode</className>
+        </javaClassBasedTypeInfoFinder>
+        <typeName>xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>xy.reflect.ui.info.type.iterable.item.ItemDetailsAreaPosition</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>xy.reflect.ui.info.type.iterable.item.details.IListDetailsAccessMode</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1341,6 +1460,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <customFieldsOrder>editOptions</customFieldsOrder>
         <customFieldsOrder>fieldColumnsAdded</customFieldsOrder>
         <customFieldsOrder>itemTypeColumnAdded</customFieldsOrder>
         <customFieldsOrder>positionColumnAdded</customFieldsOrder>
@@ -1349,14 +1469,12 @@
         <customFieldsOrder>columnsCustomizations</customFieldsOrder>
         <customFieldsOrder>treeStructureDiscoverySettings</customFieldsOrder>
         <customFieldsOrder>itemTypeCustomization</customFieldsOrder>
-        <customFieldsOrder>itemCreationDisabled</customFieldsOrder>
-        <customFieldsOrder>itemDeletionDisabled</customFieldsOrder>
-        <customFieldsOrder>itemMoveDisabled</customFieldsOrder>
         <customFieldsOrder>itemDetailsViewDisabled</customFieldsOrder>
         <customFieldsOrder>allowedItemMethodShortcuts</customFieldsOrder>
         <customFieldsOrder>allowedItemFieldShortcuts</customFieldsOrder>
         <customFieldsOrder>fieldsExcludedFromItemDetails</customFieldsOrder>
         <customFieldsOrder>methodsExcludedFromItemDetails</customFieldsOrder>
+        <customFieldsOrder>customDetailsAccessMode</customFieldsOrder>
         <fieldsCustomizations>
             <category>
                 <caption>Edition</caption>
@@ -1392,6 +1510,19 @@
             <fieldName>columnsCustomizations</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>SwingSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <customFieldCaption>Alternate Item Details View Mode</customFieldCaption>
+            <fieldName>customDetailsAccessMode</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <specificProperties>
@@ -1938,6 +2069,10 @@
     </typeCustomizations>
     <typeCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoProxyGenerator$GeneratedMethodInfoProxy</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>xy.reflect.ui.info.type.util.TypeInfoProxyFactory$GeneratedBasicTypeInfoProxy</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

@@ -40,7 +40,7 @@ import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
-import xy.reflect.ui.info.type.util.InfoProxyGenerator;
+import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
 import xy.reflect.ui.info.type.util.InfoCustomizations.ColumnCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.FieldCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.ListStructureCustomization;
@@ -219,7 +219,7 @@ public class SwingCustomizer extends SwingRenderer {
 				@Override
 				public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
 					ITypeInfo result = super.getTypeInfo(typeSource);
-					result = new InfoProxyGenerator() {
+					result = new TypeInfoProxyFactory() {
 						@Override
 						protected List<IFieldInfo> getFields(ITypeInfo type) {
 							if (type.getName().equals(TypeCustomization.class.getName())) {
@@ -426,25 +426,30 @@ public class SwingCustomizer extends SwingRenderer {
 			result.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					final ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(customizationToolsRenderer, t);
-					dialogBuilder.setIconImage(getCustomizationIcon().getImage());
-					dialogBuilder.setCancellable(true);
-					dialogBuilder.build();
-					dialogBuilder.getModificationStack()
-							.addListener(getCustomizedWindowsReloadingAdvicer(dialogBuilder.getBuiltDialog()));
-					customizationToolsRenderer.showDialog(dialogBuilder.getBuiltDialog(), true);
-
-					if (dialogBuilder.isOkPressed()) {
-						SwingUtilities.invokeLater(new Runnable() {
-							@Override
-							public void run() {
-								update(typeName);
-							}
-						});
-					}
+					openTypeCustomizationDialog(t);
 				}
 			});
 			return result;
+		}
+
+		protected void openTypeCustomizationDialog(final TypeCustomization t) {
+			final ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(customizationToolsRenderer, t);
+			dialogBuilder.setIconImage(getCustomizationIcon().getImage());
+			dialogBuilder.setCancellable(true);
+			dialogBuilder.build();
+			dialogBuilder.getModificationStack()
+					.addListener(getCustomizedWindowsReloadingAdvicer(dialogBuilder.getBuiltDialog()));
+			customizationToolsRenderer.showDialog(dialogBuilder.getBuiltDialog(), true);
+
+			if (dialogBuilder.isOkPressed()) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						update(t.getTypeName());
+					}
+				});
+			}
+			
 		}
 
 		protected IModificationListener getCustomizedWindowsReloadingAdvicer(final Component ownerComponent) {
@@ -544,6 +549,16 @@ public class SwingCustomizer extends SwingRenderer {
 					});
 					final IFieldInfo customizedField = ReflectionUIUtils.findInfoByName(customizedType.getFields(),
 							fieldName);
+					popupMenu.add(new AbstractAction(prepareStringToDisplay("Field Type...")) {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							TypeCustomization t = infoCustomizations
+									.getTypeCustomization(customizedField.getType().getName());
+							openTypeCustomizationDialog(t);
+						}
+					});
 					if (customizedField.getType() instanceof IListTypeInfo) {
 						JMenu listSubMenu = new JMenu(prepareStringToDisplay("List Structure"));
 						{
@@ -745,6 +760,21 @@ public class SwingCustomizer extends SwingRenderer {
 							moveMethod(result, customizedType, methodSignature, 1);
 						}
 					});
+					final IMethodInfo customizedMethod = ReflectionUIUtils
+							.findMethodBySignature(customizedType.getMethods(), methodSignature);
+					final ITypeInfo returnValueType = customizedMethod.getReturnValueType();
+					if (returnValueType != null) {
+						popupMenu.add(new AbstractAction(prepareStringToDisplay("Method Return Type...")) {
+							private static final long serialVersionUID = 1L;
+
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								TypeCustomization t = infoCustomizations
+										.getTypeCustomization(returnValueType.getName());
+								openTypeCustomizationDialog(t);
+							}
+						});
+					}
 					popupMenu.add(new AbstractAction(prepareStringToDisplay("More Options...")) {
 						private static final long serialVersionUID = 1L;
 

@@ -7,7 +7,7 @@ import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
-import xy.reflect.ui.info.type.util.InfoProxyGenerator;
+import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
 import xy.reflect.ui.util.SystemProperties;
 
 /*
@@ -58,7 +58,7 @@ public class Example {
 
 			@Override
 			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-				return new InfoProxyGenerator() {
+				return new TypeInfoProxyFactory() {
 
 					/*
 					 * For instance you can uppercase all the field captions

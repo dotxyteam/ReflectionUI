@@ -11,4 +11,7 @@ public interface IFieldControl {
 
 	boolean handlesModificationStackUpdate();
 
+	Object getFocusDetails();
+	
+	void requestDetailedFocus(Object value);
 }

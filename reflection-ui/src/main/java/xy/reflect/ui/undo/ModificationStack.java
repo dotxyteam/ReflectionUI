@@ -13,21 +13,6 @@ public class ModificationStack {
 
 	protected static final String UNDO_TITLE_PREFIX = "(Revert) ";
 
-	public static final ModificationStack NULL_MODIFICATION_STACK = new ModificationStack(null) {
-
-		@Override
-		public void pushUndo(IModification undoModif) {
-		}
-
-		@Override
-		public void undo() {
-		}
-
-		@Override
-		public void redo() {
-		}
-
-	};
 
 	protected Stack<IModification> undoStack = new Stack<IModification>();
 	protected Stack<IModification> redoStack = new Stack<IModification>();

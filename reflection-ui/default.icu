@@ -29,15 +29,17 @@
             <columnName>typeName</columnName>
             <hidden>false</hidden>
         </columnsCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
         <fieldColumnsAdded>true</fieldColumnsAdded>
         <fieldsExcludedFromItemDetails>
             <regularExpression>true</regularExpression>
             <value>theDa.</value>
         </fieldsExcludedFromItemDetails>
-        <itemCreationDisabled>false</itemCreationDisabled>
-        <itemDeletionDisabled>false</itemDeletionDisabled>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>true</itemTypeColumnAdded>
         <itemTypeName>ReflectionUITest$AbstrcatTestDescendant</itemTypeName>
         <listTypeName>[LReflectionUITest$AbstrcatTestDescendant;</listTypeName>
@@ -53,11 +55,13 @@
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
         </columnsCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
         <fieldColumnsAdded>false</fieldColumnsAdded>
-        <itemCreationDisabled>false</itemCreationDisabled>
-        <itemDeletionDisabled>false</itemDeletionDisabled>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>ReflectionUITest$AbstrcatTestDescendant</itemTypeName>
         <listTypeName>java.util.List</listTypeName>
@@ -69,11 +73,13 @@
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
         </columnsCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
         <fieldColumnsAdded>false</fieldColumnsAdded>
-        <itemCreationDisabled>false</itemCreationDisabled>
-        <itemDeletionDisabled>false</itemDeletionDisabled>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.io.File</itemTypeName>
         <listTypeName>java.util.List</listTypeName>
@@ -85,11 +91,13 @@
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
         </columnsCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
         <fieldColumnsAdded>false</fieldColumnsAdded>
-        <itemCreationDisabled>false</itemCreationDisabled>
-        <itemDeletionDisabled>false</itemDeletionDisabled>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.lang.String</itemTypeName>
         <listTypeName>java.util.List</listTypeName>
@@ -101,11 +109,13 @@
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
         </columnsCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
         <fieldColumnsAdded>false</fieldColumnsAdded>
-        <itemCreationDisabled>false</itemCreationDisabled>
-        <itemDeletionDisabled>false</itemDeletionDisabled>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,java.lang.String&gt;</itemTypeName>
         <listTypeName>java.util.Map</listTypeName>
@@ -117,11 +127,13 @@
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
         </columnsCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
         <fieldColumnsAdded>false</fieldColumnsAdded>
-        <itemCreationDisabled>false</itemCreationDisabled>
-        <itemDeletionDisabled>false</itemDeletionDisabled>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.lang.Integer</itemTypeName>
         <listTypeName>java.util.Set</listTypeName>
@@ -133,11 +145,13 @@
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
         </columnsCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
         <fieldColumnsAdded>false</fieldColumnsAdded>
-        <itemCreationDisabled>false</itemCreationDisabled>
-        <itemDeletionDisabled>false</itemDeletionDisabled>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.lang.Integer</itemTypeName>
         <listTypeName>java.util.Stack</listTypeName>
@@ -149,17 +163,33 @@
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
         </columnsCustomizations>
+        <embeddedDetailsAccessMode>
+            <detailsAreaOccupationRatio>0.8</detailsAreaOccupationRatio>
+            <detailsAreaPosition>RIGHT</detailsAreaPosition>
+        </embeddedDetailsAccessMode>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
         <fieldColumnsAdded>false</fieldColumnsAdded>
-        <itemCreationDisabled>false</itemCreationDisabled>
-        <itemDeletionDisabled>false</itemDeletionDisabled>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-        <itemMoveDisabled>false</itemMoveDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.lang.Object</itemTypeName>
         <listTypeName>java.util.Vector</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
     </listStructures>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulatedObjectFactory [fieldType=Test, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>

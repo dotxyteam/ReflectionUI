@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -82,13 +84,6 @@ public class NullableControl extends JPanel implements IFieldControl {
 		return true;
 	}
 
-	@Override
-	public void requestFocus() {
-		if (subControl != null) {
-			subControl.requestFocus();
-		}
-	}
-
 	protected void onNullingControlStateChange() {
 		Object newValue;
 		if (!shoulBeNull()) {
@@ -97,8 +92,7 @@ public class NullableControl extends JPanel implements IFieldControl {
 				if ((valueOptions != null) && (valueOptions.length > 0)) {
 					newValue = valueOptions[0];
 				} else {
-					newValue = this.swingRenderer.onTypeInstanciationRequest(this, field.getType(),
-							false);
+					newValue = this.swingRenderer.onTypeInstanciationRequest(this, field.getType(), false);
 				}
 			} catch (Throwable t) {
 				swingRenderer.handleExceptionsFromDisplayedUI(this, t);
@@ -114,8 +108,8 @@ public class NullableControl extends JPanel implements IFieldControl {
 			subControl = null;
 		}
 		field.setValue(object, newValue);
-		swingRenderer.refreshFieldControlsByName(
-				SwingRendererUtils.findForm(this, swingRenderer), field.getName(), false);
+		swingRenderer.refreshFieldControlsByName(SwingRendererUtils.findParentForm(this, swingRenderer),
+				field.getName(), false);
 	}
 
 	public void updateSubControl(Object newValue) {
@@ -173,13 +167,53 @@ public class NullableControl extends JPanel implements IFieldControl {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public boolean handlesModificationStackUpdate() {
 		if (subControl instanceof IFieldControl) {
 			return ((IFieldControl) subControl).handlesModificationStackUpdate();
 		} else {
 			return false;
+		}
+	}
+
+	@Override
+	public Object getFocusDetails() {
+		Object subControlFocusDetails = null;
+		Class<?> subControlClass = null;
+		{
+			if (subControl instanceof IFieldControl) {
+				subControlFocusDetails = ((IFieldControl) subControl).getFocusDetails();
+				subControlClass = subControl.getClass();
+			}
+		}
+		if (subControlFocusDetails == null) {
+			return null;
+		}
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("subControlFocusDetails", subControlFocusDetails);
+		result.put("subControlClass", subControlClass);
+		return result;
+	}
+
+	@Override
+	public void requestDetailedFocus(Object value) {
+		@SuppressWarnings("unchecked")
+		Map<String, Object> focusDetails = (Map<String, Object>) value;
+		Object subControlFocusDetails = focusDetails.get("subControlFocusDetails");
+		Class<?> subControlClass = (Class<?>) focusDetails.get("subControlClass");
+		subControl.requestFocus();
+		if (subControl instanceof IFieldControl) {
+			if (subControl.getClass().equals(subControlClass)) {
+				((IFieldControl) subControl).requestDetailedFocus(subControlFocusDetails);
+			}
+		}
+	}
+
+	@Override
+	public void requestFocus() {
+		if (subControl != null) {
+			subControl.requestFocus();
 		}
 	}
 

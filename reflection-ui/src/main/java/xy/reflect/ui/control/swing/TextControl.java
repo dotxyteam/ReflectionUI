@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -39,7 +41,7 @@ public class TextControl extends JPanel implements IFieldControl {
 
 		textComponent = createTextComponent();
 		updateTextComponent();
-		
+
 		JScrollPane scrollPane = new JScrollPane(textComponent) {
 
 			protected static final long serialVersionUID = 1L;
@@ -157,11 +159,6 @@ public class TextControl extends JPanel implements IFieldControl {
 	}
 
 	@Override
-	public void requestFocus() {
-		textComponent.requestFocus();
-	}
-
-	@Override
 	public boolean refreshUI() {
 		updateTextComponent();
 		displayError(null);
@@ -179,4 +176,25 @@ public class TextControl extends JPanel implements IFieldControl {
 		return false;
 	}
 
+	@Override
+	public Object getFocusDetails() {
+		int caretPosition = textComponent.getCaretPosition();
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("caretPosition", caretPosition);
+		return result;
+	}
+
+	@Override
+	public void requestDetailedFocus(Object value) {
+		@SuppressWarnings("unchecked")
+		Map<String, Object> focusDetails = (Map<String, Object>) value;
+		int caretPosition = (Integer) focusDetails.get("caretPosition");
+		textComponent.requestFocus();
+		textComponent.setCaretPosition(Math.min(caretPosition, textComponent.getText().length()));
+	}
+
+	@Override
+	public void requestFocus() {
+		textComponent.requestFocus();
+	}
 }

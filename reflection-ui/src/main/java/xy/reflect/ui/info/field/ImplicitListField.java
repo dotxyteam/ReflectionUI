@@ -14,6 +14,8 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
+import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.structure.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
@@ -392,6 +394,11 @@ public class ImplicitListField implements IFieldInfo {
 		@Override
 		public IListStructuralInfo getStructuralInfo() {
 			return new DefaultListStructuralInfo(reflectionUI);
+		}
+
+		@Override
+		public IListItemDetailsAccessMode getDetailsAccessMode() {
+			return new DetachedItemDetailsAccessMode();
 		}
 
 		@Override

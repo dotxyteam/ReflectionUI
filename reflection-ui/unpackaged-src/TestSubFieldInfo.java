@@ -7,7 +7,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.SubFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
-import xy.reflect.ui.info.type.util.InfoProxyGenerator;
+import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
 
 public class TestSubFieldInfo {
 	public static void main(String[] args) throws Exception {
@@ -15,7 +15,7 @@ public class TestSubFieldInfo {
 
 			@Override
 			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-				return new InfoProxyGenerator() {
+				return new TypeInfoProxyFactory() {
 
 					@Override
 					protected List<IFieldInfo> getFields(ITypeInfo type) {

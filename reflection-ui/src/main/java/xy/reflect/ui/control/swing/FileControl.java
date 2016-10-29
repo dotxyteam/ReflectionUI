@@ -119,4 +119,9 @@ public class FileControl extends DialogAccessControl implements IFieldControl {
 		return false;
 	}
 
+	@Override
+	public void requestFocus() {
+		statusControl.requestFocus();
+	}
+
 }

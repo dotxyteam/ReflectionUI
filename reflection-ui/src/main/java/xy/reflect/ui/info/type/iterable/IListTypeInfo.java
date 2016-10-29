@@ -5,6 +5,7 @@ import java.util.List;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
@@ -24,6 +25,8 @@ public interface IListTypeInfo extends ITypeInfo {
 	void replaceContent(Object listValue, Object[] array);
 
 	IListStructuralInfo getStructuralInfo();
+	
+	IListItemDetailsAccessMode getDetailsAccessMode();
 
 	boolean isOrdered();
 	boolean canAdd();

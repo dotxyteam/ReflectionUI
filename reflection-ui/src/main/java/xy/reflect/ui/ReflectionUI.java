@@ -31,9 +31,9 @@ import xy.reflect.ui.info.type.iterable.map.StandardMapEntryTypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
-import xy.reflect.ui.info.type.util.HiddenNullableFacetsInfoProxyGenerator;
+import xy.reflect.ui.info.type.util.HiddenNullableFacetsTypeInfoProxyFactory;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
-import xy.reflect.ui.info.type.util.InfoProxyGenerator;
+import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
@@ -121,7 +121,7 @@ public class ReflectionUI {
 			}
 		}
 		if (SystemProperties.hideNullablefacets()) {
-			result = new HiddenNullableFacetsInfoProxyGenerator(this).get(result);
+			result = new HiddenNullableFacetsTypeInfoProxyFactory(this).get(result);
 		}
 		return result;
 	}

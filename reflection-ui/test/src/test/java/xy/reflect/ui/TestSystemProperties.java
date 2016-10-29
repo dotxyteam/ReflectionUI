@@ -8,7 +8,7 @@ import org.junit.Test;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.util.HiddenNullableFacetsInfoProxyGenerator;
+import xy.reflect.ui.info.type.util.HiddenNullableFacetsTypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
@@ -46,7 +46,7 @@ public class TestSystemProperties extends AbstractTest {
 			ReflectionUIUtils.findInfoByName(typeInfo.getFields(), "necessarilyNullableField").getValue(this);
 			Assert.fail();
 		} catch (ReflectionUIError e) {
-			Assert.assertTrue(e.toString().contains(HiddenNullableFacetsInfoProxyGenerator.class.getSimpleName()));
+			Assert.assertTrue(e.toString().contains(HiddenNullableFacetsTypeInfoProxyFactory.class.getSimpleName()));
 		}
 	}
 

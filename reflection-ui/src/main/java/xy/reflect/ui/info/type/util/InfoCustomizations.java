@@ -41,6 +41,9 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
+import xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode;
+import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.structure.CustomizedStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
@@ -70,12 +73,12 @@ public final class InfoCustomizations {
 
 	public static final InfoCustomizations DEFAULT = createDefault();
 
-	transient protected CustomizationsProxyGenerator proxyGenerator;
+	transient protected CustomizationsProxyFactory proxyFactory;
 	protected Set<TypeCustomization> typeCustomizations = new TreeSet<InfoCustomizations.TypeCustomization>();
 	protected Set<ListStructureCustomization> listStructures = new TreeSet<InfoCustomizations.ListStructureCustomization>();
 
-	protected CustomizationsProxyGenerator createCustomizationsProxyGenerator(ReflectionUI reflectionUI) {
-		return new CustomizationsProxyGenerator(reflectionUI);
+	protected CustomizationsProxyFactory createCustomizationsProxyFactory(ReflectionUI reflectionUI) {
+		return new CustomizationsProxyFactory(reflectionUI);
 	}
 
 	protected static InfoCustomizations createDefault() {
@@ -95,10 +98,10 @@ public final class InfoCustomizations {
 	}
 
 	public ITypeInfo get(ReflectionUI reflectionUI, ITypeInfo type) {
-		if (proxyGenerator == null) {
-			proxyGenerator = createCustomizationsProxyGenerator(reflectionUI);
+		if (proxyFactory == null) {
+			proxyFactory = createCustomizationsProxyFactory(reflectionUI);
 		}
-		return proxyGenerator.get(type);
+		return proxyFactory.get(type);
 	}
 
 	public Set<TypeCustomization> getTypeCustomizations() {
@@ -1191,6 +1194,7 @@ public final class InfoCustomizations {
 		protected List<InfoFilter> fieldsExcludedFromItemDetails = new ArrayList<InfoFilter>();
 		protected boolean itemDetailsViewDisabled;
 		protected ListEditOptions editOptions = new ListEditOptions();
+		protected IListItemDetailsAccessMode customDetailsAccessMode = null;
 
 		@XmlTransient
 		public InfoCustomizations getParent() {
@@ -1209,6 +1213,16 @@ public final class InfoCustomizations {
 				return null;
 			}
 			return parent.getTypeCustomization(itemTypeName);
+		}
+
+		@XmlElements({ @XmlElement(name = "detachedDetailsAccessMode", type = DetachedItemDetailsAccessMode.class),
+				@XmlElement(name = "embeddedDetailsAccessMode", type = EmbeddedItemDetailsAccessMode.class) })
+		public IListItemDetailsAccessMode getCustomDetailsAccessMode() {
+			return customDetailsAccessMode;
+		}
+
+		public void setCustomDetailsAccessMode(IListItemDetailsAccessMode customDetailsAccessMode) {
+			this.customDetailsAccessMode = customDetailsAccessMode;
 		}
 
 		public ListEditOptions getEditOptions() {
@@ -1464,9 +1478,9 @@ public final class InfoCustomizations {
 
 	}
 
-	protected class CustomizationsProxyGenerator extends HiddenNullableFacetsInfoProxyGenerator {
+	protected class CustomizationsProxyFactory extends HiddenNullableFacetsTypeInfoProxyFactory {
 
-		public CustomizationsProxyGenerator(ReflectionUI reflectionUI) {
+		public CustomizationsProxyFactory(ReflectionUI reflectionUI) {
 			super(reflectionUI);
 		}
 
@@ -1710,8 +1724,19 @@ public final class InfoCustomizations {
 			}
 			return result;
 		}
-		
-		
+
+		@Override
+		protected IListItemDetailsAccessMode getDetailsAccessMode(IListTypeInfo listType) {
+			ITypeInfo itemType = listType.getItemType();
+			final ListStructureCustomization l = getListStructureCustomization(listType.getName(),
+					(itemType == null) ? null : itemType.getName());
+			if (l != null) {
+				if (l.customDetailsAccessMode != null) {
+					return l.customDetailsAccessMode;
+				}
+			}
+			return super.getDetailsAccessMode(listType);
+		}
 
 		@Override
 		protected boolean canInstanciateFromArray(IListTypeInfo listType) {

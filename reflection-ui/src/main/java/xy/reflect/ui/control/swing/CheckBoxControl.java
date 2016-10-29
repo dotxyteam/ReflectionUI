@@ -66,6 +66,15 @@ public class CheckBoxControl extends JCheckBox implements IFieldControl {
 	public boolean handlesModificationStackUpdate() {
 		return false;
 	}
+
+	@Override
+	public Object getFocusDetails() {
+		return null;
+	}
+
+	@Override
+	public void requestDetailedFocus(Object focusDetails) {
+	}
 	
 	
 }
