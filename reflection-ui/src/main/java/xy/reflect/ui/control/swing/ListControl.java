@@ -130,7 +130,10 @@ public class ListControl extends JPanel implements IFieldControl {
 		this.field = field;
 
 		initializeTreeTableControl();
+		toolbar = new JPanel();
+		detailsArea = new JPanel();
 		layoutControls();
+
 		refreshStructure();
 		if (getDetailsAccessMode().hasDetailsDisplayOption()) {
 			openDetailsDialogOnItemDoubleClick();
@@ -165,31 +168,33 @@ public class ListControl extends JPanel implements IFieldControl {
 	protected void layoutControls() {
 		setLayout(new BorderLayout());
 		if (getDetailsAccessMode().hasDetailsDisplayArea()) {
-			detailsArea = new JPanel();
-			detailsArea.setLayout(new BorderLayout());
+			JPanel listPanel = new JPanel();
+			listPanel.setLayout(new BorderLayout());
+			listPanel.add(BorderLayout.CENTER, treeTableComponent);
+			listPanel.add(toolbar, BorderLayout.EAST);
 			final JSplitPane splitPane = new JSplitPane();
 			add(splitPane, BorderLayout.CENTER);
 			final double dividerLocation;
 			if (getDetailsAccessMode().getDetailsAreaPosition() == ItemDetailsAreaPosition.RIGHT) {
 				splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-				splitPane.setLeftComponent(new JScrollPane(treeTableComponent));
+				splitPane.setLeftComponent(new JScrollPane(listPanel));
 				splitPane.setRightComponent(new JScrollPane(detailsArea));
-				dividerLocation = 1.0 - getDetailsAccessMode().getDetailsAreaOccupationRatio();
+				dividerLocation = 1.0 - getDetailsAccessMode().getDefaultDetailsAreaOccupationRatio();
 			} else if (getDetailsAccessMode().getDetailsAreaPosition() == ItemDetailsAreaPosition.LEFT) {
 				splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-				splitPane.setRightComponent(new JScrollPane(treeTableComponent));
+				splitPane.setRightComponent(new JScrollPane(listPanel));
 				splitPane.setLeftComponent(new JScrollPane(detailsArea));
-				dividerLocation = getDetailsAccessMode().getDetailsAreaOccupationRatio();
+				dividerLocation = getDetailsAccessMode().getDefaultDetailsAreaOccupationRatio();
 			} else if (getDetailsAccessMode().getDetailsAreaPosition() == ItemDetailsAreaPosition.BOTTOM) {
 				splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-				splitPane.setTopComponent(new JScrollPane(treeTableComponent));
+				splitPane.setTopComponent(new JScrollPane(listPanel));
 				splitPane.setBottomComponent(new JScrollPane(detailsArea));
-				dividerLocation = 1.0 - getDetailsAccessMode().getDetailsAreaOccupationRatio();
+				dividerLocation = 1.0 - getDetailsAccessMode().getDefaultDetailsAreaOccupationRatio();
 			} else if (getDetailsAccessMode().getDetailsAreaPosition() == ItemDetailsAreaPosition.TOP) {
 				splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-				splitPane.setBottomComponent(new JScrollPane(treeTableComponent));
+				splitPane.setBottomComponent(new JScrollPane(listPanel));
 				splitPane.setTopComponent(new JScrollPane(detailsArea));
-				dividerLocation = getDetailsAccessMode().getDetailsAreaOccupationRatio();
+				dividerLocation = getDetailsAccessMode().getDefaultDetailsAreaOccupationRatio();
 			} else {
 				throw new ReflectionUIError();
 			}
@@ -201,9 +206,8 @@ public class ListControl extends JPanel implements IFieldControl {
 			});
 		} else {
 			add(new JScrollPane(treeTableComponent), BorderLayout.CENTER);
+			add(toolbar, BorderLayout.EAST);
 		}
-		toolbar = new JPanel();
-		add(toolbar, BorderLayout.EAST);
 	}
 
 	@Override
@@ -253,7 +257,6 @@ public class ListControl extends JPanel implements IFieldControl {
 			AbstractStandardListAction moveUpAction = createMoveAction(-1);
 			AbstractStandardListAction moveDownAction = createMoveAction(1);
 			if (moveUpAction.isEnabled() || moveDownAction.isEnabled()) {
-				toolbar.add(new JSeparator());
 				toolbar.add(createTool(null, SwingRendererUtils.UP_ICON, true, false, moveUpAction));
 				toolbar.add(createTool(null, SwingRendererUtils.DOWN_ICON, true, false, moveDownAction));
 			}
@@ -261,7 +264,8 @@ public class ListControl extends JPanel implements IFieldControl {
 
 		List<AbstractListProperty> dynamicProperties = getRootListType().getDynamicProperties(object, field,
 				getSelection());
-		if (dynamicProperties.size() > 0) {
+		List<AbstractListAction> dynamicActions = getRootListType().getDynamicActions(object, field, getSelection());
+		if ((dynamicProperties.size() > 0) || (dynamicActions.size() > 0)) {
 			toolbar.add(new JSeparator());
 			for (AbstractListProperty listProperty : getRootListType().getDynamicProperties(object, field,
 					getSelection())) {
@@ -269,11 +273,6 @@ public class ListControl extends JPanel implements IFieldControl {
 				toolbar.add(createTool((String) dynamicPropertyHook.getValue(AbstractAction.NAME), null, true, false,
 						dynamicPropertyHook));
 			}
-		}
-
-		List<AbstractListAction> dynamicActions = getRootListType().getDynamicActions(object, field, getSelection());
-		if (dynamicActions.size() > 0) {
-			toolbar.add(new JSeparator());
 			for (AbstractListAction listAction : dynamicActions) {
 				AbstractAction dynamicActionHook = createDynamicActionHook(listAction);
 				toolbar.add(createTool((String) dynamicActionHook.getValue(AbstractAction.NAME), null, true, false,
@@ -281,18 +280,22 @@ public class ListControl extends JPanel implements IFieldControl {
 			}
 		}
 
-		toolbar.add(new JSeparator());
+		toolbar.add(new JSeparator(JSeparator.VERTICAL));
 
 		for (int i = 0; i < toolbar.getComponentCount(); i++) {
 			Component c = toolbar.getComponent(i);
 			GridBagConstraints constraints = new GridBagConstraints();
 			constraints.gridx = 0;
 			if (c instanceof JSeparator) {
-				constraints.gridx = 0;
-				constraints.weighty = 1;
+				JSeparator separator = (JSeparator) c;
+				if (separator.getOrientation() == JSeparator.HORIZONTAL) {
+					constraints.insets = new Insets(10, 0, 10, 0);
+				} else {
+					constraints.weighty = 1;
+				}
 			} else {
 				constraints.fill = GridBagConstraints.HORIZONTAL;
-				constraints.insets = new Insets(0, 5, 0, 5);
+				constraints.insets = new Insets(1, 5, 1, 5);
 			}
 			layout.setConstraints(c, constraints);
 		}

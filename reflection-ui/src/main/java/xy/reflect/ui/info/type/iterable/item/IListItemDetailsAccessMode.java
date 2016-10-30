@@ -8,6 +8,6 @@ public interface IListItemDetailsAccessMode {
 
 	ItemDetailsAreaPosition getDetailsAreaPosition();
 
-	double getDetailsAreaOccupationRatio();
+	double getDefaultDetailsAreaOccupationRatio();
 
 }

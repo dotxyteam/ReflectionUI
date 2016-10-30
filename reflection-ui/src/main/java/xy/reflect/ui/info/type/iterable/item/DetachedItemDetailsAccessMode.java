@@ -19,7 +19,7 @@ public class DetachedItemDetailsAccessMode implements IListItemDetailsAccessMode
 	}
 
 	@Override
-	public double getDetailsAreaOccupationRatio() {
+	public double getDefaultDetailsAreaOccupationRatio() {
 		return 0;
 	}
 

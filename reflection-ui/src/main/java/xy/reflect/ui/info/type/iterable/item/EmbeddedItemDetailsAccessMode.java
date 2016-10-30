@@ -3,7 +3,7 @@ package xy.reflect.ui.info.type.iterable.item;
 public class EmbeddedItemDetailsAccessMode implements IListItemDetailsAccessMode {
 
 	protected ItemDetailsAreaPosition detailsAreaPosition = ItemDetailsAreaPosition.RIGHT;
-	protected double detailsAreaOccupationRatio = 0.66;
+	protected double defaultDetailsAreaOccupationRatio = 0.66;
 
 	@Override
 	public boolean hasDetailsDisplayOption() {
@@ -23,13 +23,14 @@ public class EmbeddedItemDetailsAccessMode implements IListItemDetailsAccessMode
 		this.detailsAreaPosition = detailsAreaPosition;
 	}
 
-	@Override
-	public double getDetailsAreaOccupationRatio() {
-		return detailsAreaOccupationRatio;
+	public double getDefaultDetailsAreaOccupationRatio() {
+		return defaultDetailsAreaOccupationRatio;
 	}
 
-	public void setDetailsAreaOccupationRatio(double detailsAreaOccupationRatio) {
-		this.detailsAreaOccupationRatio = detailsAreaOccupationRatio;
+	public void setDefaultDetailsAreaOccupationRatio(double defaultDetailsAreaOccupationRatio) {
+		this.defaultDetailsAreaOccupationRatio = defaultDetailsAreaOccupationRatio;
 	}
+
+	
 
 }
