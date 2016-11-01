@@ -27,6 +27,7 @@ import javax.swing.SwingUtilities;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.SwingRenderer.MethodControlPlaceHolder;
+import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -275,14 +276,14 @@ public class SwingCustomizer extends SwingRenderer {
 				@Override
 				public Object getValue(Object object) {
 					FieldCustomization f = (FieldCustomization) object;
-					return SwingSpecificProperty
-							.isSubFormExpanded(SwingSpecificProperty.accessCustomizationsProperties(f));
+					return DesktopSpecificProperty
+							.isSubFormExpanded(DesktopSpecificProperty.accessCustomizationsProperties(f));
 				}
 
 				@Override
 				public void setValue(Object object, Object value) {
 					FieldCustomization f = (FieldCustomization) object;
-					SwingSpecificProperty.setSubFormExpanded(SwingSpecificProperty.accessCustomizationsProperties(f),
+					DesktopSpecificProperty.setSubFormExpanded(DesktopSpecificProperty.accessCustomizationsProperties(f),
 							(Boolean) value);
 				}
 
@@ -355,8 +356,8 @@ public class SwingCustomizer extends SwingRenderer {
 				@Override
 				public Object getValue(Object object) {
 					TypeCustomization t = (TypeCustomization) object;
-					return SwingSpecificProperty
-							.getIconImageFile(SwingSpecificProperty.accessCustomizationsProperties(t));
+					return DesktopSpecificProperty
+							.getIconImageFile(DesktopSpecificProperty.accessCustomizationsProperties(t));
 				}
 
 				@Override
@@ -367,7 +368,7 @@ public class SwingCustomizer extends SwingRenderer {
 				@Override
 				public void setValue(Object object, Object value) {
 					TypeCustomization t = (TypeCustomization) object;
-					SwingSpecificProperty.setIconImageFile(SwingSpecificProperty.accessCustomizationsProperties(t),
+					DesktopSpecificProperty.setIconImageFile(DesktopSpecificProperty.accessCustomizationsProperties(t),
 							(File) value);
 				}
 

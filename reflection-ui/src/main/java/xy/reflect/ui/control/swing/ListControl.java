@@ -57,6 +57,7 @@ import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.jdesktop.swingx.treetable.TreeTableModel;
 
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
+import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -1800,7 +1801,7 @@ public class ListControl extends JPanel implements IFieldControl {
 			@Override
 			public Map<String, Object> getSpecificProperties() {
 				Map<String, Object> properties = new HashMap<String, Object>();
-				SwingSpecificProperty.setSubFormExpanded(properties, true);
+				DesktopSpecificProperty.setSubFormExpanded(properties, true);
 				return properties;
 			}
 

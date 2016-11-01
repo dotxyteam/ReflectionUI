@@ -36,7 +36,7 @@ import javax.swing.ToolTipManager;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.SwingRenderer;
-import xy.reflect.ui.control.swing.SwingSpecificProperty;
+import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.FieldInfoProxy;
@@ -275,7 +275,7 @@ public class SwingRendererUtils {
 	}
 
 	public static Image getIconImageFromInfo(IInfo info) {
-		return SwingSpecificProperty.getIconImage(SwingSpecificProperty.accessInfoProperties(info));
+		return SwingRendererUtils.getIconImageFromProperties(DesktopSpecificProperty.accessInfoProperties(info));
 	}
 
 	public static Object invokeMethodAndAllowToUndo(Object object, IMethodInfo method, InvocationData invocationData,
@@ -356,5 +356,79 @@ public class SwingRendererUtils {
 
 	public static boolean isForm(Component c, SwingRenderer swingRenderer) {
 		return swingRenderer.getObjectByForm().keySet().contains(c);
+	}
+
+	public static Image getIconImageFromProperties(Map<String, Object> properties) {
+		Image result;
+		URL imageUrl;
+		String imagePath = (String) properties.get(DesktopSpecificProperty.KEY_ICON_IMAGE_PATH);
+		String pathKind = (String) properties.get(DesktopSpecificProperty.KEY_ICON_IMAGE_PATH_KIND);
+		if (imagePath == null) {
+			return null;
+		}
+		if (DesktopSpecificProperty.VALUE_PATH_TYPE_KIND_CLASSPATH_RESOURCE.equals(pathKind)) {
+			imageUrl = SwingRendererUtils.class.getClassLoader().getResource(imagePath);
+		} else {
+			try {
+				imageUrl = new File(imagePath).toURI().toURL();
+			} catch (MalformedURLException e) {
+				throw new ReflectionUIError(e);
+			}
+		}
+		result = DesktopSpecificProperty.iconImageCache.get(imagePath);
+		if (result == null) {
+			try {
+				result = ImageIO.read(imageUrl);
+			} catch (IOException e) {
+				e.printStackTrace();
+				result = DesktopSpecificProperty.NULL_ICON_IMAGE;
+			}
+			DesktopSpecificProperty.iconImageCache.put(imagePath, result);
+		}
+		if (result == DesktopSpecificProperty.NULL_ICON_IMAGE) {
+			return null;
+		}
+		return result;
+	}
+
+	public static Image getIconImage(Map<String, Object> properties) {
+		Image result;
+		result = (Image) properties.get(DesktopSpecificProperty.KEY_ICON_IMAGE);
+		if (result != null) {
+			return result;
+		}
+		URL imageUrl;
+		String imagePath = (String) properties.get(DesktopSpecificProperty.KEY_ICON_IMAGE_PATH);
+		String pathKind = (String) properties.get(DesktopSpecificProperty.KEY_ICON_IMAGE_PATH_KIND);
+		if (imagePath == null) {
+			return null;
+		}
+		if (DesktopSpecificProperty.VALUE_PATH_TYPE_KIND_CLASSPATH_RESOURCE.equals(pathKind)) {
+			imageUrl = SwingRendererUtils.class.getClassLoader().getResource(imagePath);
+		} else {
+			try {
+				imageUrl = new File(imagePath).toURI().toURL();
+			} catch (MalformedURLException e) {
+				throw new ReflectionUIError(e);
+			}
+		}
+		result = DesktopSpecificProperty.iconImageCache.get(imagePath);
+		if (result == null) {
+			try {
+				result = ImageIO.read(imageUrl);
+			} catch (IOException e) {
+				e.printStackTrace();
+				result = DesktopSpecificProperty.NULL_ICON_IMAGE;
+			}
+			DesktopSpecificProperty.iconImageCache.put(imagePath, result);
+		}
+		if (result == DesktopSpecificProperty.NULL_ICON_IMAGE) {
+			return null;
+		}
+		return result;
+	}
+
+	public static void setIconImage(Map<String, Object> properties, Image image) {
+		properties.put(DesktopSpecificProperty.KEY_ICON_IMAGE, image);		
 	}
 }

@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,6 +49,7 @@ import org.jdesktop.swingx.JXBusyLabel;
 import com.google.common.collect.MapMaker;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.FieldInfoProxy;
@@ -443,7 +445,7 @@ public class SwingRenderer {
 		if (customFieldControl != null) {
 			return customFieldControl;
 		} else {
-			if (SwingSpecificProperty.isSubFormExpanded(SwingSpecificProperty.accessInfoProperties(field))) {
+			if (DesktopSpecificProperty.isSubFormExpanded(DesktopSpecificProperty.accessInfoProperties(field))) {
 				return new EmbeddedFormControl(this, object, field);
 			} else {
 				return new DialogAccessControl(this, object, field);
@@ -902,9 +904,9 @@ public class SwingRenderer {
 									public Map<String, Object> getSpecificProperties() {
 										Map<String, Object> result = new HashMap<String, Object>(
 												baseValueInfo.getSpecificProperties());
-										Image iconImage = SwingSpecificProperty.getIconImage(
-												SwingSpecificProperty.accessInfoProperties(polyTypesItem));
-										SwingSpecificProperty.setIconImage(result, iconImage);
+										File iconImageFile = DesktopSpecificProperty.getIconImageFile(
+												DesktopSpecificProperty.accessInfoProperties(polyTypesItem));
+										DesktopSpecificProperty.setIconImageFile(result, iconImageFile);
 										return result;
 									}
 
@@ -1134,7 +1136,7 @@ public class SwingRenderer {
 					@Override
 					public Map<String, Object> getSpecificProperties() {
 						Map<String, Object> properties = new HashMap<String, Object>();
-						SwingSpecificProperty.setIconImage(properties, iconImages.get(object));
+						SwingRendererUtils.setIconImage(properties, iconImages.get(object));
 						return properties;
 					}
 

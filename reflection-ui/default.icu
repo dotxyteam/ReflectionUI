@@ -289,7 +289,7 @@
     <typeCustomizations>
         <specificProperties>
             <entry>
-                <key>SwingSpecificProperty.HIDE_UNDO_MANAGEMENT_CONTROLS</key>
+                <key>DesktopSpecificProperty.HIDE_UNDO_MANAGEMENT_CONTROLS</key>
                 <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">false</value>
             </entry>
         </specificProperties>
@@ -350,7 +350,7 @@
         <fieldsCustomizations>
             <specificProperties>
                 <entry>
-                    <key>SwingSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
                     <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
                 </entry>
             </specificProperties>
