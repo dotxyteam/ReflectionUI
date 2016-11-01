@@ -59,6 +59,7 @@ import org.jdesktop.swingx.treetable.TreeTableModel;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.IInfoCollectionSettings;
+import xy.reflect.ui.info.ValueAccessMode;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -170,7 +171,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		if (getDetailsAccessMode().hasDetailsDisplayArea()) {
 			JPanel listPanel = new JPanel();
 			listPanel.setLayout(new BorderLayout());
-			listPanel.add(BorderLayout.CENTER, treeTableComponent);
+			listPanel.add(BorderLayout.CENTER, new JScrollPane(treeTableComponent));
 			listPanel.add(toolbar, BorderLayout.EAST);
 			final JSplitPane splitPane = new JSplitPane();
 			add(splitPane, BorderLayout.CENTER);
@@ -246,7 +247,7 @@ public class ListControl extends JPanel implements IFieldControl {
 			}
 		}
 
-		if (!UpdateListValueModification.isContainingListItemsLocked(getRootListItemPosition())) {
+		if (UpdateListValueModification.isCompatibleWith(getRootListItemPosition())) {
 			AbstractAction addChildAction = createAddChildAction();
 			AbstractAction insertAction = createInsertAction(InsertPosition.UNKNOWN);
 			AbstractAction insertActionBefore = createInsertAction(InsertPosition.BEFORE);
@@ -687,11 +688,11 @@ public class ListControl extends JPanel implements IFieldControl {
 		return result;
 	}
 
-	protected boolean anySelectionItemContainingListReadOnly() {
+	protected boolean anySelectionItemContainingListGetOnly() {
 		boolean result = false;
 		List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
 		for (AutoFieldValueUpdatingItemPosition selectionItem : selection) {
-			if (UpdateListValueModification.isContainingListItemsLocked(selectionItem)) {
+			if (!UpdateListValueModification.isCompatibleWith(selectionItem)) {
 				result = true;
 				break;
 			}
@@ -776,7 +777,7 @@ public class ListControl extends JPanel implements IFieldControl {
 			@Override
 			public boolean isValid() {
 				if (getRootList().size() > 0) {
-					if (!UpdateListValueModification.isContainingListItemsLocked(getRootListItemPosition())) {
+					if (UpdateListValueModification.isCompatibleWith(getRootListItemPosition())) {
 						if (getRootListType().canRemove()) {
 							return true;
 						}
@@ -828,7 +829,7 @@ public class ListControl extends JPanel implements IFieldControl {
 			public boolean isValid() {
 				List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
 				if (selection.size() > 0) {
-					if (!anySelectionItemContainingListReadOnly()) {
+					if (!anySelectionItemContainingListGetOnly()) {
 						if (allSelectionItemsInSameList()) {
 							if (selection.get(0).getContainingListType().isOrdered()) {
 								boolean canMoveAllItems = true;
@@ -997,7 +998,7 @@ public class ListControl extends JPanel implements IFieldControl {
 				}
 				if (selection.size() > 0) {
 					for (AutoFieldValueUpdatingItemPosition selectionItem : selection) {
-						if (UpdateListValueModification.isContainingListItemsLocked(selectionItem)) {
+						if (!UpdateListValueModification.isCompatibleWith(selectionItem)) {
 							return false;
 						}
 						if (!selectionItem.getContainingListType().canRemove()) {
@@ -1174,7 +1175,7 @@ public class ListControl extends JPanel implements IFieldControl {
 				AutoFieldValueUpdatingItemPosition newItemPosition = getNewItemPosition();
 				if (newItemPosition != null) {
 					if (newItemPosition.getContainingListType().canAdd()) {
-						if (!UpdateListValueModification.isContainingListItemsLocked(newItemPosition)) {
+						if (UpdateListValueModification.isCompatibleWith(newItemPosition)) {
 							if (insertPosition == InsertPosition.BEFORE) {
 								if (newItemPosition.getContainingListType().isOrdered()) {
 									return true;
@@ -1255,7 +1256,7 @@ public class ListControl extends JPanel implements IFieldControl {
 				if (subItemPosition == null) {
 					return false;
 				}
-				if (UpdateListValueModification.isContainingListItemsLocked(subItemPosition)) {
+				if (!UpdateListValueModification.isCompatibleWith(subItemPosition)) {
 					return false;
 				}
 				if (!subItemPosition.getContainingListType().canAdd()) {
@@ -1405,7 +1406,7 @@ public class ListControl extends JPanel implements IFieldControl {
 				List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
 				if (selection.size() > 0) {
 					if (canCopyAllSelection()) {
-						if (!anySelectionItemContainingListReadOnly()) {
+						if (!anySelectionItemContainingListGetOnly()) {
 							return true;
 						}
 					}
@@ -1486,7 +1487,7 @@ public class ListControl extends JPanel implements IFieldControl {
 				if (clipboard.size() > 0) {
 					AutoFieldValueUpdatingItemPosition newItemPosition = getNewItemPosition();
 					if (newItemPosition != null) {
-						if (!UpdateListValueModification.isContainingListItemsLocked(newItemPosition)) {
+						if (UpdateListValueModification.isCompatibleWith(newItemPosition)) {
 							if (itemPositionSupportsAllClipboardItems(newItemPosition)) {
 								if (newItemPosition.getContainingListType().isOrdered()) {
 									if (insertPosition == InsertPosition.BEFORE) {
@@ -1566,7 +1567,7 @@ public class ListControl extends JPanel implements IFieldControl {
 				if (clipboard.size() > 0) {
 					AutoFieldValueUpdatingItemPosition newItemPosition = getNewItemPosition();
 					if (newItemPosition != null) {
-						if (!UpdateListValueModification.isContainingListItemsLocked(newItemPosition)) {
+						if (UpdateListValueModification.isCompatibleWith(newItemPosition)) {
 							if (itemPositionSupportsAllClipboardItems(newItemPosition)) {
 								return true;
 							}
@@ -1619,8 +1620,9 @@ public class ListControl extends JPanel implements IFieldControl {
 							dynamicProperty, propertyValueHolder[0]);
 				}
 				boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.isOkPressed();
+				ValueAccessMode childValueAccessMode = dynamicProperty.getValueAccessMode();
 				return ReflectionUIUtils.integrateSubModifications(parentModifStack, childModifStack,
-						childModifAccepted, commitModif, childModifTarget, null);
+						childModifAccepted, childValueAccessMode, commitModif, childModifTarget, null);
 			}
 
 			@Override
@@ -1678,7 +1680,7 @@ public class ListControl extends JPanel implements IFieldControl {
 				ModificationStack childModifStack = dialogStatus.getModificationStack();
 				IInfo childModifTarget = field;
 				IModification commitModif;
-				if (UpdateListValueModification.isContainingListItemsLocked(itemPosition)) {
+				if (!UpdateListValueModification.isCompatibleWith(itemPosition)) {
 					commitModif = null;
 				} else {
 					Object[] listRawValue = itemPosition.getContainingListRawValue();
@@ -1688,8 +1690,9 @@ public class ListControl extends JPanel implements IFieldControl {
 				}
 				toPostSelectHolder[0] = Collections.singletonList(itemPosition);
 				boolean childModifAccepted = (!dialogStatus.isCancellable()) || dialogStatus.isOkPressed();
+				ValueAccessMode childValueAccessMode = itemPosition.getContainingListField().getValueAccessMode();
 				return ReflectionUIUtils.integrateSubModifications(parentModifStack, childModifStack,
-						childModifAccepted, commitModif, childModifTarget, null);
+						childModifAccepted, childValueAccessMode, commitModif, childModifTarget, null);
 
 			}
 
@@ -1791,7 +1794,7 @@ public class ListControl extends JPanel implements IFieldControl {
 
 			@Override
 			public boolean isGetOnly() {
-				return UpdateListValueModification.isContainingListItemsLocked(detailsControlItemPosition);
+				return !UpdateListValueModification.isCompatibleWith(detailsControlItemPosition);
 			}
 
 			@Override
@@ -1870,7 +1873,7 @@ public class ListControl extends JPanel implements IFieldControl {
 		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, itemPosition.getItem());
 
 		dialogBuilder.setInfoSettings(getStructuralInfo().getItemInfoSettings(itemPosition));
-		dialogBuilder.setGetOnly(UpdateListValueModification.isContainingListItemsLocked(itemPosition));
+		dialogBuilder.setGetOnly(!UpdateListValueModification.isCompatibleWith(itemPosition));
 		dialogBuilder.setCancellable(dialogBuilder.getDisplayValueType().isModificationStackAccessible());
 
 		return dialogBuilder;
@@ -2127,8 +2130,8 @@ public class ListControl extends JPanel implements IFieldControl {
 		}
 
 		@Override
-		public int getNumberOfUnits() {
-			return 1;
+		public boolean isNull() {
+			return false;
 		}
 
 	}

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ValueAccessMode;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -49,6 +50,11 @@ public abstract class AbstractListAction implements IMethodInfo {
 	@Override
 	public boolean isReadOnly() {
 		return false;
+	}
+
+	@Override
+	public ValueAccessMode getReturnValueAccessMode() {
+		return ValueAccessMode.PROXY;
 	}
 
 	@Override

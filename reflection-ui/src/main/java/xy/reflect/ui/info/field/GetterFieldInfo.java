@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ValueAccessMode;
 import xy.reflect.ui.info.annotation.ValueOptionsForField;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -104,6 +105,11 @@ public class GetterFieldInfo implements IFieldInfo {
 	@Override
 	public boolean isGetOnly() {
 		return getSetterMethodInfo() == null;
+	}
+
+	@Override
+	public ValueAccessMode getValueAccessMode() {
+		return ValueAccessMode.PROXY;
 	}
 
 	@Override

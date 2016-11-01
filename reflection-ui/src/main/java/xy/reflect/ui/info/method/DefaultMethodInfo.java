@@ -10,6 +10,7 @@ import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ValueAccessMode;
 import xy.reflect.ui.info.annotation.ValueOptionsForField;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.parameter.DefaultParameterInfo;
@@ -134,6 +135,11 @@ public class DefaultMethodInfo implements IMethodInfo {
 	@Override
 	public boolean isReadOnly() {
 		return Modifier.isStatic(javaMethod.getModifiers());
+	}
+
+	@Override
+	public ValueAccessMode getReturnValueAccessMode() {
+		return ValueAccessMode.SELF;
 	}
 
 	public static boolean isCompatibleWith(Method javaMethod,

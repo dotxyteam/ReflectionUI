@@ -219,6 +219,16 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <typeName>EncapsulatedObjectFactory [fieldType=Field Customization, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
         <typeName>EncapsulatedObjectFactory [fieldType=Input, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -230,6 +240,16 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>EncapsulatedObjectFactory [fieldType=List Structure Customization, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulatedObjectFactory [fieldType=Method Customization, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -621,6 +641,10 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>xy.reflect.ui.control.swing.SwingCustomizer$CustomizationTools$1ColumnSetting</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>xy.reflect.ui.info.ValueAccessMode</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1201,6 +1225,7 @@
         <customFieldsOrder>category</customFieldsOrder>
         <customFieldsOrder>valueOptionsFieldName</customFieldsOrder>
         <customFieldsOrder>onlineHelp</customFieldsOrder>
+        <customFieldsOrder>customValueAccessMode</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <fieldName>category</fieldName>
@@ -1221,6 +1246,19 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
+            <category>
+                <caption>Advanced</caption>
+            </category>
+            <hidden>false</hidden>
+            <customFieldCaption>Change Value Access Mode</customFieldCaption>
+            <fieldName>customValueAccessMode</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Advanced</caption>
+            </category>
             <hidden>false</hidden>
             <customFieldCaption>Display Sub-Form </customFieldCaption>
             <fieldName>expandSubForm</fieldName>
@@ -1248,6 +1286,9 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
+            <category>
+                <caption>Advanced</caption>
+            </category>
             <hidden>false</hidden>
             <customFieldCaption>Hide Nullable Facet</customFieldCaption>
             <fieldName>nullableFacetHidden</fieldName>
@@ -1273,11 +1314,17 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
+            <category>
+                <caption>Advanced</caption>
+            </category>
             <hidden>false</hidden>
             <fieldName>valueOptionsFieldName</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <memberCategories>
+            <caption>Advanced</caption>
+        </memberCategories>
         <methodsCustomizations>
             <hidden>true</hidden>
             <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization)</methodSignature>
@@ -1519,7 +1566,7 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <customFieldCaption>Alternate Item Details View Mode</customFieldCaption>
+            <customFieldCaption>Change Item Details View Mode</customFieldCaption>
             <fieldName>customDetailsAccessMode</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1724,6 +1771,7 @@
         <customFieldsOrder>parametersCustomizations</customFieldsOrder>
         <customFieldsOrder>category</customFieldsOrder>
         <customFieldsOrder>onlineHelp</customFieldsOrder>
+        <customFieldsOrder>customReturnValueAccessMode</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <fieldName>category</fieldName>
@@ -1739,6 +1787,15 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <fieldName>customMethodCaption</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Advanced</caption>
+            </category>
+            <hidden>false</hidden>
+            <fieldName>customReturnValueAccessMode</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
@@ -1791,6 +1848,9 @@
         </fieldsCustomizations>
         <memberCategories>
             <caption>Parameters</caption>
+        </memberCategories>
+        <memberCategories>
+            <caption>Advanced</caption>
         </memberCategories>
         <methodsCustomizations>
             <hidden>true</hidden>

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ValueAccessMode;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -67,6 +68,10 @@ public class MethodInfoProxy implements IMethodInfo {
 	@Override
 	public boolean isReadOnly() {
 		return base.isReadOnly();
+	}
+
+	public ValueAccessMode getReturnValueAccessMode() {
+		return base.getReturnValueAccessMode();
 	}
 
 	@Override

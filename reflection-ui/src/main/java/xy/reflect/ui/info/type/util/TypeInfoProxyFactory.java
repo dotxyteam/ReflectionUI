@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ValueAccessMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -149,6 +150,10 @@ public class TypeInfoProxyFactory {
 		return field.isGetOnly();
 	}
 
+	protected ValueAccessMode getValueAccessMode(IFieldInfo field, ITypeInfo containingType) {
+		return field.getValueAccessMode();
+	}
+
 	protected void setValue(Object object, Object value, IFieldInfo field, ITypeInfo containingType) {
 		field.setValue(object, value);
 	}
@@ -187,6 +192,10 @@ public class TypeInfoProxyFactory {
 
 	protected boolean isReadOnly(IMethodInfo method, ITypeInfo containingType) {
 		return method.isReadOnly();
+	}
+
+	protected ValueAccessMode getReturnValueAccessMode(IMethodInfo method, ITypeInfo containingType) {
+		return method.getReturnValueAccessMode();
 	}
 
 	protected Object invoke(Object object, InvocationData invocationData, IMethodInfo method,
@@ -259,12 +268,10 @@ public class TypeInfoProxyFactory {
 	protected IListStructuralInfo getStructuralInfo(IListTypeInfo type) {
 		return type.getStructuralInfo();
 	}
-	
+
 	protected IListItemDetailsAccessMode getDetailsAccessMode(IListTypeInfo type) {
 		return type.getDetailsAccessMode();
 	}
-	
-	
 
 	protected boolean isOrdered(IListTypeInfo type) {
 		return type.isOrdered();
@@ -789,6 +796,11 @@ public class TypeInfoProxyFactory {
 		}
 
 		@Override
+		public ValueAccessMode getValueAccessMode() {
+			return TypeInfoProxyFactory.this.getValueAccessMode(field, containingType);
+		}
+
+		@Override
 		public boolean isNullable() {
 			return TypeInfoProxyFactory.this.isNullable(field, containingType);
 		}
@@ -896,6 +908,11 @@ public class TypeInfoProxyFactory {
 		@Override
 		public boolean isReadOnly() {
 			return TypeInfoProxyFactory.this.isReadOnly(method, containingType);
+		}
+
+		@Override
+		public ValueAccessMode getReturnValueAccessMode() {
+			return TypeInfoProxyFactory.this.getReturnValueAccessMode(method, containingType);
 		}
 
 		@Override

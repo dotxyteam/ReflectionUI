@@ -55,6 +55,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ValueAccessMode;
 import xy.reflect.ui.info.annotation.Category;
 import xy.reflect.ui.info.annotation.Hidden;
 import xy.reflect.ui.info.annotation.OnlineHelp;
@@ -979,47 +980,59 @@ public class ReflectionUIUtils {
 	}
 
 	public static boolean integrateSubModifications(final ModificationStack parentModifStack,
-			final ModificationStack childModifStack, boolean childModifAccepted, final IModification commitModif,
-			IInfo childModifTarget, String childModifTitle) {
-		if ((childModifStack != null) && !childModifStack.isNull()) {
-			if (parentModifStack != null) {
-				if (childModifStack.isInvalidated()) {
-					if (childModifAccepted) {
-						if (commitModif != null) {
-							commitModif.applyAndGetOpposite();
-						}
-					}
-					parentModifStack.invalidate();
-				} else {
-					parentModifStack.insideComposite(childModifTarget, childModifTitle + "'", UndoOrder.FIFO,
-							new Accessor<Boolean>() {
-								@Override
-								public Boolean get() {
+			final ModificationStack childModifStack, boolean childModifAccepted,
+			final ValueAccessMode childValueAccessMode, final IModification commitModif, IInfo childModifTarget,
+			String subModifTitle) {
+
+		if (parentModifStack == null) {
+			throw new ReflectionUIError();
+		}
+		if (childModifStack == null) {
+			throw new ReflectionUIError();
+		}
+
+		boolean parentValueImpacted = false;
+		if (childModifAccepted) {
+			if (!childModifStack.isNull()) {
+				parentValueImpacted = parentModifStack.insideComposite(childModifTarget, subModifTitle + "'",
+						UndoOrder.FIFO, new Accessor<Boolean>() {
+							@Override
+							public Boolean get() {
+								if (childValueAccessMode != ValueAccessMode.SELF) {
 									if (commitModif != null) {
 										parentModifStack.apply(commitModif);
 									}
-									parentModifStack.pushUndo(childModifStack.toCompositeModification(null, null));
-									return true;
 								}
-							});
-				}
-			} else {
-				if (childModifAccepted) {
-					if (commitModif != null) {
-						commitModif.applyAndGetOpposite();
+								if (childValueAccessMode != ValueAccessMode.COPY) {
+									if (childModifStack.wasInvalidated()) {
+										parentModifStack.invalidate();
+									} else {
+										parentModifStack.pushUndo(childModifStack.toCompositeModification(null, null));
+									}
+								}
+								return true;
+							}
+						});
+			}
+		} else {
+			if (!childModifStack.isNull()) {
+				if (childValueAccessMode != ValueAccessMode.COPY) {
+					if (!childModifStack.wasInvalidated()) {
+						childModifStack.undoAll();
+					} else {
+						parentModifStack.invalidate();
+						parentValueImpacted = true;
 					}
 				}
 			}
-			return true;
-		} else {
-			return false;
 		}
-
+		return parentValueImpacted;
 	}
 
 	public static void forwardSubModifications(final JPanel subForm, final Accessor<Boolean> childModifAcceptedGetter,
+			final Accessor<ValueAccessMode> childValueValueAccessModeGetter,
 			final Accessor<IModification> commitModifGetter, final IInfo childModifTarget,
-			final SwingRenderer swingRenderer) {
+			final String parentModifTitle, final SwingRenderer swingRenderer) {
 		final ModificationStack parentModifStack = SwingRendererUtils
 				.findParentFormModificationStack(subForm.getParent(), swingRenderer);
 		if (parentModifStack == null) {
@@ -1037,8 +1050,8 @@ public class ReflectionUIUtils {
 				public void ancestorAdded(AncestorEvent event) {
 					if (SwingRendererUtils.findParentFormModificationStack(subForm, swingRenderer) != null) {
 						subForm.removeAncestorListener(this);
-						forwardSubModifications(subForm, childModifAcceptedGetter, commitModifGetter, childModifTarget,
-								swingRenderer);
+						forwardSubModifications(subForm, childModifAcceptedGetter, childValueValueAccessModeGetter,
+								commitModifGetter, childModifTarget, parentModifTitle, swingRenderer);
 					}
 				}
 			});
@@ -1046,14 +1059,18 @@ public class ReflectionUIUtils {
 			swingRenderer.getModificationStackByForm().put(subForm, new ModificationStack(null) {
 
 				@Override
-				public void pushUndo(IModification undoModif) {
+				public boolean pushUndo(IModification undoModif) {
 					ModificationStack childModifStack = new ModificationStack(null);
 					childModifStack.pushUndo(undoModif);
 					Boolean childModifAccepted = childModifAcceptedGetter.get();
+					ValueAccessMode childValueAccessMode = childValueValueAccessModeGetter.get();
 					IModification commitModif = commitModifGetter.get();
-					String childModifTitle = ModificationStack.getUndoTitle(undoModif.getTitle());
-					integrateSubModifications(parentModifStack, childModifStack, childModifAccepted, commitModif,
-							childModifTarget, childModifTitle);
+					String subModifTitle = ModificationStack.getUndoTitle(undoModif.getTitle());
+					if (parentModifTitle != null) {
+						subModifTitle = ReflectionUIUtils.composeTitle(parentModifTitle, subModifTitle);
+					}
+					return integrateSubModifications(parentModifStack, childModifStack, childModifAccepted,
+							childValueAccessMode, commitModif, childModifTarget, subModifTitle);
 				}
 
 				@Override
@@ -1062,13 +1079,13 @@ public class ReflectionUIUtils {
 				}
 
 				@Override
-				public void endComposite(IInfo target, String title, UndoOrder order) {
-					parentModifStack.endComposite(childModifTarget, title, order);
+				public boolean endComposite(IInfo target, String title, UndoOrder order) {
+					return parentModifStack.endComposite(childModifTarget, title, order);
 				}
 
 				@Override
-				public void cancelComposite() {
-					parentModifStack.cancelComposite();
+				public void abortComposite() {
+					parentModifStack.abortComposite();
 				}
 
 				@Override
@@ -1076,10 +1093,11 @@ public class ReflectionUIUtils {
 					ModificationStack childModifStack = new ModificationStack(null);
 					childModifStack.invalidate();
 					Boolean childModifAccepted = childModifAcceptedGetter.get();
+					ValueAccessMode childValueAccessMode = childValueValueAccessModeGetter.get();
 					IModification commitModif = commitModifGetter.get();
 					String childModifTitle = null;
-					integrateSubModifications(parentModifStack, childModifStack, childModifAccepted, commitModif,
-							childModifTarget, childModifTitle);
+					integrateSubModifications(parentModifStack, childModifStack, childModifAccepted,
+							childValueAccessMode, commitModif, childModifTarget, childModifTitle);
 				}
 
 			});

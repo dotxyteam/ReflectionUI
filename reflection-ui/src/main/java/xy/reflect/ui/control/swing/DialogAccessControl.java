@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.IInfoCollectionSettings;
+import xy.reflect.ui.info.ValueAccessMode;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -148,7 +149,16 @@ public class DialogAccessControl extends JPanel implements IFieldControl {
 		Object value = field.getValue(object);
 		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, value);
 		dialogBuilder.setGetOnly(field.isGetOnly());
-		dialogBuilder.setCancellable(dialogBuilder.getDisplayValueType().isModificationStackAccessible());
+		boolean cancellable = true;
+		{
+			if (!dialogBuilder.getDisplayValueType().isModificationStackAccessible()) {
+				cancellable = false;
+			}
+			if(field.isGetOnly() && (field.getValueAccessMode()==ValueAccessMode.COPY)){
+				cancellable = false;
+			}
+		}
+		dialogBuilder.setCancellable(cancellable);
 		swingRenderer.showDialog(dialogBuilder.build(), true);
 
 		ModificationStack parentModifStack = SwingRendererUtils
@@ -164,8 +174,9 @@ public class DialogAccessControl extends JPanel implements IFieldControl {
 					dialogBuilder.getValue());
 		}
 		boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.isOkPressed();
+		ValueAccessMode childValueAccessMode = field.getValueAccessMode();
 		if (ReflectionUIUtils.integrateSubModifications(parentModifStack, childModifStack, childModifAccepted,
-				commitModif, childModifTarget, childModifTitle)) {
+				childValueAccessMode, commitModif, childModifTarget, childModifTitle)) {
 			updateControls();
 		}
 	}

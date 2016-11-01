@@ -6,6 +6,7 @@ import java.util.Map;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ValueAccessMode;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
@@ -39,6 +40,12 @@ public interface IFieldInfo extends IInfo {
 		@Override
 		public boolean isNullable() {
 			return true;
+		}
+
+		
+		@Override
+		public ValueAccessMode getValueAccessMode() {
+			return ValueAccessMode.PROXY;
 		}
 
 		@Override
@@ -75,8 +82,6 @@ public interface IFieldInfo extends IInfo {
 		public String toString() {
 			return "NULL_FIELD_INFO";
 		}
-		
-		
 
 	};
 
@@ -87,12 +92,14 @@ public interface IFieldInfo extends IInfo {
 	Object[] getValueOptions(Object object);
 
 	void setValue(Object object, Object value);
-	
+
 	Runnable getCustomUndoUpdateJob(Object object, Object value);
 
 	boolean isNullable();
 
 	boolean isGetOnly();
+
+	ValueAccessMode getValueAccessMode();
 
 	InfoCategory getCategory();
 }

@@ -2,33 +2,40 @@ package xy.reflect.ui.undo;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfo;
+import xy.reflect.ui.info.ValueAccessMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
+import xy.reflect.ui.util.ReflectionUIError;
 
 public class UpdateListValueModification implements IModification {
 
 	protected ItemPosition itemPosition;
 	protected Object[] newListRawValue;
 	protected ReflectionUI reflectionUI;
-	private Object[] oldListRawValue;
 
-	public UpdateListValueModification(ReflectionUI reflectionUI, ItemPosition itemPosition, Object[] oldListRawValue,
-			Object[] newListRawValue) {
+	public UpdateListValueModification(ReflectionUI reflectionUI, ItemPosition itemPosition, Object[] newListRawValue) {
 		this.reflectionUI = reflectionUI;
 		this.itemPosition = itemPosition;
 		this.newListRawValue = newListRawValue;
-		this.oldListRawValue = oldListRawValue;
 	}
 
-	public UpdateListValueModification(ReflectionUI reflectionUI, ItemPosition itemPosition, Object[] newListRawValue) {
-		this(reflectionUI, itemPosition, itemPosition.getContainingListRawValue(), newListRawValue);
-	}
-
-	public static boolean isContainingListItemsLocked(ItemPosition itemPosition) {
+	public static boolean isCompatibleWith(ItemPosition itemPosition) {
+		ItemPosition parentItemPosition = itemPosition.getParentItemPosition();
+		if (parentItemPosition != null) {
+			if (!isCompatibleWith(parentItemPosition)) {
+				return false;
+			}
+		}
 		IListTypeInfo containingListType = itemPosition.getContainingListType();
-		if (!containingListType.canReplaceContent()) {
-			if (!(containingListType.canInstanciateFromArray() && !itemPosition.getContainingListField().isGetOnly())) {
+		IFieldInfo containingListField = itemPosition.getContainingListField();
+		if (containingListField.isGetOnly()) {
+			if (containingListType.canReplaceContent()
+					&& (containingListField.getValueAccessMode() == ValueAccessMode.SELF)) {
+				return true;
+			}
+		} else {
+			if (containingListType.canInstanciateFromArray() || containingListType.canReplaceContent()) {
 				return true;
 			}
 		}
@@ -37,49 +44,65 @@ public class UpdateListValueModification implements IModification {
 
 	@Override
 	public IModification applyAndGetOpposite() {
+		Object[] oldListRawValue = itemPosition.getContainingListRawValue();
 		updateListValueRecursively(itemPosition, newListRawValue);
 		return new UpdateListValueModification(reflectionUI, itemPosition, oldListRawValue);
 	}
 
 	protected void updateListValueRecursively(ItemPosition itemPosition, Object[] listRawValue) {
-		if (!isContainingListItemsLocked(itemPosition)) {
-			Object listOwner = itemPosition.getContainingListOwner();
-			IFieldInfo listField = itemPosition.getContainingListField();
-			if (itemPosition.getContainingListType().canReplaceContent()) {
-				replaceListValueContent(reflectionUI, listRawValue, listOwner, listField);
-			} else {
-				setListValue(reflectionUI, listRawValue, listOwner, listField);
+		if (!isCompatibleWith(itemPosition)) {
+			return;
+		}
+		Object listOwner = itemPosition.getContainingListOwner();
+		IFieldInfo listField = itemPosition.getContainingListField();
+
+		if (!renewListValue(reflectionUI, listRawValue, listOwner, listField)) {
+			if (!replaceListValueContent(reflectionUI, listRawValue, listOwner, listField)) {
+				throw new ReflectionUIError();
 			}
 		}
 		ItemPosition parentItemPosition = itemPosition.getParentItemPosition();
 		if (parentItemPosition != null) {
 			Object[] parentListRawValue = parentItemPosition.getContainingListRawValue();
-			parentListRawValue[parentItemPosition.getIndex()] = parentItemPosition.getItem();
+			parentListRawValue[parentItemPosition.getIndex()] = listOwner;
 			updateListValueRecursively(parentItemPosition, parentListRawValue);
 		}
 	}
 
-	protected void setListValue(ReflectionUI reflectionUI, Object[] listRawValue, Object listOwner,
+	protected boolean renewListValue(ReflectionUI reflectionUI, Object[] listRawValue, Object listOwner,
 			IFieldInfo listField) {
 		IListTypeInfo listType = (IListTypeInfo) listField.getType();
-		Object listValue = listField.getValue(listOwner);
-		listValue = listType.fromArray(listRawValue);
+		if (!listType.canInstanciateFromArray()) {
+			return false;
+		}
+		if (listField.isGetOnly()) {
+			return false;
+		}
+		Object listValue = listType.fromArray(listRawValue);
 		listField.setValue(listOwner, listValue);
+		return true;
 	}
 
-	protected void replaceListValueContent(ReflectionUI reflectionUI, Object[] listRawValue, Object listOwner,
+	protected boolean replaceListValueContent(ReflectionUI reflectionUI, Object[] listRawValue, Object listOwner,
 			IFieldInfo listField) {
 		IListTypeInfo listType = (IListTypeInfo) listField.getType();
+		if (!listType.canReplaceContent()) {
+			return false;
+		}
+		if ((listField.getValueAccessMode() != ValueAccessMode.SELF) && listField.isGetOnly()) {
+			return false;
+		}
 		Object listValue = listField.getValue(listOwner);
 		listType.replaceContent(listValue, listRawValue);
 		if (!listField.isGetOnly()) {
 			listField.setValue(listOwner, listValue);
 		}
+		return true;
 	}
 
 	@Override
-	public int getNumberOfUnits() {
-		return 1;
+	public boolean isNull() {
+		return false;
 	}
 
 	@Override

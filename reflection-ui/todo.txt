@@ -1,3 +1,17 @@
+- modifStack.insideComposite: how to handle 
+invalidation before or during the comosite
+- rethink about read-only forms
+- UpdateListModif: 
+	. listField.getUndo... is not taken into account
+	. if sub sub ... list field is not direct access
+	then its descendants will not be modifiable and 
+	this will not be customizable
+- IFieldInfo.isCalculated(). Change name???
+<= it should mean totally calculated, detached,
+independant field value???
+- IMethodInfo return values can be used to modify
+owner object values. Maybe them open in modal dialogs
+except for totally detached return values
 - SwingSpecificProperty => DesktopSpecificProperty 
 - add type InfoCustomizations.EnumerationCustomization
 	. allow to customize enum item captions

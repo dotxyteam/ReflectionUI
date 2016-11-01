@@ -29,6 +29,7 @@ import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.SwingRenderer.MethodControlPlaceHolder;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ValueAccessMode;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -306,6 +307,11 @@ public class SwingCustomizer extends SwingRenderer {
 				}
 
 				@Override
+				public ValueAccessMode getValueAccessMode() {
+					return ValueAccessMode.COPY;
+				}
+
+				@Override
 				public InfoCategory getCategory() {
 					return null;
 				}
@@ -381,6 +387,11 @@ public class SwingCustomizer extends SwingRenderer {
 				}
 
 				@Override
+				public ValueAccessMode getValueAccessMode() {
+					return ValueAccessMode.COPY;
+				}
+
+				@Override
 				public InfoCategory getCategory() {
 					return null;
 				}
@@ -449,7 +460,7 @@ public class SwingCustomizer extends SwingRenderer {
 					}
 				});
 			}
-			
+
 		}
 
 		protected IModificationListener getCustomizedWindowsReloadingAdvicer(final Component ownerComponent) {
@@ -465,6 +476,10 @@ public class SwingCustomizer extends SwingRenderer {
 
 				@Override
 				public void handleInvalidate() {
+				}
+
+				@Override
+				public void handleInvalidationCleared() {
 				}
 
 				@Override

@@ -34,12 +34,13 @@ public class CompositeModification implements IModification {
 	}
 
 	@Override
-	public int getNumberOfUnits() {
-		int result = 0;
+	public boolean isNull() {
 		for (IModification modif : modifications) {
-			result += modif.getNumberOfUnits();
+			if(!modif.isNull()){
+				return false;
+			}
 		}
-		return result;
+		return true;
 	}
 
 	@Override

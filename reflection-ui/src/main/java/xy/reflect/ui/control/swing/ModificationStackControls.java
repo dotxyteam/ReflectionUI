@@ -87,7 +87,7 @@ public class ModificationStackControls {
 		Accessor<Boolean> enabled = new Accessor<Boolean>() {
 			@Override
 			public Boolean get() {
-				return modificationStack.canRedo();
+				return modificationStack.canRedo() && !modificationStack.isInvalidated();
 			}
 		};
 		Accessor<String> tooltipText = new Accessor<String>() {
@@ -137,7 +137,7 @@ public class ModificationStackControls {
 		Accessor<Boolean> enabled = new Accessor<Boolean>() {
 			@Override
 			public Boolean get() {
-				return modificationStack.canUndo();
+				return modificationStack.canUndo() && !modificationStack.isInvalidated();
 			}
 		};
 		Accessor<String> tooltipText = new Accessor<String>() {

@@ -9,18 +9,24 @@ import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.IInfoCollectionSettings;
+import xy.reflect.ui.info.ValueAccessMode;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.IModification;
+import xy.reflect.ui.undo.IModificationListener;
+import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.SetFieldValueModification;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+@SuppressWarnings("unused")
 public class EmbeddedFormControl extends JPanel implements IFieldControl {
 
 	protected static final long serialVersionUID = 1L;
@@ -98,38 +104,39 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 	@Override
 	public void requestFocus() {
 		if (subForm != null) {
-			List<FieldControlPlaceHolder> fieldControlPlaceHolders = swingRenderer.getAllFieldControlPlaceHolders(subForm);
-			if(fieldControlPlaceHolders.size() > 0){
+			List<FieldControlPlaceHolder> fieldControlPlaceHolders = swingRenderer
+					.getAllFieldControlPlaceHolders(subForm);
+			if (fieldControlPlaceHolders.size() > 0) {
 				fieldControlPlaceHolders.get(0).requestFocus();
 			}
 		}
 	}
 
 	protected void forwardSubFormModifications() {
-		Accessor<Boolean> childModifAcceptedGetter = Accessor.returning(Boolean.TRUE);
-		Accessor<IModification> commitModifGetter = new Accessor<IModification>() {
-			@Override
-			public IModification get() {
-				IFieldInfo fieldProxy = new FieldInfoProxy(field) {
-					@Override
-					public void setValue(Object object, Object value) {
-						if (shouldUpdateField()) {
-							super.setValue(object, value);
-						}
+		if (field.isGetOnly() && (field.getValueAccessMode() == ValueAccessMode.COPY)) {
+			ModificationStack childModifStack = swingRenderer.getModificationStackByForm().get(subForm);
+			childModifStack.addListener(new AbstractSimpleModificationListener() {
+				@Override
+				protected void handleAnyEvent(IModification modification) {
+					refreshUI();
+				}
+			});
+		} else {
+			Accessor<Boolean> childModifAcceptedGetter = Accessor.returning(Boolean.TRUE);
+			Accessor<ValueAccessMode> childValueCalculatedGetter = Accessor.returning(field.getValueAccessMode());
+			Accessor<IModification> commitModifGetter = new Accessor<IModification>() {
+				@Override
+				public IModification get() {
+					if (field.isGetOnly()) {
+						return null;
 					}
-				};
-				return SetFieldValueModification.create(swingRenderer.getReflectionUI(), object, fieldProxy,
-						subFormObject);
-			}
-		};
-		ReflectionUIUtils.forwardSubModifications(subForm, childModifAcceptedGetter, commitModifGetter, field,
-				swingRenderer);
-	}
-
-	protected boolean shouldUpdateField() {
-		Object oldValue = field.getValue(object);
-		return (!field.isGetOnly())
-				&& (!ReflectionUIUtils.equals(swingRenderer.getReflectionUI(), oldValue, subFormObject));
+					return SetFieldValueModification.create(swingRenderer.getReflectionUI(), object, field,
+							subFormObject);
+				}
+			};
+			ReflectionUIUtils.forwardSubModifications(subForm, childModifAcceptedGetter, childValueCalculatedGetter,
+					commitModifGetter, field, "Edit '" + field.getCaption() + "'", swingRenderer);
+		}
 	}
 
 	@Override

@@ -24,4 +24,9 @@ public abstract class AbstractSimpleModificationListener implements IModificatio
 		handleAnyEvent(null);
 	}
 
+	@Override
+	public void handleInvalidationCleared() {
+		handleAnyEvent(null);
+	}
+
 }

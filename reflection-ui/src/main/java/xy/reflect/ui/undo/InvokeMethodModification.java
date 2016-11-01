@@ -39,8 +39,8 @@ public class InvokeMethodModification implements IModification {
 	}
 
 	@Override
-	public int getNumberOfUnits() {
-		return 1;
+	public boolean isNull() {
+		return false;
 	}
 
 	@Override

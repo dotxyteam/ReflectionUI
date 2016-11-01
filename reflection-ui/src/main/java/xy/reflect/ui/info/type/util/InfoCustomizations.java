@@ -35,6 +35,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ValueAccessMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -723,6 +724,7 @@ public final class InfoCustomizations {
 		protected boolean nullableFacetHidden = false;
 		protected boolean getOnlyForced = false;
 		protected String valueOptionsFieldName;
+		protected ValueAccessMode customValueAccessMode;
 
 		public String getFieldName() {
 			return fieldName;
@@ -738,6 +740,14 @@ public final class InfoCustomizations {
 
 		public void setNullableFacetHidden(boolean nullableFacetHidden) {
 			this.nullableFacetHidden = nullableFacetHidden;
+		}
+
+		public ValueAccessMode getCustomValueAccessMode() {
+			return customValueAccessMode;
+		}
+
+		public void setCustomValueAccessMode(ValueAccessMode customValueAccessMode) {
+			this.customValueAccessMode = customValueAccessMode;
 		}
 
 		public boolean isGetOnlyForced() {
@@ -807,6 +817,7 @@ public final class InfoCustomizations {
 		protected String customMethodCaption;
 		protected boolean readOnlyForced = false;
 		protected List<ParameterCustomization> parametersCustomizations = new ArrayList<InfoCustomizations.ParameterCustomization>();
+		protected ValueAccessMode customReturnValueAccessMode;
 
 		public boolean isReadOnlyForced() {
 			return readOnlyForced;
@@ -814,6 +825,14 @@ public final class InfoCustomizations {
 
 		public void setReadOnlyForced(boolean readOnlyForced) {
 			this.readOnlyForced = readOnlyForced;
+		}
+
+		public ValueAccessMode getCustomReturnValueAccessMode() {
+			return customReturnValueAccessMode;
+		}
+
+		public void setCustomReturnValueAccessMode(ValueAccessMode customReturnValueAccessMode) {
+			this.customReturnValueAccessMode = customReturnValueAccessMode;
 		}
 
 		public String getMethodSignature() {
@@ -1485,6 +1504,29 @@ public final class InfoCustomizations {
 		}
 
 		@Override
+		protected ValueAccessMode getValueAccessMode(IFieldInfo field, ITypeInfo containingType) {
+			FieldCustomization f = getFieldCustomization(containingType.getName(), field.getName());
+			if (f != null) {
+				if (f.customValueAccessMode != null) {
+					return f.customValueAccessMode;
+				}
+			}
+			return super.getValueAccessMode(field, containingType);
+		}
+
+		@Override
+		protected ValueAccessMode getReturnValueAccessMode(IMethodInfo method, ITypeInfo containingType) {
+			MethodCustomization m = getMethodCustomization(containingType.getName(),
+					ReflectionUIUtils.getMethodInfoSignature(method));
+			if (m != null) {
+				if (m.customReturnValueAccessMode != null) {
+					return m.customReturnValueAccessMode;
+				}
+			}
+			return super.getReturnValueAccessMode(method, containingType);
+		}
+
+		@Override
 		protected List<AbstractListProperty> getDynamicProperties(IListTypeInfo listType, Object object,
 				IFieldInfo listField, List<? extends ItemPosition> selection) {
 			List<AbstractListProperty> result = super.getDynamicProperties(listType, object, listField, selection);
@@ -1539,7 +1581,15 @@ public final class InfoCustomizations {
 
 								@Override
 								public boolean isGetOnly() {
-									return itemField.isGetOnly();
+									return !UpdateListValueModification.isCompatibleWith(itemPosition)
+											|| itemField.isGetOnly();
+								}
+
+								@Override
+								public ValueAccessMode getValueAccessMode() {
+									return ValueAccessMode.combine(
+											itemPosition.getContainingListField().getValueAccessMode(),
+											itemField.getValueAccessMode());
 								}
 
 								@Override
@@ -1583,6 +1633,11 @@ public final class InfoCustomizations {
 
 						@Override
 						public boolean isGetOnly() {
+							throw new UnsupportedOperationException();
+						}
+
+						@Override
+						public ValueAccessMode getValueAccessMode() {
 							throw new UnsupportedOperationException();
 						}
 
@@ -1641,8 +1696,15 @@ public final class InfoCustomizations {
 
 								@Override
 								public boolean isReadOnly() {
-									return method.isReadOnly()
-											|| UpdateListValueModification.isContainingListItemsLocked(itemPosition);
+									return !UpdateListValueModification.isCompatibleWith(itemPosition)
+											|| method.isReadOnly();
+								}
+
+								@Override
+								public ValueAccessMode getReturnValueAccessMode() {
+									return ValueAccessMode.combine(
+											itemPosition.getContainingListField().getValueAccessMode(),
+											method.getReturnValueAccessMode());
 								}
 
 								@Override
@@ -1717,6 +1779,11 @@ public final class InfoCustomizations {
 
 						@Override
 						public Object invoke(Object object, InvocationData invocationData) {
+							throw new UnsupportedOperationException();
+						}
+
+						@Override
+						public ValueAccessMode getReturnValueAccessMode() {
 							throw new UnsupportedOperationException();
 						}
 					});

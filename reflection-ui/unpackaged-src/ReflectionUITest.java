@@ -78,9 +78,9 @@ public class ReflectionUITest {
 		public double getPI() {
 			return Math.PI;
 		}
-		
+
 		@OnlineHelp("returns the mathematic PI constant value'")
-		public String getExceptionneableInfo() throws Exception{
+		public String getExceptionneableInfo() throws Exception {
 			return "ExceptionneableInfo";
 		}
 
@@ -134,7 +134,10 @@ public class ReflectionUITest {
 		public Date getTheDate() {
 			return theDate;
 		}
-
+		public Date getTheDatePlus1Day() {
+			return new Date(theDate.getTime() + 24 * 60 * 60 * 1000);
+		}
+		
 		@OnlineHelp("clears the 1st list of Strings")
 		public void resettheStringList() {
 			theStringList.clear();

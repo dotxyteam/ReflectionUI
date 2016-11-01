@@ -8,6 +8,7 @@ import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ValueAccessMode;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -34,7 +35,7 @@ public class ImplicitListField implements IFieldInfo {
 	protected String removeMethodName;
 	protected String sizeMethodName;
 	protected IListTypeInfo type;
-	private ITypeInfo parentType;
+	protected ITypeInfo parentType;
 
 	public ImplicitListField(ReflectionUI reflectionUI, String fieldName, ITypeInfo parentType, ITypeInfo itemType,
 			String createMethodName, String getMethodName, String addMethodName, String removeMethodName,
@@ -146,12 +147,17 @@ public class ImplicitListField implements IFieldInfo {
 
 	@Override
 	public boolean isGetOnly() {
-		return false;
+		return (getAddMethod() == null) || (getRemoveMethod() == null);
+	}
+
+	@Override
+	public ValueAccessMode getValueAccessMode() {
+		return getGetMethod().getReturnValueAccessMode();
 	}
 
 	@Override
 	public InfoCategory getCategory() {
-		return null;
+		return getGetMethod().getCategory();
 	}
 
 	@Override

@@ -13,13 +13,13 @@ public class ModificationStack {
 
 	protected static final String UNDO_TITLE_PREFIX = "(Revert) ";
 
-
 	protected Stack<IModification> undoStack = new Stack<IModification>();
 	protected Stack<IModification> redoStack = new Stack<IModification>();
 	protected String name;
 	protected Stack<ModificationStack> compositeStack = new Stack<ModificationStack>();
 	protected List<IModificationListener> listeners = new ArrayList<IModificationListener>();
 	protected boolean invalidated = false;
+	protected boolean wasInvalidated = false;
 
 	protected IModificationListener ALL_LISTENERS = new IModificationListener() {
 
@@ -55,6 +55,14 @@ public class ModificationStack {
 			}
 		}
 
+		@Override
+		public void handleInvalidationCleared() {
+			for (IModificationListener listener : new ArrayList<IModificationListener>(
+					ModificationStack.this.listeners)) {
+				listener.handleInvalidationCleared();
+			}
+		}
+
 	};
 
 	public ModificationStack(String name) {
@@ -71,6 +79,10 @@ public class ModificationStack {
 
 	public boolean isInvalidated() {
 		return invalidated;
+	}
+
+	public boolean wasInvalidated() {
+		return wasInvalidated;
 	}
 
 	public void addListener(IModificationListener listener) {
@@ -90,16 +102,19 @@ public class ModificationStack {
 		pushUndo(modif.applyAndGetOpposite());
 	}
 
-	public void pushUndo(IModification undoModif) {
+	public boolean pushUndo(IModification undoModif) {
+		if (undoModif.isNull()) {
+			return false;
+		}
 		if (compositeStack.size() > 0) {
 			compositeStack.peek().pushUndo(undoModif);
-			return;
-		}
-		if (undoModif.getNumberOfUnits() > 0) {
+		} else {
+			validate();
 			undoStack.push(undoModif);
 			redoStack.clear();
 			ALL_LISTENERS.handleDo(undoModif);
 		}
+		return true;
 	}
 
 	public int getUndoSize() {
@@ -108,22 +123,6 @@ public class ModificationStack {
 
 	public int getRedoSize() {
 		return redoStack.size();
-	}
-
-	public int getNumberOfUndoUnits() {
-		int result = 0;
-		for (IModification undoModif : undoStack) {
-			result += undoModif.getNumberOfUnits();
-		}
-		return result;
-	}
-
-	public int getNumberOfRedoUnits() {
-		int result = 0;
-		for (IModification redoModif : redoStack) {
-			result += redoModif.getNumberOfUnits();
-		}
-		return result;
 	}
 
 	public void undo() {
@@ -179,29 +178,38 @@ public class ModificationStack {
 	}
 
 	public void beginComposite() {
+		validate();
 		compositeStack.push(new ModificationStack("(composite level " + compositeStack.size() + ") " + name));
 	}
 
-	public void endComposite(IInfo target, String title, UndoOrder order) {
-		CompositeModification compositeUndoModif = new CompositeModification(target, getUndoTitle(title), order,
-				compositeStack.pop().getUndoModifications(order));
+	public boolean endComposite(IInfo target, String title, UndoOrder order) {
+		if (invalidated) {
+			abortComposite();
+			return true;
+		}
+		ModificationStack topComposite = compositeStack.pop();
 		ModificationStack compositeParent;
 		if (compositeStack.size() > 0) {
 			compositeParent = compositeStack.peek();
 		} else {
 			compositeParent = this;
 		}
-		compositeParent.pushUndo(compositeUndoModif);
+		CompositeModification compositeUndoModif = new CompositeModification(target, getUndoTitle(title), order,
+				topComposite.getUndoModifications(order));
+		return compositeParent.pushUndo(compositeUndoModif);
+	}
+
+	public void abortComposite() {
+		compositeStack.pop();
 	}
 
 	public boolean insideComposite(IInfo target, String title, UndoOrder order, Accessor<Boolean> compositeValidated) {
 		beginComposite();
 		try {
 			if (compositeValidated.get()) {
-				endComposite(target, title, order);
-				return true;
+				return endComposite(target, title, order);
 			} else {
-				cancelComposite();
+				abortComposite();
 				return false;
 			}
 		} catch (Throwable t) {
@@ -211,16 +219,19 @@ public class ModificationStack {
 
 	}
 
-	public void cancelComposite() {
-		compositeStack.pop();
+	public void invalidate() {
+		wasInvalidated = invalidated = true;
+		ALL_LISTENERS.handleInvalidate();
 	}
 
-	public void invalidate() {
-		redoStack.clear();
-		undoStack.clear();
-		compositeStack.clear();
-		invalidated = true;
-		ALL_LISTENERS.handleInvalidate();
+	protected void validate() {
+		if (invalidated) {
+			redoStack.clear();
+			undoStack.clear();
+			compositeStack.clear();
+			invalidated = false;
+			ALL_LISTENERS.handleInvalidationCleared();
+		}
 	}
 
 	public Boolean canRedo() {
@@ -244,7 +255,7 @@ public class ModificationStack {
 	}
 
 	public boolean isNull() {
-		if (getNumberOfUndoUnits() > 0) {
+		if (undoStack.size() > 0) {
 			return false;
 		}
 		if (isInvalidated()) {

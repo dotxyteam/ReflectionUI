@@ -25,8 +25,8 @@ public abstract class AbstractMethodUndoModification implements IModification {
 	}
 
 	@Override
-	public int getNumberOfUnits() {
-		return 1;
+	public boolean isNull() {
+		return false;
 	}
 
 	@Override
@@ -45,8 +45,8 @@ public abstract class AbstractMethodUndoModification implements IModification {
 			}
 			
 			@Override
-			public int getNumberOfUnits() {
-				return 1;
+			public boolean isNull() {
+				return false;
 			}
 			
 			@Override

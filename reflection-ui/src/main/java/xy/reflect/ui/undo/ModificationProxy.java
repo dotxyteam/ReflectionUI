@@ -18,8 +18,8 @@ public class ModificationProxy implements IModification {
 		return delegate.getTarget();
 	}
 
-	public int getNumberOfUnits() {
-		return delegate.getNumberOfUnits();
+	public boolean isNull() {
+		return delegate.isNull();
 	}
 
 	public String getTitle() {

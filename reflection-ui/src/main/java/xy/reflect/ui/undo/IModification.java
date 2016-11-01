@@ -10,8 +10,8 @@ public interface IModification {
 		}
 	
 		@Override
-		public int getNumberOfUnits() {
-			return 0;
+		public boolean isNull() {
+			return true;
 		}
 	
 		@Override
@@ -33,7 +33,7 @@ public interface IModification {
 
 	IModification applyAndGetOpposite();
 
-	int getNumberOfUnits();
+	boolean isNull();
 
 	String getTitle();
 

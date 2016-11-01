@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ValueAccessMode;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -12,20 +13,20 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class SubFieldInfo implements IFieldInfo {
 
-	protected IFieldInfo field;
+	protected IFieldInfo theField;
 	protected IFieldInfo theSubField;
 	protected ITypeInfo type;
 
 	public SubFieldInfo(ITypeInfo typeInfo, String fieldName, String subFieldName) {
 		this.type = typeInfo;
-		this.field = ReflectionUIUtils.findInfoByName(type.getFields(), fieldName);
-		if (this.field == null) {
+		this.theField = ReflectionUIUtils.findInfoByName(type.getFields(), fieldName);
+		if (this.theField == null) {
 			throw new ReflectionUIError("Field '" + fieldName + "' not found in type '" + type.getName() + "'");
 		}
-		this.theSubField = ReflectionUIUtils.findInfoByName(field.getType().getFields(), subFieldName);
-		if (this.field == null) {
+		this.theSubField = ReflectionUIUtils.findInfoByName(theField.getType().getFields(), subFieldName);
+		if (this.theField == null) {
 			throw new ReflectionUIError(
-					"Field '" + subFieldName + "' not found in type '" + field.getType().getName() + "'");
+					"Field '" + subFieldName + "' not found in type '" + theField.getType().getName() + "'");
 		}
 	}
 
@@ -36,12 +37,12 @@ public class SubFieldInfo implements IFieldInfo {
 
 	@Override
 	public String getName() {
-		return SubFieldInfo.class.getSimpleName() + "(" + field.getName() + "." + theSubField.getName() + ")";
+		return SubFieldInfo.class.getSimpleName() + "(" + theField.getName() + "." + theSubField.getName() + ")";
 	}
 
 	@Override
 	public String getCaption() {
-		return field.getCaption() + " " + theSubField.getCaption();
+		return theField.getCaption() + " " + theSubField.getCaption();
 	}
 
 	@Override
@@ -51,7 +52,7 @@ public class SubFieldInfo implements IFieldInfo {
 
 	@Override
 	public Object getValue(Object object) {
-		Object fieldValue = field.getValue(object);
+		Object fieldValue = theField.getValue(object);
 		if (fieldValue == null) {
 			return null;
 		}
@@ -60,7 +61,7 @@ public class SubFieldInfo implements IFieldInfo {
 
 	@Override
 	public Object[] getValueOptions(Object object) {
-		Object fieldValue = field.getValue(object);
+		Object fieldValue = theField.getValue(object);
 		if (fieldValue == null) {
 			return null;
 		}
@@ -69,23 +70,27 @@ public class SubFieldInfo implements IFieldInfo {
 
 	@Override
 	public void setValue(Object object, Object subFieldValue) {
-		Object fieldValue = field.getValue(object);
+		Object fieldValue = theField.getValue(object);
 		if (subFieldValue == null) {
 			if (fieldValue != null) {
-				theSubField.setValue(fieldValue, null);
+				if (!theSubField.isGetOnly()) {
+					theSubField.setValue(fieldValue, null);
+				}
 			}
 		} else {
 			if (fieldValue == null) {
-				IMethodInfo fieldCtor = ReflectionUIUtils.getZeroParameterConstrucor(field.getType());
+				IMethodInfo fieldCtor = ReflectionUIUtils.getZeroParameterConstrucor(theField.getType());
 				if (fieldCtor == null) {
 					throw new ReflectionUIError(
 							"Cannot set sub-field value: Parent field value is null and cannot be constructed: Default constructor not found");
 				}
 				fieldValue = fieldCtor.invoke(null, new InvocationData());
 			}
-			theSubField.setValue(fieldValue, subFieldValue);
-			if (!field.isGetOnly()) {
-				field.setValue(object, fieldValue);
+			if (!theSubField.isGetOnly()) {
+				theSubField.setValue(fieldValue, subFieldValue);
+			}
+			if (!theField.isGetOnly()) {
+				theField.setValue(object, fieldValue);
 			}
 		}
 	}
@@ -97,17 +102,22 @@ public class SubFieldInfo implements IFieldInfo {
 
 	@Override
 	public boolean isNullable() {
-		return field.isNullable() || theSubField.isNullable();
+		return theField.isNullable() || theSubField.isNullable();
 	}
 
 	@Override
 	public boolean isGetOnly() {
-		return theSubField.isGetOnly();
+		return theField.isGetOnly() || theSubField.isGetOnly();
+	}
+
+	@Override
+	public ValueAccessMode getValueAccessMode() {
+		return ValueAccessMode.combine(theField.getValueAccessMode(), theSubField.getValueAccessMode());		
 	}
 
 	@Override
 	public int hashCode() {
-		return field.hashCode() + theSubField.hashCode();
+		return theField.hashCode() + theSubField.hashCode();
 	}
 
 	@Override
@@ -121,7 +131,7 @@ public class SubFieldInfo implements IFieldInfo {
 		if (!getClass().equals(obj.getClass())) {
 			return false;
 		}
-		if (!field.equals(((SubFieldInfo) obj).field)) {
+		if (!theField.equals(((SubFieldInfo) obj).theField)) {
 			return false;
 		}
 		if (!theSubField.equals(((SubFieldInfo) obj).theSubField)) {
@@ -132,7 +142,7 @@ public class SubFieldInfo implements IFieldInfo {
 
 	@Override
 	public InfoCategory getCategory() {
-		return field.getCategory();
+		return theField.getCategory();
 	}
 
 	@Override

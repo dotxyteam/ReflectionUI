@@ -7,23 +7,25 @@ import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ValueAccessMode;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
+import xy.reflect.ui.undo.UpdateListValueModification;
 import xy.reflect.ui.util.ReflectionUIError;
 
 @SuppressWarnings("unused")
 public class MultipleFieldAsOne implements IFieldInfo {
 
-	protected List<IFieldInfo> listFieldInfos;
+	protected List<IFieldInfo> fields;
 	protected ReflectionUI reflectionUI;
 
-	public MultipleFieldAsOne(ReflectionUI reflectionUI, List<IFieldInfo> listFieldInfos) {
+	public MultipleFieldAsOne(ReflectionUI reflectionUI, List<IFieldInfo> fields) {
 		this.reflectionUI = reflectionUI;
-		this.listFieldInfos = listFieldInfos;
+		this.fields = fields;
 	}
 
 	@Override
@@ -47,7 +49,7 @@ public class MultipleFieldAsOne implements IFieldInfo {
 
 			@Override
 			protected boolean canReplaceContent(IListTypeInfo type) {
-				return false;
+				return true;
 			}
 
 			@Override
@@ -63,7 +65,7 @@ public class MultipleFieldAsOne implements IFieldInfo {
 		StringBuilder result = new StringBuilder(MultipleFieldAsOne.class.getSimpleName());
 		result.append("(");
 		int i = 0;
-		for (IFieldInfo field : listFieldInfos) {
+		for (IFieldInfo field : fields) {
 			if (i > 0) {
 				result.append(", ");
 			}
@@ -77,7 +79,7 @@ public class MultipleFieldAsOne implements IFieldInfo {
 	@Override
 	public Object getValue(Object object) {
 		List<ListItem> result = new ArrayList<ListItem>();
-		for (IFieldInfo listFieldInfo : listFieldInfos) {
+		for (IFieldInfo listFieldInfo : fields) {
 			ListItem item = new ListItem(object, listFieldInfo);
 			reflectionUI.registerPrecomputedTypeInfoObject(item, new ListItemTypeInfo(reflectionUI, item));
 			result.add(item);
@@ -97,12 +99,20 @@ public class MultipleFieldAsOne implements IFieldInfo {
 
 	@Override
 	public boolean isGetOnly() {
-		return true;
+		return isGetOnlyAndCompatibilityFixedWithUpdateListValueModification();
+	}
+
+	private boolean isGetOnlyAndCompatibilityFixedWithUpdateListValueModification() {
+		return false;
+	}
+
+	@Override
+	public ValueAccessMode getValueAccessMode() {
+		return ValueAccessMode.PROXY;
 	}
 
 	@Override
 	public void setValue(Object object, Object value) {
-		throw new ReflectionUIError();
 	}
 
 	@Override
@@ -125,7 +135,7 @@ public class MultipleFieldAsOne implements IFieldInfo {
 		StringBuilder result = new StringBuilder(MultipleFieldAsOne.class.getSimpleName());
 		result.append(MultipleFieldAsOne.class.getSimpleName() + "(");
 		int i = 0;
-		for (IFieldInfo field : listFieldInfos) {
+		for (IFieldInfo field : fields) {
 			if (i > 0) {
 				result.append(", ");
 			}
@@ -138,7 +148,7 @@ public class MultipleFieldAsOne implements IFieldInfo {
 
 	@Override
 	public int hashCode() {
-		return listFieldInfos.hashCode();
+		return fields.hashCode();
 	}
 
 	@Override
@@ -152,7 +162,7 @@ public class MultipleFieldAsOne implements IFieldInfo {
 		if (!getClass().equals(obj.getClass())) {
 			return false;
 		}
-		return listFieldInfos.equals(((MultipleFieldAsOne) obj).listFieldInfos);
+		return fields.equals(((MultipleFieldAsOne) obj).fields);
 	}
 
 	@Override
