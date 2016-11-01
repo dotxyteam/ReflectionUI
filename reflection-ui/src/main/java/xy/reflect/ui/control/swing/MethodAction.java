@@ -29,7 +29,8 @@ public class MethodAction extends AbstractAction {
 	protected Object object;
 	protected IMethodInfo method;
 	protected Object returnValue;
-	
+	protected boolean shouldDisplayReturnValue = true;
+
 	public MethodAction(SwingRenderer swingRenderer, Object object, IMethodInfo method) {
 		this.swingRenderer = swingRenderer;
 		this.object = object;
@@ -72,7 +73,7 @@ public class MethodAction extends AbstractAction {
 		if (method.getParameters().size() > 0) {
 			return openMethoExecutionSettingDialog(activatorComponent);
 		} else {
-			final boolean shouldDisplayReturnValue = (method.getReturnValueType() != null);
+			final boolean displayReturnValue = shouldDisplayReturnValue && (method.getReturnValueType() != null);
 			final boolean[] exceptionThrownHoler = new boolean[] { false };
 			swingRenderer.showBusyDialogWhile(activatorComponent, new Runnable() {
 				@Override
@@ -85,7 +86,7 @@ public class MethodAction extends AbstractAction {
 					}
 				}
 			}, ReflectionUIUtils.composeTitle(method.getCaption(), "Execution"));
-			if (shouldDisplayReturnValue && !exceptionThrownHoler[0]) {
+			if (displayReturnValue && !exceptionThrownHoler[0]) {
 				openMethodReturnValueWindow(activatorComponent);
 			}
 		}
@@ -100,7 +101,8 @@ public class MethodAction extends AbstractAction {
 			if (method.getReturnValueAccessMode() == ValueAccessMode.COPY) {
 				swingRenderer.openObjectFrame(returnValue);
 			} else {
-				ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, activatorComponent, returnValue);
+				ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, activatorComponent,
+						returnValue);
 				dialogBuilder.setGetOnly(true);
 				boolean cancellable = true;
 				{
@@ -136,7 +138,7 @@ public class MethodAction extends AbstractAction {
 	protected boolean openMethoExecutionSettingDialog(final Component activatorComponent) {
 		final DialogBuilder dialogBuilder = new DialogBuilder(swingRenderer, activatorComponent);
 
-		final boolean shouldDisplayReturnValue = (method.getReturnValueType() != null);
+		final boolean displayReturnValue = shouldDisplayReturnValue && (method.getReturnValueType() != null);
 		final boolean[] exceptionThrownHolder = new boolean[] { false };
 		final InvocationData invocationData;
 		if (swingRenderer.getLastInvocationDataByMethod().containsKey(method)) {
@@ -170,7 +172,7 @@ public class MethodAction extends AbstractAction {
 							}
 						}
 					}, ReflectionUIUtils.composeTitle(method.getCaption(), "Execution"));
-					if (shouldDisplayReturnValue) {
+					if (displayReturnValue) {
 						if (!exceptionThrownHolder[0]) {
 							openMethodReturnValueWindow(activatorComponent);
 						}
@@ -181,7 +183,7 @@ public class MethodAction extends AbstractAction {
 			});
 			toolbarControls.add(invokeButton);
 		}
-		JButton closeButton = new JButton(shouldDisplayReturnValue ? "Close" : "Cancel");
+		JButton closeButton = new JButton(displayReturnValue ? "Close" : "Cancel");
 		{
 			closeButton.addActionListener(new ActionListener() {
 
@@ -199,10 +201,20 @@ public class MethodAction extends AbstractAction {
 		dialogBuilder.setToolbarComponents(toolbarControls);
 
 		swingRenderer.showDialog(dialogBuilder.build(), true);
-		if (shouldDisplayReturnValue) {
+		if (displayReturnValue) {
 			return true;
 		} else {
 			return invokedStatusHolder[0];
 		}
 	}
+
+	public void setShouldDisplayReturnValue(boolean shouldDisplayReturnValue) {
+		this.shouldDisplayReturnValue = shouldDisplayReturnValue;
+	}
+
+	public boolean getShouldDisplayReturnValue() {
+		return shouldDisplayReturnValue;
+	}
+	
+	
 }

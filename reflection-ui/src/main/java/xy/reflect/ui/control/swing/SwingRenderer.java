@@ -261,7 +261,11 @@ public class SwingRenderer {
 	}
 
 	public MethodControl createMethodControl(final Object object, final IMethodInfo method) {
-		return new MethodControl(new MethodAction(this, object, method));
+		return new MethodControl(createMethodAction(object, method));
+	}
+
+	public MethodAction createMethodAction(Object object, IMethodInfo method) {
+		return new MethodAction(this, object, method);
 	}
 
 	public JPanel createMethodsPanel(final List<MethodControlPlaceHolder> methodControlPlaceHolders) {
@@ -970,9 +974,10 @@ public class SwingRenderer {
 				if (silent) {
 					return constructor.invoke(null, new InvocationData());
 				} else {
-					final Object[] returnValueHolder = new Object[1];
-					new MethodAction(this, null, constructor).execute(activatorComponent);
-					return returnValueHolder[0];
+					MethodAction methodAction = new MethodAction(this, null, constructor);
+					methodAction.setShouldDisplayReturnValue(false);
+					methodAction.execute(activatorComponent);
+					return methodAction.getReturnValue();
 				}
 			}
 
@@ -995,9 +1000,10 @@ public class SwingRenderer {
 				if (chosenContructor == null) {
 					return null;
 				}
-				final Object[] returnValueHolder = new Object[1];
-				new MethodAction(this, null, chosenContructor).execute(activatorComponent);
-				return returnValueHolder[0];
+				MethodAction methodAction = new MethodAction(this, null, chosenContructor);
+				methodAction.setShouldDisplayReturnValue(false);
+				methodAction.execute(activatorComponent);
+				return methodAction.getReturnValue();
 			}
 		} catch (
 
