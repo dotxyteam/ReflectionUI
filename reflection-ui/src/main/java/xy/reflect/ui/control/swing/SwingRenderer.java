@@ -67,7 +67,6 @@ import xy.reflect.ui.info.type.iterable.map.StandardMapEntry;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.ArrayAsEnumerationTypeInfo;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
-import xy.reflect.ui.info.type.util.MethodInvocationObjectFactory;
 import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.CompositeModification;
@@ -134,6 +133,10 @@ public class SwingRenderer {
 
 	public Map<JPanel, Boolean> getFieldsUpdateListenerDisabledByForm() {
 		return fieldsUpdateListenerDisabledByForm;
+	}
+
+	public Map<IMethodInfo, InvocationData> getLastInvocationDataByMethod() {
+		return lastInvocationDataByMethod;
 	}
 
 	public Map<JPanel, IInfoCollectionSettings> getInfoCollectionSettingsByForm() {
@@ -258,7 +261,7 @@ public class SwingRenderer {
 	}
 
 	public MethodControl createMethodControl(final Object object, final IMethodInfo method) {
-		return new MethodControl(this, object, method);
+		return new MethodControl(new MethodAction(this, object, method));
 	}
 
 	public JPanel createMethodsPanel(final List<MethodControlPlaceHolder> methodControlPlaceHolders) {
@@ -871,40 +874,7 @@ public class SwingRenderer {
 		};
 	}
 
-	public boolean onMethodInvocationRequest(final Component activatorComponent, final Object object,
-			final IMethodInfo method, final Object[] returnValueHolder) {
-		if (method.getParameters().size() > 0) {
-			return openMethoExecutionSettingDialog(activatorComponent, object, method, returnValueHolder);
-		} else {
-			final boolean shouldDisplayReturnValue = (returnValueHolder == null)
-					&& (method.getReturnValueType() != null);
-			final Object[] returnValueToDisplay = new Object[1];
-			final boolean[] exceptionThrownHoler = new boolean[] { false };
-			showBusyDialogWhile(activatorComponent, new Runnable() {
-				@Override
-				public void run() {
-					try {
-						Object result = method.invoke(object, new InvocationData());
-						if (returnValueHolder != null) {
-							returnValueHolder[0] = result;
-						}
-						if (shouldDisplayReturnValue) {
-							returnValueToDisplay[0] = result;
-						}
-					} catch (Throwable t) {
-						exceptionThrownHoler[0] = true;
-						throw new ReflectionUIError(t);
-					}
-				}
-			}, ReflectionUIUtils.composeTitle(method.getCaption(), "Execution"));
-			if (shouldDisplayReturnValue && !exceptionThrownHoler[0]) {
-				openMethodReturnValueWindow(activatorComponent, object, method, returnValueToDisplay[0]);
-			}
-		}
-		return true;
-	}
-
-	public Object onTypeInstanciationRequest(Component activatorComponent, ITypeInfo type, boolean silent) {
+	public Object onTypeInstanciationRequest(final Component activatorComponent, ITypeInfo type, boolean silent) {
 		try {
 			if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(type)) {
 				List<ITypeInfo> polyTypes = type.getPolymorphicInstanceSubTypes();
@@ -996,12 +966,12 @@ public class SwingRenderer {
 			}
 
 			if (constructors.size() == 1) {
-				IMethodInfo constructor = constructors.get(0);
+				final IMethodInfo constructor = constructors.get(0);
 				if (silent) {
 					return constructor.invoke(null, new InvocationData());
 				} else {
-					Object[] returnValueHolder = new Object[1];
-					onMethodInvocationRequest(activatorComponent, null, constructor, returnValueHolder);
+					final Object[] returnValueHolder = new Object[1];
+					new MethodAction(this, null, constructor).execute(activatorComponent);
 					return returnValueHolder[0];
 				}
 			}
@@ -1020,14 +990,13 @@ public class SwingRenderer {
 				IMethodInfo smallerConstructor = constructors.get(0);
 				return smallerConstructor.invoke(null, new InvocationData());
 			} else {
-				IMethodInfo chosenContructor = openSelectionDialog(activatorComponent, constructors, null,
+				final IMethodInfo chosenContructor = openSelectionDialog(activatorComponent, constructors, null,
 						prepareStringToDisplay("Choose an option:"), null);
 				if (chosenContructor == null) {
 					return null;
 				}
-				Object[] returnValueHolder = new Object[1];
-
-				onMethodInvocationRequest(activatorComponent, null, chosenContructor, returnValueHolder);
+				final Object[] returnValueHolder = new Object[1];
+				new MethodAction(this, null, chosenContructor).execute(activatorComponent);
 				return returnValueHolder[0];
 			}
 		} catch (
@@ -1040,7 +1009,7 @@ public class SwingRenderer {
 	}
 
 	public void openErrorDialog(Component activatorComponent, String title, final Throwable error) {
-		DialogBuilder dialogBuilder = new DialogBuilder(this);
+		DialogBuilder dialogBuilder = new DialogBuilder(this, activatorComponent);
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI,
 				new TextualTypeInfo(reflectionUI, String.class));
 		encapsulation.setCaption("Error");
@@ -1065,7 +1034,6 @@ public class SwingRenderer {
 		buttons.add(deatilsButton);
 		buttons.add(dialogBuilder.createDialogClosingButton("Close", null));
 
-		dialogBuilder.setOwnerComponent(activatorComponent);
 		dialogBuilder.setTitle(title);
 		dialogBuilder.setContentComponent(errorComponent);
 		dialogBuilder.setToolbarComponents(buttons);
@@ -1078,101 +1046,9 @@ public class SwingRenderer {
 		openObjectDialog(activatorComponent, error, true);
 	}
 
-	public void openMethodReturnValueWindow(Component activatorComponent, Object object, IMethodInfo method,
-			Object returnValue) {
-		if (returnValue == null) {
-			String msg = "No data returned!";
-			openMessageDialog(activatorComponent, msg, "Result", null);
-		} else {
-			openObjectFrame(returnValue);
-		}
-	}
-
-	public boolean openMethoExecutionSettingDialog(final Component activatorComponent, final Object object,
-			final IMethodInfo method, final Object[] returnValueHolder) {
-		final DialogBuilder dialogBuilder = new DialogBuilder(this);
-
-		final boolean shouldDisplayReturnValue = (returnValueHolder == null) && (method.getReturnValueType() != null);
-		final boolean[] exceptionThrownHolder = new boolean[] { false };
-		final Object[] returnValueToDisplay = new Object[1];
-		final InvocationData invocationData;
-		if (lastInvocationDataByMethod.containsKey(method)) {
-			invocationData = lastInvocationDataByMethod.get(method);
-		} else {
-			invocationData = new InvocationData();
-		}
-		JPanel methodForm = createObjectForm(
-				new MethodInvocationObjectFactory(reflectionUI, method).getInstance(object, invocationData));
-		final boolean[] invokedStatusHolder = new boolean[] { false };
-		List<Component> toolbarControls = new ArrayList<Component>();
-		String doc = method.getOnlineHelp();
-		if ((doc != null) && (doc.trim().length() > 0)) {
-			toolbarControls.add(createOnlineHelpControl(doc));
-		}
-		JButton invokeButton = new JButton(method.getCaption());
-		{
-			invokeButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					lastInvocationDataByMethod.put(method, invocationData);
-					showBusyDialogWhile(activatorComponent, new Runnable() {
-						@Override
-						public void run() {
-							try {
-								Object result = method.invoke(object, invocationData);
-								if (returnValueHolder != null) {
-									returnValueHolder[0] = result;
-								}
-								if (shouldDisplayReturnValue) {
-									returnValueToDisplay[0] = result;
-								}
-							} catch (Throwable t) {
-								exceptionThrownHolder[0] = true;
-								throw new ReflectionUIError(t);
-							}
-						}
-					}, ReflectionUIUtils.composeTitle(method.getCaption(), "Execution"));
-					if (shouldDisplayReturnValue) {
-						if (!exceptionThrownHolder[0]) {
-							openMethodReturnValueWindow(activatorComponent, object, method, returnValueToDisplay[0]);
-						}
-					} else {
-						dialogBuilder.getBuiltDialog().dispose();
-					}
-				}
-			});
-			toolbarControls.add(invokeButton);
-		}
-		JButton closeButton = new JButton(shouldDisplayReturnValue ? "Close" : "Cancel");
-		{
-			closeButton.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					dialogBuilder.getBuiltDialog().dispose();
-				}
-
-			});
-			toolbarControls.add(closeButton);
-		}
-
-		dialogBuilder.setOwnerComponent(activatorComponent);
-		dialogBuilder.setContentComponent(methodForm);
-		dialogBuilder.setTitle(ReflectionUIUtils.composeTitle(method.getCaption(), "Setup"));
-		dialogBuilder.setToolbarComponents(toolbarControls);
-
-		showDialog(dialogBuilder.build(), true);
-		if (shouldDisplayReturnValue) {
-			return true;
-		} else {
-			return invokedStatusHolder[0];
-		}
-	}
-
 	public boolean openObjectDialogAndGetConfirmation(Component activatorComponent, Object object, final String title,
 			Image iconImage, boolean modal) {
-		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(this, object);
-		dialogBuilder.setOwnerComponent(activatorComponent);
+		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(this, activatorComponent, object);
 		dialogBuilder.setTitle(title);
 		dialogBuilder.setIconImage(iconImage);
 		dialogBuilder.setCancellable(true);
@@ -1191,8 +1067,7 @@ public class SwingRenderer {
 
 	public void openObjectDialog(Component activatorComponent, Object object, final String title, Image iconImage,
 			boolean modal) {
-		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(this, object);
-		dialogBuilder.setOwnerComponent(activatorComponent);
+		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(this, activatorComponent, object);
 		dialogBuilder.setTitle(title);
 		dialogBuilder.setIconImage(iconImage);
 		showDialog(dialogBuilder.build(), modal);
@@ -1345,7 +1220,7 @@ public class SwingRenderer {
 
 	public boolean openQuestionDialog(Component activatorComponent, String question, String title, String yesCaption,
 			String noCaption) {
-		DialogBuilder dialogBuilder = new DialogBuilder(this);
+		DialogBuilder dialogBuilder = new DialogBuilder(this, activatorComponent);
 		dialogBuilder.setToolbarComponents(dialogBuilder.createStandardOKCancelDialogButtons());
 		dialogBuilder
 				.setContentComponent(new JLabel("<HTML><BR>" + question + "<BR><BR><HTML>", SwingConstants.CENTER));
@@ -1419,15 +1294,14 @@ public class SwingRenderer {
 		}
 	}
 
-	public void showBusyDialogWhile(final Component ownerComponent, final Runnable runnable, String title) {
+	public void showBusyDialogWhile(final Component activatorComponent, final Runnable runnable, String title) {
 		final JXBusyLabel busyLabel = new JXBusyLabel();
 		busyLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		busyLabel.setText("Please wait...");
 		busyLabel.setVerticalTextPosition(SwingConstants.TOP);
 		busyLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 
-		DialogBuilder dialogBuilder = new DialogBuilder(this);
-		dialogBuilder.setOwnerComponent(ownerComponent);
+		DialogBuilder dialogBuilder = new DialogBuilder(this, activatorComponent);
 		dialogBuilder.setContentComponent(busyLabel);
 		dialogBuilder.setTitle(title);
 		final JDialog dialog = dialogBuilder.build();
@@ -1489,7 +1363,7 @@ public class SwingRenderer {
 	}
 
 	public void openMessageDialog(Component activatorComponent, String msg, String title, Image iconImage) {
-		DialogBuilder dialogBuilder = new DialogBuilder(this);
+		DialogBuilder dialogBuilder = new DialogBuilder(this, activatorComponent);
 		JButton okButton = dialogBuilder.createDialogClosingButton("Close", null);
 		dialogBuilder.setToolbarComponents(Collections.singletonList(okButton));
 		dialogBuilder.setContentComponent(

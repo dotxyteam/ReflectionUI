@@ -12,60 +12,47 @@ import xy.reflect.ui.util.SwingRendererUtils;
 public class MethodControl extends JButton {
 
 	protected static final long serialVersionUID = 1L;
-	protected SwingRenderer swingRenderer;
-	protected Object object;
-	protected IMethodInfo method;
 
-	public MethodControl(final SwingRenderer swingRenderer, Object object,
-			IMethodInfo method) {
+	protected MethodAction action;
+
+	public MethodControl(MethodAction action) {
+		this.action = action;
+		initialize();
+
+	}
+
+	protected void initialize() {
+		SwingRenderer swingRenderer = action.getSwingRenderer();
+		IMethodInfo method = action.getMethod();
+
 		String caption = method.getCaption();
 		String toolTipText = "";
 		if (method.getParameters().size() > 0) {
 			caption += "...";
-			toolTipText += "Parameter(s): "
-					+ ReflectionUIUtils.formatParameterList(method
-							.getParameters());
+			toolTipText += "Parameter(s): " + ReflectionUIUtils.formatParameterList(method.getParameters());
 		}
-		if ((method.getOnlineHelp() != null)
-				&& (method.getOnlineHelp().trim().length() > 0)) {
+		if ((method.getOnlineHelp() != null) && (method.getOnlineHelp().trim().length() > 0)) {
 			if (toolTipText.length() > 0) {
 				toolTipText += ":\n";
 			}
 			toolTipText += method.getOnlineHelp();
 		}
 		if (toolTipText.length() > 0) {
-			SwingRendererUtils.setMultilineToolTipText(this,
-					swingRenderer.prepareStringToDisplay(toolTipText));
+			SwingRendererUtils.setMultilineToolTipText(this, swingRenderer.prepareStringToDisplay(toolTipText));
 		}
 		setText(swingRenderer.prepareStringToDisplay(caption));
-		this.swingRenderer = swingRenderer;
-		this.object = object;
-		this.method = method;
 
 		addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					activated();
-				} catch (Throwable t) {
-					swingRenderer.handleExceptionsFromDisplayedUI(
-							MethodControl.this, t);
-				}
-
+				action.actionPerformed(e);
 			}
 		});
 	}
-	
-	
 
-	public IMethodInfo getMethod() {
-		return method;
+	public MethodAction getAction() {
+		return action;
 	}
 
 
-
-	protected void activated() {
-		swingRenderer.onMethodInvocationRequest(MethodControl.this,
-				MethodControl.this.object, MethodControl.this.method, null);
-	}
 }

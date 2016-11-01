@@ -437,14 +437,15 @@ public class SwingCustomizer extends SwingRenderer {
 			result.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					openTypeCustomizationDialog(t);
+					openTypeCustomizationDialog(result, t);
 				}
 			});
 			return result;
 		}
 
-		protected void openTypeCustomizationDialog(final TypeCustomization t) {
-			final ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(customizationToolsRenderer, t);
+		protected void openTypeCustomizationDialog(Component activatorComponent, final TypeCustomization t) {
+			final ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(customizationToolsRenderer,
+					activatorComponent, t);
 			dialogBuilder.setIconImage(getCustomizationIcon().getImage());
 			dialogBuilder.setCancellable(true);
 			dialogBuilder.build();
@@ -571,7 +572,7 @@ public class SwingCustomizer extends SwingRenderer {
 						public void actionPerformed(ActionEvent e) {
 							TypeCustomization t = infoCustomizations
 									.getTypeCustomization(customizedField.getType().getName());
-							openTypeCustomizationDialog(t);
+							openTypeCustomizationDialog(result, t);
 						}
 					});
 					if (customizedField.getType() instanceof IListTypeInfo) {
@@ -786,7 +787,7 @@ public class SwingCustomizer extends SwingRenderer {
 							public void actionPerformed(ActionEvent e) {
 								TypeCustomization t = infoCustomizations
 										.getTypeCustomization(returnValueType.getName());
-								openTypeCustomizationDialog(t);
+								openTypeCustomizationDialog(result, t);
 							}
 						});
 					}

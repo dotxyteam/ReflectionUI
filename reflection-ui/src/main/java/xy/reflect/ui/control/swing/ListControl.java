@@ -1604,7 +1604,7 @@ public class ListControl extends JPanel implements IFieldControl {
 				ITypeInfo encapsulatedPropertyValueType = swingRenderer.getReflectionUI()
 						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(encapsulatedPropertyValue));
 
-				ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, encapsulatedPropertyValue);
+				ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, ListControl.this, encapsulatedPropertyValue);
 				dialogBuilder.setGetOnly(dynamicProperty.isGetOnly());
 				dialogBuilder.setCancellable(encapsulatedPropertyValueType.isModificationStackAccessible());
 				swingRenderer.showDialog(dialogBuilder.build(), true);
@@ -1632,7 +1632,7 @@ public class ListControl extends JPanel implements IFieldControl {
 
 			@Override
 			protected String getCompositeModificationTitle() {
-				return "Edit '" + dynamicProperty.getCaption();
+				return SetFieldValueModification.getTitle(dynamicProperty);
 			}
 
 			@Override
@@ -1656,7 +1656,7 @@ public class ListControl extends JPanel implements IFieldControl {
 								getParentFormModificationStack());
 					}
 				};
-				swingRenderer.onMethodInvocationRequest(ListControl.this, ListControl.this.object, method, null);
+				new MethodAction(swingRenderer, ListControl.this.object, method).execute(ListControl.this);
 			}
 
 			@Override
@@ -1870,7 +1870,7 @@ public class ListControl extends JPanel implements IFieldControl {
 			return null;
 		}
 
-		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, itemPosition.getItem());
+		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, ListControl.this, itemPosition.getItem());
 
 		dialogBuilder.setInfoSettings(getStructuralInfo().getItemInfoSettings(itemPosition));
 		dialogBuilder.setGetOnly(!UpdateListValueModification.isCompatibleWith(itemPosition));

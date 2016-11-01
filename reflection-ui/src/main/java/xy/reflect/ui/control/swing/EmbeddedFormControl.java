@@ -135,7 +135,7 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 				}
 			};
 			ReflectionUIUtils.forwardSubModifications(subForm, childModifAcceptedGetter, childValueCalculatedGetter,
-					commitModifGetter, field, "Edit '" + field.getCaption() + "'", swingRenderer);
+					commitModifGetter, field, SetFieldValueModification.getTitle(field), swingRenderer);
 		}
 	}
 

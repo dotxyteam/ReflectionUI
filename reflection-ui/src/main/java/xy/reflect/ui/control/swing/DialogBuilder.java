@@ -27,8 +27,9 @@ public class DialogBuilder {
 
 	protected JDialog dialog;
 
-	public DialogBuilder(SwingRenderer swingRenderer) {
+	public DialogBuilder(SwingRenderer swingRenderer, Component ownerComponent) {
 		super();
+		this.ownerComponent = ownerComponent;
 		this.swingRenderer = swingRenderer;
 	}
 
@@ -42,10 +43,6 @@ public class DialogBuilder {
 
 	public Component getOwnerComponent() {
 		return ownerComponent;
-	}
-
-	public void setOwnerComponent(Component ownerComponent) {
-		this.ownerComponent = ownerComponent;
 	}
 
 	public Component getContentComponent() {

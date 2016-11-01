@@ -30,10 +30,10 @@ public class ObjectDialogBuilder {
 	protected JPanel objectForm;
 	protected boolean cancellable = false;
 
-	public ObjectDialogBuilder(SwingRenderer swingRenderer, Object value) {
+	public ObjectDialogBuilder(SwingRenderer swingRenderer, Component ownerComponent, Object value) {
 		this.swingRenderer = swingRenderer;
 		this.value = value;
-		delegate = new DialogBuilder(swingRenderer);
+		delegate = new DialogBuilder(swingRenderer, ownerComponent);
 
 		setTitle(swingRenderer.getObjectTitle(value));
 		setIconImage(swingRenderer.getObjectIconImage(value));
@@ -122,10 +122,6 @@ public class ObjectDialogBuilder {
 
 	public Component getOwnerComponent() {
 		return delegate.getOwnerComponent();
-	}
-
-	public void setOwnerComponent(Component ownerComponent) {
-		delegate.setOwnerComponent(ownerComponent);
 	}
 
 	public String getTitle() {

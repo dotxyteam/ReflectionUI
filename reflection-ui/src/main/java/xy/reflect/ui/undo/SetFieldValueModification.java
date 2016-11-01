@@ -15,7 +15,7 @@ public class SetFieldValueModification implements IModification {
 
 	public static SetFieldValueModification create(ReflectionUI reflectionUI, final Object object,
 			final IFieldInfo field, final Object value) {
-		String title = "Edit '" + field.getCaption() + "'";
+		String title = getTitle(field);
 		Runnable doJob = new Runnable() {
 			@Override
 			public void run() {
@@ -24,6 +24,10 @@ public class SetFieldValueModification implements IModification {
 		};
 		Runnable undoJob = field.getCustomUndoUpdateJob(object, value);
 		return new SetFieldValueModification(reflectionUI, title, object, field, doJob, undoJob);
+	}
+
+	public static String getTitle(IFieldInfo field) {
+		return "Edit '" + field.getCaption() + "'";
 	}
 
 	public SetFieldValueModification(ReflectionUI reflectionUI, String title, Object object, IFieldInfo field,

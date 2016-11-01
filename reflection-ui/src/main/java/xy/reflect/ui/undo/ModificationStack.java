@@ -178,8 +178,14 @@ public class ModificationStack {
 	}
 
 	public void beginComposite() {
-		validate();
+		if (!isInComposite()) {
+			validate();
+		}
 		compositeStack.push(new ModificationStack("(composite level " + compositeStack.size() + ") " + name));
+	}
+
+	public boolean isInComposite() {
+		return compositeStack.size() == 0;
 	}
 
 	public boolean endComposite(IInfo target, String title, UndoOrder order) {
@@ -258,7 +264,7 @@ public class ModificationStack {
 		if (undoStack.size() > 0) {
 			return false;
 		}
-		if (isInvalidated()) {
+		if (wasInvalidated()) {
 			return false;
 		}
 		return true;

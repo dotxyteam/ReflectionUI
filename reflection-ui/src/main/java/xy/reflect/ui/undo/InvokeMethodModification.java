@@ -13,7 +13,7 @@ public class InvokeMethodModification implements IModification {
 
 	public static InvokeMethodModification create(final Object object, final IMethodInfo method,
 			final InvocationData invocationData) {
-		String title = method.getCaption();
+		String title = getTitle(method);
 		Runnable doJob = new Runnable() {
 			@Override
 			public void run() {
@@ -22,6 +22,12 @@ public class InvokeMethodModification implements IModification {
 		};
 		Runnable undoJob = method.getUndoJob(object, invocationData);
 		return new InvokeMethodModification(title, method, doJob, undoJob);
+	}
+	
+
+
+	public static String getTitle(IMethodInfo method) {
+		return  method.getCaption();
 	}
 
 	public InvokeMethodModification(String title, IMethodInfo method, Runnable doJob, Runnable undoJob) {
