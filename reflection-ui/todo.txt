@@ -4,7 +4,6 @@
 	. if sub sub ... list field is not direct access
 	then its descendants will not be modifiable and 
 	this will not be customizable
-- SwingSpecificProperty => DesktopSpecificProperty 
 - add type InfoCustomizations.EnumerationCustomization
 	. allow to customize enum item captions
 		. polymorphicFieldControl.enumControl must be customizable.

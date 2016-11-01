@@ -50,6 +50,10 @@ public class ReflectionUITest {
 		@OnlineHelp("Can be of 2 types")
 		public Exception theException;
 
+		
+		public String theChoice;
+		public String[] theChoiceOptions = new String[]{"a","z","e","r","t","y"};
+
 		@OnlineHelp("This is the string var")
 		private String theString = "azerty";
 

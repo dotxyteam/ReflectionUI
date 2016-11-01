@@ -2101,8 +2101,17 @@ public final class InfoCustomizations {
 				for (Iterator<IFieldInfo> it = result.iterator(); it.hasNext();) {
 					IFieldInfo field = it.next();
 					FieldCustomization f = getFieldCustomization(type.getName(), field.getName());
-					if ((f != null) && f.hidden) {
-						it.remove();
+					if (f != null) {
+						if (f.hidden) {
+							it.remove();
+						}else{
+							for(FieldCustomization fOther: t.fieldsCustomizations){
+								if(f.fieldName.equals(fOther.valueOptionsFieldName)){
+									it.remove();
+									break;
+								}
+							}
+						}
 					}
 				}
 				if (t.customFieldsOrder != null) {
@@ -2250,6 +2259,9 @@ public final class InfoCustomizations {
 				if (f.valueOptionsFieldName != null) {
 					IFieldInfo valueOptionsfield = ReflectionUIUtils.findInfoByName(containingType.getFields(),
 							f.valueOptionsFieldName);
+					if (valueOptionsfield == null) {
+						throw new ReflectionUIError("Value options field not found: '" + f.valueOptionsFieldName + "'");
+					}
 					IListTypeInfo valueOptionsfieldType = (IListTypeInfo) valueOptionsfield.getType();
 					Object options = valueOptionsfield.getValue(object);
 					if (options == null) {

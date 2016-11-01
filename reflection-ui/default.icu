@@ -63,6 +63,42 @@
         <fieldColumnsAdded>false</fieldColumnsAdded>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
+        <itemTypeName>java.lang.StackTraceElement</itemTypeName>
+        <listTypeName>[Ljava.lang.StackTraceElement;</listTypeName>
+        <positionColumnAdded>false</positionColumnAdded>
+        <stringValueColumnAdded>false</stringValueColumnAdded>
+    </listStructures>
+    <listStructures>
+        <columnsCustomizations>
+            <columnName>toStringValue</columnName>
+            <hidden>false</hidden>
+        </columnsCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
+        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+        <itemTypeColumnAdded>false</itemTypeColumnAdded>
+        <itemTypeName>java.lang.String</itemTypeName>
+        <listTypeName>[Ljava.lang.String;</listTypeName>
+        <positionColumnAdded>false</positionColumnAdded>
+        <stringValueColumnAdded>false</stringValueColumnAdded>
+    </listStructures>
+    <listStructures>
+        <columnsCustomizations>
+            <columnName>toStringValue</columnName>
+            <hidden>false</hidden>
+        </columnsCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
+        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+        <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>ReflectionUITest$AbstrcatTestDescendant</itemTypeName>
         <listTypeName>java.util.List</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
@@ -181,6 +217,10 @@
         <stringValueColumnAdded>false</stringValueColumnAdded>
     </listStructures>
     <typeCustomizations>
+        <typeName></typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <fieldName></fieldName>
@@ -188,6 +228,36 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>EncapsulatedObjectFactory [fieldType=Date, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulatedObjectFactory [fieldType=Illegal Access Exception, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulatedObjectFactory [fieldType=Selection Dialog Array As Enumeration, fieldCaption=Choose an option:]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulatedObjectFactory [fieldType=Selection, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -258,6 +328,16 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>EncapsulationTypeInfo()</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>parameter1</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>MethodInvocationObjectFactory(AWTException)</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -343,6 +423,19 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <fieldName>theChoice</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <valueOptionsFieldName>theChoiceOptions</valueOptionsFieldName>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>theChoiceOptions</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
             <fieldName>theDate</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -355,7 +448,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <customValueAccessMode>COPY</customValueAccessMode>
             <fieldName>theDatePlus1Day</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -575,6 +667,14 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <typeName>[Ljava.lang.StackTraceElement;</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>[Ljava.lang.String;</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
         <typeName>boolean</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -588,6 +688,20 @@
     </typeCustomizations>
     <typeCustomizations>
         <typeName>int</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>java.awt.AWTException AWTException(java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <typeName>java.awt.AWTException</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -673,7 +787,49 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <typeName>java.io.PrintStream</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>java.io.PrintWriter</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
         <typeName>java.lang.Boolean</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>java.lang.ClassNotFoundException ClassNotFoundException()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>java.lang.ClassNotFoundException ClassNotFoundException(java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>java.lang.ClassNotFoundException ClassNotFoundException(java.lang.String, java.lang.Throwable)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter2</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <typeName>java.lang.ClassNotFoundException</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -681,7 +837,99 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <javaClassBasedTypeInfoFinder>
+            <className>java.lang.ClassNotFoundException</className>
+        </javaClassBasedTypeInfoFinder>
+        <javaClassBasedTypeInfoFinder>
+            <className>java.awt.AWTException</className>
+        </javaClassBasedTypeInfoFinder>
+        <javaClassBasedTypeInfoFinder>
+            <className>java.lang.IllegalAccessException</className>
+        </javaClassBasedTypeInfoFinder>
         <typeName>java.lang.Exception</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>cause</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>localizedMessage</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>message</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>stackTrace</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>java.lang.IllegalAccessException IllegalAccessException()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>java.lang.IllegalAccessException IllegalAccessException(java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>java.lang.Throwable fillInStackTrace()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>java.lang.Throwable initCause(java.lang.Throwable)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void printStackTrace()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void printStackTrace(java.io.PrintStream)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void printStackTrace(java.io.PrintWriter)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <typeName>java.lang.IllegalAccessException</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -699,6 +947,40 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <fieldName>className</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>fileName</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>lineNumber</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>methodName</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>nativeMethod</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>java.lang.StackTraceElement</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
             <fieldName>bytes</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -709,7 +991,16 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>java.lang.String ()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
         <typeName>java.lang.String</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>java.lang.Throwable</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -889,6 +1180,10 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <typeName>xy.reflect.ui.control.swing.PolymorphicEmbeddedForm$1</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <fieldName>key</fieldName>
@@ -902,6 +1197,14 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,java.lang.String&gt;</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>xy.reflect.ui.info.type.util.TypeInfoProxyFactory$GeneratedBasicTypeInfoProxy</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>xy.reflect.ui.info.type.util.TypeInfoProxyFactory$GeneratedMethodInfoProxy</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>
