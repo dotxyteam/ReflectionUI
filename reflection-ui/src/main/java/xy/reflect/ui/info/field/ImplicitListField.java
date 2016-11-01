@@ -8,7 +8,7 @@ import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
-import xy.reflect.ui.info.ValueAccessMode;
+import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -151,8 +151,8 @@ public class ImplicitListField implements IFieldInfo {
 	}
 
 	@Override
-	public ValueAccessMode getValueAccessMode() {
-		return getGetMethod().getReturnValueAccessMode();
+	public ValueReturnMode getValueReturnMode() {
+		return getGetMethod().getValueReturnMode();
 	}
 
 	@Override

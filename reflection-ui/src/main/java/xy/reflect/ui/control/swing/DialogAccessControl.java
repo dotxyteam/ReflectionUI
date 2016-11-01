@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.IInfoCollectionSettings;
-import xy.reflect.ui.info.ValueAccessMode;
+import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -154,7 +154,7 @@ public class DialogAccessControl extends JPanel implements IFieldControl {
 			if (!dialogBuilder.getDisplayValueType().isModificationStackAccessible()) {
 				cancellable = false;
 			}
-			if(field.isGetOnly() && (field.getValueAccessMode()==ValueAccessMode.COPY)){
+			if(field.isGetOnly() && (field.getValueReturnMode()==ValueReturnMode.COPY)){
 				cancellable = false;
 			}
 		}
@@ -174,9 +174,9 @@ public class DialogAccessControl extends JPanel implements IFieldControl {
 					dialogBuilder.getValue());
 		}
 		boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.isOkPressed();
-		ValueAccessMode childValueAccessMode = field.getValueAccessMode();
+		ValueReturnMode childValueReturnMode = field.getValueReturnMode();
 		if (ReflectionUIUtils.integrateSubModifications(parentModifStack, childModifStack, childModifAccepted,
-				childValueAccessMode, commitModif, childModifTarget, childModifTitle)) {
+				childValueReturnMode, commitModif, childModifTarget, childModifTitle)) {
 			updateControls();
 		}
 	}

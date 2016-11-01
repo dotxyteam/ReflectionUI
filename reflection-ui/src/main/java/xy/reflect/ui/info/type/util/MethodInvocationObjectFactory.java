@@ -7,7 +7,7 @@ import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
-import xy.reflect.ui.info.ValueAccessMode;
+import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -76,8 +76,8 @@ public class MethodInvocationObjectFactory {
 			}
 
 			@Override
-			public ValueAccessMode getValueAccessMode() {
-				return ValueAccessMode.SELF;
+			public ValueReturnMode getValueReturnMode() {
+				return ValueReturnMode.SELF;
 			}
 
 			@Override

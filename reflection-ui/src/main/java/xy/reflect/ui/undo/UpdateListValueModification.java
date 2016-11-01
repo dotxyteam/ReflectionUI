@@ -2,7 +2,7 @@ package xy.reflect.ui.undo;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfo;
-import xy.reflect.ui.info.ValueAccessMode;
+import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
@@ -31,7 +31,7 @@ public class UpdateListValueModification implements IModification {
 		IFieldInfo containingListField = itemPosition.getContainingListField();
 		if (containingListField.isGetOnly()) {
 			if (containingListType.canReplaceContent()
-					&& (containingListField.getValueAccessMode() == ValueAccessMode.SELF)) {
+					&& (containingListField.getValueReturnMode() == ValueReturnMode.SELF)) {
 				return true;
 			}
 		} else {
@@ -89,7 +89,7 @@ public class UpdateListValueModification implements IModification {
 		if (!listType.canReplaceContent()) {
 			return false;
 		}
-		if ((listField.getValueAccessMode() != ValueAccessMode.SELF) && listField.isGetOnly()) {
+		if ((listField.getValueReturnMode() != ValueReturnMode.SELF) && listField.isGetOnly()) {
 			return false;
 		}
 		Object listValue = listField.getValue(listOwner);

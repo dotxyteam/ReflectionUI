@@ -13,7 +13,7 @@ import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.IInfoCollectionSettings;
-import xy.reflect.ui.info.ValueAccessMode;
+import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -113,7 +113,7 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 	}
 
 	protected void forwardSubFormModifications() {
-		if (field.isGetOnly() && (field.getValueAccessMode() == ValueAccessMode.COPY)) {
+		if (field.isGetOnly() && (field.getValueReturnMode() == ValueReturnMode.COPY)) {
 			ModificationStack childModifStack = swingRenderer.getModificationStackByForm().get(subForm);
 			childModifStack.addListener(new AbstractSimpleModificationListener() {
 				@Override
@@ -123,7 +123,7 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 			});
 		} else {
 			Accessor<Boolean> childModifAcceptedGetter = Accessor.returning(Boolean.TRUE);
-			Accessor<ValueAccessMode> childValueCalculatedGetter = Accessor.returning(field.getValueAccessMode());
+			Accessor<ValueReturnMode> childValueCalculatedGetter = Accessor.returning(field.getValueReturnMode());
 			Accessor<IModification> commitModifGetter = new Accessor<IModification>() {
 				@Override
 				public IModification get() {

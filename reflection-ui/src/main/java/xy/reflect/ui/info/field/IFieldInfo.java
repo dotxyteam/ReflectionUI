@@ -6,7 +6,7 @@ import java.util.Map;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
-import xy.reflect.ui.info.ValueAccessMode;
+import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
@@ -44,8 +44,8 @@ public interface IFieldInfo extends IInfo {
 
 		
 		@Override
-		public ValueAccessMode getValueAccessMode() {
-			return ValueAccessMode.PROXY;
+		public ValueReturnMode getValueReturnMode() {
+			return ValueReturnMode.PROXY;
 		}
 
 		@Override
@@ -99,7 +99,7 @@ public interface IFieldInfo extends IInfo {
 
 	boolean isGetOnly();
 
-	ValueAccessMode getValueAccessMode();
+	ValueReturnMode getValueReturnMode();
 
 	InfoCategory getCategory();
 }

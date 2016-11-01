@@ -59,7 +59,7 @@ import org.jdesktop.swingx.treetable.TreeTableModel;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.IInfoCollectionSettings;
-import xy.reflect.ui.info.ValueAccessMode;
+import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -1620,9 +1620,9 @@ public class ListControl extends JPanel implements IFieldControl {
 							dynamicProperty, propertyValueHolder[0]);
 				}
 				boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.isOkPressed();
-				ValueAccessMode childValueAccessMode = dynamicProperty.getValueAccessMode();
+				ValueReturnMode childValueReturnMode = dynamicProperty.getValueReturnMode();
 				return ReflectionUIUtils.integrateSubModifications(parentModifStack, childModifStack,
-						childModifAccepted, childValueAccessMode, commitModif, childModifTarget, null);
+						childModifAccepted, childValueReturnMode, commitModif, childModifTarget, null);
 			}
 
 			@Override
@@ -1690,9 +1690,9 @@ public class ListControl extends JPanel implements IFieldControl {
 				}
 				toPostSelectHolder[0] = Collections.singletonList(itemPosition);
 				boolean childModifAccepted = (!dialogStatus.isCancellable()) || dialogStatus.isOkPressed();
-				ValueAccessMode childValueAccessMode = itemPosition.getContainingListField().getValueAccessMode();
+				ValueReturnMode childValueReturnMode = itemPosition.getContainingListField().getValueReturnMode();
 				return ReflectionUIUtils.integrateSubModifications(parentModifStack, childModifStack,
-						childModifAccepted, childValueAccessMode, commitModif, childModifTarget, null);
+						childModifAccepted, childValueReturnMode, commitModif, childModifTarget, null);
 
 			}
 

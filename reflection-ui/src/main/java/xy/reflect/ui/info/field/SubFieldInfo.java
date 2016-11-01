@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
-import xy.reflect.ui.info.ValueAccessMode;
+import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -111,8 +111,8 @@ public class SubFieldInfo implements IFieldInfo {
 	}
 
 	@Override
-	public ValueAccessMode getValueAccessMode() {
-		return ValueAccessMode.combine(theField.getValueAccessMode(), theSubField.getValueAccessMode());		
+	public ValueReturnMode getValueReturnMode() {
+		return ValueReturnMode.combine(theField.getValueReturnMode(), theSubField.getValueReturnMode());		
 	}
 
 	@Override

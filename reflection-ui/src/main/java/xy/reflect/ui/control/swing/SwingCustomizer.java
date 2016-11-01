@@ -29,7 +29,7 @@ import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.SwingRenderer.MethodControlPlaceHolder;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
-import xy.reflect.ui.info.ValueAccessMode;
+import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -307,8 +307,8 @@ public class SwingCustomizer extends SwingRenderer {
 				}
 
 				@Override
-				public ValueAccessMode getValueAccessMode() {
-					return ValueAccessMode.COPY;
+				public ValueReturnMode getValueReturnMode() {
+					return ValueReturnMode.COPY;
 				}
 
 				@Override
@@ -387,8 +387,8 @@ public class SwingCustomizer extends SwingRenderer {
 				}
 
 				@Override
-				public ValueAccessMode getValueAccessMode() {
-					return ValueAccessMode.COPY;
+				public ValueReturnMode getValueReturnMode() {
+					return ValueReturnMode.COPY;
 				}
 
 				@Override

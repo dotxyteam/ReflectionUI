@@ -648,6 +648,10 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <typeName>xy.reflect.ui.info.ValueReturnMode</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
         <typeName>xy.reflect.ui.info.type.ITypeInfo</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1225,7 +1229,7 @@
         <customFieldsOrder>category</customFieldsOrder>
         <customFieldsOrder>valueOptionsFieldName</customFieldsOrder>
         <customFieldsOrder>onlineHelp</customFieldsOrder>
-        <customFieldsOrder>customValueAccessMode</customFieldsOrder>
+        <customFieldsOrder>customValueReturnMode</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <fieldName>category</fieldName>
@@ -1252,6 +1256,16 @@
             <hidden>false</hidden>
             <customFieldCaption>Change Value Access Mode</customFieldCaption>
             <fieldName>customValueAccessMode</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Advanced</caption>
+            </category>
+            <hidden>false</hidden>
+            <customFieldCaption>Change Value Return Mode</customFieldCaption>
+            <fieldName>customValueReturnMode</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
@@ -1800,6 +1814,25 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
+            <category>
+                <caption>Advanced</caption>
+            </category>
+            <hidden>false</hidden>
+            <fieldName>customReturnValueReturnMode</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Advanced</caption>
+            </category>
+            <hidden>false</hidden>
+            <customFieldCaption>Change Value Return Mode</customFieldCaption>
+            <fieldName>customValueReturnMode</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Hide</customFieldCaption>
             <fieldName>hidden</fieldName>
@@ -1859,6 +1892,16 @@
                 <hidden>false</hidden>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>o</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void setCustomValueReturnMode(xy.reflect.ui.info.ValueReturnMode)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>customReturnValueReturnMode</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
         </methodsCustomizations>

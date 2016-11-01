@@ -6,7 +6,7 @@ import java.util.Map;
 
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
-import xy.reflect.ui.info.ValueAccessMode;
+import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
@@ -35,8 +35,8 @@ public interface IMethodInfo extends IInfo {
 		}
 
 		@Override
-		public ValueAccessMode getReturnValueAccessMode() {
-			return ValueAccessMode.SELF;
+		public ValueReturnMode getValueReturnMode() {
+			return ValueReturnMode.SELF;
 		}
 
 		@Override
@@ -92,6 +92,6 @@ public interface IMethodInfo extends IInfo {
 	void validateParameters(Object object,
 			InvocationData invocationData) throws Exception;
 
-	ValueAccessMode getReturnValueAccessMode();
+	ValueReturnMode getValueReturnMode();
 
 }

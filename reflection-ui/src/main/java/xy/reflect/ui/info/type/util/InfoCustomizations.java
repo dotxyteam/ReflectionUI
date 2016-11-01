@@ -35,7 +35,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.InfoCategory;
-import xy.reflect.ui.info.ValueAccessMode;
+import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -724,7 +724,7 @@ public final class InfoCustomizations {
 		protected boolean nullableFacetHidden = false;
 		protected boolean getOnlyForced = false;
 		protected String valueOptionsFieldName;
-		protected ValueAccessMode customValueAccessMode;
+		protected ValueReturnMode customValueReturnMode;
 
 		public String getFieldName() {
 			return fieldName;
@@ -742,12 +742,12 @@ public final class InfoCustomizations {
 			this.nullableFacetHidden = nullableFacetHidden;
 		}
 
-		public ValueAccessMode getCustomValueAccessMode() {
-			return customValueAccessMode;
+		public ValueReturnMode getCustomValueReturnMode() {
+			return customValueReturnMode;
 		}
 
-		public void setCustomValueAccessMode(ValueAccessMode customValueAccessMode) {
-			this.customValueAccessMode = customValueAccessMode;
+		public void setCustomValueReturnMode(ValueReturnMode customValueReturnMode) {
+			this.customValueReturnMode = customValueReturnMode;
 		}
 
 		public boolean isGetOnlyForced() {
@@ -817,7 +817,7 @@ public final class InfoCustomizations {
 		protected String customMethodCaption;
 		protected boolean readOnlyForced = false;
 		protected List<ParameterCustomization> parametersCustomizations = new ArrayList<InfoCustomizations.ParameterCustomization>();
-		protected ValueAccessMode customReturnValueAccessMode;
+		protected ValueReturnMode customValueReturnMode;
 
 		public boolean isReadOnlyForced() {
 			return readOnlyForced;
@@ -827,12 +827,12 @@ public final class InfoCustomizations {
 			this.readOnlyForced = readOnlyForced;
 		}
 
-		public ValueAccessMode getCustomReturnValueAccessMode() {
-			return customReturnValueAccessMode;
+		public ValueReturnMode getCustomValueReturnMode() {
+			return customValueReturnMode;
 		}
 
-		public void setCustomReturnValueAccessMode(ValueAccessMode customReturnValueAccessMode) {
-			this.customReturnValueAccessMode = customReturnValueAccessMode;
+		public void setCustomValueReturnMode(ValueReturnMode customReturnValueReturnMode) {
+			this.customValueReturnMode = customReturnValueReturnMode;
 		}
 
 		public String getMethodSignature() {
@@ -1504,26 +1504,26 @@ public final class InfoCustomizations {
 		}
 
 		@Override
-		protected ValueAccessMode getValueAccessMode(IFieldInfo field, ITypeInfo containingType) {
+		protected ValueReturnMode getValueReturnMode(IFieldInfo field, ITypeInfo containingType) {
 			FieldCustomization f = getFieldCustomization(containingType.getName(), field.getName());
 			if (f != null) {
-				if (f.customValueAccessMode != null) {
-					return f.customValueAccessMode;
+				if (f.customValueReturnMode != null) {
+					return f.customValueReturnMode;
 				}
 			}
-			return super.getValueAccessMode(field, containingType);
+			return super.getValueReturnMode(field, containingType);
 		}
 
 		@Override
-		protected ValueAccessMode getReturnValueAccessMode(IMethodInfo method, ITypeInfo containingType) {
+		protected ValueReturnMode getValueReturnMode(IMethodInfo method, ITypeInfo containingType) {
 			MethodCustomization m = getMethodCustomization(containingType.getName(),
 					ReflectionUIUtils.getMethodInfoSignature(method));
 			if (m != null) {
-				if (m.customReturnValueAccessMode != null) {
-					return m.customReturnValueAccessMode;
+				if (m.customValueReturnMode != null) {
+					return m.customValueReturnMode;
 				}
 			}
-			return super.getReturnValueAccessMode(method, containingType);
+			return super.getValueReturnMode(method, containingType);
 		}
 
 		@Override
@@ -1586,10 +1586,10 @@ public final class InfoCustomizations {
 								}
 
 								@Override
-								public ValueAccessMode getValueAccessMode() {
-									return ValueAccessMode.combine(
-											itemPosition.getContainingListField().getValueAccessMode(),
-											itemField.getValueAccessMode());
+								public ValueReturnMode getValueReturnMode() {
+									return ValueReturnMode.combine(
+											itemPosition.getContainingListField().getValueReturnMode(),
+											itemField.getValueReturnMode());
 								}
 
 								@Override
@@ -1637,7 +1637,7 @@ public final class InfoCustomizations {
 						}
 
 						@Override
-						public ValueAccessMode getValueAccessMode() {
+						public ValueReturnMode getValueReturnMode() {
 							throw new UnsupportedOperationException();
 						}
 
@@ -1701,10 +1701,10 @@ public final class InfoCustomizations {
 								}
 
 								@Override
-								public ValueAccessMode getReturnValueAccessMode() {
-									return ValueAccessMode.combine(
-											itemPosition.getContainingListField().getValueAccessMode(),
-											method.getReturnValueAccessMode());
+								public ValueReturnMode getValueReturnMode() {
+									return ValueReturnMode.combine(
+											itemPosition.getContainingListField().getValueReturnMode(),
+											method.getValueReturnMode());
 								}
 
 								@Override
@@ -1783,7 +1783,7 @@ public final class InfoCustomizations {
 						}
 
 						@Override
-						public ValueAccessMode getReturnValueAccessMode() {
+						public ValueReturnMode getValueReturnMode() {
 							throw new UnsupportedOperationException();
 						}
 					});

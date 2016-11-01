@@ -7,7 +7,7 @@ import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
-import xy.reflect.ui.info.ValueAccessMode;
+import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
@@ -107,8 +107,8 @@ public class MultipleFieldAsOne implements IFieldInfo {
 	}
 
 	@Override
-	public ValueAccessMode getValueAccessMode() {
-		return ValueAccessMode.PROXY;
+	public ValueReturnMode getValueReturnMode() {
+		return ValueReturnMode.PROXY;
 	}
 
 	@Override

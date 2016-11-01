@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
-import xy.reflect.ui.info.ValueAccessMode;
+import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -150,8 +150,8 @@ public class TypeInfoProxyFactory {
 		return field.isGetOnly();
 	}
 
-	protected ValueAccessMode getValueAccessMode(IFieldInfo field, ITypeInfo containingType) {
-		return field.getValueAccessMode();
+	protected ValueReturnMode getValueReturnMode(IFieldInfo field, ITypeInfo containingType) {
+		return field.getValueReturnMode();
 	}
 
 	protected void setValue(Object object, Object value, IFieldInfo field, ITypeInfo containingType) {
@@ -194,8 +194,8 @@ public class TypeInfoProxyFactory {
 		return method.isReadOnly();
 	}
 
-	protected ValueAccessMode getReturnValueAccessMode(IMethodInfo method, ITypeInfo containingType) {
-		return method.getReturnValueAccessMode();
+	protected ValueReturnMode getValueReturnMode(IMethodInfo method, ITypeInfo containingType) {
+		return method.getValueReturnMode();
 	}
 
 	protected Object invoke(Object object, InvocationData invocationData, IMethodInfo method,
@@ -796,8 +796,8 @@ public class TypeInfoProxyFactory {
 		}
 
 		@Override
-		public ValueAccessMode getValueAccessMode() {
-			return TypeInfoProxyFactory.this.getValueAccessMode(field, containingType);
+		public ValueReturnMode getValueReturnMode() {
+			return TypeInfoProxyFactory.this.getValueReturnMode(field, containingType);
 		}
 
 		@Override
@@ -911,8 +911,8 @@ public class TypeInfoProxyFactory {
 		}
 
 		@Override
-		public ValueAccessMode getReturnValueAccessMode() {
-			return TypeInfoProxyFactory.this.getReturnValueAccessMode(method, containingType);
+		public ValueReturnMode getValueReturnMode() {
+			return TypeInfoProxyFactory.this.getValueReturnMode(method, containingType);
 		}
 
 		@Override

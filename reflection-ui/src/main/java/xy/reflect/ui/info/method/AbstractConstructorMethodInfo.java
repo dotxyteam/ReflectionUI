@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
-import xy.reflect.ui.info.ValueAccessMode;
+import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -55,8 +55,8 @@ public abstract class AbstractConstructorMethodInfo implements IMethodInfo {
 	}
 
 	@Override
-	public ValueAccessMode getReturnValueAccessMode() {
-		return ValueAccessMode.COPY;
+	public ValueReturnMode getValueReturnMode() {
+		return ValueReturnMode.COPY;
 	}
 
 

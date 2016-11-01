@@ -10,7 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import xy.reflect.ui.info.IInfo;
-import xy.reflect.ui.info.ValueAccessMode;
+import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.util.MethodInvocationObjectFactory;
@@ -98,7 +98,7 @@ public class MethodAction extends AbstractAction {
 			String msg = "No data returned!";
 			swingRenderer.openMessageDialog(activatorComponent, msg, "Result", null);
 		} else {
-			if (method.getReturnValueAccessMode() == ValueAccessMode.COPY) {
+			if (method.getValueReturnMode() == ValueReturnMode.COPY) {
 				swingRenderer.openObjectFrame(returnValue);
 			} else {
 				ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, activatorComponent,
@@ -109,7 +109,7 @@ public class MethodAction extends AbstractAction {
 					if (!dialogBuilder.getDisplayValueType().isModificationStackAccessible()) {
 						cancellable = false;
 					}
-					if (method.getReturnValueAccessMode() == ValueAccessMode.COPY) {
+					if (method.getValueReturnMode() == ValueReturnMode.COPY) {
 						cancellable = false;
 					}
 				}
@@ -125,9 +125,9 @@ public class MethodAction extends AbstractAction {
 						IInfo childModifTarget = method;
 						IModification commitModif = null;
 						boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.isOkPressed();
-						ValueAccessMode childValueAccessMode = method.getReturnValueAccessMode();
+						ValueReturnMode childValueReturnMode = method.getValueReturnMode();
 						ReflectionUIUtils.integrateSubModifications(parentModifStack, childModifStack,
-								childModifAccepted, childValueAccessMode, commitModif, childModifTarget,
+								childModifAccepted, childValueReturnMode, commitModif, childModifTarget,
 								childModifTitle);
 					}
 				}
