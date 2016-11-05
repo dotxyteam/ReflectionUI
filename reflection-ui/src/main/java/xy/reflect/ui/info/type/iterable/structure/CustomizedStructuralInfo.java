@@ -26,7 +26,7 @@ import xy.reflect.ui.info.type.iterable.structure.column.TypeNameColumnInfo;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.info.type.util.InfoCustomizations.ColumnCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.InfoFilter;
-import xy.reflect.ui.info.type.util.InfoCustomizations.ListStructureCustomization;
+import xy.reflect.ui.info.type.util.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.TreeStructureDiscoverySettings;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -36,12 +36,12 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 	protected List<IFieldInfo> columnFields;
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo rootItemType;
-	protected ListStructureCustomization customization;
+	protected ListCustomization customization;
 	protected List<IColumnInfo> columns;
 	protected IListTypeInfo listType;
 
 	public CustomizedStructuralInfo(ReflectionUI reflectionUI, IListStructuralInfo base, IListTypeInfo listType,
-			ListStructureCustomization customization) {
+			ListCustomization customization) {
 		super(base);
 		this.reflectionUI = reflectionUI;
 		this.listType = listType;

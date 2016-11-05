@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <infoCustomizations>
-    <listStructures>
+    <listCustomizations>
         <allowedItemFieldShortcuts>
             <alwaysShown>true</alwaysShown>
             <fieldName>theDay</fieldName>
@@ -49,8 +49,8 @@
         </methodsExcludedFromItemDetails>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
-    </listStructures>
-    <listStructures>
+    </listCustomizations>
+    <listCustomizations>
         <columnsCustomizations>
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
@@ -67,8 +67,8 @@
         <listTypeName>[Ljava.lang.StackTraceElement;</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
-    </listStructures>
-    <listStructures>
+    </listCustomizations>
+    <listCustomizations>
         <columnsCustomizations>
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
@@ -85,8 +85,8 @@
         <listTypeName>[Ljava.lang.String;</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
-    </listStructures>
-    <listStructures>
+    </listCustomizations>
+    <listCustomizations>
         <columnsCustomizations>
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
@@ -103,8 +103,8 @@
         <listTypeName>java.util.List</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
-    </listStructures>
-    <listStructures>
+    </listCustomizations>
+    <listCustomizations>
         <columnsCustomizations>
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
@@ -121,8 +121,8 @@
         <listTypeName>java.util.List</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
-    </listStructures>
-    <listStructures>
+    </listCustomizations>
+    <listCustomizations>
         <columnsCustomizations>
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
@@ -139,8 +139,8 @@
         <listTypeName>java.util.List</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
-    </listStructures>
-    <listStructures>
+    </listCustomizations>
+    <listCustomizations>
         <columnsCustomizations>
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
@@ -157,8 +157,8 @@
         <listTypeName>java.util.Map</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
-    </listStructures>
-    <listStructures>
+    </listCustomizations>
+    <listCustomizations>
         <columnsCustomizations>
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
@@ -175,8 +175,8 @@
         <listTypeName>java.util.Set</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
-    </listStructures>
-    <listStructures>
+    </listCustomizations>
+    <listCustomizations>
         <columnsCustomizations>
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
@@ -193,8 +193,8 @@
         <listTypeName>java.util.Stack</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
-    </listStructures>
-    <listStructures>
+    </listCustomizations>
+    <listCustomizations>
         <columnsCustomizations>
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
@@ -215,7 +215,7 @@
         <listTypeName>java.util.Vector</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
-    </listStructures>
+    </listCustomizations>
     <typeCustomizations>
         <typeName></typeName>
         <undoManagementHidden>false</undoManagementHidden>

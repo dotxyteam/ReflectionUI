@@ -16,7 +16,7 @@ import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
-import xy.reflect.ui.info.type.util.InfoCustomizations.ListStructureCustomization;
+import xy.reflect.ui.info.type.util.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.TreeStructureDiscoverySettings;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -65,8 +65,8 @@ public class TestIterableTypeInfos  extends AbstractTest{
 
 		IFieldInfo itemListInfo = ReflectionUIUtils.findInfoByName(typeInfo.getFields(), "itemList");
 		IListTypeInfo itemListTypeInfo = (IListTypeInfo) itemListInfo.getType();
-		ListStructureCustomization itemListTypeCustomization = customizations
-				.getListStructureCustomization(itemListTypeInfo.getName(), itemListTypeInfo.getItemType().getName());
+		ListCustomization itemListTypeCustomization = customizations
+				.getListCustomization(itemListTypeInfo.getName(), itemListTypeInfo.getItemType().getName());
 		itemListTypeCustomization.setFieldColumnsAdded(true);
 		itemListTypeCustomization.setItemTypeColumnAdded(true);
 		TreeStructureDiscoverySettings treeSettings = new TreeStructureDiscoverySettings();

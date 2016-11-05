@@ -45,7 +45,7 @@ import xy.reflect.ui.info.type.util.InfoCustomizations;
 import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
 import xy.reflect.ui.info.type.util.InfoCustomizations.ColumnCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.FieldCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizations.ListStructureCustomization;
+import xy.reflect.ui.info.type.util.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.MethodCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
@@ -652,8 +652,8 @@ public class SwingCustomizer extends SwingRenderer {
 				final IListTypeInfo customizedListType) {
 			ITypeInfo customizedItemType = customizedListType.getItemType();
 			String itemTypeName = (customizedItemType == null) ? null : customizedItemType.getName();
-			ListStructureCustomization lc = infoCustomizations
-					.getListStructureCustomization(customizedListType.getName(), itemTypeName, true);
+			ListCustomization lc = infoCustomizations
+					.getListCustomization(customizedListType.getName(), itemTypeName, true);
 			IListStructuralInfo customizedListStructure = customizedListType.getStructuralInfo();
 			class ColumnOrderItem {
 				IColumnInfo columnInfo;
@@ -699,8 +699,8 @@ public class SwingCustomizer extends SwingRenderer {
 				final IListTypeInfo customizedListType) {
 			ITypeInfo customizedItemType = customizedListType.getItemType();
 			String itemTypeName = (customizedItemType == null) ? null : customizedItemType.getName();
-			ListStructureCustomization lc = infoCustomizations
-					.getListStructureCustomization(customizedListType.getName(), itemTypeName, true);
+			ListCustomization lc = infoCustomizations
+					.getListCustomization(customizedListType.getName(), itemTypeName, true);
 			if (customizationToolsRenderer.openObjectDialogAndGetConfirmation(activatorComponent, lc,
 					customizationToolsRenderer.getObjectTitle(lc), getCustomizationIcon().getImage(), true)) {
 				SwingUtilities.invokeLater(new Runnable() {

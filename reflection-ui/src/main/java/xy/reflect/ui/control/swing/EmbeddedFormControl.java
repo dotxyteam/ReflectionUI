@@ -123,7 +123,8 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 			});
 		} else {
 			Accessor<Boolean> childModifAcceptedGetter = Accessor.returning(Boolean.TRUE);
-			Accessor<ValueReturnMode> childValueCalculatedGetter = Accessor.returning(field.getValueReturnMode());
+			Accessor<ValueReturnMode> childValueReturnModeGetter = Accessor.returning(field.getValueReturnMode());
+			Accessor<Boolean> childValueReplacedGetter =  Accessor.returning(Boolean.FALSE);
 			Accessor<IModification> commitModifGetter = new Accessor<IModification>() {
 				@Override
 				public IModification get() {
@@ -134,8 +135,9 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 							subFormObject);
 				}
 			};
-			ReflectionUIUtils.forwardSubModifications(subForm, childModifAcceptedGetter, childValueCalculatedGetter,
-					commitModifGetter, field, SetFieldValueModification.getTitle(field), swingRenderer);
+			ReflectionUIUtils.forwardSubModifications(subForm, childModifAcceptedGetter, childValueReturnModeGetter,
+					childValueReplacedGetter, commitModifGetter, field, SetFieldValueModification.getTitle(field),
+					swingRenderer);
 		}
 	}
 

@@ -981,8 +981,8 @@ public class ReflectionUIUtils {
 
 	public static boolean integrateSubModifications(final ModificationStack parentModifStack,
 			final ModificationStack childModifStack, boolean childModifAccepted,
-			final ValueReturnMode childValueReturnMode, final IModification commitModif, IInfo childModifTarget,
-			String subModifTitle) {
+			final ValueReturnMode childValueReturnMode, final boolean childValueReplaced,
+			final IModification commitModif, IInfo childModifTarget, String subModifTitle) {
 
 		if (parentModifStack == null) {
 			throw new ReflectionUIError();
@@ -998,16 +998,16 @@ public class ReflectionUIUtils {
 						UndoOrder.FIFO, new Accessor<Boolean>() {
 							@Override
 							public Boolean get() {
-								if (childValueReturnMode != ValueReturnMode.SELF) {
-									if (commitModif != null) {
-										parentModifStack.apply(commitModif);
-									}
-								}
 								if (childValueReturnMode != ValueReturnMode.COPY) {
 									if (childModifStack.wasInvalidated()) {
 										parentModifStack.invalidate();
 									} else {
 										parentModifStack.pushUndo(childModifStack.toCompositeModification(null, null));
+									}
+								}
+								if ((childValueReturnMode != ValueReturnMode.SELF) || childValueReplaced) {
+									if (commitModif != null) {
+										parentModifStack.apply(commitModif);
 									}
 								}
 								return true;
@@ -1031,8 +1031,8 @@ public class ReflectionUIUtils {
 
 	public static void forwardSubModifications(final JPanel subForm, final Accessor<Boolean> childModifAcceptedGetter,
 			final Accessor<ValueReturnMode> childValueReturnModeGetter,
-			final Accessor<IModification> commitModifGetter, final IInfo childModifTarget,
-			final String parentModifTitle, final SwingRenderer swingRenderer) {
+			final Accessor<Boolean> childValueReplacedGetter, final Accessor<IModification> commitModifGetter,
+			final IInfo childModifTarget, final String parentModifTitle, final SwingRenderer swingRenderer) {
 		final ModificationStack parentModifStack = SwingRendererUtils
 				.findParentFormModificationStack(subForm.getParent(), swingRenderer);
 		if (parentModifStack == null) {
@@ -1051,7 +1051,8 @@ public class ReflectionUIUtils {
 					if (SwingRendererUtils.findParentFormModificationStack(subForm, swingRenderer) != null) {
 						subForm.removeAncestorListener(this);
 						forwardSubModifications(subForm, childModifAcceptedGetter, childValueReturnModeGetter,
-								commitModifGetter, childModifTarget, parentModifTitle, swingRenderer);
+								childValueReplacedGetter, commitModifGetter, childModifTarget, parentModifTitle,
+								swingRenderer);
 					}
 				}
 			});
@@ -1064,13 +1065,14 @@ public class ReflectionUIUtils {
 					childModifStack.pushUndo(undoModif);
 					Boolean childModifAccepted = childModifAcceptedGetter.get();
 					ValueReturnMode childValueReturnMode = childValueReturnModeGetter.get();
+					Boolean childValueReplaced = childValueReplacedGetter.get();
 					IModification commitModif = commitModifGetter.get();
 					String subModifTitle = ModificationStack.getUndoTitle(undoModif.getTitle());
 					if (parentModifTitle != null) {
 						subModifTitle = ReflectionUIUtils.composeTitle(parentModifTitle, subModifTitle);
 					}
 					return integrateSubModifications(parentModifStack, childModifStack, childModifAccepted,
-							childValueReturnMode, commitModif, childModifTarget, subModifTitle);
+							childValueReturnMode, childValueReplaced, commitModif, childModifTarget, subModifTitle);
 				}
 
 				@Override
@@ -1094,10 +1096,12 @@ public class ReflectionUIUtils {
 					childModifStack.invalidate();
 					Boolean childModifAccepted = childModifAcceptedGetter.get();
 					ValueReturnMode childValueReturnMode = childValueReturnModeGetter.get();
+					Boolean childValueReplaced = childValueReplacedGetter.get();
 					IModification commitModif = commitModifGetter.get();
 					String childModifTitle = null;
 					integrateSubModifications(parentModifStack, childModifStack, childModifAccepted,
-							childValueReturnMode, commitModif, childModifTarget, childModifTitle);
+							childValueReturnMode, childValueReplaced, commitModif, childModifTarget,
+							childModifTitle);
 				}
 
 			});

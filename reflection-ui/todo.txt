@@ -1,3 +1,5 @@
+- add IListType.getItemReturnMode()
+== getItem(int) method valueReturnMode
 - rethink about read-only forms
 - UpdateListModif: 
 	. listField.getUndo... is not taken into account

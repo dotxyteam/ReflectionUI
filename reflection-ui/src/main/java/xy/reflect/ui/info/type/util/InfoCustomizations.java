@@ -55,7 +55,7 @@ import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.InfoCustomizations.ColumnCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.FieldCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizations.ListStructureCustomization;
+import xy.reflect.ui.info.type.util.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.MethodCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.undo.IModification;
@@ -76,7 +76,7 @@ public final class InfoCustomizations {
 
 	transient protected CustomizationsProxyFactory proxyFactory;
 	protected Set<TypeCustomization> typeCustomizations = new TreeSet<InfoCustomizations.TypeCustomization>();
-	protected Set<ListStructureCustomization> listStructures = new TreeSet<InfoCustomizations.ListStructureCustomization>();
+	protected Set<ListCustomization> listCustomizations = new TreeSet<InfoCustomizations.ListCustomization>();
 
 	protected CustomizationsProxyFactory createCustomizationsProxyFactory(ReflectionUI reflectionUI) {
 		return new CustomizationsProxyFactory(reflectionUI);
@@ -116,15 +116,15 @@ public final class InfoCustomizations {
 		this.typeCustomizations = new TreeSet<TypeCustomization>(typeCustomizations);
 	}
 
-	public Set<ListStructureCustomization> getListStructures() {
-		return listStructures;
+	public Set<ListCustomization> getListCustomizations() {
+		return listCustomizations;
 	}
 
-	public void setListStructures(Set<ListStructureCustomization> listStructures) {
-		if (listStructures == null) {
-			this.listStructures = null;
+	public void setListCustomizations(Set<ListCustomization> listCustomizations) {
+		if (listCustomizations == null) {
+			this.listCustomizations = null;
 		}
-		this.listStructures = new TreeSet<ListStructureCustomization>(listStructures);
+		this.listCustomizations = new TreeSet<ListCustomization>(listCustomizations);
 	}
 
 	public void loadFromFile(File input) throws IOException {
@@ -149,7 +149,7 @@ public final class InfoCustomizations {
 			throw new IOException(e);
 		}
 		typeCustomizations = loaded.typeCustomizations;
-		listStructures = loaded.listStructures;
+		listCustomizations = loaded.listCustomizations;
 
 		fillXMLSerializationGap();
 	}
@@ -176,7 +176,7 @@ public final class InfoCustomizations {
 				}
 			}
 		}
-		for (ListStructureCustomization l : listStructures) {
+		for (ListCustomization l : listCustomizations) {
 			l.parent = this;
 		}
 	}
@@ -198,7 +198,7 @@ public final class InfoCustomizations {
 	public void saveToStream(OutputStream output) throws IOException {
 		InfoCustomizations toSave = new InfoCustomizations();
 		toSave.typeCustomizations = typeCustomizations;
-		toSave.listStructures = listStructures;
+		toSave.listCustomizations = listCustomizations;
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(InfoCustomizations.class);
 			javax.xml.bind.Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -301,13 +301,13 @@ public final class InfoCustomizations {
 		return null;
 	}
 
-	public ListStructureCustomization getListStructureCustomization(String listTypeName, String itemTypeName) {
-		return getListStructureCustomization(listTypeName, itemTypeName, true);
+	public ListCustomization getListCustomization(String listTypeName, String itemTypeName) {
+		return getListCustomization(listTypeName, itemTypeName, true);
 	}
 
-	public ListStructureCustomization getListStructureCustomization(String listTypeName, String itemTypeName,
+	public ListCustomization getListCustomization(String listTypeName, String itemTypeName,
 			boolean create) {
-		for (ListStructureCustomization l : listStructures) {
+		for (ListCustomization l : listCustomizations) {
 			if (listTypeName.equals(l.listTypeName)) {
 				if (ReflectionUIUtils.equalsOrBothNull(l.itemTypeName, itemTypeName)) {
 					return l;
@@ -315,11 +315,11 @@ public final class InfoCustomizations {
 			}
 		}
 		if (create) {
-			ListStructureCustomization l = new ListStructureCustomization();
+			ListCustomization l = new ListCustomization();
 			l.setParent(this);
 			l.setListTypeName(listTypeName);
 			l.setItemTypeName(itemTypeName);
-			listStructures.add(l);
+			listCustomizations.add(l);
 			return l;
 		}
 		return null;
@@ -331,7 +331,7 @@ public final class InfoCustomizations {
 
 	public ColumnCustomization getColumnCustomization(String listTypeName, String itemTypeName, String columnName,
 			boolean create) {
-		for (ListStructureCustomization l : listStructures) {
+		for (ListCustomization l : listCustomizations) {
 			if (listTypeName.equals(l.listTypeName)) {
 				if (ReflectionUIUtils.equalsOrBothNull(itemTypeName, l.itemTypeName)) {
 					for (ColumnCustomization c : l.columnsCustomizations) {
@@ -343,7 +343,7 @@ public final class InfoCustomizations {
 			}
 		}
 		if (create) {
-			ListStructureCustomization l = getListStructureCustomization(listTypeName, itemTypeName, true);
+			ListCustomization l = getListCustomization(listTypeName, itemTypeName, true);
 			ColumnCustomization c = new ColumnCustomization();
 			c.setColumnName(columnName);
 			l.columnsCustomizations.add(c);
@@ -408,7 +408,7 @@ public final class InfoCustomizations {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((listStructures == null) ? 0 : listStructures.hashCode());
+		result = prime * result + ((listCustomizations == null) ? 0 : listCustomizations.hashCode());
 		result = prime * result + ((typeCustomizations == null) ? 0 : typeCustomizations.hashCode());
 		return result;
 	}
@@ -422,10 +422,10 @@ public final class InfoCustomizations {
 		if (getClass() != obj.getClass())
 			return false;
 		InfoCustomizations other = (InfoCustomizations) obj;
-		if (listStructures == null) {
-			if (other.listStructures != null)
+		if (listCustomizations == null) {
+			if (other.listCustomizations != null)
 				return false;
-		} else if (!listStructures.equals(other.listStructures))
+		} else if (!listCustomizations.equals(other.listCustomizations))
 			return false;
 		if (typeCustomizations == null) {
 			if (other.typeCustomizations != null)
@@ -1196,7 +1196,7 @@ public final class InfoCustomizations {
 
 	}
 
-	public static class ListStructureCustomization implements Comparable<ListStructureCustomization> {
+	public static class ListCustomization implements Comparable<ListCustomization> {
 		protected transient InfoCustomizations parent;
 		protected String listTypeName;
 		protected String itemTypeName;
@@ -1388,7 +1388,7 @@ public final class InfoCustomizations {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			ListStructureCustomization other = (ListStructureCustomization) obj;
+			ListCustomization other = (ListCustomization) obj;
 			if (itemTypeName == null) {
 				if (other.itemTypeName != null)
 					return false;
@@ -1403,7 +1403,7 @@ public final class InfoCustomizations {
 		}
 
 		@Override
-		public int compareTo(ListStructureCustomization o) {
+		public int compareTo(ListCustomization o) {
 			int result = ReflectionUIUtils.compareNullables(listTypeName, o.listTypeName);
 			if (result == 0) {
 				result = ReflectionUIUtils.compareNullables(itemTypeName, o.itemTypeName);
@@ -1532,7 +1532,7 @@ public final class InfoCustomizations {
 			List<AbstractListProperty> result = super.getDynamicProperties(listType, object, listField, selection);
 			result = new ArrayList<AbstractListProperty>(result);
 			ITypeInfo itemType = listType.getItemType();
-			final ListStructureCustomization l = getListStructureCustomization(listType.getName(),
+			final ListCustomization l = getListCustomization(listType.getName(),
 					(itemType == null) ? null : itemType.getName());
 			for (final ListItemFieldShortcut s : l.allowedItemFieldShortcuts) {
 				final String fieldCaption;
@@ -1663,7 +1663,7 @@ public final class InfoCustomizations {
 			List<AbstractListAction> result = super.getDynamicActions(listType, object, field, selection);
 			result = new ArrayList<AbstractListAction>(result);
 			ITypeInfo itemType = listType.getItemType();
-			final ListStructureCustomization l = getListStructureCustomization(listType.getName(),
+			final ListCustomization l = getListCustomization(listType.getName(),
 					(itemType == null) ? null : itemType.getName());
 			for (final ListItemMethodShortcut s : l.allowedItemMethodShortcuts) {
 				final String methodCaption;
@@ -1795,7 +1795,7 @@ public final class InfoCustomizations {
 		@Override
 		protected IListItemDetailsAccessMode getDetailsAccessMode(IListTypeInfo listType) {
 			ITypeInfo itemType = listType.getItemType();
-			final ListStructureCustomization l = getListStructureCustomization(listType.getName(),
+			final ListCustomization l = getListCustomization(listType.getName(),
 					(itemType == null) ? null : itemType.getName());
 			if (l != null) {
 				if (l.customDetailsAccessMode != null) {
@@ -1808,7 +1808,7 @@ public final class InfoCustomizations {
 		@Override
 		protected boolean canInstanciateFromArray(IListTypeInfo listType) {
 			ITypeInfo itemType = listType.getItemType();
-			final ListStructureCustomization l = getListStructureCustomization(listType.getName(),
+			final ListCustomization l = getListCustomization(listType.getName(),
 					(itemType == null) ? null : itemType.getName());
 			if (l != null) {
 				if (l.editOptions == null) {
@@ -1821,7 +1821,7 @@ public final class InfoCustomizations {
 		@Override
 		protected boolean canReplaceContent(IListTypeInfo listType) {
 			ITypeInfo itemType = listType.getItemType();
-			final ListStructureCustomization l = getListStructureCustomization(listType.getName(),
+			final ListCustomization l = getListCustomization(listType.getName(),
 					(itemType == null) ? null : itemType.getName());
 			if (l != null) {
 				if (l.editOptions == null) {
@@ -1834,7 +1834,7 @@ public final class InfoCustomizations {
 		@Override
 		protected boolean canAdd(IListTypeInfo listType) {
 			ITypeInfo itemType = listType.getItemType();
-			final ListStructureCustomization l = getListStructureCustomization(listType.getName(),
+			final ListCustomization l = getListCustomization(listType.getName(),
 					(itemType == null) ? null : itemType.getName());
 			if (l != null) {
 				if ((l.editOptions == null) || !l.editOptions.itemCreationEnabled) {
@@ -1847,7 +1847,7 @@ public final class InfoCustomizations {
 		@Override
 		protected boolean canRemove(IListTypeInfo listType) {
 			ITypeInfo itemType = listType.getItemType();
-			final ListStructureCustomization l = getListStructureCustomization(listType.getName(),
+			final ListCustomization l = getListCustomization(listType.getName(),
 					(itemType == null) ? null : itemType.getName());
 			if (l != null) {
 				if ((l.editOptions == null) || !l.editOptions.itemDeletionEnabled) {
@@ -1860,7 +1860,7 @@ public final class InfoCustomizations {
 		@Override
 		protected boolean isOrdered(IListTypeInfo listType) {
 			ITypeInfo itemType = listType.getItemType();
-			final ListStructureCustomization l = getListStructureCustomization(listType.getName(),
+			final ListCustomization l = getListCustomization(listType.getName(),
 					(itemType == null) ? null : itemType.getName());
 			if (l != null) {
 				if ((l.editOptions == null) || !l.editOptions.itemMoveEnabled) {
@@ -1873,7 +1873,7 @@ public final class InfoCustomizations {
 		@Override
 		protected boolean canViewItemDetails(IListTypeInfo listType) {
 			ITypeInfo itemType = listType.getItemType();
-			final ListStructureCustomization l = getListStructureCustomization(listType.getName(),
+			final ListCustomization l = getListCustomization(listType.getName(),
 					(itemType == null) ? null : itemType.getName());
 			if (l != null) {
 				if (l.itemDetailsViewDisabled) {
@@ -1951,7 +1951,7 @@ public final class InfoCustomizations {
 		@Override
 		protected IListStructuralInfo getStructuralInfo(IListTypeInfo listType) {
 			ITypeInfo itemType = listType.getItemType();
-			final ListStructureCustomization customization = getListStructureCustomization(listType.getName(),
+			final ListCustomization customization = getListCustomization(listType.getName(),
 					(itemType == null) ? null : itemType.getName());
 			if (customization != null) {
 				final IListStructuralInfo base = super.getStructuralInfo(listType);

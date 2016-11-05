@@ -185,7 +185,7 @@ public class ModificationStack {
 	}
 
 	public boolean isInComposite() {
-		return compositeStack.size() == 0;
+		return compositeStack.size() > 0;
 	}
 
 	public boolean endComposite(IInfo target, String title, UndoOrder order) {

@@ -16,12 +16,12 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class MethodInvocationObjectFactory {
+public class MethodSetupObjectFactory {
 
 	protected IMethodInfo method;
 	protected ReflectionUI reflectionUI;
 
-	public MethodInvocationObjectFactory(ReflectionUI reflectionUI, IMethodInfo method) {
+	public MethodSetupObjectFactory(ReflectionUI reflectionUI, IMethodInfo method) {
 		this.method = method;
 		this.reflectionUI = reflectionUI;
 	}
@@ -103,7 +103,7 @@ public class MethodInvocationObjectFactory {
 	}
 
 	public Instance getInstance(Object object, InvocationData invocationData) {
-		Instance result = new MethodInvocationObjectFactory.Instance(object, invocationData);
+		Instance result = new MethodSetupObjectFactory.Instance(object, invocationData);
 		reflectionUI.registerPrecomputedTypeInfoObject(result, new TypeInfo());
 		return result;
 	}
@@ -124,12 +124,12 @@ public class MethodInvocationObjectFactory {
 		if (!getClass().equals(obj.getClass())) {
 			return false;
 		}
-		return method.equals(((MethodInvocationObjectFactory) obj).method);
+		return method.equals(((MethodSetupObjectFactory) obj).method);
 	}
 
 	@Override
 	public String toString() {
-		return MethodInvocationObjectFactory.class.getSimpleName() + " [method=" + method + "]";
+		return MethodSetupObjectFactory.class.getSimpleName() + " [method=" + method + "]";
 	}
 
 	protected static class Instance {
@@ -171,7 +171,7 @@ public class MethodInvocationObjectFactory {
 
 		@Override
 		public String getName() {
-			return MethodInvocationObjectFactory.class.getSimpleName() + "(" + method.getName() + ")";
+			return MethodSetupObjectFactory.class.getSimpleName() + "(" + method.getName() + ")";
 		}
 
 		@Override
@@ -260,8 +260,8 @@ public class MethodInvocationObjectFactory {
 			return true;
 		}
 
-		private MethodInvocationObjectFactory getOuterType() {
-			return MethodInvocationObjectFactory.this;
+		private MethodSetupObjectFactory getOuterType() {
+			return MethodSetupObjectFactory.this;
 		}
 
 	}

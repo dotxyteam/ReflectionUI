@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <infoCustomizations>
-    <listStructures>
+    <listCustomizations>
         <columnsCustomizations>
             <columnName>className</columnName>
             <hidden>false</hidden>
@@ -33,8 +33,8 @@
         <listTypeName>[Ljava.lang.StackTraceElement;</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
-    </listStructures>
-    <listStructures>
+    </listCustomizations>
+    <listCustomizations>
         <columnsCustomizations>
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
@@ -47,8 +47,8 @@
         <listTypeName>[Ljava.lang.Throwable;</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
-    </listStructures>
-    <listStructures>
+    </listCustomizations>
+    <listCustomizations>
         <columnsCustomOrder>typeName</columnsCustomOrder>
         <columnsCustomOrder>name</columnsCustomOrder>
         <columnsCustomOrder>description</columnsCustomOrder>
@@ -84,8 +84,8 @@
         <treeStructureDiscoverySettings>
             <heterogeneousTree>false</heterogeneousTree>
         </treeStructureDiscoverySettings>
-    </listStructures>
-    <listStructures>
+    </listCustomizations>
+    <listCustomizations>
         <columnsCustomizations>
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
@@ -98,7 +98,7 @@
         <listTypeName>java.util.List</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
-    </listStructures>
+    </listCustomizations>
     <typeCustomizations>
         <typeName></typeName>
     </typeCustomizations>

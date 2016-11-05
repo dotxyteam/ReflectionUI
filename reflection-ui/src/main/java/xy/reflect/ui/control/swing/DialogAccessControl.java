@@ -175,8 +175,9 @@ public class DialogAccessControl extends JPanel implements IFieldControl {
 		}
 		boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.isOkPressed();
 		ValueReturnMode childValueReturnMode = field.getValueReturnMode();
+		boolean childValueReplaced = (value != dialogBuilder.getValue());
 		if (ReflectionUIUtils.integrateSubModifications(parentModifStack, childModifStack, childModifAccepted,
-				childValueReturnMode, commitModif, childModifTarget, childModifTitle)) {
+				childValueReturnMode, childValueReplaced , commitModif, childModifTarget, childModifTitle)) {
 			updateControls();
 		}
 	}

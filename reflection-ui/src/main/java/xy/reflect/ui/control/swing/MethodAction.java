@@ -13,7 +13,7 @@ import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
-import xy.reflect.ui.info.type.util.MethodInvocationObjectFactory;
+import xy.reflect.ui.info.type.util.MethodSetupObjectFactory;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.ModificationStack;
@@ -126,8 +126,9 @@ public class MethodAction extends AbstractAction {
 						IModification commitModif = null;
 						boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.isOkPressed();
 						ValueReturnMode childValueReturnMode = method.getValueReturnMode();
+						boolean childValueReplaced = (returnValue != dialogBuilder.getValue());
 						ReflectionUIUtils.integrateSubModifications(parentModifStack, childModifStack,
-								childModifAccepted, childValueReturnMode, commitModif, childModifTarget,
+								childModifAccepted, childValueReturnMode, childValueReplaced, commitModif, childModifTarget,
 								childModifTitle);
 					}
 				}
@@ -147,7 +148,7 @@ public class MethodAction extends AbstractAction {
 			invocationData = new InvocationData();
 		}
 		JPanel methodForm = swingRenderer
-				.createObjectForm(new MethodInvocationObjectFactory(swingRenderer.getReflectionUI(), method)
+				.createObjectForm(new MethodSetupObjectFactory(swingRenderer.getReflectionUI(), method)
 						.getInstance(object, invocationData));
 		final boolean[] invokedStatusHolder = new boolean[] { false };
 		List<Component> toolbarControls = new ArrayList<Component>();

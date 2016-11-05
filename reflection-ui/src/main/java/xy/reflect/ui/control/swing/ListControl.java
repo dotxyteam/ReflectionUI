@@ -268,7 +268,6 @@ public class ListControl extends JPanel implements IFieldControl {
 				getSelection());
 		List<AbstractListAction> dynamicActions = getRootListType().getDynamicActions(object, field, getSelection());
 		if ((dynamicProperties.size() > 0) || (dynamicActions.size() > 0)) {
-			toolbar.add(new JSeparator());
 			for (AbstractListProperty listProperty : getRootListType().getDynamicProperties(object, field,
 					getSelection())) {
 				AbstractAction dynamicPropertyHook = createDynamicPropertyHook(listProperty);
@@ -292,8 +291,10 @@ public class ListControl extends JPanel implements IFieldControl {
 				JSeparator separator = (JSeparator) c;
 				if (separator.getOrientation() == JSeparator.HORIZONTAL) {
 					constraints.insets = new Insets(10, 0, 10, 0);
-				} else {
+				} else if (separator.getOrientation() == JSeparator.VERTICAL) {
 					constraints.weighty = 1;
+				} else {
+					throw new ReflectionUIError();
 				}
 			} else {
 				constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -566,15 +567,6 @@ public class ListControl extends JPanel implements IFieldControl {
 
 		List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
 
-		for (AbstractListProperty listProperty : getRootListType().getDynamicProperties(object, field, selection)) {
-			result.add(createDynamicPropertyHook(listProperty));
-		}
-		for (AbstractListAction listAction : getRootListType().getDynamicActions(object, field, selection)) {
-			result.add(createDynamicActionHook(listAction));
-		}
-
-		result.add(SEPARATOR_ACTION);
-
 		AbstractStandardListAction standardAction;
 
 		standardAction = createOpenItemAction();
@@ -658,6 +650,15 @@ public class ListControl extends JPanel implements IFieldControl {
 		standardAction = createClearAction();
 		if (standardAction.isValid()) {
 			result.add(standardAction);
+		}
+
+		result.add(SEPARATOR_ACTION);
+
+		for (AbstractListProperty listProperty : getRootListType().getDynamicProperties(object, field, selection)) {
+			result.add(createDynamicPropertyHook(listProperty));
+		}
+		for (AbstractListAction listAction : getRootListType().getDynamicActions(object, field, selection)) {
+			result.add(createDynamicActionHook(listAction));
 		}
 
 		result = removeSeparatorsInExcess(result);
@@ -1594,7 +1595,8 @@ public class ListControl extends JPanel implements IFieldControl {
 
 			@Override
 			protected boolean perform(List<AutoFieldValueUpdatingItemPosition>[] toPostSelectHolder) {
-				Object[] propertyValueHolder = new Object[] { dynamicProperty.getValue(object) };
+				Object propertyValue = dynamicProperty.getValue(object);
+				Object[] propertyValueHolder = new Object[] { propertyValue };
 				EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
 						dynamicProperty.getType());
 				encapsulation.setCaption("");
@@ -1605,7 +1607,8 @@ public class ListControl extends JPanel implements IFieldControl {
 				ITypeInfo encapsulatedPropertyValueType = swingRenderer.getReflectionUI()
 						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(encapsulatedPropertyValue));
 
-				ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, ListControl.this, encapsulatedPropertyValue);
+				ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, ListControl.this,
+						encapsulatedPropertyValue);
 				dialogBuilder.setGetOnly(dynamicProperty.isGetOnly());
 				dialogBuilder.setCancellable(encapsulatedPropertyValueType.isModificationStackAccessible());
 				swingRenderer.showDialog(dialogBuilder.build(), true);
@@ -1622,8 +1625,10 @@ public class ListControl extends JPanel implements IFieldControl {
 				}
 				boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.isOkPressed();
 				ValueReturnMode childValueReturnMode = dynamicProperty.getValueReturnMode();
+				boolean childValueReplaced = (propertyValue != propertyValueHolder[0]);
 				return ReflectionUIUtils.integrateSubModifications(parentModifStack, childModifStack,
-						childModifAccepted, childValueReturnMode, commitModif, childModifTarget, null);
+						childModifAccepted, childValueReturnMode, childValueReplaced, commitModif, childModifTarget,
+						null);
 			}
 
 			@Override
@@ -1675,6 +1680,7 @@ public class ListControl extends JPanel implements IFieldControl {
 			@Override
 			protected boolean perform(List<AutoFieldValueUpdatingItemPosition>[] toPostSelectHolder) {
 				AutoFieldValueUpdatingItemPosition itemPosition = getSingleSelection();
+				Object item = itemPosition.getItem();
 				final ObjectDialogBuilder dialogStatus = openDetailsDialog(itemPosition);
 
 				ModificationStack parentModifStack = getParentFormModificationStack();
@@ -1692,8 +1698,10 @@ public class ListControl extends JPanel implements IFieldControl {
 				toPostSelectHolder[0] = Collections.singletonList(itemPosition);
 				boolean childModifAccepted = (!dialogStatus.isCancellable()) || dialogStatus.isOkPressed();
 				ValueReturnMode childValueReturnMode = itemPosition.getContainingListField().getValueReturnMode();
+				boolean childValueReplaced = (item != dialogStatus.getValue());
 				return ReflectionUIUtils.integrateSubModifications(parentModifStack, childModifStack,
-						childModifAccepted, childValueReturnMode, commitModif, childModifTarget, null);
+						childModifAccepted, childValueReturnMode, childValueReplaced, commitModif, childModifTarget,
+						null);
 
 			}
 
@@ -1856,12 +1864,6 @@ public class ListControl extends JPanel implements IFieldControl {
 	}
 
 	protected ObjectDialogBuilder openDetailsDialog(final AutoFieldValueUpdatingItemPosition itemPosition) {
-		ObjectDialogBuilder dialogBuilder = getDetailsDialogBuilder(itemPosition);
-		swingRenderer.showDialog(dialogBuilder.build(), true);
-		return dialogBuilder;
-	}
-
-	protected ObjectDialogBuilder getDetailsDialogBuilder(AutoFieldValueUpdatingItemPosition itemPosition) {
 		ItemNode itemNode = findNode(itemPosition);
 		if (itemNode != null) {
 			TreePath treePath = new TreePath(itemNode.getPath());
@@ -1871,12 +1873,13 @@ public class ListControl extends JPanel implements IFieldControl {
 			return null;
 		}
 
-		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, ListControl.this, itemPosition.getItem());
+		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, ListControl.this,
+				itemPosition.getItem());
 
 		dialogBuilder.setInfoSettings(getStructuralInfo().getItemInfoSettings(itemPosition));
 		dialogBuilder.setGetOnly(!UpdateListValueModification.isCompatibleWith(itemPosition));
 		dialogBuilder.setCancellable(dialogBuilder.getDisplayValueType().isModificationStackAccessible());
-
+		swingRenderer.showDialog(dialogBuilder.build(), true);
 		return dialogBuilder;
 	}
 
