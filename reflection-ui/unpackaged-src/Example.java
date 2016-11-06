@@ -22,7 +22,7 @@ public class Example {
 		SwingRenderer.DEFAULT.openObjectFrame(myObject);
 
 		/* You can open a dialog instead of a frame: */
-		SwingRenderer.DEFAULT.openObjectDialog(null, myObject, true);
+		SwingRenderer.DEFAULT.openObjectDialog(null, myObject);
 
 		/* You can just create a form and then insert it in any container: */
 		JOptionPane.showMessageDialog(null, SwingRenderer.DEFAULT.createObjectForm(myObject));
@@ -110,9 +110,7 @@ public class Example {
 
 		};
 		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
-		swingRenderer.openObjectDialog(null, myObject, true);
-
-		swingRenderer.openObjectDialog(null, myObject, "uppercase field captions", null, true);
+		swingRenderer.openObjectDialog(null, myObject, "uppercase field captions", null, false, true);
 
 	}
 }

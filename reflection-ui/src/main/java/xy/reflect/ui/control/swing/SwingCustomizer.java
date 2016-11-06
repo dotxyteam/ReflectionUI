@@ -37,6 +37,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
 import xy.reflect.ui.info.type.custom.FileTypeInfo;
+import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
@@ -44,6 +45,7 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
 import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
 import xy.reflect.ui.info.type.util.InfoCustomizations.ColumnCustomization;
+import xy.reflect.ui.info.type.util.InfoCustomizations.EnumerationCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.FieldCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.MethodCustomization;
@@ -51,6 +53,9 @@ import xy.reflect.ui.info.type.util.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.IModificationListener;
+import xy.reflect.ui.undo.ModificationProxy;
+import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.FileUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -283,8 +288,8 @@ public class SwingCustomizer extends SwingRenderer {
 				@Override
 				public void setValue(Object object, Object value) {
 					FieldCustomization f = (FieldCustomization) object;
-					DesktopSpecificProperty.setSubFormExpanded(DesktopSpecificProperty.accessCustomizationsProperties(f),
-							(Boolean) value);
+					DesktopSpecificProperty.setSubFormExpanded(
+							DesktopSpecificProperty.accessCustomizationsProperties(f), (Boolean) value);
 				}
 
 				@Override
@@ -445,27 +450,41 @@ public class SwingCustomizer extends SwingRenderer {
 		}
 
 		protected void openTypeCustomizationDialog(Component activatorComponent, final TypeCustomization t) {
+			openCustomizationDialog(activatorComponent, t, t.getTypeName());
+
+		}
+
+		protected void openCustomizationDialog(Component activatorComponent, Object customization,
+				final String impactedTypeName) {
 			final ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(customizationToolsRenderer,
-					activatorComponent, t);
+					activatorComponent, customization);
 			dialogBuilder.setIconImage(getCustomizationIcon().getImage());
 			dialogBuilder.setCancellable(true);
 			dialogBuilder.build();
 			dialogBuilder.getModificationStack()
-					.addListener(getCustomizedWindowsReloadingAdvicer(dialogBuilder.getBuiltDialog()));
+					.addListener(getCustomizedWindowsReloadingAdviser(dialogBuilder.getBuiltDialog()));
 			customizationToolsRenderer.showDialog(dialogBuilder.getBuiltDialog(), true);
 
-			if (dialogBuilder.isOkPressed()) {
+			ValueReturnMode childValueReturnMode = ValueReturnMode.SELF;
+			boolean childModifAccepted = dialogBuilder.isOkPressed();
+			ModificationStack childModifStack = dialogBuilder.getModificationStack();
+			ModificationStack parentModifStack = new ModificationStack(null);
+			boolean childValueNew = dialogBuilder.isValueNew();
+			IModification commitModif = null;
+			IInfo childModifTarget = null;
+			String subModifTitle = "";
+			if (ReflectionUIUtils.integrateSubModifications(parentModifStack, childModifStack, childModifAccepted,
+					childValueReturnMode, childValueNew, commitModif, childModifTarget, subModifTitle)) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						update(t.getTypeName());
+						updateUI(impactedTypeName);
 					}
 				});
 			}
-
 		}
 
-		protected IModificationListener getCustomizedWindowsReloadingAdvicer(final Component ownerComponent) {
+		protected IModificationListener getCustomizedWindowsReloadingAdviser(final Component ownerComponent) {
 			return new IModificationListener() {
 
 				@Override
@@ -577,7 +596,7 @@ public class SwingCustomizer extends SwingRenderer {
 						}
 					});
 					if (customizedField.getType() instanceof IListTypeInfo) {
-						JMenu listSubMenu = new JMenu(prepareStringToDisplay("List Structure"));
+						JMenu listSubMenu = new JMenu(prepareStringToDisplay("List"));
 						{
 							popupMenu.add(listSubMenu);
 							listSubMenu.add(new AbstractAction(prepareStringToDisplay("Move Columns...")) {
@@ -593,8 +612,22 @@ public class SwingCustomizer extends SwingRenderer {
 
 								@Override
 								public void actionPerformed(ActionEvent e) {
-									openListStructureCutomizationDialog(result,
-											(IListTypeInfo) customizedField.getType());
+									openListCutomizationDialog(result, (IListTypeInfo) customizedField.getType());
+								}
+							});
+						}
+					}
+					if (customizedField.getType() instanceof IEnumerationTypeInfo) {
+						JMenu enumSubMenu = new JMenu(prepareStringToDisplay("Enumeration"));
+						{
+							popupMenu.add(enumSubMenu);
+							enumSubMenu.add(new AbstractAction(prepareStringToDisplay("More Options...")) {
+								private static final long serialVersionUID = 1L;
+
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									openEnumerationCutomizationDialog(result,
+											(IEnumerationTypeInfo) customizedField.getType());
 								}
 							});
 						}
@@ -618,13 +651,13 @@ public class SwingCustomizer extends SwingRenderer {
 			MethodCustomization mc = infoCustomizations.getMethodCustomization(customizedType.getName(),
 					methodSignature, true);
 			mc.setHidden(true);
-			update(customizedType.getName());
+			updateUI(customizedType.getName());
 		}
 
 		protected void hideField(Component activatorComponent, ITypeInfo customizedType, String fieldName) {
 			FieldCustomization fc = infoCustomizations.getFieldCustomization(customizedType.getName(), fieldName, true);
 			fc.setHidden(true);
-			update(customizedType.getName());
+			updateUI(customizedType.getName());
 		}
 
 		protected void moveField(Component activatorComponent, ITypeInfo customizedType, String fieldName, int offset) {
@@ -634,7 +667,7 @@ public class SwingCustomizer extends SwingRenderer {
 			} catch (Throwable t) {
 				handleExceptionsFromDisplayedUI(activatorComponent, t);
 			}
-			update(customizedType.getName());
+			updateUI(customizedType.getName());
 		}
 
 		protected void moveMethod(Component activatorComponent, ITypeInfo customizedType, String methodSignature,
@@ -645,15 +678,16 @@ public class SwingCustomizer extends SwingRenderer {
 			} catch (Throwable t) {
 				handleExceptionsFromDisplayedUI(activatorComponent, t);
 			}
-			update(customizedType.getName());
+			updateUI(customizedType.getName());
 		}
 
+		@SuppressWarnings("unchecked")
 		protected void openListColumnsOrderDialog(Component activatorComponent,
 				final IListTypeInfo customizedListType) {
 			ITypeInfo customizedItemType = customizedListType.getItemType();
 			String itemTypeName = (customizedItemType == null) ? null : customizedItemType.getName();
-			ListCustomization lc = infoCustomizations
-					.getListCustomization(customizedListType.getName(), itemTypeName, true);
+			ListCustomization lc = infoCustomizations.getListCustomization(customizedListType.getName(), itemTypeName,
+					true);
 			IListStructuralInfo customizedListStructure = customizedListType.getStructuralInfo();
 			class ColumnOrderItem {
 				IColumnInfo columnInfo;
@@ -678,9 +712,10 @@ public class SwingCustomizer extends SwingRenderer {
 				ColumnOrderItem orderItem = new ColumnOrderItem(c, lc.getColumnCustomization(c.getName()));
 				columnOrder.add(orderItem);
 			}
-			if (customizationToolsRenderer.openObjectDialogAndGetConfirmation(activatorComponent, columnOrder,
-					customizationToolsRenderer.prepareStringToDisplay("Columns Order"),
-					getCustomizationIcon().getImage(), true)) {
+			ObjectDialogBuilder dialogStatus = customizationToolsRenderer.openObjectDialog(activatorComponent,
+					columnOrder, "Columns Order", getCustomizationIcon().getImage(), true, true);
+			if (dialogStatus.isOkPressed()) {
+				columnOrder = (List<ColumnOrderItem>) dialogStatus.getValue();
 				List<String> newOrder = new ArrayList<String>();
 				for (ColumnOrderItem item : columnOrder) {
 					newOrder.add(item.getColumnInfo().getName());
@@ -689,57 +724,38 @@ public class SwingCustomizer extends SwingRenderer {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						update(customizedListType.getName());
+						updateUI(customizedListType.getName());
 					}
 				});
 			}
 		}
 
-		protected void openListStructureCutomizationDialog(Component activatorComponent,
+		protected void openEnumerationCutomizationDialog(Component activatorComponent,
+				final IEnumerationTypeInfo customizedEnumType) {
+			EnumerationCustomization ec = infoCustomizations.getEnumerationCustomization(customizedEnumType.getName());
+			openCustomizationDialog(activatorComponent, ec, customizedEnumType.getName());
+		}
+
+		protected void openListCutomizationDialog(Component activatorComponent,
 				final IListTypeInfo customizedListType) {
 			ITypeInfo customizedItemType = customizedListType.getItemType();
 			String itemTypeName = (customizedItemType == null) ? null : customizedItemType.getName();
-			ListCustomization lc = infoCustomizations
-					.getListCustomization(customizedListType.getName(), itemTypeName, true);
-			if (customizationToolsRenderer.openObjectDialogAndGetConfirmation(activatorComponent, lc,
-					customizationToolsRenderer.getObjectTitle(lc), getCustomizationIcon().getImage(), true)) {
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						update(customizedListType.getName());
-					}
-				});
-			}
+			ListCustomization lc = infoCustomizations.getListCustomization(customizedListType.getName(), itemTypeName,
+					true);
+			openCustomizationDialog(activatorComponent, lc, customizedListType.getName());
 		}
 
-		protected void openFieldCutomizationDialog(Component activatorComponent, final ITypeInfo customoizedType,
+		protected void openFieldCutomizationDialog(Component activatorComponent, final ITypeInfo customizedType,
 				String fieldName) {
-			FieldCustomization fc = infoCustomizations.getFieldCustomization(customoizedType.getName(), fieldName,
-					true);
-			if (customizationToolsRenderer.openObjectDialogAndGetConfirmation(activatorComponent, fc,
-					customizationToolsRenderer.getObjectTitle(fc), getCustomizationIcon().getImage(), true)) {
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						update(customoizedType.getName());
-					}
-				});
-			}
+			FieldCustomization fc = infoCustomizations.getFieldCustomization(customizedType.getName(), fieldName, true);
+			openCustomizationDialog(activatorComponent, fc, customizedType.getName());
 		}
 
 		protected void openMethodCutomizationDialog(Component activatorComponent, final ITypeInfo customizedType,
 				String methodSignature) {
 			MethodCustomization mc = infoCustomizations.getMethodCustomization(customizedType.getName(),
 					methodSignature, true);
-			if (customizationToolsRenderer.openObjectDialogAndGetConfirmation(activatorComponent, mc,
-					customizationToolsRenderer.getObjectTitle(mc), getCustomizationIcon().getImage(), true)) {
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						update(customizedType.getName());
-					}
-				});
-			}
+			openCustomizationDialog(activatorComponent, mc, customizedType.getName());
 		}
 
 		protected Component createMethodInfoCustomizer(final ITypeInfo customizedType, final String methodSignature) {
@@ -806,7 +822,7 @@ public class SwingCustomizer extends SwingRenderer {
 			return result;
 		}
 
-		protected void update(String typeName) {
+		protected void updateUI(String typeName) {
 			for (Map.Entry<JPanel, Object> entry : getObjectByForm().entrySet()) {
 				Object object = entry.getValue();
 				ITypeInfo objectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));

@@ -1051,34 +1051,23 @@ public class SwingRenderer {
 	}
 
 	public void openErrorDetailsDialog(Component activatorComponent, Throwable error) {
-		openObjectDialog(activatorComponent, error, true);
+		openObjectDialog(activatorComponent, error);
 	}
 
-	public boolean openObjectDialogAndGetConfirmation(Component activatorComponent, Object object, final String title,
-			Image iconImage, boolean modal) {
+	public ObjectDialogBuilder openObjectDialog(Component activatorComponent, Object object) {
+		return openObjectDialog(activatorComponent, object, getObjectTitle(object), getObjectIconImage(object), false,
+				true);
+	}
+
+	public ObjectDialogBuilder openObjectDialog(Component activatorComponent, Object object, final String title,
+			Image iconImage, boolean cancellable, boolean modal) {
 		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(this, activatorComponent, object);
 		dialogBuilder.setTitle(title);
 		dialogBuilder.setIconImage(iconImage);
-		dialogBuilder.setCancellable(true);
+		dialogBuilder.setCancellable(cancellable);
+		;
 		showDialog(dialogBuilder.build(), modal);
-		return dialogBuilder.isOkPressed();
-	}
-
-	public boolean openObjectDialogAndGetConfirmation(Component activatorComponent, Object object, boolean modal) {
-		return openObjectDialogAndGetConfirmation(activatorComponent, object, getObjectTitle(object),
-				getObjectIconImage(object), modal);
-	}
-
-	public void openObjectDialog(Component activatorComponent, Object object, boolean modal) {
-		openObjectDialog(activatorComponent, object, getObjectTitle(object), getObjectIconImage(object), modal);
-	}
-
-	public void openObjectDialog(Component activatorComponent, Object object, final String title, Image iconImage,
-			boolean modal) {
-		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(this, activatorComponent, object);
-		dialogBuilder.setTitle(title);
-		dialogBuilder.setIconImage(iconImage);
-		showDialog(dialogBuilder.build(), modal);
+		return dialogBuilder;
 	}
 
 	public void openObjectFrame(Object object, String title, Image iconImage) {
@@ -1191,8 +1180,8 @@ public class SwingRenderer {
 		encapsulation.setFieldNullable(false);
 		Object encapsulatedChosenItem = encapsulation.getInstance(chosenItemHolder);
 
-		if (openObjectDialogAndGetConfirmation(parentComponent, encapsulatedChosenItem, title,
-				getObjectIconImage(encapsulatedChosenItem), true)) {
+		if (openObjectDialog(parentComponent, encapsulatedChosenItem, title, getObjectIconImage(encapsulatedChosenItem),
+				true, true).isOkPressed()) {
 			return chosenItemHolder[0];
 		} else {
 			return null;
@@ -1214,8 +1203,8 @@ public class SwingRenderer {
 		encapsulation.setFieldNullable(false);
 		Object encapsulatedValue = encapsulation.getInstance(valueHolder);
 
-		if (openObjectDialogAndGetConfirmation(parentComponent, encapsulatedValue, title,
-				getObjectIconImage(encapsulatedValue), true)) {
+		if (openObjectDialog(parentComponent, encapsulatedValue, title, getObjectIconImage(encapsulatedValue), true,
+				true).isOkPressed()) {
 			return (T) valueHolder[0];
 		} else {
 			return null;

@@ -981,7 +981,7 @@ public class ReflectionUIUtils {
 
 	public static boolean integrateSubModifications(final ModificationStack parentModifStack,
 			final ModificationStack childModifStack, boolean childModifAccepted,
-			final ValueReturnMode childValueReturnMode, final boolean childValueReplaced,
+			final ValueReturnMode childValueReturnMode, final boolean childValueNew,
 			final IModification commitModif, IInfo childModifTarget, String subModifTitle) {
 
 		if (parentModifStack == null) {
@@ -1005,7 +1005,7 @@ public class ReflectionUIUtils {
 										parentModifStack.pushUndo(childModifStack.toCompositeModification(null, null));
 									}
 								}
-								if ((childValueReturnMode != ValueReturnMode.SELF) || childValueReplaced) {
+								if ((childValueReturnMode != ValueReturnMode.SELF) || childValueNew) {
 									if (commitModif != null) {
 										parentModifStack.apply(commitModif);
 									}
@@ -1031,7 +1031,7 @@ public class ReflectionUIUtils {
 
 	public static void forwardSubModifications(final JPanel subForm, final Accessor<Boolean> childModifAcceptedGetter,
 			final Accessor<ValueReturnMode> childValueReturnModeGetter,
-			final Accessor<Boolean> childValueReplacedGetter, final Accessor<IModification> commitModifGetter,
+			final Accessor<Boolean> childValueNewGetter, final Accessor<IModification> commitModifGetter,
 			final IInfo childModifTarget, final String parentModifTitle, final SwingRenderer swingRenderer) {
 		final ModificationStack parentModifStack = SwingRendererUtils
 				.findParentFormModificationStack(subForm.getParent(), swingRenderer);
@@ -1051,7 +1051,7 @@ public class ReflectionUIUtils {
 					if (SwingRendererUtils.findParentFormModificationStack(subForm, swingRenderer) != null) {
 						subForm.removeAncestorListener(this);
 						forwardSubModifications(subForm, childModifAcceptedGetter, childValueReturnModeGetter,
-								childValueReplacedGetter, commitModifGetter, childModifTarget, parentModifTitle,
+								childValueNewGetter, commitModifGetter, childModifTarget, parentModifTitle,
 								swingRenderer);
 					}
 				}
@@ -1065,14 +1065,14 @@ public class ReflectionUIUtils {
 					childModifStack.pushUndo(undoModif);
 					Boolean childModifAccepted = childModifAcceptedGetter.get();
 					ValueReturnMode childValueReturnMode = childValueReturnModeGetter.get();
-					Boolean childValueReplaced = childValueReplacedGetter.get();
+					Boolean childValueNew = childValueNewGetter.get();
 					IModification commitModif = commitModifGetter.get();
 					String subModifTitle = ModificationStack.getUndoTitle(undoModif.getTitle());
 					if (parentModifTitle != null) {
 						subModifTitle = ReflectionUIUtils.composeTitle(parentModifTitle, subModifTitle);
 					}
 					return integrateSubModifications(parentModifStack, childModifStack, childModifAccepted,
-							childValueReturnMode, childValueReplaced, commitModif, childModifTarget, subModifTitle);
+							childValueReturnMode, childValueNew, commitModif, childModifTarget, subModifTitle);
 				}
 
 				@Override
@@ -1096,11 +1096,11 @@ public class ReflectionUIUtils {
 					childModifStack.invalidate();
 					Boolean childModifAccepted = childModifAcceptedGetter.get();
 					ValueReturnMode childValueReturnMode = childValueReturnModeGetter.get();
-					Boolean childValueReplaced = childValueReplacedGetter.get();
+					Boolean childValueNew = childValueNewGetter.get();
 					IModification commitModif = commitModifGetter.get();
 					String childModifTitle = null;
 					integrateSubModifications(parentModifStack, childModifStack, childModifAccepted,
-							childValueReturnMode, childValueReplaced, commitModif, childModifTarget,
+							childValueReturnMode, childValueNew, commitModif, childModifTarget,
 							childModifTitle);
 				}
 

@@ -6,6 +6,6 @@ import xy.reflect.ui.control.swing.SwingRenderer;
 public class ClassStructureUI {
 
 	public static void main(String[] args){
-		new SwingRenderer(new ReflectionUI()).openObjectDialog(null, ArrayList.class, null, null, false);
+		new SwingRenderer(new ReflectionUI()).openObjectDialog(null, ArrayList.class);
 	}
 }

@@ -1625,9 +1625,9 @@ public class ListControl extends JPanel implements IFieldControl {
 				}
 				boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.isOkPressed();
 				ValueReturnMode childValueReturnMode = dynamicProperty.getValueReturnMode();
-				boolean childValueReplaced = (propertyValue != propertyValueHolder[0]);
+				boolean childValueNew = dialogBuilder.isValueNew();
 				return ReflectionUIUtils.integrateSubModifications(parentModifStack, childModifStack,
-						childModifAccepted, childValueReturnMode, childValueReplaced, commitModif, childModifTarget,
+						childModifAccepted, childValueReturnMode, childValueNew, commitModif, childModifTarget,
 						null);
 			}
 
@@ -1680,7 +1680,6 @@ public class ListControl extends JPanel implements IFieldControl {
 			@Override
 			protected boolean perform(List<AutoFieldValueUpdatingItemPosition>[] toPostSelectHolder) {
 				AutoFieldValueUpdatingItemPosition itemPosition = getSingleSelection();
-				Object item = itemPosition.getItem();
 				final ObjectDialogBuilder dialogStatus = openDetailsDialog(itemPosition);
 
 				ModificationStack parentModifStack = getParentFormModificationStack();
@@ -1698,9 +1697,9 @@ public class ListControl extends JPanel implements IFieldControl {
 				toPostSelectHolder[0] = Collections.singletonList(itemPosition);
 				boolean childModifAccepted = (!dialogStatus.isCancellable()) || dialogStatus.isOkPressed();
 				ValueReturnMode childValueReturnMode = itemPosition.getContainingListField().getValueReturnMode();
-				boolean childValueReplaced = (item != dialogStatus.getValue());
+				boolean childValueNew = dialogStatus.isValueNew();
 				return ReflectionUIUtils.integrateSubModifications(parentModifStack, childModifStack,
-						childModifAccepted, childValueReturnMode, childValueReplaced, commitModif, childModifTarget,
+						childModifAccepted, childValueReturnMode, childValueNew, commitModif, childModifTarget,
 						null);
 
 			}

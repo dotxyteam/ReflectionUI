@@ -26,13 +26,14 @@ public class ObjectDialogBuilder {
 
 	protected DialogBuilder delegate;
 	protected SwingRenderer swingRenderer;
+	protected Object initialValue;
 	protected Object value;
 	protected JPanel objectForm;
 	protected boolean cancellable = false;
 
 	public ObjectDialogBuilder(SwingRenderer swingRenderer, Component ownerComponent, Object value) {
 		this.swingRenderer = swingRenderer;
-		this.value = value;
+		this.initialValue = this.value = value;
 		delegate = new DialogBuilder(swingRenderer, ownerComponent);
 
 		setTitle(swingRenderer.getObjectTitle(value));
@@ -41,6 +42,12 @@ public class ObjectDialogBuilder {
 
 	public Object getValue() {
 		return value;
+	}
+	
+
+
+	public boolean isValueNew() {
+		return initialValue !=  value;
 	}
 
 	protected Object getDisplayValue() {

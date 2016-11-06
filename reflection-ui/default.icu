@@ -9,26 +9,30 @@
             <alwaysShown>true</alwaysShown>
             <methodSignature>void doNothing()</methodSignature>
         </allowedItemMethodShortcuts>
-        <columnsCustomizations>
+        <columnCustomizations>
             <columnName>the2ndShort</columnName>
             <hidden>false</hidden>
-        </columnsCustomizations>
-        <columnsCustomizations>
+        </columnCustomizations>
+        <columnCustomizations>
             <columnName>theDay</columnName>
             <hidden>false</hidden>
-        </columnsCustomizations>
-        <columnsCustomizations>
+        </columnCustomizations>
+        <columnCustomizations>
             <columnName>theShort</columnName>
             <hidden>false</hidden>
-        </columnsCustomizations>
-        <columnsCustomizations>
+        </columnCustomizations>
+        <columnCustomizations>
             <columnName>toStringValue</columnName>
             <hidden>true</hidden>
-        </columnsCustomizations>
-        <columnsCustomizations>
+        </columnCustomizations>
+        <columnCustomizations>
             <columnName>typeName</columnName>
             <hidden>false</hidden>
-        </columnsCustomizations>
+        </columnCustomizations>
+        <columnsCustomOrder>typeName</columnsCustomOrder>
+        <columnsCustomOrder>theDay</columnsCustomOrder>
+        <columnsCustomOrder>theShort</columnsCustomOrder>
+        <columnsCustomOrder>the2ndShort</columnsCustomOrder>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
@@ -51,10 +55,10 @@
         <stringValueColumnAdded>false</stringValueColumnAdded>
     </listCustomizations>
     <listCustomizations>
-        <columnsCustomizations>
+        <columnCustomizations>
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
-        </columnsCustomizations>
+        </columnCustomizations>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
@@ -69,10 +73,10 @@
         <stringValueColumnAdded>false</stringValueColumnAdded>
     </listCustomizations>
     <listCustomizations>
-        <columnsCustomizations>
+        <columnCustomizations>
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
-        </columnsCustomizations>
+        </columnCustomizations>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
@@ -87,10 +91,10 @@
         <stringValueColumnAdded>false</stringValueColumnAdded>
     </listCustomizations>
     <listCustomizations>
-        <columnsCustomizations>
+        <columnCustomizations>
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
-        </columnsCustomizations>
+        </columnCustomizations>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
@@ -105,10 +109,10 @@
         <stringValueColumnAdded>false</stringValueColumnAdded>
     </listCustomizations>
     <listCustomizations>
-        <columnsCustomizations>
+        <columnCustomizations>
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
-        </columnsCustomizations>
+        </columnCustomizations>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
@@ -123,10 +127,10 @@
         <stringValueColumnAdded>false</stringValueColumnAdded>
     </listCustomizations>
     <listCustomizations>
-        <columnsCustomizations>
+        <columnCustomizations>
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
-        </columnsCustomizations>
+        </columnCustomizations>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
@@ -141,10 +145,10 @@
         <stringValueColumnAdded>false</stringValueColumnAdded>
     </listCustomizations>
     <listCustomizations>
-        <columnsCustomizations>
+        <columnCustomizations>
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
-        </columnsCustomizations>
+        </columnCustomizations>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
@@ -159,10 +163,10 @@
         <stringValueColumnAdded>false</stringValueColumnAdded>
     </listCustomizations>
     <listCustomizations>
-        <columnsCustomizations>
+        <columnCustomizations>
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
-        </columnsCustomizations>
+        </columnCustomizations>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
@@ -177,10 +181,10 @@
         <stringValueColumnAdded>false</stringValueColumnAdded>
     </listCustomizations>
     <listCustomizations>
-        <columnsCustomizations>
+        <columnCustomizations>
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
-        </columnsCustomizations>
+        </columnCustomizations>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
@@ -195,10 +199,10 @@
         <stringValueColumnAdded>false</stringValueColumnAdded>
     </listCustomizations>
     <listCustomizations>
-        <columnsCustomizations>
+        <columnCustomizations>
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
-        </columnsCustomizations>
+        </columnCustomizations>
         <embeddedDetailsAccessMode>
             <defaultDetailsAreaOccupationRatio>0.66</defaultDetailsAreaOccupationRatio>
             <detailsAreaPosition>RIGHT</detailsAreaPosition>
@@ -258,6 +262,46 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>EncapsulatedObjectFactory [fieldType=Selection, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulatedObjectFactory [fieldType=String, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulatedObjectFactory [fieldType=Test 2, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulatedObjectFactory [fieldType=Test 3, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulatedObjectFactory [fieldType=Test 4, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -386,6 +430,12 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">false</value>
+                </entry>
+            </specificProperties>
             <hidden>false</hidden>
             <fieldName>test2</fieldName>
             <getOnlyForced>false</getOnlyForced>
@@ -401,7 +451,7 @@
             <hidden>false</hidden>
             <fieldName>theArrayTreeTable</fieldName>
             <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>false</nullableFacetHidden>
+            <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -444,7 +494,7 @@
             <specificProperties>
                 <entry>
                     <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">false</value>
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
@@ -474,7 +524,7 @@
             <hidden>false</hidden>
             <fieldName>theFileList</fieldName>
             <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>false</nullableFacetHidden>
+            <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -486,7 +536,7 @@
             <hidden>false</hidden>
             <fieldName>theGenericVector</fieldName>
             <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>false</nullableFacetHidden>
+            <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -498,19 +548,19 @@
             <hidden>false</hidden>
             <fieldName>theMap</fieldName>
             <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>false</nullableFacetHidden>
+            <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <fieldName>theSet</fieldName>
             <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>false</nullableFacetHidden>
+            <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <fieldName>theStack</fieldName>
             <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>false</nullableFacetHidden>
+            <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -522,13 +572,13 @@
             <hidden>false</hidden>
             <fieldName>theStringList</fieldName>
             <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>false</nullableFacetHidden>
+            <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <fieldName>theTest2Map</fieldName>
             <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>false</nullableFacetHidden>
+            <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
@@ -635,6 +685,86 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void modify1()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void modify10()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void modify11()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void modify12()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void modify13()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void modify14()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void modify15()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void modify16()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void modify2()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void modify3()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void modify4()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void modify5()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void modify6()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void modify7()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void modify8()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void modify9()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+        </methodsCustomizations>
         <typeName>ReflectionUITest$Test4</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>

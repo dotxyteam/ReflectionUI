@@ -11,7 +11,7 @@ public class TableTreeModelExample {
 
 	public static void main(String[] args) {
 		TestWithAutomation.setupConceptionEnvironment();
-		SwingRenderer.DEFAULT.openObjectDialog(null, new Catalog(), false);
+		SwingRenderer.DEFAULT.openObjectDialog(null, new Catalog(), null, null, false, false);
 	}
 
 	public static class Catalog {

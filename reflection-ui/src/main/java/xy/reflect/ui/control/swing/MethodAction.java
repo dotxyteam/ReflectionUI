@@ -126,9 +126,9 @@ public class MethodAction extends AbstractAction {
 						IModification commitModif = null;
 						boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.isOkPressed();
 						ValueReturnMode childValueReturnMode = method.getValueReturnMode();
-						boolean childValueReplaced = (returnValue != dialogBuilder.getValue());
+						boolean childValueNew = dialogBuilder.isValueNew();
 						ReflectionUIUtils.integrateSubModifications(parentModifStack, childModifStack,
-								childModifAccepted, childValueReturnMode, childValueReplaced, commitModif, childModifTarget,
+								childModifAccepted, childValueReturnMode, childValueNew, commitModif, childModifTarget,
 								childModifTitle);
 					}
 				}

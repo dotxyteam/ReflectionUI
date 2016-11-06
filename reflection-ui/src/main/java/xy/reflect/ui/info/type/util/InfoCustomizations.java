@@ -41,6 +41,9 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.enumeration.EnumerationItemInfoProxy;
+import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
+import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode;
@@ -74,12 +77,13 @@ public final class InfoCustomizations {
 
 	public static final InfoCustomizations DEFAULT = createDefault();
 
-	transient protected CustomizationsProxyFactory proxyFactory;
+	transient protected MyTypeInfoProxyFactory proxyFactory;
 	protected Set<TypeCustomization> typeCustomizations = new TreeSet<InfoCustomizations.TypeCustomization>();
 	protected Set<ListCustomization> listCustomizations = new TreeSet<InfoCustomizations.ListCustomization>();
+	protected Set<EnumerationCustomization> enumerationCustomizations = new TreeSet<InfoCustomizations.EnumerationCustomization>();
 
-	protected CustomizationsProxyFactory createCustomizationsProxyFactory(ReflectionUI reflectionUI) {
-		return new CustomizationsProxyFactory(reflectionUI);
+	protected MyTypeInfoProxyFactory createCustomizationsProxyFactory(ReflectionUI reflectionUI) {
+		return new MyTypeInfoProxyFactory(reflectionUI);
 	}
 
 	protected static InfoCustomizations createDefault() {
@@ -305,8 +309,7 @@ public final class InfoCustomizations {
 		return getListCustomization(listTypeName, itemTypeName, true);
 	}
 
-	public ListCustomization getListCustomization(String listTypeName, String itemTypeName,
-			boolean create) {
+	public ListCustomization getListCustomization(String listTypeName, String itemTypeName, boolean create) {
 		for (ListCustomization l : listCustomizations) {
 			if (listTypeName.equals(l.listTypeName)) {
 				if (ReflectionUIUtils.equalsOrBothNull(l.itemTypeName, itemTypeName)) {
@@ -334,7 +337,7 @@ public final class InfoCustomizations {
 		for (ListCustomization l : listCustomizations) {
 			if (listTypeName.equals(l.listTypeName)) {
 				if (ReflectionUIUtils.equalsOrBothNull(itemTypeName, l.itemTypeName)) {
-					for (ColumnCustomization c : l.columnsCustomizations) {
+					for (ColumnCustomization c : l.columnCustomizations) {
 						if (columnName.equals(c.columnName)) {
 							return c;
 						}
@@ -346,8 +349,52 @@ public final class InfoCustomizations {
 			ListCustomization l = getListCustomization(listTypeName, itemTypeName, true);
 			ColumnCustomization c = new ColumnCustomization();
 			c.setColumnName(columnName);
-			l.columnsCustomizations.add(c);
+			l.columnCustomizations.add(c);
 			return c;
+		}
+		return null;
+	}
+
+	public EnumerationItemCustomization getEnumerationItemCustomization(String enumTypeName, String enumItemName) {
+		return getEnumerationItemCustomization(enumTypeName, enumItemName, true);
+	}
+
+	public EnumerationItemCustomization getEnumerationItemCustomization(String enumTypeName, String enumItemName,
+			boolean create) {
+		for (EnumerationCustomization e : enumerationCustomizations) {
+			if (enumTypeName.equals(e.enumerationTypeName)) {
+				for (EnumerationItemCustomization i : e.itemCustomizations) {
+					if (enumItemName.equals(i.itemName)) {
+						return i;
+					}
+				}
+			}
+		}
+		if (create) {
+			EnumerationCustomization e = getEnumerationCustomization(enumTypeName, true);
+			EnumerationItemCustomization i = new EnumerationItemCustomization();
+			i.setItemName(enumItemName);
+			e.itemCustomizations.add(i);
+			return i;
+		}
+		return null;
+	}
+
+	public EnumerationCustomization getEnumerationCustomization(String enumTypeName) {
+		return getEnumerationCustomization(enumTypeName, true);
+	}
+
+	public EnumerationCustomization getEnumerationCustomization(String enumTypeName, boolean create) {
+		for (EnumerationCustomization e : enumerationCustomizations) {
+			if (enumTypeName.equals(e.enumerationTypeName)) {
+				return e;
+			}
+		}
+		if (create) {
+			EnumerationCustomization e = new EnumerationCustomization();
+			e.setEnumerationTypeName(enumTypeName);
+			enumerationCustomizations.add(e);
+			return e;
 		}
 		return null;
 	}
@@ -1196,6 +1243,127 @@ public final class InfoCustomizations {
 
 	}
 
+	public static class EnumerationItemCustomization implements Comparable<EnumerationItemCustomization> {
+
+		protected String itemName;
+		protected String customCaption;
+
+		public String getItemName() {
+			return itemName;
+		}
+
+		public void setItemName(String itemName) {
+			this.itemName = itemName;
+		}
+
+		public String getCustomCaption() {
+			return customCaption;
+		}
+
+		public void setCustomCaption(String customCaption) {
+			this.customCaption = customCaption;
+		}
+
+		@Override
+		public int compareTo(EnumerationItemCustomization o) {
+			int result = ReflectionUIUtils.compareNullables(itemName, o.itemName);
+			return result;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((itemName == null) ? 0 : itemName.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			EnumerationItemCustomization other = (EnumerationItemCustomization) obj;
+			if (itemName == null) {
+				if (other.itemName != null)
+					return false;
+			} else if (!itemName.equals(other.itemName))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return itemName;
+		}
+
+	}
+
+	public static class EnumerationCustomization implements Comparable<EnumerationCustomization> {
+
+		protected String enumerationTypeName;
+		protected Set<EnumerationItemCustomization> itemCustomizations = new TreeSet<EnumerationItemCustomization>();
+
+		public String getEnumerationTypeName() {
+			return enumerationTypeName;
+		}
+
+		public void setEnumerationTypeName(String enumerationTypeName) {
+			this.enumerationTypeName = enumerationTypeName;
+		}
+
+		public Set<EnumerationItemCustomization> getItemCustomizations() {
+			return itemCustomizations;
+		}
+
+		public void setItemCustomizations(Set<EnumerationItemCustomization> itemCustomizations) {
+			if (itemCustomizations == null) {
+				this.itemCustomizations = null;
+			}
+			this.itemCustomizations = new TreeSet<EnumerationItemCustomization>(itemCustomizations);
+		}
+
+		@Override
+		public int compareTo(EnumerationCustomization o) {
+			int result = ReflectionUIUtils.compareNullables(enumerationTypeName, o.enumerationTypeName);
+			return result;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((enumerationTypeName == null) ? 0 : enumerationTypeName.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			EnumerationCustomization other = (EnumerationCustomization) obj;
+			if (enumerationTypeName == null) {
+				if (other.enumerationTypeName != null)
+					return false;
+			} else if (!enumerationTypeName.equals(other.enumerationTypeName))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return enumerationTypeName;
+		}
+
+	}
+
 	public static class ListCustomization implements Comparable<ListCustomization> {
 		protected transient InfoCustomizations parent;
 		protected String listTypeName;
@@ -1204,7 +1372,7 @@ public final class InfoCustomizations {
 		protected boolean positionColumnAdded;
 		protected boolean fieldColumnsAdded;
 		protected boolean stringValueColumnAdded;
-		protected Set<ColumnCustomization> columnsCustomizations = new TreeSet<ColumnCustomization>();
+		protected Set<ColumnCustomization> columnCustomizations = new TreeSet<ColumnCustomization>();
 		protected List<String> columnsCustomOrder;
 		protected TreeStructureDiscoverySettings treeStructureDiscoverySettings;
 		protected List<ListItemFieldShortcut> allowedItemFieldShortcuts = new ArrayList<ListItemFieldShortcut>();
@@ -1316,15 +1484,15 @@ public final class InfoCustomizations {
 			this.itemTypeName = itemTypeName;
 		}
 
-		public Set<ColumnCustomization> getColumnsCustomizations() {
-			return columnsCustomizations;
+		public Set<ColumnCustomization> getColumnCustomizations() {
+			return columnCustomizations;
 		}
 
-		public void setColumnsCustomizations(Set<ColumnCustomization> columnsCustomizations) {
-			if (columnsCustomizations == null) {
-				this.columnsCustomizations = null;
+		public void setColumnCustomizations(Set<ColumnCustomization> columnCustomizations) {
+			if (columnCustomizations == null) {
+				this.columnCustomizations = null;
 			}
-			this.columnsCustomizations = new TreeSet<ColumnCustomization>(columnsCustomizations);
+			this.columnCustomizations = new TreeSet<ColumnCustomization>(columnCustomizations);
 		}
 
 		public boolean isItemDetailsViewDisabled() {
@@ -1497,10 +1665,30 @@ public final class InfoCustomizations {
 
 	}
 
-	protected class CustomizationsProxyFactory extends HiddenNullableFacetsTypeInfoProxyFactory {
+	protected class MyTypeInfoProxyFactory extends HiddenNullableFacetsTypeInfoProxyFactory {
 
-		public CustomizationsProxyFactory(ReflectionUI reflectionUI) {
+		public MyTypeInfoProxyFactory(ReflectionUI reflectionUI) {
 			super(reflectionUI);
+		}
+
+		@Override
+		protected IEnumerationItemInfo getValueInfo(Object object, IEnumerationTypeInfo type) {
+			IEnumerationItemInfo result = super.getValueInfo(object, type);
+			final EnumerationItemCustomization i = getEnumerationItemCustomization(type.getName(), result.getName());
+			if (i != null) {
+				return new EnumerationItemInfoProxy(result){
+
+					@Override
+					public String getCaption() {
+						if(i.customCaption != null){
+							return i.customCaption;
+						}
+						return super.getCaption();
+					}
+					
+				};
+			}
+			return result;
 		}
 
 		@Override
@@ -2104,9 +2292,9 @@ public final class InfoCustomizations {
 					if (f != null) {
 						if (f.hidden) {
 							it.remove();
-						}else{
-							for(FieldCustomization fOther: t.fieldsCustomizations){
-								if(f.fieldName.equals(fOther.valueOptionsFieldName)){
+						} else {
+							for (FieldCustomization fOther : t.fieldsCustomizations) {
+								if (f.fieldName.equals(fOther.valueOptionsFieldName)) {
 									it.remove();
 									break;
 								}

@@ -12,17 +12,22 @@ public abstract class Accessor<T> {
 	}
 		
 
-	public static <T> Accessor<T> returning(final T t, final boolean unsupportedSetter) {
+	public static <T> Accessor<T> returning(final T t, final boolean canSet) {
 		return new Accessor<T>() {
+			
+			T value = t;
+			
 			@Override
 			public T get() {
-				return t;
+				return value;
 			}
 
 			@Override
 			public void set(T t) {
-				if (unsupportedSetter) {
-					super.set(t);
+				if (canSet) {
+					value = t;
+				}else{
+					throw new UnsupportedOperationException();
 				}
 			}
 
