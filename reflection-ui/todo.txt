@@ -1,7 +1,10 @@
 - must never assume that ObjectDialogBuilder will not
-replace the initial value, never.
+	replace the initial value, never
+	=> construct the ObjectDialogBuilder with a ValueAccessor???
 - add IListType.getItemReturnMode()
-== getItem(int) method valueReturnMode
+	== getItem(int) method valueReturnMode
+	=> Only useful for ImpliciListField. Specifying ImpliciListField
+	value as proxy may be enough
 - rethink about read-only forms
 - allow null captions
 - UpdateListModif: 
