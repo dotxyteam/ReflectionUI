@@ -1,7 +1,3 @@
-- when ModificationStack.undoAll cxannot be done
-=> display an error message???
-- !ObjectDialogBuilder.isOkPressed()
-=> reset modif stack. Check
 - must never assume that ObjectDialogBuilder will not
 replace the initial value, never.
 - add IListType.getItemReturnMode()

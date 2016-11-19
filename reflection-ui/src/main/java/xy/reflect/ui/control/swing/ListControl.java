@@ -1626,9 +1626,9 @@ public class ListControl extends JPanel implements IFieldControl {
 				boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.isOkPressed();
 				ValueReturnMode childValueReturnMode = dynamicProperty.getValueReturnMode();
 				boolean childValueNew = dialogBuilder.isValueNew();
-				return ReflectionUIUtils.integrateSubModifications(parentModifStack, childModifStack,
-						childModifAccepted, childValueReturnMode, childValueNew, commitModif, childModifTarget,
-						null);
+				return ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(), parentModifStack,
+						childModifStack, childModifAccepted, childValueReturnMode, childValueNew, commitModif,
+						childModifTarget, null);
 			}
 
 			@Override
@@ -1698,9 +1698,9 @@ public class ListControl extends JPanel implements IFieldControl {
 				boolean childModifAccepted = (!dialogStatus.isCancellable()) || dialogStatus.isOkPressed();
 				ValueReturnMode childValueReturnMode = itemPosition.getContainingListField().getValueReturnMode();
 				boolean childValueNew = dialogStatus.isValueNew();
-				return ReflectionUIUtils.integrateSubModifications(parentModifStack, childModifStack,
-						childModifAccepted, childValueReturnMode, childValueNew, commitModif, childModifTarget,
-						null);
+				return ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(), parentModifStack,
+						childModifStack, childModifAccepted, childValueReturnMode, childValueNew, commitModif,
+						childModifTarget, null);
 
 			}
 

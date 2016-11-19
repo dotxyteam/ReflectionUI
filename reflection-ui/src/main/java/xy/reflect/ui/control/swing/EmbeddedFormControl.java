@@ -124,20 +124,20 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 		} else {
 			Accessor<Boolean> childModifAcceptedGetter = Accessor.returning(Boolean.TRUE);
 			Accessor<ValueReturnMode> childValueReturnModeGetter = Accessor.returning(field.getValueReturnMode());
-			Accessor<Boolean> childValueNewGetter =  Accessor.returning(Boolean.FALSE);
+			Accessor<Boolean> childValueNewGetter = Accessor.returning(Boolean.FALSE);
 			Accessor<IModification> commitModifGetter = new Accessor<IModification>() {
 				@Override
 				public IModification get() {
 					if (field.isGetOnly()) {
 						return null;
 					}
-					return SetFieldValueModification.create(swingRenderer.getReflectionUI(), object, field, 
+					return SetFieldValueModification.create(swingRenderer.getReflectionUI(), object, field,
 							subFormObject);
 				}
 			};
-			ReflectionUIUtils.forwardSubModifications(subForm, childModifAcceptedGetter, childValueReturnModeGetter,
-					childValueNewGetter, commitModifGetter, field, SetFieldValueModification.getTitle(field),
-					swingRenderer);
+			ReflectionUIUtils.forwardSubModifications(swingRenderer.getReflectionUI(), subForm,
+					childModifAcceptedGetter, childValueReturnModeGetter, childValueNewGetter, commitModifGetter, field,
+					SetFieldValueModification.getTitle(field), swingRenderer);
 		}
 	}
 

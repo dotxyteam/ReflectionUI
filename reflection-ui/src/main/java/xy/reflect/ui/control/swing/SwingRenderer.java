@@ -157,10 +157,6 @@ public class SwingRenderer {
 		return methodControlPlaceHoldersByCategoryByForm;
 	}
 
-	public void logError(Throwable t) {
-		t.printStackTrace();
-	}
-
 	public String prepareStringToDisplay(String string) {
 		return string;
 	}
@@ -802,7 +798,7 @@ public class SwingRenderer {
 	}
 
 	public void handleExceptionsFromDisplayedUI(Component activatorComponent, final Throwable t) {
-		logError(t);
+		reflectionUI.logError(t);
 		openErrorDialog(activatorComponent, "An Error Occured", t);
 	}
 

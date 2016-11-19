@@ -132,7 +132,7 @@ public class TextControl extends JPanel implements IFieldControl {
 			return true;
 		}
 		if (error != null) {
-			swingRenderer.logError(error);
+			swingRenderer.getReflectionUI().logError(error);
 		}
 		if (error == null) {
 			setBorder(textFieldNormalBorder);

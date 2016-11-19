@@ -473,8 +473,9 @@ public class SwingCustomizer extends SwingRenderer {
 			IModification commitModif = null;
 			IInfo childModifTarget = null;
 			String subModifTitle = "";
-			if (ReflectionUIUtils.integrateSubModifications(parentModifStack, childModifStack, childModifAccepted,
-					childValueReturnMode, childValueNew, commitModif, childModifTarget, subModifTitle)) {
+			if (ReflectionUIUtils.integrateSubModifications(customizationToolsRenderer.getReflectionUI(),
+					parentModifStack, childModifStack, childModifAccepted, childValueReturnMode, childValueNew,
+					commitModif, childModifTarget, subModifTitle)) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {

@@ -126,7 +126,17 @@ public class ReflectionUI {
 		return result;
 	}
 
-	
+	public void logInformation(String msg) {
+		System.out.println(msg);
+	}
+
+	public void logError(String msg) {
+		System.err.println(msg);
+	}
+
+	public void logError(Throwable t) {
+		logError(ReflectionUIUtils.getPrintedStackTrace(t));
+	}
 
 	public static void main(String[] args) {
 		try {

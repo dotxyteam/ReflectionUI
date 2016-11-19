@@ -154,7 +154,7 @@ public class DialogAccessControl extends JPanel implements IFieldControl {
 			if (!dialogBuilder.getDisplayValueType().isModificationStackAccessible()) {
 				cancellable = false;
 			}
-			if(field.isGetOnly() && (field.getValueReturnMode()==ValueReturnMode.COPY)){
+			if (field.isGetOnly() && (field.getValueReturnMode() == ValueReturnMode.COPY)) {
 				cancellable = false;
 			}
 		}
@@ -176,8 +176,9 @@ public class DialogAccessControl extends JPanel implements IFieldControl {
 		boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.isOkPressed();
 		ValueReturnMode childValueReturnMode = field.getValueReturnMode();
 		boolean childValueNew = dialogBuilder.isValueNew();
-		if (ReflectionUIUtils.integrateSubModifications(parentModifStack, childModifStack, childModifAccepted,
-				childValueReturnMode, childValueNew , commitModif, childModifTarget, childModifTitle)) {
+		if (ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(), parentModifStack,
+				childModifStack, childModifAccepted, childValueReturnMode, childValueNew, commitModif, childModifTarget,
+				childModifTitle)) {
 			updateControls();
 		}
 	}

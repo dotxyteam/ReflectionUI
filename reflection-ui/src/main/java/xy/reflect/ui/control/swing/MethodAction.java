@@ -127,9 +127,9 @@ public class MethodAction extends AbstractAction {
 						boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.isOkPressed();
 						ValueReturnMode childValueReturnMode = method.getValueReturnMode();
 						boolean childValueNew = dialogBuilder.isValueNew();
-						ReflectionUIUtils.integrateSubModifications(parentModifStack, childModifStack,
-								childModifAccepted, childValueReturnMode, childValueNew, commitModif, childModifTarget,
-								childModifTitle);
+						ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(), parentModifStack,
+								childModifStack, childModifAccepted, childValueReturnMode, childValueNew, commitModif,
+								childModifTarget, childModifTitle);
 					}
 				}
 			}
@@ -216,6 +216,5 @@ public class MethodAction extends AbstractAction {
 	public boolean getShouldDisplayReturnValue() {
 		return shouldDisplayReturnValue;
 	}
-	
-	
+
 }
