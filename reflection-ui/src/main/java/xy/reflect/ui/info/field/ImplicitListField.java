@@ -152,7 +152,7 @@ public class ImplicitListField implements IFieldInfo {
 
 	@Override
 	public ValueReturnMode getValueReturnMode() {
-		return getGetMethod().getValueReturnMode();
+		return ValueReturnMode.combine(ValueReturnMode.PROXY, getGetMethod().getValueReturnMode());
 	}
 
 	@Override

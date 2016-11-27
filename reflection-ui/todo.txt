@@ -1,10 +1,6 @@
-- must never assume that ObjectDialogBuilder will not
-	replace the initial value, never
-	=> construct the ObjectDialogBuilder with a ValueAccessor???
-- add IListType.getItemReturnMode()
-	== getItem(int) method valueReturnMode
-	=> Only useful for ImpliciListField. Specifying ImpliciListField
-	value as proxy may be enough
+- add type InfoCustomizations.EnumerationCustomization
+	. allow to customize enum item captions
+		. for field value options 
 - rethink about read-only forms
 - allow null captions
 - UpdateListModif: 
@@ -12,16 +8,10 @@
 	. if sub sub ... list field is not direct access
 	then its descendants will not be modifiable and 
 	this will not be customizable
-- add type InfoCustomizations.EnumerationCustomization
-	. allow to customize enum item captions
-		. polymorphicFieldControl.enumControl must be customizable.
-		for this refactor polymorphicFieldControl 
-		=> an embedded form with two fields 
-- add concept IFieldInfo.isCalculated()
 - basic principle: basing on coding conventions
-ReflectionUI generates a default UI that the 
-developper will customize. 
-=> no info must be hidden by default. Check. 
+	ReflectionUI generates a default UI that the 
+	developper will customize. 
+	=> no info must be hidden by default. Check. 
 - expose liscontrol selectionListening
 - embedded details view:
 	- allow to remove toolbar 

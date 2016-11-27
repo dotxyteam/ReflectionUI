@@ -10,12 +10,13 @@ import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.HiddenNullableFacetFieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.util.ArrayAsEnumerationTypeInfo;
+import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
+import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
 
@@ -28,7 +29,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 	protected List<ITypeInfo> subTypes;
 	protected Map<ITypeInfo, Object> instanceByEnumerationValueCache = new HashMap<ITypeInfo, Object>();
 	protected Component dynamicControl;
-	protected EnumerationControl typeEnumerationControl;
+	protected Component typeEnumerationControl;
 	protected ITypeInfo polymorphicType;
 
 	protected final ITypeInfo NULL_POLY_TYPE;
@@ -57,11 +58,20 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 		refreshUI();
 	}
 
-	protected EnumerationControl createTypeEnumerationControl() {
-		return new EnumerationControl(swingRenderer, object, new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
+	protected Component createTypeEnumerationControl() {
+		List<ITypeInfo> possibleValues = new ArrayList<ITypeInfo>(subTypes);
+		if (PolymorphicEmbeddedForm.this.field.isNullable()) {
+			possibleValues.add(0, NULL_POLY_TYPE);
+		}
+		ITypeInfo fieldType = new ArrayAsEnumerationTypeInfo(swingRenderer.getReflectionUI(), possibleValues.toArray(),
+				PolymorphicEmbeddedForm.class.getSimpleName() + " Enumeration Type");
+		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
+				fieldType);
+		encapsulation.setFieldNullable(false);
+		Object encapsulated = encapsulation.getInstance(new Accessor<Object>(){
 
 			@Override
-			public Object getValue(Object object) {
+			public Object get() {
 				Object instance = field.getValue(object);
 				if (instance == null) {
 					return NULL_POLY_TYPE;
@@ -74,7 +84,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 			}
 
 			@Override
-			public void setValue(Object object, Object value) {
+			public void set(Object value) {
 				try {
 					if (value == NULL_POLY_TYPE) {
 						setFieldValue(object, null);
@@ -106,28 +116,10 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 				field.setValue(object, value);
 				updatingEnumeration = false;
 			}
-
-			@Override
-			public boolean isGetOnly() {
-				return false;
-			}
-
-			@Override
-			public boolean isNullable() {
-				return false;
-			}
-
-			@Override
-			public ITypeInfo getType() {
-				List<ITypeInfo> possibleValues = new ArrayList<ITypeInfo>(subTypes);
-				if (PolymorphicEmbeddedForm.this.field.isNullable()) {
-					possibleValues.add(0, NULL_POLY_TYPE);
-				}
-				return new ArrayAsEnumerationTypeInfo(swingRenderer.getReflectionUI(), possibleValues.toArray(),
-						PolymorphicEmbeddedForm.class.getSimpleName() + " Enumeration Type");
-			}
-
+			
+			
 		});
+		return swingRenderer.createObjectForm(encapsulated);
 	}
 
 	protected String getEnumerationValueCaption(ITypeInfo actualFieldValueType) {
