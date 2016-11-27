@@ -1,3 +1,15 @@
+- Every field, method, param, ... type must be retrieved through
+	the reflectionUI.getTypeInfo() method. Otherwise
+	the typeInfoFactories will not reach every feautures
+	. Encapsulation: remove the ability to provide the fiel type.
+		But what if we need the encapsulated type to be sub-type of
+		the actual encapsulated value type, maybe polytmorphic Object type?
+	. ArrayAsEnum: do not associate the type to an instance directly.
+		Create a ArrayAsEnum.Instance	
+- cleaning for end-developer:
+	. do not use captions as names
+	. for mandatory infos, allow null values???
+	. add ReflectionUIError explicit messages
 - add type InfoCustomizations.EnumerationCustomization
 	. allow to customize enum item captions
 		. for field value options 

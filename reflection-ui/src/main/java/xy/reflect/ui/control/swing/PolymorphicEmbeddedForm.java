@@ -14,7 +14,7 @@ import xy.reflect.ui.info.field.HiddenNullableFacetFieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.util.ArrayAsEnumerationTypeInfo;
+import xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory;
 import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -63,29 +63,31 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 		if (PolymorphicEmbeddedForm.this.field.isNullable()) {
 			possibleValues.add(0, NULL_POLY_TYPE);
 		}
-		ITypeInfo fieldType = new ArrayAsEnumerationTypeInfo(swingRenderer.getReflectionUI(), possibleValues.toArray(),
-				PolymorphicEmbeddedForm.class.getSimpleName() + " Enumeration Type");
+		final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(swingRenderer.getReflectionUI(),
+				possibleValues.toArray(), PolymorphicEmbeddedForm.class.getSimpleName() + " Enumeration Type");
+		ITypeInfo enumType = swingRenderer.getReflectionUI().getTypeInfo(enumFactory.getTypeInfoSource());
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
-				fieldType);
+				enumType);
 		encapsulation.setFieldNullable(false);
-		Object encapsulated = encapsulation.getInstance(new Accessor<Object>(){
+		Object encapsulated = encapsulation.getInstance(new Accessor<Object>() {
 
 			@Override
 			public Object get() {
 				Object instance = field.getValue(object);
 				if (instance == null) {
-					return NULL_POLY_TYPE;
+					return enumFactory.getInstance(NULL_POLY_TYPE);
 				} else {
 					ITypeInfo actualFieldValueType = swingRenderer.getReflectionUI()
 							.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(instance));
 					instanceByEnumerationValueCache.put(actualFieldValueType, instance);
-					return actualFieldValueType;
+					return enumFactory.getInstance(actualFieldValueType);
 				}
 			}
 
 			@Override
 			public void set(Object value) {
 				try {
+					value = enumFactory.unwrapInstance(value);
 					if (value == NULL_POLY_TYPE) {
 						setFieldValue(object, null);
 					} else {
@@ -116,8 +118,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 				field.setValue(object, value);
 				updatingEnumeration = false;
 			}
-			
-			
+
 		});
 		return swingRenderer.createObjectForm(encapsulated);
 	}

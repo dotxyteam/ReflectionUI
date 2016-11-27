@@ -12,12 +12,12 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class FieldColumnInfo implements IColumnInfo {
 
 	protected IFieldInfo field;
-	protected ITypeInfo containingType;
+	protected ITypeInfo ownerType;
 	protected ReflectionUI reflectionUI;
 
-	public FieldColumnInfo(ReflectionUI reflectionUI, ITypeInfo containingType, IFieldInfo field) {
+	public FieldColumnInfo(ReflectionUI reflectionUI, ITypeInfo ownerType, IFieldInfo field) {
 		this.reflectionUI = reflectionUI;
-		this.containingType = containingType;
+		this.ownerType = ownerType;
 		this.field = field;
 	}
 
@@ -31,7 +31,7 @@ public class FieldColumnInfo implements IColumnInfo {
 	@Override
 	public boolean hasCellValue(ItemPosition itemPosition) {
 		Object item = itemPosition.getItem();
-		return containingType.supportsInstance(item);
+		return ownerType.supportsInstance(item);
 	}
 
 	@Override

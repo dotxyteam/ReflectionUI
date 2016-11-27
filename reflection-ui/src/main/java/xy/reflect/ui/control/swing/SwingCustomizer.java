@@ -92,16 +92,17 @@ public class SwingCustomizer extends SwingRenderer {
 	}
 
 	@Override
-	public void fillForm(JPanel form, Object object, ITypeInfo type) {
+	public void fillForm(JPanel form, Object object) {
 		if (areCustomizationsEditable()) {
 			JPanel mainCustomizationsControl = new JPanel();
 			mainCustomizationsControl.setLayout(new BorderLayout());
+			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 			mainCustomizationsControl.add(customizationTools.createTypeInfoCustomizer(type.getName()),
 					BorderLayout.CENTER);
 			mainCustomizationsControl.add(customizationTools.createSaveControl(), BorderLayout.EAST);
 			form.add(SwingRendererUtils.flowInLayout(mainCustomizationsControl, FlowLayout.CENTER), BorderLayout.NORTH);
 		}
-		super.fillForm(form, object, type);
+		super.fillForm(form, object);
 	}
 
 	@Override

@@ -17,18 +17,26 @@ public class PrecomputedTypeInfoSource implements ITypeInfoSource {
 
 	@Override
 	public int hashCode() {
-		return precomputedType.hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((precomputedType == null) ? 0 : precomputedType.hashCode());
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if(!(obj instanceof PrecomputedTypeInfoSource)){
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
-		}
+		if (getClass() != obj.getClass())
+			return false;
 		PrecomputedTypeInfoSource other = (PrecomputedTypeInfoSource) obj;
-		if(!precomputedType.equals(other.precomputedType)){
+		if (precomputedType == null) {
+			if (other.precomputedType != null)
+				return false;
+		} else if (!precomputedType.equals(other.precomputedType))
 			return false;
-		}
 		return true;
 	}
 	

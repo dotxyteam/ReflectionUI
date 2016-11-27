@@ -36,7 +36,8 @@ public class EncapsulatedObjectFactory {
 	}
 
 	public Object getInstance(Accessor<Object> fieldValueAccessor) {
-		if (!fieldType.supportsInstance(fieldValueAccessor.get())) {
+		Object value = fieldValueAccessor.get();
+		if ((value!=null) && !fieldType.supportsInstance(value)) {
 			throw new ReflectionUIError();
 		}
 		Instance result = new Instance(fieldValueAccessor);
@@ -233,7 +234,7 @@ public class EncapsulatedObjectFactory {
 		public Object copy(Object object) {
 			Instance instance = (Instance) object;
 			Object instanceValueCopy = ReflectionUIUtils.copy(reflectionUI, instance.getValue());
-			return new Instance(new Object[] { instanceValueCopy });
+			return getInstance(new Object[] { instanceValueCopy });
 		}
 
 		@Override

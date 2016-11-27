@@ -67,8 +67,9 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.map.StandardMapEntry;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.util.ArrayAsEnumerationTypeInfo;
+import xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
+import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
 import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.CompositeModification;
@@ -479,12 +480,52 @@ public class SwingRenderer {
 	}
 
 	public Component createOptionsControl(final Object object, final IFieldInfo field) {
-		return new EnumerationControl(this, object, new FieldInfoProxy(field) {
+		ITypeInfo ownerType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(reflectionUI,
+				field.getValueOptions(object), ownerType.getCaption() + " - " + field.getCaption() + " Value Options");
+		ITypeInfo enumType = reflectionUI.getTypeInfo(enumFactory.getTypeInfoSource());
+		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, enumType);
+		final Object encapsulated = encapsulation.getInstance(new Accessor<Object>() {
+
+			@Override
+			public Object get() {
+				Object value = field.getValue(object);
+				value = enumFactory.getInstance(value);
+				return value;
+			}
+
+			@Override
+			public void set(Object value) {
+				value = enumFactory.unwrapInstance(value);
+				field.setValue(object, value);
+			}
+
+		});
+		return new EmbeddedFormControl(this, object, new FieldInfoProxy(field) {
+
+			@Override
+			public Object getValue(Object object) {
+				return encapsulated;
+			}
 
 			@Override
 			public ITypeInfo getType() {
-				return new ArrayAsEnumerationTypeInfo(reflectionUI, field.getValueOptions(object),
-						field.getCaption() + " Value Options");
+				throw new ReflectionUIError();
+			}
+
+			@Override
+			public void setValue(Object object, Object value) {
+				throw new ReflectionUIError();
+			}
+
+			@Override
+			public boolean isNullable() {
+				return false;
+			}
+
+			@Override
+			public boolean isGetOnly() {
+				return true;
 			}
 
 		});
@@ -591,16 +632,16 @@ public class SwingRenderer {
 
 	public void fillForm(JPanel form) {
 		Object object = getObjectByForm().get(form);
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		form.setLayout(new BorderLayout());
-		fillForm(form, object, type);
+		fillForm(form, object);
 	}
 
-	public void fillForm(JPanel form, Object object, ITypeInfo type) {
+	public void fillForm(JPanel form, Object object) {
 		IInfoCollectionSettings settings = getInfoCollectionSettingsByForm().get(form);
 
 		Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = new HashMap<InfoCategory, List<FieldControlPlaceHolder>>();
 		getFieldControlPlaceHoldersByCategoryByForm().put(form, fieldControlPlaceHoldersByCategory);
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		List<IFieldInfo> fields = type.getFields();
 		for (IFieldInfo field : fields) {
 			if (settings.excludeField(field)) {
@@ -773,15 +814,6 @@ public class SwingRenderer {
 	public Image getObjectIconImage(Object object) {
 		if (object != null) {
 			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-			if (type instanceof IEnumerationTypeInfo) {
-				IEnumerationItemInfo valueInfo = ((IEnumerationTypeInfo) type).getValueInfo(object);
-				if (valueInfo != null) {
-					Image result = SwingRendererUtils.getIconImageFromInfo(valueInfo);
-					if (result != null) {
-						return result;
-					}
-				}
-			}
 			Image result = SwingRendererUtils.getIconImageFromInfo(type);
 			if (result != null) {
 				return result;
@@ -886,20 +918,21 @@ public class SwingRenderer {
 					if (silent) {
 						type = polyTypes.get(0);
 					} else {
-						ArrayAsEnumerationTypeInfo enumType = new ArrayAsEnumerationTypeInfo(reflectionUI,
+						final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(reflectionUI,
 								polyTypes.toArray(), SwingRenderer.class.getName()
-										+ "#onTypeInstanciationRequest(): PolymorphicInstanceSubTypes As Enumeration") {
+										+ "#onTypeInstanciationRequest(): PolymorphicInstanceSubTypes As Enumeration");
+						IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
+								.getTypeInfo(enumFactory.getTypeInfoSource());
+						enumType = (IEnumerationTypeInfo) new TypeInfoProxyFactory() {
 
 							@Override
-							public IEnumerationItemInfo getValueInfo(Object object) {
-								final ITypeInfo polyTypesItem = (ITypeInfo) object;
-								final IEnumerationItemInfo baseValueInfo = super.getValueInfo(object);
+							protected IEnumerationItemInfo getValueInfo(Object object, IEnumerationTypeInfo type) {
+								final ITypeInfo polyTypesItem = (ITypeInfo) enumFactory.unwrapInstance(object);
 								return new IEnumerationItemInfo() {
 
 									@Override
 									public Map<String, Object> getSpecificProperties() {
-										Map<String, Object> result = new HashMap<String, Object>(
-												baseValueInfo.getSpecificProperties());
+										Map<String, Object> result = new HashMap<String, Object>();
 										File iconImageFile = DesktopSpecificProperty.getIconImageFile(
 												DesktopSpecificProperty.accessInfoProperties(polyTypesItem));
 										DesktopSpecificProperty.setIconImageFile(result, iconImageFile);
@@ -908,38 +941,29 @@ public class SwingRenderer {
 
 									@Override
 									public String getOnlineHelp() {
-										return baseValueInfo.getOnlineHelp();
+										return polyTypesItem.getOnlineHelp();
 									}
 
 									@Override
 									public String getName() {
-										return baseValueInfo.getName();
+										return polyTypesItem.getName();
 									}
 
 									@Override
 									public String getCaption() {
-										return baseValueInfo.getCaption();
+										return polyTypesItem.getCaption();
 									}
 								};
 							}
 
-						};
-						for (ITypeInfo polyType : polyTypes) {
-							enumType.registerArrayItem(polyType);
-						}
+						}.get(enumType);
 						Object resultEnumItem;
-						try {
-							resultEnumItem = openSelectionDialog(activatorComponent, enumType, null, "Choose a type:",
-									"New '" + type.getCaption() + "'");
-							if (resultEnumItem == null) {
-								return null;
-							}
-						} finally {
-							for (ITypeInfo polyType : polyTypes) {
-								enumType.unregisterArrayItem(polyType);
-							}
+						resultEnumItem = openSelectionDialog(activatorComponent, enumType, null, "Choose a type:",
+								"New '" + type.getCaption() + "'");
+						if (resultEnumItem == null) {
+							return null;
 						}
-						type = (ITypeInfo) resultEnumItem;
+						type = (ITypeInfo) enumFactory.unwrapInstance(resultEnumItem);
 					}
 				}
 			}
@@ -1103,20 +1127,24 @@ public class SwingRenderer {
 		if (choices.size() == 0) {
 			throw new ReflectionUIError();
 		}
-		ArrayAsEnumerationTypeInfo enumType = new ArrayAsEnumerationTypeInfo(reflectionUI, choices.toArray(),
-				"Selection Dialog Array As Enumeration") {
+		final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(reflectionUI, choices.toArray(),
+				"Selection Dialog Array As Enumeration");
+		IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
+				.getTypeInfo(enumFactory.getTypeInfoSource());
+		enumType = (IEnumerationTypeInfo) new TypeInfoProxyFactory() {
+
 			Map<Object, String> captions = new HashMap<Object, String>();
 			Map<Object, Image> iconImages = new HashMap<Object, Image>();
 
 			{
 				for (Object choice : choices) {
-					captions.put(choice, ReflectionUIUtils.toString(SwingRenderer.this.reflectionUI, choice));
-					iconImages.put(choice, getObjectIconImage(choice));
+					captions.put(enumFactory.getInstance(choice), ReflectionUIUtils.toString(SwingRenderer.this.reflectionUI, choice));
+					iconImages.put(enumFactory.getInstance(choice), getObjectIconImage(choice));
 				}
 			}
 
 			@Override
-			public IEnumerationItemInfo getValueInfo(final Object object) {
+			protected IEnumerationItemInfo getValueInfo(final Object object, IEnumerationTypeInfo type) {
 				return new IEnumerationItemInfo() {
 					@Override
 					public Map<String, Object> getSpecificProperties() {
@@ -1142,22 +1170,13 @@ public class SwingRenderer {
 				};
 			}
 
-		};
-		Object resultEnumItem;
-		for (Object choice : choices) {
-			enumType.registerArrayItem(choice);
-		}
-		try {
-			resultEnumItem = openSelectionDialog(parentComponent, enumType, initialSelection, message, title);
-		} finally {
-			for (Object choice : choices) {
-				enumType.unregisterArrayItem(choice);
-			}
-		}
+		}.get(enumType);
+		Object resultEnumItem = openSelectionDialog(parentComponent, enumType,
+				enumFactory.getInstance(initialSelection), message, title);
 		if (resultEnumItem == null) {
 			return null;
 		}
-		T result = (T) resultEnumItem;
+		T result = (T) enumFactory.unwrapInstance(resultEnumItem);
 		return result;
 
 	}

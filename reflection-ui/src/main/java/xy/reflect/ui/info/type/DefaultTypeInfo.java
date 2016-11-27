@@ -139,11 +139,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 		if (javaType.isPrimitive()) {
 			return ClassUtils.primitiveToWrapperType(javaType).isInstance(object);
 		} else {
-			if (object == null) {
-				return true;
-			} else {
-				return javaType.isInstance(object);
-			}
+			return javaType.isInstance(object);
 		}
 	}
 
