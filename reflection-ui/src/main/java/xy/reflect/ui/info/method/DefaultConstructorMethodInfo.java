@@ -34,11 +34,6 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 	}
 
 	@Override
-	public String getName() {
-		return javaConstructor.getDeclaringClass().getSimpleName();
-	}
-
-	@Override
 	public List<IParameterInfo> getParameters() {
 		if (parameters == null) {
 			parameters = new ArrayList<IParameterInfo>();

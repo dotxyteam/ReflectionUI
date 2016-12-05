@@ -482,9 +482,10 @@ public class SwingRenderer {
 	public Component createOptionsControl(final Object object, final IFieldInfo field) {
 		ITypeInfo ownerType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(reflectionUI,
-				field.getValueOptions(object), ownerType.getCaption() + " - " + field.getCaption() + " Value Options");
+				field.getValueOptions(object), ownerType.getName() + "." + field.getName() + ".ValueOptions", "");
 		ITypeInfo enumType = reflectionUI.getTypeInfo(enumFactory.getTypeInfoSource());
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, enumType);
+		encapsulation.setFieldCaption("");
 		final Object encapsulated = encapsulation.getInstance(new Accessor<Object>() {
 
 			@Override
@@ -919,8 +920,7 @@ public class SwingRenderer {
 						type = polyTypes.get(0);
 					} else {
 						final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(reflectionUI,
-								polyTypes.toArray(), SwingRenderer.class.getName()
-										+ "#onTypeInstanciationRequest(): PolymorphicInstanceSubTypes As Enumeration");
+								polyTypes.toArray(), type.getName() + ".PolymorphicInstanceSubTypesEnumeration", "");
 						IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
 								.getTypeInfo(enumFactory.getTypeInfoSource());
 						enumType = (IEnumerationTypeInfo) new TypeInfoProxyFactory() {
@@ -1040,9 +1040,8 @@ public class SwingRenderer {
 		DialogBuilder dialogBuilder = new DialogBuilder(this, activatorComponent);
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI,
 				new TextualTypeInfo(reflectionUI, String.class));
-		encapsulation.setCaption("Error");
+		encapsulation.setTypeCaption("Error");
 		encapsulation.setFieldCaption("Message");
-		;
 		encapsulation.setFieldGetOnly(true);
 		encapsulation.setFieldNullable(false);
 		Object toDisplay = encapsulation.getInstance(new Object[] { ReflectionUIUtils.getPrettyMessage(error) });
@@ -1109,9 +1108,8 @@ public class SwingRenderer {
 		ITypeInfo objectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		if (SwingRendererUtils.hasCustomControl(object, objectType, this)) {
 			EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, objectType);
-			encapsulation.setCaption(title);
+			encapsulation.setTypeCaption(title);
 			encapsulation.setFieldCaption(fieldCaption);
-			;
 			encapsulation.setFieldGetOnly(false);
 			encapsulation.setFieldNullable(false);
 			object = encapsulation.getInstance(valueHolder);
@@ -1128,7 +1126,7 @@ public class SwingRenderer {
 			throw new ReflectionUIError();
 		}
 		final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(reflectionUI, choices.toArray(),
-				"Selection Dialog Array As Enumeration");
+				"SelectionDialogArrayAsEnumeration", "");
 		IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
 				.getTypeInfo(enumFactory.getTypeInfoSource());
 		enumType = (IEnumerationTypeInfo) new TypeInfoProxyFactory() {
@@ -1138,7 +1136,8 @@ public class SwingRenderer {
 
 			{
 				for (Object choice : choices) {
-					captions.put(enumFactory.getInstance(choice), ReflectionUIUtils.toString(SwingRenderer.this.reflectionUI, choice));
+					captions.put(enumFactory.getInstance(choice),
+							ReflectionUIUtils.toString(SwingRenderer.this.reflectionUI, choice));
 					iconImages.put(enumFactory.getInstance(choice), getObjectIconImage(choice));
 				}
 			}
@@ -1160,7 +1159,7 @@ public class SwingRenderer {
 
 					@Override
 					public String getName() {
-						return captions.get(object);
+						return "choice" + choices.indexOf(enumFactory.unwrapInstance(object));
 					}
 
 					@Override
@@ -1189,7 +1188,7 @@ public class SwingRenderer {
 		final Object[] chosenItemHolder = new Object[] { initialEnumItem };
 
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, enumType);
-		encapsulation.setCaption("Selection");
+		encapsulation.setTypeCaption("Selection");
 		encapsulation.setFieldCaption(message);
 		encapsulation.setFieldGetOnly(false);
 		encapsulation.setFieldNullable(false);
@@ -1212,7 +1211,7 @@ public class SwingRenderer {
 		ITypeInfo initialValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(initialValue));
 
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, initialValueType);
-		encapsulation.setCaption("Input");
+		encapsulation.setTypeCaption("Input");
 		encapsulation.setFieldCaption(dataName);
 		encapsulation.setFieldGetOnly(false);
 		encapsulation.setFieldNullable(false);
@@ -1401,10 +1400,10 @@ public class SwingRenderer {
 			captionControlByFieldControlPlaceHolder.remove(fieldControlPlaceHolder);
 		}
 
-		boolean fieldControlHasCaption = (fieldControl instanceof IFieldControl)
-				&& ((IFieldControl) fieldControl).showCaption();
+		boolean addDefaultFieldCaptionControl = !fieldControlPlaceHolder.showCaption()
+				&& (field.getCaption().length() > 0);
 		int spacing = 5;
-		if (!fieldControlHasCaption) {
+		if (addDefaultFieldCaptionControl) {
 			captionControl = createSeparateCaptionControl(field.getCaption());
 			GridBagConstraints layoutConstraints = new GridBagConstraints();
 			layoutConstraints.insets = new Insets(spacing, spacing, spacing, spacing);
@@ -1418,7 +1417,7 @@ public class SwingRenderer {
 		{
 			GridBagConstraints layoutConstraints = new GridBagConstraints();
 			layoutConstraints.insets = new Insets(spacing, spacing, spacing, spacing);
-			if (fieldControlHasCaption) {
+			if (!addDefaultFieldCaptionControl) {
 				layoutConstraints.gridwidth = 2;
 				layoutConstraints.gridx = 0;
 			} else {

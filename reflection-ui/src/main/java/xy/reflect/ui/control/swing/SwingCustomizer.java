@@ -93,7 +93,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 	@Override
 	public void fillForm(JPanel form, Object object) {
-		if (areCustomizationsEditable()) {
+		if (areCustomizationsEditable(object)) {
 			JPanel mainCustomizationsControl = new JPanel();
 			mainCustomizationsControl.setLayout(new BorderLayout());
 			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
@@ -113,7 +113,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 			@Override
 			public void refreshUI(boolean recreate) {
-				if (areCustomizationsEditable()) {
+				if (areCustomizationsEditable(object)) {
 					refreshInfoCustomizationsControl();
 				}
 				super.refreshUI(recreate);
@@ -144,7 +144,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 			@Override
 			public void refreshUI(boolean recreate) {
-				if (areCustomizationsEditable()) {
+				if (areCustomizationsEditable(object)) {
 					refreshInfoCustomizationsControl();
 				}
 				super.refreshUI(recreate);
@@ -170,8 +170,19 @@ public class SwingCustomizer extends SwingRenderer {
 		return SwingRendererUtils.CUSTOMIZATION_ICON;
 	}
 
-	protected boolean areCustomizationsEditable() {
-		return SystemProperties.areInfoCustomizationToolsAuthorized() && (infoCustomizationsOutputFilePath != null);
+	protected boolean areCustomizationsEditable(Object object) {
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		if (!SystemProperties.areInfoCustomizationToolsAuthorized()) {
+			return false;
+		}
+		if (!infoCustomizations
+				.equals(type.getSpecificProperties().get(InfoCustomizations.APPLIED_CUSTOMIZATIONS_PROPERTY_KEY))) {
+			return false;
+		}
+		if (infoCustomizationsOutputFilePath == null) {
+			return false;
+		}
+		return true;
 	}
 
 	protected class CustomizationTools {

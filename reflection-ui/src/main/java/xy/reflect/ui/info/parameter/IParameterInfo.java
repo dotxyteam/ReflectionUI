@@ -24,7 +24,7 @@ public interface IParameterInfo extends IInfo{
 		
 		@Override
 		public String getName() {
-			return "";
+			return "NULL_PARAMETER_INFO";
 		}
 		
 		@Override

@@ -132,17 +132,15 @@ public class MultipleFieldAsOne implements IFieldInfo {
 
 	@Override
 	public String getName() {
-		StringBuilder result = new StringBuilder(MultipleFieldAsOne.class.getSimpleName());
-		result.append(MultipleFieldAsOne.class.getSimpleName() + "(");
+		StringBuilder result = new StringBuilder();
 		int i = 0;
 		for (IFieldInfo field : fields) {
 			if (i > 0) {
-				result.append(", ");
+				result.append("+");
 			}
 			result.append(field.getName());
 			i++;
 		}
-		result.append(")");
 		return result.toString();
 	}
 

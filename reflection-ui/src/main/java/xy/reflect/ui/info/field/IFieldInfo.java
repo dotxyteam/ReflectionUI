@@ -15,7 +15,7 @@ public interface IFieldInfo extends IInfo {
 
 		@Override
 		public String getName() {
-			return "";
+			return "NULL_FIELD_INFO";
 		}
 
 		@Override

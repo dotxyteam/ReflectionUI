@@ -10,6 +10,9 @@ import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
+import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
+import xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory.TypeInfo;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ArrayAccessor;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -21,7 +24,7 @@ public class EncapsulatedObjectFactory {
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo fieldType;
 
-	protected String caption = "";
+	protected String typeCaption = "";
 	protected String fieldCaption = "Value";
 	protected boolean fieldGetOnly = false;
 	protected boolean fieldNullable = true;
@@ -31,18 +34,26 @@ public class EncapsulatedObjectFactory {
 		this.fieldType = fieldType;
 	}
 
-	public void setCaption(String caption) {
-		this.caption = caption;
-	}
-
 	public Object getInstance(Accessor<Object> fieldValueAccessor) {
 		Object value = fieldValueAccessor.get();
-		if ((value!=null) && !fieldType.supportsInstance(value)) {
+		if ((value != null) && !fieldType.supportsInstance(value)) {
 			throw new ReflectionUIError();
 		}
 		Instance result = new Instance(fieldValueAccessor);
 		reflectionUI.registerPrecomputedTypeInfoObject(result, new TypeInfo());
 		return result;
+	}
+
+	public ITypeInfoSource getTypeInfoSource() {
+		return new PrecomputedTypeInfoSource(new TypeInfo());
+	}
+
+	public String getTypeCaption() {
+		return typeCaption;
+	}
+
+	public void setTypeCaption(String typeCaption) {
+		this.typeCaption = typeCaption;
 	}
 
 	public String getFieldCaption() {
@@ -81,7 +92,7 @@ public class EncapsulatedObjectFactory {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((caption == null) ? 0 : caption.hashCode());
+		result = prime * result + ((typeCaption == null) ? 0 : typeCaption.hashCode());
 		result = prime * result + ((fieldCaption == null) ? 0 : fieldCaption.hashCode());
 		result = prime * result + (fieldGetOnly ? 1231 : 1237);
 		result = prime * result + ((fieldType == null) ? 0 : fieldType.hashCode());
@@ -97,10 +108,10 @@ public class EncapsulatedObjectFactory {
 		if (getClass() != obj.getClass())
 			return false;
 		EncapsulatedObjectFactory other = (EncapsulatedObjectFactory) obj;
-		if (caption == null) {
-			if (other.caption != null)
+		if (typeCaption == null) {
+			if (other.typeCaption != null)
 				return false;
-		} else if (!caption.equals(other.caption))
+		} else if (!typeCaption.equals(other.typeCaption))
 			return false;
 		if (fieldCaption == null) {
 			if (other.fieldCaption != null)
@@ -119,21 +130,21 @@ public class EncapsulatedObjectFactory {
 
 	@Override
 	public String toString() {
-		return EncapsulatedObjectFactory.class.getSimpleName() + " [caption=" + caption + ", fieldType=" + fieldType
-				+ ", fieldCaption=" + fieldCaption + "]";
+		return EncapsulatedObjectFactory.class.getSimpleName() + " [typeCaption=" + typeCaption + ", fieldType="
+				+ fieldType + ", fieldCaption=" + fieldCaption + "]";
 	}
 
 	protected class TypeInfo implements ITypeInfo {
 
 		@Override
 		public String getName() {
-			return EncapsulatedObjectFactory.class.getSimpleName() + " [fieldType=" + fieldType + ", fieldCaption=" + fieldCaption
-					+ "]";
+			return "Encapsulation[typeCaption=" + typeCaption + ", fieldType=" + fieldType + ", fieldCaption="
+					+ fieldCaption + "]";
 		}
 
 		@Override
 		public String getCaption() {
-			return caption;
+			return typeCaption;
 		}
 
 		@Override

@@ -30,7 +30,7 @@ public class SetFieldValueModification implements IModification {
 		return "Edit '" + field.getCaption() + "'";
 	}
 
-	public SetFieldValueModification(ReflectionUI reflectionUI, String title, Object object, IFieldInfo field,
+	protected SetFieldValueModification(ReflectionUI reflectionUI, String title, Object object, IFieldInfo field,
 			Runnable doJob, Runnable undoJob) {
 		this.reflectionUI = reflectionUI;
 		this.title = title;

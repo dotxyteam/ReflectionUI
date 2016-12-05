@@ -30,7 +30,7 @@ public class InvokeMethodModification implements IModification {
 		return  method.getCaption();
 	}
 
-	public InvokeMethodModification(String title, IMethodInfo method, Runnable doJob, Runnable undoJob) {
+	protected InvokeMethodModification(String title, IMethodInfo method, Runnable doJob, Runnable undoJob) {
 		super();
 		this.title = title;
 		this.method = method;

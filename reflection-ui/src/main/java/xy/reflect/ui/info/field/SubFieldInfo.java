@@ -37,7 +37,7 @@ public class SubFieldInfo implements IFieldInfo {
 
 	@Override
 	public String getName() {
-		return SubFieldInfo.class.getSimpleName() + "(" + theField.getName() + "." + theSubField.getName() + ")";
+		return theField.getName() + "." + theSubField.getName();
 	}
 
 	@Override

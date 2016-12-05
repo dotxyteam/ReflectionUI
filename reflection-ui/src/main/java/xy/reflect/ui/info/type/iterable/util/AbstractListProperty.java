@@ -18,11 +18,6 @@ public abstract class AbstractListProperty implements IFieldInfo {
 	}
 
 	@Override
-	public String getName() {
-		return getCaption();
-	}
-
-	@Override
 	public String getOnlineHelp() {
 		return null;
 	}

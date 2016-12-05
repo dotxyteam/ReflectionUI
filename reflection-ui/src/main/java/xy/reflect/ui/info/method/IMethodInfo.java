@@ -16,7 +16,7 @@ public interface IMethodInfo extends IInfo {
 
 		@Override
 		public String getName() {
-			return "";
+			return "NULL_METHOD_INFO";
 		}
 
 		@Override

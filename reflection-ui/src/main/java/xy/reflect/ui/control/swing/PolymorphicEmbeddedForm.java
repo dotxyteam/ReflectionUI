@@ -64,11 +64,12 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 			possibleValues.add(0, NULL_POLY_TYPE);
 		}
 		final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(swingRenderer.getReflectionUI(),
-				possibleValues.toArray(), PolymorphicEmbeddedForm.class.getSimpleName() + " Enumeration Type");
+				possibleValues.toArray(), polymorphicType.getName() + ".SubTypesEnumeration", "");
 		ITypeInfo enumType = swingRenderer.getReflectionUI().getTypeInfo(enumFactory.getTypeInfoSource());
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
 				enumType);
 		encapsulation.setFieldNullable(false);
+		encapsulation.setFieldCaption("");
 		Object encapsulated = encapsulation.getInstance(new Accessor<Object>() {
 
 			@Override

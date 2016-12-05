@@ -5,6 +5,7 @@ import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -16,15 +17,15 @@ public abstract class AbstractConstructorMethodInfo implements IMethodInfo {
 		super();
 		this.ownerType = ownerType;
 	}
-	
-	
 
 	@Override
 	public String getName() {
-		return "";
+		StringBuilder result = new StringBuilder("new");
+		for (IParameterInfo param : getParameters()) {
+			result.append("+param" + param.getType().getName());
+		}
+		return result.toString();
 	}
-
-
 
 	@Override
 	public String getCaption() {
@@ -40,11 +41,10 @@ public abstract class AbstractConstructorMethodInfo implements IMethodInfo {
 	public String toString() {
 		StringBuilder result = new StringBuilder(getCaption());
 		if (getParameters().size() == 0) {
-			result.append(" - by default");			
-		}else{
+			result.append(" - by default");
+		} else {
 			result.append(" - specify ");
-			result.append(ReflectionUIUtils
-					.formatParameterList(getParameters()));
+			result.append(ReflectionUIUtils.formatParameterList(getParameters()));
 		}
 		return result.toString();
 	}
@@ -59,30 +59,24 @@ public abstract class AbstractConstructorMethodInfo implements IMethodInfo {
 		return ValueReturnMode.COPY;
 	}
 
-
-
 	@Override
 	public InfoCategory getCategory() {
 		return null;
 	}
 
-
 	@Override
 	public String getOnlineHelp() {
 		return null;
 	}
-	
+
 	@Override
 	public Runnable getUndoJob(Object object, InvocationData invocationData) {
 		return null;
 	}
-	
 
 	@Override
-	public void validateParameters(Object object,
-			InvocationData invocationData) throws Exception {
+	public void validateParameters(Object object, InvocationData invocationData) throws Exception {
 	}
-
 
 	@Override
 	public Map<String, Object> getSpecificProperties() {

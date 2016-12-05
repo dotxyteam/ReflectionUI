@@ -23,11 +23,6 @@ public abstract class AbstractListAction implements IMethodInfo {
 	}
 
 	@Override
-	public String getName() {
-		return getCaption();
-	}
-
-	@Override
 	public String getOnlineHelp() {
 		return null;
 	}

@@ -1597,9 +1597,9 @@ public class ListControl extends JPanel implements IFieldControl {
 			protected boolean perform(List<AutoFieldValueUpdatingItemPosition>[] toPostSelectHolder) {
 				Object propertyValue = dynamicProperty.getValue(object);
 				Object[] propertyValueHolder = new Object[] { propertyValue };
+				
 				EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
-						dynamicProperty.getType());
-				encapsulation.setCaption("");
+						 dynamicProperty.getType());
 				encapsulation.setFieldCaption(dynamicProperty.getCaption());
 				encapsulation.setFieldGetOnly(dynamicProperty.isGetOnly());
 				encapsulation.setFieldNullable(dynamicProperty.isNullable());

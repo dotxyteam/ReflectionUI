@@ -29,12 +29,14 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class ArrayAsEnumerationFactory {
 	protected ReflectionUI reflectionUI;
 	protected Object[] array;
+	protected String typeName;
 	protected String typeCaption;
 
-	public ArrayAsEnumerationFactory(ReflectionUI reflectionUI, Object[] array, String typeCaption) {
+	public ArrayAsEnumerationFactory(ReflectionUI reflectionUI, Object[] array, String typeName, String typeCaption) {
 		super();
 		this.reflectionUI = reflectionUI;
 		this.array = array;
+		this.typeName = typeName;
 		this.typeCaption = typeCaption;
 	}
 
@@ -51,7 +53,7 @@ public class ArrayAsEnumerationFactory {
 	}
 
 	public Object unwrapInstance(Object obj) {
-		if(obj == null){
+		if (obj == null) {
 			return null;
 		}
 		Instance instance = (Instance) obj;
@@ -60,8 +62,6 @@ public class ArrayAsEnumerationFactory {
 		}
 		return instance.getArrayItem();
 	}
-	
-
 
 	public ITypeInfoSource getTypeInfoSource() {
 		return new PrecomputedTypeInfoSource(new TypeInfo());
@@ -164,7 +164,7 @@ public class ArrayAsEnumerationFactory {
 
 		@Override
 		public String getName() {
-			return typeCaption;
+			return typeName;
 		}
 
 		@Override
@@ -242,7 +242,7 @@ public class ArrayAsEnumerationFactory {
 
 				@Override
 				public String getName() {
-					return ReflectionUIUtils.toString(reflectionUI, object);
+					return "ArrayItem" + Arrays.asList(array).indexOf(((Instance) object).getArrayItem());
 				}
 
 				@Override

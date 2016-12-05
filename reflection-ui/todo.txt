@@ -1,24 +1,7 @@
-- Every field, method, param, ... type must be retrieved through
-	the reflectionUI.getTypeInfo() method. Otherwise
-	the typeInfoFactories will not reach every feautures
-	. Encapsulation: remove the ability to provide the field type.
-		But what if we need the encapsulated type to be sub-type of
-		the actual encapsulated value type, maybe polytmorphic Object type?
+- secure cache ReflectionUI.precomputedTypeInfoByObject
 - cleaning for end-developer:
-	. do not use captions as names
-	. for non-mandatory infos, allow null values???
 	. add ReflectionUIError explicit messages
-	. allow null captions???
 - rethink about read-only forms
-- UpdateListModif: 
-	. listField.getUndo... is not taken into account
-	. if sub sub ... list field is not direct access
-	then its descendants will not be modifiable and 
-	this will not be customizable
-- basic principle: basing on coding conventions
-	ReflectionUI generates a default UI that the 
-	developper will customize. 
-	=> no info must be hidden by default. Check. 
 - expose liscontrol selectionListening
 - embedded details view:
 	- allow to remove toolbar 

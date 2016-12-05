@@ -13,6 +13,8 @@ public class UpdateListValueModification implements IModification {
 	protected ItemPosition itemPosition;
 	protected Object[] newListRawValue;
 	protected ReflectionUI reflectionUI;
+	private IModification setFieldValueModification;
+	private IModification undoSetFieldValueModification;
 
 	public UpdateListValueModification(ReflectionUI reflectionUI, ItemPosition itemPosition, Object[] newListRawValue) {
 		this.reflectionUI = reflectionUI;
@@ -46,7 +48,9 @@ public class UpdateListValueModification implements IModification {
 	public IModification applyAndGetOpposite() {
 		Object[] oldListRawValue = itemPosition.getContainingListRawValue();
 		updateListValueRecursively(itemPosition, newListRawValue);
-		return new UpdateListValueModification(reflectionUI, itemPosition, oldListRawValue);
+		UpdateListValueModification result = new UpdateListValueModification(reflectionUI, itemPosition, oldListRawValue);
+		result.setFieldValueModification = undoSetFieldValueModification;
+		return result;
 	}
 
 	protected void updateListValueRecursively(ItemPosition itemPosition, Object[] listRawValue) {
@@ -79,7 +83,7 @@ public class UpdateListValueModification implements IModification {
 			return false;
 		}
 		Object listValue = listType.fromArray(listRawValue);
-		listField.setValue(listOwner, listValue);
+		setFieldValue(listOwner, listField, listValue);
 		return true;
 	}
 
@@ -95,9 +99,16 @@ public class UpdateListValueModification implements IModification {
 		Object listValue = listField.getValue(listOwner);
 		listType.replaceContent(listValue, listRawValue);
 		if (!listField.isGetOnly()) {
-			listField.setValue(listOwner, listValue);
+			setFieldValue(listOwner, listField, listValue);
 		}
 		return true;
+	}
+
+	private void setFieldValue(Object listOwner, IFieldInfo listField, Object listValue) {
+		if(setFieldValueModification == null){
+			setFieldValueModification = SetFieldValueModification.create(reflectionUI, listOwner, listField, listValue);
+		}
+		undoSetFieldValueModification = setFieldValueModification.applyAndGetOpposite();		
 	}
 
 	@Override

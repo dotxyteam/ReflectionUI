@@ -76,6 +76,7 @@ import xy.reflect.ui.util.SystemProperties;
 public final class InfoCustomizations {
 
 	public static final InfoCustomizations DEFAULT = createDefault();
+	public static final String APPLIED_CUSTOMIZATIONS_PROPERTY_KEY = InfoCustomizations.class.getName();
 
 	transient protected MyTypeInfoProxyFactory proxyFactory;
 	protected Set<TypeCustomization> typeCustomizations = new TreeSet<InfoCustomizations.TypeCustomization>();
@@ -1676,16 +1677,16 @@ public final class InfoCustomizations {
 			IEnumerationItemInfo result = super.getValueInfo(object, type);
 			final EnumerationItemCustomization i = getEnumerationItemCustomization(type.getName(), result.getName());
 			if (i != null) {
-				return new EnumerationItemInfoProxy(result){
+				return new EnumerationItemInfoProxy(result) {
 
 					@Override
 					public String getCaption() {
-						if(i.customCaption != null){
+						if (i.customCaption != null) {
 							return i.customCaption;
 						}
 						return super.getCaption();
 					}
-					
+
 				};
 			}
 			return result;
@@ -1741,6 +1742,11 @@ public final class InfoCustomizations {
 								@Override
 								public boolean isEnabled() {
 									return true;
+								}
+
+								@Override
+								public String getName() {
+									return s.fieldName;
 								}
 
 								@Override
@@ -1805,6 +1811,11 @@ public final class InfoCustomizations {
 						}
 
 						@Override
+						public String getName() {
+							return s.fieldName;
+						}
+
+						@Override
 						public String getCaption() {
 							return fieldCaption;
 						}
@@ -1854,11 +1865,11 @@ public final class InfoCustomizations {
 			final ListCustomization l = getListCustomization(listType.getName(),
 					(itemType == null) ? null : itemType.getName());
 			for (final ListItemMethodShortcut s : l.allowedItemMethodShortcuts) {
+				final String methodName = ReflectionUIUtils.extractMethodNameFromSignature(s.methodSignature);
 				final String methodCaption;
 				if (s.customMethodCaption != null) {
 					methodCaption = s.customMethodCaption;
 				} else {
-					String methodName = ReflectionUIUtils.extractMethodNameFromSignature(s.methodSignature);
 					methodCaption = ReflectionUIUtils.identifierToCaption(methodName);
 				}
 				boolean methodFound = false;
@@ -1871,6 +1882,11 @@ public final class InfoCustomizations {
 							AbstractListAction action = new AbstractListAction() {
 
 								private IModification oppositeUpdateListValueModification;
+
+								@Override
+								public String getName() {
+									return methodName;
+								}
 
 								@Override
 								public String getCaption() {
@@ -1954,6 +1970,11 @@ public final class InfoCustomizations {
 				}
 				if ((!methodFound) && s.alwaysShown) {
 					result.add(new AbstractListAction() {
+
+						@Override
+						public String getName() {
+							return methodName;
+						}
 
 						@Override
 						public String getCaption() {
@@ -2103,40 +2124,6 @@ public final class InfoCustomizations {
 		}
 
 		@Override
-		protected Map<String, Object> getSpecificProperties(IFieldInfo field, ITypeInfo containingType) {
-			FieldCustomization f = getFieldCustomization(containingType.getName(), field.getName());
-			if (f != null) {
-				if (f.specificProperties != null) {
-					if (f.specificProperties.entrySet().size() > 0) {
-						Map<String, Object> result = new HashMap<String, Object>(
-								super.getSpecificProperties(field, containingType));
-						result.putAll(f.specificProperties);
-						return result;
-					}
-				}
-			}
-			return super.getSpecificProperties(field, containingType);
-		}
-
-		@Override
-		protected Map<String, Object> getSpecificProperties(IParameterInfo param, IMethodInfo method,
-				ITypeInfo containingType) {
-			ParameterCustomization p = getParameterCustomization(containingType.getName(),
-					ReflectionUIUtils.getMethodInfoSignature(method), param.getName());
-			if (p != null) {
-				if (p.specificProperties != null) {
-					if (p.specificProperties.entrySet().size() > 0) {
-						Map<String, Object> result = new HashMap<String, Object>(
-								super.getSpecificProperties(param, method, containingType));
-						result.putAll(p.specificProperties);
-						return result;
-					}
-				}
-			}
-			return super.getSpecificProperties(param, method, containingType);
-		}
-
-		@Override
 		protected IListStructuralInfo getStructuralInfo(IListTypeInfo listType) {
 			ITypeInfo itemType = listType.getItemType();
 			final ListCustomization customization = getListCustomization(listType.getName(),
@@ -2150,34 +2137,67 @@ public final class InfoCustomizations {
 
 		@Override
 		protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
+			Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(type));
+			result.put(APPLIED_CUSTOMIZATIONS_PROPERTY_KEY, InfoCustomizations.this);
 			final TypeCustomization t = getTypeCustomization(type.getName());
 			if (t != null) {
 				if (t.specificProperties != null) {
 					if (t.specificProperties.entrySet().size() > 0) {
-						Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(type));
 						result.putAll(t.specificProperties);
-						return result;
 					}
 				}
 			}
-			return super.getSpecificProperties(type);
+			return result;
 		}
 
 		@Override
 		protected Map<String, Object> getSpecificProperties(IMethodInfo method, ITypeInfo containingType) {
+			Map<String, Object> result = new HashMap<String, Object>(
+					super.getSpecificProperties(method, containingType));
+			result.put(APPLIED_CUSTOMIZATIONS_PROPERTY_KEY, InfoCustomizations.this);
 			MethodCustomization m = getMethodCustomization(containingType.getName(),
 					ReflectionUIUtils.getMethodInfoSignature(method));
 			if (m != null) {
 				if (m.specificProperties != null) {
 					if (m.specificProperties.entrySet().size() > 0) {
-						Map<String, Object> result = new HashMap<String, Object>(
-								super.getSpecificProperties(method, containingType));
 						result.putAll(m.specificProperties);
-						return result;
 					}
 				}
 			}
-			return super.getSpecificProperties(method, containingType);
+			return result;
+		}
+
+		@Override
+		protected Map<String, Object> getSpecificProperties(IFieldInfo field, ITypeInfo containingType) {
+			Map<String, Object> result = new HashMap<String, Object>(
+					super.getSpecificProperties(field, containingType));
+			result.put(APPLIED_CUSTOMIZATIONS_PROPERTY_KEY, InfoCustomizations.this);
+			FieldCustomization f = getFieldCustomization(containingType.getName(), field.getName());
+			if (f != null) {
+				if (f.specificProperties != null) {
+					if (f.specificProperties.entrySet().size() > 0) {
+						result.putAll(f.specificProperties);
+					}
+				}
+			}
+			return result;
+		}
+
+		@Override
+		protected Map<String, Object> getSpecificProperties(IParameterInfo param, IMethodInfo method,
+				ITypeInfo containingType) {
+			Map<String, Object> result = new HashMap<String, Object>(
+					super.getSpecificProperties(param, method, containingType));
+			ParameterCustomization p = getParameterCustomization(containingType.getName(),
+					ReflectionUIUtils.getMethodInfoSignature(method), param.getName());
+			if (p != null) {
+				if (p.specificProperties != null) {
+					if (p.specificProperties.entrySet().size() > 0) {
+						result.putAll(p.specificProperties);
+					}
+				}
+			}
+			return result;
 		}
 
 		@Override

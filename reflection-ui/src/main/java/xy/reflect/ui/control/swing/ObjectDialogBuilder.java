@@ -43,11 +43,9 @@ public class ObjectDialogBuilder {
 	public Object getValue() {
 		return value;
 	}
-	
-
 
 	public boolean isValueNew() {
-		return initialValue !=  value;
+		return initialValue != value;
 	}
 
 	protected Object getDisplayValue() {
@@ -67,7 +65,7 @@ public class ObjectDialogBuilder {
 			};
 			EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
 					valueType);
-			encapsulation.setCaption(getTitle());
+			encapsulation.setTypeCaption(getTitle());
 			encapsulation.setFieldCaption(fieldCaption);
 			encapsulation.setFieldGetOnly(getOnly);
 			encapsulation.setFieldNullable(false);

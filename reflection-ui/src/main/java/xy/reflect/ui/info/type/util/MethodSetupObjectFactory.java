@@ -10,9 +10,11 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
+import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -108,6 +110,10 @@ public class MethodSetupObjectFactory {
 		return result;
 	}
 
+	public ITypeInfoSource getTypeInfoSource() {
+		return new PrecomputedTypeInfoSource(new TypeInfo());
+	}
+
 	@Override
 	public int hashCode() {
 		return method.hashCode();
@@ -171,7 +177,7 @@ public class MethodSetupObjectFactory {
 
 		@Override
 		public String getName() {
-			return MethodSetupObjectFactory.class.getSimpleName() + "(" + method.getName() + ")";
+			return "MethodSetupObject[method=" + method + "]";
 		}
 
 		@Override
