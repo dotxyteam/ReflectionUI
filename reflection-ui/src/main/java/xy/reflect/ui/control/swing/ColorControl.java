@@ -35,14 +35,15 @@ public class ColorControl extends DialogAccessControl{
 
 	@Override
 	protected Component createButton() {
-		Component result = super.createButton();
-		if (field.isGetOnly()) {
-			result.setVisible(false);
-		}
-		return result;
+		return null;
 	}
 
 	
+	@Override
+	public void requestFocus() {
+		statusControl.requestFocus();
+	}
+
 	@Override
 	protected void openDialog() {
 		Color newColor = JColorChooser.showDialog(this, "Choose a color", statusControl.getBackground());

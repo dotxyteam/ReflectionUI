@@ -3,8 +3,11 @@ package xy.reflect.ui.util;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.Window;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
@@ -72,6 +75,27 @@ public class SwingRendererUtils {
 	public static final ImageIcon SAVE_ALL_ICON = new ImageIcon(
 			ReflectionUI.class.getResource("resource/save-all.png"));
 
+	public static Image scalePreservingRatio(Image image, int newWidth, int newHeight, int scaleQuality) {
+		Dimension imageSize = new Dimension(image.getWidth(null), image.getHeight(null));
+		Dimension boxSize = new Dimension(newWidth, newHeight);
+		Rectangle imageBoundsInBox = new Rectangle();
+		{
+			float resizeRatioBasedOnWidth = (float) boxSize.width / (float) imageSize.width;
+			float resizeRatioBasedOnHeight = (float) boxSize.height / (float) imageSize.height;
+			float resizeRatio = Math.min(resizeRatioBasedOnWidth, resizeRatioBasedOnHeight);
+			imageBoundsInBox.width = Math.round(imageSize.width * resizeRatio);
+			imageBoundsInBox.height = Math.round(imageSize.height * resizeRatio);
+			imageBoundsInBox.x = Math.round((boxSize.width - imageBoundsInBox.width) / 2f);
+			imageBoundsInBox.y = Math.round((boxSize.height - imageBoundsInBox.height) / 2f);
+		}
+		BufferedImage result = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = result.createGraphics();
+		image = image.getScaledInstance(imageBoundsInBox.width, imageBoundsInBox.height, scaleQuality);
+		g.drawImage(image, imageBoundsInBox.x, imageBoundsInBox.y, null);
+		g.dispose();
+		return result;
+	}
+
 	public static void showTooltipNow(Component c) {
 		try {
 			Method showToolTipMehod = ToolTipManager.class.getDeclaredMethod("show",
@@ -130,7 +154,7 @@ public class SwingRendererUtils {
 			if (swingRenderer.getObjectByForm().keySet().contains(candidateForm)) {
 				return (JPanel) candidateForm;
 			}
-			candidateForm = candidateForm.getParent();			
+			candidateForm = candidateForm.getParent();
 		}
 		return null;
 	}
@@ -433,7 +457,7 @@ public class SwingRendererUtils {
 	}
 
 	public static void setIconImage(Map<String, Object> properties, Image image) {
-		properties.put(DesktopSpecificProperty.KEY_ICON_IMAGE, image);		
+		properties.put(DesktopSpecificProperty.KEY_ICON_IMAGE, image);
 	}
 
 	public static void forwardSubModifications(final ReflectionUI reflectionUI, final JPanel subForm,
@@ -444,15 +468,15 @@ public class SwingRendererUtils {
 		final ModificationStack parentModifStack = findParentFormModificationStack(subForm.getParent(), swingRenderer);
 		if (parentModifStack == null) {
 			subForm.addAncestorListener(new AncestorListener() {
-	
+
 				@Override
 				public void ancestorRemoved(AncestorEvent event) {
 				}
-	
+
 				@Override
 				public void ancestorMoved(AncestorEvent event) {
 				}
-	
+
 				@Override
 				public void ancestorAdded(AncestorEvent event) {
 					if (findParentFormModificationStack(subForm, swingRenderer) != null) {
@@ -465,7 +489,7 @@ public class SwingRendererUtils {
 			});
 		} else {
 			swingRenderer.getModificationStackByForm().put(subForm, new ModificationStack(null) {
-	
+
 				@Override
 				public boolean pushUndo(IModification undoModif) {
 					ModificationStack childModifStack = new ModificationStack(null);
@@ -482,22 +506,22 @@ public class SwingRendererUtils {
 							childModifAccepted, childValueReturnMode, childValueNew, commitModif, childModifTarget,
 							subModifTitle);
 				}
-	
+
 				@Override
 				public void beginComposite() {
 					parentModifStack.beginComposite();
 				}
-	
+
 				@Override
 				public boolean endComposite(IInfo target, String title, UndoOrder order) {
 					return parentModifStack.endComposite(childModifTarget, title, order);
 				}
-	
+
 				@Override
 				public void abortComposite() {
 					parentModifStack.abortComposite();
 				}
-	
+
 				@Override
 				public void invalidate() {
 					ModificationStack childModifStack = new ModificationStack(null);
@@ -507,10 +531,11 @@ public class SwingRendererUtils {
 					Boolean childValueNew = childValueNewGetter.get();
 					IModification commitModif = commitModifGetter.get();
 					String childModifTitle = null;
-					ReflectionUIUtils.integrateSubModifications(reflectionUI, parentModifStack, childModifStack, childModifAccepted,
-							childValueReturnMode, childValueNew, commitModif, childModifTarget, childModifTitle);
+					ReflectionUIUtils.integrateSubModifications(reflectionUI, parentModifStack, childModifStack,
+							childModifAccepted, childValueReturnMode, childValueNew, commitModif, childModifTarget,
+							childModifTitle);
 				}
-	
+
 			});
 		}
 	}

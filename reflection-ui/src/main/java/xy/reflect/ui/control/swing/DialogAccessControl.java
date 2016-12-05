@@ -52,17 +52,23 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 		button = createButton();
 		iconControl = createIconControl();
 
-		add(SwingRendererUtils.flowInLayout(button, FlowLayout.CENTER), BorderLayout.WEST);
-		JPanel centerPanel = new JPanel();
-		{
-			add(centerPanel, BorderLayout.CENTER);
-			centerPanel.setLayout(new GridBagLayout());
-			GridBagConstraints c = new GridBagConstraints();
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.weightx = 1.0;
-			centerPanel.add(statusControl, c);
+		if (button != null) {
+			add(SwingRendererUtils.flowInLayout(button, FlowLayout.CENTER), BorderLayout.WEST);
 		}
-		add(iconControl, BorderLayout.EAST);
+		if (statusControl != null) {
+			JPanel centerPanel = new JPanel();
+			{
+				add(centerPanel, BorderLayout.CENTER);
+				centerPanel.setLayout(new GridBagLayout());
+				GridBagConstraints c = new GridBagConstraints();
+				c.fill = GridBagConstraints.HORIZONTAL;
+				c.weightx = 1.0;
+				centerPanel.add(statusControl, c);
+			}
+		}
+		if (iconControl != null) {
+			add(iconControl, BorderLayout.EAST);
+		}
 
 		updateControls();
 	}
@@ -192,6 +198,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 		Object fieldValue = field.getValue(object);
 		Image iconImage = swingRenderer.getObjectIconImage(fieldValue);
 		if (iconImage != null) {
+			iconImage = SwingRendererUtils.scalePreservingRatio(iconImage, 16, 16, Image.SCALE_SMOOTH);
 			((JLabel) iconControl).setIcon(new ImageIcon(iconImage));
 			iconControl.setVisible(true);
 		} else {
