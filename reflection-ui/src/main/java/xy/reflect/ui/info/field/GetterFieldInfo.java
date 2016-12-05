@@ -1,6 +1,5 @@
 package xy.reflect.ui.info.field;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Map;
@@ -10,7 +9,6 @@ import java.util.regex.Pattern;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.annotation.ValueOptionsForField;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -82,12 +80,7 @@ public class GetterFieldInfo implements IFieldInfo {
 
 	@Override
 	public Object[] getValueOptions(Object object) {
-		String fieldName = getFieldName(javaGetterMethod.getName());
-		if (fieldName == null) {
-			return null;
-		}
-		return ReflectionUIUtils.getFieldValueOptionsFromAnnotatedMember(object, containingJavaClass, fieldName,
-				reflectionUI);
+		return null;
 	}
 
 	@Override
@@ -163,10 +156,6 @@ public class GetterFieldInfo implements IFieldInfo {
 		} catch (SecurityException e) {
 			throw new ReflectionUIError(e);
 		}
-		if (!ReflectionUIUtils.equalsOrBothNull(ReflectionUIUtils.getAnnotatedInfoCategory(javaGetterMethod),
-				ReflectionUIUtils.getAnnotatedInfoCategory(result))) {
-			return null;
-		}
 		if (result.getExceptionTypes().length > 0) {
 			return null;
 		}
@@ -194,45 +183,17 @@ public class GetterFieldInfo implements IFieldInfo {
 		if (javaMethod.getExceptionTypes().length > 0) {
 			return false;
 		}
-		if (ReflectionUIUtils.getAnnotatedValidatingMethods(containingJavaClass).contains(javaMethod)) {
-			return false;
-		}
-		if (javaMethod.getAnnotation(ValueOptionsForField.class) != null) {
-			return false;
-		}
-		if (ReflectionUIUtils.isInfoHidden(javaMethod)) {
-			return false;
-		}
 		return true;
 	}
 
 	@Override
 	public InfoCategory getCategory() {
-		return ReflectionUIUtils.getAnnotatedInfoCategory(javaGetterMethod);
+		return null;
 	}
 
 	@Override
 	public String getOnlineHelp() {
-		for (Field field : ReflectionUIUtils.getALlFields(containingJavaClass)) {
-			if (field.getName().equals(getName())) {
-				String result = ReflectionUIUtils.getAnnotatedInfoOnlineHelp(field);
-				if (result != null) {
-					return result;
-				}
-			}
-		}
-		String result = ReflectionUIUtils.getAnnotatedInfoOnlineHelp(javaGetterMethod);
-		if (result == null) {
-			return null;
-		}
-		Method setter = getValidSetterMethod(javaGetterMethod, containingJavaClass);
-		if (setter != null) {
-			String setterDoc = ReflectionUIUtils.getAnnotatedInfoOnlineHelp(setter);
-			if (setterDoc != null) {
-				result += "\nand\n" + setterDoc;
-			}
-		}
-		return result;
+		return null;
 	}
 
 	@Override

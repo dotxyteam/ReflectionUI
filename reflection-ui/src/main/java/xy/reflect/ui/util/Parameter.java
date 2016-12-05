@@ -6,8 +6,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 
-import xy.reflect.ui.info.annotation.Name;
-
 public class Parameter extends AccessibleObject {
 
 	private final Member invokable;
@@ -59,11 +57,6 @@ public class Parameter extends AccessibleObject {
 			String[] parameterNames = ReflectionUIUtils
 					.getJavaParameterNames(invokable);
 			if (parameterNames == null) {
-				for (Annotation annotation : invokableParameterAnnotations[position]) {
-					if (annotation instanceof Name) {
-						return ((Name) annotation).value();
-					}
-				}
 				name = "parameter" + (position + 1);
 			} else {
 				name = parameterNames[position];

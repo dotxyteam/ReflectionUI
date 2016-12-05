@@ -766,7 +766,7 @@ public class SwingRenderer {
 		IFieldInfo field = ReflectionUIUtils.findInfoByName(type.getFields(), fieldName);
 		for (JPanel form : getForms(object)) {
 			for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHoldersByName(form, fieldName)) {
-				field = makeFieldModificationsUndoable(field, fieldControlPlaceHolder);
+				field = fieldControlPlaceHolder.makeFieldModificationsUndoable(field);
 			}
 		}
 		return field;
@@ -781,7 +781,7 @@ public class SwingRenderer {
 		for (JPanel form : getForms(object)) {
 			for (MethodControlPlaceHolder methodControlPlaceHolder : getMethodControlPlaceHoldersBySignature(form,
 					methodSignature)) {
-				method = makeMethodModificationsUndoable(method, methodControlPlaceHolder);
+				method = methodControlPlaceHolder.makeMethodModificationsUndoable(method);
 			}
 		}
 		return method;
@@ -835,22 +835,6 @@ public class SwingRenderer {
 		openErrorDialog(activatorComponent, "An Error Occured", t);
 	}
 
-	public IFieldInfo handleValueUpdateErrors(IFieldInfo field, final FieldControlPlaceHolder fieldControlPlaceHolder) {
-		return new FieldInfoProxy(field) {
-
-			@Override
-			public void setValue(Object object, Object value) {
-				try {
-					super.setValue(object, value);
-					fieldControlPlaceHolder.displayError(null);
-				} catch (final Throwable t) {
-					fieldControlPlaceHolder.displayError(new ReflectionUIError(t));
-				}
-			}
-
-		};
-	}
-
 	public void layoutControlPanels(JPanel parentForm, JPanel fieldsPanel, JPanel methodsPanel) {
 		parentForm.setLayout(new BorderLayout());
 		parentForm.add(fieldsPanel, BorderLayout.CENTER);
@@ -862,51 +846,6 @@ public class SwingRenderer {
 		JPanel fieldsPanel = createFieldsPanel(fielControlPlaceHolders);
 		JPanel methodsPanel = createMethodsPanel(methodControlPlaceHolders);
 		layoutControlPanels(parentForm, fieldsPanel, methodsPanel);
-	}
-
-	public IFieldInfo makeFieldModificationsUndoable(final IFieldInfo field,
-			final FieldControlPlaceHolder fieldControlPlaceHolder) {
-		return new FieldInfoProxy(field) {
-			@Override
-			public void setValue(Object object, Object newValue) {
-				if (field.isGetOnly()) {
-					super.setValue(object, newValue);
-					return;
-				}
-				Component c = fieldControlPlaceHolder.getFieldControl();
-				if ((c instanceof IFieldControl)) {
-					IFieldControl fieldControl = (IFieldControl) c;
-					if (fieldControl.handlesModificationStackUpdate()) {
-						super.setValue(object, newValue);
-						return;
-					}
-				}
-				JPanel form = SwingRendererUtils.findParentForm(fieldControlPlaceHolder, SwingRenderer.this);
-				ModificationStack stack = getModificationStackByForm().get(form);
-				SetFieldValueModification modif = SetFieldValueModification.create(reflectionUI, object, field,
-						newValue);
-				try {
-					stack.apply(modif);
-				} catch (Throwable t) {
-					stack.invalidate();
-					throw new ReflectionUIError(t);
-				}
-			}
-		};
-	}
-
-	public IMethodInfo makeMethodModificationsUndoable(final IMethodInfo method,
-			final MethodControlPlaceHolder methodControlPlaceHolder) {
-		return new MethodInfoProxy(method) {
-
-			@Override
-			public Object invoke(Object object, InvocationData invocationData) {
-				JPanel form = SwingRendererUtils.findParentForm(methodControlPlaceHolder, SwingRenderer.this);
-				ModificationStack stack = getModificationStackByForm().get(form);
-				return SwingRendererUtils.invokeMethodAndAllowToUndo(object, method, invocationData, stack);
-			}
-
-		};
 	}
 
 	public Object onTypeInstanciationRequest(final Component activatorComponent, ITypeInfo type, boolean silent) {
@@ -1316,14 +1255,14 @@ public class SwingRenderer {
 		dialogBuilder.setContentComponent(busyLabel);
 		dialogBuilder.setTitle(title);
 		final JDialog dialog = dialogBuilder.build();
-
+		final Throwable[] exceptionThrown = new Throwable[1];
 		final Thread thread = new Thread(title) {
 			@Override
 			public void run() {
 				try {
 					runnable.run();
 				} catch (Throwable t) {
-					handleExceptionsFromDisplayedUI(dialog, t);
+					exceptionThrown[0] = t;
 				} finally {
 					busyLabel.setBusy(false);
 					dialog.dispose();
@@ -1339,12 +1278,15 @@ public class SwingRenderer {
 		busyLabel.setBusy(true);
 		thread.start();
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(100);
 		} catch (InterruptedException e) {
 			throw new ReflectionUIError(e);
 		}
 		if (busyLabel.isBusy()) {
 			showDialog(dialog, true, false);
+		}
+		if (exceptionThrown[0] != null) {
+			throw new ReflectionUIError(exceptionThrown[0]);
 		}
 	}
 
@@ -1438,7 +1380,7 @@ public class SwingRenderer {
 	}
 
 	public void validateForm(JPanel form) {
-		Object object = getObjectByForm().get(form);
+		final Object object = getObjectByForm().get(form);
 		if (object == null) {
 			return;
 		}
@@ -1446,15 +1388,23 @@ public class SwingRenderer {
 		if (statusLabel == null) {
 			return;
 		}
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		try {
-			type.validate(object);
-			statusLabel.setVisible(false);
-		} catch (Exception e) {
+		final ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		final Exception[] validationError = new Exception[1];
+		statusLabel.setVisible(false);
+		showBusyDialogWhile(form, new Runnable() {
+			public void run() {
+				try {
+					type.validate(object);
+				} catch (Exception e) {
+					validationError[0] = e;
+				}
+			}
+		}, "Validating " + type.getCaption());
+		if (validationError[0] != null) {
 			statusLabel.setIcon(SwingRendererUtils.ERROR_ICON);
 			statusLabel.setBackground(new Color(255, 245, 242));
 			statusLabel.setForeground(new Color(255, 0, 0));
-			String errorMsg = new ReflectionUIError(e).toString();
+			String errorMsg = new ReflectionUIError(validationError[0]).toString();
 			statusLabel.setText(ReflectionUIUtils.multiToSingleLine(errorMsg));
 			SwingRendererUtils.setMultilineToolTipText(statusLabel, errorMsg);
 			statusLabel.setVisible(true);
@@ -1471,11 +1421,102 @@ public class SwingRenderer {
 		public FieldControlPlaceHolder(Object object, IFieldInfo field) {
 			super();
 			this.object = object;
-			field = makeFieldModificationsUndoable(field, this);
-			field = handleValueUpdateErrors(field, this);
+			field = makeFieldModificationsUndoable(field);
+			field = handleValueUpdateErrors(field);
+			field = indicateWhenBusy(field);
 			this.field = field;
 			setLayout(new BorderLayout());
 			refreshUI(false);
+		}
+
+		public IFieldInfo makeFieldModificationsUndoable(final IFieldInfo field) {
+			return new FieldInfoProxy(field) {
+				@Override
+				public void setValue(Object object, Object newValue) {
+					if (field.isGetOnly()) {
+						field.setValue(object, newValue);
+						return;
+					}
+					Component c = fieldControl;
+					if ((c instanceof IFieldControl)) {
+						IFieldControl fieldControl = (IFieldControl) c;
+						if (fieldControl.handlesModificationStackUpdate()) {
+							field.setValue(object, newValue);
+							return;
+						}
+					}
+					JPanel form = SwingRendererUtils.findParentForm(FieldControlPlaceHolder.this, SwingRenderer.this);
+					ModificationStack stack = getModificationStackByForm().get(form);
+					SetFieldValueModification modif = SetFieldValueModification.create(reflectionUI, object, field,
+							newValue);
+					try {
+						stack.apply(modif);
+					} catch (Throwable t) {
+						stack.invalidate();
+						throw new ReflectionUIError(t);
+					}
+				}
+			};
+		}
+
+		public IFieldInfo handleValueUpdateErrors(final IFieldInfo field) {
+			return new FieldInfoProxy(field) {
+
+				@Override
+				public void setValue(Object object, Object value) {
+					try {
+						field.setValue(object, value);
+						displayError(null);
+					} catch (final Throwable t) {
+						displayError(new ReflectionUIError(t));
+					}
+				}
+
+			};
+		}
+
+		public IFieldInfo indicateWhenBusy(final IFieldInfo field) {
+			return new FieldInfoProxy(field) {
+
+				@Override
+				public Object getValue(final Object object) {
+					final Object[] result = new Object[1];
+					showBusyDialogWhile(FieldControlPlaceHolder.this, new Runnable() {
+						public void run() {
+							result[0] = field.getValue(object);
+						}
+					}, "Getting " + field.getCaption());
+					return result[0];
+				}
+
+				@Override
+				public void setValue(final Object object, final Object value) {
+					showBusyDialogWhile(FieldControlPlaceHolder.this, new Runnable() {
+						public void run() {
+							field.setValue(object, value);
+						}
+					}, "Setting " + field.getCaption());
+				}
+
+				@Override
+				public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+					final Runnable result = field.getCustomUndoUpdateJob(object, value);
+					if (result == null) {
+						return null;
+					}
+					return new Runnable() {
+						@Override
+						public void run() {
+							showBusyDialogWhile(FieldControlPlaceHolder.this, new Runnable() {
+								public void run() {
+									result.run();
+								}
+							}, ModificationStack.getUndoTitle("Setting " + field.getCaption()));
+						}
+					};
+				}
+
+			};
 		}
 
 		public Component getFieldControl() {
@@ -1546,10 +1587,60 @@ public class SwingRenderer {
 		public MethodControlPlaceHolder(Object object, IMethodInfo method) {
 			super();
 			this.object = object;
-			method = makeMethodModificationsUndoable(method, this);
+			method = makeMethodModificationsUndoable(method);
+			method = indicateWhenBusy(method);
 			this.method = method;
 			setLayout(new BorderLayout());
 			refreshUI(false);
+		}
+
+		public IMethodInfo makeMethodModificationsUndoable(final IMethodInfo method) {
+			return new MethodInfoProxy(method) {
+
+				@Override
+				public Object invoke(Object object, InvocationData invocationData) {
+					JPanel form = SwingRendererUtils.findParentForm(MethodControlPlaceHolder.this, SwingRenderer.this);
+					ModificationStack stack = getModificationStackByForm().get(form);
+					return SwingRendererUtils.invokeMethodAndAllowToUndo(object, method, invocationData, stack);
+				}
+
+			};
+		}
+
+		public IMethodInfo indicateWhenBusy(final IMethodInfo method) {
+			return new MethodInfoProxy(method) {
+
+				@Override
+				public Object invoke(final Object object, final InvocationData invocationData) {
+					final Object[] result = new Object[1];
+					showBusyDialogWhile(MethodControlPlaceHolder.this, new Runnable() {
+						public void run() {
+							result[0] = method.invoke(object, invocationData);
+						}
+					}, ReflectionUIUtils.composeTitle(method.getCaption(), "Execution"));
+					return result[0];
+				}
+
+				@Override
+				public Runnable getUndoJob(Object object, InvocationData invocationData) {
+					final Runnable result = method.getUndoJob(object, invocationData);
+					if (result == null) {
+						return null;
+					}
+					return new Runnable() {
+						@Override
+						public void run() {
+							showBusyDialogWhile(MethodControlPlaceHolder.this, new Runnable() {
+								public void run() {
+									result.run();
+								}
+							}, ModificationStack
+									.getUndoTitle(ReflectionUIUtils.composeTitle(method.getCaption(), "Execution")));
+						}
+					};
+				}
+
+			};
 		}
 
 		public Component getMethodControl() {

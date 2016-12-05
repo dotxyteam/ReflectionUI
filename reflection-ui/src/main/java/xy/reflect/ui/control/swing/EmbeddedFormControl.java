@@ -25,6 +25,7 @@ import xy.reflect.ui.undo.SetFieldValueModification;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.SwingRendererUtils;
 
 @SuppressWarnings("unused")
 public class EmbeddedFormControl extends JPanel implements IFieldControl {
@@ -135,7 +136,7 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 							subFormObject);
 				}
 			};
-			ReflectionUIUtils.forwardSubModifications(swingRenderer.getReflectionUI(), subForm,
+			SwingRendererUtils.forwardSubModifications(swingRenderer.getReflectionUI(), subForm,
 					childModifAcceptedGetter, childValueReturnModeGetter, childValueNewGetter, commitModifGetter, field,
 					SetFieldValueModification.getTitle(field), swingRenderer);
 		}

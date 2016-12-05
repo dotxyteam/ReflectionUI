@@ -13,7 +13,6 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.Parameter;
 import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo {
 
@@ -100,7 +99,7 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 
 	@Override
 	public String getOnlineHelp() {
-		return ReflectionUIUtils.getAnnotatedInfoOnlineHelp(javaConstructor);
+		return null;
 	}
 
 	@Override
@@ -115,9 +114,6 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 	}
 
 	public static boolean isCompatibleWith(Constructor<?> constructor) {
-		if (ReflectionUIUtils.isInfoHidden(constructor)) {
-			return false;
-		}
 		Class<?> declaringClass = constructor.getDeclaringClass();
 		if(declaringClass.getEnclosingClass() != null){
 			if(!Modifier.isStatic(declaringClass.getModifiers())){

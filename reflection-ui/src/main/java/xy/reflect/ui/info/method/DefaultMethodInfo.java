@@ -11,7 +11,6 @@ import java.util.Map;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.annotation.ValueOptionsForField;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.parameter.DefaultParameterInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -172,28 +171,17 @@ public class DefaultMethodInfo implements IMethodInfo {
 		if (ReflectionUIUtils.isJavaClassMainMethod(javaMethod)) {
 			return false;
 		}
-		if (ReflectionUIUtils
-				.getAnnotatedValidatingMethods(containingJavaClass).contains(
-						javaMethod)) {
-			return false;
-		}
-		if (javaMethod.getAnnotation(ValueOptionsForField.class) != null) {
-			return false;
-		}
-		if (ReflectionUIUtils.isInfoHidden(javaMethod)) {
-			return false;
-		}
 		return true;
 	}
 
 	@Override
 	public InfoCategory getCategory() {
-		return ReflectionUIUtils.getAnnotatedInfoCategory(javaMethod);
+		return null;
 	}
 
 	@Override
 	public String getOnlineHelp() {
-		return ReflectionUIUtils.getAnnotatedInfoOnlineHelp(javaMethod);
+		return null;
 	}
 
 	@Override

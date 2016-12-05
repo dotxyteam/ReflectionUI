@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -17,10 +18,8 @@ import xy.reflect.ui.info.type.util.MethodSetupObjectFactory;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
-import javax.swing.AbstractAction;
 
 public class MethodAction extends AbstractAction {
 
@@ -75,17 +74,7 @@ public class MethodAction extends AbstractAction {
 		} else {
 			final boolean displayReturnValue = shouldDisplayReturnValue && (method.getReturnValueType() != null);
 			final boolean[] exceptionThrownHoler = new boolean[] { false };
-			swingRenderer.showBusyDialogWhile(activatorComponent, new Runnable() {
-				@Override
-				public void run() {
-					try {
-						returnValue = method.invoke(object, new InvocationData());
-					} catch (Throwable t) {
-						exceptionThrownHoler[0] = true;
-						throw new ReflectionUIError(t);
-					}
-				}
-			}, ReflectionUIUtils.composeTitle(method.getCaption(), "Execution"));
+			returnValue = method.invoke(object, new InvocationData());
 			if (displayReturnValue && !exceptionThrownHoler[0]) {
 				openMethodReturnValueWindow(activatorComponent);
 			}
@@ -162,17 +151,7 @@ public class MethodAction extends AbstractAction {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					swingRenderer.getLastInvocationDataByMethod().put(method, invocationData);
-					swingRenderer.showBusyDialogWhile(activatorComponent, new Runnable() {
-						@Override
-						public void run() {
-							try {
-								returnValue = method.invoke(object, invocationData);
-							} catch (Throwable t) {
-								exceptionThrownHolder[0] = true;
-								throw new ReflectionUIError(t);
-							}
-						}
-					}, ReflectionUIUtils.composeTitle(method.getCaption(), "Execution"));
+					returnValue = method.invoke(object, invocationData);
 					if (displayReturnValue) {
 						if (!exceptionThrownHolder[0]) {
 							openMethodReturnValueWindow(activatorComponent);

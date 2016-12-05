@@ -864,8 +864,17 @@ public final class InfoCustomizations {
 		protected String methodSignature;
 		protected String customMethodCaption;
 		protected boolean readOnlyForced = false;
+		protected boolean validating = false;
 		protected List<ParameterCustomization> parametersCustomizations = new ArrayList<InfoCustomizations.ParameterCustomization>();
 		protected ValueReturnMode customValueReturnMode;
+
+		public boolean isValidating() {
+			return validating;
+		}
+
+		public void setValidating(boolean validating) {
+			this.validating = validating;
+		}
 
 		public boolean isReadOnlyForced() {
 			return readOnlyForced;
@@ -2360,8 +2369,10 @@ public final class InfoCustomizations {
 					IMethodInfo method = it.next();
 					MethodCustomization m = getMethodCustomization(type.getName(),
 							ReflectionUIUtils.getMethodInfoSignature(method));
-					if ((m != null) && m.hidden) {
-						it.remove();
+					if (m != null) {
+						if (m.hidden || m.validating) {
+							it.remove();
+						}
 					}
 				}
 				if (t.customMethodsOrder != null) {
@@ -2381,6 +2392,27 @@ public final class InfoCustomizations {
 				}
 			}
 			return super.getCaption(type);
+		}
+
+		@Override
+		protected void validate(ITypeInfo type, Object object) throws Exception {
+			TypeCustomization t = getTypeCustomization(type.getName());
+			if (t != null) {
+				for (MethodCustomization m : t.methodsCustomizations) {
+					if (m.validating) {
+						IMethodInfo method = ReflectionUIUtils.findMethodBySignature(type.getMethods(),
+								m.methodSignature);
+						if (method != null) {
+							if (method.getParameters().size() > 0) {
+								throw new ReflectionUIError("Invalid validating method: Number of parameters > 0: "
+										+ ReflectionUIUtils.getMethodInfoSignature(method));
+							}
+							method.invoke(object, new InvocationData());
+						}
+					}
+				}
+			}
+			super.validate(type, object);
 		}
 
 		@Override

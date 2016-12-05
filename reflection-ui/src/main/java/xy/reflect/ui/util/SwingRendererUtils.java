@@ -33,12 +33,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.IInfoCollectionSettings;
+import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -52,6 +55,7 @@ import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.undo.UndoOrder;
 
 @SuppressWarnings("unused")
 public class SwingRendererUtils {
@@ -430,5 +434,84 @@ public class SwingRendererUtils {
 
 	public static void setIconImage(Map<String, Object> properties, Image image) {
 		properties.put(DesktopSpecificProperty.KEY_ICON_IMAGE, image);		
+	}
+
+	public static void forwardSubModifications(final ReflectionUI reflectionUI, final JPanel subForm,
+			final Accessor<Boolean> childModifAcceptedGetter,
+			final Accessor<ValueReturnMode> childValueReturnModeGetter, final Accessor<Boolean> childValueNewGetter,
+			final Accessor<IModification> commitModifGetter, final IInfo childModifTarget,
+			final String parentModifTitle, final SwingRenderer swingRenderer) {
+		final ModificationStack parentModifStack = findParentFormModificationStack(subForm.getParent(), swingRenderer);
+		if (parentModifStack == null) {
+			subForm.addAncestorListener(new AncestorListener() {
+	
+				@Override
+				public void ancestorRemoved(AncestorEvent event) {
+				}
+	
+				@Override
+				public void ancestorMoved(AncestorEvent event) {
+				}
+	
+				@Override
+				public void ancestorAdded(AncestorEvent event) {
+					if (findParentFormModificationStack(subForm, swingRenderer) != null) {
+						subForm.removeAncestorListener(this);
+						forwardSubModifications(reflectionUI, subForm, childModifAcceptedGetter,
+								childValueReturnModeGetter, childValueNewGetter, commitModifGetter, childModifTarget,
+								parentModifTitle, swingRenderer);
+					}
+				}
+			});
+		} else {
+			swingRenderer.getModificationStackByForm().put(subForm, new ModificationStack(null) {
+	
+				@Override
+				public boolean pushUndo(IModification undoModif) {
+					ModificationStack childModifStack = new ModificationStack(null);
+					childModifStack.pushUndo(undoModif);
+					Boolean childModifAccepted = childModifAcceptedGetter.get();
+					ValueReturnMode childValueReturnMode = childValueReturnModeGetter.get();
+					Boolean childValueNew = childValueNewGetter.get();
+					IModification commitModif = commitModifGetter.get();
+					String subModifTitle = ModificationStack.getUndoTitle(undoModif.getTitle());
+					if (parentModifTitle != null) {
+						subModifTitle = ReflectionUIUtils.composeTitle(parentModifTitle, subModifTitle);
+					}
+					return ReflectionUIUtils.integrateSubModifications(reflectionUI, parentModifStack, childModifStack,
+							childModifAccepted, childValueReturnMode, childValueNew, commitModif, childModifTarget,
+							subModifTitle);
+				}
+	
+				@Override
+				public void beginComposite() {
+					parentModifStack.beginComposite();
+				}
+	
+				@Override
+				public boolean endComposite(IInfo target, String title, UndoOrder order) {
+					return parentModifStack.endComposite(childModifTarget, title, order);
+				}
+	
+				@Override
+				public void abortComposite() {
+					parentModifStack.abortComposite();
+				}
+	
+				@Override
+				public void invalidate() {
+					ModificationStack childModifStack = new ModificationStack(null);
+					childModifStack.invalidate();
+					Boolean childModifAccepted = childModifAcceptedGetter.get();
+					ValueReturnMode childValueReturnMode = childValueReturnModeGetter.get();
+					Boolean childValueNew = childValueNewGetter.get();
+					IModification commitModif = commitModifGetter.get();
+					String childModifTitle = null;
+					ReflectionUIUtils.integrateSubModifications(reflectionUI, parentModifStack, childModifStack, childModifAccepted,
+							childValueReturnMode, childValueNew, commitModif, childModifTarget, childModifTitle);
+				}
+	
+			});
+		}
 	}
 }

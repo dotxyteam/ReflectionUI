@@ -7,7 +7,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -192,19 +191,12 @@ public class DefaultTypeInfo implements ITypeInfo {
 
 	@Override
 	public String getOnlineHelp() {
-		return ReflectionUIUtils.getAnnotatedInfoOnlineHelp(javaType);
+		return null;
 	}
 
 	@Override
 	public void validate(Object object) throws Exception {
 		ReflectionUIUtils.checkInstance(this, object);
-		for (Method method : ReflectionUIUtils.getAnnotatedValidatingMethods(javaType)) {
-			try {
-				method.invoke(object);
-			} catch (InvocationTargetException e) {
-				throw new ReflectionUIError(e.getCause());
-			}
-		}
 	}
 
 	@Override

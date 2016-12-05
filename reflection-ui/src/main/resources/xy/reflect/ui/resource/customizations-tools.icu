@@ -494,6 +494,16 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=Method Customization, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
         <typeName>MethodParametersAsTypeInfo(CustomizationCategory)</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -717,11 +727,13 @@
             <hidden>false</hidden>
             <methodSignature></methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>java.lang.String ()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>java.lang.String</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -739,6 +751,7 @@
             <hidden>false</hidden>
             <methodSignature>java.util.List ()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>java.util.List</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -837,6 +850,7 @@
             <hidden>false</hidden>
             <methodSignature>xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode DetachedItemDetailsAccessMode()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -873,6 +887,7 @@
             <hidden>false</hidden>
             <methodSignature>xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode EmbeddedItemDetailsAccessMode()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -913,6 +928,7 @@
                 <parameterName>javaType</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
@@ -928,6 +944,7 @@
                 <parameterName>typedMember</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
@@ -948,6 +965,7 @@
                 <parameterName>parameterPosition</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.source.JavaTypeInfoSource</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -979,46 +997,55 @@
             <hidden>false</hidden>
             <methodSignature>get</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>getFieldCustomization</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>getMethodCustomization</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>getParameterCustomization</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>getTypeCustomization</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>loadFromFile</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>loadFromStream</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>saveToFile</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>saveToStream</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
@@ -1029,6 +1056,7 @@
                 <parameterName>input</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
@@ -1039,6 +1067,7 @@
                 <parameterName>input</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
@@ -1049,6 +1078,7 @@
                 <parameterName>output</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
@@ -1059,6 +1089,7 @@
                 <parameterName>output</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
@@ -1074,11 +1105,13 @@
                 <parameterName>type</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
             <methodSignature>xy.reflect.ui.info.type.ITypeInfo get(xy.reflect.ui.info.type.ITypeInfo)</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
@@ -1099,6 +1132,7 @@
                 <parameterName>columnName</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
@@ -1124,6 +1158,7 @@
                 <parameterName>create</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
@@ -1139,6 +1174,7 @@
                 <parameterName>fieldName</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
@@ -1159,6 +1195,7 @@
                 <parameterName>create</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
@@ -1174,6 +1211,7 @@
                 <parameterName>itemTypeName</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
@@ -1194,6 +1232,7 @@
                 <parameterName>create</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
@@ -1209,6 +1248,7 @@
                 <parameterName>methodSignature</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
@@ -1229,6 +1269,7 @@
                 <parameterName>create</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
@@ -1249,6 +1290,7 @@
                 <parameterName>paramName</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
@@ -1274,6 +1316,7 @@
                 <parameterName>create</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
@@ -1289,6 +1332,7 @@
                 <parameterName>typeName</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
@@ -1309,6 +1353,7 @@
                 <parameterName>typeName</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -1345,6 +1390,7 @@
                 <parameterName>o</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -1365,11 +1411,13 @@
                 <parameterName>reflectionUI</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$CustomTypeInfoFinder CustomTypeInfoFinder()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$CustomTypeInfoFinder</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -1385,6 +1433,7 @@
             <hidden>false</hidden>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory CustomizationCategory()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -1413,6 +1462,7 @@
                 <parameterName>o</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$EnumerationCustomization</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -1441,6 +1491,7 @@
                 <parameterName>o</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$EnumerationItemCustomization</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -1571,6 +1622,7 @@
                 <parameterName>o</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -1610,11 +1662,13 @@
                 <parameterName>s</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$InfoFilter InfoFilter()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$InfoFilter</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -1635,11 +1689,13 @@
                 <parameterName>reflectionUI</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$JavaClassBasedTypeInfoFinder JavaClassBasedTypeInfoFinder()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$JavaClassBasedTypeInfoFinder</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -1887,6 +1943,7 @@
                 <parameterName>o</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
@@ -1897,6 +1954,7 @@
                 <parameterName>columnName</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$ListCustomization</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -1927,6 +1985,7 @@
             <hidden>false</hidden>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ListEditOptions ListEditOptions()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$ListEditOptions</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -1958,6 +2017,7 @@
             <hidden>false</hidden>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ListItemFieldShortcut ListItemFieldShortcut()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$ListItemFieldShortcut</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -1996,6 +2056,7 @@
             <hidden>false</hidden>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ListItemMethodShortcut ListItemMethodShortcut()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$ListItemMethodShortcut</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -2102,6 +2163,15 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Advanced</caption>
+            </category>
+            <hidden>false</hidden>
+            <fieldName>validating</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
         <memberCategories>
             <caption>Parameters</caption>
         </memberCategories>
@@ -2117,6 +2187,7 @@
                 <parameterName>o</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
@@ -2127,6 +2198,7 @@
                 <parameterName>customReturnValueReturnMode</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -2197,6 +2269,7 @@
             <hidden>false</hidden>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$TreeStructureDiscoverySettings TreeStructureDiscoverySettings()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$TreeStructureDiscoverySettings</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -2339,16 +2412,19 @@
                 <parameterName>o</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>moveField</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>moveMethod</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
@@ -2369,6 +2445,7 @@
                 <parameterName>offset</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
@@ -2389,6 +2466,7 @@
                 <parameterName>offset</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization</typeName>
         <undoManagementHidden>false</undoManagementHidden>

@@ -64,8 +64,7 @@ public class PublicFieldInfo implements IFieldInfo {
 
 	@Override
 	public Object[] getValueOptions(Object object) {
-		return ReflectionUIUtils.getFieldValueOptionsFromAnnotatedMember(object, containingJavaClass,
-				javaField.getName(), reflectionUI);
+		return null;
 	}
 
 	@Override
@@ -126,20 +125,17 @@ public class PublicFieldInfo implements IFieldInfo {
 	}
 
 	public static boolean isCompatibleWith(Field field) {
-		if (ReflectionUIUtils.isInfoHidden(field)) {
-			return false;
-		}
 		return true;
 	}
 
 	@Override
 	public InfoCategory getCategory() {
-		return ReflectionUIUtils.getAnnotatedInfoCategory(javaField);
+		return null;
 	}
 
 	@Override
 	public String getOnlineHelp() {
-		return ReflectionUIUtils.getAnnotatedInfoOnlineHelp(javaField);
+		return null;
 	}
 
 	@Override

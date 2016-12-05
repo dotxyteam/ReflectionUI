@@ -120,9 +120,6 @@ public class ReflectionUI {
 				throw new ReflectionUIError();
 			}
 		}
-		if (SystemProperties.hideNullablefacets()) {
-			result = new HiddenNullableFacetsTypeInfoProxyFactory(this).get(result);
-		}
 		return result;
 	}
 

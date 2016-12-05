@@ -17,9 +17,6 @@ public class DefaultParameterInfo implements IParameterInfo {
 	protected ITypeInfo type;
 	
 	public static boolean isCompatibleWith(Parameter javaParameter) {
-		if (ReflectionUIUtils.isInfoHidden(javaParameter)) {
-			return false;
-		}
 		return true;
 	}
 
@@ -106,7 +103,7 @@ public class DefaultParameterInfo implements IParameterInfo {
 
 	@Override
 	public String getOnlineHelp() {
-		return ReflectionUIUtils.getAnnotatedInfoOnlineHelp(javaParameter);
+		return null;
 	}
 
 	@Override

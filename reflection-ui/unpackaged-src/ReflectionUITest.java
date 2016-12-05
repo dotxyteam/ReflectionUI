@@ -1,8 +1,4 @@
-import java.awt.Image;
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -14,47 +10,18 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import java.util.Vector;
-import javax.imageio.ImageIO;
 
-import org.ietf.jgss.GSSException;
-
-import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.SwingRenderer;
-import xy.reflect.ui.info.annotation.Category;
-import xy.reflect.ui.info.annotation.OnlineHelp;
-import xy.reflect.ui.info.annotation.ValueOptionsForField;
-import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.info.type.custom.TextualTypeInfo;
-import xy.reflect.ui.info.type.iterable.IListTypeInfo;
-import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
-import xy.reflect.ui.info.type.iterable.structure.DefaultListStructuralInfo;
-import xy.reflect.ui.info.type.source.ITypeInfoSource;
-import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.util.InfoCustomizations;
-import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
-import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.undo.AbstractMethodUndoModification;
-import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.undo.IModification;
-import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.info.method.InvocationData;
 
-@SuppressWarnings("unused")
 public class ReflectionUITest {
 
-	@OnlineHelp("This type is used as a test case")
 	public static class Test {
-		@OnlineHelp("Can be of any type")
 		public Object anyObject;
-		@OnlineHelp("Can be of 2 types")
 		public Exception theException;
 
-		
 		public String theChoice;
-		public String[] theChoiceOptions = new String[]{"a","z","e","r","t","y"};
+		public String[] theChoiceOptions = new String[] { "a", "z", "e", "r", "t", "y" };
 
-		@OnlineHelp("This is the string var")
 		private String theString = "azerty";
 
 		public int getTheBoundedInt() {
@@ -68,22 +35,18 @@ public class ReflectionUITest {
 			this.theBoundedInt = theBoundedInt;
 		}
 
-		@OnlineHelp("Returns 'theString'")
 		public String getTheString() {
 			return theString;
 		}
 
-		@OnlineHelp("Sets the value of 'theString'")
 		public void setTheString(String theString) {
 			this.theString = theString;
 		}
 
-		@OnlineHelp("returns the mathematic PI constant value'")
 		public double getPI() {
 			return Math.PI;
 		}
 
-		@OnlineHelp("returns the mathematic PI constant value'")
 		public String getExceptionneableInfo() throws Exception {
 			return "ExceptionneableInfo";
 		}
@@ -92,12 +55,10 @@ public class ReflectionUITest {
 
 		private int theBoundedInt = 0;
 
-		@OnlineHelp("Returns 'theInt' value")
 		public int getTheInt() {
 			return theInt;
 		}
 
-		@OnlineHelp("Sets the value of 'theInt'")
 		public void setTheInt(int theInt) {
 			this.theInt = theInt;
 		}
@@ -109,28 +70,15 @@ public class ReflectionUITest {
 		public File theFile;
 		private Date theDate = new Date();
 		char c = 'a';
-		@Category("List")
 		public List<String> theStringList = new ArrayList<String>(Arrays.asList("a", "b", "c", "d"));
 		public Test2 test2 = new Test2();
-		@Category("List")
 		public AbstrcatTestDescendant[] theArrayTreeTable = new AbstrcatTestDescendant[] { new Test2(), new Test3() };
-		@Category("List")
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		public Vector theGenericVector = new Vector(Arrays.asList(new Test2(), new Test2()));
-
-		@Category("List")
 		public Map<Integer, String> theMap = new HashMap<Integer, String>(Collections.singletonMap(5, "five"));
-
-		@Category("List")
 		public Map<Integer, Test2> theTest2Map = new HashMap<Integer, Test2>();
-
-		@Category("List")
 		public List<File> theFileList = Arrays.asList(new File("./file1"));
-
-		@Category("List")
 		public Set<Integer> theSet = new HashSet<Integer>(Arrays.asList(1, 2, 3));
-
-		@Category("List")
 		public Stack<Integer> theStack = new Stack<Integer>();
 
 		public Test4 test4 = new Test4();
@@ -138,22 +86,20 @@ public class ReflectionUITest {
 		public Date getTheDate() {
 			return theDate;
 		}
+
 		public Date getTheDatePlus1Day() {
 			return new Date(theDate.getTime() + 24 * 60 * 60 * 1000);
 		}
-		
-		@OnlineHelp("clears the 1st list of Strings")
+
 		public void resettheStringList() {
 			theStringList.clear();
 		}
 
-		@OnlineHelp("adds 1 to the var 'theInt' value")
 		public void incrementTheInt() {
 			theInt++;
 		}
 
-		@OnlineHelp("multiplies the var 'theFloat' by the given factor")
-		public void multiplyTheFloat(@OnlineHelp("the factor that will be applied") int factor) {
+		public void multiplyTheFloat(int factor) {
 			theFloat *= factor;
 		}
 
@@ -177,7 +123,6 @@ public class ReflectionUITest {
 
 	}
 
-	@OnlineHelp("This type is used as a 2nd test case")
 	public static class Test2 extends AbstrcatTestDescendant {
 		public List<AbstrcatTestDescendant> theChildrenList = new ArrayList<ReflectionUITest.AbstrcatTestDescendant>();
 
@@ -186,11 +131,9 @@ public class ReflectionUITest {
 		}
 	}
 
-	@OnlineHelp("This type is used as a 3rd test case")
 	public static class Test3 extends AbstrcatTestDescendant {
 		public String reference;
 
-		@ValueOptionsForField("reference")
 		public List<String> getValidReferences() {
 			return Arrays.asList("ref1", "ref2", "ref3");
 		}

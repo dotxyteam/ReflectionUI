@@ -15,17 +15,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.AccessibleObject;
-import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -36,8 +32,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.JPanel;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
 
 import com.fasterxml.classmate.MemberResolver;
 import com.fasterxml.classmate.ResolvedType;
@@ -54,13 +48,7 @@ import com.thoughtworks.paranamer.Paranamer;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
-import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.annotation.Category;
-import xy.reflect.ui.info.annotation.Hidden;
-import xy.reflect.ui.info.annotation.OnlineHelp;
-import xy.reflect.ui.info.annotation.Validating;
-import xy.reflect.ui.info.annotation.ValueOptionsForField;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -471,54 +459,6 @@ public class ReflectionUIUtils {
 		return result.toString();
 	}
 
-	public static InfoCategory getAnnotatedInfoCategory(AnnotatedElement annotated) {
-		Category annotation = annotated.getAnnotation(Category.class);
-		if (annotation == null) {
-			return null;
-		}
-		return new InfoCategory(annotation.value(), annotation.position());
-	}
-
-	public static String getAnnotatedInfoOnlineHelp(AnnotatedElement annotated) {
-		OnlineHelp annotation = annotated.getAnnotation(OnlineHelp.class);
-		if (annotation == null) {
-			return null;
-		}
-		return annotation.value();
-	}
-
-	public static boolean isInfoHidden(AccessibleObject javaMetaObject) {
-		Hidden annotation = javaMetaObject.getAnnotation(Hidden.class);
-		if (annotation != null) {
-			return true;
-		}
-		if (javaMetaObject instanceof Field) {
-			Field field = (Field) javaMetaObject;
-			if (SystemProperties.hideField(field)) {
-				return true;
-			}
-		}
-		if (javaMetaObject instanceof Method) {
-			Method method = (Method) javaMetaObject;
-			if (SystemProperties.hideMethod(method)) {
-				return true;
-			}
-		}
-		if (javaMetaObject instanceof Constructor<?>) {
-			Constructor<?> ctor = (Constructor<?>) javaMetaObject;
-			if (SystemProperties.hideConstructor(ctor)) {
-				return true;
-			}
-		}
-		if (javaMetaObject instanceof Parameter) {
-			Parameter param = (Parameter) javaMetaObject;
-			if (SystemProperties.hideParameter(param)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public static String escapeHTML(String string, boolean preserveNewLines) {
 		StringBuffer sb = new StringBuffer(string.length());
 		// true if last char was blank
@@ -590,64 +530,6 @@ public class ReflectionUIUtils {
 		return result;
 	}
 
-	public static List<Method> getAnnotatedValidatingMethods(Class<?> javaType) {
-		List<Method> result = new ArrayList<Method>();
-		for (Method method : javaType.getMethods()) {
-			Validating annotation = method.getAnnotation(Validating.class);
-			if (annotation != null) {
-				if (method.getReturnType() != void.class) {
-					throw new ReflectionUIError("Invalid validating method, the return type is not 'void': " + method);
-				}
-				if (method.getParameterTypes().length > 0) {
-					throw new ReflectionUIError(
-							"Invalid validating method, the number of parameters is not 0: " + method);
-				}
-				result.add(method);
-				continue;
-			}
-		}
-		return result;
-	}
-
-	public static Field getAnnotatedValueOptionsField(Class<?> containingJavaType, String targetFieldName) {
-		for (Field field : containingJavaType.getFields()) {
-			ValueOptionsForField annotation = field.getAnnotation(ValueOptionsForField.class);
-			if (annotation != null) {
-				if (!targetFieldName.equals(annotation.value())) {
-					continue;
-				}
-				if (!field.getType().isArray()) {
-					if (!Collection.class.isAssignableFrom(field.getType())) {
-						throw new ReflectionUIError("Invalid value options field: " + field
-								+ ". Invalid type: Expected type: <<array> or java.util.Collection");
-
-					}
-				}
-				return field;
-			}
-		}
-		return null;
-	}
-
-	public static Method getAnnotatedValueOptionsMethod(Class<?> containingJavaType, String baseFieldName) {
-		for (Method method : containingJavaType.getMethods()) {
-			ValueOptionsForField annotation = method.getAnnotation(ValueOptionsForField.class);
-			if (annotation != null) {
-				if (!baseFieldName.equals(annotation.value())) {
-					continue;
-				}
-				if (!method.getReturnType().isArray()) {
-					if (!Collection.class.isAssignableFrom(method.getReturnType())) {
-						throw new ReflectionUIError("Invalid value options method: " + method
-								+ ". Invalid return type: Expected return type: <<array> or java.util.Collection");
-					}
-				}
-				return method;
-			}
-		}
-		return null;
-	}
-
 	public static String multiToSingleLine(String s) {
 		return s.replaceAll("\\r\\n|\\n|\\r", " ");
 	}
@@ -687,41 +569,6 @@ public class ReflectionUIUtils {
 	public static StackTraceElement[] createDebugStackTrace(int firstElementsToRemove) {
 		StackTraceElement[] result = new Exception().getStackTrace();
 		return Arrays.copyOfRange(result, 1 + firstElementsToRemove, result.length);
-	}
-
-	public static Object[] getFieldValueOptionsFromAnnotatedMember(Object object, Class<?> containingJavaClass,
-			String fieldName, ReflectionUI reflectionUI) {
-		Object result = null;
-		try {
-			Field javaValueOptionsField = getAnnotatedValueOptionsField(containingJavaClass, fieldName);
-			if (javaValueOptionsField != null) {
-				result = javaValueOptionsField.get(object);
-			} else {
-				Method javaValueOptionsMethod = getAnnotatedValueOptionsMethod(containingJavaClass, fieldName);
-				if (javaValueOptionsMethod != null) {
-					result = javaValueOptionsMethod.invoke(object);
-				}
-			}
-		} catch (IllegalArgumentException e) {
-			throw new ReflectionUIError(e);
-		} catch (IllegalAccessException e) {
-			throw new ReflectionUIError(e);
-		} catch (InvocationTargetException e) {
-			throw new ReflectionUIError(e.getCause());
-		}
-		if (result == null) {
-			return null;
-		} else if (result instanceof Collection) {
-			return ((Collection<?>) result).toArray();
-		} else if (result.getClass().isArray()) {
-			Object[] resultArray = new Object[Array.getLength(result)];
-			for (int i = 0; i < resultArray.length; i++) {
-				resultArray[i] = Array.get(result, i);
-			}
-			return resultArray;
-		} else {
-			throw new ReflectionUIError();
-		}
 	}
 
 	public static <M extends Member> M findJavaMemberByName(M[] members, String memberName) {
@@ -979,10 +826,10 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static boolean integrateSubModifications(ReflectionUI reflectionUI,  final ModificationStack parentModifStack,
+	public static boolean integrateSubModifications(ReflectionUI reflectionUI, final ModificationStack parentModifStack,
 			final ModificationStack childModifStack, boolean childModifAccepted,
-			final ValueReturnMode childValueReturnMode, final boolean childValueNew,
-			final IModification commitModif, IInfo childModifTarget, String subModifTitle) {
+			final ValueReturnMode childValueReturnMode, final boolean childValueNew, final IModification commitModif,
+			IInfo childModifTarget, String subModifTitle) {
 
 		if (parentModifStack == null) {
 			throw new ReflectionUIError();
@@ -1019,8 +866,9 @@ public class ReflectionUIUtils {
 				if (childValueReturnMode != ValueReturnMode.COPY) {
 					if (!childModifStack.wasInvalidated()) {
 						childModifStack.undoAll();
-					} else {						
-						reflectionUI.logInformation("WARNING: Cannot revert invalidated sub-modification => Invalidating parent modification stack");
+					} else {
+						reflectionUI.logInformation(
+								"WARNING: Cannot revert invalidated sub-modification => Invalidating parent modification stack");
 						parentModifStack.invalidate();
 						parentValueImpacted = true;
 					}
@@ -1028,84 +876,5 @@ public class ReflectionUIUtils {
 			}
 		}
 		return parentValueImpacted;
-	}
-
-	public static void forwardSubModifications(final ReflectionUI reflectionUI, final JPanel subForm, final Accessor<Boolean> childModifAcceptedGetter,
-			final Accessor<ValueReturnMode> childValueReturnModeGetter,
-			final Accessor<Boolean> childValueNewGetter, final Accessor<IModification> commitModifGetter,
-			final IInfo childModifTarget, final String parentModifTitle, final SwingRenderer swingRenderer) {
-		final ModificationStack parentModifStack = SwingRendererUtils
-				.findParentFormModificationStack(subForm.getParent(), swingRenderer);
-		if (parentModifStack == null) {
-			subForm.addAncestorListener(new AncestorListener() {
-
-				@Override
-				public void ancestorRemoved(AncestorEvent event) {
-				}
-
-				@Override
-				public void ancestorMoved(AncestorEvent event) {
-				}
-
-				@Override
-				public void ancestorAdded(AncestorEvent event) {
-					if (SwingRendererUtils.findParentFormModificationStack(subForm, swingRenderer) != null) {
-						subForm.removeAncestorListener(this);
-						forwardSubModifications(reflectionUI, subForm, childModifAcceptedGetter, childValueReturnModeGetter,
-								childValueNewGetter, commitModifGetter, childModifTarget, parentModifTitle,
-								swingRenderer);
-					}
-				}
-			});
-		} else {
-			swingRenderer.getModificationStackByForm().put(subForm, new ModificationStack(null) {
-
-				@Override
-				public boolean pushUndo(IModification undoModif) {
-					ModificationStack childModifStack = new ModificationStack(null);
-					childModifStack.pushUndo(undoModif);
-					Boolean childModifAccepted = childModifAcceptedGetter.get();
-					ValueReturnMode childValueReturnMode = childValueReturnModeGetter.get();
-					Boolean childValueNew = childValueNewGetter.get();
-					IModification commitModif = commitModifGetter.get();
-					String subModifTitle = ModificationStack.getUndoTitle(undoModif.getTitle());
-					if (parentModifTitle != null) {
-						subModifTitle = ReflectionUIUtils.composeTitle(parentModifTitle, subModifTitle);
-					}
-					return integrateSubModifications(reflectionUI, parentModifStack, childModifStack, childModifAccepted,
-							childValueReturnMode, childValueNew, commitModif, childModifTarget, subModifTitle);
-				}
-
-				@Override
-				public void beginComposite() {
-					parentModifStack.beginComposite();
-				}
-
-				@Override
-				public boolean endComposite(IInfo target, String title, UndoOrder order) {
-					return parentModifStack.endComposite(childModifTarget, title, order);
-				}
-
-				@Override
-				public void abortComposite() {
-					parentModifStack.abortComposite();
-				}
-
-				@Override
-				public void invalidate() {
-					ModificationStack childModifStack = new ModificationStack(null);
-					childModifStack.invalidate();
-					Boolean childModifAccepted = childModifAcceptedGetter.get();
-					ValueReturnMode childValueReturnMode = childValueReturnModeGetter.get();
-					Boolean childValueNew = childValueNewGetter.get();
-					IModification commitModif = commitModifGetter.get();
-					String childModifTitle = null;
-					integrateSubModifications(reflectionUI, parentModifStack, childModifStack, childModifAccepted,
-							childValueReturnMode, childValueNew, commitModif, childModifTarget,
-							childModifTitle);
-				}
-
-			});
-		}
 	}
 }
