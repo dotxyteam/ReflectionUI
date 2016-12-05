@@ -21,7 +21,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-public class TextControl extends JPanel implements IFieldControl {
+public class TextControl extends JPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
@@ -196,5 +196,9 @@ public class TextControl extends JPanel implements IFieldControl {
 	@Override
 	public void requestFocus() {
 		textComponent.requestFocus();
+	}
+
+	@Override
+	public void validateSubForm() throws Exception {
 	}
 }

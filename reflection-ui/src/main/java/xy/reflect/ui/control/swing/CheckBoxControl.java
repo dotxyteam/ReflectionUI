@@ -10,7 +10,7 @@ import javax.swing.JCheckBox;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 
-public class CheckBoxControl extends JCheckBox implements IFieldControl {
+public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
@@ -74,6 +74,10 @@ public class CheckBoxControl extends JCheckBox implements IFieldControl {
 
 	@Override
 	public void requestDetailedFocus(Object focusDetails) {
+	}
+
+	@Override
+	public void validateSubForm() throws Exception {
 	}
 	
 	

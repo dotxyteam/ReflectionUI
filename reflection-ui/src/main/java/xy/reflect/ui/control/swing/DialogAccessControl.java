@@ -31,7 +31,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 @SuppressWarnings("unused")
-public class DialogAccessControl extends JPanel implements IFieldControl {
+public class DialogAccessControl extends JPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
@@ -146,8 +146,8 @@ public class DialogAccessControl extends JPanel implements IFieldControl {
 	}
 
 	protected void openDialog() {
-		Object value = field.getValue(object);
-		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, this, value);
+		Object oldValue = field.getValue(object);
+		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, this, oldValue);
 		dialogBuilder.setGetOnly(field.isGetOnly());
 		boolean cancellable = true;
 		{
@@ -231,5 +231,9 @@ public class DialogAccessControl extends JPanel implements IFieldControl {
 
 	@Override
 	public void requestDetailedFocus(Object focusDetails) {
+	}
+
+	@Override
+	public void validateSubForm() throws Exception {
 	}
 }

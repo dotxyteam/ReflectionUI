@@ -110,6 +110,12 @@ public class ReflectionUITest {
 				e.printStackTrace();
 			}
 		}
+		
+		public void verify() throws Exception{
+			if(theChoice == null){
+				throw new Exception("The Choice is not made");
+			}
+		}
 	}
 
 	public static abstract class AbstrcatTestDescendant {
@@ -121,6 +127,11 @@ public class ReflectionUITest {
 		public short theShort = 0;
 		public short the2ndShort = 1;
 
+		public void verify() throws Exception{
+			if(theDay == null){
+				throw new Exception("The Day is not set");
+			}
+		}
 	}
 
 	public static class Test2 extends AbstrcatTestDescendant {

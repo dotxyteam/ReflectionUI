@@ -1,9 +1,9 @@
-- validation:
-	. embedded forms are never validated
+- customizations editor recreates controls
+and forms and often invalidates the customized UI
+Ex: DialogAccessControl recreated while dialog open 
 - secure cache ReflectionUI.precomputedTypeInfoByObject
 - cleaning for end-developer:
 	. add ReflectionUIError explicit messages
-- add Validating option on method customization
 - rethink about read-only forms
 - expose liscontrol selectionListening
 - embedded details view:

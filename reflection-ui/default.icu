@@ -381,7 +381,57 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=Test 2, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=Test 3, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
         <typeName>Encapsulation[typeCaption=, fieldType=Test, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@108622a, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@10c7d5c, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1176de6, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -401,7 +451,57 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@12b4986, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@12b644e, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
         <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@13c66d8, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@152c19d, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@15a191e, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1623f3e, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -431,7 +531,37 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@16995a2, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@16d383a, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
         <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1727596, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@17e7f88, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -451,7 +581,57 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1854518, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@186b0ee, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@186c40d, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@19cc1e3, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
         <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1a1644b, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1a2a618, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -471,7 +651,47 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1b510b8, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1b887b2, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1b92a37, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
         <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1c78000, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1cf56e9, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -491,7 +711,97 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1d6d61d, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1d7b155, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
         <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1fd5730, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@2b6fc7, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@2bfa91, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@346762, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@34c0bd, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@3c78e1, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@4134e0, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@426fde, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -511,7 +821,97 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@56e684, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@592bb1, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@5cd7f9, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
         <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@5dfc67, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@5ef1eb, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@64064b, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@6d3209, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@8f612f, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@94b0ca, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@966905, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -551,6 +951,76 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@a50ea1, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@a81019, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@a93a16, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@c37f31, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@c42804, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@cc5c38, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@ceb62f, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
         <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@d9cc1a, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -571,6 +1041,26 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@df804e, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@e1f6c, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
         <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@ea58e3, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -582,6 +1072,36 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@ec850, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@f04d94, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@ffeba4, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>NULL_FIELD_INFO</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=Error, fieldType=String, fieldCaption=Message]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -643,7 +1163,7 @@
             <specificProperties>
                 <entry>
                     <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">false</value>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
@@ -821,16 +1341,19 @@
             <hidden>false</hidden>
             <methodSignature>java.lang.String getExceptionneableInfo()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>void doLongTask()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>true</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>void incrementTheInt()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
@@ -841,11 +1364,13 @@
                 <parameterName>factor</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>void resettheStringList()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
@@ -856,6 +1381,13 @@
                 <parameterName>theBoundedInt</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void verify()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>true</validating>
         </methodsCustomizations>
         <typeName>ReflectionUITest$Test</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -893,6 +1425,13 @@
             <hidden>false</hidden>
             <methodSignature>void doNothing()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void verify()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>true</validating>
         </methodsCustomizations>
         <typeName>ReflectionUITest$Test2</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -922,6 +1461,18 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>validReferences</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <methodSignature>void verify()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>true</validating>
+        </methodsCustomizations>
         <typeName>ReflectionUITest$Test3</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -930,81 +1481,97 @@
             <hidden>false</hidden>
             <methodSignature>void modify1()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>void modify10()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>void modify11()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>void modify12()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>void modify13()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>void modify14()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>void modify15()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>void modify16()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>void modify2()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>void modify3()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>void modify4()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>void modify5()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>void modify6()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>void modify7()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>void modify8()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>void modify9()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>ReflectionUITest$Test4</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -1075,6 +1642,7 @@
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>java.awt.AWTException</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -1206,6 +1774,7 @@
             <hidden>false</hidden>
             <methodSignature>java.lang.ClassNotFoundException ClassNotFoundException()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
@@ -1216,6 +1785,7 @@
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
@@ -1231,6 +1801,7 @@
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>java.lang.ClassNotFoundException</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -1285,6 +1856,7 @@
             <hidden>false</hidden>
             <methodSignature>java.lang.IllegalAccessException IllegalAccessException()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
@@ -1295,11 +1867,13 @@
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>java.lang.Throwable fillInStackTrace()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
@@ -1310,11 +1884,13 @@
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>void printStackTrace()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
@@ -1325,6 +1901,7 @@
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
@@ -1335,6 +1912,7 @@
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>java.lang.IllegalAccessException</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -1432,6 +2010,7 @@
             <hidden>false</hidden>
             <methodSignature>java.lang.String ()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>java.lang.String</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -1508,6 +2087,7 @@
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
@@ -1518,6 +2098,7 @@
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
@@ -1528,21 +2109,25 @@
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>java.lang.Object clone()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>java.lang.String toGMTString()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>java.lang.String toLocaleString()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
@@ -1578,6 +2163,7 @@
                 <parameterName>parameter6</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
@@ -1588,6 +2174,7 @@
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>java.util.Date</typeName>
         <undoManagementHidden>false</undoManagementHidden>

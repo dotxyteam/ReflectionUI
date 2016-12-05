@@ -28,7 +28,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 @SuppressWarnings("unused")
-public class EmbeddedFormControl extends JPanel implements IFieldControl {
+public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
@@ -62,10 +62,10 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 		Object focusedFieldControlDetails = null;
 		Class<?> focusedFieldControlClass = null;
 		{
-			Component focusedFieldControl = swingRenderer.getAllFieldControlPlaceHolders(subForm)
+			Component focusedFieldControl = swingRenderer.getFieldControlPlaceHolders(subForm)
 					.get(focusedFieldControlIndex).getFieldControl();
-			if (focusedFieldControl instanceof IFieldControl) {
-				focusedFieldControlDetails = ((IFieldControl) focusedFieldControl).getFocusDetails();
+			if (focusedFieldControl instanceof IAdvancedFieldControl) {
+				focusedFieldControlDetails = ((IAdvancedFieldControl) focusedFieldControl).getFocusDetails();
 			}
 		}
 		ITypeInfo subFormObjectType = swingRenderer.getReflectionUI()
@@ -90,13 +90,13 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(subFormObject));
 		if (subFormObjectType.equals(currentSubFormObjectType)) {
 			List<FieldControlPlaceHolder> fieldControlPlaceHolders = swingRenderer
-					.getAllFieldControlPlaceHolders(subForm);
+					.getFieldControlPlaceHolders(subForm);
 			FieldControlPlaceHolder fieldControlPlaceHolder = fieldControlPlaceHolders.get(focusedFieldControlIndex);
 			fieldControlPlaceHolder.requestFocus();
 			if (focusedFieldControlDetails != null) {
 				Component fieldControl = fieldControlPlaceHolder.getFieldControl();
 				if (fieldControl.getClass().equals(focusedFieldControlClass)) {
-					((IFieldControl) fieldControl).requestDetailedFocus(focusedFieldControlDetails);
+					((IAdvancedFieldControl) fieldControl).requestDetailedFocus(focusedFieldControlDetails);
 				}
 			}
 		}
@@ -106,7 +106,7 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 	public void requestFocus() {
 		if (subForm != null) {
 			List<FieldControlPlaceHolder> fieldControlPlaceHolders = swingRenderer
-					.getAllFieldControlPlaceHolders(subForm);
+					.getFieldControlPlaceHolders(subForm);
 			if (fieldControlPlaceHolders.size() > 0) {
 				fieldControlPlaceHolders.get(0).requestFocus();
 			}
@@ -177,6 +177,13 @@ public class EmbeddedFormControl extends JPanel implements IFieldControl {
 	@Override
 	public boolean handlesModificationStackUpdate() {
 		return true;
+	}
+
+	@Override
+	public void validateSubForm() throws Exception {
+		ITypeInfo subFormObjectType = swingRenderer.getReflectionUI()
+				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(subFormObject));
+		subFormObjectType.validate(subFormObject);
 	}
 
 }

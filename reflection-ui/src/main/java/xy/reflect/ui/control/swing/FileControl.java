@@ -13,7 +13,7 @@ import xy.reflect.ui.info.type.custom.FileTypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 
-public class FileControl extends DialogAccessControl implements IFieldControl {
+public class FileControl extends DialogAccessControl implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 

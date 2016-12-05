@@ -2,7 +2,7 @@ package xy.reflect.ui.control.swing;
 
 import xy.reflect.ui.util.ReflectionUIError;
 
-public interface IFieldControl {
+public interface IAdvancedFieldControl {
 	boolean displayError(ReflectionUIError error);
 
 	boolean showCaption();
@@ -14,4 +14,6 @@ public interface IFieldControl {
 	Object getFocusDetails();
 	
 	void requestDetailedFocus(Object value);
+	
+	void validateSubForm() throws Exception;
 }

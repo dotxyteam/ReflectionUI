@@ -20,7 +20,7 @@ import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
+public class PolymorphicEmbeddedForm extends JPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
@@ -159,8 +159,8 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 			swingRenderer.handleComponentSizeChange(this);
 		} else {
 			if (lastInstanceType.equals(instanceType)) {
-				if (dynamicControl instanceof IFieldControl) {
-					if (((IFieldControl) dynamicControl).refreshUI()) {
+				if (dynamicControl instanceof IAdvancedFieldControl) {
+					if (((IAdvancedFieldControl) dynamicControl).refreshUI()) {
 						return;
 					}
 				}
@@ -198,7 +198,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 
 	@Override
 	public boolean displayError(ReflectionUIError error) {
-		return (dynamicControl instanceof IFieldControl) && ((IFieldControl) dynamicControl).displayError(error);
+		return (dynamicControl instanceof IAdvancedFieldControl) && ((IAdvancedFieldControl) dynamicControl).displayError(error);
 	}
 
 	@Override
@@ -207,8 +207,8 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 			return false;
 		} else if (dynamicControl == null) {
 			return false;
-		} else if (dynamicControl instanceof IFieldControl) {
-			return ((IFieldControl) dynamicControl).handlesModificationStackUpdate();
+		} else if (dynamicControl instanceof IAdvancedFieldControl) {
+			return ((IAdvancedFieldControl) dynamicControl).handlesModificationStackUpdate();
 		} else {
 			return false;
 		}
@@ -224,8 +224,8 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 			if (dynamicControl != null) {
 				dynamicControlFocused = SwingRendererUtils.hasOrContainsFocus(dynamicControl);
 				if (dynamicControlFocused) {
-					if (dynamicControl instanceof IFieldControl) {
-						dynamicControlFocusDetails = ((IFieldControl) dynamicControl).getFocusDetails();
+					if (dynamicControl instanceof IAdvancedFieldControl) {
+						dynamicControlFocusDetails = ((IAdvancedFieldControl) dynamicControl).getFocusDetails();
 						dynamicControlClass = dynamicControl.getClass();
 					}
 				}
@@ -253,12 +253,20 @@ public class PolymorphicEmbeddedForm extends JPanel implements IFieldControl {
 		if (dynamicControlFocused) {
 			if (dynamicControl != null) {
 				dynamicControl.requestFocus();
-				if (dynamicControl instanceof IFieldControl) {
+				if (dynamicControl instanceof IAdvancedFieldControl) {
 					if (dynamicControl.getClass().equals(dynamicControlClass)) {
-						((IFieldControl) dynamicControl).requestDetailedFocus(dynamicControlFocusDetails);
+						((IAdvancedFieldControl) dynamicControl).requestDetailedFocus(dynamicControlFocusDetails);
 					}
 				}
 			}
+		}
+	}
+	
+	
+	@Override
+	public void validateSubForm() throws Exception {
+		if (dynamicControl instanceof IAdvancedFieldControl) {
+			((IAdvancedFieldControl) dynamicControl).validateSubForm();
 		}
 	}
 

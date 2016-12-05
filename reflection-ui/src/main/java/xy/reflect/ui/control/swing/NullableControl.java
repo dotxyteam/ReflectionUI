@@ -15,7 +15,7 @@ import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-public class NullableControl extends JPanel implements IFieldControl {
+public class NullableControl extends JPanel implements IAdvancedFieldControl {
 
 	protected SwingRenderer swingRenderer;
 	protected static final long serialVersionUID = 1L;
@@ -114,8 +114,8 @@ public class NullableControl extends JPanel implements IFieldControl {
 
 	public void updateSubControl(Object newValue) {
 		boolean updated = false;
-		if (subControl instanceof IFieldControl) {
-			IFieldControl fieldControl = (IFieldControl) subControl;
+		if (subControl instanceof IAdvancedFieldControl) {
+			IAdvancedFieldControl fieldControl = (IAdvancedFieldControl) subControl;
 			if (newValue != null) {
 				if (fieldControl.refreshUI()) {
 					updated = true;
@@ -152,8 +152,8 @@ public class NullableControl extends JPanel implements IFieldControl {
 
 	@Override
 	public boolean showCaption() {
-		if (subControl instanceof IFieldControl) {
-			return ((IFieldControl) subControl).showCaption();
+		if (subControl instanceof IAdvancedFieldControl) {
+			return ((IAdvancedFieldControl) subControl).showCaption();
 		} else {
 			return false;
 		}
@@ -161,8 +161,8 @@ public class NullableControl extends JPanel implements IFieldControl {
 
 	@Override
 	public boolean displayError(ReflectionUIError error) {
-		if (subControl instanceof IFieldControl) {
-			return ((IFieldControl) subControl).displayError(error);
+		if (subControl instanceof IAdvancedFieldControl) {
+			return ((IAdvancedFieldControl) subControl).displayError(error);
 		} else {
 			return false;
 		}
@@ -170,8 +170,8 @@ public class NullableControl extends JPanel implements IFieldControl {
 
 	@Override
 	public boolean handlesModificationStackUpdate() {
-		if (subControl instanceof IFieldControl) {
-			return ((IFieldControl) subControl).handlesModificationStackUpdate();
+		if (subControl instanceof IAdvancedFieldControl) {
+			return ((IAdvancedFieldControl) subControl).handlesModificationStackUpdate();
 		} else {
 			return false;
 		}
@@ -182,8 +182,8 @@ public class NullableControl extends JPanel implements IFieldControl {
 		Object subControlFocusDetails = null;
 		Class<?> subControlClass = null;
 		{
-			if (subControl instanceof IFieldControl) {
-				subControlFocusDetails = ((IFieldControl) subControl).getFocusDetails();
+			if (subControl instanceof IAdvancedFieldControl) {
+				subControlFocusDetails = ((IAdvancedFieldControl) subControl).getFocusDetails();
 				subControlClass = subControl.getClass();
 			}
 		}
@@ -203,9 +203,9 @@ public class NullableControl extends JPanel implements IFieldControl {
 		Object subControlFocusDetails = focusDetails.get("subControlFocusDetails");
 		Class<?> subControlClass = (Class<?>) focusDetails.get("subControlClass");
 		subControl.requestFocus();
-		if (subControl instanceof IFieldControl) {
+		if (subControl instanceof IAdvancedFieldControl) {
 			if (subControl.getClass().equals(subControlClass)) {
-				((IFieldControl) subControl).requestDetailedFocus(subControlFocusDetails);
+				((IAdvancedFieldControl) subControl).requestDetailedFocus(subControlFocusDetails);
 			}
 		}
 	}
@@ -217,4 +217,11 @@ public class NullableControl extends JPanel implements IFieldControl {
 		}
 	}
 
+
+	@Override
+	public void validateSubForm() throws Exception {
+		if (subControl instanceof IAdvancedFieldControl) {
+			((IAdvancedFieldControl) subControl).validateSubForm();
+		}
+	}
 }

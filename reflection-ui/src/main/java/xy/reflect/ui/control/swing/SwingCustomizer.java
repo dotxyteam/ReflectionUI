@@ -529,6 +529,9 @@ public class SwingCustomizer extends SwingRenderer {
 							if (field.getName().equals(getTypeIconImageFileField().getName())) {
 								showReloadWarning = true;
 							}
+							if (field.getName().equals("validating")) {
+								showReloadWarning = true;
+							}
 						}
 						if (showReloadWarning) {
 							SwingUtilities.invokeLater(new Runnable() {
@@ -842,10 +845,11 @@ public class SwingCustomizer extends SwingRenderer {
 				if (typeName.equals(objectType.getName())) {
 					for (JPanel form : getForms(object)) {
 						recreateFormContent(form);
+						validateFormInBackground(form);
 					}
 				}
 				JPanel form = entry.getKey();
-				for (FieldControlPlaceHolder placeHolder : getAllFieldControlPlaceHolders(form)) {
+				for (FieldControlPlaceHolder placeHolder : getFieldControlPlaceHolders(form)) {
 					IFieldInfo field = placeHolder.getField();
 					if (typeName.equals(field.getType().getName())) {
 						refreshFieldControlsByName(form, field.getName(), true);

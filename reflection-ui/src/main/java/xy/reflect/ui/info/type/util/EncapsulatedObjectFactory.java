@@ -2,6 +2,7 @@ package xy.reflect.ui.info.type.util;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,7 @@ public class EncapsulatedObjectFactory {
 	protected String fieldCaption = "Value";
 	protected boolean fieldGetOnly = false;
 	protected boolean fieldNullable = true;
+	protected Map<String, Object> fieldSpecificProperties = new HashMap<String, Object>();
 
 	public EncapsulatedObjectFactory(ReflectionUI reflectionUI, ITypeInfo fieldType) {
 		this.reflectionUI = reflectionUI;
@@ -78,6 +80,14 @@ public class EncapsulatedObjectFactory {
 
 	public void setFieldNullable(boolean fieldNullable) {
 		this.fieldNullable = fieldNullable;
+	}
+
+	public Map<String, Object> getFieldSpecificProperties() {
+		return fieldSpecificProperties;
+	}
+
+	public void setFieldSpecificProperties(Map<String, Object> fieldSpecificProperties) {
+		this.fieldSpecificProperties = fieldSpecificProperties;
 	}
 
 	public ITypeInfo getFieldType() {
@@ -180,6 +190,7 @@ public class EncapsulatedObjectFactory {
 		public IFieldInfo getValueField() {
 			return new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
 
+				
 				@Override
 				public String getCaption() {
 					return fieldCaption;
@@ -199,6 +210,11 @@ public class EncapsulatedObjectFactory {
 				@Override
 				public boolean isNullable() {
 					return fieldNullable;
+				}
+
+				@Override
+				public Map<String, Object> getSpecificProperties() {
+					return fieldSpecificProperties;
 				}
 
 				@Override

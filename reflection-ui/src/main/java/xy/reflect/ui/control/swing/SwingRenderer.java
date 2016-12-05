@@ -19,6 +19,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -345,7 +346,7 @@ public class SwingRenderer {
 						@Override
 						public void run() {
 							refreshAllFieldControls(form, false);
-							validateForm(form);
+							validateFormInBackground(form);
 							for (JPanel otherForm : getForms(object)) {
 								if (otherForm != form) {
 									ModificationStack otherModifStack = getModificationStackByForm().get(otherForm);
@@ -573,9 +574,16 @@ public class SwingRenderer {
 		contentPane.setLayout(new BorderLayout());
 		if (content != null) {
 			if (SwingRendererUtils.isForm(content, this)) {
-				JPanel form = (JPanel) content;
+				final JPanel form = (JPanel) content;
 				contentPane.add(createStatusBar(form), BorderLayout.NORTH);
-				validateForm(form);
+				setStatusLabelError(form, null);
+				window.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowOpened(WindowEvent e) {
+						validateFormInBackground(form);
+					}
+				});
+
 			}
 			content = new JScrollPane(new ScrollPaneOptions(content, true, false));
 			contentPane.add(content, BorderLayout.CENTER);
@@ -723,7 +731,7 @@ public class SwingRenderer {
 		return new MethodControlPlaceHolder(object, method);
 	}
 
-	public List<FieldControlPlaceHolder> getAllFieldControlPlaceHolders(JPanel form) {
+	public List<FieldControlPlaceHolder> getFieldControlPlaceHolders(JPanel form) {
 		List<FieldControlPlaceHolder> result = new ArrayList<FieldControlPlaceHolder>();
 		Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = getFieldControlPlaceHoldersByCategoryByForm()
 				.get(form);
@@ -734,7 +742,7 @@ public class SwingRenderer {
 		return result;
 	}
 
-	public List<MethodControlPlaceHolder> getAllMethodControlPlaceHolders(JPanel form) {
+	public List<MethodControlPlaceHolder> getMethodControlPlaceHolders(JPanel form) {
 		List<MethodControlPlaceHolder> result = new ArrayList<MethodControlPlaceHolder>();
 		Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory = getMethodControlPlaceHoldersByCategoryByForm()
 				.get(form);
@@ -748,7 +756,7 @@ public class SwingRenderer {
 
 	public int getFocusedFieldControlPaceHolderIndex(JPanel subForm) {
 		int i = 0;
-		for (FieldControlPlaceHolder fieldControlPlaceHolder : getAllFieldControlPlaceHolders(subForm)) {
+		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(subForm)) {
 			if (SwingRendererUtils.hasOrContainsFocus(fieldControlPlaceHolder)) {
 				return i;
 			}
@@ -789,7 +797,7 @@ public class SwingRenderer {
 
 	public List<FieldControlPlaceHolder> getFieldControlPlaceHoldersByName(JPanel form, String fieldName) {
 		List<FieldControlPlaceHolder> result = new ArrayList<FieldControlPlaceHolder>();
-		for (FieldControlPlaceHolder fieldControlPlaceHolder : getAllFieldControlPlaceHolders(form)) {
+		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
 			if (fieldName.equals(fieldControlPlaceHolder.getField().getName())) {
 				result.add(fieldControlPlaceHolder);
 			}
@@ -799,7 +807,7 @@ public class SwingRenderer {
 
 	public List<MethodControlPlaceHolder> getMethodControlPlaceHoldersBySignature(JPanel form, String methodSignature) {
 		List<MethodControlPlaceHolder> result = new ArrayList<MethodControlPlaceHolder>();
-		for (MethodControlPlaceHolder methodControlPlaceHolder : getAllMethodControlPlaceHolders(form)) {
+		for (MethodControlPlaceHolder methodControlPlaceHolder : getMethodControlPlaceHolders(form)) {
 			if (ReflectionUIUtils.getMethodInfoSignature(methodControlPlaceHolder.getMethod())
 					.equals(methodSignature)) {
 				result.add(methodControlPlaceHolder);
@@ -1185,7 +1193,7 @@ public class SwingRenderer {
 
 	public List<IFieldInfo> getDisplayedFields(JPanel form) {
 		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
-		for (FieldControlPlaceHolder fieldControlPlaceHolder : getAllFieldControlPlaceHolders(form)) {
+		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
 			result.add(fieldControlPlaceHolder.getField());
 		}
 		return result;
@@ -1193,7 +1201,7 @@ public class SwingRenderer {
 
 	public List<IMethodInfo> getDisplayedMethods(JPanel form) {
 		List<IMethodInfo> result = new ArrayList<IMethodInfo>();
-		for (MethodControlPlaceHolder methodControlPlaceHolder : getAllMethodControlPlaceHolders(form)) {
+		for (MethodControlPlaceHolder methodControlPlaceHolder : getMethodControlPlaceHolders(form)) {
 			result.add(methodControlPlaceHolder.getMethod());
 		}
 		return result;
@@ -1205,30 +1213,30 @@ public class SwingRenderer {
 		Class<?> focusedControlClass = null;
 		{
 			if (focusedFieldControlPaceHolderIndex != -1) {
-				final FieldControlPlaceHolder focusedFieldControlPaceHolder = getAllFieldControlPlaceHolders(form)
+				final FieldControlPlaceHolder focusedFieldControlPaceHolder = getFieldControlPlaceHolders(form)
 						.get(focusedFieldControlPaceHolderIndex);
 				Component focusedFieldControl = focusedFieldControlPaceHolder.getFieldControl();
-				if (focusedFieldControl instanceof IFieldControl) {
-					focusDetails = ((IFieldControl) focusedFieldControl).getFocusDetails();
+				if (focusedFieldControl instanceof IAdvancedFieldControl) {
+					focusDetails = ((IAdvancedFieldControl) focusedFieldControl).getFocusDetails();
 					focusedControlClass = focusedFieldControl.getClass();
 				}
 			}
 		}
 
-		for (FieldControlPlaceHolder fieldControlPlaceHolder : getAllFieldControlPlaceHolders(form)) {
+		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
 			fieldControlPlaceHolder.refreshUI(recreate);
 			updateFieldControlLayout(fieldControlPlaceHolder);
 		}
 
 		if (focusedFieldControlPaceHolderIndex != -1) {
-			final FieldControlPlaceHolder fieldControlPaceHolderToFocusOn = getAllFieldControlPlaceHolders(form)
+			final FieldControlPlaceHolder fieldControlPaceHolderToFocusOn = getFieldControlPlaceHolders(form)
 					.get(focusedFieldControlPaceHolderIndex);
 			fieldControlPaceHolderToFocusOn.requestFocus();
 			if (focusDetails != null) {
 				Component focusedFieldControl = fieldControlPaceHolderToFocusOn.getFieldControl();
 				if (focusedFieldControl.getClass().equals(focusedControlClass)) {
-					if (focusedFieldControl instanceof IFieldControl) {
-						((IFieldControl) focusedFieldControl).requestDetailedFocus(focusDetails);
+					if (focusedFieldControl instanceof IAdvancedFieldControl) {
+						((IAdvancedFieldControl) focusedFieldControl).requestDetailedFocus(focusDetails);
 					}
 				}
 			}
@@ -1236,7 +1244,7 @@ public class SwingRenderer {
 	}
 
 	public void refreshFieldControlsByName(JPanel form, String fieldName, boolean recreate) {
-		for (FieldControlPlaceHolder fieldControlPlaceHolder : getAllFieldControlPlaceHolders(form)) {
+		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
 			if (fieldName.equals(fieldControlPlaceHolder.getField().getName())) {
 				fieldControlPlaceHolder.refreshUI(recreate);
 				updateFieldControlLayout(fieldControlPlaceHolder);
@@ -1244,46 +1252,80 @@ public class SwingRenderer {
 		}
 	}
 
-	public void showBusyDialogWhile(final Component activatorComponent, final Runnable runnable, String title) {
-		final JXBusyLabel busyLabel = new JXBusyLabel();
-		busyLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		busyLabel.setText("Please wait...");
-		busyLabel.setVerticalTextPosition(SwingConstants.TOP);
-		busyLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-
-		DialogBuilder dialogBuilder = new DialogBuilder(this, activatorComponent);
-		dialogBuilder.setContentComponent(busyLabel);
-		dialogBuilder.setTitle(title);
-		final JDialog dialog = dialogBuilder.build();
+	public void showBusyDialogWhile(final Component activatorComponent, final Runnable runnable, final String title) {
 		final Throwable[] exceptionThrown = new Throwable[1];
-		final Thread thread = new Thread(title) {
+		final Thread runner = new Thread("BusyDialogRunner: " + title) {
 			@Override
 			public void run() {
 				try {
 					runnable.run();
 				} catch (Throwable t) {
 					exceptionThrown[0] = t;
-				} finally {
-					busyLabel.setBusy(false);
-					dialog.dispose();
 				}
 			}
 		};
-		dialog.addWindowListener(new WindowAdapter() {
+		runner.start();
+		final DialogBuilder dialogBuilder = new DialogBuilder(SwingRenderer.this, activatorComponent);
+		final Thread displayer = new Thread("BusyDialogDisplayer: " + title) {
 			@Override
-			public void windowClosing(WindowEvent e) {
-				thread.interrupt();
+			public void run() {
+				try {
+					sleep(1000);
+				} catch (InterruptedException e) {
+					throw new ReflectionUIError(e);
+				}
+				if (!runner.isAlive()) {
+					return;
+				}
+				final JXBusyLabel busyLabel = new JXBusyLabel();
+				busyLabel.setHorizontalAlignment(SwingConstants.CENTER);
+				busyLabel.setText("Please wait...");
+				busyLabel.setVerticalTextPosition(SwingConstants.TOP);
+				busyLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+				busyLabel.setBusy(true);
+				dialogBuilder.setContentComponent(busyLabel);
+				dialogBuilder.setTitle(title);
+				final JDialog dialog = dialogBuilder.build();
+				dialog.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowClosing(WindowEvent e) {
+						runner.interrupt();
+					}
+				});
+				showDialog(dialog, true, false);
 			}
-		});
-		busyLabel.setBusy(true);
-		thread.start();
+		};
+		displayer.start();
+		final Thread closer = new Thread("BusyDialogCloser: " + title) {
+			@Override
+			public void run() {
+				while (true) {
+					if (!runner.isAlive()) {
+						if (!displayer.isAlive()) {
+							break;
+						} else {
+							JDialog dialog = dialogBuilder.getBuiltDialog();
+							if (dialog != null) {
+								if (dialog.isVisible()) {
+									dialog.dispose();
+									break;
+								}
+							}
+						}
+					}
+					try {
+						sleep(1000);
+					} catch (InterruptedException e) {
+						throw new ReflectionUIError(e);
+					}
+				}
+			}
+		};
+		closer.start();
 		try {
-			Thread.sleep(100);
+			runner.join();
 		} catch (InterruptedException e) {
 			throw new ReflectionUIError(e);
-		}
-		if (busyLabel.isBusy()) {
-			showDialog(dialog, true, false);
 		}
 		if (exceptionThrown[0] != null) {
 			throw new ReflectionUIError(exceptionThrown[0]);
@@ -1379,36 +1421,58 @@ public class SwingRenderer {
 		return new JLabel(prepareStringToDisplay(caption + ": "));
 	}
 
-	public void validateForm(JPanel form) {
+	public void validateForm(final JPanel form) {
 		final Object object = getObjectByForm().get(form);
 		if (object == null) {
 			return;
 		}
+		final ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		try {
+			type.validate(object);
+			for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
+				Component fieldControl = fieldControlPlaceHolder.getFieldControl();
+				if (fieldControl instanceof IAdvancedFieldControl) {
+					IFieldInfo field = fieldControlPlaceHolder.getField();
+					try {
+						((IAdvancedFieldControl) fieldControl).validateSubForm();
+					} catch (Exception e) {
+						throw new ReflectionUIError(ReflectionUIUtils.composeTitle(field.getCaption(), e.toString()),
+								e);
+					}
+				}
+			}
+			setStatusLabelError(form, null);
+		} catch (Exception e) {
+			String errorMsg = new ReflectionUIError(e).toString();
+			setStatusLabelError(form, errorMsg);
+		}
+	}
+
+	public void validateFormInBackground(final JPanel form) {
+		new Thread("Validator: " + getObjectByForm().get(form)) {
+			@Override
+			public void run() {
+				validateForm(form);
+			}
+		}.start();
+	}
+
+	public void setStatusLabelError(JPanel form, String errorMsg) {
 		JLabel statusLabel = getStatusLabelByForm().get(form);
 		if (statusLabel == null) {
 			return;
 		}
-		final ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		final Exception[] validationError = new Exception[1];
-		statusLabel.setVisible(false);
-		showBusyDialogWhile(form, new Runnable() {
-			public void run() {
-				try {
-					type.validate(object);
-				} catch (Exception e) {
-					validationError[0] = e;
-				}
-			}
-		}, "Validating " + type.getCaption());
-		if (validationError[0] != null) {
+		if (errorMsg == null) {
+			statusLabel.setVisible(false);
+		} else {
 			statusLabel.setIcon(SwingRendererUtils.ERROR_ICON);
 			statusLabel.setBackground(new Color(255, 245, 242));
 			statusLabel.setForeground(new Color(255, 0, 0));
-			String errorMsg = new ReflectionUIError(validationError[0]).toString();
 			statusLabel.setText(ReflectionUIUtils.multiToSingleLine(errorMsg));
 			SwingRendererUtils.setMultilineToolTipText(statusLabel, errorMsg);
 			statusLabel.setVisible(true);
 		}
+		handleComponentSizeChange(statusLabel);
 	}
 
 	public class FieldControlPlaceHolder extends JPanel {
@@ -1431,6 +1495,14 @@ public class SwingRenderer {
 
 		public IFieldInfo makeFieldModificationsUndoable(final IFieldInfo field) {
 			return new FieldInfoProxy(field) {
+
+				private Object oldValue = field.getValue(object);
+
+				@Override
+				public Object getValue(Object object) {
+					return oldValue;
+				}
+
 				@Override
 				public void setValue(Object object, Object newValue) {
 					if (field.isGetOnly()) {
@@ -1438,8 +1510,8 @@ public class SwingRenderer {
 						return;
 					}
 					Component c = fieldControl;
-					if ((c instanceof IFieldControl)) {
-						IFieldControl fieldControl = (IFieldControl) c;
+					if ((c instanceof IAdvancedFieldControl)) {
+						IAdvancedFieldControl fieldControl = (IAdvancedFieldControl) c;
 						if (fieldControl.handlesModificationStackUpdate()) {
 							field.setValue(object, newValue);
 							return;
@@ -1447,12 +1519,22 @@ public class SwingRenderer {
 					}
 					JPanel form = SwingRendererUtils.findParentForm(FieldControlPlaceHolder.this, SwingRenderer.this);
 					ModificationStack stack = getModificationStackByForm().get(form);
-					SetFieldValueModification modif = SetFieldValueModification.create(reflectionUI, object, field,
-							newValue);
+					SetFieldValueModification modif = SetFieldValueModification.create(reflectionUI, object,
+							new FieldInfoProxy(field) {
+								@Override
+								public Object getValue(Object object) {
+									return oldValue;
+								}
+							}, newValue);
 					try {
 						stack.apply(modif);
+						oldValue = newValue;
 					} catch (Throwable t) {
 						stack.invalidate();
+						try {
+							oldValue = field.getValue(object);
+						} catch (Throwable ignore) {
+						}
 						throw new ReflectionUIError(t);
 					}
 				}
@@ -1539,7 +1621,8 @@ public class SwingRenderer {
 				add(fieldControl, BorderLayout.CENTER);
 				handleComponentSizeChange(this);
 			} else {
-				if (!(((fieldControl instanceof IFieldControl) && ((IFieldControl) fieldControl).refreshUI()))) {
+				if (!(((fieldControl instanceof IAdvancedFieldControl)
+						&& ((IAdvancedFieldControl) fieldControl).refreshUI()))) {
 					boolean hadFocus = SwingRendererUtils.hasOrContainsFocus(fieldControl);
 					remove(fieldControl);
 					fieldControl = null;
@@ -1552,7 +1635,8 @@ public class SwingRenderer {
 		}
 
 		public void displayError(ReflectionUIError error) {
-			if (!((fieldControl instanceof IFieldControl) && ((IFieldControl) fieldControl).displayError(error))) {
+			if (!((fieldControl instanceof IAdvancedFieldControl)
+					&& ((IAdvancedFieldControl) fieldControl).displayError(error))) {
 				if (error != null) {
 					handleExceptionsFromDisplayedUI(fieldControl, error);
 					refreshUI(false);
@@ -1561,7 +1645,8 @@ public class SwingRenderer {
 		}
 
 		public boolean showCaption() {
-			if (((fieldControl instanceof IFieldControl) && ((IFieldControl) fieldControl).showCaption())) {
+			if (((fieldControl instanceof IAdvancedFieldControl)
+					&& ((IAdvancedFieldControl) fieldControl).showCaption())) {
 				return true;
 			} else {
 				return false;

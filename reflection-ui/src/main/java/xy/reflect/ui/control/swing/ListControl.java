@@ -93,7 +93,7 @@ import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.AbstractLazyTreeNode;
 
 @SuppressWarnings("unused")
-public class ListControl extends JPanel implements IFieldControl {
+public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
@@ -109,7 +109,7 @@ public class ListControl extends JPanel implements IFieldControl {
 	protected IListStructuralInfo structuralInfo;
 
 	protected JPanel detailsArea;
-	protected Component detailsControl;
+	protected JPanel detailsForm;
 	protected IListItemDetailsAccessMode detailsMode;
 	protected ITypeInfo detailsControlItemType;
 	protected AutoFieldValueUpdatingItemPosition detailsControlItemPosition;
@@ -180,22 +180,22 @@ public class ListControl extends JPanel implements IFieldControl {
 			if (getDetailsAccessMode().getDetailsAreaPosition() == ItemDetailsAreaPosition.RIGHT) {
 				splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 				splitPane.setLeftComponent(new JScrollPane(listPanel));
-				splitPane.setRightComponent(new JScrollPane(detailsArea));
+				splitPane.setRightComponent(detailsArea);
 				dividerLocation = 1.0 - getDetailsAccessMode().getDefaultDetailsAreaOccupationRatio();
 			} else if (getDetailsAccessMode().getDetailsAreaPosition() == ItemDetailsAreaPosition.LEFT) {
 				splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 				splitPane.setRightComponent(new JScrollPane(listPanel));
-				splitPane.setLeftComponent(new JScrollPane(detailsArea));
+				splitPane.setLeftComponent(detailsArea);
 				dividerLocation = getDetailsAccessMode().getDefaultDetailsAreaOccupationRatio();
 			} else if (getDetailsAccessMode().getDetailsAreaPosition() == ItemDetailsAreaPosition.BOTTOM) {
 				splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 				splitPane.setTopComponent(new JScrollPane(listPanel));
-				splitPane.setBottomComponent(new JScrollPane(detailsArea));
+				splitPane.setBottomComponent(detailsArea);
 				dividerLocation = 1.0 - getDetailsAccessMode().getDefaultDetailsAreaOccupationRatio();
 			} else if (getDetailsAccessMode().getDetailsAreaPosition() == ItemDetailsAreaPosition.TOP) {
 				splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 				splitPane.setBottomComponent(new JScrollPane(listPanel));
-				splitPane.setTopComponent(new JScrollPane(detailsArea));
+				splitPane.setTopComponent(detailsArea);
 				dividerLocation = getDetailsAccessMode().getDefaultDetailsAreaOccupationRatio();
 			} else {
 				throw new ReflectionUIError();
@@ -1595,11 +1595,11 @@ public class ListControl extends JPanel implements IFieldControl {
 
 			@Override
 			protected boolean perform(List<AutoFieldValueUpdatingItemPosition>[] toPostSelectHolder) {
-				Object propertyValue = dynamicProperty.getValue(object);
-				Object[] propertyValueHolder = new Object[] { propertyValue };
-				
+				Object oldPropertyValue = dynamicProperty.getValue(object);
+				Object[] propertyValueHolder = new Object[] { oldPropertyValue };
+
 				EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
-						 dynamicProperty.getType());
+						dynamicProperty.getType());
 				encapsulation.setFieldCaption(dynamicProperty.getCaption());
 				encapsulation.setFieldGetOnly(dynamicProperty.isGetOnly());
 				encapsulation.setFieldNullable(dynamicProperty.isNullable());
@@ -1763,7 +1763,7 @@ public class ListControl extends JPanel implements IFieldControl {
 			detailsControlItemPosition = null;
 			detailsControlItem = null;
 			detailsControlItemType = null;
-			detailsControl = null;
+			detailsForm = null;
 			swingRenderer.handleComponentSizeChange(ListControl.this);
 			return;
 
@@ -1771,8 +1771,8 @@ public class ListControl extends JPanel implements IFieldControl {
 		ITypeInfo iItemType = swingRenderer.getReflectionUI()
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(detailsControlItemPosition.getItem()));
 		if (iItemType.equals(detailsControlItemType)) {
-			if (detailsControl instanceof IFieldControl) {
-				IFieldControl fieldControl = (IFieldControl) detailsControl;
+			if (detailsForm instanceof IAdvancedFieldControl) {
+				IAdvancedFieldControl fieldControl = (IAdvancedFieldControl) detailsForm;
 				if (fieldControl.refreshUI()) {
 					return;
 				}
@@ -1780,41 +1780,37 @@ public class ListControl extends JPanel implements IFieldControl {
 		}
 		detailsControlItemType = iItemType;
 		detailsArea.removeAll();
-		detailsControl = swingRenderer.createFieldControl(null, new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
+		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
+				detailsControlItemType);
+		encapsulation.setFieldGetOnly(UpdateListValueModification.isCompatibleWith(detailsControlItemPosition));
+		encapsulation.setFieldNullable(false);
+		encapsulation.setFieldCaption("");
+		Map<String, Object> properties = new HashMap<String, Object>();
+		{
+			DesktopSpecificProperty.setSubFormExpanded(properties, true);
+			encapsulation.setFieldSpecificProperties(properties);
+		}
+		Object encapsulated = encapsulation.getInstance(new Accessor<Object>() {
 
 			@Override
-			public Object getValue(Object object) {
+			public Object get() {
 				return detailsControlItem = detailsControlItemPosition.getItem();
 			}
 
 			@Override
-			public void setValue(Object object, Object value) {
+			public void set(Object value) {
 				Object[] listRawValue = detailsControlItemPosition.getContainingListRawValue();
 				listRawValue[detailsControlItemPosition.getIndex()] = value;
 				new UpdateListValueModification(swingRenderer.getReflectionUI(), detailsControlItemPosition,
 						listRawValue).applyAndGetOpposite();
 			}
 
-			@Override
-			public boolean isNullable() {
-				return false;
-			}
-
-			@Override
-			public boolean isGetOnly() {
-				return !UpdateListValueModification.isCompatibleWith(detailsControlItemPosition);
-			}
-
-			@Override
-			public Map<String, Object> getSpecificProperties() {
-				Map<String, Object> properties = new HashMap<String, Object>();
-				DesktopSpecificProperty.setSubFormExpanded(properties, true);
-				return properties;
-			}
-
 		});
+		detailsForm = swingRenderer.createObjectForm(encapsulated);
 		detailsArea.setLayout(new BorderLayout());
-		detailsArea.add(detailsControl, BorderLayout.CENTER);
+		detailsArea.add(new JScrollPane(detailsForm), BorderLayout.CENTER);
+		detailsArea.add(swingRenderer.createStatusBar(detailsForm), BorderLayout.NORTH);
+		swingRenderer.validateFormInBackground(detailsForm);
 		swingRenderer.handleComponentSizeChange(ListControl.this);
 	}
 
@@ -1950,8 +1946,8 @@ public class ListControl extends JPanel implements IFieldControl {
 	public Object getFocusDetails() {
 		Object detailsControlFocus = null;
 		{
-			if (detailsControl instanceof IFieldControl) {
-				detailsControlFocus = ((IFieldControl) detailsControl).getFocusDetails();
+			if (detailsForm instanceof IAdvancedFieldControl) {
+				detailsControlFocus = ((IAdvancedFieldControl) detailsForm).getFocusDetails();
 			}
 		}
 		if (detailsControlFocus == null) {
@@ -1972,16 +1968,20 @@ public class ListControl extends JPanel implements IFieldControl {
 		Map<String, Object> focusDetails = (Map<String, Object>) value;
 		Object detailsControlFocus = focusDetails.get("detailsControlFocus");
 		ITypeInfo savedDetailsControlItemType = (ITypeInfo) focusDetails.get("detailsControlItemType");
-		detailsControl.requestFocus();
+		detailsForm.requestFocus();
 		if (savedDetailsControlItemType.equals(detailsControlItemType)) {
-			((IFieldControl) detailsControl).requestDetailedFocus(detailsControlFocus);
+			((IAdvancedFieldControl) detailsForm).requestDetailedFocus(detailsControlFocus);
 		}
 	}
 
 	@Override
+	public void validateSubForm() throws Exception {
+	}
+
+	@Override
 	public void requestFocus() {
-		if (detailsControl != null) {
-			detailsControl.requestFocus();
+		if (detailsForm != null) {
+			detailsForm.requestFocus();
 		}
 	}
 
