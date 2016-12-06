@@ -142,7 +142,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 				});
 				add(subControl, BorderLayout.CENTER);
 			}
-			swingRenderer.handleComponentSizeChange(this);
+			SwingRendererUtils.handleComponentSizeChange(this);
 		}
 	}
 

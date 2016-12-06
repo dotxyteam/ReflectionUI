@@ -20,7 +20,7 @@ import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-public class PolymorphicEmbeddedForm extends JPanel implements IAdvancedFieldControl {
+public class PolymorphicControl extends JPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
@@ -36,7 +36,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IAdvancedFieldCon
 	protected ITypeInfo lastInstanceType;
 	protected boolean updatingEnumeration = false;
 
-	public PolymorphicEmbeddedForm(final SwingRenderer swingRenderer, final Object object, final IFieldInfo field) {
+	public PolymorphicControl(final SwingRenderer swingRenderer, final Object object, final IFieldInfo field) {
 		this.swingRenderer = swingRenderer;
 		this.object = object;
 		this.field = field;
@@ -60,7 +60,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IAdvancedFieldCon
 
 	protected Component createTypeEnumerationControl() {
 		List<ITypeInfo> possibleValues = new ArrayList<ITypeInfo>(subTypes);
-		if (PolymorphicEmbeddedForm.this.field.isNullable()) {
+		if (PolymorphicControl.this.field.isNullable()) {
 			possibleValues.add(0, NULL_POLY_TYPE);
 		}
 		final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(swingRenderer.getReflectionUI(),
@@ -101,7 +101,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IAdvancedFieldCon
 						}
 						Object instance = instanceByEnumerationValueCache.get(selectedPolyType);
 						if (instance == null) {
-							instance = swingRenderer.onTypeInstanciationRequest(PolymorphicEmbeddedForm.this,
+							instance = swingRenderer.onTypeInstanciationRequest(PolymorphicControl.this,
 									selectedPolyType, false);
 							if (instance == null) {
 								return;
@@ -110,7 +110,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IAdvancedFieldCon
 						setFieldValue(object, instance);
 					}
 				} finally {
-					refreshUI();
+					refreshDynamicControl();
 				}
 			}
 
@@ -121,7 +121,9 @@ public class PolymorphicEmbeddedForm extends JPanel implements IAdvancedFieldCon
 			}
 
 		});
-		return swingRenderer.createObjectForm(encapsulated);
+		JPanel result = swingRenderer.createForm(encapsulated);
+		swingRenderer.getBusyIndicationDisabledByForm().put(result, true);
+		return result;
 	}
 
 	protected String getEnumerationValueCaption(ITypeInfo actualFieldValueType) {
@@ -152,11 +154,11 @@ public class PolymorphicEmbeddedForm extends JPanel implements IAdvancedFieldCon
 		} else if ((lastInstanceType != null) && (instanceType == null)) {
 			remove(dynamicControl);
 			dynamicControl = null;
-			swingRenderer.handleComponentSizeChange(this);
+			SwingRendererUtils.handleComponentSizeChange(this);
 		} else if ((lastInstanceType == null) && (instanceType != null)) {
 			dynamicControl = createDynamicControl(instanceType);
 			add(dynamicControl, BorderLayout.CENTER);
-			swingRenderer.handleComponentSizeChange(this);
+			SwingRendererUtils.handleComponentSizeChange(this);
 		} else {
 			if (lastInstanceType.equals(instanceType)) {
 				if (dynamicControl instanceof IAdvancedFieldControl) {
@@ -168,8 +170,8 @@ public class PolymorphicEmbeddedForm extends JPanel implements IAdvancedFieldCon
 			remove(dynamicControl);
 			dynamicControl = createDynamicControl(instanceType);
 			add(dynamicControl, BorderLayout.CENTER);
-			swingRenderer.handleComponentSizeChange(this);
-		}
+			SwingRendererUtils.handleComponentSizeChange(this);
+		} 
 		lastInstanceType = instanceType;
 	}
 
@@ -198,7 +200,8 @@ public class PolymorphicEmbeddedForm extends JPanel implements IAdvancedFieldCon
 
 	@Override
 	public boolean displayError(ReflectionUIError error) {
-		return (dynamicControl instanceof IAdvancedFieldControl) && ((IAdvancedFieldControl) dynamicControl).displayError(error);
+		return (dynamicControl instanceof IAdvancedFieldControl)
+				&& ((IAdvancedFieldControl) dynamicControl).displayError(error);
 	}
 
 	@Override
@@ -261,8 +264,7 @@ public class PolymorphicEmbeddedForm extends JPanel implements IAdvancedFieldCon
 			}
 		}
 	}
-	
-	
+
 	@Override
 	public void validateSubForm() throws Exception {
 		if (dynamicControl instanceof IAdvancedFieldControl) {

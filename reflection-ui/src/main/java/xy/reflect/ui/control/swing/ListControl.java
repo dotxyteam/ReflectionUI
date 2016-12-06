@@ -303,7 +303,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			layout.setConstraints(c, constraints);
 		}
 
-		swingRenderer.handleComponentSizeChange(ListControl.this);
+		SwingRendererUtils.handleComponentSizeChange(ListControl.this);
 		toolbar.repaint();
 	}
 
@@ -1764,7 +1764,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			detailsControlItem = null;
 			detailsControlItemType = null;
 			detailsForm = null;
-			swingRenderer.handleComponentSizeChange(ListControl.this);
+			SwingRendererUtils.handleComponentSizeChange(ListControl.this);
 			return;
 
 		}
@@ -1806,12 +1806,13 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			}
 
 		});
-		detailsForm = swingRenderer.createObjectForm(encapsulated);
+		detailsForm = swingRenderer.createForm(encapsulated);
+		swingRenderer.getBusyIndicationDisabledByForm().put(detailsForm, true);
 		detailsArea.setLayout(new BorderLayout());
 		detailsArea.add(new JScrollPane(detailsForm), BorderLayout.CENTER);
 		detailsArea.add(swingRenderer.createStatusBar(detailsForm), BorderLayout.NORTH);
-		swingRenderer.validateFormInBackground(detailsForm);
-		swingRenderer.handleComponentSizeChange(ListControl.this);
+		swingRenderer.updateStatusBarInBackground(detailsForm);
+		SwingRendererUtils.handleComponentSizeChange(ListControl.this);
 	}
 
 	protected void openDetailsDialogOnItemDoubleClick() {

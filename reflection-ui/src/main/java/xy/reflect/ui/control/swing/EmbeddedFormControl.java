@@ -157,10 +157,10 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	public boolean refreshUI() {
 		if (subForm == null) {
 			subFormObject = field.getValue(object);
-			subForm = swingRenderer.createObjectForm(subFormObject, IInfoCollectionSettings.DEFAULT);
+			subForm = swingRenderer.createForm(subFormObject);
 			add(subForm, BorderLayout.CENTER);
 			forwardSubFormModifications();
-			swingRenderer.handleComponentSizeChange(this);
+			SwingRendererUtils.handleComponentSizeChange(this);
 		} else {
 			Object newSubFormObject = field.getValue(object);
 			if (ReflectionUIUtils.equals(swingRenderer.getReflectionUI(), newSubFormObject, subFormObject)) {
@@ -181,9 +181,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 
 	@Override
 	public void validateSubForm() throws Exception {
-		ITypeInfo subFormObjectType = swingRenderer.getReflectionUI()
-				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(subFormObject));
-		subFormObjectType.validate(subFormObject);
+		swingRenderer.validateForm(subForm);
 	}
 
 }

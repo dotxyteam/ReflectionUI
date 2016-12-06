@@ -92,7 +92,8 @@ public class SwingCustomizer extends SwingRenderer {
 	}
 
 	@Override
-	public void fillForm(JPanel form, Object object) {
+	public void fillForm(JPanel form) {
+		Object object = getObjectByForm().get(form);
 		if (areCustomizationsEditable(object)) {
 			JPanel mainCustomizationsControl = new JPanel();
 			mainCustomizationsControl.setLayout(new BorderLayout());
@@ -102,7 +103,7 @@ public class SwingCustomizer extends SwingRenderer {
 			mainCustomizationsControl.add(customizationTools.createSaveControl(), BorderLayout.EAST);
 			form.add(SwingRendererUtils.flowInLayout(mainCustomizationsControl, FlowLayout.CENTER), BorderLayout.NORTH);
 		}
-		super.fillForm(form, object);
+		super.fillForm(form);
 	}
 
 	@Override
@@ -125,7 +126,7 @@ public class SwingCustomizer extends SwingRenderer {
 					infoCustomizationsComponent = customizationTools.createFieldInfoCustomizer(customizedType,
 							field.getName());
 					add(infoCustomizationsComponent, BorderLayout.EAST);
-					handleComponentSizeChange(this);
+					SwingRendererUtils.handleComponentSizeChange(this);
 				} else {
 					remove(infoCustomizationsComponent);
 					infoCustomizationsComponent = null;
@@ -156,7 +157,7 @@ public class SwingCustomizer extends SwingRenderer {
 					infoCustomizationsComponent = customizationTools.createMethodInfoCustomizer(customizedType,
 							ReflectionUIUtils.getMethodInfoSignature(method));
 					add(infoCustomizationsComponent, BorderLayout.WEST);
-					handleComponentSizeChange(this);
+					SwingRendererUtils.handleComponentSizeChange(this);
 				} else {
 					remove(infoCustomizationsComponent);
 					infoCustomizationsComponent = null;
@@ -845,12 +846,12 @@ public class SwingCustomizer extends SwingRenderer {
 				if (typeName.equals(objectType.getName())) {
 					for (JPanel form : getForms(object)) {
 						recreateFormContent(form);
-						validateFormInBackground(form);
+						updateStatusBarInBackground(form);
 					}
 				}
 				JPanel form = entry.getKey();
 				for (FieldControlPlaceHolder placeHolder : getFieldControlPlaceHolders(form)) {
-					IFieldInfo field = placeHolder.getField();
+					IFieldInfo field = placeHolder.getFormAwareField();
 					if (typeName.equals(field.getType().getName())) {
 						refreshFieldControlsByName(form, field.getName(), true);
 					}

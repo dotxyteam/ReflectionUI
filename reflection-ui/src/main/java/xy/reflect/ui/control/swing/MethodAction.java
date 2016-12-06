@@ -137,7 +137,7 @@ public class MethodAction extends AbstractAction {
 			invocationData = new InvocationData();
 		}
 		JPanel methodForm = swingRenderer
-				.createObjectForm(new MethodSetupObjectFactory(swingRenderer.getReflectionUI(), method)
+				.createForm(new MethodSetupObjectFactory(swingRenderer.getReflectionUI(), method)
 						.getInstance(object, invocationData));
 		final boolean[] invokedStatusHolder = new boolean[] { false };
 		List<Component> toolbarControls = new ArrayList<Component>();

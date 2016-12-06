@@ -39,6 +39,24 @@ public class ArrayAsEnumerationFactory {
 		this.typeName = typeName;
 		this.typeCaption = typeCaption;
 	}
+	
+
+
+	protected Map<String, Object> getItemSpecificProperties(Object arrayItem) {
+		return Collections.emptyMap();
+	}
+
+	protected String getItemOnlineHelp(Object arrayItem) {
+		return null;
+	}
+
+	protected String getItemName(Object arrayItem) {
+		return "item(" + ReflectionUIUtils.toString(reflectionUI, arrayItem) + ")";
+	}
+
+	protected String getItemCaption(Object arrayItem) {
+		return ReflectionUIUtils.toString(reflectionUI, arrayItem);
+	}
 
 	public Object getInstance(Object arrayItem) {
 		if (arrayItem == null) {
@@ -228,26 +246,27 @@ public class ArrayAsEnumerationFactory {
 
 		@Override
 		public IEnumerationItemInfo getValueInfo(final Object object) {
+			final Object arrayItem = unwrapInstance(object);
 			return new IEnumerationItemInfo() {
 
 				@Override
 				public Map<String, Object> getSpecificProperties() {
-					return Collections.emptyMap();
+					return getItemSpecificProperties(arrayItem);
 				}
 
 				@Override
 				public String getOnlineHelp() {
-					return null;
+					return getItemOnlineHelp(arrayItem);
 				}
 
 				@Override
 				public String getName() {
-					return "ArrayItem" + Arrays.asList(array).indexOf(((Instance) object).getArrayItem());
+					return getItemName(arrayItem);
 				}
 
 				@Override
 				public String getCaption() {
-					return ReflectionUIUtils.toString(reflectionUI, object);
+					return getItemCaption(arrayItem);
 				}
 			};
 		}

@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -29,6 +31,7 @@ public class EncapsulatedObjectFactory {
 	protected String fieldCaption = "Value";
 	protected boolean fieldGetOnly = false;
 	protected boolean fieldNullable = true;
+	protected ValueReturnMode fieldValueReturnMode = ValueReturnMode.PROXY;
 	protected Map<String, Object> fieldSpecificProperties = new HashMap<String, Object>();
 
 	public EncapsulatedObjectFactory(ReflectionUI reflectionUI, ITypeInfo fieldType) {
@@ -44,6 +47,11 @@ public class EncapsulatedObjectFactory {
 		Instance result = new Instance(fieldValueAccessor);
 		reflectionUI.registerPrecomputedTypeInfoObject(result, new TypeInfo());
 		return result;
+	}
+
+	
+	public IFieldInfo getValueField() {
+		return new ValueField();
 	}
 
 	public ITypeInfoSource getTypeInfoSource() {
@@ -80,6 +88,14 @@ public class EncapsulatedObjectFactory {
 
 	public void setFieldNullable(boolean fieldNullable) {
 		this.fieldNullable = fieldNullable;
+	}
+
+	public ValueReturnMode getFieldValueReturnMode() {
+		return fieldValueReturnMode;
+	}
+
+	public void setFieldValueReturnMode(ValueReturnMode fieldValueReturnMode) {
+		this.fieldValueReturnMode = fieldValueReturnMode;
 	}
 
 	public Map<String, Object> getFieldSpecificProperties() {
@@ -185,55 +201,6 @@ public class EncapsulatedObjectFactory {
 		@Override
 		public List<IFieldInfo> getFields() {
 			return Collections.<IFieldInfo> singletonList(getValueField());
-		}
-
-		public IFieldInfo getValueField() {
-			return new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
-
-				
-				@Override
-				public String getCaption() {
-					return fieldCaption;
-				}
-
-				@Override
-				public void setValue(Object object, Object value) {
-					Instance instance = (Instance) object;
-					instance.setValue(value);
-				}
-
-				@Override
-				public boolean isGetOnly() {
-					return fieldGetOnly;
-				}
-
-				@Override
-				public boolean isNullable() {
-					return fieldNullable;
-				}
-
-				@Override
-				public Map<String, Object> getSpecificProperties() {
-					return fieldSpecificProperties;
-				}
-
-				@Override
-				public Object getValue(Object object) {
-					Instance instance = (Instance) object;
-					return instance.getValue();
-				}
-
-				@Override
-				public ITypeInfo getType() {
-					return fieldType;
-				}
-
-				@Override
-				public String toString() {
-					return fieldCaption;
-				}
-
-			};
 		}
 
 		@Override
@@ -370,4 +337,102 @@ public class EncapsulatedObjectFactory {
 		}
 
 	}
+	
+	
+	protected class ValueField implements IFieldInfo {
+		@Override
+		public String getCaption() {
+			return fieldCaption;
+		}
+
+		@Override
+		public void setValue(Object object, Object value) {
+			Instance instance = (Instance) object;
+			instance.setValue(value);
+		}
+
+		@Override
+		public boolean isGetOnly() {
+			return fieldGetOnly;
+		}
+
+		@Override
+		public boolean isNullable() {
+			return fieldNullable;
+		}
+
+		@Override
+		public Map<String, Object> getSpecificProperties() {
+			return fieldSpecificProperties;
+		}
+
+		@Override
+		public Object getValue(Object object) {
+			Instance instance = (Instance) object;
+			return instance.getValue();
+		}
+
+		@Override
+		public ITypeInfo getType() {
+			return fieldType;
+		}
+
+		@Override
+		public String getName() {
+			return "value";
+		}
+
+		@Override
+		public String getOnlineHelp() {
+			return null;
+		}
+
+		@Override
+		public Object[] getValueOptions(Object object) {
+			return null;
+		}
+
+		@Override
+		public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+			return null;
+		}
+
+		@Override
+		public ValueReturnMode getValueReturnMode() {
+			return fieldValueReturnMode;
+		}
+
+		@Override
+		public InfoCategory getCategory() {
+			return null;
+		}
+
+		private EncapsulatedObjectFactory getOuterType() {
+			return EncapsulatedObjectFactory.this;
+		}
+
+		@Override
+		public int hashCode() {
+			return getOuterType().hashCode();
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (!(obj instanceof ValueField)) {
+				return false;
+			}
+			ValueField other = (ValueField) obj;
+			if (!getOuterType().equals(other.getOuterType())) {
+				return false;
+			}
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return fieldCaption;
+		}
+
+	}
+
 }

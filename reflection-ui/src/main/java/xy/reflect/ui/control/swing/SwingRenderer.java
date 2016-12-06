@@ -32,6 +32,7 @@ import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -49,6 +50,7 @@ import org.jdesktop.swingx.JXBusyLabel;
 
 import com.google.common.collect.MapMaker;
 
+import sun.swing.SwingUtilities2;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfoCollectionSettings;
@@ -99,7 +101,7 @@ public class SwingRenderer {
 	protected Map<JPanel, ModificationStack> modificationStackByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, Boolean> fieldsUpdateListenerDisabledByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, IInfoCollectionSettings> infoCollectionSettingsByForm = new MapMaker().weakKeys().makeMap();
-	protected Map<JPanel, JLabel> statusLabelByForm = new MapMaker().weakKeys().makeMap();
+	protected Map<JPanel, JLabel> statusBarByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, Map<InfoCategory, List<FieldControlPlaceHolder>>> fieldControlPlaceHoldersByCategoryByForm = new MapMaker()
 			.weakKeys().makeMap();
 	protected Map<JPanel, Map<InfoCategory, List<MethodControlPlaceHolder>>> methodControlPlaceHoldersByCategoryByForm = new MapMaker()
@@ -108,6 +110,7 @@ public class SwingRenderer {
 	protected Map<FieldControlPlaceHolder, Component> captionControlByFieldControlPlaceHolder = new MapMaker()
 			.weakKeys().makeMap();
 	protected Map<JPanel, JTabbedPane> categoriesTabbedPaneByForm = new MapMaker().weakKeys().makeMap();
+	protected Map<JPanel, Boolean> busyIndicationDisabledByForm = new MapMaker().weakKeys().makeMap();
 
 	public SwingRenderer(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
@@ -147,8 +150,12 @@ public class SwingRenderer {
 		return infoCollectionSettingsByForm;
 	}
 
-	public Map<JPanel, JLabel> getStatusLabelByForm() {
-		return statusLabelByForm;
+	public Map<JPanel, JLabel> getStatusBarByForm() {
+		return statusBarByForm;
+	}
+
+	public Map<JPanel, Boolean> getBusyIndicationDisabledByForm() {
+		return busyIndicationDisabledByForm;
 	}
 
 	public Map<JPanel, Map<InfoCategory, List<FieldControlPlaceHolder>>> getFieldControlPlaceHoldersByCategoryByForm() {
@@ -238,7 +245,7 @@ public class SwingRenderer {
 				fieldsPanel.add(fieldControlPlaceHolder, layoutConstraints);
 				updateFieldControlLayout(fieldControlPlaceHolder);
 			}
-			IFieldInfo field = fieldControlPlaceHolder.getField();
+			IFieldInfo field = fieldControlPlaceHolder.getFormAwareField();
 			if ((field.getOnlineHelp() != null) && (field.getOnlineHelp().trim().length() > 0)) {
 				GridBagConstraints layoutConstraints = new GridBagConstraints();
 				layoutConstraints.insets = new Insets(spacing, spacing, spacing, spacing);
@@ -326,11 +333,11 @@ public class SwingRenderer {
 		return tabbedPane;
 	}
 
-	public JPanel createObjectForm(Object object) {
-		return createObjectForm(object, IInfoCollectionSettings.DEFAULT);
+	public JPanel createForm(Object object) {
+		return createForm(object, IInfoCollectionSettings.DEFAULT);
 	}
 
-	public JPanel createObjectForm(final Object object, IInfoCollectionSettings settings) {
+	public JPanel createForm(final Object object, IInfoCollectionSettings settings) {
 		final ModificationStack modifStack = new ModificationStack(getObjectTitle(object));
 		JPanel result = new JPanel() {
 
@@ -346,7 +353,7 @@ public class SwingRenderer {
 						@Override
 						public void run() {
 							refreshAllFieldControls(form, false);
-							validateFormInBackground(form);
+							updateStatusBarInBackground(form);
 							for (JPanel otherForm : getForms(object)) {
 								if (otherForm != form) {
 									ModificationStack otherModifStack = getModificationStackByForm().get(otherForm);
@@ -378,6 +385,7 @@ public class SwingRenderer {
 		getObjectByForm().put(result, object);
 		getModificationStackByForm().put(result, modifStack);
 		getInfoCollectionSettingsByForm().put(result, settings);
+		result.setLayout(new BorderLayout());
 		fillForm(result);
 		return result;
 	}
@@ -421,7 +429,7 @@ public class SwingRenderer {
 		if (field.getType() instanceof IEnumerationTypeInfo) {
 			return new EnumerationControl(this, object, field);
 		} else if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(field.getType())) {
-			return new PolymorphicEmbeddedForm(this, object, field);
+			return new PolymorphicControl(this, object, field);
 		} else if (field.getValueOptions(object) != null) {
 			return createOptionsControl(object, field);
 		} else {
@@ -485,6 +493,7 @@ public class SwingRenderer {
 		final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(reflectionUI,
 				field.getValueOptions(object), ownerType.getName() + "." + field.getName() + ".ValueOptions", "");
 		ITypeInfo enumType = reflectionUI.getTypeInfo(enumFactory.getTypeInfoSource());
+
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, enumType);
 		encapsulation.setFieldCaption("");
 		final Object encapsulated = encapsulation.getInstance(new Accessor<Object>() {
@@ -503,34 +512,8 @@ public class SwingRenderer {
 			}
 
 		});
-		return new EmbeddedFormControl(this, object, new FieldInfoProxy(field) {
+		return new EnumerationControl(this, encapsulated, encapsulation.getValueField());
 
-			@Override
-			public Object getValue(Object object) {
-				return encapsulated;
-			}
-
-			@Override
-			public ITypeInfo getType() {
-				throw new ReflectionUIError();
-			}
-
-			@Override
-			public void setValue(Object object, Object value) {
-				throw new ReflectionUIError();
-			}
-
-			@Override
-			public boolean isNullable() {
-				return false;
-			}
-
-			@Override
-			public boolean isGetOnly() {
-				return true;
-			}
-
-		});
 	}
 
 	public Component createOnlineHelpControl(String onlineHelp) {
@@ -554,7 +537,7 @@ public class SwingRenderer {
 		result.setFont(new JToolTip().getFont());
 		result.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		getStatusLabelByForm().put(form, result);
+		getStatusBarByForm().put(form, result);
 		return result;
 	}
 
@@ -576,11 +559,11 @@ public class SwingRenderer {
 			if (SwingRendererUtils.isForm(content, this)) {
 				final JPanel form = (JPanel) content;
 				contentPane.add(createStatusBar(form), BorderLayout.NORTH);
-				setStatusLabelError(form, null);
+				setStatusBarError(form, null);
 				window.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowOpened(WindowEvent e) {
-						validateFormInBackground(form);
+						updateStatusBarInBackground(form);
 					}
 				});
 
@@ -641,11 +624,6 @@ public class SwingRenderer {
 
 	public void fillForm(JPanel form) {
 		Object object = getObjectByForm().get(form);
-		form.setLayout(new BorderLayout());
-		fillForm(form, object);
-	}
-
-	public void fillForm(JPanel form, Object object) {
 		IInfoCollectionSettings settings = getInfoCollectionSettingsByForm().get(form);
 
 		Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = new HashMap<InfoCategory, List<FieldControlPlaceHolder>>();
@@ -769,36 +747,27 @@ public class SwingRenderer {
 		return ReflectionUIUtils.getKeysFromValue(getObjectByForm(), object);
 	}
 
-	public IFieldInfo getFormUpdatingField(Object object, String fieldName) {
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		IFieldInfo field = ReflectionUIUtils.findInfoByName(type.getFields(), fieldName);
-		for (JPanel form : getForms(object)) {
-			for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHoldersByName(form, fieldName)) {
-				field = fieldControlPlaceHolder.makeFieldModificationsUndoable(field);
-			}
-		}
-		return field;
-	}
-
-	public IMethodInfo getFormUpdatingMethod(Object object, String methodSignature) {
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		IMethodInfo method = ReflectionUIUtils.findMethodBySignature(type.getMethods(), methodSignature);
-		if (method == null) {
+	public IFieldInfo getFormAwareField(JPanel form, String fieldName) {
+		List<FieldControlPlaceHolder> fieldControlPlaceHolders = getFieldControlPlaceHoldersByName(form, fieldName);
+		if (fieldControlPlaceHolders.size() == 0) {
 			return null;
 		}
-		for (JPanel form : getForms(object)) {
-			for (MethodControlPlaceHolder methodControlPlaceHolder : getMethodControlPlaceHoldersBySignature(form,
-					methodSignature)) {
-				method = methodControlPlaceHolder.makeMethodModificationsUndoable(method);
-			}
+		return fieldControlPlaceHolders.get(0).getFormAwareField();
+	}
+
+	public IMethodInfo getFormAwareMethod(JPanel form, String methodSignature) {
+		List<MethodControlPlaceHolder> methodControlPlaceHolders = getMethodControlPlaceHoldersBySignature(form,
+				methodSignature);
+		if (methodControlPlaceHolders.size() == 0) {
+			return null;
 		}
-		return method;
+		return methodControlPlaceHolders.get(0).getFormAwareMethod();
 	}
 
 	public List<FieldControlPlaceHolder> getFieldControlPlaceHoldersByName(JPanel form, String fieldName) {
 		List<FieldControlPlaceHolder> result = new ArrayList<FieldControlPlaceHolder>();
 		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
-			if (fieldName.equals(fieldControlPlaceHolder.getField().getName())) {
+			if (fieldName.equals(fieldControlPlaceHolder.getFormAwareField().getName())) {
 				result.add(fieldControlPlaceHolder);
 			}
 		}
@@ -808,7 +777,7 @@ public class SwingRenderer {
 	public List<MethodControlPlaceHolder> getMethodControlPlaceHoldersBySignature(JPanel form, String methodSignature) {
 		List<MethodControlPlaceHolder> result = new ArrayList<MethodControlPlaceHolder>();
 		for (MethodControlPlaceHolder methodControlPlaceHolder : getMethodControlPlaceHolders(form)) {
-			if (ReflectionUIUtils.getMethodInfoSignature(methodControlPlaceHolder.getMethod())
+			if (ReflectionUIUtils.getMethodInfoSignature(methodControlPlaceHolder.getFormAwareMethod())
 					.equals(methodSignature)) {
 				result.add(methodControlPlaceHolder);
 			}
@@ -829,13 +798,6 @@ public class SwingRenderer {
 			}
 		}
 		return null;
-	}
-
-	public void handleComponentSizeChange(Component c) {
-		Window window = SwingUtilities.getWindowAncestor(c);
-		if (window != null) {
-			window.validate();
-		}
 	}
 
 	public void handleExceptionsFromDisplayedUI(Component activatorComponent, final Throwable t) {
@@ -867,46 +829,39 @@ public class SwingRenderer {
 						type = polyTypes.get(0);
 					} else {
 						final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(reflectionUI,
-								polyTypes.toArray(), type.getName() + ".PolymorphicInstanceSubTypesEnumeration", "");
-						IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
-								.getTypeInfo(enumFactory.getTypeInfoSource());
-						enumType = (IEnumerationTypeInfo) new TypeInfoProxyFactory() {
-
+								polyTypes.toArray(), type.getName() + ".PolymorphicInstanceSubTypesEnumeration", "") {
 							@Override
-							protected IEnumerationItemInfo getValueInfo(Object object, IEnumerationTypeInfo type) {
-								final ITypeInfo polyTypesItem = (ITypeInfo) enumFactory.unwrapInstance(object);
-								return new IEnumerationItemInfo() {
-
-									@Override
-									public Map<String, Object> getSpecificProperties() {
-										Map<String, Object> result = new HashMap<String, Object>();
-										File iconImageFile = DesktopSpecificProperty.getIconImageFile(
-												DesktopSpecificProperty.accessInfoProperties(polyTypesItem));
-										DesktopSpecificProperty.setIconImageFile(result, iconImageFile);
-										return result;
-									}
-
-									@Override
-									public String getOnlineHelp() {
-										return polyTypesItem.getOnlineHelp();
-									}
-
-									@Override
-									public String getName() {
-										return polyTypesItem.getName();
-									}
-
-									@Override
-									public String getCaption() {
-										return polyTypesItem.getCaption();
-									}
-								};
+							protected Map<String, Object> getItemSpecificProperties(Object arrayItem) {
+								ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;
+								Map<String, Object> result = new HashMap<String, Object>();
+								File iconImageFile = DesktopSpecificProperty
+										.getIconImageFile(DesktopSpecificProperty.accessInfoProperties(polyTypesItem));
+								DesktopSpecificProperty.setIconImageFile(result, iconImageFile);
+								return result;
 							}
 
-						}.get(enumType);
-						Object resultEnumItem;
-						resultEnumItem = openSelectionDialog(activatorComponent, enumType, null, "Choose a type:",
-								"New '" + type.getCaption() + "'");
+							@Override
+							protected String getItemOnlineHelp(Object arrayItem) {
+								ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;
+								return polyTypesItem.getOnlineHelp();
+							}
+
+							@Override
+							protected String getItemName(Object arrayItem) {
+								ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;
+								return polyTypesItem.getName();
+							}
+
+							@Override
+							protected String getItemCaption(Object arrayItem) {
+								ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;
+								return polyTypesItem.getCaption();
+							}
+						};
+						IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
+								.getTypeInfo(enumFactory.getTypeInfoSource());
+						Object resultEnumItem = openSelectionDialog(activatorComponent, enumType, null,
+								"Choose a type:", "New '" + type.getCaption() + "'");
 						if (resultEnumItem == null) {
 							return null;
 						}
@@ -965,7 +920,7 @@ public class SwingRenderer {
 				return smallerConstructor.invoke(null, new InvocationData());
 			} else {
 				final IMethodInfo chosenContructor = openSelectionDialog(activatorComponent, constructors, null,
-						prepareStringToDisplay("Choose an option:"), null);
+						"Choose an option", null);
 				if (chosenContructor == null) {
 					return null;
 				}
@@ -992,7 +947,7 @@ public class SwingRenderer {
 		encapsulation.setFieldGetOnly(true);
 		encapsulation.setFieldNullable(false);
 		Object toDisplay = encapsulation.getInstance(new Object[] { ReflectionUIUtils.getPrettyMessage(error) });
-		Component errorComponent = new JOptionPane(createObjectForm(toDisplay), JOptionPane.ERROR_MESSAGE,
+		Component errorComponent = new JOptionPane(createForm(toDisplay), JOptionPane.ERROR_MESSAGE,
 				JOptionPane.DEFAULT_OPTION, null, new Object[] {});
 
 		JDialog[] dialogHolder = new JDialog[1];
@@ -1061,7 +1016,7 @@ public class SwingRenderer {
 			encapsulation.setFieldNullable(false);
 			object = encapsulation.getInstance(valueHolder);
 		}
-		JPanel form = createObjectForm(object);
+		JPanel form = createForm(object);
 		JFrame frame = createFrame(form, title, iconImage, createCommonToolbarControls(form));
 		return frame;
 	}
@@ -1073,50 +1028,38 @@ public class SwingRenderer {
 			throw new ReflectionUIError();
 		}
 		final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(reflectionUI, choices.toArray(),
-				"SelectionDialogArrayAsEnumeration", "");
-		IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
-				.getTypeInfo(enumFactory.getTypeInfoSource());
-		enumType = (IEnumerationTypeInfo) new TypeInfoProxyFactory() {
+				"SelectionDialogArrayAsEnumeration", "") {
 
 			Map<Object, String> captions = new HashMap<Object, String>();
 			Map<Object, Image> iconImages = new HashMap<Object, Image>();
 
 			{
 				for (Object choice : choices) {
-					captions.put(enumFactory.getInstance(choice),
-							ReflectionUIUtils.toString(SwingRenderer.this.reflectionUI, choice));
-					iconImages.put(enumFactory.getInstance(choice), getObjectIconImage(choice));
+					captions.put(choice, ReflectionUIUtils.toString(SwingRenderer.this.reflectionUI, choice));
+					iconImages.put(choice, getObjectIconImage(choice));
 				}
 			}
 
 			@Override
-			protected IEnumerationItemInfo getValueInfo(final Object object, IEnumerationTypeInfo type) {
-				return new IEnumerationItemInfo() {
-					@Override
-					public Map<String, Object> getSpecificProperties() {
-						Map<String, Object> properties = new HashMap<String, Object>();
-						SwingRendererUtils.setIconImage(properties, iconImages.get(object));
-						return properties;
-					}
-
-					@Override
-					public String getOnlineHelp() {
-						return null;
-					}
-
-					@Override
-					public String getName() {
-						return "choice" + choices.indexOf(enumFactory.unwrapInstance(object));
-					}
-
-					@Override
-					public String getCaption() {
-						return captions.get(object);
-					}
-				};
+			protected Map<String, Object> getItemSpecificProperties(Object choice) {
+				Map<String, Object> properties = new HashMap<String, Object>();
+				SwingRendererUtils.setIconImage(properties, iconImages.get(choice));
+				return properties;
 			}
 
-		}.get(enumType);
+			@Override
+			protected String getItemName(Object choice) {
+				return "option(" + captions.get(choice) + ")";
+			}
+
+			@Override
+			protected String getItemCaption(Object choice) {
+				return captions.get(choice);
+			}
+
+		};
+		IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
+				.getTypeInfo(enumFactory.getTypeInfoSource());
 		Object resultEnumItem = openSelectionDialog(parentComponent, enumType,
 				enumFactory.getInstance(initialSelection), message, title);
 		if (resultEnumItem == null) {
@@ -1194,7 +1137,7 @@ public class SwingRenderer {
 	public List<IFieldInfo> getDisplayedFields(JPanel form) {
 		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
 		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
-			result.add(fieldControlPlaceHolder.getField());
+			result.add(fieldControlPlaceHolder.getFormAwareField());
 		}
 		return result;
 	}
@@ -1202,7 +1145,7 @@ public class SwingRenderer {
 	public List<IMethodInfo> getDisplayedMethods(JPanel form) {
 		List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 		for (MethodControlPlaceHolder methodControlPlaceHolder : getMethodControlPlaceHolders(form)) {
-			result.add(methodControlPlaceHolder.getMethod());
+			result.add(methodControlPlaceHolder.getFormAwareMethod());
 		}
 		return result;
 	}
@@ -1245,7 +1188,7 @@ public class SwingRenderer {
 
 	public void refreshFieldControlsByName(JPanel form, String fieldName, boolean recreate) {
 		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
-			if (fieldName.equals(fieldControlPlaceHolder.getField().getName())) {
+			if (fieldName.equals(fieldControlPlaceHolder.getFormAwareField().getName())) {
 				fieldControlPlaceHolder.refreshUI(recreate);
 				updateFieldControlLayout(fieldControlPlaceHolder);
 			}
@@ -1265,45 +1208,18 @@ public class SwingRenderer {
 			}
 		};
 		runner.start();
-		final DialogBuilder dialogBuilder = new DialogBuilder(SwingRenderer.this, activatorComponent);
-		final Thread displayer = new Thread("BusyDialogDisplayer: " + title) {
-			@Override
-			public void run() {
-				try {
-					sleep(1000);
-				} catch (InterruptedException e) {
-					throw new ReflectionUIError(e);
-				}
-				if (!runner.isAlive()) {
-					return;
-				}
-				final JXBusyLabel busyLabel = new JXBusyLabel();
-				busyLabel.setHorizontalAlignment(SwingConstants.CENTER);
-				busyLabel.setText("Please wait...");
-				busyLabel.setVerticalTextPosition(SwingConstants.TOP);
-				busyLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-				busyLabel.setBusy(true);
-				dialogBuilder.setContentComponent(busyLabel);
-				dialogBuilder.setTitle(title);
-				final JDialog dialog = dialogBuilder.build();
-				dialog.addWindowListener(new WindowAdapter() {
-					@Override
-					public void windowClosing(WindowEvent e) {
-						runner.interrupt();
-					}
-				});
-				showDialog(dialog, true, false);
-			}
-		};
-		displayer.start();
-		final Thread closer = new Thread("BusyDialogCloser: " + title) {
-			@Override
-			public void run() {
-				while (true) {
-					if (!runner.isAlive()) {
-						if (!displayer.isAlive()) {
-							break;
-						} else {
+		try {
+			runner.join(1000);
+		} catch (InterruptedException e) {
+			throw new ReflectionUIError(e);
+		}
+		if (runner.isAlive()) {
+			final DialogBuilder dialogBuilder = new DialogBuilder(SwingRenderer.this, activatorComponent);
+			final Thread closer = new Thread("BusyDialogCloser: " + title) {
+				@Override
+				public void run() {
+					while (true) {
+						if (!runner.isAlive()) {
 							JDialog dialog = dialogBuilder.getBuiltDialog();
 							if (dialog != null) {
 								if (dialog.isVisible()) {
@@ -1312,20 +1228,31 @@ public class SwingRenderer {
 								}
 							}
 						}
-					}
-					try {
-						sleep(1000);
-					} catch (InterruptedException e) {
-						throw new ReflectionUIError(e);
+						try {
+							sleep(1000);
+						} catch (InterruptedException e) {
+							throw new ReflectionUIError(e);
+						}
 					}
 				}
-			}
-		};
-		closer.start();
-		try {
-			runner.join();
-		} catch (InterruptedException e) {
-			throw new ReflectionUIError(e);
+			};
+			closer.start();
+			final JXBusyLabel busyLabel = new JXBusyLabel();
+			busyLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			busyLabel.setText("Please wait...");
+			busyLabel.setVerticalTextPosition(SwingConstants.TOP);
+			busyLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+			busyLabel.setBusy(true);
+			dialogBuilder.setContentComponent(busyLabel);
+			dialogBuilder.setTitle(title);
+			final JDialog dialog = dialogBuilder.build();
+			dialog.addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowClosing(WindowEvent e) {
+					runner.interrupt();
+				}
+			});
+			showDialog(dialog, true, false);
 		}
 		if (exceptionThrown[0] != null) {
 			throw new ReflectionUIError(exceptionThrown[0]);
@@ -1371,7 +1298,7 @@ public class SwingRenderer {
 
 	public void updateFieldControlLayout(FieldControlPlaceHolder fieldControlPlaceHolder) {
 		Component fieldControl = fieldControlPlaceHolder.getFieldControl();
-		IFieldInfo field = fieldControlPlaceHolder.getField();
+		IFieldInfo field = fieldControlPlaceHolder.getFormAwareField();
 		Container container = fieldControlPlaceHolder.getParent();
 
 		GridBagLayout layout = (GridBagLayout) container.getLayout();
@@ -1421,58 +1348,61 @@ public class SwingRenderer {
 		return new JLabel(prepareStringToDisplay(caption + ": "));
 	}
 
-	public void validateForm(final JPanel form) {
+	public void updateStatusBar(final JPanel form) {
+		try {
+			validateForm(form);
+			setStatusBarError(form, null);
+		} catch (Exception e) {
+			String errorMsg = new ReflectionUIError(e).toString();
+			setStatusBarError(form, errorMsg);
+		}
+	}
+
+	public void validateForm(JPanel form) throws Exception {
 		final Object object = getObjectByForm().get(form);
 		if (object == null) {
 			return;
 		}
 		final ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		try {
-			type.validate(object);
-			for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
-				Component fieldControl = fieldControlPlaceHolder.getFieldControl();
-				if (fieldControl instanceof IAdvancedFieldControl) {
-					IFieldInfo field = fieldControlPlaceHolder.getField();
-					try {
-						((IAdvancedFieldControl) fieldControl).validateSubForm();
-					} catch (Exception e) {
-						throw new ReflectionUIError(ReflectionUIUtils.composeTitle(field.getCaption(), e.toString()),
-								e);
-					}
+		type.validate(object);
+		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
+			Component fieldControl = fieldControlPlaceHolder.getFieldControl();
+			if (fieldControl instanceof IAdvancedFieldControl) {
+				IFieldInfo field = fieldControlPlaceHolder.getFormAwareField();
+				try {
+					((IAdvancedFieldControl) fieldControl).validateSubForm();
+				} catch (Exception e) {
+					throw new ReflectionUIError(ReflectionUIUtils.composeTitle(field.getCaption(), e.toString()), e);
 				}
 			}
-			setStatusLabelError(form, null);
-		} catch (Exception e) {
-			String errorMsg = new ReflectionUIError(e).toString();
-			setStatusLabelError(form, errorMsg);
 		}
 	}
 
-	public void validateFormInBackground(final JPanel form) {
+	public void updateStatusBarInBackground(final JPanel form) {
 		new Thread("Validator: " + getObjectByForm().get(form)) {
 			@Override
 			public void run() {
-				validateForm(form);
+				updateStatusBar(form);
 			}
 		}.start();
 	}
 
-	public void setStatusLabelError(JPanel form, String errorMsg) {
-		JLabel statusLabel = getStatusLabelByForm().get(form);
-		if (statusLabel == null) {
+	public void setStatusBarError(JPanel form, String errorMsg) {
+		JLabel statusBar = getStatusBarByForm().get(form);
+		if (statusBar == null) {
 			return;
 		}
 		if (errorMsg == null) {
-			statusLabel.setVisible(false);
+			statusBar.setVisible(false);
 		} else {
-			statusLabel.setIcon(SwingRendererUtils.ERROR_ICON);
-			statusLabel.setBackground(new Color(255, 245, 242));
-			statusLabel.setForeground(new Color(255, 0, 0));
-			statusLabel.setText(ReflectionUIUtils.multiToSingleLine(errorMsg));
-			SwingRendererUtils.setMultilineToolTipText(statusLabel, errorMsg);
-			statusLabel.setVisible(true);
+			statusBar.setIcon(SwingRendererUtils.ERROR_ICON);
+			statusBar.setBackground(new Color(255, 245, 242));
+			statusBar.setForeground(new Color(255, 0, 0));
+			statusBar.setText(ReflectionUIUtils.multiToSingleLine(errorMsg));
+			SwingRendererUtils.setMultilineToolTipText(statusBar, errorMsg);
+			statusBar.setVisible(true);
 		}
-		handleComponentSizeChange(statusLabel);
+		SwingRendererUtils.handleComponentSizeChange(statusBar);
 	}
 
 	public class FieldControlPlaceHolder extends JPanel {
@@ -1481,12 +1411,14 @@ public class SwingRenderer {
 		protected Object object;
 		protected IFieldInfo field;
 		protected Component fieldControl;
+		protected Object lastFieldValue;
+		protected Runnable lastFieldValueUpdate;
 
 		public FieldControlPlaceHolder(Object object, IFieldInfo field) {
 			super();
 			this.object = object;
 			field = makeFieldModificationsUndoable(field);
-			field = handleValueUpdateErrors(field);
+			field = handleValueErrors(field);
 			field = indicateWhenBusy(field);
 			this.field = field;
 			setLayout(new BorderLayout());
@@ -1496,19 +1428,8 @@ public class SwingRenderer {
 		public IFieldInfo makeFieldModificationsUndoable(final IFieldInfo field) {
 			return new FieldInfoProxy(field) {
 
-				private Object oldValue = field.getValue(object);
-
-				@Override
-				public Object getValue(Object object) {
-					return oldValue;
-				}
-
 				@Override
 				public void setValue(Object object, Object newValue) {
-					if (field.isGetOnly()) {
-						field.setValue(object, newValue);
-						return;
-					}
 					Component c = fieldControl;
 					if ((c instanceof IAdvancedFieldControl)) {
 						IAdvancedFieldControl fieldControl = (IAdvancedFieldControl) c;
@@ -1519,37 +1440,43 @@ public class SwingRenderer {
 					}
 					JPanel form = SwingRendererUtils.findParentForm(FieldControlPlaceHolder.this, SwingRenderer.this);
 					ModificationStack stack = getModificationStackByForm().get(form);
-					SetFieldValueModification modif = SetFieldValueModification.create(reflectionUI, object,
-							new FieldInfoProxy(field) {
-								@Override
-								public Object getValue(Object object) {
-									return oldValue;
-								}
-							}, newValue);
+					SetFieldValueModification modif = SetFieldValueModification.create(reflectionUI, object, field,
+							newValue);
 					try {
 						stack.apply(modif);
-						oldValue = newValue;
 					} catch (Throwable t) {
 						stack.invalidate();
-						try {
-							oldValue = field.getValue(object);
-						} catch (Throwable ignore) {
-						}
 						throw new ReflectionUIError(t);
 					}
 				}
 			};
 		}
 
-		public IFieldInfo handleValueUpdateErrors(final IFieldInfo field) {
+		public IFieldInfo handleValueErrors(final IFieldInfo field) {
+			lastFieldValueUpdate = new Runnable() {
+				@Override
+				public void run() {
+					lastFieldValue = field.getValue(object);
+				}
+			};
 			return new FieldInfoProxy(field) {
 
 				@Override
-				public void setValue(Object object, Object value) {
+				public Object getValue(Object object) {
+					return lastFieldValue;
+				}
+
+				@Override
+				public void setValue(Object object, Object newValue) {
 					try {
-						field.setValue(object, value);
+						field.setValue(object, newValue);
+						lastFieldValue = newValue;
 						displayError(null);
-					} catch (final Throwable t) {
+					} catch (Throwable t) {
+						try {
+							lastFieldValue = field.getValue(object);
+						} catch (Throwable ignore) {
+						}
 						displayError(new ReflectionUIError(t));
 					}
 				}
@@ -1560,8 +1487,16 @@ public class SwingRenderer {
 		public IFieldInfo indicateWhenBusy(final IFieldInfo field) {
 			return new FieldInfoProxy(field) {
 
+				private boolean isBusyIndicationDisabled() {
+					JPanel form = SwingRendererUtils.findParentForm(FieldControlPlaceHolder.this, SwingRenderer.this);
+					return Boolean.TRUE.equals(getBusyIndicationDisabledByForm().get(form));
+				}
+
 				@Override
 				public Object getValue(final Object object) {
+					if (isBusyIndicationDisabled()) {
+						return super.getValue(object);
+					}
 					final Object[] result = new Object[1];
 					showBusyDialogWhile(FieldControlPlaceHolder.this, new Runnable() {
 						public void run() {
@@ -1573,6 +1508,10 @@ public class SwingRenderer {
 
 				@Override
 				public void setValue(final Object object, final Object value) {
+					if (isBusyIndicationDisabled()) {
+						super.setValue(object, value);
+						return;
+					}
 					showBusyDialogWhile(FieldControlPlaceHolder.this, new Runnable() {
 						public void run() {
 							field.setValue(object, value);
@@ -1582,6 +1521,9 @@ public class SwingRenderer {
 
 				@Override
 				public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+					if (isBusyIndicationDisabled()) {
+						return super.getCustomUndoUpdateJob(object, value);
+					}
 					final Runnable result = field.getCustomUndoUpdateJob(object, value);
 					if (result == null) {
 						return null;
@@ -1605,11 +1547,12 @@ public class SwingRenderer {
 			return fieldControl;
 		}
 
-		public IFieldInfo getField() {
+		public IFieldInfo getFormAwareField() {
 			return field;
 		}
 
 		public void refreshUI(boolean recreate) {
+			lastFieldValueUpdate.run();
 			if (recreate) {
 				if (fieldControl != null) {
 					remove(fieldControl);
@@ -1619,7 +1562,7 @@ public class SwingRenderer {
 			if (fieldControl == null) {
 				fieldControl = SwingRenderer.this.createFieldControl(object, field);
 				add(fieldControl, BorderLayout.CENTER);
-				handleComponentSizeChange(this);
+				SwingRendererUtils.handleComponentSizeChange(this);
 			} else {
 				if (!(((fieldControl instanceof IAdvancedFieldControl)
 						&& ((IAdvancedFieldControl) fieldControl).refreshUI()))) {
@@ -1732,7 +1675,7 @@ public class SwingRenderer {
 			return methodControl;
 		}
 
-		public IMethodInfo getMethod() {
+		public IMethodInfo getFormAwareMethod() {
 			return method;
 		}
 
@@ -1746,7 +1689,7 @@ public class SwingRenderer {
 			if (methodControl == null) {
 				methodControl = SwingRenderer.this.createMethodControl(object, method);
 				add(methodControl, BorderLayout.CENTER);
-				handleComponentSizeChange(this);
+				SwingRendererUtils.handleComponentSizeChange(this);
 			} else {
 				boolean hadFocus = SwingRendererUtils.hasOrContainsFocus(methodControl);
 				remove(methodControl);

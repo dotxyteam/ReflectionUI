@@ -155,7 +155,7 @@ public class ObjectDialogBuilder {
 
 	public JDialog build() {
 		Object displayValue = getDisplayValue();
-		objectForm = swingRenderer.createObjectForm(displayValue, infoSettings);
+		objectForm = swingRenderer.createForm(displayValue, infoSettings);
 		delegate.setContentComponent(objectForm);
 
 		List<Component> toolbarControls = new ArrayList<Component>();

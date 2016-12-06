@@ -25,7 +25,7 @@ public class Example {
 		SwingRenderer.DEFAULT.openObjectDialog(null, myObject);
 
 		/* You can just create a form and then insert it in any container: */
-		JOptionPane.showMessageDialog(null, SwingRenderer.DEFAULT.createObjectForm(myObject));
+		JOptionPane.showMessageDialog(null, SwingRenderer.DEFAULT.createForm(myObject));
 
 		/*
 		 * You can customize some aspects (field labels, hide some methods, ...)

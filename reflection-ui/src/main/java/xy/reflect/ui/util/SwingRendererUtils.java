@@ -29,6 +29,7 @@ import java.util.Map.Entry;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -537,6 +538,13 @@ public class SwingRendererUtils {
 				}
 
 			});
+		}
+	}
+
+	public static void handleComponentSizeChange(Component c) {
+		Window window = SwingUtilities.getWindowAncestor(c);
+		if (window != null) {
+			window.validate();
 		}
 	}
 }

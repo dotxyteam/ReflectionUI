@@ -110,7 +110,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		if (!ReflectionUIUtils.equalsOrBothNull(textComponent.getText(), newText)) {
 			int lastCaretPosition = textComponent.getCaretPosition();
 			textComponent.setText(newText);
-			swingRenderer.handleComponentSizeChange(this);
+			SwingRendererUtils.handleComponentSizeChange(this);
 			textComponent.setCaretPosition(Math.min(lastCaretPosition, textComponent.getText().length()));
 		}
 		ignoreEditEvents = false;
@@ -162,7 +162,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	public boolean refreshUI() {
 		updateTextComponent();
 		displayError(null);
-		swingRenderer.handleComponentSizeChange(this);
+		SwingRendererUtils.handleComponentSizeChange(this);
 		return true;
 	}
 
