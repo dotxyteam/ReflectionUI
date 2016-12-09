@@ -17,7 +17,7 @@ public class ReflectionUITest {
 
 	public static class Test {
 		public Object anyObject;
-		public Exception theException;
+		public Exception theException = new NullPointerException();
 
 		public String theChoice;
 		public String[] theChoiceOptions = new String[] { "a", "z", "e", "r", "t", "y" };

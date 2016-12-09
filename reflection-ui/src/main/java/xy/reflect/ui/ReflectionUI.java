@@ -121,11 +121,11 @@ public class ReflectionUI {
 	}
 
 	public void logInformation(String msg) {
-		System.out.println(msg);
+		System.out.println("[" + ReflectionUI.class.getSimpleName() + "] " + msg);
 	}
 
 	public void logError(String msg) {
-		System.err.println(msg);
+		System.err.println("[" + ReflectionUI.class.getSimpleName() + "] " + msg);
 	}
 
 	public void logError(Throwable t) {

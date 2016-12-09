@@ -22,7 +22,7 @@ public class MethodControl extends JButton {
 	}
 
 	protected void initialize() {
-		SwingRenderer swingRenderer = action.getSwingRenderer();
+		final SwingRenderer swingRenderer = action.getSwingRenderer();
 		IMethodInfo method = action.getMethod();
 
 		String caption = method.getCaption();
@@ -45,7 +45,11 @@ public class MethodControl extends JButton {
 		addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				action.actionPerformed(e);
+				try{
+					action.actionPerformed(e);
+				} catch (Throwable t) {
+					swingRenderer.handleExceptionsFromDisplayedUI(MethodControl.this, t);
+				}
 			}
 		});
 	}

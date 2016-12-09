@@ -60,8 +60,19 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 
 	protected Component createTypeEnumerationControl() {
 		List<ITypeInfo> possibleValues = new ArrayList<ITypeInfo>(subTypes);
-		if (PolymorphicControl.this.field.isNullable()) {
-			possibleValues.add(0, NULL_POLY_TYPE);
+		{
+			Object instance = field.getValue(object);
+			if (instance != null) {
+				ITypeInfo actualFieldValueType = swingRenderer.getReflectionUI()
+						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(instance));
+				if (!possibleValues.contains(actualFieldValueType)) {
+					instanceByEnumerationValueCache.put(actualFieldValueType, instance);
+					possibleValues.add(actualFieldValueType);
+				}
+			}
+			if (PolymorphicControl.this.field.isNullable()) {
+				possibleValues.add(0, NULL_POLY_TYPE);
+			}
 		}
 		final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(swingRenderer.getReflectionUI(),
 				possibleValues.toArray(), polymorphicType.getName() + ".SubTypesEnumeration", "");
@@ -171,7 +182,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			dynamicControl = createDynamicControl(instanceType);
 			add(dynamicControl, BorderLayout.CENTER);
 			SwingRendererUtils.handleComponentSizeChange(this);
-		} 
+		}
 		lastInstanceType = instanceType;
 	}
 

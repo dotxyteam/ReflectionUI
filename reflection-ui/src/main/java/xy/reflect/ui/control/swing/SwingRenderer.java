@@ -1418,8 +1418,8 @@ public class SwingRenderer {
 			super();
 			this.object = object;
 			field = makeFieldModificationsUndoable(field);
-			field = handleValueErrors(field);
 			field = indicateWhenBusy(field);
+			field = handleValueAccessIssues(field);
 			this.field = field;
 			setLayout(new BorderLayout());
 			refreshUI(false);
@@ -1452,7 +1452,7 @@ public class SwingRenderer {
 			};
 		}
 
-		public IFieldInfo handleValueErrors(final IFieldInfo field) {
+		public IFieldInfo handleValueAccessIssues(final IFieldInfo field) {
 			lastFieldValueUpdate = new Runnable() {
 				@Override
 				public void run() {

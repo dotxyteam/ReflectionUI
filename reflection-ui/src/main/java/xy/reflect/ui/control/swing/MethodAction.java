@@ -137,21 +137,25 @@ public class MethodAction extends AbstractAction {
 			invocationData = new InvocationData();
 		}
 		JPanel methodForm = swingRenderer
-				.createForm(new MethodSetupObjectFactory(swingRenderer.getReflectionUI(), method)
-						.getInstance(object, invocationData));
+				.createForm(new MethodSetupObjectFactory(swingRenderer.getReflectionUI(), method).getInstance(object,
+						invocationData));
 		final boolean[] invokedStatusHolder = new boolean[] { false };
 		List<Component> toolbarControls = new ArrayList<Component>();
 		String doc = method.getOnlineHelp();
 		if ((doc != null) && (doc.trim().length() > 0)) {
 			toolbarControls.add(swingRenderer.createOnlineHelpControl(doc));
 		}
-		JButton invokeButton = new JButton(method.getCaption());
+		final JButton invokeButton = new JButton(method.getCaption());
 		{
 			invokeButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					swingRenderer.getLastInvocationDataByMethod().put(method, invocationData);
-					returnValue = method.invoke(object, invocationData);
+					try {
+						returnValue = method.invoke(object, invocationData);
+					} catch (Throwable t) {
+						swingRenderer.handleExceptionsFromDisplayedUI(invokeButton, t);
+					}
 					if (displayReturnValue) {
 						if (!exceptionThrownHolder[0]) {
 							openMethodReturnValueWindow(activatorComponent);
