@@ -246,7 +246,7 @@ public class EncapsulatedObjectFactory {
 		@Override
 		public String toString(Object object) {
 			Instance instance = (Instance) object;
-			return ReflectionUIUtils.toString(reflectionUI, instance.getValue());
+			return instance.toString();
 		}
 
 		@Override
@@ -282,7 +282,7 @@ public class EncapsulatedObjectFactory {
 
 	}
 
-	protected static class Instance {
+	protected class Instance {
 		protected Accessor<Object> fieldValueAccessor;
 
 		public Instance(final Object[] fieldValueHolder) {
@@ -302,13 +302,11 @@ public class EncapsulatedObjectFactory {
 			fieldValueAccessor.set(value);
 		}
 
+		
+
 		@Override
 		public String toString() {
-			Object value = getValue();
-			if (value == null) {
-				return null;
-			}
-			return value.toString();
+			return "Encapsulated [value=" + ReflectionUIUtils.toString(reflectionUI, getValue())  + "]";
 		}
 
 		@Override

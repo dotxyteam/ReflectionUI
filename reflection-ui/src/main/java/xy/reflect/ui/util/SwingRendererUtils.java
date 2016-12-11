@@ -488,83 +488,65 @@ public class SwingRendererUtils {
 			final Accessor<Boolean> childModifAcceptedGetter,
 			final Accessor<ValueReturnMode> childValueReturnModeGetter, final Accessor<Boolean> childValueNewGetter,
 			final Accessor<IModification> commitModifGetter, final Accessor<IInfo> childModifTargetGetter,
-			final Accessor<String> parentModifTitleGetter, final SwingRenderer swingRenderer) {
-		final ModificationStack parentModifStack = findParentFormModificationStack(subForm.getParent(), swingRenderer);
-		if (parentModifStack == null) {
-			subForm.addAncestorListener(new AncestorListener() {
+			final Accessor<String> parentModifTitleGetter, final Accessor<ModificationStack> parentModifStackGetter,
+			final SwingRenderer swingRenderer) {
+		swingRenderer.getModificationStackByForm().put(subForm, new ModificationStack(null) {
 
-				@Override
-				public void ancestorRemoved(AncestorEvent event) {
+			@Override
+			public boolean pushUndo(IModification undoModif) {
+				ModificationStack childModifStack = new ModificationStack(null);
+				childModifStack.pushUndo(undoModif);
+				Boolean childModifAccepted = childModifAcceptedGetter.get();
+				ValueReturnMode childValueReturnMode = childValueReturnModeGetter.get();
+				Boolean childValueNew = childValueNewGetter.get();
+				IModification commitModif = commitModifGetter.get();
+				String subModifTitle = AbstractModification.getUndoTitle(undoModif.getTitle());
+				String parentModifTitle = parentModifTitleGetter.get();
+				if (parentModifTitle != null) {
+					subModifTitle = ReflectionUIUtils.composeTitle(parentModifTitle, subModifTitle);
 				}
+				ModificationStack parentModifStack = parentModifStackGetter.get();
+				IInfo childModifTarget = childModifTargetGetter.get();
+				return ReflectionUIUtils.integrateSubModifications(reflectionUI, parentModifStack, childModifStack,
+						childModifAccepted, childValueReturnMode, childValueNew, commitModif, childModifTarget,
+						subModifTitle);
+			}
 
-				@Override
-				public void ancestorMoved(AncestorEvent event) {
-				}
+			@Override
+			public void beginComposite() {
+				ModificationStack parentModifStack = parentModifStackGetter.get();
+				parentModifStack.beginComposite();
+			}
 
-				@Override
-				public void ancestorAdded(AncestorEvent event) {
-					if (findParentFormModificationStack(subForm, swingRenderer) != null) {
-						subForm.removeAncestorListener(this);
-						forwardSubModifications(reflectionUI, subForm, childModifAcceptedGetter,
-								childValueReturnModeGetter, childValueNewGetter, commitModifGetter, childModifTargetGetter,
-								parentModifTitleGetter, swingRenderer);
-					}
-				}
-			});
-		} else {
-			swingRenderer.getModificationStackByForm().put(subForm, new ModificationStack(null) {
+			@Override
+			public boolean endComposite(IInfo childModifTarget, String title, UndoOrder order) {
+				ModificationStack parentModifStack = parentModifStackGetter.get();
+				return parentModifStack.endComposite(childModifTarget, title, order);
+			}
 
-				@Override
-				public boolean pushUndo(IModification undoModif) {
-					ModificationStack childModifStack = new ModificationStack(null);
-					childModifStack.pushUndo(undoModif);
-					Boolean childModifAccepted = childModifAcceptedGetter.get();
-					ValueReturnMode childValueReturnMode = childValueReturnModeGetter.get();
-					Boolean childValueNew = childValueNewGetter.get();
-					IModification commitModif = commitModifGetter.get();
-					String subModifTitle = AbstractModification.getUndoTitle(undoModif.getTitle());
-					String parentModifTitle = parentModifTitleGetter.get();
-					if (parentModifTitle != null) {
-						subModifTitle = ReflectionUIUtils.composeTitle(parentModifTitle, subModifTitle);
-					}
-					IInfo childModifTarget = childModifTargetGetter.get();
-					return ReflectionUIUtils.integrateSubModifications(reflectionUI, parentModifStack, childModifStack,
-							childModifAccepted, childValueReturnMode, childValueNew, commitModif, childModifTarget,
-							subModifTitle);
-				}
+			@Override
+			public void abortComposite() {
+				ModificationStack parentModifStack = parentModifStackGetter.get();
+				parentModifStack.abortComposite();
+			}
 
-				@Override
-				public void beginComposite() {
-					parentModifStack.beginComposite();
-				}
+			@Override
+			public void invalidate() {
+				ModificationStack childModifStack = new ModificationStack(null);
+				childModifStack.invalidate();
+				Boolean childModifAccepted = childModifAcceptedGetter.get();
+				ValueReturnMode childValueReturnMode = childValueReturnModeGetter.get();
+				Boolean childValueNew = childValueNewGetter.get();
+				IModification commitModif = commitModifGetter.get();
+				String childModifTitle = null;
+				IInfo childModifTarget = childModifTargetGetter.get();
+				ModificationStack parentModifStack = parentModifStackGetter.get();
+				ReflectionUIUtils.integrateSubModifications(reflectionUI, parentModifStack, childModifStack,
+						childModifAccepted, childValueReturnMode, childValueNew, commitModif, childModifTarget,
+						childModifTitle);
+			}
 
-				@Override
-				public boolean endComposite(IInfo childModifTarget, String title, UndoOrder order) {
-					return parentModifStack.endComposite(childModifTarget, title, order);
-				}
-
-				@Override
-				public void abortComposite() {
-					parentModifStack.abortComposite();
-				}
-
-				@Override
-				public void invalidate() {
-					ModificationStack childModifStack = new ModificationStack(null);
-					childModifStack.invalidate();
-					Boolean childModifAccepted = childModifAcceptedGetter.get();
-					ValueReturnMode childValueReturnMode = childValueReturnModeGetter.get();
-					Boolean childValueNew = childValueNewGetter.get();
-					IModification commitModif = commitModifGetter.get();
-					String childModifTitle = null;
-					IInfo childModifTarget = childModifTargetGetter.get();
-					ReflectionUIUtils.integrateSubModifications(reflectionUI, parentModifStack, childModifStack,
-							childModifAccepted, childValueReturnMode, childValueNew, commitModif, childModifTarget,
-							childModifTitle);
-				}
-
-			});
-		}
+		});
 	}
 
 	public static void handleComponentSizeChange(Component c) {

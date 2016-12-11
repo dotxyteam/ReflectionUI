@@ -341,8 +341,14 @@ public class SwingRenderer {
 	}
 
 	public JPanel createForm(final Object object, IInfoCollectionSettings settings) {
-		final ModificationStack modifStack = new ModificationStack(getObjectTitle(object));
+		final String formTitle = "Form: " + ReflectionUIUtils.toString(reflectionUI, object);
+		final ModificationStack modifStack = new ModificationStack(formTitle);
 		JPanel result = new JPanel() {
+
+			@Override
+			public String toString() {
+				return formTitle;
+			}
 
 			private static final long serialVersionUID = 1L;
 			JPanel form = this;
@@ -1233,40 +1239,62 @@ public class SwingRenderer {
 	}
 
 	public void refreshAllFieldControls(JPanel form, boolean recreate) {
-		int focusedFieldControlPaceHolderIndex = getFocusedFieldControlPaceHolderIndex(form);
-		Object focusDetails = null;
-		Class<?> focusedControlClass = null;
-		{
-			if (focusedFieldControlPaceHolderIndex != -1) {
-				final FieldControlPlaceHolder focusedFieldControlPaceHolder = getFieldControlPlaceHolders(form)
-						.get(focusedFieldControlPaceHolderIndex);
-				Component focusedFieldControl = focusedFieldControlPaceHolder.getFieldControl();
-				if (focusedFieldControl instanceof IAdvancedFieldControl) {
-					focusDetails = ((IAdvancedFieldControl) focusedFieldControl).getFocusDetails();
-					focusedControlClass = focusedFieldControl.getClass();
-				}
-			}
-		}
+		Object formFocusDetails = getFormFocusDetails(form);
 
 		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
 			fieldControlPlaceHolder.refreshUI(recreate);
 			updateFieldControlLayout(fieldControlPlaceHolder);
 		}
 
-		if (focusedFieldControlPaceHolderIndex != -1) {
-			final FieldControlPlaceHolder fieldControlPaceHolderToFocusOn = getFieldControlPlaceHolders(form)
-					.get(focusedFieldControlPaceHolderIndex);
-			fieldControlPaceHolderToFocusOn.requestFocus();
-			if (focusDetails != null) {
-				Component focusedFieldControl = fieldControlPaceHolderToFocusOn.getFieldControl();
-				if (focusedFieldControl.getClass().equals(focusedControlClass)) {
-					if (focusedFieldControl instanceof IAdvancedFieldControl) {
-						((IAdvancedFieldControl) focusedFieldControl).requestDetailedFocus(focusDetails);
-					}
+		if (formFocusDetails != null) {
+			setFormFocusDetails(form, formFocusDetails);
+		}
+	}
+
+	
+	public Object getFormFocusDetails(JPanel form) {
+		int focusedFieldIndex = getFocusedFieldControlPaceHolderIndex(form);
+		if (focusedFieldIndex == -1) {
+			return null;
+		}
+		Object focusedFieldFocusDetails = null;
+		Class<?> focusedFieldControlClass = null;
+		{
+			final FieldControlPlaceHolder focusedFieldControlPaceHolder = getFieldControlPlaceHolders(form)
+					.get(focusedFieldIndex);
+			Component focusedFieldControl = focusedFieldControlPaceHolder.getFieldControl();
+			if (focusedFieldControl instanceof IAdvancedFieldControl) {
+				focusedFieldFocusDetails = ((IAdvancedFieldControl) focusedFieldControl).getFocusDetails();
+				focusedFieldControlClass = focusedFieldControl.getClass();
+			}
+		}
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("focusedFieldIndex", focusedFieldIndex);
+		result.put("focusedFieldControlClass", focusedFieldControlClass);
+		result.put("focusedFieldFocusDetails", focusedFieldFocusDetails);
+		return result;
+	}
+	
+	public void setFormFocusDetails(JPanel form, Object focusDetails) {
+		@SuppressWarnings("unchecked")
+		Map<String, Object> map = (Map<String, Object>) focusDetails;
+		int focusedFieldIndex = (Integer)map.get("focusedFieldIndex");
+		Class<?> focusedFieldControlClass = (Class<?>) map.get("focusedFieldControlClass");
+		Object focusedFieldFocusDetails = map.get("focusedFieldFocusDetails");
+		
+		FieldControlPlaceHolder fieldControlPaceHolderToFocusOn = getFieldControlPlaceHolders(form)
+				.get(focusedFieldIndex);
+		fieldControlPaceHolderToFocusOn.requestFocus();
+		if (focusedFieldFocusDetails != null) {
+			Component focusedFieldControl = fieldControlPaceHolderToFocusOn.getFieldControl();
+			if (focusedFieldControl.getClass().equals(focusedFieldControlClass)) {
+				if (focusedFieldControl instanceof IAdvancedFieldControl) {
+					((IAdvancedFieldControl) focusedFieldControl).requestDetailedFocus(focusedFieldFocusDetails);
 				}
 			}
 		}
 	}
+
 
 	public void refreshFieldControlsByName(JPanel form, String fieldName, boolean recreate) {
 		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {

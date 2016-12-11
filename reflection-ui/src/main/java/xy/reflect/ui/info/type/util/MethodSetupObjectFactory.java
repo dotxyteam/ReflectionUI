@@ -138,7 +138,7 @@ public class MethodSetupObjectFactory {
 		return MethodSetupObjectFactory.class.getSimpleName() + " [method=" + method + "]";
 	}
 
-	protected static class Instance {
+	protected class Instance {
 		protected Object methodOwner;
 		protected InvocationData invocationData;
 

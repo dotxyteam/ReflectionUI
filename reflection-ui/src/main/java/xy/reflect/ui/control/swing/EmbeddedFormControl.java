@@ -55,26 +55,16 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 
 	@Override
 	public Object getFocusDetails() {
-		int focusedFieldControlIndex = swingRenderer.getFocusedFieldControlPaceHolderIndex(subForm);
-		if (focusedFieldControlIndex == -1) {
-			return null;
-		}
-		Object focusedFieldControlDetails = null;
-		Class<?> focusedFieldControlClass = null;
-		{
-			Component focusedFieldControl = swingRenderer.getFieldControlPlaceHolders(subForm)
-					.get(focusedFieldControlIndex).getFieldControl();
-			if (focusedFieldControl instanceof IAdvancedFieldControl) {
-				focusedFieldControlDetails = ((IAdvancedFieldControl) focusedFieldControl).getFocusDetails();
-			}
-		}
 		ITypeInfo subFormObjectType = swingRenderer.getReflectionUI()
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(subFormObject));
+		Object subFormFocusDetails = swingRenderer.getFormFocusDetails(subForm);
+		if(subFormFocusDetails == null){
+			return null;
+		}
+		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("subFormObjectType", subFormObjectType);
-		result.put("focusedFieldControlIndex", focusedFieldControlIndex);
-		result.put("focusedFieldControlDetails", focusedFieldControlDetails);
-		result.put("focusedFieldControlClass", focusedFieldControlClass);
+		result.put("subFormFocusDetails", subFormFocusDetails);
 		return result;
 	}
 
@@ -83,21 +73,12 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 		@SuppressWarnings("unchecked")
 		Map<String, Object> focusDetails = (Map<String, Object>) value;
 		ITypeInfo subFormObjectType = (ITypeInfo) focusDetails.get("subFormObjectType");
-		int focusedFieldControlIndex = (Integer) focusDetails.get("focusedFieldControlIndex");
-		Object focusedFieldControlDetails = focusDetails.get("focusedFieldControlDetails");
-		Class<?> focusedFieldControlClass = (Class<?>) focusDetails.get("focusedFieldControlClass");
+		Object subFormFocusDetails = focusDetails.get("subFormFocusDetails");
+		
 		ITypeInfo currentSubFormObjectType = swingRenderer.getReflectionUI()
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(subFormObject));
 		if (subFormObjectType.equals(currentSubFormObjectType)) {
-			List<FieldControlPlaceHolder> fieldControlPlaceHolders = swingRenderer.getFieldControlPlaceHolders(subForm);
-			FieldControlPlaceHolder fieldControlPlaceHolder = fieldControlPlaceHolders.get(focusedFieldControlIndex);
-			fieldControlPlaceHolder.requestFocus();
-			if (focusedFieldControlDetails != null) {
-				Component fieldControl = fieldControlPlaceHolder.getFieldControl();
-				if (fieldControl.getClass().equals(focusedFieldControlClass)) {
-					((IAdvancedFieldControl) fieldControl).requestDetailedFocus(focusedFieldControlDetails);
-				}
-			}
+			swingRenderer.setFormFocusDetails(subForm, subFormFocusDetails);
 		}
 	}
 
@@ -147,9 +128,15 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 							.getTitle(SwingRendererUtils.getControlFormAwareField(EmbeddedFormControl.this));
 				}
 			};
+			Accessor<ModificationStack> parentModifStackGetter = new Accessor<ModificationStack>() {
+				@Override
+				public ModificationStack get() {
+					return SwingRendererUtils.findParentFormModificationStack(EmbeddedFormControl.this, swingRenderer);
+				}
+			};
 			SwingRendererUtils.forwardSubModifications(swingRenderer.getReflectionUI(), subForm,
 					childModifAcceptedGetter, childValueReturnModeGetter, childValueNewGetter, commitModifGetter,
-					childModifTargetGetter, childModifTitleGetter, swingRenderer);
+					childModifTargetGetter, childModifTitleGetter, parentModifStackGetter, swingRenderer);
 		}
 	}
 
