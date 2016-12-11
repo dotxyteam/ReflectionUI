@@ -46,11 +46,11 @@ import com.thoughtworks.paranamer.DefaultParanamer;
 import com.thoughtworks.paranamer.Paranamer;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
@@ -760,8 +760,24 @@ public class ReflectionUIUtils {
 		return true;
 	}
 
-	public static Object onTypeInstanciationRequest(ReflectionUI reflectionUI, ITypeInfo type) {
-		return new SwingRenderer(reflectionUI).onTypeInstanciationRequest(null, type, true);
+	public static Object createDefaultInstance(ReflectionUI reflectionUI, ITypeInfo type) {
+		try {
+			if (!type.isConcrete()) {
+				throw new ReflectionUIError("Cannot instanciate abstract type");
+			}
+
+			IMethodInfo constructor = getZeroParameterConstrucor(type);
+			if (constructor == null) {
+				throw new ReflectionUIError("Default constructor not found");
+			}
+			
+			return constructor.invoke(null, new InvocationData());
+
+		} catch (Throwable t) {
+			throw new ReflectionUIError("Could not create an instance of type '" + type + "': " + t.toString(), t);
+
+		}
+
 	}
 
 	public static <T extends IInfo> Comparator<T> getInfosComparator(final List<String> expectedOrderSpecification,

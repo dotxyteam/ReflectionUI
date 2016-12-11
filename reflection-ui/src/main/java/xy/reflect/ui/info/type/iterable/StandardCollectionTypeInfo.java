@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -209,19 +208,17 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	}
 
 	@Override
-	public List<AbstractListAction> getDynamicActions(Object object, IFieldInfo field,
-			List<? extends ItemPosition> selection) {
+	public List<AbstractListAction> getDynamicActions(List<? extends ItemPosition> selection) {
 		return Collections.emptyList();
 	}
 
 	@Override
-	public List<AbstractListProperty> getDynamicProperties(Object object, IFieldInfo field,
-			List<? extends ItemPosition> selection) {
+	public List<AbstractListProperty> getDynamicProperties(List<? extends ItemPosition> selection) {
 		return Collections.emptyList();
 	}
 
 	@Override
-	public List<IMethodInfo> getObjectSpecificItemConstructors(Object object, IFieldInfo field) {
+	public List<IMethodInfo> getAdditionalItemConstructors(Object listValue) {
 		return Collections.emptyList();
 	}
 

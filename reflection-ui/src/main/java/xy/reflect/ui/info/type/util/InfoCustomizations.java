@@ -1725,9 +1725,9 @@ public final class InfoCustomizations {
 		}
 
 		@Override
-		protected List<AbstractListProperty> getDynamicProperties(IListTypeInfo listType, Object object,
-				IFieldInfo listField, List<? extends ItemPosition> selection) {
-			List<AbstractListProperty> result = super.getDynamicProperties(listType, object, listField, selection);
+		protected List<AbstractListProperty> getDynamicProperties(IListTypeInfo listType,
+				List<? extends ItemPosition> selection) {
+			List<AbstractListProperty> result = super.getDynamicProperties(listType, selection);
 			result = new ArrayList<AbstractListProperty>(result);
 			ITypeInfo itemType = listType.getItemType();
 			final ListCustomization l = getListCustomization(listType.getName(),
@@ -1768,7 +1768,7 @@ public final class InfoCustomizations {
 									itemField.setValue(item, value);
 									Object[] listRawValue = itemPosition.getContainingListRawValue();
 									listRawValue[itemPosition.getIndex()] = item;
-									new UpdateListValueModification(reflectionUI, itemPosition, listRawValue)
+									new UpdateListValueModification(itemPosition, listRawValue, this)
 											.applyAndGetOpposite();
 								}
 
@@ -1791,7 +1791,7 @@ public final class InfoCustomizations {
 								@Override
 								public ValueReturnMode getValueReturnMode() {
 									return ValueReturnMode.combine(
-											itemPosition.getContainingListField().getValueReturnMode(),
+											itemPosition.getContainingListData().getValueReturnMode(),
 											itemField.getValueReturnMode());
 								}
 
@@ -1866,9 +1866,9 @@ public final class InfoCustomizations {
 		}
 
 		@Override
-		protected List<AbstractListAction> getDynamicActions(IListTypeInfo listType, Object object, IFieldInfo field,
+		protected List<AbstractListAction> getDynamicActions(IListTypeInfo listType,
 				List<? extends ItemPosition> selection) {
-			List<AbstractListAction> result = super.getDynamicActions(listType, object, field, selection);
+			List<AbstractListAction> result = super.getDynamicActions(listType, selection);
 			result = new ArrayList<AbstractListAction>(result);
 			ITypeInfo itemType = listType.getItemType();
 			final ListCustomization l = getListCustomization(listType.getName(),
@@ -1916,7 +1916,7 @@ public final class InfoCustomizations {
 								@Override
 								public ValueReturnMode getValueReturnMode() {
 									return ValueReturnMode.combine(
-											itemPosition.getContainingListField().getValueReturnMode(),
+											itemPosition.getContainingListData().getValueReturnMode(),
 											method.getValueReturnMode());
 								}
 
@@ -1946,8 +1946,8 @@ public final class InfoCustomizations {
 									Object result = method.invoke(item, invocationData);
 									Object[] listRawValue = itemPosition.getContainingListRawValue();
 									listRawValue[itemPosition.getIndex()] = item;
-									oppositeUpdateListValueModification = new UpdateListValueModification(reflectionUI,
-											itemPosition, listRawValue).applyAndGetOpposite();
+									oppositeUpdateListValueModification = new UpdateListValueModification(itemPosition,
+											listRawValue, this).applyAndGetOpposite();
 									return result;
 								}
 

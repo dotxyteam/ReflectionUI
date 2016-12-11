@@ -14,6 +14,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import xy.reflect.ui.control.data.ControlDataProxy;
+import xy.reflect.ui.control.data.IControlData;
+import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -23,7 +26,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.undo.SetFieldValueModification;
+import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -35,17 +38,15 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
-	protected Object object;
-	protected IFieldInfo field;
+	protected IControlData data;
 
 	protected Component statusControl;
 	protected Component iconControl;
 	protected Component button;
 
-	public DialogAccessControl(final SwingRenderer swingRenderer, final Object object, final IFieldInfo field) {
+	public DialogAccessControl(final SwingRenderer swingRenderer, final IControlData data) {
 		this.swingRenderer = swingRenderer;
-		this.object = object;
-		this.field = field;
+		this.data = data;
 		setLayout(new BorderLayout());
 
 		statusControl = createStatusControl();
@@ -130,16 +131,11 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	protected Component createStatusControl() {
-		return new TextControl(swingRenderer, object, new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
+		return new TextControl(swingRenderer, new ControlDataProxy(IControlData.NULL_CONTROL_DATA) {
 
 			@Override
-			public boolean isNullable() {
-				return false;
-			}
-
-			@Override
-			public Object getValue(Object object) {
-				Object fieldValue = field.getValue(object);
+			public Object getValue() {
+				Object fieldValue = data.getValue();
 				return ReflectionUIUtils.toString(swingRenderer.getReflectionUI(), fieldValue);
 			}
 
@@ -152,32 +148,33 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	protected void openDialog() {
-		Object oldValue = field.getValue(object);
+		Object oldValue = data.getValue();
 		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, this, oldValue);
-		dialogBuilder.setGetOnly(field.isGetOnly());
+		dialogBuilder.setGetOnly(data.isGetOnly());
 		boolean cancellable = true;
 		{
 			if (!dialogBuilder.getDisplayValueType().isModificationStackAccessible()) {
 				cancellable = false;
 			}
-			if (field.isGetOnly() && (field.getValueReturnMode() == ValueReturnMode.COPY)) {
+			if (data.isGetOnly() && (data.getValueReturnMode() == ValueReturnMode.COPY)) {
 				cancellable = false;
 			}
 		}
 		dialogBuilder.setCancellable(cancellable);
 		swingRenderer.showDialog(dialogBuilder.build(), true);
 
+		IFieldInfo field = SwingRendererUtils.getControlFormAwareField(DialogAccessControl.this);
+		
 		ModificationStack parentModifStack = SwingRendererUtils
 				.findParentFormModificationStack(DialogAccessControl.this, swingRenderer);
 		ModificationStack childModifStack = dialogBuilder.getModificationStack();
-		String childModifTitle = SetFieldValueModification.getTitle(field);
+		String childModifTitle = ControlDataValueModification.getTitle(field);
 		IInfo childModifTarget = field;
 		IModification commitModif;
 		if (field.isGetOnly()) {
 			commitModif = null;
 		} else {
-			commitModif = SetFieldValueModification.create(swingRenderer.getReflectionUI(), object, field,
-					dialogBuilder.getValue());
+			commitModif = new ControlDataValueModification(data, dialogBuilder.getValue(), childModifTarget);
 		}
 		boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.isOkPressed();
 		ValueReturnMode childValueReturnMode = field.getValueReturnMode();
@@ -195,7 +192,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	protected void updateIconControl() {
-		Object fieldValue = field.getValue(object);
+		Object fieldValue = data.getValue();
 		Image iconImage = swingRenderer.getObjectIconImage(fieldValue);
 		if (iconImage != null) {
 			iconImage = SwingRendererUtils.scalePreservingRatio(iconImage, 16, 16, Image.SCALE_SMOOTH);
@@ -217,7 +214,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	@Override
-	public boolean showCaption() {
+	public boolean showCaption(String caption) {
 		return false;
 	}
 

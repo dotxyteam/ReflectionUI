@@ -2,12 +2,11 @@ package xy.reflect.ui.control.swing;
 
 import java.awt.Component;
 import java.io.File;
-import java.util.Collections;
-import java.util.Map;
 
 import javax.swing.JFileChooser;
-import xy.reflect.ui.info.field.FieldInfoProxy;
-import xy.reflect.ui.info.field.IFieldInfo;
+
+import xy.reflect.ui.control.data.ControlDataProxy;
+import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.FileTypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
@@ -21,32 +20,27 @@ public class FileControl extends DialogAccessControl implements IAdvancedFieldCo
 
 	protected static File lastDirectory = new File(".").getAbsoluteFile();
 
-	public FileControl(SwingRenderer swingRenderer, Object object, IFieldInfo field) {
-		super(swingRenderer, object, field);
+	public FileControl(SwingRenderer swingRenderer, IControlData data) {
+		super(swingRenderer, data);
 	}
 
 	@Override
 	protected TextControl createStatusControl() {
-		return new TextControl(swingRenderer, object, new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
+		return new TextControl(swingRenderer, new ControlDataProxy(IControlData.NULL_CONTROL_DATA) {
 
 			@Override
-			public void setValue(Object object, Object value) {
-				field.setValue(object, new File((String) value));
+			public void setValue(Object value) {
+				data.setValue(new File((String) value));
 			}
 
 			@Override
 			public boolean isGetOnly() {
-				return field.isGetOnly();
+				return data.isGetOnly();
 			}
 
 			@Override
-			public boolean isNullable() {
-				return false;
-			}
-
-			@Override
-			public Object getValue(Object object) {
-				File currentFile = (File) field.getValue(object);
+			public Object getValue() {
+				File currentFile = (File) data.getValue();
 				return currentFile.getPath();
 			}
 
@@ -54,18 +48,13 @@ public class FileControl extends DialogAccessControl implements IAdvancedFieldCo
 			public ITypeInfo getType() {
 				return new TextualTypeInfo(swingRenderer.getReflectionUI(), String.class);
 			}
-
-			@Override
-			public Map<String, Object> getSpecificProperties() {
-				return Collections.emptyMap();
-			}
 		});
 	}
 
 	@Override
 	protected Component createButton() {
 		Component result = super.createButton();
-		if (field.isGetOnly()) {
+		if (data.isGetOnly()) {
 			result.setEnabled(false);
 		}
 		return result;
@@ -85,7 +74,7 @@ public class FileControl extends DialogAccessControl implements IAdvancedFieldCo
 	@Override
 	protected void openDialog() {
 		final JFileChooser fileChooser = new JFileChooser();
-		File currentFile = (File) field.getValue(object);
+		File currentFile = (File) data.getValue();
 		fileChooser.setCurrentDirectory(lastDirectory);
 		configureFileChooser(fileChooser, currentFile);
 		int returnVal = fileChooser.showDialog(this,
@@ -94,7 +83,7 @@ public class FileControl extends DialogAccessControl implements IAdvancedFieldCo
 			return;
 		}
 		lastDirectory = fileChooser.getCurrentDirectory();
-		field.setValue(object, fileChooser.getSelectedFile());
+		data.setValue(fileChooser.getSelectedFile());
 		updateControls();
 	}
 
@@ -104,7 +93,7 @@ public class FileControl extends DialogAccessControl implements IAdvancedFieldCo
 	}
 
 	@Override
-	public boolean showCaption() {
+	public boolean showCaption(String caption) {
 		return false;
 	}
 

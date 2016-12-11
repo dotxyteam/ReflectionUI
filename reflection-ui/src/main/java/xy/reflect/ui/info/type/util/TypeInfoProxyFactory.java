@@ -243,18 +243,17 @@ public class TypeInfoProxyFactory {
 		return type.canReplaceContent();
 	}
 
-	protected List<AbstractListAction> getDynamicActions(IListTypeInfo type, Object object, IFieldInfo field,
-			List<? extends ItemPosition> selection) {
-		return type.getDynamicActions(object, field, selection);
+	protected List<AbstractListAction> getDynamicActions(IListTypeInfo type, List<? extends ItemPosition> selection) {
+		return type.getDynamicActions(selection);
 	}
 
-	protected List<AbstractListProperty> getDynamicProperties(IListTypeInfo type, Object object, IFieldInfo field,
+	protected List<AbstractListProperty> getDynamicProperties(IListTypeInfo type,
 			List<? extends ItemPosition> selection) {
-		return type.getDynamicProperties(object, field, selection);
+		return type.getDynamicProperties(selection);
 	}
 
-	protected List<IMethodInfo> getSpecificItemConstructors(IListTypeInfo type, Object object, IFieldInfo field) {
-		return type.getObjectSpecificItemConstructors(object, field);
+	protected List<IMethodInfo> getAdditionalItemConstructors(IListTypeInfo type, Object listValue) {
+		return type.getAdditionalItemConstructors(listValue);
 	}
 
 	public boolean isStructureMutable(IListTypeInfo type) {
@@ -697,20 +696,18 @@ public class TypeInfoProxyFactory {
 		}
 
 		@Override
-		public List<AbstractListAction> getDynamicActions(Object object, IFieldInfo field,
-				List<? extends ItemPosition> selection) {
-			return TypeInfoProxyFactory.this.getDynamicActions((IListTypeInfo) type, object, field, selection);
+		public List<AbstractListAction> getDynamicActions(List<? extends ItemPosition> selection) {
+			return TypeInfoProxyFactory.this.getDynamicActions((IListTypeInfo) type, selection);
 		}
 
 		@Override
-		public List<AbstractListProperty> getDynamicProperties(Object object, IFieldInfo field,
-				List<? extends ItemPosition> selection) {
-			return TypeInfoProxyFactory.this.getDynamicProperties((IListTypeInfo) type, object, field, selection);
+		public List<AbstractListProperty> getDynamicProperties(List<? extends ItemPosition> selection) {
+			return TypeInfoProxyFactory.this.getDynamicProperties((IListTypeInfo) type, selection);
 		}
 
 		@Override
-		public List<IMethodInfo> getObjectSpecificItemConstructors(Object object, IFieldInfo field) {
-			return TypeInfoProxyFactory.this.getSpecificItemConstructors((IListTypeInfo) type, object, field);
+		public List<IMethodInfo> getAdditionalItemConstructors(Object listValue) {
+			return TypeInfoProxyFactory.this.getAdditionalItemConstructors((IListTypeInfo) type, listValue);
 		}
 
 	}

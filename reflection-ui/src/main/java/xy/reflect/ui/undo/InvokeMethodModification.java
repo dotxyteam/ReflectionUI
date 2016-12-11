@@ -1,71 +1,52 @@
 package xy.reflect.ui.undo;
 
-import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 
-public class InvokeMethodModification implements IModification {
+public class InvokeMethodModification extends AbstractModification {
 
-	protected Runnable doJob;
-	protected Runnable undoJob;
-	protected String title;
+	protected Object object;
 	protected IMethodInfo method;
+	protected InvocationData invocationData;
 
-	public static InvokeMethodModification create(final Object object, final IMethodInfo method,
-			final InvocationData invocationData) {
-		String title = getTitle(method);
-		Runnable doJob = new Runnable() {
+	public static String getTitle(IMethodInfo method) {
+		return method.getCaption();
+	}
+
+	public InvokeMethodModification(Object object, IMethodInfo method, InvocationData invocationData) {
+		super(method);
+		this.object = object;
+		this.method = method;
+		this.invocationData = invocationData;
+	}
+
+	@Override
+	protected Runnable createDoJob() {
+		return new Runnable() {
 			@Override
 			public void run() {
 				method.invoke(object, invocationData);
 			}
 		};
-		Runnable undoJob = method.getUndoJob(object, invocationData);
-		return new InvokeMethodModification(title, method, doJob, undoJob);
-	}
-	
-
-
-	public static String getTitle(IMethodInfo method) {
-		return  method.getCaption();
-	}
-
-	protected InvokeMethodModification(String title, IMethodInfo method, Runnable doJob, Runnable undoJob) {
-		super();
-		this.title = title;
-		this.method = method;
-		this.doJob = doJob;
-		this.undoJob = undoJob;
 	}
 
 	@Override
-	public InvokeMethodModification applyAndGetOpposite() {
-		doJob.run();
-		return new InvokeMethodModification(ModificationStack.getUndoTitle(title), method, undoJob, doJob);
-	}
-
-	@Override
-	public boolean isNull() {
-		return false;
+	protected Runnable createUndoJob() {
+		return method.getUndoJob(object, invocationData);
 	}
 
 	@Override
 	public String getTitle() {
-		return title;
-	}
-
-	@Override
-	public IInfo getTarget() {
-		return method;
+		return "Execute '" + method.getCaption() + "'";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((doJob == null) ? 0 : doJob.hashCode());
+		result = prime * result + ((invocationData == null) ? 0 : invocationData.hashCode());
 		result = prime * result + ((method == null) ? 0 : method.hashCode());
-		result = prime * result + ((undoJob == null) ? 0 : undoJob.hashCode());
+		result = prime * result + ((object == null) ? 0 : object.hashCode());
 		return result;
 	}
 
@@ -78,27 +59,22 @@ public class InvokeMethodModification implements IModification {
 		if (getClass() != obj.getClass())
 			return false;
 		InvokeMethodModification other = (InvokeMethodModification) obj;
-		if (doJob == null) {
-			if (other.doJob != null)
+		if (invocationData == null) {
+			if (other.invocationData != null)
 				return false;
-		} else if (!doJob.equals(other.doJob))
+		} else if (!invocationData.equals(other.invocationData))
 			return false;
 		if (method == null) {
 			if (other.method != null)
 				return false;
 		} else if (!method.equals(other.method))
 			return false;
-		if (undoJob == null) {
-			if (other.undoJob != null)
+		if (object == null) {
+			if (other.object != null)
 				return false;
-		} else if (!undoJob.equals(other.undoJob))
+		} else if (!object.equals(other.object))
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return getTitle();
 	}
 
 }

@@ -51,7 +51,6 @@ public class ObjectDialogBuilder {
 	protected Object getDisplayValue() {
 		ITypeInfo valueType = getValueType();
 		if (SwingRendererUtils.hasCustomControl(value, valueType, swingRenderer)) {
-			String fieldCaption = swingRenderer.getDefaultFieldCaption(value);
 			Accessor<Object> valueAccessor = new Accessor<Object>() {
 				@Override
 				public Object get() {
@@ -66,7 +65,7 @@ public class ObjectDialogBuilder {
 			EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
 					valueType);
 			encapsulation.setTypeCaption(getTitle());
-			encapsulation.setFieldCaption(fieldCaption);
+			encapsulation.setFieldCaption(swingRenderer.getDefaultFieldCaption(value));
 			encapsulation.setFieldGetOnly(getOnly);
 			encapsulation.setFieldNullable(false);
 			return encapsulation.getInstance(valueAccessor);

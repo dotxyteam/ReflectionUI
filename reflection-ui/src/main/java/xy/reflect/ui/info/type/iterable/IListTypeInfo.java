@@ -2,7 +2,6 @@ package xy.reflect.ui.info.type.iterable;
 
 import java.util.List;
 
-import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
@@ -25,20 +24,21 @@ public interface IListTypeInfo extends ITypeInfo {
 	void replaceContent(Object listValue, Object[] array);
 
 	IListStructuralInfo getStructuralInfo();
-	
+
 	IListItemDetailsAccessMode getDetailsAccessMode();
 
-	boolean isOrdered();
+	boolean isOrdered(); 
+
 	boolean canAdd();
+
 	boolean canRemove();
+
 	boolean canViewItemDetails();
 
-	List<AbstractListAction> getDynamicActions(Object object, IFieldInfo field,
-			List<? extends ItemPosition> selection);
+	List<AbstractListAction> getDynamicActions(List<? extends ItemPosition> selection);
 
-	List<AbstractListProperty> getDynamicProperties(Object object, IFieldInfo field,
-			List<? extends ItemPosition> selection);
+	List<AbstractListProperty> getDynamicProperties(List<? extends ItemPosition> selection);
 
-	List<IMethodInfo> getObjectSpecificItemConstructors(Object object, IFieldInfo field);
+	List<IMethodInfo> getAdditionalItemConstructors(Object listValue);
 
 }

@@ -8,14 +8,13 @@ import javax.swing.JColorChooser;
 import javax.swing.JLabel;
 import javax.swing.border.EtchedBorder;
 
-import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.control.data.IControlData;
 
 public class ColorControl extends DialogAccessControl{
 	protected static final long serialVersionUID = 1L;
 
-	public ColorControl(SwingRenderer swingRenderer, Object object,
-			IFieldInfo field) {
-		super(swingRenderer, object, field);
+	public ColorControl(SwingRenderer swingRenderer, IControlData data) {
+		super(swingRenderer, data);
 	}
 
 	@Override
@@ -30,7 +29,7 @@ public class ColorControl extends DialogAccessControl{
 	
 	@Override
 	protected void updateStatusControl() {
-		((JLabel)statusControl).setBackground((Color) field.getValue(object));
+		((JLabel)statusControl).setBackground((Color) data.getValue());
 	}
 
 	@Override
@@ -50,7 +49,7 @@ public class ColorControl extends DialogAccessControl{
 		if (newColor == null) {
 			return;
 		}
-		field.setValue(object, newColor);
+		data.setValue(newColor);
 		updateControls();
 	}
 

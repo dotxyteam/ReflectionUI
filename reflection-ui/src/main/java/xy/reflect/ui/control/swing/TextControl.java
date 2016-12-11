@@ -16,7 +16,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
-import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
@@ -25,18 +25,16 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
-	protected Object object;
-	protected IFieldInfo field;
+	protected IControlData data;
 
 	protected JTextArea textComponent;
 	protected boolean ignoreEditEvents = true;
 	protected Border textFieldNormalBorder;
 
-	public TextControl(final SwingRenderer swingRenderer, final Object object, final IFieldInfo field) {
+	public TextControl(final SwingRenderer swingRenderer, final IControlData data) {
 		this.swingRenderer = swingRenderer;
-		this.object = object;
-		this.field = field;
-
+		this.data = data;
+		
 		setLayout(new BorderLayout());
 
 		textComponent = createTextComponent();
@@ -64,7 +62,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		};
 		add(scrollPane, BorderLayout.CENTER);
 		textFieldNormalBorder = textComponent.getBorder();
-		if (field.isGetOnly()) {
+		if (data.isGetOnly()) {
 			textComponent.setEditable(false);
 			textComponent.setBackground(SwingRendererUtils
 					.fixSeveralColorRenderingIssues(ReflectionUIUtils.getDisabledTextBackgroundColor()));
@@ -106,7 +104,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 
 	protected void updateTextComponent() {
 		ignoreEditEvents = true;
-		String newText = (String) field.getValue(object);
+		String newText = (String) data.getValue();
 		if (!ReflectionUIUtils.equalsOrBothNull(textComponent.getText(), newText)) {
 			int lastCaretPosition = textComponent.getCaretPosition();
 			textComponent.setText(newText);
@@ -152,7 +150,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 
 	protected void onTextChange(String newStringValue) {
 		try {
-			field.setValue(object, newStringValue);
+			data.setValue(newStringValue);
 		} catch (Throwable t) {
 			displayError(new ReflectionUIError(t));
 		}
@@ -167,7 +165,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public boolean showCaption() {
+	public boolean showCaption(String caption) {
 		return false;
 	}
 

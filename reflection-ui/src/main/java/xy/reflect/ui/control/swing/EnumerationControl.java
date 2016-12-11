@@ -17,7 +17,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
-import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.util.SwingRendererUtils;
@@ -26,16 +26,14 @@ public class EnumerationControl extends JPanel {
 	protected static final long serialVersionUID = 1L;
 	protected IEnumerationTypeInfo enumType;
 	protected SwingRenderer swingRenderer;
-	protected Object object;
-	protected IFieldInfo field;
+	protected IControlData data;
 	protected JComboBox comboBox;
 
 	@SuppressWarnings({})
-	public EnumerationControl(final SwingRenderer swingRenderer, final Object object, final IFieldInfo field) {
+	public EnumerationControl(final SwingRenderer swingRenderer, final IControlData data) {
 		this.swingRenderer = swingRenderer;
-		this.object = object;
-		this.field = field;
-		this.enumType = (IEnumerationTypeInfo) field.getType();
+		this.data = data;
+		this.enumType = (IEnumerationTypeInfo) data.getType();
 
 		initialize();
 	}
@@ -46,13 +44,13 @@ public class EnumerationControl extends JPanel {
 		comboBox = new JComboBox();
 		add(comboBox, BorderLayout.CENTER);
 
-		Object initialValue = field.getValue(object);
+		Object initialValue = data.getValue();
 		List<Object> possibleValues = new ArrayList<Object>(Arrays.asList(enumType.getPossibleValues()));
-		if (field.isNullable()) {
+		if (data.isNullable()) {
 			possibleValues.add(0, null);
 		}
 		comboBox.setModel(new DefaultComboBoxModel(possibleValues.toArray()));
-		if (field.isGetOnly()) {
+		if (data.isGetOnly()) {
 			comboBox.setEnabled(false);
 		} else {
 			comboBox.setBackground(
@@ -102,7 +100,7 @@ public class EnumerationControl extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Object selected = comboBox.getSelectedItem();
-					field.setValue(object, selected);
+					data.setValue(selected);
 				} catch (Throwable t) {
 					swingRenderer.handleExceptionsFromDisplayedUI(EnumerationControl.this, t);
 				}

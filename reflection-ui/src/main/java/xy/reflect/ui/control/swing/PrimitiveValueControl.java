@@ -3,8 +3,8 @@ package xy.reflect.ui.control.swing;
 import java.lang.reflect.InvocationTargetException;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.field.FieldInfoProxy;
-import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.control.data.ControlDataProxy;
+import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ClassUtils;
@@ -14,19 +14,19 @@ public class PrimitiveValueControl extends TextControl {
 
 	private static final long serialVersionUID = 1L;
 
-	public PrimitiveValueControl(SwingRenderer swingRenderer, Object object, IFieldInfo field,
+	public PrimitiveValueControl(SwingRenderer swingRenderer, IControlData data,
 			Class<? extends Object> primitiveJavaType) {
-		super(swingRenderer, object,
-				handleFieldValueConversions(swingRenderer.getReflectionUI(), field, primitiveJavaType));
+		super(swingRenderer, 
+				handleValueConversions(swingRenderer.getReflectionUI(), data, primitiveJavaType));
 	}
 
-	protected static IFieldInfo handleFieldValueConversions(final ReflectionUI reflectionUI, IFieldInfo field,
+	protected static IControlData handleValueConversions(final ReflectionUI reflectionUI, IControlData data,
 			final Class<?> primitiveJavaType) {
-		return new FieldInfoProxy(field) {
+		return new ControlDataProxy(data) {
 
 			@Override
-			public Object getValue(Object object) {
-				Object result = super.getValue(object);
+			public Object getValue() {
+				Object result = super.getValue();
 				if (result == null) {
 					return result;
 				}
@@ -34,11 +34,11 @@ public class PrimitiveValueControl extends TextControl {
 			}
 
 			@Override
-			public void setValue(Object object, Object value) {
+			public void setValue(Object value) {
 				if (value != null) {
 					value = fromText((String) value, primitiveJavaType);
 				}
-				super.setValue(object, value);
+				super.setValue(value);
 			}
 
 			@Override

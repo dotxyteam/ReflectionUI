@@ -7,6 +7,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
+import xy.reflect.ui.control.data.FieldControlData;
 import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -79,7 +80,7 @@ public class TestIterableTypeInfos  extends AbstractTest{
 
 		IListStructuralInfo itemListStructuralInfo = itemListTypeInfo.getStructuralInfo();
 
-		ItemPosition firstItemPosition = new ItemPosition(itemListInfo, null, 0, this);
+		ItemPosition firstItemPosition = new ItemPosition(null, new FieldControlData(this,itemListInfo), 0);
 		ITypeInfo firstItemType = reflectionUI.getTypeInfo(new JavaTypeInfoSource(itemList.get(0).getClass()));
 		Assert.assertEquals(itemListStructuralInfo.getColumns().get(0).getCellValue(firstItemPosition),
 				firstItemType.getCaption());

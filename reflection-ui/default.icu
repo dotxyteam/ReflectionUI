@@ -103,6 +103,78 @@
         <fieldColumnsAdded>false</fieldColumnsAdded>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
+        <itemTypeName>java.lang.Object</itemTypeName>
+        <listTypeName>java.util.ArrayList</listTypeName>
+        <positionColumnAdded>false</positionColumnAdded>
+        <stringValueColumnAdded>false</stringValueColumnAdded>
+    </listCustomizations>
+    <listCustomizations>
+        <columnCustomizations>
+            <columnName>toStringValue</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
+        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+        <itemTypeColumnAdded>false</itemTypeColumnAdded>
+        <itemTypeName>java.lang.Object</itemTypeName>
+        <listTypeName>java.util.Arrays$ArrayList</listTypeName>
+        <positionColumnAdded>false</positionColumnAdded>
+        <stringValueColumnAdded>false</stringValueColumnAdded>
+    </listCustomizations>
+    <listCustomizations>
+        <columnCustomizations>
+            <columnName>toStringValue</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
+        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+        <itemTypeColumnAdded>false</itemTypeColumnAdded>
+        <itemTypeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;</itemTypeName>
+        <listTypeName>java.util.HashMap</listTypeName>
+        <positionColumnAdded>false</positionColumnAdded>
+        <stringValueColumnAdded>false</stringValueColumnAdded>
+    </listCustomizations>
+    <listCustomizations>
+        <columnCustomizations>
+            <columnName>toStringValue</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
+        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+        <itemTypeColumnAdded>false</itemTypeColumnAdded>
+        <itemTypeName>java.lang.Object</itemTypeName>
+        <listTypeName>java.util.HashSet</listTypeName>
+        <positionColumnAdded>false</positionColumnAdded>
+        <stringValueColumnAdded>false</stringValueColumnAdded>
+    </listCustomizations>
+    <listCustomizations>
+        <columnCustomizations>
+            <columnName>toStringValue</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
+        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+        <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>ReflectionUITest$AbstrcatTestDescendant</itemTypeName>
         <listTypeName>java.util.List</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
@@ -194,6 +266,24 @@
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.lang.Integer</itemTypeName>
+        <listTypeName>java.util.Stack</listTypeName>
+        <positionColumnAdded>false</positionColumnAdded>
+        <stringValueColumnAdded>false</stringValueColumnAdded>
+    </listCustomizations>
+    <listCustomizations>
+        <columnCustomizations>
+            <columnName>toStringValue</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
+        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+        <itemTypeColumnAdded>false</itemTypeColumnAdded>
+        <itemTypeName>java.lang.Object</itemTypeName>
         <listTypeName>java.util.Stack</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
@@ -413,6 +503,16 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=Test 2, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -524,6 +624,16 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@15a191e, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@15ee9e3, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -779,6 +889,16 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@27f394, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -794,6 +914,16 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@2bfa91, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@32087b, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1339,6 +1469,30 @@
                 <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">false</value>
             </entry>
         </specificProperties>
+        <customFieldsOrder>theBooleanPrimitive</customFieldsOrder>
+        <customFieldsOrder>pI</customFieldsOrder>
+        <customFieldsOrder>theFloat</customFieldsOrder>
+        <customFieldsOrder>theBoundedInt</customFieldsOrder>
+        <customFieldsOrder>theInt</customFieldsOrder>
+        <customFieldsOrder>theFile</customFieldsOrder>
+        <customFieldsOrder>theBooleanObject</customFieldsOrder>
+        <customFieldsOrder>theDouble</customFieldsOrder>
+        <customFieldsOrder>theException</customFieldsOrder>
+        <customFieldsOrder>anyObject</customFieldsOrder>
+        <customFieldsOrder>theChoice</customFieldsOrder>
+        <customFieldsOrder>theString</customFieldsOrder>
+        <customFieldsOrder>theDate</customFieldsOrder>
+        <customFieldsOrder>theDatePlus1Day</customFieldsOrder>
+        <customFieldsOrder>theFileList</customFieldsOrder>
+        <customFieldsOrder>theStringList</customFieldsOrder>
+        <customFieldsOrder>theMap</customFieldsOrder>
+        <customFieldsOrder>theTest2Map</customFieldsOrder>
+        <customFieldsOrder>theSet</customFieldsOrder>
+        <customFieldsOrder>theStack</customFieldsOrder>
+        <customFieldsOrder>test2</customFieldsOrder>
+        <customFieldsOrder>test4</customFieldsOrder>
+        <customFieldsOrder>theGenericVector</customFieldsOrder>
+        <customFieldsOrder>theArrayTreeTable</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <fieldName>anyObject</fieldName>
@@ -2057,6 +2211,10 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <typeName>java.lang.Float</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <fieldName>cause</fieldName>
@@ -2175,6 +2333,10 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <typeName>java.lang.NullPointerException</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
         <typeName>java.lang.Object</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2246,6 +2408,18 @@
     </typeCustomizations>
     <typeCustomizations>
         <typeName>java.lang.Throwable</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>java.util.ArrayList</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>java.util.Arrays$ArrayList</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>java.util.Collection</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -2409,6 +2583,14 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <typeName>java.util.HashMap</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>java.util.HashSet</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
         <typeName>java.util.List</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2437,6 +2619,10 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <typeName>xy.reflect.ui.control.swing.PolymorphicControl$1</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
         <typeName>xy.reflect.ui.control.swing.PolymorphicEmbeddedForm$1</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2454,6 +2640,22 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,java.lang.String&gt;</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>key</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>

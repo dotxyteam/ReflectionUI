@@ -1,3 +1,6 @@
+- polymorphiControl:
+	. what if a polymorphic base type is a valid option itself (is concrete)?
+	. what if there is only 1 subtype. use polymorphic control anyway?
 - List Details
 	. view not filtered
 	. Encapsulated type must be list item type, not actualType

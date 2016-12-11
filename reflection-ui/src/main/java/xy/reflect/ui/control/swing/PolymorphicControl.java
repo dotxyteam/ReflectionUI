@@ -10,8 +10,7 @@ import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-import xy.reflect.ui.info.field.HiddenNullableFacetFieldInfoProxy;
-import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory;
@@ -20,12 +19,12 @@ import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-public class PolymorphicControl extends JPanel implements IAdvancedFieldControl {
+public abstract class PolymorphicControl extends JPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
-	protected Object object;
-	protected IFieldInfo field;
+	protected IControlData data;
+	
 	protected List<ITypeInfo> subTypes;
 	protected Map<ITypeInfo, Object> instanceByEnumerationValueCache = new HashMap<ITypeInfo, Object>();
 	protected Component dynamicControl;
@@ -36,11 +35,13 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 	protected ITypeInfo lastInstanceType;
 	protected boolean updatingEnumeration = false;
 
-	public PolymorphicControl(final SwingRenderer swingRenderer, final Object object, final IFieldInfo field) {
+	protected abstract Component createDynamicControl(final ITypeInfo instanceType);
+
+	public PolymorphicControl(final SwingRenderer swingRenderer, final IControlData data) {
 		this.swingRenderer = swingRenderer;
-		this.object = object;
-		this.field = field;
-		this.polymorphicType = field.getType();
+		this.data = data;
+		
+		this.polymorphicType = data.getType();
 		this.subTypes = polymorphicType.getPolymorphicInstanceSubTypes();
 
 		NULL_POLY_TYPE = new DefaultTypeInfo(swingRenderer.getReflectionUI(), Object.class) {
@@ -61,7 +62,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 	protected Component createTypeEnumerationControl() {
 		List<ITypeInfo> possibleValues = new ArrayList<ITypeInfo>(subTypes);
 		{
-			Object instance = field.getValue(object);
+			Object instance = data.getValue();
 			if (instance != null) {
 				ITypeInfo actualFieldValueType = swingRenderer.getReflectionUI()
 						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(instance));
@@ -70,7 +71,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 					possibleValues.add(actualFieldValueType);
 				}
 			}
-			if (PolymorphicControl.this.field.isNullable()) {
+			if (data.isNullable()) {
 				possibleValues.add(0, NULL_POLY_TYPE);
 			}
 		}
@@ -85,7 +86,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 
 			@Override
 			public Object get() {
-				Object instance = field.getValue(object);
+				Object instance = data.getValue();
 				if (instance == null) {
 					return enumFactory.getInstance(NULL_POLY_TYPE);
 				} else {
@@ -101,7 +102,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 				try {
 					value = enumFactory.unwrapInstance(value);
 					if (value == NULL_POLY_TYPE) {
-						setFieldValue(object, null);
+						setDataValue(null);
 					} else {
 						ITypeInfo selectedPolyType = null;
 						for (ITypeInfo subType : subTypes) {
@@ -118,16 +119,16 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 								return;
 							}
 						}
-						setFieldValue(object, instance);
+						setDataValue(instance);
 					}
 				} finally {
 					refreshDynamicControl();
 				}
 			}
 
-			private void setFieldValue(Object object, Object value) {
+			private void setDataValue(Object value) {
 				updatingEnumeration = true;
-				field.setValue(object, value);
+				data.setValue(value);
 				updatingEnumeration = false;
 			}
 
@@ -141,20 +142,8 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		return actualFieldValueType.getCaption();
 	}
 
-	protected Component createDynamicControl(final ITypeInfo instanceType) {
-		IFieldInfo fiedlProxy = new HiddenNullableFacetFieldInfoProxy(swingRenderer.getReflectionUI(), field) {
-
-			@Override
-			public ITypeInfo getType() {
-				return instanceType;
-			}
-
-		};
-		return swingRenderer.createFieldControl(object, fiedlProxy);
-	}
-
 	protected void refreshDynamicControl() {
-		Object instance = field.getValue(object);
+		Object instance = data.getValue();
 		ITypeInfo instanceType = null;
 		if (instance != null) {
 			instanceType = swingRenderer.getReflectionUI()
@@ -190,7 +179,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		if (typeEnumerationControl != null) {
 			remove(typeEnumerationControl);
 		}
-		if (!field.isGetOnly()) {
+		if (!data.isGetOnly()) {
 			add(typeEnumerationControl = createTypeEnumerationControl(), BorderLayout.NORTH);
 		}
 		validate();
@@ -204,8 +193,8 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 	}
 
 	@Override
-	public boolean showCaption() {
-		setBorder(BorderFactory.createTitledBorder(field.getCaption()));
+	public boolean showCaption(String caption) {
+		setBorder(BorderFactory.createTitledBorder(caption));
 		return true;
 	}
 

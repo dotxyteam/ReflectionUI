@@ -55,7 +55,7 @@ public class CompositeModification implements IModification {
 				throw new ReflectionUIError();
 			}
 		}
-		return new CompositeModification(target, ModificationStack.getUndoTitle(title), undoOrder, oppositeModifications);
+		return new CompositeModification(target, AbstractModification.getUndoTitle(title), undoOrder, oppositeModifications);
 	}
 
 	@Override

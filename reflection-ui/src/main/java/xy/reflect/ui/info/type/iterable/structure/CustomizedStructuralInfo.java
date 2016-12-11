@@ -223,7 +223,7 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 		if (itemType instanceof ListItemTypeInfo) {
 			return false;
 		}
-		return !subListField.getName().equals(itemPosition.getContainingListField().getName());
+		return !subListField.getCaption().equals(itemPosition.getContainingListCaption());
 	}
 
 }

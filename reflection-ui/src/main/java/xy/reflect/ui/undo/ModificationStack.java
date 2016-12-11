@@ -11,8 +11,6 @@ import xy.reflect.ui.util.ReflectionUIError;
 
 public class ModificationStack {
 
-	protected static final String UNDO_TITLE_PREFIX = "(Revert) ";
-
 	protected Stack<IModification> undoStack = new Stack<IModification>();
 	protected Stack<IModification> redoStack = new Stack<IModification>();
 	protected String name;
@@ -200,7 +198,7 @@ public class ModificationStack {
 		} else {
 			compositeParent = this;
 		}
-		CompositeModification compositeUndoModif = new CompositeModification(target, getUndoTitle(title), order,
+		CompositeModification compositeUndoModif = new CompositeModification(target, AbstractModification.getUndoTitle(title), order,
 				topComposite.getUndoModifications(order));
 		return compositeParent.pushUndo(compositeUndoModif);
 	}
@@ -246,18 +244,6 @@ public class ModificationStack {
 
 	public Boolean canUndo() {
 		return undoStack.size() > 0;
-	}
-
-	public static String getUndoTitle(String title) {
-		String result;
-		if (title == null) {
-			result = null;
-		} else if (title.startsWith(UNDO_TITLE_PREFIX)) {
-			result = title.substring(UNDO_TITLE_PREFIX.length());
-		} else {
-			result = UNDO_TITLE_PREFIX + title;
-		}
-		return result;
 	}
 
 	public boolean isNull() {

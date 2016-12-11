@@ -408,14 +408,12 @@ public class ImplicitListField implements IFieldInfo {
 		}
 
 		@Override
-		public List<AbstractListAction> getDynamicActions(Object object, IFieldInfo field,
-				List<? extends ItemPosition> selection) {
+		public List<AbstractListAction> getDynamicActions(List<? extends ItemPosition> selection) {
 			return Collections.emptyList();
 		}
 
 		@Override
-		public List<AbstractListProperty> getDynamicProperties(Object object, IFieldInfo field,
-				List<? extends ItemPosition> selection) {
+		public List<AbstractListProperty> getDynamicProperties(List<? extends ItemPosition> selection) {
 			return Collections.emptyList();
 		}
 
@@ -425,13 +423,15 @@ public class ImplicitListField implements IFieldInfo {
 		}
 
 		@Override
-		public List<IMethodInfo> getObjectSpecificItemConstructors(final Object object, IFieldInfo field) {
+		public List<IMethodInfo> getAdditionalItemConstructors(final Object listValue) {
+			final Instance instance = (Instance) listValue;
 			return Collections
 					.<IMethodInfo> singletonList(new AbstractConstructorMethodInfo(TypeInfo.this.getItemType()) {
 
 						@Override
 						public Object invoke(Object nullObject, InvocationData invocationData) {
-							Object result = getCreateMethod().invoke(object, new InvocationData(object));
+							Object result = getCreateMethod().invoke(instance.getObject(),
+									new InvocationData(instance.getObject()));
 							return result;
 						}
 

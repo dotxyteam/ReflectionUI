@@ -108,7 +108,7 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 						{
 							IFieldInfo keyField = getKeyField();
 							try {
-								key = ReflectionUIUtils.onTypeInstanciationRequest(reflectionUI, keyField.getType());
+								key = ReflectionUIUtils.createDefaultInstance(reflectionUI, keyField.getType());
 							} catch (Throwable ignore) {
 							}
 							if (key != null) {
@@ -119,7 +119,7 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 						{
 							IFieldInfo valueField = getValueField();
 							try {
-								value = ReflectionUIUtils.onTypeInstanciationRequest(reflectionUI,
+								value = ReflectionUIUtils.createDefaultInstance(reflectionUI,
 										valueField.getType());
 							} catch (Throwable ignore) {
 							}

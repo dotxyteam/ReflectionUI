@@ -1,6 +1,7 @@
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -74,7 +75,7 @@ public class ReflectionUITest {
 		public Test2 test2 = new Test2();
 		public AbstrcatTestDescendant[] theArrayTreeTable = new AbstrcatTestDescendant[] { new Test2(), new Test3() };
 		@SuppressWarnings({ "unchecked", "rawtypes" })
-		public Vector theGenericVector = new Vector(Arrays.asList(new Test2(), new Test2()));
+		public Collection theGenericVector = new Vector(Arrays.asList(new Test2(), new Test2()));
 		public Map<Integer, String> theMap = new HashMap<Integer, String>(Collections.singletonMap(5, "five"));
 		public Map<Integer, Test2> theTest2Map = new HashMap<Integer, Test2>();
 		public List<File> theFileList = Arrays.asList(new File("./file1"));

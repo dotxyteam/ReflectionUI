@@ -7,30 +7,28 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 
-import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
-	protected Object object;
-	protected IFieldInfo field;
+	protected IControlData data;
+	
 
-
-	public CheckBoxControl(final SwingRenderer swingRenderer, final Object object, final IFieldInfo field) {
+	public CheckBoxControl(final SwingRenderer swingRenderer, final IControlData data) {
 		this.swingRenderer = swingRenderer;
-		this.object = object;
-		this.field = field;
-
+		this.data = data;
+		
 		setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
 		setBorderPainted(true);
 		setBorder(BorderFactory.createTitledBorder(""));
-		if (field.isGetOnly()) {
+		if (data.isGetOnly()) {
 			setEnabled(false);
 		}
 
-		Boolean initialValue = (Boolean) field.getValue(object);
+		Boolean initialValue = (Boolean) data.getValue();
 		setSelected(initialValue);
 		addActionListener(new ActionListener() {
 
@@ -42,12 +40,11 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 	}
 
 	protected void onValueChange() {
-		field.setValue(object, isSelected());
+		data.setValue(isSelected());
 	}
 
 	@Override
-	public boolean showCaption() {
-		String caption = field.getCaption();
+	public boolean showCaption(String caption) {
 		setText(swingRenderer.prepareStringToDisplay(caption));
 		return true;
 	}

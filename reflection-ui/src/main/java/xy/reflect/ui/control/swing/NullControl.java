@@ -2,8 +2,9 @@ package xy.reflect.ui.control.swing;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import xy.reflect.ui.info.field.FieldInfoProxy;
-import xy.reflect.ui.info.field.IFieldInfo;
+
+import xy.reflect.ui.control.data.ControlDataProxy;
+import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.util.SwingRendererUtils;
@@ -13,15 +14,9 @@ public class NullControl extends TextControl {
 	protected static final long serialVersionUID = 1L;
 
 	public NullControl(final SwingRenderer swingRenderer, final Runnable onMousePress) {
-		super(swingRenderer, null, new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
-
+		super(swingRenderer, new ControlDataProxy(IControlData.NULL_CONTROL_DATA) {
 			@Override
-			public boolean isNullable() {
-				return false;
-			}
-
-			@Override
-			public Object getValue(Object object) {
+			public Object getValue() {
 				return "";
 			}
 
@@ -53,7 +48,7 @@ public class NullControl extends TextControl {
 	}
 
 	@Override
-	public boolean showCaption() {
+	public boolean showCaption(String caption) {
 		return false;
 	}
 
