@@ -10,7 +10,9 @@ import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+import xy.reflect.ui.control.data.ControlDataProxy;
 import xy.reflect.ui.control.data.IControlData;
+import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory;
@@ -19,12 +21,12 @@ import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-public abstract class PolymorphicControl extends JPanel implements IAdvancedFieldControl {
+public class PolymorphicControl extends JPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
 	protected IControlData data;
-	
+
 	protected List<ITypeInfo> subTypes;
 	protected Map<ITypeInfo, Object> instanceByEnumerationValueCache = new HashMap<ITypeInfo, Object>();
 	protected Component dynamicControl;
@@ -34,13 +36,12 @@ public abstract class PolymorphicControl extends JPanel implements IAdvancedFiel
 	protected final ITypeInfo NULL_POLY_TYPE;
 	protected ITypeInfo lastInstanceType;
 	protected boolean updatingEnumeration = false;
-
-	protected abstract Component createDynamicControl(final ITypeInfo instanceType);
+	protected FieldControlPlaceHolder fieldControlPlaceHolder;
 
 	public PolymorphicControl(final SwingRenderer swingRenderer, final IControlData data) {
 		this.swingRenderer = swingRenderer;
 		this.data = data;
-		
+
 		this.polymorphicType = data.getType();
 		this.subTypes = polymorphicType.getPolymorphicInstanceSubTypes();
 
@@ -59,25 +60,33 @@ public abstract class PolymorphicControl extends JPanel implements IAdvancedFiel
 		refreshUI();
 	}
 
+	@Override
+	public void setPalceHolder(FieldControlPlaceHolder fieldControlPlaceHolder) {
+		this.fieldControlPlaceHolder = fieldControlPlaceHolder;
+		if (dynamicControl instanceof IAdvancedFieldControl) {
+			((IAdvancedFieldControl) dynamicControl).setPalceHolder(fieldControlPlaceHolder);
+		}
+	}
+
 	protected Component createTypeEnumerationControl() {
-		List<ITypeInfo> possibleValues = new ArrayList<ITypeInfo>(subTypes);
+		List<ITypeInfo> possibleTypes = new ArrayList<ITypeInfo>(subTypes);
 		{
 			Object instance = data.getValue();
 			if (instance != null) {
 				ITypeInfo actualFieldValueType = swingRenderer.getReflectionUI()
 						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(instance));
-				if (!possibleValues.contains(actualFieldValueType)) {
+				if (!possibleTypes.contains(actualFieldValueType)) {
 					instanceByEnumerationValueCache.put(actualFieldValueType, instance);
-					possibleValues.add(actualFieldValueType);
+					possibleTypes.add(actualFieldValueType);
 				}
 			}
 			if (data.isNullable()) {
-				possibleValues.add(0, NULL_POLY_TYPE);
+				possibleTypes.add(0, NULL_POLY_TYPE);
 			}
 		}
 		final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(swingRenderer.getReflectionUI(),
-				possibleValues.toArray(), polymorphicType.getName() + ".SubTypesEnumeration", "");
-		ITypeInfo enumType = swingRenderer.getReflectionUI().getTypeInfo(enumFactory.getTypeInfoSource());
+				possibleTypes.toArray(), polymorphicType.getName() + ".SubTypesEnumeration", "");
+		ITypeInfo enumType = swingRenderer.getReflectionUI().getTypeInfo(enumFactory.getInstanceTypeInfoSource());
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
 				enumType);
 		encapsulation.setFieldNullable(false);
@@ -140,6 +149,50 @@ public abstract class PolymorphicControl extends JPanel implements IAdvancedFiel
 
 	protected String getEnumerationValueCaption(ITypeInfo actualFieldValueType) {
 		return actualFieldValueType.getCaption();
+	}
+
+	protected Component createDynamicControl(final ITypeInfo instanceType) {
+		final EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
+				instanceType);
+		encapsulation.setFieldNullable(false);
+		encapsulation.setFieldCaption("");
+		final Object encapsulated = encapsulation.getInstance(new Accessor<Object>() {
+
+			@Override
+			public Object get() {
+				return data.getValue();
+			}
+
+			@Override
+			public void set(Object value) {
+				data.setValue(value);
+			}
+
+		});
+		EmbeddedFormControl result = new EmbeddedFormControl(swingRenderer, new ControlDataProxy(data) {
+
+			@Override
+			public Object getValue() {
+				return encapsulated;
+			}
+
+			@Override
+			public void setValue(Object value) {
+			}
+
+			@Override
+			public boolean isNullable() {
+				return false;
+			}
+
+			@Override
+			public ITypeInfo getType() {
+				return swingRenderer.getReflectionUI().getTypeInfo(encapsulation.getInstanceTypeInfoSource());
+			}
+
+		});
+		result.setPalceHolder(fieldControlPlaceHolder);
+		return result;
 	}
 
 	protected void refreshDynamicControl() {

@@ -166,7 +166,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 
 	@Override
 	public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
-		return null;
+		return Collections.emptyList();
 	}
 
 	@Override

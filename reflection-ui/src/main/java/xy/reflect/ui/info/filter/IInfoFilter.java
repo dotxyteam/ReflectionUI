@@ -1,12 +1,12 @@
-package xy.reflect.ui.info;
+package xy.reflect.ui.info.filter;
 
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 
 
-public interface IInfoCollectionSettings {
+public interface IInfoFilter {
 
-	public IInfoCollectionSettings DEFAULT = new IInfoCollectionSettings() {
+	public IInfoFilter DEFAULT = new IInfoFilter() {
 		
 		@Override
 		public boolean excludeField(IFieldInfo field) {

@@ -8,6 +8,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 
 import xy.reflect.ui.control.data.IControlData;
+import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl {
@@ -37,6 +38,10 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 				onValueChange();
 			}
 		});
+	}
+	
+	@Override
+	public void setPalceHolder(FieldControlPlaceHolder fieldControlPlaceHolder) {
 	}
 
 	protected void onValueChange() {

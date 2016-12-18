@@ -2,8 +2,8 @@ package xy.reflect.ui.info.type.iterable.structure;
 
 import java.util.List;
 
-import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 
@@ -25,7 +25,7 @@ public class ListStructuralInfoProxy implements IListStructuralInfo{
 		return base.getItemSubListField(itemPosition);
 	}
 
-	public IInfoCollectionSettings getItemInfoSettings(ItemPosition itemPosition) {
+	public IInfoFilter getItemInfoSettings(ItemPosition itemPosition) {
 		return base.getItemInfoSettings(itemPosition);
 	}
 

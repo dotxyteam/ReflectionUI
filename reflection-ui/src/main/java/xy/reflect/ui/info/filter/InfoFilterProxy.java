@@ -1,13 +1,13 @@
-package xy.reflect.ui.info;
+package xy.reflect.ui.info.filter;
 
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 
-public class InfoCollectionSettingsProxy implements IInfoCollectionSettings {
+public class InfoFilterProxy implements IInfoFilter {
 
-	IInfoCollectionSettings delegate;
+	IInfoFilter delegate;
 
-	public InfoCollectionSettingsProxy(IInfoCollectionSettings delegate) {
+	public InfoFilterProxy(IInfoFilter delegate) {
 		super();
 		this.delegate = delegate;
 	}

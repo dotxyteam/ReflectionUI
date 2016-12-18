@@ -39,8 +39,6 @@ public class ArrayAsEnumerationFactory {
 		this.typeName = typeName;
 		this.typeCaption = typeCaption;
 	}
-	
-
 
 	protected Map<String, Object> getItemSpecificProperties(Object arrayItem) {
 		return Collections.emptyMap();
@@ -81,7 +79,7 @@ public class ArrayAsEnumerationFactory {
 		return instance.getArrayItem();
 	}
 
-	public ITypeInfoSource getTypeInfoSource() {
+	public ITypeInfoSource getInstanceTypeInfoSource() {
 		return new PrecomputedTypeInfoSource(new TypeInfo());
 	}
 
@@ -202,7 +200,7 @@ public class ArrayAsEnumerationFactory {
 
 		@Override
 		public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
-			return null;
+			return Collections.emptyList();
 		}
 
 		@Override

@@ -10,6 +10,9 @@ public class ControlDataValueModification extends AbstractModification {
 
 	public ControlDataValueModification(final IControlData valueAccess, final Object newValue, IInfo target) {
 		super(target);
+		if(target==null){
+			System.out.println("debug");
+		}
 		this.valueAccess = valueAccess;
 		this.newValue = newValue;
 	}

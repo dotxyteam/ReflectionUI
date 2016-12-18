@@ -110,7 +110,7 @@ public class MethodSetupObjectFactory {
 		return result;
 	}
 
-	public ITypeInfoSource getTypeInfoSource() {
+	public ITypeInfoSource getInstanceTypeInfoSource() {
 		return new PrecomputedTypeInfoSource(new TypeInfo());
 	}
 
@@ -197,7 +197,7 @@ public class MethodSetupObjectFactory {
 
 		@Override
 		public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
-			return null;
+			return Collections.emptyList();
 		}
 
 		@Override

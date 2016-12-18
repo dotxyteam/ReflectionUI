@@ -19,7 +19,6 @@ import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.SwingRendererUtils;
 
 public class MethodAction extends AbstractAction {
 
@@ -28,7 +27,9 @@ public class MethodAction extends AbstractAction {
 	protected Object object;
 	protected IMethodInfo method;
 	protected Object returnValue;
-	protected boolean shouldDisplayReturnValue = true;
+	protected boolean shouldDisplayReturnValueIfAny = false;
+	protected boolean retunValueWindowDetached;
+	protected ModificationStack modificationStack;
 
 	public MethodAction(SwingRenderer swingRenderer, Object object, IMethodInfo method) {
 		this.swingRenderer = swingRenderer;
@@ -47,6 +48,30 @@ public class MethodAction extends AbstractAction {
 
 	public Object getReturnValue() {
 		return returnValue;
+	}
+
+	public void setShouldDisplayReturnValueIfAny(boolean shouldDisplayReturnValueIfAny) {
+		this.shouldDisplayReturnValueIfAny = shouldDisplayReturnValueIfAny;
+	}
+
+	public boolean getShouldDisplayReturnValueIfAny() {
+		return shouldDisplayReturnValueIfAny;
+	}
+
+	public boolean isRetunValueWindowDetached() {
+		return retunValueWindowDetached;
+	}
+
+	public void setRetunValueWindowDetached(boolean retunValueWindowDetached) {
+		this.retunValueWindowDetached = retunValueWindowDetached;
+	}
+
+	public ModificationStack getModificationStack() {
+		return modificationStack;
+	}
+
+	public void setModificationStack(ModificationStack modificationStack) {
+		this.modificationStack = modificationStack;
 	}
 
 	@Override
@@ -72,7 +97,7 @@ public class MethodAction extends AbstractAction {
 		if (method.getParameters().size() > 0) {
 			return openMethoExecutionSettingDialog(activatorComponent);
 		} else {
-			final boolean displayReturnValue = shouldDisplayReturnValue && (method.getReturnValueType() != null);
+			final boolean displayReturnValue = shouldDisplayReturnValueIfAny && (method.getReturnValueType() != null);
 			final boolean[] exceptionThrownHoler = new boolean[] { false };
 			returnValue = method.invoke(object, new InvocationData());
 			if (displayReturnValue && !exceptionThrownHoler[0]) {
@@ -82,53 +107,10 @@ public class MethodAction extends AbstractAction {
 		return true;
 	}
 
-	protected void openMethodReturnValueWindow(Component activatorComponent) {
-		if (returnValue == null) {
-			String msg = "No data returned!";
-			swingRenderer.openMessageDialog(activatorComponent, msg, "Result", null);
-		} else {
-			if (method.getValueReturnMode() == ValueReturnMode.COPY) {
-				swingRenderer.openObjectFrame(returnValue);
-			} else {
-				ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, activatorComponent,
-						returnValue);
-				dialogBuilder.setGetOnly(true);
-				boolean cancellable = true;
-				{
-					if (!dialogBuilder.getDisplayValueType().isModificationStackAccessible()) {
-						cancellable = false;
-					}
-					if (method.getValueReturnMode() == ValueReturnMode.COPY) {
-						cancellable = false;
-					}
-				}
-				dialogBuilder.setCancellable(cancellable);
-				swingRenderer.showDialog(dialogBuilder.build(), true);
-
-				if (activatorComponent != null) {
-					ModificationStack parentModifStack = SwingRendererUtils
-							.findParentFormModificationStack(activatorComponent, swingRenderer);
-					if (parentModifStack != null) {
-						ModificationStack childModifStack = dialogBuilder.getModificationStack();
-						String childModifTitle = InvokeMethodModification.getTitle(method);
-						IInfo childModifTarget = method;
-						IModification commitModif = null;
-						boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.isOkPressed();
-						ValueReturnMode childValueReturnMode = method.getValueReturnMode();
-						boolean childValueNew = dialogBuilder.isValueNew();
-						ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(), parentModifStack,
-								childModifStack, childModifAccepted, childValueReturnMode, childValueNew, commitModif,
-								childModifTarget, childModifTitle);
-					}
-				}
-			}
-		}
-	}
-
 	protected boolean openMethoExecutionSettingDialog(final Component activatorComponent) {
 		final DialogBuilder dialogBuilder = new DialogBuilder(swingRenderer, activatorComponent);
 
-		final boolean displayReturnValue = shouldDisplayReturnValue && (method.getReturnValueType() != null);
+		final boolean displayReturnValue = shouldDisplayReturnValueIfAny && (method.getReturnValueType() != null);
 		final boolean[] exceptionThrownHolder = new boolean[] { false };
 		final InvocationData invocationData;
 		if (swingRenderer.getLastInvocationDataByMethod().containsKey(method)) {
@@ -192,12 +174,43 @@ public class MethodAction extends AbstractAction {
 		}
 	}
 
-	public void setShouldDisplayReturnValue(boolean shouldDisplayReturnValue) {
-		this.shouldDisplayReturnValue = shouldDisplayReturnValue;
-	}
+	protected void openMethodReturnValueWindow(Component activatorComponent) {
+		if (returnValue == null) {
+			String msg = "No data returned!";
+			swingRenderer.openMessageDialog(activatorComponent, msg, "Result", null);
+		} else {
+			if (retunValueWindowDetached) {
+				swingRenderer.openObjectFrame(returnValue);
+			} else {
+				ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, activatorComponent,
+						returnValue);
+				dialogBuilder.setGetOnly(true);
+				boolean cancellable = true;
+				{
+					if (!dialogBuilder.getDisplayValueType().isModificationStackAccessible()) {
+						cancellable = false;
+					}
+					if (method.getValueReturnMode() == ValueReturnMode.COPY) {
+						cancellable = false;
+					}
+				}
+				dialogBuilder.setCancellable(cancellable);
+				swingRenderer.showDialog(dialogBuilder.build(), true);
 
-	public boolean getShouldDisplayReturnValue() {
-		return shouldDisplayReturnValue;
+				if (modificationStack != null) {
+					ModificationStack childModifStack = dialogBuilder.getModificationStack();
+					String childModifTitle = InvokeMethodModification.getTitle(method);
+					IInfo childModifTarget = method;
+					IModification commitModif = null;
+					boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.isOkPressed();
+					ValueReturnMode childValueReturnMode = method.getValueReturnMode();
+					boolean childValueNew = dialogBuilder.isValueNew();
+					ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(), modificationStack,
+							childModifStack, childModifAccepted, childValueReturnMode, childValueNew, commitModif,
+							childModifTarget, childModifTitle);
+				}
+			}
+		}
 	}
 
 }

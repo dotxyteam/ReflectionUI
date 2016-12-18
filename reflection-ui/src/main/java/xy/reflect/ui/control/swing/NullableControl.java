@@ -11,6 +11,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import xy.reflect.ui.control.data.IControlData;
+import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
 
@@ -21,8 +22,9 @@ public abstract class NullableControl extends JPanel implements IAdvancedFieldCo
 	protected IControlData data;
 	protected JCheckBox nullingControl;
 	protected Component subControl;
+	protected FieldControlPlaceHolder fieldControlPlaceHolder;
 
-	protected abstract Component createNonNullFieldValueControl();
+	protected abstract Component createNonNullValueControl();
 
 	protected abstract Object getDefaultValue();
 
@@ -52,6 +54,14 @@ public abstract class NullableControl extends JPanel implements IAdvancedFieldCo
 		}
 
 		refreshUI();
+	}
+	
+	@Override
+	public void setPalceHolder(FieldControlPlaceHolder fieldControlPlaceHolder) {
+		this.fieldControlPlaceHolder = fieldControlPlaceHolder;
+		if (subControl instanceof IAdvancedFieldControl) {
+			((IAdvancedFieldControl) subControl).setPalceHolder(fieldControlPlaceHolder);
+		}
 	}
 
 	public Component getSubControl() {
@@ -110,7 +120,7 @@ public abstract class NullableControl extends JPanel implements IAdvancedFieldCo
 				remove(subControl);
 			}
 			if (newValue != null) {
-				subControl = createNonNullFieldValueControl();
+				subControl = createNonNullValueControl();
 				add(subControl, BorderLayout.CENTER);
 			} else {
 				subControl = createNullControl(swingRenderer, new Runnable() {
@@ -124,6 +134,9 @@ public abstract class NullableControl extends JPanel implements IAdvancedFieldCo
 					}
 				});
 				add(subControl, BorderLayout.CENTER);
+			}
+			if (subControl instanceof IAdvancedFieldControl) {
+				((IAdvancedFieldControl) subControl).setPalceHolder(fieldControlPlaceHolder);
 			}
 			SwingRendererUtils.handleComponentSizeChange(this);
 		}

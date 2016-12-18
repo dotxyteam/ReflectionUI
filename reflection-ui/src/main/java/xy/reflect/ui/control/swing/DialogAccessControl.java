@@ -18,10 +18,10 @@ import xy.reflect.ui.control.data.ControlDataProxy;
 import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.IInfo;
-import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.undo.IModification;
@@ -43,6 +43,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 	protected Component statusControl;
 	protected Component iconControl;
 	protected Component button;
+	protected FieldControlPlaceHolder fieldControlPlaceHolder;
 
 	public DialogAccessControl(final SwingRenderer swingRenderer, final IControlData data) {
 		this.swingRenderer = swingRenderer;
@@ -72,6 +73,11 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 		}
 
 		updateControls();
+	}
+
+	@Override
+	public void setPalceHolder(FieldControlPlaceHolder fieldControlPlaceHolder) {
+		this.fieldControlPlaceHolder = fieldControlPlaceHolder;
 	}
 
 	@Override
@@ -163,10 +169,10 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 		dialogBuilder.setCancellable(cancellable);
 		swingRenderer.showDialog(dialogBuilder.build(), true);
 
-		IFieldInfo field = SwingRendererUtils.getControlFormAwareField(DialogAccessControl.this);
-		
-		ModificationStack parentModifStack = SwingRendererUtils
-				.findParentFormModificationStack(DialogAccessControl.this, swingRenderer);
+		IFieldInfo field = fieldControlPlaceHolder.getFormAwareField();
+
+		ModificationStack parentModifStack = SwingRendererUtils.findParentFormModificationStack(fieldControlPlaceHolder,
+				swingRenderer);
 		ModificationStack childModifStack = dialogBuilder.getModificationStack();
 		String childModifTitle = ControlDataValueModification.getTitle(field);
 		IInfo childModifTarget = field;

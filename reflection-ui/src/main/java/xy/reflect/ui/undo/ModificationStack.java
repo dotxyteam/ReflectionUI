@@ -93,7 +93,7 @@ public class ModificationStack {
 
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + "(" + name + ")";
+		return ModificationStack.class.getSimpleName() + "(" + name + ")";
 	}
 
 	public void apply(IModification modif) {

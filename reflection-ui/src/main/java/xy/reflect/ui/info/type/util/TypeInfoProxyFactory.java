@@ -253,11 +253,11 @@ public class TypeInfoProxyFactory {
 	}
 
 	protected List<IMethodInfo> getAdditionalItemConstructors(IListTypeInfo type, Object listValue) {
-		return type.getAdditionalItemConstructors(listValue);
-	}
-
-	public boolean isStructureMutable(IListTypeInfo type) {
-		return type.canReplaceContent();
+		List<IMethodInfo> result = new ArrayList<IMethodInfo>();
+		for (IMethodInfo constructor : type.getAdditionalItemConstructors(listValue)) {
+			result.add(new GeneratedConstructorInfoProxy(constructor, type));
+		}
+		return result;
 	}
 
 	protected ITypeInfo getItemType(IListTypeInfo type) {
@@ -288,14 +288,14 @@ public class TypeInfoProxyFactory {
 		return type.canViewItemDetails();
 	}
 
-	protected Object[] toArray(IListTypeInfo type, Object object) {
-		return type.toArray(object);
+	protected Object[] toArray(IListTypeInfo type, Object listValue) {
+		return type.toArray(listValue);
 	}
 
 	protected List<IMethodInfo> getConstructors(ITypeInfo type) {
 		List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 		for (IMethodInfo constructor : type.getConstructors()) {
-			result.add(new GeneratedMethodInfoProxy(constructor, type));
+			result.add(new GeneratedConstructorInfoProxy(constructor, type));
 		}
 		return result;
 	}
@@ -317,7 +317,11 @@ public class TypeInfoProxyFactory {
 	}
 
 	protected List<ITypeInfo> getPolymorphicInstanceSubTypes(ITypeInfo type) {
-		return type.getPolymorphicInstanceSubTypes();
+		List<ITypeInfo> result = new ArrayList<ITypeInfo>();
+		for (ITypeInfo subType : type.getPolymorphicInstanceSubTypes()) {
+			result.add(get(subType));
+		}
+		return result;
 	}
 
 	protected boolean isConcrete(ITypeInfo type) {
@@ -960,6 +964,19 @@ public class TypeInfoProxyFactory {
 			}
 			return TypeInfoProxyFactory.this.equals(method, containingType, ((GeneratedMethodInfoProxy) obj).method,
 					((GeneratedMethodInfoProxy) obj).containingType);
+		}
+
+	}
+
+	private class GeneratedConstructorInfoProxy extends GeneratedMethodInfoProxy {
+
+		public GeneratedConstructorInfoProxy(IMethodInfo ctor, ITypeInfo containingType) {
+			super(ctor, containingType);
+		}
+
+		@Override
+		public ITypeInfo getReturnValueType() {
+			return get(super.getReturnValueType());
 		}
 
 	}

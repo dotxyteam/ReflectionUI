@@ -1,5 +1,6 @@
 package xy.reflect.ui.control.swing;
 
+import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public interface IAdvancedFieldControl {
@@ -16,4 +17,6 @@ public interface IAdvancedFieldControl {
 	void requestDetailedFocus(Object value);
 	
 	void validateSubForm() throws Exception;
+
+	void setPalceHolder(FieldControlPlaceHolder fieldControlPlaceHolder);
 }

@@ -331,7 +331,7 @@ public class ImplicitListField implements IFieldInfo {
 
 		@Override
 		public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
-			return null;
+			return Collections.emptyList();
 		}
 
 		@Override

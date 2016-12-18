@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.IInfoCollectionSettings;
-import xy.reflect.ui.info.InfoCollectionSettingsProxy;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MultipleFieldAsOne;
 import xy.reflect.ui.info.field.MultipleFieldAsOne.ListItem;
 import xy.reflect.ui.info.field.MultipleFieldAsOne.ListItemTypeInfo;
+import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.filter.InfoFilterProxy;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
@@ -119,8 +119,8 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 	}
 
 	@Override
-	public IInfoCollectionSettings getItemInfoSettings(final ItemPosition itemPosition) {
-		return new InfoCollectionSettingsProxy(super.getItemInfoSettings(itemPosition)) {
+	public IInfoFilter getItemInfoSettings(final ItemPosition itemPosition) {
+		return new InfoFilterProxy(super.getItemInfoSettings(itemPosition)) {
 
 			@Override
 			public boolean excludeMethod(IMethodInfo method) {

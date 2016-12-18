@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
@@ -12,19 +13,18 @@ import xy.reflect.ui.util.SwingRendererUtils;
 public class MethodControl extends JButton {
 
 	protected static final long serialVersionUID = 1L;
+	protected SwingRenderer swingRenderer;
+	protected Object object;
+	protected IMethodInfo method;
 
-	protected MethodAction action;
-
-	public MethodControl(MethodAction action) {
-		this.action = action;
+	public MethodControl(SwingRenderer swingRenderer, Object object, IMethodInfo method) {
+		this.swingRenderer = swingRenderer;
+		this.object = object;
+		this.method = method;
 		initialize();
-
 	}
 
 	protected void initialize() {
-		final SwingRenderer swingRenderer = action.getSwingRenderer();
-		IMethodInfo method = action.getMethod();
-
 		String caption = method.getCaption();
 		String toolTipText = "";
 		if (method.getParameters().size() > 0) {
@@ -45,7 +45,12 @@ public class MethodControl extends JButton {
 		addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try{
+				MethodAction action = swingRenderer.createMethodAction(object, method);
+				action.setShouldDisplayReturnValueIfAny(true);
+				action.setRetunValueWindowDetached(method.getValueReturnMode() == ValueReturnMode.COPY);
+				action.setModificationStack(
+						SwingRendererUtils.findParentFormModificationStack(MethodControl.this, swingRenderer));
+				try {
 					action.actionPerformed(e);
 				} catch (Throwable t) {
 					swingRenderer.handleExceptionsFromDisplayedUI(MethodControl.this, t);
@@ -53,10 +58,5 @@ public class MethodControl extends JButton {
 			}
 		});
 	}
-
-	public MethodAction getAction() {
-		return action;
-	}
-
 
 }

@@ -9,8 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
 import xy.reflect.ui.undo.ModificationStack;
@@ -20,8 +20,8 @@ import xy.reflect.ui.util.SwingRendererUtils;
 @SuppressWarnings("unused")
 public class ObjectDialogBuilder {
 
-	protected boolean getOnly;
-	protected IInfoCollectionSettings infoSettings = IInfoCollectionSettings.DEFAULT;
+	protected boolean getOnly = false;
+	protected IInfoFilter infoSettings = IInfoFilter.DEFAULT;
 	protected List<Component> additionalToolbarComponents;
 
 	protected DialogBuilder delegate;
@@ -92,11 +92,11 @@ public class ObjectDialogBuilder {
 		this.getOnly = getOnly;
 	}
 
-	public IInfoCollectionSettings getInfoSettings() {
+	public IInfoFilter getInfoSettings() {
 		return infoSettings;
 	}
 
-	public void setInfoSettings(IInfoCollectionSettings infoSettings) {
+	public void setInfoSettings(IInfoFilter infoSettings) {
 		this.infoSettings = infoSettings;
 	}
 

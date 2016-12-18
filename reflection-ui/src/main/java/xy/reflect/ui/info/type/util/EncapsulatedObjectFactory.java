@@ -54,7 +54,7 @@ public class EncapsulatedObjectFactory {
 		return new ValueField();
 	}
 
-	public ITypeInfoSource getTypeInfoSource() {
+	public ITypeInfoSource getInstanceTypeInfoSource() {
 		return new PrecomputedTypeInfoSource(new TypeInfo());
 	}
 
@@ -215,7 +215,7 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
-			return null;
+			return Collections.emptyList();
 		}
 
 		@Override
@@ -239,8 +239,6 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public void validate(Object object) throws Exception {
-			Instance instance = (Instance) object;
-			fieldType.validate(instance.getValue());
 		}
 
 		@Override

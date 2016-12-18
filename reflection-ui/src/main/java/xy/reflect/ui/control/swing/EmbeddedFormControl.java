@@ -14,10 +14,10 @@ import javax.swing.SwingUtilities;
 import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.IInfo;
-import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.IModification;
@@ -41,12 +41,18 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	protected JButton button;
 	protected Object subFormObject;
 	protected JPanel subForm;
+	protected FieldControlPlaceHolder fieldControlPlaceHolder;
 
 	public EmbeddedFormControl(final SwingRenderer swingRenderer, final IControlData data) {
 		this.swingRenderer = swingRenderer;
 		this.data = data;
 		setLayout(new BorderLayout());
 		refreshUI();
+	}
+
+	@Override
+	public void setPalceHolder(FieldControlPlaceHolder fieldControlPlaceHolder) {
+		this.fieldControlPlaceHolder = fieldControlPlaceHolder;
 	}
 
 	public JPanel getSubForm() {
@@ -58,10 +64,10 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 		ITypeInfo subFormObjectType = swingRenderer.getReflectionUI()
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(subFormObject));
 		Object subFormFocusDetails = swingRenderer.getFormFocusDetails(subForm);
-		if(subFormFocusDetails == null){
+		if (subFormFocusDetails == null) {
 			return null;
 		}
-		
+
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("subFormObjectType", subFormObjectType);
 		result.put("subFormFocusDetails", subFormFocusDetails);
@@ -74,7 +80,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 		Map<String, Object> focusDetails = (Map<String, Object>) value;
 		ITypeInfo subFormObjectType = (ITypeInfo) focusDetails.get("subFormObjectType");
 		Object subFormFocusDetails = focusDetails.get("subFormFocusDetails");
-		
+
 		ITypeInfo currentSubFormObjectType = swingRenderer.getReflectionUI()
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(subFormObject));
 		if (subFormObjectType.equals(currentSubFormObjectType)) {
@@ -105,39 +111,41 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 			Accessor<Boolean> childModifAcceptedGetter = Accessor.returning(Boolean.TRUE);
 			Accessor<ValueReturnMode> childValueReturnModeGetter = Accessor.returning(data.getValueReturnMode());
 			Accessor<Boolean> childValueNewGetter = Accessor.returning(Boolean.FALSE);
-			final IFieldInfo field = SwingRendererUtils.getControlFormAwareField(EmbeddedFormControl.this);
 			Accessor<IModification> commitModifGetter = new Accessor<IModification>() {
 				@Override
 				public IModification get() {
 					if (data.isGetOnly()) {
 						return null;
 					}
-					return new ControlDataValueModification(data, subFormObject, field);
+					return new ControlDataValueModification(data, subFormObject, getModifiedField());
 				}
 			};
 			Accessor<IInfo> childModifTargetGetter = new Accessor<IInfo>() {
 				@Override
 				public IInfo get() {
-					return SwingRendererUtils.getControlFormAwareField(EmbeddedFormControl.this);
+					return getModifiedField();
 				}
 			};
 			Accessor<String> childModifTitleGetter = new Accessor<String>() {
 				@Override
 				public String get() {
-					return ControlDataValueModification
-							.getTitle(SwingRendererUtils.getControlFormAwareField(EmbeddedFormControl.this));
+					return ControlDataValueModification.getTitle(getModifiedField());
 				}
 			};
 			Accessor<ModificationStack> parentModifStackGetter = new Accessor<ModificationStack>() {
 				@Override
 				public ModificationStack get() {
-					return SwingRendererUtils.findParentFormModificationStack(EmbeddedFormControl.this, swingRenderer);
+					return SwingRendererUtils.findParentFormModificationStack(fieldControlPlaceHolder, swingRenderer);
 				}
 			};
 			SwingRendererUtils.forwardSubModifications(swingRenderer.getReflectionUI(), subForm,
 					childModifAcceptedGetter, childValueReturnModeGetter, childValueNewGetter, commitModifGetter,
 					childModifTargetGetter, childModifTitleGetter, parentModifStackGetter, swingRenderer);
 		}
+	}
+
+	protected IFieldInfo getModifiedField() {
+		return fieldControlPlaceHolder.getFormAwareField();
 	}
 
 	@Override

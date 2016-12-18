@@ -42,14 +42,15 @@ import javax.swing.event.AncestorListener;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.DialogAccessControl;
+import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
-import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
@@ -144,24 +145,11 @@ public class SwingRendererUtils {
 		return result;
 	}
 
-	public static IFieldInfo getControlFormAwareField(Component controlComponent) {
-		FieldControlPlaceHolder fieldControlPlaceHolder = SwingRendererUtils
-				.findParentFieldControlPlaceHolder(controlComponent);
+	public static IFieldInfo getControlFormAwareField(FieldControlPlaceHolder fieldControlPlaceHolder, SwingRenderer swingRenderer) {
 		if (fieldControlPlaceHolder == null) {
 			return null;
 		}
 		return fieldControlPlaceHolder.getFormAwareField();
-	}
-
-	public static FieldControlPlaceHolder findParentFieldControlPlaceHolder(Component component) {
-		Component candidate = component.getParent();
-		while (candidate != null) {
-			if (candidate instanceof FieldControlPlaceHolder) {
-				return (FieldControlPlaceHolder) candidate;
-			}
-			candidate = candidate.getParent();
-		}
-		return null;
 	}
 
 	public static ModificationStack findParentFormModificationStack(Component component, SwingRenderer swingRenderer) {
@@ -360,7 +348,7 @@ public class SwingRendererUtils {
 		}
 	}
 
-	public static boolean isFormEmpty(ITypeInfo type, IInfoCollectionSettings infoSettings,
+	public static boolean isFormEmpty(ITypeInfo type, IInfoFilter infoSettings,
 			SwingRenderer swingRenderer) {
 		List<IFieldInfo> fields = type.getFields();
 		List<IMethodInfo> methods = type.getMethods();
@@ -384,7 +372,7 @@ public class SwingRendererUtils {
 		return (fields.size() + methods.size()) == 0;
 	}
 
-	public static boolean isObjectDisplayEmpty(Object value, IInfoCollectionSettings infoSettings,
+	public static boolean isObjectDisplayEmpty(Object value, IInfoFilter infoSettings,
 			SwingRenderer swingRenderer) {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
@@ -490,7 +478,7 @@ public class SwingRendererUtils {
 			final Accessor<IModification> commitModifGetter, final Accessor<IInfo> childModifTargetGetter,
 			final Accessor<String> parentModifTitleGetter, final Accessor<ModificationStack> parentModifStackGetter,
 			final SwingRenderer swingRenderer) {
-		swingRenderer.getModificationStackByForm().put(subForm, new ModificationStack(null) {
+		swingRenderer.getModificationStackByForm().put(subForm, new ModificationStack("Forward Sub-Modifications To " + subForm.toString()) {
 
 			@Override
 			public boolean pushUndo(IModification undoModif) {

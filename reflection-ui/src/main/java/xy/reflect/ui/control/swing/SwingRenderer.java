@@ -54,12 +54,12 @@ import sun.swing.SwingUtilities2;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.data.FieldControlData;
 import xy.reflect.ui.info.DesktopSpecificProperty;
-import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.HiddenNullableFacetFieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MultipleFieldAsOne.ListItem;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
@@ -103,7 +103,7 @@ public class SwingRenderer {
 	protected Map<JPanel, Object> objectByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, ModificationStack> modificationStackByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, Boolean> fieldsUpdateListenerDisabledByForm = new MapMaker().weakKeys().makeMap();
-	protected Map<JPanel, IInfoCollectionSettings> infoCollectionSettingsByForm = new MapMaker().weakKeys().makeMap();
+	protected Map<JPanel, IInfoFilter> infoCollectionSettingsByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, JLabel> statusBarByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, Map<InfoCategory, List<FieldControlPlaceHolder>>> fieldControlPlaceHoldersByCategoryByForm = new MapMaker()
 			.weakKeys().makeMap();
@@ -149,7 +149,7 @@ public class SwingRenderer {
 		return lastInvocationDataByMethod;
 	}
 
-	public Map<JPanel, IInfoCollectionSettings> getInfoCollectionSettingsByForm() {
+	public Map<JPanel, IInfoFilter> getInfoCollectionSettingsByForm() {
 		return infoCollectionSettingsByForm;
 	}
 
@@ -271,7 +271,7 @@ public class SwingRenderer {
 	}
 
 	public MethodControl createMethodControl(final Object object, final IMethodInfo method) {
-		return new MethodControl(createMethodAction(object, method));
+		return new MethodControl(this, object, method);
 	}
 
 	public MethodAction createMethodAction(Object object, IMethodInfo method) {
@@ -337,11 +337,11 @@ public class SwingRenderer {
 	}
 
 	public JPanel createForm(Object object) {
-		return createForm(object, IInfoCollectionSettings.DEFAULT);
+		return createForm(object, IInfoFilter.DEFAULT);
 	}
 
-	public JPanel createForm(final Object object, IInfoCollectionSettings settings) {
-		final String formTitle = "Form: " + ReflectionUIUtils.toString(reflectionUI, object);
+	public JPanel createForm(final Object object, IInfoFilter settings) {
+		final String formTitle = "Form of " + ReflectionUIUtils.toString(reflectionUI, object);
 		final ModificationStack modifStack = new ModificationStack(formTitle);
 		JPanel result = new JPanel() {
 
@@ -438,25 +438,7 @@ public class SwingRenderer {
 		if (field.getType() instanceof IEnumerationTypeInfo) {
 			return new EnumerationControl(this, new FieldControlData(object, field));
 		} else if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(field.getType())) {
-			return new PolymorphicControl(this, new FieldControlData(object, field)) {
-
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				protected Component createDynamicControl(final ITypeInfo instanceType) {
-					IFieldInfo fiedlProxy = new HiddenNullableFacetFieldInfoProxy(swingRenderer.getReflectionUI(),
-							field) {
-
-						@Override
-						public ITypeInfo getType() {
-							return instanceType;
-						}
-
-					};
-					return createFieldControl(object, fiedlProxy);
-				}
-
-			};
+			return new PolymorphicControl(this, new FieldControlData(object, field));
 		} else if (field.getValueOptions(object) != null) {
 			return createOptionsControl(object, field);
 		} else {
@@ -466,8 +448,8 @@ public class SwingRenderer {
 					private static final long serialVersionUID = 1L;
 
 					@Override
-					protected Component createNonNullFieldValueControl() {
-						return SwingRenderer.this.createNonNullFieldValueControl(object, new FieldInfoProxy(field) {
+					protected Component createNonNullValueControl() {
+						Component result = SwingRenderer.this.createFieldControl(object, new FieldInfoProxy(field) {
 
 							@Override
 							public boolean isNullable() {
@@ -475,6 +457,7 @@ public class SwingRenderer {
 							}
 
 						});
+						return result;
 					}
 
 					@Override
@@ -495,54 +478,25 @@ public class SwingRenderer {
 					}
 
 				};
-			} else {
-				return createNonNullFieldValueControl(object, field);
 			}
-		}
-	}
-
-	public Component createNonNullFieldValueControl(final Object object, IFieldInfo field) {
-		Object fieldValue = field.getValue(object);
-		final ITypeInfo actualFieldValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(fieldValue));
-		final FieldInfoProxy finalField = new FieldInfoProxy(field) {
-			@Override
-			public ITypeInfo getType() {
-				return actualFieldValueType;
-			}
-		};
-		Component customFieldControl = createCustomNonNullFieldValueControl(object, finalField);
-		if (customFieldControl != null) {
-			return customFieldControl;
-		} else {
-			if (finalField.getType() instanceof IEnumerationTypeInfo) {
-				return new EnumerationControl(this, new FieldControlData(object, finalField));
-			} else if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(finalField.getType())) {
-				return new PolymorphicControl(this, new FieldControlData(object, finalField)) {
-
-					private static final long serialVersionUID = 1L;
-
+			Object fieldValue = field.getValue(object);
+			final ITypeInfo actualFieldValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(fieldValue));
+			if (!actualFieldValueType.equals(field.getType())) {
+				return createFieldControl(object, new FieldInfoProxy(field) {
 					@Override
-					protected Component createDynamicControl(final ITypeInfo instanceType) {
-						IFieldInfo fiedlProxy = new HiddenNullableFacetFieldInfoProxy(swingRenderer.getReflectionUI(),
-								finalField) {
-
-							@Override
-							public ITypeInfo getType() {
-								return instanceType;
-							}
-
-						};
-						return createFieldControl(object, fiedlProxy);
+					public ITypeInfo getType() {
+						return actualFieldValueType;
 					}
-
-				};
+				});
+			}
+			Component result = createCustomNonNullFieldValueControl(object, field);
+			if (result != null) {
+				return result;
+			}
+			if (DesktopSpecificProperty.isSubFormExpanded(DesktopSpecificProperty.accessInfoProperties(field))) {
+				return new EmbeddedFormControl(this, new FieldControlData(object, field));
 			} else {
-				if (DesktopSpecificProperty
-						.isSubFormExpanded(DesktopSpecificProperty.accessInfoProperties(finalField))) {
-					return new EmbeddedFormControl(this, new FieldControlData(object, finalField));
-				} else {
-					return new DialogAccessControl(this, new FieldControlData(object, finalField));
-				}
+				return new DialogAccessControl(this, new FieldControlData(object, field));
 			}
 		}
 	}
@@ -580,7 +534,7 @@ public class SwingRenderer {
 		ITypeInfo ownerType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(reflectionUI,
 				field.getValueOptions(object), ownerType.getName() + "." + field.getName() + ".ValueOptions", "");
-		ITypeInfo enumType = reflectionUI.getTypeInfo(enumFactory.getTypeInfoSource());
+		ITypeInfo enumType = reflectionUI.getTypeInfo(enumFactory.getInstanceTypeInfoSource());
 
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, enumType);
 		encapsulation.setFieldCaption("");
@@ -712,7 +666,7 @@ public class SwingRenderer {
 
 	public void fillForm(JPanel form) {
 		Object object = getObjectByForm().get(form);
-		IInfoCollectionSettings settings = getInfoCollectionSettingsByForm().get(form);
+		IInfoFilter settings = getInfoCollectionSettingsByForm().get(form);
 
 		Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = new HashMap<InfoCategory, List<FieldControlPlaceHolder>>();
 		getFieldControlPlaceHoldersByCategoryByForm().put(form, fieldControlPlaceHoldersByCategory);
@@ -947,7 +901,7 @@ public class SwingRenderer {
 							}
 						};
 						IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
-								.getTypeInfo(enumFactory.getTypeInfoSource());
+								.getTypeInfo(enumFactory.getInstanceTypeInfoSource());
 						Object resultEnumItem = openSelectionDialog(activatorComponent, enumType, null,
 								"Choose a type:", "New '" + type.getCaption() + "'");
 						if (resultEnumItem == null) {
@@ -986,8 +940,8 @@ public class SwingRenderer {
 				if (silent) {
 					return constructor.invoke(null, new InvocationData());
 				} else {
-					MethodAction methodAction = new MethodAction(this, null, constructor);
-					methodAction.setShouldDisplayReturnValue(false);
+					MethodAction methodAction = createMethodAction(null, constructor);
+					methodAction.setShouldDisplayReturnValueIfAny(false);
 					methodAction.execute(activatorComponent);
 					return methodAction.getReturnValue();
 				}
@@ -1013,7 +967,7 @@ public class SwingRenderer {
 					return null;
 				}
 				MethodAction methodAction = new MethodAction(this, null, chosenContructor);
-				methodAction.setShouldDisplayReturnValue(false);
+				methodAction.setShouldDisplayReturnValueIfAny(false);
 				methodAction.execute(activatorComponent);
 				return methodAction.getReturnValue();
 			}
@@ -1147,7 +1101,7 @@ public class SwingRenderer {
 
 		};
 		IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
-				.getTypeInfo(enumFactory.getTypeInfoSource());
+				.getTypeInfo(enumFactory.getInstanceTypeInfoSource());
 		Object resultEnumItem = openSelectionDialog(parentComponent, enumType,
 				enumFactory.getInstance(initialSelection), message, title);
 		if (resultEnumItem == null) {
@@ -1251,7 +1205,6 @@ public class SwingRenderer {
 		}
 	}
 
-	
 	public Object getFormFocusDetails(JPanel form) {
 		int focusedFieldIndex = getFocusedFieldControlPaceHolderIndex(form);
 		if (focusedFieldIndex == -1) {
@@ -1274,14 +1227,14 @@ public class SwingRenderer {
 		result.put("focusedFieldFocusDetails", focusedFieldFocusDetails);
 		return result;
 	}
-	
+
 	public void setFormFocusDetails(JPanel form, Object focusDetails) {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> map = (Map<String, Object>) focusDetails;
-		int focusedFieldIndex = (Integer)map.get("focusedFieldIndex");
+		int focusedFieldIndex = (Integer) map.get("focusedFieldIndex");
 		Class<?> focusedFieldControlClass = (Class<?>) map.get("focusedFieldControlClass");
 		Object focusedFieldFocusDetails = map.get("focusedFieldFocusDetails");
-		
+
 		FieldControlPlaceHolder fieldControlPaceHolderToFocusOn = getFieldControlPlaceHolders(form)
 				.get(focusedFieldIndex);
 		fieldControlPaceHolderToFocusOn.requestFocus();
@@ -1294,7 +1247,6 @@ public class SwingRenderer {
 			}
 		}
 	}
-
 
 	public void refreshFieldControlsByName(JPanel form, String fieldName, boolean recreate) {
 		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
@@ -1670,7 +1622,10 @@ public class SwingRenderer {
 				}
 			}
 			if (fieldControl == null) {
-				fieldControl = SwingRenderer.this.createFieldControl(object, field);
+				fieldControl = createFieldControl(object, field);
+				if (fieldControl instanceof IAdvancedFieldControl) {
+					((IAdvancedFieldControl) fieldControl).setPalceHolder(FieldControlPlaceHolder.this);
+				}
 				add(fieldControl, BorderLayout.CENTER);
 				SwingRendererUtils.handleComponentSizeChange(this);
 			} else {

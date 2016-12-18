@@ -1,3 +1,16 @@
+- TypeCast.getTypeInfoSource() must be replaced by getTypeInfo()
+- in TypeInfoProxyFactories:
+	. always test if DefaultTypeInfo otherwise customizations may be done twices
+	. or add an IInfo.isProxy() method
+	. update example about it
+- allow to customize Method dialog "no data returned"
+- add IListType:
+	. getItemGetter(int)
+	. getItemSetter(int,Obj)
+- ITypeInfoProxyFactory: implement toString() on all implementations
+- ReflectionUI parameter is often useless. Check
+- toString() method must exclusively be used as a debugging tool
+	ReflectionUI.toString(object) can be used for nice displays. Think about it
 - polymorphiControl:
 	. what if a polymorphic base type is a valid option itself (is concrete)?
 	. what if there is only 1 subtype. use polymorphic control anyway?

@@ -8,8 +8,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import xy.reflect.ui.control.data.FieldControlData;
-import xy.reflect.ui.info.IInfoCollectionSettings;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
@@ -92,7 +92,7 @@ public class TestIterableTypeInfos  extends AbstractTest{
 			}
 		}
 
-		IInfoCollectionSettings firstItemInfoSettings = itemListStructuralInfo.getItemInfoSettings(firstItemPosition);
+		IInfoFilter firstItemInfoSettings = itemListStructuralInfo.getItemInfoSettings(firstItemPosition);
 		Assert.assertTrue(!firstItemInfoSettings.excludeField(valueField));
 
 		IFieldInfo subItemsField = ReflectionUIUtils.findInfoByName(firstItemType.getFields(), "subItems");
