@@ -1,8 +1,5 @@
-- TypeCast.getTypeInfoSource() must be replaced by getTypeInfo()
-- in TypeInfoProxyFactories:
-	. always test if DefaultTypeInfo otherwise customizations may be done twices
-	. or add an IInfo.isProxy() method
-	. update example about it
+- Customizations typeInfo should be retrieved on IControlData, 
+not IFieldInfo
 - allow to customize Method dialog "no data returned"
 - add IListType:
 	. getItemGetter(int)
@@ -14,9 +11,6 @@
 - polymorphiControl:
 	. what if a polymorphic base type is a valid option itself (is concrete)?
 	. what if there is only 1 subtype. use polymorphic control anyway?
-- List Details
-	. view not filtered
-	. Encapsulated type must be list item type, not actualType
 - Non null field controls
 	. must Be created basing on actual value type
 	. Can also be enum control
