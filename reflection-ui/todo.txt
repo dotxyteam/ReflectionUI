@@ -1,18 +1,19 @@
-- List created from nullable Object field not editable.
-Check.
-- getFieldValueOptions() customizations will create a memory leak
-if values are dynamic
-- Customizations typeInfo should be retrieved on IControlData, 
-not IFieldInfo
-	. not enough in case of dynamic typing (ex: PolymorphicControl)
+- cleaning:
+	- clarifications for methods:
+		. toString(): must help debugging
+		. getName(): uniq id for customizations, etc...
+		. getCaption(): display name
+		. check...
+	-  implement toString() on:
+		. ITypeInfoProxyFactory and sub-types
+		. Controls
+		. Forms
+	- ReflectionUI.toString(object) can be used for nice displays. Think about it
 - allow to customize Method dialog "no data returned"
 - add IListType:
 	. getItemGetter(int)
 	. getItemSetter(int,Obj)
-- ITypeInfoProxyFactory: implement toString() on all implementations
 - ReflectionUI parameter is often useless. Check
-- toString() method must exclusively be used as a debugging tool
-	ReflectionUI.toString(object) can be used for nice displays. Think about it
 - polymorphiControl:
 	. what if a polymorphic base type is a valid option itself (is concrete)?
 	. what if there is only 1 subtype. use polymorphic control anyway?

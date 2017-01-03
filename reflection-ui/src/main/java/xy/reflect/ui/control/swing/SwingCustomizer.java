@@ -1,6 +1,7 @@
 package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -204,6 +205,12 @@ public class SwingCustomizer extends SwingRenderer {
 
 		}
 
+		protected JButton createToolAccessButton(ImageIcon imageIcon) {
+			final JButton result = new JButton(imageIcon);
+			result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
+			return result;
+		}
+		
 		protected SwingRenderer createCustomizationToolsRenderer() {
 			if (SystemProperties.isInfoCustomizationToolsCustomizationAllowed()) {
 				String customizationToolsCustomizationsOutputFilePath = System
@@ -426,14 +433,12 @@ public class SwingCustomizer extends SwingRenderer {
 		}
 
 		protected JButton createSaveControl() {
-			final File file = new File(infoCustomizationsOutputFilePath);
-			final JButton result = new JButton(SwingRendererUtils.SAVE_ALL_ICON);
+			final JButton result = createToolAccessButton(SwingRendererUtils.SAVE_ALL_ICON);
 			result.setToolTipText(customizationToolsRenderer.prepareStringToDisplay("Save all the customizations"));
-			result.setContentAreaFilled(false);
-			result.setFocusable(false);
 			result.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					final File file = new File(infoCustomizationsOutputFilePath);
 					try {
 						infoCustomizations.saveToFile(file);
 					} catch (IOException e1) {
@@ -445,11 +450,9 @@ public class SwingCustomizer extends SwingRenderer {
 		}
 
 		protected Component createTypeInfoCustomizer(final String typeName) {
-			final JButton result = new JButton(getCustomizationIcon());
+			final JButton result = createToolAccessButton(getCustomizationIcon());
 			result.setToolTipText(
 					customizationToolsRenderer.prepareStringToDisplay("Customize the type <" + typeName + "> display"));
-			result.setContentAreaFilled(false);
-			result.setFocusable(false);
 			final TypeCustomization t = infoCustomizations.getTypeCustomization(typeName, true);
 			result.addActionListener(new ActionListener() {
 				@Override
@@ -548,10 +551,7 @@ public class SwingCustomizer extends SwingRenderer {
 		}
 
 		protected Component createFieldInfoCustomizer(final FieldControlPlaceHolder fieldControlPlaceHolder) {
-			final JButton result = new JButton(getCustomizationIcon());
-			result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
-			result.setContentAreaFilled(false);
-			result.setFocusable(false);
+			final JButton result = createToolAccessButton(getCustomizationIcon());
 			SwingRendererUtils.setMultilineToolTipText(result,
 					customizationToolsRenderer.prepareStringToDisplay("Customize this field display"));
 			result.addActionListener(new ActionListener() {
@@ -681,6 +681,8 @@ public class SwingCustomizer extends SwingRenderer {
 			return result;
 		}
 
+		
+
 		protected void hideMethod(Component activatorComponent, ITypeInfo customizedType, String methodSignature) {
 			MethodCustomization mc = infoCustomizations.getMethodCustomization(customizedType.getName(),
 					methodSignature, true);
@@ -793,10 +795,7 @@ public class SwingCustomizer extends SwingRenderer {
 		}
 
 		protected Component createMethodInfoCustomizer(final MethodControlPlaceHolder methodControlPlaceHolder) {
-			final JButton result = new JButton(getCustomizationIcon());
-			result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
-			result.setContentAreaFilled(false);
-			result.setFocusable(false);
+			final JButton result = createToolAccessButton(getCustomizationIcon());
 			SwingRendererUtils.setMultilineToolTipText(result,
 					customizationToolsRenderer.prepareStringToDisplay("Customize this method display"));
 			result.addActionListener(new ActionListener() {
