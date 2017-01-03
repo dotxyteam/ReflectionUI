@@ -1,5 +1,7 @@
 package xy.reflect.ui.control.data;
 
+import java.util.Map;
+
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.ITypeInfo;
 
@@ -39,6 +41,10 @@ public class ControlDataProxy implements IControlData{
 	@Override
 	public ValueReturnMode getValueReturnMode() {
 		return base.getValueReturnMode();
+	}
+
+	public Map<String, Object> getSpecificProperties() {
+		return base.getSpecificProperties();
 	}
 
 	@Override

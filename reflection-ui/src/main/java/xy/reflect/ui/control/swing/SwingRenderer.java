@@ -50,11 +50,13 @@ import org.jdesktop.swingx.JXBusyLabel;
 
 import com.google.common.collect.MapMaker;
 
-import sun.swing.SwingUtilities2;
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.data.ControlDataProxy;
 import xy.reflect.ui.control.data.FieldControlData;
+import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.HiddenNullableFacetFieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -434,26 +436,73 @@ public class SwingRenderer {
 		}
 	}
 
-	public Component createFieldControl(final Object object, final IFieldInfo field) {
-		if (field.getType() instanceof IEnumerationTypeInfo) {
-			return new EnumerationControl(this, new FieldControlData(object, field));
-		} else if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(field.getType())) {
-			return new PolymorphicControl(this, new FieldControlData(object, field));
-		} else if (field.getValueOptions(object) != null) {
-			return createOptionsControl(object, field);
+	public IControlData getFieldControlData(final Object object, final IFieldInfo field) {
+		if (field.getValueOptions(object) != null) {
+			ITypeInfo ownerType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+			final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(reflectionUI,
+					field.getValueOptions(object), ownerType.getName() + "." + field.getName() + ".ValueOptions", "");
+			final ITypeInfo enumType = reflectionUI.getTypeInfo(enumFactory.getInstanceTypeInfoSource());
+			return new FieldControlData(object, field) {
+
+				@Override
+				public Object getValue() {
+					Object value = super.getValue();
+					return enumFactory.getInstance(value);
+				}
+
+				@Override
+				public void setValue(Object value) {
+					value = enumFactory.unwrapInstance(value);
+					field.setValue(object, value);
+				}
+
+				@Override
+				public Runnable getCustomUndoUpadteJob(Object value) {
+					value = enumFactory.unwrapInstance(value);
+					return field.getCustomUndoUpdateJob(object, value);
+				}
+
+				@Override
+				public ITypeInfo getType() {
+					return enumType;
+				}
+
+			};
+		}
+		return new FieldControlData(object, field);
+	}
+
+	public Component createFieldControl(final IControlData fieldControlData) {
+		if (fieldControlData.getType() instanceof IEnumerationTypeInfo) {
+			return new EnumerationControl(this, fieldControlData);
+		} else if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(fieldControlData.getType())) {
+			return new PolymorphicControl(this, fieldControlData);
 		} else {
-			if (field.isNullable()) {
-				return new NullableControl(this, new FieldControlData(object, field)) {
+			if (fieldControlData.isNullable()) {
+				return new NullableControl(this, fieldControlData) {
 
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					protected Component createNonNullValueControl() {
-						Component result = SwingRenderer.this.createFieldControl(object, new FieldInfoProxy(field) {
+						Component result = SwingRenderer.this.createFieldControl(new ControlDataProxy(data) {
 
 							@Override
 							public boolean isNullable() {
 								return false;
+							}
+
+							@Override
+							public ITypeInfo getType() {
+								Object fieldValue = data.getValue();
+								if (fieldValue != null) {
+									final ITypeInfo actualFieldValueType = reflectionUI
+											.getTypeInfo(reflectionUI.getTypeInfoSource(fieldValue));
+									if (!actualFieldValueType.equals(data.getType())) {
+										return actualFieldValueType;
+									}
+								}
+								return super.getType();
 							}
 
 						});
@@ -463,13 +512,8 @@ public class SwingRenderer {
 					@Override
 					protected Object getDefaultValue() {
 						Object newValue = null;
-						Object[] valueOptions = field.getValueOptions(object);
 						try {
-							if ((valueOptions != null) && (valueOptions.length > 0)) {
-								newValue = valueOptions[0];
-							} else {
-								newValue = this.swingRenderer.onTypeInstanciationRequest(this, field.getType(), false);
-							}
+							newValue = this.swingRenderer.onTypeInstanciationRequest(this, data.getType(), false);
 						} catch (Throwable t) {
 							swingRenderer.handleExceptionsFromDisplayedUI(this, t);
 							newValue = null;
@@ -479,32 +523,23 @@ public class SwingRenderer {
 
 				};
 			}
-			Object fieldValue = field.getValue(object);
-			final ITypeInfo actualFieldValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(fieldValue));
-			if (!actualFieldValueType.equals(field.getType())) {
-				return createFieldControl(object, new FieldInfoProxy(field) {
-					@Override
-					public ITypeInfo getType() {
-						return actualFieldValueType;
-					}
-				});
-			}
-			Component result = createCustomNonNullFieldValueControl(object, field);
+			Component result = createCustomNonNullFieldValueControl(fieldControlData);
 			if (result != null) {
 				return result;
 			}
-			if (DesktopSpecificProperty.isSubFormExpanded(DesktopSpecificProperty.accessInfoProperties(field))) {
-				return new EmbeddedFormControl(this, new FieldControlData(object, field));
+			if (DesktopSpecificProperty
+					.isSubFormExpanded(DesktopSpecificProperty.accessControlDataProperties(fieldControlData))) {
+				return new EmbeddedFormControl(this, fieldControlData);
 			} else {
-				return new DialogAccessControl(this, new FieldControlData(object, field));
+				return new DialogAccessControl(this, fieldControlData);
 			}
 		}
 	}
 
-	public Component createCustomNonNullFieldValueControl(Object object, IFieldInfo field) {
-		ITypeInfo fieldType = field.getType();
+	public Component createCustomNonNullFieldValueControl(IControlData data) {
+		ITypeInfo fieldType = data.getType();
 		if (fieldType instanceof IListTypeInfo) {
-			return new ListControl(this, new FieldControlData(object, field));
+			return new ListControl(this, data);
 		} else {
 			Class<?> javaType;
 			try {
@@ -513,17 +548,17 @@ public class SwingRenderer {
 				return null;
 			}
 			if (javaType == Color.class) {
-				return new ColorControl(this, new FieldControlData(object, field));
+				return new ColorControl(this, data);
 			} else if (BooleanTypeInfo.isCompatibleWith(javaType)) {
-				return new CheckBoxControl(this, new FieldControlData(object, field));
+				return new CheckBoxControl(this, data);
 			} else if (TextualTypeInfo.isCompatibleWith(javaType)) {
 				if (javaType == String.class) {
-					return new TextControl(this, new FieldControlData(object, field));
+					return new TextControl(this, data);
 				} else {
-					return new PrimitiveValueControl(this, new FieldControlData(object, field), javaType);
+					return new PrimitiveValueControl(this, data, javaType);
 				}
 			} else if (FileTypeInfo.isCompatibleWith(javaType)) {
-				return new FileControl(this, new FieldControlData(object, field));
+				return new FileControl(this, data);
 			} else {
 				return null;
 			}
@@ -1622,7 +1657,8 @@ public class SwingRenderer {
 				}
 			}
 			if (fieldControl == null) {
-				fieldControl = createFieldControl(object, field);
+				IControlData fieldControlData = getFieldControlData(object, field);
+				fieldControl = createFieldControl(fieldControlData);
 				if (fieldControl instanceof IAdvancedFieldControl) {
 					((IAdvancedFieldControl) fieldControl).setPalceHolder(FieldControlPlaceHolder.this);
 				}

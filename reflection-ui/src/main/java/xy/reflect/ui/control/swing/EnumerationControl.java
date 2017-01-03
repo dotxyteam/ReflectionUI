@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
@@ -40,6 +41,7 @@ public class EnumerationControl extends JPanel {
 
 	protected void initialize() {
 		setLayout(new BorderLayout());
+		setBorder(BorderFactory.createTitledBorder(""));
 
 		comboBox = new JComboBox();
 		add(comboBox, BorderLayout.CENTER);

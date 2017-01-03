@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
+import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
 
@@ -55,7 +56,7 @@ public abstract class NullableControl extends JPanel implements IAdvancedFieldCo
 
 		refreshUI();
 	}
-	
+
 	@Override
 	public void setPalceHolder(FieldControlPlaceHolder fieldControlPlaceHolder) {
 		this.fieldControlPlaceHolder = fieldControlPlaceHolder;
@@ -218,5 +219,13 @@ public abstract class NullableControl extends JPanel implements IAdvancedFieldCo
 		if (subControl instanceof IAdvancedFieldControl) {
 			((IAdvancedFieldControl) subControl).validateSubForm();
 		}
+	}
+
+	@Override
+	public ITypeInfo getDynamicObjectType() {
+		if (subControl instanceof IAdvancedFieldControl) {
+			return ((IAdvancedFieldControl) subControl).getDynamicObjectType();
+		}
+		return null;
 	}
 }

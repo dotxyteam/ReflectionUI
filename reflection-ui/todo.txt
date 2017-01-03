@@ -1,5 +1,10 @@
+- List created from nullable Object field not editable.
+Check.
+- getFieldValueOptions() customizations will create a memory leak
+if values are dynamic
 - Customizations typeInfo should be retrieved on IControlData, 
 not IFieldInfo
+	. not enough in case of dynamic typing (ex: PolymorphicControl)
 - allow to customize Method dialog "no data returned"
 - add IListType:
 	. getItemGetter(int)

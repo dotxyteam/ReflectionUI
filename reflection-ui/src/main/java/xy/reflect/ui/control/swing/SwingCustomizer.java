@@ -25,6 +25,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.SwingRenderer.MethodControlPlaceHolder;
 import xy.reflect.ui.info.DesktopSpecificProperty;
@@ -123,9 +124,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 			protected void refreshInfoCustomizationsControl() {
 				if (infoCustomizationsComponent == null) {
-					ITypeInfo customizedType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-					infoCustomizationsComponent = customizationTools.createFieldInfoCustomizer(customizedType,
-							field.getName());
+					infoCustomizationsComponent = customizationTools.createFieldInfoCustomizer(this);
 					add(infoCustomizationsComponent, BorderLayout.EAST);
 					SwingRendererUtils.handleComponentSizeChange(this);
 				} else {
@@ -154,9 +153,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 			protected void refreshInfoCustomizationsControl() {
 				if (infoCustomizationsComponent == null) {
-					ITypeInfo customizedType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-					infoCustomizationsComponent = customizationTools.createMethodInfoCustomizer(customizedType,
-							ReflectionUIUtils.getMethodInfoSignature(method));
+					infoCustomizationsComponent = customizationTools.createMethodInfoCustomizer(this);
 					add(infoCustomizationsComponent, BorderLayout.WEST);
 					SwingRendererUtils.handleComponentSizeChange(this);
 				} else {
@@ -550,7 +547,7 @@ public class SwingCustomizer extends SwingRenderer {
 			};
 		}
 
-		protected Component createFieldInfoCustomizer(final ITypeInfo customizedType, final String fieldName) {
+		protected Component createFieldInfoCustomizer(final FieldControlPlaceHolder fieldControlPlaceHolder) {
 			final JButton result = new JButton(getCustomizationIcon());
 			result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
 			result.setContentAreaFilled(false);
@@ -558,6 +555,27 @@ public class SwingCustomizer extends SwingRenderer {
 			SwingRendererUtils.setMultilineToolTipText(result,
 					customizationToolsRenderer.prepareStringToDisplay("Customize this field display"));
 			result.addActionListener(new ActionListener() {
+
+				private ITypeInfo getCurrentFormObjectCustomizedType() {
+					return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(fieldControlPlaceHolder.object));
+				}
+
+				private String getFieldName() {
+					return fieldControlPlaceHolder.field.getName();
+				}
+
+				private ITypeInfo getFieldControlObjectCustomizedType() {
+					if(fieldControlPlaceHolder.fieldControl instanceof IAdvancedFieldControl){
+						ITypeInfo dynamicType = ((IAdvancedFieldControl)fieldControlPlaceHolder.fieldControl).getDynamicObjectType();
+						if(dynamicType != null){
+							return dynamicType;
+						}
+					}
+					final IControlData fieldControlData = getFieldControlData(fieldControlPlaceHolder.object,
+							fieldControlPlaceHolder.field);
+					return fieldControlData.getType();
+				}
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					final JPopupMenu popupMenu = new JPopupMenu();
@@ -566,7 +584,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							hideField(result, customizedType, fieldName);
+							hideField(result, getCurrentFormObjectCustomizedType(), getFieldName());
 						}
 					});
 					popupMenu.add(new AbstractAction(prepareStringToDisplay("Move Up")) {
@@ -574,7 +592,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							moveField(result, customizedType, fieldName, -1);
+							moveField(result, getCurrentFormObjectCustomizedType(), getFieldName(), -1);
 						}
 					});
 					popupMenu.add(new AbstractAction(prepareStringToDisplay("Move Down")) {
@@ -582,7 +600,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							moveField(result, customizedType, fieldName, 1);
+							moveField(result, getCurrentFormObjectCustomizedType(), getFieldName(), 1);
 						}
 					});
 					popupMenu.add(new AbstractAction(prepareStringToDisplay("Move To Top")) {
@@ -590,7 +608,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							moveField(result, customizedType, fieldName, Short.MIN_VALUE);
+							moveField(result, getCurrentFormObjectCustomizedType(), getFieldName(), Short.MIN_VALUE);
 						}
 					});
 					popupMenu.add(new AbstractAction(prepareStringToDisplay("Move To Bottom")) {
@@ -598,22 +616,20 @@ public class SwingCustomizer extends SwingRenderer {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							moveField(result, customizedType, fieldName, Short.MAX_VALUE);
+							moveField(result, getCurrentFormObjectCustomizedType(), getFieldName(), Short.MAX_VALUE);
 						}
 					});
-					final IFieldInfo customizedField = ReflectionUIUtils.findInfoByName(customizedType.getFields(),
-							fieldName);
 					popupMenu.add(new AbstractAction(prepareStringToDisplay("Field Type...")) {
 						private static final long serialVersionUID = 1L;
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							TypeCustomization t = infoCustomizations
-									.getTypeCustomization(customizedField.getType().getName());
+									.getTypeCustomization(getFieldControlObjectCustomizedType().getName());
 							openTypeCustomizationDialog(result, t);
 						}
 					});
-					if (customizedField.getType() instanceof IListTypeInfo) {
+					if (getFieldControlObjectCustomizedType() instanceof IListTypeInfo) {
 						JMenu listSubMenu = new JMenu(prepareStringToDisplay("List"));
 						{
 							popupMenu.add(listSubMenu);
@@ -622,7 +638,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 								@Override
 								public void actionPerformed(ActionEvent e) {
-									openListColumnsOrderDialog(result, (IListTypeInfo) customizedField.getType());
+									openListColumnsOrderDialog(result, (IListTypeInfo) getFieldControlObjectCustomizedType());
 								}
 							});
 							listSubMenu.add(new AbstractAction(prepareStringToDisplay("More Options...")) {
@@ -630,12 +646,12 @@ public class SwingCustomizer extends SwingRenderer {
 
 								@Override
 								public void actionPerformed(ActionEvent e) {
-									openListCutomizationDialog(result, (IListTypeInfo) customizedField.getType());
+									openListCutomizationDialog(result, (IListTypeInfo) getFieldControlObjectCustomizedType());
 								}
 							});
 						}
 					}
-					if (customizedField.getType() instanceof IEnumerationTypeInfo) {
+					if (getFieldControlObjectCustomizedType() instanceof IEnumerationTypeInfo) {
 						JMenu enumSubMenu = new JMenu(prepareStringToDisplay("Enumeration"));
 						{
 							popupMenu.add(enumSubMenu);
@@ -645,7 +661,7 @@ public class SwingCustomizer extends SwingRenderer {
 								@Override
 								public void actionPerformed(ActionEvent e) {
 									openEnumerationCutomizationDialog(result,
-											(IEnumerationTypeInfo) customizedField.getType());
+											(IEnumerationTypeInfo) getFieldControlObjectCustomizedType());
 								}
 							});
 						}
@@ -655,7 +671,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							openFieldCutomizationDialog(result, customizedType, fieldName);
+							openFieldCutomizationDialog(result, getCurrentFormObjectCustomizedType(), getFieldName());
 						}
 					});
 					popupMenu.show(result, result.getWidth(), result.getHeight());
@@ -776,7 +792,7 @@ public class SwingCustomizer extends SwingRenderer {
 			openCustomizationDialog(activatorComponent, mc, customizedType.getName());
 		}
 
-		protected Component createMethodInfoCustomizer(final ITypeInfo customizedType, final String methodSignature) {
+		protected Component createMethodInfoCustomizer(final MethodControlPlaceHolder methodControlPlaceHolder) {
 			final JButton result = new JButton(getCustomizationIcon());
 			result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
 			result.setContentAreaFilled(false);
@@ -784,6 +800,15 @@ public class SwingCustomizer extends SwingRenderer {
 			SwingRendererUtils.setMultilineToolTipText(result,
 					customizationToolsRenderer.prepareStringToDisplay("Customize this method display"));
 			result.addActionListener(new ActionListener() {
+
+				private ITypeInfo getCurrentFormObjectCustomizedType() {
+					return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(methodControlPlaceHolder.object));
+				}
+
+				private String getMethodInfoSignature() {
+					return ReflectionUIUtils.getMethodInfoSignature(methodControlPlaceHolder.method);
+				}
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					final JPopupMenu popupMenu = new JPopupMenu();
@@ -792,7 +817,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							hideMethod(result, customizedType, methodSignature);
+							hideMethod(result, getCurrentFormObjectCustomizedType(), getMethodInfoSignature());
 						}
 					});
 					popupMenu.add(new AbstractAction(prepareStringToDisplay("Move Left")) {
@@ -800,7 +825,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							moveMethod(result, customizedType, methodSignature, -1);
+							moveMethod(result, getCurrentFormObjectCustomizedType(), getMethodInfoSignature(), -1);
 						}
 					});
 					popupMenu.add(new AbstractAction(prepareStringToDisplay("Move Right")) {
@@ -808,11 +833,11 @@ public class SwingCustomizer extends SwingRenderer {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							moveMethod(result, customizedType, methodSignature, 1);
+							moveMethod(result, getCurrentFormObjectCustomizedType(), getMethodInfoSignature(), 1);
 						}
 					});
-					final IMethodInfo customizedMethod = ReflectionUIUtils
-							.findMethodBySignature(customizedType.getMethods(), methodSignature);
+					final IMethodInfo customizedMethod = ReflectionUIUtils.findMethodBySignature(
+							getCurrentFormObjectCustomizedType().getMethods(), getMethodInfoSignature());
 					final ITypeInfo returnValueType = customizedMethod.getReturnValueType();
 					if (returnValueType != null) {
 						popupMenu.add(new AbstractAction(prepareStringToDisplay("Method Return Type...")) {
@@ -831,7 +856,8 @@ public class SwingCustomizer extends SwingRenderer {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							openMethodCutomizationDialog(result, customizedType, methodSignature);
+							openMethodCutomizationDialog(result, getCurrentFormObjectCustomizedType(),
+									getMethodInfoSignature());
 						}
 					});
 					popupMenu.show(result, result.getWidth(), result.getHeight());

@@ -1,5 +1,7 @@
 package xy.reflect.ui.control.data;
 
+import java.util.Map;
+
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -46,6 +48,13 @@ public class FieldControlData implements IControlData {
 	@Override
 	public ITypeInfo getType() {
 		return field.getType();
+	}
+	
+	
+
+	@Override
+	public Map<String, Object> getSpecificProperties() {
+		return field.getSpecificProperties();
 	}
 
 	@Override

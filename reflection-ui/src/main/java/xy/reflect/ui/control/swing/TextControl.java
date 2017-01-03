@@ -18,6 +18,7 @@ import javax.swing.event.UndoableEditListener;
 
 import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
+import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
@@ -203,5 +204,10 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 
 	@Override
 	public void validateSubForm() throws Exception {
+	}
+
+	@Override
+	public ITypeInfo getDynamicObjectType() {
+		return null;
 	}
 }

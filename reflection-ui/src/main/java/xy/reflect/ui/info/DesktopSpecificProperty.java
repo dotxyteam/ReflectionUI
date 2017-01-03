@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.type.util.InfoCustomizations.AbstractInfoCustomization;
 import xy.reflect.ui.util.FileUtils;
@@ -63,6 +64,19 @@ public class DesktopSpecificProperty {
 			@Override
 			public Set<java.util.Map.Entry<String, Object>> entrySet() {
 				Map<String, Object> properties = i.getSpecificProperties();
+				if (properties == null) {
+					return Collections.emptySet();
+				}
+				return properties.entrySet();
+			}
+		};
+	}
+	
+	public static Map<String, Object> accessControlDataProperties(final IControlData data) {
+		return new AbstractMap<String, Object>() {
+			@Override
+			public Set<java.util.Map.Entry<String, Object>> entrySet() {
+				Map<String, Object> properties = data.getSpecificProperties();
 				if (properties == null) {
 					return Collections.emptySet();
 				}

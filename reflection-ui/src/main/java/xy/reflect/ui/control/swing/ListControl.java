@@ -1282,7 +1282,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				if (subItemPosition == null) {
 					return false;
 				}
-				if (UpdateListValueModification.isCompatibleWith(subItemPosition)) {
+				if (!UpdateListValueModification.isCompatibleWith(subItemPosition)) {
 					return false;
 				}
 				if (!subItemPosition.getContainingListType().canAdd()) {
@@ -2084,6 +2084,11 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	@Override
 	public void validateSubForm() throws Exception {
+	}
+
+	@Override
+	public ITypeInfo getDynamicObjectType() {
+		return null;
 	}
 
 	@Override

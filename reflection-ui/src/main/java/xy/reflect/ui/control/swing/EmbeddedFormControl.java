@@ -190,4 +190,9 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 		swingRenderer.validateForm(subForm);
 	}
 
+
+	@Override
+	public ITypeInfo getDynamicObjectType() {
+		return null;
+	}
 }

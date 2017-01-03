@@ -1,0 +1,478 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x6d99feb7, pid=3412, tid=3720
+#
+# JRE version: 6.0_45-b06
+# Java VM: Java HotSpot(TM) Client VM (20.45-b01 mixed mode windows-x86 )
+# Problematic frame:
+# V  [jvm.dll+0xbfeb7]
+#
+# If you would like to submit a bug report, please visit:
+#   http://java.sun.com/webapps/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x1973dc00):  JavaThread "AWT-EventQueue-0" [_thread_in_vm, id=3720, stack(0x19c30000,0x19c80000)]
+
+siginfo: ExceptionCode=0xc0000005, reading address 0x15600120
+
+Registers:
+EAX=0x0000f088, EBX=0x00000090, ECX=0x15562b40, EDX=0x155c3ed8
+ESP=0x19c7e794, EBP=0x19c7e7b8, ESI=0x1973dc00, EDI=0x025d81b8
+EIP=0x6d99feb7, EFLAGS=0x00010206
+
+Top of Stack: (sp=0x19c7e794)
+0x19c7e794:   1973dc00 15562df0 149f02f8 6db09ed0
+0x19c7e7a4:   00000000 00000000 00004000 00000000
+0x19c7e7b4:   4004b800 19c7e7d8 027270a3 1973dc00
+0x19c7e7c4:   025d81c8 15562df0 9999a000 f9999999
+0x19c7e7d4:   a0003ffe 19c7e9d8 027f28ac 14932ac8
+0x19c7e7e4:   09b506e0 00000000 ce800000 403ba33d
+0x19c7e7f4:   00000000 02602ea1 00000000 09b506e0
+0x19c7e804:   14932ac8 8360d24d 0469fc18 0469fc18 
+
+Instructions: (pc=0x6d99feb7)
+0x6d99fe97:   07 85 ff 8b 88 88 00 00 00 8b 44 99 28 75 04 33
+0x6d99fea7:   c9 eb 02 8b 0f 8b 91 88 00 00 00 25 ff ff 00 00
+0x6d99feb7:   8b 44 82 28 50 56 8d 4d f8 e8 eb e1 f4 ff 8b 4d
+0x6d99fec7:   f8 56 51 8d 55 fc 52 e8 ed e2 f5 ff 8b 46 04 83 
+
+
+Register to memory mapping:
+
+EAX=0x0000f088 is an unknown value
+EBX=0x00000090 is an unknown value
+ECX=0x15562b40 is an oop
+{instance class} 
+ - klass: {other class}
+EDX=0x155c3ed8 is an oop
+{constant pool} 
+ - klass: {other class}
+ - cache: 0x155c4210
+ -   1 :  : 'xy/reflect/ui/info/type/util/FilteredTypeFactory$1' {0x15562b40}
+ -   2 :  : 'xy/reflect/ui/info/type/util/FilteredTypeFactory$1'
+ -   3 :  : 'xy/reflect/ui/info/type/util/TypeCastFactory$InstanceTypeInfoFactory' {0x15561f28}
+ -   4 :  : 'xy/reflect/ui/info/type/util/TypeCastFactory$InstanceTypeInfoFactory'
+ -   5 :  : 'this$0'
+ -   6 :  : 'Lxy/reflect/ui/info/type/util/FilteredTypeFactory;'
+ -   7 :  : '<init>'
+ -   8 :  : '(Lxy/reflect/ui/info/type/util/FilteredTypeFactory;Lxy/reflect/ui/info/type/util/TypeCastFactory;)V'
+ -   9 :  : 'Code'
+ -  10 :  : klass_index=1 name_and_type_index=11
+ -  11 :  : name_index=5 signature_index=6
+ -  12 :  : klass_index=3 name_and_type_index=13
+ -  13 :  : name_index=7 signature_index=14
+ -  14 :  : '(Lxy/reflect/ui/info/type/util/TypeCastFactory;)V'
+ -  15 :  : 'LineNumberTable'
+ -  16 :  : 'LocalVariableTable'
+ -  17 :  : 'this'
+ -  18 :  : 'Lxy/reflect/ui/info/type/util/FilteredTypeFactory$1;'
+ -  19 :  : 'getName'
+ -  20 :  : '(Lxy/reflect/ui/info/type/ITypeInfo;)Ljava/lang/String;'
+ -  21 :  : 'java/lang/StringBuilder'
+ -  22 :  : 'java/lang/StringBuilder'
+ -  23 :  : "(" {0x14a1d068}
+ -  24 :  : '('
+ -  25 :  : klass_index=21 name_and_type_index=26
+ -  26 :  : name_index=7 signature_index=27
+ -  27 :  : '(Ljava/lang/String;)V'
+ -  28 :  : klass_index=29 name_and_type_index=31
+ -  29 :  : 'xy/reflect/ui/info/type/util/FilteredTypeFactory' {0x15560598}
+ -  30 :  : 'xy/reflect/ui/info/type/util/FilteredTypeFactory'
+ -  31 :  : name_index=32 signature_index=33
+ -  32 :  : 'targetType'
+ -  33 :  : 'Lxy/reflect/ui/info/type/ITypeInfo;'
+ -  34 :  : klass_index=35 name_and_type_index=37
+ -  35 :  : 'xy/reflect/ui/info/type/ITypeInfo' {0x1486faa0}
+ -  36 :  : 'xy/reflect/ui/info/type/ITypeInfo'
+ -  37 :  : name_index=19 signature_index=38
+ -  38 :  : '()Ljava/lang/String;'
+ -  39 :  : klass_index=21 name_and_type_index=40
+ -  40 :  : name_index=41 signature_index=42
+ -  41 :  : 'append'
+ -  42 :  : '(Ljava/lang/String;)Ljava/lang/StringBuilder;'
+ -  43 :  : "+" {0x14fcde80}
+ -  44 :  : '+'
+ -  45 :  : klass_index=29 name_and_type_index=46
+ -  46 :  : name_index=47 signature_index=48
+ -  47 :  : 'filter'
+ -  48 :  : 'Lxy/reflect/ui/info/IInfoCollectionSettings;'
+ -  49 :  : klass_index=21 name_and_type_index=50
+ -  50 :  : name_index=41 signature_index=51
+ -  51 :  : '(Ljava/lang/Object;)Ljava/lang/StringBuilder;'
+ -  52 :  : ")" {0x14a82df8}
+ -  53 :  : ')'
+ -  54 :  : klass_index=3 name_and_type_index=55
+ -  55 :  : name_index=19 signature_index=20
+ -  56 :  : klass_index=21 name_and_type_index=57
+ -  57 :  : name_index=58 signature_index=38
+ -  58 :  : 'toString'
+ -  59 :  : 'type'
+ -  60 :  : 'getFields'
+ -  61 :  : '(Lxy/reflect/ui/info/type/ITypeInfo;)Ljava/util/List;'
+ -  62 :  : 'Signature'
+ -  63 :  : '(Lxy/reflect/ui/info/type/ITypeInfo;)Ljava/util/List<Lxy/reflect/ui/info/field/IFieldInfo;>;'
+ -  64 :  : 'java/util/ArrayList' {0x14758e28}
+ -  65 :  : 'java/util/ArrayList'
+ -  66 :  : klass_index=64 name_and_type_index=67
+ -  67 :  : name_index=7 signature_index=68
+ -  68 :  : '()V'
+ -  69 :  : klass_index=3 name_and_type_index=70
+ -  70 :  : name_index=60 signature_index=61
+ -  71 :  : klass_index=72 name_and_type_index=74
+ -  72 :  : 'java/util/List' {0x1469fa58}
+ -  73 :  : 'java/util/List'
+ -  74 :  : name_index=75 signature_index=76
+ -  75 :  : 'iterator'
+ -  76 :  : '()Ljava/util/Iterator;'
+ -  77 :  : klass_index=78 name_and_type_index=80
+ -  78 :  : 'java/util/Iterator' {0x146ad690}
+ -  79 :  : 'java/util/Iterator'
+ -  80 :  : name_index=81 signature_index=82
+ -  81 :  : 'next'
+ -  82 :  : '()Ljava/lang/Object;'
+ -  83 :  : 'xy/reflect/ui/info/field/IFieldInfo'
+ -  84 :  : 'xy/reflect/ui/info/field/IFieldInfo'
+ -  85 :  : klass_index=86 name_and_type_index=88
+ -  86 :  : 'xy/reflect/ui/info/IInfoCollectionSettings'
+ -  87 :  : 'xy/reflect/ui/info/IInfoCollectionSettings'
+ -  88 :  : name_index=89 signature_index=90
+ -  89 :  : 'excludeField'
+ -  90 :  : '(Lxy/reflect/ui/info/field/IFieldInfo;)Z'
+ -  91 :  : klass_index=72 name_and_type_index=92
+ -  92 :  : name_index=93 signature_index=94
+ -  93 :  : 'add'
+ -  94 :  : '(Ljava/lang/Object;)Z'
+ -  95 :  : klass_index=78 name_and_type_index=96
+ -  96 :  : name_index=97 signature_index=98
+ -  97 :  : 'hasNext'
+ -  98 :  : '()Z'
+ -  99 :  : 'result'
+ - 100 :  : 'Ljava/util/List;'
+ - 101 :  : 'field'
+ - 102 :  : 'Lxy/reflect/ui/info/field/IFieldInfo;'
+ - 103 :  : 'LocalVariableTypeTable'
+ - 104 :  : 'Ljava/util/List<Lxy/reflect/ui/info/field/IFieldInfo;>;'
+ - 105 :  : 'StackMapTable'
+ - 106 :  : 'getMethods'
+ - 107 :  : '(Lxy/reflect/ui/info/type/ITypeInfo;)Ljava/util/List<Lxy/reflect/ui/info/method/IMethodInfo;>;'
+ - 108 :  : klass_index=3 name_and_type_index=109
+ - 109 :  : name_index=106 signature_index=61
+ - 110 :  : 'xy/reflect/ui/info/method/IMethodInfo'
+ - 111 :  : 'xy/reflect/ui/info/method/IMethodInfo'
+ - 112 :  : klass_index=86 name_and_type_index=113
+ - 113 :  : name_index=114 signature_index=115
+ - 114 :  : 'excludeMethod'
+ - 115 :  : '(Lxy/reflect/ui/info/method/IMethodInfo;)Z'
+ - 116 :  : 'method'
+ - 117 :  : 'Lxy/reflect/ui/info/method/IMethodInfo;'
+ - 118 :  : 'Ljava/util/List<Lxy/reflect/ui/info/method/IMethodInfo;>;'
+ - 119 :  : 'getPolymorphicInstanceSubTypes'
+ - 120 :  : '(Lxy/reflect/ui/info/type/ITypeInfo;)Ljava/util/List<Lxy/reflect/ui/info/type/ITypeInfo;>;'
+ - 121 :  : klass_index=3 name_and_type_index=122
+ - 122 :  : name_index=119 signature_index=61
+ - 123 :  : klass_index=29 name_and_type_index=124
+ - 124 :  : name_index=125 signature_index=126
+ - 125 :  : 'reflectionUI'
+ - 126 :  : 'Lxy/reflect/ui/ReflectionUI;'
+ - 127 :  : klass_index=29 name_and_type_index=128
+ - 128 :  : name_index=7 signature_index=129
+ - 129 :  : '(Lxy/reflect/ui/ReflectionUI;Lxy/reflect/ui/info/type/ITypeInfo;Lxy/reflect/ui/info/IInfoCollectionSettings;)V'
+ - 130 :  : klass_index=29 name_and_type_index=131
+ - 131 :  : name_index=132 signature_index=133
+ - 132 :  : 'instanceTypeInfoFactory'
+ - 133 :  : 'Lxy/reflect/ui/info/type/util/TypeCastFactory$InstanceTypeInfoFactory;'
+ - 134 :  : klass_index=3 name_and_type_index=135
+ - 135 :  : name_index=136 signature_index=137
+ - 136 :  : 'get'
+ - 137 :  : '(Lxy/reflect/ui/info/type/ITypeInfo;)Lxy/reflect/ui/info/type/ITypeInfo;'
+ - 138 :  : 'subType'
+ - 139 :  : 'Ljava/util/List<Lxy/reflect/ui/info/type/ITypeInfo;>;'
+ - 140 :  : 'SourceFile'
+ - 141 :  : 'FilteredTypeFactory.java'
+ - 142 :  : 'EnclosingMethod'
+ - 143 :  : name_index=144 signature_index=145
+ - 144 :  : 'createInstanceTypeInfoFactory'
+ - 145 :  : '()Lxy/reflect/ui/info/type/util/TypeCastFactory$InstanceTypeInfoFactory;'
+ - 146 :  : 'InnerClasses'
+ - 147 :  : 'xy/reflect/ui/info/type/util/TypeCastFactory'
+ - 148 :  : 'xy/reflect/ui/info/type/util/TypeCastFactory'
+ - 149 :  : 'InstanceTypeInfoFactory'
+ - 150 :  : '()Ljava/util/List;'
+ - 151 :  : name_index=119 signature_index=150
+ - 152 :  : klass_index=35 name_and_type_index=151
+
+ESP=0x19c7e794 is pointing into the stack for thread: 0x1973dc00
+EBP=0x19c7e7b8 is pointing into the stack for thread: 0x1973dc00
+ESI=0x1973dc00 is a thread
+EDI=0x025d81b8 is an unknown value
+
+
+Stack: [0x19c30000,0x19c80000],  sp=0x19c7e794,  free space=313k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0xbfeb7]
+J  java.lang.Class.getEnclosingMethod0()[Ljava/lang/Object;
+J  java.lang.Class.getEnclosingMethod()Ljava/lang/reflect/Method;
+j  xy.reflect.ui.info.type.util.TypeInfoProxyFactory$GeneratedBasicTypeInfoProxy.getPolymorphicInstanceSubTypes()Ljava/util/List;+8
+j  xy.reflect.ui.info.type.util.TypeInfoProxyFactory.getPolymorphicInstanceSubTypes(Lxy/reflect/ui/info/type/ITypeInfo;)Ljava/util/List;+9
+j  xy.reflect.ui.info.type.util.InfoCustomizations$MyTypeInfoProxyFactory.getPolymorphicInstanceSubTypes(Lxy/reflect/ui/info/type/ITypeInfo;)Ljava/util/List;+35
+j  xy.reflect.ui.info.type.util.TypeInfoProxyFactory$GeneratedBasicTypeInfoProxy.getPolymorphicInstanceSubTypes()Ljava/util/List;+8
+j  xy.reflect.ui.control.swing.PolymorphicControl.<init>(Lxy/reflect/ui/control/swing/SwingRenderer;Lxy/reflect/ui/control/data/IControlData;)V+45
+j  xy.reflect.ui.control.swing.SwingRenderer.createFieldControl(Ljava/lang/Object;Lxy/reflect/ui/info/field/IFieldInfo;)Ljava/awt/Component;+56
+j  xy.reflect.ui.control.swing.SwingRenderer$FieldControlPlaceHolder.refreshUI(Z)V+53
+j  xy.reflect.ui.control.swing.SwingCustomizer$1.refreshUI(Z)V+20
+j  xy.reflect.ui.control.swing.SwingRenderer$FieldControlPlaceHolder.<init>(Lxy/reflect/ui/control/swing/SwingRenderer;Ljava/lang/Object;Lxy/reflect/ui/info/field/IFieldInfo;)V+50
+j  xy.reflect.ui.control.swing.SwingCustomizer$1.<init>(Lxy/reflect/ui/control/swing/SwingCustomizer;Lxy/reflect/ui/control/swing/SwingRenderer;Ljava/lang/Object;Lxy/reflect/ui/info/field/IFieldInfo;)V+10
+j  xy.reflect.ui.control.swing.SwingCustomizer.createFieldControlPlaceHolder(Ljava/lang/Object;Lxy/reflect/ui/info/field/IFieldInfo;)Lxy/reflect/ui/control/swing/SwingRenderer$FieldControlPlaceHolder;+8
+j  xy.reflect.ui.control.swing.SwingRenderer.fillForm(Ljavax/swing/JPanel;)V+115
+j  xy.reflect.ui.control.swing.SwingCustomizer.fillForm(Ljavax/swing/JPanel;)V+101
+j  xy.reflect.ui.control.swing.SwingRenderer.createForm(Ljava/lang/Object;Lxy/reflect/ui/info/IInfoCollectionSettings;)Ljavax/swing/JPanel;+104
+j  xy.reflect.ui.control.swing.ObjectDialogBuilder.build()Ljavax/swing/JDialog;+15
+j  xy.reflect.ui.control.swing.ListControl.openDetailsDialog(Lxy/reflect/ui/control/swing/ListControl$AutoFieldValueUpdatingItemPosition;[Ljava/lang/Object;)Lxy/reflect/ui/control/swing/ObjectDialogBuilder;+87
+j  xy.reflect.ui.control.swing.ListControl$22.perform([Ljava/util/List;)Z+26
+j  xy.reflect.ui.control.swing.ListControl$AbstractStandardListAction$1$1.get()Ljava/lang/Boolean;+11
+j  xy.reflect.ui.control.swing.ListControl$AbstractStandardListAction$1$1.get()Ljava/lang/Object;+1
+j  xy.reflect.ui.undo.ModificationStack.insideComposite(Lxy/reflect/ui/info/IInfo;Ljava/lang/String;Lxy/reflect/ui/undo/UndoOrder;Lxy/reflect/ui/util/Accessor;)Z+6
+j  xy.reflect.ui.control.swing.ListControl$AbstractStandardListAction$1.get()Ljava/lang/Boolean;+51
+j  xy.reflect.ui.control.swing.ListControl$AbstractStandardListAction$1.get()Ljava/lang/Object;+1
+j  xy.reflect.ui.undo.ModificationStack.insideComposite(Lxy/reflect/ui/info/IInfo;Ljava/lang/String;Lxy/reflect/ui/undo/UndoOrder;Lxy/reflect/ui/util/Accessor;)Z+6
+j  xy.reflect.ui.control.swing.ListControl$AbstractStandardListAction.actionPerformed(Ljava/awt/event/ActionEvent;)V+103
+j  xy.reflect.ui.control.swing.ListControl$31.mouseClicked(Ljava/awt/event/MouseEvent;)V+48
+j  java.awt.AWTEventMulticaster.mouseClicked(Ljava/awt/event/MouseEvent;)V+21
+j  java.awt.AWTEventMulticaster.mouseClicked(Ljava/awt/event/MouseEvent;)V+8
+j  java.awt.Component.processMouseEvent(Ljava/awt/event/MouseEvent;)V+74
+j  javax.swing.JComponent.processMouseEvent(Ljava/awt/event/MouseEvent;)V+23
+j  org.jdesktop.swingx.JXTreeTable.processMouseEvent(Ljava/awt/event/MouseEvent;)V+55
+j  java.awt.Component.processEvent(Ljava/awt/AWTEvent;)V+81
+j  java.awt.Container.processEvent(Ljava/awt/AWTEvent;)V+18
+j  java.awt.Component.dispatchEventImpl(Ljava/awt/AWTEvent;)V+573
+J  java.awt.Container.dispatchEventImpl(Ljava/awt/AWTEvent;)V
+j  java.awt.LightweightDispatcher.dispatchEvent(Ljava/awt/AWTEvent;)Z+50
+J  java.awt.Container.dispatchEventImpl(Ljava/awt/AWTEvent;)V
+J  java.awt.EventQueue.dispatchEventImpl(Ljava/awt/AWTEvent;Ljava/lang/Object;)V
+V  [jvm.dll+0xfb88b]
+V  [jvm.dll+0x18d551]
+V  [jvm.dll+0xfb90d]
+V  [jvm.dll+0xbbf74]
+C  [java.dll+0x102f]  Java_java_security_AccessController_doPrivileged__Ljava_security_PrivilegedAction_2Ljava_security_AccessControlContext_2+0x17
+J  java.security.AccessControlContext$1.doIntersectionPrivilege(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object;
+j  java.awt.EventQueue$3.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+V  [jvm.dll+0xfb88b]
+V  [jvm.dll+0x18d551]
+V  [jvm.dll+0xfb90d]
+V  [jvm.dll+0xbbf74]
+C  [java.dll+0x102f]  Java_java_security_AccessController_doPrivileged__Ljava_security_PrivilegedAction_2Ljava_security_AccessControlContext_2+0x17
+J  java.awt.EventQueue.dispatchEvent(Ljava/awt/AWTEvent;)V
+j  java.awt.EventDispatchThread.pumpEventsForHierarchy(ILjava/awt/Conditional;Ljava/awt/Component;)V+11
+j  java.awt.EventDispatchThread.pumpEvents(ILjava/awt/Conditional;)V+4
+j  java.awt.EventDispatchThread.pumpEvents(Ljava/awt/Conditional;)V+3
+j  java.awt.EventDispatchThread.run()V+9
+v  ~StubRoutines::call_stub
+V  [jvm.dll+0xfb88b]
+V  [jvm.dll+0x18d551]
+V  [jvm.dll+0xfba31]
+V  [jvm.dll+0xfba8b]
+V  [jvm.dll+0xb5e89]
+V  [jvm.dll+0x119b74]
+V  [jvm.dll+0x14217c]
+C  [msvcr71.dll+0x9565]  endthreadex+0xa0
+C  [kernel32.dll+0x1336a]  BaseThreadInitThunk+0x12
+C  [ntdll.dll+0x39902]  RtlInitializeExceptionChain+0x63
+C  [ntdll.dll+0x398d5]  RtlInitializeExceptionChain+0x36
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+J  java.lang.Class.getEnclosingMethod0()[Ljava/lang/Object;
+J  java.lang.Class.getEnclosingMethod()Ljava/lang/reflect/Method;
+J  xy.reflect.ui.info.type.util.TypeInfoProxyFactory.getSpecificProperties(Lxy/reflect/ui/info/type/ITypeInfo;)Ljava/util/Map;
+J  xy.reflect.ui.info.type.util.TypeInfoProxyFactory$GeneratedBasicTypeInfoProxy.<init>(Lxy/reflect/ui/info/type/util/TypeInfoProxyFactory;Lxy/reflect/ui/info/type/ITypeInfo;)V
+J  xy.reflect.ui.info.type.util.TypeInfoProxyFactory.get(Lxy/reflect/ui/info/type/ITypeInfo;)Lxy/reflect/ui/info/type/ITypeInfo;
+j  xy.reflect.ui.info.type.util.FilteredTypeFactory$1.getPolymorphicInstanceSubTypes(Lxy/reflect/ui/info/type/ITypeInfo;)Ljava/util/List;+62
+j  xy.reflect.ui.info.type.util.TypeInfoProxyFactory$GeneratedBasicTypeInfoProxy.getPolymorphicInstanceSubTypes()Ljava/util/List;+8
+j  xy.reflect.ui.info.type.util.TypeInfoProxyFactory.getPolymorphicInstanceSubTypes(Lxy/reflect/ui/info/type/ITypeInfo;)Ljava/util/List;+9
+j  xy.reflect.ui.info.type.util.InfoCustomizations$MyTypeInfoProxyFactory.getPolymorphicInstanceSubTypes(Lxy/reflect/ui/info/type/ITypeInfo;)Ljava/util/List;+35
+j  xy.reflect.ui.info.type.util.TypeInfoProxyFactory$GeneratedBasicTypeInfoProxy.getPolymorphicInstanceSubTypes()Ljava/util/List;+8
+j  xy.reflect.ui.control.swing.PolymorphicControl.<init>(Lxy/reflect/ui/control/swing/SwingRenderer;Lxy/reflect/ui/control/data/IControlData;)V+45
+j  xy.reflect.ui.control.swing.SwingRenderer.createFieldControl(Ljava/lang/Object;Lxy/reflect/ui/info/field/IFieldInfo;)Ljava/awt/Component;+56
+j  xy.reflect.ui.control.swing.SwingRenderer$FieldControlPlaceHolder.refreshUI(Z)V+53
+j  xy.reflect.ui.control.swing.SwingCustomizer$1.refreshUI(Z)V+20
+j  xy.reflect.ui.control.swing.SwingRenderer$FieldControlPlaceHolder.<init>(Lxy/reflect/ui/control/swing/SwingRenderer;Ljava/lang/Object;Lxy/reflect/ui/info/field/IFieldInfo;)V+50
+j  xy.reflect.ui.control.swing.SwingCustomizer$1.<init>(Lxy/reflect/ui/control/swing/SwingCustomizer;Lxy/reflect/ui/control/swing/SwingRenderer;Ljava/lang/Object;Lxy/reflect/ui/info/field/IFieldInfo;)V+10
+j  xy.reflect.ui.control.swing.SwingCustomizer.createFieldControlPlaceHolder(Ljava/lang/Object;Lxy/reflect/ui/info/field/IFieldInfo;)Lxy/reflect/ui/control/swing/SwingRenderer$FieldControlPlaceHolder;+8
+j  xy.reflect.ui.control.swing.SwingRenderer.fillForm(Ljavax/swing/JPanel;)V+115
+j  xy.reflect.ui.control.swing.SwingCustomizer.fillForm(Ljavax/swing/JPanel;)V+101
+j  xy.reflect.ui.control.swing.SwingRenderer.createForm(Ljava/lang/Object;Lxy/reflect/ui/info/IInfoCollectionSettings;)Ljavax/swing/JPanel;+104
+j  xy.reflect.ui.control.swing.ObjectDialogBuilder.build()Ljavax/swing/JDialog;+15
+j  xy.reflect.ui.control.swing.ListControl.openDetailsDialog(Lxy/reflect/ui/control/swing/ListControl$AutoFieldValueUpdatingItemPosition;[Ljava/lang/Object;)Lxy/reflect/ui/control/swing/ObjectDialogBuilder;+87
+j  xy.reflect.ui.control.swing.ListControl$22.perform([Ljava/util/List;)Z+26
+j  xy.reflect.ui.control.swing.ListControl$AbstractStandardListAction$1$1.get()Ljava/lang/Boolean;+11
+j  xy.reflect.ui.control.swing.ListControl$AbstractStandardListAction$1$1.get()Ljava/lang/Object;+1
+j  xy.reflect.ui.undo.ModificationStack.insideComposite(Lxy/reflect/ui/info/IInfo;Ljava/lang/String;Lxy/reflect/ui/undo/UndoOrder;Lxy/reflect/ui/util/Accessor;)Z+6
+j  xy.reflect.ui.control.swing.ListControl$AbstractStandardListAction$1.get()Ljava/lang/Boolean;+51
+j  xy.reflect.ui.control.swing.ListControl$AbstractStandardListAction$1.get()Ljava/lang/Object;+1
+j  xy.reflect.ui.undo.ModificationStack.insideComposite(Lxy/reflect/ui/info/IInfo;Ljava/lang/String;Lxy/reflect/ui/undo/UndoOrder;Lxy/reflect/ui/util/Accessor;)Z+6
+j  xy.reflect.ui.control.swing.ListControl$AbstractStandardListAction.actionPerformed(Ljava/awt/event/ActionEvent;)V+103
+j  xy.reflect.ui.control.swing.ListControl$31.mouseClicked(Ljava/awt/event/MouseEvent;)V+48
+j  java.awt.AWTEventMulticaster.mouseClicked(Ljava/awt/event/MouseEvent;)V+21
+j  java.awt.AWTEventMulticaster.mouseClicked(Ljava/awt/event/MouseEvent;)V+8
+j  java.awt.Component.processMouseEvent(Ljava/awt/event/MouseEvent;)V+74
+j  javax.swing.JComponent.processMouseEvent(Ljava/awt/event/MouseEvent;)V+23
+j  org.jdesktop.swingx.JXTreeTable.processMouseEvent(Ljava/awt/event/MouseEvent;)V+55
+j  java.awt.Component.processEvent(Ljava/awt/AWTEvent;)V+81
+j  java.awt.Container.processEvent(Ljava/awt/AWTEvent;)V+18
+j  java.awt.Component.dispatchEventImpl(Ljava/awt/AWTEvent;)V+573
+J  java.awt.Container.dispatchEventImpl(Ljava/awt/AWTEvent;)V
+J  java.awt.LightweightDispatcher.retargetMouseEvent(Ljava/awt/Component;ILjava/awt/event/MouseEvent;)V
+j  java.awt.LightweightDispatcher.processMouseEvent(Ljava/awt/event/MouseEvent;)Z+157
+j  java.awt.LightweightDispatcher.dispatchEvent(Ljava/awt/AWTEvent;)Z+50
+J  java.awt.Container.dispatchEventImpl(Ljava/awt/AWTEvent;)V
+j  java.awt.Window.dispatchEventImpl(Ljava/awt/AWTEvent;)V+65
+J  java.awt.EventQueue.dispatchEventImpl(Ljava/awt/AWTEvent;Ljava/lang/Object;)V
+J  java.awt.EventQueue$2.run()Ljava/lang/Object;
+v  ~StubRoutines::call_stub
+J  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object;
+J  java.security.AccessControlContext$1.doIntersectionPrivilege(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object;
+j  java.awt.EventQueue$3.run()Ljava/lang/Void;+11
+j  java.awt.EventQueue$3.run()Ljava/lang/Object;+1
+v  ~StubRoutines::call_stub
+J  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object;
+J  java.awt.EventQueue.dispatchEvent(Ljava/awt/AWTEvent;)V
+J  java.awt.EventDispatchThread.pumpOneEventForFilters(I)Z
+j  java.awt.EventDispatchThread.pumpEventsForFilter(ILjava/awt/Conditional;Ljava/awt/EventFilter;)V+30
+j  java.awt.EventDispatchThread.pumpEventsForHierarchy(ILjava/awt/Conditional;Ljava/awt/Component;)V+11
+j  java.awt.EventDispatchThread.pumpEvents(ILjava/awt/Conditional;)V+4
+j  java.awt.EventDispatchThread.pumpEvents(Ljava/awt/Conditional;)V+3
+j  java.awt.EventDispatchThread.run()V+9
+v  ~StubRoutines::call_stub
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x196a0000 JavaThread "DestroyJavaVM" [_thread_blocked, id=3904, stack(0x00270000,0x002c0000)]
+  0x1917c400 JavaThread "TimerQueue" daemon [_thread_blocked, id=4248, stack(0x19ec0000,0x19f10000)]
+=>0x1973dc00 JavaThread "AWT-EventQueue-0" [_thread_in_vm, id=3720, stack(0x19c30000,0x19c80000)]
+  0x191c7000 JavaThread "AWT-Windows" daemon [_thread_in_native, id=3456, stack(0x19560000,0x195b0000)]
+  0x191c6800 JavaThread "AWT-Shutdown" [_thread_blocked, id=4032, stack(0x194d0000,0x19520000)]
+  0x191c6400 JavaThread "Java2D Disposer" daemon [_thread_blocked, id=4332, stack(0x19440000,0x19490000)]
+  0x025e3400 JavaThread "Low Memory Detector" daemon [_thread_blocked, id=4664, stack(0x18f00000,0x18f50000)]
+  0x025e0c00 JavaThread "C1 CompilerThread0" daemon [_thread_blocked, id=4168, stack(0x18e20000,0x18e70000)]
+  0x025d1c00 JavaThread "JDWP Command Reader" daemon [_thread_in_native, id=4152, stack(0x18b90000,0x18be0000)]
+  0x025cfc00 JavaThread "JDWP Event Helper Thread" daemon [_thread_blocked, id=4516, stack(0x18ac0000,0x18b10000)]
+  0x025ce400 JavaThread "JDWP Transport Listener: dt_socket" daemon [_thread_blocked, id=264, stack(0x18a30000,0x18a80000)]
+  0x025c3800 JavaThread "Attach Listener" daemon [_thread_blocked, id=500, stack(0x188a0000,0x188f0000)]
+  0x025c0800 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=724, stack(0x18810000,0x18860000)]
+  0x02591400 JavaThread "Finalizer" daemon [_thread_blocked, id=2512, stack(0x18780000,0x187d0000)]
+  0x0258cc00 JavaThread "Reference Handler" daemon [_thread_blocked, id=3416, stack(0x186f0000,0x18740000)]
+
+Other Threads:
+  0x02588000 VMThread [stack: 0x004b0000,0x00500000] [id=2368]
+  0x025e5400 WatcherThread [stack: 0x18f90000,0x18fe0000] [id=4824]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap
+ def new generation   total 4928K, used 880K [0x04600000, 0x04b50000, 0x09b50000)
+  eden space 4416K,  14% used [0x04600000, 0x046a44c8, 0x04a50000)
+  from space 512K,  43% used [0x04ad0000, 0x04b07c88, 0x04b50000)
+  to   space 512K,   0% used [0x04a50000, 0x04a50000, 0x04ad0000)
+ tenured generation   total 10944K, used 6730K [0x09b50000, 0x0a600000, 0x14600000)
+   the space 10944K,  61% used [0x09b50000, 0x0a1e29b0, 0x0a1e2a00, 0x0a600000)
+ compacting perm gen  total 16384K, used 16144K [0x14600000, 0x15600000, 0x18600000)
+   the space 16384K,  98% used [0x14600000, 0x155c43d8, 0x155c4400, 0x15600000)
+No shared spaces configured.
+
+Code Cache  [0x02600000, 0x02890000, 0x04600000)
+ total_blobs=1635 nmethods=1430 adapters=146 free_code_cache=30898688 largest_free_block=192
+
+Dynamic libraries:
+0x00400000 - 0x00425000 	C:\Program Files (x86)\Java\jdk1.6.0_45\bin\javaw.exe
+0x77d00000 - 0x77e80000 	C:\Windows\SysWOW64\ntdll.dll
+0x76c20000 - 0x76d30000 	C:\Windows\syswow64\kernel32.dll
+0x76f60000 - 0x76fa7000 	C:\Windows\syswow64\KERNELBASE.dll
+0x773c0000 - 0x77461000 	C:\Windows\syswow64\ADVAPI32.dll
+0x76eb0000 - 0x76f5c000 	C:\Windows\syswow64\msvcrt.dll
+0x75c80000 - 0x75c99000 	C:\Windows\SysWOW64\sechost.dll
+0x76fb0000 - 0x770a0000 	C:\Windows\syswow64\RPCRT4.dll
+0x755f0000 - 0x75650000 	C:\Windows\syswow64\SspiCli.dll
+0x755e0000 - 0x755ec000 	C:\Windows\syswow64\CRYPTBASE.dll
+0x77470000 - 0x77570000 	C:\Windows\syswow64\USER32.dll
+0x75a10000 - 0x75aa0000 	C:\Windows\syswow64\GDI32.dll
+0x77330000 - 0x7733a000 	C:\Windows\syswow64\LPK.dll
+0x76b80000 - 0x76c1d000 	C:\Windows\syswow64\USP10.dll
+0x76a60000 - 0x76ac0000 	C:\Windows\system32\IMM32.DLL
+0x75940000 - 0x75a0d000 	C:\Windows\syswow64\MSCTF.dll
+0x7c340000 - 0x7c396000 	C:\Program Files (x86)\Java\jdk1.6.0_45\jre\bin\msvcr71.dll
+0x6d8e0000 - 0x6db90000 	C:\Program Files (x86)\Java\jdk1.6.0_45\jre\bin\client\jvm.dll
+0x73e00000 - 0x73e32000 	C:\Windows\system32\WINMM.dll
+0x70b80000 - 0x70bcc000 	C:\Windows\system32\apphelp.dll
+0x6d890000 - 0x6d89c000 	C:\Program Files (x86)\Java\jdk1.6.0_45\jre\bin\verify.dll
+0x6d3e0000 - 0x6d3ff000 	C:\Program Files (x86)\Java\jdk1.6.0_45\jre\bin\java.dll
+0x6d430000 - 0x6d459000 	C:\Program Files (x86)\Java\jdk1.6.0_45\jre\bin\jdwp.dll
+0x6d750000 - 0x6d756000 	C:\Program Files (x86)\Java\jdk1.6.0_45\jre\bin\npt.dll
+0x6d8d0000 - 0x6d8df000 	C:\Program Files (x86)\Java\jdk1.6.0_45\jre\bin\zip.dll
+0x6d2b0000 - 0x6d2b7000 	C:\Program Files (x86)\Java\jdk1.6.0_45\jre\bin\dt_socket.dll
+0x76af0000 - 0x76b25000 	C:\Windows\syswow64\WS2_32.dll
+0x76a50000 - 0x76a56000 	C:\Windows\syswow64\NSI.dll
+0x70af0000 - 0x70b00000 	C:\Windows\system32\NLAapi.dll
+0x70ae0000 - 0x70af0000 	C:\Windows\system32\napinsp.dll
+0x70ac0000 - 0x70ad2000 	C:\Windows\system32\pnrpnsp.dll
+0x728a0000 - 0x728dc000 	C:\Windows\System32\mswsock.dll
+0x71910000 - 0x71954000 	C:\Windows\system32\DNSAPI.dll
+0x70ab0000 - 0x70ab8000 	C:\Windows\System32\winrnr.dll
+0x70a80000 - 0x70aa1000 	C:\Program Files (x86)\Bonjour\mdnsNSP.dll
+0x72530000 - 0x7254c000 	C:\Windows\system32\Iphlpapi.DLL
+0x724e0000 - 0x724e7000 	C:\Windows\system32\WINNSI.DLL
+0x70a50000 - 0x70a77000 	C:\Program Files (x86)\Common Files\Microsoft Shared\Windows Live\WLIDNSP.DLL
+0x76ac0000 - 0x76ac5000 	C:\Windows\syswow64\PSAPI.DLL
+0x769f0000 - 0x76a47000 	C:\Windows\syswow64\SHLWAPI.dll
+0x70a10000 - 0x70a48000 	C:\Windows\System32\fwpuclnt.dll
+0x70a00000 - 0x70a06000 	C:\Windows\system32\rasadhlp.dll
+0x72890000 - 0x72895000 	C:\Windows\System32\wshtcpip.dll
+0x72550000 - 0x72567000 	C:\Windows\system32\CRYPTSP.dll
+0x724f0000 - 0x7252b000 	C:\Windows\system32\rsaenh.dll
+0x76ad0000 - 0x76ae7000 	C:\Windows\syswow64\USERENV.dll
+0x77cd0000 - 0x77cdb000 	C:\Windows\syswow64\profapi.dll
+0x6d6c0000 - 0x6d6d3000 	C:\Program Files (x86)\Java\jdk1.6.0_45\jre\bin\net.dll
+0x753e0000 - 0x753e6000 	C:\Windows\System32\wship6.dll
+0x6d0b0000 - 0x6d1fc000 	C:\Program Files (x86)\Java\jdk1.6.0_45\jre\bin\awt.dll
+0x71200000 - 0x71251000 	C:\Windows\system32\WINSPOOL.DRV
+0x77600000 - 0x7775d000 	C:\Windows\syswow64\ole32.dll
+0x6fd60000 - 0x6fefe000 	C:\Windows\WinSxS\x86_microsoft.windows.common-controls_6595b64144ccf1df_6.0.7601.18837_none_41e855142bd5705d\COMCTL32.dll
+0x71960000 - 0x71973000 	C:\Windows\system32\DWMAPI.DLL
+0x6d2e0000 - 0x6d336000 	C:\Program Files (x86)\Java\jdk1.6.0_45\jre\bin\fontmanager.dll
+0x75d50000 - 0x7699b000 	C:\Windows\system32\shell32.dll
+0x6d6e0000 - 0x6d6e9000 	C:\Program Files (x86)\Java\jdk1.6.0_45\jre\bin\nio.dll
+0x75ab0000 - 0x75b41000 	C:\Windows\syswow64\OLEAUT32.DLL
+0x6d250000 - 0x6d273000 	C:\Program Files (x86)\Java\jdk1.6.0_45\jre\bin\dcpr.dll
+
+VM Arguments:
+jvm_args: -agentlib:jdwp=transport=dt_socket,suspend=y,address=localhost:49752 -Dxy.reflect.ui.defaultCustomizationsActive=true -Dxy.reflect.ui.defaultCustomizationsEditable=true -Dxy.reflect.ui.customizationToolsCustomizationsFilePath=D:/prog/git/ReflectionUI/reflection-ui/src/main/resources/xy/reflect/ui/resource/customizations-tools.icu -Dfile.encoding=Cp1252 
+java_command: ReflectionUITest
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=C:\Program Files\Java\jdk1.8.0_20
+PATH=C:\Program Files (x86)\Java\jdk1.6.0_45\jre\bin;D:/prog/eclipse/jre/bin/client;D:/prog/eclipse/jre/bin;D:/prog/eclipse/jre/lib/i386;C:\ProgramData\Oracle\Java\javapath;C:\Program Files\Common Files\Microsoft Shared\Windows Live;C:\Program Files (x86)\Common Files\Microsoft Shared\Windows Live;C:\Program Files\Java\jdk1.8.0_20\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Jack\;Program Files (x86)\Windows Live\Shared;C:\Program Files\Microsoft Windows Performance Toolkit\;C:\Windows\system32\config\systemprofile\.dnx\bin;C:\Program Files\Microsoft DNX\Dnvm\;C:\Program Files (x86)\GNU\GnuPG\pub;D:\prog\eclipse;
+USERNAME=olitank
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 60 Stepping 3, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 7 , 64 bit Build 7601 Service Pack 1
+
+CPU:total 2 (2 cores per cpu, 1 threads per core) family 6 model 60 stepping 3, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt
+
+Memory: 4k page, physical 4053068k(1046876k free), swap 8104276k(4633588k free)
+
+vm_info: Java HotSpot(TM) Client VM (20.45-b01) for windows-x86 JRE (1.6.0_45-b06), built on Mar 26 2013 13:40:03 by "java_re" with MS VC++ 7.1 (VS2003)
+
+time: Sun Dec 18 16:42:54 2016
+elapsed time: 825 seconds
+
