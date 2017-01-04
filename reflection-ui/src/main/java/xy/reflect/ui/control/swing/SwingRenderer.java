@@ -484,28 +484,8 @@ public class SwingRenderer {
 					private static final long serialVersionUID = 1L;
 
 					@Override
-					protected Component createNonNullValueControl() {
-						Component result = SwingRenderer.this.createFieldControl(new ControlDataProxy(data) {
-
-							@Override
-							public boolean isNullable() {
-								return false;
-							}
-
-							@Override
-							public ITypeInfo getType() {
-								Object fieldValue = data.getValue();
-								if (fieldValue != null) {
-									final ITypeInfo actualFieldValueType = reflectionUI
-											.getTypeInfo(reflectionUI.getTypeInfoSource(fieldValue));
-									if (!actualFieldValueType.equals(data.getType())) {
-										return actualFieldValueType;
-									}
-								}
-								return super.getType();
-							}
-
-						});
+					protected Component createNonNullValueControl(IControlData data) {
+						Component result = SwingRenderer.this.createFieldControl(data);
 						return result;
 					}
 

@@ -1,14 +1,20 @@
+- ListControl item view type name has changed
+	=> customizations lost.
+	Must give the same type name as the original ? 
 - cleaning:
 	- clarifications for methods:
-		. toString(): must help debugging
+		. toString(): must help debugging. Implement toString() on:
+			. do it progressively
+			. ITypeInfoProxyFactory and sub-types???
+			. Controls???
+			. Forms???
+			. *.Instance types???
+			. check every anonymous type ???		
 		. getName(): uniq id for customizations, etc...
 		. getCaption(): display name
 		. check...
-	-  implement toString() on:
-		. ITypeInfoProxyFactory and sub-types
-		. Controls
-		. Forms
 	- ReflectionUI.toString(object) can be used for nice displays. Think about it
+	- remove TypeInfoProxy debug features???
 - allow to customize Method dialog "no data returned"
 - add IListType:
 	. getItemGetter(int)

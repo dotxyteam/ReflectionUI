@@ -56,6 +56,7 @@ import org.jdesktop.swingx.JXTreeTable;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.jdesktop.swingx.treetable.TreeTableModel;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.data.FieldControlData;
 import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
@@ -1832,10 +1833,12 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	protected Object getEncapsulatedFilteredItem(final Object[] itemHolder,
 			final AutoFieldValueUpdatingItemPosition itemPosition) {
 		ITypeInfo itemType = itemPosition.getContainingListType().getItemType();
-		final FilteredTypeFactory itemTypeFilter = new FilteredTypeFactory(swingRenderer.getReflectionUI(),
-				itemType, getStructuralInfo().getItemInfoSettings(itemPosition));
+		final FilteredTypeFactory itemTypeFilter = new FilteredTypeFactory(swingRenderer.getReflectionUI(), itemType,
+				getStructuralInfo().getItemInfoSettings(itemPosition));
+		ITypeInfo filteredItemType = swingRenderer.getReflectionUI()
+				.getTypeInfo(itemTypeFilter.getInstanceTypeInfoSource());
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
-				swingRenderer.getReflectionUI().getTypeInfo(itemTypeFilter.getInstanceTypeInfoSource()));
+				filteredItemType);
 		encapsulation.setFieldGetOnly(!UpdateListValueModification.isCompatibleWith(itemPosition));
 		encapsulation.setFieldNullable(true);
 		encapsulation.setFieldCaption("");
@@ -2114,7 +2117,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 		runnable.run();
 
-		setSelection(Collections.<AutoFieldValueUpdatingItemPosition> emptyList());
+		setSelection(Collections.<AutoFieldValueUpdatingItemPosition>emptyList());
 		int i = 0;
 		for (Iterator<AutoFieldValueUpdatingItemPosition> it = wereSelectedPositions.iterator(); it.hasNext();) {
 			AutoFieldValueUpdatingItemPosition wasSelectedPosition = it.next();

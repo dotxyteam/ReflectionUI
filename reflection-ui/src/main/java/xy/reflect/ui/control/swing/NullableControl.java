@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
+import xy.reflect.ui.control.data.ControlDataProxy;
 import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -24,8 +25,9 @@ public abstract class NullableControl extends JPanel implements IAdvancedFieldCo
 	protected JCheckBox nullingControl;
 	protected Component subControl;
 	protected FieldControlPlaceHolder fieldControlPlaceHolder;
+	private ITypeInfo subControlValueType;
 
-	protected abstract Component createNonNullValueControl();
+	protected abstract Component createNonNullValueControl(IControlData data);
 
 	protected abstract Object getDefaultValue();
 
@@ -121,9 +123,24 @@ public abstract class NullableControl extends JPanel implements IAdvancedFieldCo
 				remove(subControl);
 			}
 			if (newValue != null) {
-				subControl = createNonNullValueControl();
+				subControlValueType = swingRenderer.getReflectionUI()
+						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newValue));
+				subControl = createNonNullValueControl(new ControlDataProxy(data) {
+
+					@Override
+					public boolean isNullable() {
+						return false;
+					}
+
+					@Override
+					public ITypeInfo getType() {
+						return subControlValueType;
+					}
+
+				});
 				add(subControl, BorderLayout.CENTER);
 			} else {
+				subControlValueType = null;
 				subControl = createNullControl(swingRenderer, new Runnable() {
 					@Override
 					public void run() {
@@ -224,8 +241,11 @@ public abstract class NullableControl extends JPanel implements IAdvancedFieldCo
 	@Override
 	public ITypeInfo getDynamicObjectType() {
 		if (subControl instanceof IAdvancedFieldControl) {
-			return ((IAdvancedFieldControl) subControl).getDynamicObjectType();
+			ITypeInfo result = ((IAdvancedFieldControl) subControl).getDynamicObjectType();
+			if(result != null){
+				return result;
+			}
 		}
-		return null;
+		return subControlValueType;
 	}
 }
