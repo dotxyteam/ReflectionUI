@@ -478,10 +478,12 @@ public class SwingRendererUtils {
 			final Accessor<IModification> commitModifGetter, final Accessor<IInfo> childModifTargetGetter,
 			final Accessor<String> parentModifTitleGetter, final Accessor<ModificationStack> parentModifStackGetter,
 			final SwingRenderer swingRenderer) {
+		final ModificationStack subFormModifStack = swingRenderer.getModificationStackByForm().get(subForm);
 		swingRenderer.getModificationStackByForm().put(subForm, new ModificationStack("Forward Sub-Modifications To " + subForm.toString()) {
 
 			@Override
 			public boolean pushUndo(IModification undoModif) {
+				subFormModifStack.pushUndo(undoModif);
 				ModificationStack childModifStack = new ModificationStack(null);
 				childModifStack.pushUndo(undoModif);
 				Boolean childModifAccepted = childModifAcceptedGetter.get();
@@ -502,24 +504,28 @@ public class SwingRendererUtils {
 
 			@Override
 			public void beginComposite() {
+				subFormModifStack.beginComposite();
 				ModificationStack parentModifStack = parentModifStackGetter.get();
 				parentModifStack.beginComposite();
 			}
 
 			@Override
 			public boolean endComposite(IInfo childModifTarget, String title, UndoOrder order) {
+				subFormModifStack.endComposite(childModifTarget, title, order);
 				ModificationStack parentModifStack = parentModifStackGetter.get();
 				return parentModifStack.endComposite(childModifTarget, title, order);
 			}
 
 			@Override
 			public void abortComposite() {
+				subFormModifStack.abortComposite();
 				ModificationStack parentModifStack = parentModifStackGetter.get();
 				parentModifStack.abortComposite();
 			}
 
 			@Override
 			public void invalidate() {
+				subFormModifStack.invalidate();
 				ModificationStack childModifStack = new ModificationStack(null);
 				childModifStack.invalidate();
 				Boolean childModifAccepted = childModifAcceptedGetter.get();

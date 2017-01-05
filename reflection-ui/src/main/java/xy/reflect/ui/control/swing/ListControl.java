@@ -1832,11 +1832,12 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	protected Object getEncapsulatedFilteredItem(final Object[] itemHolder,
 			final AutoFieldValueUpdatingItemPosition itemPosition) {
-		ITypeInfo itemType = itemPosition.getContainingListType().getItemType();
-		final FilteredTypeFactory itemTypeFilter = new FilteredTypeFactory(swingRenderer.getReflectionUI(), itemType,
+		ITypeInfo actualItemTtemType = swingRenderer.getReflectionUI()
+				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(itemHolder[0]));
+		final FilteredTypeFactory actualItemTtemTypeFilter = new FilteredTypeFactory(swingRenderer.getReflectionUI(), actualItemTtemType,
 				getStructuralInfo().getItemInfoSettings(itemPosition));
 		ITypeInfo filteredItemType = swingRenderer.getReflectionUI()
-				.getTypeInfo(itemTypeFilter.getInstanceTypeInfoSource());
+				.getTypeInfo(actualItemTtemTypeFilter.getInstanceTypeInfoSource());
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
 				filteredItemType);
 		encapsulation.setFieldGetOnly(!UpdateListValueModification.isCompatibleWith(itemPosition));
@@ -1855,17 +1856,13 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				if (result == null) {
 					return null;
 				}
-				ITypeInfo actualItemTtemType = swingRenderer.getReflectionUI()
-						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(result));
-				FilteredTypeFactory actualItemTtemTypeFilter = new FilteredTypeFactory(swingRenderer.getReflectionUI(),
-						actualItemTtemType, getStructuralInfo().getItemInfoSettings(itemPosition));
 				result = actualItemTtemTypeFilter.getInstance(result);
 				return result;
 			}
 
 			@Override
 			public void set(Object value) {
-				itemHolder[0] = itemTypeFilter.unwrapInstance(value);
+				itemHolder[0] = actualItemTtemTypeFilter.unwrapInstance(value);
 			}
 
 		};

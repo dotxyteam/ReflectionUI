@@ -1,5 +1,10 @@
+- Type params must be get from the IField/MethodInfo, not ITypeInfo
+just like in the Java spec.
+	. add IFieldInfo.getTypeParameters()
+	https://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/reflect/TypeUtils.html
+	. maybe take a shortcut and implement it in a next future version
 - ListControl item view type name has changed
-	=> customizations lost.
+	=> customizations lost???
 	Must give the same type name as the original ? 
 - cleaning:
 	- clarifications for methods:

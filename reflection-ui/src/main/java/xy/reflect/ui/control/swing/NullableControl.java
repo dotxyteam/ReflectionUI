@@ -123,18 +123,11 @@ public abstract class NullableControl extends JPanel implements IAdvancedFieldCo
 				remove(subControl);
 			}
 			if (newValue != null) {
-				subControlValueType = swingRenderer.getReflectionUI()
-						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newValue));
 				subControl = createNonNullValueControl(new ControlDataProxy(data) {
 
 					@Override
 					public boolean isNullable() {
 						return false;
-					}
-
-					@Override
-					public ITypeInfo getType() {
-						return subControlValueType;
 					}
 
 				});

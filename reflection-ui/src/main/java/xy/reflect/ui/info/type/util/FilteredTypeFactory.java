@@ -24,7 +24,7 @@ public class FilteredTypeFactory extends TypeCastFactory {
 
 			@Override
 			protected String getName(ITypeInfo type) {
-				return "(" + targetType.getName() + "+" + filter + ")" + super.getName(type);
+				return "TypeInfo of " + FilteredTypeFactory.this.toString();
 			}
 
 			@Override

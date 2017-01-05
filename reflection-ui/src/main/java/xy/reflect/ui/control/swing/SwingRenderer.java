@@ -507,6 +507,17 @@ public class SwingRenderer {
 			if (result != null) {
 				return result;
 			}
+			Object value = fieldControlData.getValue();
+			final ITypeInfo valueType = reflectionUI
+					.getTypeInfo(reflectionUI.getTypeInfoSource(value));
+			if(!valueType.equals(fieldControlData.getType())){
+				return createFieldControl(new ControlDataProxy(fieldControlData){
+					@Override
+					public ITypeInfo getType() {
+						return valueType;
+					}					
+				});
+			}
 			if (DesktopSpecificProperty
 					.isSubFormExpanded(DesktopSpecificProperty.accessControlDataProperties(fieldControlData))) {
 				return new EmbeddedFormControl(this, fieldControlData);

@@ -18,6 +18,13 @@ public interface IInfoFilter {
 			return false;
 		}
 
+		@Override
+		public String toString() {
+			return "DefaultInfoFilter";
+		}
+		
+		
+
 	};
 	
 

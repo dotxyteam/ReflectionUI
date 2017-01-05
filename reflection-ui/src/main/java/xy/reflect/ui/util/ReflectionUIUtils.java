@@ -495,9 +495,9 @@ public class ReflectionUIUtils {
 				else if (c == '\n')
 					// Handle Newline
 					if (preserveNewLines) {
-					sb.append("<br/>");
+						sb.append("<br/>");
 					} else {
-					sb.append(c);
+						sb.append(c);
 					}
 				else {
 					int ci = 0xffff & c;
@@ -725,7 +725,7 @@ public class ReflectionUIUtils {
 	}
 
 	public static String composeTitle(String contextTitle, String localTitle) {
-		if (contextTitle == null) {
+		if ((contextTitle == null) || (contextTitle.length() == 0)) {
 			return localTitle;
 		}
 		return contextTitle + " - " + localTitle;
@@ -770,7 +770,7 @@ public class ReflectionUIUtils {
 			if (constructor == null) {
 				throw new ReflectionUIError("Default constructor not found");
 			}
-			
+
 			return constructor.invoke(null, new InvocationData());
 
 		} catch (Throwable t) {

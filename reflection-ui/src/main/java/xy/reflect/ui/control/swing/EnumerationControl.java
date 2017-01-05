@@ -23,6 +23,7 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.util.SwingRendererUtils;
 
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class EnumerationControl extends JPanel {
 	protected static final long serialVersionUID = 1L;
 	protected IEnumerationTypeInfo enumType;
