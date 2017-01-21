@@ -46,6 +46,7 @@ import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
+import xy.reflect.ui.info.type.util.TypeCastFactory;
 import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
 import xy.reflect.ui.info.type.util.InfoCustomizations.ColumnCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.EnumerationCustomization;
@@ -210,7 +211,7 @@ public class SwingCustomizer extends SwingRenderer {
 			result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
 			return result;
 		}
-		
+
 		protected SwingRenderer createCustomizationToolsRenderer() {
 			if (SystemProperties.isInfoCustomizationToolsCustomizationAllowed()) {
 				String customizationToolsCustomizationsOutputFilePath = System
@@ -245,6 +246,11 @@ public class SwingCustomizer extends SwingRenderer {
 				public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
 					ITypeInfo result = super.getTypeInfo(typeSource);
 					result = new TypeInfoProxyFactory() {
+						@Override
+						public String toString() {
+							return CustomizationTools.class.getName() + TypeInfoProxyFactory.class.getSimpleName();
+						}
+
 						@Override
 						protected List<IFieldInfo> getFields(ITypeInfo type) {
 							if (type.getName().equals(TypeCustomization.class.getName())) {
@@ -565,9 +571,10 @@ public class SwingCustomizer extends SwingRenderer {
 				}
 
 				private ITypeInfo getFieldControlObjectCustomizedType() {
-					if(fieldControlPlaceHolder.fieldControl instanceof IAdvancedFieldControl){
-						ITypeInfo dynamicType = ((IAdvancedFieldControl)fieldControlPlaceHolder.fieldControl).getDynamicObjectType();
-						if(dynamicType != null){
+					if (fieldControlPlaceHolder.fieldControl instanceof IAdvancedFieldControl) {
+						ITypeInfo dynamicType = ((IAdvancedFieldControl) fieldControlPlaceHolder.fieldControl)
+								.getDynamicObjectType();
+						if (dynamicType != null) {
 							return dynamicType;
 						}
 					}
@@ -638,7 +645,8 @@ public class SwingCustomizer extends SwingRenderer {
 
 								@Override
 								public void actionPerformed(ActionEvent e) {
-									openListColumnsOrderDialog(result, (IListTypeInfo) getFieldControlObjectCustomizedType());
+									openListColumnsOrderDialog(result,
+											(IListTypeInfo) getFieldControlObjectCustomizedType());
 								}
 							});
 							listSubMenu.add(new AbstractAction(prepareStringToDisplay("More Options...")) {
@@ -646,7 +654,8 @@ public class SwingCustomizer extends SwingRenderer {
 
 								@Override
 								public void actionPerformed(ActionEvent e) {
-									openListCutomizationDialog(result, (IListTypeInfo) getFieldControlObjectCustomizedType());
+									openListCutomizationDialog(result,
+											(IListTypeInfo) getFieldControlObjectCustomizedType());
 								}
 							});
 						}
@@ -680,8 +689,6 @@ public class SwingCustomizer extends SwingRenderer {
 			});
 			return result;
 		}
-
-		
 
 		protected void hideMethod(Component activatorComponent, ITypeInfo customizedType, String methodSignature) {
 			MethodCustomization mc = infoCustomizations.getMethodCustomization(customizedType.getName(),

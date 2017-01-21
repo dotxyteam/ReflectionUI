@@ -95,9 +95,11 @@ public class PublicFieldInfo implements IFieldInfo {
 		return ValueReturnMode.SELF;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return getCaption();
+		return "PublicFieldInfo [javaField=" + javaField + "]";
 	}
 
 	@Override

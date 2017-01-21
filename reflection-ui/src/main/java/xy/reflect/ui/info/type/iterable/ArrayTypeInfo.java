@@ -83,4 +83,9 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "ArrayTypeInfo [javaType=" + javaType + "]";
+	}
+
 }

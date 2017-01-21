@@ -101,6 +101,8 @@ public class MethodSetupObjectFactory {
 			public Map<String, Object> getSpecificProperties() {
 				return Collections.emptyMap();
 			}
+			
+			
 		};
 	}
 
@@ -239,10 +241,7 @@ public class MethodSetupObjectFactory {
 			return Collections.emptyMap();
 		}
 
-		@Override
-		public String toString() {
-			return getCaption();
-		}
+		
 
 		@Override
 		public int hashCode() {
@@ -268,6 +267,11 @@ public class MethodSetupObjectFactory {
 
 		private MethodSetupObjectFactory getOuterType() {
 			return MethodSetupObjectFactory.this;
+		}
+
+		@Override
+		public String toString() {
+			return "TypeInfo [getOuterType()=" + getOuterType() + "]";
 		}
 
 	}

@@ -33,6 +33,11 @@ public class MultipleFieldAsOne implements IFieldInfo {
 		return new TypeInfoProxyFactory() {
 
 			@Override
+			public String toString() {
+				return MultipleFieldAsOne.class.getName() + TypeInfoProxyFactory.class.getSimpleName();
+			}
+
+			@Override
 			protected boolean canAdd(IListTypeInfo type) {
 				return false;
 			}
@@ -127,7 +132,7 @@ public class MultipleFieldAsOne implements IFieldInfo {
 
 	@Override
 	public String toString() {
-		return getCaption();
+		return "MultipleFieldAsOne [fields=" + fields + "]";
 	}
 
 	@Override
@@ -254,7 +259,7 @@ public class MultipleFieldAsOne implements IFieldInfo {
 
 		@Override
 		public List<IFieldInfo> getFields() {
-			return Collections.<IFieldInfo> singletonList(getValueField());
+			return Collections.<IFieldInfo>singletonList(getValueField());
 		}
 
 		@Override
@@ -280,6 +285,11 @@ public class MultipleFieldAsOne implements IFieldInfo {
 			} else if (!item.equals(other.item))
 				return false;
 			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "ListItemTypeInfo [item=" + item + "]";
 		}
 
 	}

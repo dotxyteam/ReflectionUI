@@ -63,7 +63,7 @@ public abstract class AbstractListAction implements IMethodInfo {
 
 	@Override
 	public String toString() {
-		return getCaption();
+		return "ListAction[getName()=" + getName() + "]";
 	}
 
 }

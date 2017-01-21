@@ -275,8 +275,10 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public String toString() {
-			return this.getCaption();
+			return "TypeInfo [getOuterType()=" + getOuterType() + "]";
 		}
+
+		
 
 	}
 
@@ -426,8 +428,10 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public String toString() {
-			return fieldCaption;
+			return "ValueField [getOuterType()=" + getOuterType() + "]";
 		}
+
+		
 
 	}
 

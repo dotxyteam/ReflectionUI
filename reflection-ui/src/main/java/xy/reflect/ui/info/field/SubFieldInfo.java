@@ -45,9 +45,11 @@ public class SubFieldInfo implements IFieldInfo {
 		return theField.getCaption() + " " + theSubField.getCaption();
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return getCaption();
+		return "SubFieldInfo [theField=" + theField + ", theSubField=" + theSubField + "]";
 	}
 
 	@Override

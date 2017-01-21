@@ -51,7 +51,10 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			public String getCaption() {
 				return "";
 			}
-
+			@Override
+			public String toString() {
+				return "PolymorphicControl.NULL_POLY_TYPE";
+			}
 		};
 
 		setLayout(new BorderLayout());

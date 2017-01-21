@@ -93,6 +93,11 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 	}
 
 	@Override
+	public String toString() {
+		return "DefaultConstructorMethodInfo [javaConstructor=" + javaConstructor + "]";
+	}
+
+	@Override
 	public InfoCategory getCategory() {
 		return null;
 	}

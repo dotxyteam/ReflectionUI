@@ -81,7 +81,7 @@ public class FieldColumnInfo implements IColumnInfo {
 
 	@Override
 	public String toString() {
-		return getCaption();
+		return "FieldColumnInfo [field=" + field + ", ownerType=" + ownerType + "]";
 	}
 
 }

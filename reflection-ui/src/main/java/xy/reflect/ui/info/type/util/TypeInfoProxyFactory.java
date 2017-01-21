@@ -29,11 +29,10 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.info.method.InvocationData;
 
 @SuppressWarnings("unused")
-public class TypeInfoProxyFactory {
+public abstract class TypeInfoProxyFactory {
 
-	private static final String DEBUG_INFO_ENCLOSING_METHODS = TypeInfoProxyFactory.class.getName()
-			+ "#DEBUG_INFO_ENCLOSING_METHODS";
-	protected StackTraceElement[] instanciationTrace = ReflectionUIUtils.createDebugStackTrace(1);
+	@Override
+	public abstract String toString();
 
 	public ITypeInfo get(final ITypeInfo type) {
 		if (type instanceof IListTypeInfo) {
@@ -52,7 +51,7 @@ public class TypeInfoProxyFactory {
 		if (!proxy.factory.equals(TypeInfoProxyFactory.this)) {
 			throw new ReflectionUIError();
 		}
-		return proxy.type;
+		return proxy.base;
 	}
 
 	public IFieldInfo getUnderProxy(final IFieldInfo field) {
@@ -60,7 +59,7 @@ public class TypeInfoProxyFactory {
 		if (!proxy.factory.equals(TypeInfoProxyFactory.this)) {
 			throw new ReflectionUIError();
 		}
-		return proxy.field;
+		return proxy.base;
 	}
 
 	public IMethodInfo getUnderProxy(final IMethodInfo method) {
@@ -68,7 +67,7 @@ public class TypeInfoProxyFactory {
 		if (!proxy.factory.equals(TypeInfoProxyFactory.this)) {
 			throw new ReflectionUIError();
 		}
-		return proxy.method;
+		return proxy.base;
 	}
 
 	public IParameterInfo getUnderProxy(final IParameterInfo param) {
@@ -76,7 +75,7 @@ public class TypeInfoProxyFactory {
 		if (!proxy.factory.equals(TypeInfoProxyFactory.this)) {
 			throw new ReflectionUIError();
 		}
-		return proxy.param;
+		return proxy.base;
 	}
 
 	@Override
@@ -352,74 +351,12 @@ public class TypeInfoProxyFactory {
 		return new GeneratedFieldInfoProxy(type.getValueField(), type);
 	}
 
-	protected int hashCode(ITypeInfo type) {
-		return type.hashCode();
-	}
-
-	protected boolean equals(IParameterInfo param, IMethodInfo method, ITypeInfo containingType, IParameterInfo param2,
-			IMethodInfo method2, ITypeInfo containingType2) {
-		return param.equals(param2);
-	}
-
-	protected int hashCode(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
-		return param.hashCode();
-	}
-
-	protected String toString(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
-		return param.toString();
-	}
-
-	protected boolean equals(IMethodInfo method, ITypeInfo containingType, IMethodInfo method2,
-			ITypeInfo containingType2) {
-		return method.equals(method2);
-	}
-
-	protected int hashCode(IMethodInfo method, ITypeInfo containingType) {
-		return method.hashCode();
-	}
-
-	protected String toString(IMethodInfo method, ITypeInfo containingType) {
-		return method.toString();
-	}
-
-	protected String toString(IFieldInfo field, ITypeInfo containingType) {
-		return field.toString();
-	}
-
-	protected int hashCode(IFieldInfo field, ITypeInfo containingType) {
-		return field.hashCode();
-	}
-
-	protected boolean equals(IFieldInfo field, ITypeInfo containingType, IFieldInfo field2, ITypeInfo containingType2) {
-		return field.equals(field2);
-	}
-
-	protected String toString(ITypeInfo type) {
-		return type.toString();
-	}
-
-	protected boolean equals(ITypeInfo type1, ITypeInfo type2) {
-		return type1.equals(type2);
-	}
-
 	protected String getOnlineHelp(IFieldInfo field, ITypeInfo containingType) {
 		return field.getOnlineHelp();
 	}
 
 	protected Map<String, Object> getSpecificProperties(IFieldInfo field, ITypeInfo containingType) {
-		Map<String, Object> result = new HashMap<String, Object>(field.getSpecificProperties());
-		Method method = getDebugInfoEnclosingMethod();
-		if (method != null) {
-			List<Method> methodList = new ArrayList<Method>();
-			methodList.add(method);
-			@SuppressWarnings("unchecked")
-			List<Method> previousMethods = (List<Method>) result.get(DEBUG_INFO_ENCLOSING_METHODS);
-			if (previousMethods != null) {
-				methodList.addAll(previousMethods);
-			}
-			result.put(DEBUG_INFO_ENCLOSING_METHODS, methodList);
-		}
-		return result;
+		return field.getSpecificProperties();
 	}
 
 	protected String getOnlineHelp(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
@@ -428,19 +365,7 @@ public class TypeInfoProxyFactory {
 
 	protected Map<String, Object> getSpecificProperties(IParameterInfo param, IMethodInfo method,
 			ITypeInfo containingType) {
-		Map<String, Object> result = new HashMap<String, Object>(param.getSpecificProperties());
-		Method javaMethod = getDebugInfoEnclosingMethod();
-		if (javaMethod != null) {
-			List<Method> methodList = new ArrayList<Method>();
-			methodList.add(javaMethod);
-			@SuppressWarnings("unchecked")
-			List<Method> previousMethods = (List<Method>) result.get(DEBUG_INFO_ENCLOSING_METHODS);
-			if (previousMethods != null) {
-				methodList.addAll(previousMethods);
-			}
-			result.put(DEBUG_INFO_ENCLOSING_METHODS, methodList);
-		}
-		return result;
+		return param.getSpecificProperties();
 	}
 
 	protected String getOnlineHelp(ITypeInfo type) {
@@ -452,19 +377,7 @@ public class TypeInfoProxyFactory {
 	}
 
 	protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
-		Map<String, Object> result = new HashMap<String, Object>(type.getSpecificProperties());
-		Method javaMethod = getDebugInfoEnclosingMethod();
-		if (javaMethod != null) {
-			List<Method> methodList = new ArrayList<Method>();
-			methodList.add(javaMethod);
-			@SuppressWarnings("unchecked")
-			List<Method> previousMethods = (List<Method>) result.get(DEBUG_INFO_ENCLOSING_METHODS);
-			if (previousMethods != null) {
-				methodList.addAll(previousMethods);
-			}
-			result.put(DEBUG_INFO_ENCLOSING_METHODS, methodList);
-		}
-		return result;
+		return type.getSpecificProperties();
 	}
 
 	protected String getOnlineHelp(IMethodInfo method, ITypeInfo containingType) {
@@ -472,19 +385,7 @@ public class TypeInfoProxyFactory {
 	}
 
 	protected Map<String, Object> getSpecificProperties(IMethodInfo method, ITypeInfo containingType) {
-		Map<String, Object> result = new HashMap<String, Object>(method.getSpecificProperties());
-		Method javaMethod = getDebugInfoEnclosingMethod();
-		if (javaMethod != null) {
-			List<Method> methodList = new ArrayList<Method>();
-			methodList.add(javaMethod);
-			@SuppressWarnings("unchecked")
-			List<Method> previousMethods = (List<Method>) result.get(DEBUG_INFO_ENCLOSING_METHODS);
-			if (previousMethods != null) {
-				methodList.addAll(previousMethods);
-			}
-			result.put(DEBUG_INFO_ENCLOSING_METHODS, methodList);
-		}
-		return result;
+		return method.getSpecificProperties();
 	}
 
 	protected void validateParameters(IMethodInfo method, ITypeInfo containingType, Object object,
@@ -500,19 +401,19 @@ public class TypeInfoProxyFactory {
 	protected IEnumerationItemInfo getValueInfo(Object object, IEnumerationTypeInfo type) {
 		return type.getValueInfo(object);
 	}
+	
+	
+
+	
+
 
 	private class GeneratedBasicTypeInfoProxy implements ITypeInfo {
 
 		protected TypeInfoProxyFactory factory = TypeInfoProxyFactory.this;
-		protected List<Method> debugInfoEnclosingMethods;
-		protected ITypeInfo type;
+		protected ITypeInfo base;
 
 		public GeneratedBasicTypeInfoProxy(ITypeInfo type) {
-			this.type = type;
-			@SuppressWarnings("unchecked")
-			List<Method> list = (List<Method>) TypeInfoProxyFactory.this.getSpecificProperties(type)
-					.get(DEBUG_INFO_ENCLOSING_METHODS);
-			this.debugInfoEnclosingMethods = list;
+			this.base = type;
 		}
 
 		public TypeInfoProxyFactory getFactory() {
@@ -521,67 +422,67 @@ public class TypeInfoProxyFactory {
 
 		@Override
 		public String getName() {
-			return TypeInfoProxyFactory.this.getName(type);
+			return TypeInfoProxyFactory.this.getName(base);
 		}
 
 		@Override
 		public String getCaption() {
-			return TypeInfoProxyFactory.this.getCaption(type);
+			return TypeInfoProxyFactory.this.getCaption(base);
 		}
 
 		@Override
 		public boolean supportsInstance(Object object) {
-			return TypeInfoProxyFactory.this.supportsInstance(type, object);
+			return TypeInfoProxyFactory.this.supportsInstance(base, object);
 		}
 
 		@Override
 		public boolean isConcrete() {
-			return TypeInfoProxyFactory.this.isConcrete(type);
+			return TypeInfoProxyFactory.this.isConcrete(base);
 		}
 
 		@Override
 		public boolean isModificationStackAccessible() {
-			return TypeInfoProxyFactory.this.isModificationStackAccessible(type);
+			return TypeInfoProxyFactory.this.isModificationStackAccessible(base);
 		}
 
 		@Override
 		public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
-			return TypeInfoProxyFactory.this.getPolymorphicInstanceSubTypes(type);
+			return TypeInfoProxyFactory.this.getPolymorphicInstanceSubTypes(base);
 		}
 
 		@Override
 		public List<IMethodInfo> getMethods() {
-			return TypeInfoProxyFactory.this.getMethods(type);
+			return TypeInfoProxyFactory.this.getMethods(base);
 		}
 
 		@Override
 		public List<IFieldInfo> getFields() {
-			return TypeInfoProxyFactory.this.getFields(type);
+			return TypeInfoProxyFactory.this.getFields(base);
 		}
 
 		@Override
 		public List<IMethodInfo> getConstructors() {
-			return TypeInfoProxyFactory.this.getConstructors(type);
+			return TypeInfoProxyFactory.this.getConstructors(base);
 		}
 
 		@Override
 		public String toString(Object object) {
-			return TypeInfoProxyFactory.this.toString(type, object);
+			return TypeInfoProxyFactory.this.toString(base, object);
 		}
 
 		@Override
 		public boolean canCopy(Object object) {
-			return TypeInfoProxyFactory.this.canCopy(type, object);
+			return TypeInfoProxyFactory.this.canCopy(base, object);
 		}
 
 		@Override
 		public Object copy(Object object) {
-			return TypeInfoProxyFactory.this.copy(type, object);
+			return TypeInfoProxyFactory.this.copy(base, object);
 		}
 
 		@Override
 		public boolean equals(Object value1, Object value2) {
-			return TypeInfoProxyFactory.this.equals(type, value1, value2);
+			return TypeInfoProxyFactory.this.equals(base, value1, value2);
 		}
 
 		@Override
@@ -589,7 +490,7 @@ public class TypeInfoProxyFactory {
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + getFactory().hashCode();
-			result = prime * result + ((type == null) ? 0 : type.hashCode());
+			result = prime * result + ((base == null) ? 0 : base.hashCode());
 			return result;
 		}
 
@@ -604,32 +505,32 @@ public class TypeInfoProxyFactory {
 			GeneratedBasicTypeInfoProxy other = (GeneratedBasicTypeInfoProxy) obj;
 			if (!getFactory().equals(other.getFactory()))
 				return false;
-			if (type == null) {
-				if (other.type != null)
+			if (base == null) {
+				if (other.base != null)
 					return false;
-			} else if (!type.equals(other.type))
+			} else if (!base.equals(other.base))
 				return false;
 			return true;
 		}
 
 		@Override
 		public String toString() {
-			return TypeInfoProxyFactory.this.toString(type);
+			return "GeneratedBasicTypeInfoProxy [base=" + base + ",factory=" + factory + "]";
 		}
 
 		@Override
 		public String getOnlineHelp() {
-			return TypeInfoProxyFactory.this.getOnlineHelp(type);
+			return TypeInfoProxyFactory.this.getOnlineHelp(base);
 		}
 
 		@Override
 		public void validate(Object object) throws Exception {
-			TypeInfoProxyFactory.this.validate(type, object);
+			TypeInfoProxyFactory.this.validate(base, object);
 		}
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {
-			return TypeInfoProxyFactory.this.getSpecificProperties(type);
+			return TypeInfoProxyFactory.this.getSpecificProperties(base);
 		}
 	}
 
@@ -641,77 +542,82 @@ public class TypeInfoProxyFactory {
 
 		@Override
 		public Object[] toArray(Object listValue) {
-			return TypeInfoProxyFactory.this.toArray((IListTypeInfo) type, listValue);
+			return TypeInfoProxyFactory.this.toArray((IListTypeInfo) base, listValue);
 		}
 
 		@Override
 		public boolean isOrdered() {
-			return TypeInfoProxyFactory.this.isOrdered((IListTypeInfo) type);
+			return TypeInfoProxyFactory.this.isOrdered((IListTypeInfo) base);
 		}
 
 		@Override
 		public boolean canAdd() {
-			return TypeInfoProxyFactory.this.canAdd((IListTypeInfo) type);
+			return TypeInfoProxyFactory.this.canAdd((IListTypeInfo) base);
 		}
 
 		@Override
 		public boolean canRemove() {
-			return TypeInfoProxyFactory.this.canRemove((IListTypeInfo) type);
+			return TypeInfoProxyFactory.this.canRemove((IListTypeInfo) base);
 		}
 
 		@Override
 		public boolean canViewItemDetails() {
-			return TypeInfoProxyFactory.this.canViewItemDetails((IListTypeInfo) type);
+			return TypeInfoProxyFactory.this.canViewItemDetails((IListTypeInfo) base);
 		}
 
 		@Override
 		public IListStructuralInfo getStructuralInfo() {
-			return TypeInfoProxyFactory.this.getStructuralInfo((IListTypeInfo) type);
+			return TypeInfoProxyFactory.this.getStructuralInfo((IListTypeInfo) base);
 		}
 
 		@Override
 		public IListItemDetailsAccessMode getDetailsAccessMode() {
-			return TypeInfoProxyFactory.this.getDetailsAccessMode((IListTypeInfo) type);
+			return TypeInfoProxyFactory.this.getDetailsAccessMode((IListTypeInfo) base);
 		}
 
 		@Override
 		public ITypeInfo getItemType() {
-			return TypeInfoProxyFactory.this.getItemType((IListTypeInfo) type);
+			return TypeInfoProxyFactory.this.getItemType((IListTypeInfo) base);
 		}
 
 		@Override
 		public void replaceContent(Object listValue, Object[] array) {
-			TypeInfoProxyFactory.this.fromArray((IListTypeInfo) type, listValue, array);
+			TypeInfoProxyFactory.this.fromArray((IListTypeInfo) base, listValue, array);
 		}
 
 		@Override
 		public Object fromArray(Object[] array) {
-			return TypeInfoProxyFactory.this.fromArray((IListTypeInfo) type, array);
+			return TypeInfoProxyFactory.this.fromArray((IListTypeInfo) base, array);
 		}
 
 		@Override
 		public boolean canInstanciateFromArray() {
-			return TypeInfoProxyFactory.this.canInstanciateFromArray((IListTypeInfo) type);
+			return TypeInfoProxyFactory.this.canInstanciateFromArray((IListTypeInfo) base);
 		}
 
 		@Override
 		public boolean canReplaceContent() {
-			return TypeInfoProxyFactory.this.canReplaceContent((IListTypeInfo) type);
+			return TypeInfoProxyFactory.this.canReplaceContent((IListTypeInfo) base);
 		}
 
 		@Override
 		public List<AbstractListAction> getDynamicActions(List<? extends ItemPosition> selection) {
-			return TypeInfoProxyFactory.this.getDynamicActions((IListTypeInfo) type, selection);
+			return TypeInfoProxyFactory.this.getDynamicActions((IListTypeInfo) base, selection);
 		}
 
 		@Override
 		public List<AbstractListProperty> getDynamicProperties(List<? extends ItemPosition> selection) {
-			return TypeInfoProxyFactory.this.getDynamicProperties((IListTypeInfo) type, selection);
+			return TypeInfoProxyFactory.this.getDynamicProperties((IListTypeInfo) base, selection);
 		}
 
 		@Override
 		public List<IMethodInfo> getAdditionalItemConstructors(Object listValue) {
-			return TypeInfoProxyFactory.this.getAdditionalItemConstructors((IListTypeInfo) type, listValue);
+			return TypeInfoProxyFactory.this.getAdditionalItemConstructors((IListTypeInfo) base, listValue);
+		}
+
+		@Override
+		public String toString() {
+			return "GeneratedListTypeInfoProxy [factory=" + factory + ", base=" + base + "]";
 		}
 
 	}
@@ -725,12 +631,17 @@ public class TypeInfoProxyFactory {
 
 		@Override
 		public Object[] getPossibleValues() {
-			return TypeInfoProxyFactory.this.getPossibleValues((IEnumerationTypeInfo) type);
+			return TypeInfoProxyFactory.this.getPossibleValues((IEnumerationTypeInfo) base);
 		}
 
 		@Override
 		public IEnumerationItemInfo getValueInfo(Object object) {
-			return TypeInfoProxyFactory.this.getValueInfo(object, (IEnumerationTypeInfo) type);
+			return TypeInfoProxyFactory.this.getValueInfo(object, (IEnumerationTypeInfo) base);
+		}
+
+		@Override
+		public String toString() {
+			return "GeneratedEnumerationTypeInfoProxy [base=" + base + ",factory=" + factory + "]";
 		}
 
 	}
@@ -743,12 +654,17 @@ public class TypeInfoProxyFactory {
 
 		@Override
 		public IFieldInfo getKeyField() {
-			return TypeInfoProxyFactory.this.getKeyField((IMapEntryTypeInfo) type);
+			return TypeInfoProxyFactory.this.getKeyField((IMapEntryTypeInfo) base);
 		}
 
 		@Override
 		public IFieldInfo getValueField() {
-			return TypeInfoProxyFactory.this.getValueField((IMapEntryTypeInfo) type);
+			return TypeInfoProxyFactory.this.getValueField((IMapEntryTypeInfo) base);
+		}
+
+		@Override
+		public String toString() {
+			return "GeneratedMapEntryTypeInfoProxy [factory=" + factory + ", base=" + base + "]";
 		}
 
 	}
@@ -757,108 +673,126 @@ public class TypeInfoProxyFactory {
 
 		protected TypeInfoProxyFactory factory = TypeInfoProxyFactory.this;
 
-		protected IFieldInfo field;
+		protected IFieldInfo base;
 		protected ITypeInfo containingType;
 
-		protected List<Method> debugInfoEnclosingMethods;
-
 		public GeneratedFieldInfoProxy(IFieldInfo field, ITypeInfo containingType) {
-			this.field = field;
+			this.base = field;
 			this.containingType = containingType;
-			@SuppressWarnings("unchecked")
-			List<Method> list = (List<Method>) TypeInfoProxyFactory.this.getSpecificProperties(field, containingType)
-					.get(DEBUG_INFO_ENCLOSING_METHODS);
-			this.debugInfoEnclosingMethods = list;
 		}
 
 		@Override
 		public String getName() {
-			return TypeInfoProxyFactory.this.getName(field, containingType);
+			return TypeInfoProxyFactory.this.getName(base, containingType);
 		}
 
 		@Override
 		public String getCaption() {
-			return TypeInfoProxyFactory.this.getCaption(field, containingType);
+			return TypeInfoProxyFactory.this.getCaption(base, containingType);
 		}
 
 		@Override
 		public void setValue(Object object, Object value) {
-			TypeInfoProxyFactory.this.setValue(object, value, field, containingType);
+			TypeInfoProxyFactory.this.setValue(object, value, base, containingType);
 		}
 
 		@Override
 		public Runnable getCustomUndoUpdateJob(Object object, Object value) {
-			return TypeInfoProxyFactory.this.getCustomUndoUpdateJob(object, value, field, containingType);
+			return TypeInfoProxyFactory.this.getCustomUndoUpdateJob(object, value, base, containingType);
 		}
 
 		@Override
 		public boolean isGetOnly() {
-			return TypeInfoProxyFactory.this.isGetOnly(field, containingType);
+			return TypeInfoProxyFactory.this.isGetOnly(base, containingType);
 		}
 
 		@Override
 		public ValueReturnMode getValueReturnMode() {
-			return TypeInfoProxyFactory.this.getValueReturnMode(field, containingType);
+			return TypeInfoProxyFactory.this.getValueReturnMode(base, containingType);
 		}
 
 		@Override
 		public boolean isNullable() {
-			return TypeInfoProxyFactory.this.isNullable(field, containingType);
+			return TypeInfoProxyFactory.this.isNullable(base, containingType);
 		}
 
 		@Override
 		public Object getValue(Object object) {
-			return TypeInfoProxyFactory.this.getValue(object, field, containingType);
+			return TypeInfoProxyFactory.this.getValue(object, base, containingType);
 		}
 
 		@Override
 		public Object[] getValueOptions(Object object) {
-			return TypeInfoProxyFactory.this.getValueOptions(object, field, containingType);
+			return TypeInfoProxyFactory.this.getValueOptions(object, base, containingType);
 		}
 
 		@Override
 		public ITypeInfo getType() {
-			return TypeInfoProxyFactory.this.getType(field, containingType);
+			return TypeInfoProxyFactory.this.getType(base, containingType);
 		}
 
 		@Override
 		public InfoCategory getCategory() {
-			return TypeInfoProxyFactory.this.getCategory(field, containingType);
+			return TypeInfoProxyFactory.this.getCategory(base, containingType);
 		}
 
 		@Override
 		public String getOnlineHelp() {
-			return TypeInfoProxyFactory.this.getOnlineHelp(field, containingType);
+			return TypeInfoProxyFactory.this.getOnlineHelp(base, containingType);
 		}
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {
-			return TypeInfoProxyFactory.this.getSpecificProperties(field, containingType);
-		}
-
-		@Override
-		public String toString() {
-			return TypeInfoProxyFactory.this.toString(field, containingType);
+			return TypeInfoProxyFactory.this.getSpecificProperties(base, containingType);
 		}
 
 		@Override
 		public int hashCode() {
-			return TypeInfoProxyFactory.this.hashCode(field, containingType);
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + getOuterType().hashCode();
+			result = prime * result + ((base == null) ? 0 : base.hashCode());
+			result = prime * result + ((containingType == null) ? 0 : containingType.hashCode());
+			result = prime * result + ((factory == null) ? 0 : factory.hashCode());
+			return result;
 		}
 
 		@Override
 		public boolean equals(Object obj) {
-			if (obj == null) {
-				return false;
-			}
-			if (obj == this) {
+			if (this == obj)
 				return true;
-			}
-			if (!getClass().equals(obj.getClass())) {
+			if (obj == null)
 				return false;
-			}
-			return TypeInfoProxyFactory.this.equals(field, containingType, ((GeneratedFieldInfoProxy) obj).field,
-					((GeneratedFieldInfoProxy) obj).containingType);
+			if (getClass() != obj.getClass())
+				return false;
+			GeneratedFieldInfoProxy other = (GeneratedFieldInfoProxy) obj;
+			if (!getOuterType().equals(other.getOuterType()))
+				return false;
+			if (base == null) {
+				if (other.base != null)
+					return false;
+			} else if (!base.equals(other.base))
+				return false;
+			if (containingType == null) {
+				if (other.containingType != null)
+					return false;
+			} else if (!containingType.equals(other.containingType))
+				return false;
+			if (factory == null) {
+				if (other.factory != null)
+					return false;
+			} else if (!factory.equals(other.factory))
+				return false;
+			return true;
+		}
+
+		private TypeInfoProxyFactory getOuterType() {
+			return TypeInfoProxyFactory.this;
+		}
+
+		@Override
+		public String toString() {
+			return "GeneratedFieldInfoProxy [base=" + base + ",factory=" + factory + "]";
 		}
 
 	}
@@ -867,103 +801,121 @@ public class TypeInfoProxyFactory {
 
 		protected TypeInfoProxyFactory factory = TypeInfoProxyFactory.this;
 
-		protected IMethodInfo method;
+		protected IMethodInfo base;
 		protected ITypeInfo containingType;
 
-		protected List<Method> debugInfoEnclosingMethods;
-
 		public GeneratedMethodInfoProxy(IMethodInfo method, ITypeInfo containingType) {
-			this.method = method;
+			this.base = method;
 			this.containingType = containingType;
-			@SuppressWarnings("unchecked")
-			List<Method> list = (List<Method>) TypeInfoProxyFactory.this.getSpecificProperties(method, containingType)
-					.get(DEBUG_INFO_ENCLOSING_METHODS);
-			this.debugInfoEnclosingMethods = list;
 		}
 
 		@Override
 		public String getName() {
-			return TypeInfoProxyFactory.this.getName(method, containingType);
+			return TypeInfoProxyFactory.this.getName(base, containingType);
 		}
 
 		@Override
 		public String getCaption() {
-			return TypeInfoProxyFactory.this.getCaption(method, containingType);
+			return TypeInfoProxyFactory.this.getCaption(base, containingType);
 		}
 
 		@Override
 		public ITypeInfo getReturnValueType() {
-			return TypeInfoProxyFactory.this.getReturnValueType(method, containingType);
+			return TypeInfoProxyFactory.this.getReturnValueType(base, containingType);
 		}
 
 		@Override
 		public List<IParameterInfo> getParameters() {
-			return TypeInfoProxyFactory.this.getParameters(method, containingType);
+			return TypeInfoProxyFactory.this.getParameters(base, containingType);
 		}
 
 		@Override
 		public Object invoke(Object object, InvocationData invocationData) {
-			return TypeInfoProxyFactory.this.invoke(object, invocationData, method, containingType);
+			return TypeInfoProxyFactory.this.invoke(object, invocationData, base, containingType);
 		}
 
 		@Override
 		public boolean isReadOnly() {
-			return TypeInfoProxyFactory.this.isReadOnly(method, containingType);
+			return TypeInfoProxyFactory.this.isReadOnly(base, containingType);
 		}
 
 		@Override
 		public ValueReturnMode getValueReturnMode() {
-			return TypeInfoProxyFactory.this.getValueReturnMode(method, containingType);
+			return TypeInfoProxyFactory.this.getValueReturnMode(base, containingType);
 		}
 
 		@Override
 		public InfoCategory getCategory() {
-			return TypeInfoProxyFactory.this.getCategory(method, containingType);
+			return TypeInfoProxyFactory.this.getCategory(base, containingType);
 		}
 
 		@Override
 		public String getOnlineHelp() {
-			return TypeInfoProxyFactory.this.getOnlineHelp(method, containingType);
+			return TypeInfoProxyFactory.this.getOnlineHelp(base, containingType);
 		}
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {
-			return TypeInfoProxyFactory.this.getSpecificProperties(method, containingType);
+			return TypeInfoProxyFactory.this.getSpecificProperties(base, containingType);
 		}
 
 		@Override
 		public void validateParameters(Object object, InvocationData invocationData) throws Exception {
-			TypeInfoProxyFactory.this.validateParameters(method, containingType, object, invocationData);
+			TypeInfoProxyFactory.this.validateParameters(base, containingType, object, invocationData);
 		}
 
 		@Override
 		public Runnable getUndoJob(Object object, InvocationData invocationData) {
-			return TypeInfoProxyFactory.this.getUndoModification(method, containingType, object, invocationData);
-		}
-
-		@Override
-		public String toString() {
-			return TypeInfoProxyFactory.this.toString(method, containingType);
+			return TypeInfoProxyFactory.this.getUndoModification(base, containingType, object, invocationData);
 		}
 
 		@Override
 		public int hashCode() {
-			return TypeInfoProxyFactory.this.hashCode(method, containingType);
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + getOuterType().hashCode();
+			result = prime * result + ((base == null) ? 0 : base.hashCode());
+			result = prime * result + ((containingType == null) ? 0 : containingType.hashCode());
+			result = prime * result + ((factory == null) ? 0 : factory.hashCode());
+			return result;
 		}
 
 		@Override
 		public boolean equals(Object obj) {
-			if (obj == null) {
-				return false;
-			}
-			if (obj == this) {
+			if (this == obj)
 				return true;
-			}
-			if (!getClass().equals(obj.getClass())) {
+			if (obj == null)
 				return false;
-			}
-			return TypeInfoProxyFactory.this.equals(method, containingType, ((GeneratedMethodInfoProxy) obj).method,
-					((GeneratedMethodInfoProxy) obj).containingType);
+			if (getClass() != obj.getClass())
+				return false;
+			GeneratedMethodInfoProxy other = (GeneratedMethodInfoProxy) obj;
+			if (!getOuterType().equals(other.getOuterType()))
+				return false;
+			if (base == null) {
+				if (other.base != null)
+					return false;
+			} else if (!base.equals(other.base))
+				return false;
+			if (containingType == null) {
+				if (other.containingType != null)
+					return false;
+			} else if (!containingType.equals(other.containingType))
+				return false;
+			if (factory == null) {
+				if (other.factory != null)
+					return false;
+			} else if (!factory.equals(other.factory))
+				return false;
+			return true;
+		}
+
+		private TypeInfoProxyFactory getOuterType() {
+			return TypeInfoProxyFactory.this;
+		}
+
+		@Override
+		public String toString() {
+			return "GeneratedMethodInfoProxy [base=" + base + ",factory=" + factory + "]";
 		}
 
 	}
@@ -985,86 +937,109 @@ public class TypeInfoProxyFactory {
 
 		protected TypeInfoProxyFactory factory = TypeInfoProxyFactory.this;
 
-		protected IParameterInfo param;
+		protected IParameterInfo base;
 		protected IMethodInfo method;
 		protected ITypeInfo containingType;
 
-		protected List<Method> debugInfoEnclosingMethods;
-
 		public GeneratedParameterInfoProxy(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
-			this.param = param;
+			this.base = param;
 			this.method = method;
 			this.containingType = containingType;
-			@SuppressWarnings("unchecked")
-			List<Method> list = (List<Method>) TypeInfoProxyFactory.this
-					.getSpecificProperties(param, method, containingType).get(DEBUG_INFO_ENCLOSING_METHODS);
-			this.debugInfoEnclosingMethods = list;
 		}
 
 		@Override
 		public String getName() {
-			return TypeInfoProxyFactory.this.getName(param, method, containingType);
+			return TypeInfoProxyFactory.this.getName(base, method, containingType);
 		}
 
 		@Override
 		public String getCaption() {
-			return TypeInfoProxyFactory.this.getCaption(param, method, containingType);
+			return TypeInfoProxyFactory.this.getCaption(base, method, containingType);
 		}
 
 		@Override
 		public boolean isNullable() {
-			return TypeInfoProxyFactory.this.isNullable(param, method, containingType);
+			return TypeInfoProxyFactory.this.isNullable(base, method, containingType);
 		}
 
 		@Override
 		public ITypeInfo getType() {
-			return TypeInfoProxyFactory.this.getType(param, method, containingType);
+			return TypeInfoProxyFactory.this.getType(base, method, containingType);
 		}
 
 		@Override
 		public int getPosition() {
-			return TypeInfoProxyFactory.this.getPosition(param, method, containingType);
+			return TypeInfoProxyFactory.this.getPosition(base, method, containingType);
 		}
 
 		@Override
 		public Object getDefaultValue() {
-			return TypeInfoProxyFactory.this.getDefaultValue(param, method, containingType);
-		}
-
-		@Override
-		public String toString() {
-			return TypeInfoProxyFactory.this.toString(param, method, containingType);
+			return TypeInfoProxyFactory.this.getDefaultValue(base, method, containingType);
 		}
 
 		@Override
 		public String getOnlineHelp() {
-			return TypeInfoProxyFactory.this.getOnlineHelp(param, method, containingType);
+			return TypeInfoProxyFactory.this.getOnlineHelp(base, method, containingType);
 		}
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {
-			return TypeInfoProxyFactory.this.getSpecificProperties(param, method, containingType);
+			return TypeInfoProxyFactory.this.getSpecificProperties(base, method, containingType);
 		}
 
 		@Override
 		public int hashCode() {
-			return TypeInfoProxyFactory.this.hashCode(param, method, containingType);
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + getOuterType().hashCode();
+			result = prime * result + ((base == null) ? 0 : base.hashCode());
+			result = prime * result + ((containingType == null) ? 0 : containingType.hashCode());
+			result = prime * result + ((factory == null) ? 0 : factory.hashCode());
+			result = prime * result + ((method == null) ? 0 : method.hashCode());
+			return result;
 		}
 
 		@Override
 		public boolean equals(Object obj) {
-			if (obj == null) {
-				return false;
-			}
-			if (obj == this) {
+			if (this == obj)
 				return true;
-			}
-			if (!getClass().equals(obj.getClass())) {
+			if (obj == null)
 				return false;
-			}
-			return TypeInfoProxyFactory.this.equals(param, method, containingType,
-					((GeneratedParameterInfoProxy) obj).param, ((GeneratedParameterInfoProxy) obj).method,
-					((GeneratedParameterInfoProxy) obj).containingType);
+			if (getClass() != obj.getClass())
+				return false;
+			GeneratedParameterInfoProxy other = (GeneratedParameterInfoProxy) obj;
+			if (!getOuterType().equals(other.getOuterType()))
+				return false;
+			if (base == null) {
+				if (other.base != null)
+					return false;
+			} else if (!base.equals(other.base))
+				return false;
+			if (containingType == null) {
+				if (other.containingType != null)
+					return false;
+			} else if (!containingType.equals(other.containingType))
+				return false;
+			if (factory == null) {
+				if (other.factory != null)
+					return false;
+			} else if (!factory.equals(other.factory))
+				return false;
+			if (method == null) {
+				if (other.method != null)
+					return false;
+			} else if (!method.equals(other.method))
+				return false;
+			return true;
+		}
+
+		private TypeInfoProxyFactory getOuterType() {
+			return TypeInfoProxyFactory.this;
+		}
+
+		@Override
+		public String toString() {
+			return "GeneratedParameterInfoProxy [base=" + base + ",factory=" + factory + "]";
 		}
 
 	}

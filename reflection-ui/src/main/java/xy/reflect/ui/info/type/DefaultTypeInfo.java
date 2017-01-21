@@ -88,10 +88,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 		return ReflectionUIUtils.identifierToCaption(javaType.getSimpleName());
 	}
 
-	@Override
-	public String toString() {
-		return getCaption();
-	}
+	
 
 	@Override
 	public List<IFieldInfo> getFields() {
@@ -142,27 +139,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 		}
 	}
 
-	@Override
-	public int hashCode() {
-		return javaType.hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (obj == this) {
-			return true;
-		}
-		if (!getClass().equals(obj.getClass())) {
-			return false;
-		}
-		if (!javaType.equals(((DefaultTypeInfo) obj).javaType)) {
-			return false;
-		}
-		return true;
-	}
+	
 
 	@Override
 	public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
@@ -240,5 +217,43 @@ public class DefaultTypeInfo implements ITypeInfo {
 		ReflectionUIUtils.checkInstance(this, value1);
 		return ReflectionUIUtils.equalsOrBothNull(value1, value2);
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((constructors == null) ? 0 : constructors.hashCode());
+		result = prime * result + ((javaType == null) ? 0 : javaType.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DefaultTypeInfo other = (DefaultTypeInfo) obj;
+		if (constructors == null) {
+			if (other.constructors != null)
+				return false;
+		} else if (!constructors.equals(other.constructors))
+			return false;
+		if (javaType == null) {
+			if (other.javaType != null)
+				return false;
+		} else if (!javaType.equals(other.javaType))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "DefaultTypeInfo [javaType=" + javaType + "]";
+	}
+	
+	
 
 }

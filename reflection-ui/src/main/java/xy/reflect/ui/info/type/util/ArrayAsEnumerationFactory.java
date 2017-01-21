@@ -218,7 +218,7 @@ public class ArrayAsEnumerationFactory {
 			if (array.length == 0) {
 				return Collections.emptyList();
 			} else {
-				return Collections.<IMethodInfo> singletonList(new AbstractConstructorMethodInfo(TypeInfo.this) {
+				return Collections.<IMethodInfo>singletonList(new AbstractConstructorMethodInfo(TypeInfo.this) {
 
 					@Override
 					public Object invoke(Object object, InvocationData invocationData) {
@@ -266,6 +266,11 @@ public class ArrayAsEnumerationFactory {
 				public String getCaption() {
 					return getItemCaption(arrayItem);
 				}
+
+				@Override
+				public String toString() {
+					return arrayItem.toString();
+				}
 			};
 		}
 
@@ -277,12 +282,6 @@ public class ArrayAsEnumerationFactory {
 		@Override
 		public void validate(Object object) throws Exception {
 			ReflectionUIUtils.checkInstance(this, object);
-		}
-
-		@Override
-		public String toString(Object object) {
-			ReflectionUIUtils.checkInstance(this, object);
-			return object.toString();
 		}
 
 		@Override
@@ -300,6 +299,21 @@ public class ArrayAsEnumerationFactory {
 		public boolean equals(Object value1, Object value2) {
 			ReflectionUIUtils.checkInstance(this, value1);
 			return ReflectionUIUtils.equalsOrBothNull(value1, value2);
+		}
+
+		@Override
+		public String toString(Object object) {
+			ReflectionUIUtils.checkInstance(this, object);
+			return object.toString();
+		}
+
+		ArrayAsEnumerationFactory getOuterType() {
+			return ArrayAsEnumerationFactory.this;
+		}
+
+		@Override
+		public String toString() {
+			return "TypeInfo [getOuterType()=" + getOuterType() + "]";
 		}
 
 	}

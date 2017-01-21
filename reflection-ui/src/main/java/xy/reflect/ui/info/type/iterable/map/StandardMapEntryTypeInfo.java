@@ -169,4 +169,12 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "StandardMapEntryTypeInfo [keyJavaType=" + keyJavaType + ", valueJavaType=" + valueJavaType
+				+ ", javaType=" + javaType + "]";
+	}
+	
+	
+
 }

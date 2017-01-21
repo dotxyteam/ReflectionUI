@@ -175,6 +175,11 @@ public class ImplicitListField implements IFieldInfo {
 	}
 
 	@Override
+	public String toString() {
+		return "ImplicitListField [fieldName=" + fieldName + ", parentType=" + parentType + "]";
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -219,11 +224,6 @@ public class ImplicitListField implements IFieldInfo {
 		} else if (!sizeMethodName.equals(other.sizeMethodName))
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return getCaption();
 	}
 
 	protected class Instance {
@@ -426,7 +426,7 @@ public class ImplicitListField implements IFieldInfo {
 		public List<IMethodInfo> getAdditionalItemConstructors(final Object listValue) {
 			final Instance instance = (Instance) listValue;
 			return Collections
-					.<IMethodInfo> singletonList(new AbstractConstructorMethodInfo(TypeInfo.this.getItemType()) {
+					.<IMethodInfo>singletonList(new AbstractConstructorMethodInfo(TypeInfo.this.getItemType()) {
 
 						@Override
 						public Object invoke(Object nullObject, InvocationData invocationData) {
@@ -440,12 +440,6 @@ public class ImplicitListField implements IFieldInfo {
 							return Collections.emptyList();
 						}
 					});
-		}
-
-		@Override
-		public String toString(Object object) {
-			ReflectionUIUtils.checkInstance(this, object);
-			return object.toString();
 		}
 
 		@Override
@@ -466,26 +460,18 @@ public class ImplicitListField implements IFieldInfo {
 		}
 
 		@Override
-		public int hashCode() {
-			return getImplicitListField().hashCode();
+		public String toString(Object object) {
+			ReflectionUIUtils.checkInstance(this, object);
+			return object.toString();
+		}
+
+		public ImplicitListField getOuterType() {
+			return ImplicitListField.this;
 		}
 
 		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			TypeInfo other = (TypeInfo) obj;
-			if (!getImplicitListField().equals(other.getImplicitListField()))
-				return false;
-			return true;
-		}
-
-		public ImplicitListField getImplicitListField() {
-			return ImplicitListField.this;
+		public String toString() {
+			return "TypeInfo [getOuterType()=" + getOuterType() + "]";
 		}
 
 	}

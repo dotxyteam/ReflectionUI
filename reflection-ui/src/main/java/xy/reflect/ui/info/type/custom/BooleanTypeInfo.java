@@ -40,4 +40,11 @@ public class BooleanTypeInfo extends DefaultTypeInfo {
 		return (javaType.equals(boolean.class)) || (javaType.equals(Boolean.class));
 	}
 
+	@Override
+	public String toString() {
+		return "BooleanTypeInfo [javaType=" + javaType + "]";
+	}
+	
+	
+
 }

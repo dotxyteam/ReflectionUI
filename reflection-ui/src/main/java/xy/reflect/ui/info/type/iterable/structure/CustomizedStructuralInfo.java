@@ -226,4 +226,43 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 		return !subListField.getCaption().equals(itemPosition.getContainingListCaption());
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((customization == null) ? 0 : customization.hashCode());
+		result = prime * result + ((listType == null) ? 0 : listType.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CustomizedStructuralInfo other = (CustomizedStructuralInfo) obj;
+		if (customization == null) {
+			if (other.customization != null)
+				return false;
+		} else if (!customization.equals(other.customization))
+			return false;
+		if (listType == null) {
+			if (other.listType != null)
+				return false;
+		} else if (!listType.equals(other.listType))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "CustomizedStructuralInfo [customization=" + customization + ", listType=" + listType + ", base=" + base
+				+ "]";
+	}
+	
+	
+
 }

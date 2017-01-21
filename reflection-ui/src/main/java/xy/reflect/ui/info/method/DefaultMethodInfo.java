@@ -93,13 +93,12 @@ public class DefaultMethodInfo implements IMethodInfo {
 		}
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder result = new StringBuilder(getCaption());
-		if (getParameters().size() > 0) {
+	public static String getDescription(IMethodInfo method) {
+		StringBuilder result = new StringBuilder(method.getCaption());
+		if (method.getParameters().size() > 0) {
 			result.append(" - specify ");
 			result.append(ReflectionUIUtils
-					.formatParameterList(getParameters()));
+					.formatParameterList(method.getParameters()));
 		}
 		return result.toString();
 	}
@@ -109,27 +108,7 @@ public class DefaultMethodInfo implements IMethodInfo {
 		return javaMethod.getName();
 	}
 
-	@Override
-	public int hashCode() {
-		return javaMethod.hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (obj == this) {
-			return true;
-		}
-		if (!getClass().equals(obj.getClass())) {
-			return false;
-		}
-		if (!javaMethod.equals(((DefaultMethodInfo) obj).javaMethod)) {
-			return false;
-		}
-		return true;
-	}
+	
 
 	@Override
 	public boolean isReadOnly() {
@@ -199,5 +178,37 @@ public class DefaultMethodInfo implements IMethodInfo {
 	public Map<String, Object> getSpecificProperties() {
 		return Collections.emptyMap();
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((javaMethod == null) ? 0 : javaMethod.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DefaultMethodInfo other = (DefaultMethodInfo) obj;
+		if (javaMethod == null) {
+			if (other.javaMethod != null)
+				return false;
+		} else if (!javaMethod.equals(other.javaMethod))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "DefaultMethodInfo [javaMethod=" + javaMethod + "]";
+	}
+	
+	
 
 }

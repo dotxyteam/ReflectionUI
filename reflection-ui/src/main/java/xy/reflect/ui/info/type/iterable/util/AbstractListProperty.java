@@ -29,7 +29,7 @@ public abstract class AbstractListProperty implements IFieldInfo {
 
 	@Override
 	public String toString() {
-		return getCaption();
+		return "ListProperty[getName()=" + getName() + "]";
 	}
 
 	@Override

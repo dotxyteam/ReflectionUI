@@ -53,8 +53,9 @@ public class EnumerationItemInfoProxy implements IEnumerationItemInfo {
 
 	@Override
 	public String toString() {
-		return base.toString();
+		return "EnumerationItemInfoProxy [base=" + base + "]";
 	}
 
+	
 	
 }

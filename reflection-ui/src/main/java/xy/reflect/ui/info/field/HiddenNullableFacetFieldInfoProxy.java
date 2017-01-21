@@ -64,4 +64,11 @@ public class HiddenNullableFacetFieldInfoProxy extends FieldInfoProxy {
 		return base
 				.equals(((HiddenNullableFacetFieldInfoProxy) obj).base);
 	}
+
+	@Override
+	public String toString() {
+		return "HiddenNullableFacetFieldInfoProxy [base=" + base + "]";
+	}
+	
+	
 }

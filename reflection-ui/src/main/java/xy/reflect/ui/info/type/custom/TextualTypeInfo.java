@@ -48,6 +48,11 @@ public class TextualTypeInfo extends DefaultTypeInfo {
 	public static boolean isCompatibleWith(Class<?> javaType) {
 		return ClassUtils.isPrimitiveTypeOrWrapperOrString(javaType);
 	}
+
+	@Override
+	public String toString() {
+		return "TextualTypeInfo [javaType=" + javaType + "]";
+	}
 	
 
 }

@@ -154,6 +154,12 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 	}
 
 	@Override
+	public String toString() {
+		return "StandardMapAsListTypeInfo [keyJavaType=" + keyJavaType + ", valueJavaType=" + valueJavaType
+				+ ", javaType=" + javaType + "]";
+	}
+
+	@Override
 	public boolean isOrdered() {
 		return false;
 	}

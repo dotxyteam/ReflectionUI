@@ -37,14 +37,13 @@ public abstract class AbstractConstructorMethodInfo implements IMethodInfo {
 		return ownerType;
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder result = new StringBuilder(getCaption());
-		if (getParameters().size() == 0) {
+	public static String getDescription(AbstractConstructorMethodInfo ctor) {
+		StringBuilder result = new StringBuilder(ctor.getCaption());
+		if (ctor.getParameters().size() == 0) {
 			result.append(" - by default");
 		} else {
 			result.append(" - specify ");
-			result.append(ReflectionUIUtils.formatParameterList(getParameters()));
+			result.append(ReflectionUIUtils.formatParameterList(ctor.getParameters()));
 		}
 		return result.toString();
 	}

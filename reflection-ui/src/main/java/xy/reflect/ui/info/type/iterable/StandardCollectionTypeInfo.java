@@ -42,10 +42,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(itemJavaType));
 	}
 
-	@Override
-	public String toString() {
-		return getCaption();
-	}
+	
 
 	@Override
 	public String getCaption() {
@@ -158,28 +155,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 		return new DetachedItemDetailsAccessMode();
 	}
 
-	@Override
-	public int hashCode() {
-		return javaType.hashCode() + itemJavaType.hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (!getClass().equals(obj.getClass())) {
-			return false;
-		}
-		if (!javaType.equals(((StandardCollectionTypeInfo) obj).javaType)) {
-			return false;
-		}
-		if (!ReflectionUIUtils.equalsOrBothNull(itemJavaType, ((StandardCollectionTypeInfo) obj).itemJavaType)) {
-			return false;
-		}
-		return true;
-	}
-
+	
 	@Override
 	public boolean isOrdered() {
 		return List.class.isAssignableFrom(javaType);
@@ -221,5 +197,39 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	public List<IMethodInfo> getAdditionalItemConstructors(Object listValue) {
 		return Collections.emptyList();
 	}
+	
+	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((itemJavaType == null) ? 0 : itemJavaType.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		StandardCollectionTypeInfo other = (StandardCollectionTypeInfo) obj;
+		if (itemJavaType == null) {
+			if (other.itemJavaType != null)
+				return false;
+		} else if (!itemJavaType.equals(other.itemJavaType))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "StandardCollectionTypeInfo [itemJavaType=" + itemJavaType + ", javaType=" + javaType + "]";
+	}
+	
+	
 
 }

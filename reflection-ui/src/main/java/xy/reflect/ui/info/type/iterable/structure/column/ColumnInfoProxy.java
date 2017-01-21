@@ -63,7 +63,9 @@ public class ColumnInfoProxy implements IColumnInfo {
 
 	@Override
 	public String toString() {
-		return base.toString();
+		return "ColumnInfoProxy [base=" + base + "]";
 	}
+
+	
 
 }

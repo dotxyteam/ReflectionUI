@@ -104,9 +104,11 @@ public class GetterFieldInfo implements IFieldInfo {
 		return ValueReturnMode.PROXY;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return getCaption();
+		return "GetterFieldInfo [javaGetterMethod=" + javaGetterMethod + "]";
 	}
 
 	@Override

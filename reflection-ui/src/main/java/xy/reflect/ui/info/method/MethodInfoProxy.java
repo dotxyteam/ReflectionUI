@@ -7,12 +7,8 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MethodInfoProxy implements IMethodInfo {
-
-	protected StackTraceElement[] instanciationTrace = ReflectionUIUtils
-			.createDebugStackTrace(1);
 
 	protected IMethodInfo base;
 
@@ -41,29 +37,7 @@ public class MethodInfoProxy implements IMethodInfo {
 		return base.invoke(object, invocationData);
 	}
 
-	@Override
-	public String toString() {
-		return base.toString();
-	}
-
-	@Override
-	public int hashCode() {
-		return base.hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (obj == this) {
-			return true;
-		}
-		if (!getClass().equals(obj.getClass())) {
-			return false;
-		}
-		return base.equals(((MethodInfoProxy) obj).base);
-	}
+	
 
 	@Override
 	public boolean isReadOnly() {
@@ -100,4 +74,36 @@ public class MethodInfoProxy implements IMethodInfo {
 	public Map<String, Object> getSpecificProperties() {
 		return base.getSpecificProperties();
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((base == null) ? 0 : base.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MethodInfoProxy other = (MethodInfoProxy) obj;
+		if (base == null) {
+			if (other.base != null)
+				return false;
+		} else if (!base.equals(other.base))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "MethodInfoProxy [base=" + base + "]";
+	}
+	
+	
 }

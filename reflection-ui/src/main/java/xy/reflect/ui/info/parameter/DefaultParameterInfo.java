@@ -43,10 +43,7 @@ public class DefaultParameterInfo implements IParameterInfo {
 		return type;
 	}
 
-	@Override
-	public String toString() {
-		return getCaption();
-	}
+	
 
 	@Override
 	public String getName() {
@@ -80,6 +77,11 @@ public class DefaultParameterInfo implements IParameterInfo {
 		} else if (!javaParameter.equals(other.javaParameter))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "DefaultParameterInfo [javaParameter=" + javaParameter + "]";
 	}
 
 	@Override

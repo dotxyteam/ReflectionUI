@@ -8,48 +8,53 @@ import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
-public interface IParameterInfo extends IInfo{
+public interface IParameterInfo extends IInfo {
 
 	IParameterInfo NULL_PARAMETER_INFO = new IParameterInfo() {
-		
+
 		@Override
 		public Map<String, Object> getSpecificProperties() {
 			return Collections.emptyMap();
 		}
-		
+
 		@Override
 		public String getOnlineHelp() {
 			return null;
 		}
-		
+
 		@Override
 		public String getName() {
 			return "NULL_PARAMETER_INFO";
 		}
-		
+
 		@Override
 		public String getCaption() {
 			return "";
 		}
-		
+
 		@Override
 		public boolean isNullable() {
 			return true;
 		}
-		
+
 		@Override
 		public ITypeInfo getType() {
 			return new DefaultTypeInfo(new ReflectionUI(), Object.class);
 		}
-		
+
 		@Override
 		public int getPosition() {
 			return 0;
 		}
-		
+
 		@Override
 		public Object getDefaultValue() {
 			return null;
+		}
+
+		@Override
+		public String toString() {
+			return getName();
 		}
 	};
 
@@ -58,7 +63,7 @@ public interface IParameterInfo extends IInfo{
 	boolean isNullable();
 
 	Object getDefaultValue();
-	
+
 	int getPosition();
 
 }

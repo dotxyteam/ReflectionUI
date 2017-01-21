@@ -1346,6 +1346,11 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				return result;
 			}
 
+			@Override
+			public String toString() {
+				return "addSpecificItemContructors[listType=" + newItemPosition.getContainingListType() + "]";
+			}
+
 		}.get(itemType);
 	}
 
@@ -1834,8 +1839,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			final AutoFieldValueUpdatingItemPosition itemPosition) {
 		ITypeInfo actualItemTtemType = swingRenderer.getReflectionUI()
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(itemHolder[0]));
-		final FilteredTypeFactory actualItemTtemTypeFilter = new FilteredTypeFactory(swingRenderer.getReflectionUI(), actualItemTtemType,
-				getStructuralInfo().getItemInfoSettings(itemPosition));
+		final FilteredTypeFactory actualItemTtemTypeFilter = new FilteredTypeFactory(swingRenderer.getReflectionUI(),
+				actualItemTtemType, getStructuralInfo().getItemInfoSettings(itemPosition));
 		ITypeInfo filteredItemType = swingRenderer.getReflectionUI()
 				.getTypeInfo(actualItemTtemTypeFilter.getInstanceTypeInfoSource());
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),

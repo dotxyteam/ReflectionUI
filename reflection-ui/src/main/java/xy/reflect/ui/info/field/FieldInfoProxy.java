@@ -5,11 +5,8 @@ import java.util.Map;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class FieldInfoProxy implements IFieldInfo {
-
-	protected StackTraceElement[] instanciationTrace = ReflectionUIUtils.createDebugStackTrace(1);
 
 	protected IFieldInfo base;
 
@@ -62,11 +59,6 @@ public class FieldInfoProxy implements IFieldInfo {
 	}
 
 	@Override
-	public String toString() {
-		return base.toString();
-	}
-
-	@Override
 	public String getName() {
 		return base.getName();
 	}
@@ -103,6 +95,11 @@ public class FieldInfoProxy implements IFieldInfo {
 	@Override
 	public Map<String, Object> getSpecificProperties() {
 		return base.getSpecificProperties();
+	}
+
+	@Override
+	public String toString() {
+		return "FieldInfoProxy [base=" + base + "]";
 	}
 
 }

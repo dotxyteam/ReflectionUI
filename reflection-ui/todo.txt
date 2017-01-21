@@ -1,3 +1,7 @@
+- How can tester ui actions be well displayed while their
+list item type name is changed, how?
+- write hashCode() & equals() of some inner classes where the IDE
+could not generate them
 - Type params must be get from the IField/MethodInfo, not ITypeInfo
 just like in the Java spec.
 	. add IFieldInfo.getTypeParameters()

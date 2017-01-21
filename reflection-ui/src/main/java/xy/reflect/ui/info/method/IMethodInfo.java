@@ -73,6 +73,10 @@ public interface IMethodInfo extends IInfo {
 		public void validateParameters(Object object, InvocationData invocationData) throws Exception {
 		}
 		
+		@Override
+		public String toString(){
+			return getName();
+		}
 	};
 
 	

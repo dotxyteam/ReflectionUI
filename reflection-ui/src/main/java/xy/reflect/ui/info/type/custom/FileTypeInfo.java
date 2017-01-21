@@ -45,4 +45,9 @@ public class FileTypeInfo extends DefaultTypeInfo {
 		return File.class.isAssignableFrom(javaType);
 	}
 
+	@Override
+	public String toString() {
+		return "MultipleFieldAsOne.FileTypeInfo [javaType=" + javaType + "]";
+	}
+
 }

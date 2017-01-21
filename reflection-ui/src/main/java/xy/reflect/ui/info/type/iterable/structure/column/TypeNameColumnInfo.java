@@ -81,7 +81,9 @@ public class TypeNameColumnInfo implements IColumnInfo {
 
 	@Override
 	public String toString() {
-		return getCaption();
+		return "TypeNameColumnInfo []";
 	}
+
+
 
 }

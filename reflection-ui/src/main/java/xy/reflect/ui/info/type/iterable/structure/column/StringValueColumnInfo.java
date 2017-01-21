@@ -73,7 +73,9 @@ public class StringValueColumnInfo implements IColumnInfo {
 
 	@Override
 	public String toString() {
-		return getCaption();
+		return "StringValueColumnInfo []";
 	}
+
+
 
 }

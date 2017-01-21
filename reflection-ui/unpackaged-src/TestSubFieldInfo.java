@@ -18,6 +18,11 @@ public class TestSubFieldInfo {
 				return new TypeInfoProxyFactory() {
 
 					@Override
+					public String toString() {
+						return TestSubFieldInfo.class.getName() + TypeInfoProxyFactory.class.getSimpleName();
+					}
+
+					@Override
 					protected List<IFieldInfo> getFields(ITypeInfo type) {
 						if (type.getName().equals(A.class.getName())) {
 							List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));

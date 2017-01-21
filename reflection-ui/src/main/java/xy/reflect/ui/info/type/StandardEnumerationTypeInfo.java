@@ -73,8 +73,18 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements
 				public String getCaption() {
 					return object.toString();
 				}
+
+				@Override
+				public String toString() {
+					return object.toString();
+				}
 			};
 		}
+	}
+
+	@Override
+	public String toString() {
+		return "StandardEnumerationTypeInfo [javaType=" + javaType + "]";
 	}
 	
 	

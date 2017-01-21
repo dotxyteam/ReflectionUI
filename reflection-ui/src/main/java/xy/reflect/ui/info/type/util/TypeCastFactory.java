@@ -12,6 +12,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.EnumerationControl;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.field.MultipleFieldAsOne;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -105,6 +106,11 @@ public class TypeCastFactory {
 	}
 
 	protected class InstanceTypeInfoFactory extends TypeInfoProxyFactory {
+
+		@Override
+		public String toString() {
+			return TypeCastFactory.class.getName() + TypeInfoProxyFactory.class.getSimpleName();
+		}
 
 		@Override
 		protected String getName(ITypeInfo type) {

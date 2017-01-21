@@ -43,7 +43,9 @@ public class PositionColumnInfo implements IColumnInfo {
 
 	@Override
 	public String toString() {
-		return getCaption();
+		return "PositionColumnInfo []";
 	}
+
+	
 
 }
