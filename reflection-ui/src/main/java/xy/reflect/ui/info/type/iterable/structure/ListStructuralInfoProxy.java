@@ -25,8 +25,8 @@ public class ListStructuralInfoProxy implements IListStructuralInfo{
 		return base.getItemSubListField(itemPosition);
 	}
 
-	public IInfoFilter getItemInfoSettings(ItemPosition itemPosition) {
-		return base.getItemInfoSettings(itemPosition);
+	public IInfoFilter getItemInfoFilter(ItemPosition itemPosition) {
+		return base.getItemInfoFilter(itemPosition);
 	}
 
 	@Override

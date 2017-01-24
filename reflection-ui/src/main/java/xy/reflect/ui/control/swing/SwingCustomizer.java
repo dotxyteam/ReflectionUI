@@ -40,6 +40,7 @@ import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
 import xy.reflect.ui.info.type.custom.FileTypeInfo;
+import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
@@ -632,7 +633,7 @@ public class SwingCustomizer extends SwingRenderer {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							TypeCustomization t = infoCustomizations
-									.getTypeCustomization(getFieldControlObjectCustomizedType().getName());
+									.getTypeCustomization(getFieldControlObjectCustomizedType().getName(), true);
 							openTypeCustomizationDialog(result, t);
 						}
 					});
@@ -683,11 +684,15 @@ public class SwingCustomizer extends SwingRenderer {
 							openFieldCutomizationDialog(result, getCurrentFormObjectCustomizedType(), getFieldName());
 						}
 					});
-					popupMenu.show(result, result.getWidth(), result.getHeight());
+					showMenu(popupMenu, result);
 
 				}
 			});
 			return result;
+		}
+
+		protected void showMenu(JPopupMenu popupMenu, JButton source) {
+			popupMenu.show(source, source.getWidth(), source.getHeight() / 2);
 		}
 
 		protected void hideMethod(Component activatorComponent, ITypeInfo customizedType, String methodSignature) {
@@ -775,7 +780,13 @@ public class SwingCustomizer extends SwingRenderer {
 
 		protected void openEnumerationCutomizationDialog(Component activatorComponent,
 				final IEnumerationTypeInfo customizedEnumType) {
-			EnumerationCustomization ec = infoCustomizations.getEnumerationCustomization(customizedEnumType.getName());
+			EnumerationCustomization ec = infoCustomizations.getEnumerationCustomization(customizedEnumType.getName(),
+					true);			
+			for (Object item : customizedEnumType.getPossibleValues()) {
+				IEnumerationItemInfo itemInfo = customizedEnumType.getValueInfo(item);
+				infoCustomizations.getEnumerationItemCustomization(ec.getEnumerationTypeName(), itemInfo.getName(),
+						true);
+			}
 			openCustomizationDialog(activatorComponent, ec, customizedEnumType.getName());
 		}
 
@@ -851,8 +862,8 @@ public class SwingCustomizer extends SwingRenderer {
 
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								TypeCustomization t = infoCustomizations
-										.getTypeCustomization(returnValueType.getName());
+								TypeCustomization t = infoCustomizations.getTypeCustomization(returnValueType.getName(),
+										true);
 								openTypeCustomizationDialog(result, t);
 							}
 						});
@@ -866,7 +877,7 @@ public class SwingCustomizer extends SwingRenderer {
 									getMethodInfoSignature());
 						}
 					});
-					popupMenu.show(result, result.getWidth(), result.getHeight());
+					showMenu(popupMenu, result);
 				}
 			});
 			return result;
@@ -890,7 +901,7 @@ public class SwingCustomizer extends SwingRenderer {
 					}
 				}
 			}
-			TypeCustomization t = infoCustomizations.getTypeCustomization(typeName);
+			TypeCustomization t = infoCustomizations.getTypeCustomization(typeName, true);
 			for (JPanel form : customizationToolsRenderer.getForms(t)) {
 				customizationToolsRenderer.refreshAllFieldControls(form, false);
 			}

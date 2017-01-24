@@ -22,14 +22,23 @@ public class MethodSetupObjectFactory {
 
 	protected IMethodInfo method;
 	protected ReflectionUI reflectionUI;
+	protected Object object;
 
-	public MethodSetupObjectFactory(ReflectionUI reflectionUI, IMethodInfo method) {
+	public MethodSetupObjectFactory(ReflectionUI reflectionUI, Object object, IMethodInfo method) {
+		this.object = object;
 		this.method = method;
 		this.reflectionUI = reflectionUI;
 	}
 
-	public IMethodInfo getUnderlyingMethod() {
+	public IMethodInfo getMethod() {
 		return method;
+	}
+
+	public ITypeInfo getContainingType() {
+		if (object == null) {
+			return null;
+		}
+		return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 	}
 
 	protected static IFieldInfo getParameterAsField(final IParameterInfo param) {
@@ -101,8 +110,7 @@ public class MethodSetupObjectFactory {
 			public Map<String, Object> getSpecificProperties() {
 				return Collections.emptyMap();
 			}
-			
-			
+
 		};
 	}
 
@@ -118,26 +126,38 @@ public class MethodSetupObjectFactory {
 
 	@Override
 	public int hashCode() {
-		return method.hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((getContainingType() == null) ? 0 : getContainingType().hashCode());
+		result = prime * result + ((method == null) ? 0 : method.hashCode());
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (obj == this) {
+		if (this == obj)
 			return true;
-		}
-		if (!getClass().equals(obj.getClass())) {
+		if (obj == null)
 			return false;
-		}
-		return method.equals(((MethodSetupObjectFactory) obj).method);
+		if (getClass() != obj.getClass())
+			return false;
+		MethodSetupObjectFactory other = (MethodSetupObjectFactory) obj;
+		if (getContainingType() == null) {
+			if (other.getContainingType() != null)
+				return false;
+		} else if (!getContainingType().equals(other.getContainingType()))
+			return false;
+		if (method == null) {
+			if (other.method != null)
+				return false;
+		} else if (!method.equals(other.method))
+			return false;
+		return true;
 	}
 
 	@Override
 	public String toString() {
-		return MethodSetupObjectFactory.class.getSimpleName() + " [method=" + method + "]";
+		return "MethodSetupObjectFactory [method=" + method + ", containingType=" + getContainingType() + "]";
 	}
 
 	protected class Instance {
@@ -164,7 +184,7 @@ public class MethodSetupObjectFactory {
 
 		@Override
 		public List<IMethodInfo> getConstructors() {
-			return Collections.<IMethodInfo> emptyList();
+			return Collections.<IMethodInfo>emptyList();
 		}
 
 		@Override
@@ -179,7 +199,8 @@ public class MethodSetupObjectFactory {
 
 		@Override
 		public String getName() {
-			return "MethodSetupObject[method=" + method + "]";
+			return "MethodSetupObject[method=" + ReflectionUIUtils.getMethodInfoSignature(method) + ", containingType="
+					+ ((getContainingType() == null) ? null : getContainingType().getName()) + "]";
 		}
 
 		@Override
@@ -241,8 +262,6 @@ public class MethodSetupObjectFactory {
 			return Collections.emptyMap();
 		}
 
-		
-
 		@Override
 		public int hashCode() {
 			final int prime = 31;
@@ -271,7 +290,7 @@ public class MethodSetupObjectFactory {
 
 		@Override
 		public String toString() {
-			return "TypeInfo [getOuterType()=" + getOuterType() + "]";
+			return "TypeInfo of " + getOuterType();
 		}
 
 	}

@@ -14,7 +14,7 @@ public interface IListStructuralInfo {
 
 	IFieldInfo getItemSubListField(ItemPosition itemPosition);
 
-	IInfoFilter getItemInfoSettings(
+	IInfoFilter getItemInfoFilter(
 			ItemPosition itemPosition);
 
 }

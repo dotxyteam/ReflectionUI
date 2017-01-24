@@ -26,7 +26,6 @@ public class EncapsulatedObjectFactory {
 
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo fieldType;
-
 	protected String typeCaption = "";
 	protected String fieldCaption = "Value";
 	protected boolean fieldGetOnly = false;
@@ -49,7 +48,6 @@ public class EncapsulatedObjectFactory {
 		return result;
 	}
 
-	
 	public IFieldInfo getValueField() {
 		return new ValueField();
 	}
@@ -164,7 +162,7 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public String getName() {
-			return "Encapsulation[typeCaption=" + typeCaption + ", fieldType=" + fieldType + ", fieldCaption="
+			return "Encapsulation[typeCaption=" + typeCaption + ", fieldType=" + fieldType.getName() + ", fieldCaption="
 					+ fieldCaption + "]";
 		}
 
@@ -200,7 +198,7 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public List<IFieldInfo> getFields() {
-			return Collections.<IFieldInfo> singletonList(getValueField());
+			return Collections.<IFieldInfo>singletonList(getValueField());
 		}
 
 		@Override
@@ -275,10 +273,8 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public String toString() {
-			return "TypeInfo [getOuterType()=" + getOuterType() + "]";
+			return "TypeInfo of " + getOuterType();
 		}
-
-		
 
 	}
 
@@ -302,11 +298,9 @@ public class EncapsulatedObjectFactory {
 			fieldValueAccessor.set(value);
 		}
 
-		
-
 		@Override
 		public String toString() {
-			return "Encapsulated [value=" + ReflectionUIUtils.toString(reflectionUI, getValue())  + "]";
+			return "Encapsulated [value=" + ReflectionUIUtils.toString(reflectionUI, getValue()) + "]";
 		}
 
 		@Override
@@ -335,8 +329,7 @@ public class EncapsulatedObjectFactory {
 		}
 
 	}
-	
-	
+
 	protected class ValueField implements IFieldInfo {
 		@Override
 		public String getCaption() {
@@ -430,8 +423,6 @@ public class EncapsulatedObjectFactory {
 		public String toString() {
 			return "ValueField [getOuterType()=" + getOuterType() + "]";
 		}
-
-		
 
 	}
 

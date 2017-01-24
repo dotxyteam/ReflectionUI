@@ -14,6 +14,7 @@ import java.util.Set;
 
 import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.control.swing.SwingRenderer;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.util.InfoCustomizations.AbstractInfoCustomization;
 import xy.reflect.ui.util.FileUtils;
 
@@ -25,6 +26,8 @@ public class DesktopSpecificProperty {
 			+ ".KEY_ICON_IMAGE_PATH_KIND";
 	public static final String CREATE_EMBEDDED_FORM = DesktopSpecificProperty.class.getSimpleName()
 			+ ".CREATE_EMBEDDED_FORM";
+	public static final String INFO_FILTER = DesktopSpecificProperty.class.getSimpleName()
+			+ ".INFO_FILTER";
 	public static final String VALUE_PATH_TYPE_KIND_ABSOLUTE_FILE = DesktopSpecificProperty.class.getSimpleName()
 			+ ".VALUE_PATH_TYPE_KIND_ABSOLUTE_FILE";
 	public static final String VALUE_PATH_TYPE_KIND_RELATIVE_FILE = DesktopSpecificProperty.class.getSimpleName()
@@ -92,7 +95,15 @@ public class DesktopSpecificProperty {
 	public static void setSubFormExpanded(Map<String, Object> properties, boolean b) {
 		properties.put(DesktopSpecificProperty.CREATE_EMBEDDED_FORM, b);
 	}
+	
+	public static IInfoFilter getFilter(Map<String, Object> properties) {
+		return (IInfoFilter) properties.get(DesktopSpecificProperty.INFO_FILTER);
+	}
 
+	public static void setFilter(Map<String, Object> properties, IInfoFilter filter) {
+		properties.put(DesktopSpecificProperty.INFO_FILTER, filter);
+	}
+	
 	public static File getIconImageFile(Map<String, Object> properties) {
 		String filePath = (String) properties.get(DesktopSpecificProperty.KEY_ICON_IMAGE_PATH);
 		if (filePath == null) {

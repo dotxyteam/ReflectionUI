@@ -1,5 +1,25 @@
+- separate customizations from reflection UI
+	. remove swingRenderer.getReflectionUI()
+	. add swingRenderer.getTypeInfoSource()
+	. add swingRenderer.getTypeInfo()
+	. to customize just override swingRenderer.getTypeInfo()
+	or
+	. add interface IReflectionUI
+	...
+- remove FilteredTypeFactory as it add customizations twice
+	. replace it with a good infoCollectionSettings
+	. ObjectDialog encapsulation must include InfoCollectionSettings
+	maybe through specificProperties
+- ITypeInfo.getName() should not be used for finding controls
 - How can tester ui actions be well displayed while their
 list item type name is changed, how?
+	. getName(): type id but not necessarily uniq.
+	usefull for
+		* customizations
+		* error msgs
+		**** finding appropriate control !!!
+	then type wrapper should not change the name
+	. toString() just have to be as useful as possible
 - write hashCode() & equals() of some inner classes where the IDE
 could not generate them
 - Type params must be get from the IField/MethodInfo, not ITypeInfo

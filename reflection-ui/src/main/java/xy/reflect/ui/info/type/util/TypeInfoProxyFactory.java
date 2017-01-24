@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Image;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,7 @@ public abstract class TypeInfoProxyFactory {
 	public abstract String toString();
 
 	public ITypeInfo get(final ITypeInfo type) {
+
 		if (type instanceof IListTypeInfo) {
 			return new GeneratedListTypeInfoProxy((IListTypeInfo) type);
 		} else if (type instanceof IEnumerationTypeInfo) {
@@ -44,6 +46,10 @@ public abstract class TypeInfoProxyFactory {
 		} else {
 			return new GeneratedBasicTypeInfoProxy(type);
 		}
+	}
+
+	protected ITypeInfo getSubTypeProxy(ITypeInfo subType) {
+		return get(subType);
 	}
 
 	public ITypeInfo getUnderProxy(final ITypeInfo type) {
@@ -203,11 +209,7 @@ public abstract class TypeInfoProxyFactory {
 	}
 
 	protected List<IParameterInfo> getParameters(IMethodInfo method, ITypeInfo containingType) {
-		List<IParameterInfo> result = new ArrayList<IParameterInfo>();
-		for (IParameterInfo param : method.getParameters()) {
-			result.add(new GeneratedParameterInfoProxy(param, method, containingType));
-		}
-		return result;
+		return method.getParameters();
 	}
 
 	protected ITypeInfo getReturnValueType(IMethodInfo method, ITypeInfo containingType) {
@@ -252,11 +254,7 @@ public abstract class TypeInfoProxyFactory {
 	}
 
 	protected List<IMethodInfo> getAdditionalItemConstructors(IListTypeInfo type, Object listValue) {
-		List<IMethodInfo> result = new ArrayList<IMethodInfo>();
-		for (IMethodInfo constructor : type.getAdditionalItemConstructors(listValue)) {
-			result.add(new GeneratedConstructorInfoProxy(constructor, type));
-		}
-		return result;
+		return type.getAdditionalItemConstructors(listValue);
 	}
 
 	protected ITypeInfo getItemType(IListTypeInfo type) {
@@ -292,35 +290,19 @@ public abstract class TypeInfoProxyFactory {
 	}
 
 	protected List<IMethodInfo> getConstructors(ITypeInfo type) {
-		List<IMethodInfo> result = new ArrayList<IMethodInfo>();
-		for (IMethodInfo constructor : type.getConstructors()) {
-			result.add(new GeneratedConstructorInfoProxy(constructor, type));
-		}
-		return result;
+		return type.getConstructors();
 	}
 
 	protected List<IFieldInfo> getFields(ITypeInfo type) {
-		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
-		for (IFieldInfo field : type.getFields()) {
-			result.add(new GeneratedFieldInfoProxy(field, type));
-		}
-		return result;
+		return type.getFields();
 	}
 
 	protected List<IMethodInfo> getMethods(ITypeInfo type) {
-		List<IMethodInfo> result = new ArrayList<IMethodInfo>();
-		for (IMethodInfo method : type.getMethods()) {
-			result.add(new GeneratedMethodInfoProxy(method, type));
-		}
-		return result;
+		return type.getMethods();
 	}
 
 	protected List<ITypeInfo> getPolymorphicInstanceSubTypes(ITypeInfo type) {
-		List<ITypeInfo> result = new ArrayList<ITypeInfo>();
-		for (ITypeInfo subType : type.getPolymorphicInstanceSubTypes()) {
-			result.add(get(subType));
-		}
-		return result;
+		return type.getPolymorphicInstanceSubTypes();
 	}
 
 	protected boolean isConcrete(ITypeInfo type) {
@@ -401,19 +383,18 @@ public abstract class TypeInfoProxyFactory {
 	protected IEnumerationItemInfo getValueInfo(Object object, IEnumerationTypeInfo type) {
 		return type.getValueInfo(object);
 	}
-	
-	
-
-	
-
 
 	private class GeneratedBasicTypeInfoProxy implements ITypeInfo {
+
+		protected String GENERATED_PROXY_FACTORY_LIST_KEY = TypeInfoProxyFactory.class.getName()
+				+ "GENERATED_PROXY_FACTORY_LIST";
 
 		protected TypeInfoProxyFactory factory = TypeInfoProxyFactory.this;
 		protected ITypeInfo base;
 
 		public GeneratedBasicTypeInfoProxy(ITypeInfo type) {
 			this.base = type;
+			check();
 		}
 
 		public TypeInfoProxyFactory getFactory() {
@@ -422,7 +403,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String getName() {
-			return TypeInfoProxyFactory.this.getName(base);
+			return base.getName();
 		}
 
 		@Override
@@ -447,22 +428,38 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
-			return TypeInfoProxyFactory.this.getPolymorphicInstanceSubTypes(base);
+			List<ITypeInfo> result = new ArrayList<ITypeInfo>();
+			for (ITypeInfo subType : TypeInfoProxyFactory.this.getPolymorphicInstanceSubTypes(base)) {
+				result.add(getSubTypeProxy(subType));
+			}
+			return result;
 		}
 
 		@Override
 		public List<IMethodInfo> getMethods() {
-			return TypeInfoProxyFactory.this.getMethods(base);
+			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
+			for (IMethodInfo method : TypeInfoProxyFactory.this.getMethods(base)) {
+				result.add(new GeneratedMethodInfoProxy(method, base));
+			}
+			return result;
 		}
 
 		@Override
 		public List<IFieldInfo> getFields() {
-			return TypeInfoProxyFactory.this.getFields(base);
+			List<IFieldInfo> result = new ArrayList<IFieldInfo>();
+			for (IFieldInfo field : TypeInfoProxyFactory.this.getFields(base)) {
+				result.add(new GeneratedFieldInfoProxy(field, base));
+			}
+			return result;
 		}
 
 		@Override
 		public List<IMethodInfo> getConstructors() {
-			return TypeInfoProxyFactory.this.getConstructors(base);
+			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
+			for (IMethodInfo constructor : TypeInfoProxyFactory.this.getConstructors(base)) {
+				result.add(new GeneratedConstructorInfoProxy(constructor, base));
+			}
+			return result;
 		}
 
 		@Override
@@ -515,7 +512,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedBasicTypeInfoProxy [base=" + base + ",factory=" + factory + "]";
+			return "GeneratedBasicTypeInfoProxy [factory=" + factory + ",base=" + base + "]";
 		}
 
 		@Override
@@ -530,8 +527,30 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {
-			return TypeInfoProxyFactory.this.getSpecificProperties(base);
+			Map<String, Object> result = new HashMap<String, Object>(
+					TypeInfoProxyFactory.this.getSpecificProperties(base));
+			@SuppressWarnings("unchecked")
+			List<TypeInfoProxyFactory> factories = (List<TypeInfoProxyFactory>) base.getSpecificProperties()
+					.get(GENERATED_PROXY_FACTORY_LIST_KEY);
+			if (factories == null) {
+				factories = new ArrayList<TypeInfoProxyFactory>();
+			}
+			factories.add(TypeInfoProxyFactory.this);
+			result.put(GENERATED_PROXY_FACTORY_LIST_KEY, factories);
+			return result;
 		}
+
+		private void check() {
+			@SuppressWarnings("unchecked")
+			List<TypeInfoProxyFactory> factories = (List<TypeInfoProxyFactory>) base.getSpecificProperties()
+					.get(GENERATED_PROXY_FACTORY_LIST_KEY);
+			if (factories != null) {
+				if (factories.contains(TypeInfoProxyFactory.this)) {
+					throw new ReflectionUIError("Duplicate generated proxy detected from " + TypeInfoProxyFactory.this);
+				}
+			}
+		}
+
 	}
 
 	private class GeneratedListTypeInfoProxy extends GeneratedBasicTypeInfoProxy implements IListTypeInfo {
@@ -612,7 +631,12 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public List<IMethodInfo> getAdditionalItemConstructors(Object listValue) {
-			return TypeInfoProxyFactory.this.getAdditionalItemConstructors((IListTypeInfo) base, listValue);
+			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
+			for (IMethodInfo constructor : TypeInfoProxyFactory.this.getAdditionalItemConstructors((IListTypeInfo) base,
+					listValue)) {
+				result.add(new GeneratedConstructorInfoProxy(constructor, base));
+			}
+			return result;
 		}
 
 		@Override
@@ -683,7 +707,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String getName() {
-			return TypeInfoProxyFactory.this.getName(base, containingType);
+			return base.getName();
 		}
 
 		@Override
@@ -792,7 +816,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedFieldInfoProxy [base=" + base + ",factory=" + factory + "]";
+			return "GeneratedFieldInfoProxy [factory=" + factory + ",base=" + base + "]";
 		}
 
 	}
@@ -811,7 +835,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String getName() {
-			return TypeInfoProxyFactory.this.getName(base, containingType);
+			return base.getName();
 		}
 
 		@Override
@@ -826,7 +850,11 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public List<IParameterInfo> getParameters() {
-			return TypeInfoProxyFactory.this.getParameters(base, containingType);
+			List<IParameterInfo> result = new ArrayList<IParameterInfo>();
+			for (IParameterInfo param : TypeInfoProxyFactory.this.getParameters(base, containingType)) {
+				result.add(new GeneratedParameterInfoProxy(param, base, containingType));
+			}
+			return result;
 		}
 
 		@Override
@@ -915,7 +943,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedMethodInfoProxy [base=" + base + ",factory=" + factory + "]";
+			return "GeneratedMethodInfoProxy [factory=" + factory + ",base=" + base + "]";
 		}
 
 	}
@@ -949,7 +977,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String getName() {
-			return TypeInfoProxyFactory.this.getName(base, method, containingType);
+			return base.getName();
 		}
 
 		@Override
@@ -1039,7 +1067,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedParameterInfoProxy [base=" + base + ",factory=" + factory + "]";
+			return "GeneratedParameterInfoProxy [factory=" + factory + ",base=" + base + "]";
 		}
 
 	}

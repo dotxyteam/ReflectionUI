@@ -88,8 +88,6 @@ public class DefaultTypeInfo implements ITypeInfo {
 		return ReflectionUIUtils.identifierToCaption(javaType.getSimpleName());
 	}
 
-	
-
 	@Override
 	public List<IFieldInfo> getFields() {
 		if (fields == null) {
@@ -139,8 +137,6 @@ public class DefaultTypeInfo implements ITypeInfo {
 		}
 	}
 
-	
-
 	@Override
 	public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
 		return Collections.emptyList();
@@ -156,12 +152,10 @@ public class DefaultTypeInfo implements ITypeInfo {
 			if (result == null) {
 				result = "";
 			}
-			String objectClassName = object.getClass().getName();
-			String objectClassCaption = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object)).getCaption();
 			result = result.replaceAll(
-					objectClassName.replace(".", "\\.").replace("$", "\\$").replace("[", "\\[") + "@([0-9a-z]+)",
-					objectClassCaption + " ($1)");
-			result = result.replace(objectClassName, objectClassCaption);
+					javaType.getName().replace(".", "\\.").replace("$", "\\$").replace("[", "\\[") + "@([0-9a-z]+)",
+					getCaption() + " ($1)");
+			result = result.replace(javaType.getName(), getCaption());
 			return result;
 		}
 	}
@@ -236,11 +230,6 @@ public class DefaultTypeInfo implements ITypeInfo {
 		if (getClass() != obj.getClass())
 			return false;
 		DefaultTypeInfo other = (DefaultTypeInfo) obj;
-		if (constructors == null) {
-			if (other.constructors != null)
-				return false;
-		} else if (!constructors.equals(other.constructors))
-			return false;
 		if (javaType == null) {
 			if (other.javaType != null)
 				return false;
@@ -253,7 +242,5 @@ public class DefaultTypeInfo implements ITypeInfo {
 	public String toString() {
 		return "DefaultTypeInfo [javaType=" + javaType + "]";
 	}
-	
-	
 
 }

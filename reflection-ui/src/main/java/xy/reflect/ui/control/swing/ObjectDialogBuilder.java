@@ -3,12 +3,16 @@ package xy.reflect.ui.control.swing;
 import java.awt.Component;
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -21,7 +25,7 @@ import xy.reflect.ui.util.SwingRendererUtils;
 public class ObjectDialogBuilder {
 
 	protected boolean getOnly = false;
-	protected IInfoFilter infoSettings = IInfoFilter.DEFAULT;
+	protected IInfoFilter infoFilter = IInfoFilter.DEFAULT;
 	protected List<Component> additionalToolbarComponents;
 
 	protected DialogBuilder delegate;
@@ -49,8 +53,7 @@ public class ObjectDialogBuilder {
 	}
 
 	protected Object getDisplayValue() {
-		ITypeInfo valueType = getValueType();
-		if (SwingRendererUtils.hasCustomControl(value, valueType, swingRenderer)) {
+		if (isValueEncapsulatedForDisplay()) {
 			Accessor<Object> valueAccessor = new Accessor<Object>() {
 				@Override
 				public Object get() {
@@ -63,7 +66,7 @@ public class ObjectDialogBuilder {
 				}
 			};
 			EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
-					valueType);
+					getValueType());
 			encapsulation.setTypeCaption(getTitle());
 			encapsulation.setFieldCaption(swingRenderer.getDefaultFieldCaption(value));
 			encapsulation.setFieldGetOnly(getOnly);
@@ -72,6 +75,10 @@ public class ObjectDialogBuilder {
 		} else {
 			return value;
 		}
+	}
+
+	protected boolean isValueEncapsulatedForDisplay() {
+		return SwingRendererUtils.hasCustomControl(value, getValueType(), swingRenderer);
 	}
 
 	protected ITypeInfo getValueType() {
@@ -92,12 +99,12 @@ public class ObjectDialogBuilder {
 		this.getOnly = getOnly;
 	}
 
-	public IInfoFilter getInfoSettings() {
-		return infoSettings;
+	public IInfoFilter getInfoFilter() {
+		return infoFilter;
 	}
 
-	public void setInfoSettings(IInfoFilter infoSettings) {
-		this.infoSettings = infoSettings;
+	public void setInfoFilter(IInfoFilter infoFilter) {
+		this.infoFilter = infoFilter;
 	}
 
 	public List<Component> getAdditionalToolbarComponents() {
@@ -154,7 +161,11 @@ public class ObjectDialogBuilder {
 
 	public JDialog build() {
 		Object displayValue = getDisplayValue();
-		objectForm = swingRenderer.createForm(displayValue, infoSettings);
+		if (isValueEncapsulatedForDisplay()) {
+			objectForm = swingRenderer.createForm(displayValue);
+		} else {
+			objectForm = swingRenderer.createForm(displayValue, infoFilter);
+		}
 		delegate.setContentComponent(objectForm);
 
 		List<Component> toolbarControls = new ArrayList<Component>();

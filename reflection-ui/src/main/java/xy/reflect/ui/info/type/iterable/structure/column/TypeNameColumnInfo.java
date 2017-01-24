@@ -27,6 +27,9 @@ public class TypeNameColumnInfo implements IColumnInfo {
 	@Override
 	public String getCellValue(ItemPosition itemPosition) {
 		Object item = itemPosition.getItem();
+		if(item == null){
+			return "";
+		}
 		if (item instanceof StandardMapEntry) {
 			return ReflectionUIUtils.toString(reflectionUI, ((StandardMapEntry<?, ?>) item).getKey());
 		} else {

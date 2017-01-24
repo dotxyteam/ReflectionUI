@@ -77,13 +77,13 @@ public final class InfoCustomizations {
 	public static final InfoCustomizations DEFAULT = createDefault();
 	public static final String APPLIED_CUSTOMIZATIONS_PROPERTY_KEY = InfoCustomizations.class.getName();
 
-	transient protected MyTypeInfoProxyFactory proxyFactory;
+	transient protected Factory proxyFactory;
 	protected Set<TypeCustomization> typeCustomizations = new TreeSet<InfoCustomizations.TypeCustomization>();
 	protected Set<ListCustomization> listCustomizations = new TreeSet<InfoCustomizations.ListCustomization>();
 	protected Set<EnumerationCustomization> enumerationCustomizations = new TreeSet<InfoCustomizations.EnumerationCustomization>();
 
-	protected MyTypeInfoProxyFactory createCustomizationsProxyFactory(ReflectionUI reflectionUI) {
-		return new MyTypeInfoProxyFactory(reflectionUI);
+	protected Factory createCustomizationsProxyFactory(ReflectionUI reflectionUI) {
+		return new Factory(reflectionUI);
 	}
 
 	protected static InfoCustomizations createDefault() {
@@ -214,21 +214,21 @@ public final class InfoCustomizations {
 
 	}
 
-	public ParameterCustomization getParameterCustomization(String containingTypeName, String methodSignature,
+	protected ParameterCustomization getParameterCustomization(String containingTypeName, String methodSignature,
 			String paramName) {
-		return getParameterCustomization(containingTypeName, methodSignature, paramName, true);
+		return getParameterCustomization(containingTypeName, methodSignature, paramName, false);
 	}
 
 	public ParameterCustomization getParameterCustomization(String containingTypeName, String methodSignature,
-			String paramName, boolean create) {
-		MethodCustomization m = getMethodCustomization(containingTypeName, methodSignature, create);
+			String paramName, boolean createIfNotFound) {
+		MethodCustomization m = getMethodCustomization(containingTypeName, methodSignature, createIfNotFound);
 		if (m != null) {
 			for (ParameterCustomization p : m.parametersCustomizations) {
 				if (paramName.equals(p.parameterName)) {
 					return p;
 				}
 			}
-			if (create) {
+			if (createIfNotFound) {
 				ParameterCustomization p = new ParameterCustomization();
 				p.setParameterName(paramName);
 				m.parametersCustomizations.add(p);
@@ -238,19 +238,20 @@ public final class InfoCustomizations {
 		return null;
 	}
 
-	public FieldCustomization getFieldCustomization(String containingTypeName, String fieldName) {
-		return getFieldCustomization(containingTypeName, fieldName, true);
+	protected FieldCustomization getFieldCustomization(String containingTypeName, String fieldName) {
+		return getFieldCustomization(containingTypeName, fieldName, false);
 	}
 
-	public FieldCustomization getFieldCustomization(String containingTypeName, String fieldName, boolean create) {
-		TypeCustomization t = getTypeCustomization(containingTypeName, create);
+	public FieldCustomization getFieldCustomization(String containingTypeName, String fieldName,
+			boolean createIfNotFound) {
+		TypeCustomization t = getTypeCustomization(containingTypeName, createIfNotFound);
 		if (t != null) {
 			for (FieldCustomization f : t.fieldsCustomizations) {
 				if (fieldName.equals(f.fieldName)) {
 					return f;
 				}
 			}
-			if (create) {
+			if (createIfNotFound) {
 				FieldCustomization f = new FieldCustomization();
 				f.setParent(t);
 				f.setFieldName(fieldName);
@@ -261,20 +262,20 @@ public final class InfoCustomizations {
 		return null;
 	}
 
-	public MethodCustomization getMethodCustomization(String containingTypeName, String methodSignature) {
-		return getMethodCustomization(containingTypeName, methodSignature, true);
+	protected MethodCustomization getMethodCustomization(String containingTypeName, String methodSignature) {
+		return getMethodCustomization(containingTypeName, methodSignature, false);
 	}
 
 	public MethodCustomization getMethodCustomization(String containingTypeName, String methodSignature,
-			boolean create) {
-		TypeCustomization t = getTypeCustomization(containingTypeName, create);
+			boolean createIfNotFound) {
+		TypeCustomization t = getTypeCustomization(containingTypeName, createIfNotFound);
 		if (t != null) {
 			for (MethodCustomization m : t.methodsCustomizations) {
 				if (methodSignature.equals(m.methodSignature)) {
 					return m;
 				}
 			}
-			if (create) {
+			if (createIfNotFound) {
 				MethodCustomization m = new MethodCustomization();
 				m.setParent(t);
 				m.setMethodSignature(methodSignature);
@@ -285,17 +286,17 @@ public final class InfoCustomizations {
 		return null;
 	}
 
-	public TypeCustomization getTypeCustomization(String typeName) {
-		return getTypeCustomization(typeName, true);
+	protected TypeCustomization getTypeCustomization(String typeName) {
+		return getTypeCustomization(typeName, false);
 	}
 
-	public TypeCustomization getTypeCustomization(String typeName, boolean create) {
+	public TypeCustomization getTypeCustomization(String typeName, boolean createIfNotFound) {
 		for (TypeCustomization t : typeCustomizations) {
 			if (typeName.equals(t.typeName)) {
 				return t;
 			}
 		}
-		if (create) {
+		if (createIfNotFound) {
 			TypeCustomization t = new TypeCustomization();
 			t.setParent(this);
 			t.setTypeName(typeName);
@@ -305,11 +306,11 @@ public final class InfoCustomizations {
 		return null;
 	}
 
-	public ListCustomization getListCustomization(String listTypeName, String itemTypeName) {
-		return getListCustomization(listTypeName, itemTypeName, true);
+	protected ListCustomization getListCustomization(String listTypeName, String itemTypeName) {
+		return getListCustomization(listTypeName, itemTypeName, false);
 	}
 
-	public ListCustomization getListCustomization(String listTypeName, String itemTypeName, boolean create) {
+	public ListCustomization getListCustomization(String listTypeName, String itemTypeName, boolean createIfNotFound) {
 		for (ListCustomization l : listCustomizations) {
 			if (listTypeName.equals(l.listTypeName)) {
 				if (ReflectionUIUtils.equalsOrBothNull(l.itemTypeName, itemTypeName)) {
@@ -317,7 +318,7 @@ public final class InfoCustomizations {
 				}
 			}
 		}
-		if (create) {
+		if (createIfNotFound) {
 			ListCustomization l = new ListCustomization();
 			l.setParent(this);
 			l.setListTypeName(listTypeName);
@@ -328,12 +329,12 @@ public final class InfoCustomizations {
 		return null;
 	}
 
-	public ColumnCustomization getColumnCustomization(String listTypeName, String itemTypeName, String columnName) {
-		return getColumnCustomization(listTypeName, itemTypeName, columnName, true);
+	protected ColumnCustomization getColumnCustomization(String listTypeName, String itemTypeName, String columnName) {
+		return getColumnCustomization(listTypeName, itemTypeName, columnName, false);
 	}
 
 	public ColumnCustomization getColumnCustomization(String listTypeName, String itemTypeName, String columnName,
-			boolean create) {
+			boolean createIfNotFound) {
 		for (ListCustomization l : listCustomizations) {
 			if (listTypeName.equals(l.listTypeName)) {
 				if (ReflectionUIUtils.equalsOrBothNull(itemTypeName, l.itemTypeName)) {
@@ -345,7 +346,7 @@ public final class InfoCustomizations {
 				}
 			}
 		}
-		if (create) {
+		if (createIfNotFound) {
 			ListCustomization l = getListCustomization(listTypeName, itemTypeName, true);
 			ColumnCustomization c = new ColumnCustomization();
 			c.setColumnName(columnName);
@@ -355,12 +356,12 @@ public final class InfoCustomizations {
 		return null;
 	}
 
-	public EnumerationItemCustomization getEnumerationItemCustomization(String enumTypeName, String enumItemName) {
-		return getEnumerationItemCustomization(enumTypeName, enumItemName, true);
+	protected EnumerationItemCustomization getEnumerationItemCustomization(String enumTypeName, String enumItemName) {
+		return getEnumerationItemCustomization(enumTypeName, enumItemName, false);
 	}
 
 	public EnumerationItemCustomization getEnumerationItemCustomization(String enumTypeName, String enumItemName,
-			boolean create) {
+			boolean createIfNotFound) {
 		for (EnumerationCustomization e : enumerationCustomizations) {
 			if (enumTypeName.equals(e.enumerationTypeName)) {
 				for (EnumerationItemCustomization i : e.itemCustomizations) {
@@ -370,7 +371,7 @@ public final class InfoCustomizations {
 				}
 			}
 		}
-		if (create) {
+		if (createIfNotFound) {
 			EnumerationCustomization e = getEnumerationCustomization(enumTypeName, true);
 			EnumerationItemCustomization i = new EnumerationItemCustomization();
 			i.setItemName(enumItemName);
@@ -380,17 +381,17 @@ public final class InfoCustomizations {
 		return null;
 	}
 
-	public EnumerationCustomization getEnumerationCustomization(String enumTypeName) {
-		return getEnumerationCustomization(enumTypeName, true);
+	protected EnumerationCustomization getEnumerationCustomization(String enumTypeName) {
+		return getEnumerationCustomization(enumTypeName, false);
 	}
 
-	public EnumerationCustomization getEnumerationCustomization(String enumTypeName, boolean create) {
+	public EnumerationCustomization getEnumerationCustomization(String enumTypeName, boolean createIfNotFound) {
 		for (EnumerationCustomization e : enumerationCustomizations) {
 			if (enumTypeName.equals(e.enumerationTypeName)) {
 				return e;
 			}
 		}
-		if (create) {
+		if (createIfNotFound) {
 			EnumerationCustomization e = new EnumerationCustomization();
 			e.setEnumerationTypeName(enumTypeName);
 			enumerationCustomizations.add(e);
@@ -1256,6 +1257,7 @@ public final class InfoCustomizations {
 
 		protected String itemName;
 		protected String customCaption;
+		protected boolean hidden;
 
 		public String getItemName() {
 			return itemName;
@@ -1271,6 +1273,14 @@ public final class InfoCustomizations {
 
 		public void setCustomCaption(String customCaption) {
 			this.customCaption = customCaption;
+		}
+
+		public boolean isHidden() {
+			return hidden;
+		}
+
+		public void setHidden(boolean hidden) {
+			this.hidden = hidden;
 		}
 
 		@Override
@@ -1674,10 +1684,36 @@ public final class InfoCustomizations {
 
 	}
 
-	protected class MyTypeInfoProxyFactory extends HiddenNullableFacetsTypeInfoProxyFactory {
+	protected class Factory extends HiddenNullableFacetsTypeInfoProxyFactory {
 
-		public MyTypeInfoProxyFactory(ReflectionUI reflectionUI) {
+		public Factory(ReflectionUI reflectionUI) {
 			super(reflectionUI);
+		}
+
+		@Override
+		public String toString() {
+			return "Factory of " + InfoCustomizations.this;
+		}
+
+		@Override
+		protected Object[] getPossibleValues(IEnumerationTypeInfo enumType) {
+			EnumerationCustomization e = getEnumerationCustomization(enumType.getName());
+			if (e != null) {
+				List<Object> result = new ArrayList<Object>();
+				for (Object value : super.getPossibleValues(enumType)) {
+					IEnumerationItemInfo valueInfo = getValueInfo(value, enumType);
+					EnumerationItemCustomization i = getEnumerationItemCustomization(enumType.getName(),
+							valueInfo.getName());
+					if (i != null) {
+						if (i.hidden) {
+							continue;
+						}
+					}
+					result.add(value);
+				}
+				return result.toArray();
+			}
+			return super.getPossibleValues(enumType);
 		}
 
 		@Override
@@ -1726,287 +1762,294 @@ public final class InfoCustomizations {
 		@Override
 		protected List<AbstractListProperty> getDynamicProperties(IListTypeInfo listType,
 				List<? extends ItemPosition> selection) {
-			List<AbstractListProperty> result = super.getDynamicProperties(listType, selection);
-			result = new ArrayList<AbstractListProperty>(result);
 			ITypeInfo itemType = listType.getItemType();
 			final ListCustomization l = getListCustomization(listType.getName(),
 					(itemType == null) ? null : itemType.getName());
-			for (final ListItemFieldShortcut s : l.allowedItemFieldShortcuts) {
-				final String fieldCaption;
-				if (s.customFieldCaption != null) {
-					fieldCaption = s.customFieldCaption;
-				} else {
-					fieldCaption = ReflectionUIUtils.identifierToCaption(s.fieldName);
-				}
-				boolean fieldFound = false;
-				if (selection.size() == 1) {
-					final ItemPosition itemPosition = selection.get(0);
-					final Object item = itemPosition.getItem();
-					ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
-					for (final IFieldInfo itemField : actualItemType.getFields()) {
-						if (itemField.getName().equals(s.fieldName)) {
-							AbstractListProperty property = new AbstractListProperty() {
+			if (l != null) {
+				List<AbstractListProperty> result = super.getDynamicProperties(listType, selection);
+				result = new ArrayList<AbstractListProperty>(result);
+				for (final ListItemFieldShortcut s : l.allowedItemFieldShortcuts) {
+					final String fieldCaption;
+					if (s.customFieldCaption != null) {
+						fieldCaption = s.customFieldCaption;
+					} else {
+						fieldCaption = ReflectionUIUtils.identifierToCaption(s.fieldName);
+					}
+					boolean fieldFound = false;
+					if (selection.size() == 1) {
+						final ItemPosition itemPosition = selection.get(0);
+						final Object item = itemPosition.getItem();
+						ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
+						for (final IFieldInfo itemField : actualItemType.getFields()) {
+							if (itemField.getName().equals(s.fieldName)) {
+								AbstractListProperty property = new AbstractListProperty() {
 
-								@Override
-								public boolean isEnabled() {
-									return true;
-								}
+									@Override
+									public boolean isEnabled() {
+										return true;
+									}
 
-								@Override
-								public String getName() {
-									return s.fieldName;
-								}
+									@Override
+									public String getName() {
+										return s.fieldName;
+									}
 
-								@Override
-								public String getCaption() {
-									return fieldCaption;
-								}
+									@Override
+									public String getCaption() {
+										return fieldCaption;
+									}
 
-								@Override
-								public void setValue(Object object, Object value) {
-									itemField.setValue(item, value);
-									Object[] listRawValue = itemPosition.getContainingListRawValue();
-									listRawValue[itemPosition.getIndex()] = item;
-									new UpdateListValueModification(itemPosition, listRawValue, this)
-											.applyAndGetOpposite();
-								}
+									@Override
+									public void setValue(Object object, Object value) {
+										itemField.setValue(item, value);
+										Object[] listRawValue = itemPosition.getContainingListRawValue();
+										listRawValue[itemPosition.getIndex()] = item;
+										new UpdateListValueModification(itemPosition, listRawValue, this)
+												.applyAndGetOpposite();
+									}
 
-								@Override
-								public Runnable getCustomUndoUpdateJob(Object object, Object value) {
-									return null;
-								}
+									@Override
+									public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+										return null;
+									}
 
-								@Override
-								public boolean isNullable() {
-									return itemField.isNullable();
-								}
+									@Override
+									public boolean isNullable() {
+										return itemField.isNullable();
+									}
 
-								@Override
-								public boolean isGetOnly() {
-									return !UpdateListValueModification.isCompatibleWith(itemPosition)
-											|| itemField.isGetOnly();
-								}
+									@Override
+									public boolean isGetOnly() {
+										return !UpdateListValueModification.isCompatibleWith(itemPosition)
+												|| itemField.isGetOnly();
+									}
 
-								@Override
-								public ValueReturnMode getValueReturnMode() {
-									return ValueReturnMode.combine(
-											itemPosition.getContainingListData().getValueReturnMode(),
-											itemField.getValueReturnMode());
-								}
+									@Override
+									public ValueReturnMode getValueReturnMode() {
+										return ValueReturnMode.combine(
+												itemPosition.getContainingListData().getValueReturnMode(),
+												itemField.getValueReturnMode());
+									}
 
-								@Override
-								public Object getValue(Object object) {
-									return itemField.getValue(item);
-								}
+									@Override
+									public Object getValue(Object object) {
+										return itemField.getValue(item);
+									}
 
-								@Override
-								public ITypeInfo getType() {
-									return itemField.getType();
-								}
-							};
-							result.add(property);
-							fieldFound = true;
-							break;
+									@Override
+									public ITypeInfo getType() {
+										return itemField.getType();
+									}
+								};
+								result.add(property);
+								fieldFound = true;
+								break;
+							}
 						}
 					}
+					if ((!fieldFound) && s.alwaysShown) {
+						AbstractListProperty property = new AbstractListProperty() {
+
+							@Override
+							public boolean isEnabled() {
+								return false;
+							}
+
+							@Override
+							public String getName() {
+								return s.fieldName;
+							}
+
+							@Override
+							public String getCaption() {
+								return fieldCaption;
+							}
+
+							@Override
+							public void setValue(Object object, Object value) {
+								throw new UnsupportedOperationException();
+							}
+
+							@Override
+							public boolean isNullable() {
+								throw new UnsupportedOperationException();
+							}
+
+							@Override
+							public boolean isGetOnly() {
+								throw new UnsupportedOperationException();
+							}
+
+							@Override
+							public ValueReturnMode getValueReturnMode() {
+								throw new UnsupportedOperationException();
+							}
+
+							@Override
+							public Object getValue(Object object) {
+								throw new UnsupportedOperationException();
+							}
+
+							@Override
+							public ITypeInfo getType() {
+								throw new UnsupportedOperationException();
+							}
+						};
+						result.add(property);
+					}
 				}
-				if ((!fieldFound) && s.alwaysShown) {
-					AbstractListProperty property = new AbstractListProperty() {
-
-						@Override
-						public boolean isEnabled() {
-							return false;
-						}
-
-						@Override
-						public String getName() {
-							return s.fieldName;
-						}
-
-						@Override
-						public String getCaption() {
-							return fieldCaption;
-						}
-
-						@Override
-						public void setValue(Object object, Object value) {
-							throw new UnsupportedOperationException();
-						}
-
-						@Override
-						public boolean isNullable() {
-							throw new UnsupportedOperationException();
-						}
-
-						@Override
-						public boolean isGetOnly() {
-							throw new UnsupportedOperationException();
-						}
-
-						@Override
-						public ValueReturnMode getValueReturnMode() {
-							throw new UnsupportedOperationException();
-						}
-
-						@Override
-						public Object getValue(Object object) {
-							throw new UnsupportedOperationException();
-						}
-
-						@Override
-						public ITypeInfo getType() {
-							throw new UnsupportedOperationException();
-						}
-					};
-					result.add(property);
-				}
+				return result;
 			}
-			return result;
+			return super.getDynamicProperties(listType, selection);
 		}
 
 		@Override
 		protected List<AbstractListAction> getDynamicActions(IListTypeInfo listType,
 				List<? extends ItemPosition> selection) {
-			List<AbstractListAction> result = super.getDynamicActions(listType, selection);
-			result = new ArrayList<AbstractListAction>(result);
 			ITypeInfo itemType = listType.getItemType();
 			final ListCustomization l = getListCustomization(listType.getName(),
 					(itemType == null) ? null : itemType.getName());
-			for (final ListItemMethodShortcut s : l.allowedItemMethodShortcuts) {
-				final String methodName = ReflectionUIUtils.extractMethodNameFromSignature(s.methodSignature);
-				final String methodCaption;
-				if (s.customMethodCaption != null) {
-					methodCaption = s.customMethodCaption;
-				} else {
-					methodCaption = ReflectionUIUtils.identifierToCaption(methodName);
-				}
-				boolean methodFound = false;
-				if (selection.size() == 1) {
-					final ItemPosition itemPosition = selection.get(0);
-					final Object item = itemPosition.getItem();
-					ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
-					for (final IMethodInfo method : actualItemType.getMethods()) {
-						if (ReflectionUIUtils.getMethodInfoSignature(method).equals(s.methodSignature)) {
-							AbstractListAction action = new AbstractListAction() {
+			if (l != null) {
+				List<AbstractListAction> result = super.getDynamicActions(listType, selection);
+				result = new ArrayList<AbstractListAction>(result);
 
-								private IModification oppositeUpdateListValueModification;
+				for (final ListItemMethodShortcut s : l.allowedItemMethodShortcuts) {
+					final String methodName = ReflectionUIUtils.extractMethodNameFromSignature(s.methodSignature);
+					final String methodCaption;
+					if (s.customMethodCaption != null) {
+						methodCaption = s.customMethodCaption;
+					} else {
+						methodCaption = ReflectionUIUtils.identifierToCaption(methodName);
+					}
+					boolean methodFound = false;
+					if (selection.size() == 1) {
+						final ItemPosition itemPosition = selection.get(0);
+						final Object item = itemPosition.getItem();
+						ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
+						for (final IMethodInfo method : actualItemType.getMethods()) {
+							if (ReflectionUIUtils.getMethodInfoSignature(method).equals(s.methodSignature)) {
+								AbstractListAction action = new AbstractListAction() {
 
-								@Override
-								public String getName() {
-									return methodName;
-								}
+									private IModification oppositeUpdateListValueModification;
 
-								@Override
-								public String getCaption() {
-									return methodCaption;
-								}
-
-								@Override
-								public boolean isEnabled() {
-									return true;
-								}
-
-								@Override
-								public boolean isReadOnly() {
-									return !UpdateListValueModification.isCompatibleWith(itemPosition)
-											|| method.isReadOnly();
-								}
-
-								@Override
-								public ValueReturnMode getValueReturnMode() {
-									return ValueReturnMode.combine(
-											itemPosition.getContainingListData().getValueReturnMode(),
-											method.getValueReturnMode());
-								}
-
-								@Override
-								public void validateParameters(Object object, InvocationData invocationData)
-										throws Exception {
-									method.validateParameters(item, invocationData);
-								}
-
-								@Override
-								public String getOnlineHelp() {
-									return method.getOnlineHelp();
-								}
-
-								@Override
-								public ITypeInfo getReturnValueType() {
-									return method.getReturnValueType();
-								}
-
-								@Override
-								public List<IParameterInfo> getParameters() {
-									return method.getParameters();
-								}
-
-								@Override
-								public Object invoke(Object object, InvocationData invocationData) {
-									Object result = method.invoke(item, invocationData);
-									Object[] listRawValue = itemPosition.getContainingListRawValue();
-									listRawValue[itemPosition.getIndex()] = item;
-									oppositeUpdateListValueModification = new UpdateListValueModification(itemPosition,
-											listRawValue, this).applyAndGetOpposite();
-									return result;
-								}
-
-								@Override
-								public Runnable getUndoJob(Object object, final InvocationData invocationData) {
-									final Runnable undoJob = method.getUndoJob(item, invocationData);
-									if (undoJob == null) {
-										return null;
-									} else {
-										return new Runnable() {
-
-											@Override
-											public void run() {
-												undoJob.run();
-												oppositeUpdateListValueModification.applyAndGetOpposite();
-											}
-
-										};
-
+									@Override
+									public String getName() {
+										return methodName;
 									}
-								}
 
-							};
-							result.add(action);
-							methodFound = true;
-							break;
+									@Override
+									public String getCaption() {
+										return methodCaption;
+									}
+
+									@Override
+									public boolean isEnabled() {
+										return true;
+									}
+
+									@Override
+									public boolean isReadOnly() {
+										return !UpdateListValueModification.isCompatibleWith(itemPosition)
+												|| method.isReadOnly();
+									}
+
+									@Override
+									public ValueReturnMode getValueReturnMode() {
+										return ValueReturnMode.combine(
+												itemPosition.getContainingListData().getValueReturnMode(),
+												method.getValueReturnMode());
+									}
+
+									@Override
+									public void validateParameters(Object object, InvocationData invocationData)
+											throws Exception {
+										method.validateParameters(item, invocationData);
+									}
+
+									@Override
+									public String getOnlineHelp() {
+										return method.getOnlineHelp();
+									}
+
+									@Override
+									public ITypeInfo getReturnValueType() {
+										return method.getReturnValueType();
+									}
+
+									@Override
+									public List<IParameterInfo> getParameters() {
+										return method.getParameters();
+									}
+
+									@Override
+									public Object invoke(Object object, InvocationData invocationData) {
+										Object result = method.invoke(item, invocationData);
+										Object[] listRawValue = itemPosition.getContainingListRawValue();
+										listRawValue[itemPosition.getIndex()] = item;
+										oppositeUpdateListValueModification = new UpdateListValueModification(
+												itemPosition, listRawValue, this).applyAndGetOpposite();
+										return result;
+									}
+
+									@Override
+									public Runnable getUndoJob(Object object, final InvocationData invocationData) {
+										final Runnable undoJob = method.getUndoJob(item, invocationData);
+										if (undoJob == null) {
+											return null;
+										} else {
+											return new Runnable() {
+
+												@Override
+												public void run() {
+													undoJob.run();
+													oppositeUpdateListValueModification.applyAndGetOpposite();
+												}
+
+											};
+
+										}
+									}
+
+								};
+								result.add(action);
+								methodFound = true;
+								break;
+							}
 						}
 					}
+					if ((!methodFound) && s.alwaysShown) {
+						result.add(new AbstractListAction() {
+
+							@Override
+							public String getName() {
+								return methodName;
+							}
+
+							@Override
+							public String getCaption() {
+								return methodCaption;
+							}
+
+							@Override
+							public boolean isEnabled() {
+								return false;
+							}
+
+							@Override
+							public Object invoke(Object object, InvocationData invocationData) {
+								throw new UnsupportedOperationException();
+							}
+
+							@Override
+							public ValueReturnMode getValueReturnMode() {
+								throw new UnsupportedOperationException();
+							}
+						});
+					}
 				}
-				if ((!methodFound) && s.alwaysShown) {
-					result.add(new AbstractListAction() {
-
-						@Override
-						public String getName() {
-							return methodName;
-						}
-
-						@Override
-						public String getCaption() {
-							return methodCaption;
-						}
-
-						@Override
-						public boolean isEnabled() {
-							return false;
-						}
-
-						@Override
-						public Object invoke(Object object, InvocationData invocationData) {
-							throw new UnsupportedOperationException();
-						}
-
-						@Override
-						public ValueReturnMode getValueReturnMode() {
-							throw new UnsupportedOperationException();
-						}
-					});
-				}
+				return result;
 			}
-			return result;
+			return super.getDynamicActions(listType, selection);
 		}
 
 		@Override
@@ -2116,11 +2159,7 @@ public final class InfoCustomizations {
 			TypeCustomization tc = getTypeCustomization(type.getName());
 			if (tc != null) {
 				if (tc.polymorphicSubTypeFinders != null) {
-					List<ITypeInfo> result = new ArrayList<ITypeInfo>();
-					List<ITypeInfo> baseResult = super.getPolymorphicInstanceSubTypes(type);
-					if (baseResult != null) {
-						result.addAll(baseResult);
-					}
+					List<ITypeInfo> result = new ArrayList<ITypeInfo>(super.getPolymorphicInstanceSubTypes(type));
 					for (ITypeInfoFinder finder : tc.polymorphicSubTypeFinders) {
 						ITypeInfo subType = finder.find(reflectionUI);
 						result.add(subType);
@@ -2344,9 +2383,9 @@ public final class InfoCustomizations {
 			if (t != null) {
 				List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getConstructors(type));
 				for (Iterator<IMethodInfo> it = result.iterator(); it.hasNext();) {
-					IMethodInfo method = it.next();
+					IMethodInfo ctor = it.next();
 					MethodCustomization m = getMethodCustomization(type.getName(),
-							ReflectionUIUtils.getMethodInfoSignature(method));
+							ReflectionUIUtils.getMethodInfoSignature(ctor));
 					if ((m != null) && m.hidden) {
 						it.remove();
 					}
@@ -2538,7 +2577,7 @@ public final class InfoCustomizations {
 			} catch (ClassNotFoundException e) {
 				throw new ReflectionUIError(e);
 			}
-			return reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaType));
+			return reflectionUI.getTypeInfoERROR(new JavaTypeInfoSource(javaType));
 		}
 
 		@Override

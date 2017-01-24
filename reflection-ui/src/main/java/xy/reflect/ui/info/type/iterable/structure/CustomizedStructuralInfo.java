@@ -119,8 +119,8 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 	}
 
 	@Override
-	public IInfoFilter getItemInfoSettings(final ItemPosition itemPosition) {
-		return new InfoFilterProxy(super.getItemInfoSettings(itemPosition)) {
+	public IInfoFilter getItemInfoFilter(final ItemPosition itemPosition) {
+		return new InfoFilterProxy(super.getItemInfoFilter(itemPosition)) {
 
 			@Override
 			public boolean excludeMethod(IMethodInfo method) {

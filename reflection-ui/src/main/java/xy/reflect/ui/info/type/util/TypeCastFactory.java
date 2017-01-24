@@ -109,7 +109,7 @@ public class TypeCastFactory {
 
 		@Override
 		public String toString() {
-			return TypeCastFactory.class.getName() + TypeInfoProxyFactory.class.getSimpleName();
+			return "InstanceTypeInfoFactory of " + TypeCastFactory.this;
 		}
 
 		@Override
@@ -120,7 +120,7 @@ public class TypeCastFactory {
 		@Override
 		protected List<IMethodInfo> getAdditionalItemConstructors(IListTypeInfo type, Object listValue) {
 			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
-			for (IMethodInfo constructor : type.getAdditionalItemConstructors(listValue)) {
+			for (IMethodInfo constructor : super.getAdditionalItemConstructors(type, listValue)) {
 				result.add(new MethodInfoProxy(constructor) {
 					@Override
 					public Object invoke(Object object, InvocationData invocationData) {
@@ -137,7 +137,7 @@ public class TypeCastFactory {
 		@Override
 		protected List<IMethodInfo> getConstructors(ITypeInfo type) {
 			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
-			for (IMethodInfo constructor : type.getConstructors()) {
+			for (IMethodInfo constructor : super.getConstructors(type)) {
 				result.add(new MethodInfoProxy(constructor) {
 					@Override
 					public Object invoke(Object object, InvocationData invocationData) {

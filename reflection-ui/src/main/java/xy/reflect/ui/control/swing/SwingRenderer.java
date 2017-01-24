@@ -105,7 +105,7 @@ public class SwingRenderer {
 	protected Map<JPanel, Object> objectByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, ModificationStack> modificationStackByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, Boolean> fieldsUpdateListenerDisabledByForm = new MapMaker().weakKeys().makeMap();
-	protected Map<JPanel, IInfoFilter> infoCollectionSettingsByForm = new MapMaker().weakKeys().makeMap();
+	protected Map<JPanel, IInfoFilter> infoFilterByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, JLabel> statusBarByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, Map<InfoCategory, List<FieldControlPlaceHolder>>> fieldControlPlaceHoldersByCategoryByForm = new MapMaker()
 			.weakKeys().makeMap();
@@ -151,8 +151,8 @@ public class SwingRenderer {
 		return lastInvocationDataByMethod;
 	}
 
-	public Map<JPanel, IInfoFilter> getInfoCollectionSettingsByForm() {
-		return infoCollectionSettingsByForm;
+	public Map<JPanel, IInfoFilter> getInfoFilterByForm() {
+		return infoFilterByForm;
 	}
 
 	public Map<JPanel, JLabel> getStatusBarByForm() {
@@ -342,7 +342,7 @@ public class SwingRenderer {
 		return createForm(object, IInfoFilter.DEFAULT);
 	}
 
-	public JPanel createForm(final Object object, IInfoFilter settings) {
+	public JPanel createForm(final Object object, IInfoFilter infoFilter) {
 		final String formTitle = "Form of " + ReflectionUIUtils.toString(reflectionUI, object);
 		final ModificationStack modifStack = new ModificationStack(formTitle);
 		JPanel result = new JPanel() {
@@ -395,7 +395,7 @@ public class SwingRenderer {
 		};
 		getObjectByForm().put(result, object);
 		getModificationStackByForm().put(result, modifStack);
-		getInfoCollectionSettingsByForm().put(result, settings);
+		getInfoFilterByForm().put(result, infoFilter);
 		result.setLayout(new BorderLayout());
 		fillForm(result);
 		return result;
@@ -508,14 +508,13 @@ public class SwingRenderer {
 				return result;
 			}
 			Object value = fieldControlData.getValue();
-			final ITypeInfo valueType = reflectionUI
-					.getTypeInfo(reflectionUI.getTypeInfoSource(value));
-			if(!valueType.equals(fieldControlData.getType())){
-				return createFieldControl(new ControlDataProxy(fieldControlData){
+			final ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
+			if (!valueType.equals(fieldControlData.getType())) {
+				return createFieldControl(new ControlDataProxy(fieldControlData) {
 					@Override
 					public ITypeInfo getType() {
 						return valueType;
-					}					
+					}
 				});
 			}
 			if (DesktopSpecificProperty
@@ -554,34 +553,6 @@ public class SwingRenderer {
 				return null;
 			}
 		}
-	}
-
-	public Component createOptionsControl(final Object object, final IFieldInfo field) {
-		ITypeInfo ownerType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(reflectionUI,
-				field.getValueOptions(object), ownerType.getName() + "." + field.getName() + ".ValueOptions", "");
-		ITypeInfo enumType = reflectionUI.getTypeInfo(enumFactory.getInstanceTypeInfoSource());
-
-		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, enumType);
-		encapsulation.setFieldCaption("");
-		final Object encapsulated = encapsulation.getInstance(new Accessor<Object>() {
-
-			@Override
-			public Object get() {
-				Object value = field.getValue(object);
-				value = enumFactory.getInstance(value);
-				return value;
-			}
-
-			@Override
-			public void set(Object value) {
-				value = enumFactory.unwrapInstance(value);
-				field.setValue(object, value);
-			}
-
-		});
-		return new EnumerationControl(this, new FieldControlData(encapsulated, encapsulation.getValueField()));
-
 	}
 
 	public Component createOnlineHelpControl(String onlineHelp) {
@@ -692,14 +663,14 @@ public class SwingRenderer {
 
 	public void fillForm(JPanel form) {
 		Object object = getObjectByForm().get(form);
-		IInfoFilter settings = getInfoCollectionSettingsByForm().get(form);
+		IInfoFilter infoFilter = getInfoFilterByForm().get(form);
 
 		Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = new HashMap<InfoCategory, List<FieldControlPlaceHolder>>();
 		getFieldControlPlaceHoldersByCategoryByForm().put(form, fieldControlPlaceHoldersByCategory);
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		List<IFieldInfo> fields = type.getFields();
 		for (IFieldInfo field : fields) {
-			if (settings.excludeField(field)) {
+			if (infoFilter.excludeField(field)) {
 				continue;
 			}
 			FieldControlPlaceHolder fieldControlPlaceHolder = createFieldControlPlaceHolder(object, field);
@@ -722,7 +693,7 @@ public class SwingRenderer {
 		getMethodControlPlaceHoldersByCategoryByForm().put(form, methodControlPlaceHoldersByCategory);
 		List<IMethodInfo> methods = type.getMethods();
 		for (IMethodInfo method : methods) {
-			if (settings.excludeMethod(method)) {
+			if (infoFilter.excludeMethod(method)) {
 				continue;
 			}
 			MethodControlPlaceHolder methodControlPlaceHolder = createMethodControlPlaceHolder(object, method);
@@ -896,36 +867,8 @@ public class SwingRenderer {
 					if (silent) {
 						type = polyTypes.get(0);
 					} else {
-						final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(reflectionUI,
-								polyTypes.toArray(), type.getName() + ".PolymorphicInstanceSubTypesEnumeration", "") {
-							@Override
-							protected Map<String, Object> getItemSpecificProperties(Object arrayItem) {
-								ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;
-								Map<String, Object> result = new HashMap<String, Object>();
-								File iconImageFile = DesktopSpecificProperty
-										.getIconImageFile(DesktopSpecificProperty.accessInfoProperties(polyTypesItem));
-								DesktopSpecificProperty.setIconImageFile(result, iconImageFile);
-								return result;
-							}
-
-							@Override
-							protected String getItemOnlineHelp(Object arrayItem) {
-								ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;
-								return polyTypesItem.getOnlineHelp();
-							}
-
-							@Override
-							protected String getItemName(Object arrayItem) {
-								ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;
-								return polyTypesItem.getName();
-							}
-
-							@Override
-							protected String getItemCaption(Object arrayItem) {
-								ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;
-								return polyTypesItem.getCaption();
-							}
-						};
+						final ArrayAsEnumerationFactory enumFactory = ReflectionUIUtils
+								.getPolymorphicTypesEnumerationfactory(reflectionUI, type, polyTypes);
 						IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
 								.getTypeInfo(enumFactory.getInstanceTypeInfoSource());
 						Object resultEnumItem = openSelectionDialog(activatorComponent, enumType, null,
@@ -1096,7 +1039,7 @@ public class SwingRenderer {
 			throw new ReflectionUIError();
 		}
 		final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(reflectionUI, choices.toArray(),
-				"SelectionDialogArrayAsEnumeration", "") {
+				"SelectionDialogArrayAsEnumeration[title=" + title + "]", "") {
 
 			Map<Object, String> captions = new HashMap<Object, String>();
 			Map<Object, Image> iconImages = new HashMap<Object, Image>();

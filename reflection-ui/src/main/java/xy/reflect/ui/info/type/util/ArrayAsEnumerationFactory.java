@@ -2,6 +2,7 @@ package xy.reflect.ui.info.type.util;
 
 import java.awt.Component;
 import java.awt.Image;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,14 +30,15 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class ArrayAsEnumerationFactory {
 	protected ReflectionUI reflectionUI;
 	protected Object[] array;
-	protected String typeName;
+	protected String enumerationTypeName;
 	protected String typeCaption;
 
-	public ArrayAsEnumerationFactory(ReflectionUI reflectionUI, Object[] array, String typeName, String typeCaption) {
+	public ArrayAsEnumerationFactory(ReflectionUI reflectionUI, Object[] array, String enumerationTypeName,
+			String typeCaption) {
 		super();
 		this.reflectionUI = reflectionUI;
 		this.array = array;
-		this.typeName = typeName;
+		this.enumerationTypeName = enumerationTypeName;
 		this.typeCaption = typeCaption;
 	}
 
@@ -180,7 +182,7 @@ public class ArrayAsEnumerationFactory {
 
 		@Override
 		public String getName() {
-			return typeName;
+			return enumerationTypeName;
 		}
 
 		@Override
@@ -313,7 +315,7 @@ public class ArrayAsEnumerationFactory {
 
 		@Override
 		public String toString() {
-			return "TypeInfo [getOuterType()=" + getOuterType() + "]";
+			return "TypeInfo of " + getOuterType();
 		}
 
 	}

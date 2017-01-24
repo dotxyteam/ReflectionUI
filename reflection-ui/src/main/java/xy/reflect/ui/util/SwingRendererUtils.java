@@ -348,7 +348,7 @@ public class SwingRendererUtils {
 		}
 	}
 
-	public static boolean isFormEmpty(ITypeInfo type, IInfoFilter infoSettings,
+	public static boolean isFormEmpty(ITypeInfo type, IInfoFilter infoFilter,
 			SwingRenderer swingRenderer) {
 		List<IFieldInfo> fields = type.getFields();
 		List<IMethodInfo> methods = type.getMethods();
@@ -356,7 +356,7 @@ public class SwingRendererUtils {
 		fields = new ArrayList<IFieldInfo>(fields);
 		for (Iterator<IFieldInfo> it = fields.iterator(); it.hasNext();) {
 			IFieldInfo field = it.next();
-			if (infoSettings.excludeField(field)) {
+			if (infoFilter.excludeField(field)) {
 				it.remove();
 			}
 		}
@@ -364,7 +364,7 @@ public class SwingRendererUtils {
 		methods = new ArrayList<IMethodInfo>(methods);
 		for (Iterator<IMethodInfo> it = methods.iterator(); it.hasNext();) {
 			IMethodInfo method = it.next();
-			if (infoSettings.excludeMethod(method)) {
+			if (infoFilter.excludeMethod(method)) {
 				it.remove();
 			}
 		}
@@ -372,14 +372,14 @@ public class SwingRendererUtils {
 		return (fields.size() + methods.size()) == 0;
 	}
 
-	public static boolean isObjectDisplayEmpty(Object value, IInfoFilter infoSettings,
+	public static boolean isObjectDisplayEmpty(Object value, IInfoFilter infoFilter,
 			SwingRenderer swingRenderer) {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
 		if (SwingRendererUtils.hasCustomControl(value, valueType, swingRenderer)) {
 			return false;
 		}
-		if (!isFormEmpty(valueType, infoSettings, swingRenderer)) {
+		if (!isFormEmpty(valueType, infoFilter, swingRenderer)) {
 			return false;
 		}
 		return true;

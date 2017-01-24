@@ -32,7 +32,7 @@ public class DefaultListStructuralInfo implements IListStructuralInfo {
 
 
 	@Override
-	public IInfoFilter getItemInfoSettings(ItemPosition itemPosition) {
+	public IInfoFilter getItemInfoFilter(ItemPosition itemPosition) {
 		return IInfoFilter.DEFAULT;
 	}
 

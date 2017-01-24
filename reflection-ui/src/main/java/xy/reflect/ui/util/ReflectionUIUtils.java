@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +47,7 @@ import com.thoughtworks.paranamer.DefaultParanamer;
 import com.thoughtworks.paranamer.Paranamer;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -54,6 +56,7 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
@@ -892,5 +895,38 @@ public class ReflectionUIUtils {
 			}
 		}
 		return parentValueImpacted;
+	}
+
+	public static ArrayAsEnumerationFactory getPolymorphicTypesEnumerationfactory(ReflectionUI reflectionUI, ITypeInfo polymorphicType, List<ITypeInfo> subTypes) {
+		return new ArrayAsEnumerationFactory(reflectionUI,
+				subTypes.toArray(), polymorphicType.getName() + ".SubTypesEnumeration", "") {
+			@Override
+			protected Map<String, Object> getItemSpecificProperties(Object arrayItem) {
+				ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;
+				Map<String, Object> result = new HashMap<String, Object>();
+				File iconImageFile = DesktopSpecificProperty
+						.getIconImageFile(DesktopSpecificProperty.accessInfoProperties(polyTypesItem));
+				DesktopSpecificProperty.setIconImageFile(result, iconImageFile);
+				return result;
+			}
+
+			@Override
+			protected String getItemOnlineHelp(Object arrayItem) {
+				ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;
+				return polyTypesItem.getOnlineHelp();
+			}
+
+			@Override
+			protected String getItemName(Object arrayItem) {
+				ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;
+				return polyTypesItem.getName();
+			}
+
+			@Override
+			protected String getItemCaption(Object arrayItem) {
+				ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;
+				return polyTypesItem.getCaption();
+			}
+		};
 	}
 }

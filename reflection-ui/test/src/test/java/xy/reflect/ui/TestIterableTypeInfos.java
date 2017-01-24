@@ -67,7 +67,7 @@ public class TestIterableTypeInfos  extends AbstractTest{
 		IFieldInfo itemListInfo = ReflectionUIUtils.findInfoByName(typeInfo.getFields(), "itemList");
 		IListTypeInfo itemListTypeInfo = (IListTypeInfo) itemListInfo.getType();
 		ListCustomization itemListTypeCustomization = customizations
-				.getListCustomization(itemListTypeInfo.getName(), itemListTypeInfo.getItemType().getName());
+				.getListCustomization(itemListTypeInfo.getName(), itemListTypeInfo.getItemType().getName(), true);
 		itemListTypeCustomization.setFieldColumnsAdded(true);
 		itemListTypeCustomization.setItemTypeColumnAdded(true);
 		TreeStructureDiscoverySettings treeSettings = new TreeStructureDiscoverySettings();
@@ -92,7 +92,7 @@ public class TestIterableTypeInfos  extends AbstractTest{
 			}
 		}
 
-		IInfoFilter firstItemInfoSettings = itemListStructuralInfo.getItemInfoSettings(firstItemPosition);
+		IInfoFilter firstItemInfoSettings = itemListStructuralInfo.getItemInfoFilter(firstItemPosition);
 		Assert.assertTrue(!firstItemInfoSettings.excludeField(valueField));
 
 		IFieldInfo subItemsField = ReflectionUIUtils.findInfoByName(firstItemType.getFields(), "subItems");
