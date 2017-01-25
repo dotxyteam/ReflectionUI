@@ -2,7 +2,8 @@ import java.util.Date;
 
 import javax.swing.JOptionPane;
 
-import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.IReflectionUI;
+import xy.reflect.ui.ReflectionUIProxy;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -50,11 +51,11 @@ public class Example {
 		 * The SwingRenderer.DEFAULT assumes that the Java coding standards are
 		 * respected for the classes of the objects for which it generates UI.
 		 * If you want to take control over the object discovery and
-		 * interpretation process, then you must create custom ReflectionUI and
-		 * SwingRenderer objects and override the ReflectionUI.getTypeInfo()
-		 * method:
+		 * interpretation process, then you must create custom IReflectionUI and
+		 * SwingRenderer objects and mainly override the
+		 * IReflectionUI.getTypeInfo() method:
 		 */
-		ReflectionUI reflectionUI = new ReflectionUI() {
+		SwingRenderer swingRenderer = new SwingRenderer(new ReflectionUIProxy(IReflectionUI.DEFAULT) {
 
 			@Override
 			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
@@ -113,8 +114,7 @@ public class Example {
 				}.get(super.getTypeInfo(typeSource));
 			}
 
-		};
-		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
+		});
 		swingRenderer.openObjectDialog(null, myObject, "uppercase field captions", null, false, true);
 
 	}

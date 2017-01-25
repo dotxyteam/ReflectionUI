@@ -50,7 +50,8 @@ import org.jdesktop.swingx.JXBusyLabel;
 
 import com.google.common.collect.MapMaker;
 
-import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.IReflectionUI;
+import xy.reflect.ui.ReflectionUIProxy;
 import xy.reflect.ui.control.data.ControlDataProxy;
 import xy.reflect.ui.control.data.FieldControlData;
 import xy.reflect.ui.control.data.IControlData;
@@ -73,6 +74,7 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.map.StandardMapEntry;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
@@ -101,7 +103,7 @@ public class SwingRenderer {
 
 	public static final SwingRenderer DEFAULT = createDefault();
 
-	protected ReflectionUI reflectionUI;
+	protected IReflectionUI reflectionUI;
 	protected Map<JPanel, Object> objectByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, ModificationStack> modificationStackByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, Boolean> fieldsUpdateListenerDisabledByForm = new MapMaker().weakKeys().makeMap();
@@ -117,21 +119,21 @@ public class SwingRenderer {
 	protected Map<JPanel, JTabbedPane> categoriesTabbedPaneByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, Boolean> busyIndicationDisabledByForm = new MapMaker().weakKeys().makeMap();
 
-	public SwingRenderer(ReflectionUI reflectionUI) {
+	public SwingRenderer(IReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
 	}
 
 	protected static SwingRenderer createDefault() {
 		if (SystemProperties.areDefaultInfoCustomizationsActive()
 				&& SystemProperties.areDefaultInfoCustomizationsEditable()) {
-			return new SwingCustomizer(ReflectionUI.DEFAULT, InfoCustomizations.DEFAULT,
+			return new SwingCustomizer(IReflectionUI.DEFAULT, InfoCustomizations.DEFAULT,
 					SystemProperties.getDefaultInfoCustomizationsFilePath());
 		} else {
-			return new SwingRenderer(ReflectionUI.DEFAULT);
+			return new SwingRenderer(IReflectionUI.DEFAULT);
 		}
 	}
 
-	public ReflectionUI getReflectionUI() {
+	public IReflectionUI getReflectionUI() {
 		return reflectionUI;
 	}
 

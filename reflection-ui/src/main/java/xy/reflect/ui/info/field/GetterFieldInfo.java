@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.IReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
@@ -19,12 +19,12 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class GetterFieldInfo implements IFieldInfo {
 
-	protected ReflectionUI reflectionUI;
+	protected IReflectionUI reflectionUI;
 	protected Method javaGetterMethod;
 	protected Class<?> containingJavaClass;
 	protected ITypeInfo type;
 
-	public GetterFieldInfo(ReflectionUI reflectionUI, Method javaGetterMethod, Class<?> containingJavaClass) {
+	public GetterFieldInfo(IReflectionUI reflectionUI, Method javaGetterMethod, Class<?> containingJavaClass) {
 		this.reflectionUI = reflectionUI;
 		this.javaGetterMethod = javaGetterMethod;
 		this.containingJavaClass = containingJavaClass;

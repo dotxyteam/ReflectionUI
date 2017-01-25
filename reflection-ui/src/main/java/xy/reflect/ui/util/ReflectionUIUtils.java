@@ -46,7 +46,7 @@ import com.thoughtworks.paranamer.BytecodeReadingParanamer;
 import com.thoughtworks.paranamer.DefaultParanamer;
 import com.thoughtworks.paranamer.Paranamer;
 
-import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.IReflectionUI;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -763,7 +763,7 @@ public class ReflectionUIUtils {
 		return true;
 	}
 
-	public static Object createDefaultInstance(ReflectionUI reflectionUI, ITypeInfo type) {
+	public static Object createDefaultInstance(IReflectionUI reflectionUI, ITypeInfo type) {
 		try {
 			if (!type.isConcrete()) {
 				throw new ReflectionUIError("Cannot instanciate abstract type");
@@ -813,7 +813,7 @@ public class ReflectionUIUtils {
 		return (polyTypes != null) && (polyTypes.size() > 0);
 	}
 
-	public static String toString(ReflectionUI reflectionUI, Object object) {
+	public static String toString(IReflectionUI reflectionUI, Object object) {
 		if (object == null) {
 			return "";
 		}
@@ -821,17 +821,17 @@ public class ReflectionUIUtils {
 		return type.toString(object);
 	}
 
-	public static boolean canCopy(ReflectionUI reflectionUI, Object object) {
+	public static boolean canCopy(IReflectionUI reflectionUI, Object object) {
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		return type.canCopy(object);
 	}
 
-	public static Object copy(ReflectionUI reflectionUI, Object object) {
+	public static Object copy(IReflectionUI reflectionUI, Object object) {
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		return type.copy(object);
 	}
 
-	public static boolean equals(ReflectionUI reflectionUI, Object value1, Object value2) {
+	public static boolean equals(IReflectionUI reflectionUI, Object value1, Object value2) {
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value1));
 		return type.equals(value1, value2);
 	}
@@ -845,7 +845,7 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static boolean integrateSubModifications(ReflectionUI reflectionUI, final ModificationStack parentModifStack,
+	public static boolean integrateSubModifications(IReflectionUI reflectionUI, final ModificationStack parentModifStack,
 			final ModificationStack childModifStack, boolean childModifAccepted,
 			final ValueReturnMode childValueReturnMode, final boolean childValueNew, final IModification commitModif,
 			IInfo childModifTarget, String subModifTitle) {
@@ -897,7 +897,7 @@ public class ReflectionUIUtils {
 		return parentValueImpacted;
 	}
 
-	public static ArrayAsEnumerationFactory getPolymorphicTypesEnumerationfactory(ReflectionUI reflectionUI, ITypeInfo polymorphicType, List<ITypeInfo> subTypes) {
+	public static ArrayAsEnumerationFactory getPolymorphicTypesEnumerationfactory(IReflectionUI reflectionUI, ITypeInfo polymorphicType, List<ITypeInfo> subTypes) {
 		return new ArrayAsEnumerationFactory(reflectionUI,
 				subTypes.toArray(), polymorphicType.getName() + ".SubTypesEnumeration", "") {
 			@Override

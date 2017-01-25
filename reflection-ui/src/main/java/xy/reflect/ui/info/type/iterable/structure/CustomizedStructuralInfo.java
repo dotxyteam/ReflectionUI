@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.IReflectionUI;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MultipleFieldAsOne;
@@ -34,13 +34,13 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 
 	protected List<IFieldInfo> columnFields;
-	protected ReflectionUI reflectionUI;
+	protected IReflectionUI reflectionUI;
 	protected ITypeInfo rootItemType;
 	protected ListCustomization customization;
 	protected List<IColumnInfo> columns;
 	protected IListTypeInfo listType;
 
-	public CustomizedStructuralInfo(ReflectionUI reflectionUI, IListStructuralInfo base, IListTypeInfo listType,
+	public CustomizedStructuralInfo(IReflectionUI reflectionUI, IListStructuralInfo base, IListTypeInfo listType,
 			ListCustomization customization) {
 		super(base);
 		this.reflectionUI = reflectionUI;

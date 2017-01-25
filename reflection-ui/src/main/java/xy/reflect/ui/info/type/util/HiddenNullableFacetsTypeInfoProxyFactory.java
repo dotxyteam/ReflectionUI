@@ -1,6 +1,6 @@
 package xy.reflect.ui.info.type.util;
 
-import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.IReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -11,9 +11,9 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class HiddenNullableFacetsTypeInfoProxyFactory extends TypeInfoProxyFactory {
 
-	protected ReflectionUI reflectionUI;
+	protected IReflectionUI reflectionUI;
 
-	public HiddenNullableFacetsTypeInfoProxyFactory(ReflectionUI reflectionUI) {
+	public HiddenNullableFacetsTypeInfoProxyFactory(IReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
 	}
 

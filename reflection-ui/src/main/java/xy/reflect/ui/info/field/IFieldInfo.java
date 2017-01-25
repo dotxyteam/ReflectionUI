@@ -3,7 +3,7 @@ package xy.reflect.ui.info.field;
 import java.util.Collections;
 import java.util.Map;
 
-import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.StandardReflectionUI;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -65,7 +65,7 @@ public interface IFieldInfo extends IInfo {
 
 		@Override
 		public ITypeInfo getType() {
-			return new DefaultTypeInfo(new ReflectionUI(), Object.class);
+			return new DefaultTypeInfo(new StandardReflectionUI(), Object.class);
 		}
 
 		@Override

@@ -38,38 +38,26 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
 
 @SuppressWarnings("unused")
-public class ReflectionUI {
+public class StandardReflectionUI implements IReflectionUI{
 
-	public static final ReflectionUI DEFAULT = createDefault();
-
+	
 	protected Map<ITypeInfoSource, ITypeInfo> typeInfoBySource = CacheBuilder.newBuilder().maximumSize(1000)
 			.<ITypeInfoSource, ITypeInfo> build().asMap();
 	protected Map<Object, ITypeInfo> precomputedTypeInfoByObject = CacheBuilder.newBuilder().weakKeys()
 			.<Object, ITypeInfo> build().asMap();
 
-	protected static ReflectionUI createDefault() {
-		return new ReflectionUI() {
-
-			@Override
-			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-				ITypeInfo result = super.getTypeInfo(typeSource);
-				if (SystemProperties.areDefaultInfoCustomizationsActive()) {
-					result = InfoCustomizations.DEFAULT.get(this, result);
-				}
-				return result;
-			}
-
-		};
-	}
-
+	
+	@Override
 	public void registerPrecomputedTypeInfoObject(Object object, ITypeInfo type) {
 		precomputedTypeInfoByObject.put(object, type);
 	}
 
+	@Override
 	public void unregisterPrecomputedTypeInfoObject(Object object) {
 		precomputedTypeInfoByObject.remove(object);
 	}
 
+	@Override
 	public ITypeInfoSource getTypeInfoSource(Object object) {
 		ITypeInfo precomputedType = precomputedTypeInfoByObject.get(object);
 		if (precomputedType != null) {
@@ -79,6 +67,7 @@ public class ReflectionUI {
 		}
 	}
 
+	@Override
 	public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
 		ITypeInfo result = typeInfoBySource.get(typeSource);
 		if (result == null) {
@@ -120,14 +109,17 @@ public class ReflectionUI {
 		return result;
 	}
 
+	@Override
 	public void logInformation(String msg) {
-		System.out.println("[" + ReflectionUI.class.getSimpleName() + "] " + msg);
+		System.out.println("[" + StandardReflectionUI.class.getSimpleName() + "] " + msg);
 	}
 
+	@Override
 	public void logError(String msg) {
-		System.err.println("[" + ReflectionUI.class.getSimpleName() + "] " + msg);
+		System.err.println("[" + StandardReflectionUI.class.getSimpleName() + "] " + msg);
 	}
 
+	@Override
 	public void logError(Throwable t) {
 		logError(ReflectionUIUtils.getPrintedStackTrace(t));
 	}
@@ -152,7 +144,7 @@ public class ReflectionUI {
 				throw new IllegalArgumentException(usageText);
 			}
 			Object object = SwingRenderer.DEFAULT.onTypeInstanciationRequest(null,
-					ReflectionUI.DEFAULT.getTypeInfo(new JavaTypeInfoSource(clazz)), false);
+					StandardReflectionUI.DEFAULT.getTypeInfo(new JavaTypeInfoSource(clazz)), false);
 			if (object == null) {
 				return;
 			}

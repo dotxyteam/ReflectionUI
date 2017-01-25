@@ -65,7 +65,7 @@ public class MicroAgentExample {
 	}
 
 	public static void main(String[] args) {
-		ReflectionUI.main(new String[] { MicroAgentExample.class.getName() });
+		StandardReflectionUI.main(new String[] { MicroAgentExample.class.getName() });
 	}
 
 }

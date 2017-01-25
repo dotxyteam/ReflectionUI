@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.IReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
@@ -27,7 +27,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class ImplicitListField implements IFieldInfo {
 	protected String fieldName;
-	protected ReflectionUI reflectionUI;
+	protected IReflectionUI reflectionUI;
 	protected ITypeInfo itemType;
 	protected String createMethodName;
 	protected String getMethodName;
@@ -37,7 +37,7 @@ public class ImplicitListField implements IFieldInfo {
 	protected IListTypeInfo type;
 	protected ITypeInfo parentType;
 
-	public ImplicitListField(ReflectionUI reflectionUI, String fieldName, ITypeInfo parentType, ITypeInfo itemType,
+	public ImplicitListField(IReflectionUI reflectionUI, String fieldName, ITypeInfo parentType, ITypeInfo itemType,
 			String createMethodName, String getMethodName, String addMethodName, String removeMethodName,
 			String sizeMethodName) {
 		this.reflectionUI = reflectionUI;

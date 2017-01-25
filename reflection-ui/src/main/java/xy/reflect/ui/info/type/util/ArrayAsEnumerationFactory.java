@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.IReflectionUI;
 import xy.reflect.ui.control.swing.EnumerationControl;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -28,12 +28,12 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 @SuppressWarnings("unused")
 public class ArrayAsEnumerationFactory {
-	protected ReflectionUI reflectionUI;
+	protected IReflectionUI reflectionUI;
 	protected Object[] array;
 	protected String enumerationTypeName;
 	protected String typeCaption;
 
-	public ArrayAsEnumerationFactory(ReflectionUI reflectionUI, Object[] array, String enumerationTypeName,
+	public ArrayAsEnumerationFactory(IReflectionUI reflectionUI, Object[] array, String enumerationTypeName,
 			String typeCaption) {
 		super();
 		this.reflectionUI = reflectionUI;

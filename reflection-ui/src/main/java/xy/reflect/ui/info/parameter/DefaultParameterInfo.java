@@ -3,7 +3,7 @@ package xy.reflect.ui.info.parameter;
 import java.util.Collections;
 import java.util.Map;
 
-import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.IReflectionUI;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.Parameter;
@@ -12,7 +12,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class DefaultParameterInfo implements IParameterInfo {
 
-	protected ReflectionUI reflectionUI;
+	protected IReflectionUI reflectionUI;
 	protected Parameter javaParameter;
 	protected ITypeInfo type;
 	
@@ -20,7 +20,7 @@ public class DefaultParameterInfo implements IParameterInfo {
 		return true;
 	}
 
-	public DefaultParameterInfo(ReflectionUI reflectionUI,
+	public DefaultParameterInfo(IReflectionUI reflectionUI,
 			Parameter javaParameter) {
 		this.reflectionUI = reflectionUI;
 		this.javaParameter = javaParameter;

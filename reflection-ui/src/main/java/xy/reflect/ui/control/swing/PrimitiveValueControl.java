@@ -2,7 +2,7 @@ package xy.reflect.ui.control.swing;
 
 import java.lang.reflect.InvocationTargetException;
 
-import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.IReflectionUI;
 import xy.reflect.ui.control.data.ControlDataProxy;
 import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
@@ -20,7 +20,7 @@ public class PrimitiveValueControl extends TextControl {
 				handleValueConversions(swingRenderer.getReflectionUI(), data, primitiveJavaType));
 	}
 
-	protected static IControlData handleValueConversions(final ReflectionUI reflectionUI, IControlData data,
+	protected static IControlData handleValueConversions(final IReflectionUI reflectionUI, IControlData data,
 			final Class<?> primitiveJavaType) {
 		return new ControlDataProxy(data) {
 

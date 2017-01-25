@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.IReflectionUI;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -29,7 +29,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 
 	protected Class<?> itemJavaType;
 
-	public StandardCollectionTypeInfo(ReflectionUI reflectionUI, Class<?> javaType, Class<?> itemJavaType) {
+	public StandardCollectionTypeInfo(IReflectionUI reflectionUI, Class<?> javaType, Class<?> itemJavaType) {
 		super(reflectionUI, javaType);
 		this.itemJavaType = itemJavaType;
 	}

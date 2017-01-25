@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.IReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.GetterFieldInfo;
@@ -22,12 +22,12 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class DefaultMethodInfo implements IMethodInfo {
 
-	protected ReflectionUI reflectionUI;
+	protected IReflectionUI reflectionUI;
 	protected Method javaMethod;
 	protected ITypeInfo returnValueType;
 	protected List<IParameterInfo> parameters;
 
-	public DefaultMethodInfo(ReflectionUI reflectionUI, Method javaMethod) {
+	public DefaultMethodInfo(IReflectionUI reflectionUI, Method javaMethod) {
 		this.reflectionUI = reflectionUI;
 		this.javaMethod = javaMethod;
 		resolveJavaReflectionModelAccessProblems();

@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 
-import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.IReflectionUI;
 
 public class SystemProperties {
 
@@ -17,7 +17,7 @@ public class SystemProperties {
 
 	}
 
-	private static final String PREFIX = ReflectionUI.class.getPackage().getName();
+	private static final String PREFIX = IReflectionUI.class.getPackage().getName();
 
 	@Usage("If the value of this property is \"true\" then the UI customization tools will be hidden.")
 	public static final String HIDE_INFO_CUSTOMIZATIONS_TOOLS = PREFIX + ".infoCustomizationsToolsHidden";

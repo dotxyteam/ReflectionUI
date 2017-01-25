@@ -6,7 +6,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.IReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.parameter.DefaultParameterInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -17,10 +17,10 @@ import xy.reflect.ui.util.ReflectionUIError;
 public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo {
 
 	protected Constructor<?> javaConstructor;
-	protected ReflectionUI reflectionUI;
+	protected IReflectionUI reflectionUI;
 	protected ArrayList<IParameterInfo> parameters;
 
-	public DefaultConstructorMethodInfo(ReflectionUI reflectionUI,
+	public DefaultConstructorMethodInfo(IReflectionUI reflectionUI,
 			ITypeInfo ownerType, Constructor<?> javaConstructor) {
 		super(ownerType);
 		this.reflectionUI = reflectionUI;

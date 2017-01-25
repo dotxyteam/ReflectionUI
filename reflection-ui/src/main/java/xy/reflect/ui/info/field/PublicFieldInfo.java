@@ -5,7 +5,7 @@ import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.Map;
 
-import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.IReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -16,11 +16,11 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class PublicFieldInfo implements IFieldInfo {
 
 	protected Field javaField;
-	protected ReflectionUI reflectionUI;
+	protected IReflectionUI reflectionUI;
 	protected ITypeInfo type;
 	protected Class<?> containingJavaClass;
 
-	public PublicFieldInfo(ReflectionUI reflectionUI, Field field, Class<?> containingJavaClass) {
+	public PublicFieldInfo(IReflectionUI reflectionUI, Field field, Class<?> containingJavaClass) {
 		this.reflectionUI = reflectionUI;
 		this.javaField = field;
 		this.containingJavaClass = containingJavaClass;

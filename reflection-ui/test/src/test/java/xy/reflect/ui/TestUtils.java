@@ -18,7 +18,7 @@ public class TestUtils {
 		Method addPointMethod = Rectangle.class.getMethod("add", Point.class);
 		String signature = ReflectionUIUtils.getJavaMethodInfoSignature(addPointMethod);
 		
-		ReflectionUI reflectionUI = new ReflectionUI();
+		IReflectionUI reflectionUI = new StandardReflectionUI();
 		ITypeInfo rectangleTypeInfo = reflectionUI.getTypeInfo(reflectionUI
 				.getTypeInfoSource(new Rectangle()));
 		IMethodInfo addPointMethodInfo = ReflectionUIUtils.findMethodBySignature(rectangleTypeInfo.getMethods(), signature);
