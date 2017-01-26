@@ -1,38 +1,26 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import xy.reflect.ui.ReflectionUIProxy;
 import xy.reflect.ui.StandardReflectionUI;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.SubFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.source.ITypeInfoSource;
-import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
 
 public class TestSubFieldInfo {
 	public static void main(String[] args) throws Exception {
-		new SwingRenderer(new StandardReflectionUI() {
+		new SwingRenderer(new ReflectionUIProxy(new StandardReflectionUI()) {
 
 			@Override
-			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-				return new TypeInfoProxyFactory() {
-
-					@Override
-					public String toString() {
-						return TestSubFieldInfo.class.getName() + TypeInfoProxyFactory.class.getSimpleName();
-					}
-
-					@Override
-					protected List<IFieldInfo> getFields(ITypeInfo type) {
-						if (type.getName().equals(A.class.getName())) {
-							List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
-							result.add(new SubFieldInfo(type, "b", "c"));
-							return result;
-						} else {
-							return super.getFields(type);
-						}
-					}
-				}.get(super.getTypeInfo(typeSource));
+			protected List<IFieldInfo> getFields(ITypeInfo type) {
+				if (type.getName().equals(A.class.getName())) {
+					List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
+					result.add(new SubFieldInfo(type, "b", "c"));
+					return result;
+				} else {
+					return super.getFields(type);
+				}
 			}
 		}).openObjectFrame(new A());
 	}

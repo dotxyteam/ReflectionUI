@@ -62,7 +62,32 @@ public class MultipleFieldAsOne implements IFieldInfo {
 				return false;
 			}
 
-		}.get(reflectionUI.getTypeInfo(new JavaTypeInfoSource(List.class)));
+			@Override
+			protected ITypeInfo wrapSubTypeProxy(ITypeInfo type) {
+				return type;
+			}
+
+			@Override
+			protected ITypeInfo wraplistItemType(ITypeInfo type) {
+				return type;
+			}
+
+			@Override
+			protected ITypeInfo wrapMethoReturnValueType(ITypeInfo type) {
+				return type;
+			}
+
+			@Override
+			protected ITypeInfo wrapParameterType(ITypeInfo type) {
+				return type;
+			}
+
+			@Override
+			protected ITypeInfo wrapFieldType(ITypeInfo type) {
+				return type;
+			}
+
+		}.wrapType(new StandardCollectionTypeInfo(reflectionUI, List.class, ListItem.class));
 	}
 
 	@Override

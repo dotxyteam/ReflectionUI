@@ -7,8 +7,6 @@ import xy.reflect.ui.ReflectionUIProxy;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.source.ITypeInfoSource;
-import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
 import xy.reflect.ui.util.SystemProperties;
 
 /*
@@ -57,61 +55,47 @@ public class Example {
 		 */
 		SwingRenderer swingRenderer = new SwingRenderer(new ReflectionUIProxy(IReflectionUI.DEFAULT) {
 
+			/*
+			 * For instance you can uppercase all the field captions this way:
+			 */
 			@Override
-			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-				return new TypeInfoProxyFactory() {
+			protected String getCaption(IFieldInfo field, ITypeInfo containingType) {
+				return super.getCaption(field, containingType).toUpperCase();
+			}
 
-					@Override
-					public String toString() {
-						return Example.class.getName() + TypeInfoProxyFactory.class.getSimpleName();
-					}
+			/*
+			 * if your class "equals" method is not implemented as you want
+			 * then:
+			 */
+			@Override
+			public boolean equals(ITypeInfo type, Object value1, Object value2) {
+				return super.equals(type, value1, value2);
+			}
 
-					/*
-					 * For instance you can uppercase all the field captions
-					 * this way:
-					 */
-					@Override
-					protected String getCaption(IFieldInfo field, ITypeInfo containingType) {
-						return super.getCaption(field, containingType).toUpperCase();
-					}
+			/*
+			 * if your class "toString" method is not implemented as you want
+			 * then:
+			 */
+			@Override
+			public String toString(ITypeInfo type, Object object) {
+				return super.toString(type, object);
+			}
 
-					/*
-					 * if your class "equals" method is not implemented as you
-					 * want then:
-					 */
-					@Override
-					public boolean equals(ITypeInfo type, Object value1, Object value2) {
-						return super.equals(type, value1, value2);
-					}
+			/*
+			 * copy/cut/paste: By default this functionality is enabled only for
+			 * Serializable objects. If your class does not implement the
+			 * Serializable interface then override the following methods:
+			 */
+			@Override
+			public boolean canCopy(ITypeInfo type, Object object) {
+				// TODO: replace with your code
+				return super.canCopy(type, object);
+			}
 
-					/*
-					 * if your class "toString" method is not implemented as you
-					 * want then:
-					 */
-					@Override
-					public String toString(ITypeInfo type, Object object) {
-						return super.toString(type, object);
-					}
-
-					/*
-					 * copy/cut/paste: By default this functionality is enabled
-					 * only for Serializable objects. If your class does not
-					 * implement the Serializable interface then override the
-					 * following methods:
-					 */
-					@Override
-					public boolean canCopy(ITypeInfo type, Object object) {
-						// TODO: replace with your code
-						return super.canCopy(type, object);
-					}
-
-					@Override
-					public Object copy(ITypeInfo type, Object object) {
-						// TODO: replace with your code
-						return super.copy(type, object);
-					}
-
-				}.get(super.getTypeInfo(typeSource));
+			@Override
+			public Object copy(ITypeInfo type, Object object) {
+				// TODO: replace with your code
+				return super.copy(type, object);
 			}
 
 		});

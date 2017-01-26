@@ -78,7 +78,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 	public SwingCustomizer(IReflectionUI reflectionUI, final InfoCustomizations infoCustomizations,
 			String infoCustomizationsOutputFilePath) {
-		super(new ReflectionUIProxy(reflectionUI){
+		super(new ReflectionUIProxy(reflectionUI) {
 
 			@Override
 			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
@@ -233,31 +233,23 @@ public class SwingCustomizer extends SwingRenderer {
 					IReflectionUI thisReflectionUI = this;
 
 					@Override
-					public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-						ITypeInfo result = super.getTypeInfo(typeSource);
-						result = new TypeInfoProxyFactory() {
-							@Override
-							public String toString() {
-								return CustomizationTools.class.getName() + TypeInfoProxyFactory.class.getSimpleName();
-							}
+					public String toString() {
+						return CustomizationTools.class.getName() + ReflectionUIProxy.class.getSimpleName();
+					}
 
-							@Override
-							protected List<IFieldInfo> getFields(ITypeInfo type) {
-								if (type.getName().equals(TypeCustomization.class.getName())) {
-									List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
-									result.add(getTypeIconImageFileField());
-									return result;
-								} else if (type.getName().equals(FieldCustomization.class.getName())) {
-									List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
-									result.add(getEmbeddedFormCreationField());
-									return result;
-								} else {
-									return super.getFields(type);
-								}
-							}
-
-						}.get(result);
-						return result;
+					@Override
+					protected List<IFieldInfo> getFields(ITypeInfo type) {
+						if (type.getName().equals(TypeCustomization.class.getName())) {
+							List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
+							result.add(getTypeIconImageFileField());
+							return result;
+						} else if (type.getName().equals(FieldCustomization.class.getName())) {
+							List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
+							result.add(getEmbeddedFormCreationField());
+							return result;
+						} else {
+							return super.getFields(type);
+						}
 					}
 
 				}, customizationToolsCustomizations, customizationToolsCustomizationsOutputFilePath) {

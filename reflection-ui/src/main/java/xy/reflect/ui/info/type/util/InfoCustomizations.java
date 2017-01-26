@@ -106,7 +106,7 @@ public final class InfoCustomizations {
 		if (proxyFactory == null) {
 			proxyFactory = createCustomizationsProxyFactory(reflectionUI);
 		}
-		return proxyFactory.get(type);
+		return proxyFactory.wrapType(type);
 	}
 
 	public Set<TypeCustomization> getTypeCustomizations() {
@@ -1693,6 +1693,26 @@ public final class InfoCustomizations {
 		@Override
 		public String toString() {
 			return "Factory of " + InfoCustomizations.this;
+		}
+		
+		protected ITypeInfo wrapSubTypeProxy(ITypeInfo subType) {
+			return wrapType(subType);
+		}
+
+		protected ITypeInfo wraplistItemType(ITypeInfo itemType) {
+			return wrapType(itemType);
+		}
+
+		protected ITypeInfo wrapMethoReturnValueType(ITypeInfo type) {
+			return wrapType(type);
+		}
+
+		protected ITypeInfo wrapParameterType(ITypeInfo type) {
+			return wrapType(type);
+		}
+
+		protected ITypeInfo wrapFieldType(ITypeInfo type) {
+			return wrapType(type);
 		}
 
 		@Override

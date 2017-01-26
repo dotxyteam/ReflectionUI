@@ -1333,6 +1333,31 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		return new TypeInfoProxyFactory() {
 
 			@Override
+			protected ITypeInfo wrapSubTypeProxy(ITypeInfo type) {
+				return type;
+			}
+
+			@Override
+			protected ITypeInfo wraplistItemType(ITypeInfo type) {
+				return type;
+			}
+
+			@Override
+			protected ITypeInfo wrapMethoReturnValueType(ITypeInfo type) {
+				return type;
+			}
+
+			@Override
+			protected ITypeInfo wrapParameterType(ITypeInfo type) {
+				return type;
+			}
+
+			@Override
+			protected ITypeInfo wrapFieldType(ITypeInfo type) {
+				return type;
+			}
+
+			@Override
 			protected List<IMethodInfo> getConstructors(ITypeInfo type) {
 				List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getConstructors(type));
 				IControlData containingListData = newItemPosition.getContainingListData();
@@ -1350,7 +1375,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				return "addSpecificItemContructors[listType=" + newItemPosition.getContainingListType() + "]";
 			}
 
-		}.get(itemType);
+		}.wrapType(itemType);
 	}
 
 	protected AbstractStandardListAction createCopyAction() {
