@@ -3,7 +3,7 @@ package xy.reflect.ui.info.parameter;
 import java.util.Collections;
 import java.util.Map;
 
-import xy.reflect.ui.StandardReflectionUI;
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -39,7 +39,7 @@ public interface IParameterInfo extends IInfo {
 
 		@Override
 		public ITypeInfo getType() {
-			return new DefaultTypeInfo(new StandardReflectionUI(), Object.class);
+			return new DefaultTypeInfo(new ReflectionUI(), Object.class);
 		}
 
 		@Override

@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import xy.reflect.ui.IReflectionUI;
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -82,7 +82,7 @@ public final class InfoCustomizations {
 	protected Set<ListCustomization> listCustomizations = new TreeSet<InfoCustomizations.ListCustomization>();
 	protected Set<EnumerationCustomization> enumerationCustomizations = new TreeSet<InfoCustomizations.EnumerationCustomization>();
 
-	protected Factory createCustomizationsProxyFactory(IReflectionUI reflectionUI) {
+	protected Factory createCustomizationsProxyFactory(ReflectionUI reflectionUI) {
 		return new Factory(reflectionUI);
 	}
 
@@ -102,7 +102,7 @@ public final class InfoCustomizations {
 		return result;
 	}
 
-	public ITypeInfo get(IReflectionUI reflectionUI, ITypeInfo type) {
+	public ITypeInfo get(ReflectionUI reflectionUI, ITypeInfo type) {
 		if (proxyFactory == null) {
 			proxyFactory = createCustomizationsProxyFactory(reflectionUI);
 		}
@@ -1686,7 +1686,7 @@ public final class InfoCustomizations {
 
 	protected class Factory extends HiddenNullableFacetsTypeInfoProxyFactory {
 
-		public Factory(IReflectionUI reflectionUI) {
+		public Factory(ReflectionUI reflectionUI) {
 			super(reflectionUI);
 		}
 
@@ -2554,7 +2554,7 @@ public final class InfoCustomizations {
 	}
 
 	public static interface ITypeInfoFinder {
-		ITypeInfo find(IReflectionUI reflectionUI);
+		ITypeInfo find(ReflectionUI reflectionUI);
 	}
 
 	public static class JavaClassBasedTypeInfoFinder implements ITypeInfoFinder {
@@ -2570,14 +2570,14 @@ public final class InfoCustomizations {
 		}
 
 		@Override
-		public ITypeInfo find(IReflectionUI reflectionUI) {
+		public ITypeInfo find(ReflectionUI reflectionUI) {
 			Class<?> javaType;
 			try {
 				javaType = Class.forName(className);
 			} catch (ClassNotFoundException e) {
 				throw new ReflectionUIError(e);
 			}
-			return reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaType));
+			return reflectionUI.getTypeInfoERROR(new JavaTypeInfoSource(javaType));
 		}
 
 		@Override
@@ -2625,7 +2625,7 @@ public final class InfoCustomizations {
 		}
 
 		@Override
-		public ITypeInfo find(IReflectionUI reflectionUI) {
+		public ITypeInfo find(ReflectionUI reflectionUI) {
 			try {
 				Class<?> implementationClass = Class.forName(implementationClassName);
 				return (ITypeInfo) implementationClass.newInstance();

@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import xy.reflect.ui.IReflectionUI;
-import xy.reflect.ui.StandardReflectionUI;
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.DefaultConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -27,7 +26,7 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 	protected Class<?> keyJavaType;
 	protected Class<?> valueJavaType;
 
-	public StandardMapAsListTypeInfo(IReflectionUI reflectionUI, Class<?> javaType, Class<?> keyJavaType,
+	public StandardMapAsListTypeInfo(ReflectionUI reflectionUI, Class<?> javaType, Class<?> keyJavaType,
 			Class<?> valueJavaType) {
 		super(reflectionUI, javaType, StandardMapEntry.class);
 		this.keyJavaType = keyJavaType;
@@ -168,7 +167,7 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 	public static boolean isCompatibleWith(Class<?> javaType) {
 		if (Map.class.isAssignableFrom(javaType)) {
 			if (ReflectionUIUtils
-					.getZeroParameterConstrucor(new DefaultTypeInfo(new StandardReflectionUI(), javaType)) != null) {
+					.getZeroParameterConstrucor(new DefaultTypeInfo(new ReflectionUI(), javaType)) != null) {
 				return true;
 			}
 			if (javaType.isAssignableFrom(HashMap.class)) {

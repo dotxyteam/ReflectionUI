@@ -3,7 +3,7 @@ package xy.reflect.ui.info.type.iterable.structure.column;
 import java.util.Collections;
 import java.util.Map;
 
-import xy.reflect.ui.IReflectionUI;
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.type.iterable.map.StandardMapEntry;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
@@ -12,9 +12,9 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 @SuppressWarnings("unused")
 public class TypeNameColumnInfo implements IColumnInfo {
 
-	protected IReflectionUI reflectionUI;
+	protected ReflectionUI reflectionUI;
 
-	public TypeNameColumnInfo(IReflectionUI reflectionUI) {
+	public TypeNameColumnInfo(ReflectionUI reflectionUI) {
 		super();
 		this.reflectionUI = reflectionUI;
 	}

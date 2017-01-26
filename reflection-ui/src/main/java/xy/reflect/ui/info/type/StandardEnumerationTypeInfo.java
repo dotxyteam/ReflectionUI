@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import xy.reflect.ui.IReflectionUI;
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -17,7 +17,7 @@ import xy.reflect.ui.info.method.InvocationData;
 public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements
 		IEnumerationTypeInfo {
 
-	public StandardEnumerationTypeInfo(IReflectionUI reflectionUI,
+	public StandardEnumerationTypeInfo(ReflectionUI reflectionUI,
 			Class javaEnumType) {
 		super(reflectionUI, javaEnumType);
 	}

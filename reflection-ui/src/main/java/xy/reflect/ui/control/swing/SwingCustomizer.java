@@ -25,9 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
-import xy.reflect.ui.IReflectionUI;
-import xy.reflect.ui.ReflectionUIProxy;
-import xy.reflect.ui.StandardReflectionUI;
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.SwingRenderer.MethodControlPlaceHolder;
@@ -76,18 +74,9 @@ public class SwingCustomizer extends SwingRenderer {
 	protected InfoCustomizations infoCustomizations;
 	protected String infoCustomizationsOutputFilePath;
 
-	public SwingCustomizer(IReflectionUI reflectionUI, final InfoCustomizations infoCustomizations,
+	public SwingCustomizer(ReflectionUI reflectionUI, InfoCustomizations infoCustomizations,
 			String infoCustomizationsOutputFilePath) {
-		super(new ReflectionUIProxy(reflectionUI){
-
-			@Override
-			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-				ITypeInfo result = super.getTypeInfo(typeSource);
-				result = infoCustomizations.get(this, result);
-				return result;
-			}
-
-		});
+		super(reflectionUI);
 		customizationTools = createCustomizationTools();
 		this.infoCustomizations = infoCustomizations;
 		this.infoCustomizationsOutputFilePath = infoCustomizationsOutputFilePath;
@@ -200,12 +189,12 @@ public class SwingCustomizer extends SwingRenderer {
 
 	protected class CustomizationTools {
 		protected SwingRenderer customizationToolsRenderer;
-		protected IReflectionUI customizationToolsUI;
+		protected ReflectionUI customizationToolsUI;
 		protected InfoCustomizations customizationToolsCustomizations;
 
 		public CustomizationTools() {
 			customizationToolsCustomizations = new InfoCustomizations();
-			URL url = IReflectionUI.class.getResource("resource/customizations-tools.icu");
+			URL url = ReflectionUI.class.getResource("resource/customizations-tools.icu");
 			try {
 				File customizationsFile = FileUtils.getStreamAsFile(url.openStream());
 				String customizationsFilePath = customizationsFile.getPath();
@@ -228,39 +217,8 @@ public class SwingCustomizer extends SwingRenderer {
 			if (SystemProperties.isInfoCustomizationToolsCustomizationAllowed()) {
 				String customizationToolsCustomizationsOutputFilePath = System
 						.getProperty(SystemProperties.INFO_CUSTOMIZATION_TOOLS_CUSTOMIZATIONS_FILE_PATH);
-				return new SwingCustomizer(new ReflectionUIProxy(customizationToolsUI) {
-
-					IReflectionUI thisReflectionUI = this;
-
-					@Override
-					public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-						ITypeInfo result = super.getTypeInfo(typeSource);
-						result = new TypeInfoProxyFactory() {
-							@Override
-							public String toString() {
-								return CustomizationTools.class.getName() + TypeInfoProxyFactory.class.getSimpleName();
-							}
-
-							@Override
-							protected List<IFieldInfo> getFields(ITypeInfo type) {
-								if (type.getName().equals(TypeCustomization.class.getName())) {
-									List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
-									result.add(getTypeIconImageFileField());
-									return result;
-								} else if (type.getName().equals(FieldCustomization.class.getName())) {
-									List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
-									result.add(getEmbeddedFormCreationField());
-									return result;
-								} else {
-									return super.getFields(type);
-								}
-							}
-
-						}.get(result);
-						return result;
-					}
-
-				}, customizationToolsCustomizations, customizationToolsCustomizationsOutputFilePath) {
+				return new SwingCustomizer(customizationToolsUI, customizationToolsCustomizations,
+						customizationToolsCustomizationsOutputFilePath) {
 
 					@Override
 					protected CustomizationTools createCustomizationTools() {
@@ -280,8 +238,41 @@ public class SwingCustomizer extends SwingRenderer {
 			}
 		}
 
-		protected IReflectionUI createCustomizationToolsUI() {
-			return new StandardReflectionUI();
+		protected ReflectionUI createCustomizationToolsUI() {
+			return new ReflectionUI() {
+
+				ReflectionUI thisReflectionUI = this;
+
+				@Override
+				public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
+					ITypeInfo result = super.getTypeInfo(typeSource);
+					result = new TypeInfoProxyFactory() {
+						@Override
+						public String toString() {
+							return CustomizationTools.class.getName() + TypeInfoProxyFactory.class.getSimpleName();
+						}
+
+						@Override
+						protected List<IFieldInfo> getFields(ITypeInfo type) {
+							if (type.getName().equals(TypeCustomization.class.getName())) {
+								List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
+								result.add(getTypeIconImageFileField());
+								return result;
+							} else if (type.getName().equals(FieldCustomization.class.getName())) {
+								List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
+								result.add(getEmbeddedFormCreationField());
+								return result;
+							} else {
+								return super.getFields(type);
+							}
+						}
+
+					}.get(result);
+					result = customizationToolsCustomizations.get(thisReflectionUI, result);
+					return result;
+				}
+
+			};
 		}
 
 		protected IFieldInfo getEmbeddedFormCreationField() {
@@ -790,7 +781,7 @@ public class SwingCustomizer extends SwingRenderer {
 		protected void openEnumerationCutomizationDialog(Component activatorComponent,
 				final IEnumerationTypeInfo customizedEnumType) {
 			EnumerationCustomization ec = infoCustomizations.getEnumerationCustomization(customizedEnumType.getName(),
-					true);
+					true);			
 			for (Object item : customizedEnumType.getPossibleValues()) {
 				IEnumerationItemInfo itemInfo = customizedEnumType.getValueInfo(item);
 				infoCustomizations.getEnumerationItemCustomization(ec.getEnumerationTypeName(), itemInfo.getName(),

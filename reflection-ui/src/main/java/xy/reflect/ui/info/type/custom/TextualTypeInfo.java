@@ -3,7 +3,7 @@ package xy.reflect.ui.info.type.custom;
 import java.util.Collections;
 import java.util.List;
 
-import xy.reflect.ui.IReflectionUI;
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -14,7 +14,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 
 public class TextualTypeInfo extends DefaultTypeInfo {
 
-	public TextualTypeInfo(IReflectionUI reflectionUI, Class<?> javaType) {
+	public TextualTypeInfo(ReflectionUI reflectionUI, Class<?> javaType) {
 		super(reflectionUI, javaType);
 		if (javaType == null) {
 			throw new ReflectionUIError();

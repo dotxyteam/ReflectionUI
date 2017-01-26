@@ -3,7 +3,7 @@ package xy.reflect.ui.info.type.iterable.structure.column;
 import java.util.Collections;
 import java.util.Map;
 
-import xy.reflect.ui.IReflectionUI;
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
@@ -13,9 +13,9 @@ public class FieldColumnInfo implements IColumnInfo {
 
 	protected IFieldInfo field;
 	protected ITypeInfo ownerType;
-	protected IReflectionUI reflectionUI;
+	protected ReflectionUI reflectionUI;
 
-	public FieldColumnInfo(IReflectionUI reflectionUI, ITypeInfo ownerType, IFieldInfo field) {
+	public FieldColumnInfo(ReflectionUI reflectionUI, ITypeInfo ownerType, IFieldInfo field) {
 		this.reflectionUI = reflectionUI;
 		this.ownerType = ownerType;
 		this.field = field;

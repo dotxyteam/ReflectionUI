@@ -40,7 +40,7 @@ import javax.swing.ToolTipManager;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
-import xy.reflect.ui.IReflectionUI;
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.DialogAccessControl;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.SwingRenderer;
@@ -68,17 +68,17 @@ import xy.reflect.ui.undo.UndoOrder;
 @SuppressWarnings("unused")
 public class SwingRendererUtils {
 
-	public static final ImageIcon ERROR_ICON = new ImageIcon(IReflectionUI.class.getResource("resource/error.png"));
-	public static final ImageIcon HELP_ICON = new ImageIcon(IReflectionUI.class.getResource("resource/help.png"));
-	public static final ImageIcon DETAILS_ICON = new ImageIcon(IReflectionUI.class.getResource("resource/details.png"));
-	public static final ImageIcon ADD_ICON = new ImageIcon(IReflectionUI.class.getResource("resource/add.png"));
-	public static final ImageIcon REMOVE_ICON = new ImageIcon(IReflectionUI.class.getResource("resource/remove.png"));
-	public static final ImageIcon UP_ICON = new ImageIcon(IReflectionUI.class.getResource("resource/up.png"));
-	public static final ImageIcon DOWN_ICON = new ImageIcon(IReflectionUI.class.getResource("resource/down.png"));
+	public static final ImageIcon ERROR_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/error.png"));
+	public static final ImageIcon HELP_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/help.png"));
+	public static final ImageIcon DETAILS_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/details.png"));
+	public static final ImageIcon ADD_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/add.png"));
+	public static final ImageIcon REMOVE_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/remove.png"));
+	public static final ImageIcon UP_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/up.png"));
+	public static final ImageIcon DOWN_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/down.png"));
 	public static final ImageIcon CUSTOMIZATION_ICON = new ImageIcon(
-			IReflectionUI.class.getResource("resource/custom.png"));
+			ReflectionUI.class.getResource("resource/custom.png"));
 	public static final ImageIcon SAVE_ALL_ICON = new ImageIcon(
-			IReflectionUI.class.getResource("resource/save-all.png"));
+			ReflectionUI.class.getResource("resource/save-all.png"));
 
 	public static Image scalePreservingRatio(Image image, int newWidth, int newHeight, int scaleQuality) {
 		Dimension imageSize = new Dimension(image.getWidth(null), image.getHeight(null));
@@ -298,7 +298,7 @@ public class SwingRendererUtils {
 	}
 
 	public static Icon getHelpIcon() {
-		return new ImageIcon(IReflectionUI.class.getResource("resource/help.png"));
+		return new ImageIcon(ReflectionUI.class.getResource("resource/help.png"));
 	}
 
 	public static List<Object> getActiveInstances(ITypeInfo type, SwingRenderer swingRenderer) {
@@ -374,7 +374,7 @@ public class SwingRendererUtils {
 
 	public static boolean isObjectDisplayEmpty(Object value, IInfoFilter infoFilter,
 			SwingRenderer swingRenderer) {
-		IReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
 		if (SwingRendererUtils.hasCustomControl(value, valueType, swingRenderer)) {
 			return false;
@@ -386,7 +386,7 @@ public class SwingRendererUtils {
 	}
 
 	public static final boolean hasCustomControl(Object fieldValue, ITypeInfo fieldType, SwingRenderer swingRenderer) {
-		IReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, fieldType);
 		Object encapsulatedValue = encapsulation.getInstance(new Object[] { fieldValue });
 		ITypeInfo valueAsFieldType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(encapsulatedValue));
@@ -472,7 +472,7 @@ public class SwingRendererUtils {
 		properties.put(DesktopSpecificProperty.KEY_ICON_IMAGE, image);
 	}
 
-	public static void forwardSubModifications(final IReflectionUI reflectionUI, final JPanel subForm,
+	public static void forwardSubModifications(final ReflectionUI reflectionUI, final JPanel subForm,
 			final Accessor<Boolean> childModifAcceptedGetter,
 			final Accessor<ValueReturnMode> childValueReturnModeGetter, final Accessor<Boolean> childValueNewGetter,
 			final Accessor<IModification> commitModifGetter, final Accessor<IInfo> childModifTargetGetter,

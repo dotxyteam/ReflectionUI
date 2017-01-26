@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import xy.reflect.ui.IReflectionUI;
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.FieldInfoProxy;
@@ -24,7 +24,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 @SuppressWarnings("unused")
 public class EncapsulatedObjectFactory {
 
-	protected IReflectionUI reflectionUI;
+	protected ReflectionUI reflectionUI;
 	protected ITypeInfo fieldType;
 	protected String typeCaption = "";
 	protected String fieldCaption = "Value";
@@ -33,7 +33,7 @@ public class EncapsulatedObjectFactory {
 	protected ValueReturnMode fieldValueReturnMode = ValueReturnMode.PROXY;
 	protected Map<String, Object> fieldSpecificProperties = new HashMap<String, Object>();
 
-	public EncapsulatedObjectFactory(IReflectionUI reflectionUI, ITypeInfo fieldType) {
+	public EncapsulatedObjectFactory(ReflectionUI reflectionUI, ITypeInfo fieldType) {
 		this.reflectionUI = reflectionUI;
 		this.fieldType = fieldType;
 	}

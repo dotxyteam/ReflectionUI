@@ -1,16 +1,16 @@
 package xy.reflect.ui.info.parameter;
 
-import xy.reflect.ui.IReflectionUI;
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.parameter.ParameterInfoProxy;
 import xy.reflect.ui.info.type.util.HiddenNullableFacetsTypeInfoProxyFactory;
 
 public class HiddenNullableFacetParameterInfoProxy extends ParameterInfoProxy {
 
-	protected IReflectionUI reflectionUI;
+	protected ReflectionUI reflectionUI;
 	protected IParameterInfo base;
 
-	public HiddenNullableFacetParameterInfoProxy(final IReflectionUI reflectionUI,
+	public HiddenNullableFacetParameterInfoProxy(final ReflectionUI reflectionUI,
 			final IParameterInfo base) {
 		super(base);
 		this.reflectionUI = reflectionUI;

@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import xy.reflect.ui.IReflectionUI;
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -21,10 +21,10 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class MethodSetupObjectFactory {
 
 	protected IMethodInfo method;
-	protected IReflectionUI reflectionUI;
+	protected ReflectionUI reflectionUI;
 	protected Object object;
 
-	public MethodSetupObjectFactory(IReflectionUI reflectionUI, Object object, IMethodInfo method) {
+	public MethodSetupObjectFactory(ReflectionUI reflectionUI, Object object, IMethodInfo method) {
 		this.object = object;
 		this.method = method;
 		this.reflectionUI = reflectionUI;

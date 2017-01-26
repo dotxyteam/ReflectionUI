@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import xy.reflect.ui.IReflectionUI;
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -13,7 +13,7 @@ import xy.reflect.ui.info.method.InvocationData;
 
 public class FileTypeInfo extends DefaultTypeInfo {
 
-	public FileTypeInfo(IReflectionUI reflectionUI) {
+	public FileTypeInfo(ReflectionUI reflectionUI) {
 		super(reflectionUI, File.class);
 	}
 

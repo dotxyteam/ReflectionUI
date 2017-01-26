@@ -56,7 +56,7 @@ public class TestIterableTypeInfos  extends AbstractTest{
 	@Test
 	public void test() {
 		final InfoCustomizations customizations = new InfoCustomizations();
-		IReflectionUI reflectionUI = new StandardReflectionUI() {
+		ReflectionUI reflectionUI = new ReflectionUI() {
 			@Override
 			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
 				return customizations.get(this, super.getTypeInfo(typeSource));

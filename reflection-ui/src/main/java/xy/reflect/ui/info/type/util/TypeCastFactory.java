@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import xy.reflect.ui.IReflectionUI;
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.EnumerationControl;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -31,11 +31,11 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 @SuppressWarnings("unused")
 public class TypeCastFactory {
 
-	protected IReflectionUI reflectionUI;
+	protected ReflectionUI reflectionUI;
 	protected ITypeInfo targetType;
 	protected InstanceTypeInfoFactory instanceTypeInfoFactory;
 
-	public TypeCastFactory(IReflectionUI reflectionUI, ITypeInfo targetType) {
+	public TypeCastFactory(ReflectionUI reflectionUI, ITypeInfo targetType) {
 		super();
 		this.reflectionUI = reflectionUI;
 		this.targetType = targetType;

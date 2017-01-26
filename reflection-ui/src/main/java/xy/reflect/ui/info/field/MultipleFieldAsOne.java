@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import xy.reflect.ui.IReflectionUI;
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
@@ -21,9 +21,9 @@ import xy.reflect.ui.util.ReflectionUIError;
 public class MultipleFieldAsOne implements IFieldInfo {
 
 	protected List<IFieldInfo> fields;
-	protected IReflectionUI reflectionUI;
+	protected ReflectionUI reflectionUI;
 
-	public MultipleFieldAsOne(IReflectionUI reflectionUI, List<IFieldInfo> fields) {
+	public MultipleFieldAsOne(ReflectionUI reflectionUI, List<IFieldInfo> fields) {
 		this.reflectionUI = reflectionUI;
 		this.fields = fields;
 	}
@@ -238,7 +238,7 @@ public class MultipleFieldAsOne implements IFieldInfo {
 
 		protected ListItem item;
 
-		public ListItemTypeInfo(IReflectionUI reflectionUI, ListItem item) {
+		public ListItemTypeInfo(ReflectionUI reflectionUI, ListItem item) {
 			super(reflectionUI, ListItem.class);
 			this.item = item;
 		}

@@ -3,7 +3,7 @@ package xy.reflect.ui.info.type.iterable;
 import java.lang.reflect.Array;
 import java.util.Collections;
 import java.util.List;
-import xy.reflect.ui.IReflectionUI;
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -14,7 +14,7 @@ import xy.reflect.ui.info.method.InvocationData;
 @SuppressWarnings("unused")
 public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 
-	public ArrayTypeInfo(IReflectionUI reflectionUI, Class<?> javaType, Class<?> itemJavaType) {
+	public ArrayTypeInfo(ReflectionUI reflectionUI, Class<?> javaType, Class<?> itemJavaType) {
 		super(reflectionUI, javaType, itemJavaType);
 	}
 

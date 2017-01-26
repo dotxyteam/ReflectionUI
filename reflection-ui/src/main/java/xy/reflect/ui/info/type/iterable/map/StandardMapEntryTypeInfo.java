@@ -3,7 +3,7 @@ package xy.reflect.ui.info.type.iterable.map;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import xy.reflect.ui.IReflectionUI;
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
@@ -21,7 +21,7 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 	protected Class<?> keyJavaType;
 	protected Class<?> valueJavaType;
 
-	public StandardMapEntryTypeInfo(IReflectionUI reflectionUI, Class<?> keyJavaType, Class<?> valueJavaType) {
+	public StandardMapEntryTypeInfo(ReflectionUI reflectionUI, Class<?> keyJavaType, Class<?> valueJavaType) {
 		super(reflectionUI, StandardMapEntry.class);
 		this.keyJavaType = keyJavaType;
 		this.valueJavaType = valueJavaType;

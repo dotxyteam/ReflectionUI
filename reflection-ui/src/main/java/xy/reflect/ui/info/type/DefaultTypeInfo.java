@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import xy.reflect.ui.IReflectionUI;
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.PublicFieldInfo;
@@ -28,12 +28,12 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class DefaultTypeInfo implements ITypeInfo {
 
 	protected Class<?> javaType;
-	protected IReflectionUI reflectionUI;
+	protected ReflectionUI reflectionUI;
 	protected List<IFieldInfo> fields;
 	protected List<IMethodInfo> methods;
 	protected List<IMethodInfo> constructors;
 
-	public DefaultTypeInfo(IReflectionUI reflectionUI, Class<?> javaType) {
+	public DefaultTypeInfo(ReflectionUI reflectionUI, Class<?> javaType) {
 		if (javaType == null) {
 			throw new ReflectionUIError();
 		}

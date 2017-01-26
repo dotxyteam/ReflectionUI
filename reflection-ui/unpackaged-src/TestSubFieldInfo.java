@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-import xy.reflect.ui.StandardReflectionUI;
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.SubFieldInfo;
@@ -11,7 +11,7 @@ import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
 
 public class TestSubFieldInfo {
 	public static void main(String[] args) throws Exception {
-		new SwingRenderer(new StandardReflectionUI() {
+		new SwingRenderer(new ReflectionUI() {
 
 			@Override
 			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
