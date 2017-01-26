@@ -116,7 +116,6 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 		for (Object obj : ((Map) listValue).entrySet()) {
 			Map.Entry entry = (Entry) obj;
 			StandardMapEntry standardMapEntry = new StandardMapEntry(entry.getKey(), entry.getValue());
-			reflectionUI.registerPrecomputedTypeInfoObject(standardMapEntry, getItemType());
 			result.add(standardMapEntry);
 		}
 		return result.toArray();
