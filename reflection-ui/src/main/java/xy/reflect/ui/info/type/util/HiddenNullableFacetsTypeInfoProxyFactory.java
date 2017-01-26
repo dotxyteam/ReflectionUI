@@ -17,31 +17,6 @@ public class HiddenNullableFacetsTypeInfoProxyFactory extends TypeInfoProxyFacto
 		this.reflectionUI = reflectionUI;
 	}
 
-	@Override
-	protected ITypeInfo wrapSubTypeProxy(ITypeInfo type) {
-		return type;
-	}
-
-	@Override
-	protected ITypeInfo wraplistItemType(ITypeInfo type) {
-		return type;
-	}
-
-	@Override
-	protected ITypeInfo wrapMethoReturnValueType(ITypeInfo type) {
-		return type;
-	}
-
-	@Override
-	protected ITypeInfo wrapParameterType(ITypeInfo type) {
-		return type;
-	}
-
-	@Override
-	protected ITypeInfo wrapFieldType(ITypeInfo type) {
-		return type;
-	}
-
 	public Object generateDefaultValue(ITypeInfo type) {
 		Object result;
 		try {

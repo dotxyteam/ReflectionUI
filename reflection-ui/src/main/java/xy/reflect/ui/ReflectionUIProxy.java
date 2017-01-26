@@ -2,40 +2,14 @@ package xy.reflect.ui;
 
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
-import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
 
-public class ReflectionUIProxy extends TypeInfoProxyFactory implements IReflectionUI {
+public class ReflectionUIProxy implements IReflectionUI {
 
 	protected IReflectionUI base;
 
 	public ReflectionUIProxy(IReflectionUI base) {
 		super();
 		this.base = base;
-	}
-
-	@Override
-	protected ITypeInfo wrapSubTypeProxy(ITypeInfo type) {
-		return wrapType(type);
-	}
-
-	@Override
-	protected ITypeInfo wraplistItemType(ITypeInfo type) {
-		return wrapType(type);
-	}
-
-	@Override
-	protected ITypeInfo wrapMethoReturnValueType(ITypeInfo type) {
-		return wrapType(type);
-	}
-
-	@Override
-	protected ITypeInfo wrapParameterType(ITypeInfo type) {
-		return wrapType(type);
-	}
-
-	@Override
-	protected ITypeInfo wrapFieldType(ITypeInfo type) {
-		return wrapType(type);
 	}
 
 	public void registerPrecomputedTypeInfoObject(Object object, ITypeInfo type) {
@@ -95,5 +69,7 @@ public class ReflectionUIProxy extends TypeInfoProxyFactory implements IReflecti
 	public String toString() {
 		return "ReflectionUIProxy [base=" + base + "]";
 	}
+	
+	
 
 }

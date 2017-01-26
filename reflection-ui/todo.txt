@@ -1,13 +1,3 @@
-- there is a recurring issue that I have trouble to fix:
-I need to interpret an object, use the interpretation
-to create another object (*Factory.Instance) that I will re-interpret => BOUM:
-the same interpretation cannot be applied twice and it is
-normal. What I would need to do instead is to just modify the
-first interpretation, no need to create another object.
-Unfortunately, this co-interpretation will escape from the
-coverage of customizations. for instance it will not be
-possible to customize a polymorphic control enumeration.
-Think about it.
 - separate customizations from reflection UI
 	. remove swingRenderer.getReflectionUI()
 	. add swingRenderer.getTypeInfoSource()

@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import xy.reflect.ui.IReflectionUI;
-import xy.reflect.ui.ReflectionUIProxy;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -26,7 +24,6 @@ import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.info.type.iterable.util.ItemPosition;
-import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -35,20 +32,11 @@ import xy.reflect.ui.info.method.InvocationData;
 @SuppressWarnings("unused")
 public abstract class TypeInfoProxyFactory {
 
-	protected abstract ITypeInfo wrapSubTypeProxy(ITypeInfo type);
-
-	protected abstract ITypeInfo wraplistItemType(ITypeInfo type) ;
-
-	protected abstract ITypeInfo wrapMethoReturnValueType(ITypeInfo type) ;
-
-	protected abstract ITypeInfo wrapParameterType(ITypeInfo type) ;
-
-	protected abstract ITypeInfo wrapFieldType(ITypeInfo type);
-
 	@Override
 	public abstract String toString();
 
-	public ITypeInfo wrapType(final ITypeInfo type) {
+	public ITypeInfo get(final ITypeInfo type) {
+
 		if (type instanceof IListTypeInfo) {
 			return new GeneratedListTypeInfoProxy((IListTypeInfo) type);
 		} else if (type instanceof IEnumerationTypeInfo) {
@@ -58,6 +46,10 @@ public abstract class TypeInfoProxyFactory {
 		} else {
 			return new GeneratedBasicTypeInfoProxy(type);
 		}
+	}
+
+	protected ITypeInfo getSubTypeProxy(ITypeInfo subType) {
+		return get(subType);
 	}
 
 	public ITypeInfo getUnderProxy(final ITypeInfo type) {
@@ -124,7 +116,7 @@ public abstract class TypeInfoProxyFactory {
 	}
 
 	protected ITypeInfo getType(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
-		return wrapParameterType(param.getType());
+		return param.getType();
 	}
 
 	protected boolean isNullable(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
@@ -144,7 +136,7 @@ public abstract class TypeInfoProxyFactory {
 	}
 
 	protected ITypeInfo getType(IFieldInfo field, ITypeInfo containingType) {
-		return wrapFieldType(field.getType());
+		return field.getType();
 	}
 
 	protected Object getValue(Object object, IFieldInfo field, ITypeInfo containingType) {
@@ -221,7 +213,7 @@ public abstract class TypeInfoProxyFactory {
 	}
 
 	protected ITypeInfo getReturnValueType(IMethodInfo method, ITypeInfo containingType) {
-		return wrapMethoReturnValueType(method.getReturnValueType());
+		return method.getReturnValueType();
 	}
 
 	protected String getCaption(IMethodInfo method, ITypeInfo containingType) {
@@ -266,7 +258,7 @@ public abstract class TypeInfoProxyFactory {
 	}
 
 	protected ITypeInfo getItemType(IListTypeInfo type) {
-		return wraplistItemType(type.getItemType());
+		return type.getItemType();
 	}
 
 	protected IListStructuralInfo getStructuralInfo(IListTypeInfo type) {
@@ -438,7 +430,7 @@ public abstract class TypeInfoProxyFactory {
 		public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
 			List<ITypeInfo> result = new ArrayList<ITypeInfo>();
 			for (ITypeInfo subType : TypeInfoProxyFactory.this.getPolymorphicInstanceSubTypes(base)) {
-				result.add(wrapSubTypeProxy(subType));
+				result.add(getSubTypeProxy(subType));
 			}
 			return result;
 		}
@@ -964,7 +956,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public ITypeInfo getReturnValueType() {
-			return wrapType(super.getReturnValueType());
+			return get(super.getReturnValueType());
 		}
 
 	}

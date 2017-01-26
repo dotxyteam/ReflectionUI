@@ -45,7 +45,7 @@ public class TypeCastFactory {
 	public Object getInstance(Object object) {
 		ReflectionUIUtils.checkInstance(targetType, object);
 		Instance result = new Instance(object);
-		ITypeInfo instanceTypeInfo = instanceTypeInfoFactory.wrapType(targetType);
+		ITypeInfo instanceTypeInfo = instanceTypeInfoFactory.get(targetType);
 		reflectionUI.registerPrecomputedTypeInfoObject(result, instanceTypeInfo);
 		return result;
 	}
@@ -61,7 +61,7 @@ public class TypeCastFactory {
 	}
 
 	public ITypeInfoSource getInstanceTypeInfoSource() {
-		ITypeInfo instanceTypeInfo = instanceTypeInfoFactory.wrapType(targetType);
+		ITypeInfo instanceTypeInfo = instanceTypeInfoFactory.get(targetType);
 		return new PrecomputedTypeInfoSource(instanceTypeInfo);
 	}
 
@@ -106,31 +106,6 @@ public class TypeCastFactory {
 	}
 
 	protected class InstanceTypeInfoFactory extends TypeInfoProxyFactory {
-
-		@Override
-		protected ITypeInfo wrapSubTypeProxy(ITypeInfo type) {
-			return type;
-		}
-
-		@Override
-		protected ITypeInfo wraplistItemType(ITypeInfo type) {
-			return type;
-		}
-
-		@Override
-		protected ITypeInfo wrapMethoReturnValueType(ITypeInfo type) {
-			return type;
-		}
-
-		@Override
-		protected ITypeInfo wrapParameterType(ITypeInfo type) {
-			return type;
-		}
-
-		@Override
-		protected ITypeInfo wrapFieldType(ITypeInfo type) {
-			return type;
-		}
 
 		@Override
 		public String toString() {
