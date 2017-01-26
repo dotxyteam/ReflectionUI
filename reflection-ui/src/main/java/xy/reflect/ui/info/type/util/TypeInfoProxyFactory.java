@@ -48,8 +48,24 @@ public abstract class TypeInfoProxyFactory {
 		}
 	}
 
-	protected ITypeInfo getSubTypeProxy(ITypeInfo subType) {
-		return get(subType);
+	protected ITypeInfo wrapSubType(ITypeInfo type) {
+		return type;
+	}
+
+	protected ITypeInfo wrapItemType(ITypeInfo type) {
+		return type;
+	}
+
+	protected ITypeInfo wrapMethodReturnValueType(ITypeInfo type) {
+		return type;
+	}
+
+	protected ITypeInfo wrapParameterType(ITypeInfo type) {
+		return type;
+	}
+
+	protected ITypeInfo wrapFieldType(ITypeInfo type) {
+		return type;
 	}
 
 	public ITypeInfo getUnderProxy(final ITypeInfo type) {
@@ -116,7 +132,7 @@ public abstract class TypeInfoProxyFactory {
 	}
 
 	protected ITypeInfo getType(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
-		return param.getType();
+		return wrapParameterType(param.getType());
 	}
 
 	protected boolean isNullable(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
@@ -136,7 +152,7 @@ public abstract class TypeInfoProxyFactory {
 	}
 
 	protected ITypeInfo getType(IFieldInfo field, ITypeInfo containingType) {
-		return field.getType();
+		return wrapFieldType(field.getType());
 	}
 
 	protected Object getValue(Object object, IFieldInfo field, ITypeInfo containingType) {
@@ -213,7 +229,7 @@ public abstract class TypeInfoProxyFactory {
 	}
 
 	protected ITypeInfo getReturnValueType(IMethodInfo method, ITypeInfo containingType) {
-		return method.getReturnValueType();
+		return wrapMethodReturnValueType(method.getReturnValueType());
 	}
 
 	protected String getCaption(IMethodInfo method, ITypeInfo containingType) {
@@ -258,7 +274,7 @@ public abstract class TypeInfoProxyFactory {
 	}
 
 	protected ITypeInfo getItemType(IListTypeInfo type) {
-		return type.getItemType();
+		return wrapItemType(type.getItemType());
 	}
 
 	protected IListStructuralInfo getStructuralInfo(IListTypeInfo type) {
@@ -430,7 +446,7 @@ public abstract class TypeInfoProxyFactory {
 		public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
 			List<ITypeInfo> result = new ArrayList<ITypeInfo>();
 			for (ITypeInfo subType : TypeInfoProxyFactory.this.getPolymorphicInstanceSubTypes(base)) {
-				result.add(getSubTypeProxy(subType));
+				result.add(wrapSubType(subType));
 			}
 			return result;
 		}

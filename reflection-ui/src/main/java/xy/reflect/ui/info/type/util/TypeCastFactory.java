@@ -113,8 +113,13 @@ public class TypeCastFactory {
 		}
 
 		@Override
+		protected ITypeInfo wrapSubType(ITypeInfo type) {
+			return new TypeCastFactory(reflectionUI, type).instanceTypeInfoFactory.get(type);
+		}
+
+		@Override
 		protected String getName(ITypeInfo type) {
-			return "(" + targetType.getName() + ")" + super.getName(type);
+			return targetType.getName();
 		}
 
 		@Override

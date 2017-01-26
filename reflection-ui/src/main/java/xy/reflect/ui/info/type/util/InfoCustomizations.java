@@ -2577,7 +2577,7 @@ public final class InfoCustomizations {
 			} catch (ClassNotFoundException e) {
 				throw new ReflectionUIError(e);
 			}
-			return reflectionUI.getTypeInfoERROR(new JavaTypeInfoSource(javaType));
+			return reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaType));
 		}
 
 		@Override

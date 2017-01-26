@@ -583,6 +583,30 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <typeName>Encapsulation[typeCaption=Selection, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$ITypeInfoFinder.SubTypesEnumeration, fieldCaption=Choose a type:]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=Specify Implementations of Abstract Types - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$CustomTypeInfoFinder, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=Specify Implementations of Abstract Types - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$JavaClassBasedTypeInfoFinder, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
         <typeName>MethodParametersAsTypeInfo(CustomizationCategory)</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1479,7 +1503,7 @@
             <hidden>false</hidden>
             <fieldName>implementationClassName</fieldName>
             <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>false</nullableFacetHidden>
+            <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
