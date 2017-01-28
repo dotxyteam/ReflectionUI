@@ -163,14 +163,14 @@
         <string>Details</string>
         <string>Close</string>
       </visibleStrings>
-      <windowIndex>2</windowIndex>
+      <windowIndex>1</windowIndex>
     </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>Details</visibleString>
-        <windowIndex>2</windowIndex>
+        <windowIndex>1</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
       <poupTrigger>false</poupTrigger>
@@ -200,13 +200,13 @@
         <string>Init Cause...</string>
         <string>Close</string>
       </visibleStrings>
-      <windowIndex>3</windowIndex>
+      <windowIndex>2</windowIndex>
     </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
     <xy.ui.testing.action.window.CloseWindowAction>
-      <windowIndex>3</windowIndex>
+      <windowIndex>2</windowIndex>
     </xy.ui.testing.action.window.CloseWindowAction>
     <xy.ui.testing.action.window.CloseWindowAction>
-      <windowIndex>2</windowIndex>
+      <windowIndex>1</windowIndex>
     </xy.ui.testing.action.window.CloseWindowAction>
     <xy.ui.testing.action.window.CloseWindowAction>
       <windowIndex>0</windowIndex>
