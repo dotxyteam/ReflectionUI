@@ -162,8 +162,8 @@
             <hidden>true</hidden>
         </columnCustomizations>
         <columnsCustomOrder>columnName</columnsCustomOrder>
-        <columnsCustomOrder>hidden</columnsCustomOrder>
         <columnsCustomOrder>customCaption</columnsCustomOrder>
+        <columnsCustomOrder>hidden</columnsCustomOrder>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
@@ -559,6 +559,16 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
+        <typeName>Encapsulation[typeCaption=Customize Columns Display - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
         <typeName>Encapsulation[typeCaption=Customize Fields Display - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -570,6 +580,10 @@
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>Encapsulation[typeCaption=Customize Methods Display - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>Encapsulation[typeCaption=IList Item Details Access Mode - Polymorphic Type, fieldType=xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode.SubTypesEnumeration, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>

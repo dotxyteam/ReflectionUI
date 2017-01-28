@@ -13,6 +13,7 @@ import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
+import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.FieldInfoProxy;
@@ -163,7 +164,13 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	public boolean refreshUI() {
 		if (subForm == null) {
 			subFormObject = data.getValue();
-			subForm = swingRenderer.createForm(subFormObject);
+			IInfoFilter filter = DesktopSpecificProperty.getFilter(data.getSpecificProperties());
+			{
+				if (filter == null) {
+					filter = IInfoFilter.DEFAULT;
+				}
+			}
+			subForm = swingRenderer.createForm(subFormObject, filter);
 			add(subForm, BorderLayout.CENTER);
 			forwardSubFormModifications();
 			SwingRendererUtils.handleComponentSizeChange(this);
@@ -189,7 +196,6 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	public void validateSubForm() throws Exception {
 		swingRenderer.validateForm(subForm);
 	}
-
 
 	@Override
 	public ITypeInfo getDynamicObjectType() {

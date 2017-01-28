@@ -40,7 +40,7 @@ public class ItemPosition {
 		return listValue[index];
 	}
 
-	public String getContainingListCaption() {
+	public String getContainingListTitle() {
 		return null;
 	}
 

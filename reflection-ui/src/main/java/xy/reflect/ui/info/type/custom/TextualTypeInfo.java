@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
+import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -23,7 +23,7 @@ public class TextualTypeInfo extends DefaultTypeInfo {
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		return Collections.<IMethodInfo> singletonList(new AbstractConstructorMethodInfo(TextualTypeInfo.this) {
+		return Collections.<IMethodInfo> singletonList(new AbstractConstructorInfo(TextualTypeInfo.this) {
 
 			@Override
 			public Object invoke(Object object, InvocationData invocationData) {

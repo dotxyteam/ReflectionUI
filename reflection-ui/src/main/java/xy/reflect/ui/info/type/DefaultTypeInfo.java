@@ -18,7 +18,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.PublicFieldInfo;
-import xy.reflect.ui.info.method.DefaultConstructorMethodInfo;
+import xy.reflect.ui.info.method.DefaultConstructorInfo;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.util.ClassUtils;
@@ -69,10 +69,10 @@ public class DefaultTypeInfo implements ITypeInfo {
 				return Collections.emptyList();
 			}
 			for (Constructor<?> javaConstructor : javaType.getConstructors()) {
-				if (!DefaultConstructorMethodInfo.isCompatibleWith(javaConstructor)) {
+				if (!DefaultConstructorInfo.isCompatibleWith(javaConstructor)) {
 					continue;
 				}
-				constructors.add(new DefaultConstructorMethodInfo(reflectionUI, this, javaConstructor));
+				constructors.add(new DefaultConstructorInfo(reflectionUI, this, javaConstructor));
 			}
 		}
 		return constructors;

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
+import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
@@ -30,7 +30,7 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements
 	@Override
 	public List<IMethodInfo> getConstructors() {
 		return Collections
-				.<IMethodInfo> singletonList(new AbstractConstructorMethodInfo(
+				.<IMethodInfo> singletonList(new AbstractConstructorInfo(
 						StandardEnumerationTypeInfo.this) {
 
 					@Override

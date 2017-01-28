@@ -14,13 +14,13 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.Parameter;
 import xy.reflect.ui.util.ReflectionUIError;
 
-public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo {
+public class DefaultConstructorInfo extends AbstractConstructorInfo {
 
 	protected Constructor<?> javaConstructor;
 	protected ReflectionUI reflectionUI;
 	protected ArrayList<IParameterInfo> parameters;
 
-	public DefaultConstructorMethodInfo(ReflectionUI reflectionUI,
+	public DefaultConstructorInfo(ReflectionUI reflectionUI,
 			ITypeInfo ownerType, Constructor<?> javaConstructor) {
 		super(ownerType);
 		this.reflectionUI = reflectionUI;
@@ -86,7 +86,7 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 			return false;
 		}
 		if (!javaConstructor
-				.equals(((DefaultConstructorMethodInfo) obj).javaConstructor)) {
+				.equals(((DefaultConstructorInfo) obj).javaConstructor)) {
 			return false;
 		}
 		return true;
@@ -94,7 +94,7 @@ public class DefaultConstructorMethodInfo extends AbstractConstructorMethodInfo 
 
 	@Override
 	public String toString() {
-		return "DefaultConstructorMethodInfo [javaConstructor=" + javaConstructor + "]";
+		return "DefaultConstructorInfo [javaConstructor=" + javaConstructor + "]";
 	}
 
 	@Override

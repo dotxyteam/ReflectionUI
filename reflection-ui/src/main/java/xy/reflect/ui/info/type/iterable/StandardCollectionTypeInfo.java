@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
+import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -87,7 +87,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 			newInstance = null;
 		}
 		if (newInstance != null) {
-			return new AbstractConstructorMethodInfo(this) {
+			return new AbstractConstructorInfo(this) {
 
 				@Override
 				public Object invoke(Object object, InvocationData invocationData) {

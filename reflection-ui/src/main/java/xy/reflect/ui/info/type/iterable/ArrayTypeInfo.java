@@ -4,7 +4,7 @@ import java.lang.reflect.Array;
 import java.util.Collections;
 import java.util.List;
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
+import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -44,7 +44,7 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		return Collections.<IMethodInfo> singletonList(new AbstractConstructorMethodInfo(this) {
+		return Collections.<IMethodInfo> singletonList(new AbstractConstructorInfo(this) {
 
 			@Override
 			public Object invoke(Object object, InvocationData invocationData) {

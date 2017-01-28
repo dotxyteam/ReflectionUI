@@ -777,7 +777,8 @@ public class ReflectionUIUtils {
 			return constructor.invoke(null, new InvocationData());
 
 		} catch (Throwable t) {
-			throw new ReflectionUIError("Could not create an instance of type '" + type + "': " + t.toString(), t);
+			throw new ReflectionUIError(
+					"Could not create an instance of type '" + type.getName() + "': " + t.toString(), t);
 
 		}
 
@@ -897,9 +898,10 @@ public class ReflectionUIUtils {
 		return parentValueImpacted;
 	}
 
-	public static ArrayAsEnumerationFactory getPolymorphicTypesEnumerationfactory(ReflectionUI reflectionUI, ITypeInfo polymorphicType, List<ITypeInfo> subTypes) {
-		return new ArrayAsEnumerationFactory(reflectionUI,
-				subTypes.toArray(), polymorphicType.getName() + ".SubTypesEnumeration", "") {
+	public static ArrayAsEnumerationFactory getPolymorphicTypesEnumerationfactory(ReflectionUI reflectionUI,
+			ITypeInfo polymorphicType, List<ITypeInfo> subTypes) {
+		return new ArrayAsEnumerationFactory(reflectionUI, subTypes.toArray(),
+				polymorphicType.getName() + ".SubTypesEnumeration", "") {
 			@Override
 			protected Map<String, Object> getItemSpecificProperties(Object arrayItem) {
 				ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;

@@ -13,7 +13,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.EnumerationControl;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
+import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -220,7 +220,7 @@ public class ArrayAsEnumerationFactory {
 			if (array.length == 0) {
 				return Collections.emptyList();
 			} else {
-				return Collections.<IMethodInfo>singletonList(new AbstractConstructorMethodInfo(TypeInfo.this) {
+				return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo(TypeInfo.this) {
 
 					@Override
 					public Object invoke(Object object, InvocationData invocationData) {

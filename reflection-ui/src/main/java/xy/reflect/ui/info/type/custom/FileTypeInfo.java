@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
+import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
@@ -19,7 +19,7 @@ public class FileTypeInfo extends DefaultTypeInfo {
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		IMethodInfo defaultCtor = new AbstractConstructorMethodInfo(FileTypeInfo.this) {
+		IMethodInfo defaultCtor = new AbstractConstructorInfo(FileTypeInfo.this) {
 
 			@Override
 			public Object invoke(Object object, InvocationData invocationData) {

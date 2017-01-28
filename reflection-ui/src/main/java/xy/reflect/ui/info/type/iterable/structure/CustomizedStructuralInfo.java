@@ -6,11 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.swing.ListControl;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.MultipleFieldAsOne;
-import xy.reflect.ui.info.field.MultipleFieldAsOne.ListItem;
-import xy.reflect.ui.info.field.MultipleFieldAsOne.ListItemTypeInfo;
+import xy.reflect.ui.info.field.MultipleFieldsAsOneListField;
+import xy.reflect.ui.info.field.MultipleFieldsAsOneListField.ListItem;
+import xy.reflect.ui.info.field.MultipleFieldsAsOneListField.ListItemTypeInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.filter.InfoFilterProxy;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -28,6 +29,7 @@ import xy.reflect.ui.info.type.util.InfoCustomizations.ColumnCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.InfoFilter;
 import xy.reflect.ui.info.type.util.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.TreeStructureDiscoverySettings;
+import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 @SuppressWarnings("unused")
@@ -63,16 +65,37 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 			return null;
 		} else if (candidateFields.size() == 1) {
 			IFieldInfo candidateField = candidateFields.get(0);
-			if (itemPosition.getItem() instanceof ListItem) {
-				return candidateField;
-			} else if (displaysSubListFieldNameAsTreeNode(candidateField, itemPosition)) {
-				return new MultipleFieldAsOne(reflectionUI, Collections.singletonList(candidateField));
+			if (displaysSubListFieldNameAsTreeNode(candidateField, itemPosition)) {
+				return getSubListFieldNamesAsNodeField(Collections.singletonList(candidateField));
 			} else {
 				return candidateField;
 			}
 		} else {
-			return new MultipleFieldAsOne(reflectionUI, candidateFields);
+			return getSubListFieldNamesAsNodeField(candidateFields);
 		}
+	}
+
+	protected IFieldInfo getSubListFieldNamesAsNodeField(List<IFieldInfo> subListFields) {
+		return new MultipleFieldsAsOneListField(reflectionUI, subListFields) {
+
+			@Override
+			protected ITypeInfo getListItemTypeInfo(final ListItem listItem) {
+				return new TypeInfoProxyFactory() {
+
+					@Override
+					public String toString() {
+						return ListControl.class.getName() + ".getSubListFieldNamesAsNodeField.changeListItemTypeInfo";
+					}
+
+					@Override
+					protected String getCaption(IFieldInfo field, ITypeInfo containingType) {
+						return listItem.getTitle();
+					}
+
+				}.get(super.getListItemTypeInfo(listItem));
+			}
+
+		};
 	}
 
 	protected List<IFieldInfo> getItemSubListCandidateFields(ItemPosition itemPosition) {
@@ -217,13 +240,17 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 
 	protected boolean displaysSubListFieldNameAsTreeNode(IFieldInfo subListField, ItemPosition itemPosition) {
 		ITypeInfo itemType = itemPosition.getContainingListType().getItemType();
+		if (itemPosition.getItem() instanceof MultipleFieldsAsOneListField.ListItem) {
+			return false;
+		}
 		if (itemType instanceof IMapEntryTypeInfo) {
 			return false;
 		}
+
 		if (itemType instanceof ListItemTypeInfo) {
 			return false;
 		}
-		return !subListField.getCaption().equals(itemPosition.getContainingListCaption());
+		return !subListField.getCaption().equals(itemPosition.getContainingListTitle());
 	}
 
 	@Override
@@ -262,7 +289,5 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 		return "CustomizedStructuralInfo [customization=" + customization + ", listType=" + listType + ", base=" + base
 				+ "]";
 	}
-	
-	
 
 }

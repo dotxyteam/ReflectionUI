@@ -781,13 +781,18 @@ public class SwingCustomizer extends SwingRenderer {
 		protected void openEnumerationCutomizationDialog(Component activatorComponent,
 				final IEnumerationTypeInfo customizedEnumType) {
 			EnumerationCustomization ec = infoCustomizations.getEnumerationCustomization(customizedEnumType.getName(),
-					true);			
+					true);
+			updateEnumerationItemCustomizationList(ec, customizedEnumType);
+			openCustomizationDialog(activatorComponent, ec, customizedEnumType.getName());
+		}
+
+		protected void updateEnumerationItemCustomizationList(EnumerationCustomization ec,
+				IEnumerationTypeInfo customizedEnumType) {
 			for (Object item : customizedEnumType.getPossibleValues()) {
 				IEnumerationItemInfo itemInfo = customizedEnumType.getValueInfo(item);
 				infoCustomizations.getEnumerationItemCustomization(ec.getEnumerationTypeName(), itemInfo.getName(),
 						true);
 			}
-			openCustomizationDialog(activatorComponent, ec, customizedEnumType.getName());
 		}
 
 		protected void openListCutomizationDialog(Component activatorComponent,
@@ -796,7 +801,17 @@ public class SwingCustomizer extends SwingRenderer {
 			String itemTypeName = (customizedItemType == null) ? null : customizedItemType.getName();
 			ListCustomization lc = infoCustomizations.getListCustomization(customizedListType.getName(), itemTypeName,
 					true);
+			updateColumnCustomizationList(lc, customizedListType);
 			openCustomizationDialog(activatorComponent, lc, customizedListType.getName());
+		}
+
+		protected void updateColumnCustomizationList(ListCustomization lc, IListTypeInfo customizedListType) {
+			for (IColumnInfo column : customizedListType.getStructuralInfo().getColumns()) {
+				String itemTypeName = (customizedListType.getItemType() == null) ? null
+						: customizedListType.getItemType().getName();
+				infoCustomizations.getColumnCustomization(customizedListType.getName(), itemTypeName, column.getName(),
+						true);
+			}
 		}
 
 		protected void openFieldCutomizationDialog(Component activatorComponent, final ITypeInfo customizedType,

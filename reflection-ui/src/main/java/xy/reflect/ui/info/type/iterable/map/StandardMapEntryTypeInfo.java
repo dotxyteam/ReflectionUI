@@ -6,7 +6,7 @@ import java.util.List;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
+import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
@@ -94,7 +94,7 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 	@Override
 	public List<IMethodInfo> getConstructors() {
 		return Collections
-				.<IMethodInfo> singletonList(new AbstractConstructorMethodInfo(StandardMapEntryTypeInfo.this) {
+				.<IMethodInfo> singletonList(new AbstractConstructorInfo(StandardMapEntryTypeInfo.this) {
 
 					@Override
 					public Object invoke(Object object, InvocationData invocationData) {

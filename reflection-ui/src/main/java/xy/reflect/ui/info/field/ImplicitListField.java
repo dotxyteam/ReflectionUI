@@ -9,7 +9,7 @@ import java.util.Map;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
+import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -426,7 +426,7 @@ public class ImplicitListField implements IFieldInfo {
 		public List<IMethodInfo> getAdditionalItemConstructors(final Object listValue) {
 			final Instance instance = (Instance) listValue;
 			return Collections
-					.<IMethodInfo>singletonList(new AbstractConstructorMethodInfo(TypeInfo.this.getItemType()) {
+					.<IMethodInfo>singletonList(new AbstractConstructorInfo(TypeInfo.this.getItemType()) {
 
 						@Override
 						public Object invoke(Object nullObject, InvocationData invocationData) {

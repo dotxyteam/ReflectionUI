@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.method.AbstractConstructorMethodInfo;
-import xy.reflect.ui.info.method.DefaultConstructorMethodInfo;
+import xy.reflect.ui.info.method.AbstractConstructorInfo;
+import xy.reflect.ui.info.method.DefaultConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -51,17 +51,17 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 		List<IMethodInfo> defaultConstructors = new ArrayList<IMethodInfo>();
 		if (isConcrete()) {
 			for (Constructor<?> javaConstructor : javaType.getConstructors()) {
-				if (!DefaultConstructorMethodInfo.isCompatibleWith(javaConstructor)) {
+				if (!DefaultConstructorInfo.isCompatibleWith(javaConstructor)) {
 					continue;
 				}
-				defaultConstructors.add(new DefaultConstructorMethodInfo(reflectionUI, this, javaConstructor));
+				defaultConstructors.add(new DefaultConstructorInfo(reflectionUI, this, javaConstructor));
 			}
 		}
 		if (ReflectionUIUtils.getNParametersMethod(defaultConstructors, 0) != null) {
 			return defaultConstructors;
 		} else {
 			List<IMethodInfo> result = new ArrayList<IMethodInfo>(defaultConstructors);
-			result.add(new AbstractConstructorMethodInfo(this) {
+			result.add(new AbstractConstructorInfo(this) {
 
 				@Override
 				public Object invoke(Object object, InvocationData invocationData) {

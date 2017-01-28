@@ -9,11 +9,11 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public abstract class AbstractConstructorMethodInfo implements IMethodInfo {
+public abstract class AbstractConstructorInfo implements IMethodInfo {
 
 	protected ITypeInfo ownerType;
 
-	public AbstractConstructorMethodInfo(ITypeInfo ownerType) {
+	public AbstractConstructorInfo(ITypeInfo ownerType) {
 		super();
 		this.ownerType = ownerType;
 	}
@@ -37,7 +37,7 @@ public abstract class AbstractConstructorMethodInfo implements IMethodInfo {
 		return ownerType;
 	}
 
-	public static String getDescription(AbstractConstructorMethodInfo ctor) {
+	public static String getDescription(IMethodInfo ctor) {
 		StringBuilder result = new StringBuilder(ctor.getCaption());
 		if (ctor.getParameters().size() == 0) {
 			result.append(" - by default");

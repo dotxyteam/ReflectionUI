@@ -60,8 +60,9 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.HiddenNullableFacetFieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.MultipleFieldAsOne.ListItem;
+import xy.reflect.ui.info.field.MultipleFieldsAsOneListField.ListItem;
 import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.method.DefaultConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
@@ -926,12 +927,23 @@ public class SwingRenderer {
 			});
 
 			if (silent) {
-
 				IMethodInfo smallerConstructor = constructors.get(0);
 				return smallerConstructor.invoke(null, new InvocationData());
 			} else {
-				final IMethodInfo chosenContructor = openSelectionDialog(activatorComponent, constructors, null,
-						"Choose an option", null);
+				final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(reflectionUI,
+						constructors.toArray(), "ConstructorSelection[type=" + type.getName() + "]", "") {
+					protected String getItemCaption(Object choice) {
+						return DefaultConstructorInfo.getDescription((IMethodInfo) choice);
+					}
+				};
+				IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
+						.getTypeInfo(enumFactory.getInstanceTypeInfoSource());
+				Object resultEnumItem = openSelectionDialog(activatorComponent, enumType, null, "Choose an option",
+						"Create '" + type.getCaption() + "'");
+				if (resultEnumItem == null) {
+					return null;
+				}
+				IMethodInfo chosenContructor = (IMethodInfo) enumFactory.unwrapInstance(resultEnumItem);
 				if (chosenContructor == null) {
 					return null;
 				}
@@ -943,7 +955,7 @@ public class SwingRenderer {
 		} catch (
 
 		Throwable t) {
-			throw new ReflectionUIError("Could not create an instance of type '" + type + "': " + t.toString(), t);
+			throw new ReflectionUIError("Could not create an instance of type '" + type.getName() + "': " + t.toString(), t);
 
 		}
 
@@ -997,7 +1009,6 @@ public class SwingRenderer {
 		dialogBuilder.setTitle(title);
 		dialogBuilder.setIconImage(iconImage);
 		dialogBuilder.setCancellable(cancellable);
-		;
 		showDialog(dialogBuilder.build(), modal);
 		return dialogBuilder;
 	}

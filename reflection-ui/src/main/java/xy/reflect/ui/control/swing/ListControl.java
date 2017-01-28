@@ -760,7 +760,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					return new AutoFieldValueUpdatingItemPosition(itemPosition, subListData, -1) {
 
 						@Override
-						public String getContainingListCaption() {
+						public String getContainingListTitle() {
 							return subListField.getCaption();
 						}
 
@@ -1061,8 +1061,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			return item;
 		}
 
-		public String getContainingListCaption() {
-			return itemPosition.getContainingListCaption();
+		public String getContainingListTitle() {
+			return itemPosition.getContainingListTitle();
 		}
 
 		@Override
@@ -1845,7 +1845,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		encapsulation.setFieldGetOnly(!UpdateListValueModification.isCompatibleWith(itemPosition));
 		encapsulation.setFieldNullable(true);
 		encapsulation.setFieldCaption("");
-		encapsulation.setTypeCaption(ReflectionUIUtils.composeTitle(ListControl.this.getCaption(), "Item"));
+		encapsulation.setTypeCaption(ReflectionUIUtils.composeTitle(itemPosition.getContainingListTitle(), "Item"));
 		Map<String, Object> properties = new HashMap<String, Object>();
 		{
 			DesktopSpecificProperty.setSubFormExpanded(properties, true);
@@ -1960,7 +1960,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		return new AutoFieldValueUpdatingItemPosition(null, listData, -1) {
 
 			@Override
-			public String getContainingListCaption() {
+			public String getContainingListTitle() {
 				return ListControl.this.getCaption();
 			}
 
@@ -2174,7 +2174,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	public abstract class AutoFieldValueUpdatingItemPosition extends ItemPosition {
 
-		public abstract String getContainingListCaption();
+		public abstract String getContainingListTitle();
 
 		public AutoFieldValueUpdatingItemPosition(AutoFieldValueUpdatingItemPosition parentItemPosition,
 				IControlData containingListData, int index) {
@@ -2197,8 +2197,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			return new AutoFieldValueUpdatingItemPosition(getParentItemPosition(), result.getContainingListData(),
 					result.getIndex()) {
 				@Override
-				public String getContainingListCaption() {
-					return thisItemposition.getContainingListCaption();
+				public String getContainingListTitle() {
+					return thisItemposition.getContainingListTitle();
 				}
 			};
 		}
