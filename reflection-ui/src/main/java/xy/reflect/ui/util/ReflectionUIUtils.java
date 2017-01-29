@@ -901,7 +901,7 @@ public class ReflectionUIUtils {
 	public static ArrayAsEnumerationFactory getPolymorphicTypesEnumerationfactory(ReflectionUI reflectionUI,
 			ITypeInfo polymorphicType, List<ITypeInfo> subTypes) {
 		return new ArrayAsEnumerationFactory(reflectionUI, subTypes.toArray(),
-				polymorphicType.getName() + ".SubTypesEnumeration", "") {
+				"SubTypesEnumeration [polymorphicType=" + polymorphicType.getName() + "]", "") {
 			@Override
 			protected Map<String, Object> getItemSpecificProperties(Object arrayItem) {
 				ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;

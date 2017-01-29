@@ -123,8 +123,7 @@ public class SwingRenderer {
 	}
 
 	protected static SwingRenderer createDefault() {
-		if (SystemProperties.areDefaultInfoCustomizationsActive()
-				&& SystemProperties.areDefaultInfoCustomizationsEditable()) {
+		if (SystemProperties.areDefaultInfoCustomizationsActive()) {
 			return new SwingCustomizer(ReflectionUI.DEFAULT, InfoCustomizations.DEFAULT,
 					SystemProperties.getDefaultInfoCustomizationsFilePath());
 		} else {
@@ -441,7 +440,8 @@ public class SwingRenderer {
 		if (field.getValueOptions(object) != null) {
 			ITypeInfo ownerType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 			final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(reflectionUI,
-					field.getValueOptions(object), ownerType.getName() + "." + field.getName() + ".ValueOptions", "");
+					field.getValueOptions(object),
+					"ValueOptions [ownerType=" + ownerType.getName() + ", field=" + field.getName() + "]", "");
 			final ITypeInfo enumType = reflectionUI.getTypeInfo(enumFactory.getInstanceTypeInfoSource());
 			return new FieldControlData(object, field) {
 
@@ -931,7 +931,7 @@ public class SwingRenderer {
 				return smallerConstructor.invoke(null, new InvocationData());
 			} else {
 				final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(reflectionUI,
-						constructors.toArray(), "ConstructorSelection[type=" + type.getName() + "]", "") {
+						constructors.toArray(), "ConstructorSelection [type=" + type.getName() + "]", "") {
 					protected String getItemCaption(Object choice) {
 						return DefaultConstructorInfo.getDescription((IMethodInfo) choice);
 					}
@@ -955,7 +955,8 @@ public class SwingRenderer {
 		} catch (
 
 		Throwable t) {
-			throw new ReflectionUIError("Could not create an instance of type '" + type.getName() + "': " + t.toString(), t);
+			throw new ReflectionUIError(
+					"Could not create an instance of type '" + type.getName() + "': " + t.toString(), t);
 
 		}
 
@@ -1050,7 +1051,7 @@ public class SwingRenderer {
 			throw new ReflectionUIError();
 		}
 		final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(reflectionUI, choices.toArray(),
-				"SelectionDialogArrayAsEnumeration[title=" + title + "]", "") {
+				"SelectionDialogArrayAsEnumeration [title=" + title + "]", "") {
 
 			Map<Object, String> captions = new HashMap<Object, String>();
 			Map<Object, Image> iconImages = new HashMap<Object, Image>();

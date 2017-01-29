@@ -162,8 +162,8 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public String getName() {
-			return "Encapsulation[typeCaption=" + typeCaption + ", fieldType=" + fieldType.getName() + ", fieldCaption="
-					+ fieldCaption + "]";
+			return "Encapsulation [typeCaption=" + typeCaption + ", fieldType=" + fieldType.getName()
+					+ ", fieldCaption=" + fieldCaption + "]";
 		}
 
 		@Override
@@ -273,7 +273,7 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public String toString() {
-			return "TypeInfo of " + getOuterType();
+			return "TypeInfo [of=" + getOuterType() + "]";
 		}
 
 	}

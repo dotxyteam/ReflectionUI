@@ -115,7 +115,8 @@ public class ArrayAsEnumerationFactory {
 
 	@Override
 	public String toString() {
-		return "ArrayAsEnumerationFactory [typeCaption=" + typeCaption + "]";
+		return "ArrayAsEnumerationFactory [enumerationTypeName=" + enumerationTypeName + ", typeCaption=" + typeCaption
+				+ "]";
 	}
 
 	protected class Instance {
@@ -315,7 +316,7 @@ public class ArrayAsEnumerationFactory {
 
 		@Override
 		public String toString() {
-			return "TypeInfo of " + getOuterType();
+			return "TypeInfo [of=" + getOuterType() + "]";
 		}
 
 	}

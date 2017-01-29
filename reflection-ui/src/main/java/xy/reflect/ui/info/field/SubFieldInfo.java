@@ -37,15 +37,13 @@ public class SubFieldInfo implements IFieldInfo {
 
 	@Override
 	public String getName() {
-		return theField.getName() + "." + theSubField.getName();
+		return "SubFieldInfo [theField=" + theField.getName() + ", theSubField=" + theSubField.getName() + "]";
 	}
 
 	@Override
 	public String getCaption() {
 		return theField.getCaption() + " " + theSubField.getCaption();
 	}
-
-	
 
 	@Override
 	public String toString() {
@@ -114,7 +112,7 @@ public class SubFieldInfo implements IFieldInfo {
 
 	@Override
 	public ValueReturnMode getValueReturnMode() {
-		return ValueReturnMode.combine(theField.getValueReturnMode(), theSubField.getValueReturnMode());		
+		return ValueReturnMode.combine(theField.getValueReturnMode(), theSubField.getValueReturnMode());
 	}
 
 	@Override

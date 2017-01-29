@@ -10,7 +10,7 @@ public class AbstractTest {
 
 	public static void setupTestEnvironment() {
 		checkSystemProperty(SystemProperties.DEFAULT_INFO_CUSTOMIZATIONS_ACTIVE, "true");
-		checkSystemProperty(SystemProperties.DEFAULT_INFO_CUSTOMIZATIONS_EDITABLE, "false");
+		checkSystemProperty(SystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS, "true");
 	}
 
 	protected static void checkSystemProperty(String key, String expectedValue) {

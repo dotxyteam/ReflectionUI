@@ -199,7 +199,7 @@ public class MethodSetupObjectFactory {
 
 		@Override
 		public String getName() {
-			return "MethodSetupObject[method=" + ReflectionUIUtils.getMethodInfoSignature(method) + ", containingType="
+			return "MethodSetupObject [method=" + ReflectionUIUtils.getMethodInfoSignature(method) + ", containingType="
 					+ ((getContainingType() == null) ? null : getContainingType().getName()) + "]";
 		}
 
@@ -290,7 +290,7 @@ public class MethodSetupObjectFactory {
 
 		@Override
 		public String toString() {
-			return "TypeInfo of " + getOuterType();
+			return "TypeInfo [of=" + getOuterType() + "]";
 		}
 
 	}

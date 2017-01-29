@@ -1,11 +1,4 @@
-- separate customizations from reflection UI
-	. remove swingRenderer.getReflectionUI()
-	. add swingRenderer.getTypeInfoSource()
-	. add swingRenderer.getTypeInfo()
-	. to customize just override swingRenderer.getTypeInfo()
-	or
-	. add interface IReflectionUI
-	...
+- set validating method on TestUI types
 - remove FilteredTypeFactory as it add customizations twice
 	. replace it with a good infoCollectionSettings
 	. ObjectDialog encapsulation must include InfoCollectionSettings

@@ -503,7 +503,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
-        <typeName>Encapsulation[typeCaption=, fieldType=Field Customization, fieldCaption=Value]</typeName>
+        <typeName>Encapsulation [typeCaption=, fieldType=Field Customization, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -513,7 +513,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
-        <typeName>Encapsulation[typeCaption=, fieldType=Method Customization, fieldCaption=Value]</typeName>
+        <typeName>Encapsulation [typeCaption=, fieldType=Method Customization, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -523,7 +523,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
-        <typeName>Encapsulation[typeCaption=, fieldType=Type Customization, fieldCaption=Value]</typeName>
+        <typeName>Encapsulation [typeCaption=, fieldType=Type Customization, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -539,7 +539,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
-        <typeName>Encapsulation[typeCaption=, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$EnumerationItemCustomization, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$EnumerationItemCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -549,7 +549,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
-        <typeName>Encapsulation[typeCaption=Allow to Classify Fields and Methods - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Allow to Classify Fields and Methods - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -559,7 +559,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
-        <typeName>Encapsulation[typeCaption=Customize Columns Display - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Customize Columns Display - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -569,7 +569,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
-        <typeName>Encapsulation[typeCaption=Customize Fields Display - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Customize Fields Display - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -579,25 +579,11 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
-        <typeName>Encapsulation[typeCaption=Customize Methods Display - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Customize Methods Display - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
-        <typeName>Encapsulation[typeCaption=IList Item Details Access Mode - Polymorphic Type, fieldType=xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode.SubTypesEnumeration, fieldCaption=]</typeName>
-        <undoManagementHidden>false</undoManagementHidden>
-    </typeCustomizations>
-    <typeCustomizations>
-        <fieldsCustomizations>
-            <hidden>false</hidden>
-            <fieldName>value</fieldName>
-            <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>true</nullableFacetHidden>
-        </fieldsCustomizations>
-        <typeName>Encapsulation[typeCaption=Parameters Customizations - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization, fieldCaption=]</typeName>
-        <undoManagementHidden>false</undoManagementHidden>
-    </typeCustomizations>
-    <typeCustomizations>
-        <typeName>Encapsulation[typeCaption=Selection, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$ITypeInfoFinder.SubTypesEnumeration, fieldCaption=Choose a type:]</typeName>
+        <typeName>Encapsulation [typeCaption=IList Item Details Access Mode - Polymorphic Type, fieldType=xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode.SubTypesEnumeration, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -607,7 +593,11 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
-        <typeName>Encapsulation[typeCaption=Specify Implementations of Abstract Types - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$CustomTypeInfoFinder, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Parameters Customizations - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>Encapsulation [typeCaption=Selection, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$ITypeInfoFinder.SubTypesEnumeration, fieldCaption=Choose a type:]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -617,7 +607,17 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
-        <typeName>Encapsulation[typeCaption=Specify Implementations of Abstract Types - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$JavaClassBasedTypeInfoFinder, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Specify Implementations of Abstract Types - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$CustomTypeInfoFinder, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=Specify Implementations of Abstract Types - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$JavaClassBasedTypeInfoFinder, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>

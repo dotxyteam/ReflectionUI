@@ -141,7 +141,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
-        <typeName>Encapsulation[typeCaption=Products - Item, fieldType=xy.reflect.ui.TableTreeModelExample$Book, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Products - Item, fieldType=xy.reflect.ui.TableTreeModelExample$Book, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -151,7 +151,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
-        <typeName>Encapsulation[typeCaption=Products - Item, fieldType=xy.reflect.ui.TableTreeModelExample$CompactDisc, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Products - Item, fieldType=xy.reflect.ui.TableTreeModelExample$CompactDisc, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -161,7 +161,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
-        <typeName>Encapsulation[typeCaption=Products - Item, fieldType=xy.reflect.ui.TableTreeModelExample$Loaning, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Products - Item, fieldType=xy.reflect.ui.TableTreeModelExample$Loaning, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -171,7 +171,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
-        <typeName>Encapsulation[typeCaption=Products - Item, fieldType=xy.reflect.ui.TableTreeModelExample$Package, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Products - Item, fieldType=xy.reflect.ui.TableTreeModelExample$Package, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -181,7 +181,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
-        <typeName>Encapsulation[typeCaption=Products - Item, fieldType=xy.reflect.ui.TableTreeModelExample$Shoes, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Products - Item, fieldType=xy.reflect.ui.TableTreeModelExample$Shoes, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -191,11 +191,11 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
-        <typeName>Encapsulation[typeCaption=Products By Duration - Item, fieldType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt;, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Products By Duration - Item, fieldType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt;, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
-        <typeName>Encapsulation[typeCaption=Selection, fieldType=xy.reflect.ui.TableTreeModelExample$Product.SubTypesEnumeration, fieldCaption=Choose a type:]</typeName>
+        <typeName>Encapsulation [typeCaption=Selection, fieldType=xy.reflect.ui.TableTreeModelExample$Product.SubTypesEnumeration, fieldCaption=Choose a type:]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>

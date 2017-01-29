@@ -302,7 +302,7 @@ public class ImplicitListField implements IFieldInfo {
 
 		@Override
 		public String getName() {
-			return ImplicitListField.class.getName() + "Type";
+			return "ImplicitListType [fieldName=" + fieldName + ", parentType=" + parentType.getName() + "]";
 		}
 
 		@Override
@@ -471,7 +471,7 @@ public class ImplicitListField implements IFieldInfo {
 
 		@Override
 		public String toString() {
-			return "TypeInfo [getOuterType()=" + getOuterType() + "]";
+			return "TypeInfo [of=" + getOuterType() + "]";
 		}
 
 	}

@@ -29,9 +29,6 @@ public class SystemProperties {
 	@Usage("If the value of this property is \"true\" then the default customizations are active.")
 	public static final String DEFAULT_INFO_CUSTOMIZATIONS_ACTIVE = PREFIX + ".defaultCustomizationsActive";
 
-	@Usage("If the value of this property is \"true\" then the default customizations are editable.")
-	public static final String DEFAULT_INFO_CUSTOMIZATIONS_EDITABLE = PREFIX + ".defaultCustomizationsEditable";
-
 	@Usage("If the value of this property is set then the default customizations are loaded from and saved to the specified file instead of the default one.")
 	public static final String DEFAULT_INFO_CUSTOMIZATIONS_FILE_PATH = PREFIX + ".defaultCustomizationsFilePath";
 
@@ -70,10 +67,6 @@ public class SystemProperties {
 
 	public static String getDefaultInfoCustomizationsFilePath() {
 		return System.getProperty(SystemProperties.DEFAULT_INFO_CUSTOMIZATIONS_FILE_PATH, "default.icu");
-	}
-
-	public static boolean areDefaultInfoCustomizationsEditable() {
-		return System.getProperty(SystemProperties.DEFAULT_INFO_CUSTOMIZATIONS_EDITABLE, "true").equals("true");
 	}
 
 }

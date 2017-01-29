@@ -40,11 +40,11 @@ public class Example {
 		/*
 		 * When you are done customizing the UI the customizations editor must
 		 * be hidden by setting the following JVM property:
-		 * "-Dxy.reflect.ui.defaultCustomizationsEditable=false". You can also
+		 * "-Dxy.reflect.ui.infoCustomizationsToolsHidden=true". You can also
 		 * do it programmatically before any reference to the
 		 * SwingRenderer.DEFAULT:
 		 */
-		System.setProperty(SystemProperties.DEFAULT_INFO_CUSTOMIZATIONS_EDITABLE, "false");
+		System.setProperty(SystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS, "true");
 
 		/*
 		 * The SwingRenderer.DEFAULT assumes that the Java coding standards are
