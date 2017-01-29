@@ -5,7 +5,7 @@ import java.util.Map;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.ITypeInfo;
 
-public class ControlDataProxy implements IControlData{
+public class ControlDataProxy implements IControlData {
 
 	protected IControlData base;
 
@@ -20,6 +20,10 @@ public class ControlDataProxy implements IControlData{
 
 	public void setValue(Object value) {
 		base.setValue(value);
+	}
+
+	public String getCaption() {
+		return base.getCaption();
 	}
 
 	public Runnable getCustomUndoUpadteJob(Object value) {
@@ -76,6 +80,5 @@ public class ControlDataProxy implements IControlData{
 	public String toString() {
 		return base.toString();
 	}
-	
-	
+
 }

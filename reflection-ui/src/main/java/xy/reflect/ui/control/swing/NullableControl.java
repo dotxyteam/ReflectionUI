@@ -158,9 +158,9 @@ public abstract class NullableControl extends JPanel implements IAdvancedFieldCo
 	}
 
 	@Override
-	public boolean showCaption(String caption) {
+	public boolean showCaption() {
 		if (subControl instanceof IAdvancedFieldControl) {
-			return ((IAdvancedFieldControl) subControl).showCaption(caption);
+			return ((IAdvancedFieldControl) subControl).showCaption();
 		} else {
 			return false;
 		}

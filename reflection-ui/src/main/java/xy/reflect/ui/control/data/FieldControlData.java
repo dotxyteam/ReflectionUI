@@ -27,6 +27,11 @@ public class FieldControlData implements IControlData {
 	}
 
 	@Override
+	public String getCaption() {
+		return field.getCaption();
+	}
+
+	@Override
 	public Runnable getCustomUndoUpadteJob(Object value) {
 		return field.getCustomUndoUpdateJob(object, value);
 	}

@@ -121,7 +121,6 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	protected List<Runnable> selectionListeners = new ArrayList<Runnable>();
 	protected boolean selectionListenersEnabled = true;
-	protected String caption;
 	protected IFieldInfo modifiedField;
 	protected FieldControlPlaceHolder fieldControlPlaceHolder;
 
@@ -155,7 +154,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	public String getCaption() {
-		return caption;
+		return listData.getCaption();
 	}
 
 	protected void updateToolbarOnSelection() {
@@ -508,9 +507,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public boolean showCaption(String caption) {
-		setBorder(BorderFactory.createTitledBorder(caption));
-		this.caption = caption;
+	public boolean showCaption() {
+		setBorder(BorderFactory.createTitledBorder(listData.getCaption()));
 		return true;
 	}
 

@@ -34,14 +34,20 @@ public class ObjectDialogBuilder {
 	protected Object value;
 	protected JPanel objectForm;
 	protected boolean cancellable = false;
+	protected String customCancelCaption;
+	protected String customOKCaption;
 
 	public ObjectDialogBuilder(SwingRenderer swingRenderer, Component ownerComponent, Object value) {
 		this.swingRenderer = swingRenderer;
 		this.initialValue = this.value = value;
-		delegate = new DialogBuilder(swingRenderer, ownerComponent);
+		delegate = createDelegateDialogBuilder(ownerComponent);
 
 		setTitle(swingRenderer.getObjectTitle(value));
 		setIconImage(swingRenderer.getObjectIconImage(value));
+	}
+
+	protected DialogBuilder createDelegateDialogBuilder(Component ownerComponent) {
+		return new DialogBuilder(swingRenderer, ownerComponent);
 	}
 
 	public Object getValue() {
@@ -105,6 +111,22 @@ public class ObjectDialogBuilder {
 
 	public void setInfoFilter(IInfoFilter infoFilter) {
 		this.infoFilter = infoFilter;
+	}
+
+	public String getCustomCancelCaption() {
+		return customCancelCaption;
+	}
+
+	public void setCustomCancelCaption(String customCancelCaption) {
+		this.customCancelCaption = customCancelCaption;
+	}
+
+	public String getCustomOKCaption() {
+		return customOKCaption;
+	}
+
+	public void setCustomOKCaption(String customOKCaption) {
+		this.customOKCaption = customOKCaption;
 	}
 
 	public List<Component> getAdditionalToolbarComponents() {
@@ -177,7 +199,8 @@ public class ObjectDialogBuilder {
 			toolbarControls.addAll(additionalToolbarComponents);
 		}
 		if (cancellable) {
-			List<JButton> okCancelButtons = delegate.createStandardOKCancelDialogButtons();
+			List<JButton> okCancelButtons = delegate.createStandardOKCancelDialogButtons(customOKCaption,
+					customCancelCaption);
 			toolbarControls.addAll(okCancelButtons);
 		} else {
 			toolbarControls.add(delegate.createDialogClosingButton("Close", null));

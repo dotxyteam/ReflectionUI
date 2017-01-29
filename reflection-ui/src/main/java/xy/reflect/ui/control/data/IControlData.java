@@ -21,6 +21,8 @@ public interface IControlData {
 
 	void setValue(Object value);
 
+	String getCaption();
+	
 	Runnable getCustomUndoUpadteJob(Object value);
 
 	ITypeInfo getType();

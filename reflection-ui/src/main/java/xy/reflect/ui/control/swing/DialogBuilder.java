@@ -104,20 +104,21 @@ public class DialogBuilder {
 		return result;
 	}
 
-	public List<JButton> createStandardOKCancelDialogButtons() {
+	public List<JButton> createStandardOKCancelDialogButtons(String customOKCaption, String customCancelCaption) {
 		List<JButton> result = new ArrayList<JButton>();
-		result.add(createDialogClosingButton("OK", new Runnable() {
+		result.add(createDialogClosingButton((customOKCaption == null) ? "OK" : customOKCaption, new Runnable() {
 			@Override
 			public void run() {
 				okPressed = true;
 			}
 		}));
-		result.add(createDialogClosingButton("Cancel", new Runnable() {
-			@Override
-			public void run() {
-				okPressed = false;
-			}
-		}));
+		result.add(createDialogClosingButton((customCancelCaption == null) ? "Cancel" : customCancelCaption,
+				new Runnable() {
+					@Override
+					public void run() {
+						okPressed = false;
+					}
+				}));
 		return result;
 	}
 

@@ -171,7 +171,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public boolean showCaption(String caption) {
+	public boolean showCaption() {
 		return false;
 	}
 

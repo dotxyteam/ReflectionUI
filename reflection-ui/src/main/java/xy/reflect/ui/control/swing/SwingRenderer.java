@@ -963,7 +963,7 @@ public class SwingRenderer {
 	}
 
 	public void openErrorDialog(Component activatorComponent, String title, final Throwable error) {
-		DialogBuilder dialogBuilder = new DialogBuilder(this, activatorComponent);
+		DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI,
 				new TextualTypeInfo(reflectionUI, String.class));
 		encapsulation.setTypeCaption("Error");
@@ -1006,12 +1006,23 @@ public class SwingRenderer {
 
 	public ObjectDialogBuilder openObjectDialog(Component activatorComponent, Object object, final String title,
 			Image iconImage, boolean cancellable, boolean modal) {
-		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(this, activatorComponent, object);
+		ObjectDialogBuilder dialogBuilder = createObjectDialogBuilder(activatorComponent, object);
 		dialogBuilder.setTitle(title);
 		dialogBuilder.setIconImage(iconImage);
 		dialogBuilder.setCancellable(cancellable);
 		showDialog(dialogBuilder.build(), modal);
 		return dialogBuilder;
+	}
+
+	public ObjectDialogBuilder createObjectDialogBuilder(Component activatorComponent, Object object) {
+		return new ObjectDialogBuilder(this, activatorComponent, object) {
+
+			@Override
+			protected DialogBuilder createDelegateDialogBuilder(Component ownerComponent) {
+				return createDialogBuilder(ownerComponent);
+			}
+
+		};
 	}
 
 	public void openObjectFrame(Object object, String title, Image iconImage) {
@@ -1144,13 +1155,17 @@ public class SwingRenderer {
 
 	public boolean openQuestionDialog(Component activatorComponent, String question, String title, String yesCaption,
 			String noCaption) {
-		DialogBuilder dialogBuilder = new DialogBuilder(this, activatorComponent);
-		dialogBuilder.setToolbarComponents(dialogBuilder.createStandardOKCancelDialogButtons());
+		DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
+		dialogBuilder.setToolbarComponents(dialogBuilder.createStandardOKCancelDialogButtons(yesCaption, noCaption));
 		dialogBuilder
 				.setContentComponent(new JLabel("<HTML><BR>" + question + "<BR><BR><HTML>", SwingConstants.CENTER));
 		dialogBuilder.setTitle(title);
 		showDialog(dialogBuilder.build(), true);
 		return dialogBuilder.isOkPressed();
+	}
+
+	public DialogBuilder createDialogBuilder(Component activatorComponent) {
+		return new DialogBuilder(this, activatorComponent);
 	}
 
 	public String getDefaultFieldCaption(Object fieldValue) {
@@ -1257,7 +1272,7 @@ public class SwingRenderer {
 			throw new ReflectionUIError(e);
 		}
 		if (runner.isAlive()) {
-			final DialogBuilder dialogBuilder = new DialogBuilder(SwingRenderer.this, activatorComponent);
+			final DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
 			final Thread closer = new Thread("BusyDialogCloser: " + title) {
 				@Override
 				public void run() {
@@ -1328,7 +1343,7 @@ public class SwingRenderer {
 	}
 
 	public void openMessageDialog(Component activatorComponent, String msg, String title, Image iconImage) {
-		DialogBuilder dialogBuilder = new DialogBuilder(this, activatorComponent);
+		DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
 		JButton okButton = dialogBuilder.createDialogClosingButton("Close", null);
 		dialogBuilder.setToolbarComponents(Collections.singletonList(okButton));
 		dialogBuilder.setContentComponent(
@@ -1636,7 +1651,7 @@ public class SwingRenderer {
 
 		public boolean showCaption() {
 			if (((fieldControl instanceof IAdvancedFieldControl)
-					&& ((IAdvancedFieldControl) fieldControl).showCaption(field.getCaption()))) {
+					&& ((IAdvancedFieldControl) fieldControl).showCaption())) {
 				return true;
 			} else {
 				return false;

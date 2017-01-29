@@ -150,8 +150,8 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	@Override
-	public boolean showCaption(String caption) {
-		setBorder(BorderFactory.createTitledBorder(caption));
+	public boolean showCaption() {
+		setBorder(BorderFactory.createTitledBorder(data.getCaption()));
 		return true;
 	}
 

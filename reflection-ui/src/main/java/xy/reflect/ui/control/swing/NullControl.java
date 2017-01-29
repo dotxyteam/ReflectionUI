@@ -48,7 +48,7 @@ public class NullControl extends TextControl {
 	}
 
 	@Override
-	public boolean showCaption(String caption) {
+	public boolean showCaption() {
 		return false;
 	}
 

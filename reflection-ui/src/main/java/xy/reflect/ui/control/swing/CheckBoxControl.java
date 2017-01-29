@@ -50,8 +50,8 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 	}
 
 	@Override
-	public boolean showCaption(String caption) {
-		setText(swingRenderer.prepareStringToDisplay(caption));
+	public boolean showCaption() {
+		setText(swingRenderer.prepareStringToDisplay(data.getCaption()));
 		return true;
 	}
 

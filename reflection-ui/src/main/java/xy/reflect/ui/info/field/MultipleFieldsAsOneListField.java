@@ -85,15 +85,15 @@ public class MultipleFieldsAsOneListField implements IFieldInfo {
 	public Object getValue(Object object) {
 		List<ListItem> result = new ArrayList<ListItem>();
 		for (IFieldInfo listFieldInfo : fields) {
-			result.add(getListItem(object, listFieldInfo));
+			ListItem listItem = createListItem(object, listFieldInfo);
+			reflectionUI.registerPrecomputedTypeInfoObject(listItem, getListItemTypeInfo(listItem));
+			result.add(listItem);
 		}
 		return result;
 	}
 
-	protected ListItem getListItem(Object object, IFieldInfo listFieldInfo) {
-		ListItem result = new ListItem(object, listFieldInfo);
-		reflectionUI.registerPrecomputedTypeInfoObject(result, getListItemTypeInfo(result));
-		return result;
+	protected ListItem createListItem(Object object, IFieldInfo listFieldInfo) {
+		return new ListItem(object, listFieldInfo);
 	}
 
 	protected ITypeInfo getListItemTypeInfo(ListItem listItem) {

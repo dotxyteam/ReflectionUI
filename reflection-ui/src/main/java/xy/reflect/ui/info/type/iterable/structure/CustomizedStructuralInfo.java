@@ -79,6 +79,18 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 		return new MultipleFieldsAsOneListField(reflectionUI, subListFields) {
 
 			@Override
+			protected ListItem createListItem(Object object, IFieldInfo listFieldInfo) {
+				return new ListItem(object, listFieldInfo){
+
+					@Override
+					public String getTitle() {
+						return "(" + super.getTitle() + ")";
+					}
+					
+				};
+			}
+
+			@Override
 			protected ITypeInfo getListItemTypeInfo(final ListItem listItem) {
 				return new TypeInfoProxyFactory() {
 

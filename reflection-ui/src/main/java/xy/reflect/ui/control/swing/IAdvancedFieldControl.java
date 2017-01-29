@@ -7,7 +7,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 public interface IAdvancedFieldControl {
 	boolean displayError(ReflectionUIError error);
 
-	boolean showCaption(String caption);
+	boolean showCaption();
 
 	boolean refreshUI();
 

@@ -93,7 +93,7 @@ public class FileControl extends DialogAccessControl implements IAdvancedFieldCo
 	}
 
 	@Override
-	public boolean showCaption(String caption) {
+	public boolean showCaption() {
 		return false;
 	}
 

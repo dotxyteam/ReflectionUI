@@ -36,6 +36,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
@@ -824,7 +825,17 @@ public class SwingCustomizer extends SwingRenderer {
 				String methodSignature) {
 			MethodCustomization mc = infoCustomizations.getMethodCustomization(customizedType.getName(),
 					methodSignature, true);
+			updateParameterCustomizationList(mc, customizedType);
 			openCustomizationDialog(activatorComponent, mc, customizedType.getName());
+		}
+
+		protected void updateParameterCustomizationList(MethodCustomization mc, ITypeInfo customizedType) {
+			IMethodInfo customizedMethod = ReflectionUIUtils.findMethodBySignature(customizedType.getMethods(),
+					mc.getMethodSignature());
+			for (IParameterInfo param : customizedMethod.getParameters()) {
+				infoCustomizations.getParameterCustomization(customizedType.getName(), mc.getMethodSignature(),
+						param.getName(), true);
+			}
 		}
 
 		protected Component createMethodInfoCustomizer(final MethodControlPlaceHolder methodControlPlaceHolder) {
