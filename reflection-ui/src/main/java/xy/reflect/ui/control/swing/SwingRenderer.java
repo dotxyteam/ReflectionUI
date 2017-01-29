@@ -608,8 +608,9 @@ public class SwingRenderer {
 				});
 
 			}
-			content = new JScrollPane(new ScrollPaneOptions(content, true, false));
-			contentPane.add(content, BorderLayout.CENTER);
+			JScrollPane scrollPane = new JScrollPane(new ScrollPaneOptions(content, true, false));
+			scrollPane.getViewport().setOpaque(false);
+			contentPane.add(scrollPane, BorderLayout.CENTER);
 		}
 		if (toolbarControls != null) {
 			if (toolbarControls.size() > 0) {
