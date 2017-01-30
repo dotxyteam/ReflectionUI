@@ -1,3 +1,4 @@
+- valiation: specify category in error message
 - set validating method on TestUI types
 - remove FilteredTypeFactory as it add customizations twice
 	. replace it with a good infoCollectionSettings
