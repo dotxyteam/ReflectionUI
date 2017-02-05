@@ -250,7 +250,7 @@ public class SwingRenderer {
 				fieldsPanel.add(fieldControlPlaceHolder, layoutConstraints);
 				updateFieldControlLayout(fieldControlPlaceHolder);
 			}
-			IFieldInfo field = fieldControlPlaceHolder.getFormAwareField();
+			IFieldInfo field = fieldControlPlaceHolder.getField();
 			if ((field.getOnlineHelp() != null) && (field.getOnlineHelp().trim().length() > 0)) {
 				GridBagConstraints layoutConstraints = new GridBagConstraints();
 				layoutConstraints.insets = new Insets(spacing, spacing, spacing, spacing);
@@ -788,27 +788,44 @@ public class SwingRenderer {
 		return ReflectionUIUtils.getKeysFromValue(getObjectByForm(), object);
 	}
 
-	public IFieldInfo getFormAwareField(JPanel form, String fieldName) {
+	public IFieldInfo getFormAwareField(final JPanel form, String fieldName) {
 		List<FieldControlPlaceHolder> fieldControlPlaceHolders = getFieldControlPlaceHoldersByName(form, fieldName);
 		if (fieldControlPlaceHolders.size() == 0) {
 			return null;
 		}
-		return fieldControlPlaceHolders.get(0).getFormAwareField();
+		IFieldInfo result = fieldControlPlaceHolders.get(0).getField();
+		result = new FieldInfoProxy(result) {
+			@Override
+			public void setValue(Object object, Object value) {
+				ModificationStack modifStack = getModificationStackByForm().get(form);
+				SwingRendererUtils.setValueThroughModificationStack(object, base, value, modifStack);
+			}
+		};
+		return result;
 	}
 
-	public IMethodInfo getFormAwareMethod(JPanel form, String methodSignature) {
+	public IMethodInfo getFormAwareMethod(final JPanel form, String methodSignature) {
 		List<MethodControlPlaceHolder> methodControlPlaceHolders = getMethodControlPlaceHoldersBySignature(form,
 				methodSignature);
 		if (methodControlPlaceHolders.size() == 0) {
 			return null;
 		}
-		return methodControlPlaceHolders.get(0).getFormAwareMethod();
+		IMethodInfo result = methodControlPlaceHolders.get(0).getMethod();
+		result = new MethodInfoProxy(result) {
+			@Override
+			public Object invoke(Object object, InvocationData invocationData) {
+				ModificationStack modifStack = getModificationStackByForm().get(form);
+				return SwingRendererUtils.invokeMethodThroughModificationStack(object, base, invocationData,
+						modifStack);
+			}
+		};
+		return result;
 	}
 
 	public List<FieldControlPlaceHolder> getFieldControlPlaceHoldersByName(JPanel form, String fieldName) {
 		List<FieldControlPlaceHolder> result = new ArrayList<FieldControlPlaceHolder>();
 		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
-			if (fieldName.equals(fieldControlPlaceHolder.getFormAwareField().getName())) {
+			if (fieldName.equals(fieldControlPlaceHolder.getField().getName())) {
 				result.add(fieldControlPlaceHolder);
 			}
 		}
@@ -818,7 +835,7 @@ public class SwingRenderer {
 	public List<MethodControlPlaceHolder> getMethodControlPlaceHoldersBySignature(JPanel form, String methodSignature) {
 		List<MethodControlPlaceHolder> result = new ArrayList<MethodControlPlaceHolder>();
 		for (MethodControlPlaceHolder methodControlPlaceHolder : getMethodControlPlaceHolders(form)) {
-			if (ReflectionUIUtils.getMethodInfoSignature(methodControlPlaceHolder.getFormAwareMethod())
+			if (ReflectionUIUtils.getMethodInfoSignature(methodControlPlaceHolder.getMethod())
 					.equals(methodSignature)) {
 				result.add(methodControlPlaceHolder);
 			}
@@ -1176,7 +1193,7 @@ public class SwingRenderer {
 	public List<IFieldInfo> getDisplayedFields(JPanel form) {
 		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
 		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
-			result.add(fieldControlPlaceHolder.getFormAwareField());
+			result.add(fieldControlPlaceHolder.getField());
 		}
 		return result;
 	}
@@ -1184,7 +1201,7 @@ public class SwingRenderer {
 	public List<IMethodInfo> getDisplayedMethods(JPanel form) {
 		List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 		for (MethodControlPlaceHolder methodControlPlaceHolder : getMethodControlPlaceHolders(form)) {
-			result.add(methodControlPlaceHolder.getFormAwareMethod());
+			result.add(methodControlPlaceHolder.getMethod());
 		}
 		return result;
 	}
@@ -1247,7 +1264,7 @@ public class SwingRenderer {
 
 	public void refreshFieldControlsByName(JPanel form, String fieldName, boolean recreate) {
 		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
-			if (fieldName.equals(fieldControlPlaceHolder.getFormAwareField().getName())) {
+			if (fieldName.equals(fieldControlPlaceHolder.getField().getName())) {
 				fieldControlPlaceHolder.refreshUI(recreate);
 				updateFieldControlLayout(fieldControlPlaceHolder);
 			}
@@ -1357,7 +1374,7 @@ public class SwingRenderer {
 
 	public void updateFieldControlLayout(FieldControlPlaceHolder fieldControlPlaceHolder) {
 		Component fieldControl = fieldControlPlaceHolder.getFieldControl();
-		IFieldInfo field = fieldControlPlaceHolder.getFormAwareField();
+		IFieldInfo field = fieldControlPlaceHolder.getField();
 		Container container = fieldControlPlaceHolder.getParent();
 
 		GridBagLayout layout = (GridBagLayout) container.getLayout();
@@ -1427,11 +1444,17 @@ public class SwingRenderer {
 		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
 			Component fieldControl = fieldControlPlaceHolder.getFieldControl();
 			if (fieldControl instanceof IAdvancedFieldControl) {
-				IFieldInfo field = fieldControlPlaceHolder.getFormAwareField();
+				IFieldInfo field = fieldControlPlaceHolder.getField();
 				try {
 					((IAdvancedFieldControl) fieldControl).validateSubForm();
 				} catch (Exception e) {
-					throw new ReflectionUIError(ReflectionUIUtils.composeTitle(field.getCaption(), e.toString()), e);
+					String errorMsg = e.toString();
+					errorMsg = ReflectionUIUtils.composeMessage(field.getCaption(), errorMsg);
+					InfoCategory fieldCategory = field.getCategory();
+					if (fieldCategory != null) {
+						errorMsg = ReflectionUIUtils.composeMessage(fieldCategory.getCaption(), errorMsg);
+					}
+					throw new ReflectionUIError(errorMsg, e);
 				}
 			}
 		}
@@ -1468,18 +1491,20 @@ public class SwingRenderer {
 
 		protected static final long serialVersionUID = 1L;
 		protected Object object;
-		protected IFieldInfo field;
 		protected Component fieldControl;
 		protected Object lastFieldValue;
 		protected Runnable lastFieldValueUpdate;
+		protected IFieldInfo field;
+		protected IFieldInfo controlAwareField;
 
 		public FieldControlPlaceHolder(Object object, IFieldInfo field) {
 			super();
 			this.object = object;
-			field = makeFieldModificationsUndoable(field);
-			field = indicateWhenBusy(field);
-			field = handleValueAccessIssues(field);
 			this.field = field;
+			this.controlAwareField = field;
+			this.controlAwareField = makeFieldModificationsUndoable(this.controlAwareField);
+			this.controlAwareField = indicateWhenBusy(this.controlAwareField);
+			this.controlAwareField = handleValueAccessIssues(this.controlAwareField);
 			setLayout(new BorderLayout());
 			refreshUI(false);
 		}
@@ -1497,16 +1522,9 @@ public class SwingRenderer {
 							return;
 						}
 					}
-					JPanel form = SwingRendererUtils.findParentForm(FieldControlPlaceHolder.this, SwingRenderer.this);
-					ModificationStack stack = getModificationStackByForm().get(form);
-					ControlDataValueModification modif = new ControlDataValueModification(
-							new FieldControlData(object, field), newValue, field);
-					try {
-						stack.apply(modif);
-					} catch (Throwable t) {
-						stack.invalidate();
-						throw new ReflectionUIError(t);
-					}
+					ModificationStack modifStack = ReflectionUIUtils
+							.findParentFormModificationStack(FieldControlPlaceHolder.this, SwingRenderer.this);
+					SwingRendererUtils.setValueThroughModificationStack(object, field, newValue, modifStack);
 				}
 			};
 		}
@@ -1606,8 +1624,12 @@ public class SwingRenderer {
 			return fieldControl;
 		}
 
-		public IFieldInfo getFormAwareField() {
+		public IFieldInfo getField() {
 			return field;
+		}
+
+		public IFieldInfo getControlAwareField() {
+			return controlAwareField;
 		}
 
 		public void refreshUI(boolean recreate) {
@@ -1619,7 +1641,7 @@ public class SwingRenderer {
 				}
 			}
 			if (fieldControl == null) {
-				IControlData fieldControlData = getFieldControlData(object, field);
+				IControlData fieldControlData = getFieldControlData(object, controlAwareField);
 				fieldControl = createFieldControl(fieldControlData);
 				if (fieldControl instanceof IAdvancedFieldControl) {
 					((IAdvancedFieldControl) fieldControl).setPalceHolder(FieldControlPlaceHolder.this);
@@ -1672,15 +1694,17 @@ public class SwingRenderer {
 
 		protected static final long serialVersionUID = 1L;
 		protected Object object;
-		protected IMethodInfo method;
+		protected IMethodInfo controlAwareMethod;
 		protected Component methodControl;
+		protected IMethodInfo method;
 
 		public MethodControlPlaceHolder(Object object, IMethodInfo method) {
 			super();
 			this.object = object;
-			method = makeMethodModificationsUndoable(method);
-			method = indicateWhenBusy(method);
 			this.method = method;
+			this.controlAwareMethod = method;
+			this.controlAwareMethod = makeMethodModificationsUndoable(this.controlAwareMethod);
+			this.controlAwareMethod = indicateWhenBusy(this.controlAwareMethod);
 			setLayout(new BorderLayout());
 			refreshUI(false);
 		}
@@ -1692,7 +1716,8 @@ public class SwingRenderer {
 				public Object invoke(Object object, InvocationData invocationData) {
 					JPanel form = SwingRendererUtils.findParentForm(MethodControlPlaceHolder.this, SwingRenderer.this);
 					ModificationStack stack = getModificationStackByForm().get(form);
-					return SwingRendererUtils.invokeMethodAndAllowToUndo(object, method, invocationData, stack);
+					return SwingRendererUtils.invokeMethodThroughModificationStack(object, method, invocationData,
+							stack);
 				}
 
 			};
@@ -1708,7 +1733,7 @@ public class SwingRenderer {
 						public void run() {
 							result[0] = method.invoke(object, invocationData);
 						}
-					}, ReflectionUIUtils.composeTitle(method.getCaption(), "Execution"));
+					}, ReflectionUIUtils.composeMessage(method.getCaption(), "Execution"));
 					return result[0];
 				}
 
@@ -1726,7 +1751,7 @@ public class SwingRenderer {
 									result.run();
 								}
 							}, AbstractModification
-									.getUndoTitle(ReflectionUIUtils.composeTitle(method.getCaption(), "Execution")));
+									.getUndoTitle(ReflectionUIUtils.composeMessage(method.getCaption(), "Execution")));
 						}
 					};
 				}
@@ -1738,8 +1763,12 @@ public class SwingRenderer {
 			return methodControl;
 		}
 
-		public IMethodInfo getFormAwareMethod() {
+		public IMethodInfo getMethod() {
 			return method;
+		}
+
+		public IMethodInfo getControlAwareMethod() {
+			return controlAwareMethod;
 		}
 
 		public void refreshUI(boolean recreate) {
@@ -1750,7 +1779,7 @@ public class SwingRenderer {
 				}
 			}
 			if (methodControl == null) {
-				methodControl = SwingRenderer.this.createMethodControl(object, method);
+				methodControl = SwingRenderer.this.createMethodControl(object, controlAwareMethod);
 				add(methodControl, BorderLayout.CENTER);
 				SwingRendererUtils.handleComponentSizeChange(this);
 			} else {

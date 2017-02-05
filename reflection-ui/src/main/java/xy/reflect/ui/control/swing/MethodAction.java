@@ -163,7 +163,7 @@ public class MethodAction extends AbstractAction {
 		}
 
 		dialogBuilder.setContentComponent(methodForm);
-		dialogBuilder.setTitle(ReflectionUIUtils.composeTitle(method.getCaption(), "Setup"));
+		dialogBuilder.setTitle(ReflectionUIUtils.composeMessage(method.getCaption(), "Setup"));
 		dialogBuilder.setToolbarComponents(toolbarControls);
 
 		swingRenderer.showDialog(dialogBuilder.build(), true);

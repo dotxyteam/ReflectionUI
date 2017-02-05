@@ -1,6 +1,7 @@
 package xy.reflect.ui.util;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -47,6 +48,7 @@ import com.thoughtworks.paranamer.DefaultParanamer;
 import com.thoughtworks.paranamer.Paranamer;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -727,11 +729,11 @@ public class ReflectionUIUtils {
 		});
 	}
 
-	public static String composeTitle(String contextTitle, String localTitle) {
-		if ((contextTitle == null) || (contextTitle.length() == 0)) {
-			return localTitle;
+	public static String composeMessage(String contextMessage, String localMessage) {
+		if ((contextMessage == null) || (contextMessage.length() == 0)) {
+			return localMessage;
 		}
-		return contextTitle + " - " + localTitle;
+		return contextMessage + " - " + localMessage;
 	}
 
 	public static String getPrettyMessage(Throwable t) {
@@ -930,5 +932,13 @@ public class ReflectionUIUtils {
 				return polyTypesItem.getCaption();
 			}
 		};
+	}
+
+	public static ModificationStack findParentFormModificationStack(Component component, SwingRenderer swingRenderer) {
+		JPanel form = SwingRendererUtils.findParentForm(component, swingRenderer);
+		if (form == null) {
+			return null;
+		}
+		return swingRenderer.getModificationStackByForm().get(form);
 	}
 }

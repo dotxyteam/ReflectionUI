@@ -49,7 +49,7 @@ public class MethodControl extends JButton {
 				action.setShouldDisplayReturnValueIfAny(true);
 				action.setRetunValueWindowDetached(method.getValueReturnMode() == ValueReturnMode.COPY);
 				action.setModificationStack(
-						SwingRendererUtils.findParentFormModificationStack(MethodControl.this, swingRenderer));
+						ReflectionUIUtils.findParentFormModificationStack(MethodControl.this, swingRenderer));
 				try {
 					action.actionPerformed(e);
 				} catch (Throwable t) {

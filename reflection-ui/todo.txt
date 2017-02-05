@@ -1,3 +1,5 @@
+- fieldControl.handlesModificationStackUpdate()
+not working with FormAwareFields
 - valiation: specify category in error message
 - set validating method on TestUI types
 - remove FilteredTypeFactory as it add customizations twice

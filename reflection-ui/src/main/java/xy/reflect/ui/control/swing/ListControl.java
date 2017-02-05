@@ -368,14 +368,15 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	protected void setupContexteMenu() {
 		treeTableComponent.addMouseListener(new MouseAdapter() {
+			
+			
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				if (e.getButton() != MouseEvent.BUTTON3) {
 					return;
 				}
-
 				selectOnRighClick(e);
-				if (e.isPopupTrigger() && e.getComponent() == treeTableComponent) {
+				if (e.getComponent() == treeTableComponent) {
 					JPopupMenu popup = createPopupMenu();
 					popup.show(e.getComponent(), e.getX(), e.getY());
 				}
@@ -1454,8 +1455,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				int index = newItemPosition.getIndex();
 				int initialIndex = index;
 				AutoFieldValueUpdatingList list = newItemPosition.getContainingAutoUpdatingFieldList();
-				for (Object clipboardItyem : clipboard) {
-					list.add(index, clipboardItyem);
+				for (Object clipboardItem : clipboard) {
+					list.add(index, clipboardItem);
 					index++;
 				}
 				List<AutoFieldValueUpdatingItemPosition> toPostSelect = new ArrayList<ListControl.AutoFieldValueUpdatingItemPosition>();
@@ -1626,7 +1627,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
 						dynamicProperty.getType());
 				encapsulation.setTypeCaption(
-						ReflectionUIUtils.composeTitle(ListControl.this.getCaption(), "Dynamic Property"));
+						ReflectionUIUtils.composeMessage(ListControl.this.getCaption(), "Dynamic Property"));
 				encapsulation.setFieldCaption(dynamicProperty.getCaption());
 				encapsulation.setFieldGetOnly(dynamicProperty.isGetOnly());
 				encapsulation.setFieldNullable(dynamicProperty.isNullable());
@@ -1682,7 +1683,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected IInfo getModifiedField() {
-		return fieldControlPlaceHolder.getFormAwareField();
+		return fieldControlPlaceHolder.getField();
 	}
 
 	protected AbstractAction createDynamicActionHook(final AbstractListAction dynamicAction) {
@@ -1694,7 +1695,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				IMethodInfo method = new MethodInfoProxy(dynamicAction) {
 					@Override
 					public Object invoke(Object object, InvocationData invocationData) {
-						return SwingRendererUtils.invokeMethodAndAllowToUndo(object, dynamicAction, invocationData,
+						return SwingRendererUtils.invokeMethodThroughModificationStack(object, dynamicAction, invocationData,
 								getParentFormModificationStack());
 					}
 				};
@@ -1843,7 +1844,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		encapsulation.setFieldGetOnly(!UpdateListValueModification.isCompatibleWith(itemPosition));
 		encapsulation.setFieldNullable(true);
 		encapsulation.setFieldCaption("");
-		encapsulation.setTypeCaption(ReflectionUIUtils.composeTitle(itemPosition.getContainingListTitle(), "Item"));
+		encapsulation.setTypeCaption(ReflectionUIUtils.composeMessage(itemPosition.getContainingListTitle(), "Item"));
 		Map<String, Object> properties = new HashMap<String, Object>();
 		{
 			DesktopSpecificProperty.setSubFormExpanded(properties, true);
@@ -1997,7 +1998,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected ModificationStack getParentFormModificationStack() {
-		return SwingRendererUtils.findParentFormModificationStack(fieldControlPlaceHolder, swingRenderer);
+		return ReflectionUIUtils.findParentFormModificationStack(fieldControlPlaceHolder, swingRenderer);
 	}
 
 	protected boolean hasItemDetails(AutoFieldValueUpdatingItemPosition itemPosition) {

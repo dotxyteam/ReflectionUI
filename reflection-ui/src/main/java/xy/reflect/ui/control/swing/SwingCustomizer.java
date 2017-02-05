@@ -569,7 +569,7 @@ public class SwingCustomizer extends SwingRenderer {
 				}
 
 				private String getFieldName() {
-					return fieldControlPlaceHolder.field.getName();
+					return fieldControlPlaceHolder.controlAwareField.getName();
 				}
 
 				private ITypeInfo getFieldControlObjectCustomizedType() {
@@ -581,7 +581,7 @@ public class SwingCustomizer extends SwingRenderer {
 						}
 					}
 					final IControlData fieldControlData = getFieldControlData(fieldControlPlaceHolder.object,
-							fieldControlPlaceHolder.field);
+							fieldControlPlaceHolder.controlAwareField);
 					return fieldControlData.getType();
 				}
 
@@ -849,7 +849,7 @@ public class SwingCustomizer extends SwingRenderer {
 				}
 
 				private String getMethodInfoSignature() {
-					return ReflectionUIUtils.getMethodInfoSignature(methodControlPlaceHolder.method);
+					return ReflectionUIUtils.getMethodInfoSignature(methodControlPlaceHolder.controlAwareMethod);
 				}
 
 				@Override
@@ -921,7 +921,7 @@ public class SwingCustomizer extends SwingRenderer {
 				}
 				JPanel form = entry.getKey();
 				for (FieldControlPlaceHolder placeHolder : getFieldControlPlaceHolders(form)) {
-					IFieldInfo field = placeHolder.getFormAwareField();
+					IFieldInfo field = placeHolder.getField();
 					if (typeName.equals(field.getType().getName())) {
 						refreshFieldControlsByName(form, field.getName(), true);
 					}

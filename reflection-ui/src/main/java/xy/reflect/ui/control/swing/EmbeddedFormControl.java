@@ -136,7 +136,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 			Accessor<ModificationStack> parentModifStackGetter = new Accessor<ModificationStack>() {
 				@Override
 				public ModificationStack get() {
-					return SwingRendererUtils.findParentFormModificationStack(fieldControlPlaceHolder, swingRenderer);
+					return ReflectionUIUtils.findParentFormModificationStack(fieldControlPlaceHolder, swingRenderer);
 				}
 			};
 			SwingRendererUtils.forwardSubModifications(swingRenderer.getReflectionUI(), subForm,
@@ -146,7 +146,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	protected IFieldInfo getModifiedField() {
-		return fieldControlPlaceHolder.getFormAwareField();
+		return fieldControlPlaceHolder.getField();
 	}
 
 	@Override

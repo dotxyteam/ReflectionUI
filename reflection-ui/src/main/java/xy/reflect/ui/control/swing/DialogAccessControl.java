@@ -169,9 +169,9 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 		dialogBuilder.setCancellable(cancellable);
 		swingRenderer.showDialog(dialogBuilder.build(), true);
 
-		IFieldInfo field = fieldControlPlaceHolder.getFormAwareField();
+		IFieldInfo field = fieldControlPlaceHolder.getField();
 
-		ModificationStack parentModifStack = SwingRendererUtils.findParentFormModificationStack(fieldControlPlaceHolder,
+		ModificationStack parentModifStack = ReflectionUIUtils.findParentFormModificationStack(fieldControlPlaceHolder,
 				swingRenderer);
 		ModificationStack childModifStack = dialogBuilder.getModificationStack();
 		String childModifTitle = ControlDataValueModification.getTitle(field);
