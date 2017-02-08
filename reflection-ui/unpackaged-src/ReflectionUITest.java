@@ -117,6 +117,14 @@ public class ReflectionUITest {
 				throw new Exception("The Choice is not made");
 			}
 		}
+		
+		public Object returnNull(){
+			return null;
+		}
+		
+		public Object returnObject(){
+			return new Object();
+		}
 	}
 
 	public static abstract class AbstrcatTestDescendant {

@@ -1,21 +1,10 @@
-- fieldControl.handlesModificationStackUpdate()
-not working with FormAwareFields
-- valiation: specify category in error message
-- set validating method on TestUI types
-- remove FilteredTypeFactory as it add customizations twice
-	. replace it with a good infoCollectionSettings
-	. ObjectDialog encapsulation must include InfoCollectionSettings
-	maybe through specificProperties
-- ITypeInfo.getName() should not be used for finding controls
-- How can tester ui actions be well displayed while their
-list item type name is changed, how?
-	. getName(): type id but not necessarily uniq.
-	usefull for
-		* customizations
-		* error msgs
-		**** finding appropriate control !!!
-	then type wrapper should not change the name
-	. toString() just have to be as useful as possible
+- allow to customize Method dialog "no data returned"
+- New windows must be centered in the activator screen, not the first screen always
+
+- normally a field control must be customizable for only 1 field.
+Currently, customizations affects all fields having the same type  
+- allow to clean customizations
+- ITypeInfo.getName() should not be used for finding controls???
 - write hashCode() & equals() of some inner classes where the IDE
 could not generate them
 - Type params must be get from the IField/MethodInfo, not ITypeInfo
@@ -23,24 +12,6 @@ just like in the Java spec.
 	. add IFieldInfo.getTypeParameters()
 	https://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/reflect/TypeUtils.html
 	. maybe take a shortcut and implement it in a next future version
-- ListControl item view type name has changed
-	=> customizations lost???
-	Must give the same type name as the original ? 
-- cleaning:
-	- clarifications for methods:
-		. toString(): must help debugging. Implement toString() on:
-			. do it progressively
-			. ITypeInfoProxyFactory and sub-types???
-			. Controls???
-			. Forms???
-			. *.Instance types???
-			. check every anonymous type ???		
-		. getName(): uniq id for customizations, etc...
-		. getCaption(): display name
-		. check...
-	- ReflectionUI.toString(object) can be used for nice displays. Think about it
-	- remove TypeInfoProxy debug features???
-- allow to customize Method dialog "no data returned"
 - add IListType:
 	. getItemGetter(int)
 	. getItemSetter(int,Obj)
@@ -48,10 +19,6 @@ just like in the Java spec.
 - polymorphiControl:
 	. what if a polymorphic base type is a valid option itself (is concrete)?
 	. what if there is only 1 subtype. use polymorphic control anyway?
-- Non null field controls
-	. must Be created basing on actual value type
-	. Can also be enum control
-- New windows must be centered in the activator screen, not the first screen always
 - customizations editor recreates controls
 and forms and often invalidates the customized UI
 Ex: DialogAccessControl recreated while dialog open 
@@ -60,64 +27,31 @@ Ex: DialogAccessControl recreated while dialog open
 	. add ReflectionUIError explicit messages
 - rethink about read-only forms
 - expose liscontrol selectionListening
-- embedded details view:
-	- allow to remove toolbar 
-	- **** Initial **** Details View Occupation
-	- focus lost on update: 
-	an item update must trigger the recreation of 
-	the details control 
-- busy indicator when opening window
+- liscontrol:
+	- allow to remove toolbar ???
 - add ITypeInfo.hasValueOptions()???
 - icons, expanded field value, ... should be part of basic type info,
 not swing specific properties, as it common to most renderers and can
 be ignored if not displayable??? 
-- add customization options:
-	. list item details view detached	
 - remove IListTypeInfo.getObjectSpecificItemConstructors???
 - ITypeInfo.isModificationStackAccessible
 	=> must be a SwingSpecificProperty???
-- field auto-update???
+- field periodic auto-update???
 - allow to sort list view
 - update ScreenShots
 - update Example
 - Fix all the tests
-- Cannot insert sub item into MultipleFieldAsList item
 - MultipleFieldAsList with only 1 item???
-- undo/redo bug (testable with TreeTableModelExample)
-- list control:
-	. hide edit button when useless???
-- customizations edition:
-	. sort lists (fileds, methods, columns, ...)
-	. filter lists: remove renamed or deleted targets
-	. remove adequately list control buttons (move, delete, ...)  
+- customizations :
+	. filter lists: remove renamed or deleted targets???
 - preset customizations object names must be special 
 	. ex: prefixe with '.': Field ".position" or ".type"
-- add class MetodSignature
-- openDialog() must be getOnly for immutable types
-- add Customizations:
-	. lists:
-		* override item type???
-	. field:
-		* override type???
+- add class MetodSignature???
 - add Customizations:
 	. methods default param values
-- ReflectionUIUtils.onTypeInstanciation()
-must not use SwingRenderer
 - For null field, allow custom instanciation
-- it is impossible for custom field controls to prevent 
-modfications of non-primitive values because readonly field
-does not imply ICollectionSettings.allreadOnly for the field 
-value  
-- colors should never be set on components,
-otherwise lookandfeel dynamic change is not taken into account.
-See:
-	. TextControl
-	. listControl.treeControl
 - menus???
-- listControl: 
-	. deatil view
 - update translatable strings
-- private => protected
 - new controls:
 	. spinner, slider for numbers
 	. dateChooser

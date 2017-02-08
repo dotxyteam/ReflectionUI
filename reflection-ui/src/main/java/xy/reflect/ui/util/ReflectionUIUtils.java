@@ -2,13 +2,6 @@ package xy.reflect.ui.util;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.Window;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -612,38 +605,6 @@ public class ReflectionUIUtils {
 			paramTypeNames.add(clazz.getName());
 		}
 		return paramTypeNames;
-	}
-
-	public static Rectangle getMaximumWindowBounds(Window window) {
-		Rectangle result = null;
-		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		for (GraphicsDevice gd : ge.getScreenDevices()) {
-			for (GraphicsConfiguration gc : gd.getConfigurations()) {
-				Rectangle screenBounds = gc.getBounds();
-				Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(gc);
-				Rectangle candidateResult = new Rectangle();
-				candidateResult.x = screenBounds.x + screenInsets.left;
-				candidateResult.y = screenBounds.y + screenInsets.top;
-				candidateResult.height = screenBounds.height - screenInsets.top - screenInsets.bottom;
-				candidateResult.width = screenBounds.width - screenInsets.left - screenInsets.right;
-				if (result == null) {
-					result = candidateResult;
-				} else {
-					if (window == null) {
-						return result;
-					} else {
-						Rectangle candidateResultIntersection = candidateResult.intersection(window.getBounds());
-						Rectangle resultIntersection = result.intersection(window.getBounds());
-						if ((candidateResultIntersection.width
-								* candidateResultIntersection.height) > (resultIntersection.width
-										* resultIntersection.height)) {
-							result = candidateResult;
-						}
-					}
-				}
-			}
-		}
-		return result;
 	}
 
 	public static void sortFields(List<IFieldInfo> list) {

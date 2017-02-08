@@ -6,8 +6,13 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
@@ -546,5 +551,51 @@ public class SwingRendererUtils {
 				return result;
 			}
 		}
+	}
+
+	public static void adjustWindowBounds(Window window) {
+		Rectangle bounds = window.getBounds();
+		int growthUnit = SwingRendererUtils.getStandardCharacterWidth(window);
+		bounds.grow(growthUnit * 5, growthUnit);
+		Rectangle maxBounds = SwingRendererUtils.getMaximumWindowBounds(window);
+		if (bounds.width < maxBounds.width / 3) {
+			bounds.grow((maxBounds.width / 3 - bounds.width) / 2, 0);
+		}
+		bounds = maxBounds.intersection(bounds);
+		bounds.x = maxBounds.x + (maxBounds.width - bounds.width)/2;
+		bounds.y = maxBounds.y + (maxBounds.height - bounds.height)/2;
+		window.setBounds(bounds);
+	}
+
+	public static Rectangle getMaximumWindowBounds(Window window) {
+		Rectangle result = null;
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		for (GraphicsDevice gd : ge.getScreenDevices()) {
+			for (GraphicsConfiguration gc : gd.getConfigurations()) {
+				Rectangle screenBounds = gc.getBounds();
+				Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(gc);
+				Rectangle candidateResult = new Rectangle();
+				candidateResult.x = screenBounds.x + screenInsets.left;
+				candidateResult.y = screenBounds.y + screenInsets.top;
+				candidateResult.height = screenBounds.height - screenInsets.top - screenInsets.bottom;
+				candidateResult.width = screenBounds.width - screenInsets.left - screenInsets.right;
+				if (result == null) {
+					result = candidateResult;
+				} else {
+					if (window == null) {
+						return result;
+					} else {
+						Rectangle candidateResultIntersection = candidateResult.intersection(window.getBounds());
+						Rectangle resultIntersection = result.intersection(window.getBounds());
+						if ((candidateResultIntersection.width
+								* candidateResultIntersection.height) > (resultIntersection.width
+										* resultIntersection.height)) {
+							result = candidateResult;
+						}
+					}
+				}
+			}
+		}
+		return result;
 	}
 }

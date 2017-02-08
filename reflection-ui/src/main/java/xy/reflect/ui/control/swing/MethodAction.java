@@ -14,10 +14,13 @@ import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
 import xy.reflect.ui.info.type.util.MethodSetupObjectFactory;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MethodAction extends AbstractAction {
@@ -119,8 +122,8 @@ public class MethodAction extends AbstractAction {
 			invocationData = new InvocationData();
 		}
 		JPanel methodForm = swingRenderer
-				.createForm(new MethodSetupObjectFactory(swingRenderer.getReflectionUI(), object, method).getInstance(object,
-						invocationData));
+				.createForm(new MethodSetupObjectFactory(swingRenderer.getReflectionUI(), object, method)
+						.getInstance(object, invocationData));
 		final boolean[] invokedStatusHolder = new boolean[] { false };
 		List<Component> toolbarControls = new ArrayList<Component>();
 		String doc = method.getOnlineHelp();
@@ -176,8 +179,17 @@ public class MethodAction extends AbstractAction {
 
 	protected void openMethodReturnValueWindow(Component activatorComponent) {
 		if (returnValue == null) {
-			String msg = "No data returned!";
-			swingRenderer.openMessageDialog(activatorComponent, msg, "Result", null);
+			EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
+					swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(Object.class)));
+			encapsulation.setFieldCaption("");
+			encapsulation.setFieldGetOnly(true);
+			Object nullEncapsulated = encapsulation.getInstance(Accessor.returning(null));
+			ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, activatorComponent,
+					nullEncapsulated);
+			dialogBuilder.setGetOnly(true);
+			dialogBuilder.setCancellable(false);
+			dialogBuilder.setTitle(ReflectionUIUtils.composeMessage(method.getCaption(), "Result"));
+			swingRenderer.showDialog(dialogBuilder.build(), true);
 		} else {
 			if (retunValueWindowDetached) {
 				swingRenderer.openObjectFrame(returnValue);
@@ -195,6 +207,7 @@ public class MethodAction extends AbstractAction {
 					}
 				}
 				dialogBuilder.setCancellable(cancellable);
+				dialogBuilder.setTitle(ReflectionUIUtils.composeMessage(method.getCaption(), "Result"));
 				swingRenderer.showDialog(dialogBuilder.build(), true);
 
 				if (modificationStack != null) {

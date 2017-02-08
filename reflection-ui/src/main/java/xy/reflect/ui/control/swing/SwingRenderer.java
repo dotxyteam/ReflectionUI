@@ -182,16 +182,6 @@ public class SwingRenderer {
 		return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object)).getCaption();
 	}
 
-	public void adjustWindowBounds(Window window) {
-		Rectangle bounds = window.getBounds();
-		Rectangle maxBounds = ReflectionUIUtils.getMaximumWindowBounds(window);
-		if (bounds.width < maxBounds.width / 3) {
-			bounds.grow((maxBounds.width / 3 - bounds.width) / 2, 0);
-		}
-		bounds = maxBounds.intersection(bounds);
-		window.setBounds(bounds);
-	}
-
 	public void setupWindow(Window window, Component content, List<? extends Component> toolbarControls, String title,
 			Image iconImage) {
 		if (window instanceof JFrame) {
@@ -203,10 +193,14 @@ public class SwingRenderer {
 		SwingRendererUtils.setContentPane(window, contentPane);
 		window.pack();
 		window.setLocationRelativeTo(null);
-		Rectangle bounds = window.getBounds();
-		bounds.grow(50, 10);
-		window.setBounds(bounds);
-		adjustWindowBounds(window);
+		if (window.getParent() != null) {
+			Window parentWindow = SwingRendererUtils.getWindowAncestorOrSelf(window.getParent());
+			if (parentWindow != null) {
+				Rectangle parentScreen = SwingRendererUtils.getMaximumWindowBounds(parentWindow);
+				window.setLocation(parentScreen.getLocation());
+			}
+		}
+		SwingRendererUtils.adjustWindowBounds(window);
 		if (iconImage == null) {
 			window.setIconImage(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB));
 		} else {
