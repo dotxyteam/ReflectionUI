@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -42,8 +43,6 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(itemJavaType));
 	}
 
-	
-
 	@Override
 	public String getCaption() {
 		if (itemJavaType == null) {
@@ -75,6 +74,16 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 				return super.getConstructors();
 			}
 		}
+	}
+
+	@Override
+	public List<IFieldInfo> getFields() {
+		return Collections.emptyList();
+	}
+
+	@Override
+	public List<IMethodInfo> getMethods() {
+		return Collections.emptyList();
 	}
 
 	protected IMethodInfo createZeroParameterContructor() {
@@ -155,7 +164,6 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 		return new DetachedItemDetailsAccessMode();
 	}
 
-	
 	@Override
 	public boolean isOrdered() {
 		return List.class.isAssignableFrom(javaType);
@@ -197,8 +205,6 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	public List<IMethodInfo> getAdditionalItemConstructors(Object listValue) {
 		return Collections.emptyList();
 	}
-	
-	
 
 	@Override
 	public int hashCode() {
@@ -229,7 +235,5 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	public String toString() {
 		return "StandardCollectionTypeInfo [itemJavaType=" + itemJavaType + ", javaType=" + javaType + "]";
 	}
-	
-	
 
 }

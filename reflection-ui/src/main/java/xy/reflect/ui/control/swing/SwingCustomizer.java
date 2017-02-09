@@ -709,7 +709,7 @@ public class SwingCustomizer extends SwingRenderer {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							TypeCustomization t = infoCustomizations
-									.getTypeCustomization(getFieldControlObjectCustomizedType().getName(), true);
+									.getTypeCustomization(fieldControlPlaceHolder.getField().getType().getName(), true);
 							openTypeCustomizationDialog(result, t);
 						}
 					});

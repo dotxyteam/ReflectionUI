@@ -1418,7 +1418,7 @@ public final class InfoCustomizations {
 			if (parent == null) {
 				return null;
 			}
-			return parent.getTypeCustomization(itemTypeName);
+			return parent.getTypeCustomization(itemTypeName, true);
 		}
 
 		@XmlElements({ @XmlElement(name = "detachedDetailsAccessMode", type = DetachedItemDetailsAccessMode.class),

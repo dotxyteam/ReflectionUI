@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -23,7 +24,7 @@ public class TextualTypeInfo extends DefaultTypeInfo {
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		return Collections.<IMethodInfo> singletonList(new AbstractConstructorInfo(TextualTypeInfo.this) {
+		return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo(TextualTypeInfo.this) {
 
 			@Override
 			public Object invoke(Object object, InvocationData invocationData) {
@@ -45,6 +46,16 @@ public class TextualTypeInfo extends DefaultTypeInfo {
 		});
 	}
 
+	@Override
+	public List<IFieldInfo> getFields() {
+		return Collections.emptyList();
+	}
+
+	@Override
+	public List<IMethodInfo> getMethods() {
+		return Collections.emptyList();
+	}
+
 	public static boolean isCompatibleWith(Class<?> javaType) {
 		return ClassUtils.isPrimitiveTypeOrWrapperOrString(javaType);
 	}
@@ -53,6 +64,5 @@ public class TextualTypeInfo extends DefaultTypeInfo {
 	public String toString() {
 		return "TextualTypeInfo [javaType=" + javaType + "]";
 	}
-	
 
 }

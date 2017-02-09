@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -14,11 +15,9 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.info.method.InvocationData;
 
 @SuppressWarnings({ "rawtypes", "unused" })
-public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements
-		IEnumerationTypeInfo {
+public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements IEnumerationTypeInfo {
 
-	public StandardEnumerationTypeInfo(ReflectionUI reflectionUI,
-			Class javaEnumType) {
+	public StandardEnumerationTypeInfo(ReflectionUI reflectionUI, Class javaEnumType) {
 		super(reflectionUI, javaEnumType);
 	}
 
@@ -29,22 +28,29 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		return Collections
-				.<IMethodInfo> singletonList(new AbstractConstructorInfo(
-						StandardEnumerationTypeInfo.this) {
+		return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo(StandardEnumerationTypeInfo.this) {
 
-					@Override
-					public Object invoke(Object object,
-							InvocationData invocationData) {
-						return javaType.getEnumConstants()[0];
-					}
+			@Override
+			public Object invoke(Object object, InvocationData invocationData) {
+				return javaType.getEnumConstants()[0];
+			}
 
-					@Override
-					public List<IParameterInfo> getParameters() {
-						return Collections.emptyList();
-					}
+			@Override
+			public List<IParameterInfo> getParameters() {
+				return Collections.emptyList();
+			}
 
-				});
+		});
+	}
+
+	@Override
+	public List<IFieldInfo> getFields() {
+		return Collections.emptyList();
+	}
+
+	@Override
+	public List<IMethodInfo> getMethods() {
+		return Collections.emptyList();
 	}
 
 	@Override
@@ -53,22 +59,22 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements
 			return null;
 		} else {
 			return new IEnumerationItemInfo() {
-				
+
 				@Override
 				public Map<String, Object> getSpecificProperties() {
 					return Collections.emptyMap();
 				}
-				
+
 				@Override
 				public String getOnlineHelp() {
 					return null;
 				}
-				
+
 				@Override
 				public String getName() {
 					return object.toString();
 				}
-				
+
 				@Override
 				public String getCaption() {
 					return object.toString();
@@ -86,8 +92,5 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements
 	public String toString() {
 		return "StandardEnumerationTypeInfo [javaType=" + javaType + "]";
 	}
-	
-	
-	
 
 }

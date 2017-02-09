@@ -6,7 +6,8 @@
 - ArrayAsEnum often crashes because an item is not in the array:
 => make it more flexible
 
-
+- allow to customize online help on list properties/actions
+- allow to override default tooltips help on method controls
 - provide swingRenderer.openAutoRollbackableDialog()
 - normally a field control must be customizable for only 1 field.
 Currently, customizations affects all fields having the same type  

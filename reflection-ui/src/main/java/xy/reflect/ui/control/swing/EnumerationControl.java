@@ -82,8 +82,8 @@ public class EnumerationControl extends JPanel {
 						s = itemInfo.getCaption();
 					}
 					label.setText(swingRenderer.prepareStringToDisplay(s));
-					Image iconImage = DesktopSpecificProperty
-							.getIconImage(DesktopSpecificProperty.accessInfoProperties(itemInfo));
+					Image iconImage = SwingRendererUtils.getCachedIconImage(swingRenderer,
+							itemInfo.getSpecificProperties());
 					if (iconImage == null) {
 						label.setIcon(null);
 					} else {

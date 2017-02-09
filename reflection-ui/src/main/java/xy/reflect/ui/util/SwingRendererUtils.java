@@ -80,6 +80,7 @@ import xy.reflect.ui.undo.UndoOrder;
 @SuppressWarnings("unused")
 public class SwingRendererUtils {
 
+	public static final Image NULL_ICON_IMAGE = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
 	public static final ImageIcon ERROR_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/error.png"));
 	public static final ImageIcon HELP_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/help.png"));
 	public static final ImageIcon DETAILS_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/details.png"));
@@ -91,6 +92,7 @@ public class SwingRendererUtils {
 			ReflectionUI.class.getResource("resource/custom.png"));
 	public static final ImageIcon SAVE_ALL_ICON = new ImageIcon(
 			ReflectionUI.class.getResource("resource/save-all.png"));
+	public static Map<String, Image> IMAGE_CACHE = new HashMap<String, Image>();
 
 	public static Icon getSmallIcon(Image image) {
 		image = SwingRendererUtils.scalePreservingRatio(image, 16, 16, Image.SCALE_SMOOTH);
@@ -494,12 +496,19 @@ public class SwingRendererUtils {
 				window.setLocation(parentScreen.getDefaultConfiguration().getBounds().getLocation());
 			}
 		}
-		Rectangle bounds = window.getBounds();
-		int growthUnit = SwingRendererUtils.getStandardCharacterWidth(window);
-		bounds.grow(growthUnit * 30, growthUnit * 10);
 		Rectangle maxBounds = SwingRendererUtils.getMaximumWindowBounds(getWindowCurrentGraphicsDevice(window));
-		if (bounds.width < maxBounds.width / 3) {
-			bounds.grow((maxBounds.width / 3 - bounds.width) / 2, 0);
+		window.setBounds(maxBounds);
+		window.pack();
+		Rectangle bounds = window.getBounds();
+		int widthGrowth, heightGrowth;
+		{
+			if (bounds.width < maxBounds.width / 3) {
+				widthGrowth = (maxBounds.width / 3 - bounds.width) / 2;
+			} else {
+				widthGrowth = 0;
+			}
+			heightGrowth = 2 * SwingRendererUtils.getStandardCharacterWidth(window);
+			bounds.grow(widthGrowth, heightGrowth);
 		}
 		bounds = maxBounds.intersection(bounds);
 		bounds.x = maxBounds.x + (maxBounds.width - bounds.width) / 2;
@@ -573,6 +582,46 @@ public class SwingRendererUtils {
 		} else {
 			return null;
 		}
+	}
+
+	public static Image getCachedIconImage(SwingRenderer swingRenderer, Map<String, Object> properties) {
+		if (properties == null) {
+			return null;
+		}
+		Image result = DesktopSpecificProperty.getIconImage(properties);
+		if (result != null) {
+			return result;
+		}
+		String imagePath = DesktopSpecificProperty.getIconImageFilePath(properties);
+		if (imagePath == null) {
+			return null;
+		}
+		result = SwingRendererUtils.IMAGE_CACHE.get(imagePath);
+		if (result == null) {
+			URL imageUrl;
+			if (imagePath.startsWith(ResourcePath.CLASSPATH_RESOURCE_PREFIX)) {
+				imagePath = imagePath.substring(ResourcePath.CLASSPATH_RESOURCE_PREFIX.length());
+				imageUrl = SwingRendererUtils.class.getClassLoader().getResource(imagePath);
+			} else {
+				try {
+					imageUrl = new File(imagePath).toURI().toURL();
+				} catch (MalformedURLException e) {
+					throw new ReflectionUIError(e);
+				}
+			}
+			try {
+				result = ImageIO.read(imageUrl);
+			} catch (IOException e) {
+				swingRenderer.getReflectionUI()
+						.logError("Failed to load image from '" + imageUrl + "': " + e.toString());
+				result = NULL_ICON_IMAGE;
+			}
+			SwingRendererUtils.IMAGE_CACHE.put(imagePath, result);
+		}
+		if (result == NULL_ICON_IMAGE) {
+			return null;
+		}
+		return result;
 	}
 
 	public static Icon getControlDataIcon(SwingRenderer swingRenderer, IControlData data) {

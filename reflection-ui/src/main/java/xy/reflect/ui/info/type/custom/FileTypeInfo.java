@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -35,6 +36,16 @@ public class FileTypeInfo extends DefaultTypeInfo {
 		List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getConstructors());
 		result.add(defaultCtor);
 		return result;
+	}
+
+	@Override
+	public List<IFieldInfo> getFields() {
+		return Collections.emptyList();
+	}
+
+	@Override
+	public List<IMethodInfo> getMethods() {
+		return Collections.emptyList();
 	}
 
 	public static File getDefaultFile() {

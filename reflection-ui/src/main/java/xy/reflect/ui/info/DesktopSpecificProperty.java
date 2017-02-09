@@ -1,25 +1,15 @@
 package xy.reflect.ui.info;
 
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.AbstractMap;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import javax.imageio.ImageIO;
-
 import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.util.InfoCustomizations.AbstractInfoCustomization;
-import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.ResourcePath;
-import xy.reflect.ui.util.SwingRendererUtils;
 
 public class DesktopSpecificProperty {
 	public static final String KEY_ICON_IMAGE = DesktopSpecificProperty.class.getSimpleName() + ".KEY_ICON_IMAGE";
@@ -28,9 +18,6 @@ public class DesktopSpecificProperty {
 	public static final String CREATE_EMBEDDED_FORM = DesktopSpecificProperty.class.getSimpleName()
 			+ ".CREATE_EMBEDDED_FORM";
 	public static final String INFO_FILTER = DesktopSpecificProperty.class.getSimpleName() + ".INFO_FILTER";
-	public static Map<String, Image> iconImageCache = new HashMap<String, Image>();
-	public static final Image NULL_ICON_IMAGE = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-
 	public static Map<String, Object> accessCustomizationsProperties(final AbstractInfoCustomization c) {
 		return new AbstractMap<String, Object>() {
 			@Override
@@ -105,40 +92,7 @@ public class DesktopSpecificProperty {
 	}
 
 	public static Image getIconImage(Map<String, Object> properties) {
-		Image result;
-		result = (Image) properties.get(KEY_ICON_IMAGE);
-		if (result != null) {
-			return result;
-		}
-		URL imageUrl;
-		String imagePath = (String) properties.get(KEY_ICON_IMAGE_PATH);
-		if (imagePath == null) {
-			return null;
-		}
-		if (imagePath.startsWith(ResourcePath.CLASSPATH_RESOURCE_PREFIX)) {
-			imagePath = imagePath.substring(ResourcePath.CLASSPATH_RESOURCE_PREFIX.length());
-			imageUrl = SwingRendererUtils.class.getClassLoader().getResource(imagePath);
-		} else {
-			try {
-				imageUrl = new File(imagePath).toURI().toURL();
-			} catch (MalformedURLException e) {
-				throw new ReflectionUIError(e);
-			}
-		}
-		result = iconImageCache.get(imagePath);
-		if (result == null) {
-			try {
-				result = ImageIO.read(imageUrl);
-			} catch (IOException e) {
-				e.printStackTrace();
-				result = NULL_ICON_IMAGE;
-			}
-			iconImageCache.put(imagePath, result);
-		}
-		if (result == NULL_ICON_IMAGE) {
-			return null;
-		}
-		return result;
+		return (Image) properties.get(KEY_ICON_IMAGE);
 	}
 
 	public static void setIconImage(Map<String, Object> properties, Image image) {

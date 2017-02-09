@@ -514,6 +514,10 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <typeName>Encapsulation [typeCaption=IList Item Details Access Mode - Polymorphic Type, fieldType=SubTypesEnumeration [polymorphicType=xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode], fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
         <typeName>Encapsulation [typeCaption=IList Item Details Access Mode - Polymorphic Type, fieldType=xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode.SubTypesEnumeration, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2693,7 +2697,7 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <customFieldCaption></customFieldCaption>
+            <customFieldCaption>Select</customFieldCaption>
             <fieldName>chosenAlternative</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>

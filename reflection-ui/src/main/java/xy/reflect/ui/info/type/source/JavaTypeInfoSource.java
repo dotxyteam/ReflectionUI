@@ -1,6 +1,7 @@
 package xy.reflect.ui.info.type.source;
 
 import java.lang.reflect.Member;
+import java.util.Arrays;
 
 public class JavaTypeInfoSource implements ITypeInfoSource {
 
@@ -51,15 +52,15 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 		this.genericTypeParameters = genericTypeParameters;
 	}
 
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((javaType == null) ? 0 : javaType.hashCode());
+		result = prime * result + Arrays.hashCode(genericTypeParameters);
+		result = prime * result + ((javaType == null) ? 0 : javaType.hashCode());
 		result = prime * result + parameterPosition;
-		result = prime * result
-				+ ((typedMember == null) ? 0 : typedMember.hashCode());
+		result = prime * result + ((typedMember == null) ? 0 : typedMember.hashCode());
 		return result;
 	}
 
@@ -72,6 +73,8 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 		if (getClass() != obj.getClass())
 			return false;
 		JavaTypeInfoSource other = (JavaTypeInfoSource) obj;
+		if (!Arrays.equals(genericTypeParameters, other.genericTypeParameters))
+			return false;
 		if (javaType == null) {
 			if (other.javaType != null)
 				return false;

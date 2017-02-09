@@ -29,10 +29,11 @@
             <columnName>typeName</columnName>
             <hidden>false</hidden>
         </columnCustomizations>
+        <columnsCustomOrder>position</columnsCustomOrder>
         <columnsCustomOrder>typeName</columnsCustomOrder>
-        <columnsCustomOrder>theDay</columnsCustomOrder>
         <columnsCustomOrder>theShort</columnsCustomOrder>
         <columnsCustomOrder>the2ndShort</columnsCustomOrder>
+        <columnsCustomOrder>theDay</columnsCustomOrder>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
@@ -51,7 +52,7 @@
             <regularExpression>false</regularExpression>
             <value>void doNothing()</value>
         </methodsExcludedFromItemDetails>
-        <positionColumnAdded>false</positionColumnAdded>
+        <positionColumnAdded>true</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
     </listCustomizations>
     <listCustomizations>
@@ -139,6 +140,23 @@
         <fieldColumnsAdded>false</fieldColumnsAdded>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
+        <listTypeName>java.util.Collection</listTypeName>
+        <positionColumnAdded>false</positionColumnAdded>
+        <stringValueColumnAdded>false</stringValueColumnAdded>
+    </listCustomizations>
+    <listCustomizations>
+        <columnCustomizations>
+            <columnName>toStringValue</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
+        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+        <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;</itemTypeName>
         <listTypeName>java.util.HashMap</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
@@ -200,6 +218,32 @@
     </listCustomizations>
     <listCustomizations>
         <columnCustomizations>
+            <columnName>position</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>toStringValue</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>typeName</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
+        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+        <itemTypeColumnAdded>false</itemTypeColumnAdded>
+        <itemTypeName>java.lang.Boolean</itemTypeName>
+        <listTypeName>java.util.List</listTypeName>
+        <positionColumnAdded>true</positionColumnAdded>
+        <stringValueColumnAdded>false</stringValueColumnAdded>
+    </listCustomizations>
+    <listCustomizations>
+        <columnCustomizations>
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
         </columnCustomizations>
@@ -229,7 +273,7 @@
         <fieldColumnsAdded>false</fieldColumnsAdded>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
-        <itemTypeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,java.lang.String&gt;</itemTypeName>
+        <itemTypeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,ReflectionUITest$Test2&gt;</itemTypeName>
         <listTypeName>java.util.Map</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
@@ -239,6 +283,20 @@
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
         </columnCustomizations>
+        <editOptions>
+            <itemCreationEnabled>true</itemCreationEnabled>
+            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemMoveEnabled>true</itemMoveEnabled>
+        </editOptions>
+        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+        <itemTypeColumnAdded>false</itemTypeColumnAdded>
+        <itemTypeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,java.lang.String&gt;</itemTypeName>
+        <listTypeName>java.util.Map</listTypeName>
+        <positionColumnAdded>false</positionColumnAdded>
+        <stringValueColumnAdded>false</stringValueColumnAdded>
+    </listCustomizations>
+    <listCustomizations>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
@@ -1391,6 +1449,24 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <typeName>Encapsulation [typeCaption=The File List - Item, fieldType=java.io.File, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=The Map - Item, fieldType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,java.lang.String&gt;, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>Encapsulation [typeCaption=The String List - Item, fieldType=java.lang.String, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <fieldName></fieldName>
@@ -1733,6 +1809,12 @@
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.KEY_ICON_IMAGE_PATH</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">&lt;class-path-resource&gt; xy/reflect/ui/resource/add.png</value>
+                </entry>
+            </specificProperties>
             <hidden>false</hidden>
             <methodSignature>void doLongTask()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -2690,17 +2772,21 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <typeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,ReflectionUITest$Test2&gt;</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <fieldName>key</fieldName>
             <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>false</nullableFacetHidden>
+            <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>false</nullableFacetHidden>
+            <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,java.lang.String&gt;</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -2727,6 +2813,10 @@
     </typeCustomizations>
     <typeCustomizations>
         <typeName>xy.reflect.ui.info.type.util.TypeInfoProxyFactory$GeneratedMethodInfoProxy</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>xy.reflect.ui.util.ReflectionUIError</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

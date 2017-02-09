@@ -43,9 +43,9 @@ public class ReflectionUI {
 	public static final ReflectionUI DEFAULT = createDefault();
 
 	protected Map<ITypeInfoSource, ITypeInfo> typeInfoBySource = CacheBuilder.newBuilder().maximumSize(1000)
-			.<ITypeInfoSource, ITypeInfo> build().asMap();
+			.<ITypeInfoSource, ITypeInfo>build().asMap();
 	protected Map<Object, ITypeInfo> precomputedTypeInfoByObject = CacheBuilder.newBuilder().weakKeys()
-			.<Object, ITypeInfo> build().asMap();
+			.<Object, ITypeInfo>build().asMap();
 
 	protected static ReflectionUI createDefault() {
 		return new ReflectionUI() {
@@ -91,13 +91,18 @@ public class ReflectionUI {
 							0);
 					result = new StandardCollectionTypeInfo(this, javaTypeSource.getJavaType(), itemType);
 				} else if (StandardMapAsListTypeInfo.isCompatibleWith(javaTypeSource.getJavaType())) {
-					Class<?> keyType = ReflectionUIUtils.getJavaGenericTypeParameter(javaTypeSource, Map.class, 0);
-					Class<?> valueType = ReflectionUIUtils.getJavaGenericTypeParameter(javaTypeSource, Map.class, 1);
-					result = new StandardMapAsListTypeInfo(this, javaTypeSource.getJavaType(), keyType, valueType);
+					Class<?> keyClass = ReflectionUIUtils.getJavaGenericTypeParameter(javaTypeSource, Map.class, 0);
+					Class<?> valueClass = ReflectionUIUtils.getJavaGenericTypeParameter(javaTypeSource, Map.class, 1);
+					result = new StandardMapAsListTypeInfo(this, javaTypeSource.getJavaType(), keyClass, valueClass);
 				} else if (StandardMapEntryTypeInfo.isCompatibleWith(javaTypeSource.getJavaType())) {
-					Class<?> keyType = javaTypeSource.getGenericTypeParameters()[0];
-					Class<?> valueType = javaTypeSource.getGenericTypeParameters()[1];
-					result = new StandardMapEntryTypeInfo(this, keyType, valueType);
+					Class<?> keyClass = null;
+					Class<?> valueClass = null;
+					Class<?>[] genericParams = javaTypeSource.getGenericTypeParameters();
+					if (genericParams != null) {
+						keyClass = genericParams[0];
+						valueClass = genericParams[1];
+					}
+					result = new StandardMapEntryTypeInfo(this, keyClass, valueClass);
 				} else if (javaTypeSource.getJavaType().isArray()) {
 					Class<?> itemType = javaTypeSource.getJavaType().getComponentType();
 					result = new ArrayTypeInfo(this, javaTypeSource.getJavaType(), itemType);

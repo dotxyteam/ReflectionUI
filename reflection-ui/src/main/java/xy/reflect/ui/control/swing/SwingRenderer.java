@@ -15,6 +15,8 @@ import java.awt.Rectangle;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -190,15 +192,14 @@ public class SwingRenderer {
 		} else if (window instanceof JDialog) {
 			((JDialog) window).setTitle(prepareStringToDisplay(title));
 		}
-		Container contentPane = createWindowContentPane(window, content, toolbarControls);
-		SwingRendererUtils.setContentPane(window, contentPane);
-		window.pack();
-		SwingRendererUtils.adjustWindowInitialBounds(window);
 		if (iconImage == null) {
-			window.setIconImage(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB));
+			window.setIconImage(SwingRendererUtils.NULL_ICON_IMAGE);
 		} else {
 			window.setIconImage(iconImage);
 		}
+		Container contentPane = createWindowContentPane(window, content, toolbarControls);
+		SwingRendererUtils.setContentPane(window, contentPane);
+		SwingRendererUtils.adjustWindowInitialBounds(window);
 	}
 
 	public List<Component> createCommonToolbarControls(final JPanel form) {
@@ -580,7 +581,7 @@ public class SwingRenderer {
 
 	public Container createWindowContentPane(Window window, Component content,
 			List<? extends Component> toolbarControls) {
-		JPanel contentPane = new JPanel();
+		final JPanel contentPane = new JPanel();
 		contentPane.setLayout(new BorderLayout());
 		if (content != null) {
 			if (SwingRendererUtils.isForm(content, this)) {
@@ -595,7 +596,7 @@ public class SwingRenderer {
 				});
 
 			}
-			JScrollPane scrollPane = new JScrollPane(new ScrollPaneOptions(content, true, false));
+			final JScrollPane scrollPane = new JScrollPane(new ScrollPaneOptions(content, true, false));
 			scrollPane.getViewport().setOpaque(false);
 			contentPane.add(scrollPane, BorderLayout.CENTER);
 		}
@@ -837,7 +838,7 @@ public class SwingRenderer {
 	public Image getObjectIconImage(Object object) {
 		if (object != null) {
 			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-			Image result = DesktopSpecificProperty.getIconImage(DesktopSpecificProperty.accessInfoProperties(type));
+			Image result = SwingRendererUtils.getCachedIconImage(this, type.getSpecificProperties());
 			if (result != null) {
 				return result;
 			}
@@ -846,7 +847,7 @@ public class SwingRenderer {
 	}
 
 	public Image getControlDataIconImage(IControlData data) {
-		Image result = DesktopSpecificProperty.getIconImage(data.getSpecificProperties());
+		Image result = SwingRendererUtils.getCachedIconImage(this, data.getSpecificProperties());
 		if (result != null) {
 			return result;
 		}
@@ -858,7 +859,7 @@ public class SwingRenderer {
 	}
 
 	public Image getMethodIconImage(Object object, IMethodInfo method) {
-		return DesktopSpecificProperty.getIconImage(method.getSpecificProperties());
+		return SwingRendererUtils.getCachedIconImage(this, method.getSpecificProperties());
 	}
 
 	public void handleExceptionsFromDisplayedUI(Component activatorComponent, final Throwable t) {
@@ -1006,7 +1007,7 @@ public class SwingRenderer {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> T openInputDialog(Component parentComponent, T initialValue, String dataName, String title) {
+	public <T> T openInputDialog(Component parentComponent, T initialValue, String valueCaption, String title) {
 		if (initialValue == null) {
 			throw new ReflectionUIError();
 		}
@@ -1015,7 +1016,7 @@ public class SwingRenderer {
 
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, initialValueType);
 		encapsulation.setTypeCaption("Input");
-		encapsulation.setFieldCaption(dataName);
+		encapsulation.setFieldCaption(valueCaption);
 		encapsulation.setFieldGetOnly(false);
 		encapsulation.setFieldNullable(false);
 		Object encapsulatedValue = encapsulation.getInstance(valueHolder);
@@ -1043,23 +1044,38 @@ public class SwingRenderer {
 		return dialogBuilder.isOkPressed();
 	}
 
-	
+	public void openMessageDialog(Component activatorComponent, String msg, String title, Image iconImage) {
+		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI,
+				new TextualTypeInfo(reflectionUI, String.class));
+		encapsulation.setTypeCaption("Information");
+		encapsulation.setFieldCaption("");
+		encapsulation.setFieldGetOnly(true);
+		encapsulation.setFieldNullable(false);
+		encapsulation.setModificationStackAccessible(false);
+		Object toDisplay = encapsulation.getInstance(new Object[] { msg });
+		Component errorComponent = new JOptionPane(createForm(toDisplay), JOptionPane.ERROR_MESSAGE,
+				JOptionPane.DEFAULT_OPTION, null, new Object[] {});
+
+		openObjectDialog(activatorComponent, toDisplay);
+	}
 
 	public void openErrorDialog(Component activatorComponent, String title, final Throwable error) {
-		DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI,
 				new TextualTypeInfo(reflectionUI, String.class));
 		encapsulation.setTypeCaption("Error");
 		encapsulation.setFieldCaption("Message");
 		encapsulation.setFieldGetOnly(true);
 		encapsulation.setFieldNullable(false);
+		encapsulation.setModificationStackAccessible(false);
+		Map<String, Object> fieldSpecificProperties = new HashMap<String, Object>();
+		{
+			DesktopSpecificProperty.setIconImage(fieldSpecificProperties, SwingRendererUtils.ERROR_ICON.getImage());
+			encapsulation.setFieldSpecificProperties(fieldSpecificProperties);
+		}
 		Object toDisplay = encapsulation.getInstance(new Object[] { ReflectionUIUtils.getPrettyMessage(error) });
-		Component errorComponent = new JOptionPane(createForm(toDisplay), JOptionPane.ERROR_MESSAGE,
-				JOptionPane.DEFAULT_OPTION, null, new Object[] {});
 
-		JDialog[] dialogHolder = new JDialog[1];
-
-		List<Component> buttons = new ArrayList<Component>();
+		ObjectDialogBuilder dialogBuilder = createObjectDialogBuilder(activatorComponent, toDisplay);
+		dialogBuilder.setTitle(title);
 		final JButton deatilsButton = new JButton(prepareStringToDisplay("Details"));
 		deatilsButton.addActionListener(new ActionListener() {
 			@Override
@@ -1067,29 +1083,10 @@ public class SwingRenderer {
 				openErrorDetailsDialog(deatilsButton, error);
 			}
 		});
-		buttons.add(deatilsButton);
-		buttons.add(dialogBuilder.createDialogClosingButton("Close", null));
-
-		dialogBuilder.setTitle(title);
-		dialogBuilder.setContentComponent(errorComponent);
-		dialogBuilder.setToolbarComponents(buttons);
-
+		dialogBuilder.setAdditionalToolbarComponents(Arrays.<Component>asList(deatilsButton));
 		showDialog(dialogBuilder.build(), true);
 
 	}
-	
-	public void openMessageDialog(Component activatorComponent, String msg, String title, Image iconImage) {
-		DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
-		JButton okButton = dialogBuilder.createDialogClosingButton("Close", null);
-		dialogBuilder.setToolbarComponents(Collections.singletonList(okButton));
-		dialogBuilder.setContentComponent(
-				new JLabel("<HTML><BR><CENTER>" + ReflectionUIUtils.escapeHTML(msg, true) + "</CENTER><BR><BR><HTML>",
-						SwingConstants.CENTER));
-		dialogBuilder.setTitle(title);
-		dialogBuilder.setIconImage(iconImage);
-		showDialog(dialogBuilder.build(), true);
-	}
-
 
 	public void openErrorDetailsDialog(Component activatorComponent, Throwable error) {
 		openObjectDialog(activatorComponent, error);

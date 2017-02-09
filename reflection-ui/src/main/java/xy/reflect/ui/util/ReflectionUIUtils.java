@@ -2,6 +2,7 @@ package xy.reflect.ui.util;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Image;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -56,6 +57,7 @@ import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
 
+@SuppressWarnings("unused")
 public class ReflectionUIUtils {
 
 	public static final String[] NEW_LINE_SEQUENCES = new String[] { "\r\n", "\n", "\r" };
@@ -869,9 +871,10 @@ public class ReflectionUIUtils {
 			protected Map<String, Object> getItemSpecificProperties(Object arrayItem) {
 				ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;
 				Map<String, Object> result = new HashMap<String, Object>();
-				String iconImageFilePath = DesktopSpecificProperty
-						.getIconImageFilePath(DesktopSpecificProperty.accessInfoProperties(polyTypesItem));
-				DesktopSpecificProperty.setIconImageFilePath(result, iconImageFilePath);
+				DesktopSpecificProperty.setIconImageFilePath(result, DesktopSpecificProperty
+						.getIconImageFilePath(DesktopSpecificProperty.accessInfoProperties(polyTypesItem)));
+				DesktopSpecificProperty.setIconImage(result, DesktopSpecificProperty
+						.getIconImage(DesktopSpecificProperty.accessInfoProperties(polyTypesItem)));
 				return result;
 			}
 
