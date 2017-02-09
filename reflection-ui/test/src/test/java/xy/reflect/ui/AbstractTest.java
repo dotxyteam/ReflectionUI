@@ -6,7 +6,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
 import xy.ui.testing.util.TestingUtils;
 
-public class AbstractTest {
+public class AbstractTest { 
 
 	public static void setupTestEnvironment() {
 		checkSystemProperty(SystemProperties.DEFAULT_INFO_CUSTOMIZATIONS_ACTIVE, "true");
