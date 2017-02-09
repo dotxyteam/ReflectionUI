@@ -3,11 +3,13 @@ package xy.reflect.ui.control.swing;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -32,6 +34,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	protected JTextArea textComponent;
 	protected boolean ignoreEditEvents = true;
 	protected Border textFieldNormalBorder;
+	protected JLabel iconControl;
 
 	public TextControl(final SwingRenderer swingRenderer, final IControlData data) {
 		this.swingRenderer = swingRenderer;
@@ -40,50 +43,56 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		setLayout(new BorderLayout());
 
 		textComponent = createTextComponent();
-		updateTextComponent();
+		{
+			updateTextComponent();
+			JScrollPane scrollPane = new JScrollPane(textComponent) {
 
-		JScrollPane scrollPane = new JScrollPane(textComponent) {
-
-			protected static final long serialVersionUID = 1L;
-
-			@Override
-			public Dimension getPreferredSize() {
-				Dimension result = super.getPreferredSize();
-				result = fixScrollPaneSizeWHenVerticalBarVisible(result);
-				result.width = Math.min(result.width, Toolkit.getDefaultToolkit().getScreenSize().width / 3);
-				result.height = Math.min(result.height, Toolkit.getDefaultToolkit().getScreenSize().height / 3);
-				return result;
-			}
-
-			private Dimension fixScrollPaneSizeWHenVerticalBarVisible(Dimension size) {
-				if (getHorizontalScrollBar().isVisible()) {
-					size.height += getHorizontalScrollBar().getPreferredSize().height;
-				}
-				return size;
-			}
-		};
-		add(scrollPane, BorderLayout.CENTER);
-		textFieldNormalBorder = textComponent.getBorder();
-		if (data.isGetOnly()) {
-			textComponent.setEditable(false);
-			textComponent.setBackground(SwingRendererUtils
-					.fixSeveralColorRenderingIssues(ReflectionUIUtils.getDisabledTextBackgroundColor()));
-			scrollPane.setBorder(BorderFactory.createTitledBorder(""));
-		} else {
-			textComponent.getDocument().addUndoableEditListener(new UndoableEditListener() {
+				protected static final long serialVersionUID = 1L;
 
 				@Override
-				public void undoableEditHappened(UndoableEditEvent e) {
-					if (ignoreEditEvents) {
-						return;
-					}
-					try {
-						onTextChange(textComponent.getText());
-					} catch (Throwable t) {
-						swingRenderer.handleExceptionsFromDisplayedUI(TextControl.this, t);
-					}
+				public Dimension getPreferredSize() {
+					Dimension result = super.getPreferredSize();
+					result = fixScrollPaneSizeWHenVerticalBarVisible(result);
+					result.width = Math.min(result.width, Toolkit.getDefaultToolkit().getScreenSize().width / 3);
+					result.height = Math.min(result.height, Toolkit.getDefaultToolkit().getScreenSize().height / 3);
+					return result;
 				}
-			});
+
+				private Dimension fixScrollPaneSizeWHenVerticalBarVisible(Dimension size) {
+					if (getHorizontalScrollBar().isVisible()) {
+						size.height += getHorizontalScrollBar().getPreferredSize().height;
+					}
+					return size;
+				}
+			};
+			textFieldNormalBorder = textComponent.getBorder();
+			if (data.isGetOnly()) {
+				textComponent.setEditable(false);
+				textComponent.setBackground(SwingRendererUtils
+						.fixSeveralColorRenderingIssues(ReflectionUIUtils.getDisabledTextBackgroundColor()));
+				scrollPane.setBorder(BorderFactory.createTitledBorder(""));
+			} else {
+				textComponent.getDocument().addUndoableEditListener(new UndoableEditListener() {
+
+					@Override
+					public void undoableEditHappened(UndoableEditEvent e) {
+						if (ignoreEditEvents) {
+							return;
+						}
+						try {
+							onTextChange(textComponent.getText());
+						} catch (Throwable t) {
+							swingRenderer.handleExceptionsFromDisplayedUI(TextControl.this, t);
+						}
+					}
+				});
+			}
+			add(scrollPane, BorderLayout.CENTER);
+		}
+		iconControl = createIconTrol();
+		{
+			updateIcon();
+			add(SwingRendererUtils.flowInLayout(iconControl, FlowLayout.CENTER), BorderLayout.EAST);
 		}
 	}
 
@@ -108,6 +117,14 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		};
 	}
 
+	protected void onTextChange(String newStringValue) {
+		try {
+			data.setValue(newStringValue);
+		} catch (Throwable t) {
+			displayError(new ReflectionUIError(t));
+		}
+	}
+
 	protected void updateTextComponent() {
 		ignoreEditEvents = true;
 		String newText = (String) data.getValue();
@@ -118,6 +135,15 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 			textComponent.setCaretPosition(Math.min(lastCaretPosition, textComponent.getText().length()));
 		}
 		ignoreEditEvents = false;
+	}
+
+	protected JLabel createIconTrol() {
+		return new JLabel();
+	}
+
+	protected void updateIcon() {
+		iconControl.setIcon(SwingRendererUtils.getControlDataIcon(swingRenderer, data));
+		iconControl.setVisible(iconControl.getIcon() != null);
 	}
 
 	public static String toText(Object object) {
@@ -154,17 +180,10 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		return true;
 	}
 
-	protected void onTextChange(String newStringValue) {
-		try {
-			data.setValue(newStringValue);
-		} catch (Throwable t) {
-			displayError(new ReflectionUIError(t));
-		}
-	}
-
 	@Override
 	public boolean refreshUI() {
 		updateTextComponent();
+		updateIcon();
 		displayError(null);
 		SwingRendererUtils.handleComponentSizeChange(this);
 		return true;

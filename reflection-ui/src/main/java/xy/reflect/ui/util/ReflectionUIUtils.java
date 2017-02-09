@@ -869,9 +869,9 @@ public class ReflectionUIUtils {
 			protected Map<String, Object> getItemSpecificProperties(Object arrayItem) {
 				ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;
 				Map<String, Object> result = new HashMap<String, Object>();
-				File iconImageFile = DesktopSpecificProperty
-						.getIconImageFile(DesktopSpecificProperty.accessInfoProperties(polyTypesItem));
-				DesktopSpecificProperty.setIconImageFile(result, iconImageFile);
+				String iconImageFilePath = DesktopSpecificProperty
+						.getIconImageFilePath(DesktopSpecificProperty.accessInfoProperties(polyTypesItem));
+				DesktopSpecificProperty.setIconImageFilePath(result, iconImageFilePath);
 				return result;
 			}
 

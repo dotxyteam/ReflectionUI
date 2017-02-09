@@ -11,9 +11,12 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.Window;
+import java.awt.event.AWTEventListener;
+import java.awt.event.AWTEventListenerProxy;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
 import java.awt.event.InputEvent;
@@ -38,6 +41,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -47,6 +51,7 @@ import javax.swing.event.AncestorListener;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.data.FieldControlData;
+import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.control.swing.DialogAccessControl;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.SwingRenderer;
@@ -87,6 +92,11 @@ public class SwingRendererUtils {
 	public static final ImageIcon SAVE_ALL_ICON = new ImageIcon(
 			ReflectionUI.class.getResource("resource/save-all.png"));
 
+	public static Icon getSmallIcon(Image image) {
+		image = SwingRendererUtils.scalePreservingRatio(image, 16, 16, Image.SCALE_SMOOTH);
+		return new ImageIcon(image);
+	}
+
 	public static Image scalePreservingRatio(Image image, int newWidth, int newHeight, int scaleQuality) {
 		Dimension imageSize = new Dimension(image.getWidth(null), image.getHeight(null));
 		Dimension boxSize = new Dimension(newWidth, newHeight);
@@ -102,8 +112,8 @@ public class SwingRendererUtils {
 		}
 		BufferedImage result = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = result.createGraphics();
-		image = image.getScaledInstance(imageBoundsInBox.width, imageBoundsInBox.height, scaleQuality);
-		g.drawImage(image, imageBoundsInBox.x, imageBoundsInBox.y, null);
+		g.drawImage(image, imageBoundsInBox.x, imageBoundsInBox.y, imageBoundsInBox.x + imageBoundsInBox.width,
+				imageBoundsInBox.y + imageBoundsInBox.height, 0, 0, image.getWidth(null), image.getHeight(null), null);
 		g.dispose();
 		return result;
 	}
@@ -306,10 +316,6 @@ public class SwingRendererUtils {
 		return result;
 	}
 
-	public static Image getIconImageFromInfo(IInfo info) {
-		return SwingRendererUtils.getIconImageFromProperties(DesktopSpecificProperty.accessInfoProperties(info));
-	}
-
 	public static boolean isFormEmpty(ITypeInfo type, IInfoFilter infoFilter, SwingRenderer swingRenderer) {
 		List<IFieldInfo> fields = type.getFields();
 		List<IMethodInfo> methods = type.getMethods();
@@ -356,80 +362,6 @@ public class SwingRendererUtils {
 
 	public static boolean isForm(Component c, SwingRenderer swingRenderer) {
 		return swingRenderer.getObjectByForm().keySet().contains(c);
-	}
-
-	public static Image getIconImageFromProperties(Map<String, Object> properties) {
-		Image result;
-		URL imageUrl;
-		String imagePath = (String) properties.get(DesktopSpecificProperty.KEY_ICON_IMAGE_PATH);
-		String pathKind = (String) properties.get(DesktopSpecificProperty.KEY_ICON_IMAGE_PATH_KIND);
-		if (imagePath == null) {
-			return null;
-		}
-		if (DesktopSpecificProperty.VALUE_PATH_TYPE_KIND_CLASSPATH_RESOURCE.equals(pathKind)) {
-			imageUrl = SwingRendererUtils.class.getClassLoader().getResource(imagePath);
-		} else {
-			try {
-				imageUrl = new File(imagePath).toURI().toURL();
-			} catch (MalformedURLException e) {
-				throw new ReflectionUIError(e);
-			}
-		}
-		result = DesktopSpecificProperty.iconImageCache.get(imagePath);
-		if (result == null) {
-			try {
-				result = ImageIO.read(imageUrl);
-			} catch (IOException e) {
-				e.printStackTrace();
-				result = DesktopSpecificProperty.NULL_ICON_IMAGE;
-			}
-			DesktopSpecificProperty.iconImageCache.put(imagePath, result);
-		}
-		if (result == DesktopSpecificProperty.NULL_ICON_IMAGE) {
-			return null;
-		}
-		return result;
-	}
-
-	public static Image getIconImage(Map<String, Object> properties) {
-		Image result;
-		result = (Image) properties.get(DesktopSpecificProperty.KEY_ICON_IMAGE);
-		if (result != null) {
-			return result;
-		}
-		URL imageUrl;
-		String imagePath = (String) properties.get(DesktopSpecificProperty.KEY_ICON_IMAGE_PATH);
-		String pathKind = (String) properties.get(DesktopSpecificProperty.KEY_ICON_IMAGE_PATH_KIND);
-		if (imagePath == null) {
-			return null;
-		}
-		if (DesktopSpecificProperty.VALUE_PATH_TYPE_KIND_CLASSPATH_RESOURCE.equals(pathKind)) {
-			imageUrl = SwingRendererUtils.class.getClassLoader().getResource(imagePath);
-		} else {
-			try {
-				imageUrl = new File(imagePath).toURI().toURL();
-			} catch (MalformedURLException e) {
-				throw new ReflectionUIError(e);
-			}
-		}
-		result = DesktopSpecificProperty.iconImageCache.get(imagePath);
-		if (result == null) {
-			try {
-				result = ImageIO.read(imageUrl);
-			} catch (IOException e) {
-				e.printStackTrace();
-				result = DesktopSpecificProperty.NULL_ICON_IMAGE;
-			}
-			DesktopSpecificProperty.iconImageCache.put(imagePath, result);
-		}
-		if (result == DesktopSpecificProperty.NULL_ICON_IMAGE) {
-			return null;
-		}
-		return result;
-	}
-
-	public static void setIconImage(Map<String, Object> properties, Image image) {
-		properties.put(DesktopSpecificProperty.KEY_ICON_IMAGE, image);
 	}
 
 	public static void forwardSubModifications(final ReflectionUI reflectionUI, final JPanel subForm,
@@ -553,49 +485,111 @@ public class SwingRendererUtils {
 		}
 	}
 
-	public static void adjustWindowBounds(Window window) {
+	public static void adjustWindowInitialBounds(Window window) {
+		window.setLocationRelativeTo(null);
+		if (window.getParent() != null) {
+			Window parentWindow = SwingRendererUtils.getWindowAncestorOrSelf(window.getParent());
+			if (parentWindow != null) {
+				GraphicsDevice parentScreen = SwingRendererUtils.getWindowCurrentGraphicsDevice(parentWindow);
+				window.setLocation(parentScreen.getDefaultConfiguration().getBounds().getLocation());
+			}
+		}
 		Rectangle bounds = window.getBounds();
 		int growthUnit = SwingRendererUtils.getStandardCharacterWidth(window);
-		bounds.grow(growthUnit * 5, growthUnit);
-		Rectangle maxBounds = SwingRendererUtils.getMaximumWindowBounds(window);
+		bounds.grow(growthUnit * 30, growthUnit * 10);
+		Rectangle maxBounds = SwingRendererUtils.getMaximumWindowBounds(getWindowCurrentGraphicsDevice(window));
 		if (bounds.width < maxBounds.width / 3) {
 			bounds.grow((maxBounds.width / 3 - bounds.width) / 2, 0);
 		}
 		bounds = maxBounds.intersection(bounds);
-		bounds.x = maxBounds.x + (maxBounds.width - bounds.width)/2;
-		bounds.y = maxBounds.y + (maxBounds.height - bounds.height)/2;
+		bounds.x = maxBounds.x + (maxBounds.width - bounds.width) / 2;
+		bounds.y = maxBounds.y + (maxBounds.height - bounds.height) / 2;
 		window.setBounds(bounds);
 	}
 
-	public static Rectangle getMaximumWindowBounds(Window window) {
-		Rectangle result = null;
+	public static Rectangle getMaximumWindowBounds(GraphicsDevice gd) {
+		GraphicsConfiguration gc = gd.getDefaultConfiguration();
+		Rectangle screenBounds = gc.getBounds();
+		Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(gc);
+		Rectangle result = new Rectangle();
+		result.x = screenBounds.x + screenInsets.left;
+		result.y = screenBounds.y + screenInsets.top;
+		result.height = screenBounds.height - screenInsets.top - screenInsets.bottom;
+		result.width = screenBounds.width - screenInsets.left - screenInsets.right;
+		return result;
+	}
+
+	public static GraphicsDevice getWindowCurrentGraphicsDevice(Window window) {
+		GraphicsDevice result = null;
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		for (GraphicsDevice gd : ge.getScreenDevices()) {
-			for (GraphicsConfiguration gc : gd.getConfigurations()) {
-				Rectangle screenBounds = gc.getBounds();
-				Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(gc);
-				Rectangle candidateResult = new Rectangle();
-				candidateResult.x = screenBounds.x + screenInsets.left;
-				candidateResult.y = screenBounds.y + screenInsets.top;
-				candidateResult.height = screenBounds.height - screenInsets.top - screenInsets.bottom;
-				candidateResult.width = screenBounds.width - screenInsets.left - screenInsets.right;
-				if (result == null) {
-					result = candidateResult;
+			GraphicsConfiguration gc = gd.getDefaultConfiguration();
+			Rectangle screenBounds = gc.getBounds();
+			Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(gc);
+			GraphicsDevice candidateResult = gd;
+			if (result == null) {
+				result = candidateResult;
+			} else {
+				if (window == null) {
+					return result;
 				} else {
-					if (window == null) {
-						return result;
-					} else {
-						Rectangle candidateResultIntersection = candidateResult.intersection(window.getBounds());
-						Rectangle resultIntersection = result.intersection(window.getBounds());
-						if ((candidateResultIntersection.width
-								* candidateResultIntersection.height) > (resultIntersection.width
-										* resultIntersection.height)) {
-							result = candidateResult;
-						}
+					Rectangle candidateResultIntersection = getMaximumWindowBounds(candidateResult)
+							.intersection(window.getBounds());
+					Rectangle resultIntersection = getMaximumWindowBounds(result).intersection(window.getBounds());
+					int candidateResultIntersectionArea = candidateResultIntersection.width
+							* candidateResultIntersection.height;
+					int resultIntersectionArea = resultIntersection.width * resultIntersection.height;
+					if (candidateResultIntersectionArea > resultIntersectionArea) {
+						result = candidateResult;
 					}
 				}
 			}
 		}
 		return result;
+	}
+
+	public static int removeAWTEventListener(AWTEventListener listener) {
+		final List<AWTEventListener> listenersToRemove = new ArrayList<AWTEventListener>();
+		for (AWTEventListener l : Toolkit.getDefaultToolkit().getAWTEventListeners()) {
+			if (l == listener) {
+				listenersToRemove.add(l);
+			} else if (l instanceof AWTEventListenerProxy) {
+				final AWTEventListenerProxy proxyListener = (AWTEventListenerProxy) l;
+				if (proxyListener.getListener() == listener) {
+					listenersToRemove.add(proxyListener);
+				}
+			}
+		}
+		for (AWTEventListener l : listenersToRemove) {
+			Toolkit.getDefaultToolkit().removeAWTEventListener(l);
+		}
+		return listenersToRemove.size();
+	}
+
+	public Icon getControlIcon(IControlData data, SwingRenderer swingRenderer) {
+		Image iconImage = swingRenderer.getControlDataIconImage(data);
+		if (iconImage != null) {
+			return SwingRendererUtils.getSmallIcon(iconImage);
+		} else {
+			return null;
+		}
+	}
+
+	public static Icon getControlDataIcon(SwingRenderer swingRenderer, IControlData data) {
+		Image iconImage = swingRenderer.getControlDataIconImage(data);
+		if (iconImage != null) {
+			return SwingRendererUtils.getSmallIcon(iconImage);
+		} else {
+			return null;
+		}
+	}
+
+	public static Icon getMethodIcon(SwingRenderer swingRenderer, Object object, IMethodInfo method) {
+		Image iconImage = swingRenderer.getMethodIconImage(object, method);
+		if (iconImage != null) {
+			return SwingRendererUtils.getSmallIcon(iconImage);
+		} else {
+			return null;
+		}
 	}
 }

@@ -368,8 +368,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	protected void setupContexteMenu() {
 		treeTableComponent.addMouseListener(new MouseAdapter() {
-			
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				if (e.getButton() != MouseEvent.BUTTON3) {
@@ -1695,8 +1694,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				IMethodInfo method = new MethodInfoProxy(dynamicAction) {
 					@Override
 					public Object invoke(Object object, InvocationData invocationData) {
-						return SwingRendererUtils.invokeMethodThroughModificationStack(object, dynamicAction, invocationData,
-								getParentFormModificationStack());
+						return SwingRendererUtils.invokeMethodThroughModificationStack(object, dynamicAction,
+								invocationData, getParentFormModificationStack());
 					}
 				};
 				MethodAction action = swingRenderer.createMethodAction(listData.getValue(), method);

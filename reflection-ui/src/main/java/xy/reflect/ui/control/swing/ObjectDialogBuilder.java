@@ -16,6 +16,7 @@ import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
 import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
@@ -74,7 +75,7 @@ public class ObjectDialogBuilder {
 			EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
 					getValueType());
 			encapsulation.setTypeCaption(getTitle());
-			encapsulation.setFieldCaption(swingRenderer.getDefaultFieldCaption(value));
+			encapsulation.setFieldCaption(BooleanTypeInfo.isCompatibleWith(value.getClass()) ? "Is True" : "");
 			encapsulation.setFieldGetOnly(getOnly);
 			encapsulation.setFieldNullable(false);
 			return encapsulation.getInstance(valueAccessor);

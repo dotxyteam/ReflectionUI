@@ -178,9 +178,11 @@ public class MethodAction extends AbstractAction {
 	}
 
 	protected void openMethodReturnValueWindow(Component activatorComponent) {
+		String windowTitle = ReflectionUIUtils.composeMessage(method.getCaption(), "Result");
 		if (returnValue == null) {
 			EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
 					swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(Object.class)));
+			encapsulation.setTypeCaption(ReflectionUIUtils.composeMessage(windowTitle, "<null>"));
 			encapsulation.setFieldCaption("");
 			encapsulation.setFieldGetOnly(true);
 			Object nullEncapsulated = encapsulation.getInstance(Accessor.returning(null));
@@ -188,7 +190,7 @@ public class MethodAction extends AbstractAction {
 					nullEncapsulated);
 			dialogBuilder.setGetOnly(true);
 			dialogBuilder.setCancellable(false);
-			dialogBuilder.setTitle(ReflectionUIUtils.composeMessage(method.getCaption(), "Result"));
+			dialogBuilder.setTitle(windowTitle);
 			swingRenderer.showDialog(dialogBuilder.build(), true);
 		} else {
 			if (retunValueWindowDetached) {
@@ -207,7 +209,7 @@ public class MethodAction extends AbstractAction {
 					}
 				}
 				dialogBuilder.setCancellable(cancellable);
-				dialogBuilder.setTitle(ReflectionUIUtils.composeMessage(method.getCaption(), "Result"));
+				dialogBuilder.setTitle(windowTitle);
 				swingRenderer.showDialog(dialogBuilder.build(), true);
 
 				if (modificationStack != null) {

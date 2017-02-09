@@ -75,7 +75,7 @@ import xy.reflect.ui.util.SystemProperties;
 public final class InfoCustomizations {
 
 	public static final InfoCustomizations DEFAULT = createDefault();
-	public static final String APPLIED_CUSTOMIZATIONS_PROPERTY_KEY = InfoCustomizations.class.getName();
+	public static final String ACTIVE_CUSTOMIZATIONS_PROPERTY_KEY = InfoCustomizations.class.getName();
 
 	transient protected Factory proxyFactory;
 	protected Set<TypeCustomization> typeCustomizations = new TreeSet<InfoCustomizations.TypeCustomization>();
@@ -2185,7 +2185,7 @@ public final class InfoCustomizations {
 		@Override
 		protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
 			Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(type));
-			result.put(APPLIED_CUSTOMIZATIONS_PROPERTY_KEY, InfoCustomizations.this);
+			result.put(ACTIVE_CUSTOMIZATIONS_PROPERTY_KEY, InfoCustomizations.this);
 			final TypeCustomization t = getTypeCustomization(type.getName());
 			if (t != null) {
 				if (t.specificProperties != null) {
@@ -2201,7 +2201,7 @@ public final class InfoCustomizations {
 		protected Map<String, Object> getSpecificProperties(IMethodInfo method, ITypeInfo containingType) {
 			Map<String, Object> result = new HashMap<String, Object>(
 					super.getSpecificProperties(method, containingType));
-			result.put(APPLIED_CUSTOMIZATIONS_PROPERTY_KEY, InfoCustomizations.this);
+			result.put(ACTIVE_CUSTOMIZATIONS_PROPERTY_KEY, InfoCustomizations.this);
 			MethodCustomization m = getMethodCustomization(containingType.getName(),
 					ReflectionUIUtils.getMethodInfoSignature(method));
 			if (m != null) {
@@ -2218,7 +2218,7 @@ public final class InfoCustomizations {
 		protected Map<String, Object> getSpecificProperties(IFieldInfo field, ITypeInfo containingType) {
 			Map<String, Object> result = new HashMap<String, Object>(
 					super.getSpecificProperties(field, containingType));
-			result.put(APPLIED_CUSTOMIZATIONS_PROPERTY_KEY, InfoCustomizations.this);
+			result.put(ACTIVE_CUSTOMIZATIONS_PROPERTY_KEY, InfoCustomizations.this);
 			FieldCustomization f = getFieldCustomization(containingType.getName(), field.getName());
 			if (f != null) {
 				if (f.specificProperties != null) {

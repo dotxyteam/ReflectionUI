@@ -22,6 +22,7 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -192,15 +193,7 @@ public class SwingRenderer {
 		Container contentPane = createWindowContentPane(window, content, toolbarControls);
 		SwingRendererUtils.setContentPane(window, contentPane);
 		window.pack();
-		window.setLocationRelativeTo(null);
-		if (window.getParent() != null) {
-			Window parentWindow = SwingRendererUtils.getWindowAncestorOrSelf(window.getParent());
-			if (parentWindow != null) {
-				Rectangle parentScreen = SwingRendererUtils.getMaximumWindowBounds(parentWindow);
-				window.setLocation(parentScreen.getLocation());
-			}
-		}
-		SwingRendererUtils.adjustWindowBounds(window);
+		SwingRendererUtils.adjustWindowInitialBounds(window);
 		if (iconImage == null) {
 			window.setIconImage(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB));
 		} else {
@@ -844,12 +837,28 @@ public class SwingRenderer {
 	public Image getObjectIconImage(Object object) {
 		if (object != null) {
 			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-			Image result = SwingRendererUtils.getIconImageFromInfo(type);
+			Image result = DesktopSpecificProperty.getIconImage(DesktopSpecificProperty.accessInfoProperties(type));
 			if (result != null) {
 				return result;
 			}
 		}
 		return null;
+	}
+
+	public Image getControlDataIconImage(IControlData data) {
+		Image result = DesktopSpecificProperty.getIconImage(data.getSpecificProperties());
+		if (result != null) {
+			return result;
+		}
+		Object value = data.getValue();
+		if (value == null) {
+			return null;
+		}
+		return getObjectIconImage(value);
+	}
+
+	public Image getMethodIconImage(Object object, IMethodInfo method) {
+		return DesktopSpecificProperty.getIconImage(method.getSpecificProperties());
 	}
 
 	public void handleExceptionsFromDisplayedUI(Component activatorComponent, final Throwable t) {
@@ -974,6 +983,68 @@ public class SwingRenderer {
 
 	}
 
+	public Object openSelectionDialog(Component parentComponent, IEnumerationTypeInfo enumType, Object initialEnumItem,
+			String message, String title) {
+		if (initialEnumItem == null) {
+			initialEnumItem = enumType.getPossibleValues()[0];
+		}
+		final Object[] chosenItemHolder = new Object[] { initialEnumItem };
+
+		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, enumType);
+		encapsulation.setTypeCaption("Selection");
+		encapsulation.setFieldCaption(message);
+		encapsulation.setFieldGetOnly(false);
+		encapsulation.setFieldNullable(false);
+		Object encapsulatedChosenItem = encapsulation.getInstance(chosenItemHolder);
+
+		if (openObjectDialog(parentComponent, encapsulatedChosenItem, title, getObjectIconImage(encapsulatedChosenItem),
+				true, true).isOkPressed()) {
+			return chosenItemHolder[0];
+		} else {
+			return null;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> T openInputDialog(Component parentComponent, T initialValue, String dataName, String title) {
+		if (initialValue == null) {
+			throw new ReflectionUIError();
+		}
+		final Object[] valueHolder = new Object[] { initialValue };
+		ITypeInfo initialValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(initialValue));
+
+		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, initialValueType);
+		encapsulation.setTypeCaption("Input");
+		encapsulation.setFieldCaption(dataName);
+		encapsulation.setFieldGetOnly(false);
+		encapsulation.setFieldNullable(false);
+		Object encapsulatedValue = encapsulation.getInstance(valueHolder);
+
+		if (openObjectDialog(parentComponent, encapsulatedValue, title, getObjectIconImage(encapsulatedValue), true,
+				true).isOkPressed()) {
+			return (T) valueHolder[0];
+		} else {
+			return null;
+		}
+	}
+
+	public boolean openQuestionDialog(Component activatorComponent, String question, String title) {
+		return openQuestionDialog(activatorComponent, question, title, "Yes", "No");
+	}
+
+	public boolean openQuestionDialog(Component activatorComponent, String question, String title, String yesCaption,
+			String noCaption) {
+		DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
+		dialogBuilder.setToolbarComponents(dialogBuilder.createStandardOKCancelDialogButtons(yesCaption, noCaption));
+		dialogBuilder
+				.setContentComponent(new JLabel("<HTML><BR>" + question + "<BR><BR><HTML>", SwingConstants.CENTER));
+		dialogBuilder.setTitle(title);
+		showDialog(dialogBuilder.build(), true);
+		return dialogBuilder.isOkPressed();
+	}
+
+	
+
 	public void openErrorDialog(Component activatorComponent, String title, final Throwable error) {
 		DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI,
@@ -1006,6 +1077,19 @@ public class SwingRenderer {
 		showDialog(dialogBuilder.build(), true);
 
 	}
+	
+	public void openMessageDialog(Component activatorComponent, String msg, String title, Image iconImage) {
+		DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
+		JButton okButton = dialogBuilder.createDialogClosingButton("Close", null);
+		dialogBuilder.setToolbarComponents(Collections.singletonList(okButton));
+		dialogBuilder.setContentComponent(
+				new JLabel("<HTML><BR><CENTER>" + ReflectionUIUtils.escapeHTML(msg, true) + "</CENTER><BR><BR><HTML>",
+						SwingConstants.CENTER));
+		dialogBuilder.setTitle(title);
+		dialogBuilder.setIconImage(iconImage);
+		showDialog(dialogBuilder.build(), true);
+	}
+
 
 	public void openErrorDetailsDialog(Component activatorComponent, Throwable error) {
 		openObjectDialog(activatorComponent, error);
@@ -1089,7 +1173,7 @@ public class SwingRenderer {
 			@Override
 			protected Map<String, Object> getItemSpecificProperties(Object choice) {
 				Map<String, Object> properties = new HashMap<String, Object>();
-				SwingRendererUtils.setIconImage(properties, iconImages.get(choice));
+				DesktopSpecificProperty.setIconImage(properties, iconImages.get(choice));
 				return properties;
 			}
 
@@ -1116,72 +1200,8 @@ public class SwingRenderer {
 
 	}
 
-	public Object openSelectionDialog(Component parentComponent, IEnumerationTypeInfo enumType, Object initialEnumItem,
-			String message, String title) {
-		if (initialEnumItem == null) {
-			initialEnumItem = enumType.getPossibleValues()[0];
-		}
-		final Object[] chosenItemHolder = new Object[] { initialEnumItem };
-
-		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, enumType);
-		encapsulation.setTypeCaption("Selection");
-		encapsulation.setFieldCaption(message);
-		encapsulation.setFieldGetOnly(false);
-		encapsulation.setFieldNullable(false);
-		Object encapsulatedChosenItem = encapsulation.getInstance(chosenItemHolder);
-
-		if (openObjectDialog(parentComponent, encapsulatedChosenItem, title, getObjectIconImage(encapsulatedChosenItem),
-				true, true).isOkPressed()) {
-			return chosenItemHolder[0];
-		} else {
-			return null;
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	public <T> T openInputDialog(Component parentComponent, T initialValue, String dataName, String title) {
-		if (initialValue == null) {
-			throw new ReflectionUIError();
-		}
-		final Object[] valueHolder = new Object[] { initialValue };
-		ITypeInfo initialValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(initialValue));
-
-		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, initialValueType);
-		encapsulation.setTypeCaption("Input");
-		encapsulation.setFieldCaption(dataName);
-		encapsulation.setFieldGetOnly(false);
-		encapsulation.setFieldNullable(false);
-		Object encapsulatedValue = encapsulation.getInstance(valueHolder);
-
-		if (openObjectDialog(parentComponent, encapsulatedValue, title, getObjectIconImage(encapsulatedValue), true,
-				true).isOkPressed()) {
-			return (T) valueHolder[0];
-		} else {
-			return null;
-		}
-	}
-
-	public boolean openQuestionDialog(Component activatorComponent, String question, String title) {
-		return openQuestionDialog(activatorComponent, question, title, "Yes", "No");
-	}
-
-	public boolean openQuestionDialog(Component activatorComponent, String question, String title, String yesCaption,
-			String noCaption) {
-		DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
-		dialogBuilder.setToolbarComponents(dialogBuilder.createStandardOKCancelDialogButtons(yesCaption, noCaption));
-		dialogBuilder
-				.setContentComponent(new JLabel("<HTML><BR>" + question + "<BR><BR><HTML>", SwingConstants.CENTER));
-		dialogBuilder.setTitle(title);
-		showDialog(dialogBuilder.build(), true);
-		return dialogBuilder.isOkPressed();
-	}
-
 	public DialogBuilder createDialogBuilder(Component activatorComponent) {
 		return new DialogBuilder(this, activatorComponent);
-	}
-
-	public String getDefaultFieldCaption(Object fieldValue) {
-		return BooleanTypeInfo.isCompatibleWith(fieldValue.getClass()) ? "Is True" : "Value";
 	}
 
 	public List<IFieldInfo> getDisplayedFields(JPanel form) {
@@ -1352,18 +1372,7 @@ public class SwingRenderer {
 			}
 			dialog.setVisible(true);
 		}
-	}
 
-	public void openMessageDialog(Component activatorComponent, String msg, String title, Image iconImage) {
-		DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
-		JButton okButton = dialogBuilder.createDialogClosingButton("Close", null);
-		dialogBuilder.setToolbarComponents(Collections.singletonList(okButton));
-		dialogBuilder.setContentComponent(
-				new JLabel("<HTML><BR><CENTER>" + ReflectionUIUtils.escapeHTML(msg, true) + "</CENTER><BR><BR><HTML>",
-						SwingConstants.CENTER));
-		dialogBuilder.setTitle(title);
-		dialogBuilder.setIconImage(iconImage);
-		showDialog(dialogBuilder.build(), true);
 	}
 
 	public void updateFieldControlLayout(FieldControlPlaceHolder fieldControlPlaceHolder) {

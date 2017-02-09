@@ -198,16 +198,8 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	protected void updateIconControl() {
-		Object fieldValue = data.getValue();
-		Image iconImage = swingRenderer.getObjectIconImage(fieldValue);
-		if (iconImage != null) {
-			iconImage = SwingRendererUtils.scalePreservingRatio(iconImage, 16, 16, Image.SCALE_SMOOTH);
-			((JLabel) iconControl).setIcon(new ImageIcon(iconImage));
-			iconControl.setVisible(true);
-		} else {
-			((JLabel) iconControl).setIcon(null);
-			iconControl.setVisible(false);
-		}
+		((JLabel) iconControl).setIcon(SwingRendererUtils.getControlDataIcon(swingRenderer, data));
+		iconControl.setVisible(((JLabel) iconControl).getIcon() != null);
 	}
 
 	protected void updateStatusControl() {

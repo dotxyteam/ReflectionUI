@@ -1,6 +1,13 @@
-- allow to customize Method dialog "no data returned"
-- New windows must be centered in the activator screen, not the first screen always
+- allow to customize Method dialog "no data returned"???
+- allow to customize icons for:
+	. fields: can be postponed as field controls need to be updatedœ
+	. methods
+- icon on title bar???
+- ArrayAsEnum often crashes because an item is not in the array:
+=> make it more flexible
 
+
+- provide swingRenderer.openAutoRollbackableDialog()
 - normally a field control must be customizable for only 1 field.
 Currently, customizations affects all fields having the same type  
 - allow to clean customizations

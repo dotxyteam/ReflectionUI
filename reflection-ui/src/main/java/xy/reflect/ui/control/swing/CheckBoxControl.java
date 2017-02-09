@@ -30,13 +30,11 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 			setEnabled(false);
 		}
 
-		Boolean initialValue = (Boolean) data.getValue();
-		setSelected(initialValue);
+		setSelected((Boolean) data.getValue());
 		addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				onValueChange();
+				data.setValue(isSelected());
 			}
 		});
 	}
@@ -45,9 +43,6 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 	public void setPalceHolder(FieldControlPlaceHolder fieldControlPlaceHolder) {
 	}
 
-	protected void onValueChange() {
-		data.setValue(isSelected());
-	}
 
 	@Override
 	public boolean showCaption() {

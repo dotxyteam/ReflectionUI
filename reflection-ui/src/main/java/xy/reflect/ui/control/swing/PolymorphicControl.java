@@ -93,7 +93,8 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		ITypeInfo enumType = swingRenderer.getReflectionUI().getTypeInfo(enumFactory.getInstanceTypeInfoSource());
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
 				enumType);
-		encapsulation.setTypeCaption(ReflectionUIUtils.composeMessage(polymorphicType.getCaption(), "Polymorphic Type"));
+		encapsulation
+				.setTypeCaption(ReflectionUIUtils.composeMessage(polymorphicType.getCaption(), "Polymorphic Type"));
 		encapsulation.setFieldNullable(false);
 		encapsulation.setFieldCaption("");
 		Object encapsulated = encapsulation.getInstance(new Accessor<Object>() {
@@ -159,7 +160,8 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 	protected Component createDynamicControl(final ITypeInfo instanceType) {
 		final EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
 				instanceType);
-		encapsulation.setTypeCaption(ReflectionUIUtils.composeMessage(polymorphicType.getCaption(), "Polymorphic Value"));
+		encapsulation
+				.setTypeCaption(ReflectionUIUtils.composeMessage(polymorphicType.getCaption(), "Polymorphic Value"));
 		encapsulation.setFieldNullable(false);
 		encapsulation.setFieldCaption("");
 		final Object encapsulated = encapsulation.getInstance(new Accessor<Object>() {

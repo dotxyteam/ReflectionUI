@@ -19,11 +19,12 @@ import javax.swing.JPanel;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 import xy.reflect.ui.control.data.IControlData;
+import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-@SuppressWarnings({ "rawtypes", "unchecked" })
+@SuppressWarnings({ "rawtypes", "unchecked", "unused" })
 public class EnumerationControl extends JPanel {
 	protected static final long serialVersionUID = 1L;
 	protected IEnumerationTypeInfo enumType;
@@ -81,11 +82,12 @@ public class EnumerationControl extends JPanel {
 						s = itemInfo.getCaption();
 					}
 					label.setText(swingRenderer.prepareStringToDisplay(s));
-					Image imageIcon = SwingRendererUtils.getIconImageFromInfo(itemInfo);
-					if (imageIcon == null) {
+					Image iconImage = DesktopSpecificProperty
+							.getIconImage(DesktopSpecificProperty.accessInfoProperties(itemInfo));
+					if (iconImage == null) {
 						label.setIcon(null);
 					} else {
-						label.setIcon(new ImageIcon(imageIcon));
+						label.setIcon(SwingRendererUtils.getSmallIcon(iconImage));
 					}
 				}
 

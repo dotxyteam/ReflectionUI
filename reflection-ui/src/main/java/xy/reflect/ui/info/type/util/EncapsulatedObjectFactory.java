@@ -31,7 +31,9 @@ public class EncapsulatedObjectFactory {
 	protected boolean fieldGetOnly = false;
 	protected boolean fieldNullable = true;
 	protected ValueReturnMode fieldValueReturnMode = ValueReturnMode.PROXY;
+	protected Map<String, Object> typeSpecificProperties = new HashMap<String, Object>();
 	protected Map<String, Object> fieldSpecificProperties = new HashMap<String, Object>();
+	protected boolean modificationStackAccessible = true;
 
 	public EncapsulatedObjectFactory(ReflectionUI reflectionUI, ITypeInfo fieldType) {
 		this.reflectionUI = reflectionUI;
@@ -62,6 +64,22 @@ public class EncapsulatedObjectFactory {
 
 	public void setTypeCaption(String typeCaption) {
 		this.typeCaption = typeCaption;
+	}
+
+	public boolean isModificationStackAccessible() {
+		return modificationStackAccessible;
+	}
+
+	public void setModificationStackAccessible(boolean modificationStackAccessible) {
+		this.modificationStackAccessible = modificationStackAccessible;
+	}
+
+	public Map<String, Object> getTypeSpecificProperties() {
+		return typeSpecificProperties;
+	}
+
+	public void setTypeSpecificProperties(Map<String, Object> typeSpecificProperties) {
+		this.typeSpecificProperties = typeSpecificProperties;
 	}
 
 	public String getFieldCaption() {
@@ -178,7 +196,7 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {
-			return Collections.emptyMap();
+			return typeSpecificProperties;
 		}
 
 		@Override
@@ -188,7 +206,7 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public boolean isModificationStackAccessible() {
-			return true;
+			return modificationStackAccessible;
 		}
 
 		@Override

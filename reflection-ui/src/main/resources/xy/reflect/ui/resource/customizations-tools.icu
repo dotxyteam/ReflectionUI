@@ -503,7 +503,22 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Type Name</customFieldCaption>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=Hidden Customization Tools Type Names - Item, fieldType=java.lang.String, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
         <typeName>Encapsulation [typeCaption=IList Item Details Access Mode - Polymorphic Type, fieldType=xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode.SubTypesEnumeration, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>Encapsulation [typeCaption=Information, fieldType=java.lang.String, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -686,6 +701,17 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>MethodParametersAsTypeInfo(getTypeCustomization)</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>File</customFieldCaption>
+            <fieldName>file</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>MethodSetupObject [method=void setFile(java.io.File), containingType=xy.reflect.ui.util.ResourcePath]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -887,6 +913,28 @@
     </typeCustomizations>
     <typeCustomizations>
         <typeName>xy.reflect.ui.control.swing.PolymorphicEmbeddedForm$1</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>hiddenCustomizationToolsTypeNames</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <methodsCustomizations>
+            <hidden>true</hidden>
+            <methodSignature>boolean areHiddenFor(java.lang.String)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>true</hidden>
+            <methodSignature>void hideFor(java.lang.String)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>xy.reflect.ui.control.swing.SwingCustomizer$CustomizationOptions</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1618,6 +1666,7 @@
     <typeCustomizations>
         <customFieldsOrder>fieldName</customFieldsOrder>
         <customFieldsOrder>customFieldCaption</customFieldsOrder>
+        <customFieldsOrder>iconImageFile</customFieldsOrder>
         <customFieldsOrder>getOnlyForced</customFieldsOrder>
         <customFieldsOrder>nullableFacetHidden</customFieldsOrder>
         <customFieldsOrder>hidden</customFieldsOrder>
@@ -2185,14 +2234,16 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <customFieldsOrder>validating</customFieldsOrder>
+        <customFieldsOrder>customValueReturnMode</customFieldsOrder>
         <customFieldsOrder>methodSignature</customFieldsOrder>
         <customFieldsOrder>customMethodCaption</customFieldsOrder>
+        <customFieldsOrder>iconImageFile</customFieldsOrder>
         <customFieldsOrder>hidden</customFieldsOrder>
         <customFieldsOrder>readOnlyForced</customFieldsOrder>
         <customFieldsOrder>parametersCustomizations</customFieldsOrder>
         <customFieldsOrder>category</customFieldsOrder>
         <customFieldsOrder>onlineHelp</customFieldsOrder>
-        <customFieldsOrder>customReturnValueAccessMode</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <fieldName>category</fieldName>
@@ -2602,6 +2653,77 @@
     </typeCustomizations>
     <typeCustomizations>
         <typeName>xy.reflect.ui.info.type.util.TypeInfoProxyFactory$GeneratedBasicTypeInfoProxy</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>alternative</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <valueOptionsFieldName>alternativeOptions</valueOptionsFieldName>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>true</hidden>
+            <fieldName>alternativeOptions</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>true</hidden>
+            <fieldName>fileSpecification</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>xy.reflect.ui.util.PathOption</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>true</hidden>
+            <fieldName>CLASSPATH_RESOURCE_PREFIX</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>true</hidden>
+            <fieldName>alternativeOptions</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption></customFieldCaption>
+            <fieldName>chosenAlternative</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <valueOptionsFieldName>alternativeOptions</valueOptionsFieldName>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>file</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>true</hidden>
+            <fieldName>specification</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <customMethodCaption>Open</customMethodCaption>
+            <methodSignature>void setFile(java.io.File)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>file</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>xy.reflect.ui.util.ResourcePath</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

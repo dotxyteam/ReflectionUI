@@ -72,6 +72,7 @@ public class ReflectionUITest {
 		private Date theDate = new Date();
 		char c = 'a';
 		public List<String> theStringList = new ArrayList<String>(Arrays.asList("a", "b", "c", "d"));
+		public List<Boolean> theBooleanList = new ArrayList<Boolean>(Arrays.asList(true, false, true, false));
 		public Test2 test2 = new Test2();
 		public AbstrcatTestDescendant[] theArrayTreeTable = new AbstrcatTestDescendant[] { new Test2(), new Test3() };
 		@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -118,12 +119,16 @@ public class ReflectionUITest {
 			}
 		}
 		
-		public Object returnNull(){
+		public Object returnNothing(){
 			return null;
 		}
 		
 		public Object returnObject(){
 			return new Object();
+		}
+		
+		public void throwException() throws Exception{
+			throw new Exception();
 		}
 	}
 

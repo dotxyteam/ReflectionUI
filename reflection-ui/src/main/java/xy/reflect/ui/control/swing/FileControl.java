@@ -99,7 +99,7 @@ public class FileControl extends DialogAccessControl implements IAdvancedFieldCo
 
 	@Override
 	public boolean refreshUI() {
-		updateStatusControl();
+		updateControls();
 		return true;
 	}
 

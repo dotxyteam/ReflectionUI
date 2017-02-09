@@ -407,66 +407,6 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <fieldName></fieldName>
-            <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>false</nullableFacetHidden>
-        </fieldsCustomizations>
-        <typeName>EncapsulationTypeInfo [fieldType=Day, fieldCaption=The Day]</typeName>
-        <undoManagementHidden>false</undoManagementHidden>
-    </typeCustomizations>
-    <typeCustomizations>
-        <fieldsCustomizations>
-            <hidden>false</hidden>
-            <fieldName></fieldName>
-            <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>false</nullableFacetHidden>
-        </fieldsCustomizations>
-        <typeName>EncapsulationTypeInfo [fieldType=Test 2, fieldCaption=Value]</typeName>
-        <undoManagementHidden>false</undoManagementHidden>
-    </typeCustomizations>
-    <typeCustomizations>
-        <fieldsCustomizations>
-            <hidden>false</hidden>
-            <fieldName></fieldName>
-            <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>false</nullableFacetHidden>
-        </fieldsCustomizations>
-        <typeName>EncapsulationTypeInfo [fieldType=Test 3, fieldCaption=Value]</typeName>
-        <undoManagementHidden>false</undoManagementHidden>
-    </typeCustomizations>
-    <typeCustomizations>
-        <fieldsCustomizations>
-            <hidden>false</hidden>
-            <fieldName></fieldName>
-            <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>false</nullableFacetHidden>
-        </fieldsCustomizations>
-        <typeName>EncapsulationTypeInfo [fieldType=Test, fieldCaption=Value]</typeName>
-        <undoManagementHidden>false</undoManagementHidden>
-    </typeCustomizations>
-    <typeCustomizations>
-        <fieldsCustomizations>
-            <hidden>false</hidden>
-            <fieldName></fieldName>
-            <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>false</nullableFacetHidden>
-        </fieldsCustomizations>
-        <typeName>EncapsulationTypeInfo [fieldType=xy.reflect.ui.info.type.util.EncapsulationTypeInfo@f4863541, fieldCaption=Value]</typeName>
-        <undoManagementHidden>false</undoManagementHidden>
-    </typeCustomizations>
-    <typeCustomizations>
-        <fieldsCustomizations>
-            <hidden>false</hidden>
-            <fieldName></fieldName>
-            <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>false</nullableFacetHidden>
-        </fieldsCustomizations>
-        <typeName>EncapsulationTypeInfo()</typeName>
-        <undoManagementHidden>false</undoManagementHidden>
-    </typeCustomizations>
-    <typeCustomizations>
-        <fieldsCustomizations>
-            <hidden>false</hidden>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1367,6 +1307,22 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <typeName>Encapsulation [typeCaption=Error, fieldType=java.lang.String, fieldCaption=Message]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>Encapsulation [typeCaption=Exception - Polymorphic Type, fieldType=SubTypesEnumeration [polymorphicType=java.lang.Exception], fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>Encapsulation [typeCaption=Exception - Polymorphic Value, fieldType=java.lang.ClassNotFoundException, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>Encapsulation [typeCaption=Exception - Polymorphic Value, fieldType=java.lang.NullPointerException, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <fieldName>value</fieldName>
@@ -1384,6 +1340,14 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>Encapsulation [typeCaption=Input, fieldType=String, fieldCaption=Create 'Object' of type]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>Encapsulation [typeCaption=Selection, fieldType=ConstructorSelection [type=java.lang.ClassNotFoundException], fieldCaption=Choose an option]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>Encapsulation [typeCaption=Selection, fieldType=SelectionDialogArrayAsEnumeration [title=Icon Image], fieldCaption=Choose an option]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1414,6 +1378,76 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>Encapsulation [typeCaption=Selection, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@ee7e66, fieldCaption=Choose a type:]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=The Boolean List - Item, fieldType=java.lang.Boolean, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulationTypeInfo [fieldType=Day, fieldCaption=The Day]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulationTypeInfo [fieldType=Test 2, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulationTypeInfo [fieldType=Test 3, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulationTypeInfo [fieldType=Test, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulationTypeInfo [fieldType=xy.reflect.ui.info.type.util.EncapsulationTypeInfo@f4863541, fieldCaption=Value]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>EncapsulationTypeInfo()</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1529,6 +1563,15 @@
             </category>
             <hidden>false</hidden>
             <fieldName>theArrayTreeTable</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Lists</caption>
+            </category>
+            <hidden>false</hidden>
+            <fieldName>theBooleanList</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
@@ -1823,6 +1866,16 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <specificProperties>
+            <entry>
+                <key>DesktopSpecificProperty.KEY_ICON_IMAGE_PATH</key>
+                <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">ReflectionUITest.png</value>
+            </entry>
+            <entry>
+                <key>DesktopSpecificProperty.KEY_ICON_IMAGE_PATH_KIND</key>
+                <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">DesktopSpecificProperty.VALUE_PATH_TYPE_KIND_RELATIVE_FILE</value>
+            </entry>
+        </specificProperties>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>void modify1()</methodSignature>
@@ -2120,6 +2173,16 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <specificProperties>
+            <entry>
+                <key>DesktopSpecificProperty.KEY_ICON_IMAGE_PATH</key>
+                <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">ReflectionUITest.png</value>
+            </entry>
+            <entry>
+                <key>DesktopSpecificProperty.KEY_ICON_IMAGE_PATH_KIND</key>
+                <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">DesktopSpecificProperty.VALUE_PATH_TYPE_KIND_RELATIVE_FILE</value>
+            </entry>
+        </specificProperties>
         <methodsCustomizations>
             <hidden>false</hidden>
             <methodSignature>java.lang.ClassNotFoundException ClassNotFoundException()</methodSignature>

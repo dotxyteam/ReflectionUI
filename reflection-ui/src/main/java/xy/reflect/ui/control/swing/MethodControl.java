@@ -26,22 +26,30 @@ public class MethodControl extends JButton {
 
 	protected void initialize() {
 		String caption = method.getCaption();
-		String toolTipText = "";
-		if (method.getParameters().size() > 0) {
-			caption += "...";
-			toolTipText += "Parameter(s): " + ReflectionUIUtils.formatParameterList(method.getParameters());
-		}
-		if ((method.getOnlineHelp() != null) && (method.getOnlineHelp().trim().length() > 0)) {
-			if (toolTipText.length() > 0) {
-				toolTipText += ":\n";
+		{
+			if (caption.length() > 0) {
+				if (method.getParameters().size() > 0) {
+					caption += "...";
+				}
+				setText(swingRenderer.prepareStringToDisplay(caption));
 			}
-			toolTipText += method.getOnlineHelp();
 		}
-		if (toolTipText.length() > 0) {
-			SwingRendererUtils.setMultilineToolTipText(this, swingRenderer.prepareStringToDisplay(toolTipText));
+		String toolTipText = "";
+		{
+			if (method.getParameters().size() > 0) {
+				toolTipText += "Parameter(s): " + ReflectionUIUtils.formatParameterList(method.getParameters());
+			}
+			if ((method.getOnlineHelp() != null) && (method.getOnlineHelp().trim().length() > 0)) {
+				if (toolTipText.length() > 0) {
+					toolTipText += ":\n";
+				}
+				toolTipText += method.getOnlineHelp();
+			}
+			if (toolTipText.length() > 0) {
+				SwingRendererUtils.setMultilineToolTipText(this, swingRenderer.prepareStringToDisplay(toolTipText));
+			}
 		}
-		setText(swingRenderer.prepareStringToDisplay(caption));
-
+		setIcon(SwingRendererUtils.getMethodIcon(swingRenderer, object, method));
 		addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
