@@ -1702,23 +1702,31 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				IMethodInfo method = new MethodInfoProxy(dynamicAction) {
+				IMethodInfo method = dynamicAction;
+				method = new MethodInfoProxy(method) {
+					@Override
+					public Object invoke(Object listRootValue, InvocationData invocationData) {
+						return SwingRendererUtils.showBusyDialogWhileInvokingMethod(ListControl.this, swingRenderer,
+								listRootValue, base, invocationData);
+					}
+				};
+				method = new MethodInfoProxy(method) {
 					@Override
 					public Object invoke(Object listRootValue, InvocationData invocationData) {
 						ModificationStack childModifStack = new ModificationStack(null);
-						Object result = SwingRendererUtils.invokeMethodThroughModificationStack(listRootValue,
-								dynamicAction, invocationData, childModifStack);
-						String childModifTitle = InvokeMethodModification.getTitle(dynamicAction);
-						IInfo childModifTarget = dynamicAction;
+						Object result = SwingRendererUtils.invokeMethodThroughModificationStack(listRootValue, base,
+								invocationData, childModifStack);
+						String childModifTitle = InvokeMethodModification.getTitle(base);
+						IInfo childModifTarget = base;
 						IModification commitModif;
-						if (dynamicAction.isReadOnly()) {
+						if (base.isReadOnly()) {
 							commitModif = null;
 						} else {
 							commitModif = new UpdateListValueModification(getRootListItemPosition(),
-									getRootListType().toArray(listRootValue), dynamicAction);
+									getRootListType().toArray(listRootValue), base);
 						}
 						boolean childModifAccepted = true;
-						ValueReturnMode childValueReturnMode = dynamicAction.getValueReturnMode();
+						ValueReturnMode childValueReturnMode = base.getValueReturnMode();
 						boolean childValueNew = false;
 						ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(),
 								getParentFormModificationStack(), childModifStack, childModifAccepted,

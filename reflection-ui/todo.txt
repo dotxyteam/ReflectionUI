@@ -1,11 +1,3 @@
-. AdjustWindowSize: not working if window size is 0
-. Customization Dialog has no parent
-. Remove type from parameter caption when the name is known
-. not customized:
-  .  ItemFilter 
-  .  item shortcuts
-. Invert item methods and fields shortcuts order
-. ItemShortcut.alwaysShown=true by default 
 . ItemShortcuts not using busy dialogs
 - allow to customize Method dialog "no data returned"???
 - allow to customize icons for:

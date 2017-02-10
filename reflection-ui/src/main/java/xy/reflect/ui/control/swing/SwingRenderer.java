@@ -823,8 +823,7 @@ public class SwingRenderer {
 	public List<MethodControlPlaceHolder> getMethodControlPlaceHoldersBySignature(JPanel form, String methodSignature) {
 		List<MethodControlPlaceHolder> result = new ArrayList<MethodControlPlaceHolder>();
 		for (MethodControlPlaceHolder methodControlPlaceHolder : getMethodControlPlaceHolders(form)) {
-			if (ReflectionUIUtils.getMethodSignature(methodControlPlaceHolder.getMethod())
-					.equals(methodSignature)) {
+			if (ReflectionUIUtils.getMethodSignature(methodControlPlaceHolder.getMethod()).equals(methodSignature)) {
 				result.add(methodControlPlaceHolder);
 			}
 		}
@@ -1502,8 +1501,8 @@ public class SwingRenderer {
 			this.object = object;
 			this.field = field;
 			this.controlAwareField = field;
-			this.controlAwareField = makeFieldModificationsUndoable(this.controlAwareField);
 			this.controlAwareField = indicateWhenBusy(this.controlAwareField);
+			this.controlAwareField = makeFieldModificationsUndoable(this.controlAwareField);
 			this.controlAwareField = handleValueAccessIssues(this.controlAwareField);
 			setLayout(new BorderLayout());
 			refreshUI(false);
@@ -1574,13 +1573,8 @@ public class SwingRenderer {
 					if (isBusyIndicationDisabled()) {
 						return super.getValue(object);
 					}
-					final Object[] result = new Object[1];
-					showBusyDialogWhile(FieldControlPlaceHolder.this, new Runnable() {
-						public void run() {
-							result[0] = field.getValue(object);
-						}
-					}, "Getting " + field.getCaption());
-					return result[0];
+					return SwingRendererUtils.showBusyDialogWhileGettingFieldValue(FieldControlPlaceHolder.this,
+							SwingRenderer.this, object, field);
 				}
 
 				@Override
@@ -1589,11 +1583,8 @@ public class SwingRenderer {
 						super.setValue(object, value);
 						return;
 					}
-					showBusyDialogWhile(FieldControlPlaceHolder.this, new Runnable() {
-						public void run() {
-							field.setValue(object, value);
-						}
-					}, "Setting " + field.getCaption());
+					SwingRendererUtils.showBusyDialogWhileSettingFieldValue(FieldControlPlaceHolder.this,
+							SwingRenderer.this, object, field, value);
 				}
 
 				@Override
@@ -1703,8 +1694,8 @@ public class SwingRenderer {
 			this.object = object;
 			this.method = method;
 			this.controlAwareMethod = method;
-			this.controlAwareMethod = makeMethodModificationsUndoable(this.controlAwareMethod);
 			this.controlAwareMethod = indicateWhenBusy(this.controlAwareMethod);
+			this.controlAwareMethod = makeMethodModificationsUndoable(this.controlAwareMethod);
 			setLayout(new BorderLayout());
 			refreshUI(false);
 		}
@@ -1728,13 +1719,8 @@ public class SwingRenderer {
 
 				@Override
 				public Object invoke(final Object object, final InvocationData invocationData) {
-					final Object[] result = new Object[1];
-					showBusyDialogWhile(MethodControlPlaceHolder.this, new Runnable() {
-						public void run() {
-							result[0] = method.invoke(object, invocationData);
-						}
-					}, ReflectionUIUtils.composeMessage(method.getCaption(), "Execution"));
-					return result[0];
+					return SwingRendererUtils.showBusyDialogWhileInvokingMethod(MethodControlPlaceHolder.this,
+							SwingRenderer.this, object, method, invocationData);
 				}
 
 				@Override

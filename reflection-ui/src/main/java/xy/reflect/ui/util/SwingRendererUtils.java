@@ -57,6 +57,7 @@ import xy.reflect.ui.control.swing.DialogAccessControl;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
+import xy.reflect.ui.control.swing.SwingRenderer.MethodControlPlaceHolder;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -651,6 +652,40 @@ public class SwingRendererUtils {
 
 	public static Window getActiveWindow() {
 		return KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusedWindow();
+	}
+
+	public static Object showBusyDialogWhileInvokingMethod(Component activatorComponent, SwingRenderer swingRenderer,
+			final Object object, final IMethodInfo method, final InvocationData invocationData) {
+		final Object[] result = new Object[1];
+		swingRenderer.showBusyDialogWhile(activatorComponent, new Runnable() {
+			public void run() {
+				result[0] = method.invoke(object, invocationData);
+			}
+		}, ReflectionUIUtils.composeMessage(method.getCaption(), "Execution"));
+		return result[0];
+
+	}
+
+	public static Object showBusyDialogWhileGettingFieldValue(Component activatorComponent, SwingRenderer swingRenderer,
+			final Object object, final IFieldInfo field) {
+		final Object[] result = new Object[1];
+		swingRenderer.showBusyDialogWhile(activatorComponent, new Runnable() {
+			public void run() {
+				result[0] = field.getValue(object);
+			}
+		}, "Getting " + field.getCaption());
+		return result[0];
+
+	}
+
+	public static void showBusyDialogWhileSettingFieldValue(Component activatorComponent, SwingRenderer swingRenderer,
+			final Object object, final IFieldInfo field, final Object value) {
+		swingRenderer.showBusyDialogWhile(activatorComponent, new Runnable() {
+			public void run() {
+				field.setValue(object, value);
+			}
+		}, "Setting " + field.getCaption());
+
 	}
 
 }
