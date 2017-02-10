@@ -1710,7 +1710,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 								listRootValue, base, invocationData);
 					}
 				};
-				method = new MethodInfoProxy(method) {
+				method = new MethodInfoProxy(method) { 
 					@Override
 					public Object invoke(Object listRootValue, InvocationData invocationData) {
 						ModificationStack childModifStack = new ModificationStack(null);

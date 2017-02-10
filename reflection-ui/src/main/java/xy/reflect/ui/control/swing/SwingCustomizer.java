@@ -208,7 +208,7 @@ public class SwingCustomizer extends SwingRenderer {
 		return true;
 	}
 
-	protected class CustomizationTools {
+	public class CustomizationTools {
 		protected SwingRenderer customizationToolsRenderer;
 		protected ReflectionUI customizationToolsUI;
 		protected InfoCustomizations customizationToolsCustomizations;
@@ -270,7 +270,11 @@ public class SwingCustomizer extends SwingRenderer {
 						return new CustomizationOptions() {
 
 							@Override
-							protected void openWindow(Component activatorComponent) {
+							protected void setupOpenWindowEventHandling() {
+							}
+
+							@Override
+							protected void cleanupOpenWindowEventHandling() {
 							}
 
 						};
@@ -515,7 +519,8 @@ public class SwingCustomizer extends SwingRenderer {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					final JPopupMenu popupMenu = new JPopupMenu();
-					popupMenu.add(new AbstractAction(prepareStringToDisplay("Hide This Type Customization Tools")) {
+					popupMenu.add(new AbstractAction(prepareStringToDisplay("Hide This Type Customization Tools (to revert "
+							+ customizationOptions.getOpenWindowShortcutDescription() + ")")) {
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -540,10 +545,6 @@ public class SwingCustomizer extends SwingRenderer {
 
 		protected void hideCustomizationTools(Component activatorComponent, String typeName) {
 			customizationOptions.hideFor(typeName);
-			customizationToolsRenderer.openMessageDialog(activatorComponent,
-					"Press <CTRL+O> to restore hidden customization tools",
-					customizationToolsRenderer.getObjectTitle(customizationOptions),
-					getCustomizationsIcon().getImage());
 		}
 
 		protected void openTypeCustomizationDialog(Component activatorComponent, final TypeCustomization t) {
@@ -1012,25 +1013,40 @@ public class SwingCustomizer extends SwingRenderer {
 
 	}
 
-	protected class CustomizationOptions {
+	public class CustomizationOptions {
 		protected final TreeSet<String> hiddenCustomizationToolsTypeNames = new TreeSet<String>();
-		private AWTEventListener openWindowListener = new AWTEventListener() {
-			@Override
-			public void eventDispatched(AWTEvent event) {
-				KeyEvent keyEvent = (KeyEvent) event;
-				if (isOpenWindowEvent(keyEvent)) {
-					openWindow(SwingRendererUtils.getActiveWindow());
-					keyEvent.consume();
-				}
-			}
-		};
+		protected AWTEventListener openWindowListener;
 
 		public CustomizationOptions() {
-			Toolkit.getDefaultToolkit().addAWTEventListener(openWindowListener, AWTEvent.KEY_EVENT_MASK);
+			setupOpenWindowEventHandling();
 		}
 
-		protected boolean isOpenWindowEvent(KeyEvent ke) {
-			return ke.isControlDown() && (ke.getID() == KeyEvent.KEY_PRESSED) && (ke.getKeyCode() == KeyEvent.VK_O);
+		@Override
+		protected void finalize() throws Throwable {
+			super.finalize();
+			cleanupOpenWindowEventHandling();
+		}
+
+		public String getOpenWindowShortcutDescription() {
+			return "press CTRL+ALT+O";
+		}
+
+		protected void setupOpenWindowEventHandling() {
+			Toolkit.getDefaultToolkit().addAWTEventListener(openWindowListener = new AWTEventListener() {
+				@Override
+				public void eventDispatched(AWTEvent event) {
+					KeyEvent keyEvent = (KeyEvent) event;
+					if (isOpenWindowKeyEvent(keyEvent)) {
+						openWindow(SwingRendererUtils.getActiveWindow());
+						keyEvent.consume();
+					}
+				}
+
+				boolean isOpenWindowKeyEvent(KeyEvent ke) {
+					return ke.isControlDown() && ke.isAltDown() && (ke.getID() == KeyEvent.KEY_PRESSED)
+							&& (ke.getKeyCode() == KeyEvent.VK_O);
+				}
+			}, AWTEvent.KEY_EVENT_MASK);
 		}
 
 		protected void openWindow(Component activatorComponent) {
@@ -1040,9 +1056,7 @@ public class SwingCustomizer extends SwingRenderer {
 					getCustomizationsIcon().getImage(), false, true);
 		}
 
-		@Override
-		protected void finalize() throws Throwable {
-			super.finalize();
+		protected void cleanupOpenWindowEventHandling() {
 			SwingRendererUtils.removeAWTEventListener(openWindowListener);
 		}
 
