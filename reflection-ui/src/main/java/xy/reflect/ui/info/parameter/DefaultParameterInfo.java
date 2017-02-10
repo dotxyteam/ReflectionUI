@@ -15,50 +15,48 @@ public class DefaultParameterInfo implements IParameterInfo {
 	protected ReflectionUI reflectionUI;
 	protected Parameter javaParameter;
 	protected ITypeInfo type;
-	
+
 	public static boolean isCompatibleWith(Parameter javaParameter) {
 		return true;
 	}
 
-	public DefaultParameterInfo(ReflectionUI reflectionUI,
-			Parameter javaParameter) {
+	public DefaultParameterInfo(ReflectionUI reflectionUI, Parameter javaParameter) {
 		this.reflectionUI = reflectionUI;
 		this.javaParameter = javaParameter;
 	}
 
 	@Override
 	public String getCaption() {
-		return ReflectionUIUtils.identifierToCaption(getName()) + " ("
-				+ getType().getCaption() + ")";
+		String result = ReflectionUIUtils.identifierToCaption(getName());
+		if (javaParameter.getName() == Parameter.NO_NAME) {
+			result += " (" + getType().getCaption() + ")";
+		}
+		return result;
 	}
 
 	@Override
 	public ITypeInfo getType() {
 		if (type == null) {
-			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(
-					javaParameter.getType(), javaParameter
-							.getDeclaringInvokable(), javaParameter
-							.getPosition()));
+			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaParameter.getType(),
+					javaParameter.getDeclaringInvokable(), javaParameter.getPosition()));
 		}
 		return type;
 	}
 
-	
-
 	@Override
 	public String getName() {
-		return javaParameter.getName();
+		String result = javaParameter.getName();
+		if (result == Parameter.NO_NAME) {
+			result = "parameter" + (javaParameter.getPosition() + 1);
+		}
+		return result;
 	}
 
-	
-	
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((javaParameter == null) ? 0 : javaParameter.hashCode());
+		result = prime * result + ((javaParameter == null) ? 0 : javaParameter.hashCode());
 		return result;
 	}
 

@@ -12,7 +12,16 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.Vector;
 
+import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.swing.SwingCustomizer;
 import xy.reflect.ui.control.swing.SwingRenderer;
+import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
+import xy.reflect.ui.info.type.util.InfoCustomizations;
+import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
+import xy.reflect.ui.util.SystemProperties;
 
 public class ReflectionUITest {
 
@@ -112,22 +121,22 @@ public class ReflectionUITest {
 				e.printStackTrace();
 			}
 		}
-		
-		public void verify() throws Exception{
-			if(theChoice == null){
+
+		public void verify() throws Exception {
+			if (theChoice == null) {
 				throw new Exception("The Choice is not made");
 			}
 		}
-		
-		public Object returnNothing(){
+
+		public Object returnNothing() {
 			return null;
 		}
-		
-		public Object returnObject(){
+
+		public Object returnObject() {
 			return new Object();
 		}
-		
-		public void throwException() throws Exception{
+
+		public void throwException() throws Exception {
 			throw new Exception();
 		}
 	}
@@ -141,8 +150,8 @@ public class ReflectionUITest {
 		public short theShort = 0;
 		public short the2ndShort = 1;
 
-		public void verify() throws Exception{
-			if(theDay == null){
+		public void verify() throws Exception {
+			if (theDay == null) {
 				throw new Exception("The Day is not set");
 			}
 		}
@@ -151,8 +160,13 @@ public class ReflectionUITest {
 	public static class Test2 extends AbstrcatTestDescendant {
 		public List<AbstrcatTestDescendant> theChildrenList = new ArrayList<ReflectionUITest.AbstrcatTestDescendant>();
 
-		public void doNothing() {
-
+		public void incrementTheShortSlowly() {
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			theShort++;
 		}
 	}
 
@@ -240,6 +254,44 @@ public class ReflectionUITest {
 	}
 
 	public static void main(String[] args) {
-		SwingRenderer.DEFAULT.openObjectFrame(new Test(), "test", null);
+		final InfoCustomizations infoCustomizations = InfoCustomizations.DEFAULT;
+		ReflectionUI reflectionUI = new ReflectionUI() {
+			@Override
+			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
+				ITypeInfo result = super.getTypeInfo(typeSource);
+				if (SystemProperties.areDefaultInfoCustomizationsActive()) {
+					result = infoCustomizations.get(this, result);
+				}
+				return new TypeInfoProxyFactory() {
+					@Override
+					public String toString() {
+						return ReflectionUITest.class.getName();
+					}
+
+					@Override
+					protected Runnable getUndoModification(IMethodInfo method, ITypeInfo containingType,
+							final Object object, InvocationData invocationData) {
+						if (containingType.getName().equals(Test2.class.getName())
+								&& method.getName().equals("incrementTheShortSlowly")) {
+							return new Runnable() {
+								@Override
+								public void run() {
+									((Test2) object).theShort--;
+								}
+							};
+						}
+						return super.getUndoModification(method, containingType, object, invocationData);
+					}
+				}.get(result);
+			}
+		};
+		SwingRenderer swingRenderer;
+		if (SystemProperties.areDefaultInfoCustomizationsActive()) {
+			swingRenderer = new SwingCustomizer(reflectionUI, infoCustomizations,
+					SystemProperties.getDefaultInfoCustomizationsFilePath());
+		} else {
+			swingRenderer = new SwingRenderer(reflectionUI);
+		}
+		swingRenderer.openObjectFrame(new Test(), "test", null);
 	}
 }

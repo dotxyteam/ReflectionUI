@@ -7,8 +7,12 @@
         </allowedItemFieldShortcuts>
         <allowedItemMethodShortcuts>
             <alwaysShown>true</alwaysShown>
-            <methodSignature>void doNothing()</methodSignature>
+            <methodSignature>void incrementTheShortSlowly()</methodSignature>
         </allowedItemMethodShortcuts>
+        <columnCustomizations>
+            <columnName>position</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
         <columnCustomizations>
             <columnName>the2ndShort</columnName>
             <hidden>false</hidden>
@@ -50,7 +54,7 @@
         <listTypeName>[LReflectionUITest$AbstrcatTestDescendant;</listTypeName>
         <methodsExcludedFromItemDetails>
             <regularExpression>false</regularExpression>
-            <value>void doNothing()</value>
+            <value>void incrementTheShortSlowly()</value>
         </methodsExcludedFromItemDetails>
         <positionColumnAdded>true</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
@@ -1436,6 +1440,10 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>Encapsulation [typeCaption=Selection, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@ee7e66, fieldCaption=Choose a type:]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>Encapsulation [typeCaption=The Array Tree Table - Item, fieldType=ReflectionUITest$Test2, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>

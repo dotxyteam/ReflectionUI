@@ -11,6 +11,7 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.KeyboardFocusManager;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -542,14 +543,20 @@ public class SwingRendererUtils {
 				if (window == null) {
 					return result;
 				} else {
-					Rectangle candidateResultIntersection = getMaximumWindowBounds(candidateResult)
-							.intersection(window.getBounds());
-					Rectangle resultIntersection = getMaximumWindowBounds(result).intersection(window.getBounds());
-					int candidateResultIntersectionArea = candidateResultIntersection.width
-							* candidateResultIntersection.height;
-					int resultIntersectionArea = resultIntersection.width * resultIntersection.height;
-					if (candidateResultIntersectionArea > resultIntersectionArea) {
-						result = candidateResult;
+					if ((window.getWidth() * window.getHeight()) == 0) {
+						if (getMaximumWindowBounds(candidateResult).contains(window.getLocation())) {
+							result = candidateResult;
+						}
+					} else {
+						Rectangle candidateResultIntersection = getMaximumWindowBounds(candidateResult)
+								.intersection(window.getBounds());
+						Rectangle resultIntersection = getMaximumWindowBounds(result).intersection(window.getBounds());
+						int candidateResultIntersectionArea = candidateResultIntersection.width
+								* candidateResultIntersection.height;
+						int resultIntersectionArea = resultIntersection.width * resultIntersection.height;
+						if (candidateResultIntersectionArea > resultIntersectionArea) {
+							result = candidateResult;
+						}
 					}
 				}
 			}
@@ -641,4 +648,9 @@ public class SwingRendererUtils {
 			return null;
 		}
 	}
+
+	public static Window getActiveWindow() {
+		return KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusedWindow();
+	}
+
 }

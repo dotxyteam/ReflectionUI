@@ -8,6 +8,8 @@ import java.lang.reflect.Method;
 
 public class Parameter extends AccessibleObject {
 
+	public static final String NO_NAME = "";
+	
 	private final Member invokable;
 	private final int position;
 	private Class<?>[] invokableParameterTypes;
@@ -20,13 +22,11 @@ public class Parameter extends AccessibleObject {
 		if (invokable instanceof Method) {
 			Method method = (Method) invokable;
 			this.invokableParameterTypes = method.getParameterTypes();
-			this.invokableParameterAnnotations = method
-					.getParameterAnnotations();
+			this.invokableParameterAnnotations = method.getParameterAnnotations();
 		} else if (invokable instanceof Constructor) {
 			Constructor<?> constructor = (Constructor<?>) invokable;
 			this.invokableParameterTypes = constructor.getParameterTypes();
-			this.invokableParameterAnnotations = constructor
-					.getParameterAnnotations();
+			this.invokableParameterAnnotations = constructor.getParameterAnnotations();
 		} else {
 			throw new ReflectionUIError();
 		}
@@ -54,10 +54,9 @@ public class Parameter extends AccessibleObject {
 
 	public String getName() {
 		if (name == null) {
-			String[] parameterNames = ReflectionUIUtils
-					.getJavaParameterNames(invokable);
+			String[] parameterNames = ReflectionUIUtils.getJavaParameterNames(invokable);
 			if (parameterNames == null) {
-				name = "parameter" + (position + 1);
+				return NO_NAME;
 			} else {
 				name = parameterNames[position];
 			}
@@ -66,8 +65,7 @@ public class Parameter extends AccessibleObject {
 	}
 
 	@Override
-	public boolean isAnnotationPresent(
-			Class<? extends Annotation> annotationType) {
+	public boolean isAnnotationPresent(Class<? extends Annotation> annotationType) {
 		return getAnnotation(annotationType) != null;
 	}
 
@@ -95,8 +93,7 @@ public class Parameter extends AccessibleObject {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((invokable == null) ? 0 : invokable.hashCode());
+		result = prime * result + ((invokable == null) ? 0 : invokable.hashCode());
 		result = prime * result + position;
 		return result;
 	}

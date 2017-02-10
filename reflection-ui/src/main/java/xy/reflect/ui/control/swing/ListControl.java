@@ -85,6 +85,7 @@ import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
 import xy.reflect.ui.info.type.util.TypeCastFactory;
 import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
 import xy.reflect.ui.undo.IModification;
+import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.ControlDataValueModification;
@@ -1613,16 +1614,23 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		return (IListTypeInfo) listData.getType();
 	}
 
+	@Override
+	public void setPalceHolder(FieldControlPlaceHolder fieldControlPlaceHolder) {
+		this.fieldControlPlaceHolder = fieldControlPlaceHolder;
+	}
+
+	protected IInfo getModifiedField() {
+		return fieldControlPlaceHolder.getField();
+	}
+
 	protected AbstractAction createDynamicPropertyHook(final AbstractListProperty dynamicProperty) {
 		return new AbstractStandardListAction() {
 			protected static final long serialVersionUID = 1L;
 
 			@Override
 			protected boolean perform(List<AutoFieldValueUpdatingItemPosition>[] toPostSelectHolder) {
-				Object listValue = listData.getValue();
-				Object oldPropertyValue = dynamicProperty.getValue(listValue);
-				Object[] propertyValueHolder = new Object[] { oldPropertyValue };
-
+				final Object listRootValue = listData.getValue();
+				Object oldPropertyValue = dynamicProperty.getValue(listRootValue);
 				EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
 						dynamicProperty.getType());
 				encapsulation.setTypeCaption(
@@ -1630,7 +1638,19 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				encapsulation.setFieldCaption(dynamicProperty.getCaption());
 				encapsulation.setFieldGetOnly(dynamicProperty.isGetOnly());
 				encapsulation.setFieldNullable(dynamicProperty.isNullable());
-				Object encapsulatedPropertyValue = encapsulation.getInstance(propertyValueHolder);
+				Object encapsulatedPropertyValue = encapsulation.getInstance(new Accessor<Object>() {
+
+					@Override
+					public Object get() {
+						return dynamicProperty.getValue(listRootValue);
+					}
+
+					@Override
+					public void set(Object t) {
+						dynamicProperty.setValue(listRootValue, t);
+					}
+
+				});
 				ITypeInfo encapsulatedPropertyValueType = swingRenderer.getReflectionUI()
 						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(encapsulatedPropertyValue));
 
@@ -1647,8 +1667,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				if (dynamicProperty.isGetOnly()) {
 					commitModif = null;
 				} else {
-					commitModif = new ControlDataValueModification(listData, propertyValueHolder[0],
-							getModifiedField());
+					commitModif = new UpdateListValueModification(getRootListItemPosition(),
+							getRootListType().toArray(listRootValue), dynamicProperty);
 				}
 				boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.isOkPressed();
 				ValueReturnMode childValueReturnMode = dynamicProperty.getValueReturnMode();
@@ -1676,15 +1696,6 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		};
 	}
 
-	@Override
-	public void setPalceHolder(FieldControlPlaceHolder fieldControlPlaceHolder) {
-		this.fieldControlPlaceHolder = fieldControlPlaceHolder;
-	}
-
-	protected IInfo getModifiedField() {
-		return fieldControlPlaceHolder.getField();
-	}
-
 	protected AbstractAction createDynamicActionHook(final AbstractListAction dynamicAction) {
 		return new AbstractAction(swingRenderer.prepareStringToDisplay(dynamicAction.getCaption())) {
 			protected static final long serialVersionUID = 1L;
@@ -1693,9 +1704,26 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			public void actionPerformed(ActionEvent e) {
 				IMethodInfo method = new MethodInfoProxy(dynamicAction) {
 					@Override
-					public Object invoke(Object object, InvocationData invocationData) {
-						return SwingRendererUtils.invokeMethodThroughModificationStack(object, dynamicAction,
-								invocationData, getParentFormModificationStack());
+					public Object invoke(Object listRootValue, InvocationData invocationData) {
+						ModificationStack childModifStack = new ModificationStack(null);
+						Object result = SwingRendererUtils.invokeMethodThroughModificationStack(listRootValue,
+								dynamicAction, invocationData, childModifStack);
+						String childModifTitle = InvokeMethodModification.getTitle(dynamicAction);
+						IInfo childModifTarget = dynamicAction;
+						IModification commitModif;
+						if (dynamicAction.isReadOnly()) {
+							commitModif = null;
+						} else {
+							commitModif = new UpdateListValueModification(getRootListItemPosition(),
+									getRootListType().toArray(listRootValue), dynamicAction);
+						}
+						boolean childModifAccepted = true;
+						ValueReturnMode childValueReturnMode = dynamicAction.getValueReturnMode();
+						boolean childValueNew = false;
+						ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(),
+								getParentFormModificationStack(), childModifStack, childModifAccepted,
+								childValueReturnMode, childValueNew, commitModif, childModifTarget, childModifTitle);
+						return result;
 					}
 				};
 				MethodAction action = swingRenderer.createMethodAction(listData.getValue(), method);

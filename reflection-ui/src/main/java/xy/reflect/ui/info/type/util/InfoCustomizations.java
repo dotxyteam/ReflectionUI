@@ -1033,7 +1033,7 @@ public final class InfoCustomizations {
 
 	public static class ListItemFieldShortcut {
 		protected String fieldName;
-		protected boolean alwaysShown;
+		protected boolean alwaysShown = true;
 		protected String customFieldCaption;
 
 		public String getFieldName() {
@@ -1094,7 +1094,7 @@ public final class InfoCustomizations {
 
 	public static class ListItemMethodShortcut {
 		protected String methodSignature;
-		protected boolean alwaysShown;
+		protected boolean alwaysShown = true;
 		protected String customMethodCaption;
 
 		public String getMethodSignature() {
@@ -1750,7 +1750,7 @@ public final class InfoCustomizations {
 		@Override
 		protected ValueReturnMode getValueReturnMode(IMethodInfo method, ITypeInfo containingType) {
 			MethodCustomization m = getMethodCustomization(containingType.getName(),
-					ReflectionUIUtils.getMethodInfoSignature(method));
+					ReflectionUIUtils.getMethodSignature(method));
 			if (m != null) {
 				if (m.customValueReturnMode != null) {
 					return m.customValueReturnMode;
@@ -1927,7 +1927,7 @@ public final class InfoCustomizations {
 						final Object item = itemPosition.getItem();
 						ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
 						for (final IMethodInfo method : actualItemType.getMethods()) {
-							if (ReflectionUIUtils.getMethodInfoSignature(method).equals(s.methodSignature)) {
+							if (ReflectionUIUtils.getMethodSignature(method).equals(s.methodSignature)) {
 								AbstractListAction action = new AbstractListAction() {
 
 									private IModification oppositeUpdateListValueModification;
@@ -2203,7 +2203,7 @@ public final class InfoCustomizations {
 					super.getSpecificProperties(method, containingType));
 			result.put(ACTIVE_CUSTOMIZATIONS_PROPERTY_KEY, InfoCustomizations.this);
 			MethodCustomization m = getMethodCustomization(containingType.getName(),
-					ReflectionUIUtils.getMethodInfoSignature(method));
+					ReflectionUIUtils.getMethodSignature(method));
 			if (m != null) {
 				if (m.specificProperties != null) {
 					if (m.specificProperties.entrySet().size() > 0) {
@@ -2236,7 +2236,7 @@ public final class InfoCustomizations {
 			Map<String, Object> result = new HashMap<String, Object>(
 					super.getSpecificProperties(param, method, containingType));
 			ParameterCustomization p = getParameterCustomization(containingType.getName(),
-					ReflectionUIUtils.getMethodInfoSignature(method), param.getName());
+					ReflectionUIUtils.getMethodSignature(method), param.getName());
 			if (p != null) {
 				if (p.specificProperties != null) {
 					if (p.specificProperties.entrySet().size() > 0) {
@@ -2250,7 +2250,7 @@ public final class InfoCustomizations {
 		@Override
 		protected boolean isNullable(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
 			ParameterCustomization p = getParameterCustomization(containingType.getName(),
-					ReflectionUIUtils.getMethodInfoSignature(method), param.getName());
+					ReflectionUIUtils.getMethodSignature(method), param.getName());
 			if (p != null) {
 				if (p.nullableFacetHidden) {
 					return false;
@@ -2262,7 +2262,7 @@ public final class InfoCustomizations {
 		@Override
 		protected String getCaption(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
 			ParameterCustomization p = getParameterCustomization(containingType.getName(),
-					ReflectionUIUtils.getMethodInfoSignature(method), param.getName());
+					ReflectionUIUtils.getMethodSignature(method), param.getName());
 			if (p != null) {
 				if (p.customParameterCaption != null) {
 					return p.customParameterCaption;
@@ -2307,7 +2307,7 @@ public final class InfoCustomizations {
 		@Override
 		protected boolean isReadOnly(IMethodInfo method, ITypeInfo containingType) {
 			MethodCustomization m = getMethodCustomization(containingType.getName(),
-					ReflectionUIUtils.getMethodInfoSignature(method));
+					ReflectionUIUtils.getMethodSignature(method));
 			if (m != null) {
 				if (m.readOnlyForced) {
 					return true;
@@ -2319,14 +2319,14 @@ public final class InfoCustomizations {
 		@Override
 		protected List<IParameterInfo> getParameters(IMethodInfo method, ITypeInfo containingType) {
 			MethodCustomization m = getMethodCustomization(containingType.getName(),
-					ReflectionUIUtils.getMethodInfoSignature(method));
+					ReflectionUIUtils.getMethodSignature(method));
 			if (m != null) {
 				List<IParameterInfo> result = new ArrayList<IParameterInfo>(
 						super.getParameters(method, containingType));
 				for (Iterator<IParameterInfo> it = result.iterator(); it.hasNext();) {
 					IParameterInfo param = it.next();
 					ParameterCustomization p = getParameterCustomization(containingType.getName(),
-							ReflectionUIUtils.getMethodInfoSignature(method), param.getName());
+							ReflectionUIUtils.getMethodSignature(method), param.getName());
 					if ((p != null) && p.hidden) {
 						it.remove();
 					}
@@ -2339,7 +2339,7 @@ public final class InfoCustomizations {
 		@Override
 		protected String getCaption(IMethodInfo method, ITypeInfo containingType) {
 			MethodCustomization m = getMethodCustomization(containingType.getName(),
-					ReflectionUIUtils.getMethodInfoSignature(method));
+					ReflectionUIUtils.getMethodSignature(method));
 			if (m != null) {
 				if (m.customMethodCaption != null) {
 					return m.customMethodCaption;
@@ -2385,7 +2385,7 @@ public final class InfoCustomizations {
 				for (Iterator<IMethodInfo> it = result.iterator(); it.hasNext();) {
 					IMethodInfo ctor = it.next();
 					MethodCustomization m = getMethodCustomization(type.getName(),
-							ReflectionUIUtils.getMethodInfoSignature(ctor));
+							ReflectionUIUtils.getMethodSignature(ctor));
 					if ((m != null) && m.hidden) {
 						it.remove();
 					}
@@ -2406,7 +2406,7 @@ public final class InfoCustomizations {
 				for (Iterator<IMethodInfo> it = result.iterator(); it.hasNext();) {
 					IMethodInfo method = it.next();
 					MethodCustomization m = getMethodCustomization(type.getName(),
-							ReflectionUIUtils.getMethodInfoSignature(method));
+							ReflectionUIUtils.getMethodSignature(method));
 					if (m != null) {
 						if (m.hidden || m.validating) {
 							it.remove();
@@ -2443,7 +2443,7 @@ public final class InfoCustomizations {
 						if (method != null) {
 							if (method.getParameters().size() > 0) {
 								throw new ReflectionUIError("Invalid validating method: Number of parameters > 0: "
-										+ ReflectionUIUtils.getMethodInfoSignature(method));
+										+ ReflectionUIUtils.getMethodSignature(method));
 							}
 							method.invoke(object, new InvocationData());
 						}
@@ -2471,7 +2471,7 @@ public final class InfoCustomizations {
 		@Override
 		protected InfoCategory getCategory(IMethodInfo method, ITypeInfo containingType) {
 			MethodCustomization m = getMethodCustomization(containingType.getName(),
-					ReflectionUIUtils.getMethodInfoSignature(method));
+					ReflectionUIUtils.getMethodSignature(method));
 			if (m != null) {
 				CustomizationCategory category = m.getCategory();
 				List<CustomizationCategory> categories = getTypeCustomization(
@@ -2498,7 +2498,7 @@ public final class InfoCustomizations {
 		@Override
 		protected String getOnlineHelp(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
 			ParameterCustomization p = getParameterCustomization(containingType.getName(),
-					ReflectionUIUtils.getMethodInfoSignature(method), param.getName());
+					ReflectionUIUtils.getMethodSignature(method), param.getName());
 			if (p != null) {
 				if (p.onlineHelp != null) {
 					return p.onlineHelp;
@@ -2521,7 +2521,7 @@ public final class InfoCustomizations {
 		@Override
 		protected String getOnlineHelp(IMethodInfo method, ITypeInfo containingType) {
 			MethodCustomization m = getMethodCustomization(containingType.getName(),
-					ReflectionUIUtils.getMethodInfoSignature(method));
+					ReflectionUIUtils.getMethodSignature(method));
 			if (m != null) {
 				if (m.onlineHelp != null) {
 					return m.onlineHelp;

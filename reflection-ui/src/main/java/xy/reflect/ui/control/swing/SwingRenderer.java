@@ -823,7 +823,7 @@ public class SwingRenderer {
 	public List<MethodControlPlaceHolder> getMethodControlPlaceHoldersBySignature(JPanel form, String methodSignature) {
 		List<MethodControlPlaceHolder> result = new ArrayList<MethodControlPlaceHolder>();
 		for (MethodControlPlaceHolder methodControlPlaceHolder : getMethodControlPlaceHolders(form)) {
-			if (ReflectionUIUtils.getMethodInfoSignature(methodControlPlaceHolder.getMethod())
+			if (ReflectionUIUtils.getMethodSignature(methodControlPlaceHolder.getMethod())
 					.equals(methodSignature)) {
 				result.add(methodControlPlaceHolder);
 			}

@@ -127,7 +127,7 @@ public class ReflectionUIUtils {
 		return result;
 	}
 
-	public static String getMethodInfoSignature(IMethodInfo method) {
+	public static String getMethodSignature(IMethodInfo method) {
 		StringBuilder result = new StringBuilder();
 		ITypeInfo returnType = method.getReturnValueType();
 		result.append(((returnType == null) ? "void" : returnType.getName()));
@@ -135,23 +135,6 @@ public class ReflectionUIUtils {
 		List<IParameterInfo> params = method.getParameters();
 		for (int i = 0; i < params.size(); i++) {
 			IParameterInfo param = params.get(i);
-			if (i > 0) {
-				result.append(", ");
-			}
-			result.append(param.getType().getName());
-		}
-		result.append(")");
-		return result.toString();
-	}
-
-	public static String getJavaMethodInfoSignature(Method javaMethod) {
-		StringBuilder result = new StringBuilder();
-		Class<?> returnType = javaMethod.getReturnType();
-		result.append(returnType.getName());
-		result.append(" " + javaMethod.getName() + "(");
-		List<Parameter> params = getJavaParameters(javaMethod);
-		for (int i = 0; i < params.size(); i++) {
-			Parameter param = params.get(i);
 			if (i > 0) {
 				result.append(", ");
 			}
@@ -184,10 +167,6 @@ public class ReflectionUIUtils {
 			result.add(new Parameter(ctor, i));
 		}
 		return result;
-	}
-
-	public static String getJavaMethodSignature(Method javaMethod) {
-		return getJavaMethodInfoSignature(javaMethod);
 	}
 
 	public static String identifierToCaption(String id) {
@@ -256,7 +235,7 @@ public class ReflectionUIUtils {
 
 	public static <T extends IMethodInfo> T findMethodBySignature(List<T> methods, String signature) {
 		for (T method : methods) {
-			String candidateMethodSignature = getMethodInfoSignature(method);
+			String candidateMethodSignature = getMethodSignature(method);
 			if (candidateMethodSignature.equals(signature)) {
 				return method;
 			}
@@ -594,13 +573,6 @@ public class ReflectionUIUtils {
 				+ stringJoin(gatClassNames(constructor.getParameterTypes()), ",") + ")";
 	}
 
-	public static String getQualifiedName(Parameter parameter) {
-		Member invokable = parameter.getDeclaringInvokable();
-		return invokable.getDeclaringClass().getName() + "#" + invokable.getName() + "("
-				+ stringJoin(gatClassNames(parameter.getDeclaringInvokableParameterTypes()), ",") + "):"
-				+ parameter.getPosition();
-	}
-
 	public static List<String> gatClassNames(Class<?>[] classes) {
 		List<String> paramTypeNames = new ArrayList<String>();
 		for (Class<?> clazz : classes) {
@@ -814,7 +786,7 @@ public class ReflectionUIUtils {
 	public static boolean integrateSubModifications(ReflectionUI reflectionUI, final ModificationStack parentModifStack,
 			final ModificationStack childModifStack, boolean childModifAccepted,
 			final ValueReturnMode childValueReturnMode, final boolean childValueNew, final IModification commitModif,
-			IInfo childModifTarget, String subModifTitle) {
+			IInfo childModifTarget, String childModifTitle) {
 
 		if (parentModifStack == null) {
 			throw new ReflectionUIError();
@@ -826,7 +798,7 @@ public class ReflectionUIUtils {
 		boolean parentValueImpacted = false;
 		if (childModifAccepted) {
 			if (!childModifStack.isNull()) {
-				parentValueImpacted = parentModifStack.insideComposite(childModifTarget, subModifTitle + "'",
+				parentValueImpacted = parentModifStack.insideComposite(childModifTarget, childModifTitle + "'",
 						UndoOrder.FIFO, new Accessor<Boolean>() {
 							@Override
 							public Boolean get() {

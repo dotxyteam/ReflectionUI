@@ -421,6 +421,16 @@
             <hidden>false</hidden>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption= Item Method Shortcuts - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$ListItemMethodShortcut, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>Encapsulation [typeCaption=, fieldType=Field Customization, fieldCaption=Value]</typeName>
@@ -523,6 +533,16 @@
     </typeCustomizations>
     <typeCustomizations>
         <typeName>Encapsulation [typeCaption=Information, fieldType=java.lang.String, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=Item Field Shortcuts - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$ListItemFieldShortcut, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1887,11 +1907,11 @@
         <customFieldsOrder>treeStructureDiscoverySettings</customFieldsOrder>
         <customFieldsOrder>itemTypeCustomization</customFieldsOrder>
         <customFieldsOrder>itemDetailsViewDisabled</customFieldsOrder>
-        <customFieldsOrder>allowedItemMethodShortcuts</customFieldsOrder>
         <customFieldsOrder>allowedItemFieldShortcuts</customFieldsOrder>
         <customFieldsOrder>fieldsExcludedFromItemDetails</customFieldsOrder>
         <customFieldsOrder>methodsExcludedFromItemDetails</customFieldsOrder>
         <customFieldsOrder>customDetailsAccessMode</customFieldsOrder>
+        <customFieldsOrder>allowedItemMethodShortcuts</customFieldsOrder>
         <fieldsCustomizations>
             <category>
                 <caption>Edition</caption>

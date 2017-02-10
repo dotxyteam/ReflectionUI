@@ -270,7 +270,7 @@ public class SwingCustomizer extends SwingRenderer {
 						return new CustomizationOptions() {
 
 							@Override
-							protected void openWindow() {
+							protected void openWindow(Component activatorComponent) {
 							}
 
 						};
@@ -923,7 +923,7 @@ public class SwingCustomizer extends SwingRenderer {
 				}
 
 				private String getMethodInfoSignature() {
-					return ReflectionUIUtils.getMethodInfoSignature(methodControlPlaceHolder.controlAwareMethod);
+					return ReflectionUIUtils.getMethodSignature(methodControlPlaceHolder.controlAwareMethod);
 				}
 
 				@Override
@@ -1019,7 +1019,7 @@ public class SwingCustomizer extends SwingRenderer {
 			public void eventDispatched(AWTEvent event) {
 				KeyEvent keyEvent = (KeyEvent) event;
 				if (isOpenWindowEvent(keyEvent)) {
-					openWindow();
+					openWindow(SwingRendererUtils.getActiveWindow());
 					keyEvent.consume();
 				}
 			}
@@ -1033,8 +1033,9 @@ public class SwingCustomizer extends SwingRenderer {
 			return ke.isControlDown() && (ke.getID() == KeyEvent.KEY_PRESSED) && (ke.getKeyCode() == KeyEvent.VK_O);
 		}
 
-		protected void openWindow() {
-			customizationTools.getCustomizationToolsRenderer().openObjectDialog(null, CustomizationOptions.this,
+		protected void openWindow(Component activatorComponent) {
+			customizationTools.getCustomizationToolsRenderer().openObjectDialog(activatorComponent,
+					CustomizationOptions.this,
 					customizationTools.getCustomizationToolsRenderer().getObjectTitle(CustomizationOptions.this),
 					getCustomizationsIcon().getImage(), false, true);
 		}
