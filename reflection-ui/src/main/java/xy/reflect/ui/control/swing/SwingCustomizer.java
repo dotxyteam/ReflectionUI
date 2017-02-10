@@ -267,17 +267,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 					@Override
 					protected CustomizationOptions initializeCustomizationOptions() {
-						return new CustomizationOptions() {
-
-							@Override
-							protected void setupOpenWindowEventHandling() {
-							}
-
-							@Override
-							protected void cleanupOpenWindowEventHandling() {
-							}
-
-						};
+						return new CustomizationOptions();
 					}
 
 				};
@@ -519,8 +509,7 @@ public class SwingCustomizer extends SwingRenderer {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					final JPopupMenu popupMenu = new JPopupMenu();
-					popupMenu.add(new AbstractAction(prepareStringToDisplay("Hide This Type Customization Tools (to revert "
-							+ customizationOptions.getOpenWindowShortcutDescription() + ")")) {
+					popupMenu.add(new AbstractAction(prepareStringToDisplay("Hide This Type Customization Tools")) {
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -1017,47 +1006,11 @@ public class SwingCustomizer extends SwingRenderer {
 		protected final TreeSet<String> hiddenCustomizationToolsTypeNames = new TreeSet<String>();
 		protected AWTEventListener openWindowListener;
 
-		public CustomizationOptions() {
-			setupOpenWindowEventHandling();
-		}
-
-		@Override
-		protected void finalize() throws Throwable {
-			super.finalize();
-			cleanupOpenWindowEventHandling();
-		}
-
-		public String getOpenWindowShortcutDescription() {
-			return "press CTRL+ALT+O";
-		}
-
-		protected void setupOpenWindowEventHandling() {
-			Toolkit.getDefaultToolkit().addAWTEventListener(openWindowListener = new AWTEventListener() {
-				@Override
-				public void eventDispatched(AWTEvent event) {
-					KeyEvent keyEvent = (KeyEvent) event;
-					if (isOpenWindowKeyEvent(keyEvent)) {
-						openWindow(SwingRendererUtils.getActiveWindow());
-						keyEvent.consume();
-					}
-				}
-
-				boolean isOpenWindowKeyEvent(KeyEvent ke) {
-					return ke.isControlDown() && ke.isAltDown() && (ke.getID() == KeyEvent.KEY_PRESSED)
-							&& (ke.getKeyCode() == KeyEvent.VK_O);
-				}
-			}, AWTEvent.KEY_EVENT_MASK);
-		}
-
 		protected void openWindow(Component activatorComponent) {
 			customizationTools.getCustomizationToolsRenderer().openObjectDialog(activatorComponent,
 					CustomizationOptions.this,
 					customizationTools.getCustomizationToolsRenderer().getObjectTitle(CustomizationOptions.this),
 					getCustomizationsIcon().getImage(), false, true);
-		}
-
-		protected void cleanupOpenWindowEventHandling() {
-			SwingRendererUtils.removeAWTEventListener(openWindowListener);
 		}
 
 		public Set<String> getHiddenCustomizationToolsTypeNames() {

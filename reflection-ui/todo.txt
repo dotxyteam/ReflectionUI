@@ -1,8 +1,8 @@
+- allow to unhide cutomization toolls at runtime
 . ItemShortcuts not using busy dialogs
 - allow to customize Method dialog "no data returned"???
 - allow to customize icons for:
 	. fields: can be postponed as field controls need to be updatedœ
-	. methods
 - icon on title bar???
 - ArrayAsEnum often crashes because an item is not in the array:
 => make it more flexible
