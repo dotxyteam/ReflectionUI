@@ -1897,6 +1897,8 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <customFieldsOrder>itemDetailsViewDisabled</customFieldsOrder>
+        <customFieldsOrder>customDetailsAccessMode</customFieldsOrder>
         <customFieldsOrder>editOptions</customFieldsOrder>
         <customFieldsOrder>fieldColumnsAdded</customFieldsOrder>
         <customFieldsOrder>itemTypeColumnAdded</customFieldsOrder>
@@ -1906,11 +1908,9 @@
         <customFieldsOrder>columnCustomizations</customFieldsOrder>
         <customFieldsOrder>treeStructureDiscoverySettings</customFieldsOrder>
         <customFieldsOrder>itemTypeCustomization</customFieldsOrder>
-        <customFieldsOrder>itemDetailsViewDisabled</customFieldsOrder>
         <customFieldsOrder>allowedItemFieldShortcuts</customFieldsOrder>
         <customFieldsOrder>fieldsExcludedFromItemDetails</customFieldsOrder>
         <customFieldsOrder>methodsExcludedFromItemDetails</customFieldsOrder>
-        <customFieldsOrder>customDetailsAccessMode</customFieldsOrder>
         <customFieldsOrder>allowedItemMethodShortcuts</customFieldsOrder>
         <fieldsCustomizations>
             <category>
@@ -1955,8 +1955,11 @@
                     <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
                 </entry>
             </specificProperties>
+            <category>
+                <caption>Item Details</caption>
+            </category>
             <hidden>false</hidden>
-            <customFieldCaption>Change Item Details View Mode</customFieldCaption>
+            <customFieldCaption>Choose Item Details View Mode</customFieldCaption>
             <fieldName>customDetailsAccessMode</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>

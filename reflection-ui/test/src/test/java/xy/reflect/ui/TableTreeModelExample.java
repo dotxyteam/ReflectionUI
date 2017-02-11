@@ -10,7 +10,7 @@ import xy.reflect.ui.control.swing.SwingRenderer;
 public class TableTreeModelExample {
 
 	public static void main(String[] args) {
-		SwingRenderer.DEFAULT.openObjectDialog(null, new Catalog(), "Catalog", null, false, false);
+		SwingRenderer.getDefault().openObjectDialog(null, new Catalog(), "Catalog", null, false, false);
 	}
 
 	public static class Catalog {

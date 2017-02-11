@@ -19,39 +19,37 @@ public class Example {
 
 		/* The Hello world: */
 		Object myObject = new Date();
-		SwingRenderer.DEFAULT.openObjectFrame(myObject);
+		SwingRenderer.getDefault().openObjectFrame(myObject);
 
 		/* You can open a dialog instead of a frame: */
-		SwingRenderer.DEFAULT.openObjectDialog(null, myObject);
+		SwingRenderer.getDefault().openObjectDialog(null, myObject);
 
 		/* You can just create a form and then insert it in any container: */
-		JOptionPane.showMessageDialog(null, SwingRenderer.DEFAULT.createForm(myObject));
+		JOptionPane.showMessageDialog(null, SwingRenderer.getDefault().createForm(myObject));
 
 		/*
 		 * You can customize some aspects (field labels, hide some methods, ...)
 		 * of the generated UI by using an integrated customizations editor. To
 		 * enable this editor set the following JVM property:
 		 * "-Dxy.reflect.ui.defaultCustomizationsActive=true". You can also do
-		 * it programmatically before any reference to the
-		 * SwingRenderer.DEFAULT:
+		 * it programmatically before any call to SwingRenderer.getDefault():
 		 */
 		System.setProperty(SystemProperties.DEFAULT_INFO_CUSTOMIZATIONS_ACTIVE, "true");
 
 		/*
 		 * When you are done customizing the UI the customizations editor must
 		 * be hidden by setting the following JVM property:
-		 * "-Dxy.reflect.ui.infoCustomizationsToolsHidden=true". You can also
-		 * do it programmatically before any reference to the
-		 * SwingRenderer.DEFAULT:
+		 * "-Dxy.reflect.ui.infoCustomizationsToolsHidden=true". You can also do
+		 * it programmatically before any call to SwingRenderer.getDefault():
 		 */
 		System.setProperty(SystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS, "true");
 
 		/*
-		 * The SwingRenderer.DEFAULT assumes that the Java coding standards are
+		 * SwingRenderer.getDefault() assumes that the Java coding standards are
 		 * respected for the classes of the objects for which it generates UI.
 		 * If you want to take control over the object discovery and
 		 * interpretation process, then you must create custom ReflectionUI and
-		 * SwingRenderer objects and override the ReflectionUI.getTypeInfo()
+		 * SwingRenderer objects and override the ReflectionUI.getTypeInfo(...)
 		 * method:
 		 */
 		ReflectionUI reflectionUI = new ReflectionUI() {

@@ -40,26 +40,29 @@ import xy.reflect.ui.util.SystemProperties;
 @SuppressWarnings("unused")
 public class ReflectionUI {
 
-	public static final ReflectionUI DEFAULT = createDefault();
+	protected static ReflectionUI defaultInstance;
 
 	protected Map<ITypeInfoSource, ITypeInfo> typeInfoBySource = CacheBuilder.newBuilder().maximumSize(1000)
 			.<ITypeInfoSource, ITypeInfo>build().asMap();
 	protected Map<Object, ITypeInfo> precomputedTypeInfoByObject = CacheBuilder.newBuilder().weakKeys()
 			.<Object, ITypeInfo>build().asMap();
 
-	protected static ReflectionUI createDefault() {
-		return new ReflectionUI() {
+	public static ReflectionUI getDefault() {
+		if (defaultInstance == null) {
+			defaultInstance = new ReflectionUI() {
 
-			@Override
-			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-				ITypeInfo result = super.getTypeInfo(typeSource);
-				if (SystemProperties.areDefaultInfoCustomizationsActive()) {
-					result = InfoCustomizations.DEFAULT.get(this, result);
+				@Override
+				public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
+					ITypeInfo result = super.getTypeInfo(typeSource);
+					if (SystemProperties.areDefaultInfoCustomizationsActive()) {
+						result = InfoCustomizations.getDefault().get(this, result);
+					}
+					return result;
 				}
-				return result;
-			}
 
-		};
+			};
+		}
+		return defaultInstance;
 	}
 
 	public void registerPrecomputedTypeInfoObject(Object object, ITypeInfo type) {
@@ -156,14 +159,14 @@ public class ReflectionUI {
 			} else {
 				throw new IllegalArgumentException(usageText);
 			}
-			Object object = SwingRenderer.DEFAULT.onTypeInstanciationRequest(null,
-					ReflectionUI.DEFAULT.getTypeInfo(new JavaTypeInfoSource(clazz)), false);
+			Object object = SwingRenderer.getDefault().onTypeInstanciationRequest(null,
+					ReflectionUI.getDefault().getTypeInfo(new JavaTypeInfoSource(clazz)), false);
 			if (object == null) {
 				return;
 			}
-			SwingRenderer.DEFAULT.openObjectFrame(object);
+			SwingRenderer.getDefault().openObjectFrame(object);
 		} catch (Throwable t) {
-			SwingRenderer.DEFAULT.handleExceptionsFromDisplayedUI(null, t);
+			SwingRenderer.getDefault().handleExceptionsFromDisplayedUI(null, t);
 		}
 	}
 }

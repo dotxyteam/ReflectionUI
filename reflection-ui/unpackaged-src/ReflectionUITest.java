@@ -254,7 +254,7 @@ public class ReflectionUITest {
 	}
 
 	public static void main(String[] args) {
-		final InfoCustomizations infoCustomizations = InfoCustomizations.DEFAULT;
+		final InfoCustomizations infoCustomizations = InfoCustomizations.getDefault();
 		ReflectionUI reflectionUI = new ReflectionUI() {
 			@Override
 			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {

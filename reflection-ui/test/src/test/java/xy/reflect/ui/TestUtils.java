@@ -13,7 +13,7 @@ public class TestUtils {
 
 	@Test
 	public void testMethodSignature() throws Exception {
-		String signature = "void java.awt.Rectangle.add(ava.awt.Point pt)";
+		String signature = "void add(java.awt.Point)";
 		ReflectionUI reflectionUI = new ReflectionUI();
 		ITypeInfo rectangleTypeInfo = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(new Rectangle()));
 		IMethodInfo addPointMethodInfo = ReflectionUIUtils.findMethodBySignature(rectangleTypeInfo.getMethods(),

@@ -74,7 +74,7 @@ import xy.reflect.ui.util.SystemProperties;
 @XmlRootElement
 public final class InfoCustomizations {
 
-	public static final InfoCustomizations DEFAULT = createDefault();
+	public static InfoCustomizations defaultInstance;
 	public static final String ACTIVE_CUSTOMIZATIONS_PROPERTY_KEY = InfoCustomizations.class.getName();
 
 	transient protected Factory proxyFactory;
@@ -86,20 +86,22 @@ public final class InfoCustomizations {
 		return new Factory(reflectionUI);
 	}
 
-	protected static InfoCustomizations createDefault() {
-		InfoCustomizations result = new InfoCustomizations();
-		if (SystemProperties.areDefaultInfoCustomizationsActive()) {
-			String filePath = SystemProperties.getDefaultInfoCustomizationsFilePath();
-			File file = new File(filePath);
-			if (file.exists()) {
-				try {
-					result.loadFromFile(file);
-				} catch (Exception e) {
-					throw new ReflectionUIError(e);
+	public static InfoCustomizations getDefault() {
+		if (defaultInstance == null) {
+			defaultInstance = new InfoCustomizations();
+			if (SystemProperties.areDefaultInfoCustomizationsActive()) {
+				String filePath = SystemProperties.getDefaultInfoCustomizationsFilePath();
+				File file = new File(filePath);
+				if (file.exists()) {
+					try {
+						defaultInstance.loadFromFile(file);
+					} catch (Exception e) {
+						throw new ReflectionUIError(e);
+					}
 				}
 			}
 		}
-		return result;
+		return defaultInstance;
 	}
 
 	public ITypeInfo get(ReflectionUI reflectionUI, ITypeInfo type) {

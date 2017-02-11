@@ -509,7 +509,23 @@ public class SwingCustomizer extends SwingRenderer {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					final JPopupMenu popupMenu = new JPopupMenu();
-					popupMenu.add(new AbstractAction(prepareStringToDisplay("Hide This Type Customization Tools")) {
+					popupMenu.add(new AbstractAction(prepareStringToDisplay("Type Options...")) {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							openTypeCustomizationDialog(result, t);
+						}
+					});
+					popupMenu.add(new AbstractAction(prepareStringToDisplay("Refresh")) {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							updateUI(type.getName());
+						}
+					});
+					popupMenu.add(new AbstractAction(prepareStringToDisplay("Hide")) {
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -518,14 +534,6 @@ public class SwingCustomizer extends SwingRenderer {
 						}
 					});
 
-					popupMenu.add(new AbstractAction(prepareStringToDisplay("More Type Options...")) {
-						private static final long serialVersionUID = 1L;
-
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							openTypeCustomizationDialog(result, t);
-						}
-					});
 					showMenu(popupMenu, result);
 				}
 			});
@@ -981,13 +989,6 @@ public class SwingCustomizer extends SwingRenderer {
 					for (JPanel form : getForms(object)) {
 						recreateFormContent(form);
 						updateStatusBarInBackground(form);
-					}
-				}
-				JPanel form = entry.getKey();
-				for (FieldControlPlaceHolder placeHolder : getFieldControlPlaceHolders(form)) {
-					IFieldInfo field = placeHolder.getField();
-					if (typeName.equals(field.getType().getName())) {
-						refreshFieldControlsByName(form, field.getName(), true);
 					}
 				}
 			}

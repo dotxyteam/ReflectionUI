@@ -103,7 +103,7 @@ import xy.reflect.ui.util.component.WrapLayout;
 @SuppressWarnings("unused")
 public class SwingRenderer {
 
-	public static final SwingRenderer DEFAULT = createDefault();
+	protected static SwingRenderer defaultInstance;
 
 	protected ReflectionUI reflectionUI;
 	protected Map<JPanel, Object> objectByForm = new MapMaker().weakKeys().makeMap();
@@ -125,13 +125,16 @@ public class SwingRenderer {
 		this.reflectionUI = reflectionUI;
 	}
 
-	protected static SwingRenderer createDefault() {
-		if (SystemProperties.areDefaultInfoCustomizationsActive()) {
-			return new SwingCustomizer(ReflectionUI.DEFAULT, InfoCustomizations.DEFAULT,
-					SystemProperties.getDefaultInfoCustomizationsFilePath());
-		} else {
-			return new SwingRenderer(ReflectionUI.DEFAULT);
+	public static SwingRenderer getDefault() {
+		if (defaultInstance == null) {
+			if (SystemProperties.areDefaultInfoCustomizationsActive()) {
+				defaultInstance = new SwingCustomizer(ReflectionUI.getDefault(), InfoCustomizations.getDefault(),
+						SystemProperties.getDefaultInfoCustomizationsFilePath());
+			} else {
+				defaultInstance = new SwingRenderer(ReflectionUI.getDefault());
+			}
 		}
+		return defaultInstance;
 	}
 
 	public ReflectionUI getReflectionUI() {
