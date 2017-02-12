@@ -1,5 +1,77 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <infoCustomizations>
+    <enumerationCustomizations>
+        <enumerationTypeName>ReflectionUITest$AbstrcatTestDescendant$Day</enumerationTypeName>
+        <itemCustomizations>
+            <customCaption>lundi</customCaption>
+            <hidden>false</hidden>
+            <itemName>MONDAY</itemName>
+        </itemCustomizations>
+        <itemCustomizations>
+            <customCaption>mardi</customCaption>
+            <hidden>false</hidden>
+            <itemName>TUESDAY</itemName>
+        </itemCustomizations>
+        <itemCustomizations>
+            <customCaption>mercredi</customCaption>
+            <hidden>false</hidden>
+            <itemName>WEDNESDAY</itemName>
+        </itemCustomizations>
+    </enumerationCustomizations>
+    <enumerationCustomizations>
+        <enumerationTypeName>SubTypesEnumeration [polymorphicType=java.lang.Exception]</enumerationTypeName>
+        <itemCustomizations>
+            <hidden>false</hidden>
+            <itemName>java.awt.AWTException</itemName>
+        </itemCustomizations>
+        <itemCustomizations>
+            <customCaption>Class NotF ound</customCaption>
+            <hidden>false</hidden>
+            <itemName>java.lang.ClassNotFoundException</itemName>
+        </itemCustomizations>
+        <itemCustomizations>
+            <customCaption>Illegal Access</customCaption>
+            <hidden>false</hidden>
+            <itemName>java.lang.IllegalAccessException</itemName>
+        </itemCustomizations>
+        <itemCustomizations>
+            <customCaption>Null Pointer</customCaption>
+            <hidden>false</hidden>
+            <itemName>java.lang.NullPointerException</itemName>
+        </itemCustomizations>
+        <itemCustomizations>
+            <customCaption>&lt;Choose&gt;</customCaption>
+            <hidden>false</hidden>
+            <itemName>xy.reflect.ui.control.swing.PolymorphicControl.NULL_TYPE</itemName>
+        </itemCustomizations>
+    </enumerationCustomizations>
+    <enumerationCustomizations>
+        <enumerationTypeName>ValueOptions [ownerType=ReflectionUITest$Test, field=theChoice]</enumerationTypeName>
+        <itemCustomizations>
+            <hidden>false</hidden>
+            <itemName>item(a)</itemName>
+        </itemCustomizations>
+        <itemCustomizations>
+            <hidden>false</hidden>
+            <itemName>item(e)</itemName>
+        </itemCustomizations>
+        <itemCustomizations>
+            <hidden>false</hidden>
+            <itemName>item(r)</itemName>
+        </itemCustomizations>
+        <itemCustomizations>
+            <hidden>false</hidden>
+            <itemName>item(t)</itemName>
+        </itemCustomizations>
+        <itemCustomizations>
+            <hidden>false</hidden>
+            <itemName>item(y)</itemName>
+        </itemCustomizations>
+        <itemCustomizations>
+            <hidden>false</hidden>
+            <itemName>item(z)</itemName>
+        </itemCustomizations>
+    </enumerationCustomizations>
     <listCustomizations>
         <allowedItemFieldShortcuts>
             <alwaysShown>true</alwaysShown>
@@ -136,6 +208,10 @@
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
         </columnCustomizations>
+        <embeddedDetailsAccessMode>
+            <defaultDetailsAreaOccupationRatio>0.66</defaultDetailsAreaOccupationRatio>
+            <detailsAreaPosition>RIGHT</detailsAreaPosition>
+        </embeddedDetailsAccessMode>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
@@ -233,6 +309,10 @@
             <columnName>typeName</columnName>
             <hidden>false</hidden>
         </columnCustomizations>
+        <embeddedDetailsAccessMode>
+            <defaultDetailsAreaOccupationRatio>0.66</defaultDetailsAreaOccupationRatio>
+            <detailsAreaPosition>RIGHT</detailsAreaPosition>
+        </embeddedDetailsAccessMode>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
@@ -1423,6 +1503,10 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <typeName>Encapsulation [typeCaption=Selection, fieldType=SubTypesEnumeration [polymorphicType=ReflectionUITest$AbstrcatTestDescendant], fieldCaption=Choose a type:]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <fieldName>NULL_FIELD_INFO</fieldName>
@@ -1472,6 +1556,10 @@
     </typeCustomizations>
     <typeCustomizations>
         <typeName>Encapsulation [typeCaption=The File List - Item, fieldType=java.io.File, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>Encapsulation [typeCaption=The Generic Vector - Item, fieldType=ReflectionUITest$Test2, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1559,10 +1647,19 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <typeName>MethodSetupObject [method=boolean after(java.util.Date), containingType=java.util.Date]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
         <typeName>MethodSetupObject [method=void multiplyTheFloat(int), containingType=ReflectionUITest$Test]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <typeName>MethodSetupObject [method=void setTheBoundedInt(int), containingType=ReflectionUITest$Test]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <customTypeCaption>Test Descendant</customTypeCaption>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <fieldName>the2ndShort</fieldName>
@@ -1645,7 +1742,7 @@
             <specificProperties>
                 <entry>
                     <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">false</value>
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
@@ -1709,6 +1806,12 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
             <hidden>false</hidden>
             <fieldName>theDate</fieldName>
             <getOnlyForced>false</getOnlyForced>
@@ -2085,6 +2188,10 @@
     </typeCustomizations>
     <typeCustomizations>
         <typeName>SelectionDialogArrayAsEnumeration</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>SubTypesEnumeration [polymorphicType=java.lang.Exception]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>

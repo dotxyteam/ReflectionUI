@@ -44,6 +44,7 @@ import javax.swing.border.Border;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -119,6 +120,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	protected ITypeInfo detailsControlItemType;
 	protected AutoFieldValueUpdatingItemPosition detailsControlItemPosition;
 	protected Object detailsControlItem;
+	protected Object[] detailsControlItemHolder = new Object[1];
 
 	protected List<Runnable> selectionListeners = new ArrayList<Runnable>();
 	protected boolean selectionListenersEnabled = true;
@@ -179,10 +181,38 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	protected void layoutControls() {
 		setLayout(new BorderLayout());
+		JScrollPane treeTableComponentScrollPane = new JScrollPane(treeTableComponent) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Dimension getPreferredSize() {
+				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+				Dimension result = new Dimension();
+				result.width = screenSize.width / 2;
+				int minHeight = (int) (screenSize.height * 0.20);
+				int maxHeight = (int) (screenSize.height * 0.60);
+				result.height = minHeight;
+				Dimension treeTableComponentPreferredSize = treeTableComponent.getPreferredSize();
+				if (treeTableComponentPreferredSize != null) {
+					JTableHeader header = treeTableComponent.getTableHeader();
+					if (header != null) {
+						treeTableComponentPreferredSize.height += header.getHeight();
+					}
+					treeTableComponentPreferredSize.height += 10;
+					result.height = Math.max(result.height, treeTableComponentPreferredSize.height);
+				}
+				Dimension toolbarSize = toolbar.getPreferredSize();
+				if (toolbarSize != null) {
+					result.height = Math.max(result.height, toolbarSize.height);
+				}
+				result.height = Math.min(result.height, maxHeight);
+				return result;
+			}
+		};
 		if (getDetailsAccessMode().hasDetailsDisplayArea()) {
 			JPanel listPanel = new JPanel();
 			listPanel.setLayout(new BorderLayout());
-			listPanel.add(BorderLayout.CENTER, new JScrollPane(treeTableComponent));
+			listPanel.add(BorderLayout.CENTER, treeTableComponentScrollPane);
 			listPanel.add(toolbar, BorderLayout.EAST);
 			final JSplitPane splitPane = new JSplitPane();
 			add(splitPane, BorderLayout.CENTER);
@@ -217,28 +247,9 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				}
 			});
 		} else {
-			add(new JScrollPane(treeTableComponent), BorderLayout.CENTER);
+			add(treeTableComponentScrollPane, BorderLayout.CENTER);
 			add(toolbar, BorderLayout.EAST);
 		}
-	}
-
-	@Override
-	public Dimension getPreferredSize() {
-		Dimension result = Toolkit.getDefaultToolkit().getScreenSize();
-		result.width = result.width / 2;
-		result.height = result.height / 3;
-		Dimension toolbarSize = toolbar.getPreferredSize();
-		if (toolbarSize != null) {
-			result.height = Math.max(result.height, toolbarSize.height);
-			Border border = getBorder();
-			if (border != null) {
-				Insets borderInsets = border.getBorderInsets(this);
-				if (borderInsets != null) {
-					result.height += borderInsets.bottom + borderInsets.top;
-				}
-			}
-		}
-		return result;
 	}
 
 	@Override
@@ -1710,7 +1721,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 								listRootValue, base, invocationData);
 					}
 				};
-				method = new MethodInfoProxy(method) { 
+				method = new MethodInfoProxy(method) {
 					@Override
 					public Object invoke(Object listRootValue, InvocationData invocationData) {
 						ModificationStack childModifStack = new ModificationStack(null);
@@ -1844,10 +1855,12 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			detailsControlItem = null;
 			detailsControlItemType = null;
 			detailsControl = null;
+			detailsControlItemHolder[0] = null;
 			SwingRendererUtils.handleComponentSizeChange(ListControl.this);
 			return;
 
 		}
+		detailsControlItemHolder[0] = detailsControlItemPosition.getItem();
 		ITypeInfo actualIItemType = swingRenderer.getReflectionUI()
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(detailsControlItemPosition.getItem()));
 		if (actualIItemType.equals(detailsControlItemType)) {
@@ -1855,13 +1868,10 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			return;
 		}
 		detailsControlItemType = actualIItemType;
-		detailsArea.removeAll();
-
-		final Object[] detailsControlItemHolder = new Object[] { detailsControlItemPosition.getItem() };
 		Object encapsulated = getEncapsulatedItem(detailsControlItemHolder, detailsControlItemPosition);
-
 		detailsControl = swingRenderer.createForm(encapsulated);
 		swingRenderer.getBusyIndicationDisabledByForm().put(detailsControl, true);
+		detailsArea.removeAll();
 		detailsArea.setLayout(new BorderLayout());
 		detailsArea.add(new JScrollPane(detailsControl), BorderLayout.CENTER);
 		detailsArea.add(swingRenderer.createStatusBar(detailsControl), BorderLayout.NORTH);

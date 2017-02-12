@@ -991,6 +991,13 @@ public class SwingCustomizer extends SwingRenderer {
 						updateStatusBarInBackground(form);
 					}
 				}
+				JPanel form = entry.getKey();
+				for (FieldControlPlaceHolder placeHolder : getFieldControlPlaceHolders(form)) {
+					IFieldInfo field = placeHolder.getField();
+					if (typeName.equals(field.getType().getName())) {
+						refreshFieldControlsByName(form, field.getName(), true);
+					}
+				}
 			}
 			TypeCustomization t = infoCustomizations.getTypeCustomization(typeName, true);
 			for (JPanel form : customizationToolsRenderer.getForms(t)) {

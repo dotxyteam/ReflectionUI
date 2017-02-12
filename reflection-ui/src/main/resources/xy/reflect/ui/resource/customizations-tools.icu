@@ -509,6 +509,16 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=Customize Items - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$EnumerationItemCustomization, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
         <typeName>Encapsulation [typeCaption=Customize Methods Display - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -529,6 +539,38 @@
     </typeCustomizations>
     <typeCustomizations>
         <typeName>Encapsulation [typeCaption=IList Item Details Access Mode - Polymorphic Type, fieldType=xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode.SubTypesEnumeration, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=IList Item Details Access Mode - Polymorphic Value, fieldType=xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=IList Item Details Access Mode - Polymorphic Value, fieldType=xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1669,6 +1711,13 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <customFieldCaption>Hide</customFieldCaption>
+            <fieldName>hidden</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
             <fieldName>itemName</fieldName>
             <getOnlyForced>true</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -1897,9 +1946,6 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
-        <customFieldsOrder>itemDetailsViewDisabled</customFieldsOrder>
-        <customFieldsOrder>customDetailsAccessMode</customFieldsOrder>
-        <customFieldsOrder>editOptions</customFieldsOrder>
         <customFieldsOrder>fieldColumnsAdded</customFieldsOrder>
         <customFieldsOrder>itemTypeColumnAdded</customFieldsOrder>
         <customFieldsOrder>positionColumnAdded</customFieldsOrder>
@@ -1912,9 +1958,12 @@
         <customFieldsOrder>fieldsExcludedFromItemDetails</customFieldsOrder>
         <customFieldsOrder>methodsExcludedFromItemDetails</customFieldsOrder>
         <customFieldsOrder>allowedItemMethodShortcuts</customFieldsOrder>
+        <customFieldsOrder>editOptions</customFieldsOrder>
+        <customFieldsOrder>itemDetailsViewDisabled</customFieldsOrder>
+        <customFieldsOrder>customDetailsAccessMode</customFieldsOrder>
         <fieldsCustomizations>
             <category>
-                <caption>Edition</caption>
+                <caption>Shortcuts</caption>
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Item Field Shortcuts</customFieldCaption>
@@ -1924,7 +1973,7 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <category>
-                <caption>Edition</caption>
+                <caption>Shortcuts</caption>
             </category>
             <hidden>false</hidden>
             <customFieldCaption> Item Method Shortcuts</customFieldCaption>
@@ -1971,9 +2020,6 @@
                     <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
                 </entry>
             </specificProperties>
-            <category>
-                <caption>Edition</caption>
-            </category>
             <hidden>false</hidden>
             <customFieldCaption>Editable</customFieldCaption>
             <fieldName>editOptions</fieldName>
@@ -1992,7 +2038,7 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <category>
-                <caption>Item Details</caption>
+                <caption>Exclusions</caption>
             </category>
             <hidden>false</hidden>
             <fieldName>fieldsExcludedFromItemDetails</fieldName>
@@ -2072,7 +2118,7 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <category>
-                <caption>Item Details</caption>
+                <caption>Exclusions</caption>
             </category>
             <hidden>false</hidden>
             <fieldName>methodsExcludedFromItemDetails</fieldName>
@@ -2125,10 +2171,13 @@
             <caption>Columns</caption>
         </memberCategories>
         <memberCategories>
-            <caption>Edition</caption>
+            <caption>Item Details</caption>
         </memberCategories>
         <memberCategories>
-            <caption>Item Details</caption>
+            <caption>Shortcuts</caption>
+        </memberCategories>
+        <memberCategories>
+            <caption>Exclusions</caption>
         </memberCategories>
         <memberCategories>
             <caption>Tree Structure</caption>

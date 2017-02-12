@@ -306,7 +306,7 @@ public class SwingRenderer {
 	public JTabbedPane createMultipleInfoCategoriesComponent(final SortedSet<InfoCategory> allCategories,
 			Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
 			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory) {
-		final JTabbedPane tabbedPane = new AutoResizeTabbedPane();
+		final JTabbedPane tabbedPane = new JTabbedPane();
 		for (final InfoCategory category : allCategories) {
 			List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory.get(category);
 			if (fieldControlPlaceHolders == null) {

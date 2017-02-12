@@ -34,7 +34,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 	protected Component typeEnumerationControl;
 	protected ITypeInfo polymorphicType;
 
-	protected final ITypeInfo NULL_POLY_TYPE;
+	protected final ITypeInfo NULL_TYPE;
 	protected ITypeInfo lastInstanceType;
 	protected boolean updatingEnumeration = false;
 	protected FieldControlPlaceHolder fieldControlPlaceHolder;
@@ -45,7 +45,14 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		this.polymorphicType = data.getType();
 		this.subTypes = polymorphicType.getPolymorphicInstanceSubTypes();
 
-		NULL_POLY_TYPE = new DefaultTypeInfo(swingRenderer.getReflectionUI(), Object.class) {
+		NULL_TYPE = new DefaultTypeInfo(swingRenderer.getReflectionUI(), Object.class) {
+
+			
+			
+			@Override
+			public String getName() {
+				return PolymorphicControl.class.getName() + ".NULL_TYPE";
+			}
 
 			@Override
 			public String getCaption() {
@@ -54,7 +61,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 
 			@Override
 			public String toString() {
-				return "PolymorphicControl.NULL_POLY_TYPE";
+				return "Null Type";
 			}
 		};
 
@@ -85,7 +92,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 				}
 			}
 			if (data.isNullable()) {
-				possibleTypes.add(0, NULL_POLY_TYPE);
+				possibleTypes.add(0, NULL_TYPE);
 			}
 		}
 		final ArrayAsEnumerationFactory enumFactory = ReflectionUIUtils
@@ -103,7 +110,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			public Object get() {
 				Object instance = data.getValue();
 				if (instance == null) {
-					return enumFactory.getInstance(NULL_POLY_TYPE);
+					return enumFactory.getInstance(NULL_TYPE);
 				} else {
 					ITypeInfo actualFieldValueType = swingRenderer.getReflectionUI()
 							.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(instance));
@@ -116,7 +123,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			public void set(Object value) {
 				try {
 					value = enumFactory.unwrapInstance(value);
-					if (value == NULL_POLY_TYPE) {
+					if (value == NULL_TYPE) {
 						setDataValue(null);
 					} else {
 						ITypeInfo selectedPolyType = null;

@@ -133,6 +133,17 @@ public final class InfoCustomizations {
 		this.listCustomizations = new TreeSet<ListCustomization>(listCustomizations);
 	}
 
+	public Set<EnumerationCustomization> getEnumerationCustomizations() {
+		return enumerationCustomizations;
+	}
+
+	public void setEnumerationCustomizations(Set<EnumerationCustomization> enumerationCustomizations) {
+		if (enumerationCustomizations == null) {
+			this.enumerationCustomizations = null;
+		}
+		this.enumerationCustomizations = new TreeSet<EnumerationCustomization>(enumerationCustomizations);
+	}
+
 	public void loadFromFile(File input) throws IOException {
 		FileInputStream stream = new FileInputStream(input);
 		try {
@@ -156,6 +167,7 @@ public final class InfoCustomizations {
 		}
 		typeCustomizations = loaded.typeCustomizations;
 		listCustomizations = loaded.listCustomizations;
+		enumerationCustomizations = loaded.enumerationCustomizations;
 
 		fillXMLSerializationGap();
 	}
@@ -205,6 +217,7 @@ public final class InfoCustomizations {
 		InfoCustomizations toSave = new InfoCustomizations();
 		toSave.typeCustomizations = typeCustomizations;
 		toSave.listCustomizations = listCustomizations;
+		toSave.enumerationCustomizations = enumerationCustomizations;
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(InfoCustomizations.class);
 			javax.xml.bind.Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
