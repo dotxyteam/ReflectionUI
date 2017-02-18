@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 import xy.reflect.ui.control.data.ControlDataProxy;
 import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
-import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory;
 import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
@@ -34,7 +33,6 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 	protected Component typeEnumerationControl;
 	protected ITypeInfo polymorphicType;
 
-	protected final ITypeInfo NULL_TYPE;
 	protected ITypeInfo lastInstanceType;
 	protected boolean updatingEnumeration = false;
 	protected FieldControlPlaceHolder fieldControlPlaceHolder;
@@ -45,28 +43,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		this.polymorphicType = data.getType();
 		this.subTypes = polymorphicType.getPolymorphicInstanceSubTypes();
 
-		NULL_TYPE = new DefaultTypeInfo(swingRenderer.getReflectionUI(), Object.class) {
-
-			
-			
-			@Override
-			public String getName() {
-				return PolymorphicControl.class.getName() + ".NULL_TYPE";
-			}
-
-			@Override
-			public String getCaption() {
-				return "";
-			}
-
-			@Override
-			public String toString() {
-				return "Null Type";
-			}
-		};
-
 		setLayout(new BorderLayout());
-
 		setBorder(BorderFactory.createTitledBorder(""));
 		refreshUI();
 	}
@@ -91,9 +68,6 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 					possibleTypes.add(actualFieldValueType);
 				}
 			}
-			if (data.isNullable()) {
-				possibleTypes.add(0, NULL_TYPE);
-			}
 		}
 		final ArrayAsEnumerationFactory enumFactory = ReflectionUIUtils
 				.getPolymorphicTypesEnumerationfactory(swingRenderer.getReflectionUI(), polymorphicType, possibleTypes);
@@ -102,7 +76,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 				enumType);
 		encapsulation
 				.setTypeCaption(ReflectionUIUtils.composeMessage(polymorphicType.getCaption(), "Polymorphic Type"));
-		encapsulation.setFieldNullable(false);
+		encapsulation.setFieldNullable(data.isNullable());
 		encapsulation.setFieldCaption("");
 		Object encapsulated = encapsulation.getInstance(new Accessor<Object>() {
 
@@ -110,7 +84,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			public Object get() {
 				Object instance = data.getValue();
 				if (instance == null) {
-					return enumFactory.getInstance(NULL_TYPE);
+					return null;
 				} else {
 					ITypeInfo actualFieldValueType = swingRenderer.getReflectionUI()
 							.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(instance));
@@ -122,10 +96,10 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			@Override
 			public void set(Object value) {
 				try {
-					value = enumFactory.unwrapInstance(value);
-					if (value == NULL_TYPE) {
+					if (value == null) {
 						setDataValue(null);
 					} else {
+						value = enumFactory.unwrapInstance(value);
 						ITypeInfo selectedPolyType = null;
 						for (ITypeInfo subType : subTypes) {
 							if (value.equals(subType)) {

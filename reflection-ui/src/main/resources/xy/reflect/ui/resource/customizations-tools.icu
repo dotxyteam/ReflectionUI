@@ -525,6 +525,16 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=Fields Excluded From Item Details - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$InfoFilter, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
             <customFieldCaption>Type Name</customFieldCaption>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
@@ -534,6 +544,13 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullValueLabel>&lt;Default&gt;</nullValueLabel>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
         <typeName>Encapsulation [typeCaption=IList Item Details Access Mode - Polymorphic Type, fieldType=SubTypesEnumeration [polymorphicType=xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode], fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -585,6 +602,16 @@
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>Encapsulation [typeCaption=Item Field Shortcuts - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$ListItemFieldShortcut, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=Methods Excluded From Item Details - Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$InfoFilter, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1100,7 +1127,7 @@
             <hidden>false</hidden>
             <fieldName>detailsAreaPosition</fieldName>
             <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>false</nullableFacetHidden>
+            <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
@@ -1739,7 +1766,6 @@
     <typeCustomizations>
         <customFieldsOrder>fieldName</customFieldsOrder>
         <customFieldsOrder>customFieldCaption</customFieldsOrder>
-        <customFieldsOrder>iconImageFile</customFieldsOrder>
         <customFieldsOrder>getOnlyForced</customFieldsOrder>
         <customFieldsOrder>nullableFacetHidden</customFieldsOrder>
         <customFieldsOrder>hidden</customFieldsOrder>
@@ -1748,6 +1774,7 @@
         <customFieldsOrder>valueOptionsFieldName</customFieldsOrder>
         <customFieldsOrder>onlineHelp</customFieldsOrder>
         <customFieldsOrder>customValueReturnMode</customFieldsOrder>
+        <customFieldsOrder>nullValueLabel</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <fieldName>category</fieldName>
@@ -1782,9 +1809,10 @@
                 <caption>Advanced</caption>
             </category>
             <hidden>false</hidden>
-            <customFieldCaption>Change Value Return Mode</customFieldCaption>
+            <customFieldCaption>Value Return Mode</customFieldCaption>
             <fieldName>customValueReturnMode</fieldName>
             <getOnlyForced>false</getOnlyForced>
+            <nullValueLabel>&lt;Default&gt;</nullValueLabel>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -1814,6 +1842,15 @@
             <hidden>false</hidden>
             <customFieldCaption>Hide</customFieldCaption>
             <fieldName>hidden</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Advanced</caption>
+            </category>
+            <hidden>false</hidden>
+            <fieldName>nullValueLabel</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
@@ -2008,7 +2045,7 @@
                 <caption>Item Details</caption>
             </category>
             <hidden>false</hidden>
-            <customFieldCaption>Choose Item Details View Mode</customFieldCaption>
+            <customFieldCaption>Details View Mode</customFieldCaption>
             <fieldName>customDetailsAccessMode</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2320,6 +2357,7 @@
         <customFieldsOrder>parametersCustomizations</customFieldsOrder>
         <customFieldsOrder>category</customFieldsOrder>
         <customFieldsOrder>onlineHelp</customFieldsOrder>
+        <customFieldsOrder>nullReturnValueLabel</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <fieldName>category</fieldName>
@@ -2362,9 +2400,10 @@
                 <caption>Advanced</caption>
             </category>
             <hidden>false</hidden>
-            <customFieldCaption>Change Value Return Mode</customFieldCaption>
+            <customFieldCaption>Value Return Mode</customFieldCaption>
             <fieldName>customValueReturnMode</fieldName>
             <getOnlyForced>false</getOnlyForced>
+            <nullValueLabel>&lt;Default&gt;</nullValueLabel>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -2378,6 +2417,15 @@
             <hidden>false</hidden>
             <fieldName>methodSignature</fieldName>
             <getOnlyForced>true</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Advanced</caption>
+            </category>
+            <hidden>false</hidden>
+            <fieldName>nullReturnValueLabel</fieldName>
+            <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>

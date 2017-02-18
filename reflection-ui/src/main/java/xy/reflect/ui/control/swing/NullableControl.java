@@ -134,16 +134,7 @@ public abstract class NullableControl extends JPanel implements IAdvancedFieldCo
 				add(subControl, BorderLayout.CENTER);
 			} else {
 				subControlValueType = null;
-				subControl = createNullControl(swingRenderer, new Runnable() {
-					@Override
-					public void run() {
-						if (!data.isGetOnly()) {
-							setShouldBeNull(false);
-							onNullingControlStateChange();
-							subControl.requestFocus();
-						}
-					}
-				});
+				subControl = createNullControl();
 				add(subControl, BorderLayout.CENTER);
 			}
 			if (subControl instanceof IAdvancedFieldControl) {
@@ -153,8 +144,17 @@ public abstract class NullableControl extends JPanel implements IAdvancedFieldCo
 		}
 	}
 
-	protected Component createNullControl(SwingRenderer swingRenderer, Runnable onMousePress) {
-		return new NullControl(swingRenderer, onMousePress);
+	protected Component createNullControl() {
+		return new NullControl(swingRenderer, data.getNullValueLabel(), new Runnable() {
+			@Override
+			public void run() {
+				if (!data.isGetOnly()) {
+					setShouldBeNull(false);
+					onNullingControlStateChange();
+					subControl.requestFocus();
+				}
+			}
+		});
 	}
 
 	@Override
@@ -235,7 +235,7 @@ public abstract class NullableControl extends JPanel implements IAdvancedFieldCo
 	public ITypeInfo getDynamicObjectType() {
 		if (subControl instanceof IAdvancedFieldControl) {
 			ITypeInfo result = ((IAdvancedFieldControl) subControl).getDynamicObjectType();
-			if(result != null){
+			if (result != null) {
 				return result;
 			}
 		}

@@ -146,6 +146,11 @@ public class ImplicitListField implements IFieldInfo {
 	}
 
 	@Override
+	public String getNullValueLabel() {
+		return null;
+	}
+
+	@Override
 	public boolean isGetOnly() {
 		return (getAddMethod() == null) || (getRemoveMethod() == null);
 	}

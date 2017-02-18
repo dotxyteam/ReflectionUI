@@ -25,15 +25,21 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class EncapsulatedObjectFactory {
 
 	protected ReflectionUI reflectionUI;
-	protected ITypeInfo fieldType;
+
 	protected String typeCaption = "";
+	protected Map<String, Object> typeSpecificProperties = new HashMap<String, Object>();
+	protected boolean typeModificationStackAccessible = true;
+	protected String typeOnlineHelp;
+
+	protected ITypeInfo fieldType;
 	protected String fieldCaption = "Value";
 	protected boolean fieldGetOnly = false;
 	protected boolean fieldNullable = true;
 	protected ValueReturnMode fieldValueReturnMode = ValueReturnMode.PROXY;
-	protected Map<String, Object> typeSpecificProperties = new HashMap<String, Object>();
 	protected Map<String, Object> fieldSpecificProperties = new HashMap<String, Object>();
-	protected boolean modificationStackAccessible = true;
+	protected String fieldNullValueLabel;
+	protected String fieldOnlineHelp;
+	protected InfoCategory fieldCategory;
 
 	public EncapsulatedObjectFactory(ReflectionUI reflectionUI, ITypeInfo fieldType) {
 		this.reflectionUI = reflectionUI;
@@ -66,12 +72,20 @@ public class EncapsulatedObjectFactory {
 		this.typeCaption = typeCaption;
 	}
 
-	public boolean isModificationStackAccessible() {
-		return modificationStackAccessible;
+	public boolean isTypeModificationStackAccessible() {
+		return typeModificationStackAccessible;
 	}
 
-	public void setModificationStackAccessible(boolean modificationStackAccessible) {
-		this.modificationStackAccessible = modificationStackAccessible;
+	public void setTypeModificationStackAccessible(boolean modificationStackAccessible) {
+		this.typeModificationStackAccessible = modificationStackAccessible;
+	}
+
+	public String getTypeOnlineHelp() {
+		return typeOnlineHelp;
+	}
+
+	public void setTypeOnlineHelp(String typeOnlineHelp) {
+		this.typeOnlineHelp = typeOnlineHelp;
 	}
 
 	public Map<String, Object> getTypeSpecificProperties() {
@@ -104,6 +118,30 @@ public class EncapsulatedObjectFactory {
 
 	public void setFieldNullable(boolean fieldNullable) {
 		this.fieldNullable = fieldNullable;
+	}
+
+	public String getFieldNullValueLabel() {
+		return fieldNullValueLabel;
+	}
+
+	public void setFieldNullValueLabel(String fieldNullValueLabel) {
+		this.fieldNullValueLabel = fieldNullValueLabel;
+	}
+
+	public String getFieldOnlineHelp() {
+		return fieldOnlineHelp;
+	}
+
+	public void setFieldOnlineHelp(String fieldOnlineHelp) {
+		this.fieldOnlineHelp = fieldOnlineHelp;
+	}
+
+	public InfoCategory getFieldCategory() {
+		return fieldCategory;
+	}
+
+	public void setFieldCategory(InfoCategory fieldCategory) {
+		this.fieldCategory = fieldCategory;
 	}
 
 	public ValueReturnMode getFieldValueReturnMode() {
@@ -191,7 +229,7 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public String getOnlineHelp() {
-			return null;
+			return typeOnlineHelp;
 		}
 
 		@Override
@@ -206,7 +244,7 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public boolean isModificationStackAccessible() {
-			return modificationStackAccessible;
+			return typeModificationStackAccessible;
 		}
 
 		@Override
@@ -371,6 +409,11 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
+		public String getNullValueLabel() {
+			return fieldNullValueLabel;
+		}
+
+		@Override
 		public Map<String, Object> getSpecificProperties() {
 			return fieldSpecificProperties;
 		}
@@ -393,7 +436,7 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public String getOnlineHelp() {
-			return null;
+			return fieldOnlineHelp;
 		}
 
 		@Override
@@ -413,7 +456,7 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public InfoCategory getCategory() {
-			return null;
+			return fieldCategory;
 		}
 
 		private EncapsulatedObjectFactory getOuterType() {

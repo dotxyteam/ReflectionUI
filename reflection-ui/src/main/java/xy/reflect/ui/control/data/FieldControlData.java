@@ -45,6 +45,10 @@ public class FieldControlData implements IControlData {
 		return field.isNullable();
 	}
 
+	public String getNullValueLabel() {
+		return field.getNullValueLabel();
+	}
+
 	@Override
 	public ValueReturnMode getValueReturnMode() {
 		return field.getValueReturnMode();

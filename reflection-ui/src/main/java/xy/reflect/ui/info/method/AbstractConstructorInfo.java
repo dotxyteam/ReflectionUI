@@ -54,6 +54,11 @@ public abstract class AbstractConstructorInfo implements IMethodInfo {
 	}
 
 	@Override
+	public String getNullReturnValueLabel() {
+		return null;
+	}
+
+	@Override
 	public ValueReturnMode getValueReturnMode() {
 		return ValueReturnMode.COPY;
 	}

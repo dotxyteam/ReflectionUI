@@ -33,5 +33,7 @@ public interface IControlData {
 
 	boolean isNullable();
 
+	String getNullValueLabel();
+
 	Map<String, Object> getSpecificProperties();
 }

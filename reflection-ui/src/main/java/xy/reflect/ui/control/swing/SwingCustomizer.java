@@ -336,6 +336,12 @@ public class SwingCustomizer extends SwingRenderer {
 				}
 
 				@Override
+				public String getNullValueLabel() {
+					return null;
+				}
+
+
+				@Override
 				public Map<String, Object> getSpecificProperties() {
 					return Collections.emptyMap();
 				}
@@ -409,6 +415,12 @@ public class SwingCustomizer extends SwingRenderer {
 				public String getCaption() {
 					return "Icon Image File";
 				}
+
+				@Override
+				public String getNullValueLabel() {
+					return null;
+				}
+
 
 				@Override
 				public String getOnlineHelp() {

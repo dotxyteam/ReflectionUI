@@ -68,8 +68,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 			textFieldNormalBorder = textComponent.getBorder();
 			if (data.isGetOnly()) {
 				textComponent.setEditable(false);
-				textComponent.setBackground(SwingRendererUtils
-						.fixSeveralColorRenderingIssues(ReflectionUIUtils.getDisabledTextBackgroundColor()));
+				textComponent.setBackground(ReflectionUIUtils.getDisabledTextBackgroundColor());
 				scrollPane.setBorder(BorderFactory.createTitledBorder(""));
 			} else {
 				textComponent.getDocument().addUndoableEditListener(new UndoableEditListener() {

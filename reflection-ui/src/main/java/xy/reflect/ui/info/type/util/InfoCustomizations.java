@@ -788,6 +788,7 @@ public final class InfoCustomizations {
 		protected boolean getOnlyForced = false;
 		protected String valueOptionsFieldName;
 		protected ValueReturnMode customValueReturnMode;
+		protected String nullValueLabel;
 
 		public String getFieldName() {
 			return fieldName;
@@ -811,6 +812,14 @@ public final class InfoCustomizations {
 
 		public void setCustomValueReturnMode(ValueReturnMode customValueReturnMode) {
 			this.customValueReturnMode = customValueReturnMode;
+		}
+
+		public String getNullValueLabel() {
+			return nullValueLabel;
+		}
+
+		public void setNullValueLabel(String nullValueLabel) {
+			this.nullValueLabel = nullValueLabel;
 		}
 
 		public boolean isGetOnlyForced() {
@@ -882,6 +891,7 @@ public final class InfoCustomizations {
 		protected boolean validating = false;
 		protected List<ParameterCustomization> parametersCustomizations = new ArrayList<InfoCustomizations.ParameterCustomization>();
 		protected ValueReturnMode customValueReturnMode;
+		protected String nullReturnValueLabel;
 
 		public boolean isValidating() {
 			return validating;
@@ -905,6 +915,14 @@ public final class InfoCustomizations {
 
 		public void setCustomValueReturnMode(ValueReturnMode customReturnValueReturnMode) {
 			this.customValueReturnMode = customReturnValueReturnMode;
+		}
+
+		public String getNullReturnValueLabel() {
+			return nullReturnValueLabel;
+		}
+
+		public void setNullReturnValueLabel(String nullReturnValueLabel) {
+			this.nullReturnValueLabel = nullReturnValueLabel;
 		}
 
 		public String getMethodSignature() {
@@ -1711,6 +1729,29 @@ public final class InfoCustomizations {
 		}
 
 		@Override
+		protected String getNullValueLabel(IFieldInfo field, ITypeInfo containingType) {
+			FieldCustomization f = getFieldCustomization(containingType.getName(), field.getName());
+			if (f != null) {
+				if(f.nullValueLabel != null){
+					return f.nullValueLabel;
+				}
+			}
+			return super.getNullValueLabel(field, containingType);
+		}
+
+		@Override
+		protected String getNullReturnValueLabel(IMethodInfo method, ITypeInfo containingType) {
+			MethodCustomization m = getMethodCustomization(containingType.getName(),
+					ReflectionUIUtils.getMethodSignature(method));
+			if (m != null) {
+				if(m.nullReturnValueLabel != null){
+					return m.nullReturnValueLabel;
+				}
+			}
+			return super.getNullReturnValueLabel(method, containingType);
+		}
+
+		@Override
 		protected Object[] getPossibleValues(IEnumerationTypeInfo enumType) {
 			EnumerationCustomization e = getEnumerationCustomization(enumType.getName());
 			if (e != null) {
@@ -1831,6 +1872,11 @@ public final class InfoCustomizations {
 									@Override
 									public boolean isNullable() {
 										return itemField.isNullable();
+									}
+
+									@Override
+									public String getNullValueLabel() {
+										return itemField.getNullValueLabel();
 									}
 
 									@Override
@@ -1969,6 +2015,11 @@ public final class InfoCustomizations {
 									}
 
 									@Override
+									public String getNullReturnValueLabel() {
+										return method.getNullReturnValueLabel();
+									}
+
+									@Override
 									public ValueReturnMode getValueReturnMode() {
 										return ValueReturnMode.combine(
 												itemPosition.getContainingListData().getValueReturnMode(),
@@ -2059,6 +2110,7 @@ public final class InfoCustomizations {
 							public ValueReturnMode getValueReturnMode() {
 								throw new UnsupportedOperationException();
 							}
+
 						});
 					}
 				}

@@ -39,6 +39,10 @@ public class MethodInfoProxy implements IMethodInfo {
 
 	
 
+	public String getNullReturnValueLabel() {
+		return base.getNullReturnValueLabel();
+	}
+
 	@Override
 	public boolean isReadOnly() {
 		return base.isReadOnly();

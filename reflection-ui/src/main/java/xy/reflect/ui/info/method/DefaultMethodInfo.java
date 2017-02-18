@@ -116,6 +116,11 @@ public class DefaultMethodInfo implements IMethodInfo {
 	}
 
 	@Override
+	public String getNullReturnValueLabel() {
+		return null;
+	}
+
+	@Override
 	public ValueReturnMode getValueReturnMode() {
 		return ValueReturnMode.SELF;
 	}

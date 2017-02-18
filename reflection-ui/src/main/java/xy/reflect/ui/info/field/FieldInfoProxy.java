@@ -48,6 +48,10 @@ public class FieldInfoProxy implements IFieldInfo {
 		return base.isNullable();
 	}
 
+	public String getNullValueLabel() {
+		return base.getNullValueLabel();
+	}
+
 	@Override
 	public boolean isGetOnly() {
 		return base.isGetOnly();

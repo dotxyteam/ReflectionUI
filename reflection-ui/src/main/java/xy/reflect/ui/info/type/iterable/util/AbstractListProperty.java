@@ -13,6 +13,11 @@ public abstract class AbstractListProperty implements IFieldInfo {
 	}
 
 	@Override
+	public String getNullValueLabel() {
+		return null;
+	}
+
+	@Override
 	public InfoCategory getCategory() {
 		return null;
 	}

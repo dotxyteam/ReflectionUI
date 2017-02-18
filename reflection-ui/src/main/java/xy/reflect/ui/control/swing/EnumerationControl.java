@@ -57,8 +57,7 @@ public class EnumerationControl extends JPanel {
 		if (data.isGetOnly()) {
 			comboBox.setEnabled(false);
 		} else {
-			comboBox.setBackground(
-					SwingRendererUtils.fixSeveralColorRenderingIssues(SwingRendererUtils.getTextBackgroundColor()));
+			comboBox.setBackground(SwingRendererUtils.getTextBackgroundColor());
 		}
 
 		comboBox.setRenderer(new BasicComboBoxRenderer() {
@@ -71,7 +70,12 @@ public class EnumerationControl extends JPanel {
 				JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,
 						cellHasFocus);
 				if (value == null) {
-					label.setText("");
+					String nullValueLabel = data.getNullValueLabel();
+					if (nullValueLabel == null) {
+						label.setText("");
+					} else {
+						label.setText(nullValueLabel);
+					}
 					label.setIcon(null);
 				} else {
 					IEnumerationItemInfo itemInfo = enumType.getValueInfo(value);

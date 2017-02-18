@@ -13,11 +13,11 @@ public class NullControl extends TextControl {
 
 	protected static final long serialVersionUID = 1L;
 
-	public NullControl(final SwingRenderer swingRenderer, final Runnable onMousePress) {
+	public NullControl(final SwingRenderer swingRenderer, final String text, final Runnable onMousePress) {
 		super(swingRenderer, new ControlDataProxy(IControlData.NULL_CONTROL_DATA) {
 			@Override
 			public Object getValue() {
-				return "";
+				return text;
 			}
 
 			@Override
@@ -38,8 +38,9 @@ public class NullControl extends TextControl {
 				}
 			});
 		}
-		textComponent.setEditable(false);
-		textComponent.setBackground(SwingRendererUtils.fixSeveralColorRenderingIssues(swingRenderer.getNullColor()));
+		if (text == null) {
+			textComponent.setBackground(SwingRendererUtils.getNullColor());
+		}
 	}
 
 	@Override

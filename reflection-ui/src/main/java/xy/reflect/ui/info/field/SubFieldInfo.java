@@ -105,6 +105,12 @@ public class SubFieldInfo implements IFieldInfo {
 		return theField.isNullable() || theSubField.isNullable();
 	}
 
+
+	@Override
+	public String getNullValueLabel() {
+		return null;
+	}
+
 	@Override
 	public boolean isGetOnly() {
 		return theField.isGetOnly() || theSubField.isGetOnly();

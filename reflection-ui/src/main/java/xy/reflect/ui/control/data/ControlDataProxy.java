@@ -38,6 +38,10 @@ public class ControlDataProxy implements IControlData {
 		return base.isNullable();
 	}
 
+	public String getNullValueLabel() {
+		return base.getNullValueLabel();
+	}
+
 	public ITypeInfo getType() {
 		return base.getType();
 	}

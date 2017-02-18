@@ -167,6 +167,10 @@ public abstract class TypeInfoProxyFactory {
 		return field.isNullable();
 	}
 
+	protected String getNullValueLabel(IFieldInfo field, ITypeInfo containingType) {
+		return field.getNullValueLabel();
+	}
+
 	protected boolean isGetOnly(IFieldInfo field, ITypeInfo containingType) {
 		return field.isGetOnly();
 	}
@@ -213,6 +217,10 @@ public abstract class TypeInfoProxyFactory {
 
 	protected boolean isReadOnly(IMethodInfo method, ITypeInfo containingType) {
 		return method.isReadOnly();
+	}
+	
+	protected String getNullReturnValueLabel(IMethodInfo method, ITypeInfo containingType) {
+		return method.getNullReturnValueLabel();
 	}
 
 	protected ValueReturnMode getValueReturnMode(IMethodInfo method, ITypeInfo containingType) {
@@ -757,6 +765,12 @@ public abstract class TypeInfoProxyFactory {
 		}
 
 		@Override
+		public String getNullValueLabel() {
+			return TypeInfoProxyFactory.this.getNullValueLabel(base, containingType);
+
+		}
+
+		@Override
 		public Object getValue(Object object) {
 			return TypeInfoProxyFactory.this.getValue(object, base, containingType);
 		}
@@ -881,6 +895,11 @@ public abstract class TypeInfoProxyFactory {
 		@Override
 		public boolean isReadOnly() {
 			return TypeInfoProxyFactory.this.isReadOnly(base, containingType);
+		}
+
+		@Override
+		public String getNullReturnValueLabel() {
+			return TypeInfoProxyFactory.this.getNullReturnValueLabel(base, containingType);
 		}
 
 		@Override

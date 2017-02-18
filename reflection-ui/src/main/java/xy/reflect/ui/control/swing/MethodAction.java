@@ -185,6 +185,7 @@ public class MethodAction extends AbstractAction {
 			encapsulation.setTypeCaption(ReflectionUIUtils.composeMessage(windowTitle, "<null>"));
 			encapsulation.setFieldCaption("");
 			encapsulation.setFieldGetOnly(true);
+			encapsulation.setFieldNullValueLabel(method.getNullReturnValueLabel());
 			Object nullEncapsulated = encapsulation.getInstance(Accessor.returning(null));
 			ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, activatorComponent,
 					nullEncapsulated);

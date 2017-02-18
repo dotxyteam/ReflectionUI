@@ -95,6 +95,11 @@ public class GetterFieldInfo implements IFieldInfo {
 	}
 
 	@Override
+	public String getNullValueLabel() {
+		return null;
+	}
+
+	@Override
 	public boolean isGetOnly() {
 		return getSetterMethodInfo() == null;
 	}

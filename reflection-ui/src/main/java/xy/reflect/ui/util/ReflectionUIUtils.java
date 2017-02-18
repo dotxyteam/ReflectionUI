@@ -496,7 +496,7 @@ public class ReflectionUIUtils {
 	}
 
 	public static Color getDisabledTextBackgroundColor() {
-		return new JPanel().getBackground();
+		return SwingRendererUtils.fixSeveralColorRenderingIssues(new JPanel().getBackground());
 	}
 
 	public static List<Field> getALlFields(Class<?> type) {

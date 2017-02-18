@@ -44,6 +44,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
@@ -208,7 +209,7 @@ public class SwingRendererUtils {
 	}
 
 	public static Color getTextBackgroundColor() {
-		return new JTextField().getBackground();
+		return SwingRendererUtils.fixSeveralColorRenderingIssues(new JTextField().getBackground());
 	}
 
 	public static void disableComponentTree(JComponent c, final boolean revert) {
@@ -590,6 +591,10 @@ public class SwingRendererUtils {
 		} else {
 			return null;
 		}
+	}
+
+	public static Color getNullColor() {
+		return fixSeveralColorRenderingIssues(new JTextArea().getDisabledTextColor());
 	}
 
 	public static Image getCachedIconImage(SwingRenderer swingRenderer, Map<String, Object> properties) {

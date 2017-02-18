@@ -75,6 +75,12 @@ public class PublicFieldInfo implements IFieldInfo {
 		return type;
 	}
 
+
+	@Override
+	public String getNullValueLabel() {
+		return null;
+	}
+
 	@Override
 	public String getCaption() {
 		return ReflectionUIUtils.identifierToCaption(javaField.getName());

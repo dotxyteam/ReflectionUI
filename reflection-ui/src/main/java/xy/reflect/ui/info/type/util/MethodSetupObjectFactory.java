@@ -60,6 +60,12 @@ public class MethodSetupObjectFactory {
 				return param.isNullable();
 			}
 
+
+			@Override
+			public String getNullValueLabel() {
+				return null;
+			}
+
 			@Override
 			public Object getValue(Object object) {
 				Instance instance = (Instance) object;

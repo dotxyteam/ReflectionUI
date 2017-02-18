@@ -42,7 +42,11 @@ public interface IFieldInfo extends IInfo {
 			return true;
 		}
 
-		
+		@Override
+		public String getNullValueLabel() {
+			return null;
+		}
+
 		@Override
 		public ValueReturnMode getValueReturnMode() {
 			return ValueReturnMode.PROXY;
@@ -98,6 +102,8 @@ public interface IFieldInfo extends IInfo {
 	boolean isNullable();
 
 	boolean isGetOnly();
+
+	String getNullValueLabel();
 
 	ValueReturnMode getValueReturnMode();
 

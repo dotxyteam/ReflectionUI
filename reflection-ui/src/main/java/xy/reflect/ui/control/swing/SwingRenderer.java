@@ -44,7 +44,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
 import javax.swing.JToolTip;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -833,10 +832,6 @@ public class SwingRenderer {
 		return result;
 	}
 
-	public Color getNullColor() {
-		return new JTextArea().getDisabledTextColor();
-	}
-
 	public Image getObjectIconImage(Object object) {
 		if (object != null) {
 			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
@@ -1053,7 +1048,7 @@ public class SwingRenderer {
 		encapsulation.setFieldCaption("");
 		encapsulation.setFieldGetOnly(true);
 		encapsulation.setFieldNullable(false);
-		encapsulation.setModificationStackAccessible(false);
+		encapsulation.setTypeModificationStackAccessible(false);
 		Object toDisplay = encapsulation.getInstance(new Object[] { msg });
 		Component errorComponent = new JOptionPane(createForm(toDisplay), JOptionPane.ERROR_MESSAGE,
 				JOptionPane.DEFAULT_OPTION, null, new Object[] {});
@@ -1068,7 +1063,7 @@ public class SwingRenderer {
 		encapsulation.setFieldCaption("Message");
 		encapsulation.setFieldGetOnly(true);
 		encapsulation.setFieldNullable(false);
-		encapsulation.setModificationStackAccessible(false);
+		encapsulation.setTypeModificationStackAccessible(false);
 		Map<String, Object> fieldSpecificProperties = new HashMap<String, Object>();
 		{
 			DesktopSpecificProperty.setIconImage(fieldSpecificProperties, SwingRendererUtils.ERROR_ICON.getImage());

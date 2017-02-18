@@ -72,14 +72,18 @@ public interface IMethodInfo extends IInfo {
 		@Override
 		public void validateParameters(Object object, InvocationData invocationData) throws Exception {
 		}
-		
+
 		@Override
-		public String toString(){
+		public String getNullReturnValueLabel() {
+			return null;
+		}
+
+		@Override
+		public String toString() {
 			return getName();
 		}
 	};
 
-	
 	ITypeInfo getReturnValueType();
 
 	List<IParameterInfo> getParameters();
@@ -88,13 +92,13 @@ public interface IMethodInfo extends IInfo {
 
 	boolean isReadOnly();
 
+	String getNullReturnValueLabel();
+
 	InfoCategory getCategory();
 
-	Runnable getUndoJob(Object object,
-			InvocationData invocationData);
+	Runnable getUndoJob(Object object, InvocationData invocationData);
 
-	void validateParameters(Object object,
-			InvocationData invocationData) throws Exception;
+	void validateParameters(Object object, InvocationData invocationData) throws Exception;
 
 	ValueReturnMode getValueReturnMode();
 

@@ -28,6 +28,11 @@ public abstract class AbstractListAction implements IMethodInfo {
 	}
 
 	@Override
+	public String getNullReturnValueLabel() {
+		return null;
+	}
+
+	@Override
 	public Map<String, Object> getSpecificProperties() {
 		return Collections.emptyMap();
 	}
