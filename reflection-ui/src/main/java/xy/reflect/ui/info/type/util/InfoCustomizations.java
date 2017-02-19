@@ -1655,6 +1655,7 @@ public final class InfoCustomizations {
 		protected String columnName;
 		protected String customCaption;
 		protected boolean hidden = false;
+		protected Integer minimalCharacterCount;
 
 		public String getColumnName() {
 			return columnName;
@@ -1678,6 +1679,14 @@ public final class InfoCustomizations {
 
 		public void setCustomCaption(String customCaption) {
 			this.customCaption = customCaption;
+		}
+
+		public Integer getMinimalCharacterCount() {
+			return minimalCharacterCount;
+		}
+
+		public void setMinimalCharacterCount(Integer minimalCharacterCount) {
+			this.minimalCharacterCount = minimalCharacterCount;
 		}
 
 		@Override
@@ -1732,7 +1741,7 @@ public final class InfoCustomizations {
 		protected String getNullValueLabel(IFieldInfo field, ITypeInfo containingType) {
 			FieldCustomization f = getFieldCustomization(containingType.getName(), field.getName());
 			if (f != null) {
-				if(f.nullValueLabel != null){
+				if (f.nullValueLabel != null) {
 					return f.nullValueLabel;
 				}
 			}
@@ -1744,7 +1753,7 @@ public final class InfoCustomizations {
 			MethodCustomization m = getMethodCustomization(containingType.getName(),
 					ReflectionUIUtils.getMethodSignature(method));
 			if (m != null) {
-				if(m.nullReturnValueLabel != null){
+				if (m.nullReturnValueLabel != null) {
 					return m.nullReturnValueLabel;
 				}
 			}

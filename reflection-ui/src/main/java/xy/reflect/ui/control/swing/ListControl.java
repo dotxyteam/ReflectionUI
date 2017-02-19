@@ -188,24 +188,28 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			public Dimension getPreferredSize() {
 				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 				Dimension result = new Dimension();
-				result.width = screenSize.width / 2;
-				int minHeight = (int) (screenSize.height * 0.20);
-				int maxHeight = (int) (screenSize.height * 0.60);
-				result.height = minHeight;
-				Dimension treeTableComponentPreferredSize = treeTableComponent.getPreferredSize();
-				if (treeTableComponentPreferredSize != null) {
-					JTableHeader header = treeTableComponent.getTableHeader();
-					if (header != null) {
-						treeTableComponentPreferredSize.height += header.getHeight();
+				{
+					result.width = 0;
+				}
+				{
+					int minHeight = (int) (screenSize.height * 0.20);
+					int maxHeight = (int) (screenSize.height * 0.60);
+					result.height = minHeight;
+					Dimension treeTableComponentPreferredSize = treeTableComponent.getPreferredSize();
+					if (treeTableComponentPreferredSize != null) {
+						JTableHeader header = treeTableComponent.getTableHeader();
+						if (header != null) {
+							treeTableComponentPreferredSize.height += header.getHeight();
+						}
+						treeTableComponentPreferredSize.height += 10;
+						result.height = Math.max(result.height, treeTableComponentPreferredSize.height);
 					}
-					treeTableComponentPreferredSize.height += 10;
-					result.height = Math.max(result.height, treeTableComponentPreferredSize.height);
+					Dimension toolbarSize = toolbar.getPreferredSize();
+					if (toolbarSize != null) {
+						result.height = Math.max(result.height, toolbarSize.height);
+					}
+					result.height = Math.min(result.height, maxHeight);
 				}
-				Dimension toolbarSize = toolbar.getPreferredSize();
-				if (toolbarSize != null) {
-					result.height = Math.max(result.height, toolbarSize.height);
-				}
-				result.height = Math.min(result.height, maxHeight);
 				return result;
 			}
 		};
@@ -254,7 +258,11 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	@Override
 	public Dimension getMinimumSize() {
-		return getPreferredSize();
+		return getMinimumSizePreventingHeightLossOnResize();
+	}
+
+	protected Dimension getMinimumSizePreventingHeightLossOnResize() {
+		return new Dimension(super.getMinimumSize().width, getPreferredSize().height);
 	}
 
 	protected void updateToolbar() {
@@ -460,6 +468,16 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	protected void initializeTreeTableControl() {
 		rootNode = createRootNode();
 		treeTableComponent = new JXTreeTable(createTreeTableModel());
+		TableColumnModel columnModel = treeTableComponent.getColumnModel();
+		{
+			List<IColumnInfo> columnInfos = getStructuralInfo().getColumns();
+			for (int i = 0; i < columnInfos.size(); i++) {
+				IColumnInfo columnInfo = columnInfos.get(i);
+				TableColumn column = columnModel.getColumn(i);
+				column.setPreferredWidth(columnInfo.getMinimalCharacterCount()
+						* SwingRendererUtils.getStandardCharacterWidth(treeTableComponent));
+			}
+		}
 		treeTableComponent.setExpandsSelectedPaths(true);
 		treeTableComponent.getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		treeTableComponent.setRootVisible(false);
@@ -2059,15 +2077,15 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected void refreshStructure() {
-		valuesByNode.clear();
-		rootNode = createRootNode();
-		treeTableComponent.setTreeTableModel(createTreeTableModel());
-		TableColumnModel columnModel = treeTableComponent.getColumnModel();
-		for (int i = 0; i < columnModel.getColumnCount(); i++) {
-			TableColumn col = columnModel.getColumn(i);
-			col.setPreferredWidth(
-					col.getPreferredWidth() + 5 * SwingRendererUtils.getStandardCharacterWidth(treeTableComponent));
-		}
+		restoringColumnWidthsAsMuchAsPossible(new Runnable() {
+			@Override
+			public void run() {
+				valuesByNode.clear();
+				rootNode = createRootNode();
+				treeTableComponent.setTreeTableModel(createTreeTableModel());
+			}
+		});
+
 	}
 
 	public void visitItems(IItemsVisitor iItemsVisitor) {
@@ -2142,6 +2160,31 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	public void requestFocus() {
 		if (detailsControl != null) {
 			detailsControl.requestFocus();
+		}
+	}
+
+	protected void restoringColumnWidthsAsMuchAsPossible(Runnable runnable) {
+		Map<String, Integer> preferredWidthByColumnName = new HashMap<String, Integer>();
+		TableColumnModel columnModel = treeTableComponent.getColumnModel();
+		for (int i = 0; i < columnModel.getColumnCount(); i++) {
+			TableColumn col = columnModel.getColumn(i);
+			preferredWidthByColumnName.put(col.getHeaderValue().toString(), col.getPreferredWidth());
+		}
+
+		runnable.run();
+
+		columnModel = treeTableComponent.getColumnModel();
+		List<IColumnInfo> columnInfos = getStructuralInfo().getColumns();
+		for (int i = 0; i < columnModel.getColumnCount(); i++) {
+			TableColumn col = columnModel.getColumn(i);
+			IColumnInfo columnInfo = columnInfos.get(i);
+			Integer knownPreferredWidth = preferredWidthByColumnName.get(col.getHeaderValue().toString());
+			if (knownPreferredWidth != null) {
+				col.setPreferredWidth(knownPreferredWidth);
+			} else {
+				col.setPreferredWidth(columnInfo.getMinimalCharacterCount()
+						* SwingRendererUtils.getStandardCharacterWidth(treeTableComponent));
+			}
 		}
 	}
 

@@ -164,6 +164,7 @@
         <columnsCustomOrder>columnName</columnsCustomOrder>
         <columnsCustomOrder>customCaption</columnsCustomOrder>
         <columnsCustomOrder>hidden</columnsCustomOrder>
+        <columnsCustomOrder>minimalCharacterCount</columnsCustomOrder>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
@@ -1620,6 +1621,7 @@
         <customFieldsOrder>columnName</customFieldsOrder>
         <customFieldsOrder>customCaption</customFieldsOrder>
         <customFieldsOrder>hidden</customFieldsOrder>
+        <customFieldsOrder>minimalCharacterCount</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <fieldName>columnName</fieldName>

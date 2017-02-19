@@ -505,13 +505,14 @@ public class SwingRendererUtils {
 		Rectangle bounds = window.getBounds();
 		int widthGrowth, heightGrowth;
 		{
-			if (bounds.width < maxBounds.width / 3) {
-				widthGrowth = (maxBounds.width / 3 - bounds.width) / 2;
+			if (bounds.width < maxBounds.width / 2) {
+				widthGrowth = maxBounds.width / 2 - bounds.width;
 			} else {
 				widthGrowth = 0;
 			}
-			heightGrowth = 2 * SwingRendererUtils.getStandardCharacterWidth(window);
-			bounds.grow(widthGrowth, heightGrowth);
+			heightGrowth = 4 * SwingRendererUtils.getStandardCharacterWidth(window);
+			bounds.width += widthGrowth;
+			bounds.height += heightGrowth;
 		}
 		bounds = maxBounds.intersection(bounds);
 		bounds.x = maxBounds.x + (maxBounds.width - bounds.width) / 2;

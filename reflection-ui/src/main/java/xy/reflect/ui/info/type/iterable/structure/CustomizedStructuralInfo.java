@@ -80,13 +80,13 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 
 			@Override
 			protected ListItem createListItem(Object object, IFieldInfo listFieldInfo) {
-				return new ListItem(object, listFieldInfo){
+				return new ListItem(object, listFieldInfo) {
 
 					@Override
 					public String getTitle() {
 						return "(" + super.getTitle() + ")";
 					}
-					
+
 				};
 			}
 
@@ -188,7 +188,7 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 
 	protected List<IFieldInfo> collectFields() {
 		if (rootItemType == null) {
-			return null;
+			return Collections.emptyList();
 		}
 		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
 		for (IFieldInfo candidateField : this.rootItemType.getFields()) {
@@ -236,6 +236,14 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 						public String getCaption() {
 							return c.getCustomCaption();
 						}
+					};
+				}
+				if (c.getMinimalCharacterCount() != null) {
+					column = new ColumnInfoProxy(column) {
+						@Override
+						public int getMinimalCharacterCount() {
+							return c.getMinimalCharacterCount();
+						}						
 					};
 				}
 			}

@@ -9,4 +9,6 @@ public interface IColumnInfo extends IInfo{
 
 	boolean hasCellValue(ItemPosition itemPosition);
 
+	int getMinimalCharacterCount();
+
 }

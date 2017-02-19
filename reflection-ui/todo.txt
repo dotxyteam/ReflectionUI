@@ -1,3 +1,8 @@
+. List sorted customization
+. List item double click defaut action 
+. List control width must depend on nb columns
+. List control split pane moves on resize
+. List rows alternative colors
 - provide Enumeration null value caption customization
 - create infoCustomizations.ListItemDetailsSettings
 - allow to unhide cutomization toolls at runtime

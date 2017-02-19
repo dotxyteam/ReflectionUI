@@ -18,7 +18,12 @@ public class PositionColumnInfo implements IColumnInfo {
 
 	@Override
 	public boolean hasCellValue(ItemPosition itemPosition) {
-		return itemPosition.isRootListItemPosition();		
+		return itemPosition.isRootListItemPosition();
+	}
+
+	@Override
+	public int getMinimalCharacterCount() {
+		return 5;
 	}
 
 	@Override
@@ -45,7 +50,5 @@ public class PositionColumnInfo implements IColumnInfo {
 	public String toString() {
 		return "PositionColumnInfo []";
 	}
-
-	
 
 }

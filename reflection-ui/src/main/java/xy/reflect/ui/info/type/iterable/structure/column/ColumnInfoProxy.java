@@ -24,6 +24,10 @@ public class ColumnInfoProxy implements IColumnInfo {
 		return base.getCellValue(itemPosition);
 	}
 
+	public int getMinimalCharacterCount() {
+		return base.getMinimalCharacterCount();
+	}
+
 	public String getName() {
 		return base.getName();
 	}

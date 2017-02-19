@@ -47,6 +47,11 @@ public class StringValueColumnInfo implements IColumnInfo {
 	}
 
 	@Override
+	public int getMinimalCharacterCount() {
+		return 30;
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -75,7 +80,5 @@ public class StringValueColumnInfo implements IColumnInfo {
 	public String toString() {
 		return "StringValueColumnInfo []";
 	}
-
-
 
 }

@@ -99,7 +99,8 @@
         </columnCustomizations>
         <columnCustomizations>
             <columnName>toStringValue</columnName>
-            <hidden>true</hidden>
+            <hidden>false</hidden>
+            <minimalCharacterCount>30</minimalCharacterCount>
         </columnCustomizations>
         <columnCustomizations>
             <columnName>typeName</columnName>
@@ -107,21 +108,23 @@
         </columnCustomizations>
         <columnsCustomOrder>position</columnsCustomOrder>
         <columnsCustomOrder>typeName</columnsCustomOrder>
-        <columnsCustomOrder>theShort</columnsCustomOrder>
-        <columnsCustomOrder>the2ndShort</columnsCustomOrder>
-        <columnsCustomOrder>theDay</columnsCustomOrder>
+        <columnsCustomOrder>toStringValue</columnsCustomOrder>
+        <embeddedDetailsAccessMode>
+            <defaultDetailsAreaOccupationRatio>0.66</defaultDetailsAreaOccupationRatio>
+            <detailsAreaPosition>RIGHT</detailsAreaPosition>
+        </embeddedDetailsAccessMode>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
-        <fieldColumnsAdded>true</fieldColumnsAdded>
+        <fieldColumnsAdded>false</fieldColumnsAdded>
         <fieldsExcludedFromItemDetails>
             <regularExpression>true</regularExpression>
             <value>theDa.</value>
         </fieldsExcludedFromItemDetails>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-        <itemTypeColumnAdded>true</itemTypeColumnAdded>
+        <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>ReflectionUITest$AbstrcatTestDescendant</itemTypeName>
         <listTypeName>[LReflectionUITest$AbstrcatTestDescendant;</listTypeName>
         <methodsExcludedFromItemDetails>
@@ -208,10 +211,6 @@
             <columnName>toStringValue</columnName>
             <hidden>false</hidden>
         </columnCustomizations>
-        <embeddedDetailsAccessMode>
-            <defaultDetailsAreaOccupationRatio>0.66</defaultDetailsAreaOccupationRatio>
-            <detailsAreaPosition>RIGHT</detailsAreaPosition>
-        </embeddedDetailsAccessMode>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
@@ -309,10 +308,6 @@
             <columnName>typeName</columnName>
             <hidden>false</hidden>
         </columnCustomizations>
-        <embeddedDetailsAccessMode>
-            <defaultDetailsAreaOccupationRatio>0.66</defaultDetailsAreaOccupationRatio>
-            <detailsAreaPosition>RIGHT</detailsAreaPosition>
-        </embeddedDetailsAccessMode>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
@@ -1546,6 +1541,10 @@
     </typeCustomizations>
     <typeCustomizations>
         <typeName>Encapsulation [typeCaption=The Array Tree Table - Item, fieldType=ReflectionUITest$Test2, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <typeName>Encapsulation [typeCaption=The Array Tree Table - Item, fieldType=ReflectionUITest$Test3, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>

@@ -35,6 +35,11 @@ public class FieldColumnInfo implements IColumnInfo {
 	}
 
 	@Override
+	public int getMinimalCharacterCount() {
+		return 20;
+	}
+
+	@Override
 	public String getCaption() {
 		return field.getCaption();
 	}

@@ -27,7 +27,7 @@ public class TypeNameColumnInfo implements IColumnInfo {
 	@Override
 	public String getCellValue(ItemPosition itemPosition) {
 		Object item = itemPosition.getItem();
-		if(item == null){
+		if (item == null) {
 			return "";
 		}
 		if (item instanceof StandardMapEntry) {
@@ -35,6 +35,11 @@ public class TypeNameColumnInfo implements IColumnInfo {
 		} else {
 			return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item)).getCaption();
 		}
+	}
+
+	@Override
+	public int getMinimalCharacterCount() {
+		return 20;
 	}
 
 	@Override
@@ -86,7 +91,5 @@ public class TypeNameColumnInfo implements IColumnInfo {
 	public String toString() {
 		return "TypeNameColumnInfo []";
 	}
-
-
 
 }
