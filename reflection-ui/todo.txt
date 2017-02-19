@@ -2,14 +2,10 @@
 . expose more customizations feature
 	. screenshot
 	. in the example, first customize 
-. List sorted customization
 . List item double click defaut action 
 . List rows alternative colors
-- provide Enumeration null value caption customization
 - create infoCustomizations.ListItemDetailsSettings
 - allow to unhide cutomization toolls at runtime
-. ItemShortcuts not using busy dialogs
-- allow to customize Method dialog "no data returned"???
 - allow to customize icons for:
 	. fields: can be postponed as field controls need to be updatedœ
 - icon on title bar???
