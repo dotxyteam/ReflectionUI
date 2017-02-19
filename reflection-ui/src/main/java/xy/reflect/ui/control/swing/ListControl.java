@@ -247,7 +247,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			splitPane.addComponentListener(new ComponentAdapter() {
 				public void componentResized(ComponentEvent event) {
 					splitPane.setDividerLocation(dividerLocation);
-					removeComponentListener(this);
+					splitPane.removeComponentListener(this);
 				}
 			});
 		} else {

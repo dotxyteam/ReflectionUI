@@ -1,7 +1,8 @@
+. expose more customizations feature
+	. screenshot
+	. in the example, first customize 
 . List sorted customization
 . List item double click defaut action 
-. List control width must depend on nb columns
-. List control split pane moves on resize
 . List rows alternative colors
 - provide Enumeration null value caption customization
 - create infoCustomizations.ListItemDetailsSettings
