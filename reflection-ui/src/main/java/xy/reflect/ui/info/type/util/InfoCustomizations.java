@@ -14,12 +14,12 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -78,9 +78,9 @@ public final class InfoCustomizations {
 	public static final String ACTIVE_CUSTOMIZATIONS_PROPERTY_KEY = InfoCustomizations.class.getName();
 
 	transient protected Factory proxyFactory;
-	protected Set<TypeCustomization> typeCustomizations = new TreeSet<InfoCustomizations.TypeCustomization>();
-	protected Set<ListCustomization> listCustomizations = new TreeSet<InfoCustomizations.ListCustomization>();
-	protected Set<EnumerationCustomization> enumerationCustomizations = new TreeSet<InfoCustomizations.EnumerationCustomization>();
+	protected List<TypeCustomization> typeCustomizations = new ArrayList<InfoCustomizations.TypeCustomization>();
+	protected List<ListCustomization> listCustomizations = new ArrayList<InfoCustomizations.ListCustomization>();
+	protected List<EnumerationCustomization> enumerationCustomizations = new ArrayList<InfoCustomizations.EnumerationCustomization>();
 
 	protected Factory createCustomizationsProxyFactory(ReflectionUI reflectionUI) {
 		return new Factory(reflectionUI);
@@ -111,37 +111,28 @@ public final class InfoCustomizations {
 		return proxyFactory.get(type);
 	}
 
-	public Set<TypeCustomization> getTypeCustomizations() {
+	public List<TypeCustomization> getTypeCustomizations() {
 		return typeCustomizations;
 	}
 
-	public void setTypeCustomizations(Set<TypeCustomization> typeCustomizations) {
-		if (typeCustomizations == null) {
-			this.typeCustomizations = null;
-		}
-		this.typeCustomizations = new TreeSet<TypeCustomization>(typeCustomizations);
+	public void setTypeCustomizations(List<TypeCustomization> typeCustomizations) {
+		this.typeCustomizations = typeCustomizations;
 	}
 
-	public Set<ListCustomization> getListCustomizations() {
+	public List<ListCustomization> getListCustomizations() {
 		return listCustomizations;
 	}
 
-	public void setListCustomizations(Set<ListCustomization> listCustomizations) {
-		if (listCustomizations == null) {
-			this.listCustomizations = null;
-		}
-		this.listCustomizations = new TreeSet<ListCustomization>(listCustomizations);
+	public void setListCustomizations(List<ListCustomization> listCustomizations) {
+		this.listCustomizations = listCustomizations;
 	}
 
-	public Set<EnumerationCustomization> getEnumerationCustomizations() {
+	public List<EnumerationCustomization> getEnumerationCustomizations() {
 		return enumerationCustomizations;
 	}
 
-	public void setEnumerationCustomizations(Set<EnumerationCustomization> enumerationCustomizations) {
-		if (enumerationCustomizations == null) {
-			this.enumerationCustomizations = null;
-		}
-		this.enumerationCustomizations = new TreeSet<EnumerationCustomization>(enumerationCustomizations);
+	public void setEnumerationCustomizations(List<EnumerationCustomization> enumerationCustomizations) {
+		this.enumerationCustomizations = enumerationCustomizations;
 	}
 
 	public void loadFromFile(File input) throws IOException {
@@ -515,8 +506,8 @@ public final class InfoCustomizations {
 		protected transient InfoCustomizations parent;
 		protected String typeName;
 		protected String customTypeCaption;
-		protected Set<FieldCustomization> fieldsCustomizations = new TreeSet<InfoCustomizations.FieldCustomization>();
-		protected Set<MethodCustomization> methodsCustomizations = new TreeSet<InfoCustomizations.MethodCustomization>();
+		protected List<FieldCustomization> fieldsCustomizations = new ArrayList<InfoCustomizations.FieldCustomization>();
+		protected List<MethodCustomization> methodsCustomizations = new ArrayList<InfoCustomizations.MethodCustomization>();
 		protected List<String> customFieldsOrder;
 		protected List<String> customMethodsOrder;
 		protected String onlineHelp;
@@ -584,26 +575,20 @@ public final class InfoCustomizations {
 			this.customTypeCaption = customTypeCaption;
 		}
 
-		public Set<FieldCustomization> getFieldsCustomizations() {
+		public List<FieldCustomization> getFieldsCustomizations() {
 			return fieldsCustomizations;
 		}
 
-		public void setFieldsCustomizations(Set<FieldCustomization> fieldsCustomizations) {
-			if (fieldsCustomizations == null) {
-				this.fieldsCustomizations = null;
-			}
-			this.fieldsCustomizations = new TreeSet<FieldCustomization>(fieldsCustomizations);
+		public void setFieldsCustomizations(List<FieldCustomization> fieldsCustomizations) {
+			this.fieldsCustomizations = fieldsCustomizations;
 		}
 
-		public Set<MethodCustomization> getMethodsCustomizations() {
+		public List<MethodCustomization> getMethodsCustomizations() {
 			return methodsCustomizations;
 		}
 
-		public void setMethodsCustomizations(Set<MethodCustomization> methodsCustomizations) {
-			if (methodsCustomizations == null) {
-				this.methodsCustomizations = null;
-			}
-			this.methodsCustomizations = new TreeSet<MethodCustomization>(methodsCustomizations);
+		public void setMethodsCustomizations(List<MethodCustomization> methodsCustomizations) {
+			this.methodsCustomizations = methodsCustomizations;
 		}
 
 		public String getOnlineHelp() {
@@ -985,7 +970,8 @@ public final class InfoCustomizations {
 		}
 	}
 
-	public static class ParameterCustomization extends AbstractInfoCustomization {
+	public static class ParameterCustomization extends AbstractInfoCustomization
+			implements Comparable<ParameterCustomization> {
 		protected String parameterName;
 		protected String customParameterCaption;
 		protected boolean hidden = false;
@@ -1055,6 +1041,11 @@ public final class InfoCustomizations {
 			} else if (!parameterName.equals(other.parameterName))
 				return false;
 			return true;
+		}
+
+		@Override
+		public int compareTo(ParameterCustomization o) {
+			return ReflectionUIUtils.compareNullables(parameterName, o.parameterName);
 		}
 
 		@Override
@@ -1357,7 +1348,7 @@ public final class InfoCustomizations {
 	public static class EnumerationCustomization implements Comparable<EnumerationCustomization> {
 
 		protected String enumerationTypeName;
-		protected Set<EnumerationItemCustomization> itemCustomizations = new TreeSet<EnumerationItemCustomization>();
+		protected List<EnumerationItemCustomization> itemCustomizations = new ArrayList<EnumerationItemCustomization>();
 
 		public String getEnumerationTypeName() {
 			return enumerationTypeName;
@@ -1367,15 +1358,12 @@ public final class InfoCustomizations {
 			this.enumerationTypeName = enumerationTypeName;
 		}
 
-		public Set<EnumerationItemCustomization> getItemCustomizations() {
+		public List<EnumerationItemCustomization> getItemCustomizations() {
 			return itemCustomizations;
 		}
 
-		public void setItemCustomizations(Set<EnumerationItemCustomization> itemCustomizations) {
-			if (itemCustomizations == null) {
-				this.itemCustomizations = null;
-			}
-			this.itemCustomizations = new TreeSet<EnumerationItemCustomization>(itemCustomizations);
+		public void setItemCustomizations(List<EnumerationItemCustomization> itemCustomizations) {
+			this.itemCustomizations = itemCustomizations;
 		}
 
 		@Override
@@ -1424,7 +1412,7 @@ public final class InfoCustomizations {
 		protected boolean positionColumnAdded;
 		protected boolean fieldColumnsAdded;
 		protected boolean stringValueColumnAdded;
-		protected Set<ColumnCustomization> columnCustomizations = new TreeSet<ColumnCustomization>();
+		protected List<ColumnCustomization> columnCustomizations = new ArrayList<ColumnCustomization>();
 		protected List<String> columnsCustomOrder;
 		protected TreeStructureDiscoverySettings treeStructureDiscoverySettings;
 		protected List<ListItemFieldShortcut> allowedItemFieldShortcuts = new ArrayList<ListItemFieldShortcut>();
@@ -1433,6 +1421,7 @@ public final class InfoCustomizations {
 		protected List<InfoFilter> fieldsExcludedFromItemDetails = new ArrayList<InfoFilter>();
 		protected boolean itemDetailsViewDisabled;
 		protected ListEditOptions editOptions = new ListEditOptions();
+		protected boolean listSorted = false;
 		protected IListItemDetailsAccessMode customDetailsAccessMode = null;
 
 		@XmlTransient
@@ -1470,6 +1459,14 @@ public final class InfoCustomizations {
 
 		public void setEditOptions(ListEditOptions editOptions) {
 			this.editOptions = editOptions;
+		}
+
+		public boolean isListSorted() {
+			return listSorted;
+		}
+
+		public void setListSorted(boolean listSorted) {
+			this.listSorted = listSorted;
 		}
 
 		public List<InfoFilter> getFieldsExcludedFromItemDetails() {
@@ -1536,15 +1533,12 @@ public final class InfoCustomizations {
 			this.itemTypeName = itemTypeName;
 		}
 
-		public Set<ColumnCustomization> getColumnCustomizations() {
+		public List<ColumnCustomization> getColumnCustomizations() {
 			return columnCustomizations;
 		}
 
-		public void setColumnCustomizations(Set<ColumnCustomization> columnCustomizations) {
-			if (columnCustomizations == null) {
-				this.columnCustomizations = null;
-			}
-			this.columnCustomizations = new TreeSet<ColumnCustomization>(columnCustomizations);
+		public void setColumnCustomizations(List<ColumnCustomization> columnCustomizations) {
+			this.columnCustomizations = columnCustomizations;
 		}
 
 		public boolean isItemDetailsViewDisabled() {
@@ -1735,6 +1729,21 @@ public final class InfoCustomizations {
 		@Override
 		public String toString() {
 			return "Factory of " + InfoCustomizations.this;
+		}
+
+		@Override
+		protected Object[] toArray(IListTypeInfo listType, Object listValue) {
+			ITypeInfo itemType = listType.getItemType();
+			final ListCustomization l = getListCustomization(listType.getName(),
+					(itemType == null) ? null : itemType.getName());
+			if (l != null) {
+				if (l.listSorted) {
+					Object[] result = super.toArray(listType, listValue);
+					Arrays.sort(result);
+					return result;
+				}
+			}
+			return super.toArray(listType, listValue);
 		}
 
 		@Override
@@ -2200,6 +2209,9 @@ public final class InfoCustomizations {
 					(itemType == null) ? null : itemType.getName());
 			if (l != null) {
 				if ((l.editOptions == null) || !l.editOptions.itemMoveEnabled) {
+					return false;
+				}
+				if (l.listSorted) {
 					return false;
 				}
 			}

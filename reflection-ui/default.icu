@@ -126,6 +126,7 @@
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>ReflectionUITest$AbstrcatTestDescendant</itemTypeName>
+        <listSorted>false</listSorted>
         <listTypeName>[LReflectionUITest$AbstrcatTestDescendant;</listTypeName>
         <methodsExcludedFromItemDetails>
             <regularExpression>false</regularExpression>
@@ -148,6 +149,7 @@
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.lang.StackTraceElement</itemTypeName>
+        <listSorted>false</listSorted>
         <listTypeName>[Ljava.lang.StackTraceElement;</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
@@ -166,6 +168,7 @@
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.lang.String</itemTypeName>
+        <listSorted>false</listSorted>
         <listTypeName>[Ljava.lang.String;</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
@@ -184,6 +187,7 @@
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.lang.Object</itemTypeName>
+        <listSorted>false</listSorted>
         <listTypeName>java.util.ArrayList</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
@@ -202,6 +206,7 @@
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.lang.Object</itemTypeName>
+        <listSorted>false</listSorted>
         <listTypeName>java.util.Arrays$ArrayList</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
@@ -219,6 +224,7 @@
         <fieldColumnsAdded>false</fieldColumnsAdded>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
+        <listSorted>false</listSorted>
         <listTypeName>java.util.Collection</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
@@ -237,6 +243,7 @@
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;</itemTypeName>
+        <listSorted>false</listSorted>
         <listTypeName>java.util.HashMap</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
@@ -255,6 +262,7 @@
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.lang.Object</itemTypeName>
+        <listSorted>false</listSorted>
         <listTypeName>java.util.HashSet</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
@@ -273,6 +281,7 @@
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>ReflectionUITest$AbstrcatTestDescendant</itemTypeName>
+        <listSorted>false</listSorted>
         <listTypeName>java.util.List</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
@@ -291,6 +300,7 @@
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.io.File</itemTypeName>
+        <listSorted>false</listSorted>
         <listTypeName>java.util.List</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
@@ -317,6 +327,7 @@
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.lang.Boolean</itemTypeName>
+        <listSorted>false</listSorted>
         <listTypeName>java.util.List</listTypeName>
         <positionColumnAdded>true</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
@@ -335,6 +346,7 @@
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.lang.String</itemTypeName>
+        <listSorted>false</listSorted>
         <listTypeName>java.util.List</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
@@ -353,6 +365,7 @@
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,ReflectionUITest$Test2&gt;</itemTypeName>
+        <listSorted>false</listSorted>
         <listTypeName>java.util.Map</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
@@ -371,6 +384,7 @@
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,java.lang.String&gt;</itemTypeName>
+        <listSorted>false</listSorted>
         <listTypeName>java.util.Map</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
@@ -385,6 +399,7 @@
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.lang.Integer</itemTypeName>
+        <listSorted>false</listSorted>
         <listTypeName>java.util.Set</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
@@ -403,6 +418,7 @@
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.lang.Integer</itemTypeName>
+        <listSorted>false</listSorted>
         <listTypeName>java.util.Stack</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
@@ -421,6 +437,7 @@
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.lang.Object</itemTypeName>
+        <listSorted>false</listSorted>
         <listTypeName>java.util.Stack</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
@@ -443,6 +460,7 @@
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.lang.Object</itemTypeName>
+        <listSorted>false</listSorted>
         <listTypeName>java.util.Vector</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
@@ -2962,6 +2980,28 @@
     </typeCustomizations>
     <typeCustomizations>
         <typeName>xy.reflect.ui.util.ReflectionUIError</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>c</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>s</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <fieldName>d</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>MethodSetupObject [method=void callWithManyParams(int, java.lang.String, java.util.Date, java.awt.Color), containingType=ReflectionUITest$Test]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -138,6 +139,9 @@ public class ReflectionUITest {
 
 		public void throwException() throws Exception {
 			throw new Exception();
+		}
+
+		public void callWithManyParams(int i, String s, Date d, Color c) throws Exception {
 		}
 	}
 

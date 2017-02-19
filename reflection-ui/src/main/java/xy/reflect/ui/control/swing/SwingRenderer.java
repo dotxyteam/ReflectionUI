@@ -1489,8 +1489,6 @@ public class SwingRenderer {
 		protected static final long serialVersionUID = 1L;
 		protected Object object;
 		protected Component fieldControl;
-		protected Object lastFieldValue;
-		protected Runnable lastFieldValueUpdate;
 		protected IFieldInfo field;
 		protected IFieldInfo controlAwareField;
 
@@ -1527,16 +1525,28 @@ public class SwingRenderer {
 		}
 
 		public IFieldInfo handleValueAccessIssues(final IFieldInfo field) {
-			lastFieldValueUpdate = new Runnable() {
-				@Override
-				public void run() {
-					lastFieldValue = field.getValue(object);
-				}
-			};
 			return new FieldInfoProxy(field) {
+
+				Object lastFieldValue;
+				boolean lastFieldValueInitialized = false;
+				Throwable lastValueUpdateError;
 
 				@Override
 				public Object getValue(Object object) {
+					try {
+						lastFieldValue = field.getValue(object);
+						lastFieldValueInitialized = true;
+						if (lastValueUpdateError != null) {
+							throw lastValueUpdateError;
+						}
+						displayError(null);
+					} catch (Throwable t) {
+						if (!lastFieldValueInitialized) {
+							throw new ReflectionUIError(t);
+						} else {
+							displayError(new ReflectionUIError(t));
+						}
+					}
 					return lastFieldValue;
 				}
 
@@ -1544,14 +1554,9 @@ public class SwingRenderer {
 				public void setValue(Object object, Object newValue) {
 					try {
 						field.setValue(object, newValue);
-						lastFieldValue = newValue;
-						displayError(null);
+						lastValueUpdateError = null;
 					} catch (Throwable t) {
-						try {
-							lastFieldValue = field.getValue(object);
-						} catch (Throwable ignore) {
-						}
-						displayError(new ReflectionUIError(t));
+						lastValueUpdateError = t;
 					}
 				}
 
@@ -1622,7 +1627,6 @@ public class SwingRenderer {
 		}
 
 		public void refreshUI(boolean recreate) {
-			lastFieldValueUpdate.run();
 			if (recreate) {
 				if (fieldControl != null) {
 					remove(fieldControl);
@@ -1630,10 +1634,14 @@ public class SwingRenderer {
 				}
 			}
 			if (fieldControl == null) {
-				IControlData fieldControlData = getFieldControlData(object, controlAwareField);
-				fieldControl = createFieldControl(fieldControlData);
-				if (fieldControl instanceof IAdvancedFieldControl) {
-					((IAdvancedFieldControl) fieldControl).setPalceHolder(FieldControlPlaceHolder.this);
+				try {
+					IControlData fieldControlData = getFieldControlData(object, controlAwareField);
+					fieldControl = createFieldControl(fieldControlData);
+					if (fieldControl instanceof IAdvancedFieldControl) {
+						((IAdvancedFieldControl) fieldControl).setPalceHolder(FieldControlPlaceHolder.this);
+					}
+				} catch (Throwable t) {
+					fieldControl = createUIRefreshErrorControl(t);
 				}
 				add(fieldControl, BorderLayout.CENTER);
 				SwingRendererUtils.handleComponentSizeChange(this);
@@ -1649,6 +1657,12 @@ public class SwingRenderer {
 					}
 				}
 			}
+		}
+
+		public Component createUIRefreshErrorControl(Throwable t) {
+			NullControl result = new NullControl(SwingRenderer.this, new ReflectionUIError(t).toString(), null);
+			SwingRendererUtils.setErrorBorder(result);
+			return result;
 		}
 
 		public void displayError(ReflectionUIError error) {

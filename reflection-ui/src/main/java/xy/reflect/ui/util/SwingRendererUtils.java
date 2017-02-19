@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -48,6 +49,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
@@ -692,6 +694,11 @@ public class SwingRendererUtils {
 			}
 		}, "Setting " + field.getCaption());
 
+	}
+
+	public static void setErrorBorder(JComponent c) {
+		c.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+		
 	}
 
 }

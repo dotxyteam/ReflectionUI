@@ -25,8 +25,8 @@ public class HiddenNullableFacetsTypeInfoProxyFactory extends TypeInfoProxyFacto
 			result = null;
 		}
 		if (result == null) {
-			throw new ReflectionUIError(HiddenNullableFacetsTypeInfoProxyFactory.class.getSimpleName()
-					+ " was unable to generate a default value for the type '" + type + "'");
+			throw new ReflectionUIError(
+					"Failed to hide nullable facets: Unable to generate a default value for the type '" + type.getName() + "'");
 		}
 		return result;
 	}
@@ -64,11 +64,7 @@ public class HiddenNullableFacetsTypeInfoProxyFactory extends TypeInfoProxyFacto
 	}
 
 	protected Object generateDefaultValue(IParameterInfo param, IMethodInfo method) {
-		try {
-			return generateDefaultValue(param.getType());
-		} catch (ReflectionUIError e) {
-			throw new ReflectionUIError("Parameter '" + param + "' of Method '" + method + "': " + e.toString(), e);
-		}
+		return generateDefaultValue(param.getType());
 	}
 
 	@Override
@@ -88,11 +84,7 @@ public class HiddenNullableFacetsTypeInfoProxyFactory extends TypeInfoProxyFacto
 	}
 
 	protected Object generateDefaultValue(IFieldInfo field) {
-		try {
-			return generateDefaultValue(field.getType());
-		} catch (ReflectionUIError e) {
-			throw new ReflectionUIError("Field '" + field + "': " + e.toString(), e);
-		}
+		return generateDefaultValue(field.getType());
 	}
 
 	@Override

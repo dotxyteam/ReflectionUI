@@ -41,85 +41,6 @@ public class MethodSetupObjectFactory {
 		return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 	}
 
-	protected static IFieldInfo getParameterAsField(final IParameterInfo param) {
-		return new IFieldInfo() {
-
-			@Override
-			public void setValue(Object object, Object value) {
-				Instance instance = (Instance) object;
-				instance.invocationData.setparameterValue(param, value);
-			}
-
-			@Override
-			public Runnable getCustomUndoUpdateJob(Object object, Object value) {
-				return null;
-			}
-
-			@Override
-			public boolean isNullable() {
-				return param.isNullable();
-			}
-
-
-			@Override
-			public String getNullValueLabel() {
-				return null;
-			}
-
-			@Override
-			public Object getValue(Object object) {
-				Instance instance = (Instance) object;
-				return instance.invocationData.getParameterValue(param);
-			}
-
-			@Override
-			public Object[] getValueOptions(Object object) {
-				return null;
-			}
-
-			@Override
-			public ITypeInfo getType() {
-				return param.getType();
-			}
-
-			@Override
-			public String getCaption() {
-				return param.getCaption();
-			}
-
-			@Override
-			public boolean isGetOnly() {
-				return false;
-			}
-
-			@Override
-			public ValueReturnMode getValueReturnMode() {
-				return ValueReturnMode.SELF;
-			}
-
-			@Override
-			public String getName() {
-				return param.getName();
-			}
-
-			@Override
-			public InfoCategory getCategory() {
-				return null;
-			}
-
-			@Override
-			public String getOnlineHelp() {
-				return param.getOnlineHelp();
-			}
-
-			@Override
-			public Map<String, Object> getSpecificProperties() {
-				return Collections.emptyMap();
-			}
-
-		};
-	}
-
 	public Instance getInstance(Object object, InvocationData invocationData) {
 		Instance result = new MethodSetupObjectFactory.Instance(object, invocationData);
 		reflectionUI.registerPrecomputedTypeInfoObject(result, new TypeInfo());
@@ -163,7 +84,7 @@ public class MethodSetupObjectFactory {
 
 	@Override
 	public String toString() {
-		return "MethodSetupObjectFactory [method=" + method + ", containingType=" + getContainingType() + "]";
+		return "MethodSetupObjectFactory [method=" + method + "]";
 	}
 
 	protected class Instance {
@@ -197,7 +118,7 @@ public class MethodSetupObjectFactory {
 		public List<IFieldInfo> getFields() {
 			List<IFieldInfo> result = new ArrayList<IFieldInfo>();
 			for (IParameterInfo param : method.getParameters()) {
-				result.add(getParameterAsField(param));
+				result.add(new ParameterAsField(param));
 			}
 			ReflectionUIUtils.sortFields(result);
 			return result;
@@ -299,6 +220,123 @@ public class MethodSetupObjectFactory {
 			return "TypeInfo [of=" + getOuterType() + "]";
 		}
 
+	}
+
+	protected class ParameterAsField implements IFieldInfo {
+		protected IParameterInfo param;
+
+		public ParameterAsField(IParameterInfo param) {
+			this.param = param;
+		}
+
+		@Override
+		public void setValue(Object object, Object value) {
+			Instance instance = (Instance) object;
+			instance.invocationData.setparameterValue(param, value);
+		}
+
+		@Override
+		public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+			return null;
+		}
+
+		@Override
+		public boolean isNullable() {
+			return param.isNullable();
+		}
+
+		@Override
+		public String getNullValueLabel() {
+			return null;
+		}
+
+		@Override
+		public Object getValue(Object object) {
+			Instance instance = (Instance) object;
+			return instance.invocationData.getParameterValue(param);
+		}
+
+		@Override
+		public Object[] getValueOptions(Object object) {
+			return null;
+		}
+
+		@Override
+		public ITypeInfo getType() {
+			return param.getType();
+		}
+
+		@Override
+		public String getCaption() {
+			return param.getCaption();
+		}
+
+		@Override
+		public boolean isGetOnly() {
+			return false;
+		}
+
+		@Override
+		public ValueReturnMode getValueReturnMode() {
+			return ValueReturnMode.SELF;
+		}
+
+		@Override
+		public String getName() {
+			return param.getName();
+		}
+
+		@Override
+		public InfoCategory getCategory() {
+			return null;
+		}
+
+		@Override
+		public String getOnlineHelp() {
+			return param.getOnlineHelp();
+		}
+
+		@Override
+		public Map<String, Object> getSpecificProperties() {
+			return Collections.emptyMap();
+		}
+
+		private MethodSetupObjectFactory getOuterType() {
+			return MethodSetupObjectFactory.this;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + getOuterType().hashCode();
+			result = prime * result + ((param == null) ? 0 : param.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			ParameterAsField other = (ParameterAsField) obj;
+			if (!getOuterType().equals(other.getOuterType()))
+				return false;
+			if (param == null) {
+				if (other.param != null)
+					return false;
+			} else if (!param.equals(other.param))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "Field [of=TypeInfo [of=" + getOuterType() + "]]";
+		}
 	}
 
 }

@@ -1,7 +1,6 @@
 package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
@@ -14,7 +13,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
@@ -168,10 +166,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 			textComponent.setToolTipText("");
 			SwingRendererUtils.showTooltipNow(textComponent);
 		} else {
-			TitledBorder border = BorderFactory.createTitledBorder("");
-			border.setTitleColor(Color.RED);
-			border.setBorder(BorderFactory.createLineBorder(Color.RED));
-			setBorder(border);
+			SwingRendererUtils.setErrorBorder(this);
 			SwingRendererUtils.setMultilineToolTipText(textComponent,
 					swingRenderer.prepareStringToDisplay(error.toString()));
 			SwingRendererUtils.showTooltipNow(textComponent);
