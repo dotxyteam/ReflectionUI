@@ -25,24 +25,20 @@ public class ReflectionUIError extends RuntimeException {
 		if (result == null) {
 			result = ReflectionUIUtils.getPrintedStackTrace(this);
 		}
-		if (getCause() != null) {			
-			String causeClassName = getCause().getClass().getName();			
+		if (getCause() != null) {
+			String causeClassName = getCause().getClass().getName();
 			if (result.contains(causeClassName)) {
 				String causeClassCaption;
 				if (NullPointerException.class.getName().equals(causeClassName)) {
-					causeClassCaption= "Missing Value Error";
+					causeClassCaption = "Missing Value Error";
 				} else {
-					causeClassCaption = ReflectionUIUtils
-							.identifierToCaption(getCause().getClass()
-									.getSimpleName());
+					causeClassCaption = ReflectionUIUtils.identifierToCaption(getCause().getClass().getSimpleName());
 				}
-				if (!causeClassCaption.contains("Error")
-						&& causeClassCaption.contains("Exception")) {
-					causeClassCaption = causeClassCaption.replace("Exception",
-							"Error");
+				if (!causeClassCaption.contains("Error") && causeClassCaption.contains("Exception")) {
+					causeClassCaption = causeClassCaption.replace("Exception", "Error");
 				}
 				result = result.replace(causeClassName, causeClassCaption);
-			}			
+			}
 		}
 		return result;
 	}

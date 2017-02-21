@@ -18,6 +18,7 @@ public class HiddenNullableFacetParameterInfoProxy extends ParameterInfoProxy {
 	}
 
 	@Override
+	@SuppressWarnings("unused")
 	public Object getDefaultValue() {
 		final Object[] result = new Object[1];
 		new HiddenNullableFacetsTypeInfoProxyFactory(reflectionUI){

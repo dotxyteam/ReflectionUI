@@ -1042,37 +1042,36 @@ public class SwingRenderer {
 	}
 
 	public void openMessageDialog(Component activatorComponent, String msg, String title, Image iconImage) {
-		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI,
-				new TextualTypeInfo(reflectionUI, String.class));
-		encapsulation.setTypeCaption("Information");
-		encapsulation.setFieldCaption("");
-		encapsulation.setFieldGetOnly(true);
-		encapsulation.setFieldNullable(false);
-		encapsulation.setTypeModificationStackAccessible(false);
-		Object toDisplay = encapsulation.getInstance(new Object[] { msg });
-		Component errorComponent = new JOptionPane(createForm(toDisplay), JOptionPane.ERROR_MESSAGE,
-				JOptionPane.DEFAULT_OPTION, null, new Object[] {});
+		DialogBuilder dialogBuilder = new DialogBuilder(this, activatorComponent);
+		JLabel toDisplay = new JLabel("<HTML><CENTER>" + msg + "</CENTER></HTML>", JLabel.CENTER);
+		toDisplay.setBorder(BorderFactory.createTitledBorder(""));
+		Component pane = new JOptionPane(toDisplay, JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION,
+				null, new Object[] {});
 
-		openObjectDialog(activatorComponent, toDisplay);
+		JDialog[] dialogHolder = new JDialog[1];
+
+		List<Component> buttons = new ArrayList<Component>();
+		buttons.add(dialogBuilder.createDialogClosingButton("Close", null));
+
+		dialogBuilder.setTitle(title);
+		dialogBuilder.setContentComponent(pane);
+		dialogBuilder.setToolbarComponents(buttons);
+
+		showDialog(dialogBuilder.build(), true);
 	}
 
 	public void openErrorDialog(Component activatorComponent, String title, final Throwable error) {
-		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI,
-				new TextualTypeInfo(reflectionUI, String.class));
-		encapsulation.setTypeCaption("Error");
-		encapsulation.setFieldCaption("Message");
-		encapsulation.setFieldGetOnly(true);
-		encapsulation.setFieldNullable(false);
-		encapsulation.setTypeModificationStackAccessible(false);
-		Map<String, Object> fieldSpecificProperties = new HashMap<String, Object>();
-		{
-			DesktopSpecificProperty.setIconImage(fieldSpecificProperties, SwingRendererUtils.ERROR_ICON.getImage());
-			encapsulation.setFieldSpecificProperties(fieldSpecificProperties);
-		}
-		Object toDisplay = encapsulation.getInstance(new Object[] { ReflectionUIUtils.getPrettyMessage(error) });
+		DialogBuilder dialogBuilder = new DialogBuilder(this, activatorComponent);
+		JLabel toDisplay = new JLabel("<HTML><CENTER>"
+				+ ReflectionUIUtils.escapeHTML(ReflectionUIUtils.getPrettyMessage(error), true) + "</CENTER></HTML>",
+				JLabel.CENTER);
+		toDisplay.setBorder(BorderFactory.createTitledBorder(""));
+		Component pane = new JOptionPane(toDisplay, JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION,
+				null, new Object[] {});
 
-		ObjectDialogBuilder dialogBuilder = createObjectDialogBuilder(activatorComponent, toDisplay);
-		dialogBuilder.setTitle(title);
+		JDialog[] dialogHolder = new JDialog[1];
+
+		List<Component> buttons = new ArrayList<Component>();
 		final JButton deatilsButton = new JButton(prepareStringToDisplay("Details"));
 		deatilsButton.addActionListener(new ActionListener() {
 			@Override
@@ -1080,9 +1079,14 @@ public class SwingRenderer {
 				openErrorDetailsDialog(deatilsButton, error);
 			}
 		});
-		dialogBuilder.setAdditionalToolbarComponents(Arrays.<Component>asList(deatilsButton));
-		showDialog(dialogBuilder.build(), true);
+		buttons.add(deatilsButton);
+		buttons.add(dialogBuilder.createDialogClosingButton("Close", null));
 
+		dialogBuilder.setTitle(title);
+		dialogBuilder.setContentComponent(pane);
+		dialogBuilder.setToolbarComponents(buttons);
+
+		showDialog(dialogBuilder.build(), true);
 	}
 
 	public void openErrorDetailsDialog(Component activatorComponent, Throwable error) {
@@ -1491,6 +1495,7 @@ public class SwingRenderer {
 		protected Component fieldControl;
 		protected IFieldInfo field;
 		protected IFieldInfo controlAwareField;
+		protected ReflectionUIError displayedError;
 
 		public FieldControlPlaceHolder(Object object, IFieldInfo field) {
 			super();
@@ -1534,11 +1539,11 @@ public class SwingRenderer {
 				@Override
 				public Object getValue(Object object) {
 					try {
-						lastFieldValue = field.getValue(object);
-						lastFieldValueInitialized = true;
 						if (lastValueUpdateError != null) {
 							throw lastValueUpdateError;
 						}
+						lastFieldValue = field.getValue(object);
+						lastFieldValueInitialized = true;
 						displayError(null);
 					} catch (Throwable t) {
 						if (!lastFieldValueInitialized) {
@@ -1553,6 +1558,7 @@ public class SwingRenderer {
 				@Override
 				public void setValue(Object object, Object newValue) {
 					try {
+						lastFieldValue = newValue;
 						field.setValue(object, newValue);
 						lastValueUpdateError = null;
 					} catch (Throwable t) {
@@ -1666,13 +1672,24 @@ public class SwingRenderer {
 		}
 
 		public void displayError(ReflectionUIError error) {
-			if (!((fieldControl instanceof IAdvancedFieldControl)
-					&& ((IAdvancedFieldControl) fieldControl).displayError(error))) {
-				if (error != null) {
+			boolean done = (fieldControl instanceof IAdvancedFieldControl)
+					&& ((IAdvancedFieldControl) fieldControl).displayError(error);
+			if (!done && (error != null)) {
+				if (!isSimilarError(displayedError, error)) {
+					displayedError = error;
+					SwingRendererUtils.setErrorBorder(this);
 					handleExceptionsFromDisplayedUI(fieldControl, error);
-					refreshUI(false);
 				}
+			} else {
+				displayedError = null;
+				setBorder(null);
 			}
+		}
+
+		public boolean isSimilarError(ReflectionUIError error1, ReflectionUIError error2) {
+			String errorMsg1 = (error1 == null) ? null : error1.toString();
+			String errorMsg2 = (error2 == null) ? null : error2.toString();
+			return ReflectionUIUtils.equalsOrBothNull(errorMsg1, errorMsg2);
 		}
 
 		public boolean showCaption() {

@@ -17,6 +17,7 @@ public class HiddenNullableFacetFieldInfoProxy extends FieldInfoProxy {
 		this.base = base;
 	}
 	
+	@SuppressWarnings("unused")
 	@Override
 	public Object getValue(final Object object) {
 		final Object[] result = new Object[1];
