@@ -1062,8 +1062,8 @@ public class SwingRenderer {
 
 	public void openErrorDialog(Component activatorComponent, String title, final Throwable error) {
 		DialogBuilder dialogBuilder = new DialogBuilder(this, activatorComponent);
-		JLabel toDisplay = new JLabel("<HTML><CENTER>"
-				+ ReflectionUIUtils.escapeHTML(ReflectionUIUtils.getPrettyMessage(error), true) + "</CENTER></HTML>",
+		JLabel toDisplay = new JLabel("<HTML>"
+				+ ReflectionUIUtils.escapeHTML(ReflectionUIUtils.getPrettyErrorMessage(error), true) + "</HTML>",
 				JLabel.CENTER);
 		toDisplay.setBorder(BorderFactory.createTitledBorder(""));
 		Component pane = new JOptionPane(toDisplay, JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION,
@@ -1495,7 +1495,7 @@ public class SwingRenderer {
 		protected Component fieldControl;
 		protected IFieldInfo field;
 		protected IFieldInfo controlAwareField;
-		protected ReflectionUIError displayedError;
+		protected String errorMessageDisplayedOnPlaceHolder;
 
 		public FieldControlPlaceHolder(Object object, IFieldInfo field) {
 			super();
@@ -1549,7 +1549,7 @@ public class SwingRenderer {
 						if (!lastFieldValueInitialized) {
 							throw new ReflectionUIError(t);
 						} else {
-							displayError(new ReflectionUIError(t));
+							displayError(ReflectionUIUtils.getPrettyErrorMessage(t));
 						}
 					}
 					return lastFieldValue;
@@ -1671,24 +1671,22 @@ public class SwingRenderer {
 			return result;
 		}
 
-		public void displayError(ReflectionUIError error) {
+		public void displayError(String msg) {
 			boolean done = (fieldControl instanceof IAdvancedFieldControl)
-					&& ((IAdvancedFieldControl) fieldControl).displayError(error);
-			if (!done && (error != null)) {
-				if (!isSimilarError(displayedError, error)) {
-					displayedError = error;
+					&& ((IAdvancedFieldControl) fieldControl).displayError(msg);
+			if (!done && (msg != null)) {
+				if (!isSimilarErrorMessage(errorMessageDisplayedOnPlaceHolder, msg)) {
+					errorMessageDisplayedOnPlaceHolder = msg;
 					SwingRendererUtils.setErrorBorder(this);
-					handleExceptionsFromDisplayedUI(fieldControl, error);
+					handleExceptionsFromDisplayedUI(fieldControl, new ReflectionUIError(msg));
 				}
 			} else {
-				displayedError = null;
+				errorMessageDisplayedOnPlaceHolder = null;
 				setBorder(null);
 			}
 		}
 
-		public boolean isSimilarError(ReflectionUIError error1, ReflectionUIError error2) {
-			String errorMsg1 = (error1 == null) ? null : error1.toString();
-			String errorMsg2 = (error2 == null) ? null : error2.toString();
+		public boolean isSimilarErrorMessage(String errorMsg1, String errorMsg2) {
 			return ReflectionUIUtils.equalsOrBothNull(errorMsg1, errorMsg2);
 		}
 

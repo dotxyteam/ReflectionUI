@@ -10,7 +10,6 @@ import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.FileTypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
-import xy.reflect.ui.util.ReflectionUIError;
 
 public class FileControl extends DialogAccessControl implements IAdvancedFieldControl {
 
@@ -88,7 +87,7 @@ public class FileControl extends DialogAccessControl implements IAdvancedFieldCo
 	}
 
 	@Override
-	public boolean displayError(ReflectionUIError error) {
+	public boolean displayError(String msg) {
 		return false;
 	}
 

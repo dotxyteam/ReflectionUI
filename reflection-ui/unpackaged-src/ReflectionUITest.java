@@ -22,6 +22,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
 import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
+import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
 
 public class ReflectionUITest {
@@ -138,8 +139,7 @@ public class ReflectionUITest {
 		}
 
 		public void throwException() throws Exception {
-			throw new Exception(
-					"error: unknown argument: '-sha'. clang: error: unknown argument: '-target-feature'. clang: error: unknown argument: '-target-feature'. clang: error: unknown argument: '-target-feature'. clang: error: no such file or directory: '+cx16'. clang: error: no such file or directory: '+xsave'. clang: error: no such file or directory: '+prfchw'. clang: error: no such file or directory: '+bmi2'. clang: error: no such file or directory: '+adx'. clang: error: language not recognized: 'savec'. clang: error: no such file or directory: '+fsgsbase'. clang: error: no such file or directory: '+avx'. clang: error: no such file or directory: '+popcnt'. clang: error: no such file or directory: '+fma'. clang: error: no such file or directory: '+bmi'. clang: error: no such file or directory: '+aes'. clang: error: no such file or directory: '+rdrnd'. clang: error: language not recognized: 'saves'. clang: error: no such file or directory: '+sse4.1'. clang: error: no such file or directory: '+sse4.2'. clang: error: no such file or directory: '+avx2'. clang: error: no such file or directory: '+sse'. clang: error: no such file or directory: '+lzcnt'. clang: error: no such file or directory: '+pclmul'. clang: error: no such file or directory: '+f16c'. clang: error: no such file or directory: '+ssse3'. clang: error: no such file or directory: '+mmx'. clang: error: no such file or directory: '+cmov'. clang: error: language not recognized: 'op'. clang: error: no such file or directory: '+rdseed'. clang: error: no such file or directory: '+movbe'. clang: error: no such file or directory: '+xsaveopt'. clang: error: no such file or directory: '+sse2'. clang: error: no such file or directory: '+sse3'.");
+			throw new Exception(ReflectionUIUtils.getPrintedStackTrace(new AssertionError()));
 		}
 
 		public void callWithManyParams(int i, String s, Date d, Color c) throws Exception {

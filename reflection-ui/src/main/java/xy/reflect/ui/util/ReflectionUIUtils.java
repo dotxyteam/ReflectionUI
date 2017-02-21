@@ -671,7 +671,7 @@ public class ReflectionUIUtils {
 		return contextMessage + " - " + localMessage;
 	}
 
-	public static String getPrettyMessage(Throwable t) {
+	public static String getPrettyErrorMessage(Throwable t) {
 		return new ReflectionUIError(t).toString();
 	}
 

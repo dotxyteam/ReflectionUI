@@ -10,7 +10,6 @@ import javax.swing.JCheckBox;
 import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.util.ReflectionUIError;
 
 public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl {
 
@@ -51,7 +50,7 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 	}
 
 	@Override
-	public boolean displayError(ReflectionUIError error) {
+	public boolean displayError(String msg) {
 		return false;
 	}
 

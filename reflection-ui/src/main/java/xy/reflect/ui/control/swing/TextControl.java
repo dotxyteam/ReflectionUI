@@ -19,7 +19,6 @@ import javax.swing.event.UndoableEditListener;
 import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
@@ -118,7 +117,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		try {
 			data.setValue(newStringValue);
 		} catch (Throwable t) {
-			displayError(new ReflectionUIError(t));
+			displayError(ReflectionUIUtils.getPrettyErrorMessage(t));
 		}
 	}
 
@@ -153,22 +152,22 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public boolean displayError(ReflectionUIError error) {
-		boolean changed = !ReflectionUIUtils.equalsOrBothNull(error, textComponent.getToolTipText());
+	public boolean displayError(String msg) {
+		boolean changed = !ReflectionUIUtils.equalsOrBothNull(msg, textComponent.getToolTipText());
 		if (!changed) {
 			return true;
 		}
-		if (error != null) {
-			swingRenderer.getReflectionUI().logError(error);
+		if (msg != null) {
+			swingRenderer.getReflectionUI().logError(msg);
 		}
-		if (error == null) {
+		if (msg == null) {
 			setBorder(textFieldNormalBorder);
 			textComponent.setToolTipText("");
 			SwingRendererUtils.showTooltipNow(textComponent);
 		} else {
 			SwingRendererUtils.setErrorBorder(this);
 			SwingRendererUtils.setMultilineToolTipText(textComponent,
-					swingRenderer.prepareStringToDisplay(error.toString()));
+					swingRenderer.prepareStringToDisplay(msg));
 			SwingRendererUtils.showTooltipNow(textComponent);
 		}
 		return true;

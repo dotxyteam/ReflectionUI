@@ -14,7 +14,6 @@ import xy.reflect.ui.control.data.ControlDataProxy;
 import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 public abstract class NullableControl extends JPanel implements IAdvancedFieldControl {
@@ -167,9 +166,9 @@ public abstract class NullableControl extends JPanel implements IAdvancedFieldCo
 	}
 
 	@Override
-	public boolean displayError(ReflectionUIError error) {
+	public boolean displayError(String msg) {
 		if (subControl instanceof IAdvancedFieldControl) {
-			return ((IAdvancedFieldControl) subControl).displayError(error);
+			return ((IAdvancedFieldControl) subControl).displayError(msg);
 		} else {
 			return false;
 		}

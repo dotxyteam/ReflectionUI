@@ -207,7 +207,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	@Override
-	public boolean displayError(ReflectionUIError error) {
+	public boolean displayError(String msg) {
 		return false;
 	}
 

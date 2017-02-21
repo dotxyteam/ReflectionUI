@@ -17,7 +17,6 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory;
 import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
 import xy.reflect.ui.util.Accessor;
-import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
@@ -241,9 +240,9 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 	}
 
 	@Override
-	public boolean displayError(ReflectionUIError error) {
+	public boolean displayError(String msg) {
 		return (dynamicControl instanceof IAdvancedFieldControl)
-				&& ((IAdvancedFieldControl) dynamicControl).displayError(error);
+				&& ((IAdvancedFieldControl) dynamicControl).displayError(msg);
 	}
 
 	@Override

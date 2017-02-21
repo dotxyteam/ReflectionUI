@@ -1,6 +1,3 @@
-. what to do when setValue is rejected ?
-Normally any error displayed should be instantly cleared
-. error and info dialogs multiline!!!
 . expose more customizations feature
 	. screenshot
 	. in the example, first customize 
