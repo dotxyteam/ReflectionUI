@@ -459,12 +459,6 @@ public class ImplicitListField implements IFieldInfo {
 		}
 
 		@Override
-		public boolean equals(Object value1, Object value2) {
-			ReflectionUIUtils.checkInstance(this, value1);
-			return ReflectionUIUtils.equalsOrBothNull(value1, value2);
-		}
-
-		@Override
 		public String toString(Object object) {
 			ReflectionUIUtils.checkInstance(this, object);
 			return object.toString();

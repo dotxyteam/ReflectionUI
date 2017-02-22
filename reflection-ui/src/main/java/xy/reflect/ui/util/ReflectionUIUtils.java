@@ -769,11 +769,6 @@ public class ReflectionUIUtils {
 		return type.copy(object);
 	}
 
-	public static boolean equals(ReflectionUI reflectionUI, Object value1, Object value2) {
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value1));
-		return type.equals(value1, value2);
-	}
-
 	public static void checkInstance(ITypeInfo type, Object object) {
 		if (object == null) {
 			return;

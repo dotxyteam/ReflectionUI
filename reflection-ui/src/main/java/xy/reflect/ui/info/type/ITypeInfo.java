@@ -28,7 +28,5 @@ public interface ITypeInfo extends IInfo {
 
 	Object copy(Object object);
 
-	boolean equals(Object value1, Object value2);
-
 	boolean isModificationStackAccessible();
 }

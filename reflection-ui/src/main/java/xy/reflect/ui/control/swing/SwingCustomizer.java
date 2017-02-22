@@ -537,7 +537,7 @@ public class SwingCustomizer extends SwingRenderer {
 							updateUI(type.getName());
 						}
 					});
-					popupMenu.add(new AbstractAction(prepareStringToDisplay("Hide")) {
+					popupMenu.add(new AbstractAction(prepareStringToDisplay("Lock")) {
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -632,7 +632,7 @@ public class SwingCustomizer extends SwingRenderer {
 							SwingUtilities.invokeLater(new Runnable() {
 								@Override
 								public void run() {
-									customizationToolsRenderer.openMessageDialog(ownerComponent,
+									customizationToolsRenderer.openInformationDialog(ownerComponent,
 											"You must reload the customized windows\nto view all this change effects.",
 											"Information", getCustomizationsIcon().getImage());
 								}

@@ -936,12 +936,12 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		setSelection(Collections.singletonList(toSelect));
 	}
 
-	public AutoFieldValueUpdatingItemPosition findItemPosition(final Object item) {
+	public AutoFieldValueUpdatingItemPosition findItemPositionByReference(final Object item) {
 		final AutoFieldValueUpdatingItemPosition[] result = new AutoFieldValueUpdatingItemPosition[1];
 		visitItems(new IItemsVisitor() {
 			@Override
 			public boolean visitItem(AutoFieldValueUpdatingItemPosition itemPosition) {
-				if (ReflectionUIUtils.equals(swingRenderer.getReflectionUI(), itemPosition.getItem(), item)) {
+				if (itemPosition.getItem() == item) {
 					result[0] = itemPosition;
 					return false;
 				}

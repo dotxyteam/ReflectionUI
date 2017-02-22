@@ -199,10 +199,6 @@ public abstract class TypeInfoProxyFactory {
 		return type.copy(object);
 	}
 
-	protected boolean equals(ITypeInfo type, Object value1, Object value2) {
-		return type.equals(value1, value2);
-	}
-
 	protected String getCaption(IFieldInfo field, ITypeInfo containingType) {
 		return field.getCaption();
 	}
@@ -499,11 +495,6 @@ public abstract class TypeInfoProxyFactory {
 		@Override
 		public Object copy(Object object) {
 			return TypeInfoProxyFactory.this.copy(base, object);
-		}
-
-		@Override
-		public boolean equals(Object value1, Object value2) {
-			return TypeInfoProxyFactory.this.equals(base, value1, value2);
 		}
 
 		@Override

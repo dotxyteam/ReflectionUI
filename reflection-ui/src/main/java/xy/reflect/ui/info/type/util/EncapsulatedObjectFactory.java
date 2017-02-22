@@ -286,12 +286,6 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
-		public boolean equals(Object value1, Object value2) {
-			ReflectionUIUtils.checkInstance(this, value1);
-			return ReflectionUIUtils.equalsOrBothNull(value1, value2);
-		}
-
-		@Override
 		public void validate(Object object) throws Exception {
 		}
 

@@ -11,20 +11,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
-import java.awt.Rectangle;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.lang.reflect.InvocationTargetException;
-import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -35,13 +27,11 @@ import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolTip;
@@ -58,11 +48,8 @@ import xy.reflect.ui.control.data.FieldControlData;
 import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.InfoCategory;
-import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.FieldInfoProxy;
-import xy.reflect.ui.info.field.HiddenNullableFacetFieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.MultipleFieldsAsOneListField.ListItem;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.DefaultConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -72,34 +59,25 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
 import xy.reflect.ui.info.type.custom.FileTypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
-import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
-import xy.reflect.ui.info.type.iterable.map.StandardMapEntry;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory;
-import xy.reflect.ui.info.type.util.InfoCustomizations;
-import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
 import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
+import xy.reflect.ui.info.type.util.InfoCustomizations;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
-import xy.reflect.ui.undo.CompositeModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.undo.ControlDataValueModification;
-import xy.reflect.ui.undo.UndoOrder;
-import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.SystemProperties;
-import xy.reflect.ui.util.component.AutoResizeTabbedPane;
 import xy.reflect.ui.util.component.ScrollPaneOptions;
 import xy.reflect.ui.util.component.WrapLayout;
 
-@SuppressWarnings("unused")
 public class SwingRenderer {
 
 	protected static SwingRenderer defaultInstance;
@@ -1034,27 +1012,22 @@ public class SwingRenderer {
 			String noCaption) {
 		DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
 		dialogBuilder.setToolbarComponents(dialogBuilder.createStandardOKCancelDialogButtons(yesCaption, noCaption));
-		dialogBuilder
-				.setContentComponent(new JLabel("<HTML><BR>" + question + "<BR><BR><HTML>", SwingConstants.CENTER));
+		dialogBuilder.setContentComponent(SwingRendererUtils.getJOptionPane(question, JOptionPane.QUESTION_MESSAGE));
 		dialogBuilder.setTitle(title);
 		showDialog(dialogBuilder.build(), true);
 		return dialogBuilder.isOkPressed();
 	}
 
-	public void openMessageDialog(Component activatorComponent, String msg, String title, Image iconImage) {
+	public void openInformationDialog(Component activatorComponent, String msg, String title, Image iconImage) {
 		DialogBuilder dialogBuilder = new DialogBuilder(this, activatorComponent);
 		JLabel toDisplay = new JLabel("<HTML><CENTER>" + msg + "</CENTER></HTML>", JLabel.CENTER);
 		toDisplay.setBorder(BorderFactory.createTitledBorder(""));
-		Component pane = new JOptionPane(toDisplay, JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION,
-				null, new Object[] {});
-
-		JDialog[] dialogHolder = new JDialog[1];
 
 		List<Component> buttons = new ArrayList<Component>();
 		buttons.add(dialogBuilder.createDialogClosingButton("Close", null));
 
 		dialogBuilder.setTitle(title);
-		dialogBuilder.setContentComponent(pane);
+		dialogBuilder.setContentComponent(SwingRendererUtils.getJOptionPane(msg, JOptionPane.INFORMATION_MESSAGE));
 		dialogBuilder.setToolbarComponents(buttons);
 
 		showDialog(dialogBuilder.build(), true);
@@ -1062,14 +1035,6 @@ public class SwingRenderer {
 
 	public void openErrorDialog(Component activatorComponent, String title, final Throwable error) {
 		DialogBuilder dialogBuilder = new DialogBuilder(this, activatorComponent);
-		JLabel toDisplay = new JLabel("<HTML>"
-				+ ReflectionUIUtils.escapeHTML(ReflectionUIUtils.getPrettyErrorMessage(error), true) + "</HTML>",
-				JLabel.CENTER);
-		toDisplay.setBorder(BorderFactory.createTitledBorder(""));
-		Component pane = new JOptionPane(toDisplay, JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION,
-				null, new Object[] {});
-
-		JDialog[] dialogHolder = new JDialog[1];
 
 		List<Component> buttons = new ArrayList<Component>();
 		final JButton deatilsButton = new JButton(prepareStringToDisplay("Details"));
@@ -1083,7 +1048,8 @@ public class SwingRenderer {
 		buttons.add(dialogBuilder.createDialogClosingButton("Close", null));
 
 		dialogBuilder.setTitle(title);
-		dialogBuilder.setContentComponent(pane);
+		dialogBuilder.setContentComponent(SwingRendererUtils
+				.getJOptionPane(ReflectionUIUtils.getPrettyErrorMessage(error), JOptionPane.ERROR_MESSAGE));
 		dialogBuilder.setToolbarComponents(buttons);
 
 		showDialog(dialogBuilder.build(), true);
@@ -1374,7 +1340,6 @@ public class SwingRenderer {
 	}
 
 	public void updateFieldControlLayout(FieldControlPlaceHolder fieldControlPlaceHolder) {
-		Component fieldControl = fieldControlPlaceHolder.getFieldControl();
 		IFieldInfo field = fieldControlPlaceHolder.getField();
 		Container container = fieldControlPlaceHolder.getParent();
 
@@ -1503,8 +1468,8 @@ public class SwingRenderer {
 			this.field = field;
 			this.controlAwareField = field;
 			this.controlAwareField = indicateWhenBusy(this.controlAwareField);
-			this.controlAwareField = makeFieldModificationsUndoable(this.controlAwareField);
 			this.controlAwareField = handleValueAccessIssues(this.controlAwareField);
+			this.controlAwareField = makeFieldModificationsUndoable(this.controlAwareField);
 			setLayout(new BorderLayout());
 			refreshUI(false);
 		}

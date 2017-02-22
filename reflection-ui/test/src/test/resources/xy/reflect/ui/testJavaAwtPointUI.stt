@@ -311,7 +311,6 @@
       <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>An Error Occured</string>
-        <string>Message: </string>
         <string>Missing Value Error</string>
         <string>Details</string>
         <string>Close</string>
@@ -338,7 +337,6 @@
         <string>Missing Value Error</string>
         <string>Cause: </string>
         <string>Missing Value Error</string>
-        <string>...</string>
         <string>Stack Trace</string>
         <string>Is Native Method</string>
         <string>Line Number</string>
@@ -367,6 +365,24 @@
       <doubleClick>false</doubleClick>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>Undo</visibleString>
+        <windowIndex>0</windowIndex>
+      </componentFinder>
+      <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+      <completenessChecked>false</completenessChecked>
+      <orderChecked>false</orderChecked>
+      <visibleStrings>
+        <string>Point[x=3,y=4]</string>
+      </visibleStrings>
+      <windowIndex>0</windowIndex>
+    </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
     <xy.ui.testing.action.window.CloseWindowAction>
       <windowIndex>0</windowIndex>
     </xy.ui.testing.action.window.CloseWindowAction>

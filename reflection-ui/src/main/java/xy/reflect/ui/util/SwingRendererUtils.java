@@ -44,6 +44,7 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -213,6 +214,11 @@ public class SwingRendererUtils {
 	public static Color getTextBackgroundColor() {
 		return SwingRendererUtils.fixSeveralColorRenderingIssues(new JTextField().getBackground());
 	}
+	
+	public static Color getPanelBackgroundColor() {
+		return SwingRendererUtils.fixSeveralColorRenderingIssues(new JPanel().getBackground());
+	}
+
 
 	public static void disableComponentTree(JComponent c, final boolean revert) {
 		String CONTAINER_LISTENER_KEY = ReflectionUIUtils.class.getName()
@@ -698,7 +704,17 @@ public class SwingRendererUtils {
 
 	public static void setErrorBorder(JComponent c) {
 		c.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
-		
+
+	}
+
+	public static Component getJOptionPane(String msg, int messageType) {
+		JTextArea msgComponent = new JTextArea();
+		msgComponent.setText(msg);
+		msgComponent.setEditable(false);
+		msgComponent.setLineWrap(true);
+		msgComponent.setWrapStyleWord(true);
+		msgComponent.setBackground(getPanelBackgroundColor());
+		return new JOptionPane(msgComponent, messageType, JOptionPane.DEFAULT_OPTION, null, new Object[] {});
 	}
 
 }

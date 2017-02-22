@@ -202,11 +202,6 @@ public class TypeCastFactory {
 		}
 
 		@Override
-		protected boolean equals(ITypeInfo type, Object value1, Object value2) {
-			return super.equals(type, unwrapInstance(value1), unwrapInstance(value2));
-		}
-
-		@Override
 		protected boolean supportsInstance(ITypeInfo type, Object object) {
 			return super.supportsInstance(type, unwrapInstance(object));
 		}

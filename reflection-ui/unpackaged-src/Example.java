@@ -17,21 +17,12 @@ public class Example {
 
 	public static void main(String[] args) {
 
-		/* The Hello world: */
-		Object myObject = new Date();
-		SwingRenderer.getDefault().openObjectFrame(myObject);
-
-		/* You can open a dialog instead of a frame: */
-		SwingRenderer.getDefault().openObjectDialog(null, myObject);
-
-		/* You can just create a form and then insert it in any container: */
-		JOptionPane.showMessageDialog(null, SwingRenderer.getDefault().createForm(myObject));
-
 		/*
 		 * You can customize some aspects (field labels, hide some methods, ...)
 		 * of the generated UI by using an integrated customizations editor. To
-		 * enable this editor set the following JVM property:
-		 * "-Dxy.reflect.ui.defaultCustomizationsActive=true". You can also do
+		 * enable this editor set the following JVM properties:
+		 * "-Dxy.reflect.ui.defaultCustomizationsActive=true" and
+		 * "-Dxy.reflect.ui.infoCustomizationsToolsHidden=true". You can also do
 		 * it programmatically before any call to SwingRenderer.getDefault():
 		 */
 		System.setProperty(SystemProperties.DEFAULT_INFO_CUSTOMIZATIONS_ACTIVE, "true");
@@ -42,15 +33,25 @@ public class Example {
 		 * "-Dxy.reflect.ui.infoCustomizationsToolsHidden=true". You can also do
 		 * it programmatically before any call to SwingRenderer.getDefault():
 		 */
-		System.setProperty(SystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS, "true");
+		// System.setProperty(SystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS,
+		// "true");
+
+		/* Most basic use case: */
+		Object myObject = new Date();
+		SwingRenderer.getDefault().openObjectFrame(myObject);
+
+		/* You can open a dialog instead of a frame: */
+		SwingRenderer.getDefault().openObjectDialog(null, myObject);
+
+		/* You can just create a form and then insert it in any container: */
+		JOptionPane.showMessageDialog(null, SwingRenderer.getDefault().createForm(myObject));
 
 		/*
 		 * SwingRenderer.getDefault() assumes that the Java coding standards are
-		 * respected for the classes of the objects for which it generates UI.
+		 * respected for the classes of the objects for which it generates a UI.
 		 * If you want to take control over the object discovery and
 		 * interpretation process, then you must create custom ReflectionUI and
-		 * SwingRenderer objects and override the ReflectionUI.getTypeInfo(...)
-		 * method:
+		 * SwingRenderer objects:
 		 */
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
@@ -73,21 +74,12 @@ public class Example {
 					}
 
 					/*
-					 * if your class "equals" method is not implemented as you
-					 * want then:
-					 */
-					@Override
-					public boolean equals(ITypeInfo type, Object value1, Object value2) {
-						return super.equals(type, value1, value2);
-					}
-
-					/*
-					 * if your class "toString" method is not implemented as you
-					 * want then:
+					 * if your class "toString" method (used in some field
+					 * controls) is not implemented as you want then:
 					 */
 					@Override
 					public String toString(ITypeInfo type, Object object) {
-						return super.toString(type, object);
+						return "overriden: " + super.toString(type, object).toUpperCase();
 					}
 
 					/*
@@ -107,6 +99,11 @@ public class Example {
 						// TODO: replace with your code
 						return super.copy(type, object);
 					}
+
+					/*
+					 * Many more methods can be overriden. Explore the class
+					 * TypeInfoProxyFactory to find out...
+					 */
 
 				}.get(super.getTypeInfo(typeSource));
 			}

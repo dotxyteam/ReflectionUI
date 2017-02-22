@@ -168,12 +168,6 @@ public class MethodSetupObjectFactory {
 		}
 
 		@Override
-		public boolean equals(Object value1, Object value2) {
-			ReflectionUIUtils.checkInstance(this, value1);
-			return ReflectionUIUtils.equalsOrBothNull(value1, value2);
-		}
-
-		@Override
 		public boolean supportsInstance(Object object) {
 			return object instanceof Instance;
 		}
