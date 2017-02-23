@@ -80,14 +80,7 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 
 			@Override
 			protected ListItem createListItem(Object object, IFieldInfo listFieldInfo) {
-				return new ListItem(object, listFieldInfo) {
-
-					@Override
-					public String getTitle() {
-						return "(" + super.getTitle() + ")";
-					}
-
-				};
+				return new ListFieldNamesNode(object, listFieldInfo);
 			}
 
 			@Override
@@ -190,14 +183,7 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 		if (rootItemType == null) {
 			return Collections.emptyList();
 		}
-		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
-		for (IFieldInfo candidateField : this.rootItemType.getFields()) {
-			if (candidateField.getType() instanceof IListTypeInfo) {
-				continue;
-			}
-			result.add(candidateField);
-		}
-		return result;
+		return rootItemType.getFields();
 	}
 
 	@Override

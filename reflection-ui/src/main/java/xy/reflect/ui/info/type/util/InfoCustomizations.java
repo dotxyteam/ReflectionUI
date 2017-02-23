@@ -36,6 +36,9 @@ import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.field.MethodAsField;
+import xy.reflect.ui.info.method.FieldAsGetter;
+import xy.reflect.ui.info.method.FieldAsSetter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -774,6 +777,15 @@ public final class InfoCustomizations {
 		protected String valueOptionsFieldName;
 		protected ValueReturnMode customValueReturnMode;
 		protected String nullValueLabel;
+		protected boolean displayedAsMethods = false;
+
+		public boolean isDisplayedAsMethods() {
+			return displayedAsMethods;
+		}
+
+		public void setDisplayedAsMethods(boolean displayedAsMethods) {
+			this.displayedAsMethods = displayedAsMethods;
+		}
 
 		public String getFieldName() {
 			return fieldName;
@@ -877,6 +889,15 @@ public final class InfoCustomizations {
 		protected List<ParameterCustomization> parametersCustomizations = new ArrayList<InfoCustomizations.ParameterCustomization>();
 		protected ValueReturnMode customValueReturnMode;
 		protected String nullReturnValueLabel;
+		protected boolean displayedAsField = false;
+
+		public boolean isDisplayedAsField() {
+			return displayedAsField;
+		}
+
+		public void setDisplayedAsField(boolean displayedAsField) {
+			this.displayedAsField = displayedAsField;
+		}
 
 		public boolean isValidating() {
 			return validating;
@@ -1431,16 +1452,6 @@ public final class InfoCustomizations {
 
 		public void setParent(InfoCustomizations parent) {
 			this.parent = parent;
-		}
-
-		public TypeCustomization getItemTypeCustomization() {
-			if (itemTypeName == null) {
-				return null;
-			}
-			if (parent == null) {
-				return null;
-			}
-			return parent.getTypeCustomization(itemTypeName, true);
 		}
 
 		@XmlElements({ @XmlElement(name = "detachedDetailsAccessMode", type = DetachedItemDetailsAccessMode.class),
@@ -2445,7 +2456,7 @@ public final class InfoCustomizations {
 					IFieldInfo field = it.next();
 					FieldCustomization f = getFieldCustomization(type.getName(), field.getName());
 					if (f != null) {
-						if (f.hidden) {
+						if (f.hidden || f.displayedAsMethods) {
 							it.remove();
 						} else {
 							for (FieldCustomization fOther : t.fieldsCustomizations) {
@@ -2454,6 +2465,15 @@ public final class InfoCustomizations {
 									break;
 								}
 							}
+						}
+					}
+				}
+				for (MethodCustomization m : t.methodsCustomizations) {
+					if (m.displayedAsField) {
+						IMethodInfo method = ReflectionUIUtils.findMethodBySignature(type.getMethods(),
+								m.methodSignature);
+						if (method != null) {
+							result.add(new MethodAsField(method));
 						}
 					}
 				}
@@ -2496,8 +2516,19 @@ public final class InfoCustomizations {
 					MethodCustomization m = getMethodCustomization(type.getName(),
 							ReflectionUIUtils.getMethodSignature(method));
 					if (m != null) {
-						if (m.hidden || m.validating) {
+						if (m.hidden || m.validating || m.displayedAsField) {
 							it.remove();
+						}
+					}
+				}
+				for (FieldCustomization f : t.fieldsCustomizations) {
+					IFieldInfo field = ReflectionUIUtils.findInfoByName(type.getFields(), f.fieldName);
+					if (field != null) {
+						if (f.displayedAsMethods) {
+							result.add(new FieldAsGetter(field));
+							if (!field.isGetOnly()) {
+								result.add(new FieldAsSetter(field));
+							}
 						}
 					}
 				}

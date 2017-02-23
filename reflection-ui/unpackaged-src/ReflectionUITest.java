@@ -90,7 +90,7 @@ public class ReflectionUITest {
 		public Collection theGenericVector = new Vector(Arrays.asList(new Test2(), new Test2()));
 		public Map<Integer, String> theMap = new HashMap<Integer, String>(Collections.singletonMap(5, "five"));
 		public Map<Integer, Test2> theTest2Map = new HashMap<Integer, Test2>();
-		public List<File> theFileList = Arrays.asList(new File("./file1"));
+		public List<File> theFileList = Arrays.asList(new File("tmp"));
 		public Set<Integer> theSet = new HashSet<Integer>(Arrays.asList(1, 2, 3));
 		public Stack<Integer> theStack = new Stack<Integer>();
 

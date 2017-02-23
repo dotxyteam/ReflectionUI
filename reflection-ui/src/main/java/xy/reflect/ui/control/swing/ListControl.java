@@ -66,6 +66,7 @@ import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.field.MultipleFieldsAsOneListField;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -77,6 +78,7 @@ import xy.reflect.ui.info.type.iterable.item.ItemDetailsAreaPosition;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.structure.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
+import xy.reflect.ui.info.type.iterable.structure.ListFieldNamesNode;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
@@ -569,20 +571,29 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			value = nodeValues.get(columnIndex);
 		} else {
 			AutoFieldValueUpdatingItemPosition itemPosition = (AutoFieldValueUpdatingItemPosition) node.getUserObject();
-			IListStructuralInfo tableInfo = getStructuralInfo();
-			if (tableInfo == null) {
-				value = ReflectionUIUtils.toString(swingRenderer.getReflectionUI(), itemPosition.getItem());
+			Object item = itemPosition.getItem();
+			if (item instanceof ListFieldNamesNode) {
+				if (columnIndex == 0) {
+					value = ((ListFieldNamesNode) item).getTitle();
+				} else {
+					return null;
+				}
 			} else {
-				List<IColumnInfo> columns = tableInfo.getColumns();
-				if (columnIndex < columns.size()) {
-					IColumnInfo column = tableInfo.getColumns().get(columnIndex);
-					if (column.hasCellValue(itemPosition)) {
-						value = column.getCellValue(itemPosition);
+				IListStructuralInfo tableInfo = getStructuralInfo();
+				if (tableInfo == null) {
+					value = ReflectionUIUtils.toString(swingRenderer.getReflectionUI(), item);
+				} else {
+					List<IColumnInfo> columns = tableInfo.getColumns();
+					if (columnIndex < columns.size()) {
+						IColumnInfo column = tableInfo.getColumns().get(columnIndex);
+						if (column.hasCellValue(itemPosition)) {
+							value = column.getCellValue(itemPosition);
+						} else {
+							value = null;
+						}
 					} else {
 						value = null;
 					}
-				} else {
-					value = null;
 				}
 			}
 			nodeValues.put(columnIndex, value);

@@ -288,15 +288,93 @@
     </listCustomizations>
     <listCustomizations>
         <columnCustomizations>
-            <columnName>toStringValue</columnName>
+            <columnName>absolute</columnName>
+            <hidden>true</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>absoluteFile</columnName>
+            <hidden>true</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>absolutePath</columnName>
+            <hidden>true</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>directory</columnName>
             <hidden>false</hidden>
         </columnCustomizations>
+        <columnCustomizations>
+            <columnName>file</columnName>
+            <hidden>true</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>freeSpace</columnName>
+            <hidden>true</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>hidden</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>listFiles-result</columnName>
+            <hidden>true</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>name</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>parent</columnName>
+            <hidden>true</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>parentFile</columnName>
+            <hidden>true</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>path</columnName>
+            <hidden>true</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>pathSeparator</columnName>
+            <hidden>true</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>pathSeparatorChar</columnName>
+            <hidden>true</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>separator</columnName>
+            <hidden>true</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>separatorChar</columnName>
+            <hidden>true</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>toStringValue</columnName>
+            <hidden>true</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>totalSpace</columnName>
+            <hidden>true</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>usableSpace</columnName>
+            <hidden>true</hidden>
+        </columnCustomizations>
+        <columnsCustomOrder>toStringValue</columnsCustomOrder>
+        <columnsCustomOrder>listFiles-result</columnsCustomOrder>
+        <columnsCustomOrder>parent</columnsCustomOrder>
+        <columnsCustomOrder>name</columnsCustomOrder>
+        <columnsCustomOrder>directory</columnsCustomOrder>
+        <columnsCustomOrder>hidden</columnsCustomOrder>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
-        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <fieldColumnsAdded>true</fieldColumnsAdded>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.io.File</itemTypeName>
@@ -304,6 +382,9 @@
         <listTypeName>java.util.List</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
+        <treeStructureDiscoverySettings>
+            <heterogeneousTree>true</heterogeneousTree>
+        </treeStructureDiscoverySettings>
     </listCustomizations>
     <listCustomizations>
         <columnCustomizations>
@@ -472,6 +553,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -482,6 +564,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -492,6 +575,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -502,6 +586,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -512,6 +597,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -522,6 +608,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -532,6 +619,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -542,6 +630,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -552,6 +641,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -562,6 +652,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -572,12 +663,14 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -588,6 +681,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -598,6 +692,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -608,6 +703,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -618,12 +714,14 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -634,6 +732,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -644,6 +743,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -654,6 +754,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -664,6 +765,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -674,6 +776,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -684,6 +787,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -694,6 +798,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -704,6 +809,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -714,6 +820,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -724,6 +831,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -734,6 +842,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -744,6 +853,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -754,6 +864,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -764,6 +875,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -774,6 +886,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -784,6 +897,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -794,6 +908,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -804,6 +919,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -814,6 +930,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -824,6 +941,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -834,6 +952,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -844,6 +963,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -854,6 +974,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -864,6 +985,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -874,6 +996,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -884,6 +1007,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -894,6 +1018,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -904,6 +1029,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -914,6 +1040,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -924,6 +1051,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -934,6 +1062,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -944,6 +1073,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -954,6 +1084,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -964,6 +1095,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -974,6 +1106,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -984,6 +1117,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -994,6 +1128,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1004,6 +1139,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1014,6 +1150,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1024,6 +1161,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1034,6 +1172,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1044,6 +1183,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1054,6 +1194,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1064,6 +1205,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1074,6 +1216,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1084,6 +1227,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1094,6 +1238,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1104,6 +1249,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1114,6 +1260,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1124,6 +1271,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1134,6 +1282,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1144,6 +1293,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1154,6 +1304,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1164,6 +1315,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1174,6 +1326,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1184,6 +1337,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1194,6 +1348,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1204,6 +1359,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1214,6 +1370,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1224,6 +1381,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1234,6 +1392,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1244,6 +1403,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1254,6 +1414,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1264,6 +1425,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1274,6 +1436,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1284,6 +1447,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1294,6 +1458,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1304,6 +1469,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1314,6 +1480,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1324,6 +1491,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1334,6 +1502,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1344,6 +1513,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1354,6 +1524,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1364,6 +1535,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1374,6 +1546,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1384,6 +1557,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1394,6 +1568,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1404,6 +1579,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1414,6 +1590,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1424,6 +1601,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1434,6 +1612,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1444,6 +1623,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1454,6 +1634,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1480,6 +1661,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1490,6 +1672,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1500,6 +1683,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1526,6 +1710,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1536,6 +1721,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1546,6 +1732,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1568,6 +1755,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -1586,6 +1774,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -1600,6 +1789,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1610,6 +1800,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1620,6 +1811,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1630,6 +1822,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1640,6 +1833,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1650,6 +1844,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1660,6 +1855,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>parameter1</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1683,18 +1879,21 @@
         <customTypeCaption>Test Descendant</customTypeCaption>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>the2ndShort</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theDay</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theShort</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1749,12 +1948,14 @@
         <customFieldsOrder>theArrayTreeTable</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>anyObject</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>pI</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1767,12 +1968,14 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>test2</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>test4</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1782,6 +1985,7 @@
                 <caption>Lists</caption>
             </category>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theArrayTreeTable</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -1791,30 +1995,35 @@
                 <caption>Lists</caption>
             </category>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theBooleanList</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theBooleanObject</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theBooleanPrimitive</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theBoundedInt</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theChoice</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullValueLabel>&lt;Please Choose&gt;</nullValueLabel>
@@ -1823,6 +2032,7 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theChoiceOptions</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1835,6 +2045,7 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theDate</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1847,24 +2058,28 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theDatePlus1Day</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theDouble</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theException</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theFile</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullValueLabel>&lt;Not Specified&gt;</nullValueLabel>
@@ -1875,12 +2090,14 @@
                 <caption>Lists</caption>
             </category>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theFileList</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theFloat</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1890,12 +2107,14 @@
                 <caption>Lists</caption>
             </category>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theGenericVector</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theInt</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1905,6 +2124,7 @@
                 <caption>Lists</caption>
             </category>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theMap</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -1914,6 +2134,7 @@
                 <caption>Lists</caption>
             </category>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theSet</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -1923,12 +2144,14 @@
                 <caption>Lists</caption>
             </category>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theStack</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theString</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1938,6 +2161,7 @@
                 <caption>Lists</caption>
             </category>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theStringList</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -1947,15 +2171,24 @@
                 <caption>Lists</caption>
             </category>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theTest2Map</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <fieldName>returnNothing-result</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <memberCategories>
             <caption>Lists</caption>
         </memberCategories>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>true</displayedAsField>
             <methodSignature>java.lang.Object returnNothing()</methodSignature>
             <nullReturnValueLabel>Data Not Found!</nullReturnValueLabel>
             <readOnlyForced>false</readOnlyForced>
@@ -1963,6 +2196,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>java.lang.String getExceptionneableInfo()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
@@ -1975,18 +2209,21 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void doLongTask()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void incrementTheInt()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void multiplyTheFloat(int)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -1998,12 +2235,14 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void resettheStringList()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void setTheBoundedInt(int)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2015,9 +2254,52 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void verify()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>true</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>void throwException()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>java.lang.Object returnObject()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>void callWithManyParams(int, java.lang.String, java.util.Date, java.awt.Color)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean get-theBooleanPrimitive()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>void set-theBooleanPrimitive(boolean)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>ReflectionUITest$Test new()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>ReflectionUITest$Test</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -2029,36 +2311,42 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>the2ndShort</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theChildrenList</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theDay</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theShort</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void doNothing()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void verify()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>true</validating>
@@ -2069,36 +2357,42 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>reference</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>the2ndShort</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theDay</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>theShort</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>validReferences</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void verify()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>true</validating>
@@ -2119,96 +2413,112 @@
         </specificProperties>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void modify1()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void modify10()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void modify11()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void modify12()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void modify13()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void modify14()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void modify15()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void modify16()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void modify2()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void modify3()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void modify4()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void modify5()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void modify6()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void modify7()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void modify8()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void modify9()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
@@ -2227,6 +2537,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2237,6 +2548,7 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2283,6 +2595,7 @@
     <typeCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>java.awt.AWTException AWTException(java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2298,106 +2611,404 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>absolute</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>absoluteFile</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>absolutePath</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>directory</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>file</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>freeSpace</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>hidden</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <customFieldCaption>The File List</customFieldCaption>
+            <displayedAsMethods>false</displayedAsMethods>
+            <fieldName>listFiles-result</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>name</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>parent</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>parentFile</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>path</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>pathSeparator</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>pathSeparatorChar</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>separator</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>separatorChar</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>totalSpace</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>usableSpace</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>true</displayedAsField>
+            <methodSignature>[Ljava.io.File; listFiles()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>[Ljava.io.File; listFiles(java.io.FileFilter)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>[Ljava.io.File; listFiles(java.io.FilenameFilter)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>[Ljava.io.File; listRoots()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>[Ljava.lang.String; list()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>[Ljava.lang.String; list(java.io.FilenameFilter)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean canExecute()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean canRead()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean canWrite()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean createNewFile()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean delete()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean exists()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean mkdir()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean mkdirs()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean renameTo(java.io.File)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean setExecutable(boolean)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean setExecutable(boolean, boolean)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean setLastModified(long)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean setReadOnly()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean setReadable(boolean)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean setReadable(boolean, boolean)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean setWritable(boolean)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean setWritable(boolean, boolean)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>int compareTo(java.io.File)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>java.io.File createTempFile(java.lang.String, java.lang.String)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>java.io.File createTempFile(java.lang.String, java.lang.String, java.io.File)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>java.io.File getCanonicalFile()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>java.io.File new()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>java.io.File new+paramjava.io.File+paramjava.lang.String(java.io.File, java.lang.String)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>java.io.File new+paramjava.lang.String(java.lang.String)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>java.io.File new+paramjava.lang.String+paramjava.lang.String(java.lang.String, java.lang.String)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>java.io.File new+paramjava.net.URI(java.net.URI)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>java.lang.String getCanonicalPath()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>java.net.URI toURI()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>java.net.URL toURL()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>java.nio.file.Path toPath()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>long lastModified()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>long length()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>void deleteOnExit()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
         <typeName>java.io.File</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2430,12 +3041,14 @@
         </specificProperties>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>java.lang.ClassNotFoundException ClassNotFoundException()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>java.lang.ClassNotFoundException ClassNotFoundException(java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2447,6 +3060,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>java.lang.ClassNotFoundException ClassNotFoundException(java.lang.String, java.lang.Throwable)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2463,12 +3077,14 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>java.lang.ClassNotFoundException new()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>java.lang.ClassNotFoundException new+paramjava.lang.String(java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2480,6 +3096,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>java.lang.ClassNotFoundException new+paramjava.lang.String+paramjava.lang.Throwable(java.lang.String, java.lang.Throwable)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2525,36 +3142,42 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>cause</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>localizedMessage</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>message</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>stackTrace</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>java.lang.IllegalAccessException IllegalAccessException()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>java.lang.IllegalAccessException IllegalAccessException(java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2566,12 +3189,14 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>java.lang.Throwable fillInStackTrace()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>java.lang.Throwable initCause(java.lang.Throwable)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2583,12 +3208,14 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void printStackTrace()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void printStackTrace(java.io.PrintStream)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2600,6 +3227,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>void printStackTrace(java.io.PrintWriter)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2615,24 +3243,28 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>MAX_VALUE</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>MIN_VALUE</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>SIZE</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>TYPE</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2655,30 +3287,35 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>className</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>fileName</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>lineNumber</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>methodName</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>nativeMethod</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2689,24 +3326,28 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>CASE_INSENSITIVE_ORDER</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>bytes</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>empty</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>java.lang.String ()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
@@ -2737,60 +3378,70 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>date</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>day</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>hours</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>minutes</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>month</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>seconds</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>time</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>timezoneOffset</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>year</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>boolean after(java.util.Date)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2802,6 +3453,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>boolean before(java.util.Date)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2813,6 +3465,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>int compareTo(java.util.Date)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2824,24 +3477,28 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>java.lang.Object clone()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>java.lang.String toGMTString()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>java.lang.String toLocaleString()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>long UTC(int, int, int, int, int, int)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2878,6 +3535,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
             <methodSignature>long parse(java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2941,12 +3599,14 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>key</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -2957,12 +3617,14 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>key</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2985,23 +3647,413 @@
     <typeCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>c</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>s</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
             <fieldName>d</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>MethodSetupObject [method=void callWithManyParams(int, java.lang.String, java.util.Date, java.awt.Color), containingType=ReflectionUITest$Test]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>void multiplyTheFloat(int)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>factor</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>multiplyTheFloat</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>void setTheBoundedInt(int)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>theBoundedInt</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>setTheBoundedInt</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>void callWithManyParams(int, java.lang.String, java.util.Date, java.awt.Color)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>i</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>s</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>d</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>c</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>callWithManyParams</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>void set-theBooleanPrimitive(boolean)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>theBooleanPrimitive</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>set-theBooleanPrimitive</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean setExecutable(boolean)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean setExecutable(boolean, boolean)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter2</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>setExecutable</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean setReadable(boolean)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean setReadable(boolean, boolean)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter2</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>setReadable</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean setWritable(boolean)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean setWritable(boolean, boolean)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter2</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>setWritable</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean renameTo(java.io.File)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>renameTo</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>int compareTo(java.io.File)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>compareTo</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>java.io.File createTempFile(java.lang.String, java.lang.String, java.io.File)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter2</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter3</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>java.io.File createTempFile(java.lang.String, java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter2</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>createTempFile</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>[Ljava.io.File; listFiles(java.io.FileFilter)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>[Ljava.io.File; listFiles(java.io.FilenameFilter)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>listFiles</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>[Ljava.lang.String; list(java.io.FilenameFilter)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>list</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>boolean setLastModified(long)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>setLastModified</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>java.io.File new+paramjava.lang.String+paramjava.lang.String(java.lang.String, java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter2</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>new+paramjava.lang.String+paramjava.lang.String</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>java.io.File new+paramjava.lang.String(java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>new+paramjava.lang.String</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>java.io.File new+paramjava.io.File+paramjava.lang.String(java.io.File, java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter2</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>new+paramjava.io.File+paramjava.lang.String</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>java.io.File new+paramjava.net.URI(java.net.URI)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>new+paramjava.net.URI</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

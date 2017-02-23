@@ -589,15 +589,15 @@ public class SwingRenderer {
 	}
 
 	public void recreateFormContent(JPanel form) {
-		InfoCategory category = getDisplayedInfoCategory(form);
+		Object formFocusDetails = getFormFocusDetails(form);
+
 		form.removeAll();
 		fillForm(form);
-		if (category != null) {
-			setDisplayedInfoCategory(form, category);
-		}
-		Window window = SwingUtilities.getWindowAncestor(form);
-		if (window != null) {
-			window.validate();
+
+		SwingRendererUtils.handleComponentSizeChange(form);
+
+		if (formFocusDetails != null) {
+			setFormFocusDetails(form, formFocusDetails);
 		}
 	}
 
@@ -1012,7 +1012,8 @@ public class SwingRenderer {
 			String noCaption) {
 		DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
 		dialogBuilder.setToolbarComponents(dialogBuilder.createStandardOKCancelDialogButtons(yesCaption, noCaption));
-		dialogBuilder.setContentComponent(SwingRendererUtils.getJOptionPane(question, JOptionPane.QUESTION_MESSAGE));
+		dialogBuilder.setContentComponent(
+				SwingRendererUtils.getJOptionPane(prepareStringToDisplay(question), JOptionPane.QUESTION_MESSAGE));
 		dialogBuilder.setTitle(title);
 		showDialog(dialogBuilder.build(), true);
 		return dialogBuilder.isOkPressed();
@@ -1027,7 +1028,8 @@ public class SwingRenderer {
 		buttons.add(dialogBuilder.createDialogClosingButton("Close", null));
 
 		dialogBuilder.setTitle(title);
-		dialogBuilder.setContentComponent(SwingRendererUtils.getJOptionPane(msg, JOptionPane.INFORMATION_MESSAGE));
+		dialogBuilder.setContentComponent(
+				SwingRendererUtils.getJOptionPane(prepareStringToDisplay(msg), JOptionPane.INFORMATION_MESSAGE));
 		dialogBuilder.setToolbarComponents(buttons);
 
 		showDialog(dialogBuilder.build(), true);
@@ -1048,8 +1050,8 @@ public class SwingRenderer {
 		buttons.add(dialogBuilder.createDialogClosingButton("Close", null));
 
 		dialogBuilder.setTitle(title);
-		dialogBuilder.setContentComponent(SwingRendererUtils
-				.getJOptionPane(ReflectionUIUtils.getPrettyErrorMessage(error), JOptionPane.ERROR_MESSAGE));
+		dialogBuilder.setContentComponent(SwingRendererUtils.getJOptionPane(
+				prepareStringToDisplay(ReflectionUIUtils.getPrettyErrorMessage(error)), JOptionPane.ERROR_MESSAGE));
 		dialogBuilder.setToolbarComponents(buttons);
 
 		showDialog(dialogBuilder.build(), true);
@@ -1184,6 +1186,23 @@ public class SwingRenderer {
 		return result;
 	}
 
+	public void refreshFieldControlsByName(JPanel form, String fieldName, boolean recreate) {
+		Object formFocusDetails = getFormFocusDetails(form);
+
+		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
+			if (fieldName.equals(fieldControlPlaceHolder.getField().getName())) {
+				fieldControlPlaceHolder.refreshUI(recreate);
+				updateFieldControlLayout(fieldControlPlaceHolder);
+			}
+		}
+
+		SwingRendererUtils.handleComponentSizeChange(form);
+
+		if (formFocusDetails != null) {
+			setFormFocusDetails(form, formFocusDetails);
+		}
+	}
+
 	public void refreshAllFieldControls(JPanel form, boolean recreate) {
 		Object formFocusDetails = getFormFocusDetails(form);
 
@@ -1192,19 +1211,23 @@ public class SwingRenderer {
 			updateFieldControlLayout(fieldControlPlaceHolder);
 		}
 
+		SwingRendererUtils.handleComponentSizeChange(form);
+
 		if (formFocusDetails != null) {
 			setFormFocusDetails(form, formFocusDetails);
 		}
+
 	}
 
 	public Object getFormFocusDetails(JPanel form) {
+		InfoCategory focusedCategory = getDisplayedInfoCategory(form);
 		int focusedFieldIndex = getFocusedFieldControlPaceHolderIndex(form);
-		if (focusedFieldIndex == -1) {
+		if ((focusedCategory == null) && (focusedFieldIndex == -1)) {
 			return null;
 		}
 		Object focusedFieldFocusDetails = null;
 		Class<?> focusedFieldControlClass = null;
-		{
+		if (focusedFieldIndex != -1) {
 			final FieldControlPlaceHolder focusedFieldControlPaceHolder = getFieldControlPlaceHolders(form)
 					.get(focusedFieldIndex);
 			Component focusedFieldControl = focusedFieldControlPaceHolder.getFieldControl();
@@ -1214,6 +1237,7 @@ public class SwingRenderer {
 			}
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("focusedCategory", focusedCategory);
 		result.put("focusedFieldIndex", focusedFieldIndex);
 		result.put("focusedFieldControlClass", focusedFieldControlClass);
 		result.put("focusedFieldFocusDetails", focusedFieldFocusDetails);
@@ -1223,28 +1247,25 @@ public class SwingRenderer {
 	public void setFormFocusDetails(JPanel form, Object focusDetails) {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> map = (Map<String, Object>) focusDetails;
+		InfoCategory focusedCategory = (InfoCategory) map.get("focusedCategory");
 		int focusedFieldIndex = (Integer) map.get("focusedFieldIndex");
 		Class<?> focusedFieldControlClass = (Class<?>) map.get("focusedFieldControlClass");
 		Object focusedFieldFocusDetails = map.get("focusedFieldFocusDetails");
 
-		FieldControlPlaceHolder fieldControlPaceHolderToFocusOn = getFieldControlPlaceHolders(form)
-				.get(focusedFieldIndex);
-		fieldControlPaceHolderToFocusOn.requestFocus();
-		if (focusedFieldFocusDetails != null) {
-			Component focusedFieldControl = fieldControlPaceHolderToFocusOn.getFieldControl();
-			if (focusedFieldControl.getClass().equals(focusedFieldControlClass)) {
-				if (focusedFieldControl instanceof IAdvancedFieldControl) {
-					((IAdvancedFieldControl) focusedFieldControl).requestDetailedFocus(focusedFieldFocusDetails);
-				}
-			}
+		if (focusedCategory != null) {
+			setDisplayedInfoCategory(form, focusedCategory);
 		}
-	}
-
-	public void refreshFieldControlsByName(JPanel form, String fieldName, boolean recreate) {
-		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
-			if (fieldName.equals(fieldControlPlaceHolder.getField().getName())) {
-				fieldControlPlaceHolder.refreshUI(recreate);
-				updateFieldControlLayout(fieldControlPlaceHolder);
+		if (focusedFieldIndex != -1) {
+			FieldControlPlaceHolder fieldControlPaceHolderToFocusOn = getFieldControlPlaceHolders(form)
+					.get(focusedFieldIndex);
+			fieldControlPaceHolderToFocusOn.requestFocus();
+			if (focusedFieldFocusDetails != null) {
+				Component focusedFieldControl = fieldControlPaceHolderToFocusOn.getFieldControl();
+				if (focusedFieldControl.getClass().equals(focusedFieldControlClass)) {
+					if (focusedFieldControl instanceof IAdvancedFieldControl) {
+						((IAdvancedFieldControl) focusedFieldControl).requestDetailedFocus(focusedFieldFocusDetails);
+					}
+				}
 			}
 		}
 	}

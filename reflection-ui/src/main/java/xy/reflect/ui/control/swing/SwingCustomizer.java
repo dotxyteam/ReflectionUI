@@ -340,7 +340,6 @@ public class SwingCustomizer extends SwingRenderer {
 					return null;
 				}
 
-
 				@Override
 				public Map<String, Object> getSpecificProperties() {
 					return Collections.emptyMap();
@@ -420,7 +419,6 @@ public class SwingCustomizer extends SwingRenderer {
 				public String getNullValueLabel() {
 					return null;
 				}
-
 
 				@Override
 				public String getOnlineHelp() {
@@ -512,11 +510,10 @@ public class SwingCustomizer extends SwingRenderer {
 		}
 
 		protected Component createTypeInfoCustomizer(final Object object) {
-			final ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+			final ITypeInfo customizedType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 			final JButton result = createToolAccessButton(getCustomizationsIcon());
 			result.setToolTipText(customizationToolsRenderer
-					.prepareStringToDisplay("Customize the type <" + type.getName() + "> display"));
-			final TypeCustomization t = infoCustomizations.getTypeCustomization(type.getName(), true);
+					.prepareStringToDisplay("Customize the type <" + customizedType.getName() + "> display"));
 			result.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -526,7 +523,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							openTypeCustomizationDialog(result, t);
+							openTypeCustomizationDialog(result, customizedType);
 						}
 					});
 					popupMenu.add(new AbstractAction(prepareStringToDisplay("Refresh")) {
@@ -534,7 +531,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							updateUI(type.getName());
+							updateUI(customizedType.getName());
 						}
 					});
 					popupMenu.add(new AbstractAction(prepareStringToDisplay("Lock")) {
@@ -542,7 +539,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							hideCustomizationTools(result, type.getName());
+							hideCustomizationTools(result, customizedType.getName());
 						}
 					});
 
@@ -556,9 +553,31 @@ public class SwingCustomizer extends SwingRenderer {
 			customizationOptions.hideFor(typeName);
 		}
 
-		protected void openTypeCustomizationDialog(Component activatorComponent, final TypeCustomization t) {
+		protected void openTypeCustomizationDialog(Component activatorComponent, ITypeInfo customizedType) {
+			TypeCustomization t = infoCustomizations.getTypeCustomization(customizedType.getName(), true);
+			updateTypeCustomization(t, customizedType);
 			openCustomizationEditor(activatorComponent, t, t.getTypeName());
 
+		}
+
+		protected void updateTypeCustomization(TypeCustomization t, ITypeInfo customizedType) {
+			for (IFieldInfo field : customizedType.getFields()) {
+				infoCustomizations.getFieldCustomization(customizedType.getName(), field.getName(), true);
+			}
+			for (IMethodInfo method : customizedType.getMethods()) {
+				String methodSignature = ReflectionUIUtils.getMethodSignature(method);
+				infoCustomizations.getMethodCustomization(customizedType.getName(), methodSignature, true);
+				MethodCustomization mc = infoCustomizations.getMethodCustomization(customizedType.getName(),
+						methodSignature, true);
+				updateMethodCustomization(mc, method);
+			}
+			for (IMethodInfo ctor : customizedType.getConstructors()) {
+				String methodSignature = ReflectionUIUtils.getMethodSignature(ctor);
+				infoCustomizations.getMethodCustomization(customizedType.getName(), methodSignature, true);
+				MethodCustomization mc = infoCustomizations.getMethodCustomization(customizedType.getName(),
+						methodSignature, true);
+				updateMethodCustomization(mc, ctor);
+			}
 		}
 
 		protected void openCustomizationEditor(Component activatorComponent, Object customization,
@@ -718,12 +737,11 @@ public class SwingCustomizer extends SwingRenderer {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							TypeCustomization t = infoCustomizations
-									.getTypeCustomization(fieldControlPlaceHolder.getField().getType().getName(), true);
-							openTypeCustomizationDialog(result, t);
+							openTypeCustomizationDialog(result, fieldControlPlaceHolder.getField().getType());
 						}
 					});
 					if (getFieldControlObjectCustomizedType() instanceof IListTypeInfo) {
+						final IListTypeInfo customizedListType = (IListTypeInfo) getFieldControlObjectCustomizedType();
 						JMenu listSubMenu = new JMenu(prepareStringToDisplay("List"));
 						{
 							popupMenu.add(listSubMenu);
@@ -732,17 +750,25 @@ public class SwingCustomizer extends SwingRenderer {
 
 								@Override
 								public void actionPerformed(ActionEvent e) {
-									openListColumnsOrderDialog(result,
-											(IListTypeInfo) getFieldControlObjectCustomizedType());
+									openListColumnsOrderDialog(result, customizedListType);
 								}
 							});
+							if (customizedListType.getItemType() != null) {
+								listSubMenu.add(new AbstractAction(prepareStringToDisplay("Item Type...")) {
+									private static final long serialVersionUID = 1L;
+
+									@Override
+									public void actionPerformed(ActionEvent e) {
+										openTypeCustomizationDialog(result, customizedListType.getItemType());
+									}
+								});
+							}
 							listSubMenu.add(new AbstractAction(prepareStringToDisplay("More Options...")) {
 								private static final long serialVersionUID = 1L;
 
 								@Override
 								public void actionPerformed(ActionEvent e) {
-									openListCutomizationDialog(result,
-											(IListTypeInfo) getFieldControlObjectCustomizedType());
+									openListCutomizationDialog(result, customizedListType);
 								}
 							});
 						}
@@ -867,11 +893,11 @@ public class SwingCustomizer extends SwingRenderer {
 				final IEnumerationTypeInfo customizedEnumType) {
 			EnumerationCustomization ec = infoCustomizations.getEnumerationCustomization(customizedEnumType.getName(),
 					true);
-			updateEnumerationItemCustomizationList(ec, customizedEnumType);
+			updateEnumerationCustomization(ec, customizedEnumType);
 			openCustomizationEditor(activatorComponent, ec, customizedEnumType.getName());
 		}
 
-		protected void updateEnumerationItemCustomizationList(EnumerationCustomization ec,
+		protected void updateEnumerationCustomization(EnumerationCustomization ec,
 				IEnumerationTypeInfo customizedEnumType) {
 			for (Object item : customizedEnumType.getPossibleValues()) {
 				IEnumerationItemInfo itemInfo = customizedEnumType.getValueInfo(item);
@@ -886,11 +912,11 @@ public class SwingCustomizer extends SwingRenderer {
 			String itemTypeName = (customizedItemType == null) ? null : customizedItemType.getName();
 			ListCustomization lc = infoCustomizations.getListCustomization(customizedListType.getName(), itemTypeName,
 					true);
-			updateColumnCustomizationList(lc, customizedListType);
+			updateListCustomization(lc, customizedListType);
 			openCustomizationEditor(activatorComponent, lc, customizedListType.getName());
 		}
 
-		protected void updateColumnCustomizationList(ListCustomization lc, IListTypeInfo customizedListType) {
+		protected void updateListCustomization(ListCustomization lc, IListTypeInfo customizedListType) {
 			for (IColumnInfo column : customizedListType.getStructuralInfo().getColumns()) {
 				String itemTypeName = (customizedListType.getItemType() == null) ? null
 						: customizedListType.getItemType().getName();
@@ -909,15 +935,12 @@ public class SwingCustomizer extends SwingRenderer {
 				String methodSignature) {
 			MethodCustomization mc = infoCustomizations.getMethodCustomization(customizedType.getName(),
 					methodSignature, true);
-			updateParameterCustomizationList(mc, customizedType);
 			openCustomizationEditor(activatorComponent, mc, customizedType.getName());
 		}
 
-		protected void updateParameterCustomizationList(MethodCustomization mc, ITypeInfo customizedType) {
-			IMethodInfo customizedMethod = ReflectionUIUtils.findMethodBySignature(customizedType.getMethods(),
-					mc.getMethodSignature());
+		protected void updateMethodCustomization(MethodCustomization mc, IMethodInfo customizedMethod) {
 			for (IParameterInfo param : customizedMethod.getParameters()) {
-				infoCustomizations.getParameterCustomization(customizedType.getName(), mc.getMethodSignature(),
+				infoCustomizations.getParameterCustomization(customizedMethod.getName(), mc.getMethodSignature(),
 						param.getName(), true);
 			}
 		}
@@ -972,9 +995,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								TypeCustomization t = infoCustomizations.getTypeCustomization(returnValueType.getName(),
-										true);
-								openTypeCustomizationDialog(result, t);
+								openTypeCustomizationDialog(result, returnValueType);
 							}
 						});
 					}

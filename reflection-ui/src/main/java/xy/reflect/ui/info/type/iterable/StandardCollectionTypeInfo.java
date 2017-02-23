@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -74,16 +73,6 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 				return super.getConstructors();
 			}
 		}
-	}
-
-	@Override
-	public List<IFieldInfo> getFields() {
-		return Collections.emptyList();
-	}
-
-	@Override
-	public List<IMethodInfo> getMethods() {
-		return Collections.emptyList();
 	}
 
 	protected IMethodInfo createZeroParameterContructor() {

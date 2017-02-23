@@ -44,16 +44,6 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements IEnu
 	}
 
 	@Override
-	public List<IFieldInfo> getFields() {
-		return Collections.emptyList();
-	}
-
-	@Override
-	public List<IMethodInfo> getMethods() {
-		return Collections.emptyList();
-	}
-
-	@Override
 	public IEnumerationItemInfo getValueInfo(final Object object) {
 		if (object == null) {
 			return null;
