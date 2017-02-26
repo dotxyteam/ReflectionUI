@@ -289,8 +289,8 @@ public abstract class TypeInfoProxyFactory {
 		return type.getDetailsAccessMode();
 	}
 
-	protected boolean isOrdered(IListTypeInfo type) {
-		return type.isOrdered();
+	protected boolean canMove(IListTypeInfo type) {
+		return type.canMove();
 	}
 
 	protected boolean canAdd(IListTypeInfo type) {
@@ -589,8 +589,8 @@ public abstract class TypeInfoProxyFactory {
 		}
 
 		@Override
-		public boolean isOrdered() {
-			return TypeInfoProxyFactory.this.isOrdered((IListTypeInfo) base);
+		public boolean canMove() {
+			return TypeInfoProxyFactory.this.canMove((IListTypeInfo) base);
 		}
 
 		@Override

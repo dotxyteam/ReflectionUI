@@ -239,8 +239,4 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 	public void validateSubForm() throws Exception {
 	}
 
-	@Override
-	public ITypeInfo getDynamicObjectType() {
-		return null;
-	}
 }

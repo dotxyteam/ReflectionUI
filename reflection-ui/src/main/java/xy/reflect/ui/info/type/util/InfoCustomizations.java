@@ -2229,7 +2229,7 @@ public final class InfoCustomizations {
 		}
 
 		@Override
-		protected boolean isOrdered(IListTypeInfo listType) {
+		protected boolean canMove(IListTypeInfo listType) {
 			ITypeInfo itemType = listType.getItemType();
 			final ListCustomization l = getListCustomization(listType.getName(),
 					(itemType == null) ? null : itemType.getName());
@@ -2241,7 +2241,7 @@ public final class InfoCustomizations {
 					return false;
 				}
 			}
-			return super.isOrdered(listType);
+			return super.canMove(listType);
 		}
 
 		@Override

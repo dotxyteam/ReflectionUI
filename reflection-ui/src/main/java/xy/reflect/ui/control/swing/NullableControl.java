@@ -10,7 +10,6 @@ import java.util.Map;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
-import xy.reflect.ui.control.data.ControlDataProxy;
 import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -26,7 +25,7 @@ public abstract class NullableControl extends JPanel implements IAdvancedFieldCo
 	protected FieldControlPlaceHolder fieldControlPlaceHolder;
 	private ITypeInfo subControlValueType;
 
-	protected abstract Component createNonNullValueControl(IControlData data);
+	protected abstract Component createNonNullValueControl();
 
 	protected abstract Object getDefaultValue();
 
@@ -122,14 +121,9 @@ public abstract class NullableControl extends JPanel implements IAdvancedFieldCo
 				remove(subControl);
 			}
 			if (newValue != null) {
-				subControl = createNonNullValueControl(new ControlDataProxy(data) {
-
-					@Override
-					public boolean isNullable() {
-						return false;
-					}
-
-				});
+				subControlValueType = swingRenderer.getReflectionUI()
+						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newValue));
+				subControl = createNonNullValueControl();
 				add(subControl, BorderLayout.CENTER);
 			} else {
 				subControlValueType = null;
@@ -230,14 +224,7 @@ public abstract class NullableControl extends JPanel implements IAdvancedFieldCo
 		}
 	}
 
-	@Override
-	public ITypeInfo getDynamicObjectType() {
-		if (subControl instanceof IAdvancedFieldControl) {
-			ITypeInfo result = ((IAdvancedFieldControl) subControl).getDynamicObjectType();
-			if (result != null) {
-				return result;
-			}
-		}
+	public ITypeInfo getSubControlValueType() {
 		return subControlValueType;
 	}
 }

@@ -890,7 +890,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				if (selection.size() > 0) {
 					if (!anySelectionItemContainingListGetOnly()) {
 						if (allSelectionItemsInSameList()) {
-							if (selection.get(0).getContainingListType().isOrdered()) {
+							if (selection.get(0).getContainingListType().canMove()) {
 								boolean canMoveAllItems = true;
 								for (AutoFieldValueUpdatingItemPosition itemPosition : selection) {
 									AutoFieldValueUpdatingList list = itemPosition.getContainingAutoUpdatingFieldList();
@@ -1026,7 +1026,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 						int index = itemPosition.getIndex();
 						list.remove(index);
 						updateItemPositionsAfterItemRemoval(toPostSelect, itemPosition);
-						if (itemPosition.getContainingListType().isOrdered() && (index > 0)) {
+						if (itemPosition.getContainingListType().canMove() && (index > 0)) {
 							toPostSelect.add(itemPosition.getSibling(index - 1));
 						} else {
 							toPostSelect.add(itemPosition.getParentItemPosition());
@@ -1140,8 +1140,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			protected boolean perform(List<AutoFieldValueUpdatingItemPosition>[] toPostSelectHolder) {
 				AutoFieldValueUpdatingItemPosition newItemPosition = getNewItemPosition();
 				IListTypeInfo listType = newItemPosition.getContainingListType();
-				ITypeInfo typeToInstanciate = getTypeToInstanciate();
-				Object newItem = swingRenderer.onTypeInstanciationRequest(ListControl.this, typeToInstanciate, false);
+				Object newItem = createItem(getNewItemPosition());
 				if (newItem == null) {
 					return false;
 				}
@@ -1156,7 +1155,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					AutoFieldValueUpdatingList list = newItemPosition.getContainingAutoUpdatingFieldList();
 					list.add(newItemPosition.getIndex(), newItem);
 					AutoFieldValueUpdatingItemPosition toSelect = newItemPosition;
-					if (!listType.isOrdered()) {
+					if (!listType.canMove()) {
 						int indexToSelect = list.indexOf(newItem);
 						toSelect = newItemPosition.getSibling(indexToSelect);
 					}
@@ -1167,20 +1166,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				}
 			}
 
-			private ITypeInfo getTypeToInstanciate() {
-				AutoFieldValueUpdatingItemPosition newItemPosition = getNewItemPosition();
-				if (newItemPosition == null) {
-					return null;
-				}
-				IListTypeInfo listType = newItemPosition.getContainingListType();
-				ITypeInfo itemType = listType.getItemType();
-				ITypeInfo result = itemType;
-				if (result == null) {
-					result = swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(Object.class));
-				}
-				result = addSpecificItemContructors(result, newItemPosition);
-				return result;
-			}
+		
 
 			@Override
 			protected String getTitle() {
@@ -1196,7 +1182,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					if (itemType != null) {
 						buttonText += " " + itemType.getCaption();
 					}
-					if (listType.isOrdered()) {
+					if (listType.canMove()) {
 						if (insertPosition == InsertPosition.AFTER) {
 							buttonText += " After";
 						} else if (insertPosition == InsertPosition.BEFORE) {
@@ -1242,17 +1228,17 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					if (newItemPosition.getContainingListType().canAdd()) {
 						if (UpdateListValueModification.isCompatibleWith(newItemPosition)) {
 							if (insertPosition == InsertPosition.BEFORE) {
-								if (newItemPosition.getContainingListType().isOrdered()) {
+								if (newItemPosition.getContainingListType().canMove()) {
 									return true;
 								}
 							}
 							if (insertPosition == InsertPosition.AFTER) {
-								if (newItemPosition.getContainingListType().isOrdered()) {
+								if (newItemPosition.getContainingListType().canMove()) {
 									return true;
 								}
 							}
 							if (insertPosition == InsertPosition.UNKNOWN) {
-								if (!newItemPosition.getContainingListType().isOrdered()) {
+								if (!newItemPosition.getContainingListType().canMove()) {
 									return true;
 								}
 							}
@@ -1274,12 +1260,10 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				AutoFieldValueUpdatingItemPosition itemPosition = getSingleSelection();
 				AutoFieldValueUpdatingItemPosition subItemPosition = getSubItemPosition();
 				IListTypeInfo subListType = subItemPosition.getContainingListType();
-				ITypeInfo typeToInstanciate = getTypeToInstanciate();
-				Object newSubListItem = swingRenderer.onTypeInstanciationRequest(ListControl.this, typeToInstanciate,
-						false);
+				Object newSubListItem = createItem(getSubItemPosition());
 				if (newSubListItem == null) {
 					return false;
-				}
+				}				
 				GhostItemPosition futureSubItemPosition = new GhostItemPosition(subItemPosition, newSubListItem);
 				Object[] itemHolder = new Object[] { futureSubItemPosition.getItem() };
 				ObjectDialogBuilder dialogStatus = openDetailsDialog(futureSubItemPosition, itemHolder);
@@ -1291,7 +1275,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					AutoFieldValueUpdatingList subList = subItemPosition.getContainingAutoUpdatingFieldList();
 					int newSubListItemIndex = subList.size();
 					subList.add(newSubListItemIndex, newSubListItem);
-					if (!subListType.isOrdered()) {
+					if (!subListType.canMove()) {
 						newSubListItemIndex = subList.indexOf(newSubListItem);
 					}
 					AutoFieldValueUpdatingItemPosition toSelect = subItemPosition.getSibling(newSubListItemIndex);
@@ -1300,18 +1284,6 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				} else {
 					return false;
 				}
-			}
-
-			private ITypeInfo getTypeToInstanciate() {
-				AutoFieldValueUpdatingItemPosition subItemPosition = getSubItemPosition();
-				IListTypeInfo subListType = subItemPosition.getContainingListType();
-				ITypeInfo subListItemType = subListType.getItemType();
-				ITypeInfo result = subListItemType;
-				if (result == null) {
-					result = new DefaultTypeInfo(swingRenderer.getReflectionUI(), Object.class);
-				}
-				result = addSpecificItemContructors(result, subItemPosition);
-				return result;
 			}
 
 			@Override
@@ -1364,6 +1336,23 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			}
 
 		};
+	}
+
+	protected Object createItem(AutoFieldValueUpdatingItemPosition itemPosition) {
+		IListTypeInfo subListType = itemPosition.getContainingListType();
+		ITypeInfo typeToInstanciate = subListType.getItemType();
+		if (typeToInstanciate == null) {
+			typeToInstanciate = new DefaultTypeInfo(swingRenderer.getReflectionUI(), Object.class);
+		}
+		typeToInstanciate = addSpecificItemContructors(typeToInstanciate, itemPosition);
+		Object newSubListItem;
+		try {
+			return swingRenderer.onTypeInstanciationRequest(ListControl.this, typeToInstanciate,
+					true);
+		} catch (Throwable ignore) {
+			return swingRenderer.onTypeInstanciationRequest(ListControl.this, typeToInstanciate,
+					false);
+		}
 	}
 
 	protected ITypeInfo addSpecificItemContructors(ITypeInfo itemType,
@@ -1447,7 +1436,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					int index = itemPosition.getIndex();
 					list.remove(index);
 					updateItemPositionsAfterItemRemoval(toPostSelect, itemPosition);
-					if (itemPosition.getContainingListType().isOrdered() && (index > 0)) {
+					if (itemPosition.getContainingListType().canMove() && (index > 0)) {
 						toPostSelect.add(itemPosition.getSibling(index - 1));
 					} else {
 						toPostSelect.add(itemPosition.getParentItemPosition());
@@ -1503,7 +1492,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				index = initialIndex;
 				for (int i = 0; i < clipboard.size(); i++) {
 					Object clipboardItem = clipboard.get(i);
-					if (listType.isOrdered()) {
+					if (listType.canMove()) {
 						index = initialIndex + i;
 					} else {
 						index = list.indexOf(clipboardItem);
@@ -1555,7 +1544,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					if (newItemPosition != null) {
 						if (UpdateListValueModification.isCompatibleWith(newItemPosition)) {
 							if (itemPositionSupportsAllClipboardItems(newItemPosition)) {
-								if (newItemPosition.getContainingListType().isOrdered()) {
+								if (newItemPosition.getContainingListType().canMove()) {
 									if (insertPosition == InsertPosition.BEFORE) {
 										return true;
 									}
@@ -1597,7 +1586,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				newSubListItemIndex = newSubListItemInitialIndex;
 				for (int i = 0; i < clipboard.size(); i++) {
 					Object clipboardItem = clipboard.get(i);
-					if (subListType.isOrdered()) {
+					if (subListType.canMove()) {
 						newSubListItemInitialIndex = newSubListItemInitialIndex + i;
 					} else {
 						newSubListItemInitialIndex = subList.indexOf(clipboardItem);
@@ -2157,10 +2146,6 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	public void validateSubForm() throws Exception {
 	}
 
-	@Override
-	public ITypeInfo getDynamicObjectType() {
-		return null;
-	}
 
 	@Override
 	public void requestFocus() {
@@ -2215,7 +2200,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		for (Iterator<AutoFieldValueUpdatingItemPosition> it = wereSelectedPositions.iterator(); it.hasNext();) {
 			AutoFieldValueUpdatingItemPosition wasSelectedPosition = it.next();
 			try {
-				if (!wasSelectedPosition.getContainingListType().isOrdered()) {
+				if (!wasSelectedPosition.getContainingListType().canMove()) {
 					Object wasSelected = wereSelected.get(i);
 					int index = wasSelectedPosition.getContainingAutoUpdatingFieldList().indexOf(wasSelected);
 					wasSelectedPosition = wasSelectedPosition.getSibling(index);

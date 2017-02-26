@@ -70,9 +70,6 @@ public class DefaultTypeInfo implements ITypeInfo {
 	public List<IMethodInfo> getConstructors() {
 		if (constructors == null) {
 			constructors = new ArrayList<IMethodInfo>();
-			if (!isConcrete()) {
-				return Collections.emptyList();
-			}
 			for (Constructor<?> javaConstructor : javaType.getConstructors()) {
 				if (!DefaultConstructorInfo.isCompatibleWith(javaConstructor)) {
 					continue;

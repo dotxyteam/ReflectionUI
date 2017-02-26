@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.method.AbstractConstructorInfo;
@@ -53,29 +55,24 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 		return javaType;
 	}
 
-
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		if (ReflectionUIUtils.getZeroParameterMethod(super.getConstructors()) != null) {
-			return super.getConstructors();
-		} else {
+		List<IMethodInfo>  result = new ArrayList<IMethodInfo>(super.getConstructors());
+		if (ReflectionUIUtils.getZeroParameterMethod(result) == null) {
 			IMethodInfo zeroParameterCtor = createZeroParameterContructor();
 			if (zeroParameterCtor != null) {
-				List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getConstructors());
 				result.add(zeroParameterCtor);
-				return result;
-			} else {
-				return super.getConstructors();
-			}
+			} 
 		}
+		return result;
 	}
 
 	protected IMethodInfo createZeroParameterContructor() {
 		final Collection<?> newInstance;
 		if (javaType.isAssignableFrom(ArrayList.class)) {
 			newInstance = new ArrayList<Object>();
-		} else if (javaType.isAssignableFrom(HashSet.class)) {
-			newInstance = new HashSet<Object>();
+		} else if (javaType.isAssignableFrom(LinkedHashSet.class)) {
+			newInstance = new LinkedHashSet<Object>();
 		} else {
 			newInstance = null;
 		}
@@ -149,8 +146,14 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	}
 
 	@Override
-	public boolean isOrdered() {
-		return List.class.isAssignableFrom(javaType);
+	public boolean canMove() {
+		if (SortedSet.class.isAssignableFrom(javaType)) {
+			return false;
+		}
+		if (HashSet.class.equals(javaType)) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override
@@ -189,8 +192,6 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	public List<IMethodInfo> getAdditionalItemConstructors(Object listValue) {
 		return Collections.emptyList();
 	}
-
-	
 
 	@Override
 	public int hashCode() {

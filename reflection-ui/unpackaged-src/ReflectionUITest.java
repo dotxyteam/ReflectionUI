@@ -3,7 +3,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -89,7 +88,16 @@ public class ReflectionUITest {
 		public AbstrcatTestDescendant[] theArrayTreeTable = new AbstrcatTestDescendant[] { new Test2(), new Test3() };
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		public Collection theGenericVector = new Vector(Arrays.asList(new Test2(), new Test2()));
-		public Map<Integer, String> theMap = new HashMap<Integer, String>(Collections.singletonMap(5, "five"));
+		public Map<Integer, String> theMap = new HashMap<Integer, String>(){
+			private static final long serialVersionUID = 1L;
+
+			{
+				put(0, "zero");
+				put(1, "one");
+				put(2, "two");
+				
+			}
+		};
 		public Map<Integer, Test2> theTest2Map = new HashMap<Integer, Test2>();
 		public List<File> theFileList = Arrays.asList(new File("tmp"));
 		public Set<Integer> theSet = new HashSet<Integer>(Arrays.asList(1, 2, 3));

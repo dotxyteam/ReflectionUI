@@ -9,7 +9,6 @@ import javax.swing.JCheckBox;
 
 import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
-import xy.reflect.ui.info.type.ITypeInfo;
 
 public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl {
 
@@ -77,10 +76,5 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 	public void validateSubForm() throws Exception {
 	}
 
-	@Override
-	public ITypeInfo getDynamicObjectType() {
-		return null;
-	}
-	
 	
 }

@@ -90,7 +90,7 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 	}
 
 	@Override
-	public boolean isOrdered() {
+	public boolean canMove() {
 		return true;
 	}
 

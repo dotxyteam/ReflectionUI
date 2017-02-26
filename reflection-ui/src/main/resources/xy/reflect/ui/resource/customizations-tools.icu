@@ -2347,11 +2347,11 @@
         <customFieldsOrder>stringValueColumnAdded</customFieldsOrder>
         <customFieldsOrder>columnCustomizations</customFieldsOrder>
         <customFieldsOrder>treeStructureDiscoverySettings</customFieldsOrder>
-        <customFieldsOrder>itemTypeCustomization</customFieldsOrder>
         <customFieldsOrder>allowedItemFieldShortcuts</customFieldsOrder>
         <customFieldsOrder>fieldsExcludedFromItemDetails</customFieldsOrder>
         <customFieldsOrder>methodsExcludedFromItemDetails</customFieldsOrder>
         <customFieldsOrder>allowedItemMethodShortcuts</customFieldsOrder>
+        <customFieldsOrder>itemTypeName</customFieldsOrder>
         <customFieldsOrder>editOptions</customFieldsOrder>
         <customFieldsOrder>itemDetailsViewDisabled</customFieldsOrder>
         <customFieldsOrder>customDetailsAccessMode</customFieldsOrder>
@@ -2526,12 +2526,12 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
-            <hidden>true</hidden>
+            <hidden>false</hidden>
             <customFieldCaption>Item Type</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>itemTypeName</fieldName>
-            <getOnlyForced>false</getOnlyForced>
+            <getOnlyForced>true</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -2649,6 +2649,13 @@
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>columnName</parameterName>
             </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ListCustomization new()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
@@ -3394,6 +3401,42 @@
             <validating>false</validating>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.util.ResourcePath</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=IType Info Finder - Polymorphic Value, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$JavaClassBasedTypeInfoFinder, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=IType Info Finder - Polymorphic Value, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$CustomTypeInfoFinder, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

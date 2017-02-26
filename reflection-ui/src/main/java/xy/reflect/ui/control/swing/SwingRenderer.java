@@ -453,8 +453,16 @@ public class SwingRenderer {
 					private static final long serialVersionUID = 1L;
 
 					@Override
-					protected Component createNonNullValueControl(IControlData data) {
-						Component result = SwingRenderer.this.createFieldControl(data);
+					protected Component createNonNullValueControl() {
+						Component result = SwingRenderer.this
+								.createFieldControl(new ControlDataProxy(fieldControlData) {
+
+									@Override
+									public boolean isNullable() {
+										return false;
+									}
+
+								});
 						return result;
 					}
 
@@ -462,7 +470,7 @@ public class SwingRenderer {
 					protected Object getDefaultValue() {
 						Object newValue = null;
 						try {
-							newValue = this.swingRenderer.onTypeInstanciationRequest(this, data.getType(), false);
+							newValue = this.swingRenderer.onTypeInstanciationRequest(this, fieldControlData.getType(), false);
 						} catch (Throwable t) {
 							swingRenderer.handleExceptionsFromDisplayedUI(this, t);
 							newValue = null;
@@ -471,10 +479,6 @@ public class SwingRenderer {
 					}
 
 				};
-			}
-			Component result = createCustomNonNullFieldValueControl(fieldControlData);
-			if (result != null) {
-				return result;
 			}
 			Object value = fieldControlData.getValue();
 			final ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
@@ -485,6 +489,10 @@ public class SwingRenderer {
 						return valueType;
 					}
 				});
+			}
+			Component result = createCustomNonNullFieldValueControl(fieldControlData);
+			if (result != null) {
+				return result;
 			}
 			if (DesktopSpecificProperty
 					.isSubFormExpanded(DesktopSpecificProperty.accessControlDataProperties(fieldControlData))) {
@@ -879,9 +887,15 @@ public class SwingRenderer {
 				}
 			}
 
-			List<IMethodInfo> constructors = type.getConstructors();
-			if (constructors.size() == 0) {
-				if (type.isConcrete() || silent) {
+			List<IMethodInfo> workingConstructors;
+			if (type.isConcrete()) {
+				workingConstructors = type.getConstructors();
+			} else {
+				workingConstructors = Collections.emptyList();
+			}
+			
+			if (workingConstructors.size() == 0) {
+				if (silent) {
 					throw new ReflectionUIError("No accessible constructor found");
 				} else {
 					String className = openInputDialog(activatorComponent, "",
@@ -902,8 +916,8 @@ public class SwingRenderer {
 				}
 			}
 
-			if (constructors.size() == 1) {
-				final IMethodInfo constructor = constructors.get(0);
+			if (workingConstructors.size() == 1) {
+				final IMethodInfo constructor = workingConstructors.get(0);
 				if (silent) {
 					return constructor.invoke(null, new InvocationData());
 				} else {
@@ -914,8 +928,8 @@ public class SwingRenderer {
 				}
 			}
 
-			constructors = new ArrayList<IMethodInfo>(constructors);
-			Collections.sort(constructors, new Comparator<IMethodInfo>() {
+			workingConstructors = new ArrayList<IMethodInfo>(workingConstructors);
+			Collections.sort(workingConstructors, new Comparator<IMethodInfo>() {
 
 				@Override
 				public int compare(IMethodInfo o1, IMethodInfo o2) {
@@ -924,11 +938,11 @@ public class SwingRenderer {
 			});
 
 			if (silent) {
-				IMethodInfo smallerConstructor = constructors.get(0);
+				IMethodInfo smallerConstructor = workingConstructors.get(0);
 				return smallerConstructor.invoke(null, new InvocationData());
 			} else {
 				final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(reflectionUI,
-						constructors.toArray(), "ConstructorSelection [type=" + type.getName() + "]", "") {
+						workingConstructors.toArray(), "ConstructorSelection [type=" + type.getName() + "]", "") {
 					protected String getItemCaption(Object choice) {
 						return DefaultConstructorInfo.getDescription((IMethodInfo) choice);
 					}

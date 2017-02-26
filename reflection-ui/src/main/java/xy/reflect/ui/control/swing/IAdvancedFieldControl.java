@@ -1,7 +1,6 @@
 package xy.reflect.ui.control.swing;
 
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
-import xy.reflect.ui.info.type.ITypeInfo;
 
 public interface IAdvancedFieldControl {
 	boolean displayError(String msg);
@@ -19,6 +18,4 @@ public interface IAdvancedFieldControl {
 	void validateSubForm() throws Exception;
 
 	void setPalceHolder(FieldControlPlaceHolder fieldControlPlaceHolder);
-	
-	ITypeInfo getDynamicObjectType();
 }

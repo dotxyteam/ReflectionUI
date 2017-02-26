@@ -313,9 +313,5 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		}
 	}
 
-	@Override
-	public ITypeInfo getDynamicObjectType() {
-		return lastInstanceType;
-	}
 
 }

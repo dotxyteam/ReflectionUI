@@ -673,19 +673,19 @@ public class SwingCustomizer extends SwingRenderer {
 				}
 
 				private String getFieldName() {
-					return fieldControlPlaceHolder.controlAwareField.getName();
+					return fieldControlPlaceHolder.getControlAwareField().getName();
 				}
 
 				private ITypeInfo getFieldControlObjectCustomizedType() {
-					if (fieldControlPlaceHolder.fieldControl instanceof IAdvancedFieldControl) {
-						ITypeInfo dynamicType = ((IAdvancedFieldControl) fieldControlPlaceHolder.fieldControl)
-								.getDynamicObjectType();
+					if (fieldControlPlaceHolder.fieldControl instanceof NullableControl) {
+						ITypeInfo dynamicType = ((NullableControl) fieldControlPlaceHolder.fieldControl)
+								.getSubControlValueType();
 						if (dynamicType != null) {
 							return dynamicType;
 						}
 					}
 					final IControlData fieldControlData = getFieldControlData(fieldControlPlaceHolder.object,
-							fieldControlPlaceHolder.controlAwareField);
+							fieldControlPlaceHolder.getControlAwareField());
 					return fieldControlData.getType();
 				}
 

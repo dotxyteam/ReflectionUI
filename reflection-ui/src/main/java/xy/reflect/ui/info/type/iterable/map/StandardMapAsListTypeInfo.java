@@ -1,20 +1,18 @@
 package xy.reflect.ui.info.type.iterable.map;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.SortedMap;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.method.AbstractConstructorInfo;
-import xy.reflect.ui.info.method.DefaultConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
-import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -30,33 +28,15 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 
 	public static boolean isCompatibleWith(Class<?> javaType) {
 		if (Map.class.isAssignableFrom(javaType)) {
-			if (ReflectionUIUtils
-					.getZeroParameterConstrucor(new DefaultTypeInfo(new ReflectionUI(), javaType)) != null) {
-				return true;
-			}
-			if (javaType.isAssignableFrom(HashMap.class)) {
-				return true;
-			}
+			return true;
 		}
 		return false;
 	}
 
 	@Override
-	public List<IMethodInfo> getConstructors() {
-		List<IMethodInfo> defaultConstructors = new ArrayList<IMethodInfo>();
-		if (isConcrete()) {
-			for (Constructor<?> javaConstructor : javaType.getConstructors()) {
-				if (!DefaultConstructorInfo.isCompatibleWith(javaConstructor)) {
-					continue;
-				}
-				defaultConstructors.add(new DefaultConstructorInfo(reflectionUI, this, javaConstructor));
-			}
-		}
-		if (ReflectionUIUtils.getNParametersMethod(defaultConstructors, 0) != null) {
-			return defaultConstructors;
-		} else {
-			List<IMethodInfo> result = new ArrayList<IMethodInfo>(defaultConstructors);
-			result.add(new AbstractConstructorInfo(this) {
+	protected IMethodInfo createZeroParameterContructor() {
+		if (javaType.isAssignableFrom(HashMap.class)) {
+			return new AbstractConstructorInfo(this) {
 
 				@Override
 				public Object invoke(Object object, InvocationData invocationData) {
@@ -67,9 +47,9 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 				public List<IParameterInfo> getParameters() {
 					return Collections.emptyList();
 				}
-			});
-			return result;
+			};
 		}
+		return null;
 	}
 
 	@Override
@@ -117,8 +97,14 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 	}
 
 	@Override
-	public boolean isOrdered() {
-		return false;
+	public boolean canMove() {
+		if (SortedMap.class.isAssignableFrom(javaType)) {
+			return false;
+		}
+		if (HashMap.class.equals(javaType)) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override
@@ -126,5 +112,4 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 		return "StandardMapAsListTypeInfo [mapType=" + javaType + ", entryType=" + itemType + "]";
 	}
 
-	
 }

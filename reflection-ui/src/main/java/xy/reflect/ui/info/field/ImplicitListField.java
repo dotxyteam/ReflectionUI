@@ -388,7 +388,7 @@ public class ImplicitListField implements IFieldInfo {
 		}
 
 		@Override
-		public boolean isOrdered() {
+		public boolean canMove() {
 			return true;
 		}
 
