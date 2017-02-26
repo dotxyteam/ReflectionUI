@@ -84,7 +84,7 @@ public class DefaultParameterInfo implements IParameterInfo {
 
 	@Override
 	public boolean isNullable() {
-		return !javaParameter.getType().isPrimitive();
+		return getType().isPassedByReference();
 	}
 
 	@Override

@@ -46,6 +46,11 @@ public class DefaultTypeInfo implements ITypeInfo {
 	}
 
 	@Override
+	public boolean isPassedByReference() {
+		return !javaType.isPrimitive();
+	}
+
+	@Override
 	public boolean isConcrete() {
 		if ((!javaType.isPrimitive()) && Modifier.isAbstract(javaType.getModifiers())) {
 			return false;

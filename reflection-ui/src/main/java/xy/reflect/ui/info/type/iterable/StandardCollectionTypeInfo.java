@@ -25,26 +25,24 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+@SuppressWarnings("unused")
 public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IListTypeInfo {
 
-	protected Class<?> itemJavaType;
+	protected ITypeInfo itemType;
 
-	public StandardCollectionTypeInfo(ReflectionUI reflectionUI, Class<?> javaType, Class<?> itemJavaType) {
+	public StandardCollectionTypeInfo(ReflectionUI reflectionUI, Class<?> javaType, ITypeInfo itemType) {
 		super(reflectionUI, javaType);
-		this.itemJavaType = itemJavaType;
+		this.itemType = itemType;
 	}
 
 	@Override
 	public ITypeInfo getItemType() {
-		if (itemJavaType == null) {
-			return null;
-		}
-		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(itemJavaType));
+		return itemType;
 	}
 
 	@Override
 	public String getCaption() {
-		if (itemJavaType == null) {
+		if (itemType == null) {
 			return "List";
 		} else {
 			return "List of " + getItemType().getCaption() + " elements";
@@ -55,9 +53,6 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 		return javaType;
 	}
 
-	public Class<?> getItemJavaType() {
-		return itemJavaType;
-	}
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
@@ -195,11 +190,13 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 		return Collections.emptyList();
 	}
 
+	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((itemJavaType == null) ? 0 : itemJavaType.hashCode());
+		result = prime * result + ((itemType == null) ? 0 : itemType.hashCode());
 		return result;
 	}
 
@@ -212,17 +209,17 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 		if (getClass() != obj.getClass())
 			return false;
 		StandardCollectionTypeInfo other = (StandardCollectionTypeInfo) obj;
-		if (itemJavaType == null) {
-			if (other.itemJavaType != null)
+		if (itemType == null) {
+			if (other.itemType != null)
 				return false;
-		} else if (!itemJavaType.equals(other.itemJavaType))
+		} else if (!itemType.equals(other.itemType))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "StandardCollectionTypeInfo [itemJavaType=" + itemJavaType + ", javaType=" + javaType + "]";
+		return "StandardCollectionTypeInfo [listType=" + javaType + ", itemType=" + itemType + "]";
 	}
 
 }

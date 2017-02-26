@@ -1,4 +1,11 @@
+. ListType().canAdd(): only on field logically
+. IFieldInfo.isNullable() => ITypeInfo.isNullable()
+. allow to execute dynamic actions or change dynamic properties on 
+multiple nodes
+. FieldControlPlaceHolder.isSimilarError(): risky
+. allow to convert field value to singletonList field value??? 
 . allow to easily customize ListFieldNamesNode title
+. no focus => no detailed focus anytime. Check getDetailedFocus(form)
 . restore all control states on refresh,
 even non-focused controls. 
 ex: embedded form tabbed pane selection

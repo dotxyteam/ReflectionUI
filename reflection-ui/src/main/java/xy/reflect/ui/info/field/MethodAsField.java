@@ -28,7 +28,7 @@ public class MethodAsField implements IFieldInfo {
 
 	@Override
 	public String getName() {
-		return method.getName() + "-result";
+		return "MethodAsField [method=" + method.getName() + "]";
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class MethodAsField implements IFieldInfo {
 
 	@Override
 	public boolean isNullable() {
-		return true;
+		return getType().isPassedByReference();
 	}
 
 	@Override

@@ -8,6 +8,8 @@ import xy.reflect.ui.info.method.IMethodInfo;
 
 public interface ITypeInfo extends IInfo {
 
+	boolean isPassedByReference();
+
 	boolean isConcrete();
 
 	List<IMethodInfo> getConstructors();

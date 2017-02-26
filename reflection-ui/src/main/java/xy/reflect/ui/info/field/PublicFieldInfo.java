@@ -88,7 +88,7 @@ public class PublicFieldInfo implements IFieldInfo {
 
 	@Override
 	public boolean isNullable() {
-		return !javaField.getType().isPrimitive();
+		return getType().isPassedByReference();
 	}
 
 	@Override

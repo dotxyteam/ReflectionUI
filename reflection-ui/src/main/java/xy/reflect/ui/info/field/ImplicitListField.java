@@ -26,16 +26,16 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class ImplicitListField implements IFieldInfo {
-	protected String fieldName;
 	protected ReflectionUI reflectionUI;
+	protected String fieldName;
+	protected IListTypeInfo type;
 	protected ITypeInfo itemType;
+	protected ITypeInfo parentType;
 	protected String createMethodName;
 	protected String getMethodName;
 	protected String addMethodName;
 	protected String removeMethodName;
 	protected String sizeMethodName;
-	protected IListTypeInfo type;
-	protected ITypeInfo parentType;
 
 	public ImplicitListField(ReflectionUI reflectionUI, String fieldName, ITypeInfo parentType, ITypeInfo itemType,
 			String createMethodName, String getMethodName, String addMethodName, String removeMethodName,
@@ -330,6 +330,11 @@ public class ImplicitListField implements IFieldInfo {
 		}
 
 		@Override
+		public boolean isPassedByReference() {
+			return true;
+		}
+
+		@Override
 		public boolean isModificationStackAccessible() {
 			return false;
 		}
@@ -430,21 +435,20 @@ public class ImplicitListField implements IFieldInfo {
 		@Override
 		public List<IMethodInfo> getAdditionalItemConstructors(final Object listValue) {
 			final Instance instance = (Instance) listValue;
-			return Collections
-					.<IMethodInfo>singletonList(new AbstractConstructorInfo(TypeInfo.this.getItemType()) {
+			return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo(TypeInfo.this.getItemType()) {
 
-						@Override
-						public Object invoke(Object nullObject, InvocationData invocationData) {
-							Object result = getCreateMethod().invoke(instance.getObject(),
-									new InvocationData(instance.getObject()));
-							return result;
-						}
+				@Override
+				public Object invoke(Object nullObject, InvocationData invocationData) {
+					Object result = getCreateMethod().invoke(instance.getObject(),
+							new InvocationData(instance.getObject()));
+					return result;
+				}
 
-						@Override
-						public List<IParameterInfo> getParameters() {
-							return Collections.emptyList();
-						}
-					});
+				@Override
+				public List<IParameterInfo> getParameters() {
+					return Collections.emptyList();
+				}
+			});
 		}
 
 		@Override

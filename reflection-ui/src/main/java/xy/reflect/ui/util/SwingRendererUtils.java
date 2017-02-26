@@ -352,17 +352,7 @@ public class SwingRendererUtils {
 		return (fields.size() + methods.size()) == 0;
 	}
 
-	public static boolean isObjectDisplayEmpty(Object value, IInfoFilter infoFilter, SwingRenderer swingRenderer) {
-		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
-		if (SwingRendererUtils.hasCustomControl(value, valueType, swingRenderer)) {
-			return false;
-		}
-		if (!isFormEmpty(valueType, infoFilter, swingRenderer)) {
-			return false;
-		}
-		return true;
-	}
+	
 
 	public static final boolean hasCustomControl(Object fieldValue, ITypeInfo fieldType, SwingRenderer swingRenderer) {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();

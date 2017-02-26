@@ -8,14 +8,15 @@ import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.info.method.InvocationData;
 
 @SuppressWarnings("unused")
 public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 
-	public ArrayTypeInfo(ReflectionUI reflectionUI, Class<?> javaType, Class<?> itemJavaType) {
-		super(reflectionUI, javaType, itemJavaType);
+	public ArrayTypeInfo(ReflectionUI reflectionUI, Class<?> javaType) {
+		super(reflectionUI, javaType, reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaType.getComponentType())));
 	}
 
 	@Override
@@ -44,11 +45,11 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		return Collections.<IMethodInfo> singletonList(new AbstractConstructorInfo(this) {
+		return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo(this) {
 
 			@Override
 			public Object invoke(Object object, InvocationData invocationData) {
-				return Array.newInstance(itemJavaType, 0);
+				return Array.newInstance(javaType.getComponentType(), 0);
 			}
 
 			@Override
@@ -57,6 +58,16 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 			}
 
 		});
+	}
+
+	@Override
+	public boolean canAdd() {
+		return false;
+	}
+
+	@Override
+	public boolean canRemove() {
+		return false;
 	}
 
 	@Override
@@ -71,7 +82,7 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 
 	@Override
 	public Object fromArray(Object[] array) {
-		Object value = Array.newInstance(itemJavaType, array.length);
+		Object value = Array.newInstance(javaType.getComponentType(), array.length);
 		for (int i = 0; i < array.length; i++) {
 			Array.set(value, i, array[i]);
 		}

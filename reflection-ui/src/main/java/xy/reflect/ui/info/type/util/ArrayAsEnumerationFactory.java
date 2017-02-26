@@ -172,6 +172,11 @@ public class ArrayAsEnumerationFactory {
 
 	protected class TypeInfo implements IEnumerationTypeInfo {
 		@Override
+		public boolean isPassedByReference() {
+			return true;
+		}
+
+		@Override
 		public Map<String, Object> getSpecificProperties() {
 			return Collections.emptyMap();
 		}

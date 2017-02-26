@@ -214,7 +214,7 @@ public abstract class TypeInfoProxyFactory {
 	protected boolean isReadOnly(IMethodInfo method, ITypeInfo containingType) {
 		return method.isReadOnly();
 	}
-	
+
 	protected String getNullReturnValueLabel(IMethodInfo method, ITypeInfo containingType) {
 		return method.getNullReturnValueLabel();
 	}
@@ -329,6 +329,10 @@ public abstract class TypeInfoProxyFactory {
 		return type.isConcrete();
 	}
 
+	protected boolean isPassedByReference(ITypeInfo type) {
+		return type.isPassedByReference();
+	}
+
 	protected boolean isModificationStackAccessible(ITypeInfo type) {
 		return type.isModificationStackAccessible();
 	}
@@ -439,6 +443,11 @@ public abstract class TypeInfoProxyFactory {
 		@Override
 		public boolean isConcrete() {
 			return TypeInfoProxyFactory.this.isConcrete(base);
+		}
+
+		@Override
+		public boolean isPassedByReference() {
+			return TypeInfoProxyFactory.this.isPassedByReference(base);
 		}
 
 		@Override

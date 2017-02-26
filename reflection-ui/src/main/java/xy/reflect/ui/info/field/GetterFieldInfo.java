@@ -91,7 +91,7 @@ public class GetterFieldInfo implements IFieldInfo {
 
 	@Override
 	public boolean isNullable() {
-		return !javaGetterMethod.getReturnType().isPrimitive();
+		return getType().isPassedByReference();
 	}
 
 	@Override

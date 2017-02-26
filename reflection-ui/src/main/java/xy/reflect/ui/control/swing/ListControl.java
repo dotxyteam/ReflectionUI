@@ -66,7 +66,7 @@ import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.MultipleFieldsAsOneListField;
+import xy.reflect.ui.info.field.MultipleFieldsAsOne;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -78,7 +78,7 @@ import xy.reflect.ui.info.type.iterable.item.ItemDetailsAreaPosition;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.structure.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
-import xy.reflect.ui.info.type.iterable.structure.ListFieldNamesNode;
+import xy.reflect.ui.info.type.iterable.structure.SubListsGroupingField.SubListGroup;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
@@ -119,7 +119,6 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	protected JPanel detailsArea;
 	protected JPanel detailsControl;
 	protected IListItemDetailsAccessMode detailsMode;
-	protected ITypeInfo detailsControlItemType;
 	protected AutoFieldValueUpdatingItemPosition detailsControlItemPosition;
 	protected Object detailsControlItem;
 	protected Object[] detailsControlItemHolder = new Object[1];
@@ -572,9 +571,9 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		} else {
 			AutoFieldValueUpdatingItemPosition itemPosition = (AutoFieldValueUpdatingItemPosition) node.getUserObject();
 			Object item = itemPosition.getItem();
-			if (item instanceof ListFieldNamesNode) {
+			if (item instanceof SubListGroup) {
 				if (columnIndex == 0) {
-					value = ((ListFieldNamesNode) item).getTitle();
+					value = item.toString();
 				} else {
 					return null;
 				}
@@ -1882,7 +1881,6 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			detailsArea.removeAll();
 			detailsControlItemPosition = null;
 			detailsControlItem = null;
-			detailsControlItemType = null;
 			detailsControl = null;
 			detailsControlItemHolder[0] = null;
 			SwingRendererUtils.handleComponentSizeChange(ListControl.this);
@@ -1890,13 +1888,10 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 		}
 		detailsControlItemHolder[0] = detailsControlItemPosition.getItem();
-		ITypeInfo actualIItemType = swingRenderer.getReflectionUI()
-				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(detailsControlItemPosition.getItem()));
-		if (actualIItemType.equals(detailsControlItemType)) {
+		if (detailsControl != null) {
 			swingRenderer.refreshAllFieldControls(detailsControl, false);
 			return;
 		}
-		detailsControlItemType = actualIItemType;
 		Object encapsulated = getEncapsulatedItem(detailsControlItemHolder, detailsControlItemPosition);
 		detailsControl = swingRenderer.createForm(encapsulated);
 		swingRenderer.getBusyIndicationDisabledByForm().put(detailsControl, true);
@@ -1911,12 +1906,14 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	protected Object getEncapsulatedItem(final Object[] itemHolder,
 			final AutoFieldValueUpdatingItemPosition itemPosition) {
-		ITypeInfo actualItemTtemType = swingRenderer.getReflectionUI()
-				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(itemHolder[0]));
+		ITypeInfo itemType = itemPosition.getContainingListType().getItemType();
+		if (itemType == null) {
+			itemType = swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(Object.class));
+		}
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
-				actualItemTtemType);
+				itemType);
 		encapsulation.setFieldGetOnly(!UpdateListValueModification.isCompatibleWith(itemPosition));
-		encapsulation.setFieldNullable(true);
+		encapsulation.setFieldNullable(itemPosition.isNullable());
 		encapsulation.setFieldCaption("");
 		encapsulation.setTypeCaption(ReflectionUIUtils.composeMessage(itemPosition.getContainingListTitle(), "Item"));
 		Map<String, Object> properties = new HashMap<String, Object>();
@@ -2076,15 +2073,17 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected boolean hasItemDetails(AutoFieldValueUpdatingItemPosition itemPosition) {
+		if (itemPosition.isNullable()) {
+			return true;
+		}
 		Object item = itemPosition.getItem();
-		if (item == null) {
-			return false;
-		}
+		ITypeInfo valueType = swingRenderer.getReflectionUI()
+				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(item));
 		IInfoFilter infoFilter = getStructuralInfo().getItemInfoFilter(itemPosition);
-		if (SwingRendererUtils.isObjectDisplayEmpty(item, infoFilter, swingRenderer)) {
-			return false;
+		if (!SwingRendererUtils.isFormEmpty(valueType, infoFilter, swingRenderer)) {
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	protected void refreshStructure() {
@@ -2142,7 +2141,6 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("detailsControlFocusDetails", detailsControlFocusDetails);
-		result.put("detailsControlItemType", detailsControlItemType);
 		return result;
 	}
 
@@ -2151,11 +2149,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> focusDetails = (Map<String, Object>) value;
 		Object detailsControlFocusDetails = focusDetails.get("detailsControlFocusDetails");
-		ITypeInfo savedDetailsControlItemType = (ITypeInfo) focusDetails.get("detailsControlItemType");
 		detailsControl.requestFocus();
-		if (savedDetailsControlItemType.equals(detailsControlItemType)) {
-			swingRenderer.setFormFocusDetails(detailsControl, detailsControlFocusDetails);
-		}
+		swingRenderer.setFormFocusDetails(detailsControl, detailsControlFocusDetails);
 	}
 
 	@Override

@@ -15,7 +15,6 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
-import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -23,27 +22,23 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 
-	protected Class<?> keyJavaType;
-	protected Class<?> valueJavaType;
-
 	public StandardMapAsListTypeInfo(ReflectionUI reflectionUI, Class<?> javaType, Class<?> keyJavaType,
 			Class<?> valueJavaType) {
-		super(reflectionUI, javaType, StandardMapEntry.class);
-		this.keyJavaType = keyJavaType;
-		this.valueJavaType = valueJavaType;
+		super(reflectionUI, javaType,
+				reflectionUI.getTypeInfo(new JavaTypeInfoSource(StandardMapEntry.class, keyJavaType, valueJavaType)));
 	}
 
-	public Class<?> getKeyJavaType() {
-		return keyJavaType;
-	}
-
-	public Class<?> getValueJavaType() {
-		return valueJavaType;
-	}
-
-	@Override
-	public ITypeInfo getItemType() {
-		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(StandardMapEntry.class, keyJavaType, valueJavaType));
+	public static boolean isCompatibleWith(Class<?> javaType) {
+		if (Map.class.isAssignableFrom(javaType)) {
+			if (ReflectionUIUtils
+					.getZeroParameterConstrucor(new DefaultTypeInfo(new ReflectionUI(), javaType)) != null) {
+				return true;
+			}
+			if (javaType.isAssignableFrom(HashMap.class)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -122,58 +117,14 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((keyJavaType == null) ? 0 : keyJavaType.hashCode());
-		result = prime * result + ((valueJavaType == null) ? 0 : valueJavaType.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		StandardMapAsListTypeInfo other = (StandardMapAsListTypeInfo) obj;
-		if (keyJavaType == null) {
-			if (other.keyJavaType != null)
-				return false;
-		} else if (!keyJavaType.equals(other.keyJavaType))
-			return false;
-		if (valueJavaType == null) {
-			if (other.valueJavaType != null)
-				return false;
-		} else if (!valueJavaType.equals(other.valueJavaType))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "StandardMapAsListTypeInfo [keyJavaType=" + keyJavaType + ", valueJavaType=" + valueJavaType
-				+ ", javaType=" + javaType + "]";
-	}
-
-	@Override
 	public boolean isOrdered() {
 		return false;
 	}
 
-	public static boolean isCompatibleWith(Class<?> javaType) {
-		if (Map.class.isAssignableFrom(javaType)) {
-			if (ReflectionUIUtils
-					.getZeroParameterConstrucor(new DefaultTypeInfo(new ReflectionUI(), javaType)) != null) {
-				return true;
-			}
-			if (javaType.isAssignableFrom(HashMap.class)) {
-				return true;
-			}
-		}
-		return false;
+	@Override
+	public String toString() {
+		return "StandardMapAsListTypeInfo [mapType=" + javaType + ", entryType=" + itemType + "]";
 	}
 
+	
 }

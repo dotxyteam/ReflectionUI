@@ -35,6 +35,8 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.field.FieldInfoProxy;
+import xy.reflect.ui.info.field.ValueAsListField;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MethodAsField;
 import xy.reflect.ui.info.method.FieldAsGetter;
@@ -778,6 +780,7 @@ public final class InfoCustomizations {
 		protected ValueReturnMode customValueReturnMode;
 		protected String nullValueLabel;
 		protected boolean displayedAsMethods = false;
+		protected boolean displayedAsSingletonList = false;
 
 		public boolean isDisplayedAsMethods() {
 			return displayedAsMethods;
@@ -785,6 +788,14 @@ public final class InfoCustomizations {
 
 		public void setDisplayedAsMethods(boolean displayedAsMethods) {
 			this.displayedAsMethods = displayedAsMethods;
+		}
+
+		public boolean isDisplayedAsSingletonList() {
+			return displayedAsSingletonList;
+		}
+
+		public void setDisplayedAsSingletonList(boolean displayedAsSingletonList) {
+			this.displayedAsSingletonList = displayedAsSingletonList;
 		}
 
 		public String getFieldName() {
@@ -1864,76 +1875,78 @@ public final class InfoCustomizations {
 					if (selection.size() == 1) {
 						final ItemPosition itemPosition = selection.get(0);
 						final Object item = itemPosition.getItem();
-						ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
-						for (final IFieldInfo itemField : actualItemType.getFields()) {
-							if (itemField.getName().equals(s.fieldName)) {
-								AbstractListProperty property = new AbstractListProperty() {
+						if (item != null) {
+							ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
+							for (final IFieldInfo itemField : actualItemType.getFields()) {
+								if (itemField.getName().equals(s.fieldName)) {
+									AbstractListProperty property = new AbstractListProperty() {
 
-									@Override
-									public boolean isEnabled() {
-										return true;
-									}
+										@Override
+										public boolean isEnabled() {
+											return true;
+										}
 
-									@Override
-									public String getName() {
-										return s.fieldName;
-									}
+										@Override
+										public String getName() {
+											return s.fieldName;
+										}
 
-									@Override
-									public String getCaption() {
-										return fieldCaption;
-									}
+										@Override
+										public String getCaption() {
+											return fieldCaption;
+										}
 
-									@Override
-									public void setValue(Object object, Object value) {
-										itemField.setValue(item, value);
-										Object[] listRawValue = itemPosition.getContainingListRawValue();
-										listRawValue[itemPosition.getIndex()] = item;
-										new UpdateListValueModification(itemPosition, listRawValue, this)
-												.applyAndGetOpposite();
-									}
+										@Override
+										public void setValue(Object object, Object value) {
+											itemField.setValue(item, value);
+											Object[] listRawValue = itemPosition.getContainingListRawValue();
+											listRawValue[itemPosition.getIndex()] = item;
+											new UpdateListValueModification(itemPosition, listRawValue, this)
+													.applyAndGetOpposite();
+										}
 
-									@Override
-									public Runnable getCustomUndoUpdateJob(Object object, Object value) {
-										return null;
-									}
+										@Override
+										public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+											return null;
+										}
 
-									@Override
-									public boolean isNullable() {
-										return itemField.isNullable();
-									}
+										@Override
+										public boolean isNullable() {
+											return itemField.isNullable();
+										}
 
-									@Override
-									public String getNullValueLabel() {
-										return itemField.getNullValueLabel();
-									}
+										@Override
+										public String getNullValueLabel() {
+											return itemField.getNullValueLabel();
+										}
 
-									@Override
-									public boolean isGetOnly() {
-										return !UpdateListValueModification.isCompatibleWith(itemPosition)
-												|| itemField.isGetOnly();
-									}
+										@Override
+										public boolean isGetOnly() {
+											return !UpdateListValueModification.isCompatibleWith(itemPosition)
+													|| itemField.isGetOnly();
+										}
 
-									@Override
-									public ValueReturnMode getValueReturnMode() {
-										return ValueReturnMode.combine(
-												itemPosition.getContainingListData().getValueReturnMode(),
-												itemField.getValueReturnMode());
-									}
+										@Override
+										public ValueReturnMode getValueReturnMode() {
+											return ValueReturnMode.combine(
+													itemPosition.getContainingListData().getValueReturnMode(),
+													itemField.getValueReturnMode());
+										}
 
-									@Override
-									public Object getValue(Object object) {
-										return itemField.getValue(item);
-									}
+										@Override
+										public Object getValue(Object object) {
+											return itemField.getValue(item);
+										}
 
-									@Override
-									public ITypeInfo getType() {
-										return itemField.getType();
-									}
-								};
-								result.add(property);
-								fieldFound = true;
-								break;
+										@Override
+										public ITypeInfo getType() {
+											return itemField.getType();
+										}
+									};
+									result.add(property);
+									fieldFound = true;
+									break;
+								}
 							}
 						}
 					}
@@ -2015,100 +2028,102 @@ public final class InfoCustomizations {
 					if (selection.size() == 1) {
 						final ItemPosition itemPosition = selection.get(0);
 						final Object item = itemPosition.getItem();
-						ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
-						for (final IMethodInfo method : actualItemType.getMethods()) {
-							if (ReflectionUIUtils.getMethodSignature(method).equals(s.methodSignature)) {
-								AbstractListAction action = new AbstractListAction() {
+						if (item != null) {
+							ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
+							for (final IMethodInfo method : actualItemType.getMethods()) {
+								if (ReflectionUIUtils.getMethodSignature(method).equals(s.methodSignature)) {
+									AbstractListAction action = new AbstractListAction() {
 
-									private IModification oppositeUpdateListValueModification;
+										private IModification oppositeUpdateListValueModification;
 
-									@Override
-									public String getName() {
-										return methodName;
-									}
-
-									@Override
-									public String getCaption() {
-										return methodCaption;
-									}
-
-									@Override
-									public boolean isEnabled() {
-										return true;
-									}
-
-									@Override
-									public boolean isReadOnly() {
-										return !UpdateListValueModification.isCompatibleWith(itemPosition)
-												|| method.isReadOnly();
-									}
-
-									@Override
-									public String getNullReturnValueLabel() {
-										return method.getNullReturnValueLabel();
-									}
-
-									@Override
-									public ValueReturnMode getValueReturnMode() {
-										return ValueReturnMode.combine(
-												itemPosition.getContainingListData().getValueReturnMode(),
-												method.getValueReturnMode());
-									}
-
-									@Override
-									public void validateParameters(Object object, InvocationData invocationData)
-											throws Exception {
-										method.validateParameters(item, invocationData);
-									}
-
-									@Override
-									public String getOnlineHelp() {
-										return method.getOnlineHelp();
-									}
-
-									@Override
-									public ITypeInfo getReturnValueType() {
-										return method.getReturnValueType();
-									}
-
-									@Override
-									public List<IParameterInfo> getParameters() {
-										return method.getParameters();
-									}
-
-									@Override
-									public Object invoke(Object object, InvocationData invocationData) {
-										Object result = method.invoke(item, invocationData);
-										Object[] listRawValue = itemPosition.getContainingListRawValue();
-										listRawValue[itemPosition.getIndex()] = item;
-										oppositeUpdateListValueModification = new UpdateListValueModification(
-												itemPosition, listRawValue, this).applyAndGetOpposite();
-										return result;
-									}
-
-									@Override
-									public Runnable getUndoJob(Object object, final InvocationData invocationData) {
-										final Runnable undoJob = method.getUndoJob(item, invocationData);
-										if (undoJob == null) {
-											return null;
-										} else {
-											return new Runnable() {
-
-												@Override
-												public void run() {
-													undoJob.run();
-													oppositeUpdateListValueModification.applyAndGetOpposite();
-												}
-
-											};
-
+										@Override
+										public String getName() {
+											return methodName;
 										}
-									}
 
-								};
-								result.add(action);
-								methodFound = true;
-								break;
+										@Override
+										public String getCaption() {
+											return methodCaption;
+										}
+
+										@Override
+										public boolean isEnabled() {
+											return true;
+										}
+
+										@Override
+										public boolean isReadOnly() {
+											return !UpdateListValueModification.isCompatibleWith(itemPosition)
+													|| method.isReadOnly();
+										}
+
+										@Override
+										public String getNullReturnValueLabel() {
+											return method.getNullReturnValueLabel();
+										}
+
+										@Override
+										public ValueReturnMode getValueReturnMode() {
+											return ValueReturnMode.combine(
+													itemPosition.getContainingListData().getValueReturnMode(),
+													method.getValueReturnMode());
+										}
+
+										@Override
+										public void validateParameters(Object object, InvocationData invocationData)
+												throws Exception {
+											method.validateParameters(item, invocationData);
+										}
+
+										@Override
+										public String getOnlineHelp() {
+											return method.getOnlineHelp();
+										}
+
+										@Override
+										public ITypeInfo getReturnValueType() {
+											return method.getReturnValueType();
+										}
+
+										@Override
+										public List<IParameterInfo> getParameters() {
+											return method.getParameters();
+										}
+
+										@Override
+										public Object invoke(Object object, InvocationData invocationData) {
+											Object result = method.invoke(item, invocationData);
+											Object[] listRawValue = itemPosition.getContainingListRawValue();
+											listRawValue[itemPosition.getIndex()] = item;
+											oppositeUpdateListValueModification = new UpdateListValueModification(
+													itemPosition, listRawValue, this).applyAndGetOpposite();
+											return result;
+										}
+
+										@Override
+										public Runnable getUndoJob(Object object, final InvocationData invocationData) {
+											final Runnable undoJob = method.getUndoJob(item, invocationData);
+											if (undoJob == null) {
+												return null;
+											} else {
+												return new Runnable() {
+
+													@Override
+													public void run() {
+														undoJob.run();
+														oppositeUpdateListValueModification.applyAndGetOpposite();
+													}
+
+												};
+
+											}
+										}
+
+									};
+									result.add(action);
+									methodFound = true;
+									break;
+								}
 							}
 						}
 					}
@@ -2458,13 +2473,6 @@ public final class InfoCustomizations {
 					if (f != null) {
 						if (f.hidden || f.displayedAsMethods) {
 							it.remove();
-						} else {
-							for (FieldCustomization fOther : t.fieldsCustomizations) {
-								if (f.fieldName.equals(fOther.valueOptionsFieldName)) {
-									it.remove();
-									break;
-								}
-							}
 						}
 					}
 				}
@@ -2474,6 +2482,15 @@ public final class InfoCustomizations {
 								m.methodSignature);
 						if (method != null) {
 							result.add(new MethodAsField(method));
+						}
+					}
+				}
+				for (int i = 0; i < result.size(); i++) {
+					IFieldInfo field = result.get(i);
+					FieldCustomization f = getFieldCustomization(type.getName(), field.getName());
+					if (f != null) {
+						if (f.displayedAsSingletonList) {
+							result.set(i, new ValueAsListField(reflectionUI, field));
 						}
 					}
 				}

@@ -40,6 +40,14 @@ public class ItemPosition {
 		return listValue[index];
 	}
 
+	public boolean isNullable() {
+		ITypeInfo itemType = getContainingListType().getItemType();
+		if (itemType == null) {
+			return true;
+		}
+		return itemType.isPassedByReference();
+	}
+
 	public String getContainingListTitle() {
 		return null;
 	}

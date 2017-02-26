@@ -9,15 +9,15 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.ListControl;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.MultipleFieldsAsOneListField;
-import xy.reflect.ui.info.field.MultipleFieldsAsOneListField.ListItem;
-import xy.reflect.ui.info.field.MultipleFieldsAsOneListField.ListItemTypeInfo;
+import xy.reflect.ui.info.field.MultipleFieldsAsOne;
+import xy.reflect.ui.info.field.MultipleFieldsAsOne.ListItem;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.filter.InfoFilterProxy;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.map.IMapEntryTypeInfo;
+import xy.reflect.ui.info.type.iterable.structure.SubListsGroupingField.SubListGroupTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.ColumnInfoProxy;
 import xy.reflect.ui.info.type.iterable.structure.column.FieldColumnInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
@@ -66,49 +66,25 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 		} else if (candidateFields.size() == 1) {
 			IFieldInfo candidateField = candidateFields.get(0);
 			if (displaysSubListFieldNameAsTreeNode(candidateField, itemPosition)) {
-				return getSubListFieldNamesAsNodeField(Collections.singletonList(candidateField));
+				return getSubListsGroupingField(Collections.singletonList(candidateField));
 			} else {
 				return candidateField;
 			}
 		} else {
-			return getSubListFieldNamesAsNodeField(candidateFields);
+			return getSubListsGroupingField(candidateFields);
 		}
 	}
 
-	protected IFieldInfo getSubListFieldNamesAsNodeField(List<IFieldInfo> subListFields) {
-		return new MultipleFieldsAsOneListField(reflectionUI, subListFields) {
-
-			@Override
-			protected ListItem createListItem(Object object, IFieldInfo listFieldInfo) {
-				return new ListFieldNamesNode(object, listFieldInfo);
-			}
-
-			@Override
-			protected ITypeInfo getListItemTypeInfo(final ListItem listItem) {
-				return new TypeInfoProxyFactory() {
-
-					@Override
-					public String toString() {
-						return ListControl.class.getName() + ".getSubListFieldNamesAsNodeField.changeListItemTypeInfo";
-					}
-
-					@Override
-					protected String getCaption(IFieldInfo field, ITypeInfo containingType) {
-						return listItem.getTitle();
-					}
-
-				}.get(super.getListItemTypeInfo(listItem));
-			}
-
-		};
+	protected IFieldInfo getSubListsGroupingField(List<IFieldInfo> subListFields) {
+		return new SubListsGroupingField(reflectionUI, subListFields);			
 	}
 
 	protected List<IFieldInfo> getItemSubListCandidateFields(ItemPosition itemPosition) {
 		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
 		Object item = itemPosition.getItem();
 		ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
-		if (actualItemType instanceof ListItemTypeInfo) {
-			result.add(((ListItemTypeInfo) actualItemType).getValueField());
+		if (actualItemType instanceof SubListGroupTypeInfo) {
+			result.add(((SubListGroupTypeInfo) actualItemType).getDetailsField());
 		} else {
 			List<IFieldInfo> itemFields = actualItemType.getFields();
 			for (IFieldInfo field : itemFields) {
@@ -246,14 +222,14 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 
 	protected boolean displaysSubListFieldNameAsTreeNode(IFieldInfo subListField, ItemPosition itemPosition) {
 		ITypeInfo itemType = itemPosition.getContainingListType().getItemType();
-		if (itemPosition.getItem() instanceof MultipleFieldsAsOneListField.ListItem) {
+		if (itemPosition.getItem() instanceof MultipleFieldsAsOne.ListItem) {
 			return false;
 		}
 		if (itemType instanceof IMapEntryTypeInfo) {
 			return false;
 		}
 
-		if (itemType instanceof ListItemTypeInfo) {
+		if (itemType instanceof SubListGroupTypeInfo) {
 			return false;
 		}
 		return !subListField.getCaption().equals(itemPosition.getContainingListTitle());

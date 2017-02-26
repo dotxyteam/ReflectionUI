@@ -1,21 +1,11 @@
 package xy.reflect.ui;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 
 import com.google.common.cache.CacheBuilder;
 
 import xy.reflect.ui.control.swing.SwingRenderer;
-import xy.reflect.ui.info.InfoCategory;
-import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.MultipleFieldsAsOneListField.ListItem;
-import xy.reflect.ui.info.field.MultipleFieldsAsOneListField.ListItemTypeInfo;
-import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.StandardEnumerationTypeInfo;
@@ -25,19 +15,15 @@ import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.info.type.iterable.ArrayTypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.iterable.map.StandardMapAsListTypeInfo;
-import xy.reflect.ui.info.type.iterable.map.StandardMapEntry;
 import xy.reflect.ui.info.type.iterable.map.StandardMapEntryTypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
-import xy.reflect.ui.info.type.util.HiddenNullableFacetsTypeInfoProxyFactory;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
-import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
 
-@SuppressWarnings("unused")
 public class ReflectionUI {
 
 	protected static ReflectionUI defaultInstance;
@@ -90,8 +76,14 @@ public class ReflectionUI {
 			} else if (typeSource instanceof JavaTypeInfoSource) {
 				JavaTypeInfoSource javaTypeSource = (JavaTypeInfoSource) typeSource;
 				if (StandardCollectionTypeInfo.isCompatibleWith(javaTypeSource.getJavaType())) {
-					Class<?> itemType = ReflectionUIUtils.getJavaGenericTypeParameter(javaTypeSource, Collection.class,
+					Class<?> itemClass = ReflectionUIUtils.getJavaGenericTypeParameter(javaTypeSource, Collection.class,
 							0);
+					ITypeInfo itemType;
+					if(itemClass == null){
+						itemType = null;
+					}else{
+						itemType = getTypeInfo(new JavaTypeInfoSource(itemClass));
+					}
 					result = new StandardCollectionTypeInfo(this, javaTypeSource.getJavaType(), itemType);
 				} else if (StandardMapAsListTypeInfo.isCompatibleWith(javaTypeSource.getJavaType())) {
 					Class<?> keyClass = ReflectionUIUtils.getJavaGenericTypeParameter(javaTypeSource, Map.class, 0);
@@ -107,8 +99,7 @@ public class ReflectionUI {
 					}
 					result = new StandardMapEntryTypeInfo(this, keyClass, valueClass);
 				} else if (javaTypeSource.getJavaType().isArray()) {
-					Class<?> itemType = javaTypeSource.getJavaType().getComponentType();
-					result = new ArrayTypeInfo(this, javaTypeSource.getJavaType(), itemType);
+					result = new ArrayTypeInfo(this, javaTypeSource.getJavaType());
 				} else if (javaTypeSource.getJavaType().isEnum()) {
 					result = new StandardEnumerationTypeInfo(this, javaTypeSource.getJavaType());
 				} else if (BooleanTypeInfo.isCompatibleWith(javaTypeSource.getJavaType())) {

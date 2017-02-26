@@ -238,6 +238,11 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
+		public boolean isPassedByReference() {
+			return true;
+		}
+
+		@Override
 		public boolean isConcrete() {
 			return true;
 		}

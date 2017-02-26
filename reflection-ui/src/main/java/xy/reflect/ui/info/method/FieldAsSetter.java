@@ -54,7 +54,7 @@ public class FieldAsSetter implements IMethodInfo {
 
 	@Override
 	public String getName() {
-		return "set-" + field.getName();
+		return "FieldAsSetter [field=" + field.getName() + "]";
 	}
 
 	@Override

@@ -12,7 +12,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.EnumerationControl;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.MultipleFieldsAsOneListField;
+import xy.reflect.ui.info.field.MultipleFieldsAsOne;
 import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;

@@ -36,7 +36,7 @@ public class FieldAsGetter implements IMethodInfo {
 
 	@Override
 	public String getName() {
-		return "get-" + field.getName();
+		return "FieldAsGetter [field=" + field.getName() + "]";
 	}
 
 	@Override

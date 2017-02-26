@@ -105,6 +105,11 @@ public class MethodSetupObjectFactory {
 		}
 
 		@Override
+		public boolean isPassedByReference() {
+			return true;
+		}
+
+		@Override
 		public boolean isModificationStackAccessible() {
 			return true;
 		}
