@@ -17,9 +17,9 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 	protected IControlData data;
 	
 
-	public CheckBoxControl(final SwingRenderer swingRenderer, final IControlData data) {
+	public CheckBoxControl(final SwingRenderer swingRenderer, FieldControlPlaceHolder placeHolder) {
 		this.swingRenderer = swingRenderer;
-		this.data = data;
+		this.data = placeHolder.getControlData();
 		
 		setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
 		setBorderPainted(true);
@@ -37,11 +37,7 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 		});
 	}
 	
-	@Override
-	public void setPalceHolder(FieldControlPlaceHolder fieldControlPlaceHolder) {
-	}
-
-
+	
 	@Override
 	public boolean showCaption() {
 		setText(swingRenderer.prepareStringToDisplay(data.getCaption()));

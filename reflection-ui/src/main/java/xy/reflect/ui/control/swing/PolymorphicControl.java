@@ -34,12 +34,13 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 
 	protected ITypeInfo lastInstanceType;
 	protected boolean updatingEnumeration = false;
-	protected FieldControlPlaceHolder fieldControlPlaceHolder;
+	protected FieldControlPlaceHolder placeHolder;
 
-	public PolymorphicControl(final SwingRenderer swingRenderer, final IControlData data) {
+	public PolymorphicControl(final SwingRenderer swingRenderer, FieldControlPlaceHolder placeHolder) {
 		this.swingRenderer = swingRenderer;
-		this.data = data;
-		this.polymorphicType = data.getType();
+		this.placeHolder = placeHolder;
+		this.data = placeHolder.getControlData();
+		this.polymorphicType = placeHolder.getControlData().getType();
 		this.subTypes = polymorphicType.getPolymorphicInstanceSubTypes();
 
 		setLayout(new BorderLayout());
@@ -47,13 +48,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		refreshUI();
 	}
 
-	@Override
-	public void setPalceHolder(FieldControlPlaceHolder fieldControlPlaceHolder) {
-		this.fieldControlPlaceHolder = fieldControlPlaceHolder;
-		if (dynamicControl instanceof IAdvancedFieldControl) {
-			((IAdvancedFieldControl) dynamicControl).setPalceHolder(fieldControlPlaceHolder);
-		}
-	}
+	
 
 	protected Component createTypeEnumerationControl() {
 		List<ITypeInfo> possibleTypes = new ArrayList<ITypeInfo>(subTypes);
@@ -157,29 +152,37 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			}
 
 		});
-		EmbeddedFormControl result = new EmbeddedFormControl(swingRenderer, new ControlDataProxy(data) {
+		EmbeddedFormControl result = new EmbeddedFormControl(swingRenderer, placeHolder){
+
+			private static final long serialVersionUID = 1L;
 
 			@Override
-			public Object getValue() {
-				return encapsulated;
-			}
+			protected IControlData retrieveData(FieldControlPlaceHolder placeHolder) {
+				return new ControlDataProxy(PolymorphicControl.this.data) {
 
-			@Override
-			public void setValue(Object value) {
-			}
+					@Override
+					public Object getValue() {
+						return encapsulated;
+					}
 
-			@Override
-			public boolean isNullable() {
-				return false;
-			}
+					@Override
+					public void setValue(Object value) {
+					}
 
-			@Override
-			public ITypeInfo getType() {
-				return swingRenderer.getReflectionUI().getTypeInfo(encapsulation.getInstanceTypeInfoSource());
-			}
+					@Override
+					public boolean isNullable() {
+						return false;
+					}
 
-		});
-		result.setPalceHolder(fieldControlPlaceHolder);
+					@Override
+					public ITypeInfo getType() {
+						return swingRenderer.getReflectionUI().getTypeInfo(encapsulation.getInstanceTypeInfoSource());
+					}
+
+				};
+			}
+			
+		};
 		return result;
 	}
 

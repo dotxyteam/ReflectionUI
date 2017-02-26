@@ -5,19 +5,26 @@ import java.lang.reflect.InvocationTargetException;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.data.ControlDataProxy;
 import xy.reflect.ui.control.data.IControlData;
+import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
-public class PrimitiveValueControl extends TextControl {
+public abstract class PrimitiveValueControl extends TextControl {
 
 	private static final long serialVersionUID = 1L;
 
-	public PrimitiveValueControl(SwingRenderer swingRenderer, IControlData data,
-			Class<? extends Object> primitiveJavaType) {
-		super(swingRenderer, 
-				handleValueConversions(swingRenderer.getReflectionUI(), data, primitiveJavaType));
+	protected abstract Class<?> getPrimitiveJavaType();
+
+	public PrimitiveValueControl(SwingRenderer swingRenderer, FieldControlPlaceHolder placeHolder) {
+		super(swingRenderer, placeHolder);
+	}
+
+	@Override
+	protected IControlData retrieveData(FieldControlPlaceHolder placeHolder) {
+		return handleValueConversions(swingRenderer.getReflectionUI(), super.retrieveData(placeHolder),
+				getPrimitiveJavaType());
 	}
 
 	protected static IControlData handleValueConversions(final ReflectionUI reflectionUI, IControlData data,

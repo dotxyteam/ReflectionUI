@@ -43,14 +43,15 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 	protected Component statusControl;
 	protected Component iconControl;
 	protected Component button;
-	protected FieldControlPlaceHolder fieldControlPlaceHolder;
+	protected FieldControlPlaceHolder placeHolder;
 
-	public DialogAccessControl(final SwingRenderer swingRenderer, final IControlData data) {
+	public DialogAccessControl(final SwingRenderer swingRenderer, FieldControlPlaceHolder placeHolder) {
 		this.swingRenderer = swingRenderer;
-		this.data = data;
+		this.placeHolder = placeHolder;
+		this.data = placeHolder.getControlData();
 		setLayout(new BorderLayout());
 
-		statusControl = createStatusControl();
+		statusControl = createStatusControl(placeHolder);
 		button = createButton();
 		iconControl = createIconControl();
 
@@ -75,11 +76,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 		updateControls();
 	}
 
-	@Override
-	public void setPalceHolder(FieldControlPlaceHolder fieldControlPlaceHolder) {
-		this.fieldControlPlaceHolder = fieldControlPlaceHolder;
-	}
-
+	
 	@Override
 	public void requestFocus() {
 		button.requestFocus();
@@ -136,21 +133,30 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 		return result;
 	}
 
-	protected Component createStatusControl() {
-		return new TextControl(swingRenderer, new ControlDataProxy(IControlData.NULL_CONTROL_DATA) {
+	protected Component createStatusControl(FieldControlPlaceHolder placeHolder) {
+		return new TextControl(swingRenderer, placeHolder){
+
+			private static final long serialVersionUID = 1L;
 
 			@Override
-			public Object getValue() {
-				Object fieldValue = data.getValue();
-				return ReflectionUIUtils.toString(swingRenderer.getReflectionUI(), fieldValue);
-			}
+			protected IControlData retrieveData(FieldControlPlaceHolder placeHolder) {
+				return new ControlDataProxy(IControlData.NULL_CONTROL_DATA) {
 
-			@Override
-			public ITypeInfo getType() {
-				return new TextualTypeInfo(swingRenderer.getReflectionUI(), String.class);
-			}
+					@Override
+					public Object getValue() {
+						Object fieldValue = DialogAccessControl.this.data.getValue();
+						return ReflectionUIUtils.toString(swingRenderer.getReflectionUI(), fieldValue);
+					}
 
-		});
+					@Override
+					public ITypeInfo getType() {
+						return new TextualTypeInfo(swingRenderer.getReflectionUI(), String.class);
+					}
+
+				};
+			}
+			
+		};
 	}
 
 	protected void openDialog() {
@@ -169,9 +175,9 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 		dialogBuilder.setCancellable(cancellable);
 		swingRenderer.showDialog(dialogBuilder.build(), true);
 
-		IFieldInfo field = fieldControlPlaceHolder.getField();
+		IFieldInfo field = placeHolder.getField();
 
-		ModificationStack parentModifStack = ReflectionUIUtils.findParentFormModificationStack(fieldControlPlaceHolder,
+		ModificationStack parentModifStack = ReflectionUIUtils.findParentFormModificationStack(placeHolder,
 				swingRenderer);
 		ModificationStack childModifStack = dialogBuilder.getModificationStack();
 		String childModifTitle = ControlDataValueModification.getTitle(field);

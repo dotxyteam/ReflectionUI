@@ -32,9 +32,9 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	protected Border textFieldNormalBorder;
 	protected JLabel iconControl;
 
-	public TextControl(final SwingRenderer swingRenderer, final IControlData data) {
+	public TextControl(final SwingRenderer swingRenderer, FieldControlPlaceHolder placeHolder) {
 		this.swingRenderer = swingRenderer;
-		this.data = data;
+		this.data = retrieveData(placeHolder);
 
 		setLayout(new BorderLayout());
 
@@ -91,10 +91,11 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		}
 	}
 
-	@Override
-	public void setPalceHolder(FieldControlPlaceHolder fieldControlPlaceHolder) {
+	protected IControlData retrieveData(FieldControlPlaceHolder placeHolder) {
+		return placeHolder.getControlData();
 	}
 
+	
 	protected JTextArea createTextComponent() {
 		return new JTextArea() {
 

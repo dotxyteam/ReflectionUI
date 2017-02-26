@@ -677,16 +677,7 @@ public class SwingCustomizer extends SwingRenderer {
 				}
 
 				private ITypeInfo getFieldControlObjectCustomizedType() {
-					if (fieldControlPlaceHolder.fieldControl instanceof NullableControl) {
-						ITypeInfo dynamicType = ((NullableControl) fieldControlPlaceHolder.fieldControl)
-								.getSubControlValueType();
-						if (dynamicType != null) {
-							return dynamicType;
-						}
-					}
-					final IControlData fieldControlData = getFieldControlData(fieldControlPlaceHolder.object,
-							fieldControlPlaceHolder.getControlAwareField());
-					return fieldControlData.getType();
+					return fieldControlPlaceHolder.getControlData().getType();
 				}
 
 				@Override

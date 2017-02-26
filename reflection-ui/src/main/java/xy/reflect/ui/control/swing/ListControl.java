@@ -126,7 +126,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	protected List<Runnable> selectionListeners = new ArrayList<Runnable>();
 	protected boolean selectionListenersEnabled = true;
 	protected IFieldInfo modifiedField;
-	protected FieldControlPlaceHolder fieldControlPlaceHolder;
+	protected FieldControlPlaceHolder placeHolder;
 
 	protected static AbstractAction SEPARATOR_ACTION = new AbstractAction("") {
 		protected static final long serialVersionUID = 1L;
@@ -136,9 +136,10 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		}
 	};
 
-	public ListControl(final SwingRenderer swingRenderer, final IControlData data) {
+	public ListControl(final SwingRenderer swingRenderer, FieldControlPlaceHolder placeHolder) {
 		this.swingRenderer = swingRenderer;
-		this.listData = data;
+		this.placeHolder = placeHolder;
+		this.listData = placeHolder.getControlData();
 
 		initializeTreeTableControl();
 		toolbar = new JPanel();
@@ -1642,13 +1643,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		return (IListTypeInfo) listData.getType();
 	}
 
-	@Override
-	public void setPalceHolder(FieldControlPlaceHolder fieldControlPlaceHolder) {
-		this.fieldControlPlaceHolder = fieldControlPlaceHolder;
-	}
-
 	protected IInfo getModifiedField() {
-		return fieldControlPlaceHolder.getField();
+		return placeHolder.getField();
 	}
 
 	protected AbstractAction createDynamicPropertyHook(final AbstractListProperty dynamicProperty) {
@@ -2058,7 +2054,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected ModificationStack getParentFormModificationStack() {
-		return ReflectionUIUtils.findParentFormModificationStack(fieldControlPlaceHolder, swingRenderer);
+		return ReflectionUIUtils.findParentFormModificationStack(placeHolder, swingRenderer);
 	}
 
 	protected boolean hasItemDetails(AutoFieldValueUpdatingItemPosition itemPosition) {

@@ -7,6 +7,7 @@ import javax.swing.JFileChooser;
 
 import xy.reflect.ui.control.data.ControlDataProxy;
 import xy.reflect.ui.control.data.IControlData;
+import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.FileTypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
@@ -19,35 +20,44 @@ public class FileControl extends DialogAccessControl implements IAdvancedFieldCo
 
 	protected static File lastDirectory = new File(".").getAbsoluteFile();
 
-	public FileControl(SwingRenderer swingRenderer, IControlData data) {
-		super(swingRenderer, data);
+	public FileControl(SwingRenderer swingRenderer, FieldControlPlaceHolder placeHolder) {
+		super(swingRenderer, placeHolder);
 	}
 
 	@Override
-	protected TextControl createStatusControl() {
-		return new TextControl(swingRenderer, new ControlDataProxy(IControlData.NULL_CONTROL_DATA) {
+	protected TextControl createStatusControl(FieldControlPlaceHolder placeHolder) {
+		return new TextControl(swingRenderer, placeHolder){
+
+			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void setValue(Object value) {
-				data.setValue(new File((String) value));
-			}
+			protected IControlData retrieveData(FieldControlPlaceHolder placeHolder) {
+				return new ControlDataProxy(IControlData.NULL_CONTROL_DATA) {
 
-			@Override
-			public boolean isGetOnly() {
-				return data.isGetOnly();
-			}
+					@Override
+					public void setValue(Object value) {
+						data.setValue(new File((String) value));
+					}
 
-			@Override
-			public Object getValue() {
-				File currentFile = (File) data.getValue();
-				return currentFile.getPath();
-			}
+					@Override
+					public boolean isGetOnly() {
+						return data.isGetOnly();
+					}
 
-			@Override
-			public ITypeInfo getType() {
-				return new TextualTypeInfo(swingRenderer.getReflectionUI(), String.class);
+					@Override
+					public Object getValue() {
+						File currentFile = (File) data.getValue();
+						return currentFile.getPath();
+					}
+
+					@Override
+					public ITypeInfo getType() {
+						return new TextualTypeInfo(swingRenderer.getReflectionUI(), String.class);
+					}
+				};
 			}
-		});
+			
+		};
 	}
 
 	@Override

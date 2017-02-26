@@ -42,19 +42,21 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	protected JButton button;
 	protected Object subFormObject;
 	protected JPanel subForm;
-	protected FieldControlPlaceHolder fieldControlPlaceHolder;
+	protected FieldControlPlaceHolder placeHolder;
 
-	public EmbeddedFormControl(final SwingRenderer swingRenderer, final IControlData data) {
+	public EmbeddedFormControl(final SwingRenderer swingRenderer, FieldControlPlaceHolder placeHolder) {
 		this.swingRenderer = swingRenderer;
-		this.data = data;
+		this.placeHolder = placeHolder;
+		this.data = retrieveData(placeHolder);
 		setLayout(new BorderLayout());
 		refreshUI();
 	}
 
-	@Override
-	public void setPalceHolder(FieldControlPlaceHolder fieldControlPlaceHolder) {
-		this.fieldControlPlaceHolder = fieldControlPlaceHolder;
+	
+	protected IControlData retrieveData(FieldControlPlaceHolder placeHolder) {
+		return placeHolder.getControlData();
 	}
+
 
 	public JPanel getSubForm() {
 		return subForm;
@@ -136,7 +138,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 			Accessor<ModificationStack> parentModifStackGetter = new Accessor<ModificationStack>() {
 				@Override
 				public ModificationStack get() {
-					return ReflectionUIUtils.findParentFormModificationStack(fieldControlPlaceHolder, swingRenderer);
+					return ReflectionUIUtils.findParentFormModificationStack(placeHolder, swingRenderer);
 				}
 			};
 			SwingRendererUtils.forwardSubModifications(swingRenderer.getReflectionUI(), subForm,
@@ -146,7 +148,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	protected IFieldInfo getModifiedField() {
-		return fieldControlPlaceHolder.getField();
+		return placeHolder.getField();
 	}
 
 	@Override
@@ -164,7 +166,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	public boolean refreshUI() {
 		if (subForm == null) {
 			subFormObject = data.getValue();
-			IInfoFilter filter = DesktopSpecificProperty.getFilter(data.getSpecificProperties());
+			IInfoFilter filter = DesktopSpecificProperty.getFilter(DesktopSpecificProperty.accessControlDataProperties(data));
 			{
 				if (filter == null) {
 					filter = IInfoFilter.DEFAULT;

@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 import xy.reflect.ui.control.data.IControlData;
+import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
@@ -33,9 +34,9 @@ public class EnumerationControl extends JPanel {
 	protected JComboBox comboBox;
 
 	@SuppressWarnings({})
-	public EnumerationControl(final SwingRenderer swingRenderer, final IControlData data) {
+	public EnumerationControl(final SwingRenderer swingRenderer, FieldControlPlaceHolder placeHolder) {
 		this.swingRenderer = swingRenderer;
-		this.data = data;
+		this.data = placeHolder.getControlData();
 		this.enumType = (IEnumerationTypeInfo) data.getType();
 
 		initialize();

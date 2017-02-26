@@ -8,17 +8,17 @@ import javax.swing.JColorChooser;
 import javax.swing.JLabel;
 import javax.swing.border.EtchedBorder;
 
-import xy.reflect.ui.control.data.IControlData;
+import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 
 public class ColorControl extends DialogAccessControl{
 	protected static final long serialVersionUID = 1L;
 
-	public ColorControl(SwingRenderer swingRenderer, IControlData data) {
-		super(swingRenderer, data);
+	public ColorControl(SwingRenderer swingRenderer, FieldControlPlaceHolder placeHolder) {
+		super(swingRenderer, placeHolder);
 	}
 
 	@Override
-	protected JLabel createStatusControl() {
+	protected JLabel createStatusControl(FieldControlPlaceHolder placeHolder) {
 		JLabel result =  new JLabel(" ");
 		result.setOpaque(true);
 		result.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
