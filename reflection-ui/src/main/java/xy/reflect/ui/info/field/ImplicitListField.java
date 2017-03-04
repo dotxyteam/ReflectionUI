@@ -388,17 +388,17 @@ public class ImplicitListField implements IFieldInfo {
 		}
 
 		@Override
-		public boolean canMove() {
+		public boolean isOrdered() {
 			return true;
 		}
 
 		@Override
-		public boolean canAdd() {
+		public boolean isInsertionAllowed() {
 			return createMethodName != null;
 		}
 
 		@Override
-		public boolean canRemove() {
+		public boolean isRemovalAllowed() {
 			return removeMethodName != null;
 		}
 

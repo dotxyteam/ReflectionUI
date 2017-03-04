@@ -79,8 +79,9 @@ public class UpdateListValueModification extends AbstractModification {
 		if (!isCompatibleWith(itemPosition)) {
 			return;
 		}
+		
 		if (!renewListValue(listRawValue, itemPosition)) {
-			if (!changeListValueContent(listRawValue, itemPosition)) {
+			if (!changeListContent(listRawValue, itemPosition)) {
 				throw new ReflectionUIError();
 			}
 		}
@@ -100,11 +101,11 @@ public class UpdateListValueModification extends AbstractModification {
 			return false;
 		}
 		Object listValue = listType.fromArray(listRawValue);
-		setListValue(itemPosition.getContainingListData(), listValue);
+		undoModifications.add(0, new ControlDataValueModification(itemPosition.getContainingListData(), listValue, target).applyAndGetOpposite());
 		return true;
 	}
 
-	protected boolean changeListValueContent(Object[] listRawValue, ItemPosition itemPosition) {
+	protected boolean changeListContent(Object[] listRawValue, ItemPosition itemPosition) {
 		IListTypeInfo listType = itemPosition.getContainingListType();
 		if (!listType.canReplaceContent()) {
 			return false;
@@ -113,26 +114,18 @@ public class UpdateListValueModification extends AbstractModification {
 		if ((listData.getValueReturnMode() != ValueReturnMode.SELF) && listData.isGetOnly()) {
 			return false;
 		}
-		Object listValue = listData.getValue();
 		undoModifications.add(0,
-				new ChangeListValueContentModification(listData, listRawValue, target).applyAndGetOpposite());
-
-		if (!listData.isGetOnly()) {
-			setListValue(listData, listValue);
-		}
+				new ChangeListContentModification(listData, listRawValue, target).applyAndGetOpposite());
 		return true;
 	}
 
-	private void setListValue(IControlData listData, Object listValue) {
-		undoModifications.add(0, new ControlDataValueModification(listData, listValue, target).applyAndGetOpposite());
-	}
-
-	public static class ChangeListValueContentModification extends AbstractModification {
+	
+	public static class ChangeListContentModification extends AbstractModification {
 
 		protected IControlData listData;
 		protected Object[] listRawValue;
 
-		public ChangeListValueContentModification(IControlData listData, Object[] listRawValue, IInfo target) {
+		public ChangeListContentModification(IControlData listData, Object[] listRawValue, IInfo target) {
 			super(target);
 			this.listData = listData;
 			this.listRawValue = listRawValue;

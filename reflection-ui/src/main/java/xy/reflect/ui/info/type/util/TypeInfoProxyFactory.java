@@ -289,16 +289,16 @@ public abstract class TypeInfoProxyFactory {
 		return type.getDetailsAccessMode();
 	}
 
-	protected boolean canMove(IListTypeInfo type) {
-		return type.canMove();
+	protected boolean isOrdered(IListTypeInfo type) {
+		return type.isOrdered();
 	}
 
-	protected boolean canAdd(IListTypeInfo type) {
-		return type.canAdd();
+	protected boolean isInsertionAllowed(IListTypeInfo type) {
+		return type.isInsertionAllowed();
 	}
 
-	protected boolean canRemove(IListTypeInfo type) {
-		return type.canRemove();
+	protected boolean isRemovalAllowed(IListTypeInfo type) {
+		return type.isRemovalAllowed();
 	}
 
 	protected boolean canViewItemDetails(IListTypeInfo type) {
@@ -589,18 +589,18 @@ public abstract class TypeInfoProxyFactory {
 		}
 
 		@Override
-		public boolean canMove() {
-			return TypeInfoProxyFactory.this.canMove((IListTypeInfo) base);
+		public boolean isOrdered() {
+			return TypeInfoProxyFactory.this.isOrdered((IListTypeInfo) base);
 		}
 
 		@Override
-		public boolean canAdd() {
-			return TypeInfoProxyFactory.this.canAdd((IListTypeInfo) base);
+		public boolean isInsertionAllowed() {
+			return TypeInfoProxyFactory.this.isInsertionAllowed((IListTypeInfo) base);
 		}
 
 		@Override
-		public boolean canRemove() {
-			return TypeInfoProxyFactory.this.canRemove((IListTypeInfo) base);
+		public boolean isRemovalAllowed() {
+			return TypeInfoProxyFactory.this.isRemovalAllowed((IListTypeInfo) base);
 		}
 
 		@Override

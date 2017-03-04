@@ -97,11 +97,14 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 	}
 
 	@Override
-	public boolean canMove() {
-		if (SortedMap.class.isAssignableFrom(javaType)) {
+	public boolean isOrdered() {
+		if (Map.class.equals(javaType) ) {
 			return false;
 		}
 		if (HashMap.class.equals(javaType)) {
+			return false;
+		}
+		if (SortedMap.class.isAssignableFrom(javaType)) {
 			return false;
 		}
 		return true;

@@ -13,26 +13,31 @@ import xy.reflect.ui.util.SwingRendererUtils;
 public abstract class NullControl extends TextControl {
 
 	protected static final long serialVersionUID = 1L;
+	protected Runnable action;
 
 	protected abstract Object getText();
-
-	protected abstract void onMousePress();
 
 	public NullControl(final SwingRenderer swingRenderer, FieldControlPlaceHolder placeHolder) {
 		super(swingRenderer, placeHolder);
 		textComponent.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				try {
-					onMousePress();
-				} catch (Throwable t) {
-					swingRenderer.handleExceptionsFromDisplayedUI(NullControl.this, t);
+				if (action != null) {
+					try {
+						action.run();
+					} catch (Throwable t) {
+						swingRenderer.handleExceptionsFromDisplayedUI(NullControl.this, t);
+					}
 				}
 			}
 		});
 		if (getText() == null) {
 			textComponent.setBackground(SwingRendererUtils.getNullColor());
 		}
+	}
+
+	public void setAction(Runnable action) {
+		this.action = action;
 	}
 
 	@Override

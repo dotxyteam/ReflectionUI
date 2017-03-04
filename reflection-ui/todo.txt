@@ -1,9 +1,18 @@
-. ListType().canAdd(): only on field logically
-. IFieldInfo.isNullable() => ITypeInfo.isNullable()
+. listType conception issue:
+	* isOrdered(), canAdd() ... depend on the edition mode (get-only or not)
+	* list interfaces should not be concrete and have constructors
+	* there are 2 edition options:
+		# how to modify a list value
+			- modify the returned value (default)
+			- or instanciate a new value from array (maybe the custom instanciation type can be specified in cistomizations)
+		# how to persist the value modification
+			- set the field new value (default)
+			- or not (get-only mode customization)
+		One should allow to customize these options 
+. refresh issue because now some form types are different from holder field type
 . allow to execute dynamic actions or change dynamic properties on 
 multiple nodes
 . FieldControlPlaceHolder.isSimilarError(): risky
-. allow to convert field value to singletonList field value??? 
 . allow to easily customize ListFieldNamesNode title
 . no focus => no detailed focus anytime. Check getDetailedFocus(form)
 . restore all control states on refresh,

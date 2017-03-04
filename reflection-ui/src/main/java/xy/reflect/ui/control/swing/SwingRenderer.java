@@ -369,36 +369,32 @@ public class SwingRenderer {
 		return result;
 	}
 
-	public boolean hasCustomFieldControl(Object object, IFieldInfo field) {
-		if (field.getType() instanceof IEnumerationTypeInfo) {
+	public boolean hasCustomFieldControl(IControlData data) {
+		if (data.getType() instanceof IEnumerationTypeInfo) {
 			return true;
-		} else if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(field.getType())) {
+		} else if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(data.getType())) {
 			return true;
 		} else {
-			if (field.getValueOptions(object) != null) {
+			ITypeInfo fieldType = data.getType();
+			if (fieldType instanceof IListTypeInfo) {
 				return true;
 			} else {
-				ITypeInfo fieldType = field.getType();
-				if (fieldType instanceof IListTypeInfo) {
+				Class<?> javaType;
+				try {
+					javaType = ClassUtils.getCachedClassforName(fieldType.getName());
+				} catch (ClassNotFoundException e) {
+					return false;
+				}
+				if (javaType == Color.class) {
+					return true;
+				} else if (BooleanTypeInfo.isCompatibleWith(javaType)) {
+					return true;
+				} else if (TextualTypeInfo.isCompatibleWith(javaType)) {
+					return true;
+				} else if (FileTypeInfo.isCompatibleWith(javaType)) {
 					return true;
 				} else {
-					Class<?> javaType;
-					try {
-						javaType = ClassUtils.getCachedClassforName(fieldType.getName());
-					} catch (ClassNotFoundException e) {
-						return false;
-					}
-					if (javaType == Color.class) {
-						return true;
-					} else if (BooleanTypeInfo.isCompatibleWith(javaType)) {
-						return true;
-					} else if (TextualTypeInfo.isCompatibleWith(javaType)) {
-						return true;
-					} else if (FileTypeInfo.isCompatibleWith(javaType)) {
-						return true;
-					} else {
-						return false;
-					}
+					return false;
 				}
 			}
 		}
@@ -454,32 +450,37 @@ public class SwingRenderer {
 						return false;
 					}
 				});
-				return new NullableControl(this, placeHolder) {
-
+				if (!placeHolder.getControlData().isGetOnly()) {
+					return new NullableControl(this, placeHolder);
+				}
+			}
+			Object value = placeHolder.getControlData().getValue();
+			if (value == null) {
+				return new NullControl(SwingRenderer.this, placeHolder) {
 					private static final long serialVersionUID = 1L;
 
 					@Override
-					protected Component createNonNullValueControl() {
-						Component result = SwingRenderer.this.createFieldControl(placeHolder);
-						return result;
+					protected Object getText() {
+						return placeHolder.getControlData().getNullValueLabel();
 					}
-
-					@Override
-					protected Object getDefaultValue() {
-						Object newValue = null;
-						try {
-							newValue = this.swingRenderer.onTypeInstanciationRequest(this,
-									placeHolder.getControlData().getType(), false);
-						} catch (Throwable t) {
-							swingRenderer.handleExceptionsFromDisplayedUI(this, t);
-							newValue = null;
-						}
-						return newValue;
-					}
-
 				};
 			}
-			Object value = placeHolder.getControlData().getValue();
+			if(placeHolder.getControlData().isGetOnly()){
+				final ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
+				if (!valueType.equals(placeHolder.getControlData().getType())) {
+					placeHolder.setControlData(new ControlDataProxy(placeHolder.getControlData()) {
+						@Override
+						public ITypeInfo getType() {
+							return valueType;
+						}
+					});
+					return createFieldControl(placeHolder);
+				}
+			}
+			Component result = createCustomNonNullFieldValueControl(placeHolder);
+			if (result != null) {
+				return result;
+			}
 			final ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
 			if (!valueType.equals(placeHolder.getControlData().getType())) {
 				placeHolder.setControlData(new ControlDataProxy(placeHolder.getControlData()) {
@@ -489,10 +490,6 @@ public class SwingRenderer {
 					}
 				});
 				return createFieldControl(placeHolder);
-			}
-			Component result = createCustomNonNullFieldValueControl(placeHolder);
-			if (result != null) {
-				return result;
 			}
 			if (DesktopSpecificProperty.isSubFormExpanded(
 					DesktopSpecificProperty.accessControlDataProperties(placeHolder.getControlData()))) {
@@ -1693,10 +1690,6 @@ public class SwingRenderer {
 				@Override
 				protected Object getText() {
 					return new ReflectionUIError(t).toString();
-				}
-
-				@Override
-				protected void onMousePress() {
 				}
 
 			};

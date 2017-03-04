@@ -146,23 +146,26 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	}
 
 	@Override
-	public boolean canMove() {
-		if (SortedSet.class.isAssignableFrom(javaType)) {
+	public boolean isOrdered() {
+		if (Set.class.equals(javaType)) {
 			return false;
 		}
 		if (HashSet.class.equals(javaType)) {
 			return false;
 		}
+		if (SortedSet.class.isAssignableFrom(javaType)) {
+			return false;
+		}
 		return true;
 	}
 
 	@Override
-	public boolean canAdd() {
+	public boolean isInsertionAllowed() {
 		return true;
 	}
 
 	@Override
-	public boolean canRemove() {
+	public boolean isRemovalAllowed() {
 		return true;
 	}
 

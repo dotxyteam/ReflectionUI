@@ -36,17 +36,17 @@ public class FileControl extends DialogAccessControl implements IAdvancedFieldCo
 
 					@Override
 					public void setValue(Object value) {
-						data.setValue(new File((String) value));
+						FileControl.this.data.setValue(new File((String) value));
 					}
 
 					@Override
 					public boolean isGetOnly() {
-						return data.isGetOnly();
+						return FileControl.this.data.isGetOnly();
 					}
 
 					@Override
 					public Object getValue() {
-						File currentFile = (File) data.getValue();
+						File currentFile = (File) FileControl.this.data.getValue();
 						return currentFile.getPath();
 					}
 

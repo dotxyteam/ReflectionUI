@@ -27,11 +27,11 @@ public interface IListTypeInfo extends ITypeInfo {
 
 	IListItemDetailsAccessMode getDetailsAccessMode();
 
-	boolean canMove(); 
+	boolean isOrdered(); 
 
-	boolean canAdd();
+	boolean isInsertionAllowed();
 
-	boolean canRemove();
+	boolean isRemovalAllowed();
 
 	boolean canViewItemDetails();
 

@@ -2203,7 +2203,7 @@ public final class InfoCustomizations {
 		}
 
 		@Override
-		protected boolean canAdd(IListTypeInfo listType) {
+		protected boolean isInsertionAllowed(IListTypeInfo listType) {
 			ITypeInfo itemType = listType.getItemType();
 			final ListCustomization l = getListCustomization(listType.getName(),
 					(itemType == null) ? null : itemType.getName());
@@ -2212,11 +2212,11 @@ public final class InfoCustomizations {
 					return false;
 				}
 			}
-			return super.canAdd(listType);
+			return super.isInsertionAllowed(listType);
 		}
 
 		@Override
-		protected boolean canRemove(IListTypeInfo listType) {
+		protected boolean isRemovalAllowed(IListTypeInfo listType) {
 			ITypeInfo itemType = listType.getItemType();
 			final ListCustomization l = getListCustomization(listType.getName(),
 					(itemType == null) ? null : itemType.getName());
@@ -2225,11 +2225,11 @@ public final class InfoCustomizations {
 					return false;
 				}
 			}
-			return super.canRemove(listType);
+			return super.isRemovalAllowed(listType);
 		}
 
 		@Override
-		protected boolean canMove(IListTypeInfo listType) {
+		protected boolean isOrdered(IListTypeInfo listType) {
 			ITypeInfo itemType = listType.getItemType();
 			final ListCustomization l = getListCustomization(listType.getName(),
 					(itemType == null) ? null : itemType.getName());
@@ -2241,7 +2241,7 @@ public final class InfoCustomizations {
 					return false;
 				}
 			}
-			return super.canMove(listType);
+			return super.isOrdered(listType);
 		}
 
 		@Override

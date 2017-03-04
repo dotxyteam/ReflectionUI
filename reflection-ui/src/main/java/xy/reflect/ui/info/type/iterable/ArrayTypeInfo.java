@@ -61,13 +61,13 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 	}
 
 	@Override
-	public boolean canAdd() {
-		return false;
+	public boolean isInsertionAllowed() {
+		return true;
 	}
 
 	@Override
-	public boolean canRemove() {
-		return false;
+	public boolean isRemovalAllowed() {
+		return true;
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 	}
 
 	@Override
-	public boolean canMove() {
+	public boolean isOrdered() {
 		return true;
 	}
 

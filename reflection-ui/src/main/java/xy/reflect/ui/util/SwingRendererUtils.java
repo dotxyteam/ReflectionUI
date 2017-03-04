@@ -360,7 +360,8 @@ public class SwingRendererUtils {
 		Object encapsulatedValue = encapsulation.getInstance(new Object[] { fieldValue });
 		ITypeInfo valueAsFieldType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(encapsulatedValue));
 		IFieldInfo field = valueAsFieldType.getFields().get(0);
-		return swingRenderer.hasCustomFieldControl(encapsulatedValue, field);
+		IControlData controlData = swingRenderer.getFieldControlData(encapsulatedValue, field);
+		return swingRenderer.hasCustomFieldControl(controlData);
 	}
 
 	public static boolean isForm(Component c, SwingRenderer swingRenderer) {

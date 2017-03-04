@@ -240,12 +240,12 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 		}
 
 		@Override
-		public boolean canAdd() {
+		public boolean isInsertionAllowed() {
 			return false;
 		}
 
 		@Override
-		public boolean canRemove() {
+		public boolean isRemovalAllowed() {
 			return false;
 		}
 

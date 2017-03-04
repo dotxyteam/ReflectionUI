@@ -15,7 +15,7 @@ import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-public abstract class NullableControl extends JPanel implements IAdvancedFieldControl {
+public class NullableControl extends JPanel implements IAdvancedFieldControl {
 
 	protected SwingRenderer swingRenderer;
 	protected static final long serialVersionUID = 1L;
@@ -24,10 +24,6 @@ public abstract class NullableControl extends JPanel implements IAdvancedFieldCo
 	protected Component subControl;
 	protected FieldControlPlaceHolder placeHolder;
 	protected ITypeInfo subControlValueType;
-
-	protected abstract Component createNonNullValueControl();
-
-	protected abstract Object getDefaultValue();
 
 	public NullableControl(SwingRenderer swingRenderer, FieldControlPlaceHolder placeHolder) {
 		this.swingRenderer = swingRenderer;
@@ -50,32 +46,26 @@ public abstract class NullableControl extends JPanel implements IAdvancedFieldCo
 				}
 			}
 		});
-
-		if (!data.isGetOnly()) {
-			add(nullingControl, BorderLayout.WEST);
-		}
-
+		add(nullingControl, BorderLayout.WEST);
 		refreshUI();
 	}
-
-	
 
 	public Component getSubControl() {
 		return subControl;
 	}
 
-	protected void setShouldBeNull(boolean b) {
+	protected void setNullingControlState(boolean b) {
 		nullingControl.setSelected(!b);
 	}
 
-	protected boolean shoulBeNull() {
+	protected boolean getNullingControlState() {
 		return !nullingControl.isSelected();
 	}
 
 	@Override
 	public boolean refreshUI() {
 		Object value = data.getValue();
-		setShouldBeNull(value == null);
+		setNullingControlState(value == null);
 		boolean hadFocus = (subControl != null) && SwingRendererUtils.hasOrContainsFocus(subControl);
 		updateSubControl(value);
 		if (hadFocus && (subControl != null)) {
@@ -85,19 +75,18 @@ public abstract class NullableControl extends JPanel implements IAdvancedFieldCo
 	}
 
 	protected void onNullingControlStateChange() {
-		Object newValue;
-		if (!shoulBeNull()) {
-			newValue = getDefaultValue();
-			if (newValue == null) {
-				setShouldBeNull(true);
-				return;
-			}
+		if (getNullingControlState()) {
+			data.setValue(null);
 		} else {
-			newValue = null;
-			remove(subControl);
-			subControl = null;
+			Object newValue = null;
+			try {
+				newValue = this.swingRenderer.onTypeInstanciationRequest(this, placeHolder.getControlData().getType(),
+						false);
+			} catch (Throwable t) {
+				swingRenderer.handleExceptionsFromDisplayedUI(this, t);
+			}
+			data.setValue(newValue);
 		}
-		data.setValue(newValue);
 		refreshUI();
 	}
 
@@ -115,38 +104,22 @@ public abstract class NullableControl extends JPanel implements IAdvancedFieldCo
 			if (subControl != null) {
 				remove(subControl);
 			}
-			if (newValue != null) {
-				subControlValueType = swingRenderer.getReflectionUI()
-						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newValue));
-				subControl = createNonNullValueControl();
-				add(subControl, BorderLayout.CENTER);
-			} else {
-				subControlValueType = null;
-				subControl = createNullControl();
-				add(subControl, BorderLayout.CENTER);
+			subControlValueType = (newValue == null) ? null
+					: swingRenderer.getReflectionUI()
+							.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newValue));
+			subControl = swingRenderer.createFieldControl(placeHolder);
+			if(subControl instanceof NullControl){
+				((NullControl)subControl).setAction(new Runnable() {					
+					@Override
+					public void run() {
+						setNullingControlState(false);
+						onNullingControlStateChange();
+					}
+				});
 			}
+			add(subControl, BorderLayout.CENTER);
 			SwingRendererUtils.handleComponentSizeChange(this);
 		}
-	}
-
-	protected Component createNullControl() {
-		return new NullControl(swingRenderer, placeHolder) {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void onMousePress() {
-				if (!data.isGetOnly()) {
-					setShouldBeNull(false);
-					onNullingControlStateChange();
-					subControl.requestFocus();
-				}
-			}
-
-			@Override
-			protected Object getText() {
-				return data.getNullValueLabel();
-			}
-		};
 	}
 
 	@Override
