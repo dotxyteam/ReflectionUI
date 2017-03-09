@@ -531,7 +531,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							updateUI(customizedType.getName());
+							updateUI(result);
 						}
 					});
 					popupMenu.add(new AbstractAction(prepareStringToDisplay("Lock")) {
@@ -580,7 +580,7 @@ public class SwingCustomizer extends SwingRenderer {
 			}
 		}
 
-		protected void openCustomizationEditor(Component activatorComponent, Object customization,
+		protected void openCustomizationEditor(final Component activatorComponent, Object customization,
 				final String impactedTypeName) {
 			final ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(customizationToolsRenderer,
 					activatorComponent, customization);
@@ -605,7 +605,7 @@ public class SwingCustomizer extends SwingRenderer {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						updateUI(impactedTypeName);
+						updateUI(activatorComponent);
 					}
 				});
 			}
@@ -801,13 +801,13 @@ public class SwingCustomizer extends SwingRenderer {
 			MethodCustomization mc = infoCustomizations.getMethodCustomization(customizedType.getName(),
 					methodSignature, true);
 			mc.setHidden(true);
-			updateUI(customizedType.getName());
+			updateUI(activatorComponent);
 		}
 
 		protected void hideField(Component activatorComponent, ITypeInfo customizedType, String fieldName) {
 			FieldCustomization fc = infoCustomizations.getFieldCustomization(customizedType.getName(), fieldName, true);
 			fc.setHidden(true);
-			updateUI(customizedType.getName());
+			updateUI(activatorComponent);
 		}
 
 		protected void moveField(Component activatorComponent, ITypeInfo customizedType, String fieldName, int offset) {
@@ -817,7 +817,7 @@ public class SwingCustomizer extends SwingRenderer {
 			} catch (Throwable t) {
 				handleExceptionsFromDisplayedUI(activatorComponent, t);
 			}
-			updateUI(customizedType.getName());
+			updateUI(activatorComponent);
 		}
 
 		protected void moveMethod(Component activatorComponent, ITypeInfo customizedType, String methodSignature,
@@ -828,11 +828,11 @@ public class SwingCustomizer extends SwingRenderer {
 			} catch (Throwable t) {
 				handleExceptionsFromDisplayedUI(activatorComponent, t);
 			}
-			updateUI(customizedType.getName());
+			updateUI(activatorComponent);
 		}
 
 		@SuppressWarnings("unchecked")
-		protected void openListColumnsOrderDialog(Component activatorComponent,
+		protected void openListColumnsOrderDialog(final Component activatorComponent,
 				final IListTypeInfo customizedListType) {
 			ITypeInfo customizedItemType = customizedListType.getItemType();
 			String itemTypeName = (customizedItemType == null) ? null : customizedItemType.getName();
@@ -874,7 +874,7 @@ public class SwingCustomizer extends SwingRenderer {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						updateUI(customizedListType.getName());
+						updateUI(activatorComponent);
 					}
 				});
 			}
@@ -1005,31 +1005,15 @@ public class SwingCustomizer extends SwingRenderer {
 			return result;
 		}
 
-		protected void updateUI(String typeName) {
-			for (Map.Entry<JPanel, Object> entry : getObjectByForm().entrySet()) {
-				Object object = entry.getValue();
-				ITypeInfo objectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-				if (typeName.equals(objectType.getName())) {
-					for (JPanel form : getForms(object)) {
-						recreateFormContent(form);
-						updateStatusBarInBackground(form);
-					}
-				}
-				JPanel form = entry.getKey();
-				for (FieldControlPlaceHolder placeHolder : getFieldControlPlaceHolders(form)) {
-					IFieldInfo field = placeHolder.getField();
-					if (typeName.equals(field.getType().getName())) {
-						refreshFieldControlsByName(form, field.getName(), true);
-					}
-				}
+		protected void updateUI(Component customizedFormComponent) {
+			JPanel form;
+			if (SwingRendererUtils.isForm(customizedFormComponent, SwingCustomizer.this)) {
+				form = (JPanel) customizedFormComponent;
+			} else {
+				form = SwingRendererUtils.findParentForm(customizedFormComponent, SwingCustomizer.this);
 			}
-			TypeCustomization t = infoCustomizations.getTypeCustomization(typeName, true);
-			for (JPanel form : customizationToolsRenderer.getForms(t)) {
-				customizationToolsRenderer.refreshAllFieldControls(form, false);
-			}
-			for (JPanel form : customizationToolsRenderer.getForms(infoCustomizations)) {
-				customizationToolsRenderer.refreshAllFieldControls(form, false);
-			}
+			recreateFormContent(form);
+			updateStatusBarInBackground(form);
 		}
 
 	}
@@ -1060,7 +1044,15 @@ public class SwingCustomizer extends SwingRenderer {
 			this.hiddenCustomizationToolsTypeNames.addAll(hiddenCustomizationToolsTypeNames);
 
 			for (String typeName : impacted) {
-				customizationTools.updateUI(typeName);
+				for (Map.Entry<JPanel, Object> entry : getObjectByForm().entrySet()) {
+					Object object = entry.getValue();
+					ITypeInfo objectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+					if (typeName.equals(objectType.getName())) {
+						for (JPanel form : getForms(object)) {
+							customizationTools.updateUI(form);
+						}
+					}
+				}
 			}
 		}
 

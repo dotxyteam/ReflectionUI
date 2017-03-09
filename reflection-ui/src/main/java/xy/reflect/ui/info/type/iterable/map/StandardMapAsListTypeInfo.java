@@ -1,7 +1,6 @@
 package xy.reflect.ui.info.type.iterable.map;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,10 +8,8 @@ import java.util.Map.Entry;
 import java.util.SortedMap;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
-import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -34,25 +31,6 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 	}
 
 	@Override
-	protected IMethodInfo createZeroParameterContructor() {
-		if (javaType.isAssignableFrom(HashMap.class)) {
-			return new AbstractConstructorInfo(this) {
-
-				@Override
-				public Object invoke(Object object, InvocationData invocationData) {
-					return new HashMap<Object, Object>();
-				}
-
-				@Override
-				public List<IParameterInfo> getParameters() {
-					return Collections.emptyList();
-				}
-			};
-		}
-		return null;
-	}
-
-	@Override
 	public boolean canReplaceContent() {
 		return true;
 	}
@@ -63,24 +41,27 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 		Map map = (Map) listValue;
 		map.clear();
 		for (Object item : array) {
+			StandardMapEntry entry = (StandardMapEntry) item;
+			if (map.containsKey(entry.getKey())) {
+				throw new ReflectionUIError(
+						"Duplicate key: '" + ReflectionUIUtils.toString(reflectionUI, entry.getKey()) + "'");
+			}
 			StandardMapEntry standardMapEntry = (StandardMapEntry) item;
 			map.put(standardMapEntry.getKey(), standardMapEntry.getValue());
 		}
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public boolean canInstanciateFromArray() {
+		return true;
+	}
+
+	@SuppressWarnings({ "rawtypes" })
 	@Override
 	public Object fromArray(Object[] array) {
 		IMethodInfo constructor = ReflectionUIUtils.getZeroParameterConstrucor(this);
 		Map result = (Map) constructor.invoke(null, new InvocationData());
-		for (Object item : array) {
-			StandardMapEntry entry = (StandardMapEntry) item;
-			if (result.containsKey(entry.getKey())) {
-				throw new ReflectionUIError(
-						"Duplicate key: '" + ReflectionUIUtils.toString(reflectionUI, entry.getKey()) + "'");
-			}
-			result.put(entry.getKey(), entry.getValue());
-		}
+		replaceContent(result, array);
 		return result;
 	}
 

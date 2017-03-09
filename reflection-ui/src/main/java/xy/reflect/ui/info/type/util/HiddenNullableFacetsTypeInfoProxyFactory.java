@@ -26,7 +26,7 @@ public class HiddenNullableFacetsTypeInfoProxyFactory extends TypeInfoProxyFacto
 		}
 		if (result == null) {
 			throw new ReflectionUIError(
-					"Failed to hide nullable facets: Unable to generate a default value for the type '" + type.getName() + "'");
+					"Unable to generate a default value for the type '" + type.getName() + "'");
 		}
 		return result;
 	}

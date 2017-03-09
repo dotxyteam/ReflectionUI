@@ -1278,10 +1278,34 @@ public final class InfoCustomizations {
 
 	}
 
+	public static class ListInstanciationOption {
+		protected ITypeInfoFinder customInstanceTypeFinder;
+
+		@XmlElements({ @XmlElement(name = "javaClassBasedTypeInfoFinder", type = JavaClassBasedTypeInfoFinder.class),
+				@XmlElement(name = "customTypeInfoFinder", type = CustomTypeInfoFinder.class) })
+		public ITypeInfoFinder getCustomInstanceTypeFinder() {
+			return customInstanceTypeFinder;
+		}
+
+		public void setCustomInstanceTypeFinder(ITypeInfoFinder customInstanceTypeFinder) {
+			this.customInstanceTypeFinder = customInstanceTypeFinder;
+		}
+
+	}
+
 	public static class ListEditOptions {
 		protected boolean itemCreationEnabled = true;
 		protected boolean itemDeletionEnabled = true;
 		protected boolean itemMoveEnabled = true;
+		protected ListInstanciationOption listInstanciationOption;
+
+		public ListInstanciationOption getListInstanciationOption() {
+			return listInstanciationOption;
+		}
+
+		public void setListInstanciationOption(ListInstanciationOption listInstanciationOption) {
+			this.listInstanciationOption = listInstanciationOption;
+		}
 
 		public boolean isItemCreationEnabled() {
 			return itemCreationEnabled;
@@ -2177,6 +2201,30 @@ public final class InfoCustomizations {
 		}
 
 		@Override
+		protected Object fromArray(IListTypeInfo listType, Object[] array) {
+			ITypeInfo itemType = listType.getItemType();
+			final ListCustomization l = getListCustomization(listType.getName(),
+					(itemType == null) ? null : itemType.getName());
+			if (l != null) {
+				if (l.editOptions != null) {					
+					if (l.editOptions.listInstanciationOption != null) {
+						Object newListInstance;
+						if (l.editOptions.listInstanciationOption.customInstanceTypeFinder != null) {
+							ITypeInfo customInstanceType = l.editOptions.listInstanciationOption.customInstanceTypeFinder
+									.find(reflectionUI);
+							newListInstance = ReflectionUIUtils.createDefaultInstance(reflectionUI, customInstanceType);
+						} else {
+							newListInstance =  ReflectionUIUtils.createDefaultInstance(reflectionUI, listType);
+						}
+						super.replaceContent(listType, newListInstance, array);
+						return newListInstance;
+					}
+				}
+			}
+			return super.fromArray(listType, array);
+		}
+
+		@Override
 		protected boolean canInstanciateFromArray(IListTypeInfo listType) {
 			ITypeInfo itemType = listType.getItemType();
 			final ListCustomization l = getListCustomization(listType.getName(),
@@ -2184,6 +2232,9 @@ public final class InfoCustomizations {
 			if (l != null) {
 				if (l.editOptions == null) {
 					return false;
+				}
+				if (l.editOptions.listInstanciationOption != null) {
+					return true;
 				}
 			}
 			return super.canInstanciateFromArray(listType);
@@ -2196,6 +2247,9 @@ public final class InfoCustomizations {
 					(itemType == null) ? null : itemType.getName());
 			if (l != null) {
 				if (l.editOptions == null) {
+					return false;
+				}
+				if (l.editOptions.listInstanciationOption != null) {
 					return false;
 				}
 			}

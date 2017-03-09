@@ -465,18 +465,6 @@ public class SwingRenderer {
 					}
 				};
 			}
-			if(placeHolder.getControlData().isGetOnly()){
-				final ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
-				if (!valueType.equals(placeHolder.getControlData().getType())) {
-					placeHolder.setControlData(new ControlDataProxy(placeHolder.getControlData()) {
-						@Override
-						public ITypeInfo getType() {
-							return valueType;
-						}
-					});
-					return createFieldControl(placeHolder);
-				}
-			}
 			Component result = createCustomNonNullFieldValueControl(placeHolder);
 			if (result != null) {
 				return result;
@@ -1660,7 +1648,7 @@ public class SwingRenderer {
 			}
 			if (fieldControl == null) {
 				try {
-					setControlData(getFieldControlData(object, field));
+					setControlData(getFieldControlData(object, controlAwareField));
 					fieldControl = createFieldControl(this);
 				} catch (Throwable t) {
 					fieldControl = createUIRefreshErrorControl(t);

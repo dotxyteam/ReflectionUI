@@ -1,10 +1,13 @@
+- add field/method category in windows title
 . listType conception issue:
 	* isOrdered(), canAdd() ... depend on the edition mode (get-only or not)
 	* list interfaces should not be concrete and have constructors
 	* there are 2 edition options:
 		# how to modify a list value
 			- modify the returned value (default)
-			- or instanciate a new value from array (maybe the custom instanciation type can be specified in cistomizations)
+			- or instanciate a new value from array 
+			(maybe the custom instanciation type can be specified in customizations)
+			(instanciate value on modification customization(custom instance type))
 		# how to persist the value modification
 			- set the field new value (default)
 			- or not (get-only mode customization)

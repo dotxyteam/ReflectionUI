@@ -21,15 +21,33 @@
     </listCustomizations>
     <listCustomizations>
         <columnCustomizations>
-            <columnName>toStringValue</columnName>
+            <columnName>columnName</columnName>
             <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>customCaption</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>hidden</columnName>
+            <hidden>false</hidden>
+            <minimalCharacterCount>5</minimalCharacterCount>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>minimalCharacterCount</columnName>
+            <hidden>false</hidden>
+            <minimalCharacterCount>3</minimalCharacterCount>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>toStringValue</columnName>
+            <hidden>true</hidden>
         </columnCustomizations>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
-        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <fieldColumnsAdded>true</fieldColumnsAdded>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization</itemTypeName>
@@ -78,7 +96,15 @@
     </listCustomizations>
     <listCustomizations>
         <columnCustomizations>
+            <columnName>regularExpression</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
             <columnName>toStringValue</columnName>
+            <hidden>true</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>value</columnName>
             <hidden>false</hidden>
         </columnCustomizations>
         <editOptions>
@@ -86,7 +112,7 @@
             <itemDeletionEnabled>true</itemDeletionEnabled>
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
-        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <fieldColumnsAdded>true</fieldColumnsAdded>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$InfoFilter</itemTypeName>
@@ -97,15 +123,27 @@
     </listCustomizations>
     <listCustomizations>
         <columnCustomizations>
-            <columnName>toStringValue</columnName>
+            <columnName>alwaysShown</columnName>
             <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>customFieldCaption</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>fieldName</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>toStringValue</columnName>
+            <hidden>true</hidden>
         </columnCustomizations>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
-        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <fieldColumnsAdded>true</fieldColumnsAdded>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$ListItemFieldShortcut</itemTypeName>
@@ -117,14 +155,14 @@
     <listCustomizations>
         <columnCustomizations>
             <columnName>toStringValue</columnName>
-            <hidden>false</hidden>
+            <hidden>true</hidden>
         </columnCustomizations>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
-        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <fieldColumnsAdded>true</fieldColumnsAdded>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$ListItemMethodShortcut</itemTypeName>
@@ -135,15 +173,77 @@
     </listCustomizations>
     <listCustomizations>
         <columnCustomizations>
-            <columnName>toStringValue</columnName>
+            <columnName>category</columnName>
             <hidden>false</hidden>
         </columnCustomizations>
+        <columnCustomizations>
+            <columnName>customMethodCaption</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>customValueReturnMode</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>displayedAsField</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>hidden</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>iconImageFile</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>methodSignature</columnName>
+            <hidden>false</hidden>
+            <minimalCharacterCount>30</minimalCharacterCount>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>nullReturnValueLabel</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>onlineHelp</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>parametersCustomizations</columnName>
+            <customCaption>Parameters</customCaption>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>readOnlyForced</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>toStringValue</columnName>
+            <hidden>true</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>validating</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnsCustomOrder>methodSignature</columnsCustomOrder>
+        <columnsCustomOrder>customMethodCaption</columnsCustomOrder>
+        <columnsCustomOrder>hidden</columnsCustomOrder>
+        <columnsCustomOrder>readOnlyForced</columnsCustomOrder>
+        <columnsCustomOrder>category</columnsCustomOrder>
+        <columnsCustomOrder>onlineHelp</columnsCustomOrder>
+        <columnsCustomOrder>validating</columnsCustomOrder>
+        <columnsCustomOrder>customValueReturnMode</columnsCustomOrder>
+        <columnsCustomOrder>iconImageFile</columnsCustomOrder>
+        <columnsCustomOrder>parametersCustomizations</columnsCustomOrder>
+        <columnsCustomOrder>nullReturnValueLabel</columnsCustomOrder>
+        <columnsCustomOrder>displayedAsField</columnsCustomOrder>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
-        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <fieldColumnsAdded>true</fieldColumnsAdded>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization</itemTypeName>
@@ -155,14 +255,14 @@
     <listCustomizations>
         <columnCustomizations>
             <columnName>toStringValue</columnName>
-            <hidden>false</hidden>
+            <hidden>true</hidden>
         </columnCustomizations>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
-        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <fieldColumnsAdded>true</fieldColumnsAdded>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization</itemTypeName>
@@ -276,15 +376,28 @@
     </listCustomizations>
     <listCustomizations>
         <columnCustomizations>
-            <columnName>toStringValue</columnName>
+            <columnName>customCaption</columnName>
             <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>hidden</columnName>
+            <hidden>false</hidden>
+            <minimalCharacterCount>5</minimalCharacterCount>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>itemName</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>toStringValue</columnName>
+            <hidden>true</hidden>
         </columnCustomizations>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
-        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <fieldColumnsAdded>true</fieldColumnsAdded>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$EnumerationItemCustomization</itemTypeName>
@@ -296,6 +409,58 @@
     <listCustomizations>
         <columnCustomizations>
             <columnName>toStringValue</columnName>
+            <hidden>true</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>fieldName</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>customFieldCaption</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>getOnlyForced</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>nullableFacetHidden</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>hidden</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>expandSubForm</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>category</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>valueOptionsFieldName</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>onlineHelp</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>customValueReturnMode</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>nullValueLabel</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>displayedAsMethods</columnName>
+            <hidden>false</hidden>
+        </columnCustomizations>
+        <columnCustomizations>
+            <columnName>displayedAsSingletonList</columnName>
             <hidden>false</hidden>
         </columnCustomizations>
         <editOptions>
@@ -303,7 +468,7 @@
             <itemDeletionEnabled>true</itemDeletionEnabled>
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
-        <fieldColumnsAdded>false</fieldColumnsAdded>
+        <fieldColumnsAdded>true</fieldColumnsAdded>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization</itemTypeName>
@@ -1925,6 +2090,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <customTypeCaption>Custom Type Info</customTypeCaption>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
@@ -1949,6 +2115,13 @@
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$CustomTypeInfoFinder CustomTypeInfoFinder()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$CustomTypeInfoFinder new()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
@@ -2257,6 +2430,13 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>xy.reflect.ui.info.type.ITypeInfo find(xy.reflect.ui.ReflectionUI)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
         <javaClassBasedTypeInfoFinder>
             <className>xy.reflect.ui.info.type.util.InfoCustomizations$JavaClassBasedTypeInfoFinder</className>
         </javaClassBasedTypeInfoFinder>
@@ -2309,6 +2489,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <customTypeCaption>Java Class-Based Type</customTypeCaption>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
@@ -2333,6 +2514,13 @@
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$JavaClassBasedTypeInfoFinder JavaClassBasedTypeInfoFinder()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$JavaClassBasedTypeInfoFinder new()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
@@ -2535,6 +2723,12 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
             <hidden>false</hidden>
             <customFieldCaption>Sort Items</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
@@ -2687,6 +2881,21 @@
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>itemMoveEnabled</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <customFieldCaption>Create New List Intance On Modification</customFieldCaption>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>listInstanciationOption</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
@@ -2901,6 +3110,7 @@
                 <caption>Parameters</caption>
             </category>
             <hidden>false</hidden>
+            <customFieldCaption></customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>parametersCustomizations</fieldName>
@@ -2998,6 +3208,7 @@
         <customFieldsOrder>specificProperties</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <customFieldCaption>Custom Caption</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>customParameterCaption</fieldName>
@@ -3032,6 +3243,7 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <customFieldCaption>Name</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>parameterName</fieldName>
@@ -3046,6 +3258,20 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <methodsCustomizations>
+            <hidden>true</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization new()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3437,6 +3663,63 @@
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>Encapsulation [typeCaption=IType Info Finder - Polymorphic Value, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$CustomTypeInfoFinder, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>xy.reflect.ui.info.type.ITypeInfo find(xy.reflect.ui.ReflectionUI)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>find</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Custom Instance Type</customFieldCaption>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>customInstanceTypeFinder</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$ListInstanciationOption</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>o</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>compareTo</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

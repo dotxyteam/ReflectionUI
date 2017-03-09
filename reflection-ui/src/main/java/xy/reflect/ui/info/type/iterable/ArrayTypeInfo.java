@@ -81,6 +81,11 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 	}
 
 	@Override
+	public boolean canInstanciateFromArray() {
+		return true;
+	}
+
+	@Override
 	public Object fromArray(Object[] array) {
 		Object value = Array.newInstance(javaType.getComponentType(), array.length);
 		for (int i = 0; i < array.length; i++) {

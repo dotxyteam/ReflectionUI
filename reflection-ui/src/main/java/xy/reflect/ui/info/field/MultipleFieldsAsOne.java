@@ -226,7 +226,7 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 	protected class ListTypeInfo extends StandardCollectionTypeInfo {
 
 		public ListTypeInfo() {
-			super(MultipleFieldsAsOne.this.reflectionUI, List.class, null);
+			super(MultipleFieldsAsOne.this.reflectionUI, ArrayList.class, null);
 		}
 
 		@Override

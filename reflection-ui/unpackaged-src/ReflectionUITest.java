@@ -78,7 +78,7 @@ public class ReflectionUITest {
 		public Double theDouble = 145678e-2;
 		public boolean theBooleanPrimitive;
 		public Boolean theBooleanObject;
-		public File theFile;
+		public File theFile = new File("tmp");
 		private Date theDate = new Date();
 		char c = 'a';
 		public List<String> theStringList = new ArrayList<String>(Arrays.asList("a", "b", "c", "d"));

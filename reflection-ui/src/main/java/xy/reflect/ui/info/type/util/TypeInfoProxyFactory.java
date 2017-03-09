@@ -248,7 +248,7 @@ public abstract class TypeInfoProxyFactory {
 		return type.getPossibleValues();
 	}
 
-	protected void fromArray(IListTypeInfo type, Object listValue, Object[] array) {
+	protected void replaceContent(IListTypeInfo type, Object listValue, Object[] array) {
 		type.replaceContent(listValue, array);
 	}
 
@@ -625,7 +625,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public void replaceContent(Object listValue, Object[] array) {
-			TypeInfoProxyFactory.this.fromArray((IListTypeInfo) base, listValue, array);
+			TypeInfoProxyFactory.this.replaceContent((IListTypeInfo) base, listValue, array);
 		}
 
 		@Override

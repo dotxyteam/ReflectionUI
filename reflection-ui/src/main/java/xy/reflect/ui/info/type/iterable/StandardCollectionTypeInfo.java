@@ -56,44 +56,6 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	}
 
 	@Override
-	public List<IMethodInfo> getConstructors() {
-		List<IMethodInfo>  result = new ArrayList<IMethodInfo>(super.getConstructors());
-		if (ReflectionUIUtils.getZeroParameterMethod(result) == null) {
-			IMethodInfo zeroParameterCtor = createZeroParameterContructor();
-			if (zeroParameterCtor != null) {
-				result.add(zeroParameterCtor);
-			} 
-		}
-		return result;
-	}
-
-	protected IMethodInfo createZeroParameterContructor() {
-		final Collection<?> newInstance;
-		if (javaType.isAssignableFrom(ArrayList.class)) {
-			newInstance = new ArrayList<Object>();
-		} else if (javaType.isAssignableFrom(LinkedHashSet.class)) {
-			newInstance = new LinkedHashSet<Object>();
-		} else {
-			newInstance = null;
-		}
-		if (newInstance != null) {
-			return new AbstractConstructorInfo(this) {
-
-				@Override
-				public Object invoke(Object object, InvocationData invocationData) {
-					return newInstance;
-				}
-
-				@Override
-				public List<IParameterInfo> getParameters() {
-					return Collections.emptyList();
-				}
-			};
-		}
-		return null;
-	}
-
-	@Override
 	public boolean canReplaceContent() {
 		return true;
 	}
@@ -104,32 +66,31 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 		Collection collection = (Collection) listValue;
 		collection.clear();
 		for (Object item : array) {
-			collection.add(item);
-		}
-	}
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Override
-	public Object fromArray(Object[] array) {
-		IMethodInfo constructor = ReflectionUIUtils.getZeroParameterConstrucor(this);
-		Collection result = (Collection) constructor.invoke(null, new InvocationData());
-		for (Object item : array) {
-			if (result instanceof Set) {
-				if (result.contains(item)) {
+			if (collection instanceof Set) {
+				if (collection.contains(item)) {
 					throw new ReflectionUIError(
 							"Duplicate item: '" + ReflectionUIUtils.toString(reflectionUI, item) + "'");
 				}
 			}
-			result.add(item);
+			collection.add(item);
 		}
-		return result;
 	}
 
 	@Override
 	public boolean canInstanciateFromArray() {
-		return ReflectionUIUtils.getZeroParameterConstrucor(this) != null;
+		return isConcrete() && (ReflectionUIUtils.getZeroParameterConstrucor(this) != null) && canReplaceContent();
 	}
 
+	@SuppressWarnings({ "rawtypes" })
+	@Override
+	public Object fromArray(Object[] array) {
+		IMethodInfo constructor = ReflectionUIUtils.getZeroParameterConstrucor(this);
+		Collection result = (Collection) constructor.invoke(null, new InvocationData());
+		replaceContent(result, array);
+		return result;
+	}
+
+	
 	@Override
 	public Object[] toArray(Object listValue) {
 		return ((Collection<?>) listValue).toArray();

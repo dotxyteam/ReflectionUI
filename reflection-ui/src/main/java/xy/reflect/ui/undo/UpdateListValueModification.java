@@ -3,6 +3,7 @@ package xy.reflect.ui.undo;
 import java.util.ArrayList;
 import java.util.List;
 
+import xy.reflect.ui.control.data.ControlDataProxy;
 import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -30,15 +31,18 @@ public class UpdateListValueModification extends AbstractModification {
 				return false;
 			}
 		}
-		IListTypeInfo containingListType = itemPosition.getContainingListType();
 		IControlData containingListData = itemPosition.getContainingListData();
-		if (containingListData.isGetOnly()) {
-			if (containingListType.canReplaceContent()
-					&& (containingListData.getValueReturnMode() == ValueReturnMode.SELF)) {
+		IListTypeInfo containingListType = itemPosition.getContainingListType();
+		if (containingListType.canReplaceContent()) {
+			if (containingListData.getValueReturnMode() == ValueReturnMode.SELF) {
 				return true;
 			}
-		} else {
-			if (containingListType.canInstanciateFromArray() || containingListType.canReplaceContent()) {
+			if (!containingListData.isGetOnly()) {
+				return true;
+			}
+		}
+		if (containingListType.canInstanciateFromArray()) {
+			if (!containingListData.isGetOnly()) {
 				return true;
 			}
 		}
@@ -79,12 +83,9 @@ public class UpdateListValueModification extends AbstractModification {
 		if (!isCompatibleWith(itemPosition)) {
 			return;
 		}
-		
-		if (!renewListValue(listRawValue, itemPosition)) {
-			if (!changeListContent(listRawValue, itemPosition)) {
-				throw new ReflectionUIError();
-			}
-		}
+
+		updateListValue(itemPosition, listRawValue);
+
 		ItemPosition parentItemPosition = itemPosition.getParentItemPosition();
 		if (parentItemPosition != null) {
 			Object[] parentListRawValue = parentItemPosition.getContainingListRawValue();
@@ -92,34 +93,46 @@ public class UpdateListValueModification extends AbstractModification {
 		}
 	}
 
-	protected boolean renewListValue(Object[] listRawValue, ItemPosition itemPosition) {
-		IListTypeInfo listType = itemPosition.getContainingListType();
-		if (!listType.canInstanciateFromArray()) {
-			return false;
-		}
-		if (itemPosition.getContainingListData().isGetOnly()) {
-			return false;
-		}
-		Object listValue = listType.fromArray(listRawValue);
-		undoModifications.add(0, new ControlDataValueModification(itemPosition.getContainingListData(), listValue, target).applyAndGetOpposite());
-		return true;
-	}
-
-	protected boolean changeListContent(Object[] listRawValue, ItemPosition itemPosition) {
-		IListTypeInfo listType = itemPosition.getContainingListType();
-		if (!listType.canReplaceContent()) {
-			return false;
-		}
+	protected void updateListValue(ItemPosition itemPosition2, Object[] listRawValue) {
 		IControlData listData = itemPosition.getContainingListData();
-		if ((listData.getValueReturnMode() != ValueReturnMode.SELF) && listData.isGetOnly()) {
-			return false;
+		IListTypeInfo listType = itemPosition.getContainingListType();
+		if (listType.canReplaceContent()) {
+			if (listData.getValueReturnMode() == ValueReturnMode.SELF) {
+				final Object listValue = listData.getValue();
+				undoModifications.add(0, new ChangeListContentModification(new ControlDataProxy(listData) {
+					@Override
+					public Object getValue() {
+						return listValue;
+					}
+				}, listRawValue, target).applyAndGetOpposite());
+				return;
+			}
+			if (!listData.isGetOnly()) {
+				final Object listValue = listData.getValue();
+				undoModifications.add(0, new ChangeListContentModification(new ControlDataProxy(listData) {
+					@Override
+					public Object getValue() {
+						return listValue;
+					}
+				}, listRawValue, target).applyAndGetOpposite());
+				undoModifications.add(0,
+						new ControlDataValueModification(itemPosition.getContainingListData(), listValue, target)
+								.applyAndGetOpposite());
+				return;
+			}
 		}
-		undoModifications.add(0,
-				new ChangeListContentModification(listData, listRawValue, target).applyAndGetOpposite());
-		return true;
+		if (listType.canInstanciateFromArray()) {
+			if (!listData.isGetOnly()) {
+				Object listValue = listType.fromArray(listRawValue);
+				undoModifications.add(0,
+						new ControlDataValueModification(itemPosition.getContainingListData(), listValue, target)
+								.applyAndGetOpposite());
+				return;
+			}
+		}
+		throw new ReflectionUIError();
 	}
 
-	
 	public static class ChangeListContentModification extends AbstractModification {
 
 		protected IControlData listData;
