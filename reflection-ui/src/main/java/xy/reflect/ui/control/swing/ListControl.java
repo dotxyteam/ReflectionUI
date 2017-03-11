@@ -57,6 +57,7 @@ import org.jdesktop.swingx.JXTreeTable;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.jdesktop.swingx.treetable.TreeTableModel;
 
+import javafx.scene.chart.PieChart.Data;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.data.FieldControlData;
 import xy.reflect.ui.control.data.IControlData;
@@ -1087,17 +1088,17 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	protected class GhostItemPosition extends AutoFieldValueUpdatingItemPosition {
 
 		protected AutoFieldValueUpdatingItemPosition itemPosition;
-		protected Object item;
+		protected Object[] itemHolder;
 
-		public GhostItemPosition(AutoFieldValueUpdatingItemPosition itemPosition, Object item) {
+		public GhostItemPosition(AutoFieldValueUpdatingItemPosition itemPosition, Object[] itemHolder) {
 			super(itemPosition.getParentItemPosition(), itemPosition.getContainingListData(), itemPosition.getIndex());
 			this.itemPosition = itemPosition;
-			this.item = item;
+			this.itemHolder = itemHolder;
 		}
 
 		@Override
 		public Object getItem() {
-			return item;
+			return itemHolder[0];
 		}
 
 		public String getContainingListTitle() {
@@ -1111,7 +1112,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				@Override
 				public Object get(int index) {
 					if (index == itemPosition.getIndex()) {
-						return item;
+						return itemHolder[0];
 					} else {
 						return super.get(index);
 					}
@@ -1120,8 +1121,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				@Override
 				public Object set(int index, Object element) {
 					if (index == itemPosition.getIndex()) {
-						Object old = item;
-						item = element;
+						Object old = itemHolder[0];
+						itemHolder[0] = element;
 						return old;
 					} else {
 						return super.set(index, element);
@@ -1145,8 +1146,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				if (newItem == null) {
 					return false;
 				}
-				GhostItemPosition futureItemPosition = new GhostItemPosition(newItemPosition, newItem);
-				Object[] itemHolder = new Object[] { futureItemPosition.getItem() };
+				Object[] itemHolder = new Object[] { newItem };
+				GhostItemPosition futureItemPosition = new GhostItemPosition(newItemPosition, itemHolder);
 				ObjectDialogBuilder dialogStatus = openDetailsDialog(futureItemPosition, itemHolder);
 				if (dialogStatus == null) {
 					return false;
@@ -1265,8 +1266,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				if (newSubListItem == null) {
 					return false;
 				}				
-				GhostItemPosition futureSubItemPosition = new GhostItemPosition(subItemPosition, newSubListItem);
-				Object[] itemHolder = new Object[] { futureSubItemPosition.getItem() };
+				Object[] itemHolder = new Object[] { newSubListItem };
+				GhostItemPosition futureSubItemPosition = new GhostItemPosition(subItemPosition, itemHolder);
 				ObjectDialogBuilder dialogStatus = openDetailsDialog(futureSubItemPosition, itemHolder);
 				if (dialogStatus == null) {
 					return false;
@@ -1781,7 +1782,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			protected boolean perform(List<AutoFieldValueUpdatingItemPosition>[] toPostSelectHolder) {
 				AutoFieldValueUpdatingItemPosition itemPosition = getSingleSelection();
 				Object[] itemHolder = new Object[] { itemPosition.getItem() };
-				final ObjectDialogBuilder dialogStatus = openDetailsDialog(itemPosition, itemHolder);
+				GhostItemPosition futureItemPosition = new GhostItemPosition(itemPosition, itemHolder);
+				final ObjectDialogBuilder dialogStatus = openDetailsDialog(futureItemPosition, itemHolder);
 
 				ModificationStack parentModifStack = getParentFormModificationStack();
 				ModificationStack childModifStack = dialogStatus.getModificationStack();

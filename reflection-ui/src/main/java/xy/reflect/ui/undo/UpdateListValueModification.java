@@ -93,7 +93,7 @@ public class UpdateListValueModification extends AbstractModification {
 		}
 	}
 
-	protected void updateListValue(ItemPosition itemPosition2, Object[] listRawValue) {
+	protected void updateListValue(ItemPosition itemPosition, Object[] listRawValue) {
 		IControlData listData = itemPosition.getContainingListData();
 		IListTypeInfo listType = itemPosition.getContainingListType();
 		if (listType.canReplaceContent()) {
