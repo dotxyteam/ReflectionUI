@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.type.iterable.map;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +26,7 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 		super(reflectionUI, StandardMapEntry.class);
 		this.keyJavaType = keyJavaType;
 		this.valueJavaType = valueJavaType;
-		if(keyJavaType == null){
+		if (keyJavaType == null) {
 			System.out.println("debug");
 		}
 	}
@@ -120,7 +121,7 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 					}
 				}
 				@SuppressWarnings({ "rawtypes", "unchecked" })
-				StandardMapEntry result = new StandardMapEntry(key, value);
+				StandardMapEntry result = new StandardMapEntry(new AbstractMap.SimpleEntry(key, value));
 				reflectionUI.registerPrecomputedTypeInfoObject(result, StandardMapEntryTypeInfo.this);
 				return result;
 			}
