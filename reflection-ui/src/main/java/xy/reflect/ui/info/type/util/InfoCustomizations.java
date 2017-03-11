@@ -1953,7 +1953,7 @@ public final class InfoCustomizations {
 										@Override
 										public ValueReturnMode getValueReturnMode() {
 											return ValueReturnMode.combine(
-													itemPosition.getContainingListData().getValueReturnMode(),
+													itemPosition.getContainingListField().getValueReturnMode(),
 													itemField.getValueReturnMode());
 										}
 
@@ -2089,7 +2089,7 @@ public final class InfoCustomizations {
 										@Override
 										public ValueReturnMode getValueReturnMode() {
 											return ValueReturnMode.combine(
-													itemPosition.getContainingListData().getValueReturnMode(),
+													itemPosition.getContainingListField().getValueReturnMode(),
 													method.getValueReturnMode());
 										}
 

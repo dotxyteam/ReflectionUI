@@ -798,7 +798,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				final IFieldInfo subListField = treeInfo.getItemSubListField(itemPosition);
 				if (subListField != null) {
 					FieldControlData subListData = new FieldControlData(itemPosition.getItem(), subListField);
-					return new AutoFieldValueUpdatingItemPosition(itemPosition, subListData, -1) {
+					return new AutoFieldValueUpdatingItemPosition(itemPosition, subListField, -1) {
 
 						@Override
 						public String getContainingListTitle() {
@@ -1092,7 +1092,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		protected Object[] itemHolder;
 
 		public GhostItemPosition(AutoFieldValueUpdatingItemPosition itemPosition, Object[] itemHolder) {
-			super(itemPosition.getParentItemPosition(), itemPosition.getContainingListData(), itemPosition.getIndex());
+			super(itemPosition.getParentItemPosition(), itemPosition.getContainingListField(), itemPosition.getIndex());
 			this.itemPosition = itemPosition;
 			this.itemHolder = itemHolder;
 		}
@@ -1362,7 +1362,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			@Override
 			protected List<IMethodInfo> getConstructors(ITypeInfo type) {
 				List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getConstructors(type));
-				IControlData containingListData = newItemPosition.getContainingListData();
+				IControlData containingListData = newItemPosition.getContainingListField();
 				IListTypeInfo containingListType = newItemPosition.getContainingListType();
 				List<IMethodInfo> specificItemConstructors = containingListType
 						.getAdditionalItemConstructors(containingListData.getValue());
@@ -1796,7 +1796,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				}
 				toPostSelectHolder[0] = Collections.singletonList(itemPosition);
 				boolean childModifAccepted = (!dialogStatus.isCancellable()) || dialogStatus.isOkPressed();
-				ValueReturnMode childValueReturnMode = itemPosition.getContainingListData().getValueReturnMode();
+				ValueReturnMode childValueReturnMode = itemPosition.getContainingListField().getValueReturnMode();
 				boolean childValueNew = (itemPosition.getItem() != itemHolder[0]);
 				return ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(), parentModifStack,
 						childModifStack, childModifAccepted, childValueReturnMode, childValueNew, commitModif,
@@ -1928,7 +1928,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected void forwardDetailsModifications(final Object[] detailsControlItemHolder) {
-		listData = detailsControlItemPosition.getContainingListData();
+		listData = detailsControlItemPosition.getContainingListField();
 		if (listData.isGetOnly() && (listData.getValueReturnMode() == ValueReturnMode.COPY)) {
 			ModificationStack childModifStack = swingRenderer.getModificationStackByForm().get(detailsControl);
 			childModifStack.addListener(new AbstractSimpleModificationListener() {
@@ -2250,8 +2250,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		public abstract String getContainingListTitle();
 
 		public AutoFieldValueUpdatingItemPosition(AutoFieldValueUpdatingItemPosition parentItemPosition,
-				IControlData containingListData, int index) {
-			super(parentItemPosition, containingListData, index);
+				IFieldInfo containingListField, int index) {
+			super(parentItemPosition, containingListField, index);
 		}
 
 		public AutoFieldValueUpdatingList getContainingAutoUpdatingFieldList() {
@@ -2264,16 +2264,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public AutoFieldValueUpdatingItemPosition getSibling(int index2) {
-			final AutoFieldValueUpdatingItemPosition thisItemposition = this;
-			ItemPosition result = super.getSibling(index2);
-			return new AutoFieldValueUpdatingItemPosition(getParentItemPosition(), result.getContainingListData(),
-					result.getIndex()) {
-				@Override
-				public String getContainingListTitle() {
-					return thisItemposition.getContainingListTitle();
-				}
-			};
+		public Object getRootListOwner() {
+			return null;
 		}
 
 	}
@@ -2325,7 +2317,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		}
 
 		public IControlData getListData() {
-			return itemPosition.getContainingListData();
+			return itemPosition.getContainingListField();
 		}
 
 		public IListTypeInfo getListType() {

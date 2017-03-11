@@ -31,7 +31,7 @@ public class UpdateListValueModification extends AbstractModification {
 				return false;
 			}
 		}
-		IControlData containingListData = itemPosition.getContainingListData();
+		IControlData containingListData = itemPosition.getContainingListField();
 		IListTypeInfo containingListType = itemPosition.getContainingListType();
 		if (containingListType.canReplaceContent()) {
 			if (containingListData.getValueReturnMode() == ValueReturnMode.SELF) {
@@ -94,7 +94,7 @@ public class UpdateListValueModification extends AbstractModification {
 	}
 
 	protected void updateListValue(ItemPosition itemPosition, Object[] listRawValue) {
-		IControlData listData = itemPosition.getContainingListData();
+		IControlData listData = itemPosition.getContainingListField();
 		IListTypeInfo listType = itemPosition.getContainingListType();
 		if (listType.canReplaceContent()) {
 			if (listData.getValueReturnMode() == ValueReturnMode.SELF) {
@@ -116,7 +116,7 @@ public class UpdateListValueModification extends AbstractModification {
 					}
 				}, listRawValue, target).applyAndGetOpposite());
 				undoModifications.add(0,
-						new ControlDataValueModification(itemPosition.getContainingListData(), listValue, target)
+						new ControlDataValueModification(itemPosition.getContainingListField(), listValue, target)
 								.applyAndGetOpposite());
 				return;
 			}
@@ -125,7 +125,7 @@ public class UpdateListValueModification extends AbstractModification {
 			if (!listData.isGetOnly()) {
 				Object listValue = listType.fromArray(listRawValue);
 				undoModifications.add(0,
-						new ControlDataValueModification(itemPosition.getContainingListData(), listValue, target)
+						new ControlDataValueModification(itemPosition.getContainingListField(), listValue, target)
 								.applyAndGetOpposite());
 				return;
 			}

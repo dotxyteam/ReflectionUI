@@ -4,19 +4,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import xy.reflect.ui.control.data.IControlData;
+import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.util.ReflectionUIError;
 
-public class ItemPosition {
+public abstract class ItemPosition implements Cloneable {
 
 	protected ItemPosition parentItemPosition;
-	protected IControlData containingListData;
+	protected IFieldInfo containingListField;
 	protected int index;
 
-	public ItemPosition(ItemPosition parentItemPosition, IControlData containingListData, int index) {
+	public abstract Object getRootListOwner();
+
+	public ItemPosition(ItemPosition parentItemPosition, IFieldInfo containingListField, int index) {
 		this.parentItemPosition = parentItemPosition;
-		this.containingListData = containingListData;
+		this.containingListField = containingListField;
 		this.index = index;
 	}
 
@@ -52,17 +55,26 @@ public class ItemPosition {
 		return null;
 	}
 
-	public IControlData getContainingListData() {
-		return containingListData;
+	public IFieldInfo getContainingListField() {
+		return containingListField;
 	}
 
 	public Object[] getContainingListRawValue() {
-		Object list = getContainingListData().getValue();
+		Object containingListOwner;
+		if (parentItemPosition != null) {
+			containingListOwner = parentItemPosition.getItem();
+		} else {
+			containingListOwner = getRootListOwner();
+		}		
+		Object list = getContainingListField().getValue(containingListOwner);
+		if (list == null) {
+			return new Object[0];
+		}
 		return getContainingListType().toArray(list);
 	}
 
 	public IListTypeInfo getContainingListType() {
-		return (IListTypeInfo) getContainingListData().getType();
+		return (IListTypeInfo) getContainingListField().getType();
 	}
 
 	public ItemPosition getParentItemPosition() {
@@ -107,7 +119,14 @@ public class ItemPosition {
 	}
 
 	public ItemPosition getSibling(int index2) {
-		return new ItemPosition(parentItemPosition, containingListData, index2);
+		ItemPosition result;
+		try {
+			result = (ItemPosition) clone();
+		} catch (CloneNotSupportedException e) {
+			throw new ReflectionUIError(e);
+		}
+		result.index = index2;
+		return result;
 	}
 
 	public boolean isRootListItemPosition() {
@@ -123,10 +142,15 @@ public class ItemPosition {
 	}
 
 	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		return super.clone();
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((containingListData == null) ? 0 : containingListData.hashCode());
+		result = prime * result + ((containingListField == null) ? 0 : containingListField.hashCode());
 		result = prime * result + index;
 		result = prime * result + ((parentItemPosition == null) ? 0 : parentItemPosition.hashCode());
 		return result;
@@ -141,10 +165,10 @@ public class ItemPosition {
 		if (getClass() != obj.getClass())
 			return false;
 		ItemPosition other = (ItemPosition) obj;
-		if (containingListData == null) {
-			if (other.containingListData != null)
+		if (containingListField == null) {
+			if (other.containingListField != null)
 				return false;
-		} else if (!containingListData.equals(other.containingListData))
+		} else if (!containingListField.equals(other.containingListField))
 			return false;
 		if (index != other.index)
 			return false;
