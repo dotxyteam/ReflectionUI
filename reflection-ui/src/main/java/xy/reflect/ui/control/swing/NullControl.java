@@ -66,4 +66,9 @@ public abstract class NullControl extends TextControl {
 		return false;
 	}
 
+	@Override
+	public boolean displayError(String msg) {
+		return false;
+	}
+
 }

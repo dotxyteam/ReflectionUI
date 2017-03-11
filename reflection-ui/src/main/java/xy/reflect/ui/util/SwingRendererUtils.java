@@ -139,7 +139,7 @@ public class SwingRendererUtils {
 				c.dispatchEvent(ke);
 			} catch (Throwable e2) {
 				throw new ReflectionUIError(
-						"Failed to show tooltip programmatically: \n1st failure: " + e1 + "2nd failure: \n" + e2);
+						"Failed to show tooltip programmatically: \n1st failure: " + e1 + "\n2nd failure: \n" + e2);
 			}
 		}
 	}

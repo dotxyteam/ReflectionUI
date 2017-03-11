@@ -139,6 +139,9 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 				.setTypeCaption(ReflectionUIUtils.composeMessage(polymorphicType.getCaption(), "Polymorphic Value"));
 		encapsulation.setFieldNullable(false);
 		encapsulation.setFieldCaption("");
+		encapsulation.setFieldGetOnly(data.isGetOnly());
+		encapsulation.setFieldValueReturnMode(data.getValueReturnMode());
+		encapsulation.setFieldSpecificProperties(data.getSpecificProperties());
 		final Object encapsulated = encapsulation.getInstance(new Accessor<Object>() {
 
 			@Override

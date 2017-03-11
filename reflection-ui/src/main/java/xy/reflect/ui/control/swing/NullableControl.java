@@ -20,7 +20,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	protected SwingRenderer swingRenderer;
 	protected static final long serialVersionUID = 1L;
 	protected IControlData data;
-	protected JCheckBox nullingControl;
+	protected JCheckBox nullStatusControl;
 	protected Component subControl;
 	protected FieldControlPlaceHolder placeHolder;
 	protected ITypeInfo subControlValueType;
@@ -34,8 +34,8 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 
 	protected void initialize() {
 		setLayout(new BorderLayout());
-		nullingControl = new JCheckBox();
-		nullingControl.addActionListener(new ActionListener() {
+		nullStatusControl = new JCheckBox();
+		nullStatusControl.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -46,7 +46,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 				}
 			}
 		});
-		add(nullingControl, BorderLayout.WEST);
+		add(nullStatusControl, BorderLayout.WEST);
 		refreshUI();
 	}
 
@@ -54,18 +54,18 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 		return subControl;
 	}
 
-	protected void setNullingControlState(boolean b) {
-		nullingControl.setSelected(!b);
+	protected void setNullStatusControlState(boolean b) {
+		nullStatusControl.setSelected(!b);
 	}
 
-	protected boolean getNullingControlState() {
-		return !nullingControl.isSelected();
+	protected boolean getNullStatusControlState() {
+		return !nullStatusControl.isSelected();
 	}
 
 	@Override
 	public boolean refreshUI() {
 		Object value = data.getValue();
-		setNullingControlState(value == null);
+		setNullStatusControlState(value == null);
 		boolean hadFocus = (subControl != null) && SwingRendererUtils.hasOrContainsFocus(subControl);
 		updateSubControl(value);
 		if (hadFocus && (subControl != null)) {
@@ -75,7 +75,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected void onNullingControlStateChange() {
-		if (getNullingControlState()) {
+		if (getNullStatusControlState()) {
 			data.setValue(null);
 		} else {
 			Object newValue = null;
@@ -108,11 +108,11 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 					: swingRenderer.getReflectionUI()
 							.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newValue));
 			subControl = swingRenderer.createFieldControl(placeHolder);
-			if(subControl instanceof NullControl){
-				((NullControl)subControl).setAction(new Runnable() {					
+			if (subControl instanceof NullControl) {
+				((NullControl) subControl).setAction(new Runnable() {
 					@Override
 					public void run() {
-						setNullingControlState(false);
+						setNullStatusControlState(false);
 						onNullingControlStateChange();
 					}
 				});
@@ -142,10 +142,14 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean handlesModificationStackUpdate() {
-		if (subControl instanceof IAdvancedFieldControl) {
-			return ((IAdvancedFieldControl) subControl).handlesModificationStackUpdate();
-		} else {
+		if (getNullStatusControlState() == true) {
 			return false;
+		} else {
+			if (subControl instanceof IAdvancedFieldControl) {
+				return ((IAdvancedFieldControl) subControl).handlesModificationStackUpdate();
+			} else {
+				return false;
+			}
 		}
 	}
 

@@ -95,7 +95,6 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		return placeHolder.getControlData();
 	}
 
-	
 	protected JTextArea createTextComponent() {
 		return new JTextArea() {
 
@@ -117,6 +116,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		try {
 			data.setValue(newStringValue);
 		} catch (Throwable t) {
+			swingRenderer.getReflectionUI().logError(t);
 			displayError(ReflectionUIUtils.getPrettyErrorMessage(t));
 		}
 	}
@@ -153,21 +153,19 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean displayError(String msg) {
-		boolean changed = !ReflectionUIUtils.equalsOrBothNull(msg, textComponent.getToolTipText());
-		if (!changed) {
-			return true;
-		}
-		if (msg != null) {
-			swingRenderer.getReflectionUI().logError(msg);
-		}
+		String oldTooltipText;
 		if (msg == null) {
 			setBorder(textFieldNormalBorder);
-			textComponent.setToolTipText("");
-			SwingRendererUtils.showTooltipNow(textComponent);
+			SwingRendererUtils.handleComponentSizeChange(this);
+			oldTooltipText = textComponent.getToolTipText();
+			textComponent.setToolTipText(null);
 		} else {
 			SwingRendererUtils.setErrorBorder(this);
-			SwingRendererUtils.setMultilineToolTipText(textComponent,
-					swingRenderer.prepareStringToDisplay(msg));
+			SwingRendererUtils.handleComponentSizeChange(this);
+			oldTooltipText = textComponent.getToolTipText();
+			SwingRendererUtils.setMultilineToolTipText(textComponent, swingRenderer.prepareStringToDisplay(msg));
+		}
+		if (!ReflectionUIUtils.equalsOrBothNull(oldTooltipText, textComponent.getToolTipText())) {
 			SwingRendererUtils.showTooltipNow(textComponent);
 		}
 		return true;

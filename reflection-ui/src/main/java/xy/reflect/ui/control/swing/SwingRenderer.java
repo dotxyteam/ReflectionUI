@@ -1491,7 +1491,7 @@ public class SwingRenderer {
 		protected IFieldInfo controlAwareField;
 		protected String errorMessageDisplayedOnPlaceHolder;
 		protected IControlData controlData;
-
+		
 		public FieldControlPlaceHolder(Object object, IFieldInfo field) {
 			super();
 			this.object = object;
