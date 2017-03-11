@@ -17,10 +17,15 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 
+	protected Class<?> keyJavaType;
+	protected Class<?> valueJavaType;
+
 	public StandardMapAsListTypeInfo(ReflectionUI reflectionUI, Class<?> javaType, Class<?> keyJavaType,
 			Class<?> valueJavaType) {
 		super(reflectionUI, javaType,
 				reflectionUI.getTypeInfo(new JavaTypeInfoSource(StandardMapEntry.class, keyJavaType, valueJavaType)));
+		this.keyJavaType = keyJavaType;
+		this.valueJavaType = valueJavaType;
 	}
 
 	public static boolean isCompatibleWith(Class<?> javaType) {
@@ -72,6 +77,8 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 		for (Object obj : ((Map) listValue).entrySet()) {
 			Map.Entry entry = (Entry) obj;
 			StandardMapEntry standardMapEntry = new StandardMapEntry(entry.getKey(), entry.getValue());
+			reflectionUI.registerPrecomputedTypeInfoObject(standardMapEntry,
+					new StandardMapEntryTypeInfo(reflectionUI, keyJavaType, valueJavaType));
 			result.add(standardMapEntry);
 		}
 		return result.toArray();
@@ -79,7 +86,7 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 
 	@Override
 	public boolean isOrdered() {
-		if (Map.class.equals(javaType) ) {
+		if (Map.class.equals(javaType)) {
 			return false;
 		}
 		if (HashMap.class.equals(javaType)) {

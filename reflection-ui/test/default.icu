@@ -1230,4 +1230,36 @@
         <typeName>Encapsulation [typeCaption=Product - Polymorphic Value, fieldType=xy.reflect.ui.TableTreeModelExample$Shoes, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=(Products By Duration) - Item, fieldType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt;, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>key</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
 </infoCustomizations>

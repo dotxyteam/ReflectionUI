@@ -5,7 +5,6 @@ public class StandardMapEntry<K, V> {
 	protected V value;
 
 	public StandardMapEntry(K key, V value) {
-		super();
 		this.key = key;
 		this.value = value;
 	}

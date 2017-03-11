@@ -25,6 +25,9 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 		super(reflectionUI, StandardMapEntry.class);
 		this.keyJavaType = keyJavaType;
 		this.valueJavaType = valueJavaType;
+		if(keyJavaType == null){
+			System.out.println("debug");
+		}
 	}
 
 	public static boolean isCompatibleWith(Class<?> javaType) {
@@ -102,34 +105,22 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 
 			@Override
 			public Object invoke(Object object, InvocationData invocationData) {
-				StandardMapEntry<?, ?> result;
-				try {
-					result = (StandardMapEntry<?, ?>) javaType.getConstructors()[0].newInstance(null, null);
-				} catch (Exception e) {
-					throw new ReflectionUIError();
-				}
 				Object key = null;
 				{
-					IFieldInfo keyField = getKeyField();
 					try {
-						key = ReflectionUIUtils.createDefaultInstance(reflectionUI, keyField.getType());
+						key = ReflectionUIUtils.createDefaultInstance(reflectionUI, getKeyField().getType());
 					} catch (Throwable ignore) {
-					}
-					if (key != null) {
-						keyField.setValue(result, key);
 					}
 				}
 				Object value = null;
 				{
-					IFieldInfo valueField = getValueField();
 					try {
-						value = ReflectionUIUtils.createDefaultInstance(reflectionUI, valueField.getType());
+						value = ReflectionUIUtils.createDefaultInstance(reflectionUI, getValueField().getType());
 					} catch (Throwable ignore) {
 					}
-					if (value != null) {
-						valueField.setValue(result, value);
-					}
 				}
+				@SuppressWarnings({ "rawtypes", "unchecked" })
+				StandardMapEntry result = new StandardMapEntry(key, value);
 				reflectionUI.registerPrecomputedTypeInfoObject(result, StandardMapEntryTypeInfo.this);
 				return result;
 			}

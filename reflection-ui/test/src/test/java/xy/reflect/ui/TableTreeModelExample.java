@@ -120,11 +120,6 @@ public class TableTreeModelExample {
 
 		public void setProducts(List<Product> products) {			
 			this.products = products;
-			if(products != null){
-				if(products.size() == 2){
-					System.out.println("debug");
-				}
-			}
 		}
 
 	}

@@ -230,16 +230,6 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 		}
 
 		@Override
-		public boolean canReplaceContent() {
-			return false;
-		}
-
-		@Override
-		public boolean canInstanciateFromArray() {
-			return false;
-		}
-
-		@Override
 		public boolean isInsertionAllowed() {
 			return false;
 		}

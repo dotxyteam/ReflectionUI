@@ -158,7 +158,17 @@ public class ItemPosition {
 
 	@Override
 	public String toString() {
-		return "Item(depth=" + getDepth() + ", position=" + getIndex() + ", value=" + getItem() + ")";
+		StringBuilder path = new StringBuilder();
+		ItemPosition current = this;
+		while (current != null) {
+			if (current == this) {
+				path.insert(0, "Item" + current.index);
+			} else {
+				path.insert(0, "Item" + current.index + "->Sub");
+			}
+			current = current.getParentItemPosition();
+		}
+		return "ItemPosition [item=" + getItem() + ", path=" + path.toString() + "]";
 	}
 
 }
