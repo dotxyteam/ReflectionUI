@@ -10,8 +10,8 @@ import java.util.Map;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
-import xy.reflect.ui.control.data.IControlData;
-import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
+import xy.reflect.ui.control.input.IControlData;
+import xy.reflect.ui.control.input.IControlInput;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.SwingRendererUtils;
 
@@ -22,13 +22,13 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	protected IControlData data;
 	protected JCheckBox nullStatusControl;
 	protected Component subControl;
-	protected FieldControlPlaceHolder placeHolder;
+	protected IControlInput input;
 	protected ITypeInfo subControlValueType;
 
-	public NullableControl(SwingRenderer swingRenderer, FieldControlPlaceHolder placeHolder) {
+	public NullableControl(SwingRenderer swingRenderer, IControlInput input) {
 		this.swingRenderer = swingRenderer;
-		this.placeHolder = placeHolder;
-		this.data = placeHolder.getControlData();
+		this.input = input;
+		this.data = input.getControlData();
 		initialize();
 	}
 
@@ -80,8 +80,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 		} else {
 			Object newValue = null;
 			try {
-				newValue = this.swingRenderer.onTypeInstanciationRequest(this, placeHolder.getControlData().getType(),
-						false);
+				newValue = this.swingRenderer.onTypeInstanciationRequest(this, input.getControlData().getType(), false);
 			} catch (Throwable t) {
 				swingRenderer.handleExceptionsFromDisplayedUI(this, t);
 			}
@@ -104,11 +103,9 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 			if (subControl != null) {
 				remove(subControl);
 			}
-			subControlValueType = (newValue == null) ? null
-					: swingRenderer.getReflectionUI()
-							.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newValue));
-			subControl = swingRenderer.createFieldControl(placeHolder);
-			if (subControl instanceof NullControl) {
+			if (newValue == null) {
+				subControlValueType = null;
+				subControl = new NullControl(swingRenderer, input);
 				((NullControl) subControl).setAction(new Runnable() {
 					@Override
 					public void run() {
@@ -116,7 +113,12 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 						onNullingControlStateChange();
 					}
 				});
+			} else {
+				subControlValueType = swingRenderer.getReflectionUI()
+						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newValue));
+				subControl = SwingRendererUtils.createSubTypeControl(swingRenderer, subControlValueType, input);
 			}
+
 			add(subControl, BorderLayout.CENTER);
 			SwingRendererUtils.handleComponentSizeChange(this);
 		}

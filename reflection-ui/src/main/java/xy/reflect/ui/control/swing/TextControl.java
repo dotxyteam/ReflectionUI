@@ -16,8 +16,8 @@ import javax.swing.border.Border;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
-import xy.reflect.ui.control.data.IControlData;
-import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
+import xy.reflect.ui.control.input.IControlData;
+import xy.reflect.ui.control.input.IControlInput;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
@@ -25,6 +25,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
+	protected IControlInput input;
 	protected IControlData data;
 
 	protected JTextArea textComponent;
@@ -32,9 +33,10 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	protected Border textFieldNormalBorder;
 	protected JLabel iconControl;
 
-	public TextControl(final SwingRenderer swingRenderer, FieldControlPlaceHolder placeHolder) {
+	public TextControl(final SwingRenderer swingRenderer, IControlInput input) {
 		this.swingRenderer = swingRenderer;
-		this.data = retrieveData(placeHolder);
+		this.input = input;
+		this.data = retrieveData();
 
 		setLayout(new BorderLayout());
 
@@ -91,8 +93,8 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		}
 	}
 
-	protected IControlData retrieveData(FieldControlPlaceHolder placeHolder) {
-		return placeHolder.getControlData();
+	protected IControlData retrieveData() {
+		return input.getControlData();
 	}
 
 	protected JTextArea createTextComponent() {

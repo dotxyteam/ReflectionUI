@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import xy.reflect.ui.control.data.IControlData;
+import xy.reflect.ui.control.input.IControlData;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.util.InfoCustomizations.AbstractInfoCustomization;
 

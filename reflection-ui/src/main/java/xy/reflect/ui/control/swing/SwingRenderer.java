@@ -43,9 +43,10 @@ import org.jdesktop.swingx.JXBusyLabel;
 import com.google.common.collect.MapMaker;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.data.ControlDataProxy;
-import xy.reflect.ui.control.data.FieldControlData;
-import xy.reflect.ui.control.data.IControlData;
+import xy.reflect.ui.control.input.ControlDataProxy;
+import xy.reflect.ui.control.input.FieldControlData;
+import xy.reflect.ui.control.input.IControlData;
+import xy.reflect.ui.control.input.IControlInput;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.FieldInfoProxy;
@@ -437,61 +438,54 @@ public class SwingRenderer {
 		return new FieldControlData(object, field);
 	}
 
-	public Component createFieldControl(final FieldControlPlaceHolder placeHolder) {
-		if (placeHolder.getControlData().getType() instanceof IEnumerationTypeInfo) {
-			return new EnumerationControl(this, placeHolder);
-		} else if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(placeHolder.getControlData().getType())) {
-			return new PolymorphicControl(this, placeHolder);
+	public Component createFieldControl(final FieldControlPlaceHolder placeHoler) {
+		if (placeHoler.getControlData().getType() instanceof IEnumerationTypeInfo) {
+			return new EnumerationControl(this, placeHoler);
+		} else if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(placeHoler.getControlData().getType())) {
+			return new PolymorphicControl(this, placeHoler);
 		} else {
-			if (placeHolder.getControlData().isNullable()) {
-				placeHolder.setControlData(new ControlDataProxy(placeHolder.getControlData()) {
+			if (placeHoler.getControlData().isNullable()) {
+				placeHoler.setControlData(new ControlDataProxy(placeHoler.getControlData()) {
 					@Override
 					public boolean isNullable() {
 						return false;
 					}
 				});
-				if (!placeHolder.getControlData().isGetOnly()) {
-					return new NullableControl(this, placeHolder);
+				if (!placeHoler.getControlData().isGetOnly()) {
+					return new NullableControl(this, placeHoler);
 				}
 			}
-			Object value = placeHolder.getControlData().getValue();
+			Object value = placeHoler.getControlData().getValue();
 			if (value == null) {
-				return new NullControl(SwingRenderer.this, placeHolder) {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					protected Object getText() {
-						return placeHolder.getControlData().getNullValueLabel();
-					}
-				};
+				return new NullControl(SwingRenderer.this, placeHoler);
 			}
-			Component result = createCustomNonNullFieldValueControl(placeHolder);
+			Component result = createCustomNonNullFieldValueControl(placeHoler);
 			if (result != null) {
 				return result;
 			}
 			final ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
-			if (!valueType.equals(placeHolder.getControlData().getType())) {
-				placeHolder.setControlData(new ControlDataProxy(placeHolder.getControlData()) {
+			if (!valueType.equals(placeHoler.getControlData().getType())) {
+				placeHoler.setControlData(new ControlDataProxy(placeHoler.getControlData()) {
 					@Override
 					public ITypeInfo getType() {
 						return valueType;
 					}
 				});
-				return createFieldControl(placeHolder);
+				return createFieldControl(placeHoler);
 			}
 			if (DesktopSpecificProperty.isSubFormExpanded(
-					DesktopSpecificProperty.accessControlDataProperties(placeHolder.getControlData()))) {
-				return new EmbeddedFormControl(this, placeHolder);
+					DesktopSpecificProperty.accessControlDataProperties(placeHoler.getControlData()))) {
+				return new EmbeddedFormControl(this, placeHoler);
 			} else {
-				return new DialogAccessControl(this, placeHolder);
+				return new DialogAccessControl(this, placeHoler);
 			}
 		}
 	}
 
-	public Component createCustomNonNullFieldValueControl(FieldControlPlaceHolder placeHolder) {
-		ITypeInfo fieldType = placeHolder.getControlData().getType();
+	public Component createCustomNonNullFieldValueControl(IControlInput input) {
+		ITypeInfo fieldType = input.getControlData().getType();
 		if (fieldType instanceof IListTypeInfo) {
-			return new ListControl(this, placeHolder);
+			return new ListControl(this, input);
 		} else {
 			final Class<?> javaType;
 			try {
@@ -500,14 +494,14 @@ public class SwingRenderer {
 				return null;
 			}
 			if (javaType == Color.class) {
-				return new ColorControl(this, placeHolder);
+				return new ColorControl(this, input);
 			} else if (BooleanTypeInfo.isCompatibleWith(javaType)) {
-				return new CheckBoxControl(this, placeHolder);
+				return new CheckBoxControl(this, input);
 			} else if (TextualTypeInfo.isCompatibleWith(javaType)) {
 				if (javaType == String.class) {
-					return new TextControl(this, placeHolder);
+					return new TextControl(this, input);
 				} else {
-					return new PrimitiveValueControl(this, placeHolder) {
+					return new PrimitiveValueControl(this, input) {
 
 						private static final long serialVersionUID = 1L;
 
@@ -519,7 +513,7 @@ public class SwingRenderer {
 					};
 				}
 			} else if (FileTypeInfo.isCompatibleWith(javaType)) {
-				return new FileControl(this, placeHolder);
+				return new FileControl(this, input);
 			} else {
 				return null;
 			}
@@ -1482,7 +1476,7 @@ public class SwingRenderer {
 		SwingRendererUtils.handleComponentSizeChange(statusBar);
 	}
 
-	public class FieldControlPlaceHolder extends JPanel {
+	public class FieldControlPlaceHolder extends JPanel implements IControlInput {
 
 		protected static final long serialVersionUID = 1L;
 		protected Object object;
@@ -1491,7 +1485,7 @@ public class SwingRenderer {
 		protected IFieldInfo controlAwareField;
 		protected String errorMessageDisplayedOnPlaceHolder;
 		protected IControlData controlData;
-		
+
 		public FieldControlPlaceHolder(Object object, IFieldInfo field) {
 			super();
 			this.object = object;
@@ -1508,12 +1502,18 @@ public class SwingRenderer {
 			return object;
 		}
 
+		@Override
 		public IControlData getControlData() {
 			return controlData;
 		}
 
 		public void setControlData(IControlData controlData) {
 			this.controlData = controlData;
+		}
+
+		@Override
+		public ModificationStack getModificationStack() {
+			return ReflectionUIUtils.findParentFormModificationStack(this, SwingRenderer.this);
 		}
 
 		public IFieldInfo makeFieldModificationsUndoable(final IFieldInfo field) {
@@ -1529,9 +1529,8 @@ public class SwingRenderer {
 							return;
 						}
 					}
-					ModificationStack modifStack = ReflectionUIUtils
-							.findParentFormModificationStack(FieldControlPlaceHolder.this, SwingRenderer.this);
-					SwingRendererUtils.setValueThroughModificationStack(object, field, newValue, modifStack);
+					SwingRendererUtils.setValueThroughModificationStack(object, field, newValue,
+							getModificationStack());
 				}
 			};
 		}
@@ -1631,6 +1630,12 @@ public class SwingRenderer {
 			return fieldControl;
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see xy.reflect.ui.control.swing.IControlInput#getField()
+		 */
+		@Override
 		public IFieldInfo getField() {
 			return field;
 		}
@@ -1741,15 +1746,18 @@ public class SwingRenderer {
 			refreshUI(false);
 		}
 
+		protected ModificationStack getModificationStack() {
+			JPanel form = SwingRendererUtils.findParentForm(MethodControlPlaceHolder.this, SwingRenderer.this);
+			return getModificationStackByForm().get(form);
+		}
+
 		public IMethodInfo makeMethodModificationsUndoable(final IMethodInfo method) {
 			return new MethodInfoProxy(method) {
 
 				@Override
 				public Object invoke(Object object, InvocationData invocationData) {
-					JPanel form = SwingRendererUtils.findParentForm(MethodControlPlaceHolder.this, SwingRenderer.this);
-					ModificationStack stack = getModificationStackByForm().get(form);
 					return SwingRendererUtils.invokeMethodThroughModificationStack(object, method, invocationData,
-							stack);
+							getModificationStack());
 				}
 
 			};

@@ -3,9 +3,9 @@ package xy.reflect.ui.control.swing;
 import java.lang.reflect.InvocationTargetException;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.data.ControlDataProxy;
-import xy.reflect.ui.control.data.IControlData;
-import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
+import xy.reflect.ui.control.input.ControlDataProxy;
+import xy.reflect.ui.control.input.IControlData;
+import xy.reflect.ui.control.input.IControlInput;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ClassUtils;
@@ -17,13 +17,13 @@ public abstract class PrimitiveValueControl extends TextControl {
 
 	protected abstract Class<?> getPrimitiveJavaType();
 
-	public PrimitiveValueControl(SwingRenderer swingRenderer, FieldControlPlaceHolder placeHolder) {
-		super(swingRenderer, placeHolder);
+	public PrimitiveValueControl(SwingRenderer swingRenderer, IControlInput input) {
+		super(swingRenderer, input);
 	}
 
 	@Override
-	protected IControlData retrieveData(FieldControlPlaceHolder placeHolder) {
-		return handleValueConversions(swingRenderer.getReflectionUI(), super.retrieveData(placeHolder),
+	protected IControlData retrieveData() {
+		return handleValueConversions(swingRenderer.getReflectionUI(), super.retrieveData(),
 				getPrimitiveJavaType());
 	}
 

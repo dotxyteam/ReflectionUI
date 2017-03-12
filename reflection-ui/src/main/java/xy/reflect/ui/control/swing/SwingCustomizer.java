@@ -36,7 +36,7 @@ import javax.swing.SwingUtilities;
 import com.google.common.collect.MapMaker;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.data.IControlData;
+import xy.reflect.ui.control.input.IControlData;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.SwingRenderer.MethodControlPlaceHolder;
 import xy.reflect.ui.info.DesktopSpecificProperty;

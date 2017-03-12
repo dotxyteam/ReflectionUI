@@ -11,7 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import xy.reflect.ui.control.data.IControlData;
+import xy.reflect.ui.control.input.IControlData;
+import xy.reflect.ui.control.input.IControlInput;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
@@ -42,19 +43,19 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	protected JButton button;
 	protected Object subFormObject;
 	protected JPanel subForm;
-	protected FieldControlPlaceHolder placeHolder;
+	protected IControlInput input;
 
-	public EmbeddedFormControl(final SwingRenderer swingRenderer, FieldControlPlaceHolder placeHolder) {
+	public EmbeddedFormControl(final SwingRenderer swingRenderer, IControlInput input) {
 		this.swingRenderer = swingRenderer;
-		this.placeHolder = placeHolder;
-		this.data = retrieveData(placeHolder);
+		this.input = input;
+		this.data = retrieveData();
 		setLayout(new BorderLayout());
 		refreshUI();
 	}
 
 	
-	protected IControlData retrieveData(FieldControlPlaceHolder placeHolder) {
-		return placeHolder.getControlData();
+	protected IControlData retrieveData() {
+		return input.getControlData();
 	}
 
 
@@ -138,7 +139,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 			Accessor<ModificationStack> parentModifStackGetter = new Accessor<ModificationStack>() {
 				@Override
 				public ModificationStack get() {
-					return ReflectionUIUtils.findParentFormModificationStack(placeHolder, swingRenderer);
+					return input.getModificationStack();
 				}
 			};
 			SwingRendererUtils.forwardSubModifications(swingRenderer.getReflectionUI(), subForm,
@@ -148,7 +149,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	protected IFieldInfo getModifiedField() {
-		return placeHolder.getField();
+		return input.getField();
 	}
 
 	@Override

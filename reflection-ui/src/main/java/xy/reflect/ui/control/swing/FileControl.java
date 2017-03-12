@@ -5,9 +5,9 @@ import java.io.File;
 
 import javax.swing.JFileChooser;
 
-import xy.reflect.ui.control.data.ControlDataProxy;
-import xy.reflect.ui.control.data.IControlData;
-import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
+import xy.reflect.ui.control.input.ControlDataProxy;
+import xy.reflect.ui.control.input.IControlData;
+import xy.reflect.ui.control.input.IControlInput;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.FileTypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
@@ -20,18 +20,18 @@ public class FileControl extends DialogAccessControl implements IAdvancedFieldCo
 
 	protected static File lastDirectory = new File(".").getAbsoluteFile();
 
-	public FileControl(SwingRenderer swingRenderer, FieldControlPlaceHolder placeHolder) {
-		super(swingRenderer, placeHolder);
+	public FileControl(SwingRenderer swingRenderer, IControlInput input) {
+		super(swingRenderer, input);
 	}
 
 	@Override
-	protected TextControl createStatusControl(FieldControlPlaceHolder placeHolder) {
-		return new TextControl(swingRenderer, placeHolder){
+	protected TextControl createStatusControl(IControlInput input) {
+		return new TextControl(swingRenderer, input) {
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected IControlData retrieveData(FieldControlPlaceHolder placeHolder) {
+			protected IControlData retrieveData() {
 				return new ControlDataProxy(IControlData.NULL_CONTROL_DATA) {
 
 					@Override
@@ -56,7 +56,7 @@ public class FileControl extends DialogAccessControl implements IAdvancedFieldCo
 					}
 				};
 			}
-			
+
 		};
 	}
 
@@ -86,8 +86,7 @@ public class FileControl extends DialogAccessControl implements IAdvancedFieldCo
 		File currentFile = (File) data.getValue();
 		fileChooser.setCurrentDirectory(lastDirectory);
 		configureFileChooser(fileChooser, currentFile);
-		int returnVal = fileChooser.showDialog(this,
-				swingRenderer.prepareStringToDisplay(getDialogTitle()));
+		int returnVal = fileChooser.showDialog(this, swingRenderer.prepareStringToDisplay(getDialogTitle()));
 		if (returnVal != JFileChooser.APPROVE_OPTION) {
 			return;
 		}

@@ -7,8 +7,8 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 
-import xy.reflect.ui.control.data.IControlData;
-import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
+import xy.reflect.ui.control.input.IControlData;
+import xy.reflect.ui.control.input.IControlInput;
 
 public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl {
 
@@ -17,9 +17,9 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 	protected IControlData data;
 	
 
-	public CheckBoxControl(final SwingRenderer swingRenderer, FieldControlPlaceHolder placeHolder) {
+	public CheckBoxControl(final SwingRenderer swingRenderer, IControlInput input) {
 		this.swingRenderer = swingRenderer;
-		this.data = placeHolder.getControlData();
+		this.data = input.getControlData();
 		
 		setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
 		setBorderPainted(true);

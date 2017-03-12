@@ -50,6 +50,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import org.jdesktop.swingx.JXTable;
@@ -59,8 +60,9 @@ import org.jdesktop.swingx.treetable.TreeTableModel;
 
 import javafx.scene.chart.PieChart.Data;
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.data.FieldControlData;
-import xy.reflect.ui.control.data.IControlData;
+import xy.reflect.ui.control.input.FieldControlData;
+import xy.reflect.ui.control.input.IControlData;
+import xy.reflect.ui.control.input.IControlInput;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
@@ -127,7 +129,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	protected List<Runnable> selectionListeners = new ArrayList<Runnable>();
 	protected boolean selectionListenersEnabled = true;
 	protected IFieldInfo modifiedField;
-	protected FieldControlPlaceHolder placeHolder;
+	protected IControlInput input;
 
 	protected static AbstractAction SEPARATOR_ACTION = new AbstractAction("") {
 		protected static final long serialVersionUID = 1L;
@@ -137,10 +139,10 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		}
 	};
 
-	public ListControl(final SwingRenderer swingRenderer, FieldControlPlaceHolder placeHolder) {
+	public ListControl(final SwingRenderer swingRenderer, IControlInput input) {
 		this.swingRenderer = swingRenderer;
-		this.placeHolder = placeHolder;
-		this.listData = placeHolder.getControlData();
+		this.input = input;
+		this.listData = input.getControlData();
 
 		initializeTreeTableControl();
 		toolbar = new JPanel();
@@ -1643,7 +1645,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected IInfo getModifiedField() {
-		return placeHolder.getField();
+		return input.getField();
 	}
 
 	protected AbstractAction createDynamicPropertyHook(final AbstractListProperty dynamicProperty) {
@@ -2054,7 +2056,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected ModificationStack getParentFormModificationStack() {
-		return ReflectionUIUtils.findParentFormModificationStack(placeHolder, swingRenderer);
+		return input.getModificationStack();
 	}
 
 	protected boolean hasItemDetails(AutoFieldValueUpdatingItemPosition itemPosition) {

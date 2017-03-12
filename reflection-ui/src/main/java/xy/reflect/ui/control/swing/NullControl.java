@@ -3,22 +3,20 @@ package xy.reflect.ui.control.swing;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import xy.reflect.ui.control.data.ControlDataProxy;
-import xy.reflect.ui.control.data.IControlData;
-import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
+import xy.reflect.ui.control.input.ControlDataProxy;
+import xy.reflect.ui.control.input.IControlData;
+import xy.reflect.ui.control.input.IControlInput;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-public abstract class NullControl extends TextControl {
+public class NullControl extends TextControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected Runnable action;
 
-	protected abstract Object getText();
-
-	public NullControl(final SwingRenderer swingRenderer, FieldControlPlaceHolder placeHolder) {
-		super(swingRenderer, placeHolder);
+	public NullControl(final SwingRenderer swingRenderer, IControlInput input) {
+		super(swingRenderer, input);
 		textComponent.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -36,12 +34,16 @@ public abstract class NullControl extends TextControl {
 		}
 	}
 
+	protected Object getText() {
+		return input.getControlData().getNullValueLabel();
+	}
+
 	public void setAction(Runnable action) {
 		this.action = action;
 	}
 
 	@Override
-	protected IControlData retrieveData(FieldControlPlaceHolder placeHolder) {
+	protected IControlData retrieveData() {
 		return new ControlDataProxy(IControlData.NULL_CONTROL_DATA) {
 			@Override
 			public Object getValue() {

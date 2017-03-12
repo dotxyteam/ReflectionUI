@@ -55,10 +55,14 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.data.FieldControlData;
-import xy.reflect.ui.control.data.IControlData;
+import xy.reflect.ui.control.input.ControlDataProxy;
+import xy.reflect.ui.control.input.FieldControlData;
+import xy.reflect.ui.control.input.IControlData;
+import xy.reflect.ui.control.input.IControlInput;
 import xy.reflect.ui.control.swing.DialogAccessControl;
+import xy.reflect.ui.control.swing.EmbeddedFormControl;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
+import xy.reflect.ui.control.swing.PolymorphicControl;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.SwingRenderer.MethodControlPlaceHolder;
@@ -706,6 +710,63 @@ public class SwingRendererUtils {
 		msgComponent.setWrapStyleWord(true);
 		msgComponent.setBackground(getPanelBackgroundColor());
 		return new JOptionPane(msgComponent, messageType, JOptionPane.DEFAULT_OPTION, null, new Object[] {});
+	}
+
+	public static Component createSubTypeControl(SwingRenderer swingRenderer, ITypeInfo subType, final IControlInput input) {
+		final EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
+				subType);
+		encapsulation.setFieldNullable(false);
+		encapsulation.setFieldCaption("");
+		encapsulation.setFieldGetOnly(input.getControlData().isGetOnly());
+		encapsulation.setFieldValueReturnMode(input.getControlData().getValueReturnMode());
+		encapsulation.setFieldSpecificProperties(input.getControlData().getSpecificProperties());
+		final Object encapsulated = encapsulation.getInstance(new Accessor<Object>() {
+
+			@Override
+			public Object get() {
+				return input.getControlData().getValue();
+			}
+
+			@Override
+			public void set(Object value) {
+				input.getControlData().setValue(value);
+			}
+
+		});
+		EmbeddedFormControl result = new EmbeddedFormControl(swingRenderer, input){
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected IControlData retrieveData() {
+				return new ControlDataProxy(input.getControlData()) {
+
+					@Override
+					public Object getValue() {
+						return encapsulated;
+					}
+
+					@Override
+					public void setValue(Object value) {
+					}
+
+					@Override
+					public boolean isNullable() {
+						return false;
+					}
+
+					@Override
+					public ITypeInfo getType() {
+						return swingRenderer.getReflectionUI().getTypeInfo(encapsulation.getInstanceTypeInfoSource());
+					}
+
+				};
+			}
+			
+			
+			
+		};
+		return result;
 	}
 
 }

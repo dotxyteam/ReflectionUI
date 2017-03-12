@@ -1,33 +1,11 @@
 - ListControl calls too much list.toArray()
-- UpdateListModification:
-	. ItemPosition must never store information (eg object)
-	that may change over time
-	. only during recusrive update containing list owner must
-	be cached, updated and then used to update parent list
-	=> ItemPosition(parentItemposition, field, index)
-- controlData must be the only thing accessed by controls ???
 - add field/method category in windows title
-. listType conception issue:
-	* isOrdered(), canAdd() ... depend on the edition mode (get-only or not)
-	* list interfaces should not be concrete and have constructors
-	* there are 2 edition options:
-		# how to modify a list value
-			- modify the returned value (default)
-			- or instanciate a new value from array 
-			(maybe the custom instanciation type can be specified in customizations)
-			(instanciate value on modification customization(custom instance type))
-		# how to persist the value modification
-			- set the field new value (default)
-			- or not (get-only mode customization)
-		One should allow to customize these options 
-. refresh issue because now some form types are different from holder field type
 . allow to execute dynamic actions or change dynamic properties on 
 multiple nodes
 . FieldControlPlaceHolder.isSimilarError(): risky
 . allow to easily customize ListFieldNamesNode title
-. no focus => no detailed focus anytime. Check getDetailedFocus(form)
 . restore all control states on refresh,
-even non-focused controls. 
+even non-focused controls???
 ex: embedded form tabbed pane selection
 . allow to get tree from file list???
 . expose more customizations feature

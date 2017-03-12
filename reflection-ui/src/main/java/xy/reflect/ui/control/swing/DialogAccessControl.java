@@ -14,8 +14,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import xy.reflect.ui.control.data.ControlDataProxy;
-import xy.reflect.ui.control.data.IControlData;
+import xy.reflect.ui.control.input.ControlDataProxy;
+import xy.reflect.ui.control.input.IControlData;
+import xy.reflect.ui.control.input.IControlInput;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -43,15 +44,15 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 	protected Component statusControl;
 	protected Component iconControl;
 	protected Component button;
-	protected FieldControlPlaceHolder placeHolder;
+	protected IControlInput input;
 
-	public DialogAccessControl(final SwingRenderer swingRenderer, FieldControlPlaceHolder placeHolder) {
+	public DialogAccessControl(final SwingRenderer swingRenderer, IControlInput input) {
 		this.swingRenderer = swingRenderer;
-		this.placeHolder = placeHolder;
-		this.data = placeHolder.getControlData();
+		this.input = input;
+		this.data = input.getControlData();
 		setLayout(new BorderLayout());
 
-		statusControl = createStatusControl(placeHolder);
+		statusControl = createStatusControl(input);
 		button = createButton();
 		iconControl = createIconControl();
 
@@ -133,13 +134,13 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 		return result;
 	}
 
-	protected Component createStatusControl(FieldControlPlaceHolder placeHolder) {
-		return new TextControl(swingRenderer, placeHolder){
+	protected Component createStatusControl(IControlInput input) {
+		return new TextControl(swingRenderer, input){
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected IControlData retrieveData(FieldControlPlaceHolder placeHolder) {
+			protected IControlData retrieveData() {
 				return new ControlDataProxy(IControlData.NULL_CONTROL_DATA) {
 
 					@Override
@@ -175,10 +176,9 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 		dialogBuilder.setCancellable(cancellable);
 		swingRenderer.showDialog(dialogBuilder.build(), true);
 
-		IFieldInfo field = placeHolder.getField();
+		IFieldInfo field = input.getField();
 
-		ModificationStack parentModifStack = ReflectionUIUtils.findParentFormModificationStack(placeHolder,
-				swingRenderer);
+		ModificationStack parentModifStack = input.getModificationStack();
 		ModificationStack childModifStack = dialogBuilder.getModificationStack();
 		String childModifTitle = ControlDataValueModification.getTitle(field);
 		IInfo childModifTarget = field;

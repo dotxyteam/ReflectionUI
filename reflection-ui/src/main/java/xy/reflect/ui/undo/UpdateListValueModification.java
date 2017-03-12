@@ -3,8 +3,8 @@ package xy.reflect.ui.undo;
 import java.util.ArrayList;
 import java.util.List;
 
-import xy.reflect.ui.control.data.ControlDataProxy;
-import xy.reflect.ui.control.data.IControlData;
+import xy.reflect.ui.control.input.ControlDataProxy;
+import xy.reflect.ui.control.input.IControlData;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import xy.reflect.ui.control.data.IControlData;
+import xy.reflect.ui.control.input.IControlData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -63,6 +63,9 @@ public class ItemPosition implements Cloneable {
 
 	public Object[] getContainingListRawValue() {
 		Object list = getContainingListData().getValue();
+		if(list == null){
+			return new Object[0];
+		}
 		return getContainingListType().toArray(list);
 	}
 
