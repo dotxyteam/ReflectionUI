@@ -27,9 +27,6 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 		super(reflectionUI, StandardMapEntry.class);
 		this.keyJavaType = keyJavaType;
 		this.valueJavaType = valueJavaType;
-		if (keyJavaType == null) {
-			System.out.println("debug");
-		}
 	}
 
 	public static boolean isCompatibleWith(Class<?> javaType) {
