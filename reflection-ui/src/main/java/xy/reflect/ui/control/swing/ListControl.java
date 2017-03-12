@@ -161,7 +161,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		initializeSelectionListening();
 	}
 
-	public String getCaption() {
+	public String getRootListTitle() {
 		return listData.getCaption();
 	}
 
@@ -835,7 +835,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			protected String getCompositeModificationTitle() {
-				return "Clear '" + getCaption() + "'";
+				return "Clear '" + getRootListTitle() + "'";
 			}
 
 			@Override
@@ -886,7 +886,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			protected String getCompositeModificationTitle() {
-				return "Move '" + getCaption() + "' item(s)";
+				return "Move '" + getRootListTitle() + "' item(s)";
 			}
 
 			@Override
@@ -1051,7 +1051,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			protected String getCompositeModificationTitle() {
-				return "Remove '" + getCaption() + "' item(s)";
+				return "Remove '" + getRootListTitle() + "' item(s)";
 			}
 
 			@Override
@@ -1221,7 +1221,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			protected String getCompositeModificationTitle() {
-				return "Insert item into '" + getCaption() + "'";
+				return "Insert item into '" + getRootListTitle() + "'";
 			}
 
 			@Override
@@ -1336,7 +1336,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			protected String getCompositeModificationTitle() {
-				return "Add item into '" + getCaption() + "'";
+				return "Add item into '" + getRootListTitle() + "'";
 			}
 
 		};
@@ -1455,7 +1455,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			protected String getCompositeModificationTitle() {
-				return "Cut '" + getCaption() + "' item(s)";
+				return "Cut '" + getRootListTitle() + "' item(s)";
 			}
 
 			@Override
@@ -1536,7 +1536,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			protected String getCompositeModificationTitle() {
-				return "Paste item(s) into '" + getCaption() + "'";
+				return "Paste item(s) into '" + getRootListTitle() + "'";
 			}
 
 			@Override
@@ -1616,7 +1616,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			protected String getCompositeModificationTitle() {
-				return "Paste item(s) into '" + getCaption() + "'";
+				return "Paste item(s) into '" + getRootListTitle() + "'";
 			}
 
 			@Override
@@ -1659,7 +1659,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
 						dynamicProperty.getType());
 				encapsulation.setTypeCaption(
-						ReflectionUIUtils.composeMessage(ListControl.this.getCaption(), "Dynamic Property"));
+						ReflectionUIUtils.composeMessage(ListControl.this.getRootListTitle(), "Dynamic Property"));
 				encapsulation.setFieldCaption(dynamicProperty.getCaption());
 				encapsulation.setFieldGetOnly(dynamicProperty.isGetOnly());
 				encapsulation.setFieldNullable(dynamicProperty.isNullable());
@@ -1832,7 +1832,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected String getItemModificationTitle() {
-		return "Edit '" + getCaption() + "' item";
+		return "Edit '" + getRootListTitle() + "' item";
 	}
 
 	public List<Runnable> getSelectionListeners() {
@@ -1902,7 +1902,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		encapsulation.setFieldGetOnly(!UpdateListValueModification.isCompatibleWith(itemPosition));
 		encapsulation.setFieldNullable(itemPosition.isNullable());
 		encapsulation.setFieldCaption("");
-		encapsulation.setTypeCaption(ReflectionUIUtils.composeMessage(itemPosition.getContainingListTitle(), "Item"));
+		encapsulation.setTypeCaption(itemType.getCaption());
 		Map<String, Object> properties = new HashMap<String, Object>();
 		{
 			DesktopSpecificProperty.setSubFormExpanded(properties, true);
@@ -2018,7 +2018,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			public String getContainingListTitle() {
-				return ListControl.this.getCaption();
+				return ListControl.this.getRootListTitle();
 			}
 
 		};
@@ -2267,7 +2267,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 		@Override
 		public AutoFieldValueUpdatingItemPosition getSibling(int index2) {
-			return (AutoFieldValueUpdatingItemPosition)super.getSibling(index2);
+			return (AutoFieldValueUpdatingItemPosition) super.getSibling(index2);
 		}
 
 	}

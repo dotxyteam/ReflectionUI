@@ -122,7 +122,7 @@ public class SwingCustomizer extends SwingRenderer {
 		Object object = getObjectByForm().get(form);
 		if (areCustomizationsEditable(object)) {
 			JPanel mainCustomizationsControl = new JPanel();
-			mainCustomizationsControl.setLayout(new BorderLayout());
+			mainCustomizationsControl.setLayout(new BorderLayout()); 
 			mainCustomizationsControl.add(customizationTools.createTypeInfoCustomizer(object), BorderLayout.CENTER);
 			mainCustomizationsControl.add(customizationTools.createSaveControl(), BorderLayout.EAST);
 			form.add(SwingRendererUtils.flowInLayout(mainCustomizationsControl, GridBagConstraints.CENTER), BorderLayout.NORTH);

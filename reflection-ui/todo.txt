@@ -1,3 +1,4 @@
+. List rows alternative colors
 - ListControl calls too much list.toArray()
 - add field/method category in windows title
 . allow to execute dynamic actions or change dynamic properties on 
@@ -10,12 +11,10 @@ ex: embedded form tabbed pane selection
 . allow to get tree from file list???
 . expose more customizations feature
 	. screenshot
-. List item double click defaut action 
-. List rows alternative colors
-- create infoCustomizations.ListItemDetailsSettings
+. allow to customize List item double click defaut action ???
 - allow to unhide cutomization toolls at runtime
 - allow to customize icons for:
-	. fields: can be postponed as field controls need to be updatedœ
+	. fields: can be postponed as field controls need to be updated
 - icon on title bar???
 - ArrayAsEnum often crashes because an item is not in the array:
 => make it more flexible
