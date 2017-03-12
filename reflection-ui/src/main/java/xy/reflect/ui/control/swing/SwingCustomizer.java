@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
 import java.awt.Toolkit;
 import java.awt.event.AWTEventListener;
 import java.awt.event.ActionEvent;
@@ -124,7 +125,7 @@ public class SwingCustomizer extends SwingRenderer {
 			mainCustomizationsControl.setLayout(new BorderLayout());
 			mainCustomizationsControl.add(customizationTools.createTypeInfoCustomizer(object), BorderLayout.CENTER);
 			mainCustomizationsControl.add(customizationTools.createSaveControl(), BorderLayout.EAST);
-			form.add(SwingRendererUtils.flowInLayout(mainCustomizationsControl, FlowLayout.CENTER), BorderLayout.NORTH);
+			form.add(SwingRendererUtils.flowInLayout(mainCustomizationsControl, GridBagConstraints.CENTER), BorderLayout.NORTH);
 		}
 		super.fillForm(form);
 	}

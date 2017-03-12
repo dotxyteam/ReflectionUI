@@ -55,16 +55,16 @@ public class NullControl extends TextControl {
 				return new TextualTypeInfo(swingRenderer.getReflectionUI(), String.class);
 			}
 
+			@Override
+			public String getCaption() {
+				return input.getControlData().getCaption();
+			}
+
 		};
 	}
 
 	@Override
 	public boolean refreshUI() {
-		return false;
-	}
-
-	@Override
-	public boolean showCaption() {
 		return false;
 	}
 

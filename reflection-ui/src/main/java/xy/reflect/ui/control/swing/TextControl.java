@@ -2,7 +2,7 @@ package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
 import java.awt.Toolkit;
 import java.util.HashMap;
 import java.util.Map;
@@ -89,7 +89,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		iconControl = createIconTrol();
 		{
 			updateIcon();
-			add(SwingRendererUtils.flowInLayout(iconControl, FlowLayout.CENTER), BorderLayout.EAST);
+			add(SwingRendererUtils.flowInLayout(iconControl, GridBagConstraints.CENTER), BorderLayout.EAST);
 		}
 	}
 

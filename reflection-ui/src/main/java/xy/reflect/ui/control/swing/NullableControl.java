@@ -2,11 +2,13 @@ package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
@@ -46,7 +48,8 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 				}
 			}
 		});
-		add(nullStatusControl, BorderLayout.WEST);
+		nullStatusControl.setEnabled(!data.isGetOnly());
+		add(SwingRendererUtils.flowInLayout(nullStatusControl, GridBagConstraints.NORTH) , BorderLayout.WEST);
 		refreshUI();
 	}
 
@@ -126,11 +129,8 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean showCaption() {
-		if (subControl instanceof IAdvancedFieldControl) {
-			return ((IAdvancedFieldControl) subControl).showCaption();
-		} else {
-			return false;
-		}
+		setBorder(BorderFactory.createTitledBorder(data.getCaption()));
+		return true;
 	}
 
 	@Override

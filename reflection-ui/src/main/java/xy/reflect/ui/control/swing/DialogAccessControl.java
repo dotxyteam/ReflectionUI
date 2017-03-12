@@ -57,7 +57,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 		iconControl = createIconControl();
 
 		if (button != null) {
-			add(SwingRendererUtils.flowInLayout(button, FlowLayout.CENTER), BorderLayout.WEST);
+			add(SwingRendererUtils.flowInLayout(button, GridBagConstraints.CENTER), BorderLayout.WEST);
 		}
 		if (statusControl != null) {
 			JPanel centerPanel = new JPanel();

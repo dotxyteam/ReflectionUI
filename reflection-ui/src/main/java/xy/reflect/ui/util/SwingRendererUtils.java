@@ -9,6 +9,8 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.KeyboardFocusManager;
@@ -167,10 +169,16 @@ public class SwingRendererUtils {
 		return SwingUtilities.getWindowAncestor(c);
 	}
 
-	public static Component flowInLayout(Component c, int flowLayoutAlignment) {
+	public static Component flowInLayout(Component c, int gridBagConstraintsAnchor) {
 		JPanel result = new JPanel();
-		result.setLayout(new FlowLayout(flowLayoutAlignment));
-		result.add(c);
+		result.setLayout(new GridBagLayout());
+		GridBagConstraints contraints = new GridBagConstraints();
+		contraints.gridx = 0;
+		contraints.gridy = 0;
+		contraints.weightx = 1;
+		contraints.weighty = 1;
+		contraints.anchor = gridBagConstraintsAnchor;
+		result.add(c, contraints);
 		return result;
 	}
 
