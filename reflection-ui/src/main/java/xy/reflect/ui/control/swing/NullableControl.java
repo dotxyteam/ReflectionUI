@@ -116,7 +116,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 			} else {
 				subControlValueType = swingRenderer.getReflectionUI()
 						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newValue));
-				subControl = SwingRendererUtils.createSubTypeControl(swingRenderer, subControlValueType, input);
+				subControl = SwingRendererUtils.createDynamicControl(swingRenderer, subControlValueType, input);
 			}
 
 			add(subControl, BorderLayout.CENTER);

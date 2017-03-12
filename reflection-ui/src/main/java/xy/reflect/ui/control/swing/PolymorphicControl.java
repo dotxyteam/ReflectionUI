@@ -130,7 +130,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 	}
 
 	protected Component createDynamicControl(final ITypeInfo instanceType) {
-		return SwingRendererUtils.createSubTypeControl(swingRenderer, instanceType, input);
+		return SwingRendererUtils.createDynamicControl(swingRenderer, instanceType, input);
 	}
 
 	protected void refreshDynamicControl() {

@@ -218,11 +218,10 @@ public class SwingRendererUtils {
 	public static Color getTextBackgroundColor() {
 		return SwingRendererUtils.fixSeveralColorRenderingIssues(new JTextField().getBackground());
 	}
-	
+
 	public static Color getPanelBackgroundColor() {
 		return SwingRendererUtils.fixSeveralColorRenderingIssues(new JPanel().getBackground());
 	}
-
 
 	public static void disableComponentTree(JComponent c, final boolean revert) {
 		String CONTAINER_LISTENER_KEY = ReflectionUIUtils.class.getName()
@@ -355,8 +354,6 @@ public class SwingRendererUtils {
 
 		return (fields.size() + methods.size()) == 0;
 	}
-
-	
 
 	public static final boolean hasCustomControl(Object fieldValue, ITypeInfo fieldType, SwingRenderer swingRenderer) {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
@@ -712,9 +709,12 @@ public class SwingRendererUtils {
 		return new JOptionPane(msgComponent, messageType, JOptionPane.DEFAULT_OPTION, null, new Object[] {});
 	}
 
-	public static Component createSubTypeControl(SwingRenderer swingRenderer, ITypeInfo subType, final IControlInput input) {
+	public static Component createDynamicControl(SwingRenderer swingRenderer, ITypeInfo dynamicType,
+			final IControlInput input) {
 		final EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
-				subType);
+				dynamicType);
+		encapsulation.setTypeCaption(
+				ReflectionUIUtils.composeMessage(input.getControlData().getType().getCaption(), "Dynamic Wrapper"));
 		encapsulation.setFieldNullable(false);
 		encapsulation.setFieldCaption("");
 		encapsulation.setFieldGetOnly(input.getControlData().isGetOnly());
@@ -733,7 +733,7 @@ public class SwingRendererUtils {
 			}
 
 		});
-		EmbeddedFormControl result = new EmbeddedFormControl(swingRenderer, input){
+		EmbeddedFormControl result = new EmbeddedFormControl(swingRenderer, input) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -762,9 +762,7 @@ public class SwingRendererUtils {
 
 				};
 			}
-			
-			
-			
+
 		};
 		return result;
 	}
