@@ -2,7 +2,7 @@ package xy.reflect.ui.info.type.iterable.structure.column;
 
 import java.util.Map;
 
-import xy.reflect.ui.info.type.iterable.util.ItemPosition;
+import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 
 public class ColumnInfoProxy implements IColumnInfo {
 	protected IColumnInfo base;

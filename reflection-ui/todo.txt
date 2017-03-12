@@ -1,3 +1,4 @@
+- ListControl calls too much list.toArray()
 - UpdateListModification:
 	. ItemPosition must never store information (eg object)
 	that may change over time

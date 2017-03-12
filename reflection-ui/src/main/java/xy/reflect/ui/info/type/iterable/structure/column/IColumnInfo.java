@@ -1,7 +1,7 @@
 package xy.reflect.ui.info.type.iterable.structure.column;
 
 import xy.reflect.ui.info.IInfo;
-import xy.reflect.ui.info.type.iterable.util.ItemPosition;
+import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 
 public interface IColumnInfo extends IInfo{
 

@@ -8,7 +8,7 @@ import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
-import xy.reflect.ui.info.type.iterable.util.ItemPosition;
+import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class UpdateListValueModification extends AbstractModification {
@@ -31,7 +31,7 @@ public class UpdateListValueModification extends AbstractModification {
 				return false;
 			}
 		}
-		IControlData containingListData = itemPosition.getContainingListField();
+		IControlData containingListData = itemPosition.getContainingListData();
 		IListTypeInfo containingListType = itemPosition.getContainingListType();
 		if (containingListType.canReplaceContent()) {
 			if (containingListData.getValueReturnMode() == ValueReturnMode.SELF) {
@@ -89,12 +89,13 @@ public class UpdateListValueModification extends AbstractModification {
 		ItemPosition parentItemPosition = itemPosition.getParentItemPosition();
 		if (parentItemPosition != null) {
 			Object[] parentListRawValue = parentItemPosition.getContainingListRawValue();
+			parentListRawValue[parentItemPosition.getIndex()] = parentItemPosition.getItem();
 			updateListValueRecursively(parentItemPosition, parentListRawValue);
 		}
 	}
 
 	protected void updateListValue(ItemPosition itemPosition, Object[] listRawValue) {
-		IControlData listData = itemPosition.getContainingListField();
+		IControlData listData = itemPosition.getContainingListData();
 		IListTypeInfo listType = itemPosition.getContainingListType();
 		if (listType.canReplaceContent()) {
 			if (listData.getValueReturnMode() == ValueReturnMode.SELF) {
@@ -116,7 +117,7 @@ public class UpdateListValueModification extends AbstractModification {
 					}
 				}, listRawValue, target).applyAndGetOpposite());
 				undoModifications.add(0,
-						new ControlDataValueModification(itemPosition.getContainingListField(), listValue, target)
+						new ControlDataValueModification(itemPosition.getContainingListData(), listValue, target)
 								.applyAndGetOpposite());
 				return;
 			}
@@ -125,7 +126,7 @@ public class UpdateListValueModification extends AbstractModification {
 			if (!listData.isGetOnly()) {
 				Object listValue = listType.fromArray(listRawValue);
 				undoModifications.add(0,
-						new ControlDataValueModification(itemPosition.getContainingListField(), listValue, target)
+						new ControlDataValueModification(itemPosition.getContainingListData(), listValue, target)
 								.applyAndGetOpposite());
 				return;
 			}

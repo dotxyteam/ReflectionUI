@@ -52,13 +52,13 @@ import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
+import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.CustomizedStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.ListStructuralInfoProxy;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
-import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.InfoCustomizations.ColumnCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.FieldCustomization;
@@ -1953,7 +1953,7 @@ public final class InfoCustomizations {
 										@Override
 										public ValueReturnMode getValueReturnMode() {
 											return ValueReturnMode.combine(
-													itemPosition.getContainingListField().getValueReturnMode(),
+													itemPosition.getContainingListData().getValueReturnMode(),
 													itemField.getValueReturnMode());
 										}
 
@@ -2089,7 +2089,7 @@ public final class InfoCustomizations {
 										@Override
 										public ValueReturnMode getValueReturnMode() {
 											return ValueReturnMode.combine(
-													itemPosition.getContainingListField().getValueReturnMode(),
+													itemPosition.getContainingListData().getValueReturnMode(),
 													method.getValueReturnMode());
 										}
 

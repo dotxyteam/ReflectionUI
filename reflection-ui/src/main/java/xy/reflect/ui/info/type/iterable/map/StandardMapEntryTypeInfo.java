@@ -17,6 +17,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.info.method.InvocationData;
 
+@SuppressWarnings("unused")
 public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEntryTypeInfo {
 
 	protected Class<?> keyJavaType;
@@ -121,7 +122,7 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 					}
 				}
 				@SuppressWarnings({ "rawtypes", "unchecked" })
-				StandardMapEntry result = new StandardMapEntry(new AbstractMap.SimpleEntry(key, value));
+				StandardMapEntry result = new StandardMapEntry(key, value);
 				reflectionUI.registerPrecomputedTypeInfoObject(result, StandardMapEntryTypeInfo.this);
 				return result;
 			}

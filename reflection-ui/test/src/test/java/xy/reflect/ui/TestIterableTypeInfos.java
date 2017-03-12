@@ -12,8 +12,8 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
-import xy.reflect.ui.info.type.iterable.util.ItemPosition;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
@@ -50,7 +50,7 @@ public class TestIterableTypeInfos  extends AbstractTest{
 
 	}
 
-	public List<AbstractItem> itemList = new ArrayList<AbstractItem>(
+	public ArrayList<AbstractItem> itemList = new ArrayList<AbstractItem>(
 			Arrays.asList(new Item(1), new Item(2), new OtherItem(3), new OtherItem(4)));
 
 	@Test
@@ -66,6 +66,7 @@ public class TestIterableTypeInfos  extends AbstractTest{
 
 		IFieldInfo itemListInfo = ReflectionUIUtils.findInfoByName(typeInfo.getFields(), "itemList");
 		IListTypeInfo itemListTypeInfo = (IListTypeInfo) itemListInfo.getType();
+		
 		ListCustomization itemListTypeCustomization = customizations
 				.getListCustomization(itemListTypeInfo.getName(), itemListTypeInfo.getItemType().getName(), true);
 		itemListTypeCustomization.setFieldColumnsAdded(true);

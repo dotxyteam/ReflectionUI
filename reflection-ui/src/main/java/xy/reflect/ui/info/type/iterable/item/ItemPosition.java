@@ -1,26 +1,35 @@
-package xy.reflect.ui.info.type.iterable.util;
+package xy.reflect.ui.info.type.iterable.item;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.control.data.IControlData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 
-public abstract class ItemPosition implements Cloneable {
+public class ItemPosition implements Cloneable {
 
 	protected ItemPosition parentItemPosition;
-	protected IFieldInfo containingListField;
+	protected IControlData containingListData;
 	protected int index;
+	protected Object item;
 
-	public abstract Object getRootListOwner();
-
-	public ItemPosition(ItemPosition parentItemPosition, IFieldInfo containingListField, int index) {
+	public ItemPosition(ItemPosition parentItemPosition, IControlData containingListData, int index) {
 		this.parentItemPosition = parentItemPosition;
-		this.containingListField = containingListField;
+		this.containingListData = containingListData;
 		this.index = index;
+		updateItem();
+	}
+
+	protected void updateItem() {
+		Object[] containingListRawValue = getContainingListRawValue();
+		if ((index >= 0) && (index < containingListRawValue.length)) {
+			item = containingListRawValue[index];
+		} else {
+			item = null;
+		}
 	}
 
 	public boolean supportsItem(Object object) {
@@ -33,14 +42,7 @@ public abstract class ItemPosition implements Cloneable {
 	}
 
 	public Object getItem() {
-		Object[] listValue = getContainingListRawValue();
-		if (index < 0) {
-			return null;
-		}
-		if (index >= listValue.length) {
-			return null;
-		}
-		return listValue[index];
+		return item;
 	}
 
 	public boolean isNullable() {
@@ -55,26 +57,17 @@ public abstract class ItemPosition implements Cloneable {
 		return null;
 	}
 
-	public IFieldInfo getContainingListField() {
-		return containingListField;
+	public IControlData getContainingListData() {
+		return containingListData;
 	}
 
 	public Object[] getContainingListRawValue() {
-		Object containingListOwner;
-		if (parentItemPosition != null) {
-			containingListOwner = parentItemPosition.getItem();
-		} else {
-			containingListOwner = getRootListOwner();
-		}		
-		Object list = getContainingListField().getValue(containingListOwner);
-		if (list == null) {
-			return new Object[0];
-		}
+		Object list = getContainingListData().getValue();
 		return getContainingListType().toArray(list);
 	}
 
 	public IListTypeInfo getContainingListType() {
-		return (IListTypeInfo) getContainingListField().getType();
+		return (IListTypeInfo) getContainingListData().getType();
 	}
 
 	public ItemPosition getParentItemPosition() {
@@ -119,13 +112,9 @@ public abstract class ItemPosition implements Cloneable {
 	}
 
 	public ItemPosition getSibling(int index2) {
-		ItemPosition result;
-		try {
-			result = (ItemPosition) clone();
-		} catch (CloneNotSupportedException e) {
-			throw new ReflectionUIError(e);
-		}
+		ItemPosition result = (ItemPosition) clone();
 		result.index = index2;
+		result.updateItem();
 		return result;
 	}
 
@@ -142,15 +131,19 @@ public abstract class ItemPosition implements Cloneable {
 	}
 
 	@Override
-	protected Object clone() throws CloneNotSupportedException {
-		return super.clone();
+	public ItemPosition clone() {
+		try {
+			return (ItemPosition) super.clone();
+		} catch (CloneNotSupportedException e) {
+			throw new ReflectionUIError(e);
+		}
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((containingListField == null) ? 0 : containingListField.hashCode());
+		result = prime * result + ((containingListData == null) ? 0 : containingListData.hashCode());
 		result = prime * result + index;
 		result = prime * result + ((parentItemPosition == null) ? 0 : parentItemPosition.hashCode());
 		return result;
@@ -165,10 +158,10 @@ public abstract class ItemPosition implements Cloneable {
 		if (getClass() != obj.getClass())
 			return false;
 		ItemPosition other = (ItemPosition) obj;
-		if (containingListField == null) {
-			if (other.containingListField != null)
+		if (containingListData == null) {
+			if (other.containingListData != null)
 				return false;
-		} else if (!containingListField.equals(other.containingListField))
+		} else if (!containingListData.equals(other.containingListData))
 			return false;
 		if (index != other.index)
 			return false;
