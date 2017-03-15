@@ -54,7 +54,7 @@
         <string>Name: </string>
         <string>State: </string>
         <string>NEW</string>
-        <string>Default Uncaught Exception Handler: </string>
+        <string>Default Uncaught Exception Handler</string>
         <string>Uncaught Exception Handler</string>
         <string>...</string>
         <string>Thread Group: </string>
@@ -137,7 +137,7 @@
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
-      <orderChecked>true</orderChecked>
+      <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>State: </string>
         <string>TERMINATED</string>

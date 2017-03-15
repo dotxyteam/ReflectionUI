@@ -1,6 +1,5 @@
 package xy.reflect.ui.info.type.util;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -9,19 +8,16 @@ import java.util.Map;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
-import xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory.TypeInfo;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ArrayAccessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-@SuppressWarnings("unused")
 public class EncapsulatedObjectFactory {
 
 	protected ReflectionUI reflectionUI;
@@ -32,7 +28,7 @@ public class EncapsulatedObjectFactory {
 	protected String typeOnlineHelp;
 
 	protected ITypeInfo fieldType;
-	protected String fieldCaption = "Value";
+	protected String fieldCaption;
 	protected boolean fieldGetOnly = false;
 	protected boolean fieldNullable = true;
 	protected ValueReturnMode fieldValueReturnMode = ValueReturnMode.PROXY;
@@ -44,6 +40,7 @@ public class EncapsulatedObjectFactory {
 	public EncapsulatedObjectFactory(ReflectionUI reflectionUI, ITypeInfo fieldType) {
 		this.reflectionUI = reflectionUI;
 		this.fieldType = fieldType;
+		this.typeCaption = fieldType.getCaption();
 	}
 
 	public Object getInstance(Accessor<Object> fieldValueAccessor) {

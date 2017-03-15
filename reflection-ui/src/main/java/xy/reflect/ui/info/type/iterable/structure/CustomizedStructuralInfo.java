@@ -3,11 +3,7 @@ package xy.reflect.ui.info.type.iterable.structure;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.swing.ListControl;
-import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MultipleFieldsAsOne;
 import xy.reflect.ui.info.field.MultipleFieldsAsOne.ListItem;
@@ -28,11 +24,8 @@ import xy.reflect.ui.info.type.iterable.structure.column.TypeNameColumnInfo;
 import xy.reflect.ui.info.type.util.InfoCustomizations.ColumnCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.InfoFilter;
 import xy.reflect.ui.info.type.util.InfoCustomizations.ListCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizations.TreeStructureDiscoverySettings;
-import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-@SuppressWarnings("unused")
 public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 
 	protected List<IFieldInfo> columnFields;
@@ -81,7 +74,7 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 
 	protected List<IFieldInfo> getItemSubListCandidateFields(ItemPosition itemPosition) {
 		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
-		Object item = itemPosition.getItem();
+		Object item = itemPosition.getLastKnownItem();
 		ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
 		if (actualItemType instanceof SubListGroupTypeInfo) {
 			result.add(((SubListGroupTypeInfo) actualItemType).getDetailsField());
@@ -222,7 +215,7 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 
 	protected boolean displaysSubListFieldNameAsTreeNode(IFieldInfo subListField, ItemPosition itemPosition) {
 		ITypeInfo itemType = itemPosition.getContainingListType().getItemType();
-		if (itemPosition.getItem() instanceof MultipleFieldsAsOne.ListItem) {
+		if (itemPosition.getLastKnownItem() instanceof MultipleFieldsAsOne.ListItem) {
 			return false;
 		}
 		if (itemType instanceof IMapEntryTypeInfo) {

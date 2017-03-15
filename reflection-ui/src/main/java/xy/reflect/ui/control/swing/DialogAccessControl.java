@@ -3,13 +3,13 @@ package xy.reflect.ui.control.swing;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.ImageIcon;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,20 +17,17 @@ import javax.swing.JPanel;
 import xy.reflect.ui.control.input.ControlDataProxy;
 import xy.reflect.ui.control.input.IControlData;
 import xy.reflect.ui.control.input.IControlInput;
-import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
+import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
+import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.ControlDataValueModification;
-import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.util.Accessor;
-import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
@@ -77,7 +74,6 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 		updateControls();
 	}
 
-	
 	@Override
 	public void requestFocus() {
 		button.requestFocus();
@@ -135,7 +131,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	protected Component createStatusControl(IControlInput input) {
-		return new TextControl(swingRenderer, input){
+		return new TextControl(swingRenderer, input) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -156,40 +152,46 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 
 				};
 			}
-			
+
 		};
 	}
 
 	protected void openDialog() {
 		Object oldValue = data.getValue();
-		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, this, oldValue);
-		dialogBuilder.setGetOnly(data.isGetOnly());
-		boolean cancellable = true;
-		{
-			if (!dialogBuilder.getDisplayValueType().isModificationStackAccessible()) {
-				cancellable = false;
-			}
-			if (data.isGetOnly() && (data.getValueReturnMode() == ValueReturnMode.COPY)) {
-				cancellable = false;
-			}
-		}
-		dialogBuilder.setCancellable(cancellable);
-		swingRenderer.showDialog(dialogBuilder.build(), true);
 
-		IFieldInfo field = input.getField();
+		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
+				data.getType());
+		encapsulation.setFieldGetOnly(data.isGetOnly());
+		encapsulation.setFieldNullable(false);
+		encapsulation.setFieldValueReturnMode(data.getValueReturnMode());
+		encapsulation.setFieldCaption("");
+		Map<String, Object> properties = new HashMap<String, Object>();
+		{
+			DesktopSpecificProperty.setSubFormExpanded(properties, true);
+			encapsulation.setFieldSpecificProperties(properties);
+		}
+		encapsulation.setTypeCaption(data.getType().getCaption());
+		encapsulation.setTypeModificationStackAccessible(ReflectionUIUtils.canPotentiallyIntegrateSubModifications(
+				input.getField().getValueReturnMode(), !input.getField().isGetOnly()));
+		
+		Accessor<Object> encapsulatedValueAccessor = Accessor.returning(data.getValue(), true);
+		Object encapsulated = encapsulation.getInstance(encapsulatedValueAccessor);
+		
+		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, this, encapsulated);
+		swingRenderer.showDialog(dialogBuilder.build(), true);
 
 		ModificationStack parentModifStack = input.getModificationStack();
 		ModificationStack childModifStack = dialogBuilder.getModificationStack();
-		String childModifTitle = ControlDataValueModification.getTitle(field);
-		IInfo childModifTarget = field;
+		String childModifTitle = ControlDataValueModification.getTitle(input.getField());
+		IInfo childModifTarget = input.getField();
 		IModification commitModif;
-		if (field.isGetOnly()) {
+		if (input.getField().isGetOnly()) {
 			commitModif = null;
 		} else {
-			commitModif = new ControlDataValueModification(data, dialogBuilder.getValue(), childModifTarget);
+			commitModif = new ControlDataValueModification(data, encapsulatedValueAccessor.get(), childModifTarget);
 		}
+		ValueReturnMode childValueReturnMode = input.getField().getValueReturnMode();
 		boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.isOkPressed();
-		ValueReturnMode childValueReturnMode = field.getValueReturnMode();
 		boolean childValueNew = dialogBuilder.isValueNew();
 		if (ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(), parentModifStack,
 				childModifStack, childModifAccepted, childValueReturnMode, childValueNew, commitModif, childModifTarget,

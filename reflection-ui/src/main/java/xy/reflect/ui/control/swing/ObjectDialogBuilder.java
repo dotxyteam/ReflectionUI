@@ -3,17 +3,11 @@ package xy.reflect.ui.control.swing;
 import java.awt.Component;
 import java.awt.Image;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-import xy.reflect.ui.info.DesktopSpecificProperty;
-import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
@@ -22,26 +16,24 @@ import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-@SuppressWarnings("unused")
 public class ObjectDialogBuilder {
 
-	protected boolean getOnly = false;
-	protected IInfoFilter infoFilter = IInfoFilter.DEFAULT;
-	protected List<Component> additionalToolbarComponents;
-
-	protected DialogBuilder delegate;
 	protected SwingRenderer swingRenderer;
+	protected DialogBuilder delegate;
 	protected Object initialValue;
 	protected Object value;
 	protected JPanel objectForm;
-	protected boolean cancellable = false;
+	protected boolean cancellable;
 	protected String customCancelCaption;
 	protected String customOKCaption;
+	protected IInfoFilter infoFilter = IInfoFilter.DEFAULT;
+	protected List<Component> additionalToolbarComponents;
 
 	public ObjectDialogBuilder(SwingRenderer swingRenderer, Component ownerComponent, Object value) {
 		this.swingRenderer = swingRenderer;
+		this.delegate = createDelegateDialogBuilder(ownerComponent);
 		this.initialValue = this.value = value;
-		delegate = createDelegateDialogBuilder(ownerComponent);
+		this.cancellable = getDisplayValueType().isModificationStackAccessible();
 
 		setTitle(swingRenderer.getObjectTitle(value));
 		setIconImage(swingRenderer.getObjectIconImage(value));
@@ -76,7 +68,6 @@ public class ObjectDialogBuilder {
 					getValueType());
 			encapsulation.setTypeCaption(getTitle());
 			encapsulation.setFieldCaption(BooleanTypeInfo.isCompatibleWith(value.getClass()) ? "Is True" : "");
-			encapsulation.setFieldGetOnly(getOnly);
 			encapsulation.setFieldNullable(false);
 			return encapsulation.getInstance(valueAccessor);
 		} else {
@@ -96,14 +87,6 @@ public class ObjectDialogBuilder {
 		Object displayValue = getDisplayValue();
 		return swingRenderer.getReflectionUI()
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(displayValue));
-	}
-
-	public boolean isGetOnly() {
-		return getOnly;
-	}
-
-	public void setGetOnly(boolean getOnly) {
-		this.getOnly = getOnly;
 	}
 
 	public IInfoFilter getInfoFilter() {

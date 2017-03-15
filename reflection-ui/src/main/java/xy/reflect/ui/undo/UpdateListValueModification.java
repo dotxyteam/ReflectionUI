@@ -89,7 +89,7 @@ public class UpdateListValueModification extends AbstractModification {
 		ItemPosition parentItemPosition = itemPosition.getParentItemPosition();
 		if (parentItemPosition != null) {
 			Object[] parentListRawValue = parentItemPosition.getContainingListRawValue();
-			parentListRawValue[parentItemPosition.getIndex()] = parentItemPosition.getItem();
+			parentListRawValue[parentItemPosition.getIndex()] = parentItemPosition.getLastKnownItem();
 			updateListValueRecursively(parentItemPosition, parentListRawValue);
 		}
 	}

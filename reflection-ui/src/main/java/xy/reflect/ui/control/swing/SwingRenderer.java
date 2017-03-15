@@ -1550,12 +1550,22 @@ public class SwingRenderer {
 						}
 						lastFieldValue = field.getValue(object);
 						lastFieldValueInitialized = true;
-						displayError(null);
-					} catch (Throwable t) {
+						SwingUtilities.invokeLater(new Runnable() {							
+							@Override
+							public void run() {
+								displayError(null);
+							}
+						});						
+					} catch (final Throwable t) {
 						if (!lastFieldValueInitialized) {
 							throw new ReflectionUIError(t);
 						} else {
-							displayError(ReflectionUIUtils.getPrettyErrorMessage(t));
+							SwingUtilities.invokeLater(new Runnable() {							
+								@Override
+								public void run() {
+									displayError(ReflectionUIUtils.getPrettyErrorMessage(t));
+								}
+							});	
 						}
 					}
 					return lastFieldValue;
@@ -1694,7 +1704,7 @@ public class SwingRenderer {
 			boolean done = (fieldControl instanceof IAdvancedFieldControl)
 					&& ((IAdvancedFieldControl) fieldControl).displayError(msg);
 			if (!done && (msg != null)) {
-				if (!isSimilarErrorMessage(errorMessageDisplayedOnPlaceHolder, msg)) {
+				if (errorMessageDisplayedOnPlaceHolder == null) {
 					errorMessageDisplayedOnPlaceHolder = msg;
 					SwingRendererUtils.setErrorBorder(this);
 					handleExceptionsFromDisplayedUI(fieldControl, new ReflectionUIError(msg));
@@ -1703,10 +1713,6 @@ public class SwingRenderer {
 				errorMessageDisplayedOnPlaceHolder = null;
 				setBorder(null);
 			}
-		}
-
-		public boolean isSimilarErrorMessage(String errorMsg1, String errorMsg2) {
-			return ReflectionUIUtils.equalsOrBothNull(errorMsg1, errorMsg2);
 		}
 
 		public boolean showCaption() {

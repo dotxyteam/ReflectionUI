@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.control.input.IControlData;
 import xy.reflect.ui.control.input.IControlInput;
@@ -68,7 +69,9 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		encapsulation
 				.setTypeCaption(ReflectionUIUtils.composeMessage(polymorphicType.getCaption(), "Polymorphic Type"));
 		encapsulation.setFieldNullable(data.isNullable());
+		encapsulation.setFieldGetOnly(data.isGetOnly());
 		encapsulation.setFieldCaption("");
+		encapsulation.setFieldNullValueLabel(data.getNullValueLabel());
 		Object encapsulated = encapsulation.getInstance(new Accessor<Object>() {
 
 			@Override
@@ -109,7 +112,13 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 						setDataValue(instance);
 					}
 				} finally {
-					refreshDynamicControl();
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							refreshDynamicControl();
+						}
+					});
+
 				}
 			}
 
@@ -159,6 +168,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 				}
 			}
 			remove(dynamicControl);
+			dynamicControl = null;
 			dynamicControl = createDynamicControl(instanceType);
 			add(dynamicControl, BorderLayout.CENTER);
 			SwingRendererUtils.handleComponentSizeChange(this);
@@ -170,10 +180,8 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		if (typeEnumerationControl != null) {
 			remove(typeEnumerationControl);
 		}
-		if (!data.isGetOnly()) {
-			add(typeEnumerationControl = createTypeEnumerationControl(), BorderLayout.NORTH);
-		}
-		validate();
+		add(typeEnumerationControl = createTypeEnumerationControl(), BorderLayout.NORTH);
+		SwingRendererUtils.handleComponentSizeChange(this);
 	}
 
 	@Override

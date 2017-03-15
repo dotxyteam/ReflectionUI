@@ -143,8 +143,8 @@ public class ReflectionUITest {
 			return null;
 		}
 
-		public Object returnObject() {
-			return new Object();
+		public Object returnAnyObject() {
+			return anyObject;
 		}
 
 		public void throwException() throws Exception {

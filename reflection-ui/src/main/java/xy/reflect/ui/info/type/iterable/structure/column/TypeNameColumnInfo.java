@@ -4,12 +4,10 @@ import java.util.Collections;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.map.StandardMapEntry;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-@SuppressWarnings("unused")
 public class TypeNameColumnInfo implements IColumnInfo {
 
 	protected ReflectionUI reflectionUI;
@@ -26,7 +24,7 @@ public class TypeNameColumnInfo implements IColumnInfo {
 
 	@Override
 	public String getCellValue(ItemPosition itemPosition) {
-		Object item = itemPosition.getItem();
+		Object item = itemPosition.getLastKnownItem();
 		if (item == null) {
 			return "";
 		}

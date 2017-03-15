@@ -9,29 +9,23 @@ import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
 import xy.reflect.ui.control.input.IControlData;
 import xy.reflect.ui.control.input.IControlInput;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.IModification;
-import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.util.Accessor;
-import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-@SuppressWarnings("unused")
 public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
@@ -53,11 +47,9 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 		refreshUI();
 	}
 
-	
 	protected IControlData retrieveData() {
 		return input.getControlData();
 	}
-
 
 	public JPanel getSubForm() {
 		return subForm;
@@ -103,7 +95,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	protected void forwardSubFormModifications() {
-		if (data.isGetOnly() && (data.getValueReturnMode() == ValueReturnMode.COPY)) {
+		if (!ReflectionUIUtils.canPotentiallyIntegrateSubModifications(data.getValueReturnMode(), !data.isGetOnly())) {
 			ModificationStack childModifStack = swingRenderer.getModificationStackByForm().get(subForm);
 			childModifStack.addListener(new AbstractSimpleModificationListener() {
 				@Override
@@ -167,7 +159,8 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	public boolean refreshUI() {
 		if (subForm == null) {
 			subFormObject = data.getValue();
-			IInfoFilter filter = DesktopSpecificProperty.getFilter(DesktopSpecificProperty.accessControlDataProperties(data));
+			IInfoFilter filter = DesktopSpecificProperty
+					.getFilter(DesktopSpecificProperty.accessControlDataProperties(data));
 			{
 				if (filter == null) {
 					filter = IInfoFilter.DEFAULT;

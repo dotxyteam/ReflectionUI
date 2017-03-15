@@ -2195,7 +2195,7 @@
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>anyObject</fieldName>
             <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>true</nullableFacetHidden>
+            <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -2588,6 +2588,14 @@
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
             <methodSignature>ReflectionUITest$Test new()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>java.lang.Object returnAnyObject()</methodSignature>
+            <nullReturnValueLabel>Not Set !</nullReturnValueLabel>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
@@ -5465,5 +5473,17 @@
         </fieldsCustomizations>
         <typeName>Encapsulation [typeCaption=Test 2 - Dynamic Wrapper, fieldType=ReflectionUITest$Test2, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=Float, fieldType=float, fieldCaption=]</typeName>
+        <undoManagementHidden>true</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

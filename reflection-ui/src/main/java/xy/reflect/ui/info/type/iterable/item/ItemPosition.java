@@ -14,21 +14,21 @@ public class ItemPosition implements Cloneable {
 	protected ItemPosition parentItemPosition;
 	protected IControlData containingListData;
 	protected int index;
-	protected Object item;
+	protected Object lastKnowItem;
 
 	public ItemPosition(ItemPosition parentItemPosition, IControlData containingListData, int index) {
 		this.parentItemPosition = parentItemPosition;
 		this.containingListData = containingListData;
 		this.index = index;
-		updateItem();
+		updateLastKnownItem();
 	}
 
-	protected void updateItem() {
+	protected void updateLastKnownItem() {
 		Object[] containingListRawValue = getContainingListRawValue();
 		if ((index >= 0) && (index < containingListRawValue.length)) {
-			item = containingListRawValue[index];
+			lastKnowItem = containingListRawValue[index];
 		} else {
-			item = null;
+			lastKnowItem = null;
 		}
 	}
 
@@ -41,8 +41,8 @@ public class ItemPosition implements Cloneable {
 		return index;
 	}
 
-	public Object getItem() {
-		return item;
+	public Object getLastKnownItem() {
+		return lastKnowItem;
 	}
 
 	public boolean isNullable() {
@@ -117,7 +117,7 @@ public class ItemPosition implements Cloneable {
 	public ItemPosition getSibling(int index2) {
 		ItemPosition result = (ItemPosition) clone();
 		result.index = index2;
-		result.updateItem();
+		result.updateLastKnownItem();
 		return result;
 	}
 
@@ -188,7 +188,7 @@ public class ItemPosition implements Cloneable {
 			}
 			current = current.getParentItemPosition();
 		}
-		return "ItemPosition [item=" + getItem() + ", path=" + path.toString() + "]";
+		return "ItemPosition [item=" + getLastKnownItem() + ", path=" + path.toString() + "]";
 	}
 
 }

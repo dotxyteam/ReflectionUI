@@ -40,7 +40,8 @@ import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
-import javax.swing.border.Border;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeExpansionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -50,26 +51,20 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
-import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTreeTable;
+import org.jdesktop.swingx.decorator.HighlighterFactory;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.jdesktop.swingx.treetable.TreeTableModel;
 
-import javafx.scene.chart.PieChart.Data;
-import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.input.FieldControlData;
 import xy.reflect.ui.control.input.IControlData;
 import xy.reflect.ui.control.input.IControlInput;
-import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.MultipleFieldsAsOne;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -80,7 +75,6 @@ import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemDetailsAreaPosition;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
-import xy.reflect.ui.info.type.iterable.structure.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.SubListsGroupingField.SubListGroup;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
@@ -88,7 +82,6 @@ import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
-import xy.reflect.ui.info.type.util.TypeCastFactory;
 import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.InvokeMethodModification;
@@ -98,13 +91,11 @@ import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.undo.UpdateListValueModification;
 import xy.reflect.ui.util.Accessor;
-import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.AbstractLazyTreeNode;
 
-@SuppressWarnings("unused")
 public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
@@ -122,9 +113,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	protected JPanel detailsArea;
 	protected JPanel detailsControl;
 	protected IListItemDetailsAccessMode detailsMode;
-	protected AutoFieldValueUpdatingItemPosition detailsControlItemPosition;
+	protected GhostItemPosition detailsControlItemPosition;
 	protected Object detailsControlItem;
-	protected Object[] detailsControlItemHolder = new Object[1];
 
 	protected List<Runnable> selectionListeners = new ArrayList<Runnable>();
 	protected boolean selectionListenersEnabled = true;
@@ -197,7 +187,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					result.width = 0;
 				}
 				{
-					int minHeight = (int) (screenSize.height * 0.20);
+					int minHeight = (int) (screenSize.height * 0.10);
 					int maxHeight = (int) (screenSize.height * 0.60);
 					result.height = minHeight;
 					Dimension treeTableComponentPreferredSize = treeTableComponent.getPreferredSize();
@@ -487,18 +477,34 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		treeTableComponent.getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		treeTableComponent.setRootVisible(false);
 		treeTableComponent.setShowsRootHandles(true);
-		treeTableComponent.setDefaultRenderer(Object.class, new ItemCellRenderer());
-		treeTableComponent.setTreeCellRenderer(new ItemCellRenderer());
+		treeTableComponent.setDefaultRenderer(Object.class, new ItemTableCellRenderer());
+		treeTableComponent.setTreeCellRenderer(new ItemTreeCellRenderer());
 		treeTableComponent.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		treeTableComponent.setHorizontalScrollEnabled(true);
 		treeTableComponent.setColumnMargin(5);
 		treeTableComponent.getTableHeader().setReorderingAllowed(false);
-		fixCustomRenderingNotAppliedOnUnselectedCells();
-	}
+		treeTableComponent.addHighlighter(HighlighterFactory.createSimpleStriping());
+		treeTableComponent.addTreeExpansionListener(new TreeExpansionListener() {
+			@Override
+			public void treeExpanded(TreeExpansionEvent event) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						SwingRendererUtils.handleComponentSizeChange(ListControl.this);
+					}
+				});
+			}
 
-	protected void fixCustomRenderingNotAppliedOnUnselectedCells() {
-		treeTableComponent.setHighlighters();
-		treeTableComponent.putClientProperty(JXTable.USE_DTCR_COLORMEMORY_HACK, false);
+			@Override
+			public void treeCollapsed(TreeExpansionEvent event) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						SwingRendererUtils.handleComponentSizeChange(ListControl.this);
+					}
+				});
+			}
+		});
 	}
 
 	protected TreeTableModel createTreeTableModel() {
@@ -574,28 +580,32 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			value = nodeValues.get(columnIndex);
 		} else {
 			AutoFieldValueUpdatingItemPosition itemPosition = (AutoFieldValueUpdatingItemPosition) node.getUserObject();
-			Object item = itemPosition.getItem();
-			if (item instanceof SubListGroup) {
-				if (columnIndex == 0) {
-					value = item.toString();
-				} else {
-					return null;
-				}
+			if (itemPosition == null) {
+				value = "";
 			} else {
-				IListStructuralInfo tableInfo = getStructuralInfo();
-				if (tableInfo == null) {
-					value = ReflectionUIUtils.toString(swingRenderer.getReflectionUI(), item);
+				Object item = itemPosition.getLastKnownItem();
+				if (item instanceof SubListGroup) {
+					if (columnIndex == 0) {
+						value = item.toString();
+					} else {
+						return null;
+					}
 				} else {
-					List<IColumnInfo> columns = tableInfo.getColumns();
-					if (columnIndex < columns.size()) {
-						IColumnInfo column = tableInfo.getColumns().get(columnIndex);
-						if (column.hasCellValue(itemPosition)) {
-							value = column.getCellValue(itemPosition);
+					IListStructuralInfo tableInfo = getStructuralInfo();
+					if (tableInfo == null) {
+						value = ReflectionUIUtils.toString(swingRenderer.getReflectionUI(), item);
+					} else {
+						List<IColumnInfo> columns = tableInfo.getColumns();
+						if (columnIndex < columns.size()) {
+							IColumnInfo column = tableInfo.getColumns().get(columnIndex);
+							if (column.hasCellValue(itemPosition)) {
+								value = column.getCellValue(itemPosition);
+							} else {
+								value = null;
+							}
 						} else {
 							value = null;
 						}
-					} else {
-						value = null;
 					}
 				}
 			}
@@ -607,7 +617,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	protected Image getCellIconImage(ItemNode node, int columnIndex) {
 		AutoFieldValueUpdatingItemPosition itemPosition = (AutoFieldValueUpdatingItemPosition) node.getUserObject();
 		if (columnIndex == 0) {
-			return swingRenderer.getObjectIconImage(itemPosition.getItem());
+			return swingRenderer.getObjectIconImage(itemPosition.getLastKnownItem());
 		}
 		return null;
 	}
@@ -757,7 +767,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		boolean result = true;
 		List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
 		for (AutoFieldValueUpdatingItemPosition selectionItem : selection) {
-			if (!ReflectionUIUtils.canCopy(swingRenderer.getReflectionUI(), selectionItem.getItem())) {
+			if (!ReflectionUIUtils.canCopy(swingRenderer.getReflectionUI(), selectionItem.getLastKnownItem())) {
 				result = false;
 				break;
 			}
@@ -794,12 +804,12 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		if (itemPosition == null) {
 			return getRootListItemPosition();
 		}
-		if (itemPosition.getItem() != null) {
+		if (itemPosition.getLastKnownItem() != null) {
 			IListStructuralInfo treeInfo = getStructuralInfo();
 			if (treeInfo != null) {
 				final IFieldInfo subListField = treeInfo.getItemSubListField(itemPosition);
 				if (subListField != null) {
-					FieldControlData subListData = new FieldControlData(itemPosition.getItem(), subListField);
+					FieldControlData subListData = new FieldControlData(itemPosition.getLastKnownItem(), subListField);
 					return new AutoFieldValueUpdatingItemPosition(itemPosition, subListData, -1) {
 
 						@Override
@@ -956,7 +966,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		visitItems(new IItemsVisitor() {
 			@Override
 			public boolean visitItem(AutoFieldValueUpdatingItemPosition itemPosition) {
-				if (itemPosition.getItem() == item) {
+				if (itemPosition.getLastKnownItem() == item) {
 					result[0] = itemPosition;
 					return false;
 				}
@@ -1091,17 +1101,36 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	protected class GhostItemPosition extends AutoFieldValueUpdatingItemPosition {
 
 		protected AutoFieldValueUpdatingItemPosition itemPosition;
-		protected Object[] itemHolder;
 
-		public GhostItemPosition(AutoFieldValueUpdatingItemPosition itemPosition, Object[] itemHolder) {
+		public GhostItemPosition(AutoFieldValueUpdatingItemPosition itemPosition, Object item) {
 			super(itemPosition.getParentItemPosition(), itemPosition.getContainingListData(), itemPosition.getIndex());
 			this.itemPosition = itemPosition;
-			this.itemHolder = itemHolder;
+			if (!isInReadOnlyMode()) {
+				super.updateLastKnownItem();
+			}
+		}
+
+		public boolean isInReadOnlyMode() {
+			return !UpdateListValueModification.isCompatibleWith(itemPosition);
 		}
 
 		@Override
-		public Object getItem() {
-			return itemHolder[0];
+		public Object getLastKnownItem() {
+			if (isInReadOnlyMode()) {
+				super.updateLastKnownItem();
+			}
+			return lastKnowItem;
+		}
+
+		public void setLastKnownItem(Object item) {
+			if (isInReadOnlyMode()) {
+				throw new ReflectionUIError();
+			}
+			this.lastKnowItem = item;
+		}
+
+		@Override
+		protected void updateLastKnownItem() {
 		}
 
 		public String getContainingListTitle() {
@@ -1110,29 +1139,44 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 		@Override
 		public AutoFieldValueUpdatingList getContainingAutoUpdatingFieldList() {
-			return new AutoFieldValueUpdatingList(this) {
+			throw new ReflectionUIError();
+		}
 
-				@Override
-				public Object get(int index) {
-					if (index == itemPosition.getIndex()) {
-						return itemHolder[0];
-					} else {
-						return super.get(index);
-					}
-				}
+		private ListControl getOuterType() {
+			return ListControl.this;
+		}
 
-				@Override
-				public Object set(int index, Object element) {
-					if (index == itemPosition.getIndex()) {
-						Object old = itemHolder[0];
-						itemHolder[0] = element;
-						return old;
-					} else {
-						return super.set(index, element);
-					}
-				}
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = super.hashCode();
+			result = prime * result + getOuterType().hashCode();
+			result = prime * result + ((itemPosition == null) ? 0 : itemPosition.hashCode());
+			return result;
+		}
 
-			};
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (!super.equals(obj))
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			GhostItemPosition other = (GhostItemPosition) obj;
+			if (!getOuterType().equals(other.getOuterType()))
+				return false;
+			if (itemPosition == null) {
+				if (other.itemPosition != null)
+					return false;
+			} else if (!itemPosition.equals(other.itemPosition))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "Ghost" + super.toString();
 		}
 
 	}
@@ -1149,14 +1193,15 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				if (newItem == null) {
 					return false;
 				}
-				Object[] itemHolder = new Object[] { newItem };
-				GhostItemPosition futureItemPosition = new GhostItemPosition(newItemPosition, itemHolder);
-				ObjectDialogBuilder dialogStatus = openDetailsDialog(futureItemPosition, itemHolder);
+				GhostItemPosition futureItemPosition = new GhostItemPosition(newItemPosition, newItem);
+
+				ObjectDialogBuilder dialogStatus = openDetailsDialog(futureItemPosition);
+
 				if (dialogStatus == null) {
 					return false;
 				}
 				if (dialogStatus.isOkPressed()) {
-					newItem = itemHolder[0];
+					newItem = futureItemPosition.getLastKnownItem();
 					AutoFieldValueUpdatingList list = newItemPosition.getContainingAutoUpdatingFieldList();
 					list.add(newItemPosition.getIndex(), newItem);
 					AutoFieldValueUpdatingItemPosition toSelect = newItemPosition;
@@ -1266,14 +1311,13 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				if (newSubListItem == null) {
 					return false;
 				}
-				Object[] itemHolder = new Object[] { newSubListItem };
-				GhostItemPosition futureSubItemPosition = new GhostItemPosition(newSubItemPosition, itemHolder);
-				ObjectDialogBuilder dialogStatus = openDetailsDialog(futureSubItemPosition, itemHolder);
+				GhostItemPosition futureSubItemPosition = new GhostItemPosition(newSubItemPosition, newSubListItem);
+				ObjectDialogBuilder dialogStatus = openDetailsDialog(futureSubItemPosition);
 				if (dialogStatus == null) {
 					return false;
 				}
 				if (dialogStatus.isOkPressed()) {
-					newSubListItem = itemHolder[0];
+					newSubListItem = futureSubItemPosition.getLastKnownItem();
 					AutoFieldValueUpdatingList subList = newSubItemPosition.getContainingAutoUpdatingFieldList();
 					subList.add(newSubItemPosition.getIndex(), newSubListItem);
 					if (!subListType.isOrdered()) {
@@ -1349,7 +1393,6 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			typeToInstanciate = new DefaultTypeInfo(swingRenderer.getReflectionUI(), Object.class);
 		}
 		typeToInstanciate = addSpecificItemContructors(typeToInstanciate, itemPosition);
-		Object newSubListItem;
 		try {
 			return swingRenderer.onTypeInstanciationRequest(ListControl.this, typeToInstanciate, true);
 		} catch (Throwable ignore) {
@@ -1391,7 +1434,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				clipboard.clear();
 				List<AutoFieldValueUpdatingItemPosition> selection = getSelection();
 				for (AutoFieldValueUpdatingItemPosition itemPosition : selection) {
-					clipboard.add(ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), itemPosition.getItem()));
+					clipboard.add(
+							ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), itemPosition.getLastKnownItem()));
 				}
 				return false;
 			}
@@ -1433,7 +1477,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				Collections.reverse(selection);
 				List<AutoFieldValueUpdatingItemPosition> toPostSelect = new ArrayList<ListControl.AutoFieldValueUpdatingItemPosition>();
 				for (AutoFieldValueUpdatingItemPosition itemPosition : selection) {
-					clipboard.add(0, ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), itemPosition.getItem()));
+					clipboard.add(0,
+							ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), itemPosition.getLastKnownItem()));
 					AutoFieldValueUpdatingList list = itemPosition.getContainingAutoUpdatingFieldList();
 					int index = itemPosition.getIndex();
 					list.remove(index);
@@ -1655,7 +1700,6 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			@Override
 			protected boolean perform(List<AutoFieldValueUpdatingItemPosition>[] toPostSelectHolder) {
 				final Object listRootValue = listData.getValue();
-				Object oldPropertyValue = dynamicProperty.getValue(listRootValue);
 				EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
 						dynamicProperty.getType());
 				encapsulation.setTypeCaption(
@@ -1663,6 +1707,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				encapsulation.setFieldCaption(dynamicProperty.getCaption());
 				encapsulation.setFieldGetOnly(dynamicProperty.isGetOnly());
 				encapsulation.setFieldNullable(dynamicProperty.isNullable());
+				encapsulation.setTypeModificationStackAccessible(
+						UpdateListValueModification.isCompatibleWith(getRootListItemPosition()));
 				Object encapsulatedPropertyValue = encapsulation.getInstance(new Accessor<Object>() {
 
 					@Override
@@ -1676,13 +1722,9 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					}
 
 				});
-				ITypeInfo encapsulatedPropertyValueType = swingRenderer.getReflectionUI()
-						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(encapsulatedPropertyValue));
 
 				ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, ListControl.this,
 						encapsulatedPropertyValue);
-				dialogBuilder.setGetOnly(dynamicProperty.isGetOnly());
-				dialogBuilder.setCancellable(encapsulatedPropertyValueType.isModificationStackAccessible());
 				swingRenderer.showDialog(dialogBuilder.build(), true);
 
 				ModificationStack parentModifStack = getParentFormModificationStack();
@@ -1781,25 +1823,27 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			@Override
 			protected boolean perform(List<AutoFieldValueUpdatingItemPosition>[] toPostSelectHolder) {
 				AutoFieldValueUpdatingItemPosition itemPosition = getSingleSelection();
-				Object[] itemHolder = new Object[] { itemPosition.getItem() };
-				GhostItemPosition futureItemPosition = new GhostItemPosition(itemPosition, itemHolder);
-				final ObjectDialogBuilder dialogStatus = openDetailsDialog(futureItemPosition, itemHolder);
+				GhostItemPosition futureItemPosition = new GhostItemPosition(itemPosition,
+						itemPosition.getLastKnownItem());
+
+				final ObjectDialogBuilder dialogStatus = openDetailsDialog(futureItemPosition);
 
 				ModificationStack parentModifStack = getParentFormModificationStack();
 				ModificationStack childModifStack = dialogStatus.getModificationStack();
+				ValueReturnMode childValueReturnMode = itemPosition.getContainingListData().getValueReturnMode();
 				IInfo childModifTarget = getModifiedField();
 				IModification commitModif;
 				if (!UpdateListValueModification.isCompatibleWith(itemPosition)) {
 					commitModif = null;
 				} else {
 					Object[] listRawValue = itemPosition.getContainingListRawValue();
-					listRawValue[itemPosition.getIndex()] = itemHolder[0];
+					listRawValue[itemPosition.getIndex()] = futureItemPosition.getLastKnownItem();
 					commitModif = new UpdateListValueModification(itemPosition, listRawValue, childModifTarget);
 				}
+
 				toPostSelectHolder[0] = Collections.singletonList(itemPosition);
 				boolean childModifAccepted = (!dialogStatus.isCancellable()) || dialogStatus.isOkPressed();
-				ValueReturnMode childValueReturnMode = itemPosition.getContainingListData().getValueReturnMode();
-				boolean childValueNew = (itemPosition.getItem() != itemHolder[0]);
+				boolean childValueNew = (itemPosition.getLastKnownItem() != futureItemPosition.getLastKnownItem());
 				return ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(), parentModifStack,
 						childModifStack, childModifAccepted, childValueReturnMode, childValueNew, commitModif,
 						childModifTarget, null);
@@ -1862,24 +1906,27 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected void updateDetailsArea() {
-		detailsControlItemPosition = getSingleSelection();
+		AutoFieldValueUpdatingItemPosition singleSelection = getSingleSelection();
+		if (singleSelection == null) {
+			detailsControlItemPosition = null;
+		} else {
+			detailsControlItemPosition = new GhostItemPosition(singleSelection, singleSelection.getLastKnownItem());
+		}
 		if ((detailsControlItemPosition == null)
 				|| (!detailsControlItemPosition.getContainingListType().canViewItemDetails())) {
 			detailsArea.removeAll();
 			detailsControlItemPosition = null;
 			detailsControlItem = null;
 			detailsControl = null;
-			detailsControlItemHolder[0] = null;
 			SwingRendererUtils.handleComponentSizeChange(ListControl.this);
 			return;
 
 		}
-		detailsControlItemHolder[0] = detailsControlItemPosition.getItem();
 		if (detailsControl != null) {
 			swingRenderer.refreshAllFieldControls(detailsControl, false);
 			return;
 		}
-		Object encapsulated = getEncapsulatedItem(detailsControlItemHolder, detailsControlItemPosition);
+		Object encapsulated = getEncapsulatedItem(detailsControlItemPosition);
 		detailsControl = swingRenderer.createForm(encapsulated);
 		swingRenderer.getBusyIndicationDisabledByForm().put(detailsControl, true);
 		detailsArea.removeAll();
@@ -1888,32 +1935,33 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		detailsArea.add(swingRenderer.createStatusBar(detailsControl), BorderLayout.NORTH);
 		swingRenderer.updateStatusBarInBackground(detailsControl);
 		SwingRendererUtils.handleComponentSizeChange(ListControl.this);
-		forwardDetailsModifications(detailsControlItemHolder);
+		forwardDetailsModifications();
 	}
 
-	protected Object getEncapsulatedItem(final Object[] itemHolder,
-			final AutoFieldValueUpdatingItemPosition itemPosition) {
-		ITypeInfo itemType = itemPosition.getContainingListType().getItemType();
+	protected Object getEncapsulatedItem(final GhostItemPosition ghostItemPosition) {
+		ITypeInfo itemType = ghostItemPosition.getContainingListType().getItemType();
 		if (itemType == null) {
 			itemType = swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(Object.class));
 		}
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
 				itemType);
-		encapsulation.setFieldGetOnly(!UpdateListValueModification.isCompatibleWith(itemPosition));
-		encapsulation.setFieldNullable(itemPosition.isNullable());
+		encapsulation.setFieldGetOnly(ghostItemPosition.isInReadOnlyMode());
+		encapsulation.setFieldNullable(ghostItemPosition.isNullable());
+		encapsulation.setFieldValueReturnMode(ghostItemPosition.getContainingListData().getValueReturnMode());
 		encapsulation.setFieldCaption("");
 		encapsulation.setTypeCaption(itemType.getCaption());
+		encapsulation.setTypeModificationStackAccessible(!ghostItemPosition.isInReadOnlyMode());
 		Map<String, Object> properties = new HashMap<String, Object>();
 		{
 			DesktopSpecificProperty.setSubFormExpanded(properties, true);
-			DesktopSpecificProperty.setFilter(properties, getStructuralInfo().getItemInfoFilter(itemPosition));
+			DesktopSpecificProperty.setFilter(properties, getStructuralInfo().getItemInfoFilter(ghostItemPosition));
 			encapsulation.setFieldSpecificProperties(properties);
 		}
 		Accessor<Object> filteredItemAccessor = new Accessor<Object>() {
 
 			@Override
 			public Object get() {
-				Object result = itemHolder[0];
+				Object result = ghostItemPosition.getLastKnownItem();
 				if (result == null) {
 					return null;
 				}
@@ -1922,14 +1970,14 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			public void set(Object value) {
-				itemHolder[0] = value;
+				ghostItemPosition.setLastKnownItem(value);
 			}
 
 		};
 		return encapsulation.getInstance(filteredItemAccessor);
 	}
 
-	protected void forwardDetailsModifications(final Object[] detailsControlItemHolder) {
+	protected void forwardDetailsModifications() {
 		listData = detailsControlItemPosition.getContainingListData();
 		if (listData.isGetOnly() && (listData.getValueReturnMode() == ValueReturnMode.COPY)) {
 			ModificationStack childModifStack = swingRenderer.getModificationStackByForm().get(detailsControl);
@@ -1945,7 +1993,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			Accessor<Boolean> childValueNewGetter = new Accessor<Boolean>() {
 				@Override
 				public Boolean get() {
-					return detailsControlItemHolder[0] != detailsControlItem;
+					return detailsControlItemPosition.getLastKnownItem() != detailsControlItem;
 				}
 			};
 			Accessor<IModification> commitModifGetter = new Accessor<IModification>() {
@@ -1956,7 +2004,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					}
 					IListTypeInfo listType = (IListTypeInfo) listData.getType();
 					Object[] listRawValue = listType.toArray(listData.getValue());
-					listRawValue[detailsControlItemPosition.getIndex()] = detailsControlItemHolder[0];
+					listRawValue[detailsControlItemPosition.getIndex()] = detailsControlItemPosition.getLastKnownItem();
 					return new UpdateListValueModification(detailsControlItemPosition, listRawValue,
 							getModifiedField());
 				}
@@ -2036,21 +2084,20 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		return result;
 	}
 
-	protected ObjectDialogBuilder openDetailsDialog(AutoFieldValueUpdatingItemPosition itemPosition,
-			Object[] itemHolder) {
-		ItemNode itemNode = findNode(itemPosition);
+	protected ObjectDialogBuilder openDetailsDialog(GhostItemPosition ghostItemPosition) {
+		ItemNode itemNode = findNode(ghostItemPosition);
 		if (itemNode != null) {
 			TreePath treePath = new TreePath(itemNode.getPath());
 			treeTableComponent.expandPath(treePath);
 		}
-		if (!hasItemDetails(itemPosition)) {
+		if (!hasItemDetails(ghostItemPosition)) {
 			return null;
 		}
 
-		Object encapsulated = getEncapsulatedItem(itemHolder, itemPosition);
+		Object encapsulated = getEncapsulatedItem(ghostItemPosition);
 
 		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, ListControl.this, encapsulated);
-		dialogBuilder.setCancellable(dialogBuilder.getDisplayValueType().isModificationStackAccessible());
+		dialogBuilder.setCancellable(!ghostItemPosition.isInReadOnlyMode());
 		swingRenderer.showDialog(dialogBuilder.build(), true);
 		return dialogBuilder;
 	}
@@ -2063,7 +2110,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		if (itemPosition.isNullable()) {
 			return true;
 		}
-		Object item = itemPosition.getItem();
+		Object item = itemPosition.getLastKnownItem();
 		ITypeInfo valueType = swingRenderer.getReflectionUI()
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(item));
 		IInfoFilter infoFilter = getStructuralInfo().getItemInfoFilter(itemPosition);
@@ -2182,7 +2229,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		for (int i = 0; i < wereSelectedPositions.size(); i++) {
 			try {
 				AutoFieldValueUpdatingItemPosition wasSelectedPosition = wereSelectedPositions.get(i);
-				wereSelected.add(wasSelectedPosition.getItem());
+				wereSelected.add(wasSelectedPosition.getLastKnownItem());
 			} catch (Throwable t) {
 				wereSelected.add(null);
 			}
@@ -2287,8 +2334,15 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		@Override
 		public IModification applyAndGetOpposite() {
 			List<AutoFieldValueUpdatingItemPosition> oldSelection = getSelection();
-			refreshStructure();
-			if (newSelection != null) {
+			if (newSelection == null) {
+				restoringSelectionAsMuchAsPossible(new Runnable() {
+					@Override
+					public void run() {
+						refreshStructure();
+					}
+				});
+			} else {
+				refreshStructure();
 				setSelection(newSelection);
 			}
 			return new RefreshStructureModification(oldSelection);
@@ -2388,39 +2442,9 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	}
 
-	protected class ItemCellRenderer implements TableCellRenderer, TreeCellRenderer {
+	protected abstract class AbstractItemCellRenderer {
 
-		DefaultTreeCellRenderer defaultTreeCellRenderer = new DefaultTreeCellRenderer();
-		DefaultTableCellRenderer defaultTableCellRenderer = new DefaultTableCellRenderer();
-
-		@Override
-		public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded,
-				boolean isLeaf, int row, boolean focused) {
-			JLabel label = (JLabel) defaultTreeCellRenderer.getTreeCellRendererComponent(tree, value, selected,
-					expanded, isLeaf, row, focused);
-			if (!selected) {
-				label.setOpaque(false);
-				label.setBackground(null);
-			}
-			customizeComponent(label, (ItemNode) value, row, 0, selected, focused);
-			return label;
-		}
-
-		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-				int row, int column) {
-			JLabel label = (JLabel) defaultTableCellRenderer.getTableCellRendererComponent(table, value, isSelected,
-					hasFocus, row, column);
-			row = treeTableComponent.convertRowIndexToModel(row);
-			TreePath path = treeTableComponent.getPathForRow(row);
-			if (path != null) {
-				ItemNode node = (ItemNode) path.getLastPathComponent();
-				customizeComponent(label, node, row, column, isSelected, hasFocus);
-			}
-			return label;
-		}
-
-		protected void customizeComponent(JLabel label, ItemNode node, int rowIndex, int columnIndex,
+		protected void customizeCellRendererComponent(JLabel label, ItemNode node, int rowIndex, int columnIndex,
 				boolean isSelected, boolean hasFocus) {
 			label.putClientProperty("html.disable", Boolean.TRUE);
 			if (!(node.getUserObject() instanceof AutoFieldValueUpdatingItemPosition)) {
@@ -2439,7 +2463,45 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			} else {
 				label.setIcon(new ImageIcon(imageIcon));
 			}
+
 		}
+	}
+
+	protected class ItemTableCellRenderer extends AbstractItemCellRenderer implements TableCellRenderer {
+
+		protected TableCellRenderer defaultRenderer = new DefaultTableCellRenderer();
+
+		@Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
+			JLabel label = (JLabel) defaultRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus,
+					row, column);
+			row = treeTableComponent.convertRowIndexToModel(row);
+			TreePath path = treeTableComponent.getPathForRow(row);
+			if (path != null) {
+				ItemNode node = (ItemNode) path.getLastPathComponent();
+				customizeCellRendererComponent(label, node, row, column, isSelected, hasFocus);
+			}
+			return label;
+		}
+
+	}
+
+	protected class ItemTreeCellRenderer extends AbstractItemCellRenderer implements TreeCellRenderer {
+
+		protected TreeCellRenderer defaultRenderer = new DefaultTreeCellRenderer();
+		protected JLabel component = new JLabel();
+
+		@Override
+		public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded,
+				boolean isLeaf, int row, boolean focused) {
+			JLabel defaultComponent = (JLabel) defaultRenderer.getTreeCellRendererComponent(tree, value, selected,
+					expanded, isLeaf, row, focused);
+			component.setForeground(defaultComponent.getForeground());
+			customizeCellRendererComponent(component, (ItemNode) value, row, 0, selected, focused);
+			return component;
+		}
+
 	}
 
 	protected abstract class AbstractStandardListAction extends AbstractAction {

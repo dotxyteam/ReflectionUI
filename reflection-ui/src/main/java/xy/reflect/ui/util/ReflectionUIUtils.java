@@ -2,7 +2,6 @@ package xy.reflect.ui.util;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Image;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -42,11 +41,9 @@ import com.thoughtworks.paranamer.DefaultParanamer;
 import com.thoughtworks.paranamer.Paranamer;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.input.IControlData;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
-import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -59,7 +56,6 @@ import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
 
-@SuppressWarnings("unused")
 public class ReflectionUIUtils {
 
 	public static final String[] NEW_LINE_SEQUENCES = new String[] { "\r\n", "\n", "\r" };
@@ -830,6 +826,19 @@ public class ReflectionUIUtils {
 			}
 		}
 		return parentValueImpacted;
+	}
+
+	public static boolean canPotentiallyIntegrateSubModifications(ValueReturnMode childValueReturnMode,
+			boolean canCommit) {
+		if (childValueReturnMode != ValueReturnMode.COPY) {
+			return true;
+		}
+		if (childValueReturnMode != ValueReturnMode.SELF) {
+			if (canCommit) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static ArrayAsEnumerationFactory getPolymorphicTypesEnumerationfactory(ReflectionUI reflectionUI,

@@ -1,18 +1,12 @@
 package xy.reflect.ui.info.type.util;
 
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,7 +14,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,7 +28,6 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.ValueAsListField;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MethodAsField;
@@ -54,28 +46,16 @@ import xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.CustomizedStructuralInfo;
-import xy.reflect.ui.info.type.iterable.structure.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
-import xy.reflect.ui.info.type.iterable.structure.ListStructuralInfoProxy;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.util.InfoCustomizations.ColumnCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizations.FieldCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizations.ListCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizations.MethodCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.undo.IModification;
-import xy.reflect.ui.undo.InvokeMethodModification;
-import xy.reflect.ui.undo.ModificationProxy;
 import xy.reflect.ui.undo.UpdateListValueModification;
-import xy.reflect.ui.util.ClassUtils;
-import xy.reflect.ui.util.FileUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
 
-@SuppressWarnings("unused")
 @XmlRootElement
 public final class InfoCustomizations {
 
@@ -1898,7 +1878,7 @@ public final class InfoCustomizations {
 					boolean fieldFound = false;
 					if (selection.size() == 1) {
 						final ItemPosition itemPosition = selection.get(0);
-						final Object item = itemPosition.getItem();
+						final Object item = itemPosition.getLastKnownItem();
 						if (item != null) {
 							ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
 							for (final IFieldInfo itemField : actualItemType.getFields()) {
@@ -2051,7 +2031,7 @@ public final class InfoCustomizations {
 					boolean methodFound = false;
 					if (selection.size() == 1) {
 						final ItemPosition itemPosition = selection.get(0);
-						final Object item = itemPosition.getItem();
+						final Object item = itemPosition.getLastKnownItem();
 						if (item != null) {
 							ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
 							for (final IMethodInfo method : actualItemType.getMethods()) {

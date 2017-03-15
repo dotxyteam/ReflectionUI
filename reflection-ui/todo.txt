@@ -1,18 +1,32 @@
+. ObjectDialog Cancel:
+	* means 2 things:
+		- close and reset modif stack and do not commit (attached mode)
+		- close and do not attach value (detached mode)
+	* but when does it depends on modifStackAccessible ?
+		- we set modifStackAccessible=false usually because we know it will not
+		work well. Then we should alwaaaaayyyys integrate the new value.
+		That is why modifStackAccessible=false => cancellable=false
+		=> attached mode
+		- but in some cases we do not need to undo anything when cancelling,
+		just inform the dialog caller that his work was cancelled
+		by the user. Then always cancellable=true
+		=> detached mode / forced cancellable
+	* then by default cancellable=modifStackAccessible and in some cases
+	cancellable=true
+. field value return mode cannot be considered for list items
+	* create IListTypeInfo.getItemAccessField(object=ItemPosition, value=item)
 . List rows alternative colors
 - ListControl calls too much list.toArray()
-- add field/method category in windows title
 . allow to execute dynamic actions or change dynamic properties on 
 multiple nodes
-. FieldControlPlaceHolder.isSimilarError(): risky
 . allow to easily customize ListFieldNamesNode title
 . restore all control states on refresh,
 even non-focused controls???
 ex: embedded form tabbed pane selection
-. allow to get tree from file list???
 . expose more customizations feature
 	. screenshot
 . allow to customize List item double click defaut action ???
-- allow to unhide cutomization toolls at runtime
+- allow to unlock cutomization toolls at runtime
 - allow to customize icons for:
 	. fields: can be postponed as field controls need to be updated
 - icon on title bar???

@@ -4,12 +4,15 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -189,7 +192,6 @@ public class MethodAction extends AbstractAction {
 			Object nullEncapsulated = encapsulation.getInstance(Accessor.returning(null));
 			ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, activatorComponent,
 					nullEncapsulated);
-			dialogBuilder.setGetOnly(true);
 			dialogBuilder.setCancellable(false);
 			dialogBuilder.setTitle(windowTitle);
 			swingRenderer.showDialog(dialogBuilder.build(), true);
@@ -197,20 +199,22 @@ public class MethodAction extends AbstractAction {
 			if (retunValueWindowDetached) {
 				swingRenderer.openObjectFrame(returnValue);
 			} else {
-				ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, activatorComponent,
-						returnValue);
-				dialogBuilder.setGetOnly(true);
-				boolean cancellable = true;
+				EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
+						method.getReturnValueType());
+				encapsulation.setTypeCaption(windowTitle);
+				encapsulation.setFieldCaption("");
+				encapsulation.setFieldGetOnly(true);
+				encapsulation.setFieldNullable(false);
+				encapsulation.setFieldValueReturnMode(method.getValueReturnMode());
+				Map<String, Object> properties = new HashMap<String, Object>();
 				{
-					if (!dialogBuilder.getDisplayValueType().isModificationStackAccessible()) {
-						cancellable = false;
-					}
-					if (method.getValueReturnMode() == ValueReturnMode.COPY) {
-						cancellable = false;
-					}
+					DesktopSpecificProperty.setSubFormExpanded(properties, true);
+					encapsulation.setFieldSpecificProperties(properties);
 				}
-				dialogBuilder.setCancellable(cancellable);
-				dialogBuilder.setTitle(windowTitle);
+				Object encapsulated = encapsulation.getInstance(Accessor.returning(returnValue));
+								
+				ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, activatorComponent,
+						encapsulated);
 				swingRenderer.showDialog(dialogBuilder.build(), true);
 
 				if (modificationStack != null) {

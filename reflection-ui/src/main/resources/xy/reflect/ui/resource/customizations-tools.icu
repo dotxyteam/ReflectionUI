@@ -42,6 +42,10 @@
             <columnName>toStringValue</columnName>
             <hidden>true</hidden>
         </columnCustomizations>
+        <columnsCustomOrder>columnName</columnsCustomOrder>
+        <columnsCustomOrder>hidden</columnsCustomOrder>
+        <columnsCustomOrder>customCaption</columnsCustomOrder>
+        <columnsCustomOrder>minimalCharacterCount</columnsCustomOrder>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
@@ -463,6 +467,19 @@
             <columnName>displayedAsSingletonList</columnName>
             <hidden>false</hidden>
         </columnCustomizations>
+        <columnsCustomOrder>fieldName</columnsCustomOrder>
+        <columnsCustomOrder>hidden</columnsCustomOrder>
+        <columnsCustomOrder>customFieldCaption</columnsCustomOrder>
+        <columnsCustomOrder>getOnlyForced</columnsCustomOrder>
+        <columnsCustomOrder>nullableFacetHidden</columnsCustomOrder>
+        <columnsCustomOrder>expandSubForm</columnsCustomOrder>
+        <columnsCustomOrder>category</columnsCustomOrder>
+        <columnsCustomOrder>valueOptionsFieldName</columnsCustomOrder>
+        <columnsCustomOrder>onlineHelp</columnsCustomOrder>
+        <columnsCustomOrder>customValueReturnMode</columnsCustomOrder>
+        <columnsCustomOrder>nullValueLabel</columnsCustomOrder>
+        <columnsCustomOrder>displayedAsMethods</columnsCustomOrder>
+        <columnsCustomOrder>displayedAsSingletonList</columnsCustomOrder>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
@@ -2046,8 +2063,8 @@
     </typeCustomizations>
     <typeCustomizations>
         <customFieldsOrder>columnName</customFieldsOrder>
-        <customFieldsOrder>customCaption</customFieldsOrder>
         <customFieldsOrder>hidden</customFieldsOrder>
+        <customFieldsOrder>customCaption</customFieldsOrder>
         <customFieldsOrder>minimalCharacterCount</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -2228,10 +2245,10 @@
     </typeCustomizations>
     <typeCustomizations>
         <customFieldsOrder>fieldName</customFieldsOrder>
+        <customFieldsOrder>hidden</customFieldsOrder>
         <customFieldsOrder>customFieldCaption</customFieldsOrder>
         <customFieldsOrder>getOnlyForced</customFieldsOrder>
         <customFieldsOrder>nullableFacetHidden</customFieldsOrder>
-        <customFieldsOrder>hidden</customFieldsOrder>
         <customFieldsOrder>expandSubForm</customFieldsOrder>
         <customFieldsOrder>category</customFieldsOrder>
         <customFieldsOrder>valueOptionsFieldName</customFieldsOrder>
@@ -2638,6 +2655,7 @@
                 <caption>Exclusions</caption>
             </category>
             <hidden>false</hidden>
+            <customFieldCaption>Names Of Fields Excluded From Details View</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>fieldsExcludedFromItemDetails</fieldName>
@@ -2751,6 +2769,7 @@
                 <caption>Exclusions</caption>
             </category>
             <hidden>false</hidden>
+            <customFieldCaption>Signatures Of Methods Excluded From Details View</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>methodsExcludedFromItemDetails</fieldName>
@@ -3720,6 +3739,42 @@
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>Encapsulation [typeCaption=Item, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=Column Customization, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=Field Customization, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=Info Filter, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$InfoFilter, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

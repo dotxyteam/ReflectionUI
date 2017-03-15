@@ -1,6 +1,5 @@
 package xy.reflect.ui.info.field;
 
-import java.util.Collections;
 import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
@@ -11,7 +10,6 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-@SuppressWarnings("unused")
 public class MethodAsField implements IFieldInfo {
 
 	protected IMethodInfo method;
