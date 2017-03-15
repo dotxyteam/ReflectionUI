@@ -187,7 +187,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					result.width = 0;
 				}
 				{
-					int minHeight = (int) (screenSize.height * 0.10);
+					int minHeight = (int) (screenSize.height * 0.15);
 					int maxHeight = (int) (screenSize.height * 0.60);
 					result.height = minHeight;
 					Dimension treeTableComponentPreferredSize = treeTableComponent.getPreferredSize();
@@ -1105,9 +1105,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		public GhostItemPosition(AutoFieldValueUpdatingItemPosition itemPosition, Object item) {
 			super(itemPosition.getParentItemPosition(), itemPosition.getContainingListData(), itemPosition.getIndex());
 			this.itemPosition = itemPosition;
-			if (!isInReadOnlyMode()) {
-				super.updateLastKnownItem();
-			}
+			this.lastKnowItem = item; 
 		}
 
 		public boolean isInReadOnlyMode() {

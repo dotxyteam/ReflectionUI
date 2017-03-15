@@ -1372,4 +1372,16 @@
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.TableTreeModelExample$Shoes, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=Product - Polymorphic Type, fieldType=SubTypesEnumeration [polymorphicType=xy.reflect.ui.TableTreeModelExample$Product], fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
 </infoCustomizations>
