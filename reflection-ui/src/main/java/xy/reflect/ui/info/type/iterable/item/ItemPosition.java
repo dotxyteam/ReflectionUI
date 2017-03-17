@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import xy.reflect.ui.control.input.FieldControlData;
 import xy.reflect.ui.control.input.IControlData;
+import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class ItemPosition implements Cloneable {
@@ -14,22 +18,22 @@ public class ItemPosition implements Cloneable {
 	protected ItemPosition parentItemPosition;
 	protected IControlData containingListData;
 	protected int index;
-	protected Object lastKnowItem;
 
-	public ItemPosition(ItemPosition parentItemPosition, IControlData containingListData, int index) {
+	protected ItemPosition(ItemPosition parentItemPosition, IControlData containingListData, int index) {
+		super();
 		this.parentItemPosition = parentItemPosition;
 		this.containingListData = containingListData;
 		this.index = index;
-		updateLastKnownItem();
 	}
 
-	protected void updateLastKnownItem() {
-		Object[] containingListRawValue = getContainingListRawValue();
-		if ((index >= 0) && (index < containingListRawValue.length)) {
-			lastKnowItem = containingListRawValue[index];
-		} else {
-			lastKnowItem = null;
-		}
+	public ItemPosition(ItemPosition parentItemPosition, int index) {
+		this.parentItemPosition = parentItemPosition;
+		this.index = index;
+	}
+
+	public ItemPosition(IControlData containingListData, int index) {
+		this.containingListData = containingListData;
+		this.index = index;
 	}
 
 	public boolean supportsItem(Object object) {
@@ -41,29 +45,29 @@ public class ItemPosition implements Cloneable {
 		return index;
 	}
 
-	public Object getLastKnownItem() {
-		return lastKnowItem;
-	}
-
-	public boolean isNullable() {
-		ITypeInfo itemType = getContainingListType().getItemType();
-		if (itemType == null) {
-			return true;
+	public Object getItem() {
+		Object[] containingListRawValue = getContainingListRawValue();
+		if ((index >= 0) && (index < containingListRawValue.length)) {
+			return containingListRawValue[index];
+		} else {
+			return null;
 		}
-		return itemType.isPassedByReference();
 	}
 
 	public String getContainingListTitle() {
-		return null;
+		return getContainingListData().getCaption();
 	}
 
 	public IControlData getContainingListData() {
-		return containingListData;
+		if (parentItemPosition == null) {
+			return getRootListData();
+		}
+		return parentItemPosition.getSubListData();
 	}
 
 	public Object[] getContainingListRawValue() {
 		Object list = getContainingListData().getValue();
-		if(list == null){
+		if (list == null) {
 			return new Object[0];
 		}
 		return getContainingListType().toArray(list);
@@ -117,7 +121,35 @@ public class ItemPosition implements Cloneable {
 	public ItemPosition getSibling(int index2) {
 		ItemPosition result = (ItemPosition) clone();
 		result.index = index2;
-		result.updateLastKnownItem();
+		return result;
+	}
+
+	public IControlData getSubListData() {
+		IListStructuralInfo treeInfo = getRootListItemPosition().getContainingListType().getStructuralInfo();
+		if (treeInfo == null) {
+			return null;
+		}
+		BufferedItemPosition ghostItemPosition = new BufferedItemPosition(this, getItem());
+		final IFieldInfo subListField = treeInfo.getItemSubListField(ghostItemPosition);
+		if (subListField == null) {
+			return null;
+		}
+		return new FieldControlData(ghostItemPosition.getItem(), subListField);
+	}
+
+	public List<ItemPosition> getSubItemPositions() {
+		IControlData subListData = getSubListData();
+		if (subListData == null) {
+			return Collections.emptyList();
+		}
+		ItemPosition anySubItemPosition = clone();
+		anySubItemPosition.parentItemPosition = this;
+		anySubItemPosition.containingListData = subListData;
+		anySubItemPosition.index = -1;
+		List<ItemPosition> result = new ArrayList<ItemPosition>();
+		for (int i = 0; i < anySubItemPosition.getContainingListRawValue().length; i++) {
+			result.add(anySubItemPosition.getSibling(i));
+		}
 		return result;
 	}
 
@@ -131,6 +163,18 @@ public class ItemPosition implements Cloneable {
 			current = current.getParentItemPosition();
 		}
 		return current;
+	}
+
+	public IControlData getRootListData() {
+		return getRootListItemPosition().getContainingListData();
+	}
+
+	public ValueReturnMode getItemReturnMode() {
+		ValueReturnMode result = getContainingListType().getItemReturnMode();
+		if (parentItemPosition != null) {
+			result = ValueReturnMode.combine(parentItemPosition.getItemReturnMode(), result);
+		}
+		return result;
 	}
 
 	@Override
@@ -188,7 +232,7 @@ public class ItemPosition implements Cloneable {
 			}
 			current = current.getParentItemPosition();
 		}
-		return "ItemPosition [item=" + getLastKnownItem() + ", path=" + path.toString() + "]";
+		return "ItemPosition [item=" + getItem() + ", path=" + path.toString() + "]";
 	}
 
 }

@@ -74,7 +74,7 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 
 	protected List<IFieldInfo> getItemSubListCandidateFields(ItemPosition itemPosition) {
 		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
-		Object item = itemPosition.getLastKnownItem();
+		Object item = itemPosition.getItem();
 		ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
 		if (actualItemType instanceof SubListGroupTypeInfo) {
 			result.add(((SubListGroupTypeInfo) actualItemType).getDetailsField());
@@ -215,7 +215,7 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 
 	protected boolean displaysSubListFieldNameAsTreeNode(IFieldInfo subListField, ItemPosition itemPosition) {
 		ITypeInfo itemType = itemPosition.getContainingListType().getItemType();
-		if (itemPosition.getLastKnownItem() instanceof MultipleFieldsAsOne.ListItem) {
+		if (itemPosition.getItem() instanceof MultipleFieldsAsOne.ListItem) {
 			return false;
 		}
 		if (itemType instanceof IMapEntryTypeInfo) {

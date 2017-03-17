@@ -75,7 +75,6 @@ public class PublicFieldInfo implements IFieldInfo {
 		return type;
 	}
 
-
 	@Override
 	public String getNullValueLabel() {
 		return null;
@@ -98,10 +97,12 @@ public class PublicFieldInfo implements IFieldInfo {
 
 	@Override
 	public ValueReturnMode getValueReturnMode() {
-		return ValueReturnMode.SELF;
+		if (!getType().isPassedByReference()) {
+			return ValueReturnMode.COPY;
+		} else {
+			return ValueReturnMode.SELF;
+		}
 	}
-
-	
 
 	@Override
 	public String toString() {

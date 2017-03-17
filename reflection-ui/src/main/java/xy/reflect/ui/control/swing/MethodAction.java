@@ -222,7 +222,7 @@ public class MethodAction extends AbstractAction {
 					String childModifTitle = InvokeMethodModification.getTitle(method);
 					IInfo childModifTarget = method;
 					IModification commitModif = null;
-					boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.isOkPressed();
+					boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.wasOkPressed();
 					ValueReturnMode childValueReturnMode = method.getValueReturnMode();
 					boolean childValueNew = dialogBuilder.isValueNew();
 					ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(), modificationStack,

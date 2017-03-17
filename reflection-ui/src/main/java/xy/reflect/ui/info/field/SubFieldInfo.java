@@ -15,15 +15,18 @@ public class SubFieldInfo implements IFieldInfo {
 
 	protected IFieldInfo theField;
 	protected IFieldInfo theSubField;
-	protected ITypeInfo type;
 
-	public SubFieldInfo(ITypeInfo typeInfo, String fieldName, String subFieldName) {
-		this.type = typeInfo;
+	public SubFieldInfo(IFieldInfo theField, IFieldInfo theSubField) {
+		super();
+		this.theField = theField;
+		this.theSubField = theSubField;
+	}
+
+	public SubFieldInfo(ITypeInfo type, String fieldName, String subFieldName) {
 		this.theField = ReflectionUIUtils.findInfoByName(type.getFields(), fieldName);
 		if (this.theField == null) {
 			throw new ReflectionUIError("Field '" + fieldName + "' not found in type '" + type.getName() + "'");
 		}
-		this.theSubField = ReflectionUIUtils.findInfoByName(theField.getType().getFields(), subFieldName);
 		if (this.theField == null) {
 			throw new ReflectionUIError(
 					"Field '" + subFieldName + "' not found in type '" + theField.getType().getName() + "'");
@@ -42,7 +45,7 @@ public class SubFieldInfo implements IFieldInfo {
 
 	@Override
 	public String getCaption() {
-		return theField.getCaption() + " " + theSubField.getCaption();
+		return ReflectionUIUtils.composeMessage(theField.getCaption(), theSubField.getCaption());
 	}
 
 	@Override
@@ -104,7 +107,6 @@ public class SubFieldInfo implements IFieldInfo {
 	public boolean isNullable() {
 		return theField.isNullable() || theSubField.isNullable();
 	}
-
 
 	@Override
 	public String getNullValueLabel() {

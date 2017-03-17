@@ -24,7 +24,7 @@ public class TypeNameColumnInfo implements IColumnInfo {
 
 	@Override
 	public String getCellValue(ItemPosition itemPosition) {
-		Object item = itemPosition.getLastKnownItem();
+		Object item = itemPosition.getItem();
 		if (item == null) {
 			return "";
 		}

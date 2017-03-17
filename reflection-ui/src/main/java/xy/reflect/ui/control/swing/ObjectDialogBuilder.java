@@ -26,7 +26,7 @@ public class ObjectDialogBuilder {
 	protected boolean cancellable;
 	protected String customCancelCaption;
 	protected String customOKCaption;
-	protected IInfoFilter infoFilter = IInfoFilter.DEFAULT;
+	protected IInfoFilter infoFilter = IInfoFilter.NO_FILTER;
 	protected List<Component> additionalToolbarComponents;
 
 	public ObjectDialogBuilder(SwingRenderer swingRenderer, Component ownerComponent, Object value) {
@@ -133,8 +133,8 @@ public class ObjectDialogBuilder {
 		return delegate.getBuiltDialog();
 	}
 
-	public boolean isOkPressed() {
-		return delegate.isOkPressed();
+	public boolean wasOkPressed() {
+		return delegate.wasOkPressed();
 	}
 
 	public Component getOwnerComponent() {

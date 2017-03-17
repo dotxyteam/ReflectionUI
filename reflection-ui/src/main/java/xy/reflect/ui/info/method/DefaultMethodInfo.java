@@ -122,7 +122,11 @@ public class DefaultMethodInfo implements IMethodInfo {
 
 	@Override
 	public ValueReturnMode getValueReturnMode() {
-		return ValueReturnMode.SELF;
+		if (!getReturnValueType().isPassedByReference()) {
+			return ValueReturnMode.COPY;
+		} else {
+			return ValueReturnMode.PROXY;
+		}
 	}
 
 	public static boolean isCompatibleWith(Method javaMethod,

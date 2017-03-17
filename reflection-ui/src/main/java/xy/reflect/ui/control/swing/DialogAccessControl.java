@@ -21,6 +21,7 @@ import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
@@ -157,47 +158,81 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	protected void openDialog() {
-		Object oldValue = data.getValue();
-
-		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
-				data.getType());
-		encapsulation.setFieldGetOnly(data.isGetOnly());
-		encapsulation.setFieldNullable(false);
-		encapsulation.setFieldValueReturnMode(data.getValueReturnMode());
-		encapsulation.setFieldCaption("");
-		Map<String, Object> properties = new HashMap<String, Object>();
-		{
-			DesktopSpecificProperty.setSubFormExpanded(properties, true);
-			encapsulation.setFieldSpecificProperties(properties);
-		}
-		encapsulation.setTypeCaption(data.getType().getCaption());
-		encapsulation.setTypeModificationStackAccessible(ReflectionUIUtils.canPotentiallyIntegrateSubModifications(
-				input.getField().getValueReturnMode(), !input.getField().isGetOnly()));
-		
-		Accessor<Object> encapsulatedValueAccessor = Accessor.returning(data.getValue(), true);
-		Object encapsulated = encapsulation.getInstance(encapsulatedValueAccessor);
-		
-		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, this, encapsulated);
-		swingRenderer.showDialog(dialogBuilder.build(), true);
-
-		ModificationStack parentModifStack = input.getModificationStack();
-		ModificationStack childModifStack = dialogBuilder.getModificationStack();
-		String childModifTitle = ControlDataValueModification.getTitle(input.getField());
-		IInfo childModifTarget = input.getField();
-		IModification commitModif;
-		if (input.getField().isGetOnly()) {
-			commitModif = null;
-		} else {
-			commitModif = new ControlDataValueModification(data, encapsulatedValueAccessor.get(), childModifTarget);
-		}
-		ValueReturnMode childValueReturnMode = input.getField().getValueReturnMode();
-		boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.isOkPressed();
-		boolean childValueNew = dialogBuilder.isValueNew();
-		if (ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(), parentModifStack,
-				childModifStack, childModifAccepted, childValueReturnMode, childValueNew, commitModif, childModifTarget,
-				childModifTitle)) {
+		AbstractSubObjectUIBuilber subDialogBuilder = getSubDialogBuilder();
+		subDialogBuilder.showDialog();
+		if (subDialogBuilder.isParentObjectModificationDetected()) {
 			updateControls();
 		}
+	}
+
+	protected AbstractSubObjectUIBuilber getSubDialogBuilder() {
+		return new AbstractSubObjectUIBuilber() {
+
+			@Override
+			protected boolean isSubObjectNullable() {
+				return false;
+			}
+
+			@Override
+			protected SwingRenderer getSwingRenderer() {
+				return swingRenderer;
+			}
+
+			@Override
+			protected ValueReturnMode getSubObjectValueReturnMode() {
+				return data.getValueReturnMode();
+			}
+
+			@Override
+			protected ITypeInfo getSubObjectDeclaredType() {
+				return data.getType();
+			}
+
+			@Override
+			protected Object getSubObject() {
+				return data.getValue();
+			}
+
+			@Override
+			protected String getSubObjectModificationTitle() {
+				return ControlDataValueModification.getTitle(input.getModificationsTarget());
+			}
+
+			@Override
+			protected IInfo getSubObjectModificationTarget() {
+				return input.getModificationsTarget();
+			}
+
+			@Override
+			protected ModificationStack getParentObjectModificationStack() {
+				return input.getModificationStack();
+			}
+
+			@Override
+			protected Component getOwnerComponent() {
+				return DialogAccessControl.this;
+			}
+
+			@Override
+			protected String getSubObjectTitle() {
+				return data.getType().getCaption();
+			}
+
+			@Override
+			protected IModification getUpdatedSubObjectCommitModification(Object newObjectValue) {
+				return new ControlDataValueModification(data, newObjectValue, getSubObjectModificationTarget());
+			}
+
+			@Override
+			protected IInfoFilter getSubObjectFormFilter() {
+				IInfoFilter result = DesktopSpecificProperty
+						.getFilter(DesktopSpecificProperty.accessControlDataProperties(data));
+				if (result == null) {
+					result = IInfoFilter.NO_FILTER;
+				}
+				return result;
+			}
+		};
 	}
 
 	protected void updateControls() {

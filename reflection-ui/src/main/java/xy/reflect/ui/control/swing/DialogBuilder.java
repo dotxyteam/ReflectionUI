@@ -33,7 +33,7 @@ public class DialogBuilder {
 		this.swingRenderer = swingRenderer;
 	}
 
-	public boolean isOkPressed() {
+	public boolean wasOkPressed() {
 		return okPressed;
 	}
 

@@ -6,7 +6,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 
 public interface IInfoFilter {
 
-	public IInfoFilter DEFAULT = new IInfoFilter() {
+	public IInfoFilter NO_FILTER = new IInfoFilter() {
 		
 		@Override
 		public boolean excludeField(IFieldInfo field) {

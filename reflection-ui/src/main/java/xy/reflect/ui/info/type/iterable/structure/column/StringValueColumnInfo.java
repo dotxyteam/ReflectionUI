@@ -43,7 +43,7 @@ public class StringValueColumnInfo implements IColumnInfo {
 
 	@Override
 	public String getCellValue(ItemPosition itemPosition) {
-		return ReflectionUIUtils.toString(reflectionUI, itemPosition.getLastKnownItem());
+		return ReflectionUIUtils.toString(reflectionUI, itemPosition.getItem());
 	}
 
 	@Override

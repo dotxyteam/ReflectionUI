@@ -81,7 +81,7 @@ public class TestIterableTypeInfos  extends AbstractTest{
 
 		IListStructuralInfo itemListStructuralInfo = itemListTypeInfo.getStructuralInfo();
 
-		ItemPosition firstItemPosition = new ItemPosition(null, new FieldControlData(this,itemListInfo), 0);
+		ItemPosition firstItemPosition = new ItemPosition(new FieldControlData(this,itemListInfo), 0);
 		ITypeInfo firstItemType = reflectionUI.getTypeInfo(new JavaTypeInfoSource(itemList.get(0).getClass()));
 		Assert.assertEquals(itemListStructuralInfo.getColumns().get(0).getCellValue(firstItemPosition),
 				firstItemType.getCaption());
@@ -102,7 +102,7 @@ public class TestIterableTypeInfos  extends AbstractTest{
 		IFieldInfo subListField = itemListStructuralInfo.getItemSubListField(firstItemPosition);
 		Assert.assertTrue(subListField.getCaption().contains(subItemsField.getCaption()));
 
-		Object subListNameNodeList = subListField.getValue(firstItemPosition.getLastKnownItem());
+		Object subListNameNodeList = subListField.getValue(firstItemPosition.getItem());
 		Object subListNameNode = ((IListTypeInfo) subListField.getType()).toArray(subListNameNodeList)[0];
 		ITypeInfo subListNameNodeType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(subListNameNode));
 		IFieldInfo actualSubListField = subListNameNodeType.getFields().get(0);

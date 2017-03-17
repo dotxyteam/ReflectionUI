@@ -357,12 +357,11 @@ public class SwingRendererUtils {
 		return swingRenderer.getObjectByForm().keySet().contains(c);
 	}
 
-	public static void forwardSubModifications(final ReflectionUI reflectionUI, final JPanel subForm,
+	public static void forwardSubModifications(final SwingRenderer swingRenderer, final JPanel subForm,
 			final Accessor<Boolean> childModifAcceptedGetter,
 			final Accessor<ValueReturnMode> childValueReturnModeGetter, final Accessor<Boolean> childValueNewGetter,
 			final Accessor<IModification> commitModifGetter, final Accessor<IInfo> childModifTargetGetter,
-			final Accessor<String> parentModifTitleGetter, final Accessor<ModificationStack> parentModifStackGetter,
-			final SwingRenderer swingRenderer) {
+			final Accessor<String> parentModifTitleGetter, final Accessor<ModificationStack> parentModifStackGetter) {
 		final ModificationStack subFormModifStack = swingRenderer.getModificationStackByForm().get(subForm);
 		swingRenderer.getModificationStackByForm().put(subForm,
 				new ModificationStack("Forward Sub-Modifications To " + subForm.toString()) {
@@ -383,9 +382,9 @@ public class SwingRendererUtils {
 						}
 						ModificationStack parentModifStack = parentModifStackGetter.get();
 						IInfo childModifTarget = childModifTargetGetter.get();
-						return ReflectionUIUtils.integrateSubModifications(reflectionUI, parentModifStack,
-								childModifStack, childModifAccepted, childValueReturnMode, childValueNew, commitModif,
-								childModifTarget, subModifTitle);
+						return ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(),
+								parentModifStack, childModifStack, childModifAccepted, childValueReturnMode,
+								childValueNew, commitModif, childModifTarget, subModifTitle);
 					}
 
 					@Override
@@ -421,9 +420,9 @@ public class SwingRendererUtils {
 						String childModifTitle = null;
 						IInfo childModifTarget = childModifTargetGetter.get();
 						ModificationStack parentModifStack = parentModifStackGetter.get();
-						ReflectionUIUtils.integrateSubModifications(reflectionUI, parentModifStack, childModifStack,
-								childModifAccepted, childValueReturnMode, childValueNew, commitModif, childModifTarget,
-								childModifTitle);
+						ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(), parentModifStack,
+								childModifStack, childModifAccepted, childValueReturnMode, childValueNew, commitModif,
+								childModifTarget, childModifTitle);
 					}
 
 				});

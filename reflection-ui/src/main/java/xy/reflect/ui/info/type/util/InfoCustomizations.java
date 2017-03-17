@@ -50,8 +50,7 @@ import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.undo.IModification;
-import xy.reflect.ui.undo.UpdateListValueModification;
+import xy.reflect.ui.undo.ListModificationFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
@@ -1878,12 +1877,14 @@ public final class InfoCustomizations {
 					boolean fieldFound = false;
 					if (selection.size() == 1) {
 						final ItemPosition itemPosition = selection.get(0);
-						final Object item = itemPosition.getLastKnownItem();
+						final Object item = itemPosition.getItem();
 						if (item != null) {
 							ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
 							for (final IFieldInfo itemField : actualItemType.getFields()) {
 								if (itemField.getName().equals(s.fieldName)) {
 									AbstractListProperty property = new AbstractListProperty() {
+
+										AbstractListProperty thisProperty = this;
 
 										@Override
 										public boolean isEnabled() {
@@ -1903,15 +1904,27 @@ public final class InfoCustomizations {
 										@Override
 										public void setValue(Object object, Object value) {
 											itemField.setValue(item, value);
-											Object[] listRawValue = itemPosition.getContainingListRawValue();
-											listRawValue[itemPosition.getIndex()] = item;
-											new UpdateListValueModification(itemPosition, listRawValue, this)
-													.applyAndGetOpposite();
+											new ListModificationFactory(itemPosition, thisProperty)
+													.set(itemPosition.getIndex(), item).applyAndGetOpposite();
 										}
 
 										@Override
 										public Runnable getCustomUndoUpdateJob(Object object, Object value) {
-											return null;
+											new ListModificationFactory(itemPosition, thisProperty)
+													.set(itemPosition.getIndex(), item).applyAndGetOpposite();
+											final Runnable itemCustomUndoUpdateJob = itemField
+													.getCustomUndoUpdateJob(object, value);
+											if (itemCustomUndoUpdateJob == null) {
+												return null;
+											}
+											return new Runnable() {
+												@Override
+												public void run() {
+													itemCustomUndoUpdateJob.run();
+													new ListModificationFactory(itemPosition, thisProperty)
+															.set(itemPosition.getIndex(), item).applyAndGetOpposite();
+												}
+											};
 										}
 
 										@Override
@@ -1926,14 +1939,14 @@ public final class InfoCustomizations {
 
 										@Override
 										public boolean isGetOnly() {
-											return !UpdateListValueModification.isCompatibleWith(itemPosition)
+											return !new ListModificationFactory(itemPosition, this).canSet()
 													|| itemField.isGetOnly();
 										}
 
 										@Override
 										public ValueReturnMode getValueReturnMode() {
 											return ValueReturnMode.combine(
-													itemPosition.getContainingListData().getValueReturnMode(),
+													itemPosition.getContainingListType().getItemReturnMode(),
 													itemField.getValueReturnMode());
 										}
 
@@ -2031,14 +2044,14 @@ public final class InfoCustomizations {
 					boolean methodFound = false;
 					if (selection.size() == 1) {
 						final ItemPosition itemPosition = selection.get(0);
-						final Object item = itemPosition.getLastKnownItem();
+						final Object item = itemPosition.getItem();
 						if (item != null) {
 							ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
-							for (final IMethodInfo method : actualItemType.getMethods()) {
-								if (ReflectionUIUtils.getMethodSignature(method).equals(s.methodSignature)) {
+							for (final IMethodInfo itemMethod : actualItemType.getMethods()) {
+								if (ReflectionUIUtils.getMethodSignature(itemMethod).equals(s.methodSignature)) {
 									AbstractListAction action = new AbstractListAction() {
 
-										private IModification oppositeUpdateListValueModification;
+										AbstractListAction thisAction = this;
 
 										@Override
 										public String getName() {
@@ -2057,70 +2070,68 @@ public final class InfoCustomizations {
 
 										@Override
 										public boolean isReadOnly() {
-											return !UpdateListValueModification.isCompatibleWith(itemPosition)
-													|| method.isReadOnly();
+											return !new ListModificationFactory(itemPosition, thisAction).canSet()
+													|| itemMethod.isReadOnly();
 										}
 
 										@Override
 										public String getNullReturnValueLabel() {
-											return method.getNullReturnValueLabel();
+											return itemMethod.getNullReturnValueLabel();
 										}
 
 										@Override
 										public ValueReturnMode getValueReturnMode() {
 											return ValueReturnMode.combine(
-													itemPosition.getContainingListData().getValueReturnMode(),
-													method.getValueReturnMode());
+													itemPosition.getContainingListType().getItemReturnMode(),
+													itemMethod.getValueReturnMode());
 										}
 
 										@Override
 										public void validateParameters(Object object, InvocationData invocationData)
 												throws Exception {
-											method.validateParameters(item, invocationData);
+											itemMethod.validateParameters(item, invocationData);
 										}
 
 										@Override
 										public String getOnlineHelp() {
-											return method.getOnlineHelp();
+											return itemMethod.getOnlineHelp();
 										}
 
 										@Override
 										public ITypeInfo getReturnValueType() {
-											return method.getReturnValueType();
+											return itemMethod.getReturnValueType();
 										}
 
 										@Override
 										public List<IParameterInfo> getParameters() {
-											return method.getParameters();
+											return itemMethod.getParameters();
 										}
 
 										@Override
 										public Object invoke(Object object, InvocationData invocationData) {
-											Object result = method.invoke(item, invocationData);
-											Object[] listRawValue = itemPosition.getContainingListRawValue();
-											listRawValue[itemPosition.getIndex()] = item;
-											oppositeUpdateListValueModification = new UpdateListValueModification(
-													itemPosition, listRawValue, this).applyAndGetOpposite();
+											Object result = itemMethod.invoke(item, invocationData);
+											new ListModificationFactory(itemPosition, thisAction)
+													.set(itemPosition.getIndex(), item).applyAndGetOpposite();
 											return result;
 										}
 
 										@Override
 										public Runnable getUndoJob(Object object, final InvocationData invocationData) {
-											final Runnable undoJob = method.getUndoJob(item, invocationData);
-											if (undoJob == null) {
+											final Runnable itemUndoJob = itemMethod.getUndoJob(item, invocationData);
+											if (itemUndoJob == null) {
 												return null;
-											} else {
-												return new Runnable() {
-
-													@Override
-													public void run() {
-														undoJob.run();
-														oppositeUpdateListValueModification.applyAndGetOpposite();
-													}
-
-												};
-
 											}
+											return new Runnable() {
+
+												@Override
+												public void run() {
+													itemUndoJob.run();
+													new ListModificationFactory(itemPosition, thisAction)
+															.set(itemPosition.getIndex(), item).applyAndGetOpposite()
+															.applyAndGetOpposite();
+												}
+
+											};
 										}
 
 									};
@@ -2186,7 +2197,7 @@ public final class InfoCustomizations {
 			final ListCustomization l = getListCustomization(listType.getName(),
 					(itemType == null) ? null : itemType.getName());
 			if (l != null) {
-				if (l.editOptions != null) {					
+				if (l.editOptions != null) {
 					if (l.editOptions.listInstanciationOption != null) {
 						Object newListInstance;
 						if (l.editOptions.listInstanciationOption.customInstanceTypeFinder != null) {
@@ -2194,7 +2205,7 @@ public final class InfoCustomizations {
 									.find(reflectionUI);
 							newListInstance = ReflectionUIUtils.createDefaultInstance(reflectionUI, customInstanceType);
 						} else {
-							newListInstance =  ReflectionUIUtils.createDefaultInstance(reflectionUI, listType);
+							newListInstance = ReflectionUIUtils.createDefaultInstance(reflectionUI, listType);
 						}
 						super.replaceContent(listType, newListInstance, array);
 						return newListInstance;

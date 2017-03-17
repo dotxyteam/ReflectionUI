@@ -219,7 +219,7 @@ public class SwingRenderer {
 				fieldsPanel.add(fieldControlPlaceHolder, layoutConstraints);
 				updateFieldControlLayout(fieldControlPlaceHolder);
 			}
-			IFieldInfo field = fieldControlPlaceHolder.getField();
+			IFieldInfo field = fieldControlPlaceHolder.getModificationsTarget();
 			if ((field.getOnlineHelp() != null) && (field.getOnlineHelp().trim().length() > 0)) {
 				GridBagConstraints layoutConstraints = new GridBagConstraints();
 				layoutConstraints.insets = new Insets(spacing, spacing, spacing, spacing);
@@ -308,7 +308,7 @@ public class SwingRenderer {
 	}
 
 	public JPanel createForm(Object object) {
-		return createForm(object, IInfoFilter.DEFAULT);
+		return createForm(object, IInfoFilter.NO_FILTER);
 	}
 
 	public JPanel createForm(final Object object, IInfoFilter infoFilter) {
@@ -757,7 +757,7 @@ public class SwingRenderer {
 		if (fieldControlPlaceHolders.size() == 0) {
 			return null;
 		}
-		IFieldInfo result = fieldControlPlaceHolders.get(0).getField();
+		IFieldInfo result = fieldControlPlaceHolders.get(0).getModificationsTarget();
 		result = new FieldInfoProxy(result) {
 			@Override
 			public void setValue(Object object, Object value) {
@@ -789,7 +789,7 @@ public class SwingRenderer {
 	public List<FieldControlPlaceHolder> getFieldControlPlaceHoldersByName(JPanel form, String fieldName) {
 		List<FieldControlPlaceHolder> result = new ArrayList<FieldControlPlaceHolder>();
 		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
-			if (fieldName.equals(fieldControlPlaceHolder.getField().getName())) {
+			if (fieldName.equals(fieldControlPlaceHolder.getModificationsTarget().getName())) {
 				result.add(fieldControlPlaceHolder);
 			}
 		}
@@ -976,7 +976,7 @@ public class SwingRenderer {
 		Object encapsulatedChosenItem = encapsulation.getInstance(chosenItemHolder);
 
 		if (openObjectDialog(parentComponent, encapsulatedChosenItem, title, getObjectIconImage(encapsulatedChosenItem),
-				true, true).isOkPressed()) {
+				true, true).wasOkPressed()) {
 			return chosenItemHolder[0];
 		} else {
 			return null;
@@ -999,7 +999,7 @@ public class SwingRenderer {
 		Object encapsulatedValue = encapsulation.getInstance(valueHolder);
 
 		if (openObjectDialog(parentComponent, encapsulatedValue, title, getObjectIconImage(encapsulatedValue), true,
-				true).isOkPressed()) {
+				true).wasOkPressed()) {
 			return (T) valueHolder[0];
 		} else {
 			return null;
@@ -1018,7 +1018,7 @@ public class SwingRenderer {
 				SwingRendererUtils.getJOptionPane(prepareStringToDisplay(question), JOptionPane.QUESTION_MESSAGE));
 		dialogBuilder.setTitle(title);
 		showDialog(dialogBuilder.build(), true);
-		return dialogBuilder.isOkPressed();
+		return dialogBuilder.wasOkPressed();
 	}
 
 	public void openInformationDialog(Component activatorComponent, String msg, String title, Image iconImage) {
@@ -1175,7 +1175,7 @@ public class SwingRenderer {
 	public List<IFieldInfo> getDisplayedFields(JPanel form) {
 		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
 		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
-			result.add(fieldControlPlaceHolder.getField());
+			result.add(fieldControlPlaceHolder.getModificationsTarget());
 		}
 		return result;
 	}
@@ -1192,7 +1192,7 @@ public class SwingRenderer {
 		Object formFocusDetails = getFormFocusDetails(form);
 
 		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
-			if (fieldName.equals(fieldControlPlaceHolder.getField().getName())) {
+			if (fieldName.equals(fieldControlPlaceHolder.getModificationsTarget().getName())) {
 				fieldControlPlaceHolder.refreshUI(recreate);
 				updateFieldControlLayout(fieldControlPlaceHolder);
 			}
@@ -1363,7 +1363,7 @@ public class SwingRenderer {
 	}
 
 	public void updateFieldControlLayout(FieldControlPlaceHolder fieldControlPlaceHolder) {
-		IFieldInfo field = fieldControlPlaceHolder.getField();
+		IFieldInfo field = fieldControlPlaceHolder.getModificationsTarget();
 		Container container = fieldControlPlaceHolder.getParent();
 
 		GridBagLayout layout = (GridBagLayout) container.getLayout();
@@ -1433,7 +1433,7 @@ public class SwingRenderer {
 		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
 			Component fieldControl = fieldControlPlaceHolder.getFieldControl();
 			if (fieldControl instanceof IAdvancedFieldControl) {
-				IFieldInfo field = fieldControlPlaceHolder.getField();
+				IFieldInfo field = fieldControlPlaceHolder.getModificationsTarget();
 				try {
 					((IAdvancedFieldControl) fieldControl).validateSubForm();
 				} catch (Exception e) {
@@ -1646,7 +1646,7 @@ public class SwingRenderer {
 		 * @see xy.reflect.ui.control.swing.IControlInput#getField()
 		 */
 		@Override
-		public IFieldInfo getField() {
+		public IFieldInfo getModificationsTarget() {
 			return field;
 		}
 

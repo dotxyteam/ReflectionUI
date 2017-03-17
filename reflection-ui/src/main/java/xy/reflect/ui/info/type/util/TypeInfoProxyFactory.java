@@ -287,6 +287,13 @@ public abstract class TypeInfoProxyFactory {
 		return type.isOrdered();
 	}
 
+	protected boolean isItemNullable(IListTypeInfo type) {
+		return type.isItemNullable();
+	}
+	protected ValueReturnMode getItemReturnMode(IListTypeInfo type) {
+		return type.getItemReturnMode();
+	}
+
 	protected boolean isInsertionAllowed(IListTypeInfo type) {
 		return type.isInsertionAllowed();
 	}
@@ -580,6 +587,16 @@ public abstract class TypeInfoProxyFactory {
 		@Override
 		public Object[] toArray(Object listValue) {
 			return TypeInfoProxyFactory.this.toArray((IListTypeInfo) base, listValue);
+		}
+
+		@Override
+		public boolean isItemNullable() {
+			return TypeInfoProxyFactory.this.isItemNullable((IListTypeInfo) base);
+		}
+
+		@Override
+		public ValueReturnMode getItemReturnMode() {
+			return TypeInfoProxyFactory.this.getItemReturnMode((IListTypeInfo) base);
 		}
 
 		@Override

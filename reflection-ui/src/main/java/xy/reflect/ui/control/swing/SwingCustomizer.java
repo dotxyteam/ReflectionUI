@@ -572,7 +572,7 @@ public class SwingCustomizer extends SwingRenderer {
 			customizationToolsRenderer.showDialog(dialogBuilder.getBuiltDialog(), true);
 
 			ValueReturnMode childValueReturnMode = ValueReturnMode.SELF;
-			boolean childModifAccepted = dialogBuilder.isOkPressed();
+			boolean childModifAccepted = dialogBuilder.wasOkPressed();
 			ModificationStack childModifStack = dialogBuilder.getModificationStack();
 			ModificationStack parentModifStack = new ModificationStack(null);
 			boolean childValueNew = dialogBuilder.isValueNew();
@@ -708,7 +708,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							openTypeCustomizationDialog(result, fieldControlPlaceHolder.getField().getType());
+							openTypeCustomizationDialog(result, fieldControlPlaceHolder.getModificationsTarget().getType());
 						}
 					});
 					if (getFieldControlObjectCustomizedType() instanceof IListTypeInfo) {
@@ -844,7 +844,7 @@ public class SwingCustomizer extends SwingRenderer {
 			}
 			ObjectDialogBuilder dialogStatus = customizationToolsRenderer.openObjectDialog(activatorComponent,
 					columnOrder, "Columns Order", getCustomizationsIcon().getImage(), true, true);
-			if (dialogStatus.isOkPressed()) {
+			if (dialogStatus.wasOkPressed()) {
 				columnOrder = (List<ColumnOrderItem>) dialogStatus.getValue();
 				List<String> newOrder = new ArrayList<String>();
 				for (ColumnOrderItem item : columnOrder) {

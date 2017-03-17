@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.SortedSet;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
@@ -47,6 +48,22 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 
 	public Class<?> getJavaType() {
 		return javaType;
+	}
+	
+	
+
+	@Override
+	public boolean isItemNullable() {
+		if(itemType == null){
+			return true;
+		}
+		return itemType.isPassedByReference();
+	}
+
+	@Override
+	public ValueReturnMode getItemReturnMode() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

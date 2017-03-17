@@ -296,6 +296,16 @@ public class ImplicitListField implements IFieldInfo {
 	protected class TypeInfo implements IListTypeInfo {
 
 		@Override
+		public boolean isItemNullable() {
+			return false;
+		}
+
+		@Override
+		public ValueReturnMode getItemReturnMode() {
+			return getGetMethod().getValueReturnMode();
+		}
+
+		@Override
 		public Map<String, Object> getSpecificProperties() {
 			return Collections.emptyMap();
 		}

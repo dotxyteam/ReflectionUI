@@ -15,15 +15,11 @@ import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.ControlDataValueModification;
-import xy.reflect.ui.util.Accessor;
-import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl {
@@ -94,56 +90,6 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 		}
 	}
 
-	protected void forwardSubFormModifications() {
-		if (!ReflectionUIUtils.canPotentiallyIntegrateSubModifications(data.getValueReturnMode(), !data.isGetOnly())) {
-			ModificationStack childModifStack = swingRenderer.getModificationStackByForm().get(subForm);
-			childModifStack.addListener(new AbstractSimpleModificationListener() {
-				@Override
-				protected void handleAnyEvent(IModification modification) {
-					refreshUI();
-				}
-			});
-		} else {
-			Accessor<Boolean> childModifAcceptedGetter = Accessor.returning(Boolean.TRUE);
-			Accessor<ValueReturnMode> childValueReturnModeGetter = Accessor.returning(data.getValueReturnMode());
-			Accessor<Boolean> childValueNewGetter = Accessor.returning(Boolean.FALSE);
-			Accessor<IModification> commitModifGetter = new Accessor<IModification>() {
-				@Override
-				public IModification get() {
-					if (data.isGetOnly()) {
-						return null;
-					}
-					return new ControlDataValueModification(data, subFormObject, getModifiedField());
-				}
-			};
-			Accessor<IInfo> childModifTargetGetter = new Accessor<IInfo>() {
-				@Override
-				public IInfo get() {
-					return getModifiedField();
-				}
-			};
-			Accessor<String> childModifTitleGetter = new Accessor<String>() {
-				@Override
-				public String get() {
-					return ControlDataValueModification.getTitle(getModifiedField());
-				}
-			};
-			Accessor<ModificationStack> parentModifStackGetter = new Accessor<ModificationStack>() {
-				@Override
-				public ModificationStack get() {
-					return input.getModificationStack();
-				}
-			};
-			SwingRendererUtils.forwardSubModifications(swingRenderer.getReflectionUI(), subForm,
-					childModifAcceptedGetter, childValueReturnModeGetter, childValueNewGetter, commitModifGetter,
-					childModifTargetGetter, childModifTitleGetter, parentModifStackGetter, swingRenderer);
-		}
-	}
-
-	protected IFieldInfo getModifiedField() {
-		return input.getField();
-	}
-
 	@Override
 	public boolean showCaption() {
 		setBorder(BorderFactory.createTitledBorder(data.getCaption()));
@@ -159,16 +105,8 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	public boolean refreshUI() {
 		if (subForm == null) {
 			subFormObject = data.getValue();
-			IInfoFilter filter = DesktopSpecificProperty
-					.getFilter(DesktopSpecificProperty.accessControlDataProperties(data));
-			{
-				if (filter == null) {
-					filter = IInfoFilter.DEFAULT;
-				}
-			}
-			subForm = swingRenderer.createForm(subFormObject, filter);
+			subForm = getSubFormBuilder().createSubForm();
 			add(subForm, BorderLayout.CENTER);
-			forwardSubFormModifications();
 			SwingRendererUtils.handleComponentSizeChange(this);
 		} else {
 			Object newSubFormObject = data.getValue();
@@ -181,6 +119,76 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 			}
 		}
 		return true;
+	}
+
+	protected AbstractSubObjectUIBuilber getSubFormBuilder() {
+		return new AbstractSubObjectUIBuilber() {
+
+			@Override
+			protected boolean isSubObjectNullable() {
+				return data.isNullable();
+			}
+
+			@Override
+			protected IModification getUpdatedSubObjectCommitModification(Object newObjectValue) {
+				return new ControlDataValueModification(data, newObjectValue, input.getModificationsTarget());
+			}
+
+			@Override
+			protected SwingRenderer getSwingRenderer() {
+				return swingRenderer;
+			}
+
+			@Override
+			protected ValueReturnMode getSubObjectValueReturnMode() {
+				return data.getValueReturnMode();
+			}
+
+			@Override
+			protected String getSubObjectModificationTitle() {
+				return ControlDataValueModification.getTitle(input.getModificationsTarget());
+			}
+
+			@Override
+			protected IInfo getSubObjectModificationTarget() {
+				return input.getModificationsTarget();
+			}
+
+			@Override
+			protected ITypeInfo getSubObjectDeclaredType() {
+				return data.getType();
+			}
+
+			@Override
+			protected Object getSubObject() {
+				return data.getValue();
+			}
+
+			@Override
+			protected ModificationStack getParentObjectModificationStack() {
+				return input.getModificationStack();
+			}
+
+			@Override
+			protected Component getOwnerComponent() {
+				return EmbeddedFormControl.this;
+			}
+
+			@Override
+			protected String getSubObjectTitle() {
+				return data.getType().getCaption();
+			}
+
+			@Override
+			protected IInfoFilter getSubObjectFormFilter() {
+				IInfoFilter result = DesktopSpecificProperty
+						.getFilter(DesktopSpecificProperty.accessControlDataProperties(data));
+				if (result == null) {
+					result = IInfoFilter.NO_FILTER;
+				}
+				return result;
+			}
+		};
 	}
 
 	@Override

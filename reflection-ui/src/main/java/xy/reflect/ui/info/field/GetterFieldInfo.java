@@ -106,7 +106,11 @@ public class GetterFieldInfo implements IFieldInfo {
 
 	@Override
 	public ValueReturnMode getValueReturnMode() {
-		return ValueReturnMode.PROXY;
+		if (!getType().isPassedByReference()) {
+			return ValueReturnMode.COPY;
+		} else {
+			return ValueReturnMode.PROXY;
+		}
 	}
 
 	
