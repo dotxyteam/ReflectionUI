@@ -802,7 +802,7 @@ public class ReflectionUIUtils {
 										parentModifStack.pushUndo(childModifStack.toCompositeModification(null, null));
 									}
 								}
-								if ((childValueReturnMode != ValueReturnMode.SELF) || childValueNew) {
+								if ((childValueReturnMode != ValueReturnMode.SELF_OR_PROXY) || childValueNew) {
 									if (commitModif != null) {
 										parentModifStack.apply(commitModif);
 									}
@@ -833,10 +833,8 @@ public class ReflectionUIUtils {
 		if (childValueReturnMode != ValueReturnMode.COPY) {
 			return true;
 		}
-		if (childValueReturnMode != ValueReturnMode.SELF) {
-			if (canCommit) {
-				return true;
-			}
+		if (canCommit) {
+			return true;
 		}
 		return false;
 	}

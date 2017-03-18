@@ -49,7 +49,7 @@ public interface IFieldInfo extends IInfo {
 
 		@Override
 		public ValueReturnMode getValueReturnMode() {
-			return ValueReturnMode.PROXY;
+			return ValueReturnMode.INDETERMINATE;
 		}
 
 		@Override

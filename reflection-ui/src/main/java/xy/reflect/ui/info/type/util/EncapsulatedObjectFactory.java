@@ -31,7 +31,7 @@ public class EncapsulatedObjectFactory {
 	protected String fieldCaption;
 	protected boolean fieldGetOnly = false;
 	protected boolean fieldNullable = true;
-	protected ValueReturnMode fieldValueReturnMode = ValueReturnMode.PROXY;
+	protected ValueReturnMode fieldValueReturnMode = ValueReturnMode.INDETERMINATE;
 	protected Map<String, Object> fieldSpecificProperties = new HashMap<String, Object>();
 	protected String fieldNullValueLabel;
 	protected String fieldOnlineHelp;

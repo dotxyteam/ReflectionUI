@@ -1939,8 +1939,8 @@ public final class InfoCustomizations {
 
 										@Override
 										public boolean isGetOnly() {
-											return !new ListModificationFactory(itemPosition, this).canSet()
-													|| itemField.isGetOnly();
+											return !new ListModificationFactory(itemPosition, this)
+													.canSet(itemPosition.getIndex()) || itemField.isGetOnly();
 										}
 
 										@Override
@@ -2070,8 +2070,8 @@ public final class InfoCustomizations {
 
 										@Override
 										public boolean isReadOnly() {
-											return !new ListModificationFactory(itemPosition, thisAction).canSet()
-													|| itemMethod.isReadOnly();
+											return !new ListModificationFactory(itemPosition, thisAction)
+													.canSet(itemPosition.getIndex()) || itemMethod.isReadOnly();
 										}
 
 										@Override

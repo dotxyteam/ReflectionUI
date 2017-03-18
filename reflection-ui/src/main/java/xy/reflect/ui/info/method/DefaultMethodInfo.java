@@ -125,7 +125,7 @@ public class DefaultMethodInfo implements IMethodInfo {
 		if (!getReturnValueType().isPassedByReference()) {
 			return ValueReturnMode.COPY;
 		} else {
-			return ValueReturnMode.PROXY;
+			return ValueReturnMode.INDETERMINATE;
 		}
 	}
 

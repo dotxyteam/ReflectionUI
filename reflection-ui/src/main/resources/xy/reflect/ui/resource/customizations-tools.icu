@@ -6,12 +6,12 @@
             <hidden>false</hidden>
         </columnCustomizations>
         <editOptions>
-            <itemCreationEnabled>true</itemCreationEnabled>
-            <itemDeletionEnabled>true</itemDeletionEnabled>
+            <itemCreationEnabled>false</itemCreationEnabled>
+            <itemDeletionEnabled>false</itemDeletionEnabled>
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
         <fieldColumnsAdded>true</fieldColumnsAdded>
-        <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+        <itemDetailsViewDisabled>true</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.lang.Object</itemTypeName>
         <listSorted>false</listSorted>
@@ -198,7 +198,7 @@
         </columnCustomizations>
         <columnCustomizations>
             <columnName>iconImageFile</columnName>
-            <hidden>false</hidden>
+            <hidden>true</hidden>
         </columnCustomizations>
         <columnCustomizations>
             <columnName>methodSignature</columnName>
@@ -231,8 +231,8 @@
             <hidden>false</hidden>
         </columnCustomizations>
         <columnsCustomOrder>methodSignature</columnsCustomOrder>
-        <columnsCustomOrder>customMethodCaption</columnsCustomOrder>
         <columnsCustomOrder>hidden</columnsCustomOrder>
+        <columnsCustomOrder>customMethodCaption</columnsCustomOrder>
         <columnsCustomOrder>readOnlyForced</columnsCustomOrder>
         <columnsCustomOrder>category</columnsCustomOrder>
         <columnsCustomOrder>onlineHelp</columnsCustomOrder>
@@ -261,6 +261,11 @@
             <columnName>toStringValue</columnName>
             <hidden>true</hidden>
         </columnCustomizations>
+        <columnsCustomOrder>parameterName</columnsCustomOrder>
+        <columnsCustomOrder>hidden</columnsCustomOrder>
+        <columnsCustomOrder>customParameterCaption</columnsCustomOrder>
+        <columnsCustomOrder>nullableFacetHidden</columnsCustomOrder>
+        <columnsCustomOrder>onlineHelp</columnsCustomOrder>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
@@ -2201,8 +2206,8 @@
     </typeCustomizations>
     <typeCustomizations>
         <customFieldsOrder>itemName</customFieldsOrder>
-        <customFieldsOrder>customCaption</customFieldsOrder>
         <customFieldsOrder>hidden</customFieldsOrder>
+        <customFieldsOrder>customCaption</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
@@ -2245,8 +2250,8 @@
     </typeCustomizations>
     <typeCustomizations>
         <customFieldsOrder>fieldName</customFieldsOrder>
-        <customFieldsOrder>hidden</customFieldsOrder>
         <customFieldsOrder>customFieldCaption</customFieldsOrder>
+        <customFieldsOrder>hidden</customFieldsOrder>
         <customFieldsOrder>getOnlyForced</customFieldsOrder>
         <customFieldsOrder>nullableFacetHidden</customFieldsOrder>
         <customFieldsOrder>expandSubForm</customFieldsOrder>
@@ -3016,18 +3021,18 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
-        <customFieldsOrder>validating</customFieldsOrder>
         <customFieldsOrder>customValueReturnMode</customFieldsOrder>
         <customFieldsOrder>methodSignature</customFieldsOrder>
-        <customFieldsOrder>customMethodCaption</customFieldsOrder>
-        <customFieldsOrder>iconImageFile</customFieldsOrder>
         <customFieldsOrder>hidden</customFieldsOrder>
+        <customFieldsOrder>customMethodCaption</customFieldsOrder>
         <customFieldsOrder>readOnlyForced</customFieldsOrder>
         <customFieldsOrder>parametersCustomizations</customFieldsOrder>
         <customFieldsOrder>category</customFieldsOrder>
         <customFieldsOrder>onlineHelp</customFieldsOrder>
         <customFieldsOrder>nullReturnValueLabel</customFieldsOrder>
         <customFieldsOrder>displayedAsField</customFieldsOrder>
+        <customFieldsOrder>validating</customFieldsOrder>
+        <customFieldsOrder>iconImageFile</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
@@ -3185,6 +3190,14 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>iconImageFile</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
         <memberCategories>
             <caption>Parameters</caption>
         </memberCategories>
@@ -3215,16 +3228,22 @@
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization new()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <customFieldsOrder>parameterName</customFieldsOrder>
+        <customFieldsOrder>hidden</customFieldsOrder>
         <customFieldsOrder>customParameterCaption</customFieldsOrder>
         <customFieldsOrder>nullableFacetHidden</customFieldsOrder>
-        <customFieldsOrder>hidden</customFieldsOrder>
         <customFieldsOrder>onlineHelp</customFieldsOrder>
-        <customFieldsOrder>specificProperties</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Custom Caption</customFieldCaption>
@@ -3245,7 +3264,7 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <customFieldCaption>Hide Nullable Facet</customFieldCaption>
+            <customFieldCaption>Not Nullable</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>nullableFacetHidden</fieldName>
@@ -3325,13 +3344,13 @@
     <typeCustomizations>
         <customFieldsOrder>typeName</customFieldsOrder>
         <customFieldsOrder>customTypeCaption</customFieldsOrder>
-        <customFieldsOrder>iconImageFile</customFieldsOrder>
         <customFieldsOrder>undoManagementHidden</customFieldsOrder>
         <customFieldsOrder>onlineHelp</customFieldsOrder>
         <customFieldsOrder>memberCategories</customFieldsOrder>
         <customFieldsOrder>polymorphicSubTypeFinders</customFieldsOrder>
         <customFieldsOrder>fieldsCustomizations</customFieldsOrder>
         <customFieldsOrder>methodsCustomizations</customFieldsOrder>
+        <customFieldsOrder>iconImageFile</customFieldsOrder>
         <fieldsCustomizations>
             <category>
                 <caption>Fields</caption>
@@ -3775,6 +3794,102 @@
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
         <typeName>Encapsulation [typeCaption=Info Filter, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$InfoFilter, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=Method Customization, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=Parameter Customization, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=Customization Category, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=Object, fieldType=java.lang.Object, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=Columns Order, fieldType=java.util.ArrayList, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=List Item Field Shortcut, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$ListItemFieldShortcut, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=List Item Method Shortcut, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$ListItemMethodShortcut, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+        </fieldsCustomizations>
+        <typeName>Encapsulation [typeCaption=Enumeration Item Customization, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$EnumerationItemCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

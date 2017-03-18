@@ -441,7 +441,9 @@ public class SwingRenderer {
 	public Component createFieldControl(final FieldControlPlaceHolder placeHoler) {
 		if (placeHoler.getControlData().getType() instanceof IEnumerationTypeInfo) {
 			return new EnumerationControl(this, placeHoler);
-		} else if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(placeHoler.getControlData().getType())) {
+		} else if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(placeHoler.getControlData().getType())
+				&& !DesktopSpecificProperty.isPolymorphicControlForbidden(
+						DesktopSpecificProperty.accessControlDataProperties(placeHoler.getControlData()))) {
 			return new PolymorphicControl(this, placeHoler);
 		} else {
 			if (placeHoler.getControlData().isNullable()) {
@@ -1550,22 +1552,22 @@ public class SwingRenderer {
 						}
 						lastFieldValue = field.getValue(object);
 						lastFieldValueInitialized = true;
-						SwingUtilities.invokeLater(new Runnable() {							
+						SwingUtilities.invokeLater(new Runnable() {
 							@Override
 							public void run() {
 								displayError(null);
 							}
-						});						
+						});
 					} catch (final Throwable t) {
 						if (!lastFieldValueInitialized) {
 							throw new ReflectionUIError(t);
 						} else {
-							SwingUtilities.invokeLater(new Runnable() {							
+							SwingUtilities.invokeLater(new Runnable() {
 								@Override
 								public void run() {
 									displayError(ReflectionUIUtils.getPrettyErrorMessage(t));
 								}
-							});	
+							});
 						}
 					}
 					return lastFieldValue;

@@ -91,7 +91,7 @@ public class ItemPosition implements Cloneable {
 		return result;
 	}
 
-	public List<ItemPosition> getPreviousSiblings() {
+	public List<? extends ItemPosition> getPreviousSiblings() {
 		List<ItemPosition> result = new ArrayList<ItemPosition>();
 		for (int i = 0; i < getIndex(); i++) {
 			result.add(getSibling(i));
@@ -100,7 +100,7 @@ public class ItemPosition implements Cloneable {
 		return result;
 	}
 
-	public List<ItemPosition> getFollowingSiblings() {
+	public List<? extends ItemPosition> getFollowingSiblings() {
 		List<ItemPosition> result = new ArrayList<ItemPosition>();
 		for (int i = getIndex() + 1; i < getContainingListRawValue().length; i++) {
 			result.add(getSibling(i));
@@ -137,7 +137,7 @@ public class ItemPosition implements Cloneable {
 		return new FieldControlData(ghostItemPosition.getItem(), subListField);
 	}
 
-	public List<ItemPosition> getSubItemPositions() {
+	public List<? extends ItemPosition> getSubItemPositions() {
 		IControlData subListData = getSubListData();
 		if (subListData == null) {
 			return Collections.emptyList();
@@ -166,11 +166,12 @@ public class ItemPosition implements Cloneable {
 	}
 
 	public IControlData getRootListData() {
-		return getRootListItemPosition().getContainingListData();
+		return getRootListItemPosition().containingListData;
 	}
 
 	public ValueReturnMode getItemReturnMode() {
-		ValueReturnMode result = getContainingListType().getItemReturnMode();
+		ValueReturnMode result = ValueReturnMode.combine(getContainingListData().getValueReturnMode(),
+				getContainingListType().getItemReturnMode());
 		if (parentItemPosition != null) {
 			result = ValueReturnMode.combine(parentItemPosition.getItemReturnMode(), result);
 		}

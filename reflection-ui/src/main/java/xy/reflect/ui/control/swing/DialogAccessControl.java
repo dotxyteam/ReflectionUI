@@ -159,7 +159,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 
 	protected void openDialog() {
 		AbstractSubObjectUIBuilber subDialogBuilder = getSubDialogBuilder();
-		subDialogBuilder.showDialog();
+		subDialogBuilder.showSubObjectDialog();
 		if (subDialogBuilder.isParentObjectModificationDetected()) {
 			updateControls();
 		}
@@ -169,62 +169,72 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 		return new AbstractSubObjectUIBuilber() {
 
 			@Override
-			protected boolean isSubObjectNullable() {
+			public boolean isSubObjectFormExpanded() {
+				return true;
+			}
+
+			@Override
+			public boolean isSubObjectNullable() {
 				return false;
 			}
 
 			@Override
-			protected SwingRenderer getSwingRenderer() {
+			public SwingRenderer getSwingRenderer() {
 				return swingRenderer;
 			}
 
 			@Override
-			protected ValueReturnMode getSubObjectValueReturnMode() {
+			public ValueReturnMode getSubObjectValueReturnMode() {
 				return data.getValueReturnMode();
 			}
 
 			@Override
-			protected ITypeInfo getSubObjectDeclaredType() {
+			public ITypeInfo getSubObjectDeclaredType() {
 				return data.getType();
 			}
 
 			@Override
-			protected Object getSubObject() {
+			public Object getInitialSubObjectValue() {
 				return data.getValue();
 			}
 
 			@Override
-			protected String getSubObjectModificationTitle() {
+			public String getSubObjectModificationTitle() {
 				return ControlDataValueModification.getTitle(input.getModificationsTarget());
 			}
 
 			@Override
-			protected IInfo getSubObjectModificationTarget() {
+			public IInfo getSubObjectModificationTarget() {
 				return input.getModificationsTarget();
 			}
 
 			@Override
-			protected ModificationStack getParentObjectModificationStack() {
+			public ModificationStack getParentObjectModificationStack() {
 				return input.getModificationStack();
 			}
 
 			@Override
-			protected Component getOwnerComponent() {
+			public Component getSubObjectOwnerComponent() {
 				return DialogAccessControl.this;
 			}
 
 			@Override
-			protected String getSubObjectTitle() {
+			public String getSubObjectTitle() {
 				return data.getType().getCaption();
 			}
 
 			@Override
-			protected IModification getUpdatedSubObjectCommitModification(Object newObjectValue) {
+			public boolean canCommitUpdatedSubObject() {
+				return !data.isGetOnly();
+			}
+
+			@Override
+			public IModification getUpdatedSubObjectCommitModification(Object newObjectValue) {
 				return new ControlDataValueModification(data, newObjectValue, getSubObjectModificationTarget());
 			}
 
 			@Override
-			protected IInfoFilter getSubObjectFormFilter() {
+			public IInfoFilter getSubObjectFormFilter() {
 				IInfoFilter result = DesktopSpecificProperty
 						.getFilter(DesktopSpecificProperty.accessControlDataProperties(data));
 				if (result == null) {

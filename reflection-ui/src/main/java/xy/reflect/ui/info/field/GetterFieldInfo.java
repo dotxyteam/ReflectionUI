@@ -109,7 +109,7 @@ public class GetterFieldInfo implements IFieldInfo {
 		if (!getType().isPassedByReference()) {
 			return ValueReturnMode.COPY;
 		} else {
-			return ValueReturnMode.PROXY;
+			return ValueReturnMode.INDETERMINATE;
 		}
 	}
 

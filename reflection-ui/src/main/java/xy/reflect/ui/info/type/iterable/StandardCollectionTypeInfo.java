@@ -62,8 +62,11 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 
 	@Override
 	public ValueReturnMode getItemReturnMode() {
-		// TODO Auto-generated method stub
-		return null;
+		if((itemType == null) || itemType.isPassedByReference()){
+			return ValueReturnMode.INDETERMINATE;
+		}else{
+			return ValueReturnMode.COPY;
+		}
 	}
 
 	@Override

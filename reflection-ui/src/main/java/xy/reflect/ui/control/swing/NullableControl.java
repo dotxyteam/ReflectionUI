@@ -14,7 +14,15 @@ import javax.swing.JPanel;
 
 import xy.reflect.ui.control.input.IControlData;
 import xy.reflect.ui.control.input.IControlInput;
+import xy.reflect.ui.info.DesktopSpecificProperty;
+import xy.reflect.ui.info.IInfo;
+import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.undo.ControlDataValueModification;
+import xy.reflect.ui.undo.IModification;
+import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 public class NullableControl extends JPanel implements IAdvancedFieldControl {
@@ -49,7 +57,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 			}
 		});
 		nullStatusControl.setEnabled(!data.isGetOnly());
-		add(SwingRendererUtils.flowInLayout(nullStatusControl, GridBagConstraints.NORTH) , BorderLayout.WEST);
+		add(SwingRendererUtils.flowInLayout(nullStatusControl, GridBagConstraints.NORTH), BorderLayout.WEST);
 		refreshUI();
 	}
 
@@ -119,12 +127,92 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 			} else {
 				subControlValueType = swingRenderer.getReflectionUI()
 						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newValue));
-				subControl = SwingRendererUtils.createDynamicControl(swingRenderer, subControlValueType, input);
+				subControl = createSubControl();
 			}
 
 			add(subControl, BorderLayout.CENTER);
 			SwingRendererUtils.handleComponentSizeChange(this);
 		}
+	}
+
+	protected Component createSubControl() {
+		return new AbstractSubObjectUIBuilber() {
+
+			@Override
+			public boolean isSubObjectFormExpanded() {
+				return false;
+			}
+
+			@Override
+			public boolean isSubObjectNullable() {
+				return false;
+			}
+
+			@Override
+			public boolean canCommitUpdatedSubObject() {
+				return !data.isGetOnly();
+			}
+
+			@Override
+			public IModification getUpdatedSubObjectCommitModification(Object newObjectValue) {
+				return new ControlDataValueModification(data, newObjectValue, input.getModificationsTarget());
+			}
+
+			@Override
+			public SwingRenderer getSwingRenderer() {
+				return swingRenderer;
+			}
+
+			@Override
+			public ValueReturnMode getSubObjectValueReturnMode() {
+				return data.getValueReturnMode();
+			}
+
+			@Override
+			public String getSubObjectTitle() {
+				return ReflectionUIUtils.composeMessage(data.getType().getCaption(), "Dynamic Wrapper");
+			}
+
+			@Override
+			public String getSubObjectModificationTitle() {
+				return ControlDataValueModification.getTitle(input.getModificationsTarget());
+			}
+
+			@Override
+			public IInfo getSubObjectModificationTarget() {
+				return input.getModificationsTarget();
+			}
+
+			@Override
+			public IInfoFilter getSubObjectFormFilter() {
+				IInfoFilter result = DesktopSpecificProperty
+						.getFilter(DesktopSpecificProperty.accessControlDataProperties(data));
+				if (result == null) {
+					result = IInfoFilter.NO_FILTER;
+				}
+				return result;
+			}
+
+			@Override
+			public ITypeInfo getSubObjectDeclaredType() {
+				return subControlValueType;
+			}
+
+			@Override
+			public ModificationStack getParentObjectModificationStack() {
+				return input.getModificationStack();
+			}
+
+			@Override
+			public Component getSubObjectOwnerComponent() {
+				return NullableControl.this;
+			}
+
+			@Override
+			public Object getInitialSubObjectValue() {
+				return data.getValue();
+			}
+		}.createSubObjectForm();
 	}
 
 	@Override
@@ -147,11 +235,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 		if (getNullStatusControlState() == true) {
 			return false;
 		} else {
-			if (subControl instanceof IAdvancedFieldControl) {
-				return ((IAdvancedFieldControl) subControl).handlesModificationStackUpdate();
-			} else {
-				return false;
-			}
+			return true;
 		}
 	}
 

@@ -277,7 +277,11 @@ public class MethodSetupObjectFactory {
 
 		@Override
 		public ValueReturnMode getValueReturnMode() {
-			return ValueReturnMode.SELF;
+			if (getType().isPassedByReference()) {
+				return ValueReturnMode.INDETERMINATE;
+			} else {
+				return ValueReturnMode.COPY;
+			}
 		}
 
 		@Override

@@ -100,7 +100,7 @@ public class PublicFieldInfo implements IFieldInfo {
 		if (!getType().isPassedByReference()) {
 			return ValueReturnMode.COPY;
 		} else {
-			return ValueReturnMode.SELF;
+			return ValueReturnMode.SELF_OR_PROXY;
 		}
 	}
 

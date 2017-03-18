@@ -22,7 +22,10 @@ public class ListModificationFactory {
 		this.modificationTarget = modificationTarget;
 	}
 
-	public boolean canAdd() {
+	public boolean canAdd(int index) {
+		if ((index < 0) || (index > anyItemPosition.getContainingListRawValue().length)) {
+			return false;
+		}
 		return ListValueUpdateModification.isCompatibleWith(anyItemPosition);
 	}
 
@@ -33,7 +36,10 @@ public class ListModificationFactory {
 		return new ListValueUpdateModification(anyItemPosition, newListRawValue, modificationTarget);
 	}
 
-	public boolean canRemove() {
+	public boolean canRemove(int index) {
+		if ((index < 0) || (index >= anyItemPosition.getContainingListRawValue().length)) {
+			return false;
+		}
 		return ListValueUpdateModification.isCompatibleWith(anyItemPosition);
 	}
 
@@ -44,7 +50,10 @@ public class ListModificationFactory {
 		return new ListValueUpdateModification(anyItemPosition, newListRawValue, modificationTarget);
 	}
 
-	public boolean canSet() {
+	public boolean canSet(int index) {
+		if ((index < 0) || (index >= anyItemPosition.getContainingListRawValue().length)) {
+			return false;
+		}
 		return ListValueUpdateModification.isCompatibleWith(anyItemPosition);
 	}
 
@@ -54,9 +63,15 @@ public class ListModificationFactory {
 		Object[] newListRawValue = tmpList.toArray();
 		return new ListValueUpdateModification(anyItemPosition, newListRawValue, modificationTarget);
 	}
-	
-	
-	public boolean canMove() {
+
+	public boolean canMove(int index, int offset) {
+		if ((index < 0) || (index >= anyItemPosition.getContainingListRawValue().length)) {
+			return false;
+		}	
+		int index2 = index + offset;
+		if ((index2 < 0) || (index2 >= anyItemPosition.getContainingListRawValue().length)) {
+			return false;
+		}				
 		return ListValueUpdateModification.isCompatibleWith(anyItemPosition);
 	}
 
@@ -66,7 +81,7 @@ public class ListModificationFactory {
 		Object[] newListRawValue = tmpList.toArray();
 		return new ListValueUpdateModification(anyItemPosition, newListRawValue, modificationTarget);
 	}
-	
+
 	public boolean canClear() {
 		return ListValueUpdateModification.isCompatibleWith(anyItemPosition);
 	}
@@ -74,8 +89,6 @@ public class ListModificationFactory {
 	public IModification clear() {
 		return new ListValueUpdateModification(anyItemPosition, new Object[0], modificationTarget);
 	}
-
-
 
 	protected static class ListValueUpdateModification extends AbstractModification {
 
@@ -100,7 +113,7 @@ public class ListModificationFactory {
 			IControlData containingListData = itemPosition.getContainingListData();
 			IListTypeInfo containingListType = itemPosition.getContainingListType();
 			if (containingListType.canReplaceContent()) {
-				if (containingListData.getValueReturnMode() == ValueReturnMode.SELF) {
+				if (containingListData.getValueReturnMode() == ValueReturnMode.SELF_OR_PROXY) {
 					return true;
 				}
 				if (!containingListData.isGetOnly()) {
@@ -164,7 +177,7 @@ public class ListModificationFactory {
 			IControlData listData = itemPosition.getContainingListData();
 			IListTypeInfo listType = itemPosition.getContainingListType();
 			if (listType.canReplaceContent()) {
-				if (listData.getValueReturnMode() == ValueReturnMode.SELF) {
+				if (listData.getValueReturnMode() == ValueReturnMode.SELF_OR_PROXY) {
 					final Object listValue = listData.getValue();
 					undoModifications.add(0, new ChangeListContentModification(new ControlDataProxy(listData) {
 						@Override

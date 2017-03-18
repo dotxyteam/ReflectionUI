@@ -32,6 +32,7 @@ import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -62,6 +63,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.SystemProperties;
 
+@SuppressWarnings("unused")
 public class SwingCustomizer extends SwingRenderer {
 
 	protected CustomizationTools customizationTools;
@@ -560,7 +562,7 @@ public class SwingCustomizer extends SwingRenderer {
 			}
 		}
 
-		protected void openCustomizationEditor(final Component activatorComponent, Object customization,
+		protected void openCustomizationEditor(final Component activatorComponent, final Object customization,
 				final String impactedTypeName) {
 			final ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(customizationToolsRenderer,
 					activatorComponent, customization);
@@ -571,13 +573,13 @@ public class SwingCustomizer extends SwingRenderer {
 					.addListener(getCustomizedWindowsReloadingAdviser(dialogBuilder.getBuiltDialog()));
 			customizationToolsRenderer.showDialog(dialogBuilder.getBuiltDialog(), true);
 
-			ValueReturnMode childValueReturnMode = ValueReturnMode.SELF;
+			ValueReturnMode childValueReturnMode = ValueReturnMode.SELF_OR_PROXY;
 			boolean childModifAccepted = dialogBuilder.wasOkPressed();
 			ModificationStack childModifStack = dialogBuilder.getModificationStack();
 			ModificationStack parentModifStack = new ModificationStack(null);
 			boolean childValueNew = dialogBuilder.isValueNew();
 			IModification commitModif = null;
-			IInfo childModifTarget = null;
+			IInfo childModifTarget = IFieldInfo.NULL_FIELD_INFO;
 			String subModifTitle = "";
 			if (ReflectionUIUtils.integrateSubModifications(customizationToolsRenderer.getReflectionUI(),
 					parentModifStack, childModifStack, childModifAccepted, childValueReturnMode, childValueNew,
@@ -911,7 +913,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 		protected void updateMethodCustomization(MethodCustomization mc, IMethodInfo customizedMethod) {
 			for (IParameterInfo param : customizedMethod.getParameters()) {
-				infoCustomizations.getParameterCustomization(customizedMethod.getName(), mc.getMethodSignature(),
+				infoCustomizations.getParameterCustomization(mc.getParent().getTypeName(), mc.getMethodSignature(),
 						param.getName(), true);
 			}
 		}

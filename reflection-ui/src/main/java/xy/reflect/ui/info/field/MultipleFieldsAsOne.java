@@ -89,7 +89,7 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 
 	@Override
 	public ValueReturnMode getValueReturnMode() {
-		return ValueReturnMode.PROXY;
+		return ValueReturnMode.INDETERMINATE;
 	}
 
 	@Override

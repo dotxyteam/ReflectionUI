@@ -2165,16 +2165,19 @@
                 <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">false</value>
             </entry>
         </specificProperties>
+        <customFieldsOrder>theBooleanObject</customFieldsOrder>
+        <customFieldsOrder>anyObject</customFieldsOrder>
+        <customFieldsOrder>theBooleanList</customFieldsOrder>
+        <customFieldsOrder>theFloatArray</customFieldsOrder>
         <customFieldsOrder>theBooleanPrimitive</customFieldsOrder>
+        <customFieldsOrder>MethodAsField [method=returnNothing]</customFieldsOrder>
         <customFieldsOrder>pI</customFieldsOrder>
         <customFieldsOrder>theFloat</customFieldsOrder>
         <customFieldsOrder>theBoundedInt</customFieldsOrder>
         <customFieldsOrder>theInt</customFieldsOrder>
         <customFieldsOrder>theFile</customFieldsOrder>
-        <customFieldsOrder>theBooleanObject</customFieldsOrder>
         <customFieldsOrder>theDouble</customFieldsOrder>
         <customFieldsOrder>theException</customFieldsOrder>
-        <customFieldsOrder>anyObject</customFieldsOrder>
         <customFieldsOrder>theChoice</customFieldsOrder>
         <customFieldsOrder>theString</customFieldsOrder>
         <customFieldsOrder>theDate</customFieldsOrder>
@@ -2191,10 +2194,12 @@
         <customFieldsOrder>theArrayTreeTable</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <customFieldCaption></customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>anyObject</fieldName>
             <getOnlyForced>false</getOnlyForced>
+            <nullValueLabel>test</nullValueLabel>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -2921,6 +2926,7 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>The File List</customFieldCaption>
+            <customValueReturnMode>COPY</customValueReturnMode>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>MethodAsField [method=listFiles]</fieldName>
@@ -2980,15 +2986,6 @@
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>hidden</fieldName>
-            <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>false</nullableFacetHidden>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
-            <hidden>false</hidden>
-            <customFieldCaption>The File List</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <fieldName>listFiles-result</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>

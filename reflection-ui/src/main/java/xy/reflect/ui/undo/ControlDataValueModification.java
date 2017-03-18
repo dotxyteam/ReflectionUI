@@ -14,8 +14,8 @@ public class ControlDataValueModification extends AbstractModification {
 		this.newValue = newValue;
 	}
 
-	public static String getTitle(IInfo target) {
-		return "Edit '" + target.getCaption() + "'";
+	public static String getTitle(IInfo modificationTarget) {
+		return "Edit '" + modificationTarget.getCaption() + "'";
 	}
 
 	@Override

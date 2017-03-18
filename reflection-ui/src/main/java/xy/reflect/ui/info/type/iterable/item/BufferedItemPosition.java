@@ -1,15 +1,23 @@
 package xy.reflect.ui.info.type.iterable.item;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.util.ReflectionUIError;
 
 public class BufferedItemPosition extends ItemPosition {
 
 	protected Object bufferedItem;
-	protected ItemPosition itemPosition;
+	protected ItemPosition standardItemPosition;
 
-	public BufferedItemPosition(ItemPosition itemPosition, Object bufferedItem) {
-		super(itemPosition.getParentItemPosition(), itemPosition.getContainingListData(), itemPosition.getIndex());
-		this.itemPosition = itemPosition;
+	public BufferedItemPosition(ItemPosition standardItemPosition, Object bufferedItem) {
+		super(standardItemPosition.getParentItemPosition(), standardItemPosition.getContainingListData(),
+				standardItemPosition.getIndex());
+		if (standardItemPosition instanceof BufferedItemPosition) {
+			throw new ReflectionUIError();
+		}
+		this.standardItemPosition = standardItemPosition;
 		this.bufferedItem = bufferedItem;
 	}
 
@@ -24,11 +32,58 @@ public class BufferedItemPosition extends ItemPosition {
 
 	@Override
 	public ValueReturnMode getItemReturnMode() {
-		return ValueReturnMode.SELF;
+		return ValueReturnMode.SELF_OR_PROXY;
 	}
 
-	public ItemPosition getStandardItemPosition(){
-		return itemPosition;
+	@Override
+	public BufferedItemPosition getParentItemPosition() {
+		ItemPosition standardParentItemPosition = getStandardItemPosition().parentItemPosition;
+		if (standardParentItemPosition == null) {
+			return null;
+		}
+		return new BufferedItemPosition(standardParentItemPosition, standardParentItemPosition.getItem());
+	}
+
+	@Override
+	public BufferedItemPosition getSibling(int index2) {
+		ItemPosition standardSibling = getStandardItemPosition().getSibling(index2);
+		return new BufferedItemPosition(standardSibling, standardSibling.getItem());
+	}
+
+	@Override
+	public List<BufferedItemPosition> getPreviousSiblings() {
+		List<BufferedItemPosition> result = new ArrayList<BufferedItemPosition>();
+		for (ItemPosition standardPreviousPosition : getStandardItemPosition().getPreviousSiblings()) {
+			result.add(new BufferedItemPosition(standardPreviousPosition, standardPreviousPosition.getItem()));
+		}
+		return result;
+	}
+
+	@Override
+	public List<BufferedItemPosition> getFollowingSiblings() {
+		List<BufferedItemPosition> result = new ArrayList<BufferedItemPosition>();
+		for (ItemPosition standardFollowingPosition : getStandardItemPosition().getFollowingSiblings()) {
+			result.add(new BufferedItemPosition(standardFollowingPosition, standardFollowingPosition.getItem()));
+		}
+		return result;
+	}
+
+	@Override
+	public List<BufferedItemPosition> getSubItemPositions() {
+		List<BufferedItemPosition> result = new ArrayList<BufferedItemPosition>();
+		for (ItemPosition standardSubItemPosition : getStandardItemPosition().getSubItemPositions()) {
+			result.add(new BufferedItemPosition(standardSubItemPosition, standardSubItemPosition.getItem()));
+		}
+		return result;
+	}
+
+	@Override
+	public BufferedItemPosition getRootListItemPosition() {
+		return (BufferedItemPosition) super.getRootListItemPosition();
+	}
+
+	public ItemPosition getStandardItemPosition() {
+		return standardItemPosition;
 	}
 
 	@Override

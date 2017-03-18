@@ -16,6 +16,7 @@ import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.SwingRendererUtils;
 
+@SuppressWarnings("unused")
 public class ObjectDialogBuilder {
 
 	protected SwingRenderer swingRenderer;
@@ -26,7 +27,6 @@ public class ObjectDialogBuilder {
 	protected boolean cancellable;
 	protected String customCancelCaption;
 	protected String customOKCaption;
-	protected IInfoFilter infoFilter = IInfoFilter.NO_FILTER;
 	protected List<Component> additionalToolbarComponents;
 
 	public ObjectDialogBuilder(SwingRenderer swingRenderer, Component ownerComponent, Object value) {
@@ -87,14 +87,6 @@ public class ObjectDialogBuilder {
 		Object displayValue = getDisplayValue();
 		return swingRenderer.getReflectionUI()
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(displayValue));
-	}
-
-	public IInfoFilter getInfoFilter() {
-		return infoFilter;
-	}
-
-	public void setInfoFilter(IInfoFilter infoFilter) {
-		this.infoFilter = infoFilter;
 	}
 
 	public String getCustomCancelCaption() {
@@ -167,11 +159,7 @@ public class ObjectDialogBuilder {
 
 	public JDialog build() {
 		Object displayValue = getDisplayValue();
-		if (isValueEncapsulatedForDisplay()) {
-			objectForm = swingRenderer.createForm(displayValue);
-		} else {
-			objectForm = swingRenderer.createForm(displayValue, infoFilter);
-		}
+		objectForm = swingRenderer.createForm(displayValue);
 		delegate.setContentComponent(objectForm);
 
 		List<Component> toolbarControls = new ArrayList<Component>();

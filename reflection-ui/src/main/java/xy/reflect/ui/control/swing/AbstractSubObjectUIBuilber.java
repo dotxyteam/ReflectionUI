@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
@@ -21,74 +22,80 @@ import xy.reflect.ui.util.SwingRendererUtils;
 
 public abstract class AbstractSubObjectUIBuilber {
 
-	protected abstract SwingRenderer getSwingRenderer();
+	public abstract SwingRenderer getSwingRenderer();
 
-	protected abstract Component getOwnerComponent();
+	public abstract Component getSubObjectOwnerComponent();
 
-	protected abstract String getSubObjectTitle(); 
+	public abstract String getSubObjectTitle();
 
-	protected abstract ModificationStack getParentObjectModificationStack();
+	public abstract ModificationStack getParentObjectModificationStack();
 
-	protected abstract IInfo getSubObjectModificationTarget();
+	public abstract IInfo getSubObjectModificationTarget();
 
-	protected abstract String getSubObjectModificationTitle();
+	public abstract String getSubObjectModificationTitle();
 
-	protected abstract IModification getUpdatedSubObjectCommitModification(Object newObjectValue);
+	public abstract boolean canCommitUpdatedSubObject();
 
-	protected abstract ITypeInfo getSubObjectDeclaredType();
+	public abstract IModification getUpdatedSubObjectCommitModification(Object newObjectValue);
 
-	protected abstract ValueReturnMode getSubObjectValueReturnMode();
+	public abstract ITypeInfo getSubObjectDeclaredType();
 
-	protected abstract boolean isSubObjectNullable();
+	public abstract ValueReturnMode getSubObjectValueReturnMode();
 
-	protected abstract Object getSubObject();
+	public abstract boolean isSubObjectNullable();
 
-	protected abstract IInfoFilter getSubObjectFormFilter();
+	public abstract Object getInitialSubObjectValue();
 
-	protected Object initialSubObject = getSubObject();
-	protected Object subObject = initialSubObject;
+	public abstract IInfoFilter getSubObjectFormFilter();
+
+	public abstract boolean isSubObjectFormExpanded();
+
+	protected Object initialSubObject;
 	protected boolean parentObjectModificationDetected;
 	protected boolean dialogOKButtonPressed;
+	protected Accessor<Object> encapsulatedSubObjectAccessor = new Accessor<Object>() {
 
-	protected boolean canPotentiallyModifyParentObject() {
+		boolean firstAccess = true;
+		Object subObject;
+
+		@Override
+		public Object get() {
+			if (firstAccess) {
+				subObject = initialSubObject = getInitialSubObjectValue();
+				firstAccess = false;
+			} else {
+				if (!canPotentiallyModifyParentObject()) {
+					subObject = getInitialSubObjectValue();
+				}
+			}
+			return subObject;
+		}
+
+		@Override
+		public void set(Object t) {
+			subObject = t;
+		}
+
+	};
+
+	public Object getSubObject() {
+		return encapsulatedSubObjectAccessor.get();
+	}
+
+	public boolean canPotentiallyModifyParentObject() {
 		return ReflectionUIUtils.canPotentiallyIntegrateSubModifications(getSubObjectValueReturnMode(),
 				canCommitUpdatedSubObject());
 	}
 
-	protected boolean canCommitUpdatedSubObject() {
-		return getUpdatedSubObjectCommitModification(subObject) != null;
+	public boolean isSubObjectNew() {
+		return initialSubObject != encapsulatedSubObjectAccessor.get();
 	}
 
-	protected boolean isSubObjectNew() {
-		return initialSubObject != subObject;
+	public Object getEncapsulatedSubObject() {
+		return getSubObjectEncapsulation().getInstance(encapsulatedSubObjectAccessor);
 	}
 
-	private Object getEncapsulatedSubObject() {
-		return getSubObjectEncapsulation().getInstance(new Accessor<Object>() {
-
-			boolean firstAccess = true;
-
-			@Override
-			public Object get() {
-				if (firstAccess) {
-					firstAccess = false;
-				} else {
-					if (!canPotentiallyModifyParentObject()) {
-						subObject = getSubObject();
-					}
-				}
-				return subObject;
-			}
-
-			@Override
-			public void set(Object t) {
-				subObject = t;
-			}
-
-		});
-	}
-
-	protected EncapsulatedObjectFactory getSubObjectEncapsulation() {
+	public EncapsulatedObjectFactory getSubObjectEncapsulation() {
 		EncapsulatedObjectFactory result = new EncapsulatedObjectFactory(getSwingRenderer().getReflectionUI(),
 				getSubObjectDeclaredType());
 		result.setTypeCaption(getSubObjectTitle());
@@ -97,18 +104,38 @@ public abstract class AbstractSubObjectUIBuilber {
 		result.setFieldGetOnly(!canPotentiallyModifyParentObject());
 		result.setFieldNullable(isSubObjectNullable());
 		result.setFieldValueReturnMode(
-				canPotentiallyModifyParentObject() ? ValueReturnMode.SELF : ValueReturnMode.COPY);
+				canPotentiallyModifyParentObject() ? ValueReturnMode.SELF_OR_PROXY : ValueReturnMode.COPY);
 		Map<String, Object> properties = new HashMap<String, Object>();
 		{
-			DesktopSpecificProperty.setSubFormExpanded(properties, true);
+			DesktopSpecificProperty.setSubFormExpanded(properties, isSubObjectFormExpanded());
 			DesktopSpecificProperty.setFilter(properties, getSubObjectFormFilter());
 			result.setFieldSpecificProperties(properties);
 		}
 		return result;
 	}
 
-	public void showDialog() {
-		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(getSwingRenderer(), getOwnerComponent(),
+	public boolean isSubObjectFormEmpty() {
+		Object encapsulatedSubObject = getEncapsulatedSubObject();
+		ITypeInfo encapsulatedSubObjectType = getSwingRenderer().getReflectionUI()
+				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(encapsulatedSubObject));
+		IFieldInfo encapsulatedSubObjectField = encapsulatedSubObjectType.getFields().get(0);
+		if (encapsulatedSubObjectField.isNullable()) {
+			return false;
+		}
+		Object subObject = getSubObject();
+		if (subObject == null) {
+			return false;
+		}
+		ITypeInfo actualSubObjectType = getSwingRenderer().getReflectionUI()
+				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(subObject));
+		if (!SwingRendererUtils.isFormEmpty(actualSubObjectType, getSubObjectFormFilter(), getSwingRenderer())) {
+			return false;
+		}
+		return true;
+	}
+
+	public void showSubObjectDialog() {
+		ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(getSwingRenderer(), getSubObjectOwnerComponent(),
 				getEncapsulatedSubObject());
 		getSwingRenderer().showDialog(dialogBuilder.build(), true);
 		dialogOKButtonPressed = dialogBuilder.wasOkPressed();
@@ -130,7 +157,7 @@ public abstract class AbstractSubObjectUIBuilber {
 		if (!canCommitUpdatedSubObject()) {
 			commitModif = null;
 		} else {
-			commitModif = getUpdatedSubObjectCommitModification(subObject);
+			commitModif = getUpdatedSubObjectCommitModification(encapsulatedSubObjectAccessor.get());
 		}
 		boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.wasOkPressed();
 		boolean childValueNew = isSubObjectNew();
@@ -140,7 +167,7 @@ public abstract class AbstractSubObjectUIBuilber {
 				childValueReturnMode, childValueNew, commitModif, childModifTarget, childModifTitle);
 	}
 
-	public JPanel createSubForm() {
+	public JPanel createSubObjectForm() {
 		Object encapsulated = getEncapsulatedSubObject();
 		JPanel result = getSwingRenderer().createForm(encapsulated);
 		getSwingRenderer().getBusyIndicationDisabledByForm().put(result, true);
@@ -155,7 +182,7 @@ public abstract class AbstractSubObjectUIBuilber {
 			childModificationStack.addListener(new AbstractSimpleModificationListener() {
 				@Override
 				protected void handleAnyEvent(IModification modification) {
-					updateSubForm(subForm);
+					getSwingRenderer().refreshAllFieldControls(subForm, false);
 				}
 			});
 		} else {
@@ -175,7 +202,7 @@ public abstract class AbstractSubObjectUIBuilber {
 			Accessor<IModification> commitModifGetter = new Accessor<IModification>() {
 				@Override
 				public IModification get() {
-					return getUpdatedSubObjectCommitModification(subObject);
+					return getUpdatedSubObjectCommitModification(encapsulatedSubObjectAccessor.get());
 				}
 			};
 			Accessor<IInfo> childModifTargetGetter = new Accessor<IInfo>() {
@@ -200,11 +227,6 @@ public abstract class AbstractSubObjectUIBuilber {
 					childValueReturnModeGetter, childValueNewGetter, commitModifGetter, childModifTargetGetter,
 					childModifTitleGetter, parentModifStackGetter);
 		}
-	}
-
-	protected void updateSubForm(JPanel subForm) {
-		getSwingRenderer().refreshAllFieldControls(subForm, false);
-
 	}
 
 	public boolean isParentObjectModificationDetected() {
