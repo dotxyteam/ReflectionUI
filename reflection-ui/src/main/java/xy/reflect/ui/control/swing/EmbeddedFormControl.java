@@ -58,15 +58,8 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 
 	@Override
 	public Object getFocusDetails() {
-		ITypeInfo subFormObjectType = swingRenderer.getReflectionUI()
-				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(subFormObject));
 		Object subFormFocusDetails = swingRenderer.getFormFocusDetails(subForm);
-		if (subFormFocusDetails == null) {
-			return null;
-		}
-
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("subFormObjectType", subFormObjectType);
 		result.put("subFormFocusDetails", subFormFocusDetails);
 		return result;
 	}
@@ -75,24 +68,23 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	public void requestDetailedFocus(Object value) {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> focusDetails = (Map<String, Object>) value;
-		ITypeInfo subFormObjectType = (ITypeInfo) focusDetails.get("subFormObjectType");
 		Object subFormFocusDetails = focusDetails.get("subFormFocusDetails");
-
-		ITypeInfo currentSubFormObjectType = swingRenderer.getReflectionUI()
-				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(subFormObject));
-		if (subFormObjectType.equals(currentSubFormObjectType)) {
-			swingRenderer.setFormFocusDetails(subForm, subFormFocusDetails);
+		if (subFormFocusDetails != null) {
+			swingRenderer.requestFormDetailedFocus(subForm, subFormFocusDetails);
+		}else{
+			subForm.requestFocusInWindow();
 		}
 	}
 
 	@Override
-	public void requestFocus() {
+	public boolean requestFocusInWindow() {
 		if (subForm != null) {
 			List<FieldControlPlaceHolder> fieldControlPlaceHolders = swingRenderer.getFieldControlPlaceHolders(subForm);
 			if (fieldControlPlaceHolders.size() > 0) {
-				fieldControlPlaceHolders.get(0).requestFocus();
+				return fieldControlPlaceHolders.get(0).requestFocusInWindow();
 			}
 		}
+		return false;
 	}
 
 	protected void forwardSubFormModifications() {

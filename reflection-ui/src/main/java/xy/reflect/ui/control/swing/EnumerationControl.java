@@ -118,4 +118,11 @@ public class EnumerationControl extends JPanel {
 			}
 		});
 	}
+
+	@Override
+	public boolean requestFocusInWindow() {
+		return comboBox.requestFocusInWindow();
+	}
+	
+	
 }

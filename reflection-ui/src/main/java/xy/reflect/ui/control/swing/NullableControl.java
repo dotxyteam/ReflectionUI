@@ -50,7 +50,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					onNullingControlStateChange();
-					subControl.requestFocus();
+					subControl.requestFocusInWindow();
 				} catch (Throwable t) {
 					swingRenderer.handleExceptionsFromDisplayedUI(NullableControl.this, t);
 				}
@@ -80,7 +80,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 		boolean hadFocus = (subControl != null) && SwingRendererUtils.hasOrContainsFocus(subControl);
 		updateSubControl(value);
 		if (hadFocus && (subControl != null)) {
-			subControl.requestFocus();
+			subControl.requestFocusInWindow();
 		}
 		return true;
 	}
@@ -135,7 +135,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 		}
 	}
 
-	protected Component createSubControl() {
+	protected JPanel createSubControl() {
 		return new AbstractSubObjectUIBuilber() {
 
 			@Override
@@ -209,7 +209,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 			}
 
 			@Override
-			public Object getInitialSubObjectValue() {
+			public Object retrieveSubObjectValueFromParent() {
 				return data.getValue();
 			}
 		}.createSubObjectForm();
@@ -241,42 +241,41 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 
 	@Override
 	public Object getFocusDetails() {
-		Object subControlFocusDetails = null;
-		Class<?> subControlClass = null;
-		{
-			if (subControl instanceof IAdvancedFieldControl) {
-				subControlFocusDetails = ((IAdvancedFieldControl) subControl).getFocusDetails();
-				subControlClass = subControl.getClass();
-			}
-		}
-		if (subControlFocusDetails == null) {
+		if (subControl instanceof NullControl) {
 			return null;
 		}
+		boolean subControlFocused = SwingRendererUtils.hasOrContainsFocus(subControl);
+		Object subControlFocusDetails = swingRenderer.getFormFocusDetails((JPanel) subControl);
 		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("subControlFocused", subControlFocused);
 		result.put("subControlFocusDetails", subControlFocusDetails);
-		result.put("subControlClass", subControlClass);
 		return result;
 	}
 
 	@Override
 	public void requestDetailedFocus(Object value) {
+		if (subControl instanceof NullControl) {
+			return;
+		}
 		@SuppressWarnings("unchecked")
 		Map<String, Object> focusDetails = (Map<String, Object>) value;
+		Boolean subControlFocused = (Boolean) focusDetails.get("subControlFocused");
 		Object subControlFocusDetails = focusDetails.get("subControlFocusDetails");
-		Class<?> subControlClass = (Class<?>) focusDetails.get("subControlClass");
-		subControl.requestFocus();
-		if (subControl instanceof IAdvancedFieldControl) {
-			if (subControl.getClass().equals(subControlClass)) {
-				((IAdvancedFieldControl) subControl).requestDetailedFocus(subControlFocusDetails);
+		if (Boolean.TRUE.equals(subControlFocused)) {
+			if (subControlFocusDetails != null) {
+				swingRenderer.requestFormDetailedFocus((JPanel) subControl, subControlFocusDetails);
+			}else{
+				subControl.requestFocusInWindow();
 			}
 		}
 	}
 
 	@Override
-	public void requestFocus() {
+	public boolean requestFocusInWindow() {
 		if (subControl != null) {
-			subControl.requestFocus();
+			return subControl.requestFocusInWindow();
 		}
+		return false;
 	}
 
 	@Override

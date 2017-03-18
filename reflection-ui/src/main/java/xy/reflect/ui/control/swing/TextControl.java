@@ -205,13 +205,13 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> focusDetails = (Map<String, Object>) value;
 		int caretPosition = (Integer) focusDetails.get("caretPosition");
-		textComponent.requestFocus();
+		textComponent.requestFocusInWindow();
 		textComponent.setCaretPosition(Math.min(caretPosition, textComponent.getText().length()));
 	}
 
 	@Override
-	public void requestFocus() {
-		textComponent.requestFocus();
+	public boolean requestFocusInWindow() {
+		return textComponent.requestFocusInWindow();
 	}
 
 	@Override

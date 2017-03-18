@@ -117,8 +117,8 @@ public class FileControl extends DialogAccessControl implements IAdvancedFieldCo
 	}
 
 	@Override
-	public void requestFocus() {
-		statusControl.requestFocus();
+	public boolean requestFocusInWindow() {
+		return statusControl.requestFocusInWindow();
 	}
 
 }

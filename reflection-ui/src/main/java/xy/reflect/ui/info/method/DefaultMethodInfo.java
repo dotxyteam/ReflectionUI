@@ -39,8 +39,7 @@ public class DefaultMethodInfo implements IMethodInfo {
 
 	@Override
 	public String getCaption() {
-		String result = ReflectionUIUtils.identifierToCaption(javaMethod
-				.getName());
+		String result = ReflectionUIUtils.identifierToCaption(javaMethod.getName());
 		result = result.replaceAll("^Get ", "Show ");
 		return result;
 	}
@@ -52,8 +51,7 @@ public class DefaultMethodInfo implements IMethodInfo {
 		} else {
 			if (returnValueType == null) {
 				returnValueType = reflectionUI
-						.getTypeInfo(new JavaTypeInfoSource(javaMethod
-								.getReturnType(), javaMethod));
+						.getTypeInfo(new JavaTypeInfoSource(javaMethod.getReturnType(), javaMethod));
 			}
 			return returnValueType;
 		}
@@ -69,8 +67,7 @@ public class DefaultMethodInfo implements IMethodInfo {
 				if (!DefaultParameterInfo.isCompatibleWith(javaParameter)) {
 					continue;
 				}
-				parameters.add(new DefaultParameterInfo(reflectionUI,
-						javaParameter));
+				parameters.add(new DefaultParameterInfo(reflectionUI, javaParameter));
 			}
 		}
 		return parameters;
@@ -97,8 +94,7 @@ public class DefaultMethodInfo implements IMethodInfo {
 		StringBuilder result = new StringBuilder(method.getCaption());
 		if (method.getParameters().size() > 0) {
 			result.append(" - specify ");
-			result.append(ReflectionUIUtils
-					.formatParameterList(method.getParameters()));
+			result.append(ReflectionUIUtils.formatParameterList(method.getParameters()));
 		}
 		return result.toString();
 	}
@@ -107,8 +103,6 @@ public class DefaultMethodInfo implements IMethodInfo {
 	public String getName() {
 		return javaMethod.getName();
 	}
-
-	
 
 	@Override
 	public boolean isReadOnly() {
@@ -122,15 +116,14 @@ public class DefaultMethodInfo implements IMethodInfo {
 
 	@Override
 	public ValueReturnMode getValueReturnMode() {
-		if (!getReturnValueType().isPassedByReference()) {
+		if ((getReturnValueType() != null) && !getReturnValueType().isPassedByReference()) {
 			return ValueReturnMode.COPY;
 		} else {
 			return ValueReturnMode.INDETERMINATE;
 		}
 	}
 
-	public static boolean isCompatibleWith(Method javaMethod,
-			Class<?> containingJavaClass) {
+	public static boolean isCompatibleWith(Method javaMethod, Class<?> containingJavaClass) {
 		if (javaMethod.isSynthetic()) {
 			return false;
 		}
@@ -147,10 +140,8 @@ public class DefaultMethodInfo implements IMethodInfo {
 		}
 		for (Method otherJavaMethod : containingJavaClass.getMethods()) {
 			if (!otherJavaMethod.equals(javaMethod)) {
-				if (GetterFieldInfo.isCompatibleWith(otherJavaMethod,
-						containingJavaClass)) {
-					if (javaMethod.equals(GetterFieldInfo.getValidSetterMethod(
-							otherJavaMethod, containingJavaClass))) {
+				if (GetterFieldInfo.isCompatibleWith(otherJavaMethod, containingJavaClass)) {
+					if (javaMethod.equals(GetterFieldInfo.getValidSetterMethod(otherJavaMethod, containingJavaClass))) {
 						return false;
 					}
 				}
@@ -173,14 +164,12 @@ public class DefaultMethodInfo implements IMethodInfo {
 	}
 
 	@Override
-	public Runnable getUndoJob(Object object,
-			InvocationData invocationData) {
+	public Runnable getUndoJob(Object object, InvocationData invocationData) {
 		return null;
 	}
 
 	@Override
-	public void validateParameters(Object object, InvocationData invocationData)
-			throws Exception {
+	public void validateParameters(Object object, InvocationData invocationData) throws Exception {
 	}
 
 	@Override
@@ -217,7 +206,5 @@ public class DefaultMethodInfo implements IMethodInfo {
 	public String toString() {
 		return "DefaultMethodInfo [javaMethod=" + javaMethod + "]";
 	}
-	
-	
 
 }

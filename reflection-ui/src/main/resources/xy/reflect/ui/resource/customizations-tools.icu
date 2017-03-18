@@ -2249,17 +2249,17 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <customFieldsOrder>nullValueLabel</customFieldsOrder>
         <customFieldsOrder>fieldName</customFieldsOrder>
         <customFieldsOrder>customFieldCaption</customFieldsOrder>
         <customFieldsOrder>hidden</customFieldsOrder>
         <customFieldsOrder>getOnlyForced</customFieldsOrder>
         <customFieldsOrder>nullableFacetHidden</customFieldsOrder>
+        <customFieldsOrder>valueOptionsFieldName</customFieldsOrder>
+        <customFieldsOrder>customValueReturnMode</customFieldsOrder>
         <customFieldsOrder>expandSubForm</customFieldsOrder>
         <customFieldsOrder>category</customFieldsOrder>
-        <customFieldsOrder>valueOptionsFieldName</customFieldsOrder>
         <customFieldsOrder>onlineHelp</customFieldsOrder>
-        <customFieldsOrder>customValueReturnMode</customFieldsOrder>
-        <customFieldsOrder>nullValueLabel</customFieldsOrder>
         <customFieldsOrder>displayedAsMethods</customFieldsOrder>
         <customFieldsOrder>displayedAsSingletonList</customFieldsOrder>
         <fieldsCustomizations>

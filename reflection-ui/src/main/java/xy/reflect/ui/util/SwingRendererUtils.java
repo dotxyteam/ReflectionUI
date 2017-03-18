@@ -286,7 +286,7 @@ public class SwingRendererUtils {
 	}
 
 	public static boolean hasOrContainsFocus(Component c) {
-		if (c.hasFocus()) {
+		if (c.isFocusOwner()) {
 			return true;
 		}
 		if (c instanceof Container) {

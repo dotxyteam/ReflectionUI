@@ -76,8 +76,8 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	@Override
-	public void requestFocus() {
-		button.requestFocus();
+	public boolean requestFocusInWindow() {
+		return button.requestFocusInWindow();
 	}
 
 	protected Component createIconControl() {
@@ -194,7 +194,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 			}
 
 			@Override
-			public Object getInitialSubObjectValue() {
+			public Object retrieveSubObjectValueFromParent() {
 				return data.getValue();
 			}
 

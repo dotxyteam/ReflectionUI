@@ -39,8 +39,8 @@ public class ColorControl extends DialogAccessControl{
 
 	
 	@Override
-	public void requestFocus() {
-		statusControl.requestFocus();
+	public boolean requestFocusInWindow() {
+		return statusControl.requestFocusInWindow();
 	}
 
 	@Override

@@ -312,7 +312,7 @@ public class SwingRenderer {
 	}
 
 	public JPanel createForm(final Object object, IInfoFilter infoFilter) {
-		final String formTitle = "Form of " + ReflectionUIUtils.toString(reflectionUI, object);
+		final String formTitle = "Form (" + ReflectionUIUtils.toString(reflectionUI, object) + ")";
 		final ModificationStack modifStack = new ModificationStack(formTitle);
 		JPanel result = new JPanel() {
 
@@ -586,16 +586,41 @@ public class SwingRenderer {
 		return contentPane;
 	}
 
-	public void recreateFormContent(JPanel form) {
-		Object formFocusDetails = getFormFocusDetails(form);
+	public void recreateFormContent(final JPanel form) {
+		preservingFormFocusAsMuchAsPossible(form, new Runnable() {
+			@Override
+			public void run() {
+				form.removeAll();
+				fillForm(form);
+				SwingRendererUtils.handleComponentSizeChange(form);
 
-		form.removeAll();
-		fillForm(form);
+			}
+		});
+	}
 
-		SwingRendererUtils.handleComponentSizeChange(form);
-
-		if (formFocusDetails != null) {
-			setFormFocusDetails(form, formFocusDetails);
+	public void preservingFormFocusAsMuchAsPossible(final JPanel form, Runnable runnable) {
+		final boolean formContainsFocus = SwingRendererUtils.hasOrContainsFocus(form);
+		final Object formFocusDetails;
+		if (formContainsFocus) {
+			formFocusDetails = getFormFocusDetails(form);
+		}else{
+			formFocusDetails = null;
+		}
+		try {
+			runnable.run();
+		} finally {
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					if (formContainsFocus) {
+						if (formFocusDetails != null) {
+							requestFormDetailedFocus(form, formFocusDetails);
+						} else {
+							form.requestFocusInWindow();
+						}
+					}
+				}
+			});
 		}
 	}
 
@@ -1190,37 +1215,33 @@ public class SwingRenderer {
 		return result;
 	}
 
-	public void refreshFieldControlsByName(JPanel form, String fieldName, boolean recreate) {
-		Object formFocusDetails = getFormFocusDetails(form);
-
-		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
-			if (fieldName.equals(fieldControlPlaceHolder.getModificationsTarget().getName())) {
-				fieldControlPlaceHolder.refreshUI(recreate);
-				updateFieldControlLayout(fieldControlPlaceHolder);
+	public void refreshFieldControlsByName(final JPanel form, final String fieldName, final boolean recreate) {
+		preservingFormFocusAsMuchAsPossible(form, new Runnable() {
+			@Override
+			public void run() {
+				for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
+					if (fieldName.equals(fieldControlPlaceHolder.getModificationsTarget().getName())) {
+						fieldControlPlaceHolder.refreshUI(recreate);
+						updateFieldControlLayout(fieldControlPlaceHolder);
+					}
+				}
+				SwingRendererUtils.handleComponentSizeChange(form);
 			}
-		}
+		});
 
-		SwingRendererUtils.handleComponentSizeChange(form);
-
-		if (formFocusDetails != null) {
-			setFormFocusDetails(form, formFocusDetails);
-		}
 	}
 
-	public void refreshAllFieldControls(JPanel form, boolean recreate) {
-		Object formFocusDetails = getFormFocusDetails(form);
-
-		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
-			fieldControlPlaceHolder.refreshUI(recreate);
-			updateFieldControlLayout(fieldControlPlaceHolder);
-		}
-
-		SwingRendererUtils.handleComponentSizeChange(form);
-
-		if (formFocusDetails != null) {
-			setFormFocusDetails(form, formFocusDetails);
-		}
-
+	public void refreshAllFieldControls(final JPanel form, final boolean recreate) {
+		preservingFormFocusAsMuchAsPossible(form, new Runnable() {
+			@Override
+			public void run() {
+				for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
+					fieldControlPlaceHolder.refreshUI(recreate);
+					updateFieldControlLayout(fieldControlPlaceHolder);
+				}
+				SwingRendererUtils.handleComponentSizeChange(form);
+			}
+		});
 	}
 
 	public Object getFormFocusDetails(JPanel form) {
@@ -1248,7 +1269,7 @@ public class SwingRenderer {
 		return result;
 	}
 
-	public void setFormFocusDetails(JPanel form, Object focusDetails) {
+	public void requestFormDetailedFocus(JPanel form, Object focusDetails) {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> map = (Map<String, Object>) focusDetails;
 		InfoCategory focusedCategory = (InfoCategory) map.get("focusedCategory");
@@ -1262,14 +1283,19 @@ public class SwingRenderer {
 		if (focusedFieldIndex != -1) {
 			FieldControlPlaceHolder fieldControlPaceHolderToFocusOn = getFieldControlPlaceHolders(form)
 					.get(focusedFieldIndex);
-			fieldControlPaceHolderToFocusOn.requestFocus();
+			Component focusedFieldControl = fieldControlPaceHolderToFocusOn.getFieldControl();
 			if (focusedFieldFocusDetails != null) {
-				Component focusedFieldControl = fieldControlPaceHolderToFocusOn.getFieldControl();
 				if (focusedFieldControl.getClass().equals(focusedFieldControlClass)) {
 					if (focusedFieldControl instanceof IAdvancedFieldControl) {
 						((IAdvancedFieldControl) focusedFieldControl).requestDetailedFocus(focusedFieldFocusDetails);
+					} else {
+						focusedFieldControl.requestFocusInWindow();
 					}
+				} else {
+					focusedFieldControl.requestFocusInWindow();
 				}
+			} else {
+				focusedFieldControl.requestFocusInWindow();
 			}
 		}
 	}
@@ -1680,7 +1706,7 @@ public class SwingRenderer {
 					fieldControl = null;
 					refreshUI(false);
 					if (hadFocus) {
-						fieldControl.requestFocus();
+						fieldControl.requestFocusInWindow();
 					}
 				}
 			}
@@ -1727,10 +1753,11 @@ public class SwingRenderer {
 		}
 
 		@Override
-		public void requestFocus() {
+		public boolean requestFocusInWindow() {
 			if (fieldControl != null) {
-				fieldControl.requestFocus();
+				return fieldControl.requestFocusInWindow();
 			}
+			return false;
 		}
 
 	}
@@ -1831,16 +1858,17 @@ public class SwingRenderer {
 				methodControl = null;
 				refreshUI(false);
 				if (hadFocus) {
-					methodControl.requestFocus();
+					methodControl.requestFocusInWindow();
 				}
 			}
 		}
 
 		@Override
-		public void requestFocus() {
+		public boolean requestFocusInWindow() {
 			if (methodControl != null) {
-				methodControl.requestFocus();
+				return methodControl.requestFocusInWindow();
 			}
+			return false;
 		}
 
 	}

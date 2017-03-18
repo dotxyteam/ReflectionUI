@@ -44,7 +44,7 @@ public abstract class AbstractSubObjectUIBuilber {
 
 	public abstract boolean isSubObjectNullable();
 
-	public abstract Object getInitialSubObjectValue();
+	public abstract Object retrieveSubObjectValueFromParent();
 
 	public abstract IInfoFilter getSubObjectFormFilter();
 
@@ -61,11 +61,11 @@ public abstract class AbstractSubObjectUIBuilber {
 		@Override
 		public Object get() {
 			if (firstAccess) {
-				subObject = initialSubObject = getInitialSubObjectValue();
+				subObject = initialSubObject = retrieveSubObjectValueFromParent();
 				firstAccess = false;
 			} else {
 				if (!canPotentiallyModifyParentObject()) {
-					subObject = getInitialSubObjectValue();
+					subObject = retrieveSubObjectValueFromParent();
 				}
 			}
 			return subObject;

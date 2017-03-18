@@ -11,6 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import xy.reflect.ui.control.input.ControlDataProxy;
 import xy.reflect.ui.control.input.IControlData;
 import xy.reflect.ui.control.input.IControlInput;
 import xy.reflect.ui.info.DesktopSpecificProperty;
@@ -23,10 +24,10 @@ import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
+@SuppressWarnings("unused")
 public class PolymorphicControl extends JPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
@@ -35,12 +36,11 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 
 	protected List<ITypeInfo> subTypes;
 	protected Map<ITypeInfo, Object> instanceByEnumerationValueCache = new HashMap<ITypeInfo, Object>();
-	protected Component dynamicControl;
-	protected Component typeEnumerationControl;
+	protected JPanel dynamicControl;
+	protected JPanel typeEnumerationControl;
 	protected ITypeInfo polymorphicType;
 
 	protected ITypeInfo lastInstanceType;
-	protected boolean updatingEnumeration = false;
 	protected IControlInput input;
 
 	public PolymorphicControl(final SwingRenderer swingRenderer, IControlInput input) {
@@ -55,7 +55,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		refreshUI();
 	}
 
-	protected Component createTypeEnumerationControl() {
+	protected JPanel createTypeEnumerationControl() {
 		List<ITypeInfo> possibleTypes = new ArrayList<ITypeInfo>(subTypes);
 		{
 			if (polymorphicType.isConcrete()) {
@@ -75,19 +75,21 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		}
 		final ArrayAsEnumerationFactory enumFactory = ReflectionUIUtils
 				.getPolymorphicTypesEnumerationfactory(swingRenderer.getReflectionUI(), polymorphicType, possibleTypes);
-		ITypeInfo enumType = swingRenderer.getReflectionUI().getTypeInfo(enumFactory.getInstanceTypeInfoSource());
-		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
-				enumType);
-		encapsulation
-				.setTypeCaption(ReflectionUIUtils.composeMessage(polymorphicType.getCaption(), "Polymorphic Type"));
-		encapsulation.setFieldNullable(data.isNullable());
-		encapsulation.setFieldGetOnly(data.isGetOnly());
-		encapsulation.setFieldCaption("");
-		encapsulation.setFieldNullValueLabel(data.getNullValueLabel());
-		Object encapsulated = encapsulation.getInstance(new Accessor<Object>() {
+		final ITypeInfo enumType = swingRenderer.getReflectionUI().getTypeInfo(enumFactory.getInstanceTypeInfoSource());
+		return new AbstractSubObjectUIBuilber() {
 
 			@Override
-			public Object get() {
+			public boolean isSubObjectFormExpanded() {
+				return true;
+			}
+
+			@Override
+			public boolean isSubObjectNullable() {
+				return data.isNullable();
+			}
+
+			@Override
+			public Object retrieveSubObjectValueFromParent() {
 				Object instance = data.getValue();
 				if (instance == null) {
 					return null;
@@ -100,29 +102,38 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			}
 
 			@Override
-			public void set(Object value) {
+			public ITypeInfo getSubObjectDeclaredType() {
+				return enumType;
+			}
+
+			@Override
+			public ValueReturnMode getSubObjectValueReturnMode() {
+				return ValueReturnMode.COPY;
+			}
+
+			@Override
+			public boolean canCommitUpdatedSubObject() {
+				return !data.isGetOnly();
+			}
+
+			@Override
+			public IModification getUpdatedSubObjectCommitModification(final Object value) {
 				try {
+					Object instance;
 					if (value == null) {
-						setDataValue(null);
+						instance = null;
 					} else {
-						value = enumFactory.unwrapInstance(value);
-						ITypeInfo selectedPolyType = null;
-						for (ITypeInfo subType : subTypes) {
-							if (value.equals(subType)) {
-								selectedPolyType = subType;
-								break;
-							}
-						}
-						Object instance = instanceByEnumerationValueCache.get(selectedPolyType);
+						ITypeInfo selectedPolyType = (ITypeInfo) enumFactory.unwrapInstance(value);
+						instance = instanceByEnumerationValueCache.get(selectedPolyType);
 						if (instance == null) {
 							instance = swingRenderer.onTypeInstanciationRequest(PolymorphicControl.this,
 									selectedPolyType, false);
 							if (instance == null) {
-								return;
+								return IModification.NULL_MODIFICATION;
 							}
 						}
-						setDataValue(instance);
 					}
+					return new ControlDataValueModification(data, instance, input.getModificationsTarget());
 				} finally {
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override
@@ -134,23 +145,49 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 				}
 			}
 
-			private void setDataValue(Object value) {
-				updatingEnumeration = true;
-				data.setValue(value);
-				updatingEnumeration = false;
+			@Override
+			public SwingRenderer getSwingRenderer() {
+				return swingRenderer;
 			}
 
-		});
-		JPanel result = swingRenderer.createForm(encapsulated);
-		swingRenderer.getBusyIndicationDisabledByForm().put(result, true);
-		return result;
+			@Override
+			public String getSubObjectTitle() {
+				return ReflectionUIUtils.composeMessage(polymorphicType.getCaption(), "Polymorphic Type");
+			}
+
+			@Override
+			public String getSubObjectModificationTitle() {
+				return ControlDataValueModification.getTitle(input.getModificationsTarget());
+			}
+
+			@Override
+			public IInfo getSubObjectModificationTarget() {
+				return input.getModificationsTarget();
+			}
+
+			@Override
+			public IInfoFilter getSubObjectFormFilter() {
+				return IInfoFilter.NO_FILTER;
+			}
+
+			@Override
+			public ModificationStack getParentObjectModificationStack() {
+				return input.getModificationStack();
+			}
+
+			@Override
+			public Component getSubObjectOwnerComponent() {
+				return PolymorphicControl.this;
+			}
+
+		}.createSubObjectForm();
 	}
 
 	protected String getEnumerationValueCaption(ITypeInfo actualFieldValueType) {
 		return actualFieldValueType.getCaption();
 	}
 
-	protected Component createDynamicControl(final ITypeInfo instanceType) {
+	protected JPanel createDynamicControl(final ITypeInfo instanceType) {
 		return new AbstractSubObjectUIBuilber() {
 
 			@Override
@@ -224,7 +261,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			}
 
 			@Override
-			public Object getInitialSubObjectValue() {
+			public Object retrieveSubObjectValueFromParent() {
 				return data.getValue();
 			}
 
@@ -279,10 +316,11 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 
 	protected void refreshTypeEnumerationControl() {
 		if (typeEnumerationControl != null) {
-			remove(typeEnumerationControl);
+			swingRenderer.refreshAllFieldControls(typeEnumerationControl, false);
+		} else {
+			add(typeEnumerationControl = createTypeEnumerationControl(), BorderLayout.NORTH);
+			SwingRendererUtils.handleComponentSizeChange(this);
 		}
-		add(typeEnumerationControl = createTypeEnumerationControl(), BorderLayout.NORTH);
-		SwingRendererUtils.handleComponentSizeChange(this);
 	}
 
 	@Override
@@ -306,36 +344,28 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 
 	@Override
 	public boolean handlesModificationStackUpdate() {
-		if (updatingEnumeration) {
-			return false;
-		} else if (dynamicControl == null) {
-			return false;
-		} else {
-			return true;
-		}
+		return true;
 	}
 
 	@Override
 	public Object getFocusDetails() {
 		boolean typeEnumerationControlFocused = SwingRendererUtils.hasOrContainsFocus(typeEnumerationControl);
+		Object typeEnumerationControlFocusDetails = null;
+		if (typeEnumerationControlFocused) {
+			typeEnumerationControlFocusDetails = swingRenderer.getFormFocusDetails(typeEnumerationControl);
+		}
 		boolean dynamicControlFocused = false;
-		Class<?> dynamicControlClass = null;
 		Object dynamicControlFocusDetails = null;
-		{
-			if (dynamicControl != null) {
-				dynamicControlFocused = SwingRendererUtils.hasOrContainsFocus(dynamicControl);
-				if (dynamicControlFocused) {
-					if (dynamicControl instanceof IAdvancedFieldControl) {
-						dynamicControlFocusDetails = ((IAdvancedFieldControl) dynamicControl).getFocusDetails();
-						dynamicControlClass = dynamicControl.getClass();
-					}
-				}
+		if (dynamicControl != null) {
+			dynamicControlFocused = SwingRendererUtils.hasOrContainsFocus(dynamicControl);
+			if (dynamicControlFocused) {
+				dynamicControlFocusDetails = swingRenderer.getFormFocusDetails(dynamicControl);
 			}
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("typeEnumerationControlFocused", typeEnumerationControlFocused);
+		result.put("typeEnumerationControlFocusDetails", typeEnumerationControlFocusDetails);
 		result.put("dynamicControlFocused", dynamicControlFocused);
-		result.put("dynamicControlClass", dynamicControlClass);
 		result.put("dynamicControlFocusDetails", dynamicControlFocusDetails);
 		return result;
 	}
@@ -345,19 +375,24 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		@SuppressWarnings("unchecked")
 		Map<String, Object> focusDetails = (Map<String, Object>) value;
 		boolean typeEnumerationControlFocused = (Boolean) focusDetails.get("typeEnumerationControlFocused");
+		Object typeEnumerationControlFocusDetails = focusDetails.get("typeEnumerationControlFocusDetails");
 		boolean dynamicControlFocused = (Boolean) focusDetails.get("dynamicControlFocused");
-		Class<?> dynamicControlClass = (Class<?>) focusDetails.get("dynamicControlClass");
 		Object dynamicControlFocusDetails = focusDetails.get("dynamicControlFocusDetails");
 		if (typeEnumerationControlFocused) {
-			typeEnumerationControl.requestFocus();
+			typeEnumerationControl.requestFocusInWindow();
+			if (typeEnumerationControlFocusDetails != null) {
+				swingRenderer.requestFormDetailedFocus(typeEnumerationControl, typeEnumerationControlFocusDetails);
+			} else {
+				typeEnumerationControl.requestFocusInWindow();
+			}
 		}
 		if (dynamicControlFocused) {
 			if (dynamicControl != null) {
-				dynamicControl.requestFocus();
-				if (dynamicControl instanceof IAdvancedFieldControl) {
-					if (dynamicControl.getClass().equals(dynamicControlClass)) {
-						((IAdvancedFieldControl) dynamicControl).requestDetailedFocus(dynamicControlFocusDetails);
-					}
+				dynamicControl.requestFocusInWindow();
+				if (dynamicControlFocusDetails != null) {
+					swingRenderer.requestFormDetailedFocus(dynamicControl, dynamicControlFocusDetails);
+				} else {
+					dynamicControl.requestFocusInWindow();
 				}
 			}
 		}
