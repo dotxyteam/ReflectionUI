@@ -36,7 +36,7 @@ public abstract class AbstractSubObjectUIBuilber {
 
 	public abstract boolean canCommitUpdatedSubObject();
 
-	public abstract IModification getUpdatedSubObjectCommitModification(Object newObjectValue);
+	public abstract IModification createUpdatedSubObjectCommitModification(Object newObjectValue);
 
 	public abstract ITypeInfo getSubObjectDeclaredType();
 
@@ -101,7 +101,7 @@ public abstract class AbstractSubObjectUIBuilber {
 		result.setTypeCaption(getSubObjectTitle());
 		result.setTypeModificationStackAccessible(canPotentiallyModifyParentObject());
 		result.setFieldCaption("");
-		result.setFieldGetOnly(!canPotentiallyModifyParentObject());
+		result.setFieldGetOnly(!canCommitUpdatedSubObject());
 		result.setFieldNullable(isSubObjectNullable());
 		result.setFieldValueReturnMode(
 				canPotentiallyModifyParentObject() ? ValueReturnMode.SELF_OR_PROXY : ValueReturnMode.COPY);
@@ -157,7 +157,7 @@ public abstract class AbstractSubObjectUIBuilber {
 		if (!canCommitUpdatedSubObject()) {
 			commitModif = null;
 		} else {
-			commitModif = getUpdatedSubObjectCommitModification(encapsulatedSubObjectAccessor.get());
+			commitModif = createUpdatedSubObjectCommitModification(encapsulatedSubObjectAccessor.get());
 		}
 		boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.wasOkPressed();
 		boolean childValueNew = isSubObjectNew();
@@ -202,7 +202,7 @@ public abstract class AbstractSubObjectUIBuilber {
 			Accessor<IModification> commitModifGetter = new Accessor<IModification>() {
 				@Override
 				public IModification get() {
-					return getUpdatedSubObjectCommitModification(encapsulatedSubObjectAccessor.get());
+					return createUpdatedSubObjectCommitModification(encapsulatedSubObjectAccessor.get());
 				}
 			};
 			Accessor<IInfo> childModifTargetGetter = new Accessor<IInfo>() {

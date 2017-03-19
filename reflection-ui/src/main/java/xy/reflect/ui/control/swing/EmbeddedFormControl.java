@@ -9,8 +9,8 @@ import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import xy.reflect.ui.control.input.IControlData;
-import xy.reflect.ui.control.input.IControlInput;
+import xy.reflect.ui.control.input.IFieldControlData;
+import xy.reflect.ui.control.input.IFieldControlInput;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
@@ -23,6 +23,7 @@ import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.util.Accessor;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
@@ -31,16 +32,16 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
-	protected IControlData data;
+	protected IFieldControlData data;
 
 	protected Component textControl;
 	protected Component iconControl;
 	protected JButton button;
 	protected Object subFormObject;
 	protected JPanel subForm;
-	protected IControlInput input;
+	protected IFieldControlInput input;
 
-	public EmbeddedFormControl(final SwingRenderer swingRenderer, IControlInput input) {
+	public EmbeddedFormControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
 		this.input = input;
 		this.data = retrieveData();
@@ -48,7 +49,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 		refreshUI();
 	}
 
-	protected IControlData retrieveData() {
+	protected IFieldControlData retrieveData() {
 		return input.getControlData();
 	}
 
@@ -71,18 +72,16 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 		Object subFormFocusDetails = focusDetails.get("subFormFocusDetails");
 		if (subFormFocusDetails != null) {
 			swingRenderer.requestFormDetailedFocus(subForm, subFormFocusDetails);
-		}else{
+		} else {
 			subForm.requestFocusInWindow();
 		}
 	}
 
 	@Override
 	public boolean requestFocusInWindow() {
-		if (subForm != null) {
-			List<FieldControlPlaceHolder> fieldControlPlaceHolders = swingRenderer.getFieldControlPlaceHolders(subForm);
-			if (fieldControlPlaceHolders.size() > 0) {
-				return fieldControlPlaceHolders.get(0).requestFocusInWindow();
-			}
+		List<FieldControlPlaceHolder> fieldControlPlaceHolders = swingRenderer.getFieldControlPlaceHolders(subForm);
+		if (fieldControlPlaceHolders.size() > 0) {
+			return fieldControlPlaceHolders.get(0).getFieldControl().requestFocusInWindow();
 		}
 		return false;
 	}
@@ -148,6 +147,9 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	public boolean refreshUI() {
 		if (subForm == null) {
 			subFormObject = data.getValue();
+			if (subFormObject == null) {
+				throw new ReflectionUIError();
+			}
 			IInfoFilter filter = DesktopSpecificProperty
 					.getFilter(DesktopSpecificProperty.accessControlDataProperties(data));
 			{
@@ -161,7 +163,15 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 			SwingRendererUtils.handleComponentSizeChange(this);
 		} else {
 			Object newSubFormObject = data.getValue();
-			if (newSubFormObject == subFormObject) {
+			if (newSubFormObject == null) {
+				throw new ReflectionUIError();
+			}
+			Object subFormObjectType = swingRenderer.getReflectionUI()
+					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(subFormObject));
+			Object newSubFormObjectType = swingRenderer.getReflectionUI()
+					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newSubFormObject));
+			if (subFormObjectType.equals(newSubFormObjectType)) {
+				swingRenderer.getObjectByForm().put(subForm, newSubFormObject);
 				swingRenderer.refreshAllFieldControls(subForm, false);
 			} else {
 				remove(subForm);

@@ -3,9 +3,9 @@ package xy.reflect.ui.control.swing;
 import java.lang.reflect.InvocationTargetException;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.input.ControlDataProxy;
-import xy.reflect.ui.control.input.IControlData;
-import xy.reflect.ui.control.input.IControlInput;
+import xy.reflect.ui.control.input.FieldControlDataProxy;
+import xy.reflect.ui.control.input.IFieldControlData;
+import xy.reflect.ui.control.input.IFieldControlInput;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ClassUtils;
@@ -17,19 +17,19 @@ public abstract class PrimitiveValueControl extends TextControl {
 
 	protected abstract Class<?> getPrimitiveJavaType();
 
-	public PrimitiveValueControl(SwingRenderer swingRenderer, IControlInput input) {
+	public PrimitiveValueControl(SwingRenderer swingRenderer, IFieldControlInput input) {
 		super(swingRenderer, input);
 	}
 
 	@Override
-	protected IControlData retrieveData() {
+	protected IFieldControlData retrieveData() {
 		return handleValueConversions(swingRenderer.getReflectionUI(), super.retrieveData(),
 				getPrimitiveJavaType());
 	}
 
-	protected static IControlData handleValueConversions(final ReflectionUI reflectionUI, IControlData data,
+	protected static IFieldControlData handleValueConversions(final ReflectionUI reflectionUI, IFieldControlData data,
 			final Class<?> primitiveJavaType) {
-		return new ControlDataProxy(data) {
+		return new FieldControlDataProxy(data) {
 
 			@Override
 			public Object getValue() {

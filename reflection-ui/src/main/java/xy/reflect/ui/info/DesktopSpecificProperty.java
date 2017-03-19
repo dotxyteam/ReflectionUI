@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import xy.reflect.ui.control.input.IControlData;
+import xy.reflect.ui.control.input.IFieldControlData;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.util.InfoCustomizations.AbstractInfoCustomization;
 
@@ -57,7 +57,7 @@ public class DesktopSpecificProperty {
 		};
 	}
 
-	public static Map<String, Object> accessControlDataProperties(final IControlData data) {
+	public static Map<String, Object> accessControlDataProperties(final IFieldControlData data) {
 		return new AbstractMap<String, Object>() {
 			@Override
 			public Set<java.util.Map.Entry<String, Object>> entrySet() {

@@ -6,9 +6,9 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
-public interface IControlData {
+public interface IFieldControlData {
 
-	IControlData NULL_CONTROL_DATA = new FieldControlData(null, IFieldInfo.NULL_FIELD_INFO){
+	IFieldControlData NULL_CONTROL_DATA = new DefaultFieldControlData(null, IFieldInfo.NULL_FIELD_INFO){
 
 		@Override
 		public String toString() {
@@ -23,7 +23,7 @@ public interface IControlData {
 
 	String getCaption();
 	
-	Runnable getCustomUndoUpadteJob(Object value);
+	Runnable getCustomUndoUpdateJob(Object value);
 
 	ITypeInfo getType();
 

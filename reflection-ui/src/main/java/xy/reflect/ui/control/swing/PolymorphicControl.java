@@ -11,9 +11,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import xy.reflect.ui.control.input.ControlDataProxy;
-import xy.reflect.ui.control.input.IControlData;
-import xy.reflect.ui.control.input.IControlInput;
+import xy.reflect.ui.control.input.FieldControlDataProxy;
+import xy.reflect.ui.control.input.IFieldControlData;
+import xy.reflect.ui.control.input.IFieldControlInput;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -32,7 +32,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
-	protected IControlData data;
+	protected IFieldControlData data;
 
 	protected List<ITypeInfo> subTypes;
 	protected Map<ITypeInfo, Object> instanceByEnumerationValueCache = new HashMap<ITypeInfo, Object>();
@@ -41,9 +41,9 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 	protected ITypeInfo polymorphicType;
 
 	protected ITypeInfo lastInstanceType;
-	protected IControlInput input;
+	protected IFieldControlInput input;
 
-	public PolymorphicControl(final SwingRenderer swingRenderer, IControlInput input) {
+	public PolymorphicControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
 		this.input = input;
 		this.data = input.getControlData();
@@ -117,7 +117,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			}
 
 			@Override
-			public IModification getUpdatedSubObjectCommitModification(final Object value) {
+			public IModification createUpdatedSubObjectCommitModification(final Object value) {
 				try {
 					Object instance;
 					if (value == null) {
@@ -206,7 +206,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			}
 
 			@Override
-			public IModification getUpdatedSubObjectCommitModification(Object newObjectValue) {
+			public IModification createUpdatedSubObjectCommitModification(Object newObjectValue) {
 				return new ControlDataValueModification(data, newObjectValue, input.getModificationsTarget());
 			}
 
@@ -299,11 +299,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			SwingRendererUtils.handleComponentSizeChange(this);
 		} else {
 			if (lastInstanceType.equals(instanceType)) {
-				if (dynamicControl instanceof IAdvancedFieldControl) {
-					if (((IAdvancedFieldControl) dynamicControl).refreshUI()) {
-						return;
-					}
-				}
+				swingRenderer.refreshAllFieldControls(dynamicControl, false);
 			}
 			remove(dynamicControl);
 			dynamicControl = null;

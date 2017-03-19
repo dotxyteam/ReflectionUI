@@ -7,17 +7,17 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 
-import xy.reflect.ui.control.input.IControlData;
-import xy.reflect.ui.control.input.IControlInput;
+import xy.reflect.ui.control.input.IFieldControlData;
+import xy.reflect.ui.control.input.IFieldControlInput;
 
 public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
-	protected IControlData data;
+	protected IFieldControlData data;
 	
 
-	public CheckBoxControl(final SwingRenderer swingRenderer, IControlInput input) {
+	public CheckBoxControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
 		this.data = input.getControlData();
 		

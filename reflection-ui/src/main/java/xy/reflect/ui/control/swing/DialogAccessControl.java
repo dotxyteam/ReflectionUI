@@ -14,9 +14,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import xy.reflect.ui.control.input.ControlDataProxy;
-import xy.reflect.ui.control.input.IControlData;
-import xy.reflect.ui.control.input.IControlInput;
+import xy.reflect.ui.control.input.FieldControlDataProxy;
+import xy.reflect.ui.control.input.IFieldControlData;
+import xy.reflect.ui.control.input.IFieldControlInput;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -37,14 +37,14 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
-	protected IControlData data;
+	protected IFieldControlData data;
 
 	protected Component statusControl;
 	protected Component iconControl;
 	protected Component button;
-	protected IControlInput input;
+	protected IFieldControlInput input;
 
-	public DialogAccessControl(final SwingRenderer swingRenderer, IControlInput input) {
+	public DialogAccessControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
 		this.input = input;
 		this.data = input.getControlData();
@@ -131,14 +131,14 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 		return result;
 	}
 
-	protected Component createStatusControl(IControlInput input) {
+	protected Component createStatusControl(IFieldControlInput input) {
 		return new TextControl(swingRenderer, input) {
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected IControlData retrieveData() {
-				return new ControlDataProxy(IControlData.NULL_CONTROL_DATA) {
+			protected IFieldControlData retrieveData() {
+				return new FieldControlDataProxy(IFieldControlData.NULL_CONTROL_DATA) {
 
 					@Override
 					public Object getValue() {
@@ -229,7 +229,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 			}
 
 			@Override
-			public IModification getUpdatedSubObjectCommitModification(Object newObjectValue) {
+			public IModification createUpdatedSubObjectCommitModification(Object newObjectValue) {
 				return new ControlDataValueModification(data, newObjectValue, getSubObjectModificationTarget());
 			}
 

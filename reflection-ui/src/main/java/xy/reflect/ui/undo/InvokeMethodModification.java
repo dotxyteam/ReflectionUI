@@ -1,22 +1,21 @@
 package xy.reflect.ui.undo;
 
-import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.control.input.IMethodControlData;
+import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.method.InvocationData;
 
 public class InvokeMethodModification extends AbstractModification {
 
-	protected Object object;
-	protected IMethodInfo method;
+	protected IMethodControlData data;
 	protected InvocationData invocationData;
 
-	public static String getTitle(IMethodInfo method) {
-		return method.getCaption();
+	public static String getTitle(IMethodControlData data) {
+		return data.getCaption();
 	}
 
-	public InvokeMethodModification(Object object, IMethodInfo method, InvocationData invocationData) {
-		super(method);
-		this.object = object;
-		this.method = method;
+	public InvokeMethodModification(IMethodControlData data, InvocationData invocationData, IInfo target) {
+		super(target);
+		this.data = data;
 		this.invocationData = invocationData;
 	}
 
@@ -25,28 +24,27 @@ public class InvokeMethodModification extends AbstractModification {
 		return new Runnable() {
 			@Override
 			public void run() {
-				method.invoke(object, invocationData);
+				data.invoke(invocationData);
 			}
 		};
 	}
 
 	@Override
 	protected Runnable createUndoJob() {
-		return method.getUndoJob(object, invocationData);
+		return data.getUndoJob(invocationData);
 	}
 
 	@Override
 	public String getTitle() {
-		return "Execute '" + method.getCaption() + "'";
+		return "Execute '" + data.getCaption() + "'";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((data == null) ? 0 : data.hashCode());
 		result = prime * result + ((invocationData == null) ? 0 : invocationData.hashCode());
-		result = prime * result + ((method == null) ? 0 : method.hashCode());
-		result = prime * result + ((object == null) ? 0 : object.hashCode());
 		return result;
 	}
 
@@ -59,22 +57,24 @@ public class InvokeMethodModification extends AbstractModification {
 		if (getClass() != obj.getClass())
 			return false;
 		InvokeMethodModification other = (InvokeMethodModification) obj;
+		if (data == null) {
+			if (other.data != null)
+				return false;
+		} else if (!data.equals(other.data))
+			return false;
 		if (invocationData == null) {
 			if (other.invocationData != null)
 				return false;
 		} else if (!invocationData.equals(other.invocationData))
 			return false;
-		if (method == null) {
-			if (other.method != null)
-				return false;
-		} else if (!method.equals(other.method))
-			return false;
-		if (object == null) {
-			if (other.object != null)
-				return false;
-		} else if (!object.equals(other.object))
-			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "InvokeMethodModification [data=" + data + ", invocationData=" + invocationData + "]";
+	}
+
+	
 
 }

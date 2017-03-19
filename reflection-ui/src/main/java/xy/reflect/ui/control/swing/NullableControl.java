@@ -12,8 +12,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
-import xy.reflect.ui.control.input.IControlData;
-import xy.reflect.ui.control.input.IControlInput;
+import xy.reflect.ui.control.input.IFieldControlData;
+import xy.reflect.ui.control.input.IFieldControlInput;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -29,13 +29,13 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 
 	protected SwingRenderer swingRenderer;
 	protected static final long serialVersionUID = 1L;
-	protected IControlData data;
+	protected IFieldControlData data;
 	protected JCheckBox nullStatusControl;
 	protected Component subControl;
-	protected IControlInput input;
+	protected IFieldControlInput input;
 	protected ITypeInfo subControlValueType;
 
-	public NullableControl(SwingRenderer swingRenderer, IControlInput input) {
+	public NullableControl(SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
 		this.input = input;
 		this.data = input.getControlData();
@@ -77,11 +77,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	public boolean refreshUI() {
 		Object value = data.getValue();
 		setNullStatusControlState(value == null);
-		boolean hadFocus = (subControl != null) && SwingRendererUtils.hasOrContainsFocus(subControl);
 		updateSubControl(value);
-		if (hadFocus && (subControl != null)) {
-			subControl.requestFocusInWindow();
-		}
 		return true;
 	}
 
@@ -101,38 +97,40 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	public void updateSubControl(Object newValue) {
-		boolean updated = false;
-		if (subControl instanceof IAdvancedFieldControl) {
-			IAdvancedFieldControl fieldControl = (IAdvancedFieldControl) subControl;
-			if (newValue != null) {
-				if (fieldControl.refreshUI()) {
-					updated = true;
-				}
+		if (newValue != null) {
+			ITypeInfo newValueType = swingRenderer.getReflectionUI()
+					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newValue));
+			if (newValueType.equals(subControlValueType)) {
+				swingRenderer.refreshAllFieldControls((JPanel) subControl, false);
+				return;
 			}
 		}
-		if (!updated) {
-			if (subControl != null) {
-				remove(subControl);
-			}
+		if (subControl instanceof NullControl) {
 			if (newValue == null) {
-				subControlValueType = null;
-				subControl = new NullControl(swingRenderer, input);
-				((NullControl) subControl).setAction(new Runnable() {
-					@Override
-					public void run() {
-						setNullStatusControlState(false);
-						onNullingControlStateChange();
-					}
-				});
-			} else {
-				subControlValueType = swingRenderer.getReflectionUI()
-						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newValue));
-				subControl = createSubControl();
+				return;
 			}
-
-			add(subControl, BorderLayout.CENTER);
-			SwingRendererUtils.handleComponentSizeChange(this);
 		}
+		if (subControl != null) {
+			remove(subControl);
+		}
+		if (newValue == null) {
+			subControlValueType = null;
+			subControl = new NullControl(swingRenderer, input);
+			((NullControl) subControl).setAction(new Runnable() {
+				@Override
+				public void run() {
+					setNullStatusControlState(false);
+					onNullingControlStateChange();
+				}
+			});
+		} else {
+			subControlValueType = swingRenderer.getReflectionUI()
+					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newValue));
+			subControl = createSubControl();
+		}
+
+		add(subControl, BorderLayout.CENTER);
+		SwingRendererUtils.handleComponentSizeChange(this);
 	}
 
 	protected JPanel createSubControl() {
@@ -154,7 +152,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 			}
 
 			@Override
-			public IModification getUpdatedSubObjectCommitModification(Object newObjectValue) {
+			public IModification createUpdatedSubObjectCommitModification(Object newObjectValue) {
 				return new ControlDataValueModification(data, newObjectValue, input.getModificationsTarget());
 			}
 
@@ -264,7 +262,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 		if (Boolean.TRUE.equals(subControlFocused)) {
 			if (subControlFocusDetails != null) {
 				swingRenderer.requestFormDetailedFocus((JPanel) subControl, subControlFocusDetails);
-			}else{
+			} else {
 				subControl.requestFocusInWindow();
 			}
 		}
@@ -272,10 +270,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean requestFocusInWindow() {
-		if (subControl != null) {
-			return subControl.requestFocusInWindow();
-		}
-		return false;
+		return subControl.requestFocusInWindow();
 	}
 
 	@Override

@@ -6,12 +6,12 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
-public class FieldControlData implements IControlData {
+public class DefaultFieldControlData implements IFieldControlData {
 
 	protected Object object;
 	protected IFieldInfo field;
 
-	public FieldControlData(Object object, IFieldInfo field) {
+	public DefaultFieldControlData(Object object, IFieldInfo field) {
 		this.object = object;
 		this.field = field;
 	}
@@ -32,7 +32,7 @@ public class FieldControlData implements IControlData {
 	}
 
 	@Override
-	public Runnable getCustomUndoUpadteJob(Object value) {
+	public Runnable getCustomUndoUpdateJob(Object value) {
 		return field.getCustomUndoUpdateJob(object, value);
 	}
 
@@ -83,7 +83,7 @@ public class FieldControlData implements IControlData {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		FieldControlData other = (FieldControlData) obj;
+		DefaultFieldControlData other = (DefaultFieldControlData) obj;
 		if (field == null) {
 			if (other.field != null)
 				return false;

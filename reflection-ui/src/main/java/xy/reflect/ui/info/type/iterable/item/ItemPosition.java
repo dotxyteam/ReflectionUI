@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import xy.reflect.ui.control.input.FieldControlData;
-import xy.reflect.ui.control.input.IControlData;
+import xy.reflect.ui.control.input.DefaultFieldControlData;
+import xy.reflect.ui.control.input.IFieldControlData;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -16,10 +16,10 @@ import xy.reflect.ui.util.ReflectionUIError;
 public class ItemPosition implements Cloneable {
 
 	protected ItemPosition parentItemPosition;
-	protected IControlData containingListData;
+	protected IFieldControlData containingListData;
 	protected int index;
 
-	protected ItemPosition(ItemPosition parentItemPosition, IControlData containingListData, int index) {
+	protected ItemPosition(ItemPosition parentItemPosition, IFieldControlData containingListData, int index) {
 		super();
 		this.parentItemPosition = parentItemPosition;
 		this.containingListData = containingListData;
@@ -31,7 +31,7 @@ public class ItemPosition implements Cloneable {
 		this.index = index;
 	}
 
-	public ItemPosition(IControlData containingListData, int index) {
+	public ItemPosition(IFieldControlData containingListData, int index) {
 		this.containingListData = containingListData;
 		this.index = index;
 	}
@@ -58,7 +58,7 @@ public class ItemPosition implements Cloneable {
 		return getContainingListData().getCaption();
 	}
 
-	public IControlData getContainingListData() {
+	public IFieldControlData getContainingListData() {
 		if (parentItemPosition == null) {
 			return getRootListData();
 		}
@@ -124,7 +124,7 @@ public class ItemPosition implements Cloneable {
 		return result;
 	}
 
-	public IControlData getSubListData() {
+	public IFieldControlData getSubListData() {
 		IListStructuralInfo treeInfo = getRootListItemPosition().getContainingListType().getStructuralInfo();
 		if (treeInfo == null) {
 			return null;
@@ -134,11 +134,11 @@ public class ItemPosition implements Cloneable {
 		if (subListField == null) {
 			return null;
 		}
-		return new FieldControlData(ghostItemPosition.getItem(), subListField);
+		return new DefaultFieldControlData(ghostItemPosition.getItem(), subListField);
 	}
 
 	public List<? extends ItemPosition> getSubItemPositions() {
-		IControlData subListData = getSubListData();
+		IFieldControlData subListData = getSubListData();
 		if (subListData == null) {
 			return Collections.emptyList();
 		}
@@ -165,7 +165,7 @@ public class ItemPosition implements Cloneable {
 		return current;
 	}
 
-	public IControlData getRootListData() {
+	public IFieldControlData getRootListData() {
 		return getRootListItemPosition().containingListData;
 	}
 

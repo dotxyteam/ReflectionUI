@@ -3,11 +3,16 @@ package xy.reflect.ui.control.swing;
 import java.awt.Component;
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import xy.reflect.ui.info.DesktopSpecificProperty;
+import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
@@ -33,7 +38,7 @@ public class ObjectDialogBuilder {
 		this.swingRenderer = swingRenderer;
 		this.delegate = createDelegateDialogBuilder(ownerComponent);
 		this.initialValue = this.value = value;
-		this.cancellable = getDisplayValueType().isModificationStackAccessible();
+		this.cancellable = getEncapsulatedValueType().isModificationStackAccessible();
 
 		setTitle(swingRenderer.getObjectTitle(value));
 		setIconImage(swingRenderer.getObjectIconImage(value));
@@ -51,40 +56,42 @@ public class ObjectDialogBuilder {
 		return initialValue != value;
 	}
 
-	protected Object getDisplayValue() {
-		if (isValueEncapsulatedForDisplay()) {
-			Accessor<Object> valueAccessor = new Accessor<Object>() {
-				@Override
-				public Object get() {
-					return ObjectDialogBuilder.this.value;
-				}
+	protected Object getEncapsulatedValue() {
+		Accessor<Object> valueAccessor = new Accessor<Object>() {
+			@Override
+			public Object get() {
+				return ObjectDialogBuilder.this.value;
+			}
 
-				@Override
-				public void set(Object t) {
-					ObjectDialogBuilder.this.value = t;
-				}
-			};
-			EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
-					getValueType());
-			encapsulation.setTypeCaption(getTitle());
-			encapsulation.setFieldCaption(BooleanTypeInfo.isCompatibleWith(value.getClass()) ? "Is True" : "");
-			encapsulation.setFieldNullable(false);
-			return encapsulation.getInstance(valueAccessor);
-		} else {
-			return value;
-		}
+			@Override
+			public void set(Object t) {
+				ObjectDialogBuilder.this.value = t;
+			}
+		};
+		return getEncapsulation().getInstance(valueAccessor);
 	}
 
-	protected boolean isValueEncapsulatedForDisplay() {
-		return SwingRendererUtils.hasCustomControl(value, getValueType(), swingRenderer);
+	public EncapsulatedObjectFactory getEncapsulation() {
+		EncapsulatedObjectFactory result = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
+				getValueType());
+		result.setTypeCaption(getTitle());
+		result.setFieldCaption(BooleanTypeInfo.isCompatibleWith(value.getClass()) ? "Is True" : "");
+		result.setFieldNullable(false);
+		result.setFieldValueReturnMode(ValueReturnMode.SELF_OR_PROXY);;
+		Map<String, Object> properties = new HashMap<String, Object>();
+		{
+			DesktopSpecificProperty.setSubFormExpanded(properties, true);
+			result.setFieldSpecificProperties(properties);
+		}
+		return result;
 	}
 
 	protected ITypeInfo getValueType() {
 		return swingRenderer.getReflectionUI().getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(value));
 	}
 
-	protected ITypeInfo getDisplayValueType() {
-		Object displayValue = getDisplayValue();
+	protected ITypeInfo getEncapsulatedValueType() {
+		Object displayValue = getEncapsulatedValue();
 		return swingRenderer.getReflectionUI()
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(displayValue));
 	}
@@ -158,7 +165,7 @@ public class ObjectDialogBuilder {
 	}
 
 	public JDialog build() {
-		Object displayValue = getDisplayValue();
+		Object displayValue = getEncapsulatedValue();
 		objectForm = swingRenderer.createForm(displayValue);
 		delegate.setContentComponent(objectForm);
 

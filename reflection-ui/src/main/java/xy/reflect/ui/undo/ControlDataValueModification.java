@@ -1,16 +1,16 @@
 package xy.reflect.ui.undo;
 
-import xy.reflect.ui.control.input.IControlData;
+import xy.reflect.ui.control.input.IFieldControlData;
 import xy.reflect.ui.info.IInfo;
 
 public class ControlDataValueModification extends AbstractModification {
 
-	protected IControlData valueAccess;
+	protected IFieldControlData data;
 	protected Object newValue;
 
-	public ControlDataValueModification(final IControlData valueAccess, final Object newValue, IInfo target) {
+	public ControlDataValueModification(final IFieldControlData data, final Object newValue, IInfo target) {
 		super(target);
-		this.valueAccess = valueAccess;
+		this.data = data;
 		this.newValue = newValue;
 	}
 
@@ -28,20 +28,20 @@ public class ControlDataValueModification extends AbstractModification {
 		return new Runnable() {
 			@Override
 			public void run() {
-				valueAccess.setValue(newValue);
+				data.setValue(newValue);
 			}
 		};
 	}
 
 	@Override
 	protected Runnable createUndoJob() {
-		Runnable result = valueAccess.getCustomUndoUpadteJob(newValue);
+		Runnable result = data.getCustomUndoUpdateJob(newValue);
 		if (result == null) {
-			final Object oldValue = valueAccess.getValue();
+			final Object oldValue = data.getValue();
 			result = new Runnable() {
 				@Override
 				public void run() {
-					valueAccess.setValue(oldValue);
+					data.setValue(oldValue);
 				}
 			};
 		}
@@ -53,7 +53,7 @@ public class ControlDataValueModification extends AbstractModification {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((newValue == null) ? 0 : newValue.hashCode());
-		result = prime * result + ((valueAccess == null) ? 0 : valueAccess.hashCode());
+		result = prime * result + ((data == null) ? 0 : data.hashCode());
 		return result;
 	}
 
@@ -71,12 +71,19 @@ public class ControlDataValueModification extends AbstractModification {
 				return false;
 		} else if (!newValue.equals(other.newValue))
 			return false;
-		if (valueAccess == null) {
-			if (other.valueAccess != null)
+		if (data == null) {
+			if (other.data != null)
 				return false;
-		} else if (!valueAccess.equals(other.valueAccess))
+		} else if (!data.equals(other.data))
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "ControlDataValueModification [data=" + data + ", newValue=" + newValue + "]";
+	}
+	
+	
 
 }

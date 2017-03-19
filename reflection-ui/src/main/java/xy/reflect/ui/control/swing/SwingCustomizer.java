@@ -112,14 +112,14 @@ public class SwingCustomizer extends SwingRenderer {
 	}
 
 	@Override
-	public FieldControlPlaceHolder createFieldControlPlaceHolder(Object object, IFieldInfo field) {
-		return new FieldControlPlaceHolder(object, field) {
+	public FieldControlPlaceHolder createFieldControlPlaceHolder(JPanel form, IFieldInfo field) {
+		return new FieldControlPlaceHolder(form, field) {
 			private static final long serialVersionUID = 1L;
 			protected Component infoCustomizationsComponent;
 
 			@Override
 			public void refreshUI(boolean recreate) {
-				if (areCustomizationsEditable(object)) {
+				if (areCustomizationsEditable(getObject())) {
 					refreshInfoCustomizationsControl();
 				}
 				super.refreshUI(recreate);
@@ -141,14 +141,14 @@ public class SwingCustomizer extends SwingRenderer {
 	}
 
 	@Override
-	public MethodControlPlaceHolder createMethodControlPlaceHolder(Object object, IMethodInfo method) {
-		return new MethodControlPlaceHolder(object, method) {
+	public MethodControlPlaceHolder createMethodControlPlaceHolder(JPanel form, IMethodInfo method) {
+		return new MethodControlPlaceHolder(form, method) {
 			private static final long serialVersionUID = 1L;
 			protected Component infoCustomizationsComponent;
 
 			@Override
 			public void refreshUI(boolean recreate) {
-				if (areCustomizationsEditable(object)) {
+				if (areCustomizationsEditable(getObject())) {
 					refreshInfoCustomizationsControl();
 				}
 				super.refreshUI(recreate);
@@ -651,11 +651,11 @@ public class SwingCustomizer extends SwingRenderer {
 			result.addActionListener(new ActionListener() {
 
 				private ITypeInfo getCurrentFormObjectCustomizedType() {
-					return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(fieldControlPlaceHolder.object));
+					return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(fieldControlPlaceHolder.getObject()));
 				}
 
 				private String getFieldName() {
-					return fieldControlPlaceHolder.getControlAwareField().getName();
+					return fieldControlPlaceHolder.getField().getName();
 				}
 
 				private ITypeInfo getFieldControlObjectCustomizedType() {
@@ -710,7 +710,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							openTypeCustomizationDialog(result, fieldControlPlaceHolder.getModificationsTarget().getType());
+							openTypeCustomizationDialog(result, fieldControlPlaceHolder.getField().getType());
 						}
 					});
 					if (getFieldControlObjectCustomizedType() instanceof IListTypeInfo) {
@@ -925,11 +925,11 @@ public class SwingCustomizer extends SwingRenderer {
 			result.addActionListener(new ActionListener() {
 
 				private ITypeInfo getCurrentFormObjectCustomizedType() {
-					return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(methodControlPlaceHolder.object));
+					return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(methodControlPlaceHolder.getObject()));
 				}
 
 				private String getMethodInfoSignature() {
-					return ReflectionUIUtils.getMethodSignature(methodControlPlaceHolder.controlAwareMethod);
+					return ReflectionUIUtils.getMethodSignature(methodControlPlaceHolder.getMethod());
 				}
 
 				@Override

@@ -57,9 +57,13 @@ import org.jdesktop.swingx.decorator.HighlighterFactory;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.jdesktop.swingx.treetable.TreeTableModel;
 
-import xy.reflect.ui.control.input.FieldControlData;
-import xy.reflect.ui.control.input.IControlData;
-import xy.reflect.ui.control.input.IControlInput;
+import xy.reflect.ui.control.input.DefaultFieldControlData;
+import xy.reflect.ui.control.input.DefaultMethodControlData;
+import xy.reflect.ui.control.input.IFieldControlData;
+import xy.reflect.ui.control.input.IFieldControlInput;
+import xy.reflect.ui.control.input.IMethodControlData;
+import xy.reflect.ui.control.input.IMethodControlInput;
+import xy.reflect.ui.control.input.MethodControlDataProxy;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -101,7 +105,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
 
-	protected IControlData listData;
+	protected IFieldControlData listData;
 
 	protected JXTreeTable treeTableComponent;
 	protected JPanel toolbar;
@@ -118,7 +122,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	protected List<Runnable> selectionListeners = new ArrayList<Runnable>();
 	protected boolean selectionListenersEnabled = true;
-	protected IControlInput input;
+	protected IFieldControlInput input;
 
 	protected static AbstractAction SEPARATOR_ACTION = new AbstractAction("") {
 		protected static final long serialVersionUID = 1L;
@@ -128,7 +132,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		}
 	};
 
-	public ListControl(final SwingRenderer swingRenderer, IControlInput input) {
+	public ListControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
 		this.input = input;
 		this.listData = input.getControlData();
@@ -812,7 +816,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		if (itemPosition == null) {
 			return getAnyRootListItemPosition();
 		}
-		final IControlData subListData = itemPosition.getSubListData();
+		final IFieldControlData subListData = itemPosition.getSubListData();
 		if (subListData == null) {
 			return null;
 		}
@@ -1323,7 +1327,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			@Override
 			protected List<IMethodInfo> getConstructors(ITypeInfo type) {
 				List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getConstructors(type));
-				IControlData containingListData = newItemPosition.getContainingListData();
+				IFieldControlData containingListData = newItemPosition.getContainingListData();
 				IListTypeInfo containingListType = newItemPosition.getContainingListType();
 				List<IMethodInfo> specificItemConstructors = containingListType
 						.getAdditionalItemConstructors(containingListData.getValue());
@@ -1659,7 +1663,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 					@Override
 					public IInfo getSubObjectModificationTarget() {
-						return input.getModificationsTarget();
+						return dynamicProperty;
 					}
 
 					@Override
@@ -1683,14 +1687,14 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					}
 
 					@Override
-					public IModification getUpdatedSubObjectCommitModification(Object newObjectValue) {
+					public IModification createUpdatedSubObjectCommitModification(Object newObjectValue) {
 						Object listRootValue = listData.getValue();
 						List<IModification> modifications = new ArrayList<IModification>();
 						if (!dynamicProperty.isGetOnly()) {
 							return null;
 						}
 						modifications.add(new ControlDataValueModification(
-								new FieldControlData(listRootValue, dynamicProperty), newObjectValue, null));
+								new DefaultFieldControlData(listRootValue, dynamicProperty), newObjectValue, null));
 						if (!listData.isGetOnly()) {
 							return null;
 						}
@@ -1732,44 +1736,67 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				IMethodInfo method = dynamicAction;
-				method = new MethodInfoProxy(method) {
-					@Override
-					public Object invoke(Object listRootValue, InvocationData invocationData) {
-						return SwingRendererUtils.showBusyDialogWhileInvokingMethod(ListControl.this, swingRenderer,
-								listRootValue, base, invocationData);
-					}
-				};
-				method = new MethodInfoProxy(method) {
-					@Override
-					public Object invoke(Object listRootValue, InvocationData invocationData) {
-						ModificationStack childModifStack = new ModificationStack(null);
-						Object result = SwingRendererUtils.invokeMethodThroughModificationStack(listRootValue, base,
-								invocationData, childModifStack);
-						String childModifTitle = InvokeMethodModification.getTitle(base);
-						IInfo childModifTarget = getModificationsTarget();
-						IModification commitModif;
-						if (listData.isGetOnly()) {
-							commitModif = null;
-						} else {
-							commitModif = new ControlDataValueModification(listData, listRootValue,
-									getModificationsTarget());
-						}
-						boolean childModifAccepted = true;
-						ValueReturnMode childValueReturnMode = ValueReturnMode.combine(listData.getValueReturnMode(),
-								base.getValueReturnMode());
-						boolean childValueNew = false;
-						ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(),
-								getModificationStack(), childModifStack, childModifAccepted, childValueReturnMode,
-								childValueNew, commitModif, childModifTarget, childModifTitle);
-						return result;
-					}
-				};
-				MethodAction action = swingRenderer.createMethodAction(listData.getValue(), method);
+				MethodAction action = swingRenderer.createMethodAction(getMethodInput());
 				action.setShouldDisplayReturnValueIfAny(true);
-				action.setRetunValueWindowDetached(method.getValueReturnMode() == ValueReturnMode.COPY);
 				action.setModificationStack(getModificationStack());
 				action.execute(ListControl.this);
+			}
+
+			protected IMethodControlInput getMethodInput() {
+				final ModificationStack childModifStack = new ModificationStack(null);
+				final IInfo childModifTarget = dynamicAction;
+				return new IMethodControlInput() {
+					@Override
+					public IInfo getModificationsTarget() {
+						return childModifTarget;
+					}
+
+					@Override
+					public ModificationStack getModificationStack() {
+						return childModifStack;
+					}
+
+					@Override
+					public IMethodControlData getControlData() {
+						final Object listRootValue = listData.getValue();
+						ITypeInfo listRootValueType = swingRenderer.getReflectionUI()
+								.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(listRootValue));
+						IMethodControlData data = new DefaultMethodControlData(listRootValueType, listRootValue,
+								dynamicAction);
+						data = new MethodControlDataProxy(data) {
+							@Override
+							public Object invoke(InvocationData invocationData) {
+								return SwingRendererUtils.showBusyDialogWhileInvokingMethod(ListControl.this,
+										swingRenderer, base, invocationData);
+							}
+						};
+						data = new MethodControlDataProxy(data) {
+							@Override
+							public Object invoke(InvocationData invocationData) {
+								Object result = SwingRendererUtils.invokeMethodThroughModificationStack(base,
+										invocationData, childModifStack, childModifTarget);
+								String childModifTitle = InvokeMethodModification.getTitle(base);
+								IModification commitModif;
+								if (listData.isGetOnly()) {
+									commitModif = null;
+								} else {
+									commitModif = new ControlDataValueModification(listData, listRootValue,
+											getModificationsTarget());
+								}
+								boolean childModifAccepted = true;
+								ValueReturnMode childValueReturnMode = ValueReturnMode
+										.combine(listData.getValueReturnMode(), base.getValueReturnMode());
+								boolean childValueNew = false;
+								ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(),
+										getModificationStack(), childModifStack, childModifAccepted,
+										childValueReturnMode, childValueNew, commitModif, childModifTarget,
+										childModifTitle);
+								return result;
+							}
+						};
+						return data;
+					}
+				};
 			}
 
 			@Override
@@ -1997,7 +2024,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			if (detailsControlFocusDetails != null) {
 				swingRenderer.requestFormDetailedFocus(detailsControl, detailsControlFocusDetails);
 			} else {
-				detailsControl.requestFocusInWindow();				
+				detailsControl.requestFocusInWindow();
 			}
 		}
 	}
@@ -2008,10 +2035,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean requestFocusInWindow() {
-		if (detailsControl != null) {
-			return detailsControl.requestFocusInWindow();
-		}
-		return false;
+		return treeTableComponent.requestFocusInWindow();
 	}
 
 	protected void restoringColumnWidthsAsMuchAsPossible(Runnable runnable) {
@@ -2317,7 +2341,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public IModification getUpdatedSubObjectCommitModification(Object newObjectValue) {
+		public IModification createUpdatedSubObjectCommitModification(Object newObjectValue) {
 			return new ListModificationFactory(itemPosition, getModificationsTarget()).set(itemPosition.getIndex(),
 					newObjectValue);
 		}

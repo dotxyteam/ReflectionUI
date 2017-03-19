@@ -4,52 +4,44 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import xy.reflect.ui.info.DesktopSpecificProperty;
+import xy.reflect.ui.control.input.IMethodControlData;
+import xy.reflect.ui.control.input.IMethodControlInput;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.InvocationData;
-import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
+import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.util.MethodSetupObjectFactory;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MethodAction extends AbstractAction {
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
-	protected Object object;
-	protected IMethodInfo method;
+	protected IMethodControlInput input;
+	protected IMethodControlData data;
 	protected Object returnValue;
 	protected boolean shouldDisplayReturnValueIfAny = false;
 	protected boolean retunValueWindowDetached;
 	protected ModificationStack modificationStack;
 
-	public MethodAction(SwingRenderer swingRenderer, Object object, IMethodInfo method) {
+	public MethodAction(SwingRenderer swingRenderer, IMethodControlInput input) {
 		this.swingRenderer = swingRenderer;
-		this.object = object;
-		this.method = method;
-
+		this.input = input;
+		this.data = input.getControlData();
+		this.retunValueWindowDetached = data.getValueReturnMode() == ValueReturnMode.COPY;
 	}
 
 	public SwingRenderer getSwingRenderer() {
 		return swingRenderer;
-	}
-
-	public Object getObject() {
-		return object;
 	}
 
 	public Object getReturnValue() {
@@ -91,21 +83,17 @@ public class MethodAction extends AbstractAction {
 
 	}
 
-	public IMethodInfo getMethod() {
-		return method;
-	}
-
 	public void execute(Component activatorComponent) {
 		onMethodInvocationRequest(activatorComponent);
 	}
 
 	protected boolean onMethodInvocationRequest(Component activatorComponent) {
-		if (method.getParameters().size() > 0) {
+		if (data.getParameters().size() > 0) {
 			return openMethoExecutionSettingDialog(activatorComponent);
 		} else {
-			final boolean displayReturnValue = shouldDisplayReturnValueIfAny && (method.getReturnValueType() != null);
+			final boolean displayReturnValue = shouldDisplayReturnValueIfAny && (data.getReturnValueType() != null);
 			final boolean[] exceptionThrownHoler = new boolean[] { false };
-			returnValue = method.invoke(object, new InvocationData());
+			returnValue = data.invoke(new InvocationData());
 			if (displayReturnValue && !exceptionThrownHoler[0]) {
 				openMethodReturnValueWindow(activatorComponent);
 			}
@@ -115,34 +103,34 @@ public class MethodAction extends AbstractAction {
 
 	protected boolean openMethoExecutionSettingDialog(final Component activatorComponent) {
 		final DialogBuilder dialogBuilder = new DialogBuilder(swingRenderer, activatorComponent);
-
-		final boolean displayReturnValue = shouldDisplayReturnValueIfAny && (method.getReturnValueType() != null);
+		final boolean displayReturnValue = shouldDisplayReturnValueIfAny && (data.getReturnValueType() != null);
 		final boolean[] exceptionThrownHolder = new boolean[] { false };
 		final InvocationData invocationData;
-		if (swingRenderer.getLastInvocationDataByMethod().containsKey(method)) {
-			invocationData = swingRenderer.getLastInvocationDataByMethod().get(method);
+		if (swingRenderer.getLastInvocationDataByMethodSignature().containsKey(data)) {
+			invocationData = swingRenderer.getLastInvocationDataByMethodSignature().get(data);
 		} else {
 			invocationData = new InvocationData();
 		}
-		JPanel methodForm = swingRenderer
-				.createForm(new MethodSetupObjectFactory(swingRenderer.getReflectionUI(), object, method)
-						.getInstance(object, invocationData));
+		JPanel methodForm = swingRenderer.createForm(
+				new MethodSetupObjectFactory(swingRenderer.getReflectionUI(), data).getInstance(invocationData));
 		final boolean[] invokedStatusHolder = new boolean[] { false };
 		List<Component> toolbarControls = new ArrayList<Component>();
-		String doc = method.getOnlineHelp();
+		String doc = data.getOnlineHelp();
 		if ((doc != null) && (doc.trim().length() > 0)) {
 			toolbarControls.add(swingRenderer.createOnlineHelpControl(doc));
 		}
-		final JButton invokeButton = new JButton(method.getCaption());
+		final JButton invokeButton = new JButton(data.getCaption());
 		{
 			invokeButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					swingRenderer.getLastInvocationDataByMethod().put(method, invocationData);
+					swingRenderer.getLastInvocationDataByMethodSignature().put(data.getMethodSignature(),
+							invocationData);
 					try {
-						returnValue = method.invoke(object, invocationData);
+						returnValue = data.invoke(invocationData);
 					} catch (Throwable t) {
 						swingRenderer.handleExceptionsFromDisplayedUI(invokeButton, t);
+						exceptionThrownHolder[0] = true;
 					}
 					if (displayReturnValue) {
 						if (!exceptionThrownHolder[0]) {
@@ -169,7 +157,7 @@ public class MethodAction extends AbstractAction {
 		}
 
 		dialogBuilder.setContentComponent(methodForm);
-		dialogBuilder.setTitle(ReflectionUIUtils.composeMessage(method.getCaption(), "Execution"));
+		dialogBuilder.setTitle(ReflectionUIUtils.composeMessage(data.getCaption(), "Execution"));
 		dialogBuilder.setToolbarComponents(toolbarControls);
 
 		swingRenderer.showDialog(dialogBuilder.build(), true);
@@ -180,56 +168,84 @@ public class MethodAction extends AbstractAction {
 		}
 	}
 
-	protected void openMethodReturnValueWindow(Component activatorComponent) {
-		String windowTitle = ReflectionUIUtils.composeMessage(method.getCaption(), "Result");
-		if (returnValue == null) {
-			EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
-					swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(Object.class)));
-			encapsulation.setTypeCaption(ReflectionUIUtils.composeMessage(windowTitle, "<null>"));
-			encapsulation.setFieldCaption("");
-			encapsulation.setFieldGetOnly(true);
-			encapsulation.setFieldNullValueLabel(method.getNullReturnValueLabel());
-			Object nullEncapsulated = encapsulation.getInstance(Accessor.returning(null));
-			ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, activatorComponent,
-					nullEncapsulated);
-			dialogBuilder.setCancellable(false);
-			dialogBuilder.setTitle(windowTitle);
-			swingRenderer.showDialog(dialogBuilder.build(), true);
+	protected void openMethodReturnValueWindow(final Component activatorComponent) {
+		final String windowTitle = ReflectionUIUtils.composeMessage(data.getCaption(), "Result");
+		if (retunValueWindowDetached) {
+			swingRenderer.openObjectFrame(returnValue);
 		} else {
-			if (retunValueWindowDetached) {
-				swingRenderer.openObjectFrame(returnValue);
-			} else {
-				EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(swingRenderer.getReflectionUI(),
-						method.getReturnValueType());
-				encapsulation.setTypeCaption(windowTitle);
-				encapsulation.setFieldCaption("");
-				encapsulation.setFieldGetOnly(true);
-				encapsulation.setFieldNullable(false);
-				encapsulation.setFieldValueReturnMode(method.getValueReturnMode());
-				Map<String, Object> properties = new HashMap<String, Object>();
-				{
-					DesktopSpecificProperty.setSubFormExpanded(properties, true);
-					encapsulation.setFieldSpecificProperties(properties);
-				}
-				Object encapsulated = encapsulation.getInstance(Accessor.returning(returnValue));
-								
-				ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(swingRenderer, activatorComponent,
-						encapsulated);
-				swingRenderer.showDialog(dialogBuilder.build(), true);
+			new AbstractSubObjectUIBuilber() {
 
-				if (modificationStack != null) {
-					ModificationStack childModifStack = dialogBuilder.getModificationStack();
-					String childModifTitle = InvokeMethodModification.getTitle(method);
-					IInfo childModifTarget = method;
-					IModification commitModif = null;
-					boolean childModifAccepted = (!dialogBuilder.isCancellable()) || dialogBuilder.wasOkPressed();
-					ValueReturnMode childValueReturnMode = method.getValueReturnMode();
-					boolean childValueNew = dialogBuilder.isValueNew();
-					ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(), modificationStack,
-							childModifStack, childModifAccepted, childValueReturnMode, childValueNew, commitModif,
-							childModifTarget, childModifTitle);
+				@Override
+				public Object retrieveSubObjectValueFromParent() {
+					return returnValue;
 				}
-			}
+
+				@Override
+				public boolean isSubObjectNullable() {
+					return true;
+				}
+
+				@Override
+				public boolean isSubObjectFormExpanded() {
+					return true;
+				}
+
+				@Override
+				public boolean canCommitUpdatedSubObject() {
+					return false;
+				}
+
+				@Override
+				public IModification createUpdatedSubObjectCommitModification(Object newObjectValue) {
+					return null;
+				}
+
+				@Override
+				public SwingRenderer getSwingRenderer() {
+					return swingRenderer;
+				}
+
+				@Override
+				public ValueReturnMode getSubObjectValueReturnMode() {
+					return data.getValueReturnMode();
+				}
+
+				@Override
+				public String getSubObjectTitle() {
+					return windowTitle;
+				}
+
+				@Override
+				public Component getSubObjectOwnerComponent() {
+					return activatorComponent;
+				}
+
+				@Override
+				public String getSubObjectModificationTitle() {
+					return InvokeMethodModification.getTitle(data);
+				}
+
+				@Override
+				public IInfo getSubObjectModificationTarget() {
+					return input.getModificationsTarget();
+				}
+
+				@Override
+				public IInfoFilter getSubObjectFormFilter() {
+					return IInfoFilter.NO_FILTER;
+				}
+
+				@Override
+				public ITypeInfo getSubObjectDeclaredType() {
+					return data.getReturnValueType();
+				}
+
+				@Override
+				public ModificationStack getParentObjectModificationStack() {
+					return modificationStack;
+				}
+
+			}.showSubObjectDialog();
 		}
 	}
 

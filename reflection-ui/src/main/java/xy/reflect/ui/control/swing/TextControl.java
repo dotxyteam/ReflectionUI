@@ -16,8 +16,8 @@ import javax.swing.border.Border;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
-import xy.reflect.ui.control.input.IControlData;
-import xy.reflect.ui.control.input.IControlInput;
+import xy.reflect.ui.control.input.IFieldControlData;
+import xy.reflect.ui.control.input.IFieldControlInput;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
@@ -25,15 +25,15 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
-	protected IControlInput input;
-	protected IControlData data;
+	protected IFieldControlInput input;
+	protected IFieldControlData data;
 
 	protected JTextArea textComponent;
 	protected boolean ignoreEditEvents = true;
 	protected Border textFieldNormalBorder;
 	protected JLabel iconControl;
 
-	public TextControl(final SwingRenderer swingRenderer, IControlInput input) {
+	public TextControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
 		this.input = input;
 		this.data = retrieveData();
@@ -93,7 +93,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		}
 	}
 
-	protected IControlData retrieveData() {
+	protected IFieldControlData retrieveData() {
 		return input.getControlData();
 	}
 

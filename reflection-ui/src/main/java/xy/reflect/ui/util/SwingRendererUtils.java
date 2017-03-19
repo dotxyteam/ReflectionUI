@@ -47,8 +47,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.input.FieldControlData;
-import xy.reflect.ui.control.input.IControlData;
+import xy.reflect.ui.control.input.IFieldControlData;
+import xy.reflect.ui.control.input.IMethodControlData;
+import xy.reflect.ui.control.input.MethodControlDataProxy;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
@@ -57,9 +58,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
-import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
@@ -340,16 +339,6 @@ public class SwingRendererUtils {
 		return (fields.size() + methods.size()) == 0;
 	}
 
-	public static final boolean hasCustomControl(Object fieldValue, ITypeInfo fieldType, SwingRenderer swingRenderer) {
-		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, fieldType);
-		Object encapsulatedValue = encapsulation.getInstance(new Object[] { fieldValue });
-		ITypeInfo valueAsFieldType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(encapsulatedValue));
-		IFieldInfo field = valueAsFieldType.getFields().get(0);
-		IControlData controlData = swingRenderer.getFieldControlData(encapsulatedValue, field);
-		return swingRenderer.hasCustomFieldControl(controlData);
-	}
-
 	public static boolean isForm(Component c, SwingRenderer swingRenderer) {
 		return swingRenderer.getObjectByForm().keySet().contains(c);
 	}
@@ -432,10 +421,9 @@ public class SwingRendererUtils {
 		}
 	}
 
-	public static void setValueThroughModificationStack(Object object, IFieldInfo field, Object newValue,
-			ModificationStack modifStack) {
-		ControlDataValueModification modif = new ControlDataValueModification(new FieldControlData(object, field),
-				newValue, field);
+	public static void setValueThroughModificationStack(IFieldControlData data, Object newValue,
+			ModificationStack modifStack, IInfo modificationTarget) {
+		ControlDataValueModification modif = new ControlDataValueModification(data, newValue, modificationTarget);
 		try {
 			modifStack.apply(modif);
 		} catch (Throwable t) {
@@ -444,21 +432,21 @@ public class SwingRendererUtils {
 		}
 	}
 
-	public static Object invokeMethodThroughModificationStack(Object object, IMethodInfo method,
-			InvocationData invocationData, ModificationStack modifStack) {
-		if (method.isReadOnly()) {
-			return method.invoke(object, invocationData);
+	public static Object invokeMethodThroughModificationStack(IMethodControlData data, InvocationData invocationData,
+			ModificationStack modifStack, IInfo modificationTarget) {
+		if (data.isReadOnly()) {
+			return data.invoke(invocationData);
 		} else {
-			Runnable undoJob = method.getUndoJob(object, invocationData);
+			Runnable undoJob = data.getUndoJob(invocationData);
 			if (undoJob != null) {
 				final Object[] resultHolder = new Object[1];
-				method = new MethodInfoProxy(method) {
+				data = new MethodControlDataProxy(data) {
 					@Override
-					public Object invoke(Object object, InvocationData invocationData) {
-						return resultHolder[0] = super.invoke(object, invocationData);
+					public Object invoke(InvocationData invocationData) {
+						return resultHolder[0] = super.invoke(invocationData);
 					}
 				};
-				InvokeMethodModification modif = new InvokeMethodModification(object, method, invocationData);
+				InvokeMethodModification modif = new InvokeMethodModification(data, invocationData, modificationTarget);
 				try {
 					modifStack.apply(modif);
 				} catch (Throwable t) {
@@ -467,7 +455,7 @@ public class SwingRendererUtils {
 				}
 				return resultHolder[0];
 			} else {
-				Object result = method.invoke(object, invocationData);
+				Object result = data.invoke(invocationData);
 				modifStack.invalidate();
 				return result;
 			}
@@ -566,8 +554,8 @@ public class SwingRendererUtils {
 		return listenersToRemove.size();
 	}
 
-	public Icon getControlIcon(IControlData data, SwingRenderer swingRenderer) {
-		Image iconImage = swingRenderer.getControlDataIconImage(data);
+	public Icon getControlIcon(IFieldControlData data, SwingRenderer swingRenderer) {
+		Image iconImage = swingRenderer.getFieldIconImage(data);
 		if (iconImage != null) {
 			return SwingRendererUtils.getSmallIcon(iconImage);
 		} else {
@@ -619,8 +607,8 @@ public class SwingRendererUtils {
 		return result;
 	}
 
-	public static Icon getControlDataIcon(SwingRenderer swingRenderer, IControlData data) {
-		Image iconImage = swingRenderer.getControlDataIconImage(data);
+	public static Icon getControlDataIcon(SwingRenderer swingRenderer, IFieldControlData data) {
+		Image iconImage = swingRenderer.getFieldIconImage(data);
 		if (iconImage != null) {
 			return SwingRendererUtils.getSmallIcon(iconImage);
 		} else {
@@ -628,8 +616,8 @@ public class SwingRendererUtils {
 		}
 	}
 
-	public static Icon getMethodIcon(SwingRenderer swingRenderer, Object object, IMethodInfo method) {
-		Image iconImage = swingRenderer.getMethodIconImage(object, method);
+	public static Icon getMethodIcon(SwingRenderer swingRenderer, IMethodControlData data) {
+		Image iconImage = swingRenderer.getMethodIconImage(data);
 		if (iconImage != null) {
 			return SwingRendererUtils.getSmallIcon(iconImage);
 		} else {
@@ -642,29 +630,29 @@ public class SwingRendererUtils {
 	}
 
 	public static Object showBusyDialogWhileInvokingMethod(Component activatorComponent, SwingRenderer swingRenderer,
-			final Object object, final IMethodInfo method, final InvocationData invocationData) {
+			final IMethodControlData data, final InvocationData invocationData) {
 		final Object[] result = new Object[1];
 		swingRenderer.showBusyDialogWhile(activatorComponent, new Runnable() {
 			public void run() {
-				result[0] = method.invoke(object, invocationData);
+				result[0] = data.invoke(invocationData);
 			}
-		}, ReflectionUIUtils.composeMessage(method.getCaption(), "Execution"));
+		}, ReflectionUIUtils.composeMessage(data.getCaption(), "Execution"));
 		return result[0];
 
 	}
 
 	public static Object showBusyDialogWhileGettingFieldValue(Component activatorComponent, SwingRenderer swingRenderer,
-			final Object object, final IFieldInfo field) {
+			final IFieldControlData data) {
 		final Object[] result = new Object[1];
 		final String title;
-		if ((field.getCaption() == null) || (field.getCaption().length() == 0)) {
+		if ((data.getCaption() == null) || (data.getCaption().length() == 0)) {
 			title = "Getting Value";
 		} else {
-			title = "Getting " + field.getCaption();
+			title = "Getting " + data.getCaption();
 		}
 		swingRenderer.showBusyDialogWhile(activatorComponent, new Runnable() {
 			public void run() {
-				result[0] = field.getValue(object);
+				result[0] = data.getValue();
 			}
 		}, title);
 		return result[0];
@@ -672,12 +660,12 @@ public class SwingRendererUtils {
 	}
 
 	public static void showBusyDialogWhileSettingFieldValue(Component activatorComponent, SwingRenderer swingRenderer,
-			final Object object, final IFieldInfo field, final Object value) {
+			final IFieldControlData data, final Object value) {
 		swingRenderer.showBusyDialogWhile(activatorComponent, new Runnable() {
 			public void run() {
-				field.setValue(object, value);
+				data.setValue(value);
 			}
-		}, "Setting " + field.getCaption());
+		}, "Setting " + data.getCaption());
 
 	}
 
@@ -695,7 +683,5 @@ public class SwingRendererUtils {
 		msgComponent.setBackground(getPanelBackgroundColor());
 		return new JOptionPane(msgComponent, messageType, JOptionPane.DEFAULT_OPTION, null, new Object[] {});
 	}
-
-	
 
 }

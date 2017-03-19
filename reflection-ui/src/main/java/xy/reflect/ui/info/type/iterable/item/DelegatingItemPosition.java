@@ -2,7 +2,7 @@ package xy.reflect.ui.info.type.iterable.item;
 
 import java.util.List;
 
-import xy.reflect.ui.control.input.IControlData;
+import xy.reflect.ui.control.input.IFieldControlData;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 
@@ -39,7 +39,7 @@ public class DelegatingItemPosition extends ItemPosition {
 		return delegate.getContainingListTitle();
 	}
 
-	public IControlData getContainingListData() {
+	public IFieldControlData getContainingListData() {
 		return delegate.getContainingListData();
 	}
 
@@ -75,7 +75,7 @@ public class DelegatingItemPosition extends ItemPosition {
 		return delegate.getSibling(index2);
 	}
 
-	public IControlData getSubListData() {
+	public IFieldControlData getSubListData() {
 		return delegate.getSubListData();
 	}
 
@@ -91,7 +91,7 @@ public class DelegatingItemPosition extends ItemPosition {
 		return delegate.getRootListItemPosition();
 	}
 
-	public IControlData getRootListData() {
+	public IFieldControlData getRootListData() {
 		return delegate.getRootListData();
 	}
 

@@ -18,8 +18,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
-import xy.reflect.ui.control.input.IControlData;
-import xy.reflect.ui.control.input.IControlInput;
+import xy.reflect.ui.control.input.IFieldControlData;
+import xy.reflect.ui.control.input.IFieldControlInput;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
@@ -31,11 +31,11 @@ public class EnumerationControl extends JPanel {
 	protected static final long serialVersionUID = 1L;
 	protected IEnumerationTypeInfo enumType;
 	protected SwingRenderer swingRenderer;
-	protected IControlData data;
+	protected IFieldControlData data;
 	protected JComboBox comboBox;
 
 	@SuppressWarnings({})
-	public EnumerationControl(final SwingRenderer swingRenderer, IControlInput input) {
+	public EnumerationControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
 		this.data = input.getControlData();
 		this.enumType = (IEnumerationTypeInfo) data.getType();

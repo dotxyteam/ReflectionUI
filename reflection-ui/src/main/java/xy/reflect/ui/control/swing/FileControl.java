@@ -5,9 +5,9 @@ import java.io.File;
 
 import javax.swing.JFileChooser;
 
-import xy.reflect.ui.control.input.ControlDataProxy;
-import xy.reflect.ui.control.input.IControlData;
-import xy.reflect.ui.control.input.IControlInput;
+import xy.reflect.ui.control.input.FieldControlDataProxy;
+import xy.reflect.ui.control.input.IFieldControlData;
+import xy.reflect.ui.control.input.IFieldControlInput;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.FileTypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
@@ -20,19 +20,19 @@ public class FileControl extends DialogAccessControl implements IAdvancedFieldCo
 
 	protected static File lastDirectory = new File(".").getAbsoluteFile();
 
-	public FileControl(SwingRenderer swingRenderer, IControlInput input) {
+	public FileControl(SwingRenderer swingRenderer, IFieldControlInput input) {
 		super(swingRenderer, input);
 	}
 
 	@Override
-	protected TextControl createStatusControl(IControlInput input) {
+	protected TextControl createStatusControl(IFieldControlInput input) {
 		return new TextControl(swingRenderer, input) {
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected IControlData retrieveData() {
-				return new ControlDataProxy(IControlData.NULL_CONTROL_DATA) {
+			protected IFieldControlData retrieveData() {
+				return new FieldControlDataProxy(IFieldControlData.NULL_CONTROL_DATA) {
 
 					@Override
 					public void setValue(Object value) {

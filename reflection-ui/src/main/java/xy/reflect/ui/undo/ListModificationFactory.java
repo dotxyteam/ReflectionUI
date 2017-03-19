@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import xy.reflect.ui.control.input.ControlDataProxy;
-import xy.reflect.ui.control.input.IControlData;
+import xy.reflect.ui.control.input.FieldControlDataProxy;
+import xy.reflect.ui.control.input.IFieldControlData;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
@@ -110,7 +110,7 @@ public class ListModificationFactory {
 					return false;
 				}
 			}
-			IControlData containingListData = itemPosition.getContainingListData();
+			IFieldControlData containingListData = itemPosition.getContainingListData();
 			IListTypeInfo containingListType = itemPosition.getContainingListType();
 			if (containingListType.canReplaceContent()) {
 				if (containingListData.getValueReturnMode() == ValueReturnMode.SELF_OR_PROXY) {
@@ -174,12 +174,12 @@ public class ListModificationFactory {
 		}
 
 		protected void updateListValue(ItemPosition itemPosition, Object[] listRawValue) {
-			IControlData listData = itemPosition.getContainingListData();
+			IFieldControlData listData = itemPosition.getContainingListData();
 			IListTypeInfo listType = itemPosition.getContainingListType();
 			if (listType.canReplaceContent()) {
 				if (listData.getValueReturnMode() == ValueReturnMode.SELF_OR_PROXY) {
 					final Object listValue = listData.getValue();
-					undoModifications.add(0, new ChangeListContentModification(new ControlDataProxy(listData) {
+					undoModifications.add(0, new ChangeListContentModification(new FieldControlDataProxy(listData) {
 						@Override
 						public Object getValue() {
 							return listValue;
@@ -189,7 +189,7 @@ public class ListModificationFactory {
 				}
 				if (!listData.isGetOnly()) {
 					final Object listValue = listData.getValue();
-					undoModifications.add(0, new ChangeListContentModification(new ControlDataProxy(listData) {
+					undoModifications.add(0, new ChangeListContentModification(new FieldControlDataProxy(listData) {
 						@Override
 						public Object getValue() {
 							return listValue;
@@ -213,14 +213,57 @@ public class ListModificationFactory {
 			throw new ReflectionUIError();
 		}
 
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((itemPosition == null) ? 0 : itemPosition.hashCode());
+			result = prime * result + Arrays.hashCode(newListRawValue);
+			result = prime * result + ((undoModifications == null) ? 0 : undoModifications.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			ListValueUpdateModification other = (ListValueUpdateModification) obj;
+			if (itemPosition == null) {
+				if (other.itemPosition != null)
+					return false;
+			} else if (!itemPosition.equals(other.itemPosition))
+				return false;
+			if (!Arrays.equals(newListRawValue, other.newListRawValue))
+				return false;
+			if (undoModifications == null) {
+				if (other.undoModifications != null)
+					return false;
+			} else if (!undoModifications.equals(other.undoModifications))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "ListValueUpdateModification [itemPosition=" + itemPosition + ", newListRawValue="
+					+ Arrays.toString(newListRawValue) + ", undoModifications=" + undoModifications + "]";
+		}
+		
+		
+		
+
 	}
 
 	protected static class ChangeListContentModification extends AbstractModification {
 
-		protected IControlData listData;
+		protected IFieldControlData listData;
 		protected Object[] listRawValue;
 
-		public ChangeListContentModification(IControlData listData, Object[] listRawValue, IInfo target) {
+		public ChangeListContentModification(IFieldControlData listData, Object[] listRawValue, IInfo target) {
 			super(target);
 			this.listData = listData;
 			this.listRawValue = listRawValue;
@@ -258,6 +301,42 @@ public class ListModificationFactory {
 				}
 			};
 		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((listData == null) ? 0 : listData.hashCode());
+			result = prime * result + Arrays.hashCode(listRawValue);
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			ChangeListContentModification other = (ChangeListContentModification) obj;
+			if (listData == null) {
+				if (other.listData != null)
+					return false;
+			} else if (!listData.equals(other.listData))
+				return false;
+			if (!Arrays.equals(listRawValue, other.listRawValue))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "ChangeListContentModification [listData=" + listData + ", listRawValue="
+					+ Arrays.toString(listRawValue) + "]";
+		}
+		
+		
 
 	}
 

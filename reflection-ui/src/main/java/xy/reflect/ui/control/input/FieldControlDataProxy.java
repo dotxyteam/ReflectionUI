@@ -5,11 +5,11 @@ import java.util.Map;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.ITypeInfo;
 
-public class ControlDataProxy implements IControlData {
+public class FieldControlDataProxy implements IFieldControlData {
 
-	protected IControlData base;
+	protected IFieldControlData base;
 
-	public ControlDataProxy(IControlData base) {
+	public FieldControlDataProxy(IFieldControlData base) {
 		super();
 		this.base = base;
 	}
@@ -26,8 +26,8 @@ public class ControlDataProxy implements IControlData {
 		return base.getCaption();
 	}
 
-	public Runnable getCustomUndoUpadteJob(Object value) {
-		return base.getCustomUndoUpadteJob(value);
+	public Runnable getCustomUndoUpdateJob(Object value) {
+		return base.getCustomUndoUpdateJob(value);
 	}
 
 	public boolean isGetOnly() {
@@ -71,7 +71,7 @@ public class ControlDataProxy implements IControlData {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ControlDataProxy other = (ControlDataProxy) obj;
+		FieldControlDataProxy other = (FieldControlDataProxy) obj;
 		if (base == null) {
 			if (other.base != null)
 				return false;
