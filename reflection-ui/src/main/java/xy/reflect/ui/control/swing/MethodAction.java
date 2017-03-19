@@ -137,7 +137,7 @@ public class MethodAction extends AbstractAction {
 							openMethodReturnValueWindow(activatorComponent);
 						}
 					} else {
-						dialogBuilder.getBuiltDialog().dispose();
+						dialogBuilder.getCreatedDialog().dispose();
 					}
 				}
 			});
@@ -149,7 +149,7 @@ public class MethodAction extends AbstractAction {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					dialogBuilder.getBuiltDialog().dispose();
+					dialogBuilder.getCreatedDialog().dispose();
 				}
 
 			});
@@ -160,7 +160,7 @@ public class MethodAction extends AbstractAction {
 		dialogBuilder.setTitle(ReflectionUIUtils.composeMessage(data.getCaption(), "Execution"));
 		dialogBuilder.setToolbarComponents(toolbarControls);
 
-		swingRenderer.showDialog(dialogBuilder.build(), true);
+		swingRenderer.showDialog(dialogBuilder.createDialog(), true);
 		if (displayReturnValue) {
 			return true;
 		} else {
@@ -173,30 +173,30 @@ public class MethodAction extends AbstractAction {
 		if (retunValueWindowDetached) {
 			swingRenderer.openObjectFrame(returnValue);
 		} else {
-			new AbstractSubObjectUIBuilber() {
+			new AbstractEditorBuilder() {
 
 				@Override
-				public Object retrieveSubObjectValueFromParent() {
+				public Object getInitialObjectValue() {
 					return returnValue;
 				}
 
 				@Override
-				public boolean isSubObjectNullable() {
+				public boolean isObjectNullable() {
 					return true;
 				}
 
 				@Override
-				public boolean isSubObjectFormExpanded() {
+				public boolean isObjectFormExpanded() {
 					return true;
 				}
 
 				@Override
-				public boolean canCommitUpdatedSubObject() {
+				public boolean canCommit() {
 					return false;
 				}
 
 				@Override
-				public IModification createUpdatedSubObjectCommitModification(Object newObjectValue) {
+				public IModification createCommitModification(Object newObjectValue) {
 					return null;
 				}
 
@@ -206,46 +206,46 @@ public class MethodAction extends AbstractAction {
 				}
 
 				@Override
-				public ValueReturnMode getSubObjectValueReturnMode() {
+				public ValueReturnMode getObjectValueReturnMode() {
 					return data.getValueReturnMode();
 				}
 
 				@Override
-				public String getSubObjectTitle() {
+				public String getEditorTitle() {
 					return windowTitle;
 				}
 
 				@Override
-				public Component getSubObjectOwnerComponent() {
+				public Component getOwnerComponent() {
 					return activatorComponent;
 				}
 
 				@Override
-				public String getSubObjectModificationTitle() {
+				public String getCumulatedModificationsTitle() {
 					return InvokeMethodModification.getTitle(data);
 				}
 
 				@Override
-				public IInfo getSubObjectModificationTarget() {
+				public IInfo getCumulatedModificationsTarget() {
 					return input.getModificationsTarget();
 				}
 
 				@Override
-				public IInfoFilter getSubObjectFormFilter() {
+				public IInfoFilter getObjectFormFilter() {
 					return IInfoFilter.NO_FILTER;
 				}
 
 				@Override
-				public ITypeInfo getSubObjectDeclaredType() {
+				public ITypeInfo getObjectDeclaredType() {
 					return data.getReturnValueType();
 				}
 
 				@Override
-				public ModificationStack getParentObjectModificationStack() {
+				public ModificationStack getParentModificationStack() {
 					return modificationStack;
 				}
 
-			}.showSubObjectDialog();
+			}.showDialog();
 		}
 	}
 

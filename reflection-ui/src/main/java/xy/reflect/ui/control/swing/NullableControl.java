@@ -134,25 +134,25 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected JPanel createSubControl() {
-		return new AbstractSubObjectUIBuilber() {
+		return new AbstractEditorPanelBuilder() {
 
 			@Override
-			public boolean isSubObjectFormExpanded() {
+			public boolean isObjectFormExpanded() {
 				return false;
 			}
 
 			@Override
-			public boolean isSubObjectNullable() {
+			public boolean isObjectNullable() {
 				return false;
 			}
 
 			@Override
-			public boolean canCommitUpdatedSubObject() {
+			public boolean canCommit() {
 				return !data.isGetOnly();
 			}
 
 			@Override
-			public IModification createUpdatedSubObjectCommitModification(Object newObjectValue) {
+			public IModification createCommitModification(Object newObjectValue) {
 				return new ControlDataValueModification(data, newObjectValue, input.getModificationsTarget());
 			}
 
@@ -162,27 +162,27 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 			}
 
 			@Override
-			public ValueReturnMode getSubObjectValueReturnMode() {
+			public ValueReturnMode getObjectValueReturnMode() {
 				return data.getValueReturnMode();
 			}
 
 			@Override
-			public String getSubObjectTitle() {
+			public String getEditorTitle() {
 				return ReflectionUIUtils.composeMessage(data.getType().getCaption(), "Dynamic Wrapper");
 			}
 
 			@Override
-			public String getSubObjectModificationTitle() {
+			public String getCumulatedModificationsTitle() {
 				return ControlDataValueModification.getTitle(input.getModificationsTarget());
 			}
 
 			@Override
-			public IInfo getSubObjectModificationTarget() {
+			public IInfo getCumulatedModificationsTarget() {
 				return input.getModificationsTarget();
 			}
 
 			@Override
-			public IInfoFilter getSubObjectFormFilter() {
+			public IInfoFilter getObjectFormFilter() {
 				IInfoFilter result = DesktopSpecificProperty
 						.getFilter(DesktopSpecificProperty.accessControlDataProperties(data));
 				if (result == null) {
@@ -192,25 +192,25 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 			}
 
 			@Override
-			public ITypeInfo getSubObjectDeclaredType() {
+			public ITypeInfo getObjectDeclaredType() {
 				return subControlValueType;
 			}
 
 			@Override
-			public ModificationStack getParentObjectModificationStack() {
+			public String getEncapsulatedObjectTypeCaption() {
+				return ReflectionUIUtils.composeMessage("Nullable", subControlValueType.getCaption());
+			}
+
+			@Override
+			public ModificationStack getParentModificationStack() {
 				return input.getModificationStack();
 			}
 
 			@Override
-			public Component getSubObjectOwnerComponent() {
-				return NullableControl.this;
-			}
-
-			@Override
-			public Object retrieveSubObjectValueFromParent() {
+			public Object getInitialObjectValue() {
 				return data.getValue();
 			}
-		}.createSubObjectForm();
+		}.createEditorPanel();
 	}
 
 	@Override
@@ -221,11 +221,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean displayError(String msg) {
-		if (subControl instanceof IAdvancedFieldControl) {
-			return ((IAdvancedFieldControl) subControl).displayError(msg);
-		} else {
-			return false;
-		}
+		return false;
 	}
 
 	@Override
@@ -275,8 +271,8 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 
 	@Override
 	public void validateSubForm() throws Exception {
-		if (subControl instanceof IAdvancedFieldControl) {
-			((IAdvancedFieldControl) subControl).validateSubForm();
+		if (SwingRendererUtils.isForm(subControl, swingRenderer)) {
+			swingRenderer.validateForm((JPanel) subControl);
 		}
 	}
 

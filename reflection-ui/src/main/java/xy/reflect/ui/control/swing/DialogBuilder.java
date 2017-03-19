@@ -37,7 +37,7 @@ public class DialogBuilder {
 		return okPressed;
 	}
 
-	public JDialog getBuiltDialog() {
+	public JDialog getCreatedDialog() {
 		return dialog;
 	}
 
@@ -122,7 +122,7 @@ public class DialogBuilder {
 		return result;
 	}
 
-	public JDialog build() {
+	public JDialog createDialog() {
 		Window owner = SwingRendererUtils.getWindowAncestorOrSelf(ownerComponent);
 		dialog = new JDialog(owner) {
 			protected static final long serialVersionUID = 1L;

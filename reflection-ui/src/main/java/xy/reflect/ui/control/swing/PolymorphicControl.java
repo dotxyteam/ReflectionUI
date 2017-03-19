@@ -76,20 +76,20 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		final ArrayAsEnumerationFactory enumFactory = ReflectionUIUtils
 				.getPolymorphicTypesEnumerationfactory(swingRenderer.getReflectionUI(), polymorphicType, possibleTypes);
 		final ITypeInfo enumType = swingRenderer.getReflectionUI().getTypeInfo(enumFactory.getInstanceTypeInfoSource());
-		return new AbstractSubObjectUIBuilber() {
+		return new AbstractEditorPanelBuilder() {
 
 			@Override
-			public boolean isSubObjectFormExpanded() {
+			public boolean isObjectFormExpanded() {
 				return true;
 			}
 
 			@Override
-			public boolean isSubObjectNullable() {
+			public boolean isObjectNullable() {
 				return data.isNullable();
 			}
 
 			@Override
-			public Object retrieveSubObjectValueFromParent() {
+			public Object getInitialObjectValue() {
 				Object instance = data.getValue();
 				if (instance == null) {
 					return null;
@@ -102,22 +102,22 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			}
 
 			@Override
-			public ITypeInfo getSubObjectDeclaredType() {
+			public ITypeInfo getObjectDeclaredType() {
 				return enumType;
 			}
 
 			@Override
-			public ValueReturnMode getSubObjectValueReturnMode() {
+			public ValueReturnMode getObjectValueReturnMode() {
 				return ValueReturnMode.COPY;
 			}
 
 			@Override
-			public boolean canCommitUpdatedSubObject() {
+			public boolean canCommit() {
 				return !data.isGetOnly();
 			}
 
 			@Override
-			public IModification createUpdatedSubObjectCommitModification(final Object value) {
+			public IModification createCommitModification(final Object value) {
 				try {
 					Object instance;
 					if (value == null) {
@@ -151,36 +151,31 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			}
 
 			@Override
-			public String getSubObjectTitle() {
+			public String getEditorTitle() {
 				return ReflectionUIUtils.composeMessage(polymorphicType.getCaption(), "Polymorphic Type");
 			}
 
 			@Override
-			public String getSubObjectModificationTitle() {
+			public String getCumulatedModificationsTitle() {
 				return ControlDataValueModification.getTitle(input.getModificationsTarget());
 			}
 
 			@Override
-			public IInfo getSubObjectModificationTarget() {
+			public IInfo getCumulatedModificationsTarget() {
 				return input.getModificationsTarget();
 			}
 
 			@Override
-			public IInfoFilter getSubObjectFormFilter() {
+			public IInfoFilter getObjectFormFilter() {
 				return IInfoFilter.NO_FILTER;
 			}
 
 			@Override
-			public ModificationStack getParentObjectModificationStack() {
+			public ModificationStack getParentModificationStack() {
 				return input.getModificationStack();
 			}
 
-			@Override
-			public Component getSubObjectOwnerComponent() {
-				return PolymorphicControl.this;
-			}
-
-		}.createSubObjectForm();
+		}.createEditorPanel();
 	}
 
 	protected String getEnumerationValueCaption(ITypeInfo actualFieldValueType) {
@@ -188,25 +183,25 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 	}
 
 	protected JPanel createDynamicControl(final ITypeInfo instanceType) {
-		return new AbstractSubObjectUIBuilber() {
+		return new AbstractEditorPanelBuilder() {
 
 			@Override
-			public boolean isSubObjectFormExpanded() {
+			public boolean isObjectFormExpanded() {
 				return false;
 			}
 
 			@Override
-			public boolean isSubObjectNullable() {
+			public boolean isObjectNullable() {
 				return false;
 			}
 
 			@Override
-			public boolean canCommitUpdatedSubObject() {
+			public boolean canCommit() {
 				return !data.isGetOnly();
 			}
 
 			@Override
-			public IModification createUpdatedSubObjectCommitModification(Object newObjectValue) {
+			public IModification createCommitModification(Object newObjectValue) {
 				return new ControlDataValueModification(data, newObjectValue, input.getModificationsTarget());
 			}
 
@@ -216,27 +211,27 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			}
 
 			@Override
-			public ValueReturnMode getSubObjectValueReturnMode() {
+			public ValueReturnMode getObjectValueReturnMode() {
 				return data.getValueReturnMode();
 			}
 
 			@Override
-			public String getSubObjectTitle() {
+			public String getEditorTitle() {
 				return ReflectionUIUtils.composeMessage(data.getType().getCaption(), "Dynamic Wrapper");
 			}
 
 			@Override
-			public String getSubObjectModificationTitle() {
+			public String getCumulatedModificationsTitle() {
 				return ControlDataValueModification.getTitle(input.getModificationsTarget());
 			}
 
 			@Override
-			public IInfo getSubObjectModificationTarget() {
+			public IInfo getCumulatedModificationsTarget() {
 				return input.getModificationsTarget();
 			}
 
 			@Override
-			public IInfoFilter getSubObjectFormFilter() {
+			public IInfoFilter getObjectFormFilter() {
 				IInfoFilter result = DesktopSpecificProperty
 						.getFilter(DesktopSpecificProperty.accessControlDataProperties(data));
 				if (result == null) {
@@ -246,28 +241,28 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			}
 
 			@Override
-			public ITypeInfo getSubObjectDeclaredType() {
+			public ITypeInfo getObjectDeclaredType() {
 				return instanceType;
 			}
 
 			@Override
-			public ModificationStack getParentObjectModificationStack() {
+			public String getEncapsulatedObjectTypeCaption() {
+				return ReflectionUIUtils.composeMessage("Polymorphic", polymorphicType.getCaption());
+			}
+
+			@Override
+			public ModificationStack getParentModificationStack() {
 				return input.getModificationStack();
 			}
 
 			@Override
-			public Component getSubObjectOwnerComponent() {
-				return PolymorphicControl.this;
-			}
-
-			@Override
-			public Object retrieveSubObjectValueFromParent() {
+			public Object getInitialObjectValue() {
 				return data.getValue();
 			}
 
 			@Override
-			public EncapsulatedObjectFactory getSubObjectEncapsulation() {
-				EncapsulatedObjectFactory result = super.getSubObjectEncapsulation();
+			public EncapsulatedObjectFactory getEncapsulation() {
+				EncapsulatedObjectFactory result = super.getEncapsulation();
 				if (polymorphicType.equals(instanceType)) {
 					Map<String, Object> fieldSpecificProperties = new HashMap<String, Object>(
 							result.getFieldSpecificProperties());
@@ -277,7 +272,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 				return result;
 			}
 
-		}.createSubObjectForm();
+		}.createEditorPanel();
 	}
 
 	protected void refreshDynamicControl() {
@@ -300,12 +295,13 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		} else {
 			if (lastInstanceType.equals(instanceType)) {
 				swingRenderer.refreshAllFieldControls(dynamicControl, false);
+			} else {
+				remove(dynamicControl);
+				dynamicControl = null;
+				dynamicControl = createDynamicControl(instanceType);
+				add(dynamicControl, BorderLayout.CENTER);
+				SwingRendererUtils.handleComponentSizeChange(this);
 			}
-			remove(dynamicControl);
-			dynamicControl = null;
-			dynamicControl = createDynamicControl(instanceType);
-			add(dynamicControl, BorderLayout.CENTER);
-			SwingRendererUtils.handleComponentSizeChange(this);
 		}
 		lastInstanceType = instanceType;
 	}
@@ -334,8 +330,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 
 	@Override
 	public boolean displayError(String msg) {
-		return (dynamicControl instanceof IAdvancedFieldControl)
-				&& ((IAdvancedFieldControl) dynamicControl).displayError(msg);
+		return false;
 	}
 
 	@Override
@@ -396,9 +391,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 
 	@Override
 	public void validateSubForm() throws Exception {
-		if (dynamicControl instanceof IAdvancedFieldControl) {
-			((IAdvancedFieldControl) dynamicControl).validateSubForm();
-		}
+		swingRenderer.validateForm(dynamicControl);
 	}
 
 }

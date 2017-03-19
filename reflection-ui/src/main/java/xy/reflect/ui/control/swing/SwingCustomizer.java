@@ -63,7 +63,6 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.SystemProperties;
 
-@SuppressWarnings("unused")
 public class SwingCustomizer extends SwingRenderer {
 
 	protected CustomizationTools customizationTools;
@@ -103,10 +102,11 @@ public class SwingCustomizer extends SwingRenderer {
 		Object object = getObjectByForm().get(form);
 		if (areCustomizationsEditable(object)) {
 			JPanel mainCustomizationsControl = new JPanel();
-			mainCustomizationsControl.setLayout(new BorderLayout()); 
+			mainCustomizationsControl.setLayout(new BorderLayout());
 			mainCustomizationsControl.add(customizationTools.createTypeInfoCustomizer(object), BorderLayout.CENTER);
 			mainCustomizationsControl.add(customizationTools.createSaveControl(), BorderLayout.EAST);
-			form.add(SwingRendererUtils.flowInLayout(mainCustomizationsControl, GridBagConstraints.CENTER), BorderLayout.NORTH);
+			form.add(SwingRendererUtils.flowInLayout(mainCustomizationsControl, GridBagConstraints.CENTER),
+					BorderLayout.NORTH);
 		}
 		super.fillForm(form);
 	}
@@ -564,26 +564,83 @@ public class SwingCustomizer extends SwingRenderer {
 
 		protected void openCustomizationEditor(final Component activatorComponent, final Object customization,
 				final String impactedTypeName) {
-			final ObjectDialogBuilder dialogBuilder = new ObjectDialogBuilder(customizationToolsRenderer,
-					activatorComponent, customization);
-			dialogBuilder.setIconImage(getCustomizationsIcon().getImage());
-			dialogBuilder.setCancellable(true);
-			dialogBuilder.build();
-			dialogBuilder.getModificationStack()
-					.addListener(getCustomizedWindowsReloadingAdviser(dialogBuilder.getBuiltDialog()));
-			customizationToolsRenderer.showDialog(dialogBuilder.getBuiltDialog(), true);
+			AbstractEditorBuilder dialogBuilder = new AbstractEditorBuilder() {
 
-			ValueReturnMode childValueReturnMode = ValueReturnMode.SELF_OR_PROXY;
-			boolean childModifAccepted = dialogBuilder.wasOkPressed();
-			ModificationStack childModifStack = dialogBuilder.getModificationStack();
-			ModificationStack parentModifStack = new ModificationStack(null);
-			boolean childValueNew = dialogBuilder.isValueNew();
-			IModification commitModif = null;
-			IInfo childModifTarget = IFieldInfo.NULL_FIELD_INFO;
-			String subModifTitle = "";
-			if (ReflectionUIUtils.integrateSubModifications(customizationToolsRenderer.getReflectionUI(),
-					parentModifStack, childModifStack, childModifAccepted, childValueReturnMode, childValueNew,
-					commitModif, childModifTarget, subModifTitle)) {
+				ModificationStack dummyParentModificationStack = new ModificationStack(null);
+
+				@Override
+				public Object getInitialObjectValue() {
+					return customization;
+				}
+
+				@Override
+				public boolean isObjectNullable() {
+					return false;
+				}
+
+				@Override
+				public boolean isObjectFormExpanded() {
+					return true;
+				}
+
+				@Override
+				public SwingRenderer getSwingRenderer() {
+					return customizationToolsRenderer;
+				}
+
+				@Override
+				public ValueReturnMode getObjectValueReturnMode() {
+					return ValueReturnMode.SELF_OR_PROXY;
+				}
+
+				@Override
+				public String getEditorTitle() {
+					return customizationToolsRenderer.getObjectTitle(customization);
+				}
+
+				@Override
+				public Component getOwnerComponent() {
+					return activatorComponent;
+				}
+
+				@Override
+				public String getCumulatedModificationsTitle() {
+					return null;
+				}
+
+				@Override
+				public IInfo getCumulatedModificationsTarget() {
+					return null;
+				}
+
+				@Override
+				public IInfoFilter getObjectFormFilter() {
+					return IInfoFilter.NO_FILTER;
+				}
+
+				@Override
+				public ITypeInfo getObjectDeclaredType() {
+					return null;
+				}
+
+				@Override
+				public ModificationStack getParentModificationStack() {
+					return dummyParentModificationStack;
+				}
+
+				@Override
+				public IModification createCommitModification(Object newObjectValue) {
+					return null;
+				}
+
+				@Override
+				public boolean canCommit() {
+					return false;
+				}
+
+			};
+			dialogBuilder.showDialog();
+			if (dialogBuilder.isParentModificationStackImpacted()) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
@@ -651,7 +708,8 @@ public class SwingCustomizer extends SwingRenderer {
 			result.addActionListener(new ActionListener() {
 
 				private ITypeInfo getCurrentFormObjectCustomizedType() {
-					return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(fieldControlPlaceHolder.getObject()));
+					return reflectionUI
+							.getTypeInfo(reflectionUI.getTypeInfoSource(fieldControlPlaceHolder.getObject()));
 				}
 
 				private String getFieldName() {
@@ -844,10 +902,10 @@ public class SwingCustomizer extends SwingRenderer {
 				ColumnOrderItem orderItem = new ColumnOrderItem(c, lc.getColumnCustomization(c.getName()));
 				columnOrder.add(orderItem);
 			}
-			ObjectDialogBuilder dialogStatus = customizationToolsRenderer.openObjectDialog(activatorComponent,
+			StandardEditorBuilder dialogStatus = customizationToolsRenderer.openObjectDialog(activatorComponent,
 					columnOrder, "Columns Order", getCustomizationsIcon().getImage(), true, true);
 			if (dialogStatus.wasOkPressed()) {
-				columnOrder = (List<ColumnOrderItem>) dialogStatus.getValue();
+				columnOrder = (List<ColumnOrderItem>) dialogStatus.getObject();
 				List<String> newOrder = new ArrayList<String>();
 				for (ColumnOrderItem item : columnOrder) {
 					newOrder.add(item.getColumnInfo().getName());
@@ -925,7 +983,8 @@ public class SwingCustomizer extends SwingRenderer {
 			result.addActionListener(new ActionListener() {
 
 				private ITypeInfo getCurrentFormObjectCustomizedType() {
-					return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(methodControlPlaceHolder.getObject()));
+					return reflectionUI
+							.getTypeInfo(reflectionUI.getTypeInfoSource(methodControlPlaceHolder.getObject()));
 				}
 
 				private String getMethodInfoSignature() {
@@ -995,7 +1054,7 @@ public class SwingCustomizer extends SwingRenderer {
 				form = SwingRendererUtils.findParentForm(customizedFormComponent, SwingCustomizer.this);
 			}
 			recreateFormContent(form);
-			updateStatusBarInBackground(form);
+			updateFormStatusBarInBackground(form);
 		}
 
 	}

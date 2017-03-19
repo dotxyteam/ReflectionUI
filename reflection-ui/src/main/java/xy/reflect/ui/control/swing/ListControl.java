@@ -846,7 +846,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			}
 
 			@Override
-			protected String getSubObjectTitle() {
+			protected String getActionTitle() {
 				return "Remove All";
 			}
 
@@ -898,7 +898,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			}
 
 			@Override
-			protected String getSubObjectTitle() {
+			protected String getActionTitle() {
 				return (offset > 0) ? "Move Down" : "Move Up";
 			}
 
@@ -1047,7 +1047,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			}
 
 			@Override
-			protected String getSubObjectTitle() {
+			protected String getActionTitle() {
 				return "Remove";
 			}
 
@@ -1107,13 +1107,13 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					ModificationStack dummyModificationStack = new ModificationStack(null);
 
 					@Override
-					public ModificationStack getParentObjectModificationStack() {
+					public ModificationStack getParentModificationStack() {
 						return dummyModificationStack;
 					}
 				};
-				dialogBuilder.showSubObjectDialog();
-				if (dialogBuilder.wasDialogOKButtonPressed()) {
-					newItem = dialogBuilder.getSubObject();
+				dialogBuilder.showDialog();
+				if (dialogBuilder.wasOkPressed()) {
+					newItem = dialogBuilder.getObject();
 					getModificationStack().apply(new ListModificationFactory(newItemPosition, getModificationsTarget())
 							.add(newItemPosition.getIndex(), newItem));
 					ItemPosition toSelect = newItemPosition;
@@ -1129,7 +1129,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			}
 
 			@Override
-			protected String getSubObjectTitle() {
+			protected String getActionTitle() {
 				ItemPosition newItemPosition = getNewItemPosition();
 				if (newItemPosition == null) {
 					return null;
@@ -1230,13 +1230,13 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					ModificationStack dummyModificationStack = new ModificationStack(null);
 
 					@Override
-					public ModificationStack getParentObjectModificationStack() {
+					public ModificationStack getParentModificationStack() {
 						return dummyModificationStack;
 					}
 				};
-				dialogBuilder.showSubObjectDialog();
-				if (dialogBuilder.wasDialogOKButtonPressed()) {
-					newSubListItem = dialogBuilder.getSubObject();
+				dialogBuilder.showDialog();
+				if (dialogBuilder.wasOkPressed()) {
+					newSubListItem = dialogBuilder.getObject();
 					getModificationStack()
 							.apply(new ListModificationFactory(newSubItemPosition, getModificationsTarget())
 									.add(newSubItemPosition.getIndex(), newSubListItem));
@@ -1284,7 +1284,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			}
 
 			@Override
-			protected String getSubObjectTitle() {
+			protected String getActionTitle() {
 				ItemPosition subItemPosition = getNewSubItemPosition();
 				final IListTypeInfo subListType = subItemPosition.getContainingListType();
 				final ITypeInfo subListItemType = subListType.getItemType();
@@ -1360,7 +1360,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			}
 
 			@Override
-			protected String getSubObjectTitle() {
+			protected String getActionTitle() {
 				return "Copy";
 			}
 
@@ -1412,7 +1412,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			}
 
 			@Override
-			protected String getSubObjectTitle() {
+			protected String getActionTitle() {
 				return "Cut";
 			}
 
@@ -1483,7 +1483,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			}
 
 			@Override
-			protected String getSubObjectTitle() {
+			protected String getActionTitle() {
 				String result;
 				if (insertPosition == InsertPosition.AFTER) {
 					result = "Paste After";
@@ -1573,7 +1573,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			}
 
 			@Override
-			protected String getSubObjectTitle() {
+			protected String getActionTitle() {
 				return "Paste";
 			}
 
@@ -1618,15 +1618,15 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			protected boolean perform(List<ItemPosition>[] toPostSelectHolder) {
-				AbstractSubObjectUIBuilber subDialogBuilder = new AbstractSubObjectUIBuilber() {
+				AbstractEditorBuilder subDialogBuilder = new AbstractEditorBuilder() {
 
 					@Override
-					public boolean isSubObjectFormExpanded() {
+					public boolean isObjectFormExpanded() {
 						return true;
 					}
 
 					@Override
-					public boolean isSubObjectNullable() {
+					public boolean isObjectNullable() {
 						return dynamicProperty.isNullable();
 					}
 
@@ -1636,18 +1636,18 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					}
 
 					@Override
-					public ValueReturnMode getSubObjectValueReturnMode() {
+					public ValueReturnMode getObjectValueReturnMode() {
 						return ValueReturnMode.combine(listData.getValueReturnMode(),
 								dynamicProperty.getValueReturnMode());
 					}
 
 					@Override
-					public ITypeInfo getSubObjectDeclaredType() {
+					public ITypeInfo getObjectDeclaredType() {
 						return dynamicProperty.getType();
 					}
 
 					@Override
-					public Object retrieveSubObjectValueFromParent() {
+					public Object getInitialObjectValue() {
 						Object listRootValue = listData.getValue();
 						if (listRootValue == null) {
 							return null;
@@ -1656,38 +1656,38 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					}
 
 					@Override
-					public String getSubObjectModificationTitle() {
+					public String getCumulatedModificationsTitle() {
 						return "Edit "
 								+ ReflectionUIUtils.composeMessage(listData.getCaption(), dynamicProperty.getCaption());
 					}
 
 					@Override
-					public IInfo getSubObjectModificationTarget() {
+					public IInfo getCumulatedModificationsTarget() {
 						return dynamicProperty;
 					}
 
 					@Override
-					public ModificationStack getParentObjectModificationStack() {
+					public ModificationStack getParentModificationStack() {
 						return input.getModificationStack();
 					}
 
 					@Override
-					public Component getSubObjectOwnerComponent() {
+					public Component getOwnerComponent() {
 						return ListControl.this;
 					}
 
 					@Override
-					public String getSubObjectTitle() {
+					public String getEditorTitle() {
 						return dynamicProperty.getType().getCaption();
 					}
 
 					@Override
-					public boolean canCommitUpdatedSubObject() {
+					public boolean canCommit() {
 						return !dynamicProperty.isGetOnly() && !listData.isGetOnly();
 					}
 
 					@Override
-					public IModification createUpdatedSubObjectCommitModification(Object newObjectValue) {
+					public IModification createCommitModification(Object newObjectValue) {
 						Object listRootValue = listData.getValue();
 						List<IModification> modifications = new ArrayList<IModification>();
 						if (!dynamicProperty.isGetOnly()) {
@@ -1699,21 +1699,21 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 							return null;
 						}
 						modifications.add(new ControlDataValueModification(listData, listRootValue, null));
-						return new CompositeModification(getSubObjectModificationTarget(),
-								getSubObjectModificationTitle(), UndoOrder.getInverse(), modifications);
+						return new CompositeModification(getCumulatedModificationsTarget(),
+								getCumulatedModificationsTitle(), UndoOrder.getInverse(), modifications);
 					}
 
 					@Override
-					public IInfoFilter getSubObjectFormFilter() {
+					public IInfoFilter getObjectFormFilter() {
 						return IInfoFilter.NO_FILTER;
 					}
 				};
-				subDialogBuilder.showSubObjectDialog();
-				return subDialogBuilder.isParentObjectModificationDetected();
+				subDialogBuilder.showDialog();
+				return subDialogBuilder.isParentModificationStackImpacted();
 			}
 
 			@Override
-			protected String getSubObjectTitle() {
+			protected String getActionTitle() {
 				return dynamicProperty.getCaption() + "...";
 			}
 
@@ -1815,12 +1815,12 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			protected boolean perform(List<ItemPosition>[] toPostSelectHolder) {
 				ItemPosition itemPosition = getSingleSelection();
 				ItemUIBuilder dialogBuilder = new ItemUIBuilder(itemPosition);
-				dialogBuilder.showSubObjectDialog();
-				return dialogBuilder.isParentObjectModificationDetected();
+				dialogBuilder.showDialog();
+				return dialogBuilder.isParentModificationStackImpacted();
 			}
 
 			@Override
-			protected String getSubObjectTitle() {
+			protected String getActionTitle() {
 				return "Open";
 			}
 
@@ -1833,7 +1833,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			public boolean isValid() {
 				ItemPosition singleSelectedPosition = getSingleSelection();
 				if (singleSelectedPosition != null) {
-					if (!new ItemUIBuilder(singleSelectedPosition).isSubObjectFormEmpty()) {
+					if (!new ItemUIBuilder(singleSelectedPosition).isObjectFormEmpty()) {
 						if (singleSelectedPosition.getContainingListType().canViewItemDetails()) {
 							return true;
 						}
@@ -1891,11 +1891,12 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		if (detailsControl != null) {
 			swingRenderer.refreshAllFieldControls(detailsControl, false);
 		} else {
-			detailsControl = new ItemUIBuilder(detailsControlItemPosition).createSubObjectForm();
+			detailsControl = new ItemUIBuilder(detailsControlItemPosition).createEditorPanel();
 			detailsArea.removeAll();
 			detailsArea.setLayout(new BorderLayout());
 			detailsArea.add(new JScrollPane(detailsControl), BorderLayout.CENTER);
 			detailsArea.add(swingRenderer.createStatusBar(detailsControl), BorderLayout.NORTH);
+			swingRenderer.updateFormStatusBarInBackground(detailsControl);
 			SwingRendererUtils.handleComponentSizeChange(ListControl.this);
 		}
 	}
@@ -2252,7 +2253,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 		protected abstract boolean perform(List<ItemPosition>[] toPostSelectHolder);
 
-		protected abstract String getSubObjectTitle();
+		protected abstract String getActionTitle();
 
 		protected abstract String getCompositeModificationTitle();
 
@@ -2261,7 +2262,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		@Override
 		public Object getValue(String key) {
 			if (Action.NAME.equals(key)) {
-				return swingRenderer.prepareStringToDisplay(getSubObjectTitle());
+				return swingRenderer.prepareStringToDisplay(getActionTitle());
 			} else {
 				return super.getValue(key);
 			}
@@ -2317,7 +2318,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	};
 
-	protected class ItemUIBuilder extends AbstractSubObjectUIBuilber {
+	protected class ItemUIBuilder extends AbstractEditorBuilder {
 		protected ItemPosition itemPosition;
 
 		public ItemUIBuilder(ItemPosition itemPosition) {
@@ -2326,22 +2327,22 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public boolean isSubObjectFormExpanded() {
+		public boolean isObjectFormExpanded() {
 			return true;
 		}
 
 		@Override
-		public boolean isSubObjectNullable() {
+		public boolean isObjectNullable() {
 			return itemPosition.getContainingListType().isItemNullable();
 		}
 
 		@Override
-		public boolean canCommitUpdatedSubObject() {
+		public boolean canCommit() {
 			return new ListModificationFactory(itemPosition, getModificationsTarget()).canSet(itemPosition.getIndex());
 		}
 
 		@Override
-		public IModification createUpdatedSubObjectCommitModification(Object newObjectValue) {
+		public IModification createCommitModification(Object newObjectValue) {
 			return new ListModificationFactory(itemPosition, getModificationsTarget()).set(itemPosition.getIndex(),
 					newObjectValue);
 		}
@@ -2352,17 +2353,17 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public String getSubObjectModificationTitle() {
+		public String getCumulatedModificationsTitle() {
 			return getItemModificationTitle();
 		}
 
 		@Override
-		public IInfo getSubObjectModificationTarget() {
+		public IInfo getCumulatedModificationsTarget() {
 			return getModificationsTarget();
 		}
 
 		@Override
-		public ITypeInfo getSubObjectDeclaredType() {
+		public ITypeInfo getObjectDeclaredType() {
 			ITypeInfo result = itemPosition.getContainingListType().getItemType();
 			if (result == null) {
 				result = swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(Object.class));
@@ -2371,32 +2372,27 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public ValueReturnMode getSubObjectValueReturnMode() {
+		public ValueReturnMode getObjectValueReturnMode() {
 			return itemPosition.getItemReturnMode();
 		}
 
 		@Override
-		public Object retrieveSubObjectValueFromParent() {
+		public Object getInitialObjectValue() {
 			return itemPosition.getItem();
 		}
 
 		@Override
-		public ModificationStack getParentObjectModificationStack() {
+		public ModificationStack getParentModificationStack() {
 			return ListControl.this.getModificationStack();
 		}
 
 		@Override
-		public Component getSubObjectOwnerComponent() {
+		public Component getOwnerComponent() {
 			return ListControl.this;
 		}
 
 		@Override
-		public String getSubObjectTitle() {
-			return getSubObjectDeclaredType().getCaption();
-		}
-
-		@Override
-		public IInfoFilter getSubObjectFormFilter() {
+		public IInfoFilter getObjectFormFilter() {
 			return getStructuralInfo().getItemInfoFilter(itemPosition);
 		}
 

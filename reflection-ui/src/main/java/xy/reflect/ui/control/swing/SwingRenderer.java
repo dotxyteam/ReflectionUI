@@ -334,7 +334,7 @@ public class SwingRenderer {
 						@Override
 						public void run() {
 							refreshAllFieldControls(form, false);
-							updateStatusBarInBackground(form);
+							updateFormStatusBarInBackground(form);
 							for (JPanel otherForm : getForms(object)) {
 								if (otherForm != form) {
 									ModificationStack otherModifStack = getModificationStackByForm().get(otherForm);
@@ -412,6 +412,11 @@ public class SwingRenderer {
 		}
 	}
 
+	public Component createCustomMethodControl(IMethodControlInput input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public Component createOnlineHelpControl(String onlineHelp) {
 		final JButton result = new JButton(SwingRendererUtils.HELP_ICON);
 		result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
@@ -459,7 +464,7 @@ public class SwingRenderer {
 				window.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowOpened(WindowEvent e) {
-						updateStatusBarInBackground(form);
+						updateFormStatusBarInBackground(form);
 					}
 				});
 
@@ -953,7 +958,7 @@ public class SwingRenderer {
 		dialogBuilder.setContentComponent(
 				SwingRendererUtils.getJOptionPane(prepareStringToDisplay(question), JOptionPane.QUESTION_MESSAGE));
 		dialogBuilder.setTitle(title);
-		showDialog(dialogBuilder.build(), true);
+		showDialog(dialogBuilder.createDialog(), true);
 		return dialogBuilder.wasOkPressed();
 	}
 
@@ -970,7 +975,7 @@ public class SwingRenderer {
 				SwingRendererUtils.getJOptionPane(prepareStringToDisplay(msg), JOptionPane.INFORMATION_MESSAGE));
 		dialogBuilder.setToolbarComponents(buttons);
 
-		showDialog(dialogBuilder.build(), true);
+		showDialog(dialogBuilder.createDialog(), true);
 	}
 
 	public void openErrorDialog(Component activatorComponent, String title, final Throwable error) {
@@ -992,34 +997,48 @@ public class SwingRenderer {
 				prepareStringToDisplay(ReflectionUIUtils.getPrettyErrorMessage(error)), JOptionPane.ERROR_MESSAGE));
 		dialogBuilder.setToolbarComponents(buttons);
 
-		showDialog(dialogBuilder.build(), true);
+		showDialog(dialogBuilder.createDialog(), true);
 	}
 
 	public void openErrorDetailsDialog(Component activatorComponent, Throwable error) {
 		openObjectDialog(activatorComponent, error);
 	}
 
-	public ObjectDialogBuilder openObjectDialog(Component activatorComponent, Object object) {
+	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object) {
 		return openObjectDialog(activatorComponent, object, getObjectTitle(object), getObjectIconImage(object), false,
 				true);
 	}
 
-	public ObjectDialogBuilder openObjectDialog(Component activatorComponent, Object object, final String title,
-			Image iconImage, boolean cancellable, boolean modal) {
-		ObjectDialogBuilder dialogBuilder = createObjectDialogBuilder(activatorComponent, object);
-		dialogBuilder.setTitle(title);
-		dialogBuilder.setIconImage(iconImage);
-		dialogBuilder.setCancellable(cancellable);
-		showDialog(dialogBuilder.build(), modal);
+	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object, final String title,
+			final Image iconImage, final boolean cancellable, boolean modal) {
+		StandardEditorBuilder dialogBuilder = getObjectDialogBuilder(activatorComponent, object, title, iconImage,
+				cancellable);
+		showDialog(dialogBuilder.createDialog(), modal);
 		return dialogBuilder;
 	}
 
-	public ObjectDialogBuilder createObjectDialogBuilder(Component activatorComponent, Object object) {
-		return new ObjectDialogBuilder(this, activatorComponent, object) {
+	public StandardEditorBuilder getObjectDialogBuilder(Component activatorComponent, Object object, final String title,
+			final Image iconImage, final boolean cancellable) {
+		return new StandardEditorBuilder(this, activatorComponent, object) {
 
 			@Override
-			protected DialogBuilder createDelegateDialogBuilder(Component ownerComponent) {
+			protected DialogBuilder createDelegateDialogBuilder() {
 				return createDialogBuilder(ownerComponent);
+			}
+
+			@Override
+			public boolean isCancellable() {
+				return cancellable;
+			}
+
+			@Override
+			public String getEditorTitle() {
+				return title;
+			}
+
+			@Override
+			public Image getObjectIconImage() {
+				return iconImage;
 			}
 
 		};
@@ -1039,21 +1058,9 @@ public class SwingRenderer {
 	}
 
 	public JFrame createObjectFrame(Object object, String title, Image iconImage) {
-		final Object[] valueHolder = new Object[] { object };
-		String fieldCaption = BooleanTypeInfo.isCompatibleWith(valueHolder[0].getClass()) ? "Is True" : "";
-		ITypeInfo objectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, objectType);
-		encapsulation.setTypeCaption(title);
-		encapsulation.setFieldCaption(fieldCaption);
-		encapsulation.setFieldNullable(false);
-		Map<String, Object> properties = new HashMap<String, Object>();
-		{
-			DesktopSpecificProperty.setSubFormExpanded(properties, true);
-			encapsulation.setFieldSpecificProperties(properties);
-		}
-		object = encapsulation.getInstance(valueHolder);
-		JPanel form = createForm(object);
-		JFrame frame = createFrame(form, title, iconImage, createCommonToolbarControls(form));
+		StandardEditorBuilder dialogBuilder = getObjectDialogBuilder(null, object, title, iconImage, false);
+		JPanel editorPanel = dialogBuilder.createEditorPanel();
+		JFrame frame = createFrame(editorPanel, title, iconImage, createCommonToolbarControls(editorPanel));
 		return frame;
 	}
 
@@ -1236,7 +1243,7 @@ public class SwingRenderer {
 				public void run() {
 					while (true) {
 						if (!runner.isAlive()) {
-							JDialog dialog = dialogBuilder.getBuiltDialog();
+							JDialog dialog = dialogBuilder.getCreatedDialog();
 							if (dialog != null) {
 								if (dialog.isVisible()) {
 									dialog.dispose();
@@ -1261,7 +1268,7 @@ public class SwingRenderer {
 			busyLabel.setBusy(true);
 			dialogBuilder.setContentComponent(busyLabel);
 			dialogBuilder.setTitle(title);
-			final JDialog dialog = dialogBuilder.build();
+			final JDialog dialog = dialogBuilder.createDialog();
 			dialog.addWindowListener(new WindowAdapter() {
 				@Override
 				public void windowClosing(WindowEvent e) {
@@ -1352,7 +1359,7 @@ public class SwingRenderer {
 		return new JLabel(prepareStringToDisplay(caption + ": "));
 	}
 
-	public void updateStatusBar(final JPanel form) {
+	public void updateFormStatusBar(final JPanel form) {
 		try {
 			validateForm(form);
 			setStatusBarError(form, null);
@@ -1388,11 +1395,11 @@ public class SwingRenderer {
 		}
 	}
 
-	public void updateStatusBarInBackground(final JPanel form) {
+	public void updateFormStatusBarInBackground(final JPanel form) {
 		new Thread("Validator: " + getObjectByForm().get(form)) {
 			@Override
 			public void run() {
-				updateStatusBar(form);
+				updateFormStatusBar(form);
 			}
 		}.start();
 	}
@@ -1728,12 +1735,6 @@ public class SwingRenderer {
 				return new PolymorphicControl(SwingRenderer.this, this);
 			} else {
 				if (controlData.isNullable()) {
-					controlData = new FieldControlDataProxy(controlData) {
-						@Override
-						public boolean isNullable() {
-							return false;
-						}
-					};
 					if (!controlData.isGetOnly()) {
 						return new NullableControl(SwingRenderer.this, this);
 					}
@@ -1741,6 +1742,10 @@ public class SwingRenderer {
 				Object value = controlData.getValue();
 				if (value == null) {
 					return new NullControl(SwingRenderer.this, this);
+				}
+				result = createCustomFieldControl(this, false);
+				if (result != null) {
+					return result;
 				}
 				final ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
 				if (!valueType.equals(controlData.getType())) {
@@ -1897,7 +1902,11 @@ public class SwingRenderer {
 			return method;
 		}
 
-		public MethodControl createMethodControl() {
+		public Component createMethodControl() {
+			Component result = createCustomMethodControl(this);
+			if (result != null) {
+				return result;
+			}
 			return new MethodControl(SwingRenderer.this, this);
 		}
 
