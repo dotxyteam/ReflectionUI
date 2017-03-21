@@ -32,7 +32,7 @@ public class TextualTypeInfo extends DefaultTypeInfo {
 				}
 				Class<?> primitiveType = javaType;
 				if (ClassUtils.isPrimitiveWrapper(primitiveType)) {
-					primitiveType = ClassUtils.wrapperToPrimitiveType(javaType);
+					primitiveType = ClassUtils.wrapperToPrimitiveClass(javaType);
 				}
 				return ClassUtils.getDefaultPrimitiveValue(primitiveType);
 			}
@@ -46,7 +46,7 @@ public class TextualTypeInfo extends DefaultTypeInfo {
 	}
 
 	public static boolean isCompatibleWith(Class<?> javaType) {
-		return ClassUtils.isPrimitiveTypeOrWrapperOrString(javaType);
+		return ClassUtils.isPrimitiveClassOrWrapperOrString(javaType);
 	}
 
 	@Override

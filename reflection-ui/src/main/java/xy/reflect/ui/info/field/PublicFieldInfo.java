@@ -87,7 +87,7 @@ public class PublicFieldInfo implements IFieldInfo {
 
 	@Override
 	public boolean isNullable() {
-		return getType().isPassedByReference();
+		return !getType().isPrimitive();
 	}
 
 	@Override
@@ -97,11 +97,7 @@ public class PublicFieldInfo implements IFieldInfo {
 
 	@Override
 	public ValueReturnMode getValueReturnMode() {
-		if (!getType().isPassedByReference()) {
-			return ValueReturnMode.COPY;
-		} else {
-			return ValueReturnMode.SELF_OR_PROXY;
-		}
+		return ValueReturnMode.SELF_OR_PROXY;
 	}
 
 	@Override

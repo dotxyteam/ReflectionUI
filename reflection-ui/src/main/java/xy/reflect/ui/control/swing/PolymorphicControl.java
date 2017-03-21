@@ -108,7 +108,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 
 			@Override
 			public ValueReturnMode getObjectValueReturnMode() {
-				return ValueReturnMode.COPY;
+				return ValueReturnMode.CALCULATED;
 			}
 
 			@Override
@@ -246,7 +246,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			}
 
 			@Override
-			public String getEncapsulatedObjectTypeCaption() {
+			public String getEncapsulationTypeCaption() {
 				return ReflectionUIUtils.composeMessage("Polymorphic", polymorphicType.getCaption());
 			}
 

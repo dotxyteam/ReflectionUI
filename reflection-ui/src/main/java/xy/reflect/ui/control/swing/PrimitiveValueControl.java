@@ -62,7 +62,7 @@ public abstract class PrimitiveValueControl extends TextControl {
 
 	public static Object fromText(String text, Class<?> javaType) {
 		if (javaType.isPrimitive()) {
-			javaType = ClassUtils.primitiveToWrapperType(javaType);
+			javaType = ClassUtils.primitiveToWrapperClass(javaType);
 		}
 		if (javaType == Character.class) {
 			if (text.length() != 1) {

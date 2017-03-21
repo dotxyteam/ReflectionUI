@@ -368,7 +368,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 				@Override
 				public ValueReturnMode getValueReturnMode() {
-					return ValueReturnMode.COPY;
+					return ValueReturnMode.CALCULATED;
 				}
 
 				@Override
@@ -459,7 +459,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 				@Override
 				public ValueReturnMode getValueReturnMode() {
-					return ValueReturnMode.COPY;
+					return ValueReturnMode.CALCULATED;
 				}
 
 				@Override
@@ -905,7 +905,7 @@ public class SwingCustomizer extends SwingRenderer {
 			StandardEditorBuilder dialogStatus = customizationToolsRenderer.openObjectDialog(activatorComponent,
 					columnOrder, "Columns Order", getCustomizationsIcon().getImage(), true, true);
 			if (dialogStatus.wasOkPressed()) {
-				columnOrder = (List<ColumnOrderItem>) dialogStatus.getObject();
+				columnOrder = (List<ColumnOrderItem>) dialogStatus.getCurrentObjectValue();
 				List<String> newOrder = new ArrayList<String>();
 				for (ColumnOrderItem item : columnOrder) {
 					newOrder.add(item.getColumnInfo().getName());

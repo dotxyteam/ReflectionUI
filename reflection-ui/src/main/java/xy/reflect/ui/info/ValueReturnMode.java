@@ -3,7 +3,7 @@ package xy.reflect.ui.info;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public enum ValueReturnMode {
-	SELF_OR_PROXY, INDETERMINATE, COPY;
+	SELF_OR_PROXY, INDETERMINATE, CALCULATED;
 
 	public static ValueReturnMode combine(ValueReturnMode parent, ValueReturnMode child) {
 		if (parent == ValueReturnMode.SELF_OR_PROXY) {
@@ -11,8 +11,8 @@ public enum ValueReturnMode {
 				return ValueReturnMode.SELF_OR_PROXY;
 			} else if (child == ValueReturnMode.INDETERMINATE) {
 				return ValueReturnMode.INDETERMINATE;
-			} else if (child == ValueReturnMode.COPY) {
-				return ValueReturnMode.COPY;
+			} else if (child == ValueReturnMode.CALCULATED) {
+				return ValueReturnMode.CALCULATED;
 			} else {
 				throw new ReflectionUIError();
 			}
@@ -21,18 +21,18 @@ public enum ValueReturnMode {
 				return ValueReturnMode.INDETERMINATE;
 			} else if (child == ValueReturnMode.INDETERMINATE) {
 				return ValueReturnMode.INDETERMINATE;
-			} else if (child == ValueReturnMode.COPY) {
-				return ValueReturnMode.COPY;
+			} else if (child == ValueReturnMode.CALCULATED) {
+				return ValueReturnMode.CALCULATED;
 			} else {
 				throw new ReflectionUIError();
 			}
-		} else if (parent == ValueReturnMode.COPY) {
+		} else if (parent == ValueReturnMode.CALCULATED) {
 			if (child == ValueReturnMode.SELF_OR_PROXY) {
-				return ValueReturnMode.COPY;
+				return ValueReturnMode.CALCULATED;
 			} else if (child == ValueReturnMode.INDETERMINATE) {
-				return ValueReturnMode.COPY;
-			} else if (child == ValueReturnMode.COPY) {
-				return ValueReturnMode.COPY;
+				return ValueReturnMode.CALCULATED;
+			} else if (child == ValueReturnMode.CALCULATED) {
+				return ValueReturnMode.CALCULATED;
 			} else {
 				throw new ReflectionUIError();
 			}

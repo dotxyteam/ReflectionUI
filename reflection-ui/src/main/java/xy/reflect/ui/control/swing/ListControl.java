@@ -1113,7 +1113,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				};
 				dialogBuilder.showDialog();
 				if (dialogBuilder.wasOkPressed()) {
-					newItem = dialogBuilder.getObject();
+					newItem = dialogBuilder.getCurrentObjectValue();
 					getModificationStack().apply(new ListModificationFactory(newItemPosition, getModificationsTarget())
 							.add(newItemPosition.getIndex(), newItem));
 					ItemPosition toSelect = newItemPosition;
@@ -1236,7 +1236,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				};
 				dialogBuilder.showDialog();
 				if (dialogBuilder.wasOkPressed()) {
-					newSubListItem = dialogBuilder.getObject();
+					newSubListItem = dialogBuilder.getCurrentObjectValue();
 					getModificationStack()
 							.apply(new ListModificationFactory(newSubItemPosition, getModificationsTarget())
 									.add(newSubItemPosition.getIndex(), newSubListItem));

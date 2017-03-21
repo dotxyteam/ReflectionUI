@@ -8,7 +8,9 @@ import xy.reflect.ui.info.method.IMethodInfo;
 
 public interface ITypeInfo extends IInfo {
 
-	boolean isPassedByReference();
+	boolean isImmutable();
+
+	boolean isPrimitive();
 
 	boolean isConcrete();
 

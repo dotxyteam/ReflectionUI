@@ -672,6 +672,7 @@
         </treeStructureDiscoverySettings>
     </listCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName></typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -684,6 +685,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>EncapsulatedObjectFactory [fieldType=Date, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -696,6 +698,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>EncapsulatedObjectFactory [fieldType=Illegal Access Exception, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -708,6 +711,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>EncapsulatedObjectFactory [fieldType=Selection Dialog Array As Enumeration, fieldCaption=Choose an option:]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -720,6 +724,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>EncapsulatedObjectFactory [fieldType=Selection, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -732,6 +737,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>EncapsulatedObjectFactory [fieldType=String, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -744,6 +750,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>EncapsulatedObjectFactory [fieldType=Test 2, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -756,6 +763,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>EncapsulatedObjectFactory [fieldType=Test 3, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -768,6 +776,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>EncapsulatedObjectFactory [fieldType=Test 4, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -780,6 +789,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>EncapsulatedObjectFactory [fieldType=Test, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -792,6 +802,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=Input, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -812,6 +823,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=Selection, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -824,6 +836,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=Test 2, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -836,6 +849,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=Test 2, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -848,6 +862,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=Test 3, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -868,6 +883,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=Test, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -880,6 +896,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@108622a, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -892,6 +909,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@10c7d5c, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -904,6 +922,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1176de6, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -916,6 +935,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@11d565f, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -928,6 +948,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@12b4986, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -940,6 +961,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@12b644e, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -952,6 +974,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@13c66d8, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -964,6 +987,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@152c19d, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -976,6 +1000,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@15a191e, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -988,6 +1013,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@15ee9e3, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1000,6 +1026,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1623f3e, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1012,6 +1039,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1636731, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1024,6 +1052,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1681629, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1036,6 +1065,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@16995a2, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1048,6 +1078,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@16d383a, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1060,6 +1091,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1727596, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1072,6 +1104,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@17e7f88, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1084,6 +1117,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@17e9134, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1096,6 +1130,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1854518, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1108,6 +1143,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@186b0ee, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1120,6 +1156,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@186c40d, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1132,6 +1169,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@19cc1e3, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1144,6 +1182,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1a1644b, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1156,6 +1195,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1a2a618, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1168,6 +1208,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1aa7aac, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1180,6 +1221,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1b510b8, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1192,6 +1234,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1b887b2, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1204,6 +1247,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1b92a37, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1216,6 +1260,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1c78000, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1228,6 +1273,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1cf56e9, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1240,6 +1286,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1d510be, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1252,6 +1299,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1d6d61d, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1264,6 +1312,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1d7b155, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1276,6 +1325,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1fd5730, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1288,6 +1338,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1ff3510, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1300,6 +1351,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@27f394, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1312,6 +1364,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@2b6fc7, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1324,6 +1377,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@2bfa91, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1336,6 +1390,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@32087b, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1348,6 +1403,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@346762, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1360,6 +1416,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@34c0bd, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1372,6 +1429,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@3c78e1, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1384,6 +1442,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@4134e0, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1396,6 +1455,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@426fde, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1408,6 +1468,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@5161e1, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1420,6 +1481,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@55a58f, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1432,6 +1494,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@56291a, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1444,6 +1507,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@56e684, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1456,6 +1520,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@592bb1, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1468,6 +1533,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@5cd7f9, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1480,6 +1546,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@5dfc67, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1492,6 +1559,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@5ef1eb, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1504,6 +1572,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@64064b, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1516,6 +1585,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@67a232, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1528,6 +1598,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@6d3209, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1540,6 +1611,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@8f612f, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1552,6 +1624,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@9133f6, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1564,6 +1637,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@94b0ca, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1576,6 +1650,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@966905, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1588,6 +1663,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@991d56, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1600,6 +1676,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@9ba045, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1612,6 +1689,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@9fa2fb, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1624,6 +1702,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@a50ea1, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1636,6 +1715,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@a81019, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1648,6 +1728,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@a93a16, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1660,6 +1741,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@b65a68, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1672,6 +1754,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@c2480b, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1684,6 +1767,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@c37f31, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1696,6 +1780,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@c42804, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1708,6 +1793,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@cc5c38, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1720,6 +1806,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@ceb62f, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1732,6 +1819,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@d9cc1a, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1744,6 +1832,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@db248c, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1756,6 +1845,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@dbb83a, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1768,6 +1858,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@dc51c8, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1780,6 +1871,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@dc64a2, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1792,6 +1884,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@df804e, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1804,6 +1897,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@e1f6c, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1816,6 +1910,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@ea58e3, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1828,6 +1923,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@ec850, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1840,6 +1936,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@f04d94, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1852,6 +1949,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@ffeba4, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1864,22 +1962,27 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Error, fieldType=String, fieldCaption=Message]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Error, fieldType=java.lang.String, fieldCaption=Message]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Exception - Polymorphic Type, fieldType=SubTypesEnumeration [polymorphicType=java.lang.Exception], fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Exception - Polymorphic Value, fieldType=java.lang.ClassNotFoundException, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Exception - Polymorphic Value, fieldType=java.lang.NullPointerException, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1892,6 +1995,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Input, fieldType=String, fieldCaption=Create 'Abstrcat Test Descendant' of type]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1904,6 +2008,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Input, fieldType=String, fieldCaption=Create 'Object' of type]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1916,22 +2021,27 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Return Nothing - Result - &lt;null&gt;, fieldType=java.lang.Object, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Selection, fieldType=ConstructorSelection [type=java.io.File], fieldCaption=Choose an option]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Selection, fieldType=ConstructorSelection [type=java.lang.ClassNotFoundException], fieldCaption=Choose an option]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Selection, fieldType=SelectionDialogArrayAsEnumeration [title=Icon Image], fieldCaption=Choose an option]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Selection, fieldType=SubTypesEnumeration [polymorphicType=ReflectionUITest$AbstrcatTestDescendant], fieldCaption=Choose a type:]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1944,6 +2054,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Selection, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@119ca2c, fieldCaption=Choose an option:]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1956,6 +2067,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Selection, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1b8737f, fieldCaption=Choose an option:]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1968,18 +2080,22 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Selection, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@ee7e66, fieldCaption=Choose a type:]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=The Array Tree Table - Dynamic Property, fieldType=ReflectionUITest$AbstrcatTestDescendant$Day, fieldCaption=The Day]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=The Array Tree Table - Item, fieldType=ReflectionUITest$Test2, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=The Array Tree Table - Item, fieldType=ReflectionUITest$Test3, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1992,14 +2108,17 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=The Boolean List - Item, fieldType=java.lang.Boolean, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=The File List - Item, fieldType=java.io.File, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=The Generic Vector - Item, fieldType=ReflectionUITest$Test2, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2012,10 +2131,12 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=The Map - Item, fieldType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,java.lang.String&gt;, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=The String List - Item, fieldType=java.lang.String, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2028,6 +2149,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>EncapsulationTypeInfo [fieldType=Day, fieldCaption=The Day]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2040,6 +2162,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>EncapsulationTypeInfo [fieldType=Test 2, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2052,6 +2175,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>EncapsulationTypeInfo [fieldType=Test 3, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2064,6 +2188,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>EncapsulationTypeInfo [fieldType=Test, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2076,6 +2201,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>EncapsulationTypeInfo [fieldType=xy.reflect.ui.info.type.util.EncapsulationTypeInfo@f4863541, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2088,6 +2214,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>EncapsulationTypeInfo()</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2100,18 +2227,22 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>MethodInvocationObjectFactory(AWTException)</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>MethodSetupObject [method=boolean after(java.util.Date), containingType=java.util.Date]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>MethodSetupObject [method=void multiplyTheFloat(int), containingType=ReflectionUITest$Test]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>MethodSetupObject [method=void setTheBoundedInt(int), containingType=ReflectionUITest$Test]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2141,6 +2272,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <javaClassBasedTypeInfoFinder>
             <className>ReflectionUITest$Test2</className>
         </javaClassBasedTypeInfoFinder>
@@ -2151,10 +2283,12 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>ReflectionUITest$AbstrcatTestDescendant$Day</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>ReflectionUITest$AbstrcatTestDescendant.PolymorphicInstanceSubTypesEnumeration</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2478,6 +2612,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <memberCategories>
             <caption>Lists</caption>
         </memberCategories>
@@ -2572,6 +2707,26 @@
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
             <methodSignature>void callWithManyParams(int, java.lang.String, java.util.Date, java.awt.Color)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>i</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>s</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>d</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>c</parameterName>
+            </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
@@ -2608,6 +2763,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>ReflectionUITest$Test.theChoice.ValueOptions</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2644,6 +2800,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -2702,6 +2859,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -2723,6 +2881,7 @@
                 <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">DesktopSpecificProperty.VALUE_PATH_TYPE_KIND_RELATIVE_FILE</value>
             </entry>
         </specificProperties>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -2839,10 +2998,12 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>SelectionDialogArrayAsEnumeration</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>SubTypesEnumeration [polymorphicType=java.lang.Exception]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2855,6 +3016,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>VirtualFieldWrapperTypeInfo()</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2867,46 +3029,57 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>VirtualFieldWrapperTypeInfo(Create 'Abstrcat Test Descendant' of type)</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>[B</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>[LReflectionUITest$AbstrcatTestDescendant;</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>[Ljava.lang.StackTraceElement;</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>[Ljava.lang.String;</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>boolean</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>char</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>double</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>float</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>int</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -2926,7 +3099,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>The File List</customFieldCaption>
-            <customValueReturnMode>COPY</customValueReturnMode>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>MethodAsField [method=listFiles]</fieldName>
@@ -3069,6 +3241,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>true</displayedAsField>
@@ -3346,10 +3519,12 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>java.io.PrintStream</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>java.io.PrintWriter</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3378,6 +3553,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -3473,6 +3649,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>java.lang.Class</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3487,6 +3664,7 @@
                 <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">DesktopSpecificProperty.VALUE_PATH_TYPE_KIND_RELATIVE_FILE</value>
             </entry>
         </specificProperties>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -3563,10 +3741,12 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>java.lang.Double</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <javaClassBasedTypeInfoFinder>
             <className>java.lang.ClassNotFoundException</className>
         </javaClassBasedTypeInfoFinder>
@@ -3580,10 +3760,12 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>java.lang.Exception.SubTypesEnumeration</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>java.lang.Float</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3620,6 +3802,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -3725,18 +3908,22 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>java.lang.Integer</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>java.lang.NullPointerException</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>java.lang.Object</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>java.lang.Short</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3781,6 +3968,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>java.lang.StackTraceElement</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3809,6 +3997,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -3820,6 +4009,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>java.lang.Throwable</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3832,6 +4022,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4081,14 +4272,17 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>java.util.Arrays$ArrayList</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>java.util.Collection</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>java.util.Comparator</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -4165,6 +4359,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4275,50 +4470,62 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>java.util.HashMap</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>java.util.HashSet</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>java.util.List</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>java.util.Map</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>java.util.Set</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>java.util.Stack</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>java.util.Vector</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>long</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>short</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>xy.reflect.ui.control.swing.PolymorphicControl$1</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>xy.reflect.ui.control.swing.PolymorphicEmbeddedForm$1</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,ReflectionUITest$Test2&gt;</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -4339,6 +4546,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,java.lang.String&gt;</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -4359,18 +4567,22 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>xy.reflect.ui.info.type.util.TypeInfoProxyFactory$GeneratedBasicTypeInfoProxy</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>xy.reflect.ui.info.type.util.TypeInfoProxyFactory$GeneratedMethodInfoProxy</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>xy.reflect.ui.util.ReflectionUIError</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -4399,10 +4611,12 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>MethodSetupObject [method=void callWithManyParams(int, java.lang.String, java.util.Date, java.awt.Color), containingType=ReflectionUITest$Test]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4419,6 +4633,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4435,6 +4650,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4466,6 +4682,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4482,6 +4699,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4515,6 +4733,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4548,6 +4767,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4581,6 +4801,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4597,6 +4818,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4625,6 +4847,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4668,6 +4891,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4696,6 +4920,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4712,6 +4937,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4728,6 +4954,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4749,6 +4976,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4765,6 +4993,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4786,6 +5015,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4802,6 +5032,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4818,6 +5049,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4846,6 +5078,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4862,6 +5095,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4883,6 +5117,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4904,6 +5139,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4925,6 +5161,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4946,6 +5183,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4962,6 +5200,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -4992,6 +5231,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Test Descendant - Polymorphic Value, fieldType=ReflectionUITest$Test3, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -5010,6 +5250,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=The Array Tree Table - Item, fieldType=ReflectionUITest$AbstrcatTestDescendant, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -5028,10 +5269,12 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Test Descendant - Polymorphic Value, fieldType=ReflectionUITest$Test2, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -5048,6 +5291,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -5064,6 +5308,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -5080,6 +5325,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -5108,6 +5354,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -5124,6 +5371,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -5145,6 +5393,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -5178,6 +5427,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -5199,6 +5449,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -5232,6 +5483,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -5248,6 +5500,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -5264,6 +5517,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -5280,6 +5534,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -5296,6 +5551,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -5312,6 +5568,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -5328,6 +5585,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -5344,6 +5602,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -5360,6 +5619,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -5376,6 +5636,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -5392,6 +5653,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -5408,6 +5670,7 @@
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
+        <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <displayedAsField>false</displayedAsField>
@@ -5438,6 +5701,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=ReflectionUITest$Test2, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -5450,6 +5714,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=ReflectionUITest$Test4, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -5468,6 +5733,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Test 2 - Dynamic Wrapper, fieldType=ReflectionUITest$Test2, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -5480,6 +5746,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Float, fieldType=float, fieldCaption=]</typeName>
         <undoManagementHidden>true</undoManagementHidden>
     </typeCustomizations>
@@ -5498,6 +5765,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Polymorphic - Exception, fieldType=java.lang.NullPointerException, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -5510,6 +5778,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Object, fieldType=java.lang.Object, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -5528,6 +5797,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Nullable - Test 2, fieldType=ReflectionUITest$Test2, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -5546,6 +5816,7 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Polymorphic - Exception, fieldType=java.lang.IllegalAccessException, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>

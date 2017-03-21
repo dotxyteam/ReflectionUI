@@ -60,7 +60,7 @@ public abstract class AbstractConstructorInfo implements IMethodInfo {
 
 	@Override
 	public ValueReturnMode getValueReturnMode() {
-		return ValueReturnMode.COPY;
+		return ValueReturnMode.CALCULATED;
 	}
 
 	@Override

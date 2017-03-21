@@ -165,7 +165,12 @@ public class ArrayAsEnumerationFactory {
 
 	protected class TypeInfo implements IEnumerationTypeInfo {
 		@Override
-		public boolean isPassedByReference() {
+		public boolean isPrimitive() {
+			return false;
+		}
+
+		@Override
+		public boolean isImmutable() {
 			return true;
 		}
 

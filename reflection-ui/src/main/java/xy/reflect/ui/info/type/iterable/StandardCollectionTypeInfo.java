@@ -57,16 +57,12 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 		if(itemType == null){
 			return true;
 		}
-		return itemType.isPassedByReference();
+		return !itemType.isPrimitive();
 	}
 
 	@Override
 	public ValueReturnMode getItemReturnMode() {
-		if((itemType == null) || itemType.isPassedByReference()){
-			return ValueReturnMode.INDETERMINATE;
-		}else{
-			return ValueReturnMode.COPY;
-		}
+		return ValueReturnMode.INDETERMINATE;
 	}
 
 	@Override

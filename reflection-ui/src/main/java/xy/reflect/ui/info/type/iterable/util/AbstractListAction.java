@@ -54,11 +54,7 @@ public abstract class AbstractListAction implements IMethodInfo {
 
 	@Override
 	public ValueReturnMode getValueReturnMode() {
-		if ((getReturnValueType() != null) && !getReturnValueType().isPassedByReference()) {
-			return ValueReturnMode.COPY;
-		} else {
-			return ValueReturnMode.INDETERMINATE;
-		}
+		return ValueReturnMode.INDETERMINATE;
 	}
 
 	@Override

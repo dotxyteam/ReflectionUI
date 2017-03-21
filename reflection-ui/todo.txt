@@ -1,11 +1,6 @@
-- list types: rationalize & optimize: add:
-	. IFieldInfo getItemAccessor();	
-	. int getSize(Object listValue);
-	. boolean canAddItem();
-	. void addItem(Object item, int index);
-	. boolean canRemoveItem();
-	. void removeItem(Object item, int index);
-- ListControl calls too much list.toArray()
+- refactor InfoCustomizations:
+	. list and enum customizations must be linked to fields
+- ListControl calls too much list.toArray(): optimize
 . allow to execute dynamic actions or change dynamic properties on 
 multiple nodes
 . allow to easily customize ListFieldNamesNode title

@@ -21,7 +21,7 @@ import xy.reflect.ui.info.type.util.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.TreeStructureDiscoverySettings;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class TestIterableTypeInfos  extends AbstractTest{
+public class TestIterableTypeInfos  extends AbstractUIAutomationTest{
 
 	public abstract class AbstractItem {
 		public int abstractValue;

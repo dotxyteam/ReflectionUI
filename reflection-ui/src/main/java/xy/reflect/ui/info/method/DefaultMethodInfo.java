@@ -116,11 +116,7 @@ public class DefaultMethodInfo implements IMethodInfo {
 
 	@Override
 	public ValueReturnMode getValueReturnMode() {
-		if ((getReturnValueType() != null) && !getReturnValueType().isPassedByReference()) {
-			return ValueReturnMode.COPY;
-		} else {
-			return ValueReturnMode.INDETERMINATE;
-		}
+		return ValueReturnMode.INDETERMINATE;
 	}
 
 	public static boolean isCompatibleWith(Method javaMethod, Class<?> containingJavaClass) {

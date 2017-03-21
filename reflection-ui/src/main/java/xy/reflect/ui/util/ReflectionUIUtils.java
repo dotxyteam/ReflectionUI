@@ -795,7 +795,7 @@ public class ReflectionUIUtils {
 						UndoOrder.FIFO, new Accessor<Boolean>() {
 							@Override
 							public Boolean get() {
-								if (childValueReturnMode != ValueReturnMode.COPY) {
+								if (childValueReturnMode != ValueReturnMode.CALCULATED) {
 									if (childModifStack.wasInvalidated()) {
 										parentModifStack.invalidate();
 									} else {
@@ -813,7 +813,7 @@ public class ReflectionUIUtils {
 			}
 		} else {
 			if (!childModifStack.isNull()) {
-				if (childValueReturnMode != ValueReturnMode.COPY) {
+				if (childValueReturnMode != ValueReturnMode.CALCULATED) {
 					if (!childModifStack.wasInvalidated()) {
 						childModifStack.undoAll();
 					} else {
@@ -828,15 +828,23 @@ public class ReflectionUIUtils {
 		return parentValueImpacted;
 	}
 
-	public static boolean canPotentiallyIntegrateSubModifications(ValueReturnMode childValueReturnMode,
+	public static boolean canPotentiallyIntegrateSubModifications(ReflectionUI reflectionUI, Object value, ValueReturnMode childValueReturnMode,
 			boolean canCommit) {
-		if (childValueReturnMode != ValueReturnMode.COPY) {
+		if ((childValueReturnMode != ValueReturnMode.CALCULATED) && !isValueImmutable(reflectionUI, value)) {
 			return true;
 		}
 		if (canCommit) {
 			return true;
 		}
 		return false;
+	}
+
+	public static boolean isValueImmutable(ReflectionUI reflectionUI, Object value) {
+		if(value == null){
+			return true;
+		}
+		ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
+		return valueType.isImmutable();
 	}
 
 	public static ArrayAsEnumerationFactory getPolymorphicTypesEnumerationfactory(ReflectionUI reflectionUI,

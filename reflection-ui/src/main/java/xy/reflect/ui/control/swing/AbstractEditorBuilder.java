@@ -30,11 +30,11 @@ public abstract class AbstractEditorBuilder extends AbstractEditorPanelBuilder {
 
 	@Override
 	public String getEditorTitle() {
-		return getSwingRenderer().getObjectTitle(getObject());
+		return getSwingRenderer().getObjectTitle(getCurrentObjectValue());
 	}
 
 	public Image getObjectIconImage() {
-		return getSwingRenderer().getObjectIconImage(getObject());
+		return getSwingRenderer().getObjectIconImage(getCurrentObjectValue());
 	}
 
 	public String getCancelCaption() {
@@ -107,7 +107,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorPanelBuilder {
 		if (!canCommit()) {
 			commitModif = null;
 		} else {
-			commitModif = createCommitModification(encapsulatedObjectAccessor.get());
+			commitModif = createCommitModification(encapsulatedObjectValueAccessor.get());
 		}
 		boolean childModifAccepted = (!isCancellable()) || wasOkPressed();
 		boolean childValueNew = isObjectNew();

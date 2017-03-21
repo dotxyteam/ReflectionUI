@@ -91,7 +91,7 @@ public class GetterFieldInfo implements IFieldInfo {
 
 	@Override
 	public boolean isNullable() {
-		return getType().isPassedByReference();
+		return !getType().isPrimitive();
 	}
 
 	@Override
@@ -106,11 +106,7 @@ public class GetterFieldInfo implements IFieldInfo {
 
 	@Override
 	public ValueReturnMode getValueReturnMode() {
-		if (!getType().isPassedByReference()) {
-			return ValueReturnMode.COPY;
-		} else {
-			return ValueReturnMode.INDETERMINATE;
-		}
+		return ValueReturnMode.INDETERMINATE;
 	}
 
 	

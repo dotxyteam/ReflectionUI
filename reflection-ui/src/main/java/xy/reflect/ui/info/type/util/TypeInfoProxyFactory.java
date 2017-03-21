@@ -330,8 +330,12 @@ public abstract class TypeInfoProxyFactory {
 		return type.isConcrete();
 	}
 
-	protected boolean isPassedByReference(ITypeInfo type) {
-		return type.isPassedByReference();
+	protected boolean isPrimitive(ITypeInfo type) {
+		return type.isPrimitive();
+	}
+	
+	protected boolean isImmutable(ITypeInfo type) {
+		return type.isImmutable();
 	}
 
 	protected boolean isModificationStackAccessible(ITypeInfo type) {
@@ -447,10 +451,13 @@ public abstract class TypeInfoProxyFactory {
 		}
 
 		@Override
-		public boolean isPassedByReference() {
-			return TypeInfoProxyFactory.this.isPassedByReference(base);
+		public boolean isPrimitive() {
+			return TypeInfoProxyFactory.this.isPrimitive(base);
 		}
-
+		@Override
+		public boolean isImmutable() {
+			return TypeInfoProxyFactory.this.isImmutable(base);
+		}
 		@Override
 		public boolean isModificationStackAccessible() {
 			return TypeInfoProxyFactory.this.isModificationStackAccessible(base);

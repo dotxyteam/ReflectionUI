@@ -23,7 +23,24 @@ import xy.reflect.ui.util.SwingRendererUtils;
 
 public abstract class AbstractEditorPanelBuilder {
 
-	protected Object initialObject;
+	protected Object initialObjectValue;
+	protected boolean objectValueInitialized = false;
+	protected Accessor<Object> encapsulatedObjectValueAccessor = new Accessor<Object>() {
+
+		Object object;
+
+		@Override
+		public Object get() {
+			ensureObjectValueIsInitialized();
+			return object;
+		}
+
+		@Override
+		public void set(Object t) {
+			object = t;
+		}
+
+	};
 
 	public abstract SwingRenderer getSwingRenderer();
 
@@ -51,53 +68,36 @@ public abstract class AbstractEditorPanelBuilder {
 
 	public abstract boolean isObjectFormExpanded();
 
-	protected Accessor<Object> encapsulatedObjectAccessor = new Accessor<Object>() {
-
-		boolean firstAccess = true;
-		Object object;
-
-		@Override
-		public Object get() {
-			if (firstAccess) {
-				object = initialObject = getInitialObjectValue();
-				firstAccess = false;
-			} else {
-				if (!canPotentiallyModifyParent()) {
-					object = getInitialObjectValue();
-				}
-			}
-			return object;
+	protected void ensureObjectValueIsInitialized() {
+		if (!objectValueInitialized) {
+			encapsulatedObjectValueAccessor.set(initialObjectValue = getInitialObjectValue());
+			objectValueInitialized = true;
 		}
 
-		@Override
-		public void set(Object t) {
-			object = t;
-		}
+	}
 
-	};
-
-	public Object getObject() {
-		return encapsulatedObjectAccessor.get();
+	public Object getCurrentObjectValue() {
+		return encapsulatedObjectValueAccessor.get();
 	}
 
 	public boolean isObjectNew() {
-		return initialObject != encapsulatedObjectAccessor.get();
+		return initialObjectValue != encapsulatedObjectValueAccessor.get();
 	}
 
 	public Object getEncapsulatedObject() {
-		return getEncapsulation().getInstance(encapsulatedObjectAccessor);
+		return getEncapsulation().getInstance(encapsulatedObjectValueAccessor);
 	}
 
 	public EncapsulatedObjectFactory getEncapsulation() {
 		EncapsulatedObjectFactory result = new EncapsulatedObjectFactory(getSwingRenderer().getReflectionUI(),
 				getEncapsulatedFieldType());
-		result.setTypeCaption(getEncapsulatedObjectTypeCaption());
+		result.setTypeCaption(getEncapsulationTypeCaption());
 		result.setTypeModificationStackAccessible(canPotentiallyModifyParent());
 		result.setFieldCaption("");
 		result.setFieldGetOnly(!canCommit());
 		result.setFieldNullable(isObjectNullable());
 		result.setFieldValueReturnMode(
-				canPotentiallyModifyParent() ? ValueReturnMode.SELF_OR_PROXY : ValueReturnMode.COPY);
+				canPotentiallyModifyParent() ? ValueReturnMode.SELF_OR_PROXY : ValueReturnMode.CALCULATED);
 		Map<String, Object> properties = new HashMap<String, Object>();
 		{
 			DesktopSpecificProperty.setSubFormExpanded(properties, isObjectFormExpanded());
@@ -112,7 +112,7 @@ public abstract class AbstractEditorPanelBuilder {
 		if (result != null) {
 			return result;
 		}
-		Object object = getObject();
+		Object object = getCurrentObjectValue();
 		if (object != null) {
 			return getSwingRenderer().getReflectionUI()
 					.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(object));
@@ -120,7 +120,7 @@ public abstract class AbstractEditorPanelBuilder {
 		return getSwingRenderer().getReflectionUI().getTypeInfo(new JavaTypeInfoSource(Object.class));
 	}
 
-	public String getEncapsulatedObjectTypeCaption() {
+	public String getEncapsulationTypeCaption() {
 		return getEncapsulatedFieldType().getCaption();
 	}
 
@@ -138,7 +138,7 @@ public abstract class AbstractEditorPanelBuilder {
 		if (encapsulatedObjectField.isNullable()) {
 			return false;
 		}
-		Object object = getObject();
+		Object object = getCurrentObjectValue();
 		if (object == null) {
 			throw new ReflectionUIError();
 		}
@@ -162,7 +162,9 @@ public abstract class AbstractEditorPanelBuilder {
 	}
 
 	public boolean canPotentiallyModifyParent() {
-		return ReflectionUIUtils.canPotentiallyIntegrateSubModifications(getObjectValueReturnMode(), canCommit());
+		ensureObjectValueIsInitialized();
+		return ReflectionUIUtils.canPotentiallyIntegrateSubModifications(getSwingRenderer().getReflectionUI(),
+				initialObjectValue, getObjectValueReturnMode(), canCommit());
 	}
 
 	protected void refreshEditorPanelOnModification(final JPanel panel) {
@@ -170,6 +172,7 @@ public abstract class AbstractEditorPanelBuilder {
 		childModificationStack.addListener(new AbstractSimpleModificationListener() {
 			@Override
 			protected void handleAnyEvent(IModification modification) {
+				encapsulatedObjectValueAccessor.set(getInitialObjectValue());
 				getSwingRenderer().refreshAllFieldControls(panel, false);
 			}
 		});
@@ -192,7 +195,7 @@ public abstract class AbstractEditorPanelBuilder {
 		Accessor<IModification> commitModifGetter = new Accessor<IModification>() {
 			@Override
 			public IModification get() {
-				return createCommitModification(encapsulatedObjectAccessor.get());
+				return createCommitModification(encapsulatedObjectValueAccessor.get());
 			}
 		};
 		Accessor<IInfo> childModifTargetGetter = new Accessor<IInfo>() {

@@ -497,6 +497,7 @@ public final class InfoCustomizations {
 		protected String onlineHelp;
 		protected List<CustomizationCategory> memberCategories = new ArrayList<CustomizationCategory>();
 		protected boolean undoManagementHidden = false;
+		protected boolean immutableForced = false;
 
 		protected List<ITypeInfoFinder> polymorphicSubTypeFinders = new ArrayList<ITypeInfoFinder>();
 
@@ -515,6 +516,14 @@ public final class InfoCustomizations {
 
 		public void setTypeName(String typeName) {
 			this.typeName = typeName;
+		}
+
+		public boolean isImmutableForced() {
+			return immutableForced;
+		}
+
+		public void setImmutableForced(boolean immutableForced) {
+			this.immutableForced = immutableForced;
 		}
 
 		@XmlElements({ @XmlElement(name = "javaClassBasedTypeInfoFinder", type = JavaClassBasedTypeInfoFinder.class),
@@ -1754,6 +1763,17 @@ public final class InfoCustomizations {
 		@Override
 		public String toString() {
 			return "Factory of " + InfoCustomizations.this;
+		}
+
+		@Override
+		protected boolean isImmutable(ITypeInfo type) {
+			final TypeCustomization t = getTypeCustomization(type.getName());
+			if (t != null) {
+				if(t.immutableForced){
+					return true;
+				}
+			}
+			return super.isImmutable(type);
 		}
 
 		@Override

@@ -87,7 +87,8 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	protected void forwardSubFormModifications() {
-		if (!ReflectionUIUtils.canPotentiallyIntegrateSubModifications(data.getValueReturnMode(), !data.isGetOnly())) {
+		if (!ReflectionUIUtils.canPotentiallyIntegrateSubModifications(swingRenderer.getReflectionUI(), data.getValue(),
+				data.getValueReturnMode(), !data.isGetOnly())) {
 			ModificationStack childModifStack = swingRenderer.getModificationStackByForm().get(subForm);
 			childModifStack.addListener(new AbstractSimpleModificationListener() {
 				@Override

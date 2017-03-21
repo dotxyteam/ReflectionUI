@@ -197,7 +197,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 			}
 
 			@Override
-			public String getEncapsulatedObjectTypeCaption() {
+			public String getEncapsulationTypeCaption() {
 				return ReflectionUIUtils.composeMessage("Nullable", subControlValueType.getCaption());
 			}
 

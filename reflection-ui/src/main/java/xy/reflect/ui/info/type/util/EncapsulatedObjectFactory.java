@@ -235,8 +235,13 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
-		public boolean isPassedByReference() {
-			return true;
+		public boolean isPrimitive() {
+			return false;
+		}
+
+		@Override
+		public boolean isImmutable() {
+			return false;
 		}
 
 		@Override

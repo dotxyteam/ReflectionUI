@@ -46,8 +46,13 @@ public class DefaultTypeInfo implements ITypeInfo {
 	}
 
 	@Override
-	public boolean isPassedByReference() {
-		return !javaType.isPrimitive();
+	public boolean isPrimitive() {
+		return javaType.isPrimitive();
+	}
+
+	@Override
+	public boolean isImmutable() {
+		return ClassUtils.isKnownAsImmutableClass(javaType);
 	}
 
 	@Override
@@ -133,7 +138,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 	@Override
 	public boolean supportsInstance(Object object) {
 		if (javaType.isPrimitive()) {
-			return ClassUtils.primitiveToWrapperType(javaType).isInstance(object);
+			return ClassUtils.primitiveToWrapperClass(javaType).isInstance(object);
 		} else {
 			return javaType.isInstance(object);
 		}

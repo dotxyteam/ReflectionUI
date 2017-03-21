@@ -85,8 +85,13 @@ public class MethodSetupObjectFactory {
 		}
 
 		@Override
-		public boolean isPassedByReference() {
-			return true;
+		public boolean isPrimitive() {
+			return false;
+		}
+
+		@Override
+		public boolean isImmutable() {
+			return false;
 		}
 
 		@Override
@@ -258,11 +263,7 @@ public class MethodSetupObjectFactory {
 
 		@Override
 		public ValueReturnMode getValueReturnMode() {
-			if (getType().isPassedByReference()) {
-				return ValueReturnMode.INDETERMINATE;
-			} else {
-				return ValueReturnMode.COPY;
-			}
+			return ValueReturnMode.INDETERMINATE;
 		}
 
 		@Override

@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 
 import xy.reflect.ui.control.input.IFieldControlData;
@@ -40,8 +39,8 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 	
 	@Override
 	public boolean showCaption() {
-		//setText(swingRenderer.prepareStringToDisplay(data.getCaption()));
-		setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
+		setText(swingRenderer.prepareStringToDisplay(data.getCaption()));
+		//setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
 		return true;
 	}
 

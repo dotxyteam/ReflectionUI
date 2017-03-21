@@ -37,7 +37,7 @@ public class MethodAction extends AbstractAction {
 		this.swingRenderer = swingRenderer;
 		this.input = input;
 		this.data = input.getControlData();
-		this.retunValueWindowDetached = data.getValueReturnMode() == ValueReturnMode.COPY;
+		this.retunValueWindowDetached = data.getValueReturnMode() == ValueReturnMode.CALCULATED;
 	}
 
 	public SwingRenderer getSwingRenderer() {

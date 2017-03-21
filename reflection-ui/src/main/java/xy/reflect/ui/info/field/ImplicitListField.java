@@ -340,10 +340,16 @@ public class ImplicitListField implements IFieldInfo {
 		}
 
 		@Override
-		public boolean isPassedByReference() {
-			return true;
+		public boolean isPrimitive() {
+			return false;
+		}
+		
+		@Override
+		public boolean isImmutable() {
+			return false;
 		}
 
+		
 		@Override
 		public boolean isModificationStackAccessible() {
 			return false;

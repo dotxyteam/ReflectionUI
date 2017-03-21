@@ -8,7 +8,7 @@ import org.junit.Test;
 import xy.ui.testing.Tester;
 import xy.ui.testing.util.TestingUtils;
 
-public class TestWithAutomation extends AbstractTest {
+public class TestWithAutomation extends AbstractUIAutomationTest {
 
 	@Before
 	public void beforeEachTest() {
