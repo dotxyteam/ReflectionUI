@@ -3,12 +3,12 @@ package xy.reflect.ui.info;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public enum ValueReturnMode {
-	SELF_OR_PROXY, INDETERMINATE, CALCULATED;
+	DIRECT_OR_PROXY, INDETERMINATE, CALCULATED;
 
 	public static ValueReturnMode combine(ValueReturnMode parent, ValueReturnMode child) {
-		if (parent == ValueReturnMode.SELF_OR_PROXY) {
-			if (child == ValueReturnMode.SELF_OR_PROXY) {
-				return ValueReturnMode.SELF_OR_PROXY;
+		if (parent == ValueReturnMode.DIRECT_OR_PROXY) {
+			if (child == ValueReturnMode.DIRECT_OR_PROXY) {
+				return ValueReturnMode.DIRECT_OR_PROXY;
 			} else if (child == ValueReturnMode.INDETERMINATE) {
 				return ValueReturnMode.INDETERMINATE;
 			} else if (child == ValueReturnMode.CALCULATED) {
@@ -17,7 +17,7 @@ public enum ValueReturnMode {
 				throw new ReflectionUIError();
 			}
 		} else if (parent == ValueReturnMode.INDETERMINATE) {
-			if (child == ValueReturnMode.SELF_OR_PROXY) {
+			if (child == ValueReturnMode.DIRECT_OR_PROXY) {
 				return ValueReturnMode.INDETERMINATE;
 			} else if (child == ValueReturnMode.INDETERMINATE) {
 				return ValueReturnMode.INDETERMINATE;
@@ -27,7 +27,7 @@ public enum ValueReturnMode {
 				throw new ReflectionUIError();
 			}
 		} else if (parent == ValueReturnMode.CALCULATED) {
-			if (child == ValueReturnMode.SELF_OR_PROXY) {
+			if (child == ValueReturnMode.DIRECT_OR_PROXY) {
 				return ValueReturnMode.CALCULATED;
 			} else if (child == ValueReturnMode.INDETERMINATE) {
 				return ValueReturnMode.CALCULATED;

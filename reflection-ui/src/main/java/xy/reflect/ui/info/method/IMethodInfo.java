@@ -36,7 +36,7 @@ public interface IMethodInfo extends IInfo {
 
 		@Override
 		public ValueReturnMode getValueReturnMode() {
-			return ValueReturnMode.SELF_OR_PROXY;
+			return ValueReturnMode.DIRECT_OR_PROXY;
 		}
 
 		@Override

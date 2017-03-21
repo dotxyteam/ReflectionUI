@@ -778,8 +778,8 @@ public class ReflectionUIUtils {
 
 	public static boolean integrateSubModifications(ReflectionUI reflectionUI, final ModificationStack parentModifStack,
 			final ModificationStack childModifStack, boolean childModifAccepted,
-			final ValueReturnMode childValueReturnMode, final boolean childValueNew, final IModification commitModif,
-			IInfo childModifTarget, String childModifTitle) {
+			final ValueReturnMode childValueReturnMode, final IModification commitModif, IInfo compositeModifTarget,
+			String compositeModifTitle) {
 
 		if (parentModifStack == null) {
 			throw new ReflectionUIError();
@@ -791,7 +791,7 @@ public class ReflectionUIUtils {
 		boolean parentValueImpacted = false;
 		if (childModifAccepted) {
 			if (!childModifStack.isNull()) {
-				parentValueImpacted = parentModifStack.insideComposite(childModifTarget, childModifTitle + "'",
+				parentValueImpacted = parentModifStack.insideComposite(compositeModifTarget, compositeModifTitle + "'",
 						UndoOrder.FIFO, new Accessor<Boolean>() {
 							@Override
 							public Boolean get() {
@@ -802,7 +802,7 @@ public class ReflectionUIUtils {
 										parentModifStack.pushUndo(childModifStack.toCompositeModification(null, null));
 									}
 								}
-								if ((childValueReturnMode != ValueReturnMode.SELF_OR_PROXY) || childValueNew) {
+								if (childValueReturnMode != ValueReturnMode.DIRECT_OR_PROXY) {
 									if (commitModif != null) {
 										parentModifStack.apply(commitModif);
 									}
@@ -828,8 +828,8 @@ public class ReflectionUIUtils {
 		return parentValueImpacted;
 	}
 
-	public static boolean canPotentiallyIntegrateSubModifications(ReflectionUI reflectionUI, Object value, ValueReturnMode childValueReturnMode,
-			boolean canCommit) {
+	public static boolean canPotentiallyIntegrateSubModifications(ReflectionUI reflectionUI, Object value,
+			ValueReturnMode childValueReturnMode, boolean canCommit) {
 		if ((childValueReturnMode != ValueReturnMode.CALCULATED) && !isValueImmutable(reflectionUI, value)) {
 			return true;
 		}
@@ -840,7 +840,7 @@ public class ReflectionUIUtils {
 	}
 
 	public static boolean isValueImmutable(ReflectionUI reflectionUI, Object value) {
-		if(value == null){
+		if (value == null) {
 			return true;
 		}
 		ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));

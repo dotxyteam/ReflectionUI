@@ -39,13 +39,13 @@ public class ModificationStackControls {
 
 			{
 				updateState();
-				modificationStack.getListeners().add(listener);
+				modificationStack.addListener(listener);
 			}
 
 			@Override
 			public void removeNotify() {
 				super.removeNotify();
-				modificationStack.getListeners().remove(listener);
+				modificationStack.removeListener(listener);
 			}
 
 			protected void updateState() {
@@ -69,7 +69,7 @@ public class ModificationStackControls {
 		return result;
 	}
 
-	public List<Component> createControls(SwingRenderer swingRenderer) {
+	public List<Component> create(SwingRenderer swingRenderer) {
 		List<Component> result = new ArrayList<Component>();
 		result.add(createUndoButton(swingRenderer));
 		result.add(createRedoButton(swingRenderer));

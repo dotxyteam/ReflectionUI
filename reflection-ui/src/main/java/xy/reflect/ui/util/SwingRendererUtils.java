@@ -62,6 +62,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
+import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
@@ -345,70 +346,164 @@ public class SwingRendererUtils {
 
 	public static void forwardSubModifications(final SwingRenderer swingRenderer, final JPanel subForm,
 			final Accessor<Boolean> childModifAcceptedGetter,
-			final Accessor<ValueReturnMode> childValueReturnModeGetter, final Accessor<Boolean> childValueNewGetter,
-			final Accessor<IModification> commitModifGetter, final Accessor<IInfo> childModifTargetGetter,
-			final Accessor<String> parentModifTitleGetter, final Accessor<ModificationStack> parentModifStackGetter) {
-		final ModificationStack subFormModifStack = swingRenderer.getModificationStackByForm().get(subForm);
+			final Accessor<ValueReturnMode> childValueReturnModeGetter, final Accessor<IModification> commitModifGetter,
+			final Accessor<IInfo> compositeModifTargetGetter, final Accessor<String> compositeModifTitleGetter,
+			final Accessor<ModificationStack> parentModifStackGetter) {
 		swingRenderer.getModificationStackByForm().put(subForm,
-				new ModificationStack("Forward Sub-Modifications To " + subForm.toString()) {
+				new ModificationStack("Forward Sub-Modifications From " + subForm.toString()) {
 
 					@Override
 					public boolean pushUndo(IModification undoModif) {
-						subFormModifStack.pushUndo(undoModif);
 						ModificationStack childModifStack = new ModificationStack(null);
 						childModifStack.pushUndo(undoModif);
 						Boolean childModifAccepted = childModifAcceptedGetter.get();
 						ValueReturnMode childValueReturnMode = childValueReturnModeGetter.get();
-						Boolean childValueNew = childValueNewGetter.get();
 						IModification commitModif = commitModifGetter.get();
-						String subModifTitle = AbstractModification.getUndoTitle(undoModif.getTitle());
-						String parentModifTitle = parentModifTitleGetter.get();
+						String compositeModifTitle = AbstractModification.getUndoTitle(undoModif.getTitle());
+						String parentModifTitle = compositeModifTitleGetter.get();
 						if (parentModifTitle != null) {
-							subModifTitle = ReflectionUIUtils.composeMessage(parentModifTitle, subModifTitle);
+							compositeModifTitle = ReflectionUIUtils.composeMessage(parentModifTitle, compositeModifTitle);
 						}
 						ModificationStack parentModifStack = parentModifStackGetter.get();
-						IInfo childModifTarget = childModifTargetGetter.get();
+						IInfo compositeModifTarget = compositeModifTargetGetter.get();
 						return ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(),
 								parentModifStack, childModifStack, childModifAccepted, childValueReturnMode,
-								childValueNew, commitModif, childModifTarget, subModifTitle);
+								commitModif, compositeModifTarget, compositeModifTitle);
+					}
+
+					@Override
+					public void undo() {
+						ModificationStack parentModifStack = parentModifStackGetter.get();
+						parentModifStack.undo();
+					}
+
+					@Override
+					public void redo() {
+						ModificationStack parentModifStack = parentModifStackGetter.get();
+						parentModifStack.redo();
 					}
 
 					@Override
 					public void beginComposite() {
-						subFormModifStack.beginComposite();
 						ModificationStack parentModifStack = parentModifStackGetter.get();
 						parentModifStack.beginComposite();
 					}
 
 					@Override
 					public boolean endComposite(IInfo childModifTarget, String title, UndoOrder order) {
-						subFormModifStack.endComposite(childModifTarget, title, order);
 						ModificationStack parentModifStack = parentModifStackGetter.get();
 						return parentModifStack.endComposite(childModifTarget, title, order);
 					}
 
 					@Override
 					public void abortComposite() {
-						subFormModifStack.abortComposite();
 						ModificationStack parentModifStack = parentModifStackGetter.get();
 						parentModifStack.abortComposite();
 					}
 
 					@Override
 					public void invalidate() {
-						subFormModifStack.invalidate();
 						ModificationStack childModifStack = new ModificationStack(null);
 						childModifStack.invalidate();
 						Boolean childModifAccepted = childModifAcceptedGetter.get();
 						ValueReturnMode childValueReturnMode = childValueReturnModeGetter.get();
-						Boolean childValueNew = childValueNewGetter.get();
 						IModification commitModif = commitModifGetter.get();
-						String childModifTitle = null;
-						IInfo childModifTarget = childModifTargetGetter.get();
+						String compositeModifTitle = null;
+						IInfo compositeModifTarget = compositeModifTargetGetter.get();
 						ModificationStack parentModifStack = parentModifStackGetter.get();
 						ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(), parentModifStack,
-								childModifStack, childModifAccepted, childValueReturnMode, childValueNew, commitModif,
-								childModifTarget, childModifTitle);
+								childModifStack, childModifAccepted, childValueReturnMode, commitModif,
+								compositeModifTarget, compositeModifTitle);
+					}
+
+					@Override
+					public boolean isInvalidated() {
+						ModificationStack parentModifStack = parentModifStackGetter.get();
+						return parentModifStack.isInvalidated();
+					}
+
+					@Override
+					public boolean wasInvalidated() {
+						ModificationStack parentModifStack = parentModifStackGetter.get();
+						return parentModifStack.wasInvalidated();
+					}
+
+					@Override
+					public int getUndoSize() {
+						ModificationStack parentModifStack = parentModifStackGetter.get();
+						return parentModifStack.getUndoSize();
+					}
+
+					@Override
+					public int getRedoSize() {
+						ModificationStack parentModifStack = parentModifStackGetter.get();
+						return parentModifStack.getRedoSize();
+					}
+
+					@Override
+					public void undoAll() {
+						ModificationStack parentModifStack = parentModifStackGetter.get();
+						parentModifStack.undoAll();
+					}
+
+					@Override
+					public IModification[] getUndoModifications(UndoOrder order) {
+						ModificationStack parentModifStack = parentModifStackGetter.get();
+						return parentModifStack.getUndoModifications(order);
+					}
+
+					@Override
+					public IModification[] getRedoModifications(UndoOrder order) {
+						ModificationStack parentModifStack = parentModifStackGetter.get();
+						return parentModifStack.getRedoModifications(order);
+					}
+
+					@Override
+					public boolean isInComposite() {
+						ModificationStack parentModifStack = parentModifStackGetter.get();
+						return parentModifStack.isInComposite();
+					}
+
+					@Override
+					public Boolean canRedo() {
+						ModificationStack parentModifStack = parentModifStackGetter.get();
+						return parentModifStack.canRedo();
+					}
+
+					@Override
+					public Boolean canUndo() {
+						ModificationStack parentModifStack = parentModifStackGetter.get();
+						return parentModifStack.canUndo();
+					}
+
+					@Override
+					public boolean isNull() {
+						ModificationStack parentModifStack = parentModifStackGetter.get();
+						return parentModifStack.isNull();
+					}
+
+					@Override
+					public IModification toCompositeModification(IInfo target, String title) {
+						ModificationStack parentModifStack = parentModifStackGetter.get();
+						return parentModifStack.toCompositeModification(target, title);
+					}
+
+					@Override
+					public IModificationListener[] getListeners() {
+						ModificationStack parentModifStack = parentModifStackGetter.get();
+						return parentModifStack.getListeners();
+					}
+
+					@Override
+					public void addListener(IModificationListener listener) {
+						ModificationStack parentModifStack = parentModifStackGetter.get();
+						parentModifStack.addListener(listener);
+					}
+
+					@Override
+					public void removeListener(IModificationListener listener) {
+						ModificationStack parentModifStack = parentModifStackGetter.get();
+						parentModifStack.removeListener(listener);
 					}
 
 				});

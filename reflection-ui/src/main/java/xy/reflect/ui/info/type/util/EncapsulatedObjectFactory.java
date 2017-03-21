@@ -299,7 +299,7 @@ public class EncapsulatedObjectFactory {
 		@Override
 		public String toString(Object object) {
 			Instance instance = (Instance) object;
-			return instance.toString();
+			return ReflectionUIUtils.toString(reflectionUI, instance.getValue());
 		}
 
 		@Override
@@ -357,7 +357,7 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public String toString() {
-			return "Encapsulated [value=" + ReflectionUIUtils.toString(reflectionUI, getValue()) + "]";
+			return "Encapsulated [value=" + getValue() + "]";
 		}
 
 		@Override

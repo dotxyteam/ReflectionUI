@@ -564,7 +564,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 		protected void openCustomizationEditor(final Component activatorComponent, final Object customization,
 				final String impactedTypeName) {
-			AbstractEditorBuilder dialogBuilder = new AbstractEditorBuilder() {
+			AbstractEditorDialogBuilder dialogBuilder = new AbstractEditorDialogBuilder() {
 
 				ModificationStack dummyParentModificationStack = new ModificationStack(null);
 
@@ -590,7 +590,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 				@Override
 				public ValueReturnMode getObjectValueReturnMode() {
-					return ValueReturnMode.SELF_OR_PROXY;
+					return ValueReturnMode.DIRECT_OR_PROXY;
 				}
 
 				@Override
@@ -902,7 +902,7 @@ public class SwingCustomizer extends SwingRenderer {
 				ColumnOrderItem orderItem = new ColumnOrderItem(c, lc.getColumnCustomization(c.getName()));
 				columnOrder.add(orderItem);
 			}
-			StandardEditorBuilder dialogStatus = customizationToolsRenderer.openObjectDialog(activatorComponent,
+			StandardEditorDialogBuilder dialogStatus = customizationToolsRenderer.openObjectDialog(activatorComponent,
 					columnOrder, "Columns Order", getCustomizationsIcon().getImage(), true, true);
 			if (dialogStatus.wasOkPressed()) {
 				columnOrder = (List<ColumnOrderItem>) dialogStatus.getCurrentObjectValue();

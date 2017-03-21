@@ -188,7 +188,7 @@ public class SwingRenderer {
 		SwingRendererUtils.adjustWindowInitialBounds(window);
 	}
 
-	public List<Component> createCommonToolbarControls(final JPanel form) {
+	public List<Component> createFormCommonToolbarControls(final JPanel form) {
 		Object object = getObjectByForm().get(form);
 		if (object == null) {
 			return null;
@@ -199,9 +199,9 @@ public class SwingRenderer {
 			result.add(createOnlineHelpControl(type.getOnlineHelp()));
 		}
 		if (type.isModificationStackAccessible()) {
-			final ModificationStack stack = getModificationStackByForm().get(form);
-			if (stack != null) {
-				result.addAll(new ModificationStackControls(stack).createControls(this));
+			final ModificationStack modificationStack = getModificationStackByForm().get(form);
+			if (modificationStack != null) {
+				result.addAll(new ModificationStackControls(modificationStack).create(this));
 			}
 		}
 		return result;
@@ -313,8 +313,7 @@ public class SwingRenderer {
 	}
 
 	public JPanel createForm(final Object object, IInfoFilter infoFilter) {
-		final String formTitle = "Form (" + ReflectionUIUtils.toString(reflectionUI, object) + ")";
-		final ModificationStack modifStack = new ModificationStack(formTitle);
+		final String formTitle = "Form [object=" + object + "]";
 		JPanel result = new JPanel() {
 
 			@Override
@@ -351,20 +350,20 @@ public class SwingRenderer {
 			@Override
 			public void addNotify() {
 				super.addNotify();
+				ModificationStack modifStack = getModificationStackByForm().get(this);
 				modifStack.addListener(fieldsUpdateListener);
-				getObjectByForm().put(this, object);
 			}
 
 			@Override
 			public void removeNotify() {
 				super.removeNotify();
+				ModificationStack modifStack = getModificationStackByForm().get(this);
 				modifStack.removeListener(fieldsUpdateListener);
-				getObjectByForm().remove(this);
 			}
 
 		};
 		getObjectByForm().put(result, object);
-		getModificationStackByForm().put(result, modifStack);
+		getModificationStackByForm().put(result, new ModificationStack(formTitle));
 		getInfoFilterByForm().put(result, infoFilter);
 		result.setLayout(new BorderLayout());
 		fillForm(result);
@@ -501,12 +500,17 @@ public class SwingRenderer {
 		} else {
 			formFocusDetails = null;
 		}
+		System.out.println(formContainsFocus + ": focus in " + form + ": " + formFocusDetails);
+		final InfoCategory focusedCategory = getDisplayedInfoCategory(form);
 		try {
 			runnable.run();
 		} finally {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
+					if (focusedCategory != null) {
+						setDisplayedInfoCategory(form, focusedCategory);
+					}
 					if (formContainsFocus) {
 						if (formFocusDetails != null) {
 							requestFormDetailedFocus(form, formFocusDetails);
@@ -1004,22 +1008,22 @@ public class SwingRenderer {
 		openObjectDialog(activatorComponent, error);
 	}
 
-	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object) {
+	public StandardEditorDialogBuilder openObjectDialog(Component activatorComponent, Object object) {
 		return openObjectDialog(activatorComponent, object, getObjectTitle(object), getObjectIconImage(object), false,
 				true);
 	}
 
-	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object, final String title,
+	public StandardEditorDialogBuilder openObjectDialog(Component activatorComponent, Object object, final String title,
 			final Image iconImage, final boolean cancellable, boolean modal) {
-		StandardEditorBuilder dialogBuilder = getObjectDialogBuilder(activatorComponent, object, title, iconImage,
+		StandardEditorDialogBuilder dialogBuilder = getObjectDialogBuilder(activatorComponent, object, title, iconImage,
 				cancellable);
 		showDialog(dialogBuilder.createDialog(), modal);
 		return dialogBuilder;
 	}
 
-	public StandardEditorBuilder getObjectDialogBuilder(Component activatorComponent, Object object, final String title,
-			final Image iconImage, final boolean cancellable) {
-		return new StandardEditorBuilder(this, activatorComponent, object) {
+	public StandardEditorDialogBuilder getObjectDialogBuilder(Component activatorComponent, Object object,
+			final String title, final Image iconImage, final boolean cancellable) {
+		return new StandardEditorDialogBuilder(this, activatorComponent, object) {
 
 			@Override
 			protected DialogBuilder createDelegateDialogBuilder() {
@@ -1058,9 +1062,9 @@ public class SwingRenderer {
 	}
 
 	public JFrame createObjectFrame(Object object, String title, Image iconImage) {
-		StandardEditorBuilder dialogBuilder = getObjectDialogBuilder(null, object, title, iconImage, false);
+		StandardEditorDialogBuilder dialogBuilder = getObjectDialogBuilder(null, object, title, iconImage, false);
 		JPanel editorPanel = dialogBuilder.createEditorPanel();
-		JFrame frame = createFrame(editorPanel, title, iconImage, createCommonToolbarControls(editorPanel));
+		JFrame frame = createFrame(editorPanel, title, iconImage, createFormCommonToolbarControls(editorPanel));
 		return frame;
 	}
 
@@ -1163,9 +1167,8 @@ public class SwingRenderer {
 	}
 
 	public Object getFormFocusDetails(JPanel form) {
-		InfoCategory focusedCategory = getDisplayedInfoCategory(form);
 		int focusedFieldIndex = getFocusedFieldControlPaceHolderIndex(form);
-		if ((focusedCategory == null) && (focusedFieldIndex == -1)) {
+		if (focusedFieldIndex == -1) {
 			return null;
 		}
 		Object focusedFieldFocusDetails = null;
@@ -1180,7 +1183,6 @@ public class SwingRenderer {
 			}
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("focusedCategory", focusedCategory);
 		result.put("focusedFieldIndex", focusedFieldIndex);
 		result.put("focusedFieldControlClass", focusedFieldControlClass);
 		result.put("focusedFieldFocusDetails", focusedFieldFocusDetails);
@@ -1190,14 +1192,10 @@ public class SwingRenderer {
 	public void requestFormDetailedFocus(JPanel form, Object focusDetails) {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> map = (Map<String, Object>) focusDetails;
-		InfoCategory focusedCategory = (InfoCategory) map.get("focusedCategory");
 		int focusedFieldIndex = (Integer) map.get("focusedFieldIndex");
 		Class<?> focusedFieldControlClass = (Class<?>) map.get("focusedFieldControlClass");
 		Object focusedFieldFocusDetails = map.get("focusedFieldFocusDetails");
 
-		if (focusedCategory != null) {
-			setDisplayedInfoCategory(form, focusedCategory);
-		}
 		if (focusedFieldIndex != -1) {
 			FieldControlPlaceHolder fieldControlPaceHolderToFocusOn = getFieldControlPlaceHolders(form)
 					.get(focusedFieldIndex);
@@ -1609,13 +1607,9 @@ public class SwingRenderer {
 			} else {
 				if (!(((fieldControl instanceof IAdvancedFieldControl)
 						&& ((IAdvancedFieldControl) fieldControl).refreshUI()))) {
-					boolean hadFocus = SwingRendererUtils.hasOrContainsFocus(fieldControl);
 					remove(fieldControl);
 					fieldControl = null;
 					refreshUI(false);
-					if (hadFocus) {
-						fieldControl.requestFocusInWindow();
-					}
 				}
 			}
 		}
@@ -1806,14 +1800,6 @@ public class SwingRenderer {
 			}
 		}
 
-		@Override
-		public boolean requestFocusInWindow() {
-			if (fieldControl != null) {
-				return fieldControl.requestFocusInWindow();
-			}
-			return false;
-		}
-
 	}
 
 	public class MethodControlPlaceHolder extends JPanel implements IMethodControlInput {
@@ -1923,13 +1909,9 @@ public class SwingRenderer {
 				add(methodControl, BorderLayout.CENTER);
 				SwingRendererUtils.handleComponentSizeChange(this);
 			} else {
-				boolean hadFocus = SwingRendererUtils.hasOrContainsFocus(methodControl);
 				remove(methodControl);
 				methodControl = null;
 				refreshUI(false);
-				if (hadFocus) {
-					methodControl.requestFocusInWindow();
-				}
 			}
 		}
 
@@ -2014,14 +1996,6 @@ public class SwingRenderer {
 			result = indicateWhenBusy(result);
 			result = makeMethodModificationsUndoable(result);
 			return result;
-		}
-
-		@Override
-		public boolean requestFocusInWindow() {
-			if (methodControl != null) {
-				return methodControl.requestFocusInWindow();
-			}
-			return false;
 		}
 
 	}

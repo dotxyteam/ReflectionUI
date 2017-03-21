@@ -32,7 +32,7 @@ public class BufferedItemPosition extends ItemPosition {
 
 	@Override
 	public ValueReturnMode getItemReturnMode() {
-		return ValueReturnMode.SELF_OR_PROXY;
+		return ValueReturnMode.DIRECT_OR_PROXY;
 	}
 
 	@Override

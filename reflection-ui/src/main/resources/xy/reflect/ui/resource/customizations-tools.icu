@@ -509,6 +509,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -522,6 +523,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -535,6 +537,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -548,6 +551,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -561,6 +565,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -574,6 +579,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -587,6 +593,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -600,6 +607,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -613,6 +621,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -626,6 +635,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -639,6 +649,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -652,6 +663,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -665,6 +677,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -678,6 +691,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -691,6 +705,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -704,6 +719,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -717,6 +733,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -730,6 +747,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -743,6 +761,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -756,6 +775,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -769,6 +789,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -788,6 +809,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -801,6 +823,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -814,6 +837,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -827,6 +851,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -840,6 +865,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -853,6 +879,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -866,6 +893,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -880,6 +908,7 @@
             <customFieldCaption>Type Name</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -893,6 +922,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullValueLabel>&lt;Default&gt;</nullValueLabel>
@@ -918,6 +948,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -937,6 +968,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -955,6 +987,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -968,6 +1001,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -981,6 +1015,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -999,6 +1034,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -1012,6 +1048,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -1025,6 +1062,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1038,6 +1076,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1051,6 +1090,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1064,6 +1104,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1077,6 +1118,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1090,6 +1132,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1103,6 +1146,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1116,6 +1160,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1144,6 +1189,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>javaType</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1157,6 +1203,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>containingTypeName</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1165,6 +1212,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>create</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1173,6 +1221,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>fieldName</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1196,6 +1245,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>containingTypeName</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1204,6 +1254,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>create</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1218,6 +1269,7 @@
             <customFieldCaption>File</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>file</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -1231,6 +1283,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1244,6 +1297,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1257,6 +1311,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1270,6 +1325,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1283,6 +1339,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1296,6 +1353,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1309,6 +1367,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1322,6 +1381,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1336,6 +1396,7 @@
             <customFieldCaption>Change Columns Order</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1409,6 +1470,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>bytes</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1417,6 +1479,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>empty</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1486,6 +1549,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>hiddenCustomizationToolsTypeNames</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -1513,6 +1577,7 @@
             <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>columnInfo</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1530,6 +1595,7 @@
             <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>caption</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1538,6 +1604,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>columnName</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1546,6 +1613,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customCaption</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1555,6 +1623,7 @@
             <customFieldCaption>Hide</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>hidden</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1583,6 +1652,7 @@
             <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>detailsAreaPosition</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1591,6 +1661,7 @@
             <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>detailsDisplayArea</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1599,6 +1670,7 @@
             <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>detailsDisplayOption</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1622,6 +1694,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>defaultDetailsAreaOccupationRatio</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1630,6 +1703,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>detailsAreaPosition</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -1638,6 +1712,7 @@
             <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>detailsDisplayArea</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1646,6 +1721,7 @@
             <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>detailsDisplayOption</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -1763,6 +1839,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>listCustomizations</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -1771,6 +1848,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>typeCustomizations</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -2177,6 +2255,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>columnName</fieldName>
             <getOnlyForced>true</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2185,6 +2264,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customCaption</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2194,6 +2274,7 @@
             <customFieldCaption>Hide</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>hidden</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2220,6 +2301,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>implementationClassName</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -2260,6 +2342,7 @@
             <customFieldCaption>Category Caption</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>caption</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -2281,6 +2364,7 @@
             <customFieldCaption>Enumeration Type</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>enumerationTypeName</fieldName>
             <getOnlyForced>true</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -2290,6 +2374,7 @@
             <customFieldCaption>Customize Items</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemCustomizations</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -2318,6 +2403,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customCaption</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2327,6 +2413,7 @@
             <customFieldCaption>Hide</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>hidden</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2335,6 +2422,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemName</fieldName>
             <getOnlyForced>true</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -2369,10 +2457,12 @@
         <customFieldsOrder>onlineHelp</customFieldsOrder>
         <customFieldsOrder>displayedAsMethods</customFieldsOrder>
         <customFieldsOrder>displayedAsSingletonList</customFieldsOrder>
+        <customFieldsOrder>displayedEncapsulated</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>category</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2382,6 +2472,7 @@
             <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>categoryOptions</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2390,6 +2481,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customFieldCaption</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2402,6 +2494,7 @@
             <customFieldCaption>Change Value Access Mode</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customValueAccessMode</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2414,6 +2507,7 @@
             <customFieldCaption>Value Return Mode</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customValueReturnMode</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullValueLabel>&lt;Default&gt;</nullValueLabel>
@@ -2427,6 +2521,7 @@
             <customFieldCaption>Unflod (Display The Sub-Form)</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>expandSubForm</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2435,6 +2530,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>fieldName</fieldName>
             <getOnlyForced>true</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2444,6 +2540,7 @@
             <customFieldCaption>Get-Only</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>getOnlyForced</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2453,6 +2550,7 @@
             <customFieldCaption>Hide</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>hidden</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2464,6 +2562,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>nullValueLabel</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2473,6 +2572,7 @@
             <customFieldCaption>Not Nullable</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>nullableFacetHidden</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2481,6 +2581,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>onlineHelp</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2489,6 +2590,7 @@
             <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>parent</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2497,6 +2599,7 @@
             <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>specificProperties</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2508,6 +2611,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>valueOptionsFieldName</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2520,6 +2624,7 @@
             <customFieldCaption>Display As Getter/Setter</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>displayedAsMethods</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2532,7 +2637,21 @@
             <customFieldCaption>Display As Singleton List</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>displayedAsSingletonList</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Advanced</caption>
+            </category>
+            <hidden>false</hidden>
+            <customFieldCaption>Encapsulated</customFieldCaption>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName>displayedEncapsulated</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
         </fieldsCustomizations>
@@ -2586,6 +2705,7 @@
             <customFieldCaption>Regular Expression</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>regularExpression</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2594,6 +2714,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -2627,6 +2748,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>className</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -2686,6 +2808,7 @@
             <customFieldCaption>Item Field Shortcuts</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>allowedItemFieldShortcuts</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -2698,6 +2821,7 @@
             <customFieldCaption> Item Method Shortcuts</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>allowedItemMethodShortcuts</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -2710,6 +2834,7 @@
             <customFieldCaption>Customize Columns Display</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>columnCustomizations</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -2718,6 +2843,7 @@
             <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>columnsCustomOrder</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2736,6 +2862,7 @@
             <customFieldCaption>Details View Mode</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customDetailsAccessMode</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2751,6 +2878,7 @@
             <customFieldCaption>Editable</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>editOptions</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2763,6 +2891,7 @@
             <customFieldCaption>Add Field Columns</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>fieldColumnsAdded</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2775,6 +2904,7 @@
             <customFieldCaption>Names Of Fields Excluded From Details View</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>fieldsExcludedFromItemDetails</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -2787,6 +2917,7 @@
             <customFieldCaption>Disable &lt;Add&gt; Option</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemCreationDisabled</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2799,6 +2930,7 @@
             <customFieldCaption>Disable &lt;Remove&gt; Option</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemDeletionDisabled</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2811,6 +2943,7 @@
             <customFieldCaption>Disable Details View</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemDetailsViewDisabled</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2823,6 +2956,7 @@
             <customFieldCaption>Disable &lt;Move&gt; Option</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemMoveDisabled</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2835,6 +2969,7 @@
             <customFieldCaption>Add Item Type Column</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemTypeColumnAdded</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2844,6 +2979,7 @@
             <customFieldCaption>Item Type</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemTypeCustomization</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2853,6 +2989,7 @@
             <customFieldCaption>Item Type</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemTypeName</fieldName>
             <getOnlyForced>true</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2868,6 +3005,7 @@
             <customFieldCaption>Sort Items</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>listSorted</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2877,6 +3015,7 @@
             <customFieldCaption>List Type</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>listTypeName</fieldName>
             <getOnlyForced>true</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2889,6 +3028,7 @@
             <customFieldCaption>Signatures Of Methods Excluded From Details View</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>methodsExcludedFromItemDetails</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -2897,6 +3037,7 @@
             <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>parent</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2909,6 +3050,7 @@
             <customFieldCaption>Add Item position Column</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>positionColumnAdded</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2921,6 +3063,7 @@
             <customFieldCaption>Add toString() Column</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>stringValueColumnAdded</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2939,6 +3082,7 @@
             <customFieldCaption>Auto-Discover Tree Structure</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>treeStructureDiscoverySettings</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -2999,6 +3143,7 @@
             <customFieldCaption>Can Add</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemCreationEnabled</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3008,6 +3153,7 @@
             <customFieldCaption>Can Delete</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemDeletionEnabled</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3017,6 +3163,7 @@
             <customFieldCaption>Can Move</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemMoveEnabled</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3032,6 +3179,7 @@
             <customFieldCaption>Create New List Intance On Modification</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>listInstanciationOption</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3056,6 +3204,7 @@
             <customFieldCaption>Shortcut Always Displayed</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>alwaysShown</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3064,6 +3213,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customFieldCaption</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3072,6 +3222,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>fieldName</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -3096,6 +3247,7 @@
             <customFieldCaption>Shortcut Always Displayed</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>alwaysShown</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3105,6 +3257,7 @@
             <customFieldCaption>Shortcut Caption</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>caption</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -3113,6 +3266,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customMethodCaption</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3121,6 +3275,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>methodSignature</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -3153,6 +3308,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>category</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3162,6 +3318,7 @@
             <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>categoryOptions</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3170,6 +3327,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customMethodCaption</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3181,6 +3339,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customReturnValueAccessMode</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3192,6 +3351,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customReturnValueReturnMode</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3204,6 +3364,7 @@
             <customFieldCaption>Value Return Mode</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customValueReturnMode</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullValueLabel>&lt;Default&gt;</nullValueLabel>
@@ -3214,6 +3375,7 @@
             <customFieldCaption>Hide</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>hidden</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3222,6 +3384,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>methodSignature</fieldName>
             <getOnlyForced>true</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3233,6 +3396,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>nullReturnValueLabel</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3241,6 +3405,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>onlineHelp</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3253,6 +3418,7 @@
             <customFieldCaption></customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>parametersCustomizations</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -3261,6 +3427,7 @@
             <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>parent</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3270,6 +3437,7 @@
             <customFieldCaption>Read-Only</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>readOnlyForced</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3278,6 +3446,7 @@
             <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>specificProperties</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3290,6 +3459,7 @@
             <customFieldCaption>Validating</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>validating</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3302,6 +3472,7 @@
             <customFieldCaption>Display As Field</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>displayedAsField</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3310,6 +3481,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>iconImageFile</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3366,6 +3538,7 @@
             <customFieldCaption>Custom Caption</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customParameterCaption</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3375,6 +3548,7 @@
             <customFieldCaption>Hide</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>hidden</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3384,6 +3558,7 @@
             <customFieldCaption>Not Nullable</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>nullableFacetHidden</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3392,6 +3567,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>onlineHelp</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3401,6 +3577,7 @@
             <customFieldCaption>Name</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>parameterName</fieldName>
             <getOnlyForced>true</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3409,6 +3586,7 @@
             <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>specificProperties</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3437,6 +3615,7 @@
             <customFieldCaption>Heterogeneous Tree</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>heterogeneousTree</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3445,6 +3624,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>treeColumnFieldName</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3478,6 +3658,7 @@
             <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customFieldsOrder</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3489,6 +3670,7 @@
             <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customMethodsOrder</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3497,6 +3679,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customTypeCaption</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3509,6 +3692,7 @@
             <customFieldCaption>Customize Fields Display</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>fieldsCustomizations</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -3517,6 +3701,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>iconImageFile</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3529,6 +3714,7 @@
             <customFieldCaption>Allow to Classify Fields and Methods</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>memberCategories</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -3541,6 +3727,7 @@
             <customFieldCaption>Customize Methods Display</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>methodsCustomizations</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -3549,6 +3736,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>onlineHelp</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3557,6 +3745,7 @@
             <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>parent</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3569,6 +3758,7 @@
             <customFieldCaption>Specify (Additional) Sub-Types</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>polymorphicSubTypeFinders</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -3577,6 +3767,7 @@
             <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>specificProperties</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3585,6 +3776,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>typeName</fieldName>
             <getOnlyForced>true</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3594,6 +3786,7 @@
             <customFieldCaption>Hide Undo/Redo Options</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>undoManagementHidden</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3602,6 +3795,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>unoManagementHidden</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3611,6 +3805,7 @@
             <customFieldCaption>Immutable</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>immutableForced</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3716,6 +3911,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>alternative</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3725,6 +3921,7 @@
             <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>alternativeOptions</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3733,6 +3930,7 @@
             <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>fileSpecification</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3746,6 +3944,7 @@
             <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>CLASSPATH_RESOURCE_PREFIX</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3754,6 +3953,7 @@
             <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>alternativeOptions</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3763,6 +3963,7 @@
             <customFieldCaption>Select</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>chosenAlternative</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3772,6 +3973,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>file</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -3780,6 +3982,7 @@
             <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>specification</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3812,6 +4015,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3831,6 +4035,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3862,6 +4067,7 @@
             <customFieldCaption>Custom Instance Type</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customInstanceTypeFinder</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -3892,6 +4098,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -3905,6 +4112,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -3918,6 +4126,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -3931,6 +4140,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -3944,6 +4154,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -3957,6 +4168,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -3970,6 +4182,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -3983,6 +4196,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -3996,6 +4210,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
@@ -4009,6 +4224,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -4022,6 +4238,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
@@ -4035,6 +4252,7 @@
             <hidden>false</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>

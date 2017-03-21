@@ -113,7 +113,7 @@ public class ListModificationFactory {
 			IFieldControlData containingListData = itemPosition.getContainingListData();
 			IListTypeInfo containingListType = itemPosition.getContainingListType();
 			if (containingListType.canReplaceContent()) {
-				if (containingListData.getValueReturnMode() == ValueReturnMode.SELF_OR_PROXY) {
+				if (containingListData.getValueReturnMode() == ValueReturnMode.DIRECT_OR_PROXY) {
 					return true;
 				}
 				if (!containingListData.isGetOnly()) {
@@ -177,7 +177,7 @@ public class ListModificationFactory {
 			IFieldControlData listData = itemPosition.getContainingListData();
 			IListTypeInfo listType = itemPosition.getContainingListType();
 			if (listType.canReplaceContent()) {
-				if (listData.getValueReturnMode() == ValueReturnMode.SELF_OR_PROXY) {
+				if (listData.getValueReturnMode() == ValueReturnMode.DIRECT_OR_PROXY) {
 					final Object listValue = listData.getValue();
 					undoModifications.add(0, new ChangeListContentModification(new FieldControlDataProxy(listData) {
 						@Override

@@ -19,7 +19,7 @@ public class ModificationStack {
 	protected boolean invalidated = false;
 	protected boolean wasInvalidated = false;
 
-	protected IModificationListener ALL_LISTENERS = new IModificationListener() {
+	protected IModificationListener ALL_LISTENERS_PROXY = new IModificationListener() {
 
 		@Override
 		public void handleDo(IModification modification) {
@@ -67,10 +67,6 @@ public class ModificationStack {
 		this.name = name;
 	}
 
-	public List<IModificationListener> getListeners() {
-		return listeners;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -91,9 +87,13 @@ public class ModificationStack {
 		listeners.remove(listener);
 	}
 
+	public IModificationListener[] getListeners() {
+		return listeners.toArray(new IModificationListener[listeners.size()]);
+	}
+
 	@Override
 	public String toString() {
-		return ModificationStack.class.getSimpleName() + "(" + name + ")";
+		return ModificationStack.class.getSimpleName() + "[" + name + "]";
 	}
 
 	public void apply(IModification modif) {
@@ -110,7 +110,7 @@ public class ModificationStack {
 			validate();
 			undoStack.push(undoModif);
 			redoStack.clear();
-			ALL_LISTENERS.handleDo(undoModif);
+			ALL_LISTENERS_PROXY.handleDo(undoModif);
 		}
 		return true;
 	}
@@ -133,7 +133,7 @@ public class ModificationStack {
 		}
 		IModification undoModif = undoStack.pop();
 		redoStack.push(undoModif.applyAndGetOpposite());
-		ALL_LISTENERS.handleUdno(undoModif);
+		ALL_LISTENERS_PROXY.handleUdno(undoModif);
 	}
 
 	public void redo() {
@@ -146,7 +146,7 @@ public class ModificationStack {
 		}
 		IModification modif = redoStack.pop();
 		undoStack.push(modif.applyAndGetOpposite());
-		ALL_LISTENERS.handleRedo(modif);
+		ALL_LISTENERS_PROXY.handleRedo(modif);
 	}
 
 	public void undoAll() {
@@ -198,8 +198,8 @@ public class ModificationStack {
 		} else {
 			compositeParent = this;
 		}
-		CompositeModification compositeUndoModif = new CompositeModification(target, AbstractModification.getUndoTitle(title), order,
-				topComposite.getUndoModifications(order));
+		CompositeModification compositeUndoModif = new CompositeModification(target,
+				AbstractModification.getUndoTitle(title), order, topComposite.getUndoModifications(order));
 		return compositeParent.pushUndo(compositeUndoModif);
 	}
 
@@ -225,7 +225,7 @@ public class ModificationStack {
 
 	public void invalidate() {
 		wasInvalidated = invalidated = true;
-		ALL_LISTENERS.handleInvalidate();
+		ALL_LISTENERS_PROXY.handleInvalidate();
 	}
 
 	protected void validate() {
@@ -234,7 +234,7 @@ public class ModificationStack {
 			undoStack.clear();
 			compositeStack.clear();
 			invalidated = false;
-			ALL_LISTENERS.handleInvalidationCleared();
+			ALL_LISTENERS_PROXY.handleInvalidationCleared();
 		}
 	}
 

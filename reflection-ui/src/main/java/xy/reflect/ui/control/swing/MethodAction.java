@@ -173,7 +173,7 @@ public class MethodAction extends AbstractAction {
 		if (retunValueWindowDetached) {
 			swingRenderer.openObjectFrame(returnValue);
 		} else {
-			new AbstractEditorBuilder() {
+			new AbstractEditorDialogBuilder() {
 
 				@Override
 				public Object getInitialObjectValue() {

@@ -15,6 +15,10 @@ public class ControlDataValueModification extends AbstractModification {
 	}
 
 	public static String getTitle(IInfo modificationTarget) {
+		String targetCaption = modificationTarget.getCaption();
+		if ((targetCaption == null) || (targetCaption.length() == 0)) {
+			return "";
+		}
 		return "Edit '" + modificationTarget.getCaption() + "'";
 	}
 
@@ -83,7 +87,5 @@ public class ControlDataValueModification extends AbstractModification {
 	public String toString() {
 		return "ControlDataValueModification [data=" + data + ", newValue=" + newValue + "]";
 	}
-	
-	
 
 }

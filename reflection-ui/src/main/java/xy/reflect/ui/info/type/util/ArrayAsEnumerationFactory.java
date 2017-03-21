@@ -44,7 +44,7 @@ public class ArrayAsEnumerationFactory {
 	}
 
 	protected String getItemName(Object arrayItem) {
-		return "item(" + ReflectionUIUtils.toString(reflectionUI, arrayItem) + ")";
+		return "Item[value=" + arrayItem + "]";
 	}
 
 	protected String getItemCaption(Object arrayItem) {

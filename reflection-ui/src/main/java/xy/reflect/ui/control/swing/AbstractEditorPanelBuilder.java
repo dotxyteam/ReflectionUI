@@ -80,7 +80,7 @@ public abstract class AbstractEditorPanelBuilder {
 		return encapsulatedObjectValueAccessor.get();
 	}
 
-	public boolean isObjectNew() {
+	public boolean isCurrentObjectValueNew() {
 		return initialObjectValue != encapsulatedObjectValueAccessor.get();
 	}
 
@@ -97,7 +97,7 @@ public abstract class AbstractEditorPanelBuilder {
 		result.setFieldGetOnly(!canCommit());
 		result.setFieldNullable(isObjectNullable());
 		result.setFieldValueReturnMode(
-				canPotentiallyModifyParent() ? ValueReturnMode.SELF_OR_PROXY : ValueReturnMode.CALCULATED);
+				canPotentiallyModifyParent() ? ValueReturnMode.DIRECT_OR_PROXY : ValueReturnMode.CALCULATED);
 		Map<String, Object> properties = new HashMap<String, Object>();
 		{
 			DesktopSpecificProperty.setSubFormExpanded(properties, isObjectFormExpanded());
@@ -186,12 +186,6 @@ public abstract class AbstractEditorPanelBuilder {
 				return getObjectValueReturnMode();
 			}
 		};
-		Accessor<Boolean> childValueNewGetter = new Accessor<Boolean>() {
-			@Override
-			public Boolean get() {
-				return isObjectNew();
-			}
-		};
 		Accessor<IModification> commitModifGetter = new Accessor<IModification>() {
 			@Override
 			public IModification get() {
@@ -212,7 +206,7 @@ public abstract class AbstractEditorPanelBuilder {
 		};
 		Accessor<ModificationStack> parentModifStackGetter = new Accessor<ModificationStack>() {
 
-			ModificationStack dummyParentModifStack = new ModificationStack(null);
+			ModificationStack dummyParentModifStack = new ModificationStack("Do not forward modifications");
 
 			@Override
 			public ModificationStack get() {
@@ -224,7 +218,7 @@ public abstract class AbstractEditorPanelBuilder {
 			}
 		};
 		SwingRendererUtils.forwardSubModifications(getSwingRenderer(), panel, childModifAcceptedGetter,
-				childValueReturnModeGetter, childValueNewGetter, commitModifGetter, childModifTargetGetter,
+				childValueReturnModeGetter, commitModifGetter, childModifTargetGetter,
 				childModifTitleGetter, parentModifStackGetter);
 	}
 

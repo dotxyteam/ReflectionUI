@@ -158,15 +158,15 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	protected void openDialog() {
-		AbstractEditorBuilder subDialogBuilder = getSubDialogBuilder();
+		AbstractEditorDialogBuilder subDialogBuilder = getSubDialogBuilder();
 		subDialogBuilder.showDialog();
 		if (subDialogBuilder.isParentModificationStackImpacted()) {
 			updateControls();
 		}
 	}
 
-	protected AbstractEditorBuilder getSubDialogBuilder() {
-		return new AbstractEditorBuilder() {
+	protected AbstractEditorDialogBuilder getSubDialogBuilder() {
+		return new AbstractEditorDialogBuilder() {
 
 			@Override
 			public boolean isObjectFormExpanded() {

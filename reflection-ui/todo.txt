@@ -1,3 +1,4 @@
+- check how duplicate field names are handled
 - refactor InfoCustomizations:
 	. list and enum customizations must be linked to fields
 - ListControl calls too much list.toArray(): optimize

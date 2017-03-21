@@ -290,6 +290,7 @@ public abstract class TypeInfoProxyFactory {
 	protected boolean isItemNullable(IListTypeInfo type) {
 		return type.isItemNullable();
 	}
+
 	protected ValueReturnMode getItemReturnMode(IListTypeInfo type) {
 		return type.getItemReturnMode();
 	}
@@ -333,7 +334,7 @@ public abstract class TypeInfoProxyFactory {
 	protected boolean isPrimitive(ITypeInfo type) {
 		return type.isPrimitive();
 	}
-	
+
 	protected boolean isImmutable(ITypeInfo type) {
 		return type.isImmutable();
 	}
@@ -454,10 +455,12 @@ public abstract class TypeInfoProxyFactory {
 		public boolean isPrimitive() {
 			return TypeInfoProxyFactory.this.isPrimitive(base);
 		}
+
 		@Override
 		public boolean isImmutable() {
 			return TypeInfoProxyFactory.this.isImmutable(base);
 		}
+
 		@Override
 		public boolean isModificationStackAccessible() {
 			return TypeInfoProxyFactory.this.isModificationStackAccessible(base);
@@ -544,7 +547,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedBasicTypeInfoProxy [factory=" + factory + ",base=" + base + "]";
+			return "GeneratedBasicTypeInfoProxy [name= " + getName() + ", factory=" + factory + ",base=" + base + "]";
 		}
 
 		@Override
@@ -683,7 +686,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedListTypeInfoProxy [factory=" + factory + ", base=" + base + "]";
+			return "GeneratedListTypeInfoProxy [name= " + getName() + ", factory=" + factory + ", base=" + base + "]";
 		}
 
 	}
@@ -707,7 +710,8 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedEnumerationTypeInfoProxy [base=" + base + ",factory=" + factory + "]";
+			return "GeneratedEnumerationTypeInfoProxy [name= " + getName() + ",factory=" + factory + ", base=" + base
+					+ "]";
 		}
 
 	}
@@ -730,7 +734,8 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedMapEntryTypeInfoProxy [factory=" + factory + ", base=" + base + "]";
+			return "GeneratedMapEntryTypeInfoProxy [name= " + getName() + ", factory=" + factory + ", base=" + base
+					+ "]";
 		}
 
 	}
@@ -864,7 +869,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedFieldInfoProxy [factory=" + factory + ",base=" + base + "]";
+			return "GeneratedFieldInfoProxy [name= " + getName() + ", factory=" + factory + ",base=" + base + "]";
 		}
 
 	}
@@ -996,7 +1001,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedMethodInfoProxy [factory=" + factory + ",base=" + base + "]";
+			return "GeneratedMethodInfoProxy [name= " + getName() + ", factory=" + factory + ",base=" + base + "]";
 		}
 
 	}
@@ -1120,7 +1125,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedParameterInfoProxy [factory=" + factory + ",base=" + base + "]";
+			return "GeneratedParameterInfoProxy [name= " + getName() + ", factory=" + factory + ",base=" + base + "]";
 		}
 
 	}

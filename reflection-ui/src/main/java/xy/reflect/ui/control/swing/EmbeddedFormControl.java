@@ -87,7 +87,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	protected void forwardSubFormModifications() {
-		if (!ReflectionUIUtils.canPotentiallyIntegrateSubModifications(swingRenderer.getReflectionUI(), data.getValue(),
+		if (!ReflectionUIUtils.canPotentiallyIntegrateSubModifications(swingRenderer.getReflectionUI(), subFormObject,
 				data.getValueReturnMode(), !data.isGetOnly())) {
 			ModificationStack childModifStack = swingRenderer.getModificationStackByForm().get(subForm);
 			childModifStack.addListener(new AbstractSimpleModificationListener() {
@@ -99,7 +99,6 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 		} else {
 			Accessor<Boolean> childModifAcceptedGetter = Accessor.returning(Boolean.TRUE);
 			Accessor<ValueReturnMode> childValueReturnModeGetter = Accessor.returning(data.getValueReturnMode());
-			Accessor<Boolean> childValueNewGetter = Accessor.returning(Boolean.FALSE);
 			Accessor<IModification> commitModifGetter = new Accessor<IModification>() {
 				@Override
 				public IModification get() {
@@ -128,8 +127,8 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 				}
 			};
 			SwingRendererUtils.forwardSubModifications(swingRenderer, subForm, childModifAcceptedGetter,
-					childValueReturnModeGetter, childValueNewGetter, commitModifGetter, childModifTargetGetter,
-					childModifTitleGetter, parentModifStackGetter);
+					childValueReturnModeGetter, commitModifGetter, childModifTargetGetter, childModifTitleGetter,
+					parentModifStackGetter);
 		}
 	}
 

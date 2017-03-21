@@ -29,6 +29,7 @@ import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.ValueAsListField;
+import xy.reflect.ui.info.field.EncapsulatedValueField;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MethodAsField;
 import xy.reflect.ui.info.method.FieldAsGetter;
@@ -769,6 +770,15 @@ public final class InfoCustomizations {
 		protected String nullValueLabel;
 		protected boolean displayedAsMethods = false;
 		protected boolean displayedAsSingletonList = false;
+		protected boolean displayedEncapsulated = false;
+
+		public boolean isDisplayedEncapsulated() {
+			return displayedEncapsulated;
+		}
+
+		public void setDisplayedEncapsulated(boolean displayedEncapsulated) {
+			this.displayedEncapsulated = displayedEncapsulated;
+		}
 
 		public boolean isDisplayedAsMethods() {
 			return displayedAsMethods;
@@ -1769,7 +1779,7 @@ public final class InfoCustomizations {
 		protected boolean isImmutable(ITypeInfo type) {
 			final TypeCustomization t = getTypeCustomization(type.getName());
 			if (t != null) {
-				if(t.immutableForced){
+				if (t.immutableForced) {
 					return true;
 				}
 			}
@@ -2555,8 +2565,13 @@ public final class InfoCustomizations {
 					FieldCustomization f = getFieldCustomization(type.getName(), field.getName());
 					if (f != null) {
 						if (f.displayedAsSingletonList) {
-							result.set(i, new ValueAsListField(reflectionUI, field));
+							field = new ValueAsListField(reflectionUI, field);
 						}
+						if (f.displayedEncapsulated) {
+							field = new EncapsulatedValueField(reflectionUI, field);							
+						}
+						result.set(i, field);
+						
 					}
 				}
 				if (t.customFieldsOrder != null) {
@@ -2607,6 +2622,12 @@ public final class InfoCustomizations {
 					IFieldInfo field = ReflectionUIUtils.findInfoByName(type.getFields(), f.fieldName);
 					if (field != null) {
 						if (f.displayedAsMethods) {
+							if (f.displayedAsSingletonList) {
+								field = new ValueAsListField(reflectionUI, field);
+							}
+							if (f.displayedEncapsulated) {
+								field = new EncapsulatedValueField(reflectionUI, field);							
+							}
 							result.add(new FieldAsGetter(field));
 							if (!field.isGetOnly()) {
 								result.add(new FieldAsSetter(field));

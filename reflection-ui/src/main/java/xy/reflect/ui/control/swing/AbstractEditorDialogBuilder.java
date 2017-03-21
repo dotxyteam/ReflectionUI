@@ -16,7 +16,7 @@ import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public abstract class AbstractEditorBuilder extends AbstractEditorPanelBuilder {
+public abstract class AbstractEditorDialogBuilder extends AbstractEditorPanelBuilder {
 
 	protected DialogBuilder delegate;
 	protected JPanel editorPanel;
@@ -67,7 +67,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorPanelBuilder {
 		delegate.setIconImage(getObjectIconImage());
 
 		List<Component> toolbarControls = new ArrayList<Component>();
-		List<Component> commonToolbarControls = getSwingRenderer().createCommonToolbarControls(editorPanel);
+		List<Component> commonToolbarControls = getSwingRenderer().createFormCommonToolbarControls(editorPanel);
 		if (commonToolbarControls != null) {
 			toolbarControls.addAll(commonToolbarControls);
 		}
@@ -101,7 +101,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorPanelBuilder {
 			return;
 		}
 		ModificationStack childModifStack = getSubObjectModificationStack();
-		IInfo childModifTarget = getCumulatedModificationsTarget();
+		IInfo compositeModifTarget = getCumulatedModificationsTarget();
 		ValueReturnMode childValueReturnMode = getObjectValueReturnMode();
 		IModification commitModif;
 		if (!canCommit()) {
@@ -110,11 +110,10 @@ public abstract class AbstractEditorBuilder extends AbstractEditorPanelBuilder {
 			commitModif = createCommitModification(encapsulatedObjectValueAccessor.get());
 		}
 		boolean childModifAccepted = (!isCancellable()) || wasOkPressed();
-		boolean childValueNew = isObjectNew();
-		String childModifTitle = getCumulatedModificationsTitle();
+		String compositeModifTitle = getCumulatedModificationsTitle();
 		parentModificationStackImpacted = ReflectionUIUtils.integrateSubModifications(
 				getSwingRenderer().getReflectionUI(), parentModifStack, childModifStack, childModifAccepted,
-				childValueReturnMode, childValueNew, commitModif, childModifTarget, childModifTitle);
+				childValueReturnMode, commitModif, compositeModifTarget, compositeModifTitle);
 	}
 
 	public JDialog getCreatedEditor() {

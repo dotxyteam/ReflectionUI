@@ -161,7 +161,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 			}
 			result = result.replaceAll(
 					javaType.getName().replace(".", "\\.").replace("$", "\\$").replace("[", "\\[") + "@([0-9a-z]+)",
-					getCaption() + " ($1)");
+					getCaption() + " [id=$1]");
 			result = result.replace(javaType.getName(), getCaption());
 			return result;
 		}

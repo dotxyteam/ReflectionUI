@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.control.input.IFieldControlData;
 import xy.reflect.ui.control.input.IFieldControlInput;
@@ -50,7 +51,15 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					onNullingControlStateChange();
-					subControl.requestFocusInWindow();
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							if (SwingRendererUtils.isForm(subControl, swingRenderer)) {
+								swingRenderer.getFieldControlPlaceHolders((JPanel) subControl).get(0).getFieldControl()
+										.requestFocusInWindow();
+							}
+						}
+					});
 				} catch (Throwable t) {
 					swingRenderer.handleExceptionsFromDisplayedUI(NullableControl.this, t);
 				}

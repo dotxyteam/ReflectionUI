@@ -1,4 +1,4 @@
-package xy.reflect.ui.info.type;
+package xy.reflect.ui.info.type.enumeration;
 
 import java.util.Collections;
 import java.util.List;
@@ -9,8 +9,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
-import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
-import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
+import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.info.method.InvocationData;
 
@@ -19,6 +18,11 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements IEnu
 
 	public StandardEnumerationTypeInfo(ReflectionUI reflectionUI, Class javaEnumType) {
 		super(reflectionUI, javaEnumType);
+	}
+
+	@Override
+	public boolean isImmutable() {
+		return true;
 	}
 
 	@Override

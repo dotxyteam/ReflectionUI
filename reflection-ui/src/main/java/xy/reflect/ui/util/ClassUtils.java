@@ -178,14 +178,12 @@ public class ClassUtils {
 		if (isPrimitiveClassOrWrapperOrString(class1)) {
 			return true;
 		}
-		if (Arrays.<Class<?>>asList(
-				java.lang.StackTraceElement.class, java.math.BigInteger.class, java.math.BigDecimal.class,
-				java.io.File.class, java.awt.Font.class, java.awt.BasicStroke.class, java.awt.Color.class,
-				java.awt.GradientPaint.class, java.awt.LinearGradientPaint.class, java.awt.RadialGradientPaint.class,
-				java.awt.Cursor.class, java.util.Locale.class, java.util.UUID.class, java.util.Collections.class,
+		if (Arrays.<Class<?>>asList(java.lang.StackTraceElement.class, java.math.BigInteger.class,
+				java.math.BigDecimal.class, java.io.File.class, java.awt.Font.class, java.awt.BasicStroke.class,
+				java.awt.Color.class, java.awt.GradientPaint.class, java.awt.LinearGradientPaint.class,
+				java.awt.RadialGradientPaint.class, java.awt.Cursor.class, java.util.Locale.class, java.util.UUID.class,
 				java.net.URL.class, java.net.URI.class, java.net.Inet4Address.class, java.net.Inet6Address.class,
-				java.net.InetSocketAddress.class
-		).contains(class1)) {
+				java.net.InetSocketAddress.class).contains(class1)) {
 			return true;
 		}
 		return false;

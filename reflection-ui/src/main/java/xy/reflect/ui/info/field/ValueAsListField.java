@@ -1,6 +1,7 @@
 package xy.reflect.ui.info.field;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 
+@SuppressWarnings("unused")
 public class ValueAsListField extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;
@@ -54,9 +56,10 @@ public class ValueAsListField extends FieldInfoProxy {
 		return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(listType));
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Object getValue(Object object) {
-		return Collections.singletonList(super.getValue(object));
+		return new ArrayList(Arrays.asList(super.getValue(object)));
 	}
 
 	@Override

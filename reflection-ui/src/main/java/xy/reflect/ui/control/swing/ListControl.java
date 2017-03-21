@@ -1618,7 +1618,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			protected boolean perform(List<ItemPosition>[] toPostSelectHolder) {
-				AbstractEditorBuilder subDialogBuilder = new AbstractEditorBuilder() {
+				AbstractEditorDialogBuilder subDialogBuilder = new AbstractEditorDialogBuilder() {
 
 					@Override
 					public boolean isObjectFormExpanded() {
@@ -1744,11 +1744,11 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			protected IMethodControlInput getMethodInput() {
 				final ModificationStack childModifStack = new ModificationStack(null);
-				final IInfo childModifTarget = dynamicAction;
+				final IInfo compositeModifTarget = dynamicAction;
 				return new IMethodControlInput() {
 					@Override
 					public IInfo getModificationsTarget() {
-						return childModifTarget;
+						return compositeModifTarget;
 					}
 
 					@Override
@@ -1774,8 +1774,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 							@Override
 							public Object invoke(InvocationData invocationData) {
 								Object result = SwingRendererUtils.invokeMethodThroughModificationStack(base,
-										invocationData, childModifStack, childModifTarget);
-								String childModifTitle = InvokeMethodModification.getTitle(base);
+										invocationData, childModifStack, compositeModifTarget);
+								String compositeModifTitle = InvokeMethodModification.getTitle(base);
 								IModification commitModif;
 								if (listData.isGetOnly()) {
 									commitModif = null;
@@ -1789,8 +1789,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 								boolean childValueNew = false;
 								ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(),
 										getModificationStack(), childModifStack, childModifAccepted,
-										childValueReturnMode, childValueNew, commitModif, childModifTarget,
-										childModifTitle);
+										childValueReturnMode, commitModif, compositeModifTarget,
+										compositeModifTitle);
 								return result;
 							}
 						};
@@ -2318,7 +2318,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	};
 
-	protected class ItemUIBuilder extends AbstractEditorBuilder {
+	protected class ItemUIBuilder extends AbstractEditorDialogBuilder {
 		protected ItemPosition itemPosition;
 
 		public ItemUIBuilder(ItemPosition itemPosition) {
