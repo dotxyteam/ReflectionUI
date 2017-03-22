@@ -1,6 +1,7 @@
 package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Toolkit;
@@ -8,11 +9,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.border.Border;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
@@ -28,10 +29,9 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	protected IFieldControlInput input;
 	protected IFieldControlData data;
 
-	protected JTextArea textComponent;
+	protected Component textComponent;
+	protected Component iconControl;
 	protected boolean ignoreEditEvents = true;
-	protected Border textFieldNormalBorder;
-	protected JLabel iconControl;
 
 	public TextControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
@@ -63,27 +63,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 					return size;
 				}
 			};
-			textFieldNormalBorder = textComponent.getBorder();
-			if (data.isGetOnly()) {
-				textComponent.setEditable(false);
-				textComponent.setBackground(ReflectionUIUtils.getDisabledTextBackgroundColor());
-				scrollPane.setBorder(BorderFactory.createTitledBorder(""));
-			} else {
-				textComponent.getDocument().addUndoableEditListener(new UndoableEditListener() {
-
-					@Override
-					public void undoableEditHappened(UndoableEditEvent e) {
-						if (ignoreEditEvents) {
-							return;
-						}
-						try {
-							onTextChange(textComponent.getText());
-						} catch (Throwable t) {
-							swingRenderer.handleExceptionsFromDisplayedUI(TextControl.this, t);
-						}
-					}
-				});
-			}
+			scrollPane.setBorder(null);
 			add(scrollPane, BorderLayout.CENTER);
 		}
 		iconControl = createIconTrol();
@@ -97,8 +77,8 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		return input.getControlData();
 	}
 
-	protected JTextArea createTextComponent() {
-		return new JTextArea() {
+	protected Component createTextComponent() {
+		final JTextArea result = new JTextArea() {
 
 			private static final long serialVersionUID = 1L;
 
@@ -108,10 +88,31 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 				ignoreEditEvents = true;
 				super.replaceSelection(content);
 				ignoreEditEvents = wasIgnoringEditEvents;
-				onTextChange(textComponent.getText());
+				onTextChange(getText());
 			}
 
 		};
+		if (data.isGetOnly()) {
+			result.setEditable(false);
+			result.setBackground(ReflectionUIUtils.getDisabledTextBackgroundColor());
+		} else {
+			result.getDocument().addUndoableEditListener(new UndoableEditListener() {
+
+				@Override
+				public void undoableEditHappened(UndoableEditEvent e) {
+					if (ignoreEditEvents) {
+						return;
+					}
+					try {
+						onTextChange(result.getText());
+					} catch (Throwable t) {
+						swingRenderer.handleExceptionsFromDisplayedUI(TextControl.this, t);
+					}
+				}
+			});
+		}
+		result.setBorder(BorderFactory.createTitledBorder(""));
+		return result;
 	}
 
 	protected void onTextChange(String newStringValue) {
@@ -126,22 +127,23 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	protected void updateTextComponent() {
 		ignoreEditEvents = true;
 		String newText = (String) data.getValue();
-		if (!ReflectionUIUtils.equalsOrBothNull(textComponent.getText(), newText)) {
-			int lastCaretPosition = textComponent.getCaretPosition();
-			textComponent.setText(newText);
+		if (!ReflectionUIUtils.equalsOrBothNull(((JTextArea) textComponent).getText(), newText)) {
+			int lastCaretPosition = ((JTextArea) textComponent).getCaretPosition();
+			((JTextArea) textComponent).setText(newText);
+			((JTextArea) textComponent)
+					.setCaretPosition(Math.min(lastCaretPosition, ((JTextArea) textComponent).getText().length()));
 			SwingRendererUtils.handleComponentSizeChange(this);
-			textComponent.setCaretPosition(Math.min(lastCaretPosition, textComponent.getText().length()));
 		}
 		ignoreEditEvents = false;
 	}
 
-	protected JLabel createIconTrol() {
+	protected Component createIconTrol() {
 		return new JLabel();
 	}
 
 	protected void updateIcon() {
-		iconControl.setIcon(SwingRendererUtils.getControlDataIcon(swingRenderer, data));
-		iconControl.setVisible(iconControl.getIcon() != null);
+		((JLabel) iconControl).setIcon(SwingRendererUtils.getControlDataIcon(swingRenderer, data));
+		iconControl.setVisible(((JLabel) iconControl).getIcon() != null);
 	}
 
 	public static String toText(Object object) {
@@ -157,18 +159,18 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	public boolean displayError(String msg) {
 		String oldTooltipText;
 		if (msg == null) {
-			setBorder(textFieldNormalBorder);
-			SwingRendererUtils.handleComponentSizeChange(this);
-			oldTooltipText = textComponent.getToolTipText();
-			textComponent.setToolTipText(null);
+			setBorder(null);
+			oldTooltipText = ((JComponent) textComponent).getToolTipText();
+			((JComponent) textComponent).setToolTipText(null);
 		} else {
 			SwingRendererUtils.setErrorBorder(this);
-			SwingRendererUtils.handleComponentSizeChange(this);
-			oldTooltipText = textComponent.getToolTipText();
-			SwingRendererUtils.setMultilineToolTipText(textComponent, swingRenderer.prepareStringToDisplay(msg));
+			oldTooltipText = ((JComponent) textComponent).getToolTipText();
+			SwingRendererUtils.setMultilineToolTipText(((JComponent) textComponent),
+					swingRenderer.prepareStringToDisplay(msg));
 		}
-		if (!ReflectionUIUtils.equalsOrBothNull(oldTooltipText, textComponent.getToolTipText())) {
-			SwingRendererUtils.showTooltipNow(textComponent);
+		SwingRendererUtils.handleComponentSizeChange(this);
+		if (!ReflectionUIUtils.equalsOrBothNull(oldTooltipText, ((JComponent) textComponent).getToolTipText())) {
+			SwingRendererUtils.showTooltipNow(((JComponent) textComponent));
 		}
 		return true;
 	}
@@ -194,7 +196,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 
 	@Override
 	public Object getFocusDetails() {
-		int caretPosition = textComponent.getCaretPosition();
+		int caretPosition = ((JTextArea) textComponent).getCaretPosition();
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("caretPosition", caretPosition);
 		return result;
@@ -206,7 +208,8 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		Map<String, Object> focusDetails = (Map<String, Object>) value;
 		int caretPosition = (Integer) focusDetails.get("caretPosition");
 		textComponent.requestFocusInWindow();
-		textComponent.setCaretPosition(Math.min(caretPosition, textComponent.getText().length()));
+		((JTextArea) textComponent)
+				.setCaretPosition(Math.min(caretPosition, ((JTextArea) textComponent).getText().length()));
 	}
 
 	@Override

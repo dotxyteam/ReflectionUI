@@ -2455,7 +2455,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <customFieldCaption></customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>

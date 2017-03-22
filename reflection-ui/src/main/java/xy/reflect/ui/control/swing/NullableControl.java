@@ -31,7 +31,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	protected SwingRenderer swingRenderer;
 	protected static final long serialVersionUID = 1L;
 	protected IFieldControlData data;
-	protected JCheckBox nullStatusControl;
+	protected Component nullStatusControl;
 	protected Component subControl;
 	protected IFieldControlInput input;
 	protected ITypeInfo subControlValueType;
@@ -45,27 +45,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 
 	protected void initialize() {
 		setLayout(new BorderLayout());
-		nullStatusControl = new JCheckBox();
-		nullStatusControl.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					onNullingControlStateChange();
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							if (SwingRendererUtils.isForm(subControl, swingRenderer)) {
-								swingRenderer.getFieldControlPlaceHolders((JPanel) subControl).get(0).getFieldControl()
-										.requestFocusInWindow();
-							}
-						}
-					});
-				} catch (Throwable t) {
-					swingRenderer.handleExceptionsFromDisplayedUI(NullableControl.this, t);
-				}
-			}
-		});
-		nullStatusControl.setEnabled(!data.isGetOnly());
+		nullStatusControl = createNullStatusControl();
 		add(SwingRendererUtils.flowInLayout(nullStatusControl, GridBagConstraints.NORTH), BorderLayout.WEST);
 		refreshUI();
 	}
@@ -75,11 +55,11 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected void setNullStatusControlState(boolean b) {
-		nullStatusControl.setSelected(!b);
+		((JCheckBox) nullStatusControl).setSelected(!b);
 	}
 
 	protected boolean getNullStatusControlState() {
-		return !nullStatusControl.isSelected();
+		return !((JCheckBox) nullStatusControl).isSelected();
 	}
 
 	@Override
@@ -94,15 +74,19 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 		if (getNullStatusControlState()) {
 			data.setValue(null);
 		} else {
-			Object newValue = null;
-			try {
-				newValue = this.swingRenderer.onTypeInstanciationRequest(this, input.getControlData().getType(), false);
-			} catch (Throwable t) {
-				swingRenderer.handleExceptionsFromDisplayedUI(this, t);
-			}
-			data.setValue(newValue);
+			data.setValue(generateNonNullValue());
 		}
 		refreshUI();
+	}
+
+	protected Object generateNonNullValue() {
+		Object result = null;
+		try {
+			result = this.swingRenderer.onTypeInstanciationRequest(this, input.getControlData().getType(), false);
+		} catch (Throwable t) {
+			swingRenderer.handleExceptionsFromDisplayedUI(this, t);
+		}
+		return result;
 	}
 
 	public void updateSubControl(Object newValue) {
@@ -114,24 +98,12 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 				return;
 			}
 		}
-		if (subControl instanceof NullControl) {
-			if (newValue == null) {
-				return;
-			}
-		}
 		if (subControl != null) {
 			remove(subControl);
 		}
 		if (newValue == null) {
 			subControlValueType = null;
-			subControl = new NullControl(swingRenderer, input);
-			((NullControl) subControl).setAction(new Runnable() {
-				@Override
-				public void run() {
-					setNullStatusControlState(false);
-					onNullingControlStateChange();
-				}
-			});
+			subControl = createNullControl();
 		} else {
 			subControlValueType = swingRenderer.getReflectionUI()
 					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newValue));
@@ -142,8 +114,36 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 		SwingRendererUtils.handleComponentSizeChange(this);
 	}
 
-	protected JPanel createSubControl() {
-		return new AbstractEditorPanelBuilder() {
+	protected Component createNullStatusControl() {
+		JCheckBox result = new JCheckBox();
+		result.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					onNullingControlStateChange();
+				} catch (Throwable t) {
+					swingRenderer.handleExceptionsFromDisplayedUI(NullableControl.this, t);
+				}
+			}
+		});
+		result.setEnabled(!data.isGetOnly());
+		return result;
+	}
+
+	protected Component createNullControl() {
+		NullControl result = new NullControl(swingRenderer, input);
+		result.setAction(new Runnable() {
+			@Override
+			public void run() {
+				setNullStatusControlState(false);
+				onNullingControlStateChange();
+			}
+		});
+		return result;
+	}
+
+	protected Component createSubControl() {
+		final JPanel result = new AbstractEditorPanelBuilder() {
 
 			@Override
 			public boolean isObjectFormExpanded() {
@@ -220,6 +220,13 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 				return data.getValue();
 			}
 		}.createEditorPanel();
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				swingRenderer.getFieldControlPlaceHolders(result).get(0).getFieldControl().requestFocusInWindow();
+			}
+		});
+		return result;
 	}
 
 	@Override

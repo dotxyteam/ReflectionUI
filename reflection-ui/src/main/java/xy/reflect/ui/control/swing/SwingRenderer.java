@@ -387,7 +387,7 @@ public class SwingRenderer {
 			if (javaType == Color.class) {
 				return new ColorControl(this, input);
 			} else if (BooleanTypeInfo.isCompatibleWith(javaType)) {
-				return new CheckBoxControl(this, input);
+				return new CheckBoxControl2(this, input);
 			} else if (TextualTypeInfo.isCompatibleWith(javaType)) {
 				if (javaType == String.class) {
 					return new TextControl(this, input);

@@ -109,7 +109,7 @@ public class SwingRendererUtils {
 		return result;
 	}
 
-	public static void showTooltipNow(Component c) {
+	public static void showTooltipNow(JComponent c) {
 		try {
 			Method showToolTipMehod = ToolTipManager.class.getDeclaredMethod("show",
 					new Class<?>[] { JComponent.class });

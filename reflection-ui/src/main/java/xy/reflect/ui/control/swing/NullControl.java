@@ -1,7 +1,11 @@
 package xy.reflect.ui.control.swing;
 
+import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.JComponent;
+import javax.swing.JTextArea;
 
 import xy.reflect.ui.control.input.FieldControlDataProxy;
 import xy.reflect.ui.control.input.IFieldControlData;
@@ -10,6 +14,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.util.SwingRendererUtils;
 
+@SuppressWarnings("unused")
 public class NullControl extends TextControl {
 
 	protected static final long serialVersionUID = 1L;
@@ -17,7 +22,12 @@ public class NullControl extends TextControl {
 
 	public NullControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		super(swingRenderer, input);
-		textComponent.addMouseListener(new MouseAdapter() {
+	}
+
+	@Override
+	protected Component createTextComponent() {
+		Component result = super.createTextComponent();
+		result.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				if (action != null) {
@@ -30,8 +40,10 @@ public class NullControl extends TextControl {
 			}
 		});
 		if (getText() == null) {
-			textComponent.setBackground(SwingRendererUtils.getNullColor());
+			result.setBackground(SwingRendererUtils.getNullColor());
 		}
+		((JComponent) result).setBorder(null);
+		return result;
 	}
 
 	protected Object getText() {
