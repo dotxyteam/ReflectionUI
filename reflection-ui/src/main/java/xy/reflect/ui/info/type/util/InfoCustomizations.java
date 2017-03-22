@@ -2512,7 +2512,7 @@ public final class InfoCustomizations {
 					IFieldInfo field = it.next();
 					FieldCustomization f = getFieldCustomization(t, field.getName());
 					if (f != null) {
-						if (f.hidden || f.displayedAsMethods) {
+						if (f.hidden) {
 							it.remove();
 						}
 					}
@@ -2555,8 +2555,10 @@ public final class InfoCustomizations {
 				for (Iterator<IMethodInfo> it = result.iterator(); it.hasNext();) {
 					IMethodInfo ctor = it.next();
 					MethodCustomization m = getMethodCustomization(t, ReflectionUIUtils.getMethodSignature(ctor));
-					if ((m != null) && m.hidden) {
-						it.remove();
+					if (m != null) {
+						if (m.hidden) {
+							it.remove();
+						}
 					}
 				}
 				if (t.customMethodsOrder != null) {
@@ -2576,7 +2578,7 @@ public final class InfoCustomizations {
 					IMethodInfo method = it.next();
 					MethodCustomization m = getMethodCustomization(t, ReflectionUIUtils.getMethodSignature(method));
 					if (m != null) {
-						if (m.hidden || m.validating || m.displayedAsField) {
+						if (m.hidden) {
 							it.remove();
 						}
 					}
@@ -2585,12 +2587,6 @@ public final class InfoCustomizations {
 					IFieldInfo field = ReflectionUIUtils.findInfoByName(containingType.getFields(), f.fieldName);
 					if (field != null) {
 						if (f.displayedAsMethods) {
-							if (f.displayedAsSingletonList) {
-								field = new ValueAsListField(reflectionUI, field);
-							}
-							if (f.displayedEncapsulated) {
-								field = new EncapsulatedValueField(reflectionUI, field);
-							}
 							result.add(new FieldAsGetter(field));
 							if (!field.isGetOnly()) {
 								result.add(new FieldAsSetter(field));

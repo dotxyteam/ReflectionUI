@@ -1,6 +1,5 @@
 package xy.reflect.ui.control.swing;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -20,9 +19,6 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 		this.swingRenderer = swingRenderer;
 		this.data = input.getControlData();
 		
-		setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
-		setBorderPainted(true);
-		//setBorder(BorderFactory.createTitledBorder(""));
 		if (data.isGetOnly()) {
 			setEnabled(false);
 		}
@@ -40,7 +36,6 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 	@Override
 	public boolean showCaption() {
 		setText(swingRenderer.prepareStringToDisplay(data.getCaption()));
-		//setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
 		return true;
 	}
 
