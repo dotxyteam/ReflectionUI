@@ -2466,7 +2466,6 @@
             <fieldName>category</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
-            <valueOptionsFieldName>categoryOptions</valueOptionsFieldName>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>

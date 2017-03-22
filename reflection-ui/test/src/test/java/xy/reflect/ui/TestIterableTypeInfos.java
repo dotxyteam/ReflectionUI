@@ -21,7 +21,7 @@ import xy.reflect.ui.info.type.util.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.TreeStructureDiscoverySettings;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class TestIterableTypeInfos  extends AbstractUIAutomationTest{
+public class TestIterableTypeInfos extends AbstractUIAutomationTest {
 
 	public abstract class AbstractItem {
 		public int abstractValue;
@@ -66,9 +66,9 @@ public class TestIterableTypeInfos  extends AbstractUIAutomationTest{
 
 		IFieldInfo itemListInfo = ReflectionUIUtils.findInfoByName(typeInfo.getFields(), "itemList");
 		IListTypeInfo itemListTypeInfo = (IListTypeInfo) itemListInfo.getType();
-		
-		ListCustomization itemListTypeCustomization = customizations
-				.getListCustomization(itemListTypeInfo.getName(), itemListTypeInfo.getItemType().getName(), true);
+
+		ListCustomization itemListTypeCustomization = InfoCustomizations.getListCustomization(customizations,
+				itemListTypeInfo.getName(), itemListTypeInfo.getItemType().getName(), true);
 		itemListTypeCustomization.setFieldColumnsAdded(true);
 		itemListTypeCustomization.setItemTypeColumnAdded(true);
 		TreeStructureDiscoverySettings treeSettings = new TreeStructureDiscoverySettings();
@@ -81,7 +81,7 @@ public class TestIterableTypeInfos  extends AbstractUIAutomationTest{
 
 		IListStructuralInfo itemListStructuralInfo = itemListTypeInfo.getStructuralInfo();
 
-		ItemPosition firstItemPosition = new ItemPosition(new DefaultFieldControlData(this,itemListInfo), 0);
+		ItemPosition firstItemPosition = new ItemPosition(new DefaultFieldControlData(this, itemListInfo), 0);
 		ITypeInfo firstItemType = reflectionUI.getTypeInfo(new JavaTypeInfoSource(itemList.get(0).getClass()));
 		Assert.assertEquals(itemListStructuralInfo.getColumns().get(0).getCellValue(firstItemPosition),
 				firstItemType.getCaption());

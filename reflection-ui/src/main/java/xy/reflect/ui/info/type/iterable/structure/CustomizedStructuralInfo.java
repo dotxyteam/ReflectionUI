@@ -21,6 +21,7 @@ import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.PositionColumnInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.StringValueColumnInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.TypeNameColumnInfo;
+import xy.reflect.ui.info.type.util.InfoCustomizations;
 import xy.reflect.ui.info.type.util.InfoCustomizations.ColumnCustomization;
 import xy.reflect.ui.info.type.util.InfoCustomizations.InfoFilter;
 import xy.reflect.ui.info.type.util.InfoCustomizations.ListCustomization;
@@ -69,7 +70,7 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 	}
 
 	protected IFieldInfo getSubListsGroupingField(List<IFieldInfo> subListFields) {
-		return new SubListsGroupingField(reflectionUI, subListFields);			
+		return new SubListsGroupingField(reflectionUI, subListFields);
 	}
 
 	protected List<IFieldInfo> getItemSubListCandidateFields(ItemPosition itemPosition) {
@@ -180,7 +181,7 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 		final List<IColumnInfo> filteredResult = new ArrayList<IColumnInfo>();
 
 		for (IColumnInfo column : result) {
-			final ColumnCustomization c = customization.getColumnCustomization(column.getName());
+			final ColumnCustomization c = InfoCustomizations.getColumnCustomization(customization, column.getName());
 			if (c != null) {
 				if (c.isHidden()) {
 					continue;
@@ -198,7 +199,7 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 						@Override
 						public int getMinimalCharacterCount() {
 							return c.getMinimalCharacterCount();
-						}						
+						}
 					};
 				}
 			}
