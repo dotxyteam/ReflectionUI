@@ -93,7 +93,7 @@ public abstract class AbstractEditorPanelBuilder {
 				getEncapsulatedFieldType());
 		result.setTypeCaption(getEncapsulationTypeCaption());
 		result.setTypeModificationStackAccessible(canPotentiallyModifyParent());
-		result.setFieldCaption("");
+		result.setFieldCaption(getEncapsulatedFieldCaption());
 		result.setFieldGetOnly(!canCommit());
 		result.setFieldNullable(isObjectNullable());
 		result.setFieldValueReturnMode(
@@ -105,6 +105,10 @@ public abstract class AbstractEditorPanelBuilder {
 			result.setFieldSpecificProperties(properties);
 		}
 		return result;
+	}
+
+	public String getEncapsulatedFieldCaption() {
+		return "";
 	}
 
 	public ITypeInfo getEncapsulatedFieldType() {
@@ -124,7 +128,7 @@ public abstract class AbstractEditorPanelBuilder {
 		return getEncapsulatedFieldType().getCaption();
 	}
 
-	public ITypeInfo getEncapsulatedObjectType() {
+	public ITypeInfo findEncapsulatedObjectType() {
 		Object encapsualted = getEncapsulatedObject();
 		return getSwingRenderer().getReflectionUI()
 				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(encapsualted));

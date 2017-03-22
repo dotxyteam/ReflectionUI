@@ -1690,7 +1690,7 @@ public final class InfoCustomizations {
 
 		@Override
 		public String toString() {
-			return "Factory of " + InfoCustomizations.this;
+			return "Factory[of=" + InfoCustomizations.this + "]";
 		}
 
 		@Override

@@ -58,6 +58,16 @@ public class CheckBoxControl2 extends NullableControl {
 	}
 
 	@Override
+	protected Component createNullStatusControl() {
+		Component result = super.createNullStatusControl();
+		if (data.isGetOnly()) {
+			result.setVisible(true);
+			result.setEnabled(false);
+		}
+		return result;
+	}
+
+	@Override
 	protected Component createSubControl() {
 		JButton result = new JButton();
 		result.addActionListener(new ActionListener() {
@@ -69,12 +79,12 @@ public class CheckBoxControl2 extends NullableControl {
 				} else {
 					data.setValue(null);
 				}
-				SwingUtilities.invokeLater(new Runnable() {					
+				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
 						refreshUI();
 					}
-				});				
+				});
 			}
 		});
 		result.setBorderPainted(false);
@@ -90,6 +100,11 @@ public class CheckBoxControl2 extends NullableControl {
 	@Override
 	protected Object generateNonNullValue() {
 		return NOT_NULL;
+	}
+
+	@Override
+	public boolean handlesModificationStackUpdate() {
+		return false;
 	}
 
 }

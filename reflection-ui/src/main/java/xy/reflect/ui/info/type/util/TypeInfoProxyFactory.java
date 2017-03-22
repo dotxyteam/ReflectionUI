@@ -433,7 +433,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String getName() {
-			return base.getName();
+			return TypeInfoProxyFactory.this.getName(base);
 		}
 
 		@Override
@@ -547,7 +547,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedBasicTypeInfoProxy [name= " + getName() + ", factory=" + factory + ",base=" + base + "]";
+			return "GeneratedBasicTypeInfoProxy [name=" + getName() + ", factory=" + factory + ",base=" + base + "]";
 		}
 
 		@Override
@@ -686,7 +686,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedListTypeInfoProxy [name= " + getName() + ", factory=" + factory + ", base=" + base + "]";
+			return "GeneratedListTypeInfoProxy [name=" + getName() + ", factory=" + factory + ", base=" + base + "]";
 		}
 
 	}
@@ -710,7 +710,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedEnumerationTypeInfoProxy [name= " + getName() + ",factory=" + factory + ", base=" + base
+			return "GeneratedEnumerationTypeInfoProxy [name=" + getName() + ",factory=" + factory + ", base=" + base
 					+ "]";
 		}
 
@@ -734,7 +734,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedMapEntryTypeInfoProxy [name= " + getName() + ", factory=" + factory + ", base=" + base
+			return "GeneratedMapEntryTypeInfoProxy [name=" + getName() + ", factory=" + factory + ", base=" + base
 					+ "]";
 		}
 
@@ -754,7 +754,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String getName() {
-			return base.getName();
+			return TypeInfoProxyFactory.this.getName(base, containingType);
 		}
 
 		@Override
@@ -869,7 +869,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedFieldInfoProxy [name= " + getName() + ", factory=" + factory + ",base=" + base + "]";
+			return "GeneratedFieldInfoProxy [name=" + getName() + ", factory=" + factory + ",base=" + base + "]";
 		}
 
 	}
@@ -888,7 +888,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String getName() {
-			return base.getName();
+			return TypeInfoProxyFactory.this.getName(base, containingType);
 		}
 
 		@Override
@@ -1001,7 +1001,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedMethodInfoProxy [name= " + getName() + ", factory=" + factory + ",base=" + base + "]";
+			return "GeneratedMethodInfoProxy [name=" + getName() + ", factory=" + factory + ",base=" + base + "]";
 		}
 
 	}
@@ -1035,7 +1035,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String getName() {
-			return base.getName();
+			return TypeInfoProxyFactory.this.getName(base, method, containingType);
 		}
 
 		@Override
@@ -1125,7 +1125,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedParameterInfoProxy [name= " + getName() + ", factory=" + factory + ",base=" + base + "]";
+			return "GeneratedParameterInfoProxy [name=" + getName() + ", factory=" + factory + ",base=" + base + "]";
 		}
 
 	}

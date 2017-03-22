@@ -500,7 +500,6 @@ public class SwingRenderer {
 		} else {
 			formFocusDetails = null;
 		}
-		System.out.println(formContainsFocus + ": focus in " + form + ": " + formFocusDetails);
 		final InfoCategory focusedCategory = getDisplayedInfoCategory(form);
 		try {
 			runnable.run();

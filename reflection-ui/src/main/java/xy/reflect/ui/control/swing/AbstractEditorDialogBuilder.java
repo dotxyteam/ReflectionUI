@@ -25,7 +25,7 @@ public abstract class AbstractEditorDialogBuilder extends AbstractEditorPanelBui
 	public abstract Component getOwnerComponent();
 
 	public boolean isCancellable() {
-		return getEncapsulatedObjectType().isModificationStackAccessible();
+		return findEncapsulatedObjectType().isModificationStackAccessible();
 	}
 
 	@Override
