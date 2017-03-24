@@ -128,12 +128,7 @@ public abstract class AbstractEditorPanelBuilder {
 		return getEncapsulatedFieldType().getCaption();
 	}
 
-	public ITypeInfo findEncapsulatedObjectType() {
-		Object encapsualted = getEncapsulatedObject();
-		return getSwingRenderer().getReflectionUI()
-				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(encapsualted));
-	}
-
+	
 	public boolean isObjectFormEmpty() {
 		Object encapsulatedObject = getEncapsulatedObject();
 		ITypeInfo encapsulatedObjectType = getSwingRenderer().getReflectionUI()

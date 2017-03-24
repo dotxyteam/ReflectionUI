@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -25,7 +26,10 @@ public abstract class AbstractEditorDialogBuilder extends AbstractEditorPanelBui
 	public abstract Component getOwnerComponent();
 
 	public boolean isCancellable() {
-		return findEncapsulatedObjectType().isModificationStackAccessible();
+		Object encapsualted = getEncapsulatedObject();
+		ITypeInfo encapsulatedObjectType = getSwingRenderer().getReflectionUI()
+				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(encapsualted));
+		return encapsulatedObjectType.isModificationStackAccessible();
 	}
 
 	@Override
@@ -60,7 +64,7 @@ public abstract class AbstractEditorDialogBuilder extends AbstractEditorPanelBui
 	public JDialog createDialog() {
 		Object encapsulated = getEncapsulatedObject();
 		editorPanel = getSwingRenderer().createForm(encapsulated);
-		
+
 		delegate = createDelegateDialogBuilder();
 		delegate.setContentComponent(editorPanel);
 		delegate.setTitle(getEditorTitle());
@@ -94,7 +98,6 @@ public abstract class AbstractEditorDialogBuilder extends AbstractEditorPanelBui
 		}
 	}
 
-	
 	protected void impactParent() {
 		ModificationStack parentModifStack = getParentModificationStack();
 		if (parentModifStack == null) {

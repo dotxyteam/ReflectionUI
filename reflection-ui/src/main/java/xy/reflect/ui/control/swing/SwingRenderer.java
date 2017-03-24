@@ -1730,25 +1730,24 @@ public class SwingRenderer {
 				if (controlData.isNullable()) {
 					if (!controlData.isGetOnly()) {
 						return new NullableControl(SwingRenderer.this, this);
-					}
-				}
-				Object value = controlData.getValue();
-				if (value == null) {
-					return new NullControl(SwingRenderer.this, this);
-				}
-				result = createCustomFieldControl(this, false);
-				if (result != null) {
-					return result;
-				}
-				final ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
-				if (!valueType.equals(controlData.getType())) {
-					controlData = new FieldControlDataProxy(controlData) {
-						@Override
-						public ITypeInfo getType() {
-							return valueType;
+					} else {
+						final Object value = controlData.getValue();
+						if (value == null) {
+							return new NullControl(SwingRenderer.this, this);
 						}
-					};
-					return createFieldControl();
+						controlData = new FieldControlDataProxy(controlData) {
+							@Override
+							public boolean isNullable() {
+								return false;
+							}
+
+							@Override
+							public ITypeInfo getType() {
+								return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
+							}
+						};
+						return createFieldControl();
+					}
 				}
 				if (DesktopSpecificProperty
 						.isSubFormExpanded(DesktopSpecificProperty.accessControlDataProperties(controlData))) {
