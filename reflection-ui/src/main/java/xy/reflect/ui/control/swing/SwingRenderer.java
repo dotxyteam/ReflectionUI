@@ -717,7 +717,7 @@ public class SwingRenderer {
 	public Image getObjectIconImage(Object object) {
 		if (object != null) {
 			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-			Image result = SwingRendererUtils.getCachedIconImage(this, type.getSpecificProperties());
+			Image result = SwingRendererUtils.findIconImage(this, type.getSpecificProperties());
 			if (result != null) {
 				return result;
 			}
@@ -725,20 +725,9 @@ public class SwingRenderer {
 		return null;
 	}
 
-	public Image getFieldIconImage(IFieldControlData data) {
-		Image result = SwingRendererUtils.getCachedIconImage(this, data.getSpecificProperties());
-		if (result != null) {
-			return result;
-		}
-		Object value = data.getValue();
-		if (value == null) {
-			return null;
-		}
-		return getObjectIconImage(value);
-	}
-
+	
 	public Image getMethodIconImage(IMethodControlData data) {
-		return SwingRendererUtils.getCachedIconImage(this, data.getSpecificProperties());
+		return SwingRendererUtils.findIconImage(this, data.getSpecificProperties());
 	}
 
 	public void handleExceptionsFromDisplayedUI(Component activatorComponent, final Throwable t) {

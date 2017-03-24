@@ -102,6 +102,8 @@ public abstract class AbstractEditorPanelBuilder {
 		{
 			DesktopSpecificProperty.setSubFormExpanded(properties, isObjectFormExpanded());
 			DesktopSpecificProperty.setFilter(properties, getObjectFormFilter());
+			DesktopSpecificProperty.setIconImage(properties, SwingRendererUtils.findIconImage(getSwingRenderer(),
+					result.getFieldType().getSpecificProperties()));
 			result.setFieldSpecificProperties(properties);
 		}
 		return result;
@@ -128,7 +130,6 @@ public abstract class AbstractEditorPanelBuilder {
 		return getEncapsulatedFieldType().getCaption();
 	}
 
-	
 	public boolean isObjectFormEmpty() {
 		Object encapsulatedObject = getEncapsulatedObject();
 		ITypeInfo encapsulatedObjectType = getSwingRenderer().getReflectionUI()
@@ -217,8 +218,8 @@ public abstract class AbstractEditorPanelBuilder {
 			}
 		};
 		SwingRendererUtils.forwardSubModifications(getSwingRenderer(), panel, childModifAcceptedGetter,
-				childValueReturnModeGetter, commitModifGetter, childModifTargetGetter,
-				childModifTitleGetter, parentModifStackGetter);
+				childValueReturnModeGetter, commitModifGetter, childModifTargetGetter, childModifTitleGetter,
+				parentModifStackGetter);
 	}
 
 }

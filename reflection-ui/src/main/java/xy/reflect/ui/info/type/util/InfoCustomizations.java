@@ -2347,8 +2347,11 @@ public final class InfoCustomizations {
 				FieldCustomization f = getFieldCustomization(t, field.getName());
 				if (f != null) {
 					if (f.specificProperties != null) {
-						if (f.specificProperties.entrySet().size() > 0) {
-							result.putAll(f.specificProperties);
+						for (String key : f.specificProperties.keySet()) {
+							Object value = f.specificProperties.get(key);
+							if (value != null) {
+								result.put(key, value);
+							}
 						}
 					}
 				}

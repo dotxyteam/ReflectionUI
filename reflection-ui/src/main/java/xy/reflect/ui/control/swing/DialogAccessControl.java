@@ -251,7 +251,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	protected void updateIconControl() {
-		((JLabel) iconControl).setIcon(SwingRendererUtils.getControlDataIcon(swingRenderer, data));
+		((JLabel) iconControl).setIcon(SwingRendererUtils.geObjectIcon(swingRenderer, data.getValue()));
 		iconControl.setVisible(((JLabel) iconControl).getIcon() != null);
 	}
 

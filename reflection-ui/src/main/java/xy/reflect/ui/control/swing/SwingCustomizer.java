@@ -444,20 +444,23 @@ public class SwingCustomizer extends SwingRenderer {
 				@Override
 				public Object getValue(Object object) {
 					AbstractInfoCustomization c = (AbstractInfoCustomization) object;
-					String path = DesktopSpecificProperty
+					String pathSpecification = DesktopSpecificProperty
 							.getIconImageFilePath(DesktopSpecificProperty.accessCustomizationsProperties(c));
-					if (path == null) {
-						path = "";
+					if (pathSpecification == null) {
+						pathSpecification = "";
 					}
-					return new ResourcePath(path);
+					return new ResourcePath(pathSpecification);
 				}
 
 				@Override
 				public void setValue(Object object, Object value) {
-					value = ((ResourcePath) value).getSpecification();
+					String pathSpecification = ((ResourcePath) value).getSpecification();
+					if (pathSpecification.equals("")) {
+						pathSpecification = null;
+					}
 					AbstractInfoCustomization c = (AbstractInfoCustomization) object;
 					DesktopSpecificProperty.setIconImageFilePath(
-							DesktopSpecificProperty.accessCustomizationsProperties(c), ((String) value));
+							DesktopSpecificProperty.accessCustomizationsProperties(c), pathSpecification);
 				}
 
 				@Override

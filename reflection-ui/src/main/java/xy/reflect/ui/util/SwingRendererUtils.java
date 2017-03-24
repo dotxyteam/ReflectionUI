@@ -362,7 +362,8 @@ public class SwingRendererUtils {
 						String compositeModifTitle = AbstractModification.getUndoTitle(undoModif.getTitle());
 						String parentModifTitle = compositeModifTitleGetter.get();
 						if (parentModifTitle != null) {
-							compositeModifTitle = ReflectionUIUtils.composeMessage(parentModifTitle, compositeModifTitle);
+							compositeModifTitle = ReflectionUIUtils.composeMessage(parentModifTitle,
+									compositeModifTitle);
 						}
 						ModificationStack parentModifStack = parentModifStackGetter.get();
 						IInfo compositeModifTarget = compositeModifTargetGetter.get();
@@ -649,20 +650,11 @@ public class SwingRendererUtils {
 		return listenersToRemove.size();
 	}
 
-	public Icon getControlIcon(IFieldControlData data, SwingRenderer swingRenderer) {
-		Image iconImage = swingRenderer.getFieldIconImage(data);
-		if (iconImage != null) {
-			return SwingRendererUtils.getSmallIcon(iconImage);
-		} else {
-			return null;
-		}
-	}
-
 	public static Color getNullColor() {
 		return fixSeveralColorRenderingIssues(new JTextArea().getDisabledTextColor());
 	}
 
-	public static Image getCachedIconImage(SwingRenderer swingRenderer, Map<String, Object> properties) {
+	public static Image findIconImage(SwingRenderer swingRenderer, Map<String, Object> properties) {
 		if (properties == null) {
 			return null;
 		}
@@ -702,8 +694,11 @@ public class SwingRendererUtils {
 		return result;
 	}
 
-	public static Icon getControlDataIcon(SwingRenderer swingRenderer, IFieldControlData data) {
-		Image iconImage = swingRenderer.getFieldIconImage(data);
+	public static Icon geObjectIcon(SwingRenderer swingRenderer, Object object) {
+		if(object == null){
+			return null;
+		}
+		Image iconImage = swingRenderer.getObjectIconImage(object);
 		if (iconImage != null) {
 			return SwingRendererUtils.getSmallIcon(iconImage);
 		} else {

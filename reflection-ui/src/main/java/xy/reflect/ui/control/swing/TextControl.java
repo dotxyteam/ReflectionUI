@@ -22,6 +22,7 @@ import xy.reflect.ui.control.input.IFieldControlInput;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
+@SuppressWarnings("unused")
 public class TextControl extends JPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
@@ -30,7 +31,6 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	protected IFieldControlData data;
 
 	protected Component textComponent;
-	protected Component iconControl;
 	protected boolean ignoreEditEvents = true;
 
 	public TextControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
@@ -65,11 +65,6 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 			};
 			scrollPane.setBorder(null);
 			add(scrollPane, BorderLayout.CENTER);
-		}
-		iconControl = createIconTrol();
-		{
-			updateIcon();
-			add(SwingRendererUtils.flowInLayout(iconControl, GridBagConstraints.CENTER), BorderLayout.EAST);
 		}
 	}
 
@@ -141,11 +136,6 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		return new JLabel();
 	}
 
-	protected void updateIcon() {
-		((JLabel) iconControl).setIcon(SwingRendererUtils.getControlDataIcon(swingRenderer, data));
-		iconControl.setVisible(((JLabel) iconControl).getIcon() != null);
-	}
-
 	public static String toText(Object object) {
 		return object.toString();
 	}
@@ -178,7 +168,6 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	@Override
 	public boolean refreshUI() {
 		updateTextComponent();
-		updateIcon();
 		displayError(null);
 		SwingRendererUtils.handleComponentSizeChange(this);
 		return true;
