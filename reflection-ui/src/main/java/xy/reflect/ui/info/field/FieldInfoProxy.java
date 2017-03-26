@@ -5,6 +5,7 @@ import java.util.Map;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
 
 public class FieldInfoProxy implements IFieldInfo {
 
@@ -31,6 +32,10 @@ public class FieldInfoProxy implements IFieldInfo {
 	@Override
 	public ITypeInfo getType() {
 		return base.getType();
+	}
+
+	public ITypeInfoProxyFactory getTypeSpecificities() {
+		return base.getTypeSpecificities();
 	}
 
 	@Override

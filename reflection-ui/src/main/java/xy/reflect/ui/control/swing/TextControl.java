@@ -51,7 +51,8 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 				public Dimension getPreferredSize() {
 					Dimension result = super.getPreferredSize();
 					result = fixScrollPaneSizeWHenVerticalBarVisible(result);
-					result.width = Math.min(result.width, Toolkit.getDefaultToolkit().getScreenSize().width / 3);
+					int characterSize = SwingRendererUtils.getStandardCharacterWidth(textComponent);
+					result.width = Math.min(result.width, characterSize * 20);
 					result.height = Math.min(result.height, Toolkit.getDefaultToolkit().getScreenSize().height / 3);
 					return result;
 				}
@@ -66,6 +67,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 			scrollPane.setBorder(null);
 			add(scrollPane, BorderLayout.CENTER);
 		}
+		SwingRendererUtils.handleComponentSizeChange(this);
 	}
 
 	protected IFieldControlData retrieveData() {
@@ -192,13 +194,15 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public void requestDetailedFocus(Object value) {
+	public boolean requestDetailedFocus(Object value) {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> focusDetails = (Map<String, Object>) value;
-		int caretPosition = (Integer) focusDetails.get("caretPosition");
-		textComponent.requestFocusInWindow();
-		((JTextArea) textComponent)
-				.setCaretPosition(Math.min(caretPosition, ((JTextArea) textComponent).getText().length()));
+		Integer caretPosition = (Integer) focusDetails.get("caretPosition");
+		if (caretPosition != null) {
+			((JTextArea) textComponent)
+					.setCaretPosition(Math.min(caretPosition, ((JTextArea) textComponent).getText().length()));
+		}
+		return textComponent.requestFocusInWindow();
 	}
 
 	@Override
@@ -209,4 +213,10 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	@Override
 	public void validateSubForm() throws Exception {
 	}
+
+	@Override
+	public String toString() {
+		return "TextControl [data=" + data + "]";
+	}
+
 }

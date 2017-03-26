@@ -22,6 +22,7 @@ import xy.reflect.ui.info.type.iterable.structure.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
+import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -98,6 +99,11 @@ public class ImplicitListField implements IFieldInfo {
 			type = new TypeInfo();
 		}
 		return type;
+	}
+
+	@Override
+	public ITypeInfoProxyFactory getTypeSpecificities() {
+		return null;
 	}
 
 	@Override
@@ -343,13 +349,12 @@ public class ImplicitListField implements IFieldInfo {
 		public boolean isPrimitive() {
 			return false;
 		}
-		
+
 		@Override
 		public boolean isImmutable() {
 			return false;
 		}
 
-		
 		@Override
 		public boolean isModificationStackAccessible() {
 			return false;

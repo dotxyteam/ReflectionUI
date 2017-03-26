@@ -8,6 +8,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -36,6 +37,11 @@ public class SubFieldInfo implements IFieldInfo {
 	@Override
 	public ITypeInfo getType() {
 		return theSubField.getType();
+	}
+
+	@Override
+	public ITypeInfoProxyFactory getTypeSpecificities() {
+		return null;
 	}
 
 	@Override

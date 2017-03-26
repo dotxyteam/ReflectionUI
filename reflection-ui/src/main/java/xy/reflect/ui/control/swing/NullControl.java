@@ -5,7 +5,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JComponent;
-import javax.swing.JTextArea;
 
 import xy.reflect.ui.control.input.FieldControlDataProxy;
 import xy.reflect.ui.control.input.IFieldControlData;
@@ -14,7 +13,6 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-@SuppressWarnings("unused")
 public class NullControl extends TextControl {
 
 	protected static final long serialVersionUID = 1L;
@@ -39,15 +37,20 @@ public class NullControl extends TextControl {
 				}
 			}
 		});
-		if (getText() == null) {
+		if (getText().trim().length() == 0) {
 			result.setBackground(SwingRendererUtils.getNullColor());
 		}
 		((JComponent) result).setBorder(null);
 		return result;
 	}
 
-	protected Object getText() {
-		return input.getControlData().getNullValueLabel();
+	protected String getText() {
+		String text = input.getControlData().getNullValueLabel();
+		if ((text == null) || (text.length() == 0)) {
+			return "";
+		} else {
+			return text;
+		}
 	}
 
 	public void setAction(Runnable action) {
@@ -83,6 +86,11 @@ public class NullControl extends TextControl {
 	@Override
 	public boolean displayError(String msg) {
 		return false;
+	}
+
+	@Override
+	public String toString() {
+		return "NullControl [data=" + data + "]";
 	}
 
 }

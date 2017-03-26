@@ -119,8 +119,11 @@ public class ReflectionUI {
 		return result;
 	}
 
-	public void logInformation(String msg) {
-		System.out.println("[" + ReflectionUI.class.getSimpleName() + "] " + msg);
+	public void logDebug(String msg) {
+		if(!SystemProperties.isDebugModeActive()){
+			return;
+		}
+		System.out.println("[" + ReflectionUI.class.getSimpleName() + "] DEBUG - " + msg);
 	}
 
 	public void logError(String msg) {

@@ -9,6 +9,7 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
 
 public interface IFieldInfo extends IInfo {
 	public IFieldInfo NULL_FIELD_INFO = new IFieldInfo() {
@@ -73,6 +74,11 @@ public interface IFieldInfo extends IInfo {
 		}
 
 		@Override
+		public ITypeInfoProxyFactory getTypeSpecificities() {
+			return null;
+		}
+
+		@Override
 		public InfoCategory getCategory() {
 			return null;
 		}
@@ -91,6 +97,8 @@ public interface IFieldInfo extends IInfo {
 
 	ITypeInfo getType();
 
+	ITypeInfoProxyFactory getTypeSpecificities();
+
 	Object getValue(Object object);
 
 	Object[] getValueOptions(Object object);
@@ -108,4 +116,5 @@ public interface IFieldInfo extends IInfo {
 	ValueReturnMode getValueReturnMode();
 
 	InfoCategory getCategory();
+
 }

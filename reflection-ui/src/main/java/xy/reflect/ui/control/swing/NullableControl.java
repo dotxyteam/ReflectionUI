@@ -35,7 +35,8 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	protected Component subControl;
 	protected IFieldControlInput input;
 	protected ITypeInfo subControlValueType;
-	
+	protected boolean captionShown = false;
+
 	public NullableControl(SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
 		this.input = input;
@@ -79,6 +80,12 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 			data.setValue(generateNonNullValue());
 		}
 		refreshUI();
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				requestFocusInWindow();
+			}
+		});		
 	}
 
 	protected Object generateNonNullValue() {
@@ -135,7 +142,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected Component createNullControl() {
-		NullControl result = new NullControl(swingRenderer, input);
+		NullControl2 result = new NullControl2(swingRenderer, input);
 		if (!data.isGetOnly()) {
 			result.setAction(new Runnable() {
 				@Override
@@ -145,11 +152,26 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 				}
 			});
 		}
+		if (captionShown
+				&& (!(result instanceof IAdvancedFieldControl) || !((IAdvancedFieldControl) result).showCaption())) {
+			setBorder(BorderFactory.createTitledBorder(data.getCaption()));
+		} else {
+			setBorder(null);
+		}
 		return result;
 	}
 
 	protected Component createSubControl() {
 		final JPanel result = new AbstractEditorPanelBuilder() {
+
+			@Override
+			public String getEncapsulatedFieldCaption() {
+				if (captionShown) {
+					return data.getCaption();
+				} else {
+					return "";
+				}
+			}
 
 			@Override
 			public boolean isObjectFormExpanded() {
@@ -226,18 +248,21 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 				return data.getValue();
 			}
 		}.createEditorPanel();
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				swingRenderer.getFieldControlPlaceHolders(result).get(0).getFieldControl().requestFocusInWindow();
-			}
-		});
+		setBorder(null);
 		return result;
 	}
 
 	@Override
 	public boolean showCaption() {
-		setBorder(BorderFactory.createTitledBorder(data.getCaption()));
+		captionShown = true;
+
+		if (subControl != null) {
+			remove(subControl);
+			subControl = null;
+			subControlValueType = null;
+			refreshUI();
+		}
+
 		return true;
 	}
 
@@ -269,9 +294,9 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public void requestDetailedFocus(Object value) {
+	public boolean requestDetailedFocus(Object value) {
 		if (!SwingRendererUtils.isForm(subControl, swingRenderer)) {
-			return;
+			return false;
 		}
 		@SuppressWarnings("unchecked")
 		Map<String, Object> focusDetails = (Map<String, Object>) value;
@@ -279,11 +304,10 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 		Object subControlFocusDetails = focusDetails.get("subControlFocusDetails");
 		if (Boolean.TRUE.equals(subControlFocused)) {
 			if (subControlFocusDetails != null) {
-				swingRenderer.requestFormDetailedFocus((JPanel) subControl, subControlFocusDetails);
-			} else {
-				subControl.requestFocusInWindow();
+				return swingRenderer.requestFormDetailedFocus((JPanel) subControl, subControlFocusDetails);
 			}
 		}
+		return false;
 	}
 
 	@Override
@@ -300,5 +324,10 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 
 	public ITypeInfo getSubControlValueType() {
 		return subControlValueType;
+	}
+
+	@Override
+	public String toString() {
+		return "NullableControl [data=" + data + "]";
 	}
 }

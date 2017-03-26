@@ -13,12 +13,11 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
 	protected IFieldControlData data;
-	
 
 	public CheckBoxControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
 		this.data = input.getControlData();
-		
+
 		if (data.isGetOnly()) {
 			setEnabled(false);
 		}
@@ -31,8 +30,7 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 			}
 		});
 	}
-	
-	
+
 	@Override
 	public boolean showCaption() {
 		setText(swingRenderer.prepareStringToDisplay(data.getCaption()));
@@ -60,12 +58,17 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 	}
 
 	@Override
-	public void requestDetailedFocus(Object focusDetails) {
+	public boolean requestDetailedFocus(Object focusDetails) {
+		return false;
 	}
 
 	@Override
 	public void validateSubForm() throws Exception {
 	}
 
-	
+	@Override
+	public String toString() {
+		return "CheckBoxControl [data=" + data + "]";
+	}
+
 }

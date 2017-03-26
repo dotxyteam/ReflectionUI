@@ -34,11 +34,13 @@ public abstract class AbstractEditorDialogBuilder extends AbstractEditorPanelBui
 
 	@Override
 	public String getEditorTitle() {
-		return getSwingRenderer().getObjectTitle(getCurrentObjectValue());
+		ensureObjectValueIsInitialized();
+		return getSwingRenderer().getObjectTitle(initialObjectValue);
 	}
 
 	public Image getObjectIconImage() {
-		return getSwingRenderer().getObjectIconImage(getCurrentObjectValue());
+		ensureObjectValueIsInitialized();
+		return getSwingRenderer().getObjectIconImage(initialObjectValue);
 	}
 
 	public String getCancelCaption() {
@@ -106,17 +108,20 @@ public abstract class AbstractEditorDialogBuilder extends AbstractEditorPanelBui
 		ModificationStack childModifStack = getSubObjectModificationStack();
 		IInfo compositeModifTarget = getCumulatedModificationsTarget();
 		ValueReturnMode childValueReturnMode = getObjectValueReturnMode();
+		Object currentValue = encapsulatedObjectValueAccessor.get();
+		boolean childValueReplaced = isObjectValueReplaced();
 		IModification commitModif;
 		if (!canCommit()) {
 			commitModif = null;
 		} else {
-			commitModif = createCommitModification(encapsulatedObjectValueAccessor.get());
+			commitModif = createCommitModification(currentValue);
 		}
-		boolean childModifAccepted = (!isCancellable()) || wasOkPressed();
+		boolean childModifAccepted = isNewObjectValueAccepted(currentValue)
+				&& ((!isCancellable()) || wasOkPressed());
 		String compositeModifTitle = getCumulatedModificationsTitle();
 		parentModificationStackImpacted = ReflectionUIUtils.integrateSubModifications(
 				getSwingRenderer().getReflectionUI(), parentModifStack, childModifStack, childModifAccepted,
-				childValueReturnMode, commitModif, compositeModifTarget, compositeModifTitle);
+				childValueReturnMode, childValueReplaced, commitModif, compositeModifTarget, compositeModifTitle);
 	}
 
 	public JDialog getCreatedEditor() {

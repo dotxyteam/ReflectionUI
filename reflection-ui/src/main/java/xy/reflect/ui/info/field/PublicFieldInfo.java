@@ -10,6 +10,7 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -73,6 +74,11 @@ public class PublicFieldInfo implements IFieldInfo {
 			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaField.getType(), javaField));
 		}
 		return type;
+	}
+
+	@Override
+	public ITypeInfoProxyFactory getTypeSpecificities() {
+		return null;
 	}
 
 	@Override

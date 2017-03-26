@@ -4,7 +4,9 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.parameter.ParameterInfoProxy;
 import xy.reflect.ui.info.type.util.HiddenNullableFacetsTypeInfoProxyFactory;
+import xy.reflect.ui.util.ReflectionUIError;
 
+@SuppressWarnings("unused")
 public class HiddenNullableFacetParameterInfoProxy extends ParameterInfoProxy {
 
 	protected ReflectionUI reflectionUI;
@@ -18,7 +20,6 @@ public class HiddenNullableFacetParameterInfoProxy extends ParameterInfoProxy {
 	}
 
 	@Override
-	@SuppressWarnings("unused")
 	public Object getDefaultValue() {
 		final Object[] result = new Object[1];
 		new HiddenNullableFacetsTypeInfoProxyFactory(reflectionUI){

@@ -66,15 +66,14 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	@Override
-	public void requestDetailedFocus(Object value) {
+	public boolean requestDetailedFocus(Object value) {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> focusDetails = (Map<String, Object>) value;
 		Object subFormFocusDetails = focusDetails.get("subFormFocusDetails");
 		if (subFormFocusDetails != null) {
-			swingRenderer.requestFormDetailedFocus(subForm, subFormFocusDetails);
-		} else {
-			subForm.requestFocusInWindow();
+			return swingRenderer.requestFormDetailedFocus(subForm, subFormFocusDetails);
 		}
+		return false;
 	}
 
 	@Override
@@ -99,6 +98,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 		} else {
 			Accessor<Boolean> childModifAcceptedGetter = Accessor.returning(Boolean.TRUE);
 			Accessor<ValueReturnMode> childValueReturnModeGetter = Accessor.returning(data.getValueReturnMode());
+			Accessor<Boolean> childValueReplacedGetter = Accessor.returning(Boolean.FALSE);
 			Accessor<IModification> commitModifGetter = new Accessor<IModification>() {
 				@Override
 				public IModification get() {
@@ -127,8 +127,8 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 				}
 			};
 			SwingRendererUtils.forwardSubModifications(swingRenderer, subForm, childModifAcceptedGetter,
-					childValueReturnModeGetter, commitModifGetter, childModifTargetGetter, childModifTitleGetter,
-					parentModifStackGetter);
+					childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter, childModifTargetGetter,
+					childModifTitleGetter, parentModifStackGetter);
 		}
 	}
 
@@ -190,6 +190,11 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	@Override
 	public void validateSubForm() throws Exception {
 		swingRenderer.validateForm(subForm);
+	}
+
+	@Override
+	public String toString() {
+		return "EmbeddedFormControl [data=" + data + "]";
 	}
 
 }

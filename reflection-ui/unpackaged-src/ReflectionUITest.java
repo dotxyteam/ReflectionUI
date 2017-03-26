@@ -28,7 +28,8 @@ public class ReflectionUITest {
 
 	public static class Test {
 		public Object anyObject;
-		public Exception theException = new NullPointerException();
+		public Exception theException = new ClassCastException();
+		public Exception theException2 = new Exception();
 
 		public String theChoice;
 		public String[] theChoiceOptions = new String[] { "a", "z", "e", "r", "t", "y" };
@@ -88,14 +89,14 @@ public class ReflectionUITest {
 		public AbstrcatTestDescendant[] theArrayTreeTable = new AbstrcatTestDescendant[] { new Test2(), new Test3() };
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		public Collection theGenericVector = new Vector(Arrays.asList(new Test2(), new Test2()));
-		public Map<Integer, String> theMap = new HashMap<Integer, String>(new HashMap<Integer, String>(){
+		public Map<Integer, String> theMap = new HashMap<Integer, String>(new HashMap<Integer, String>() {
 			private static final long serialVersionUID = 1L;
 
 			{
 				put(0, "zero");
 				put(1, "one");
 				put(2, "two");
-				
+
 			}
 		});
 		public Map<Integer, Test2> theTest2Map = new HashMap<Integer, Test2>();
@@ -277,10 +278,6 @@ public class ReflectionUITest {
 					result = infoCustomizations.get(this, result);
 				}
 				return new TypeInfoProxyFactory() {
-					@Override
-					public String toString() {
-						return ReflectionUITest.class.getName();
-					}
 
 					@Override
 					protected Runnable getUndoModification(IMethodInfo method, ITypeInfo containingType,

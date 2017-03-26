@@ -53,4 +53,9 @@ public class ColorControl extends DialogAccessControl{
 		updateControls();
 	}
 
+	@Override
+	public String toString() {
+		return "ColorControl [data=" + data + "]";
+	}
+
 }

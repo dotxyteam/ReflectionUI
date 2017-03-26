@@ -32,6 +32,9 @@ public class SystemProperties {
 	@Usage("If the value of this property is set then the default customizations are loaded from and saved to the specified file instead of the default one.")
 	public static final String DEFAULT_INFO_CUSTOMIZATIONS_FILE_PATH = PREFIX + ".defaultCustomizationsFilePath";
 
+	@Usage("If the value of this property is  \"true\" then ReflectionUI objects will print debug messages to the console output by default.")
+	public static final String DEBUG = PREFIX + ".debug";
+
 	public static String describe() {
 		StringBuilder result = new StringBuilder();
 		for (Field field : SystemProperties.class.getFields()) {
@@ -67,6 +70,10 @@ public class SystemProperties {
 
 	public static String getDefaultInfoCustomizationsFilePath() {
 		return System.getProperty(SystemProperties.DEFAULT_INFO_CUSTOMIZATIONS_FILE_PATH, "default.icu");
+	}
+
+	public static boolean isDebugModeActive() {
+		return System.getProperty(SystemProperties.DEBUG, "false").equals("true");
 	}
 
 }

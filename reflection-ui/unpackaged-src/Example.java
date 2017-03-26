@@ -59,11 +59,6 @@ public class Example {
 			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
 				return new TypeInfoProxyFactory() {
 
-					@Override
-					public String toString() {
-						return Example.class.getName() + TypeInfoProxyFactory.class.getSimpleName();
-					}
-
 					/*
 					 * For instance you can uppercase all the field captions
 					 * this way:

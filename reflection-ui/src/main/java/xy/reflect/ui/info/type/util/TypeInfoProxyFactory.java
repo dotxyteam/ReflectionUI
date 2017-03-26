@@ -24,11 +24,43 @@ import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.info.method.InvocationData;
 
-public abstract class TypeInfoProxyFactory {
+public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
+
+	public String getIdentifier() {
+		return getClass().getName();
+	}
 
 	@Override
-	public abstract String toString();
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((getIdentifier() == null) ? 0 : getIdentifier().hashCode());
+		return result;
+	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TypeInfoProxyFactory other = (TypeInfoProxyFactory) obj;
+		if (getIdentifier() == null) {
+			if (other.getIdentifier() != null)
+				return false;
+		} else if (!getIdentifier().equals(other.getIdentifier()))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "TypeInfoProxyFactory [id=" + getIdentifier() + "]";
+	}
+
+	@Override
 	public ITypeInfo get(final ITypeInfo type) {
 
 		if (type instanceof IListTypeInfo) {
@@ -94,25 +126,6 @@ public abstract class TypeInfoProxyFactory {
 		return proxy.base;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + getClass().hashCode();
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		return true;
-	}
-
 	protected Method getDebugInfoEnclosingMethod() {
 		return getClass().getEnclosingMethod();
 	}
@@ -147,6 +160,10 @@ public abstract class TypeInfoProxyFactory {
 
 	protected ITypeInfo getType(IFieldInfo field, ITypeInfo containingType) {
 		return wrapFieldType(field.getType());
+	}
+
+	protected ITypeInfoProxyFactory getTypeSpecificities(IFieldInfo field, ITypeInfo containingType) {
+		return field.getTypeSpecificities();
 	}
 
 	protected Object getValue(Object object, IFieldInfo field, ITypeInfo containingType) {
@@ -547,7 +564,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedBasicTypeInfoProxy [name=" + getName() + ", factory=" + factory + ",base=" + base + "]";
+			return "GeneratedBasicTypeInfoProxy [name=" + getName() + ", factory=" + factory + ", base=" + base + "]";
 		}
 
 		@Override
@@ -580,8 +597,12 @@ public abstract class TypeInfoProxyFactory {
 			List<TypeInfoProxyFactory> factories = (List<TypeInfoProxyFactory>) base.getSpecificProperties()
 					.get(GENERATED_PROXY_FACTORY_LIST_KEY);
 			if (factories != null) {
-				if (factories.contains(TypeInfoProxyFactory.this)) {
-					throw new ReflectionUIError("Duplicate generated proxy detected from " + TypeInfoProxyFactory.this);
+				for (TypeInfoProxyFactory factory : factories) {
+					if (factory.getIdentifier().equals(TypeInfoProxyFactory.this.getIdentifier())) {
+						throw new ReflectionUIError("Duplicate proxy detected: Their factories identifiers are equal: '"
+								+ TypeInfoProxyFactory.this.getIdentifier() + "'. " + "\n"
+								+ "If the factories actually differ, please override the getIdentifier() method to differenciate them");
+					}
 				}
 			}
 		}
@@ -809,6 +830,11 @@ public abstract class TypeInfoProxyFactory {
 		}
 
 		@Override
+		public ITypeInfoProxyFactory getTypeSpecificities() {
+			return TypeInfoProxyFactory.this.getTypeSpecificities(base, containingType);
+		}
+
+		@Override
 		public InfoCategory getCategory() {
 			return TypeInfoProxyFactory.this.getCategory(base, containingType);
 		}
@@ -869,7 +895,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedFieldInfoProxy [name=" + getName() + ", factory=" + factory + ",base=" + base + "]";
+			return "GeneratedFieldInfoProxy [name=" + getName() + ", factory=" + factory + ", base=" + base + "]";
 		}
 
 	}
@@ -1001,7 +1027,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedMethodInfoProxy [name=" + getName() + ", factory=" + factory + ",base=" + base + "]";
+			return "GeneratedMethodInfoProxy [name=" + getName() + ", factory=" + factory + ", base=" + base + "]";
 		}
 
 	}
@@ -1125,7 +1151,7 @@ public abstract class TypeInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedParameterInfoProxy [name=" + getName() + ", factory=" + factory + ",base=" + base + "]";
+			return "GeneratedParameterInfoProxy [name=" + getName() + ", factory=" + factory + ", base=" + base + "]";
 		}
 
 	}

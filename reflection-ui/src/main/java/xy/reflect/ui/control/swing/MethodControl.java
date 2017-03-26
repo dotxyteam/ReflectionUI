@@ -68,4 +68,9 @@ public class MethodControl extends JButton {
 		});
 	}
 
+	@Override
+	public String toString() {
+		return "MethodControl [data=" + data + "]";
+	}
+
 }

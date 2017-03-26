@@ -44,6 +44,7 @@ import com.google.common.collect.MapMaker;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.input.FieldControlDataProxy;
+import xy.reflect.ui.control.input.FieldControlInputProxy;
 import xy.reflect.ui.control.input.DefaultMethodControlData;
 import xy.reflect.ui.control.input.IFieldControlData;
 import xy.reflect.ui.control.input.IFieldControlInput;
@@ -70,6 +71,7 @@ import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory;
 import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
+import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
@@ -313,12 +315,20 @@ public class SwingRenderer {
 	}
 
 	public JPanel createForm(final Object object, IInfoFilter infoFilter) {
-		final String formTitle = "Form [object=" + object + "]";
 		JPanel result = new JPanel() {
 
 			@Override
 			public String toString() {
-				return formTitle;
+				return "Form [object=" + getObjectByForm().get(this) + "]";
+			}
+
+			@Override
+			public boolean requestFocusInWindow() {
+				List<FieldControlPlaceHolder> fieldControlPlaceHolders = getFieldControlPlaceHolders(this);
+				if (fieldControlPlaceHolders.size() > 0) {
+					return fieldControlPlaceHolders.get(0).getFieldControl().requestFocusInWindow();
+				}
+				return false;
 			}
 
 			private static final long serialVersionUID = 1L;
@@ -363,7 +373,7 @@ public class SwingRenderer {
 
 		};
 		getObjectByForm().put(result, object);
-		getModificationStackByForm().put(result, new ModificationStack(formTitle));
+		getModificationStackByForm().put(result, new ModificationStack(result.toString()));
 		getInfoFilterByForm().put(result, infoFilter);
 		result.setLayout(new BorderLayout());
 		fillForm(result);
@@ -387,7 +397,7 @@ public class SwingRenderer {
 			if (javaType == Color.class) {
 				return new ColorControl(this, input);
 			} else if (BooleanTypeInfo.isCompatibleWith(javaType)) {
-				return new CheckBoxControl2(this, input);
+				return new CheckBoxControl(this, input);
 			} else if (TextualTypeInfo.isCompatibleWith(javaType)) {
 				if (javaType == String.class) {
 					return new TextControl(this, input);
@@ -493,9 +503,9 @@ public class SwingRenderer {
 	}
 
 	public void preservingFormFocusAsMuchAsPossible(final JPanel form, Runnable runnable) {
-		final boolean formContainsFocus = SwingRendererUtils.hasOrContainsFocus(form);
+		final boolean formWasFocused = SwingRendererUtils.hasOrContainsFocus(form);
 		final Object formFocusDetails;
-		if (formContainsFocus) {
+		if (formWasFocused) {
 			formFocusDetails = getFormFocusDetails(form);
 		} else {
 			formFocusDetails = null;
@@ -510,13 +520,24 @@ public class SwingRenderer {
 					if (focusedCategory != null) {
 						setDisplayedInfoCategory(form, focusedCategory);
 					}
-					if (formContainsFocus) {
-						if (formFocusDetails != null) {
-							requestFormDetailedFocus(form, formFocusDetails);
-						} else {
-							form.requestFocusInWindow();
-						}
+					final boolean success;
+					if (formWasFocused) {
+						success = requestFormDetailedFocus(form, formFocusDetails);
+					} else {
+						success = false;
 					}
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							boolean successValidated = SwingRendererUtils.hasOrContainsFocus(form);
+							if (formWasFocused && (!success || !successValidated)) {
+								reflectionUI.logDebug("WARNING: Failed to restore focus of " + form
+										+ "\n\tformWasFocused=" + formWasFocused + "\n\tfocusedCategory="
+										+ focusedCategory + "\n\tformFocusDetails=" + formFocusDetails + "\n\tsuccess="
+										+ success + "\n\tsuccessValidated=" + successValidated);
+							}
+						}
+					});
 				}
 			});
 		}
@@ -725,7 +746,6 @@ public class SwingRenderer {
 		return null;
 	}
 
-	
 	public Image getMethodIconImage(IMethodControlData data) {
 		return SwingRendererUtils.findIconImage(this, data.getSpecificProperties());
 	}
@@ -1177,7 +1197,7 @@ public class SwingRenderer {
 		return result;
 	}
 
-	public void requestFormDetailedFocus(JPanel form, Object focusDetails) {
+	public boolean requestFormDetailedFocus(JPanel form, Object focusDetails) {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> map = (Map<String, Object>) focusDetails;
 		int focusedFieldIndex = (Integer) map.get("focusedFieldIndex");
@@ -1191,17 +1211,23 @@ public class SwingRenderer {
 			if (focusedFieldFocusDetails != null) {
 				if (focusedFieldControl.getClass().equals(focusedFieldControlClass)) {
 					if (focusedFieldControl instanceof IAdvancedFieldControl) {
-						((IAdvancedFieldControl) focusedFieldControl).requestDetailedFocus(focusedFieldFocusDetails);
+						if (((IAdvancedFieldControl) focusedFieldControl)
+								.requestDetailedFocus(focusedFieldFocusDetails)) {
+							return true;
+						} else {
+							return focusedFieldControl.requestFocusInWindow();
+						}
 					} else {
-						focusedFieldControl.requestFocusInWindow();
+						return focusedFieldControl.requestFocusInWindow();
 					}
 				} else {
-					focusedFieldControl.requestFocusInWindow();
+					return focusedFieldControl.requestFocusInWindow();
 				}
 			} else {
-				focusedFieldControl.requestFocusInWindow();
+				return focusedFieldControl.requestFocusInWindow();
 			}
 		}
+		return false;
 	}
 
 	public void showBusyDialogWhile(final Component activatorComponent, final Runnable runnable, final String title) {
@@ -1604,6 +1630,16 @@ public class SwingRenderer {
 
 		public IFieldControlData getInitialControlData() {
 			Object object = getObject();
+			IFieldInfo field = FieldControlPlaceHolder.this.field;
+			final ITypeInfoProxyFactory typeSpecificities = field.getTypeSpecificities();
+			if (typeSpecificities != null) {
+				field = new FieldInfoProxy(field) {
+					@Override
+					public ITypeInfo getType() {
+						return typeSpecificities.get(super.getType());
+					}
+				};
+			}
 			Object[] valueOptions = field.getValueOptions(object);
 			final IFieldInfo finalField;
 			if (valueOptions == null) {
@@ -1694,7 +1730,7 @@ public class SwingRenderer {
 
 				@Override
 				public String toString() {
-					return "InitialControlData[ of=" + FieldControlPlaceHolder.this + "]";
+					return "InitialControlData[of=" + FieldControlPlaceHolder.this + "]";
 				}
 
 			};
@@ -1717,26 +1753,7 @@ public class SwingRenderer {
 				return new PolymorphicControl(SwingRenderer.this, this);
 			} else {
 				if (controlData.isNullable()) {
-					if (!controlData.isGetOnly()) {
-						return new NullableControl(SwingRenderer.this, this);
-					} else {
-						final Object value = controlData.getValue();
-						if (value == null) {
-							return new NullControl(SwingRenderer.this, this);
-						}
-						controlData = new FieldControlDataProxy(controlData) {
-							@Override
-							public boolean isNullable() {
-								return false;
-							}
-
-							@Override
-							public ITypeInfo getType() {
-								return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
-							}
-						};
-						return createFieldControl();
-					}
+					return new NullableControl(SwingRenderer.this, this);
 				}
 				if (DesktopSpecificProperty
 						.isSubFormExpanded(DesktopSpecificProperty.accessControlDataProperties(controlData))) {
@@ -1749,16 +1766,19 @@ public class SwingRenderer {
 
 		public Component createUIRefreshErrorControl(final Throwable t) {
 			reflectionUI.logError(t);
-			NullControl result = new NullControl(SwingRenderer.this, this) {
-
-				private static final long serialVersionUID = 1L;
-
+			JPanel result = new JPanel();
+			result.setLayout(new BorderLayout());
+			result.add(new NullControl(SwingRenderer.this, new FieldControlInputProxy(this) {
 				@Override
-				protected Object getText() {
-					return new ReflectionUIError(t).toString();
+				public IFieldControlData getControlData() {
+					return new FieldControlDataProxy(super.getControlData()) {
+						@Override
+						public String getNullValueLabel() {
+							return ReflectionUIUtils.getPrettyErrorMessage(t);
+						}
+					};
 				}
-
-			};
+			}), BorderLayout.CENTER);
 			SwingRendererUtils.setErrorBorder(result);
 			return result;
 		}
@@ -1785,6 +1805,11 @@ public class SwingRenderer {
 			} else {
 				return false;
 			}
+		}
+
+		@Override
+		public String toString() {
+			return "FieldControlPlaceHolder [form=" + form + ", field=" + field + "]";
 		}
 
 	}
@@ -1983,6 +2008,11 @@ public class SwingRenderer {
 			result = indicateWhenBusy(result);
 			result = makeMethodModificationsUndoable(result);
 			return result;
+		}
+
+		@Override
+		public String toString() {
+			return "MethodControlPlaceHolder [form=" + form + ", method=" + method + "]";
 		}
 
 	}

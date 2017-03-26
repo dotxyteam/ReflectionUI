@@ -4,7 +4,7 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
+import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.control.input.FieldControlDataProxy;
@@ -69,7 +69,7 @@ public class CheckBoxControl2 extends NullableControl {
 
 	@Override
 	protected Component createSubControl() {
-		JButton result = new JButton();
+		JToggleButton result = new JToggleButton();
 		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -87,8 +87,10 @@ public class CheckBoxControl2 extends NullableControl {
 				});
 			}
 		});
-		result.setBorderPainted(false);
-		result.setContentAreaFilled(false);
+		result.setSelected(data.getValue() != null);
+		if (captionShown) {
+			result.setText(data.getCaption());
+		}
 		return result;
 	}
 
@@ -105,6 +107,11 @@ public class CheckBoxControl2 extends NullableControl {
 	@Override
 	public boolean handlesModificationStackUpdate() {
 		return false;
+	}
+
+	@Override
+	public String toString() {
+		return "CheckBoxControl2 [data=" + data + "]";
 	}
 
 }

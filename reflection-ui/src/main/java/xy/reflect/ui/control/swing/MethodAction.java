@@ -249,4 +249,9 @@ public class MethodAction extends AbstractAction {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "MethodAction [data=" + data + "]";
+	}
+
 }

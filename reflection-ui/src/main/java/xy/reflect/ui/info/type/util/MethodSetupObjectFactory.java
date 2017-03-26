@@ -252,6 +252,11 @@ public class MethodSetupObjectFactory {
 		}
 
 		@Override
+		public ITypeInfoProxyFactory getTypeSpecificities() {
+			return null;
+		}
+
+		@Override
 		public String getCaption() {
 			return param.getCaption();
 		}

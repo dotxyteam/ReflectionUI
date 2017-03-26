@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
@@ -44,8 +45,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
+import javax.swing.UIManager;
+
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.input.IFieldControlData;
 import xy.reflect.ui.control.input.IMethodControlData;
@@ -67,6 +71,7 @@ import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
 
+@SuppressWarnings("unused")
 public class SwingRendererUtils {
 
 	public static final Image NULL_ICON_IMAGE = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
@@ -185,7 +190,11 @@ public class SwingRendererUtils {
 	}
 
 	public static int getStandardCharacterWidth(Component c) {
-		return c.getFontMetrics(c.getFont()).charWidth('a');
+		Font font = c.getFont();
+		if(font == null){
+			font = UIManager.getFont("Panel.font");
+		}
+		return c.getFontMetrics(font).charWidth('a');
 	}
 
 	public static Color fixSeveralColorRenderingIssues(Color color) {
@@ -346,8 +355,9 @@ public class SwingRendererUtils {
 
 	public static void forwardSubModifications(final SwingRenderer swingRenderer, final JPanel subForm,
 			final Accessor<Boolean> childModifAcceptedGetter,
-			final Accessor<ValueReturnMode> childValueReturnModeGetter, final Accessor<IModification> commitModifGetter,
-			final Accessor<IInfo> compositeModifTargetGetter, final Accessor<String> compositeModifTitleGetter,
+			final Accessor<ValueReturnMode> childValueReturnModeGetter, final Accessor<Boolean> childValueReplacedGetter,
+			final Accessor<IModification> commitModifGetter, final Accessor<IInfo> compositeModifTargetGetter,
+			final Accessor<String> compositeModifTitleGetter,
 			final Accessor<ModificationStack> parentModifStackGetter) {
 		swingRenderer.getModificationStackByForm().put(subForm,
 				new ModificationStack("Forward Sub-Modifications From " + subForm.toString()) {
@@ -358,6 +368,7 @@ public class SwingRendererUtils {
 						childModifStack.pushUndo(undoModif);
 						Boolean childModifAccepted = childModifAcceptedGetter.get();
 						ValueReturnMode childValueReturnMode = childValueReturnModeGetter.get();
+						boolean childValueReplaced = childValueReplacedGetter.get();
 						IModification commitModif = commitModifGetter.get();
 						String compositeModifTitle = AbstractModification.getUndoTitle(undoModif.getTitle());
 						String parentModifTitle = compositeModifTitleGetter.get();
@@ -369,7 +380,7 @@ public class SwingRendererUtils {
 						IInfo compositeModifTarget = compositeModifTargetGetter.get();
 						return ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(),
 								parentModifStack, childModifStack, childModifAccepted, childValueReturnMode,
-								commitModif, compositeModifTarget, compositeModifTitle);
+								childValueReplaced, commitModif, compositeModifTarget, compositeModifTitle);
 					}
 
 					@Override
@@ -408,12 +419,13 @@ public class SwingRendererUtils {
 						childModifStack.invalidate();
 						Boolean childModifAccepted = childModifAcceptedGetter.get();
 						ValueReturnMode childValueReturnMode = childValueReturnModeGetter.get();
+						boolean childValueReplaced = childValueReplacedGetter.get();
 						IModification commitModif = commitModifGetter.get();
 						String compositeModifTitle = null;
 						IInfo compositeModifTarget = compositeModifTargetGetter.get();
 						ModificationStack parentModifStack = parentModifStackGetter.get();
 						ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(), parentModifStack,
-								childModifStack, childModifAccepted, childValueReturnMode, commitModif,
+								childModifStack, childModifAccepted, childValueReturnMode, childValueReplaced, commitModif,
 								compositeModifTarget, compositeModifTitle);
 					}
 
@@ -511,6 +523,7 @@ public class SwingRendererUtils {
 	}
 
 	public static void handleComponentSizeChange(Component c) {
+		c.validate();
 		Window window = SwingUtilities.getWindowAncestor(c);
 		if (window != null) {
 			window.validate();
@@ -568,17 +581,18 @@ public class SwingRendererUtils {
 			}
 		}
 		Rectangle maxBounds = SwingRendererUtils.getMaximumWindowBounds(getWindowCurrentGraphicsDevice(window));
+		int characterSize = getStandardCharacterWidth(window);
 		window.setBounds(maxBounds);
 		window.pack();
 		Rectangle bounds = window.getBounds();
 		int widthGrowth, heightGrowth;
 		{
-			if (bounds.width < maxBounds.width / 2) {
-				widthGrowth = maxBounds.width / 2 - bounds.width;
+			if (bounds.width < (characterSize*60)) {
+				widthGrowth = (characterSize*60) - bounds.width;
 			} else {
 				widthGrowth = 0;
 			}
-			heightGrowth = 4 * SwingRendererUtils.getStandardCharacterWidth(window);
+			heightGrowth = 4 * characterSize;
 			bounds.width += widthGrowth;
 			bounds.height += heightGrowth;
 		}
@@ -695,7 +709,7 @@ public class SwingRendererUtils {
 	}
 
 	public static Icon geObjectIcon(SwingRenderer swingRenderer, Object object) {
-		if(object == null){
+		if (object == null) {
 			return null;
 		}
 		Image iconImage = swingRenderer.getObjectIconImage(object);

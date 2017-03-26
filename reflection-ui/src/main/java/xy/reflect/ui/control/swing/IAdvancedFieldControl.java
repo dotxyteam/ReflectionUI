@@ -11,7 +11,7 @@ public interface IAdvancedFieldControl {
 
 	Object getFocusDetails();
 
-	void requestDetailedFocus(Object value);
+	boolean requestDetailedFocus(Object value);
 
 	void validateSubForm() throws Exception;
 }

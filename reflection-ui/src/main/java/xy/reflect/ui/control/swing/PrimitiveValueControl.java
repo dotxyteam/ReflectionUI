@@ -87,4 +87,11 @@ public abstract class PrimitiveValueControl extends TextControl {
 			}
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "PrimitiveValueControl [data=" + data + "]";
+	}
+	
+	
 }

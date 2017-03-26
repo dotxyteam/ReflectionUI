@@ -778,8 +778,8 @@ public class ReflectionUIUtils {
 
 	public static boolean integrateSubModifications(ReflectionUI reflectionUI, final ModificationStack parentModifStack,
 			final ModificationStack childModifStack, boolean childModifAccepted,
-			final ValueReturnMode childValueReturnMode, final IModification commitModif, IInfo compositeModifTarget,
-			String compositeModifTitle) {
+			final ValueReturnMode childValueReturnMode, final boolean childValueReplaced,
+			final IModification commitModif, IInfo compositeModifTarget, String compositeModifTitle) {
 
 		if (parentModifStack == null) {
 			throw new ReflectionUIError();
@@ -802,7 +802,7 @@ public class ReflectionUIUtils {
 										parentModifStack.pushUndo(childModifStack.toCompositeModification(null, null));
 									}
 								}
-								if (childValueReturnMode != ValueReturnMode.DIRECT_OR_PROXY) {
+								if ((childValueReturnMode != ValueReturnMode.DIRECT_OR_PROXY) || childValueReplaced) {
 									if (commitModif != null) {
 										parentModifStack.apply(commitModif);
 									}
@@ -817,8 +817,8 @@ public class ReflectionUIUtils {
 					if (!childModifStack.wasInvalidated()) {
 						childModifStack.undoAll();
 					} else {
-						reflectionUI.logInformation(
-								"WARNING: Cannot revert invalidated sub-modification => Invalidating parent modification stack");
+						reflectionUI.logDebug("WARNING: Cannot revert invalidated sub-modification: "
+								+ childModifStack + "\n=> Invalidating parent modification stack");
 						parentModifStack.invalidate();
 						parentValueImpacted = true;
 					}

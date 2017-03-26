@@ -27,12 +27,13 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 @SuppressWarnings({ "rawtypes", "unchecked", "unused" })
-public class EnumerationControl extends JPanel {
+public class EnumerationControl extends JPanel implements IAdvancedFieldControl {
 	protected static final long serialVersionUID = 1L;
 	protected IEnumerationTypeInfo enumType;
 	protected SwingRenderer swingRenderer;
 	protected IFieldControlData data;
 	protected JComboBox comboBox;
+	protected boolean listenerDisabled = false;
 
 	@SuppressWarnings({})
 	public EnumerationControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
@@ -46,22 +47,8 @@ public class EnumerationControl extends JPanel {
 	protected void initialize() {
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createTitledBorder(""));
-
 		comboBox = new JComboBox();
 		add(comboBox, BorderLayout.CENTER);
-
-		Object initialValue = data.getValue();
-		List<Object> possibleValues = new ArrayList<Object>(Arrays.asList(enumType.getPossibleValues()));
-		if (data.isNullable()) {
-			possibleValues.add(0, null);
-		}
-		comboBox.setModel(new DefaultComboBoxModel(possibleValues.toArray()));
-		if (data.isGetOnly()) {
-			comboBox.setEnabled(false);
-		} else {
-			comboBox.setBackground(SwingRendererUtils.getTextBackgroundColor());
-		}
-
 		comboBox.setRenderer(new BasicComboBoxRenderer() {
 
 			protected static final long serialVersionUID = 1L;
@@ -88,8 +75,7 @@ public class EnumerationControl extends JPanel {
 						s = itemInfo.getCaption();
 					}
 					label.setText(swingRenderer.prepareStringToDisplay(s));
-					Image iconImage = SwingRendererUtils.findIconImage(swingRenderer,
-							itemInfo.getSpecificProperties());
+					Image iconImage = SwingRendererUtils.findIconImage(swingRenderer, itemInfo.getSpecificProperties());
 					if (iconImage == null) {
 						label.setIcon(null);
 					} else {
@@ -100,15 +86,12 @@ public class EnumerationControl extends JPanel {
 				return label;
 			}
 		});
-		if (possibleValues.contains(initialValue)) {
-			comboBox.setSelectedItem(initialValue);
-		} else {
-			comboBox.setSelectedIndex(-1);
-		}
 		comboBox.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (listenerDisabled) {
+					return;
+				}
 				try {
 					Object selected = comboBox.getSelectedItem();
 					data.setValue(selected);
@@ -117,12 +100,72 @@ public class EnumerationControl extends JPanel {
 				}
 			}
 		});
+		if (data.isGetOnly()) {
+			comboBox.setEnabled(false);
+		} else {
+			comboBox.setBackground(SwingRendererUtils.getTextBackgroundColor());
+		}
+		refreshUI();
 	}
 
 	@Override
 	public boolean requestFocusInWindow() {
 		return comboBox.requestFocusInWindow();
 	}
-	
-	
+
+	@Override
+	public boolean displayError(String msg) {
+		return false;
+	}
+
+	@Override
+	public boolean showCaption() {
+		return false;
+	}
+
+	@Override
+	public boolean refreshUI() {
+		Object currentValue = data.getValue();
+		List<Object> possibleValues = new ArrayList<Object>(Arrays.asList(enumType.getPossibleValues()));
+		if (data.isNullable()) {
+			possibleValues.add(0, null);
+		}
+		comboBox.setModel(new DefaultComboBoxModel(possibleValues.toArray()));
+		listenerDisabled = true;
+		try {
+			if (possibleValues.contains(currentValue)) {
+				comboBox.setSelectedItem(currentValue);
+			} else {
+				comboBox.setSelectedIndex(-1);
+			}
+		} finally {
+			listenerDisabled = false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean handlesModificationStackUpdate() {
+		return false;
+	}
+
+	@Override
+	public Object getFocusDetails() {
+		return null;
+	}
+
+	@Override
+	public boolean requestDetailedFocus(Object focusDetails) {
+		return false;
+	}
+
+	@Override
+	public void validateSubForm() throws Exception {
+	}
+
+	@Override
+	public String toString() {
+		return "EnumerationControl [data=" + data + "]";
+	}
+
 }

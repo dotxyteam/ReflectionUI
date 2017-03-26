@@ -14,6 +14,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
+import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -53,6 +54,11 @@ public class GetterFieldInfo implements IFieldInfo {
 			type = getGetterMethodInfo().getReturnValueType();
 		}
 		return type;
+	}
+
+	@Override
+	public ITypeInfoProxyFactory getTypeSpecificities() {
+		return null;
 	}
 
 	@Override
@@ -108,8 +114,6 @@ public class GetterFieldInfo implements IFieldInfo {
 	public ValueReturnMode getValueReturnMode() {
 		return ValueReturnMode.INDETERMINATE;
 	}
-
-	
 
 	@Override
 	public String toString() {

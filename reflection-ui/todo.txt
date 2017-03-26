@@ -1,3 +1,4 @@
+- can your write text fast
 - check how duplicate field names are handled
 - refactor InfoCustomizations:
 	. list and enum customizations must be linked to fields

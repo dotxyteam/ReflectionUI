@@ -121,4 +121,9 @@ public class FileControl extends DialogAccessControl implements IAdvancedFieldCo
 		return statusControl.requestFocusInWindow();
 	}
 
+	@Override
+	public String toString() {
+		return "FileControl [data=" + data + "]";
+	}
+
 }

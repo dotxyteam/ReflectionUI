@@ -431,6 +431,11 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
+		public ITypeInfoProxyFactory getTypeSpecificities() {
+			return null;
+		}
+
+		@Override
 		public String getName() {
 			return "value";
 		}

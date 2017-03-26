@@ -285,11 +285,17 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	@Override
-	public void requestDetailedFocus(Object focusDetails) {
+	public boolean requestDetailedFocus(Object focusDetails) {
+		return false;
 	}
 
 	@Override
 	public void validateSubForm() throws Exception {
+	}
+
+	@Override
+	public String toString() {
+		return "DialogAccessControl [data=" + data + "]";
 	}
 
 }

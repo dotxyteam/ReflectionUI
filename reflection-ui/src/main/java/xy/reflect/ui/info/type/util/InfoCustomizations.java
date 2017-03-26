@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -448,7 +449,15 @@ public final class InfoCustomizations {
 		return true;
 	}
 
-	public static abstract class AbstractInfoCustomization {
+	public static abstract class AbstractCustomization implements Serializable {
+		private static final long serialVersionUID = 1L;
+
+	}
+
+	public static abstract class AbstractInfoCustomization extends AbstractCustomization {
+
+		private static final long serialVersionUID = 1L;
+
 		protected Map<String, Object> specificProperties;
 
 		public Map<String, Object> getSpecificProperties() {
@@ -462,6 +471,8 @@ public final class InfoCustomizations {
 	}
 
 	public static class TypeCustomization extends AbstractInfoCustomization implements Comparable<TypeCustomization> {
+		private static final long serialVersionUID = 1L;
+
 		protected String typeName;
 		protected String customTypeCaption;
 		protected List<FieldCustomization> fieldsCustomizations = new ArrayList<InfoCustomizations.FieldCustomization>();
@@ -472,6 +483,7 @@ public final class InfoCustomizations {
 		protected List<CustomizationCategory> memberCategories = new ArrayList<CustomizationCategory>();
 		protected boolean undoManagementHidden = false;
 		protected boolean immutableForced = false;
+		protected boolean abstractForced = false;
 
 		protected List<ITypeInfoFinder> polymorphicSubTypeFinders = new ArrayList<ITypeInfoFinder>();
 
@@ -481,6 +493,14 @@ public final class InfoCustomizations {
 
 		public void setTypeName(String typeName) {
 			this.typeName = typeName;
+		}
+
+		public boolean isAbstractForced() {
+			return abstractForced;
+		}
+
+		public void setAbstractForced(boolean abtractForced) {
+			this.abstractForced = abtractForced;
 		}
 
 		public boolean isImmutableForced() {
@@ -618,7 +638,9 @@ public final class InfoCustomizations {
 
 	}
 
-	public static class CustomizationCategory {
+	public static class CustomizationCategory extends AbstractCustomization implements Serializable {
+
+		private static final long serialVersionUID = 1L;
 		protected String caption;
 
 		public String getCaption() {
@@ -662,6 +684,8 @@ public final class InfoCustomizations {
 	}
 
 	public static abstract class AbstractMemberCustomization extends AbstractInfoCustomization {
+		private static final long serialVersionUID = 1L;
+
 		protected boolean hidden = false;
 		protected CustomizationCategory category;
 		protected String onlineHelp;
@@ -693,6 +717,8 @@ public final class InfoCustomizations {
 
 	public static class FieldCustomization extends AbstractMemberCustomization
 			implements Comparable<FieldCustomization> {
+		private static final long serialVersionUID = 1L;
+
 		protected String fieldName;
 		protected String customFieldCaption;
 		protected boolean nullableFacetHidden = false;
@@ -703,6 +729,24 @@ public final class InfoCustomizations {
 		protected boolean displayedAsMethods = false;
 		protected boolean displayedAsSingletonList = false;
 		protected boolean displayedEncapsulated = false;
+		protected boolean typeSpecificitiesUsed = false;
+		protected InfoCustomizations specificTypeCustomizations = new InfoCustomizations();
+
+		public boolean isTypeSpecificitiesUsed() {
+			return typeSpecificitiesUsed;
+		}
+
+		public void setTypeSpecificitiesUsed(boolean typeSpecificitiesUsed) {
+			this.typeSpecificitiesUsed = typeSpecificitiesUsed;
+		}
+
+		public InfoCustomizations getSpecificTypeCustomizations() {
+			return specificTypeCustomizations;
+		}
+
+		public void setSpecificTypeCustomizations(InfoCustomizations specificTypeCustomizations) {
+			this.specificTypeCustomizations = specificTypeCustomizations;
+		}
 
 		public boolean isDisplayedEncapsulated() {
 			return displayedEncapsulated;
@@ -823,6 +867,8 @@ public final class InfoCustomizations {
 
 	public static class MethodCustomization extends AbstractMemberCustomization
 			implements Comparable<MethodCustomization> {
+		private static final long serialVersionUID = 1L;
+
 		protected String methodSignature;
 		protected String customMethodCaption;
 		protected boolean readOnlyForced = false;
@@ -934,6 +980,8 @@ public final class InfoCustomizations {
 
 	public static class ParameterCustomization extends AbstractInfoCustomization
 			implements Comparable<ParameterCustomization> {
+		private static final long serialVersionUID = 1L;
+
 		protected String parameterName;
 		protected String customParameterCaption;
 		protected boolean hidden = false;
@@ -1017,7 +1065,9 @@ public final class InfoCustomizations {
 
 	}
 
-	public static class ListItemFieldShortcut {
+	public static class ListItemFieldShortcut extends AbstractCustomization {
+		private static final long serialVersionUID = 1L;
+
 		protected String fieldName;
 		protected boolean alwaysShown = true;
 		protected String customFieldCaption;
@@ -1078,7 +1128,9 @@ public final class InfoCustomizations {
 
 	}
 
-	public static class ListItemMethodShortcut {
+	public static class ListItemMethodShortcut extends AbstractCustomization {
+		private static final long serialVersionUID = 1L;
+
 		protected String methodSignature;
 		protected boolean alwaysShown = true;
 		protected String customMethodCaption;
@@ -1139,7 +1191,9 @@ public final class InfoCustomizations {
 
 	}
 
-	public static class InfoFilter {
+	public static class InfoFilter extends AbstractCustomization {
+		private static final long serialVersionUID = 1L;
+
 		protected String value = "";
 		protected boolean regularExpression = false;
 
@@ -1208,7 +1262,9 @@ public final class InfoCustomizations {
 
 	}
 
-	public static class ListInstanciationOption {
+	public static class ListInstanciationOption extends AbstractCustomization {
+		private static final long serialVersionUID = 1L;
+
 		protected ITypeInfoFinder customInstanceTypeFinder;
 
 		@XmlElements({ @XmlElement(name = "javaClassBasedTypeInfoFinder", type = JavaClassBasedTypeInfoFinder.class),
@@ -1223,7 +1279,9 @@ public final class InfoCustomizations {
 
 	}
 
-	public static class ListEditOptions {
+	public static class ListEditOptions extends AbstractCustomization {
+		private static final long serialVersionUID = 1L;
+
 		protected boolean itemCreationEnabled = true;
 		protected boolean itemDeletionEnabled = true;
 		protected boolean itemMoveEnabled = true;
@@ -1263,7 +1321,10 @@ public final class InfoCustomizations {
 
 	}
 
-	public static class EnumerationItemCustomization implements Comparable<EnumerationItemCustomization> {
+	public static class EnumerationItemCustomization extends AbstractCustomization
+			implements Comparable<EnumerationItemCustomization> {
+
+		private static final long serialVersionUID = 1L;
 
 		protected String itemName;
 		protected String customCaption;
@@ -1331,8 +1392,10 @@ public final class InfoCustomizations {
 
 	}
 
-	public static class EnumerationCustomization implements Comparable<EnumerationCustomization> {
+	public static class EnumerationCustomization extends AbstractCustomization
+			implements Comparable<EnumerationCustomization> {
 
+		private static final long serialVersionUID = 1L;
 		protected String enumerationTypeName;
 		protected List<EnumerationItemCustomization> itemCustomizations = new ArrayList<EnumerationItemCustomization>();
 
@@ -1390,7 +1453,9 @@ public final class InfoCustomizations {
 
 	}
 
-	public static class ListCustomization implements Comparable<ListCustomization> {
+	public static class ListCustomization extends AbstractCustomization implements Comparable<ListCustomization> {
+		private static final long serialVersionUID = 1L;
+
 		protected String listTypeName;
 		protected String itemTypeName;
 		protected boolean itemTypeColumnAdded;
@@ -1594,7 +1659,9 @@ public final class InfoCustomizations {
 
 	}
 
-	public static class TreeStructureDiscoverySettings {
+	public static class TreeStructureDiscoverySettings extends AbstractCustomization {
+		private static final long serialVersionUID = 1L;
+
 		protected boolean heterogeneousTree;
 
 		public boolean isHeterogeneousTree() {
@@ -1607,7 +1674,9 @@ public final class InfoCustomizations {
 
 	}
 
-	public static class ColumnCustomization implements Comparable<ColumnCustomization> {
+	public static class ColumnCustomization extends AbstractCustomization implements Comparable<ColumnCustomization> {
+
+		private static final long serialVersionUID = 1L;
 		protected String columnName;
 		protected String customCaption;
 		protected boolean hidden = false;
@@ -1689,8 +1758,43 @@ public final class InfoCustomizations {
 		}
 
 		@Override
-		public String toString() {
-			return "Factory[of=" + InfoCustomizations.this + "]";
+		public String getIdentifier() {
+			return InfoCustomizations.this.toString();
+		}
+
+		@Override
+		protected boolean isConcrete(ITypeInfo type) {
+			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, type.getName());
+			if (t != null) {
+				if(t.abstractForced){
+					return false;
+				}
+			}
+			return super.isConcrete(type);
+		}
+
+		@Override
+		protected ITypeInfoProxyFactory getTypeSpecificities(IFieldInfo field, ITypeInfo containingType) {
+			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
+			if (t != null) {
+				FieldCustomization f = getFieldCustomization(t, field.getName());
+				if (f != null) {
+					if (f.typeSpecificitiesUsed) {
+						ITypeInfoProxyFactory baseTypeSpecificities = field.getTypeSpecificities();
+						if (baseTypeSpecificities == null) {
+							if (f.specificTypeCustomizations.proxyFactory == null) {
+								f.specificTypeCustomizations.proxyFactory = f.specificTypeCustomizations
+										.createCustomizationsProxyFactory(reflectionUI);
+							}
+							return f.specificTypeCustomizations.proxyFactory;
+						} else {
+							return new TypeInfoProxyFactorChain(baseTypeSpecificities,
+									f.specificTypeCustomizations.proxyFactory);
+						}
+					}
+				}
+			}
+			return super.getTypeSpecificities(field, containingType);
 		}
 
 		@Override
@@ -1919,6 +2023,12 @@ public final class InfoCustomizations {
 										public ITypeInfo getType() {
 											return itemField.getType();
 										}
+
+										@Override
+										public ITypeInfoProxyFactory getTypeSpecificities() {
+											return null;
+										}
+
 									};
 									result.add(property);
 									fieldFound = true;
@@ -1973,6 +2083,11 @@ public final class InfoCustomizations {
 							@Override
 							public ITypeInfo getType() {
 								throw new UnsupportedOperationException();
+							}
+
+							@Override
+							public ITypeInfoProxyFactory getTypeSpecificities() {
+								return null;
 							}
 
 						};
@@ -2758,8 +2873,9 @@ public final class InfoCustomizations {
 		ITypeInfo find(ReflectionUI reflectionUI);
 	}
 
-	public static class JavaClassBasedTypeInfoFinder implements ITypeInfoFinder {
+	public static class JavaClassBasedTypeInfoFinder extends AbstractCustomization implements ITypeInfoFinder {
 
+		private static final long serialVersionUID = 1L;
 		protected String className;
 
 		public String getClassName() {
@@ -2813,8 +2929,9 @@ public final class InfoCustomizations {
 
 	}
 
-	public static class CustomTypeInfoFinder implements ITypeInfoFinder {
+	public static class CustomTypeInfoFinder extends AbstractCustomization implements ITypeInfoFinder {
 
+		private static final long serialVersionUID = 1L;
 		protected String implementationClassName;
 
 		public String getImplementationClassName() {

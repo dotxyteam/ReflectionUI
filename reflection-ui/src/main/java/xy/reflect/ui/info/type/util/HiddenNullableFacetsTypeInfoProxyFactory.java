@@ -87,9 +87,4 @@ public class HiddenNullableFacetsTypeInfoProxyFactory extends TypeInfoProxyFacto
 		return generateDefaultValue(field.getType());
 	}
 
-	@Override
-	public String toString() {
-		return "HiddenNullableFacetsTypeInfoProxyFactory []";
-	}
-
 }

@@ -185,12 +185,13 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			@Override
 			public Dimension getPreferredSize() {
 				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+				int characterSize = SwingRendererUtils.getStandardCharacterWidth(treeTableComponent);
 				Dimension result = new Dimension();
 				{
-					result.width = 0;
+					result.width = characterSize * 40;
 				}
 				{
-					int minHeight = (int) (screenSize.height * 0.15);
+					int minHeight = (int) (characterSize * 10);
 					int maxHeight = (int) (screenSize.height * 0.60);
 					result.height = minHeight;
 					Dimension treeTableComponentPreferredSize = treeTableComponent.getPreferredSize();
@@ -1110,6 +1111,16 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					public ModificationStack getParentModificationStack() {
 						return dummyModificationStack;
 					}
+
+					@Override
+					public boolean canCommit() {
+						return true;
+					}
+
+					@Override
+					public IModification createCommitModification(Object newObjectValue) {
+						return IModification.NULL_MODIFICATION;
+					}
 				};
 				dialogBuilder.showDialog();
 				if (dialogBuilder.wasOkPressed()) {
@@ -1233,6 +1244,17 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					public ModificationStack getParentModificationStack() {
 						return dummyModificationStack;
 					}
+
+					@Override
+					public boolean canCommit() {
+						return true;
+					}
+
+					@Override
+					public IModification createCommitModification(Object newObjectValue) {
+						return IModification.NULL_MODIFICATION;
+					}
+
 				};
 				dialogBuilder.showDialog();
 				if (dialogBuilder.wasOkPressed()) {
@@ -1470,10 +1492,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			protected ItemPosition getNewItemPosition() {
 				List<ItemPosition> selection = getSelection();
-				if (selection.size() == 0) {
-					int index = getRootListRawValue().length;
-					return getAnyRootListItemPosition().getSibling(index);
-				} else if (selection.size() == 1) {
+				if (selection.size() == 1) {
 					ItemPosition singleSelection = selection.get(0);
 					int index = singleSelection.getIndex();
 					return singleSelection.getSibling(index + 1);
@@ -1565,11 +1584,14 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			}
 
 			private ItemPosition getNewItemPosition() {
-				ItemPosition itemPosition = getSingleSelection();
-				if (itemPosition == null) {
-					return null;
+				List<ItemPosition> selection = getSelection();
+				if (selection.size() == 0) {
+					return getAnyRootListItemPosition().getSibling(0);
 				}
-				return getSubItemPosition(itemPosition);
+				if (selection.size() == 1) {
+					return getSubItemPosition(selection.get(0));
+				}
+				return null;
 			}
 
 			@Override
@@ -1786,10 +1808,10 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 								boolean childModifAccepted = true;
 								ValueReturnMode childValueReturnMode = ValueReturnMode
 										.combine(listData.getValueReturnMode(), base.getValueReturnMode());
-								boolean childValueNew = false;
+								boolean childValueReplaced = false;
 								ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(),
 										getModificationStack(), childModifStack, childModifAccepted,
-										childValueReturnMode, commitModif, compositeModifTarget,
+										childValueReturnMode, childValueReplaced, commitModif, compositeModifTarget,
 										compositeModifTitle);
 								return result;
 							}
@@ -2012,22 +2034,21 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public void requestDetailedFocus(Object value) {
+	public boolean requestDetailedFocus(Object value) {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> focusDetails = (Map<String, Object>) value;
 		Boolean treeTableComponentFocused = (Boolean) focusDetails.get("treeTableComponentFocused");
 		Boolean detailsControlFocused = (Boolean) focusDetails.get("detailsControlFocused");
 		Object detailsControlFocusDetails = focusDetails.get("detailsControlFocusDetails");
 		if (Boolean.TRUE.equals(treeTableComponentFocused)) {
-			treeTableComponent.requestFocusInWindow();
+			return treeTableComponent.requestFocusInWindow();
 		}
 		if (Boolean.TRUE.equals(detailsControlFocused)) {
 			if (detailsControlFocusDetails != null) {
-				swingRenderer.requestFormDetailedFocus(detailsControl, detailsControlFocusDetails);
-			} else {
-				detailsControl.requestFocusInWindow();
+				return swingRenderer.requestFormDetailedFocus(detailsControl, detailsControlFocusDetails);
 			}
 		}
+		return false;
 	}
 
 	@Override
@@ -2104,6 +2125,11 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		selectionListenersEnabled = true;
 
 		fireSelectionEvent();
+	}
+
+	@Override
+	public String toString() {
+		return "ListControl [listData=" + listData + "]";
 	}
 
 	protected class ItemNode extends AbstractLazyTreeNode {

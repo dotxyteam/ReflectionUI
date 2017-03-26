@@ -25,6 +25,7 @@ public abstract class AbstractEditorPanelBuilder {
 
 	protected Object initialObjectValue;
 	protected boolean objectValueInitialized = false;
+	protected boolean objectValueReplaced = false;
 	protected Accessor<Object> encapsulatedObjectValueAccessor = new Accessor<Object>() {
 
 		Object object;
@@ -38,6 +39,7 @@ public abstract class AbstractEditorPanelBuilder {
 		@Override
 		public void set(Object t) {
 			object = t;
+			objectValueReplaced = true;
 		}
 
 	};
@@ -76,12 +78,16 @@ public abstract class AbstractEditorPanelBuilder {
 
 	}
 
-	public Object getCurrentObjectValue() {
-		return encapsulatedObjectValueAccessor.get();
+	public boolean isObjectValueInitialized() {
+		return objectValueInitialized;
 	}
 
-	public boolean isCurrentObjectValueNew() {
-		return initialObjectValue != encapsulatedObjectValueAccessor.get();
+	public boolean isObjectValueReplaced() {
+		return objectValueReplaced;
+	}
+
+	public Object getCurrentObjectValue() {
+		return encapsulatedObjectValueAccessor.get();
 	}
 
 	public Object getEncapsulatedObject() {
@@ -94,7 +100,7 @@ public abstract class AbstractEditorPanelBuilder {
 		result.setTypeCaption(getEncapsulationTypeCaption());
 		result.setTypeModificationStackAccessible(canPotentiallyModifyParent());
 		result.setFieldCaption(getEncapsulatedFieldCaption());
-		result.setFieldGetOnly(!canCommit());
+		result.setFieldGetOnly(!canPotentiallyModifyParent());
 		result.setFieldNullable(isObjectNullable());
 		result.setFieldValueReturnMode(
 				canPotentiallyModifyParent() ? ValueReturnMode.DIRECT_OR_PROXY : ValueReturnMode.CALCULATED);
@@ -118,10 +124,10 @@ public abstract class AbstractEditorPanelBuilder {
 		if (result != null) {
 			return result;
 		}
-		Object object = getCurrentObjectValue();
-		if (object != null) {
+		ensureObjectValueIsInitialized();
+		if (initialObjectValue != null) {
 			return getSwingRenderer().getReflectionUI()
-					.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(object));
+					.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(initialObjectValue));
 		}
 		return getSwingRenderer().getReflectionUI().getTypeInfo(new JavaTypeInfoSource(Object.class));
 	}
@@ -172,18 +178,37 @@ public abstract class AbstractEditorPanelBuilder {
 		childModificationStack.addListener(new AbstractSimpleModificationListener() {
 			@Override
 			protected void handleAnyEvent(IModification modification) {
-				encapsulatedObjectValueAccessor.set(getInitialObjectValue());
-				getSwingRenderer().refreshAllFieldControls(panel, false);
+				refreshEditorPanel(panel);
 			}
 		});
 	}
 
+	public void refreshEditorPanel(JPanel panel) {
+		encapsulatedObjectValueAccessor.set(getInitialObjectValue());
+		getSwingRenderer().refreshAllFieldControls(panel, false);
+	}
+
+	protected boolean isNewObjectValueAccepted(Object value) {
+		return true;
+	}
+
 	protected void forwardEditorPanelModificationsToParent(final JPanel panel) {
-		Accessor<Boolean> childModifAcceptedGetter = Accessor.returning(Boolean.TRUE);
+		Accessor<Boolean> childModifAcceptedGetter = new Accessor<Boolean>() {
+			@Override
+			public Boolean get() {
+				return isNewObjectValueAccepted(encapsulatedObjectValueAccessor.get());
+			}
+		};
 		Accessor<ValueReturnMode> childValueReturnModeGetter = new Accessor<ValueReturnMode>() {
 			@Override
 			public ValueReturnMode get() {
 				return getObjectValueReturnMode();
+			}
+		};
+		Accessor<Boolean> childValueReplacedGetter = new Accessor<Boolean>() {
+			@Override
+			public Boolean get() {
+				return (isObjectValueReplaced());
 			}
 		};
 		Accessor<IModification> commitModifGetter = new Accessor<IModification>() {
@@ -218,8 +243,7 @@ public abstract class AbstractEditorPanelBuilder {
 			}
 		};
 		SwingRendererUtils.forwardSubModifications(getSwingRenderer(), panel, childModifAcceptedGetter,
-				childValueReturnModeGetter, commitModifGetter, childModifTargetGetter, childModifTitleGetter,
-				parentModifStackGetter);
+				childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter, childModifTargetGetter,
+				childModifTitleGetter, parentModifStackGetter);
 	}
-
 }

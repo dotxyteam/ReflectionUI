@@ -12,6 +12,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
+import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class MultipleFieldsAsOne implements IFieldInfo {
@@ -31,6 +32,11 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 	@Override
 	public ITypeInfo getType() {
 		return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(new ListTypeInfo()));
+	}
+
+	@Override
+	public ITypeInfoProxyFactory getTypeSpecificities() {
+		return null;
 	}
 
 	@Override
