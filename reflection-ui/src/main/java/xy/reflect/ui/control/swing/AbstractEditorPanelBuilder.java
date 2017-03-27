@@ -26,23 +26,7 @@ public abstract class AbstractEditorPanelBuilder {
 	protected Object initialObjectValue;
 	protected boolean objectValueInitialized = false;
 	protected boolean objectValueReplaced = false;
-	protected Accessor<Object> encapsulatedObjectValueAccessor = new Accessor<Object>() {
-
-		Object object;
-
-		@Override
-		public Object get() {
-			ensureObjectValueIsInitialized();
-			return object;
-		}
-
-		@Override
-		public void set(Object t) {
-			object = t;
-			objectValueReplaced = true;
-		}
-
-	};
+	protected Accessor<Object> encapsulatedObjectValueAccessor;
 
 	public abstract SwingRenderer getSwingRenderer();
 
@@ -71,11 +55,26 @@ public abstract class AbstractEditorPanelBuilder {
 	public abstract boolean isObjectFormExpanded();
 
 	protected void ensureObjectValueIsInitialized() {
-		if (!objectValueInitialized) {
-			encapsulatedObjectValueAccessor.set(initialObjectValue = getInitialObjectValue());
-			objectValueInitialized = true;
+		if (objectValueInitialized) {
+			return;
 		}
+		encapsulatedObjectValueAccessor = new Accessor<Object>() {
 
+			Object object = initialObjectValue = getInitialObjectValue();
+
+			@Override
+			public Object get() {
+				return object;
+			}
+
+			@Override
+			public void set(Object t) {
+				object = t;
+				objectValueReplaced = true;
+			}
+
+		};
+		objectValueInitialized = true;
 	}
 
 	public boolean isObjectValueInitialized() {
@@ -87,10 +86,12 @@ public abstract class AbstractEditorPanelBuilder {
 	}
 
 	public Object getCurrentObjectValue() {
+		ensureObjectValueIsInitialized();
 		return encapsulatedObjectValueAccessor.get();
 	}
 
 	public Object getEncapsulatedObject() {
+		ensureObjectValueIsInitialized();
 		return getEncapsulation().getInstance(encapsulatedObjectValueAccessor);
 	}
 
@@ -158,7 +159,7 @@ public abstract class AbstractEditorPanelBuilder {
 
 	public JPanel createEditorPanel() {
 		Object encapsulated = getEncapsulatedObject();
-		final JPanel result = getSwingRenderer().createForm(encapsulated);
+		JPanel result = getSwingRenderer().createForm(encapsulated);
 		if (canPotentiallyModifyParent()) {
 			forwardEditorPanelModificationsToParent(result);
 		} else {
@@ -184,7 +185,10 @@ public abstract class AbstractEditorPanelBuilder {
 	}
 
 	public void refreshEditorPanel(JPanel panel) {
-		encapsulatedObjectValueAccessor.set(getInitialObjectValue());
+		objectValueInitialized = false;
+		ensureObjectValueIsInitialized();
+		Object encapsulated = getEncapsulatedObject();
+		getSwingRenderer().getObjectByForm().put(panel, encapsulated);
 		getSwingRenderer().refreshAllFieldControls(panel, false);
 	}
 
@@ -196,7 +200,7 @@ public abstract class AbstractEditorPanelBuilder {
 		Accessor<Boolean> childModifAcceptedGetter = new Accessor<Boolean>() {
 			@Override
 			public Boolean get() {
-				return isNewObjectValueAccepted(encapsulatedObjectValueAccessor.get());
+				return isNewObjectValueAccepted(getCurrentObjectValue() );
 			}
 		};
 		Accessor<ValueReturnMode> childValueReturnModeGetter = new Accessor<ValueReturnMode>() {
@@ -214,7 +218,7 @@ public abstract class AbstractEditorPanelBuilder {
 		Accessor<IModification> commitModifGetter = new Accessor<IModification>() {
 			@Override
 			public IModification get() {
-				return createCommitModification(encapsulatedObjectValueAccessor.get());
+				return createCommitModification(getCurrentObjectValue() );
 			}
 		};
 		Accessor<IInfo> childModifTargetGetter = new Accessor<IInfo>() {

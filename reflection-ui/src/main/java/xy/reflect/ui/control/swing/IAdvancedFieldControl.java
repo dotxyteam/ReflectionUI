@@ -3,7 +3,7 @@ package xy.reflect.ui.control.swing;
 public interface IAdvancedFieldControl {
 	boolean displayError(String msg);
 
-	boolean showCaption();
+	boolean showsCaption();
 
 	boolean refreshUI();
 

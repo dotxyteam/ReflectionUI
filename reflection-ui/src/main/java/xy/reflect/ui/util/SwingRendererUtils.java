@@ -53,7 +53,7 @@ import javax.swing.UIManager;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.input.IFieldControlData;
 import xy.reflect.ui.control.input.IMethodControlData;
-import xy.reflect.ui.control.input.MethodControlDataProxy;
+import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
@@ -64,10 +64,8 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.AbstractModification;
-import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.IModificationListener;
-import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
 
@@ -191,7 +189,7 @@ public class SwingRendererUtils {
 
 	public static int getStandardCharacterWidth(Component c) {
 		Font font = c.getFont();
-		if(font == null){
+		if (font == null) {
 			font = UIManager.getFont("Panel.font");
 		}
 		return c.getFontMetrics(font).charWidth('a');
@@ -355,9 +353,9 @@ public class SwingRendererUtils {
 
 	public static void forwardSubModifications(final SwingRenderer swingRenderer, final JPanel subForm,
 			final Accessor<Boolean> childModifAcceptedGetter,
-			final Accessor<ValueReturnMode> childValueReturnModeGetter, final Accessor<Boolean> childValueReplacedGetter,
-			final Accessor<IModification> commitModifGetter, final Accessor<IInfo> compositeModifTargetGetter,
-			final Accessor<String> compositeModifTitleGetter,
+			final Accessor<ValueReturnMode> childValueReturnModeGetter,
+			final Accessor<Boolean> childValueReplacedGetter, final Accessor<IModification> commitModifGetter,
+			final Accessor<IInfo> compositeModifTargetGetter, final Accessor<String> compositeModifTitleGetter,
 			final Accessor<ModificationStack> parentModifStackGetter) {
 		swingRenderer.getModificationStackByForm().put(subForm,
 				new ModificationStack("Forward Sub-Modifications From " + subForm.toString()) {
@@ -425,8 +423,8 @@ public class SwingRendererUtils {
 						IInfo compositeModifTarget = compositeModifTargetGetter.get();
 						ModificationStack parentModifStack = parentModifStackGetter.get();
 						ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(), parentModifStack,
-								childModifStack, childModifAccepted, childValueReturnMode, childValueReplaced, commitModif,
-								compositeModifTarget, compositeModifTitle);
+								childModifStack, childModifAccepted, childValueReturnMode, childValueReplaced,
+								commitModif, compositeModifTarget, compositeModifTitle);
 					}
 
 					@Override
@@ -530,47 +528,6 @@ public class SwingRendererUtils {
 		}
 	}
 
-	public static void setValueThroughModificationStack(IFieldControlData data, Object newValue,
-			ModificationStack modifStack, IInfo modificationTarget) {
-		ControlDataValueModification modif = new ControlDataValueModification(data, newValue, modificationTarget);
-		try {
-			modifStack.apply(modif);
-		} catch (Throwable t) {
-			modifStack.invalidate();
-			throw new ReflectionUIError(t);
-		}
-	}
-
-	public static Object invokeMethodThroughModificationStack(IMethodControlData data, InvocationData invocationData,
-			ModificationStack modifStack, IInfo modificationTarget) {
-		if (data.isReadOnly()) {
-			return data.invoke(invocationData);
-		} else {
-			Runnable undoJob = data.getUndoJob(invocationData);
-			if (undoJob != null) {
-				final Object[] resultHolder = new Object[1];
-				data = new MethodControlDataProxy(data) {
-					@Override
-					public Object invoke(InvocationData invocationData) {
-						return resultHolder[0] = super.invoke(invocationData);
-					}
-				};
-				InvokeMethodModification modif = new InvokeMethodModification(data, invocationData, modificationTarget);
-				try {
-					modifStack.apply(modif);
-				} catch (Throwable t) {
-					modifStack.invalidate();
-					throw new ReflectionUIError(t);
-				}
-				return resultHolder[0];
-			} else {
-				Object result = data.invoke(invocationData);
-				modifStack.invalidate();
-				return result;
-			}
-		}
-	}
-
 	public static void adjustWindowInitialBounds(Window window) {
 		window.setLocationRelativeTo(null);
 		if (window.getParent() != null) {
@@ -587,8 +544,8 @@ public class SwingRendererUtils {
 		Rectangle bounds = window.getBounds();
 		int widthGrowth, heightGrowth;
 		{
-			if (bounds.width < (characterSize*60)) {
-				widthGrowth = (characterSize*60) - bounds.width;
+			if (bounds.width < (characterSize * 60)) {
+				widthGrowth = (characterSize * 60) - bounds.width;
 			} else {
 				widthGrowth = 0;
 			}
@@ -786,6 +743,33 @@ public class SwingRendererUtils {
 		msgComponent.setWrapStyleWord(true);
 		msgComponent.setBackground(getPanelBackgroundColor());
 		return new JOptionPane(msgComponent, messageType, JOptionPane.DEFAULT_OPTION, null, new Object[] {});
+	}
+
+	public static boolean requestAnyComponentFocus(Component c, Object focusDetails, SwingRenderer swingRenderer) {
+		if (c instanceof IAdvancedFieldControl) {
+			if (((IAdvancedFieldControl) c).requestDetailedFocus(focusDetails)) {
+				return true;
+			}
+			if (focusDetails != null) {
+				if (((IAdvancedFieldControl) c).requestDetailedFocus(null)) {
+					return true;
+				}
+			}
+		}
+		if (isForm(c, swingRenderer)) {
+			if (swingRenderer.requestFormDetailedFocus((JPanel) c, focusDetails)) {
+				return true;
+			}
+			if (focusDetails != null) {
+				if (swingRenderer.requestFormDetailedFocus((JPanel) c, null)) {
+					return true;
+				}
+			}
+		}
+		if (c.hasFocus()) {
+			return true;
+		}
+		return c.requestFocusInWindow();
 	}
 
 }

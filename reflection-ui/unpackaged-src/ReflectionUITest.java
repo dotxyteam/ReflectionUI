@@ -1,4 +1,8 @@
+import java.awt.AWTEvent;
 import java.awt.Color;
+import java.awt.Toolkit;
+import java.awt.event.AWTEventListener;
+import java.awt.event.FocusEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,6 +15,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import java.util.Vector;
+
+import javax.swing.JButton;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.SwingCustomizer;
@@ -269,6 +275,22 @@ public class ReflectionUITest {
 	}
 
 	public static void main(String[] args) {
+		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
+
+			@Override
+			public void eventDispatched(AWTEvent event) {
+				//System.out.println(event);
+				if (event instanceof FocusEvent) {
+					FocusEvent focusEvent = (FocusEvent) event;
+					if (focusEvent.toString().contains("custom.png")) {
+						if (focusEvent.getSource() instanceof JButton) {
+							//System.out.println(((JButton) focusEvent.getSource()).getToolTipText());
+						}
+					}
+				}
+			}
+		}, AWTEvent.KEY_EVENT_MASK | AWTEvent.FOCUS_EVENT_MASK);
+
 		final InfoCustomizations infoCustomizations = InfoCustomizations.getDefault();
 		ReflectionUI reflectionUI = new ReflectionUI() {
 			@Override

@@ -108,7 +108,7 @@ public abstract class AbstractEditorDialogBuilder extends AbstractEditorPanelBui
 		ModificationStack childModifStack = getSubObjectModificationStack();
 		IInfo compositeModifTarget = getCumulatedModificationsTarget();
 		ValueReturnMode childValueReturnMode = getObjectValueReturnMode();
-		Object currentValue = encapsulatedObjectValueAccessor.get();
+		Object currentValue = getCurrentObjectValue();
 		boolean childValueReplaced = isObjectValueReplaced();
 		IModification commitModif;
 		if (!canCommit()) {

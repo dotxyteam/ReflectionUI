@@ -22,7 +22,7 @@ public class NullControl2 extends JButton implements IAdvancedFieldControl {
 		this.swingRenderer = swingRenderer;
 		this.input = input;
 		this.data = input.getControlData();
-		
+
 		setContentAreaFilled(false);
 		setBorder(null);
 		setFocusable(false);
@@ -32,6 +32,7 @@ public class NullControl2 extends JButton implements IAdvancedFieldControl {
 		} else {
 			setText(text);
 		}
+		setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
 	}
 
 	public void setAction(final Runnable action) {
@@ -45,8 +46,7 @@ public class NullControl2 extends JButton implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public boolean showCaption() {
-		setBorder(BorderFactory.createTitledBorder(data.getCaption()));
+	public boolean showsCaption() {
 		return true;
 	}
 

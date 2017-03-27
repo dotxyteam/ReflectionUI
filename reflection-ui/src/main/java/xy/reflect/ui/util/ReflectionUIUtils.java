@@ -41,6 +41,9 @@ import com.thoughtworks.paranamer.DefaultParanamer;
 import com.thoughtworks.paranamer.Paranamer;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.input.IFieldControlData;
+import xy.reflect.ui.control.input.IMethodControlData;
+import xy.reflect.ui.control.input.MethodControlDataProxy;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
@@ -52,7 +55,9 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory;
+import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
+import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
 
@@ -888,5 +893,46 @@ public class ReflectionUIUtils {
 			return null;
 		}
 		return swingRenderer.getModificationStackByForm().get(form);
+	}
+
+	public static void setValueThroughModificationStack(IFieldControlData data, Object newValue,
+			ModificationStack modifStack, IInfo modificationTarget) {
+		ControlDataValueModification modif = new ControlDataValueModification(data, newValue, modificationTarget);
+		try {
+			modifStack.apply(modif);
+		} catch (Throwable t) {
+			modifStack.invalidate();
+			throw new ReflectionUIError(t);
+		}
+	}
+
+	public static Object invokeMethodThroughModificationStack(IMethodControlData data, InvocationData invocationData,
+			ModificationStack modifStack, IInfo modificationTarget) {
+		if (data.isReadOnly()) {
+			return data.invoke(invocationData);
+		} else {
+			Runnable undoJob = data.getUndoJob(invocationData);
+			if (undoJob != null) {
+				final Object[] resultHolder = new Object[1];
+				data = new MethodControlDataProxy(data) {
+					@Override
+					public Object invoke(InvocationData invocationData) {
+						return resultHolder[0] = super.invoke(invocationData);
+					}
+				};
+				InvokeMethodModification modif = new InvokeMethodModification(data, invocationData, modificationTarget);
+				try {
+					modifStack.apply(modif);
+				} catch (Throwable t) {
+					modifStack.invalidate();
+					throw new ReflectionUIError(t);
+				}
+				return resultHolder[0];
+			} else {
+				Object result = data.invoke(invocationData);
+				modifStack.invalidate();
+				return result;
+			}
+		}
 	}
 }

@@ -46,6 +46,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 		this.input = input;
 		this.data = retrieveData();
 		setLayout(new BorderLayout());
+		setBorder(BorderFactory.createTitledBorder(data.getCaption()));
 		refreshUI();
 	}
 
@@ -66,21 +67,15 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	@Override
-	public boolean requestDetailedFocus(Object value) {
-		@SuppressWarnings("unchecked")
-		Map<String, Object> focusDetails = (Map<String, Object>) value;
-		Object subFormFocusDetails = focusDetails.get("subFormFocusDetails");
-		if (subFormFocusDetails != null) {
-			return swingRenderer.requestFormDetailedFocus(subForm, subFormFocusDetails);
+	public boolean requestDetailedFocus(Object focusDetails) {
+		if (focusDetails == null) {
+			return SwingRendererUtils.requestAnyComponentFocus(subForm, null, swingRenderer);
 		}
-		return false;
-	}
-
-	@Override
-	public boolean requestFocusInWindow() {
-		List<FieldControlPlaceHolder> fieldControlPlaceHolders = swingRenderer.getFieldControlPlaceHolders(subForm);
-		if (fieldControlPlaceHolders.size() > 0) {
-			return fieldControlPlaceHolders.get(0).getFieldControl().requestFocusInWindow();
+		@SuppressWarnings("unchecked")
+		Map<String, Object> map = (Map<String, Object>) focusDetails;
+		Object subFormFocusDetails = map.get("subFormFocusDetails");
+		if (subFormFocusDetails != null) {
+			return SwingRendererUtils.requestAnyComponentFocus(subForm, subFormFocusDetails, swingRenderer);
 		}
 		return false;
 	}
@@ -133,8 +128,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	@Override
-	public boolean showCaption() {
-		setBorder(BorderFactory.createTitledBorder(data.getCaption()));
+	public boolean showsCaption() {
 		return true;
 	}
 

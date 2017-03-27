@@ -125,13 +125,14 @@ public class SwingCustomizer extends SwingRenderer {
 
 			@Override
 			public void refreshUI(boolean recreate) {
-				if (areCustomizationsEditable(getObject())) {
-					refreshInfoCustomizationsControl();
-				}
+				refreshInfoCustomizationsControl();
 				super.refreshUI(recreate);
 			}
 
 			protected void refreshInfoCustomizationsControl() {
+				if (areCustomizationsEditable(getObject()) == (infoCustomizationsComponent != null)) {
+					return;
+				}
 				if (infoCustomizationsComponent == null) {
 					infoCustomizationsComponent = customizationTools.createFieldInfoCustomizer(infoCustomizations,
 							this);
@@ -834,17 +835,15 @@ public class SwingCustomizer extends SwingRenderer {
 					if (getFieldCustomization().isTypeSpecificitiesUsed()) {
 						final JMenu thisFieldOnlySubMenu = new JMenu(prepareStringToDisplay("This field Only"));
 						popupMenu.add(thisFieldOnlySubMenu);
-						thisFieldOnlySubMenu.add(
-								new AbstractAction(prepareStringToDisplay("Type Options...")) {
-									private static final long serialVersionUID = 1L;
+						thisFieldOnlySubMenu.add(new AbstractAction(prepareStringToDisplay("Type Options...")) {
+							private static final long serialVersionUID = 1L;
 
-									@Override
-									public void actionPerformed(ActionEvent e) {
-										openTypeCustomizationDialog(result,
-												getFieldCustomization().getSpecificTypeCustomizations(),
-												getFieldType());
-									}
-								});
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								openTypeCustomizationDialog(result,
+										getFieldCustomization().getSpecificTypeCustomizations(), getFieldType());
+							}
+						});
 						if (getFieldType() instanceof IListTypeInfo) {
 							thisFieldOnlySubMenu.add(
 									createListInfoCustomizer(getFieldCustomization().getSpecificTypeCustomizations(),

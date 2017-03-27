@@ -56,7 +56,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		this.subTypes = polymorphicType.getPolymorphicInstanceSubTypes();
 
 		setLayout(new BorderLayout());
-		setBorder(BorderFactory.createTitledBorder(""));
+		setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
 		refreshUI();
 	}
 
@@ -375,8 +375,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 	}
 
 	@Override
-	public boolean showCaption() {
-		setBorder(BorderFactory.createTitledBorder(data.getCaption()));
+	public boolean showsCaption() {
 		return true;
 	}
 
@@ -392,48 +391,26 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 
 	@Override
 	public Object getFocusDetails() {
-		boolean typeEnumerationControlFocused = SwingRendererUtils.hasOrContainsFocus(typeEnumerationControl);
-		Object typeEnumerationControlFocusDetails = null;
-		if (typeEnumerationControlFocused) {
-			typeEnumerationControlFocusDetails = swingRenderer.getFormFocusDetails(typeEnumerationControl);
-		}
-		boolean dynamicControlFocused = false;
 		Object dynamicControlFocusDetails = null;
 		if (dynamicControl != null) {
-			dynamicControlFocused = SwingRendererUtils.hasOrContainsFocus(dynamicControl);
-			if (dynamicControlFocused) {
-				dynamicControlFocusDetails = swingRenderer.getFormFocusDetails(dynamicControl);
-			}
+			dynamicControlFocusDetails = swingRenderer.getFormFocusDetails(dynamicControl);
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("typeEnumerationControlFocused", typeEnumerationControlFocused);
-		result.put("typeEnumerationControlFocusDetails", typeEnumerationControlFocusDetails);
-		result.put("dynamicControlFocused", dynamicControlFocused);
 		result.put("dynamicControlFocusDetails", dynamicControlFocusDetails);
 		return result;
 	}
 
 	@Override
-	public boolean requestDetailedFocus(Object value) {
-		@SuppressWarnings("unchecked")
-		Map<String, Object> focusDetails = (Map<String, Object>) value;
-		boolean typeEnumerationControlFocused = (Boolean) focusDetails.get("typeEnumerationControlFocused");
-		Object typeEnumerationControlFocusDetails = focusDetails.get("typeEnumerationControlFocusDetails");
-		boolean dynamicControlFocused = (Boolean) focusDetails.get("dynamicControlFocused");
-		Object dynamicControlFocusDetails = focusDetails.get("dynamicControlFocusDetails");
-		if (typeEnumerationControlFocused) {
-			typeEnumerationControl.requestFocusInWindow();
-			if (typeEnumerationControlFocusDetails != null) {
-				return swingRenderer.requestFormDetailedFocus(typeEnumerationControl, typeEnumerationControlFocusDetails);
-			} 
+	public boolean requestDetailedFocus(Object focusDetails) {
+		if (focusDetails == null) {
+			return SwingRendererUtils.requestAnyComponentFocus(typeEnumerationControl, null, swingRenderer);
 		}
-		if (dynamicControlFocused) {
-			if (dynamicControl != null) {
-				dynamicControl.requestFocusInWindow();
-				if (dynamicControlFocusDetails != null) {
-					return swingRenderer.requestFormDetailedFocus(dynamicControl, dynamicControlFocusDetails);
-				}
-			}
+		@SuppressWarnings("unchecked")
+		Map<String, Object> map = (Map<String, Object>) focusDetails;
+		Object dynamicControlFocusDetails = map.get("dynamicControlFocusDetails");
+		if (dynamicControlFocusDetails != null) {
+			return SwingRendererUtils.requestAnyComponentFocus(dynamicControl, dynamicControlFocusDetails,
+					swingRenderer);
 		}
 		return false;
 	}

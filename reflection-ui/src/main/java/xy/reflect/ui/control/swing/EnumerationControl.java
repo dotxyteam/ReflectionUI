@@ -109,17 +109,12 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 	}
 
 	@Override
-	public boolean requestFocusInWindow() {
-		return comboBox.requestFocusInWindow();
-	}
-
-	@Override
 	public boolean displayError(String msg) {
 		return false;
 	}
 
 	@Override
-	public boolean showCaption() {
+	public boolean showsCaption() {
 		return false;
 	}
 
@@ -156,7 +151,7 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 
 	@Override
 	public boolean requestDetailedFocus(Object focusDetails) {
-		return false;
+		return SwingRendererUtils.requestAnyComponentFocus(comboBox, null, swingRenderer);
 	}
 
 	@Override

@@ -88,15 +88,21 @@ public class CheckBoxControl2 extends NullableControl {
 			}
 		});
 		result.setSelected(data.getValue() != null);
-		if (captionShown) {
-			result.setText(data.getCaption());
-		}
+		result.setText(swingRenderer.prepareStringToDisplay(data.getCaption()));
 		return result;
 	}
 
 	@Override
 	protected Component createNullControl() {
 		return createSubControl();
+	}
+
+	@Override
+	protected void refresCaptionForhNullControl() {
+	}
+
+	@Override
+	protected void refreshCaptionForSubForm() {
 	}
 
 	@Override

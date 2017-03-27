@@ -75,11 +75,6 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 		updateControls();
 	}
 
-	@Override
-	public boolean requestFocusInWindow() {
-		return button.requestFocusInWindow();
-	}
-
 	protected Component createIconControl() {
 		return new JLabel() {
 
@@ -265,7 +260,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	@Override
-	public boolean showCaption() {
+	public boolean showsCaption() {
 		return false;
 	}
 
@@ -286,7 +281,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 
 	@Override
 	public boolean requestDetailedFocus(Object focusDetails) {
-		return false;
+		return SwingRendererUtils.requestAnyComponentFocus(button, null, swingRenderer);
 	}
 
 	@Override

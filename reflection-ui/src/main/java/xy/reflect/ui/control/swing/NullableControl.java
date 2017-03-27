@@ -35,7 +35,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	protected Component subControl;
 	protected IFieldControlInput input;
 	protected ITypeInfo subControlValueType;
-	protected boolean captionShown = false;
+	protected AbstractEditorPanelBuilder subFormBuilder;
 
 	public NullableControl(SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
@@ -67,25 +67,27 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean refreshUI() {
-		Object value = data.getValue();
-		setNullStatusControlState(value == null);
-		updateSubControl(value);
+		setNullStatusControlState(data.getValue() == null);
+		refreshSubControl();
 		return true;
 	}
 
 	protected void onNullingControlStateChange() {
+		Object newValue;
 		if (getNullStatusControlState()) {
-			data.setValue(null);
+			newValue = null;
 		} else {
-			data.setValue(generateNonNullValue());
+			newValue = generateNonNullValue();
 		}
+		ReflectionUIUtils.setValueThroughModificationStack(data, newValue, input.getModificationStack(),
+				input.getModificationsTarget());
 		refreshUI();
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				requestFocusInWindow();
+				requestDetailedFocus(null);
 			}
-		});		
+		});
 	}
 
 	protected Object generateNonNullValue() {
@@ -98,13 +100,20 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 		return result;
 	}
 
-	public void updateSubControl(Object newValue) {
-		if (newValue != null) {
+	public void refreshSubControl() {
+		Object value = data.getValue();
+		if (value == null) {
+			if (subControlValueType == null) {
+				refresCaptionForhNullControl();
+				return;
+			}
+		} else {
 			ITypeInfo newValueType = swingRenderer.getReflectionUI()
-					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newValue));
+					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(value));
 			if (newValueType.equals(subControlValueType)) {
 				if (SwingRendererUtils.isForm(subControl, swingRenderer)) {
-					swingRenderer.refreshAllFieldControls((JPanel) subControl, false);
+					subFormBuilder.refreshEditorPanel((JPanel) subControl);
+					refreshCaptionForSubForm();
 					return;
 				}
 			}
@@ -112,17 +121,30 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 		if (subControl != null) {
 			remove(subControl);
 		}
-		if (newValue == null) {
+		if (value == null) {
 			subControlValueType = null;
 			subControl = createNullControl();
+			refresCaptionForhNullControl();
 		} else {
 			subControlValueType = swingRenderer.getReflectionUI()
-					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newValue));
+					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(value));
 			subControl = createSubControl();
+			refreshCaptionForSubForm();
 		}
-
 		add(subControl, BorderLayout.CENTER);
 		SwingRendererUtils.handleComponentSizeChange(this);
+	}
+
+	protected void refresCaptionForhNullControl() {
+		if ((subControl instanceof IAdvancedFieldControl) && ((IAdvancedFieldControl) subControl).showsCaption()) {
+			setBorder(null);
+		} else {
+			setBorder(BorderFactory.createTitledBorder(data.getCaption()));
+		}
+	}
+
+	protected void refreshCaptionForSubForm() {
+		setBorder(null);
 	}
 
 	protected Component createNullStatusControl() {
@@ -152,25 +174,15 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 				}
 			});
 		}
-		if (captionShown
-				&& (!(result instanceof IAdvancedFieldControl) || !((IAdvancedFieldControl) result).showCaption())) {
-			setBorder(BorderFactory.createTitledBorder(data.getCaption()));
-		} else {
-			setBorder(null);
-		}
 		return result;
 	}
 
 	protected Component createSubControl() {
-		final JPanel result = new AbstractEditorPanelBuilder() {
+		subFormBuilder = new AbstractEditorPanelBuilder() {
 
 			@Override
 			public String getEncapsulatedFieldCaption() {
-				if (captionShown) {
-					return data.getCaption();
-				} else {
-					return "";
-				}
+				return data.getCaption();
 			}
 
 			@Override
@@ -247,22 +259,13 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 			public Object getInitialObjectValue() {
 				return data.getValue();
 			}
-		}.createEditorPanel();
-		setBorder(null);
+		};
+		JPanel result = subFormBuilder.createEditorPanel();
 		return result;
 	}
 
 	@Override
-	public boolean showCaption() {
-		captionShown = true;
-
-		if (subControl != null) {
-			remove(subControl);
-			subControl = null;
-			subControlValueType = null;
-			refreshUI();
-		}
-
+	public boolean showsCaption() {
 		return true;
 	}
 
@@ -273,11 +276,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean handlesModificationStackUpdate() {
-		if (getNullStatusControlState() == true) {
-			return false;
-		} else {
-			return true;
-		}
+		return true;
 	}
 
 	@Override
@@ -285,34 +284,24 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 		if (!SwingRendererUtils.isForm(subControl, swingRenderer)) {
 			return null;
 		}
-		boolean subControlFocused = SwingRendererUtils.hasOrContainsFocus(subControl);
 		Object subControlFocusDetails = swingRenderer.getFormFocusDetails((JPanel) subControl);
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("subControlFocused", subControlFocused);
 		result.put("subControlFocusDetails", subControlFocusDetails);
 		return result;
 	}
 
 	@Override
-	public boolean requestDetailedFocus(Object value) {
-		if (!SwingRendererUtils.isForm(subControl, swingRenderer)) {
-			return false;
+	public boolean requestDetailedFocus(Object focusDetails) {
+		if (focusDetails == null) {
+			return SwingRendererUtils.requestAnyComponentFocus(subControl, null, swingRenderer);
 		}
 		@SuppressWarnings("unchecked")
-		Map<String, Object> focusDetails = (Map<String, Object>) value;
-		Boolean subControlFocused = (Boolean) focusDetails.get("subControlFocused");
-		Object subControlFocusDetails = focusDetails.get("subControlFocusDetails");
-		if (Boolean.TRUE.equals(subControlFocused)) {
-			if (subControlFocusDetails != null) {
-				return swingRenderer.requestFormDetailedFocus((JPanel) subControl, subControlFocusDetails);
-			}
+		Map<String, Object> map = (Map<String, Object>) focusDetails;
+		Object subControlFocusDetails = map.get("subControlFocusDetails");
+		if (subControlFocusDetails != null) {
+			return SwingRendererUtils.requestAnyComponentFocus(subControl, subControlFocusDetails, swingRenderer);
 		}
 		return false;
-	}
-
-	@Override
-	public boolean requestFocusInWindow() {
-		return subControl.requestFocusInWindow();
 	}
 
 	@Override

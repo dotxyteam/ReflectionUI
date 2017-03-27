@@ -9,8 +9,9 @@ import javax.swing.JLabel;
 import javax.swing.border.EtchedBorder;
 
 import xy.reflect.ui.control.input.IFieldControlInput;
+import xy.reflect.ui.util.SwingRendererUtils;
 
-public class ColorControl extends DialogAccessControl{
+public class ColorControl extends DialogAccessControl {
 	protected static final long serialVersionUID = 1L;
 
 	public ColorControl(SwingRenderer swingRenderer, IFieldControlInput input) {
@@ -19,17 +20,15 @@ public class ColorControl extends DialogAccessControl{
 
 	@Override
 	protected JLabel createStatusControl(IFieldControlInput input) {
-		JLabel result =  new JLabel(" ");
+		JLabel result = new JLabel(" ");
 		result.setOpaque(true);
 		result.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
 		return result;
 	}
 
-	
-	
 	@Override
 	protected void updateStatusControl() {
-		((JLabel)statusControl).setBackground((Color) data.getValue());
+		((JLabel) statusControl).setBackground((Color) data.getValue());
 	}
 
 	@Override
@@ -37,10 +36,9 @@ public class ColorControl extends DialogAccessControl{
 		return null;
 	}
 
-	
 	@Override
-	public boolean requestFocusInWindow() {
-		return statusControl.requestFocusInWindow();
+	public boolean requestDetailedFocus(Object focusDetails) {
+		return SwingRendererUtils.requestAnyComponentFocus(statusControl, null, swingRenderer);
 	}
 
 	@Override

@@ -224,7 +224,7 @@ public class SwingRenderer {
 				GridBagConstraints layoutConstraints = new GridBagConstraints();
 				layoutConstraints.gridy = i;
 				fieldsPanel.add(fieldControlPlaceHolder, layoutConstraints);
-				updateFieldControlLayout(fieldControlPlaceHolder);
+				updateFieldControlLayout(fieldControlPlaceHolder, true);
 			}
 			IFieldInfo field = fieldControlPlaceHolder.getField();
 			if ((field.getOnlineHelp() != null) && (field.getOnlineHelp().trim().length() > 0)) {
@@ -320,15 +320,6 @@ public class SwingRenderer {
 			@Override
 			public String toString() {
 				return "Form [object=" + getObjectByForm().get(this) + "]";
-			}
-
-			@Override
-			public boolean requestFocusInWindow() {
-				List<FieldControlPlaceHolder> fieldControlPlaceHolders = getFieldControlPlaceHolders(this);
-				if (fieldControlPlaceHolders.size() > 0) {
-					return fieldControlPlaceHolders.get(0).getFieldControl().requestFocusInWindow();
-				}
-				return false;
 			}
 
 			private static final long serialVersionUID = 1L;
@@ -503,41 +494,29 @@ public class SwingRenderer {
 	}
 
 	public void preservingFormFocusAsMuchAsPossible(final JPanel form, Runnable runnable) {
-		final boolean formWasFocused = SwingRendererUtils.hasOrContainsFocus(form);
-		final Object formFocusDetails;
-		if (formWasFocused) {
-			formFocusDetails = getFormFocusDetails(form);
-		} else {
-			formFocusDetails = null;
-		}
+		final Object formFocusDetails = getFormFocusDetails(form);
 		final InfoCategory focusedCategory = getDisplayedInfoCategory(form);
 		try {
 			runnable.run();
 		} finally {
+			if (focusedCategory != null) {
+				setDisplayedInfoCategory(form, focusedCategory);
+			}
+			final boolean success;
+			if (formFocusDetails != null) {
+				success = requestFormDetailedFocus(form, formFocusDetails);
+			} else {
+				success = false;
+			}
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					if (focusedCategory != null) {
-						setDisplayedInfoCategory(form, focusedCategory);
+					boolean successConfirmedLater = SwingRendererUtils.hasOrContainsFocus(form);
+					if ((formFocusDetails != null) && (!success || !successConfirmedLater)) {
+						reflectionUI.logDebug("WARNING: Failed to restore focus of " + form + "\n\tfocusedCategory="
+								+ focusedCategory + "\n\tformFocusDetails=" + formFocusDetails + "\n\tsuccess="
+								+ success + "\n\tsuccessConfirmedLater=" + successConfirmedLater);
 					}
-					final boolean success;
-					if (formWasFocused) {
-						success = requestFormDetailedFocus(form, formFocusDetails);
-					} else {
-						success = false;
-					}
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							boolean successValidated = SwingRendererUtils.hasOrContainsFocus(form);
-							if (formWasFocused && (!success || !successValidated)) {
-								reflectionUI.logDebug("WARNING: Failed to restore focus of " + form
-										+ "\n\tformWasFocused=" + formWasFocused + "\n\tfocusedCategory="
-										+ focusedCategory + "\n\tformFocusDetails=" + formFocusDetails + "\n\tsuccess="
-										+ success + "\n\tsuccessValidated=" + successValidated);
-							}
-						}
-					});
 				}
 			});
 		}
@@ -681,17 +660,6 @@ public class SwingRenderer {
 			result.addAll(methodControlPlaceHolders);
 		}
 		return result;
-	}
-
-	public int getFocusedFieldControlPaceHolderIndex(JPanel subForm) {
-		int i = 0;
-		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(subForm)) {
-			if (SwingRendererUtils.hasOrContainsFocus(fieldControlPlaceHolder)) {
-				return i;
-			}
-			i++;
-		}
-		return -1;
 	}
 
 	public List<JPanel> getForms(Object object) {
@@ -1152,7 +1120,7 @@ public class SwingRenderer {
 				for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
 					if (fieldName.equals(fieldControlPlaceHolder.getModificationsTarget().getName())) {
 						fieldControlPlaceHolder.refreshUI(recreate);
-						updateFieldControlLayout(fieldControlPlaceHolder);
+						updateFieldControlLayout(fieldControlPlaceHolder, false);
 					}
 				}
 				SwingRendererUtils.handleComponentSizeChange(form);
@@ -1167,7 +1135,7 @@ public class SwingRenderer {
 			public void run() {
 				for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
 					fieldControlPlaceHolder.refreshUI(recreate);
-					updateFieldControlLayout(fieldControlPlaceHolder);
+					updateFieldControlLayout(fieldControlPlaceHolder, false);
 				}
 				SwingRendererUtils.handleComponentSizeChange(form);
 			}
@@ -1175,57 +1143,52 @@ public class SwingRenderer {
 	}
 
 	public Object getFormFocusDetails(JPanel form) {
-		int focusedFieldIndex = getFocusedFieldControlPaceHolderIndex(form);
+		List<FieldControlPlaceHolder> fieldControlPlaceHolders = getFieldControlPlaceHolders(form);
+		int focusedFieldIndex = -1;
+		{
+			int i = 0;
+			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHolders) {
+				if (SwingRendererUtils.hasOrContainsFocus(fieldControlPlaceHolder)) {
+					focusedFieldIndex = i;
+					break;
+				}
+				i++;
+			}
+		}
 		if (focusedFieldIndex == -1) {
 			return null;
 		}
 		Object focusedFieldFocusDetails = null;
-		Class<?> focusedFieldControlClass = null;
 		if (focusedFieldIndex != -1) {
-			final FieldControlPlaceHolder focusedFieldControlPaceHolder = getFieldControlPlaceHolders(form)
+			final FieldControlPlaceHolder focusedFieldControlPaceHolder = fieldControlPlaceHolders
 					.get(focusedFieldIndex);
 			Component focusedFieldControl = focusedFieldControlPaceHolder.getFieldControl();
 			if (focusedFieldControl instanceof IAdvancedFieldControl) {
 				focusedFieldFocusDetails = ((IAdvancedFieldControl) focusedFieldControl).getFocusDetails();
-				focusedFieldControlClass = focusedFieldControl.getClass();
 			}
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("focusedFieldIndex", focusedFieldIndex);
-		result.put("focusedFieldControlClass", focusedFieldControlClass);
 		result.put("focusedFieldFocusDetails", focusedFieldFocusDetails);
 		return result;
 	}
 
 	public boolean requestFormDetailedFocus(JPanel form, Object focusDetails) {
+		List<FieldControlPlaceHolder> fieldControlPlaceHolders = getFieldControlPlaceHolders(form);
+		if (focusDetails == null) {
+			if (fieldControlPlaceHolders.size() > 0) {
+				return SwingRendererUtils.requestAnyComponentFocus(fieldControlPlaceHolders.get(0).getFieldControl(),
+						null, this);
+			}
+		}
 		@SuppressWarnings("unchecked")
 		Map<String, Object> map = (Map<String, Object>) focusDetails;
 		int focusedFieldIndex = (Integer) map.get("focusedFieldIndex");
-		Class<?> focusedFieldControlClass = (Class<?>) map.get("focusedFieldControlClass");
 		Object focusedFieldFocusDetails = map.get("focusedFieldFocusDetails");
 
-		if (focusedFieldIndex != -1) {
-			FieldControlPlaceHolder fieldControlPaceHolderToFocusOn = getFieldControlPlaceHolders(form)
-					.get(focusedFieldIndex);
-			Component focusedFieldControl = fieldControlPaceHolderToFocusOn.getFieldControl();
-			if (focusedFieldFocusDetails != null) {
-				if (focusedFieldControl.getClass().equals(focusedFieldControlClass)) {
-					if (focusedFieldControl instanceof IAdvancedFieldControl) {
-						if (((IAdvancedFieldControl) focusedFieldControl)
-								.requestDetailedFocus(focusedFieldFocusDetails)) {
-							return true;
-						} else {
-							return focusedFieldControl.requestFocusInWindow();
-						}
-					} else {
-						return focusedFieldControl.requestFocusInWindow();
-					}
-				} else {
-					return focusedFieldControl.requestFocusInWindow();
-				}
-			} else {
-				return focusedFieldControl.requestFocusInWindow();
-			}
+		if ((focusedFieldIndex != -1) && (focusedFieldIndex < fieldControlPlaceHolders.size())) {
+			Component focusedFieldControl = fieldControlPlaceHolders.get(focusedFieldIndex).getFieldControl();
+			return SwingRendererUtils.requestAnyComponentFocus(focusedFieldControl, focusedFieldFocusDetails, this);
 		}
 		return false;
 	}
@@ -1320,10 +1283,23 @@ public class SwingRenderer {
 
 	}
 
-	public void updateFieldControlLayout(FieldControlPlaceHolder fieldControlPlaceHolder) {
-		IFieldInfo field = fieldControlPlaceHolder.getField();
-		Container container = fieldControlPlaceHolder.getParent();
+	public void updateFieldControlLayout(FieldControlPlaceHolder fieldControlPlaceHolder, boolean initialUpdate) {
 
+		boolean shouldHaveSeparateCaptionControl = !fieldControlPlaceHolder.showCaption()
+				&& (fieldControlPlaceHolder.getField().getCaption().length() > 0);
+
+		if (!initialUpdate) {
+			boolean hasSeparateCaptionControl = captionControlByFieldControlPlaceHolder
+					.containsKey(fieldControlPlaceHolder);
+			if (hasSeparateCaptionControl == shouldHaveSeparateCaptionControl) {
+				if(!hasSeparateCaptionControl){
+					
+				}
+				return;
+			}
+		}
+
+		Container container = fieldControlPlaceHolder.getParent();
 		GridBagLayout layout = (GridBagLayout) container.getLayout();
 		int i = layout.getConstraints(fieldControlPlaceHolder).gridy;
 
@@ -1334,11 +1310,9 @@ public class SwingRenderer {
 			captionControlByFieldControlPlaceHolder.remove(fieldControlPlaceHolder);
 		}
 
-		boolean addDefaultFieldCaptionControl = !fieldControlPlaceHolder.showCaption()
-				&& (field.getCaption().length() > 0);
 		int spacing = 5;
-		if (addDefaultFieldCaptionControl) {
-			captionControl = createSeparateCaptionControl(field.getCaption());
+		if (shouldHaveSeparateCaptionControl) {
+			captionControl = createSeparateCaptionControl(fieldControlPlaceHolder.getField().getCaption());
 			GridBagConstraints layoutConstraints = new GridBagConstraints();
 			layoutConstraints.insets = new Insets(spacing, spacing, spacing, spacing);
 			layoutConstraints.gridx = 0;
@@ -1351,7 +1325,7 @@ public class SwingRenderer {
 		{
 			GridBagConstraints layoutConstraints = new GridBagConstraints();
 			layoutConstraints.insets = new Insets(spacing, spacing, spacing, spacing);
-			if (!addDefaultFieldCaptionControl) {
+			if (!shouldHaveSeparateCaptionControl) {
 				layoutConstraints.gridwidth = 2;
 				layoutConstraints.gridx = 0;
 			} else {
@@ -1486,7 +1460,7 @@ public class SwingRenderer {
 							return;
 						}
 					}
-					SwingRendererUtils.setValueThroughModificationStack(data, newValue, getModificationStack(),
+					ReflectionUIUtils.setValueThroughModificationStack(data, newValue, getModificationStack(),
 							getModificationsTarget());
 				}
 			};
@@ -1800,7 +1774,7 @@ public class SwingRenderer {
 
 		public boolean showCaption() {
 			if (((fieldControl instanceof IAdvancedFieldControl)
-					&& ((IAdvancedFieldControl) fieldControl).showCaption())) {
+					&& ((IAdvancedFieldControl) fieldControl).showsCaption())) {
 				return true;
 			} else {
 				return false;
@@ -1835,7 +1809,7 @@ public class SwingRenderer {
 
 				@Override
 				public Object invoke(InvocationData invocationData) {
-					return SwingRendererUtils.invokeMethodThroughModificationStack(data, invocationData,
+					return ReflectionUIUtils.invokeMethodThroughModificationStack(data, invocationData,
 							getModificationStack(), getModificationsTarget());
 				}
 

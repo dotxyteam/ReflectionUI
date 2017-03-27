@@ -31,7 +31,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	protected IFieldControlData data;
 
 	protected Component textComponent;
-	protected boolean ignoreEditEvents = true;
+	protected boolean listenerDisabled = true;
 
 	public TextControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
@@ -81,10 +81,13 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			public void replaceSelection(String content) {
-				boolean wasIgnoringEditEvents = ignoreEditEvents;
-				ignoreEditEvents = true;
-				super.replaceSelection(content);
-				ignoreEditEvents = wasIgnoringEditEvents;
+				boolean listenerWasDisabled = listenerDisabled;
+				listenerDisabled = true;
+				try {
+					super.replaceSelection(content);
+				} finally {
+					listenerDisabled = listenerWasDisabled;
+				}
 				onTextChange(getText());
 			}
 
@@ -97,13 +100,14 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 
 				@Override
 				public void undoableEditHappened(UndoableEditEvent e) {
-					if (ignoreEditEvents) {
+					if (listenerDisabled) {
 						return;
 					}
 					try {
 						onTextChange(result.getText());
 					} catch (Throwable t) {
-						swingRenderer.handleExceptionsFromDisplayedUI(TextControl.this, t);
+						swingRenderer.getReflectionUI().logError(t);
+						displayError(ReflectionUIUtils.getPrettyErrorMessage(t));
 					}
 				}
 			});
@@ -113,25 +117,23 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected void onTextChange(String newStringValue) {
-		try {
-			data.setValue(newStringValue);
-		} catch (Throwable t) {
-			swingRenderer.getReflectionUI().logError(t);
-			displayError(ReflectionUIUtils.getPrettyErrorMessage(t));
-		}
+		data.setValue(newStringValue);
 	}
 
 	protected void updateTextComponent() {
-		ignoreEditEvents = true;
-		String newText = (String) data.getValue();
-		if (!ReflectionUIUtils.equalsOrBothNull(((JTextArea) textComponent).getText(), newText)) {
-			int lastCaretPosition = ((JTextArea) textComponent).getCaretPosition();
-			((JTextArea) textComponent).setText(newText);
-			((JTextArea) textComponent)
-					.setCaretPosition(Math.min(lastCaretPosition, ((JTextArea) textComponent).getText().length()));
-			SwingRendererUtils.handleComponentSizeChange(this);
+		listenerDisabled = true;
+		try {
+			String newText = (String) data.getValue();
+			if (!ReflectionUIUtils.equalsOrBothNull(((JTextArea) textComponent).getText(), newText)) {
+				int lastCaretPosition = ((JTextArea) textComponent).getCaretPosition();
+				((JTextArea) textComponent).setText(newText);
+				((JTextArea) textComponent)
+						.setCaretPosition(Math.min(lastCaretPosition, ((JTextArea) textComponent).getText().length()));
+				SwingRendererUtils.handleComponentSizeChange(this);
+			}
+		} finally {
+			listenerDisabled = false;
 		}
-		ignoreEditEvents = false;
 	}
 
 	protected Component createIconTrol() {
@@ -176,7 +178,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public boolean showCaption() {
+	public boolean showsCaption() {
 		return false;
 	}
 
@@ -194,20 +196,19 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public boolean requestDetailedFocus(Object value) {
+	public boolean requestDetailedFocus(Object focusDetails) {
+		if (focusDetails == null) {
+			return SwingRendererUtils.requestAnyComponentFocus(textComponent, null, swingRenderer);
+		}
 		@SuppressWarnings("unchecked")
-		Map<String, Object> focusDetails = (Map<String, Object>) value;
-		Integer caretPosition = (Integer) focusDetails.get("caretPosition");
+		Map<String, Object> map = (Map<String, Object>) focusDetails;
+		Integer caretPosition = (Integer) map.get("caretPosition");
 		if (caretPosition != null) {
 			((JTextArea) textComponent)
 					.setCaretPosition(Math.min(caretPosition, ((JTextArea) textComponent).getText().length()));
 		}
-		return textComponent.requestFocusInWindow();
-	}
+		return SwingRendererUtils.requestAnyComponentFocus(textComponent, null, swingRenderer);
 
-	@Override
-	public boolean requestFocusInWindow() {
-		return textComponent.requestFocusInWindow();
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import xy.reflect.ui.control.input.IFieldControlInput;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.FileTypeInfo;
 import xy.reflect.ui.info.type.custom.TextualTypeInfo;
+import xy.reflect.ui.util.SwingRendererUtils;
 
 public class FileControl extends DialogAccessControl implements IAdvancedFieldControl {
 
@@ -101,7 +102,7 @@ public class FileControl extends DialogAccessControl implements IAdvancedFieldCo
 	}
 
 	@Override
-	public boolean showCaption() {
+	public boolean showsCaption() {
 		return false;
 	}
 
@@ -117,8 +118,8 @@ public class FileControl extends DialogAccessControl implements IAdvancedFieldCo
 	}
 
 	@Override
-	public boolean requestFocusInWindow() {
-		return statusControl.requestFocusInWindow();
+	public boolean requestDetailedFocus(Object focusDetails) {
+		return SwingRendererUtils.requestAnyComponentFocus(statusControl, null, swingRenderer);
 	}
 
 	@Override

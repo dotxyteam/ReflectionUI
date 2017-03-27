@@ -253,6 +253,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			add(treeTableComponentScrollPane, BorderLayout.CENTER);
 			add(toolbar, BorderLayout.EAST);
 		}
+		setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(listData.getCaption())));
 	}
 
 	@Override
@@ -550,8 +551,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public boolean showCaption() {
-		setBorder(BorderFactory.createTitledBorder(listData.getCaption()));
+	public boolean showsCaption() {
 		return true;
 	}
 
@@ -1795,7 +1795,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 						data = new MethodControlDataProxy(data) {
 							@Override
 							public Object invoke(InvocationData invocationData) {
-								Object result = SwingRendererUtils.invokeMethodThroughModificationStack(base,
+								Object result = ReflectionUIUtils.invokeMethodThroughModificationStack(base,
 										invocationData, childModifStack, compositeModifTarget);
 								String compositeModifTitle = InvokeMethodModification.getTitle(base);
 								IModification commitModif;
@@ -2016,48 +2016,32 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	@Override
 	public Object getFocusDetails() {
-		boolean treeTableComponentFocused = SwingRendererUtils.hasOrContainsFocus(treeTableComponent);
-		;
-		boolean detailsControlFocused = false;
 		Object detailsControlFocusDetails = null;
 		if (detailsControl != null) {
-			detailsControlFocused = SwingRendererUtils.hasOrContainsFocus(detailsControl);
-			if (detailsControlFocused) {
-				detailsControlFocusDetails = swingRenderer.getFormFocusDetails(detailsControl);
-			}
+			detailsControlFocusDetails = swingRenderer.getFormFocusDetails(detailsControl);
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("treeTableComponentFocused", treeTableComponentFocused);
-		result.put("detailsControlFocused", detailsControlFocused);
 		result.put("detailsControlFocusDetails", detailsControlFocusDetails);
 		return result;
 	}
 
 	@Override
-	public boolean requestDetailedFocus(Object value) {
-		@SuppressWarnings("unchecked")
-		Map<String, Object> focusDetails = (Map<String, Object>) value;
-		Boolean treeTableComponentFocused = (Boolean) focusDetails.get("treeTableComponentFocused");
-		Boolean detailsControlFocused = (Boolean) focusDetails.get("detailsControlFocused");
-		Object detailsControlFocusDetails = focusDetails.get("detailsControlFocusDetails");
-		if (Boolean.TRUE.equals(treeTableComponentFocused)) {
-			return treeTableComponent.requestFocusInWindow();
+	public boolean requestDetailedFocus(Object focusDetails) {
+		if (focusDetails == null) {
+			return SwingRendererUtils.requestAnyComponentFocus(treeTableComponent, null, swingRenderer);
 		}
-		if (Boolean.TRUE.equals(detailsControlFocused)) {
-			if (detailsControlFocusDetails != null) {
-				return swingRenderer.requestFormDetailedFocus(detailsControl, detailsControlFocusDetails);
-			}
+		@SuppressWarnings("unchecked")
+		Map<String, Object> map = (Map<String, Object>) focusDetails;
+		Object detailsControlFocusDetails = map.get("detailsControlFocusDetails");
+		if (detailsControlFocusDetails != null) {
+			return SwingRendererUtils.requestAnyComponentFocus(detailsControl, detailsControlFocusDetails,
+					swingRenderer);
 		}
 		return false;
 	}
 
 	@Override
 	public void validateSubForm() throws Exception {
-	}
-
-	@Override
-	public boolean requestFocusInWindow() {
-		return treeTableComponent.requestFocusInWindow();
 	}
 
 	protected void restoringColumnWidthsAsMuchAsPossible(Runnable runnable) {

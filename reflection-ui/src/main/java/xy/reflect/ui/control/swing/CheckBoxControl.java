@@ -29,11 +29,11 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 				data.setValue(isSelected());
 			}
 		});
+		setText(swingRenderer.prepareStringToDisplay(data.getCaption()));
 	}
 
 	@Override
-	public boolean showCaption() {
-		setText(swingRenderer.prepareStringToDisplay(data.getCaption()));
+	public boolean showsCaption() {
 		return true;
 	}
 
