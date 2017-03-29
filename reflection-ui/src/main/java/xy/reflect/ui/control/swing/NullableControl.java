@@ -103,9 +103,11 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	public void refreshSubControl() {
 		Object value = data.getValue();
 		if (value == null) {
-			if (subControlValueType == null) {
-				refresCaptionForhNullControl();
-				return;
+			if (subControl != null) {
+				if (subControlValueType == null) {
+					refresCaptionForhNullControl();
+					return;
+				}
 			}
 		} else {
 			ITypeInfo newValueType = swingRenderer.getReflectionUI()

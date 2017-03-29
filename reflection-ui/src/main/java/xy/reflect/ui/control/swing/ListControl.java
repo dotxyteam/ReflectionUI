@@ -1465,6 +1465,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				int index = newItemPosition.getIndex();
 				int initialIndex = index;
 				for (Object clipboardItem : clipboard) {
+					clipboardItem = ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), clipboardItem);
 					getModificationStack().apply(new ListModificationFactory(newItemPosition, getModificationsTarget())
 							.add(index, clipboardItem));
 					index++;
@@ -1557,6 +1558,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				int newSubListItemInitialIndex = newSubListItemIndex;
 				subItemPosition = subItemPosition.getSibling(newSubListItemIndex);
 				for (Object clipboardItem : clipboard) {
+					clipboardItem = ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), clipboardItem);
 					getModificationStack().apply(new ListModificationFactory(subItemPosition, getModificationsTarget())
 							.add(newSubListItemIndex, clipboardItem));
 					newSubListItemIndex++;

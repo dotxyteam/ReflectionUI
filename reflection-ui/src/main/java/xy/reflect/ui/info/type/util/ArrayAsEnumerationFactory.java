@@ -56,7 +56,13 @@ public class ArrayAsEnumerationFactory {
 			return null;
 		}
 		if (!Arrays.asList(array).contains(arrayItem)) {
-			throw new ReflectionUIError();
+			StringBuilder msg = new StringBuilder();
+			msg.append("Failed to create instance from " + ArrayAsEnumerationFactory.this + ": Array item:\n- "
+					+ arrayItem + "\nnot found in array values:\n");
+			for (Object value : array) {
+				msg.append("- " + value + "\n");
+			}
+			throw new ReflectionUIError(msg.toString());
 		}
 		Instance result = new Instance(arrayItem);
 		reflectionUI.registerPrecomputedTypeInfoObject(result, new TypeInfo());

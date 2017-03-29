@@ -407,20 +407,6 @@ public class SwingRendererUtils {
 			}
 
 			@Override
-			public void beginComposite() {
-				super.beginComposite();
-				ModificationStack parentModifStack = parentModifStackGetter.get();
-				parentModifStack.beginComposite();
-			}
-
-			@Override
-			public boolean endComposite(IInfo childModifTarget, String title, UndoOrder order) {
-				super.endComposite(childModifTarget, title, order);
-				ModificationStack parentModifStack = parentModifStackGetter.get();
-				return parentModifStack.endComposite(childModifTarget, title, order);
-			}
-
-			@Override
 			public void invalidate() {
 				super.invalidate();
 				ModificationStack childModifStack = new ModificationStack(null);
@@ -435,6 +421,24 @@ public class SwingRendererUtils {
 				ReflectionUIUtils.integrateSubModifications(swingRenderer.getReflectionUI(), parentModifStack,
 						childModifStack, childModifAccepted, childValueReturnMode, childValueReplaced, commitModif,
 						compositeModifTarget, compositeModifTitle);
+			}
+
+			@Override
+			public void beginComposite() {
+				ModificationStack parentModifStack = parentModifStackGetter.get();
+				parentModifStack.beginComposite();
+			}
+
+			@Override
+			public boolean endComposite(IInfo childModifTarget, String title, UndoOrder order) {
+				ModificationStack parentModifStack = parentModifStackGetter.get();
+				return parentModifStack.endComposite(childModifTarget, title, order);
+			}
+
+			@Override
+			public void abortComposite() {
+				ModificationStack parentModifStack = parentModifStackGetter.get();
+				parentModifStack.abortComposite();
 			}
 
 			@Override

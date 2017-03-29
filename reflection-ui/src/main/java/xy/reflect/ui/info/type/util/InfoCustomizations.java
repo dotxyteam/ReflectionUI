@@ -56,7 +56,9 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
 
 @XmlRootElement
-public final class InfoCustomizations {
+public class InfoCustomizations implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	public static InfoCustomizations defaultInstance;
 	public static final String ACTIVE_CUSTOMIZATIONS_PROPERTY_KEY = InfoCustomizations.class.getName();
@@ -68,6 +70,15 @@ public final class InfoCustomizations {
 
 	protected Factory createCustomizationsProxyFactory(ReflectionUI reflectionUI) {
 		return new Factory(reflectionUI);
+	}
+
+	@Override
+	public String toString() {
+		if (this == defaultInstance) {
+			return "InfoCustomizations.DEFAULT";
+		} else {
+			return super.toString();
+		}
 	}
 
 	public static InfoCustomizations getDefault() {
@@ -715,6 +726,23 @@ public final class InfoCustomizations {
 		}
 	}
 
+	public static class FieldTypeSpecificities extends InfoCustomizations {
+		private static final long serialVersionUID = 1L;
+
+		public void ensureProxyFactoryInitialized(ReflectionUI reflectionUI, final String typeName,
+				final String fieldName) {
+			if (proxyFactory == null) {
+				proxyFactory = new Factory(reflectionUI) {
+					@Override
+					public String getIdentifier() {
+						return "FieldTypeSpecificities [typeName=" + typeName + ", fieldName=" + fieldName + "]";
+					}
+				};
+			}
+		}
+
+	}
+
 	public static class FieldCustomization extends AbstractMemberCustomization
 			implements Comparable<FieldCustomization> {
 		private static final long serialVersionUID = 1L;
@@ -729,13 +757,13 @@ public final class InfoCustomizations {
 		protected boolean displayedAsMethods = false;
 		protected boolean displayedAsSingletonList = false;
 		protected boolean displayedEncapsulated = false;
-		protected InfoCustomizations specificTypeCustomizations = new InfoCustomizations();
+		protected FieldTypeSpecificities specificTypeCustomizations = new FieldTypeSpecificities();
 
-		public InfoCustomizations getSpecificTypeCustomizations() {
+		public FieldTypeSpecificities getSpecificTypeCustomizations() {
 			return specificTypeCustomizations;
 		}
 
-		public void setSpecificTypeCustomizations(InfoCustomizations specificTypeCustomizations) {
+		public void setSpecificTypeCustomizations(FieldTypeSpecificities specificTypeCustomizations) {
 			this.specificTypeCustomizations = specificTypeCustomizations;
 		}
 
@@ -1772,10 +1800,8 @@ public final class InfoCustomizations {
 				if (f != null) {
 					ITypeInfoProxyFactory baseTypeSpecificities = field.getTypeSpecificities();
 					if (baseTypeSpecificities == null) {
-						if (f.specificTypeCustomizations.proxyFactory == null) {
-							f.specificTypeCustomizations.proxyFactory = f.specificTypeCustomizations
-									.createCustomizationsProxyFactory(reflectionUI);
-						}
+						f.specificTypeCustomizations.ensureProxyFactoryInitialized(reflectionUI, t.typeName,
+								f.fieldName);
 						return f.specificTypeCustomizations.proxyFactory;
 					} else {
 						return new TypeInfoProxyFactorChain(baseTypeSpecificities,

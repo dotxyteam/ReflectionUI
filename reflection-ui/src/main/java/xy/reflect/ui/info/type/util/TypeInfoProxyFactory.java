@@ -2,6 +2,7 @@ package xy.reflect.ui.info.type.util;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -597,12 +598,21 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 			List<TypeInfoProxyFactory> factories = (List<TypeInfoProxyFactory>) base.getSpecificProperties()
 					.get(GENERATED_PROXY_FACTORY_LIST_KEY);
 			if (factories != null) {
+				List<String> factoryIds = new ArrayList<String>();
 				for (TypeInfoProxyFactory factory : factories) {
-					if (factory.getIdentifier().equals(TypeInfoProxyFactory.this.getIdentifier())) {
-						throw new ReflectionUIError("Duplicate proxy detected: Their factories identifiers are equal: '"
-								+ TypeInfoProxyFactory.this.getIdentifier() + "'. " + "\n"
-								+ "If the factories actually differ, please override the getIdentifier() method to differenciate them");
+					factoryIds.add(factory.getIdentifier());
+				}
+				Collections.reverse(factoryIds);
+				if (factoryIds.contains(factory.getIdentifier())) {
+					StringBuilder msg = new StringBuilder();
+					msg.append("Duplicate proxy creation detected: New proxy factory identifier:\n- "
+							+ TypeInfoProxyFactory.this.getIdentifier() + "\nExisting factories identifers:\n");
+					for (String id : factoryIds) {
+						msg.append("- " + id + "\n");
 					}
+					msg.append(
+							"If the factories actually differ, please override the getIdentifier() method to differenciate them");
+					throw new ReflectionUIError(msg.toString());
 				}
 			}
 		}

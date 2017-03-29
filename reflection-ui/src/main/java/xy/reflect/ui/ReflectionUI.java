@@ -33,6 +33,15 @@ public class ReflectionUI {
 	protected Map<Object, ITypeInfo> precomputedTypeInfoByObject = CacheBuilder.newBuilder().weakKeys()
 			.<Object, ITypeInfo>build().asMap();
 
+	@Override
+	public String toString() {
+		if (this == defaultInstance) {
+			return "ReflectionUI.DEFAULT";
+		} else {
+			return super.toString();
+		}
+	}
+
 	public static ReflectionUI getDefault() {
 		if (defaultInstance == null) {
 			defaultInstance = new ReflectionUI() {
@@ -79,9 +88,9 @@ public class ReflectionUI {
 					Class<?> itemClass = ReflectionUIUtils.getJavaGenericTypeParameter(javaTypeSource, Collection.class,
 							0);
 					ITypeInfo itemType;
-					if(itemClass == null){
+					if (itemClass == null) {
 						itemType = null;
-					}else{
+					} else {
 						itemType = getTypeInfo(new JavaTypeInfoSource(itemClass));
 					}
 					result = new StandardCollectionTypeInfo(this, javaTypeSource.getJavaType(), itemType);
@@ -120,7 +129,7 @@ public class ReflectionUI {
 	}
 
 	public void logDebug(String msg) {
-		if(!SystemProperties.isDebugModeActive()){
+		if (!SystemProperties.isDebugModeActive()) {
 			return;
 		}
 		System.out.println("[" + ReflectionUI.class.getSimpleName() + "] DEBUG - " + msg);

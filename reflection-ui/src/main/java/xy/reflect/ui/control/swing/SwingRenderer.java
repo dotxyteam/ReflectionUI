@@ -75,6 +75,7 @@ import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
 import xy.reflect.ui.info.type.util.FilterredTypeFactory;
 import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
+import xy.reflect.ui.info.type.util.PolymorphicTypeOptionsFactory;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.IModification;
@@ -110,6 +111,15 @@ public class SwingRenderer {
 
 	public SwingRenderer(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
+	}
+
+	@Override
+	public String toString() {
+		if (this == defaultInstance) {
+			return "SwingRenderer.DEFAULT";
+		} else {
+			return super.toString();
+		}
 	}
 
 	public static SwingRenderer getDefault() {
@@ -741,7 +751,7 @@ public class SwingRenderer {
 
 	public Object onTypeInstanciationRequest(final Component activatorComponent, ITypeInfo type, boolean silent) {
 		try {
-			if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(type)) {
+			if (!type.isConcrete() && ReflectionUIUtils.hasPolymorphicInstanceSubTypes(type)) {
 				List<ITypeInfo> polyTypes = type.getPolymorphicInstanceSubTypes();
 				if (polyTypes.size() == 1) {
 					type = polyTypes.get(0);
@@ -749,8 +759,8 @@ public class SwingRenderer {
 					if (silent) {
 						type = polyTypes.get(0);
 					} else {
-						final ArrayAsEnumerationFactory enumFactory = ReflectionUIUtils
-								.getPolymorphicTypesEnumerationfactory(reflectionUI, type, polyTypes);
+						final PolymorphicTypeOptionsFactory enumFactory = new PolymorphicTypeOptionsFactory(
+								reflectionUI, type);
 						IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
 								.getTypeInfo(enumFactory.getInstanceTypeInfoSource());
 						Object resultEnumItem = openSelectionDialog(activatorComponent, enumType, null,

@@ -125,7 +125,7 @@ public class ModificationStack {
 
 	public void undo() {
 		if (compositeStack.size() > 0) {
-			throw new ReflectionUIError("Cannot undo modification while composite modification creation is ongoing");
+			throw new ReflectionUIError("Cannot undo while composite modification creation is ongoing");
 		}
 		if (undoStack.size() == 0) {
 			return;
@@ -137,7 +137,7 @@ public class ModificationStack {
 
 	public void redo() {
 		if (compositeStack.size() > 0) {
-			throw new ReflectionUIError("Cannot redo modification while composite modification creation is ongoing");
+			throw new ReflectionUIError("Cannot redo while composite modification creation is ongoing");
 		}
 		if (redoStack.size() == 0) {
 			return;
@@ -182,7 +182,7 @@ public class ModificationStack {
 
 	public boolean endComposite(IInfo target, String title, UndoOrder order) {
 		if (invalidated) {
-			compositeStack.pop();
+			abortComposite();
 			return true;
 		}
 		ModificationStack topComposite = compositeStack.pop();
@@ -197,18 +197,25 @@ public class ModificationStack {
 		return compositeParent.pushUndo(compositeUndoModif);
 	}
 
+	public void abortComposite() {
+		compositeStack.pop();
+	}
+
 	public boolean insideComposite(IInfo target, String title, UndoOrder order, Accessor<Boolean> compositeValidated) {
 		beginComposite();
+		boolean ok;
 		try {
-			if (compositeValidated.get()) {
-				return endComposite(target, title, order);
-			} else {
-				compositeStack.pop();
-				return false;
-			}
+			ok = compositeValidated.get();
 		} catch (Throwable t) {
 			invalidate();
+			abortComposite();
 			throw new ReflectionUIError(t);
+		}
+		if (ok) {
+			return endComposite(target, title, order);
+		} else {
+			abortComposite();
+			return false;
 		}
 
 	}

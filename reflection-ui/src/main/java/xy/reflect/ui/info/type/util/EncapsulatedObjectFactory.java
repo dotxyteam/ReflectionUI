@@ -488,7 +488,7 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public String toString() {
-			return "ValueField [getOuterType()=" + getOuterType() + "]";
+			return "ValueField [of=" + getOuterType() + "]";
 		}
 
 	}

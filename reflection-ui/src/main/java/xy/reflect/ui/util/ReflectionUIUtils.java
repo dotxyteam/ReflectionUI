@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +44,6 @@ import xy.reflect.ui.control.input.IFieldControlData;
 import xy.reflect.ui.control.input.IMethodControlData;
 import xy.reflect.ui.control.input.MethodControlDataProxy;
 import xy.reflect.ui.control.swing.SwingRenderer;
-import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -54,7 +52,6 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.InvokeMethodModification;
@@ -822,8 +819,8 @@ public class ReflectionUIUtils {
 					if (!childModifStack.wasInvalidated()) {
 						childModifStack.undoAll();
 					} else {
-						reflectionUI.logDebug("WARNING: Cannot revert invalidated sub-modification: "
-								+ childModifStack + "\n=> Invalidating parent modification stack");
+						reflectionUI.logDebug("WARNING: Cannot revert invalidated sub-modification: " + childModifStack
+								+ "\n=> Invalidating parent modification stack");
 						parentModifStack.invalidate();
 						parentValueImpacted = true;
 					}
@@ -850,41 +847,6 @@ public class ReflectionUIUtils {
 		}
 		ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
 		return valueType.isImmutable();
-	}
-
-	public static ArrayAsEnumerationFactory getPolymorphicTypesEnumerationfactory(ReflectionUI reflectionUI,
-			ITypeInfo polymorphicType, List<ITypeInfo> subTypes) {
-		return new ArrayAsEnumerationFactory(reflectionUI, subTypes.toArray(),
-				"SubTypesEnumeration [polymorphicType=" + polymorphicType.getName() + "]", "") {
-			@Override
-			protected Map<String, Object> getItemSpecificProperties(Object arrayItem) {
-				ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;
-				Map<String, Object> result = new HashMap<String, Object>();
-				DesktopSpecificProperty.setIconImageFilePath(result, DesktopSpecificProperty
-						.getIconImageFilePath(DesktopSpecificProperty.accessInfoProperties(polyTypesItem)));
-				DesktopSpecificProperty.setIconImage(result, DesktopSpecificProperty
-						.getIconImage(DesktopSpecificProperty.accessInfoProperties(polyTypesItem)));
-				return result;
-			}
-
-			@Override
-			protected String getItemOnlineHelp(Object arrayItem) {
-				ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;
-				return polyTypesItem.getOnlineHelp();
-			}
-
-			@Override
-			protected String getItemName(Object arrayItem) {
-				ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;
-				return polyTypesItem.getName();
-			}
-
-			@Override
-			protected String getItemCaption(Object arrayItem) {
-				ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;
-				return polyTypesItem.getCaption();
-			}
-		};
 	}
 
 	public static ModificationStack findParentFormModificationStack(Component component, SwingRenderer swingRenderer) {
@@ -935,4 +897,7 @@ public class ReflectionUIUtils {
 			}
 		}
 	}
+
+
+
 }
