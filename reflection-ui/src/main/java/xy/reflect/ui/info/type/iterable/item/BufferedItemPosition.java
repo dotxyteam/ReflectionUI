@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.util.ReflectionUIError;
-
+ 
 public class BufferedItemPosition extends ItemPosition {
 
 	protected Object bufferedItem;
@@ -14,9 +13,6 @@ public class BufferedItemPosition extends ItemPosition {
 	public BufferedItemPosition(ItemPosition standardItemPosition, Object bufferedItem) {
 		super(standardItemPosition.getParentItemPosition(), standardItemPosition.getContainingListData(),
 				standardItemPosition.getIndex());
-		if (standardItemPosition instanceof BufferedItemPosition) {
-			throw new ReflectionUIError();
-		}
 		this.standardItemPosition = standardItemPosition;
 		this.bufferedItem = bufferedItem;
 	}

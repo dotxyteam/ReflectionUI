@@ -99,12 +99,12 @@ public abstract class AbstractEditorPanelBuilder {
 		EncapsulatedObjectFactory result = new EncapsulatedObjectFactory(getSwingRenderer().getReflectionUI(),
 				getEncapsulatedFieldType());
 		result.setTypeCaption(getEncapsulationTypeCaption());
-		result.setTypeModificationStackAccessible(canPotentiallyModifyParent());
+		result.setTypeModificationStackAccessible(!isInReadOnlyMode());
 		result.setFieldCaption(getEncapsulatedFieldCaption());
-		result.setFieldGetOnly(!canPotentiallyModifyParent());
+		result.setFieldGetOnly(isInReadOnlyMode());
 		result.setFieldNullable(isObjectNullable());
 		result.setFieldValueReturnMode(
-				canPotentiallyModifyParent() ? ValueReturnMode.DIRECT_OR_PROXY : ValueReturnMode.CALCULATED);
+				(!isInReadOnlyMode()) ? ValueReturnMode.DIRECT_OR_PROXY : ValueReturnMode.CALCULATED);
 		Map<String, Object> properties = new HashMap<String, Object>();
 		{
 			DesktopSpecificProperty.setSubFormExpanded(properties, isObjectFormExpanded());
@@ -114,6 +114,13 @@ public abstract class AbstractEditorPanelBuilder {
 			result.setFieldSpecificProperties(properties);
 		}
 		return result;
+	}
+
+	public boolean isInReadOnlyMode() {
+		if(getParentModificationStack() == null){
+			return false;
+		}
+		return !canPotentiallyModifyParent();
 	}
 
 	public String getEncapsulatedFieldCaption() {
@@ -162,13 +169,17 @@ public abstract class AbstractEditorPanelBuilder {
 		JPanel result = getSwingRenderer().createForm(encapsulated);
 		if (canPotentiallyModifyParent()) {
 			forwardEditorPanelModificationsToParent(result);
-		} else {
+		}
+		if (isInReadOnlyMode()) {
 			refreshEditorPanelOnModification(result);
 		}
 		return result;
 	}
 
 	public boolean canPotentiallyModifyParent() {
+		if(getParentModificationStack() == null){
+			return false;
+		}
 		ensureObjectValueIsInitialized();
 		return ReflectionUIUtils.canPotentiallyIntegrateSubModifications(getSwingRenderer().getReflectionUI(),
 				initialObjectValue, getObjectValueReturnMode(), canCommit());
@@ -185,10 +196,7 @@ public abstract class AbstractEditorPanelBuilder {
 	}
 
 	public void refreshEditorPanel(JPanel panel) {
-		objectValueInitialized = false;
-		ensureObjectValueIsInitialized();
-		Object encapsulated = getEncapsulatedObject();
-		getSwingRenderer().getObjectByForm().put(panel, encapsulated);
+		encapsulatedObjectValueAccessor.set(getInitialObjectValue());
 		getSwingRenderer().refreshAllFieldControls(panel, false);
 	}
 
@@ -200,7 +208,7 @@ public abstract class AbstractEditorPanelBuilder {
 		Accessor<Boolean> childModifAcceptedGetter = new Accessor<Boolean>() {
 			@Override
 			public Boolean get() {
-				return isNewObjectValueAccepted(getCurrentObjectValue() );
+				return isNewObjectValueAccepted(getCurrentObjectValue());
 			}
 		};
 		Accessor<ValueReturnMode> childValueReturnModeGetter = new Accessor<ValueReturnMode>() {
@@ -218,7 +226,10 @@ public abstract class AbstractEditorPanelBuilder {
 		Accessor<IModification> commitModifGetter = new Accessor<IModification>() {
 			@Override
 			public IModification get() {
-				return createCommitModification(getCurrentObjectValue() );
+				if (!canCommit()) {
+					return null;
+				}
+				return createCommitModification(getCurrentObjectValue());
 			}
 		};
 		Accessor<IInfo> childModifTargetGetter = new Accessor<IInfo>() {
@@ -235,13 +246,11 @@ public abstract class AbstractEditorPanelBuilder {
 		};
 		Accessor<ModificationStack> parentModifStackGetter = new Accessor<ModificationStack>() {
 
-			ModificationStack dummyParentModifStack = new ModificationStack("Do not forward modifications");
-
 			@Override
 			public ModificationStack get() {
 				ModificationStack result = getParentModificationStack();
 				if (result == null) {
-					result = dummyParentModifStack;
+					throw new ReflectionUIError();
 				}
 				return result;
 			}

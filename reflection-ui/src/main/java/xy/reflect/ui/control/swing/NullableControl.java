@@ -48,7 +48,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 		setLayout(new BorderLayout());
 		nullStatusControl = createNullStatusControl();
 		if (!data.isGetOnly()) {
-			add(SwingRendererUtils.flowInLayout(nullStatusControl, GridBagConstraints.NORTH), BorderLayout.WEST);
+			add(SwingRendererUtils.flowInLayout(nullStatusControl, GridBagConstraints.CENTER), BorderLayout.WEST);
 		}
 		refreshUI();
 	}

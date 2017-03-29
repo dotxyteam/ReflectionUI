@@ -66,19 +66,17 @@ import xy.reflect.ui.control.input.IMethodControlInput;
 import xy.reflect.ui.control.input.MethodControlDataProxy;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.filter.AbstractDelegatingInfoFilter;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
-import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.iterable.item.BufferedItemPosition;
+import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemDetailsAreaPosition;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
-import xy.reflect.ui.info.type.iterable.item.BufferedItemPosition;
-import xy.reflect.ui.info.type.iterable.item.DelegatingItemPosition;
-import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.SubListsGroupingField.SubListGroup;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
@@ -86,12 +84,12 @@ import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
+import xy.reflect.ui.undo.CompositeModification;
+import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.ListModificationFactory;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.undo.CompositeModification;
-import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -99,7 +97,6 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.AbstractLazyTreeNode;
 
-@SuppressWarnings("unused")
 public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
@@ -2403,7 +2400,14 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 		@Override
 		public IInfoFilter getObjectFormFilter() {
-			return getStructuralInfo().getItemInfoFilter(itemPosition);
+			return new AbstractDelegatingInfoFilter() {
+				@Override
+				protected IInfoFilter getDelegate() {
+					BufferedItemPosition bufferedItemPosition = new BufferedItemPosition(itemPosition,
+							getCurrentObjectValue());
+					return getStructuralInfo().getItemInfoFilter(bufferedItemPosition);
+				}
+			};
 		}
 
 	}

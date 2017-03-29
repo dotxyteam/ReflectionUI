@@ -729,16 +729,7 @@ public final class InfoCustomizations {
 		protected boolean displayedAsMethods = false;
 		protected boolean displayedAsSingletonList = false;
 		protected boolean displayedEncapsulated = false;
-		protected boolean typeSpecificitiesUsed = false;
 		protected InfoCustomizations specificTypeCustomizations = new InfoCustomizations();
-
-		public boolean isTypeSpecificitiesUsed() {
-			return typeSpecificitiesUsed;
-		}
-
-		public void setTypeSpecificitiesUsed(boolean typeSpecificitiesUsed) {
-			this.typeSpecificitiesUsed = typeSpecificitiesUsed;
-		}
 
 		public InfoCustomizations getSpecificTypeCustomizations() {
 			return specificTypeCustomizations;
@@ -1766,7 +1757,7 @@ public final class InfoCustomizations {
 		protected boolean isConcrete(ITypeInfo type) {
 			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, type.getName());
 			if (t != null) {
-				if(t.abstractForced){
+				if (t.abstractForced) {
 					return false;
 				}
 			}
@@ -1779,18 +1770,16 @@ public final class InfoCustomizations {
 			if (t != null) {
 				FieldCustomization f = getFieldCustomization(t, field.getName());
 				if (f != null) {
-					if (f.typeSpecificitiesUsed) {
-						ITypeInfoProxyFactory baseTypeSpecificities = field.getTypeSpecificities();
-						if (baseTypeSpecificities == null) {
-							if (f.specificTypeCustomizations.proxyFactory == null) {
-								f.specificTypeCustomizations.proxyFactory = f.specificTypeCustomizations
-										.createCustomizationsProxyFactory(reflectionUI);
-							}
-							return f.specificTypeCustomizations.proxyFactory;
-						} else {
-							return new TypeInfoProxyFactorChain(baseTypeSpecificities,
-									f.specificTypeCustomizations.proxyFactory);
+					ITypeInfoProxyFactory baseTypeSpecificities = field.getTypeSpecificities();
+					if (baseTypeSpecificities == null) {
+						if (f.specificTypeCustomizations.proxyFactory == null) {
+							f.specificTypeCustomizations.proxyFactory = f.specificTypeCustomizations
+									.createCustomizationsProxyFactory(reflectionUI);
 						}
+						return f.specificTypeCustomizations.proxyFactory;
+					} else {
+						return new TypeInfoProxyFactorChain(baseTypeSpecificities,
+								f.specificTypeCustomizations.proxyFactory);
 					}
 				}
 			}

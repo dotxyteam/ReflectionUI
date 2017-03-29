@@ -43,14 +43,15 @@ import org.jdesktop.swingx.JXBusyLabel;
 import com.google.common.collect.MapMaker;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.input.DefaultMethodControlData;
 import xy.reflect.ui.control.input.FieldControlDataProxy;
 import xy.reflect.ui.control.input.FieldControlInputProxy;
-import xy.reflect.ui.control.input.DefaultMethodControlData;
 import xy.reflect.ui.control.input.IFieldControlData;
 import xy.reflect.ui.control.input.IFieldControlInput;
 import xy.reflect.ui.control.input.IMethodControlData;
 import xy.reflect.ui.control.input.IMethodControlInput;
 import xy.reflect.ui.control.input.MethodControlDataProxy;
+import xy.reflect.ui.control.swing.customization.SwingCustomizer;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
@@ -71,6 +72,7 @@ import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory;
 import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
+import xy.reflect.ui.info.type.util.FilterredTypeFactory;
 import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
 import xy.reflect.ui.undo.AbstractModification;
@@ -317,26 +319,28 @@ public class SwingRenderer {
 	public JPanel createForm(final Object object, IInfoFilter infoFilter) {
 		JPanel result = new JPanel() {
 
+			private static final long serialVersionUID = 1L;
+			JPanel thisForm = this;
+
 			@Override
 			public String toString() {
 				return "Form [object=" + getObjectByForm().get(this) + "]";
 			}
 
-			private static final long serialVersionUID = 1L;
-			JPanel form = this;
 			IModificationListener fieldsUpdateListener = new AbstractSimpleModificationListener() {
 				@Override
 				protected void handleAnyEvent(IModification modification) {
-					if (Boolean.TRUE.equals(getFieldsUpdateListenerDisabledByForm().get(form))) {
+					if (Boolean.TRUE.equals(getFieldsUpdateListenerDisabledByForm().get(thisForm))) {
 						return;
 					}
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override
 						public void run() {
-							refreshAllFieldControls(form, false);
-							updateFormStatusBarInBackground(form);
+							refreshAllFieldControls(thisForm, false);
+							updateFormStatusBarInBackground(thisForm);
+							Object object = getObjectByForm().get(thisForm);
 							for (JPanel otherForm : getForms(object)) {
-								if (otherForm != form) {
+								if (otherForm != thisForm) {
 									ModificationStack otherModifStack = getModificationStackByForm().get(otherForm);
 									getFieldsUpdateListenerDisabledByForm().put(otherForm, Boolean.TRUE);
 									otherModifStack.invalidate();
@@ -413,7 +417,6 @@ public class SwingRenderer {
 	}
 
 	public Component createCustomMethodControl(IMethodControlInput input) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -559,11 +562,9 @@ public class SwingRenderer {
 		Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = new HashMap<InfoCategory, List<FieldControlPlaceHolder>>();
 		getFieldControlPlaceHoldersByCategoryByForm().put(form, fieldControlPlaceHoldersByCategory);
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		type = new FilterredTypeFactory(infoFilter).get(type);
 		List<IFieldInfo> fields = type.getFields();
 		for (IFieldInfo field : fields) {
-			if (infoFilter.excludeField(field)) {
-				continue;
-			}
 			FieldControlPlaceHolder fieldControlPlaceHolder = createFieldControlPlaceHolder(form, field);
 			{
 				InfoCategory category = field.getCategory();
@@ -584,9 +585,6 @@ public class SwingRenderer {
 		getMethodControlPlaceHoldersByCategoryByForm().put(form, methodControlPlaceHoldersByCategory);
 		List<IMethodInfo> methods = type.getMethods();
 		for (IMethodInfo method : methods) {
-			if (infoFilter.excludeMethod(method)) {
-				continue;
-			}
 			MethodControlPlaceHolder methodControlPlaceHolder = createMethodControlPlaceHolder(form, method);
 			{
 				InfoCategory category = method.getCategory();
@@ -725,14 +723,19 @@ public class SwingRenderer {
 
 	public void layoutControlPanels(JPanel parentForm, JPanel fieldsPanel, JPanel methodsPanel) {
 		parentForm.setLayout(new BorderLayout());
-		parentForm.add(fieldsPanel, BorderLayout.CENTER);
-		parentForm.add(methodsPanel, BorderLayout.SOUTH);
+		if (fieldsPanel != null) {
+			parentForm.add(fieldsPanel, BorderLayout.CENTER);
+		}
+		if (methodsPanel != null) {
+			parentForm.add(methodsPanel, BorderLayout.SOUTH);
+		}
 	}
 
 	public void layoutControls(List<FieldControlPlaceHolder> fielControlPlaceHolders,
 			final List<MethodControlPlaceHolder> methodControlPlaceHolders, JPanel parentForm) {
-		JPanel fieldsPanel = createFieldsPanel(fielControlPlaceHolders);
-		JPanel methodsPanel = createMethodsPanel(methodControlPlaceHolders);
+		JPanel fieldsPanel = (fielControlPlaceHolders.size() == 0) ? null : createFieldsPanel(fielControlPlaceHolders);
+		JPanel methodsPanel = (methodControlPlaceHolders.size() == 0) ? null
+				: createMethodsPanel(methodControlPlaceHolders);
 		layoutControlPanels(parentForm, fieldsPanel, methodsPanel);
 	}
 
@@ -944,8 +947,6 @@ public class SwingRenderer {
 
 	public void openInformationDialog(Component activatorComponent, String msg, String title, Image iconImage) {
 		DialogBuilder dialogBuilder = new DialogBuilder(this, activatorComponent);
-		JLabel toDisplay = new JLabel("<HTML><CENTER>" + msg + "</CENTER></HTML>", JLabel.CENTER);
-		toDisplay.setBorder(BorderFactory.createTitledBorder(""));
 
 		List<Component> buttons = new ArrayList<Component>();
 		buttons.add(dialogBuilder.createDialogClosingButton("Close", null));
@@ -1292,8 +1293,8 @@ public class SwingRenderer {
 			boolean hasSeparateCaptionControl = captionControlByFieldControlPlaceHolder
 					.containsKey(fieldControlPlaceHolder);
 			if (hasSeparateCaptionControl == shouldHaveSeparateCaptionControl) {
-				if(!hasSeparateCaptionControl){
-					
+				if (!hasSeparateCaptionControl) {
+
 				}
 				return;
 			}
@@ -1444,7 +1445,7 @@ public class SwingRenderer {
 
 		@Override
 		public ModificationStack getModificationStack() {
-			return ReflectionUIUtils.findParentFormModificationStack(this, SwingRenderer.this);
+			return getModificationStackByForm().get(form);
 		}
 
 		public IFieldControlData makeFieldModificationsUndoable(final IFieldControlData data) {
@@ -1494,6 +1495,7 @@ public class SwingRenderer {
 							SwingUtilities.invokeLater(new Runnable() {
 								@Override
 								public void run() {
+									t.printStackTrace();
 									displayError(ReflectionUIUtils.getPrettyErrorMessage(t));
 								}
 							});
@@ -1867,7 +1869,7 @@ public class SwingRenderer {
 
 		@Override
 		public ModificationStack getModificationStack() {
-			return ReflectionUIUtils.findParentFormModificationStack(this, SwingRenderer.this);
+			return getModificationStackByForm().get(form);
 		}
 
 		public IMethodInfo getMethod() {

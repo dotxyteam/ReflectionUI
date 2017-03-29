@@ -22,10 +22,10 @@ public class ModificationStack {
 	protected IModificationListener ALL_LISTENERS_PROXY = new IModificationListener() {
 
 		@Override
-		public void handleDo(IModification modification) {
+		public void handlePush(IModification undoModification) {
 			for (IModificationListener listener : new ArrayList<IModificationListener>(
 					ModificationStack.this.listeners)) {
-				listener.handleDo(modification);
+				listener.handlePush(undoModification);
 			}
 		}
 
@@ -110,7 +110,7 @@ public class ModificationStack {
 			validate();
 			undoStack.push(undoModif);
 			redoStack.clear();
-			ALL_LISTENERS_PROXY.handleDo(undoModif);
+			ALL_LISTENERS_PROXY.handlePush(undoModif);
 		}
 		return true;
 	}
@@ -125,8 +125,7 @@ public class ModificationStack {
 
 	public void undo() {
 		if (compositeStack.size() > 0) {
-			compositeStack.peek().undo();
-			return;
+			throw new ReflectionUIError("Cannot undo modification while composite modification creation is ongoing");
 		}
 		if (undoStack.size() == 0) {
 			return;
@@ -138,8 +137,7 @@ public class ModificationStack {
 
 	public void redo() {
 		if (compositeStack.size() > 0) {
-			compositeStack.peek().redo();
-			return;
+			throw new ReflectionUIError("Cannot redo modification while composite modification creation is ongoing");
 		}
 		if (redoStack.size() == 0) {
 			return;
@@ -150,10 +148,6 @@ public class ModificationStack {
 	}
 
 	public void undoAll() {
-		if (compositeStack.size() > 0) {
-			compositeStack.peek().undoAll();
-			return;
-		}
 		while (undoStack.size() > 0) {
 			undo();
 		}
@@ -188,7 +182,7 @@ public class ModificationStack {
 
 	public boolean endComposite(IInfo target, String title, UndoOrder order) {
 		if (invalidated) {
-			abortComposite();
+			compositeStack.pop();
 			return true;
 		}
 		ModificationStack topComposite = compositeStack.pop();
@@ -203,17 +197,13 @@ public class ModificationStack {
 		return compositeParent.pushUndo(compositeUndoModif);
 	}
 
-	public void abortComposite() {
-		compositeStack.pop();
-	}
-
 	public boolean insideComposite(IInfo target, String title, UndoOrder order, Accessor<Boolean> compositeValidated) {
 		beginComposite();
 		try {
 			if (compositeValidated.get()) {
 				return endComposite(target, title, order);
 			} else {
-				abortComposite();
+				compositeStack.pop();
 				return false;
 			}
 		} catch (Throwable t) {

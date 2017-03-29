@@ -5,7 +5,7 @@ public abstract class AbstractSimpleModificationListener implements IModificatio
 	protected abstract void handleAnyEvent(IModification modification);
 
 	@Override
-	public void handleDo(IModification modification) {
+	public void handlePush(IModification modification) {
 		handleAnyEvent(modification);
 	}
 

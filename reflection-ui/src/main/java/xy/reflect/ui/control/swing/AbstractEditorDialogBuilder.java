@@ -34,8 +34,7 @@ public abstract class AbstractEditorDialogBuilder extends AbstractEditorPanelBui
 
 	@Override
 	public String getEditorTitle() {
-		ensureObjectValueIsInitialized();
-		return getSwingRenderer().getObjectTitle(initialObjectValue);
+		return getEncapsulatedFieldType().getCaption();
 	}
 
 	public Image getObjectIconImage() {

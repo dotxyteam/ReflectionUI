@@ -1,11 +1,8 @@
-- cannot write text fast
+- optimize all fields refresh on modification
 - check how duplicate field names are handled
-- refactor InfoCustomizations:
-	. list and enum customizations must be linked to fields
 - ListControl calls too much list.toArray(): optimize
 . allow to execute dynamic actions or change dynamic properties on 
 multiple nodes
-. allow to easily customize ListFieldNamesNode title
 . restore all control states on refresh,
 even non-focused controls???
 ex: embedded form tabbed pane selection
