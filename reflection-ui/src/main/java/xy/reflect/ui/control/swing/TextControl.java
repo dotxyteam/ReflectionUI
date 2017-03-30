@@ -151,21 +151,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean displayError(String msg) {
-		String oldTooltipText;
-		if (msg == null) {
-			setBorder(null);
-			oldTooltipText = ((JComponent) textComponent).getToolTipText();
-			((JComponent) textComponent).setToolTipText(null);
-		} else {
-			SwingRendererUtils.setErrorBorder(this);
-			oldTooltipText = ((JComponent) textComponent).getToolTipText();
-			SwingRendererUtils.setMultilineToolTipText(((JComponent) textComponent),
-					swingRenderer.prepareStringToDisplay(msg));
-		}
-		SwingRendererUtils.handleComponentSizeChange(this);
-		if (!ReflectionUIUtils.equalsOrBothNull(oldTooltipText, ((JComponent) textComponent).getToolTipText())) {
-			SwingRendererUtils.showTooltipNow(((JComponent) textComponent));
-		}
+		SwingRendererUtils.displayErrorOnBorderAndTooltip(this, (JComponent) textComponent, msg, swingRenderer);
 		return true;
 	}
 

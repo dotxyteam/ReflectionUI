@@ -58,6 +58,7 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.field.ArrayAsEnumerationField;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.DefaultConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -1632,35 +1633,15 @@ public class SwingRenderer {
 				finalField = field;
 			} else {
 				ITypeInfo ownerType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-				final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(reflectionUI, valueOptions,
-						"ValueOptions [ownerType=" + ownerType.getName() + ", field=" + field.getName() + "]", "");
-				final ITypeInfo enumType = reflectionUI.getTypeInfo(enumFactory.getInstanceTypeInfoSource());
-				finalField = new FieldInfoProxy(field) {
-
+				String enumTypeName = "ValueOptions [ownerType=" + ownerType.getName() + ", field=" + field.getName()
+						+ "]";
+				field = new FieldInfoProxy(field){
 					@Override
-					public Object getValue(Object object) {
-						Object value = super.getValue(object);
-						return enumFactory.getInstance(value);
-					}
-
-					@Override
-					public void setValue(Object object, Object value) {
-						value = enumFactory.unwrapInstance(value);
-						super.setValue(object, value);
-					}
-
-					@Override
-					public Runnable getCustomUndoUpdateJob(Object object, Object value) {
-						value = enumFactory.unwrapInstance(value);
-						return super.getCustomUndoUpdateJob(object, value);
-					}
-
-					@Override
-					public ITypeInfo getType() {
-						return enumType;
-					}
-
+					public Object[] getValueOptions(Object object) {
+						return null;
+					}					
 				};
+				finalField = new ArrayAsEnumerationField(reflectionUI, field, valueOptions, enumTypeName);
 			}
 			IFieldControlData result = new IFieldControlData() {
 

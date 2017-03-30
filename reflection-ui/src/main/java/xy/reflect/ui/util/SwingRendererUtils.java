@@ -706,4 +706,26 @@ public class SwingRendererUtils {
 		return c.requestFocusInWindow();
 	}
 
+	public static void displayErrorOnBorderAndTooltip(JComponent borderComponent, JComponent tooltipComponent,
+			String msg, SwingRenderer swingRenderer) {
+		String oldTooltipText;
+		if (msg == null) {
+			borderComponent.setBorder(null);
+			oldTooltipText = tooltipComponent.getToolTipText();
+			tooltipComponent.setToolTipText(null);
+		} else {
+			SwingRendererUtils.setErrorBorder(borderComponent);
+			oldTooltipText = tooltipComponent.getToolTipText();
+			String newTooltipText = swingRenderer.prepareStringToDisplay(msg);
+			if(newTooltipText.length()==0){
+				newTooltipText = null;
+			}
+			SwingRendererUtils.setMultilineToolTipText(tooltipComponent, newTooltipText);
+		}
+		SwingRendererUtils.handleComponentSizeChange(borderComponent);
+		if (!ReflectionUIUtils.equalsOrBothNull(oldTooltipText, tooltipComponent.getToolTipText())) {
+			SwingRendererUtils.showTooltipNow(tooltipComponent);
+		}
+	}
+
 }

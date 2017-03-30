@@ -1,6 +1,8 @@
 package xy.reflect.ui;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Map;
 
 import com.google.common.cache.CacheBuilder;
@@ -128,15 +130,20 @@ public class ReflectionUI {
 		return result;
 	}
 
+	protected String formatLogMessage(String msg) {
+		return SimpleDateFormat.getDateTimeInstance().format(new Date()) + " [" + ReflectionUI.class.getSimpleName()
+				+ "] " + msg;
+	}
+
 	public void logDebug(String msg) {
 		if (!SystemProperties.isDebugModeActive()) {
 			return;
 		}
-		System.out.println("[" + ReflectionUI.class.getSimpleName() + "] DEBUG - " + msg);
+		System.out.println(formatLogMessage("DEBUG - " + msg));
 	}
 
 	public void logError(String msg) {
-		System.err.println("[" + ReflectionUI.class.getSimpleName() + "] " + msg);
+		System.err.println(formatLogMessage("ERROR - " + msg));
 	}
 
 	public void logError(Throwable t) {

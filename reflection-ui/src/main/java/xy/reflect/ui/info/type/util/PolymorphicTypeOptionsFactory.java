@@ -49,15 +49,14 @@ public class PolymorphicTypeOptionsFactory extends ArrayAsEnumerationFactory {
 		}
 		return result;
 	}
-	
-	public List<ITypeInfo> getTypeOptions(){
+
+	public List<ITypeInfo> getTypeOptions() {
 		List<ITypeInfo> result = new ArrayList<ITypeInfo>();
-		for(Object arrayItem: array){
+		for (Object arrayItem : array) {
 			result.add((ITypeInfo) arrayItem);
 		}
 		return result;
 	}
-	
 
 	@Override
 	protected Map<String, Object> getItemSpecificProperties(Object arrayItem) {
@@ -86,6 +85,11 @@ public class PolymorphicTypeOptionsFactory extends ArrayAsEnumerationFactory {
 	protected String getItemCaption(Object arrayItem) {
 		ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;
 		return polyTypesItem.getCaption();
+	}
+
+	@Override
+	public String toString() {
+		return "PolymorphicTypeOptionsFactory [polymorphicType=" + polymorphicType + "]";
 	}
 
 }

@@ -11,11 +11,14 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 import xy.reflect.ui.control.input.IFieldControlData;
@@ -24,23 +27,36 @@ import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
+import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 @SuppressWarnings({ "rawtypes", "unchecked", "unused" })
 public class EnumerationControl extends JPanel implements IAdvancedFieldControl {
+
 	protected static final long serialVersionUID = 1L;
+
+	protected static final String INVALID_VALUE_SUFFIX = "... (Invalid value. Please select another value)";
+
 	protected IEnumerationTypeInfo enumType;
+	protected List<Object> possibleValues;
 	protected SwingRenderer swingRenderer;
+	protected IFieldControlInput input;
 	protected IFieldControlData data;
 	protected JComboBox comboBox;
 	protected boolean listenerDisabled = false;
+	protected Throwable error;
 
 	@SuppressWarnings({})
 	public EnumerationControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
+		this.input = input;
 		this.data = input.getControlData();
 		this.enumType = (IEnumerationTypeInfo) data.getType();
-
+		this.possibleValues = new ArrayList<Object>(Arrays.asList(enumType.getPossibleValues()));
+		if (data.isNullable()) {
+			this.possibleValues.add(0, null);
+		}
 		initialize();
 	}
 
@@ -58,31 +74,8 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 					boolean cellHasFocus) {
 				JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,
 						cellHasFocus);
-				if (value == null) {
-					String nullValueLabel = data.getNullValueLabel();
-					if (nullValueLabel == null) {
-						label.setText("");
-					} else {
-						label.setText(nullValueLabel);
-					}
-					label.setIcon(null);
-				} else {
-					IEnumerationItemInfo itemInfo = enumType.getValueInfo(value);
-					String s;
-					if (itemInfo == null) {
-						s = "";
-					} else {
-						s = itemInfo.getCaption();
-					}
-					label.setText(swingRenderer.prepareStringToDisplay(s));
-					Image iconImage = SwingRendererUtils.findIconImage(swingRenderer, itemInfo.getSpecificProperties());
-					if (iconImage == null) {
-						label.setIcon(null);
-					} else {
-						label.setIcon(SwingRendererUtils.getSmallIcon(iconImage));
-					}
-				}
-
+				label.setText(swingRenderer.prepareStringToDisplay(getValueText(value)));
+				label.setIcon(getValueIcon(value));
 				return label;
 			}
 		});
@@ -94,23 +87,89 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 				}
 				try {
 					Object selected = comboBox.getSelectedItem();
-					data.setValue(selected);
+					if (selected == error) {
+						throw error;
+					}
+					if (error != null) {
+						try {
+							data.setValue(selected);
+						} finally {
+							input.getModificationStack().invalidate();
+						}
+					} else {
+						ReflectionUIUtils.setValueThroughModificationStack(data, selected, input.getModificationStack(),
+								input.getModificationsTarget());
+					}
+					refreshUI();
 				} catch (Throwable t) {
 					swingRenderer.handleExceptionsFromDisplayedUI(EnumerationControl.this, t);
 				}
 			}
 		});
-		if (data.isGetOnly()) {
+		if (data.isGetOnly())
+
+		{
 			comboBox.setEnabled(false);
 		} else {
 			comboBox.setBackground(SwingRendererUtils.getTextBackgroundColor());
 		}
+
 		refreshUI();
+
+	}
+
+	protected String getValueText(Object value) {
+		if (value == null) {
+			String nullValueLabel = data.getNullValueLabel();
+			if (nullValueLabel == null) {
+				return "";
+			} else {
+				return nullValueLabel;
+			}
+		} else if (value == error) {
+			return ReflectionUIUtils.truncateNicely(ReflectionUIUtils.getPrettyErrorMessage(error), 50);
+		} else {
+			IEnumerationItemInfo itemInfo = enumType.getValueInfo(value);
+			String s;
+			if (itemInfo == null) {
+				s = "";
+			} else {
+				s = itemInfo.getCaption();
+			}
+			if (!possibleValues.contains(value)) {
+				s += INVALID_VALUE_SUFFIX;
+			}
+			return s;
+		}
+
+	}
+
+	protected Icon getValueIcon(Object value) {
+		if (value == null) {
+			return null;
+		} else if (value == error) {
+			return null;
+		} else {
+			IEnumerationItemInfo itemInfo = enumType.getValueInfo(value);
+			String s;
+			if (itemInfo == null) {
+				s = "";
+			} else {
+				s = itemInfo.getCaption();
+			}
+			Image iconImage = SwingRendererUtils.findIconImage(swingRenderer, itemInfo.getSpecificProperties());
+			if (iconImage == null) {
+				return null;
+			} else {
+				return SwingRendererUtils.getSmallIcon(iconImage);
+			}
+		}
 	}
 
 	@Override
 	public boolean displayError(String msg) {
-		return false;
+		SwingRendererUtils.displayErrorOnBorderAndTooltip(this, comboBox, msg, swingRenderer);
+		return true;
 	}
 
 	@Override
@@ -120,28 +179,56 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 
 	@Override
 	public boolean refreshUI() {
-		Object currentValue = data.getValue();
-		List<Object> possibleValues = new ArrayList<Object>(Arrays.asList(enumType.getPossibleValues()));
-		if (data.isNullable()) {
-			possibleValues.add(0, null);
+		List<Object> extendedPossibleValues = new ArrayList<Object>(possibleValues);
+		Object currentValue;
+		try {
+			currentValue = data.getValue();
+			error = null;
+			if (!possibleValues.contains(currentValue)) {
+				extendedPossibleValues.add(currentValue);
+			}
+		} catch (final Throwable t) {
+			currentValue = error = t;
+			extendedPossibleValues.add(error);
 		}
-		comboBox.setModel(new DefaultComboBoxModel(possibleValues.toArray()));
+		comboBox.setModel(new DefaultComboBoxModel(extendedPossibleValues.toArray()));
 		listenerDisabled = true;
 		try {
-			if (possibleValues.contains(currentValue)) {
-				comboBox.setSelectedItem(currentValue);
-			} else {
-				comboBox.setSelectedIndex(-1);
-			}
+			comboBox.setSelectedItem(currentValue);
 		} finally {
 			listenerDisabled = false;
 		}
+		final Object finalCurrentValue = currentValue;
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				if (error != null) {
+					swingRenderer.getReflectionUI().logError(error);
+					displayError(ReflectionUIUtils.getPrettyErrorMessage(error));
+				} else if (!possibleValues.contains(finalCurrentValue)) {
+					StringBuilder invalidValueMessage = new StringBuilder();
+					{
+						invalidValueMessage.append("Invalid enumeration value found:" + "\n- Enumeration Type: "
+								+ enumType + "\n- Value: " + "\n\t. '" + finalCurrentValue + "'\n- Expected Valid Values ("
+								+ possibleValues.size() + " item(s)):");
+						for (Object value : possibleValues) {
+							invalidValueMessage.append("\n\t. " + ((value == null) ? "<null>" : ("'" + value + "'")));
+						}
+					}
+					swingRenderer.getReflectionUI().logError(invalidValueMessage.toString());
+					displayError("");
+				} else {
+					displayError(null);
+				}
+			}
+
+		});
 		return true;
 	}
 
 	@Override
 	public boolean handlesModificationStackUpdate() {
-		return false;
+		return true;
 	}
 
 	@Override
