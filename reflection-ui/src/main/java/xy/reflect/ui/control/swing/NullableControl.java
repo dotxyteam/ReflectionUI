@@ -193,7 +193,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 			}
 
 			@Override
-			public boolean isObjectNullable() {
+			public boolean isObjectValueNullable() {
 				return false;
 			}
 
@@ -262,7 +262,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 				return data.getValue();
 			}
 		};
-		JPanel result = subFormBuilder.createEditorPanel();
+		JPanel result = subFormBuilder.createEditorPanel(true);
 		return result;
 	}
 

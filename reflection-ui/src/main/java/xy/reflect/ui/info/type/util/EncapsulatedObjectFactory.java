@@ -357,7 +357,9 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public String toString() {
-			return "Encapsulated [value=" + getValue() + "]";
+			Object result = getValue();
+			return "Encapsulated [value=" + ((result == null) ? "<null>" : (result.getClass() + ": " + result.toString()))
+					+ ", factory=" + EncapsulatedObjectFactory.this + "]";
 		}
 
 		@Override

@@ -73,7 +73,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			}
 
 			@Override
-			public boolean isObjectNullable() {
+			public boolean isObjectValueNullable() {
 				return data.isNullable();
 			}
 
@@ -194,7 +194,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			}
 
 		};
-		return typeEnumerationControlBuilder.createEditorPanel();
+		return typeEnumerationControlBuilder.createEditorPanel(true);
 	}
 
 	protected void refreshTypeEnumerationControl() {
@@ -240,7 +240,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			}
 
 			@Override
-			public boolean isObjectNullable() {
+			public boolean isObjectValueNullable() {
 				return false;
 			}
 
@@ -310,7 +310,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			}
 
 		};
-		return dynamicControlBuilder.createEditorPanel();
+		return dynamicControlBuilder.createEditorPanel(true);
 	}
 
 	protected void refreshDynamicControl() {

@@ -170,82 +170,87 @@ public class MethodAction extends AbstractAction {
 
 	protected void openMethodReturnValueWindow(final Component activatorComponent) {
 		final String windowTitle = ReflectionUIUtils.composeMessage(data.getCaption(), "Result");
+		AbstractEditorBuilder editorBuilder = new AbstractEditorBuilder() {
+
+			@Override
+			public Object getInitialObjectValue() {
+				return returnValue;
+			}
+
+			@Override
+			public boolean isObjectValueNullable() {
+				return true;
+			}
+
+			@Override
+			public boolean isObjectFormExpanded() {
+				return true;
+			}
+
+			public boolean canCommit() {
+				return false;
+			}
+
+			@Override
+			public IModification createCommitModification(Object newObjectValue) {
+				return null;
+			}
+
+			@Override
+			public SwingRenderer getSwingRenderer() {
+				return swingRenderer;
+			}
+
+			@Override
+			public ValueReturnMode getObjectValueReturnMode() {
+				return data.getValueReturnMode();
+			}
+
+			@Override
+			public String getEditorTitle() {
+				return windowTitle;
+			}
+
+			@Override
+			public String getEncapsulationTypeCaption() {
+				return windowTitle;
+			}
+
+			@Override
+			public Component getOwnerComponent() {
+				return activatorComponent;
+			}
+
+			@Override
+			public String getCumulatedModificationsTitle() {
+				return InvokeMethodModification.getTitle(data);
+			}
+
+			@Override
+			public IInfo getCumulatedModificationsTarget() {
+				return input.getModificationsTarget();
+			}
+
+			@Override
+			public IInfoFilter getObjectFormFilter() {
+				return IInfoFilter.NO_FILTER;
+			}
+
+			@Override
+			public ITypeInfo getObjectDeclaredType() {
+				return data.getReturnValueType();
+			}
+
+			@Override
+			public ModificationStack getParentModificationStack() {
+				return modificationStack;
+			}
+
+		};
 		if (retunValueWindowDetached) {
-			swingRenderer.openObjectFrame(returnValue);
+			editorBuilder.showFrame();
 		} else {
-			new AbstractEditorDialogBuilder() {
-
-				@Override
-				public Object getInitialObjectValue() {
-					return returnValue;
-				}
-
-				@Override
-				public boolean isObjectNullable() {
-					return true;
-				}
-
-				@Override
-				public boolean isObjectFormExpanded() {
-					return true;
-				}
-
-				@Override
-				public boolean canCommit() {
-					return false;
-				}
-
-				@Override
-				public IModification createCommitModification(Object newObjectValue) {
-					return null;
-				}
-
-				@Override
-				public SwingRenderer getSwingRenderer() {
-					return swingRenderer;
-				}
-
-				@Override
-				public ValueReturnMode getObjectValueReturnMode() {
-					return data.getValueReturnMode();
-				}
-
-				@Override
-				public String getEditorTitle() {
-					return windowTitle;
-				}
-
-				@Override
-				public Component getOwnerComponent() {
-					return activatorComponent;
-				}
-
-				@Override
-				public String getCumulatedModificationsTitle() {
-					return InvokeMethodModification.getTitle(data);
-				}
-
-				@Override
-				public IInfo getCumulatedModificationsTarget() {
-					return input.getModificationsTarget();
-				}
-
-				@Override
-				public IInfoFilter getObjectFormFilter() {
-					return IInfoFilter.NO_FILTER;
-				}
-
-				@Override
-				public ITypeInfo getObjectDeclaredType() {
-					return data.getReturnValueType();
-				}
-
-				@Override
-				public ModificationStack getParentModificationStack() {
-					return modificationStack;
-				}
-
-			}.showDialog();
+			editorBuilder.showDialog();
 		}
 	}
 

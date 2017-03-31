@@ -22,8 +22,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.swing.AbstractEditorDialogBuilder;
-import xy.reflect.ui.control.swing.StandardEditorDialogBuilder;
+import xy.reflect.ui.control.swing.AbstractEditorBuilder;
+import xy.reflect.ui.control.swing.StandardEditorBuilder;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.SwingRenderer.MethodControlPlaceHolder;
@@ -483,7 +483,7 @@ public class CustomizationTools {
 
 	protected void openCustomizationEditor(final Component activatorComponent, final Object customization,
 			final String impactedTypeName) {
-		AbstractEditorDialogBuilder dialogBuilder = new AbstractEditorDialogBuilder() {
+		AbstractEditorBuilder dialogBuilder = new AbstractEditorBuilder() {
 
 			ModificationStack dummyParentModificationStack = new ModificationStack(null);
 
@@ -491,9 +491,9 @@ public class CustomizationTools {
 			public Object getInitialObjectValue() {
 				return customization;
 			}
-
+			
 			@Override
-			public boolean isObjectNullable() {
+			public boolean isObjectValueNullable() {
 				return false;
 			}
 
@@ -602,6 +602,9 @@ public class CustomizationTools {
 							showReloadWarning = true;
 						}
 						if (field.getName().equals("validating")) {
+							showReloadWarning = true;
+						}
+						if (field.getName().equals("onlineHelp")) {
 							showReloadWarning = true;
 						}
 					}
@@ -865,7 +868,7 @@ public class CustomizationTools {
 			ColumnOrderItem orderItem = new ColumnOrderItem(c);
 			columnOrder.add(orderItem);
 		}
-		StandardEditorDialogBuilder dialogStatus = customizationToolsRenderer.openObjectDialog(activatorComponent,
+		StandardEditorBuilder dialogStatus = customizationToolsRenderer.openObjectDialog(activatorComponent,
 				columnOrder, "Columns Order", this.swingCustomizer.getCustomizationsIcon().getImage(), true, true);
 		if (dialogStatus.wasOkPressed()) {
 			columnOrder = (List<ColumnOrderItem>) dialogStatus.getCurrentObjectValue();

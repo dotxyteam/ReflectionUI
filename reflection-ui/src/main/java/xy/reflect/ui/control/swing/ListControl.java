@@ -1639,7 +1639,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			protected boolean perform(List<ItemPosition>[] toPostSelectHolder) {
-				AbstractEditorDialogBuilder subDialogBuilder = new AbstractEditorDialogBuilder() {
+				AbstractEditorBuilder subDialogBuilder = new AbstractEditorBuilder() {
 
 					@Override
 					public boolean isObjectFormExpanded() {
@@ -1647,7 +1647,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					}
 
 					@Override
-					public boolean isObjectNullable() {
+					public boolean isObjectValueNullable() {
 						return dynamicProperty.isNullable();
 					}
 
@@ -1912,7 +1912,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		if (detailsControl != null) {
 			swingRenderer.refreshAllFieldControls(detailsControl, false);
 		} else {
-			detailsControl = new ItemUIBuilder(detailsControlItemPosition).createEditorPanel();
+			detailsControl = new ItemUIBuilder(detailsControlItemPosition).createEditorPanel(true);
 			detailsArea.removeAll();
 			detailsArea.setLayout(new BorderLayout());
 			detailsArea.add(new JScrollPane(detailsControl), BorderLayout.CENTER);
@@ -2327,7 +2327,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	};
 
-	protected class ItemUIBuilder extends AbstractEditorDialogBuilder {
+	protected class ItemUIBuilder extends AbstractEditorBuilder {
 		protected ItemPosition itemPosition;
 
 		public ItemUIBuilder(ItemPosition itemPosition) {
@@ -2341,7 +2341,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public boolean isObjectNullable() {
+		public boolean isObjectValueNullable() {
 			return itemPosition.getContainingListType().isItemNullable();
 		}
 

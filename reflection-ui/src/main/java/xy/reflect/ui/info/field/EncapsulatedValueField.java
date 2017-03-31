@@ -1,6 +1,5 @@
 package xy.reflect.ui.info.field;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 
@@ -63,17 +62,7 @@ public class EncapsulatedValueField extends FieldInfoProxy {
 
 	@Override
 	public Object[] getValueOptions(Object object) {
-		Object[] result = super.getValueOptions(object);
-		if(result == null){
-			return null;
-		}	
-		result = Arrays.copyOf(result, result.length);
-		for(int i=0; i<result.length; i++){
-			Object option = result[i];
-			option = encapsulation.getInstance(Accessor.returning(option));
-			result[i] = option;
-		}
-		return result;
+		return null;
 	}
 
 	@Override

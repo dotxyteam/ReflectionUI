@@ -2736,6 +2736,7 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <onlineHelp>instanciation test</onlineHelp>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
@@ -2819,6 +2820,7 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <onlineHelp>nullable test</onlineHelp>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
@@ -2829,6 +2831,7 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <onlineHelp>simple boolean test</onlineHelp>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
@@ -2913,6 +2916,7 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <onlineHelp>Polymorphism test</onlineHelp>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
@@ -3242,6 +3246,7 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
+            <onlineHelp>Non share field customization test </onlineHelp>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
@@ -3404,6 +3409,13 @@
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>java.util.Date FieldAsGetter [field=theDate]()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
         <typeName>ReflectionUITest$Test</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3464,7 +3476,7 @@
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
-            <hidden>false</hidden>
+            <hidden>true</hidden>
             <displayedAsField>false</displayedAsField>
             <methodSignature>void verify()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -8036,6 +8048,39 @@
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Nullable - Test 2, fieldType=ReflectionUITest$Test2, fieldCaption=Test 2]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [typeCaption=Exception, fieldType=java.lang.Exception, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName>value</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <onlineHelp>Reflection UI test</onlineHelp>
+        <typeName>Encapsulation [typeCaption=Test, fieldType=ReflectionUITest$Test, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

@@ -37,7 +37,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JToolTip;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-
 import org.jdesktop.swingx.JXBusyLabel;
 
 import com.google.common.collect.MapMaker;
@@ -109,6 +108,8 @@ public class SwingRenderer {
 			.weakKeys().makeMap();
 	protected Map<JPanel, JTabbedPane> categoriesTabbedPaneByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, Boolean> busyIndicationDisabledByForm = new MapMaker().weakKeys().makeMap();
+	protected Map<JPanel, Boolean> refreshRequestQueuedByForm = new MapMaker().weakKeys().makeMap();
+	protected Map<JPanel, Boolean> refreshRequestExecutingByForm = new MapMaker().weakKeys().makeMap();
 
 	public SwingRenderer(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
@@ -149,6 +150,14 @@ public class SwingRenderer {
 
 	public Map<JPanel, Boolean> getFieldsUpdateListenerDisabledByForm() {
 		return fieldsUpdateListenerDisabledByForm;
+	}
+
+	protected Map<JPanel, Boolean> getRefreshRequestQueuedByForm() {
+		return refreshRequestQueuedByForm;
+	}
+
+	protected Map<JPanel, Boolean> getRefreshRequestExecutingByForm() {
+		return refreshRequestExecutingByForm;
 	}
 
 	public Map<String, InvocationData> getLastInvocationDataByMethodSignature() {
@@ -255,7 +264,7 @@ public class SwingRenderer {
 
 	public JFrame createFrame(Component content, String title, Image iconImage,
 			List<? extends Component> toolbarControls) {
-		final JFrame frame = new JFrame();
+		JFrame frame = new JFrame();
 		setupWindow(frame, content, toolbarControls, title, iconImage);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		return frame;
@@ -344,23 +353,9 @@ public class SwingRenderer {
 					if (Boolean.TRUE.equals(getFieldsUpdateListenerDisabledByForm().get(thisForm))) {
 						return;
 					}
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							refreshAllFieldControls(thisForm, false);
-							updateFormStatusBarInBackground(thisForm);
-							Object object = getObjectByForm().get(thisForm);
-							for (JPanel otherForm : getForms(object)) {
-								if (otherForm != thisForm) {
-									ModificationStack otherModifStack = getModificationStackByForm().get(otherForm);
-									getFieldsUpdateListenerDisabledByForm().put(otherForm, Boolean.TRUE);
-									otherModifStack.invalidate();
-									getFieldsUpdateListenerDisabledByForm().put(otherForm, Boolean.FALSE);
-								}
-							}
-						}
-					});
+					ensureFormGetsRefreshed(thisForm);
 				}
+
 			};
 
 			@Override
@@ -384,6 +379,65 @@ public class SwingRenderer {
 		result.setLayout(new BorderLayout());
 		fillForm(result);
 		return result;
+	}
+
+	public void ensureFormGetsRefreshed(final JPanel form) {
+		new Thread("Refresher[of=" + form + "]") {
+			@Override
+			public void run() {
+				if (isRefreshRequestQueued()) {
+					return;
+				}
+				setRefreshRequestQueued(true);
+				while (isRefreshRequestExecuting()) {
+					try {
+						sleep(100);
+					} catch (InterruptedException e) {
+						throw new ReflectionUIError(e);
+					}
+				}
+				setRefreshRequestQueued(false);
+				setRefreshRequestExecuting(true);
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							refreshAllFieldControls(form, false);
+							updateFormStatusBarInBackground(form);
+							Object object = getObjectByForm().get(form);
+							for (JPanel otherForm : getForms(object)) {
+								if (otherForm != form) {
+									if (otherForm.isDisplayable()) {
+										ModificationStack otherModifStack = getModificationStackByForm().get(otherForm);
+										getFieldsUpdateListenerDisabledByForm().put(otherForm, Boolean.TRUE);
+										otherModifStack.invalidate();
+										getFieldsUpdateListenerDisabledByForm().put(otherForm, Boolean.FALSE);
+									}
+								}
+							}
+						} finally {
+							setRefreshRequestExecuting(false);
+						}
+					}
+				});
+			}
+
+			private void setRefreshRequestExecuting(boolean b) {
+				getRefreshRequestExecutingByForm().put(form, b);
+			}
+
+			private void setRefreshRequestQueued(boolean b) {
+				getRefreshRequestQueuedByForm().put(form, b);
+			}
+
+			private boolean isRefreshRequestExecuting() {
+				return Boolean.TRUE.equals(getRefreshRequestExecutingByForm().get(form));
+			}
+
+			private boolean isRefreshRequestQueued() {
+				return Boolean.TRUE.equals(getRefreshRequestQueuedByForm().get(form));
+			}
+		}.start();
 	}
 
 	public Component createCustomFieldControl(IFieldControlInput input, boolean nullable) {
@@ -996,22 +1050,22 @@ public class SwingRenderer {
 		openObjectDialog(activatorComponent, error);
 	}
 
-	public StandardEditorDialogBuilder openObjectDialog(Component activatorComponent, Object object) {
+	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object) {
 		return openObjectDialog(activatorComponent, object, getObjectTitle(object), getObjectIconImage(object), false,
 				true);
 	}
 
-	public StandardEditorDialogBuilder openObjectDialog(Component activatorComponent, Object object, final String title,
+	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object, final String title,
 			final Image iconImage, final boolean cancellable, boolean modal) {
-		StandardEditorDialogBuilder dialogBuilder = getObjectDialogBuilder(activatorComponent, object, title, iconImage,
+		StandardEditorBuilder editorBuilder = getEditorBuilder(activatorComponent, object, title, iconImage,
 				cancellable);
-		showDialog(dialogBuilder.createDialog(), modal);
-		return dialogBuilder;
+		showDialog(editorBuilder.createDialog(), modal);
+		return editorBuilder;
 	}
 
-	public StandardEditorDialogBuilder getObjectDialogBuilder(Component activatorComponent, Object object,
-			final String title, final Image iconImage, final boolean cancellable) {
-		return new StandardEditorDialogBuilder(this, activatorComponent, object) {
+	public StandardEditorBuilder getEditorBuilder(Component activatorComponent, Object object, final String title,
+			final Image iconImage, final boolean cancellable) {
+		return new StandardEditorBuilder(this, activatorComponent, object) {
 
 			@Override
 			protected DialogBuilder createDelegateDialogBuilder() {
@@ -1037,7 +1091,12 @@ public class SwingRenderer {
 	}
 
 	public void openObjectFrame(Object object, String title, Image iconImage) {
-		JFrame frame = createObjectFrame(object, title, iconImage);
+		StandardEditorBuilder editorBuilder = getEditorBuilder(null, object, title, iconImage, false);
+		showFrame(editorBuilder.createFrame());
+
+	}
+
+	public void showFrame(JFrame frame) {
 		frame.setVisible(true);
 	}
 
@@ -1047,13 +1106,6 @@ public class SwingRenderer {
 
 	public void openObjectFrame(Object object) {
 		openObjectFrame(object, getObjectTitle(object), getObjectIconImage(object));
-	}
-
-	public JFrame createObjectFrame(Object object, String title, Image iconImage) {
-		StandardEditorDialogBuilder dialogBuilder = getObjectDialogBuilder(null, object, title, iconImage, false);
-		JPanel editorPanel = dialogBuilder.createEditorPanel();
-		JFrame frame = createFrame(editorPanel, title, iconImage, createFormCommonToolbarControls(editorPanel));
-		return frame;
 	}
 
 	@SuppressWarnings("unchecked")

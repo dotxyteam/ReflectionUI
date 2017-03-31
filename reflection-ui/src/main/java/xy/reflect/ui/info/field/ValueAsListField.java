@@ -69,6 +69,11 @@ public class ValueAsListField extends FieldInfoProxy {
 	}
 
 	@Override
+	public Object[] getValueOptions(Object object) {
+		return null;
+	}
+
+	@Override
 	public String toString() {
 		return "ValueAsListField [base=" + base + "]";
 	}

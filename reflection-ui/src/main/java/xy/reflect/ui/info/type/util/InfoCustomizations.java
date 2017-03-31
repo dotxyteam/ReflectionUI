@@ -29,6 +29,7 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.ValueAsListField;
 import xy.reflect.ui.info.field.EncapsulatedValueField;
+import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MethodAsField;
 import xy.reflect.ui.info.method.FieldAsGetter;
@@ -2654,7 +2655,7 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		@Override
-		protected List<IFieldInfo> getFields(ITypeInfo containingType) {
+		protected List<IFieldInfo> getFields(final ITypeInfo containingType) {
 			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
 			if (t != null) {
 				final List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(containingType));
@@ -2678,8 +2679,28 @@ public class InfoCustomizations implements Serializable {
 				}
 				for (int i = 0; i < result.size(); i++) {
 					IFieldInfo field = result.get(i);
-					FieldCustomization f = getFieldCustomization(t, field.getName());
+					final FieldCustomization f = getFieldCustomization(t, field.getName());
 					if (f != null) {
+						if (f.valueOptionsFieldName != null) {
+							field = new FieldInfoProxy(field) {
+								@Override
+								public Object[] getValueOptions(Object object) {
+									IFieldInfo valueOptionsfield = ReflectionUIUtils
+											.findInfoByName(containingType.getFields(), f.valueOptionsFieldName);
+									if (valueOptionsfield == null) {
+										throw new ReflectionUIError(
+												"Value options field not found: '" + f.valueOptionsFieldName + "'");
+									}
+									IListTypeInfo valueOptionsfieldType = (IListTypeInfo) valueOptionsfield.getType();
+									Object options = valueOptionsfield.getValue(object);
+									if (options == null) {
+										return null;
+									}
+									return valueOptionsfieldType.toArray(options);
+								}
+
+							};
+						}
 						if (f.displayedAsSingletonList) {
 							field = new ValueAsListField(reflectionUI, field);
 						}
@@ -2872,31 +2893,6 @@ public class InfoCustomizations implements Serializable {
 				}
 			}
 			return super.getOnlineHelp(method, containingType);
-		}
-
-		@Override
-		protected Object[] getValueOptions(Object object, IFieldInfo field, ITypeInfo containingType) {
-			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
-			if (t != null) {
-				FieldCustomization f = getFieldCustomization(t, field.getName());
-				if (f != null) {
-					if (f.valueOptionsFieldName != null) {
-						IFieldInfo valueOptionsfield = ReflectionUIUtils.findInfoByName(containingType.getFields(),
-								f.valueOptionsFieldName);
-						if (valueOptionsfield == null) {
-							throw new ReflectionUIError(
-									"Value options field not found: '" + f.valueOptionsFieldName + "'");
-						}
-						IListTypeInfo valueOptionsfieldType = (IListTypeInfo) valueOptionsfield.getType();
-						Object options = valueOptionsfield.getValue(object);
-						if (options == null) {
-							return null;
-						}
-						return valueOptionsfieldType.toArray(options);
-					}
-				}
-			}
-			return super.getValueOptions(object, field, containingType);
 		}
 
 	}

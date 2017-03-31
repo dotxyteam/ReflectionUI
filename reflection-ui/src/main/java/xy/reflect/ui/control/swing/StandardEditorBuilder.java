@@ -25,14 +25,14 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 @SuppressWarnings("unused")
-public class StandardEditorDialogBuilder extends AbstractEditorDialogBuilder {
+public class StandardEditorBuilder extends AbstractEditorBuilder {
 
 	protected SwingRenderer swingRenderer;
 	protected Component ownerComponent;
 	protected Object rootObject;
 	protected ITypeInfo rootObjectType;
 
-	public StandardEditorDialogBuilder(SwingRenderer swingRenderer, Component ownerComponent, Object rootObject) {
+	public StandardEditorBuilder(SwingRenderer swingRenderer, Component ownerComponent, Object rootObject) {
 		this.swingRenderer = swingRenderer;
 		this.ownerComponent = ownerComponent;
 		this.rootObject = rootObject;
@@ -94,7 +94,7 @@ public class StandardEditorDialogBuilder extends AbstractEditorDialogBuilder {
 	}
 
 	@Override
-	public boolean isObjectNullable() {
+	public boolean isObjectValueNullable() {
 		return false;
 	}
 

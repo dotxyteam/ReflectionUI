@@ -46,7 +46,7 @@ public abstract class AbstractEditorPanelBuilder {
 
 	public abstract ValueReturnMode getObjectValueReturnMode();
 
-	public abstract boolean isObjectNullable();
+	public abstract boolean isObjectValueNullable();
 
 	public abstract Object getInitialObjectValue();
 
@@ -95,14 +95,18 @@ public abstract class AbstractEditorPanelBuilder {
 		return getEncapsulation().getInstance(encapsulatedObjectValueAccessor);
 	}
 
+	public boolean canReplaceObjectValue() {
+		return canCommit();
+	}
+
 	public EncapsulatedObjectFactory getEncapsulation() {
 		EncapsulatedObjectFactory result = new EncapsulatedObjectFactory(getSwingRenderer().getReflectionUI(),
 				getEncapsulatedFieldType());
 		result.setTypeCaption(getEncapsulationTypeCaption());
 		result.setTypeModificationStackAccessible(!isInReadOnlyMode());
 		result.setFieldCaption(getEncapsulatedFieldCaption());
-		result.setFieldGetOnly(isInReadOnlyMode());
-		result.setFieldNullable(isObjectNullable());
+		result.setFieldGetOnly(isInReadOnlyMode() || !canReplaceObjectValue());
+		result.setFieldNullable(isObjectValueNullable());
 		result.setFieldValueReturnMode(
 				(!isInReadOnlyMode()) ? ValueReturnMode.DIRECT_OR_PROXY : ValueReturnMode.CALCULATED);
 		Map<String, Object> properties = new HashMap<String, Object>();
@@ -117,10 +121,12 @@ public abstract class AbstractEditorPanelBuilder {
 	}
 
 	public boolean isInReadOnlyMode() {
-		if(getParentModificationStack() == null){
-			return false;
+		if (isLinkedToParent()) {
+			if (!canPotentiallyModifyParent()) {
+				return true;
+			}
 		}
-		return !canPotentiallyModifyParent();
+		return false;
 	}
 
 	public String getEncapsulatedFieldCaption() {
@@ -154,7 +160,9 @@ public abstract class AbstractEditorPanelBuilder {
 		}
 		Object object = getCurrentObjectValue();
 		if (object == null) {
-			throw new ReflectionUIError();
+			getSwingRenderer().getReflectionUI()
+					.logError("Invalid value: <null> retrieved from a non-nullable field: " + encapsulatedObjectField);
+			return false;
 		}
 		ITypeInfo actualObjectType = getSwingRenderer().getReflectionUI()
 				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(object));
@@ -164,25 +172,31 @@ public abstract class AbstractEditorPanelBuilder {
 		return true;
 	}
 
-	public JPanel createEditorPanel() {
+	public JPanel createEditorPanel(boolean realTimeLinkWithParent) {
 		Object encapsulated = getEncapsulatedObject();
 		JPanel result = getSwingRenderer().createForm(encapsulated);
-		if (canPotentiallyModifyParent()) {
-			forwardEditorPanelModificationsToParent(result);
-		}
-		if (isInReadOnlyMode()) {
-			refreshEditorPanelOnModification(result);
+		if (realTimeLinkWithParent) {
+			if (canPotentiallyModifyParent()) {
+				forwardEditorPanelModificationsToParent(result);
+			}
+			if (isInReadOnlyMode()) {
+				refreshEditorPanelOnModification(result);
+			}
 		}
 		return result;
 	}
 
 	public boolean canPotentiallyModifyParent() {
-		if(getParentModificationStack() == null){
+		if (!isLinkedToParent()) {
 			return false;
 		}
 		ensureObjectValueIsInitialized();
 		return ReflectionUIUtils.canPotentiallyIntegrateSubModifications(getSwingRenderer().getReflectionUI(),
 				initialObjectValue, getObjectValueReturnMode(), canCommit());
+	}
+
+	protected boolean isLinkedToParent() {
+		return getParentModificationStack() != null;
 	}
 
 	protected void refreshEditorPanelOnModification(final JPanel panel) {

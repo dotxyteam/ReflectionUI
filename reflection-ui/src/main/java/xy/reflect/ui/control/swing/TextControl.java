@@ -88,7 +88,12 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 				} finally {
 					listenerDisabled = listenerWasDisabled;
 				}
-				onTextChange(getText());
+				try {
+					onTextChange(getText());
+				} catch (Throwable t) {
+					swingRenderer.getReflectionUI().logError(t);
+					displayError(ReflectionUIUtils.getPrettyErrorMessage(t));
+				}
 			}
 
 		};

@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import xy.reflect.ui.info.IInfo;
@@ -17,9 +18,9 @@ import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public abstract class AbstractEditorDialogBuilder extends AbstractEditorPanelBuilder {
+public abstract class AbstractEditorBuilder extends AbstractEditorPanelBuilder {
 
-	protected DialogBuilder delegate;
+	protected DialogBuilder dialogBuilder;
 	protected JPanel editorPanel;
 	protected boolean parentModificationStackImpacted = false;
 
@@ -58,38 +59,56 @@ public abstract class AbstractEditorDialogBuilder extends AbstractEditorPanelBui
 		return Collections.emptyList();
 	}
 
+	protected List<? extends Component> createAnyWindowToolbarControls() {
+		List<Component> result = new ArrayList<Component>();
+		List<Component> commonToolbarControls = getSwingRenderer().createFormCommonToolbarControls(editorPanel);
+		if (commonToolbarControls != null) {
+			result.addAll(commonToolbarControls);
+		}
+		List<Component> additionalToolbarComponents = getAdditionalToolbarComponents();
+		if (additionalToolbarComponents != null) {
+			result.addAll(additionalToolbarComponents);
+		}
+		return result;
+	}
+
+	public void showFrame() {
+		getSwingRenderer().showFrame(createFrame());
+	}
+
+	public JFrame createFrame() {
+		editorPanel = createEditorPanel(true);
+		JFrame frame = new JFrame();
+		getSwingRenderer().setupWindow(frame, editorPanel, createAnyWindowToolbarControls(), getEditorTitle(),
+				getObjectIconImage());
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		return frame;
+	}
+
 	protected DialogBuilder createDelegateDialogBuilder() {
 		return new DialogBuilder(getSwingRenderer(), getOwnerComponent());
 	}
 
 	public JDialog createDialog() {
-		Object encapsulated = getEncapsulatedObject();
-		editorPanel = getSwingRenderer().createForm(encapsulated);
+		editorPanel = createEditorPanel(false);
 
-		delegate = createDelegateDialogBuilder();
-		delegate.setContentComponent(editorPanel);
-		delegate.setTitle(getEditorTitle());
-		delegate.setIconImage(getObjectIconImage());
+		dialogBuilder = createDelegateDialogBuilder();
+		dialogBuilder.setContentComponent(editorPanel);
+		dialogBuilder.setTitle(getEditorTitle());
+		dialogBuilder.setIconImage(getObjectIconImage());
 
-		List<Component> toolbarControls = new ArrayList<Component>();
-		List<Component> commonToolbarControls = getSwingRenderer().createFormCommonToolbarControls(editorPanel);
-		if (commonToolbarControls != null) {
-			toolbarControls.addAll(commonToolbarControls);
+		List<Component> toolbarControls = new ArrayList<Component>(createAnyWindowToolbarControls());
+		{
+			if (isCancellable()) {
+				List<JButton> okCancelButtons = dialogBuilder.createStandardOKCancelDialogButtons(getOKCaption(),
+						getCancelCaption());
+				toolbarControls.addAll(okCancelButtons);
+			} else {
+				toolbarControls.add(dialogBuilder.createDialogClosingButton(getCloseCaption(), null));
+			}
+			dialogBuilder.setToolbarComponents(toolbarControls);
 		}
-		List<Component> additionalToolbarComponents = getAdditionalToolbarComponents();
-		if (additionalToolbarComponents != null) {
-			toolbarControls.addAll(additionalToolbarComponents);
-		}
-		if (isCancellable()) {
-			List<JButton> okCancelButtons = delegate.createStandardOKCancelDialogButtons(getOKCaption(),
-					getCancelCaption());
-			toolbarControls.addAll(okCancelButtons);
-		} else {
-			toolbarControls.add(delegate.createDialogClosingButton(getCloseCaption(), null));
-		}
-		delegate.setToolbarComponents(toolbarControls);
-
-		return delegate.createDialog();
+		return dialogBuilder.createDialog();
 	}
 
 	public void showDialog() {
@@ -115,8 +134,7 @@ public abstract class AbstractEditorDialogBuilder extends AbstractEditorPanelBui
 		} else {
 			commitModif = createCommitModification(currentValue);
 		}
-		boolean childModifAccepted = isNewObjectValueAccepted(currentValue)
-				&& ((!isCancellable()) || wasOkPressed());
+		boolean childModifAccepted = isNewObjectValueAccepted(currentValue) && ((!isCancellable()) || wasOkPressed());
 		String compositeModifTitle = getCumulatedModificationsTitle();
 		parentModificationStackImpacted = ReflectionUIUtils.integrateSubModifications(
 				getSwingRenderer().getReflectionUI(), parentModifStack, childModifStack, childModifAccepted,
@@ -124,17 +142,17 @@ public abstract class AbstractEditorDialogBuilder extends AbstractEditorPanelBui
 	}
 
 	public JDialog getCreatedEditor() {
-		if (delegate == null) {
+		if (dialogBuilder == null) {
 			return null;
 		}
-		return delegate.getCreatedDialog();
+		return dialogBuilder.getCreatedDialog();
 	}
 
 	public boolean wasOkPressed() {
-		if (delegate == null) {
+		if (dialogBuilder == null) {
 			return false;
 		}
-		return delegate.wasOkPressed();
+		return dialogBuilder.wasOkPressed();
 	}
 
 	public ModificationStack getSubObjectModificationStack() {

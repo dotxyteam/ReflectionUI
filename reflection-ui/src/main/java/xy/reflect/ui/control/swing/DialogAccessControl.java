@@ -153,15 +153,15 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	protected void openDialog() {
-		AbstractEditorDialogBuilder subDialogBuilder = getSubDialogBuilder();
+		AbstractEditorBuilder subDialogBuilder = getSubDialogBuilder();
 		subDialogBuilder.showDialog();
 		if (subDialogBuilder.isParentModificationStackImpacted()) {
 			updateControls();
 		}
 	}
 
-	protected AbstractEditorDialogBuilder getSubDialogBuilder() {
-		return new AbstractEditorDialogBuilder() {
+	protected AbstractEditorBuilder getSubDialogBuilder() {
+		return new AbstractEditorBuilder() {
 
 			@Override
 			public boolean isObjectFormExpanded() {
@@ -169,7 +169,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 			}
 
 			@Override
-			public boolean isObjectNullable() {
+			public boolean isObjectValueNullable() {
 				return false;
 			}
 
