@@ -1,4 +1,3 @@
-- optimize all fields refresh on modification
 - check how duplicate field names are handled
 - ListControl calls too much list.toArray(): optimize
 . allow to execute dynamic actions or change dynamic properties on 
@@ -13,9 +12,6 @@ ex: embedded form tabbed pane selection
 - allow to customize icons for:
 	. fields: can be postponed as field controls need to be updated
 - icon on title bar???
-- ArrayAsEnum often crashes because an item is not in the array:
-=> make it more flexible
-
 - allow to customize online help on list properties/actions
 - allow to override default tooltips help on method controls
 - provide swingRenderer.openAutoRollbackableDialog()
