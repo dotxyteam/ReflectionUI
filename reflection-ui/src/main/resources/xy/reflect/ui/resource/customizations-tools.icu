@@ -2548,6 +2548,9 @@
     </typeCustomizations>
     <typeCustomizations>
         <abstractForced>false</abstractForced>
+        <customFieldsOrder>enumerationTypeName</customFieldsOrder>
+        <customFieldsOrder>staticEnumerationForced</customFieldsOrder>
+        <customFieldsOrder>itemCustomizations</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Enumeration Type</customFieldCaption>
@@ -2568,6 +2571,17 @@
             <fieldName>itemCustomizations</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Static Enumeration</customFieldCaption>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName>staticEnumerationForced</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -2919,6 +2933,13 @@
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>o</parameterName>
             </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsField>false</displayedAsField>
+            <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization new()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
@@ -3727,7 +3748,28 @@
             <fieldName>parametersCustomizations</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
-            <specificTypeCustomizations/>
+            <specificTypeCustomizations>
+                <listCustomizations>
+                    <columnsCustomOrder>parameterName</columnsCustomOrder>
+                    <columnsCustomOrder>customParameterCaption</columnsCustomOrder>
+                    <columnsCustomOrder>hidden</columnsCustomOrder>
+                    <columnsCustomOrder>nullableFacetHidden</columnsCustomOrder>
+                    <columnsCustomOrder>onlineHelp</columnsCustomOrder>
+                    <editOptions>
+                        <itemCreationEnabled>true</itemCreationEnabled>
+                        <itemDeletionEnabled>true</itemDeletionEnabled>
+                        <itemMoveEnabled>true</itemMoveEnabled>
+                    </editOptions>
+                    <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
+                    <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization</itemTypeName>
+                    <listSorted>false</listSorted>
+                    <listTypeName>java.util.List</listTypeName>
+                    <positionColumnAdded>false</positionColumnAdded>
+                    <stringValueColumnAdded>false</stringValueColumnAdded>
+                </listCustomizations>
+            </specificTypeCustomizations>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
@@ -3842,8 +3884,8 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <customFieldsOrder>parameterName</customFieldsOrder>
-        <customFieldsOrder>hidden</customFieldsOrder>
         <customFieldsOrder>customParameterCaption</customFieldsOrder>
+        <customFieldsOrder>hidden</customFieldsOrder>
         <customFieldsOrder>nullableFacetHidden</customFieldsOrder>
         <customFieldsOrder>onlineHelp</customFieldsOrder>
         <fieldsCustomizations>
@@ -4023,7 +4065,37 @@
             <fieldName>fieldsCustomizations</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
-            <specificTypeCustomizations/>
+            <specificTypeCustomizations>
+                <listCustomizations>
+                    <columnsCustomOrder>fieldName</columnsCustomOrder>
+                    <columnsCustomOrder>customFieldCaption</columnsCustomOrder>
+                    <columnsCustomOrder>hidden</columnsCustomOrder>
+                    <columnsCustomOrder>getOnlyForced</columnsCustomOrder>
+                    <columnsCustomOrder>nullableFacetHidden</columnsCustomOrder>
+                    <columnsCustomOrder>category</columnsCustomOrder>
+                    <columnsCustomOrder>onlineHelp</columnsCustomOrder>
+                    <columnsCustomOrder>expandSubForm</columnsCustomOrder>
+                    <columnsCustomOrder>displayedAsMethods</columnsCustomOrder>
+                    <columnsCustomOrder>displayedAsSingletonList</columnsCustomOrder>
+                    <columnsCustomOrder>displayedEncapsulated</columnsCustomOrder>
+                    <columnsCustomOrder>valueOptionsFieldName</columnsCustomOrder>
+                    <columnsCustomOrder>nullValueLabel</columnsCustomOrder>
+                    <columnsCustomOrder>customValueReturnMode</columnsCustomOrder>
+                    <editOptions>
+                        <itemCreationEnabled>true</itemCreationEnabled>
+                        <itemDeletionEnabled>true</itemDeletionEnabled>
+                        <itemMoveEnabled>true</itemMoveEnabled>
+                    </editOptions>
+                    <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
+                    <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization</itemTypeName>
+                    <listSorted>false</listSorted>
+                    <listTypeName>java.util.List</listTypeName>
+                    <positionColumnAdded>false</positionColumnAdded>
+                    <stringValueColumnAdded>false</stringValueColumnAdded>
+                </listCustomizations>
+            </specificTypeCustomizations>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -4061,7 +4133,34 @@
             <fieldName>methodsCustomizations</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
-            <specificTypeCustomizations/>
+            <specificTypeCustomizations>
+                <listCustomizations>
+                    <columnsCustomOrder>methodSignature</columnsCustomOrder>
+                    <columnsCustomOrder>customMethodCaption</columnsCustomOrder>
+                    <columnsCustomOrder>hidden</columnsCustomOrder>
+                    <columnsCustomOrder>readOnlyForced</columnsCustomOrder>
+                    <columnsCustomOrder>category</columnsCustomOrder>
+                    <columnsCustomOrder>onlineHelp</columnsCustomOrder>
+                    <columnsCustomOrder>validating</columnsCustomOrder>
+                    <columnsCustomOrder>customValueReturnMode</columnsCustomOrder>
+                    <columnsCustomOrder>parametersCustomizations</columnsCustomOrder>
+                    <columnsCustomOrder>nullReturnValueLabel</columnsCustomOrder>
+                    <columnsCustomOrder>displayedAsField</columnsCustomOrder>
+                    <editOptions>
+                        <itemCreationEnabled>true</itemCreationEnabled>
+                        <itemDeletionEnabled>true</itemDeletionEnabled>
+                        <itemMoveEnabled>true</itemMoveEnabled>
+                    </editOptions>
+                    <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
+                    <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization</itemTypeName>
+                    <listSorted>false</listSorted>
+                    <listTypeName>java.util.List</listTypeName>
+                    <positionColumnAdded>false</positionColumnAdded>
+                    <stringValueColumnAdded>false</stringValueColumnAdded>
+                </listCustomizations>
+            </specificTypeCustomizations>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>

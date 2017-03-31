@@ -21,6 +21,11 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements IEnu
 	}
 
 	@Override
+	public boolean isDynamicEnumeration() {
+		return false;
+	}
+
+	@Override
 	public boolean isImmutable() {
 		return true;
 	}

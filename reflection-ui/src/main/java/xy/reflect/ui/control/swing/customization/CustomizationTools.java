@@ -174,10 +174,17 @@ public class CustomizationTools {
 						if ((object instanceof AbstractMemberCustomization) && field.getName().equals("category")) {
 							for (TypeCustomization tc : CustomizationTools.this.swingCustomizer.getInfoCustomizations()
 									.getTypeCustomizations()) {
-								if (tc.getFieldsCustomizations().contains(object)
-										|| tc.getMethodsCustomizations().contains(object)) {
-									List<CustomizationCategory> categories = tc.getMemberCategories();
-									return categories.toArray(new CustomizationCategory[categories.size()]);
+								for (FieldCustomization fc : tc.getFieldsCustomizations()) {
+									if (fc == object) {
+										List<CustomizationCategory> categories = tc.getMemberCategories();
+										return categories.toArray(new CustomizationCategory[categories.size()]);
+									}
+								}
+								for (MethodCustomization mc : tc.getMethodsCustomizations()) {
+									if (mc == object) {
+										List<CustomizationCategory> categories = tc.getMemberCategories();
+										return categories.toArray(new CustomizationCategory[categories.size()]);
+									}
 								}
 							}
 							throw new ReflectionUIError();
@@ -404,8 +411,8 @@ public class CustomizationTools {
 		final ITypeInfo customizedType = this.swingCustomizer.getReflectionUI()
 				.getTypeInfo(this.swingCustomizer.getReflectionUI().getTypeInfoSource(object));
 		final JButton result = createToolAccessButton(this.swingCustomizer.getCustomizationsIcon());
-		result.setToolTipText(customizationToolsRenderer
-				.prepareStringToDisplay("Customize the type <" + customizedType.getName() + "> display"));
+		result.setToolTipText(
+				customizationToolsRenderer.prepareStringToDisplay(customizedType.getName() + " (Customize Display)"));
 		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -617,8 +624,8 @@ public class CustomizationTools {
 	public Component createFieldInfoCustomizer(final InfoCustomizations infoCustomizations,
 			final FieldControlPlaceHolder fieldControlPlaceHolder) {
 		final JButton result = createToolAccessButton(this.swingCustomizer.getCustomizationsIcon());
-		SwingRendererUtils.setMultilineToolTipText(result,
-				customizationToolsRenderer.prepareStringToDisplay("Customize this field display"));
+		SwingRendererUtils.setMultilineToolTipText(result, customizationToolsRenderer
+				.prepareStringToDisplay(fieldControlPlaceHolder.getField().getName() + " (Customize Display)"));
 		result.addActionListener(new ActionListener() {
 
 			private ITypeInfo getParentFormObjectCustomizedType() {
@@ -632,7 +639,7 @@ public class CustomizationTools {
 			}
 
 			private ITypeInfo getFieldType() {
-				return fieldControlPlaceHolder.getField().getType();
+				return fieldControlPlaceHolder.getControlData().getType();
 			}
 
 			private FieldCustomization getFieldCustomization() {
@@ -651,7 +658,7 @@ public class CustomizationTools {
 
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								hideField(result, getParentFormObjectCustomizedType(), getFieldName());
+								hideField(fieldControlPlaceHolder, getParentFormObjectCustomizedType(), getFieldName());
 							}
 						});
 				popupMenu.add(
@@ -660,7 +667,8 @@ public class CustomizationTools {
 
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								moveField(result, getParentFormObjectCustomizedType(), getFieldName(), -1);
+								moveField(fieldControlPlaceHolder, getParentFormObjectCustomizedType(), getFieldName(),
+										-1);
 							}
 						});
 				popupMenu.add(new AbstractAction(
@@ -669,7 +677,7 @@ public class CustomizationTools {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						moveField(result, getParentFormObjectCustomizedType(), getFieldName(), 1);
+						moveField(fieldControlPlaceHolder, getParentFormObjectCustomizedType(), getFieldName(), 1);
 					}
 				});
 				popupMenu.add(new AbstractAction(
@@ -678,7 +686,8 @@ public class CustomizationTools {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						moveField(result, getParentFormObjectCustomizedType(), getFieldName(), Short.MIN_VALUE);
+						moveField(fieldControlPlaceHolder, getParentFormObjectCustomizedType(), getFieldName(),
+								Short.MIN_VALUE);
 					}
 				});
 				popupMenu.add(new AbstractAction(
@@ -687,7 +696,8 @@ public class CustomizationTools {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						moveField(result, getParentFormObjectCustomizedType(), getFieldName(), Short.MAX_VALUE);
+						moveField(fieldControlPlaceHolder, getParentFormObjectCustomizedType(), getFieldName(),
+								Short.MAX_VALUE);
 					}
 				});
 				popupMenu.add(new AbstractAction(
@@ -696,16 +706,17 @@ public class CustomizationTools {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						openTypeCustomizationDialog(result, getFieldCustomization().getSpecificTypeCustomizations(),
-								getFieldType());
+						openTypeCustomizationDialog(fieldControlPlaceHolder,
+								getFieldCustomization().getSpecificTypeCustomizations(), getFieldType());
 					}
 				});
 				if (getFieldType() instanceof IListTypeInfo) {
 					popupMenu.add(createListInfoCustomizer(getFieldCustomization().getSpecificTypeCustomizations(),
-							(IListTypeInfo) getFieldType()));
+							fieldControlPlaceHolder, (IListTypeInfo) getFieldType()));
 				}
 				if (getFieldType() instanceof IEnumerationTypeInfo) {
-					popupMenu.add(createEnumerationCustomizer(getFieldCustomization().getSpecificTypeCustomizations(),
+					popupMenu.add(createEnumerationCustomizer(fieldControlPlaceHolder,
+							getFieldCustomization().getSpecificTypeCustomizations(),
 							(IEnumerationTypeInfo) getFieldType()));
 				}
 				if (swingCustomizer.getCustomizationOptions().areFieldSharedTypeOptionsDisplayed()) {
@@ -718,16 +729,16 @@ public class CustomizationTools {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							openTypeCustomizationDialog(result, infoCustomizations, getFieldType());
+							openTypeCustomizationDialog(fieldControlPlaceHolder, infoCustomizations, getFieldType());
 						}
 					});
 					if (getFieldType() instanceof IListTypeInfo) {
-						sharedTypeInfoSubMenu
-								.add(createListInfoCustomizer(infoCustomizations, (IListTypeInfo) getFieldType()));
+						sharedTypeInfoSubMenu.add(createListInfoCustomizer(infoCustomizations, fieldControlPlaceHolder,
+								(IListTypeInfo) getFieldType()));
 					}
 					if (getFieldType() instanceof IEnumerationTypeInfo) {
-						sharedTypeInfoSubMenu.add(
-								createEnumerationCustomizer(infoCustomizations, (IEnumerationTypeInfo) getFieldType()));
+						sharedTypeInfoSubMenu.add(createEnumerationCustomizer(fieldControlPlaceHolder,
+								infoCustomizations, (IEnumerationTypeInfo) getFieldType()));
 					}
 				}
 				popupMenu.add(new AbstractAction(
@@ -736,8 +747,8 @@ public class CustomizationTools {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						openFieldCutomizationDialog(result, infoCustomizations, getParentFormObjectCustomizedType(),
-								getFieldName());
+						openFieldCutomizationDialog(fieldControlPlaceHolder, infoCustomizations,
+								getParentFormObjectCustomizedType(), getFieldName());
 					}
 				});
 				showMenu(popupMenu, result);
@@ -748,15 +759,15 @@ public class CustomizationTools {
 	}
 
 	protected JMenuItem createListInfoCustomizer(final InfoCustomizations infoCustomizations,
-			final IListTypeInfo customizedListType) {
-		final JMenu result = new JMenu(this.swingCustomizer.prepareStringToDisplay("List"));
+			final FieldControlPlaceHolder fieldControlPlaceHolder, final IListTypeInfo customizedListType) {
+		JMenu result = new JMenu(this.swingCustomizer.prepareStringToDisplay("List"));
 		{
 			result.add(new AbstractAction(this.swingCustomizer.prepareStringToDisplay("Move Columns...")) {
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					openListColumnsOrderDialog(result, infoCustomizations, customizedListType);
+					openListColumnsOrderDialog(fieldControlPlaceHolder, infoCustomizations, customizedListType);
 				}
 			});
 			if (customizedListType.getItemType() != null) {
@@ -765,7 +776,8 @@ public class CustomizationTools {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						openTypeCustomizationDialog(result, infoCustomizations, customizedListType.getItemType());
+						openTypeCustomizationDialog(fieldControlPlaceHolder, infoCustomizations,
+								customizedListType.getItemType());
 					}
 				});
 			}
@@ -774,23 +786,23 @@ public class CustomizationTools {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					openListCutomizationDialog(result, infoCustomizations, customizedListType);
+					openListCutomizationDialog(fieldControlPlaceHolder, infoCustomizations, customizedListType);
 				}
 			});
 		}
 		return result;
 	}
 
-	protected JMenuItem createEnumerationCustomizer(final InfoCustomizations infoCustomizations,
-			final IEnumerationTypeInfo customizedEnumType) {
-		final JMenu result = new JMenu(this.swingCustomizer.prepareStringToDisplay("Enumeration"));
+	protected JMenuItem createEnumerationCustomizer(final FieldControlPlaceHolder fieldControlPlaceHolder,
+			final InfoCustomizations infoCustomizations, final IEnumerationTypeInfo customizedEnumType) {
+		JMenu result = new JMenu(this.swingCustomizer.prepareStringToDisplay("Enumeration"));
 		{
 			result.add(new AbstractAction(this.swingCustomizer.prepareStringToDisplay("More Options...")) {
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					openEnumerationCutomizationDialog(result, infoCustomizations, customizedEnumType);
+					openEnumerationCutomizationDialog(fieldControlPlaceHolder, infoCustomizations, customizedEnumType);
 				}
 			});
 		}
@@ -928,8 +940,8 @@ public class CustomizationTools {
 	public Component createMethodInfoCustomizer(final InfoCustomizations infoCustomizations,
 			final MethodControlPlaceHolder methodControlPlaceHolder) {
 		final JButton result = createToolAccessButton(this.swingCustomizer.getCustomizationsIcon());
-		SwingRendererUtils.setMultilineToolTipText(result,
-				customizationToolsRenderer.prepareStringToDisplay("Customize this method display"));
+		SwingRendererUtils.setMultilineToolTipText(result, customizationToolsRenderer.prepareStringToDisplay(
+				ReflectionUIUtils.getMethodSignature(methodControlPlaceHolder.getMethod()) + " (Customize Display)"));
 		result.addActionListener(new ActionListener() {
 
 			private ITypeInfo getParentFormObjectCustomizedType() {

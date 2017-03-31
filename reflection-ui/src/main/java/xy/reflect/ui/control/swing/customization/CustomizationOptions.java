@@ -18,7 +18,7 @@ public class CustomizationOptions {
 	protected AWTEventListener openWindowListener;
 
 	protected final TreeSet<String> hiddenCustomizationToolsTypeNames = new TreeSet<String>();
-	protected boolean fieldSharedTypeOptionsDisplayed = false;
+	protected boolean fieldSharedTypeOptionsDisplayed = true;
 
 	public CustomizationOptions(SwingCustomizer swingCustomizer) {
 		this.swingCustomizer = swingCustomizer;

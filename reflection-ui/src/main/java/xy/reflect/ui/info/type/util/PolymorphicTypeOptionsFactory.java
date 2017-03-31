@@ -11,7 +11,7 @@ import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class PolymorphicTypeOptionsFactory extends ArrayAsEnumerationFactory {
+public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 
 	protected ITypeInfo polymorphicType;
 
@@ -52,7 +52,7 @@ public class PolymorphicTypeOptionsFactory extends ArrayAsEnumerationFactory {
 
 	public List<ITypeInfo> getTypeOptions() {
 		List<ITypeInfo> result = new ArrayList<ITypeInfo>();
-		for (Object arrayItem : array) {
+		for (Object arrayItem : iterable) {
 			result.add((ITypeInfo) arrayItem);
 		}
 		return result;

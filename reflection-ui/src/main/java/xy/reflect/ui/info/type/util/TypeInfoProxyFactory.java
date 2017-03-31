@@ -260,6 +260,10 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return type.getPossibleValues();
 	}
 
+	protected boolean isDynamicEnumeration(IEnumerationTypeInfo type) {
+		return type.isDynamicEnumeration();
+	}
+
 	protected void replaceContent(IListTypeInfo type, Object listValue, Object[] array) {
 		type.replaceContent(listValue, array);
 	}
@@ -729,6 +733,10 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 			super(type);
 		}
 
+		@Override
+		public boolean isDynamicEnumeration() {
+			return TypeInfoProxyFactory.this.isDynamicEnumeration((IEnumerationTypeInfo) base);
+		}
 		@Override
 		public Object[] getPossibleValues() {
 			return TypeInfoProxyFactory.this.getPossibleValues((IEnumerationTypeInfo) base);

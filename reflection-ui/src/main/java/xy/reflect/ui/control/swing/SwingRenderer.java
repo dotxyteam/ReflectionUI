@@ -58,7 +58,7 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.ArrayAsEnumerationField;
+import xy.reflect.ui.info.field.ValueOptionsAsEnumerationField;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.DefaultConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -71,7 +71,7 @@ import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory;
+import xy.reflect.ui.info.type.util.GenericEnumerationFactory;
 import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
 import xy.reflect.ui.info.type.util.FilterredTypeFactory;
 import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
@@ -846,7 +846,7 @@ public class SwingRenderer {
 				IMethodInfo smallerConstructor = workingConstructors.get(0);
 				return smallerConstructor.invoke(null, new InvocationData());
 			} else {
-				final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(reflectionUI,
+				final GenericEnumerationFactory enumFactory = new GenericEnumerationFactory(reflectionUI,
 						workingConstructors.toArray(), "ConstructorSelection [type=" + type.getName() + "]", "") {
 					protected String getItemCaption(Object choice) {
 						return DefaultConstructorInfo.getDescription((IMethodInfo) choice);
@@ -1062,7 +1062,7 @@ public class SwingRenderer {
 		if (choices.size() == 0) {
 			throw new ReflectionUIError();
 		}
-		final ArrayAsEnumerationFactory enumFactory = new ArrayAsEnumerationFactory(reflectionUI, choices.toArray(),
+		final GenericEnumerationFactory enumFactory = new GenericEnumerationFactory(reflectionUI, choices.toArray(),
 				"SelectionDialogArrayAsEnumeration [title=" + title + "]", "") {
 
 			Map<Object, String> captions = new HashMap<Object, String>();
@@ -1632,16 +1632,7 @@ public class SwingRenderer {
 			if (valueOptions == null) {
 				finalField = field;
 			} else {
-				ITypeInfo ownerType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-				String enumTypeName = "ValueOptions [ownerType=" + ownerType.getName() + ", field=" + field.getName()
-						+ "]";
-				field = new FieldInfoProxy(field){
-					@Override
-					public Object[] getValueOptions(Object object) {
-						return null;
-					}					
-				};
-				finalField = new ArrayAsEnumerationField(reflectionUI, field, valueOptions, enumTypeName);
+				finalField = new ValueOptionsAsEnumerationField(reflectionUI, object, field);
 			}
 			IFieldControlData result = new IFieldControlData() {
 

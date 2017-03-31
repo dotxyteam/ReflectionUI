@@ -596,6 +596,22 @@ public class InfoCustomizations implements Serializable {
 			this.undoManagementHidden = undoManagementHidden;
 		}
 
+		public void moveField(List<IFieldInfo> customizedFields, String fieldName, int offset) {
+			IFieldInfo customizedField = ReflectionUIUtils.findInfoByName(customizedFields, fieldName);
+			if (customizedField == null) {
+				return;
+			}
+			customFieldsOrder = getInfosOrderAfterMove(customizedFields, customizedField, offset);
+		}
+
+		public void moveMethod(List<IMethodInfo> customizedMethods, String methodSignature, int offset) {
+			IMethodInfo customizedMethod = ReflectionUIUtils.findMethodBySignature(customizedMethods, methodSignature);
+			if (customizedMethod == null) {
+				return;
+			}
+			customMethodsOrder = getInfosOrderAfterMove(customizedMethods, customizedMethod, offset);
+		}
+
 		@Override
 		public int hashCode() {
 			final int prime = 31;
@@ -628,23 +644,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public String toString() {
-			return typeName;
-		}
-
-		public void moveField(List<IFieldInfo> customizedFields, String fieldName, int offset) {
-			IFieldInfo customizedField = ReflectionUIUtils.findInfoByName(customizedFields, fieldName);
-			if (customizedField == null) {
-				return;
-			}
-			customFieldsOrder = getInfosOrderAfterMove(customizedFields, customizedField, offset);
-		}
-
-		public void moveMethod(List<IMethodInfo> customizedMethods, String methodSignature, int offset) {
-			IMethodInfo customizedMethod = ReflectionUIUtils.findMethodBySignature(customizedMethods, methodSignature);
-			if (customizedMethod == null) {
-				return;
-			}
-			customMethodsOrder = getInfosOrderAfterMove(customizedMethods, customizedMethod, offset);
+			return "TypeCustomization [typeName=" + typeName + "]";
 		}
 
 	}
@@ -689,7 +689,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public String toString() {
-			return caption;
+			return "CustomizationCategory [caption=" + caption + "]";
 		}
 
 	}
@@ -879,7 +879,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public String toString() {
-			return fieldName;
+			return "FieldCustomization [fieldName=" + fieldName + "]";
 		}
 
 	}
@@ -993,8 +993,9 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public String toString() {
-			return methodSignature;
+			return "MethodCustomization [methodSignature=" + methodSignature + "]";
 		}
+
 	}
 
 	public static class ParameterCustomization extends AbstractInfoCustomization
@@ -1079,7 +1080,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public String toString() {
-			return parameterName;
+			return "ParameterCustomization [parameterName=" + parameterName + "]";
 		}
 
 	}
@@ -1142,7 +1143,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public String toString() {
-			return fieldName;
+			return "ListItemFieldShortcut [fieldName=" + fieldName + "]";
 		}
 
 	}
@@ -1205,7 +1206,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public String toString() {
-			return methodSignature;
+			return "ListItemMethodShortcut [methodSignature=" + methodSignature + "]";
 		}
 
 	}
@@ -1272,11 +1273,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public String toString() {
-			String result = value;
-			if (regularExpression) {
-				result = "(Regular Expression) " + value;
-			}
-			return result;
+			return "InfoFilter [value=" + value + ", regularExpression=" + regularExpression + "]";
 		}
 
 	}
@@ -1406,7 +1403,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public String toString() {
-			return itemName;
+			return "EnumerationItemCustomization [itemName=" + itemName + "]";
 		}
 
 	}
@@ -1417,6 +1414,7 @@ public class InfoCustomizations implements Serializable {
 		private static final long serialVersionUID = 1L;
 		protected String enumerationTypeName;
 		protected List<EnumerationItemCustomization> itemCustomizations = new ArrayList<EnumerationItemCustomization>();
+		protected boolean staticEnumerationForced = false;
 
 		public String getEnumerationTypeName() {
 			return enumerationTypeName;
@@ -1432,6 +1430,14 @@ public class InfoCustomizations implements Serializable {
 
 		public void setItemCustomizations(List<EnumerationItemCustomization> itemCustomizations) {
 			this.itemCustomizations = itemCustomizations;
+		}
+
+		public boolean isStaticEnumerationForced() {
+			return staticEnumerationForced;
+		}
+
+		public void setStaticEnumerationForced(boolean staticEnumerationForced) {
+			this.staticEnumerationForced = staticEnumerationForced;
 		}
 
 		@Override
@@ -1467,7 +1473,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public String toString() {
-			return enumerationTypeName;
+			return "EnumerationCustomization [enumerationTypeName=" + enumerationTypeName + "]";
 		}
 
 	}
@@ -1673,7 +1679,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public String toString() {
-			return listTypeName + "(" + itemTypeName + ")";
+			return "ListCustomization [listTypeName=" + listTypeName + ", itemTypeName=" + itemTypeName + "]";
 		}
 
 	}
@@ -1765,7 +1771,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public String toString() {
-			return columnName;
+			return "ColumnCustomization [columnName=" + columnName + "]";
 		}
 
 	}
@@ -1884,6 +1890,17 @@ public class InfoCustomizations implements Serializable {
 				return result.toArray();
 			}
 			return super.getPossibleValues(enumType);
+		}
+
+		@Override
+		protected boolean isDynamicEnumeration(IEnumerationTypeInfo enumType) {
+			EnumerationCustomization e = getEnumerationCustomization(InfoCustomizations.this, enumType.getName());
+			if (e != null) {
+				if (e.staticEnumerationForced) {
+					return false;
+				}
+			}
+			return super.isDynamicEnumeration(enumType);
 		}
 
 		@Override
@@ -2939,7 +2956,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public String toString() {
-			return "ITypeInfo based on the java class: '" + className + "'";
+			return "JavaClassBasedTypeInfoFinder [className=" + className + "]";
 		}
 
 	}
@@ -2994,7 +3011,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public String toString() {
-			return "ITypeInfo custom implementation: '" + implementationClassName + "'";
+			return "CustomTypeInfoFinder [implementationClassName=" + implementationClassName + "]";
 		}
 
 	}

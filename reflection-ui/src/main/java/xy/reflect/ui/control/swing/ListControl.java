@@ -188,7 +188,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					result.width = characterSize * 40;
 				}
 				{
-					int minHeight = (int) (characterSize * 10);
+					int minHeight = (int) (characterSize * 15);
 					int maxHeight = (int) (screenSize.height * 0.60);
 					result.height = minHeight;
 					Dimension treeTableComponentPreferredSize = treeTableComponent.getPreferredSize();

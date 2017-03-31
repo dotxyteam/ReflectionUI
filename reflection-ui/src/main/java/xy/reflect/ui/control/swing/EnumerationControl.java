@@ -53,11 +53,16 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 		this.input = input;
 		this.data = input.getControlData();
 		this.enumType = (IEnumerationTypeInfo) data.getType();
-		this.possibleValues = new ArrayList<Object>(Arrays.asList(enumType.getPossibleValues()));
-		if (data.isNullable()) {
-			this.possibleValues.add(0, null);
-		}
+		this.possibleValues = collectPossibleValues();
 		initialize();
+	}
+
+	protected List<Object> collectPossibleValues() {
+		List<Object> result = new ArrayList<Object>(Arrays.asList(enumType.getPossibleValues()));
+		if (data.isNullable()) {
+			result.add(0, null);
+		}
+		return result;
 	}
 
 	protected void initialize() {
@@ -87,10 +92,10 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 				}
 				try {
 					Object selected = comboBox.getSelectedItem();
-					if (selected == error) {
-						throw error;
-					}
 					if (error != null) {
+						if (selected == error) {
+							throw error;
+						}
 						try {
 							data.setValue(selected);
 						} finally {
@@ -179,6 +184,9 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 
 	@Override
 	public boolean refreshUI() {
+		if(enumType.isDynamicEnumeration()){
+			possibleValues =  collectPossibleValues();
+		}
 		List<Object> extendedPossibleValues = new ArrayList<Object>(possibleValues);
 		Object currentValue;
 		try {
@@ -209,13 +217,13 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 					StringBuilder invalidValueMessage = new StringBuilder();
 					{
 						invalidValueMessage.append("Invalid enumeration value found:" + "\n- Enumeration Type: "
-								+ enumType + "\n- Value: " + "\n\t. '" + finalCurrentValue + "'\n- Expected Valid Values ("
-								+ possibleValues.size() + " item(s)):");
+								+ enumType + "\n- Value: " + "\n\t. '" + finalCurrentValue
+								+ "'\n- Expected Valid Values (" + possibleValues.size() + " item(s)):");
 						for (Object value : possibleValues) {
 							invalidValueMessage.append("\n\t. " + ((value == null) ? "<null>" : ("'" + value + "'")));
 						}
 					}
-					swingRenderer.getReflectionUI().logError(invalidValueMessage.toString());
+					swingRenderer.getReflectionUI().logError(new ReflectionUIError(invalidValueMessage.toString()));
 					displayError("");
 				} else {
 					displayError(null);

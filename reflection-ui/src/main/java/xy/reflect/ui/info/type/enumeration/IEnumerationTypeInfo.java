@@ -7,4 +7,6 @@ public interface IEnumerationTypeInfo extends ITypeInfo {
 	Object[] getPossibleValues();
 	
 	IEnumerationItemInfo getValueInfo(Object value);
+	
+	boolean isDynamicEnumeration();
 }

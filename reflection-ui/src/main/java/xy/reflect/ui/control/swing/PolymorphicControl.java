@@ -20,7 +20,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory;
+import xy.reflect.ui.info.type.util.GenericEnumerationFactory;
 import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
 import xy.reflect.ui.info.type.util.PolymorphicTypeOptionsFactory;
 import xy.reflect.ui.undo.ControlDataValueModification;

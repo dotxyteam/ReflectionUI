@@ -3,6 +3,7 @@ package xy.reflect.ui.info.type.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -20,19 +21,26 @@ import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class ArrayAsEnumerationFactory {
+public class GenericEnumerationFactory {
 	protected ReflectionUI reflectionUI;
-	protected Object[] array;
+	protected Iterable<?> iterable;
 	protected String enumerationTypeName;
 	protected String typeCaption;
+	protected boolean dynamicEnumeration;
 
-	public ArrayAsEnumerationFactory(ReflectionUI reflectionUI, Object[] array, String enumerationTypeName,
-			String typeCaption) {
+	public GenericEnumerationFactory(ReflectionUI reflectionUI, Iterable<?> iterable, String enumerationTypeName,
+			String typeCaption, boolean dynamicEnumeration) {
 		super();
 		this.reflectionUI = reflectionUI;
-		this.array = array;
+		this.iterable = iterable;
 		this.enumerationTypeName = enumerationTypeName;
 		this.typeCaption = typeCaption;
+		this.dynamicEnumeration = dynamicEnumeration;
+	}
+
+	public GenericEnumerationFactory(ReflectionUI reflectionUI, Object[] array, String enumerationTypeName,
+			String typeCaption) {
+		this(reflectionUI, Arrays.asList(array), enumerationTypeName, typeCaption, false);
 	}
 
 	protected Map<String, Object> getItemSpecificProperties(Object arrayItem) {
@@ -79,7 +87,7 @@ public class ArrayAsEnumerationFactory {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Arrays.hashCode(array);
+		result = prime * result + iterable.hashCode();
 		result = prime * result + ((typeCaption == null) ? 0 : typeCaption.hashCode());
 		return result;
 	}
@@ -92,8 +100,8 @@ public class ArrayAsEnumerationFactory {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ArrayAsEnumerationFactory other = (ArrayAsEnumerationFactory) obj;
-		if (!Arrays.equals(array, other.array))
+		GenericEnumerationFactory other = (GenericEnumerationFactory) obj;
+		if (!iterable.equals(other.iterable))
 			return false;
 		if (typeCaption == null) {
 			if (other.typeCaption != null)
@@ -149,8 +157,8 @@ public class ArrayAsEnumerationFactory {
 			return true;
 		}
 
-		private ArrayAsEnumerationFactory getOuterType() {
-			return ArrayAsEnumerationFactory.this;
+		private GenericEnumerationFactory getOuterType() {
+			return GenericEnumerationFactory.this;
 		}
 
 		@Override
@@ -161,6 +169,12 @@ public class ArrayAsEnumerationFactory {
 	}
 
 	protected class TypeInfo implements IEnumerationTypeInfo {
+
+		@Override
+		public boolean isDynamicEnumeration() {
+			return dynamicEnumeration;
+		}
+
 		@Override
 		public boolean isPrimitive() {
 			return false;
@@ -218,14 +232,15 @@ public class ArrayAsEnumerationFactory {
 
 		@Override
 		public List<IMethodInfo> getConstructors() {
-			if (array.length == 0) {
+			final Iterator<?> iterator = iterable.iterator();
+			if (!iterator.hasNext()) {
 				return Collections.emptyList();
 			} else {
 				return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo(TypeInfo.this) {
 
 					@Override
 					public Object invoke(Object object, InvocationData invocationData) {
-						return getInstance(array[0]);
+						return getInstance(iterator.next());
 					}
 
 					@Override
@@ -239,7 +254,7 @@ public class ArrayAsEnumerationFactory {
 		@Override
 		public Object[] getPossibleValues() {
 			List<Instance> result = new ArrayList<Instance>();
-			for (Object arrayItem : array) {
+			for (Object arrayItem : iterable) {
 				result.add((Instance) getInstance(arrayItem));
 			}
 			return result.toArray();
@@ -304,8 +319,8 @@ public class ArrayAsEnumerationFactory {
 			return object.toString();
 		}
 
-		ArrayAsEnumerationFactory getOuterType() {
-			return ArrayAsEnumerationFactory.this;
+		GenericEnumerationFactory getOuterType() {
+			return GenericEnumerationFactory.this;
 		}
 
 		@Override
