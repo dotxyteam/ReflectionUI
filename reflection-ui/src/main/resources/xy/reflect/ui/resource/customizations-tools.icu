@@ -2549,7 +2549,7 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <customFieldsOrder>enumerationTypeName</customFieldsOrder>
-        <customFieldsOrder>staticEnumerationForced</customFieldsOrder>
+        <customFieldsOrder>dynamicEnumerationForced</customFieldsOrder>
         <customFieldsOrder>itemCustomizations</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -2580,6 +2580,17 @@
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>staticEnumerationForced</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Dynamic Enumeration</customFieldCaption>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName>dynamicEnumerationForced</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>

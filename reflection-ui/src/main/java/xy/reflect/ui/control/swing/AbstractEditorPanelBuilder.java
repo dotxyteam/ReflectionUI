@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
+import xy.reflect.ui.control.swing.customization.SwingCustomizer;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -99,25 +100,53 @@ public abstract class AbstractEditorPanelBuilder {
 		return canCommit();
 	}
 
+	protected String getCustomEncapsulationTypeName() {
+		return null;
+	}
+
+	protected String getCustomEncapsulatedFieldName() {
+		return null;
+	}
+
 	public EncapsulatedObjectFactory getEncapsulation() {
 		EncapsulatedObjectFactory result = new EncapsulatedObjectFactory(getSwingRenderer().getReflectionUI(),
-				getEncapsulatedFieldType());
-		result.setTypeCaption(getEncapsulationTypeCaption());
+				getEncapsulatedFieldType(), getEncapsulationTypeCaption(), getEncapsulatedFieldCaption());
+		String customEncapsulationTypeName = getCustomEncapsulationTypeName();
+		{
+			if (customEncapsulationTypeName != null) {
+				result.setTypeName(customEncapsulationTypeName);
+			}
+		}
 		result.setTypeModificationStackAccessible(!isInReadOnlyMode());
-		result.setFieldCaption(getEncapsulatedFieldCaption());
+		Map<String, Object> typeSpecificProperties = new HashMap<String, Object>();
+		{
+			typeSpecificProperties.put(SwingCustomizer.CUSTOMIZATIONS_FORBIDDEN_PROPERTY_KEY,
+					!isEncapsulationTypeCustomizationAllowed());
+			result.setTypeSpecificProperties(typeSpecificProperties);
+		}
+		String customEncapsulatedFieldName = getCustomEncapsulatedFieldName();
+		{
+			if (customEncapsulatedFieldName != null) {
+				result.setFieldName(customEncapsulatedFieldName);
+			}
+		}
 		result.setFieldGetOnly(isInReadOnlyMode() || !canReplaceObjectValue());
 		result.setFieldNullable(isObjectValueNullable());
 		result.setFieldValueReturnMode(
 				(!isInReadOnlyMode()) ? ValueReturnMode.DIRECT_OR_PROXY : ValueReturnMode.CALCULATED);
-		Map<String, Object> properties = new HashMap<String, Object>();
+		Map<String, Object> fieldSpecificProperties = new HashMap<String, Object>();
 		{
-			DesktopSpecificProperty.setSubFormExpanded(properties, isObjectFormExpanded());
-			DesktopSpecificProperty.setFilter(properties, getObjectFormFilter());
-			DesktopSpecificProperty.setIconImage(properties, SwingRendererUtils.findIconImage(getSwingRenderer(),
-					result.getFieldType().getSpecificProperties()));
-			result.setFieldSpecificProperties(properties);
+			DesktopSpecificProperty.setSubFormExpanded(fieldSpecificProperties, isObjectFormExpanded());
+			DesktopSpecificProperty.setFilter(fieldSpecificProperties, getObjectFormFilter());
+			DesktopSpecificProperty.setIconImage(fieldSpecificProperties, SwingRendererUtils
+					.findIconImage(getSwingRenderer(), result.getFieldType().getSpecificProperties()));
+			result.setFieldSpecificProperties(fieldSpecificProperties);
 		}
 		return result;
+	}
+
+	protected boolean isEncapsulationTypeCustomizationAllowed() {
+		return !isObjectFormExpanded();
 	}
 
 	public boolean isInReadOnlyMode() {

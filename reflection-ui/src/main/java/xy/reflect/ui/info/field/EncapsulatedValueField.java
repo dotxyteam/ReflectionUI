@@ -22,14 +22,13 @@ public class EncapsulatedValueField extends FieldInfoProxy {
 	}
 
 	protected EncapsulatedObjectFactory createEncapsulation() {
-		EncapsulatedObjectFactory result = new EncapsulatedObjectFactory(reflectionUI, super.getType());
-		result.setFieldCaption("");
+		EncapsulatedObjectFactory result = new EncapsulatedObjectFactory(reflectionUI, super.getType(), getCaption(),
+				"");
 		result.setFieldGetOnly(super.isGetOnly());
 		result.setFieldNullable(super.isNullable());
 		result.setFieldNullValueLabel(super.getNullValueLabel());
 		result.setFieldSpecificProperties(super.getSpecificProperties());
 		result.setFieldValueReturnMode(super.getValueReturnMode());
-		result.setTypeCaption(getCaption());
 		return result;
 	}
 

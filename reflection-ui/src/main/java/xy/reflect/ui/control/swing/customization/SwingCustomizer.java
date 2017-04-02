@@ -1,11 +1,13 @@
 package xy.reflect.ui.control.swing.customization;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -24,6 +26,9 @@ import xy.reflect.ui.util.SystemProperties;
 
 @SuppressWarnings("unused")
 public class SwingCustomizer extends SwingRenderer {
+
+	public static final String CUSTOMIZATIONS_FORBIDDEN_PROPERTY_KEY = SwingCustomizer.class.getName()
+			+ ".CUSTOMIZATIONS_FORBIDDEN";
 
 	protected InfoCustomizations infoCustomizations;
 	protected String infoCustomizationsOutputFilePath;
@@ -84,6 +89,7 @@ public class SwingCustomizer extends SwingRenderer {
 			mainCustomizationsControl.add(customizationTools.createSaveControl(), BorderLayout.EAST);
 			form.add(SwingRendererUtils.flowInLayout(mainCustomizationsControl, GridBagConstraints.CENTER),
 					BorderLayout.NORTH);
+			int spacing = SwingRendererUtils.getStandardCharacterWidth(form) * 2;
 		}
 		super.fillForm(form);
 	}
@@ -158,13 +164,16 @@ public class SwingCustomizer extends SwingRenderer {
 			return false;
 		}
 		if (!infoCustomizations
-				.equals(type.getSpecificProperties().get(InfoCustomizations.ACTIVE_CUSTOMIZATIONS_PROPERTY_KEY))) {
+				.equals(type.getSpecificProperties().get(InfoCustomizations.CURRENT_PROXY_SOURCE_PROPERTY_KEY))) {
 			return false;
 		}
 		if (infoCustomizationsOutputFilePath == null) {
 			return false;
 		}
 		if (Boolean.TRUE.equals(customizationOptions.areHiddenFor(type.getName()))) {
+			return false;
+		}
+		if (Boolean.TRUE.equals(type.getSpecificProperties().get(CUSTOMIZATIONS_FORBIDDEN_PROPERTY_KEY))) {
 			return false;
 		}
 		return true;

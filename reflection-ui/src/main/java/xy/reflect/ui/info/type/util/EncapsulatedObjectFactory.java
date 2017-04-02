@@ -22,13 +22,15 @@ public class EncapsulatedObjectFactory {
 
 	protected ReflectionUI reflectionUI;
 
+	protected String typeName;
 	protected String typeCaption = "";
 	protected Map<String, Object> typeSpecificProperties = new HashMap<String, Object>();
 	protected boolean typeModificationStackAccessible = true;
 	protected String typeOnlineHelp;
 
+	protected String fieldName = "value";
 	protected ITypeInfo fieldType;
-	protected String fieldCaption;
+	protected String fieldCaption = "";
 	protected boolean fieldGetOnly = false;
 	protected boolean fieldNullable = true;
 	protected ValueReturnMode fieldValueReturnMode = ValueReturnMode.INDETERMINATE;
@@ -37,10 +39,18 @@ public class EncapsulatedObjectFactory {
 	protected String fieldOnlineHelp;
 	protected InfoCategory fieldCategory;
 
-	public EncapsulatedObjectFactory(ReflectionUI reflectionUI, ITypeInfo fieldType) {
+	public EncapsulatedObjectFactory(ReflectionUI reflectionUI, String typeName, ITypeInfo fieldType) {
 		this.reflectionUI = reflectionUI;
+		this.typeName = typeName;
 		this.fieldType = fieldType;
-		this.typeCaption = fieldType.getCaption();
+	}
+
+	public EncapsulatedObjectFactory(ReflectionUI reflectionUI, ITypeInfo fieldType, String typeCaption,
+			String fieldCaption) {
+		this(reflectionUI, "Encapsulation [typeCaption=" + typeCaption + ", fieldType=" + fieldType.getName()
+				+ ", fieldCaption=" + fieldCaption + "]", fieldType);
+		this.fieldCaption = fieldCaption;
+		this.typeCaption = typeCaption;
 	}
 
 	public Object getInstance(Accessor<Object> fieldValueAccessor) {
@@ -59,6 +69,14 @@ public class EncapsulatedObjectFactory {
 
 	public ITypeInfoSource getInstanceTypeInfoSource() {
 		return new PrecomputedTypeInfoSource(new TypeInfo());
+	}
+
+	public String getTypeName() {
+		return typeName;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
 	}
 
 	public String getTypeCaption() {
@@ -91,6 +109,14 @@ public class EncapsulatedObjectFactory {
 
 	public void setTypeSpecificProperties(Map<String, Object> typeSpecificProperties) {
 		this.typeSpecificProperties = typeSpecificProperties;
+	}
+
+	public String getFieldName() {
+		return fieldName;
+	}
+
+	public void setFieldName(String fieldName) {
+		this.fieldName = fieldName;
 	}
 
 	public String getFieldCaption() {
@@ -215,8 +241,7 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public String getName() {
-			return "Encapsulation [typeCaption=" + typeCaption + ", fieldType=" + fieldType.getName()
-					+ ", fieldCaption=" + fieldCaption + "]";
+			return typeName;
 		}
 
 		@Override
@@ -358,8 +383,9 @@ public class EncapsulatedObjectFactory {
 		@Override
 		public String toString() {
 			Object result = getValue();
-			return "Encapsulated [value=" + ((result == null) ? "<null>" : (result.getClass() + ": " + result.toString()))
-					+ ", factory=" + EncapsulatedObjectFactory.this + "]";
+			return "Encapsulated [value="
+					+ ((result == null) ? "<null>" : (result.getClass() + ": " + result.toString())) + ", factory="
+					+ EncapsulatedObjectFactory.this + "]";
 		}
 
 		@Override
@@ -390,6 +416,11 @@ public class EncapsulatedObjectFactory {
 	}
 
 	protected class ValueField implements IFieldInfo {
+		@Override
+		public String getName() {
+			return fieldName;
+		}
+
 		@Override
 		public String getCaption() {
 			return fieldCaption;
@@ -435,11 +466,6 @@ public class EncapsulatedObjectFactory {
 		@Override
 		public ITypeInfoProxyFactory getTypeSpecificities() {
 			return null;
-		}
-
-		@Override
-		public String getName() {
-			return "value";
 		}
 
 		@Override

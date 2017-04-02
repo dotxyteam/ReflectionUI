@@ -69,7 +69,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 
 			@Override
 			public boolean isObjectFormExpanded() {
-				return true;
+				return false;
 			}
 
 			@Override

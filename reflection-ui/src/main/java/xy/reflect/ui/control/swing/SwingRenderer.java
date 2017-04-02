@@ -37,6 +37,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.JToolTip;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
+
 import org.jdesktop.swingx.JXBusyLabel;
 
 import com.google.common.collect.MapMaker;
@@ -337,45 +340,47 @@ public class SwingRenderer {
 	}
 
 	public JPanel createForm(final Object object, IInfoFilter infoFilter) {
-		JPanel result = new JPanel() {
-
+		final JPanel result = new JPanel() {
 			private static final long serialVersionUID = 1L;
-			JPanel thisForm = this;
 
 			@Override
 			public String toString() {
-				return "Form [object=" + getObjectByForm().get(this) + "]";
-			}
-
-			IModificationListener fieldsUpdateListener = new AbstractSimpleModificationListener() {
-				@Override
-				protected void handleAnyEvent(IModification modification) {
-					if (Boolean.TRUE.equals(getFieldsUpdateListenerDisabledByForm().get(thisForm))) {
-						return;
-					}
-					ensureFormGetsRefreshed(thisForm);
-				}
-
-			};
-
-			@Override
-			public void addNotify() {
-				super.addNotify();
-				ModificationStack modifStack = getModificationStackByForm().get(this);
-				modifStack.addListener(fieldsUpdateListener);
-			}
-
-			@Override
-			public void removeNotify() {
-				super.removeNotify();
-				ModificationStack modifStack = getModificationStackByForm().get(this);
-				modifStack.removeListener(fieldsUpdateListener);
+				return "Form [id=" + hashCode() + ", object=" + getObjectByForm().get(this) + "]";
 			}
 
 		};
 		getObjectByForm().put(result, object);
 		getModificationStackByForm().put(result, new ModificationStack(result.toString()));
 		getInfoFilterByForm().put(result, infoFilter);
+		result.addAncestorListener(new AncestorListener() {
+
+			IModificationListener fieldsUpdateListener = new AbstractSimpleModificationListener() {
+				@Override
+				protected void handleAnyEvent(IModification modification) {
+					if (Boolean.TRUE.equals(getFieldsUpdateListenerDisabledByForm().get(result))) {
+						return;
+					}
+					ensureFormGetsRefreshed(result);
+				}
+			};
+
+			@Override
+			public void ancestorAdded(AncestorEvent event) {
+				ModificationStack modifStack = getModificationStackByForm().get(result);
+				modifStack.addListener(fieldsUpdateListener);
+			}
+
+			@Override
+			public void ancestorRemoved(AncestorEvent event) {
+				ModificationStack modifStack = getModificationStackByForm().get(result);
+				modifStack.removeListener(fieldsUpdateListener);
+			}
+
+			@Override
+			public void ancestorMoved(AncestorEvent event) {
+			}
+
+		});
 		result.setLayout(new BorderLayout());
 		fillForm(result);
 		return result;
@@ -407,8 +412,8 @@ public class SwingRenderer {
 							Object object = getObjectByForm().get(form);
 							for (JPanel otherForm : getForms(object)) {
 								if (otherForm != form) {
+									ModificationStack otherModifStack = getModificationStackByForm().get(otherForm);
 									if (otherForm.isDisplayable()) {
-										ModificationStack otherModifStack = getModificationStackByForm().get(otherForm);
 										getFieldsUpdateListenerDisabledByForm().put(otherForm, Boolean.TRUE);
 										otherModifStack.invalidate();
 										getFieldsUpdateListenerDisabledByForm().put(otherForm, Boolean.FALSE);
@@ -897,6 +902,7 @@ public class SwingRenderer {
 			});
 
 			if (silent) {
+
 				IMethodInfo smallerConstructor = workingConstructors.get(0);
 				return smallerConstructor.invoke(null, new InvocationData());
 			} else {
@@ -957,9 +963,8 @@ public class SwingRenderer {
 		}
 		final Object[] chosenItemHolder = new Object[] { initialEnumItem };
 
-		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, enumType);
-		encapsulation.setTypeCaption("Selection");
-		encapsulation.setFieldCaption(message);
+		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, enumType, "Selection",
+				message);
 		encapsulation.setFieldGetOnly(false);
 		encapsulation.setFieldNullable(false);
 		Object encapsulatedChosenItem = encapsulation.getInstance(chosenItemHolder);
@@ -980,9 +985,8 @@ public class SwingRenderer {
 		final Object[] valueHolder = new Object[] { initialValue };
 		ITypeInfo initialValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(initialValue));
 
-		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, initialValueType);
-		encapsulation.setTypeCaption("Input");
-		encapsulation.setFieldCaption(valueCaption);
+		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, initialValueType, "Input",
+				valueCaption);
 		encapsulation.setFieldGetOnly(false);
 		encapsulation.setFieldNullable(false);
 		Object encapsulatedValue = encapsulation.getInstance(valueHolder);
@@ -1063,7 +1067,7 @@ public class SwingRenderer {
 		return editorBuilder;
 	}
 
-	public StandardEditorBuilder getEditorBuilder(Component activatorComponent, Object object, final String title,
+	public StandardEditorBuilder getEditorBuilder(Component activatorComponent, final Object object, final String title,
 			final Image iconImage, final boolean cancellable) {
 		return new StandardEditorBuilder(this, activatorComponent, object) {
 
@@ -1079,11 +1083,17 @@ public class SwingRenderer {
 
 			@Override
 			public String getEditorTitle() {
+				if (title == null) {
+					return getObjectTitle(object);
+				}
 				return title;
 			}
 
 			@Override
 			public Image getObjectIconImage() {
+				if (iconImage == null) {
+					return SwingRenderer.this.getObjectIconImage(object);
+				}
 				return iconImage;
 			}
 
@@ -1565,6 +1575,7 @@ public class SwingRenderer {
 						}
 					}
 					return lastFieldValue;
+
 				}
 
 				@Override

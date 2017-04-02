@@ -62,7 +62,8 @@ public class InfoCustomizations implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static InfoCustomizations defaultInstance;
-	public static final String ACTIVE_CUSTOMIZATIONS_PROPERTY_KEY = InfoCustomizations.class.getName();
+	public static final String CURRENT_PROXY_SOURCE_PROPERTY_KEY = InfoCustomizations.class.getName()
+			+ ".CURRENT_PROXY_SOURCE";
 
 	transient protected Factory proxyFactory;
 	protected List<TypeCustomization> typeCustomizations = new ArrayList<InfoCustomizations.TypeCustomization>();
@@ -1415,7 +1416,7 @@ public class InfoCustomizations implements Serializable {
 		private static final long serialVersionUID = 1L;
 		protected String enumerationTypeName;
 		protected List<EnumerationItemCustomization> itemCustomizations = new ArrayList<EnumerationItemCustomization>();
-		protected boolean staticEnumerationForced = false;
+		protected boolean dynamicEnumerationForced = false;
 
 		public String getEnumerationTypeName() {
 			return enumerationTypeName;
@@ -1433,12 +1434,14 @@ public class InfoCustomizations implements Serializable {
 			this.itemCustomizations = itemCustomizations;
 		}
 
-		public boolean isStaticEnumerationForced() {
-			return staticEnumerationForced;
+		
+
+		public boolean isDynamicEnumerationForced() {
+			return dynamicEnumerationForced;
 		}
 
-		public void setStaticEnumerationForced(boolean staticEnumerationForced) {
-			this.staticEnumerationForced = staticEnumerationForced;
+		public void setDynamicEnumerationForced(boolean dynamicEnumerationForced) {
+			this.dynamicEnumerationForced = dynamicEnumerationForced;
 		}
 
 		@Override
@@ -1897,8 +1900,8 @@ public class InfoCustomizations implements Serializable {
 		protected boolean isDynamicEnumeration(IEnumerationTypeInfo enumType) {
 			EnumerationCustomization e = getEnumerationCustomization(InfoCustomizations.this, enumType.getName());
 			if (e != null) {
-				if (e.staticEnumerationForced) {
-					return false;
+				if (e.dynamicEnumerationForced) {
+					return true;
 				}
 			}
 			return super.isDynamicEnumeration(enumType);
@@ -2454,7 +2457,7 @@ public class InfoCustomizations implements Serializable {
 		@Override
 		protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
 			Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(type));
-			result.put(ACTIVE_CUSTOMIZATIONS_PROPERTY_KEY, InfoCustomizations.this);
+			result.put(CURRENT_PROXY_SOURCE_PROPERTY_KEY, InfoCustomizations.this);
 			final TypeCustomization t = getTypeCustomization(InfoCustomizations.this, type.getName());
 			if (t != null) {
 				if (t.specificProperties != null) {
@@ -2470,7 +2473,7 @@ public class InfoCustomizations implements Serializable {
 		protected Map<String, Object> getSpecificProperties(IMethodInfo method, ITypeInfo containingType) {
 			Map<String, Object> result = new HashMap<String, Object>(
 					super.getSpecificProperties(method, containingType));
-			result.put(ACTIVE_CUSTOMIZATIONS_PROPERTY_KEY, InfoCustomizations.this);
+			result.put(CURRENT_PROXY_SOURCE_PROPERTY_KEY, InfoCustomizations.this);
 			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
 			if (t != null) {
 				MethodCustomization m = getMethodCustomization(t, ReflectionUIUtils.getMethodSignature(method));
@@ -2489,7 +2492,7 @@ public class InfoCustomizations implements Serializable {
 		protected Map<String, Object> getSpecificProperties(IFieldInfo field, ITypeInfo containingType) {
 			Map<String, Object> result = new HashMap<String, Object>(
 					super.getSpecificProperties(field, containingType));
-			result.put(ACTIVE_CUSTOMIZATIONS_PROPERTY_KEY, InfoCustomizations.this);
+			result.put(CURRENT_PROXY_SOURCE_PROPERTY_KEY, InfoCustomizations.this);
 			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
 			if (t != null) {
 				FieldCustomization f = getFieldCustomization(t, field.getName());

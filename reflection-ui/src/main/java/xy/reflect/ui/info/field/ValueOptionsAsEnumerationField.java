@@ -33,7 +33,7 @@ public class ValueOptionsAsEnumerationField extends FieldInfoProxy {
 				return Arrays.asList(valueOptions).iterator();
 			}			
 		};
-		return new GenericEnumerationFactory(reflectionUI, iterable, enumTypeName, "", true);
+		return new GenericEnumerationFactory(reflectionUI, iterable, enumTypeName, "", false);
 	}
 	
 	@Override
