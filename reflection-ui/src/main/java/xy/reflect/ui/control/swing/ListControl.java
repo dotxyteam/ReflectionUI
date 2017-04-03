@@ -2336,6 +2336,21 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
+		public String getEncapsulatedFieldCaption() {
+			return getEncapsulatedFieldType().getCaption();
+		}
+
+		@Override
+		public String getEncapsulationTypeCaption() {
+			return ReflectionUIUtils.composeMessage(itemPosition.getContainingListTitle(), "Item");
+		}
+
+		@Override
+		public String getEditorTitle() {
+			return getEncapsulationTypeCaption();
+		}
+
+		@Override
 		public boolean isObjectFormExpanded() {
 			return true;
 		}

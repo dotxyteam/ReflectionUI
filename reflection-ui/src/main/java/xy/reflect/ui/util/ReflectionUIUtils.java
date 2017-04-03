@@ -224,6 +224,14 @@ public class ReflectionUIUtils {
 		return result;
 	}
 
+	public static <K, V> K getFirstKeyFromValue(Map<K, V> map, Object value) {
+		List<K> list = getKeysFromValue(map, value);
+		if (list.size() > 0) {
+			return list.get(0);
+		}
+		return null;
+	}
+
 	public static boolean hasFileNameExtension(String fileName, String[] extensions) {
 		for (String ext : extensions) {
 			if (ext.toLowerCase().equals(FileUtils.getFileNameExtension(fileName).toLowerCase())) {
@@ -897,6 +905,5 @@ public class ReflectionUIUtils {
 			}
 		}
 	}
-
 
 }

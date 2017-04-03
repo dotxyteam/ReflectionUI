@@ -2,14 +2,13 @@ package xy.reflect.ui.control.swing;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
 import xy.reflect.ui.control.input.IFieldControlData;
 import xy.reflect.ui.control.input.IFieldControlInput;
-import xy.reflect.ui.util.SwingRendererUtils;
 
-@SuppressWarnings("unused")
 public class NullControl2 extends JButton implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;

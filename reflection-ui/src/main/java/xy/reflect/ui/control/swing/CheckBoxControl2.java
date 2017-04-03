@@ -68,7 +68,7 @@ public class CheckBoxControl2 extends NullableControl {
 	}
 
 	@Override
-	protected Component createSubControl() {
+	protected Component createSubForm() {
 		JToggleButton result = new JToggleButton();
 		result.addActionListener(new ActionListener() {
 			@Override
@@ -94,7 +94,7 @@ public class CheckBoxControl2 extends NullableControl {
 
 	@Override
 	protected Component createNullControl() {
-		return createSubControl();
+		return createSubForm();
 	}
 
 	@Override

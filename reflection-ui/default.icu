@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <infoCustomizations>
     <enumerationCustomizations>
+        <dynamicEnumerationForced>false</dynamicEnumerationForced>
         <enumerationTypeName>ReflectionUITest$AbstrcatTestDescendant$Day</enumerationTypeName>
         <itemCustomizations>
             <customCaption>lundi</customCaption>
@@ -17,9 +18,9 @@
             <hidden>false</hidden>
             <itemName>WEDNESDAY</itemName>
         </itemCustomizations>
-        <staticEnumerationForced>false</staticEnumerationForced>
     </enumerationCustomizations>
     <enumerationCustomizations>
+        <dynamicEnumerationForced>false</dynamicEnumerationForced>
         <enumerationTypeName>SubTypesEnumeration [polymorphicType=java.lang.Exception]</enumerationTypeName>
         <itemCustomizations>
             <hidden>false</hidden>
@@ -45,9 +46,9 @@
             <hidden>false</hidden>
             <itemName>xy.reflect.ui.control.swing.PolymorphicControl.NULL_TYPE</itemName>
         </itemCustomizations>
-        <staticEnumerationForced>false</staticEnumerationForced>
     </enumerationCustomizations>
     <enumerationCustomizations>
+        <dynamicEnumerationForced>false</dynamicEnumerationForced>
         <enumerationTypeName>ValueOptions [ownerType=ReflectionUITest$Test, field=theChoice]</enumerationTypeName>
         <itemCustomizations>
             <hidden>false</hidden>
@@ -73,7 +74,6 @@
             <hidden>false</hidden>
             <itemName>item(z)</itemName>
         </itemCustomizations>
-        <staticEnumerationForced>false</staticEnumerationForced>
     </enumerationCustomizations>
     <listCustomizations>
         <allowedItemFieldShortcuts>
@@ -7811,6 +7811,9 @@
             <readOnlyForced>false</readOnlyForced>
             <validating>false</validating>
         </methodsCustomizations>
+        <javaClassBasedTypeInfoFinder>
+            <className>java.lang.ClassCastException</className>
+        </javaClassBasedTypeInfoFinder>
         <typeName>java.lang.RuntimeException</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>

@@ -22,6 +22,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.input.IFieldControlData;
 import xy.reflect.ui.control.swing.AbstractEditorBuilder;
 import xy.reflect.ui.control.swing.StandardEditorBuilder;
 import xy.reflect.ui.control.swing.SwingRenderer;
@@ -642,7 +643,11 @@ public class CustomizationTools {
 			}
 
 			private ITypeInfo getFieldType() {
-				return fieldControlPlaceHolder.getControlData().getType();
+				IFieldControlData controlData = fieldControlPlaceHolder.getControlData();
+				if(controlData == null){
+					return null;
+				}
+				return controlData.getType();
 			}
 
 			private FieldCustomization getFieldCustomization() {

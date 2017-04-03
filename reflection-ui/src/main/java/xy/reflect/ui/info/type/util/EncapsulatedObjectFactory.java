@@ -28,7 +28,7 @@ public class EncapsulatedObjectFactory {
 	protected boolean typeModificationStackAccessible = true;
 	protected String typeOnlineHelp;
 
-	protected String fieldName = "value";
+	protected String fieldName = "";
 	protected ITypeInfo fieldType;
 	protected String fieldCaption = "";
 	protected boolean fieldGetOnly = false;

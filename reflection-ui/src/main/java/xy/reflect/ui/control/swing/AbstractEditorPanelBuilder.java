@@ -146,7 +146,7 @@ public abstract class AbstractEditorPanelBuilder {
 	}
 
 	protected boolean isEncapsulationTypeCustomizationAllowed() {
-		return !isObjectFormExpanded();
+		return !isObjectFormExpanded() || isObjectValueNullable() || (getEncapsulatedFieldCaption().length() > 0);
 	}
 
 	public boolean isInReadOnlyMode() {

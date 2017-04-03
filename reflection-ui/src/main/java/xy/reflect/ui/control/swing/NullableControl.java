@@ -130,7 +130,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 		} else {
 			subControlValueType = swingRenderer.getReflectionUI()
 					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(value));
-			subControl = createSubControl();
+			subControl = createSubForm();
 			refreshCaptionForSubForm();
 		}
 		add(subControl, BorderLayout.CENTER);
@@ -146,6 +146,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected void refreshCaptionForSubForm() {
+		((JPanel)subControl).setBorder(BorderFactory.createTitledBorder(""));
 		setBorder(null);
 	}
 
@@ -179,7 +180,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 		return result;
 	}
 
-	protected Component createSubControl() {
+	protected Component createSubForm() {
 		subFormBuilder = new AbstractEditorPanelBuilder() {
 
 			@Override
