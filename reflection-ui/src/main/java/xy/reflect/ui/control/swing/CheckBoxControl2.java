@@ -14,7 +14,7 @@ import xy.reflect.ui.control.input.IFieldControlInput;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
-public class CheckBoxControl2 extends NullableControl {
+public class CheckBoxControl2 extends NullableControl2 {
 
 	private static final long serialVersionUID = 1L;
 
@@ -95,14 +95,6 @@ public class CheckBoxControl2 extends NullableControl {
 	@Override
 	protected Component createNullControl() {
 		return createSubForm();
-	}
-
-	@Override
-	protected void refresCaptionForhNullControl() {
-	}
-
-	@Override
-	protected void refreshCaptionForSubForm() {
 	}
 
 	@Override

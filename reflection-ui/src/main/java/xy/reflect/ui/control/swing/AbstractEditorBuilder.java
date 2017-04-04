@@ -86,7 +86,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorPanelBuilder {
 	}
 
 	protected DialogBuilder createDelegateDialogBuilder() {
-		return new DialogBuilder(getSwingRenderer(), getOwnerComponent());
+		return getSwingRenderer().createDialogBuilder(getOwnerComponent());
 	}
 
 	public JDialog createDialog() {

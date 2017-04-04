@@ -13,6 +13,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import xy.reflect.ui.control.input.FieldControlDataProxy;
+import xy.reflect.ui.control.input.FieldControlInputProxy;
 import xy.reflect.ui.control.input.IFieldControlData;
 import xy.reflect.ui.control.input.IFieldControlInput;
 import xy.reflect.ui.info.DesktopSpecificProperty;
@@ -26,7 +28,7 @@ import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-public class NullableControl extends JPanel implements IAdvancedFieldControl {
+public class NullableControl2 extends JPanel implements IAdvancedFieldControl {
 
 	protected SwingRenderer swingRenderer;
 	protected static final long serialVersionUID = 1L;
@@ -37,7 +39,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	protected ITypeInfo subControlValueType;
 	protected AbstractEditorPanelBuilder subFormBuilder;
 
-	public NullableControl(SwingRenderer swingRenderer, IFieldControlInput input) {
+	public NullableControl2(SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
 		this.input = input;
 		this.data = input.getControlData();
@@ -47,9 +49,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	protected void initialize() {
 		setLayout(new BorderLayout());
 		nullStatusControl = createNullStatusControl();
-		if (!data.isGetOnly()) {
-			add(SwingRendererUtils.flowInLayout(nullStatusControl, GridBagConstraints.CENTER), BorderLayout.WEST);
-		}
+		add(SwingRendererUtils.flowInLayout(nullStatusControl, GridBagConstraints.CENTER), BorderLayout.WEST);
 		refreshUI();
 	}
 
@@ -105,7 +105,6 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 		if (value == null) {
 			if (subControl != null) {
 				if (subControlValueType == null) {
-					refresCaptionForhNullControl();
 					return;
 				}
 			}
@@ -115,7 +114,6 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 			if (newValueType.equals(subControlValueType)) {
 				if (SwingRendererUtils.isForm(subControl, swingRenderer)) {
 					subFormBuilder.refreshEditorPanel((JPanel) subControl);
-					refreshCaptionForSubForm();
 					return;
 				}
 			}
@@ -126,28 +124,13 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 		if (value == null) {
 			subControlValueType = null;
 			subControl = createNullControl();
-			refresCaptionForhNullControl();
 		} else {
 			subControlValueType = swingRenderer.getReflectionUI()
 					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(value));
 			subControl = createSubForm();
-			refreshCaptionForSubForm();
 		}
 		add(subControl, BorderLayout.CENTER);
 		SwingRendererUtils.handleComponentSizeChange(this);
-	}
-
-	protected void refresCaptionForhNullControl() {
-		if ((subControl instanceof IAdvancedFieldControl) && ((IAdvancedFieldControl) subControl).showsCaption()) {
-			setBorder(null);
-		} else {
-			setBorder(BorderFactory.createTitledBorder(data.getCaption()));
-		}
-	}
-
-	protected void refreshCaptionForSubForm() {
-		((JPanel)subControl).setBorder(BorderFactory.createTitledBorder(""));
-		setBorder(null);
 	}
 
 	protected Component createNullStatusControl() {
@@ -158,15 +141,30 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 				try {
 					onNullingControlStateChange();
 				} catch (Throwable t) {
-					swingRenderer.handleExceptionsFromDisplayedUI(NullableControl.this, t);
+					swingRenderer.handleExceptionsFromDisplayedUI(NullableControl2.this, t);
 				}
 			}
 		});
+		result.setEnabled(!data.isGetOnly());
 		return result;
 	}
 
 	protected Component createNullControl() {
-		NullControl2 result = new NullControl2(swingRenderer, input);
+		NullControl2 result = new NullControl2(swingRenderer, new FieldControlInputProxy(input) {
+
+			@Override
+			public IFieldControlData getControlData() {
+				return new FieldControlDataProxy(super.getControlData()) {
+
+					@Override
+					public String getCaption() {
+						return "";
+					}
+
+				};
+			}
+
+		});
 		if (!data.isGetOnly()) {
 			result.setAction(new Runnable() {
 				@Override
@@ -176,6 +174,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 				}
 			});
 		}
+		result.setBorder(BorderFactory.createTitledBorder(data.getCaption()));
 		return result;
 	}
 
@@ -184,7 +183,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			public String getEncapsulatedFieldCaption() {
-				return data.getCaption();
+				return "";
 			}
 
 			@Override
@@ -263,6 +262,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 			}
 		};
 		JPanel result = subFormBuilder.createEditorPanel(true);
+		result.setBorder(BorderFactory.createTitledBorder(data.getCaption()));
 		return result;
 	}
 
@@ -319,6 +319,6 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 
 	@Override
 	public String toString() {
-		return "NullableControl [data=" + data + "]";
+		return "NullableControl2 [data=" + data + "]";
 	}
 }

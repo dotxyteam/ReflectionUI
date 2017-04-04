@@ -36,7 +36,7 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 
 	protected static final long serialVersionUID = 1L;
 
-	protected static final String INVALID_VALUE_SUFFIX = "... (Invalid value. Please select another value)";
+	protected static final String INVALID_VALUE_SUFFIX = "...";
 
 	protected IEnumerationTypeInfo enumType;
 	protected List<Object> possibleValues;
@@ -45,8 +45,7 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 	protected IFieldControlData data;
 	protected JComboBox comboBox;
 	protected boolean listenerDisabled = false;
-	protected Throwable error;
-
+	
 	@SuppressWarnings({})
 	public EnumerationControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
@@ -92,19 +91,7 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 				}
 				try {
 					Object selected = comboBox.getSelectedItem();
-					if (error != null) {
-						if (selected == error) {
-							throw error;
-						}
-						try {
-							data.setValue(selected);
-						} finally {
-							input.getModificationStack().invalidate();
-						}
-					} else {
-						ReflectionUIUtils.setValueThroughModificationStack(data, selected, input.getModificationStack(),
-								input.getModificationsTarget());
-					}
+					data.setValue(selected);
 					refreshUI();
 				} catch (Throwable t) {
 					swingRenderer.handleExceptionsFromDisplayedUI(EnumerationControl.this, t);
@@ -131,8 +118,6 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 			} else {
 				return nullValueLabel;
 			}
-		} else if (value == error) {
-			return ReflectionUIUtils.truncateNicely(ReflectionUIUtils.getPrettyErrorMessage(error), 50);
 		} else {
 			IEnumerationItemInfo itemInfo = enumType.getValueInfo(value);
 			String s;
@@ -141,9 +126,6 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 			} else {
 				s = itemInfo.getCaption();
 			}
-			if (!possibleValues.contains(value)) {
-				s += INVALID_VALUE_SUFFIX;
-			}
 			return s;
 		}
 
@@ -151,8 +133,6 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 
 	protected Icon getValueIcon(Object value) {
 		if (value == null) {
-			return null;
-		} else if (value == error) {
 			return null;
 		} else {
 			IEnumerationItemInfo itemInfo = enumType.getValueInfo(value);
@@ -184,20 +164,14 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 
 	@Override
 	public boolean refreshUI() {
-		if(enumType.isDynamicEnumeration()){
-			possibleValues =  collectPossibleValues();
+		if (enumType.isDynamicEnumeration()) {
+			possibleValues = collectPossibleValues();
 		}
 		List<Object> extendedPossibleValues = new ArrayList<Object>(possibleValues);
 		Object currentValue;
-		try {
-			currentValue = data.getValue();
-			error = null;
-			if (!possibleValues.contains(currentValue)) {
-				extendedPossibleValues.add(currentValue);
-			}
-		} catch (final Throwable t) {
-			currentValue = error = t;
-			extendedPossibleValues.add(error);
+		currentValue = data.getValue();
+		if (!possibleValues.contains(currentValue)) {
+			extendedPossibleValues.add(currentValue);
 		}
 		comboBox.setModel(new DefaultComboBoxModel(extendedPossibleValues.toArray()));
 		listenerDisabled = true;
@@ -205,38 +179,13 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 			comboBox.setSelectedItem(currentValue);
 		} finally {
 			listenerDisabled = false;
-		}
-		final Object finalCurrentValue = currentValue;
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				if (error != null) {
-					swingRenderer.getReflectionUI().logError(error);
-					displayError(ReflectionUIUtils.getPrettyErrorMessage(error));
-				} else if (!possibleValues.contains(finalCurrentValue)) {
-					StringBuilder invalidValueMessage = new StringBuilder();
-					{
-						invalidValueMessage.append("Invalid enumeration value found:" + "\n- Enumeration Type: "
-								+ enumType + "\n- Value: " + "\n\t. '" + finalCurrentValue
-								+ "'\n- Expected Valid Values (" + possibleValues.size() + " item(s)):");
-						for (Object value : possibleValues) {
-							invalidValueMessage.append("\n\t. " + ((value == null) ? "<null>" : ("'" + value + "'")));
-						}
-					}
-					swingRenderer.getReflectionUI().logError(new ReflectionUIError(invalidValueMessage.toString()));
-					displayError("");
-				} else {
-					displayError(null);
-				}
-			}
-
-		});
+		}		
 		return true;
 	}
 
 	@Override
 	public boolean handlesModificationStackUpdate() {
-		return true;
+		return false;
 	}
 
 	@Override

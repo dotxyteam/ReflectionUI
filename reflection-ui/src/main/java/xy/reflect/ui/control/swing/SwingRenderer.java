@@ -734,21 +734,21 @@ public class SwingRenderer {
 		return ReflectionUIUtils.getKeysFromValue(getObjectByForm(), object);
 	}
 
-	public IFieldControlData getFormAwareFieldControlData(final JPanel form, String fieldName) {
+	public IFieldInfo getFormField(final JPanel form, String fieldName) {
 		List<FieldControlPlaceHolder> fieldControlPlaceHolders = getFieldControlPlaceHoldersByName(form, fieldName);
 		if (fieldControlPlaceHolders.size() == 0) {
 			return null;
 		}
-		return fieldControlPlaceHolders.get(0).getInitialControlData();
+		return fieldControlPlaceHolders.get(0).getField();
 	}
 
-	public IMethodControlData getFormAwareMethodControlData(final JPanel form, String methodSignature) {
+	public IMethodInfo getFormMethod(final JPanel form, String methodSignature) {
 		List<MethodControlPlaceHolder> methodControlPlaceHolders = getMethodControlPlaceHoldersBySignature(form,
 				methodSignature);
 		if (methodControlPlaceHolders.size() == 0) {
 			return null;
 		}
-		return methodControlPlaceHolders.get(0).getInitialControlData();
+		return methodControlPlaceHolders.get(0).getMethod();
 	}
 
 	public List<FieldControlPlaceHolder> getFieldControlPlaceHoldersByName(JPanel form, String fieldName) {
@@ -1015,7 +1015,7 @@ public class SwingRenderer {
 	}
 
 	public void openInformationDialog(Component activatorComponent, String msg, String title, Image iconImage) {
-		DialogBuilder dialogBuilder = new DialogBuilder(this, activatorComponent);
+		DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
 
 		List<Component> buttons = new ArrayList<Component>();
 		buttons.add(dialogBuilder.createDialogClosingButton("Close", null));
@@ -1029,7 +1029,7 @@ public class SwingRenderer {
 	}
 
 	public void openErrorDialog(Component activatorComponent, String title, final Throwable error) {
-		DialogBuilder dialogBuilder = new DialogBuilder(this, activatorComponent);
+		DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
 
 		List<Component> buttons = new ArrayList<Component>();
 		final JButton deatilsButton = new JButton(prepareStringToDisplay("Details"));
@@ -1681,6 +1681,10 @@ public class SwingRenderer {
 		public IFieldControlData getInitialControlData() {
 			Object object = getObject();
 			IFieldInfo field = FieldControlPlaceHolder.this.field;
+			Object[] valueOptions = field.getValueOptions(object);
+			if (valueOptions != null) {
+				field = new ValueOptionsAsEnumerationField(reflectionUI, object, field);
+			}
 			final ITypeInfoProxyFactory typeSpecificities = field.getTypeSpecificities();
 			if (typeSpecificities != null) {
 				field = new FieldInfoProxy(field) {
@@ -1690,13 +1694,7 @@ public class SwingRenderer {
 					}
 				};
 			}
-			Object[] valueOptions = field.getValueOptions(object);
-			final IFieldInfo finalField;
-			if (valueOptions == null) {
-				finalField = field;
-			} else {
-				finalField = new ValueOptionsAsEnumerationField(reflectionUI, object, field);
-			}
+			final IFieldInfo finalField = field;
 			IFieldControlData result = new IFieldControlData() {
 
 				@Override
@@ -1774,7 +1772,18 @@ public class SwingRenderer {
 				return new PolymorphicControl(SwingRenderer.this, this);
 			} else {
 				if (controlData.isNullable()) {
-					return new NullableControl(SwingRenderer.this, this);
+					return new NullableControl2(SwingRenderer.this, this);
+				}
+				Object value = controlData.getValue();
+				final ITypeInfo actualValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
+				if (!controlData.getType().getName().equals(actualValueType.getName())) {
+					controlData = new FieldControlDataProxy(controlData) {
+						@Override
+						public ITypeInfo getType() {
+							return actualValueType;
+						}
+					};
+					return createFieldControl();
 				}
 				if (DesktopSpecificProperty
 						.isSubFormExpanded(DesktopSpecificProperty.accessControlDataProperties(controlData))) {

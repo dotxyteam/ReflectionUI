@@ -552,7 +552,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		return true;
 	}
 
-	protected String getColumnCaption(int columnIndex) {
+	public String getColumnCaption(int columnIndex) {
 		if (getStructuralInfo() == null) {
 			return "";
 		}
@@ -560,7 +560,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		return tableInfo.getColumns().get(columnIndex).getCaption();
 	}
 
-	protected int getColumnCount() {
+	public int getColumnCount() {
 		if (getStructuralInfo() == null) {
 			return 1;
 		}
@@ -810,7 +810,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		return result;
 	}
 
-	protected ItemPosition getSubItemPosition(ItemPosition itemPosition) {
+	protected ItemPosition getAnySubItemPosition(ItemPosition itemPosition) {
 		if (itemPosition == null) {
 			return getAnyRootListItemPosition();
 		}
@@ -1291,7 +1291,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				ItemPosition result = null;
 				ItemPosition singleSelection = getSingleSelection();
 				if (singleSelection != null) {
-					result = ListControl.this.getSubItemPosition(singleSelection);
+					result = ListControl.this.getAnySubItemPosition(singleSelection);
 				}
 				if (getSelection().size() == 0) {
 					result = getAnyRootListItemPosition();
@@ -1588,7 +1588,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					return getAnyRootListItemPosition().getSibling(0);
 				}
 				if (selection.size() == 1) {
-					return getSubItemPosition(selection.get(0));
+					return getAnySubItemPosition(selection.get(0));
 				}
 				return null;
 			}
@@ -1621,11 +1621,11 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		};
 	}
 
-	protected ITypeInfo getRootListItemType() {
+	public ITypeInfo getRootListItemType() {
 		return getRootListType().getItemType();
 	}
 
-	protected IListTypeInfo getRootListType() {
+	public IListTypeInfo getRootListType() {
 		return (IListTypeInfo) listData.getType();
 	}
 
@@ -1946,15 +1946,15 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		});
 	}
 
-	protected Object[] getRootListRawValue() {
+	public Object[] getRootListRawValue() {
 		return getAnyRootListItemPosition().getContainingListRawValue();
 	}
 
-	protected ItemPosition getAnyRootListItemPosition() {
+	public ItemPosition getAnyRootListItemPosition() {
 		return new ItemPosition(listData, -1);
 	}
 
-	protected ItemPosition getActiveListItemPosition() {
+	public ItemPosition getActiveListItemPosition() {
 		ItemPosition result = getSingleSelection();
 		if (result == null) {
 			result = getAnyRootListItemPosition();
@@ -2335,21 +2335,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			this.itemPosition = itemPosition;
 		}
 
-		@Override
-		public String getEncapsulatedFieldCaption() {
-			return getEncapsulatedFieldType().getCaption();
-		}
-
-		@Override
-		public String getEncapsulationTypeCaption() {
-			return ReflectionUIUtils.composeMessage(itemPosition.getContainingListTitle(), "Item");
-		}
-
-		@Override
-		public String getEditorTitle() {
-			return getEncapsulationTypeCaption();
-		}
-
+		
 		@Override
 		public boolean isObjectFormExpanded() {
 			return true;

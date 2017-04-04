@@ -214,11 +214,6 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 			}
 
 			@Override
-			public String getEditorTitle() {
-				return data.getType().getCaption();
-			}
-
-			@Override
 			public boolean canCommit() {
 				return !data.isGetOnly();
 			}

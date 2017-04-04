@@ -2,18 +2,11 @@ package xy.reflect.ui;
 
 import java.io.IOException;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import xy.ui.testing.Tester;
-import xy.ui.testing.util.TestingUtils;
 
 public class TestWithAutomation extends AbstractUIAutomationTest {
-
-	@Before
-	public void beforeEachTest() {
-		TestingUtils.closeAllTestableWindows();
-	}
 
 	@Test
 	public void testJavaAwtPointUI() throws IOException {

@@ -102,7 +102,7 @@ public class MethodAction extends AbstractAction {
 	}
 
 	protected boolean openMethoExecutionSettingDialog(final Component activatorComponent) {
-		final DialogBuilder dialogBuilder = new DialogBuilder(swingRenderer, activatorComponent);
+		final DialogBuilder dialogBuilder = swingRenderer.createDialogBuilder(activatorComponent);
 		final boolean displayReturnValue = shouldDisplayReturnValueIfAny && (data.getReturnValueType() != null);
 		final boolean[] exceptionThrownHolder = new boolean[] { false };
 		final InvocationData invocationData;
