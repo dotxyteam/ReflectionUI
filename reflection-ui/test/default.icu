@@ -151,7 +151,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Products - Item, fieldType=xy.reflect.ui.TableTreeModelExample$Book, fieldCaption=]</typeName>
@@ -168,7 +167,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Products - Item, fieldType=xy.reflect.ui.TableTreeModelExample$CompactDisc, fieldCaption=]</typeName>
@@ -185,7 +183,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Products - Item, fieldType=xy.reflect.ui.TableTreeModelExample$Loaning, fieldCaption=]</typeName>
@@ -202,7 +199,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Products - Item, fieldType=xy.reflect.ui.TableTreeModelExample$Package, fieldCaption=]</typeName>
@@ -219,7 +215,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Products - Item, fieldType=xy.reflect.ui.TableTreeModelExample$Shoes, fieldCaption=]</typeName>
@@ -236,7 +231,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Products By Duration - Item, fieldType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt;, fieldCaption=]</typeName>
@@ -259,7 +253,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>VirtualFieldWrapperTypeInfo()</typeName>
@@ -276,7 +269,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>VirtualFieldWrapperTypeInfo(Choose a type:)</typeName>
@@ -293,7 +285,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>VirtualFieldWrapperTypeInfo(Choose an option:)</typeName>
@@ -310,7 +301,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>VirtualFieldWrapperTypeInfo(Create 'Object' of type)</typeName>
@@ -327,7 +317,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>VirtualFieldWrapperTypeInfo(Create 'Product' of type)</typeName>
@@ -344,7 +333,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>VirtualFieldWrapperTypeInfo(Message)</typeName>
@@ -397,7 +385,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -408,7 +395,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -419,7 +405,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
@@ -707,7 +692,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -718,7 +702,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -729,7 +712,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -740,7 +722,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -751,7 +732,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>java.lang.StackTraceElement</typeName>
@@ -774,7 +754,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -785,7 +764,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -796,7 +774,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -807,7 +784,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -818,7 +794,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>java.lang.Throwable</typeName>
@@ -847,7 +822,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -858,7 +832,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -869,7 +842,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -880,7 +852,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
@@ -939,7 +910,6 @@
                     </treeStructureDiscoverySettings>
                 </listCustomizations>
             </specificTypeCustomizations>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
@@ -963,7 +933,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -974,7 +943,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -985,7 +953,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -996,7 +963,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -1007,7 +973,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
@@ -1031,7 +996,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -1042,7 +1006,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -1053,7 +1016,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -1064,7 +1026,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
@@ -1088,7 +1049,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -1099,7 +1059,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -1110,7 +1069,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -1121,7 +1079,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
@@ -1145,7 +1102,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -1156,7 +1112,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -1167,7 +1122,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <javaClassBasedTypeInfoFinder>
@@ -1199,7 +1153,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -1210,7 +1163,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -1221,7 +1173,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -1232,7 +1183,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -1243,7 +1193,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
@@ -1268,7 +1217,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -1280,7 +1228,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt;</typeName>
@@ -1303,7 +1250,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -1314,7 +1260,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -1325,7 +1270,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -1336,7 +1280,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -1347,7 +1290,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
@@ -1432,7 +1374,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Product - Polymorphic Value, fieldType=xy.reflect.ui.TableTreeModelExample$Book, fieldCaption=]</typeName>
@@ -1455,7 +1396,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Product - Polymorphic Value, fieldType=xy.reflect.ui.TableTreeModelExample$CompactDisc, fieldCaption=]</typeName>
@@ -1478,7 +1418,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Product - Polymorphic Value, fieldType=xy.reflect.ui.TableTreeModelExample$Loaning, fieldCaption=]</typeName>
@@ -1501,7 +1440,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Products - Item, fieldType=xy.reflect.ui.TableTreeModelExample$Product, fieldCaption=]</typeName>
@@ -1524,7 +1462,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Product - Polymorphic Value, fieldType=xy.reflect.ui.TableTreeModelExample$Package, fieldCaption=]</typeName>
@@ -1547,7 +1484,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Product - Polymorphic Value, fieldType=xy.reflect.ui.TableTreeModelExample$Shoes, fieldCaption=]</typeName>
@@ -1564,7 +1500,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=(Products By Duration) - Item, fieldType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt;, fieldCaption=]</typeName>
@@ -1581,7 +1516,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -1592,7 +1526,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;</typeName>
@@ -1609,7 +1542,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
@@ -1620,7 +1552,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>java.lang.Thread</typeName>
@@ -1643,7 +1574,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.TableTreeModelExample$Book, fieldCaption=]</typeName>
@@ -1666,7 +1596,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.TableTreeModelExample$CompactDisc, fieldCaption=]</typeName>
@@ -1689,7 +1618,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.TableTreeModelExample$Loaning, fieldCaption=]</typeName>
@@ -1712,7 +1640,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.TableTreeModelExample$Package, fieldCaption=]</typeName>
@@ -1735,7 +1662,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.TableTreeModelExample$Shoes, fieldCaption=]</typeName>
@@ -1752,7 +1678,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Product - Polymorphic Type, fieldType=SubTypesEnumeration [polymorphicType=xy.reflect.ui.TableTreeModelExample$Product], fieldCaption=]</typeName>
@@ -1775,7 +1700,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Product - Dynamic Wrapper, fieldType=xy.reflect.ui.TableTreeModelExample$Book, fieldCaption=]</typeName>
@@ -1792,7 +1716,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Product, fieldType=xy.reflect.ui.TableTreeModelExample$Product, fieldCaption=]</typeName>
@@ -1815,7 +1738,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Product - Dynamic Wrapper, fieldType=xy.reflect.ui.TableTreeModelExample$CompactDisc, fieldCaption=]</typeName>
@@ -1838,7 +1760,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Product - Dynamic Wrapper, fieldType=xy.reflect.ui.TableTreeModelExample$Loaning, fieldCaption=]</typeName>
@@ -1861,7 +1782,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Product - Dynamic Wrapper, fieldType=xy.reflect.ui.TableTreeModelExample$Package, fieldCaption=]</typeName>
@@ -1884,7 +1804,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Product - Dynamic Wrapper, fieldType=xy.reflect.ui.TableTreeModelExample$Shoes, fieldCaption=]</typeName>
@@ -1907,7 +1826,6 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Entry - Dynamic Wrapper, fieldType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt;, fieldCaption=]</typeName>
@@ -1924,7 +1842,22 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Entry, fieldType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt;, fieldCaption=]</typeName>
@@ -1947,7 +1880,22 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Polymorphic - Product, fieldType=xy.reflect.ui.TableTreeModelExample$Book, fieldCaption=]</typeName>
@@ -1970,7 +1918,22 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Polymorphic - Product, fieldType=xy.reflect.ui.TableTreeModelExample$CompactDisc, fieldCaption=]</typeName>
@@ -1993,7 +1956,22 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Polymorphic - Product, fieldType=xy.reflect.ui.TableTreeModelExample$Loaning, fieldCaption=]</typeName>
@@ -2016,7 +1994,22 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Polymorphic - Product, fieldType=xy.reflect.ui.TableTreeModelExample$Package, fieldCaption=]</typeName>
@@ -2039,7 +2032,22 @@
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
-            <typeSpecificitiesUsed>true</typeSpecificitiesUsed>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Polymorphic - Product, fieldType=xy.reflect.ui.TableTreeModelExample$Shoes, fieldCaption=]</typeName>

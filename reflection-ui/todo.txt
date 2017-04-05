@@ -1,5 +1,12 @@
+- reflectionUI is often excluded from hashCode() and equals()
+	=> justified ?
+- allow to specify ImplicitListField in customizations
+- dialog/panel creation is sometimes slow but no busy dialog shown
+	<= multiple small showBusyDialogWHile() calls are done
+	=> find a way to show the busy dialog anyway
 - check how duplicate field names are handled
-- ListControl calls too much list.toArray(): optimize
+- ListControl calls too much list.toArray() and listData.getValue()
+	=> optimize
 . allow to execute dynamic actions or change dynamic properties on 
 multiple nodes
 . restore all control states on refresh,

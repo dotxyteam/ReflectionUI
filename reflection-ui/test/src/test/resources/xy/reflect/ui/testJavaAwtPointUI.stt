@@ -49,7 +49,6 @@
         <string>0</string>
         <string>Y: </string>
         <string>0</string>
-        <string>Location: </string>
         <string>Point[x=0,y=0]</string>
         <string>...</string>
         <string>Clone</string>
@@ -121,7 +120,6 @@
         <string>1</string>
         <string>Y: </string>
         <string>2</string>
-        <string>Location: </string>
         <string>Point[x=1,y=2]</string>
         <string>...</string>
         <string>Clone</string>
@@ -224,7 +222,7 @@
         <string>3</string>
         <string>Y: </string>
         <string>4</string>
-        <string>Location: </string>
+        <string>Location</string>
         <string>Point[x=3,y=4]</string>
         <string>...</string>
         <string>Clone</string>
@@ -263,7 +261,6 @@
         <string>3</string>
         <string>Y: </string>
         <string>4</string>
-        <string>Location: </string>
         <string>Point[x=3,y=4]</string>
         <string>...</string>
         <string>Clone</string>
@@ -331,12 +328,8 @@
       <completenessChecked>false</completenessChecked>
       <orderChecked>false</orderChecked>
       <visibleStrings>
-        <string>Localized Message: </string>
-        <string>Missing Value Error</string>
-        <string>Message: </string>
         <string>Missing Value Error</string>
         <string>Cause</string>
-        <string>Missing Value Error</string>
         <string>Stack Trace</string>
         <string>Is Native Method</string>
         <string>Line Number</string>

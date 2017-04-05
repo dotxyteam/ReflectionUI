@@ -3,79 +3,40 @@ package xy.reflect.ui.info.type.iterable.item;
 import java.util.ArrayList;
 import java.util.List;
 
-import xy.reflect.ui.info.ValueReturnMode;
- 
+import xy.reflect.ui.util.ReflectionUIError;
+
 public class BufferedItemPosition extends ItemPosition {
 
-	protected Object bufferedItem;
 	protected ItemPosition standardItemPosition;
+	protected Object bufferedItem;
+	protected BufferedItemPosition bufferedParentItemPosition;
 
-	public BufferedItemPosition(ItemPosition standardItemPosition, Object bufferedItem) {
-		super(standardItemPosition.getParentItemPosition(), standardItemPosition.getContainingListData(),
-				standardItemPosition.getIndex());
+	public BufferedItemPosition(ItemPosition standardItemPosition) {
+		super(standardItemPosition.parentItemPosition, standardItemPosition.containingListDataIfRoot,
+				standardItemPosition.containingListFieldIfNotRoot, standardItemPosition.containingListSize,
+				standardItemPosition.index);
+		if (standardItemPosition instanceof BufferedItemPosition) {
+			throw new ReflectionUIError();
+		}
 		this.standardItemPosition = standardItemPosition;
-		this.bufferedItem = bufferedItem;
 	}
 
 	@Override
 	public Object getItem() {
+		if (bufferedItem == null) {
+			if ((index >= 0) && (index < containingListSize)) {
+				refreshBufferedItem();
+			}
+		}
 		return bufferedItem;
 	}
 
-	public void setItem(Object item) {
+	public void setBufferedItem(Object item) {
 		this.bufferedItem = item;
 	}
 
-	@Override
-	public ValueReturnMode getItemReturnMode() {
-		return ValueReturnMode.DIRECT_OR_PROXY;
-	}
-
-	@Override
-	public BufferedItemPosition getParentItemPosition() {
-		ItemPosition standardParentItemPosition = getStandardItemPosition().parentItemPosition;
-		if (standardParentItemPosition == null) {
-			return null;
-		}
-		return new BufferedItemPosition(standardParentItemPosition, standardParentItemPosition.getItem());
-	}
-
-	@Override
-	public BufferedItemPosition getSibling(int index2) {
-		ItemPosition standardSibling = getStandardItemPosition().getSibling(index2);
-		return new BufferedItemPosition(standardSibling, standardSibling.getItem());
-	}
-
-	@Override
-	public List<BufferedItemPosition> getPreviousSiblings() {
-		List<BufferedItemPosition> result = new ArrayList<BufferedItemPosition>();
-		for (ItemPosition standardPreviousPosition : getStandardItemPosition().getPreviousSiblings()) {
-			result.add(new BufferedItemPosition(standardPreviousPosition, standardPreviousPosition.getItem()));
-		}
-		return result;
-	}
-
-	@Override
-	public List<BufferedItemPosition> getFollowingSiblings() {
-		List<BufferedItemPosition> result = new ArrayList<BufferedItemPosition>();
-		for (ItemPosition standardFollowingPosition : getStandardItemPosition().getFollowingSiblings()) {
-			result.add(new BufferedItemPosition(standardFollowingPosition, standardFollowingPosition.getItem()));
-		}
-		return result;
-	}
-
-	@Override
-	public List<BufferedItemPosition> getSubItemPositions() {
-		List<BufferedItemPosition> result = new ArrayList<BufferedItemPosition>();
-		for (ItemPosition standardSubItemPosition : getStandardItemPosition().getSubItemPositions()) {
-			result.add(new BufferedItemPosition(standardSubItemPosition, standardSubItemPosition.getItem()));
-		}
-		return result;
-	}
-
-	@Override
-	public BufferedItemPosition getRootListItemPosition() {
-		return (BufferedItemPosition) super.getRootListItemPosition();
+	public void refreshBufferedItem() {
+		setBufferedItem(standardItemPosition.getItem());
 	}
 
 	public ItemPosition getStandardItemPosition() {
@@ -83,28 +44,66 @@ public class BufferedItemPosition extends ItemPosition {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((bufferedItem == null) ? 0 : bufferedItem.hashCode());
+	public BufferedItemPosition getParentItemPosition() {
+		if (bufferedParentItemPosition == null) {
+			ItemPosition standardParentItemPosition = standardItemPosition.parentItemPosition;
+			if (standardParentItemPosition == null) {
+				return null;
+			}
+			bufferedParentItemPosition = new BufferedItemPosition(standardParentItemPosition);
+		}
+		return bufferedParentItemPosition;
+	}
+
+	@Override
+	public BufferedItemPosition getRootListItemPosition() {
+		return (BufferedItemPosition) super.getRootListItemPosition();
+	}
+
+	@Override
+	public BufferedItemPosition getSibling(int index2) {
+		ItemPosition standardSibling = standardItemPosition.getSibling(index2);
+		return new BufferedItemPosition(standardSibling);
+	}
+
+	@Override
+	public List<BufferedItemPosition> getPreviousSiblings() {
+		List<BufferedItemPosition> result = new ArrayList<BufferedItemPosition>();
+		for (ItemPosition standardPreviousPosition : standardItemPosition.getPreviousSiblings()) {
+			result.add(new BufferedItemPosition(standardPreviousPosition));
+		}
 		return result;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		BufferedItemPosition other = (BufferedItemPosition) obj;
-		if (bufferedItem == null) {
-			if (other.bufferedItem != null)
-				return false;
-		} else if (!bufferedItem.equals(other.bufferedItem))
-			return false;
-		return true;
+	public List<BufferedItemPosition> getFollowingSiblings() {
+		List<BufferedItemPosition> result = new ArrayList<BufferedItemPosition>();
+		for (ItemPosition standardFollowingPosition : standardItemPosition.getFollowingSiblings()) {
+			result.add(new BufferedItemPosition(standardFollowingPosition));
+		}
+		return result;
+	}
+
+	@Override
+	public BufferedItemPosition getAnySubItemPosition() {
+		BufferedItemPosition result = (BufferedItemPosition) super.getAnySubItemPosition();
+		if (result != null) {
+			result.parentItemPosition = standardItemPosition;
+			result.standardItemPosition = new ItemPosition(standardItemPosition, null,
+					result.containingListFieldIfNotRoot, result.containingListSize, result.index);
+			result.bufferedParentItemPosition = this;
+			result.bufferedItem = null;
+		}
+		return result;
+	}
+
+	@Override
+	public List<BufferedItemPosition> getSubItemPositions() {
+		List<BufferedItemPosition> result = new ArrayList<BufferedItemPosition>();
+		for (ItemPosition standardSubItemPosition : standardItemPosition.getSubItemPositions()) {
+			result.add(new BufferedItemPosition(standardSubItemPosition));
+		}
+		return result;
 	}
 
 	@Override

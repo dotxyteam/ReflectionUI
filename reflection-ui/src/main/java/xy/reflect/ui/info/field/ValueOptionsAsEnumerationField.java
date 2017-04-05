@@ -10,11 +10,11 @@ import xy.reflect.ui.info.type.util.GenericEnumerationFactory;
 public class ValueOptionsAsEnumerationField extends FieldInfoProxy {
 
 	protected Object object;
-	
+
 	protected GenericEnumerationFactory enumFactory;
 	protected ITypeInfo enumType;
 	private ReflectionUI reflectionUI;
-	
+
 	public ValueOptionsAsEnumerationField(ReflectionUI reflectionUI, Object object, IFieldInfo base) {
 		super(base);
 		this.reflectionUI = reflectionUI;
@@ -26,16 +26,16 @@ public class ValueOptionsAsEnumerationField extends FieldInfoProxy {
 	protected GenericEnumerationFactory createArrayAsEnumerationFactory() {
 		ITypeInfo ownerType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		String enumTypeName = "ValueOptions [ownerType=" + ownerType.getName() + ", field=" + base.getName() + "]";
-		Iterable<Object> iterable =  new Iterable<Object>(){
+		Iterable<Object> iterable = new Iterable<Object>() {
 			@Override
 			public Iterator<Object> iterator() {
 				Object[] valueOptions = base.getValueOptions(object);
 				return Arrays.asList(valueOptions).iterator();
-			}			
+			}
 		};
 		return new GenericEnumerationFactory(reflectionUI, iterable, enumTypeName, "", false);
 	}
-	
+
 	@Override
 	public Object[] getValueOptions(Object object) {
 		return null;
@@ -63,4 +63,30 @@ public class ValueOptionsAsEnumerationField extends FieldInfoProxy {
 	public ITypeInfo getType() {
 		return enumType;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((object == null) ? 0 : object.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ValueOptionsAsEnumerationField other = (ValueOptionsAsEnumerationField) obj;
+		if (object == null) {
+			if (other.object != null)
+				return false;
+		} else if (!object.equals(other.object))
+			return false;
+		return true;
+	}
+
 }

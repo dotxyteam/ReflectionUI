@@ -114,7 +114,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	protected JPanel detailsArea;
 	protected JPanel detailsControl;
 	protected IListItemDetailsAccessMode detailsMode;
-	protected ItemPosition detailsControlItemPosition;
+	protected BufferedItemPosition detailsControlItemPosition;
 	protected Object detailsControlItem;
 
 	protected List<Runnable> selectionListeners = new ArrayList<Runnable>();
@@ -197,7 +197,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 						if (header != null) {
 							treeTableComponentPreferredSize.height += header.getHeight();
 						}
-						treeTableComponentPreferredSize.height += 10;
+						treeTableComponentPreferredSize.height += (characterSize * 5);
 						result.height = Math.max(result.height, treeTableComponentPreferredSize.height);
 					}
 					Dimension toolbarSize = toolbar.getPreferredSize();
@@ -578,7 +578,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		if (nodeValues.containsKey(columnIndex)) {
 			value = nodeValues.get(columnIndex);
 		} else {
-			ItemPosition itemPosition = (ItemPosition) node.getUserObject();
+			BufferedItemPosition itemPosition = (BufferedItemPosition) node.getUserObject();
 			if (itemPosition == null) {
 				value = "";
 			} else {
@@ -614,7 +614,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected Image getCellIconImage(ItemNode node, int columnIndex) {
-		ItemPosition itemPosition = (ItemPosition) node.getUserObject();
+		BufferedItemPosition itemPosition = (BufferedItemPosition) node.getUserObject();
 		if (columnIndex == 0) {
 			return swingRenderer.getObjectIconImage(itemPosition.getItem());
 		}
@@ -625,7 +625,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 		List<AbstractAction> result = new ArrayList<AbstractAction>();
 
-		List<ItemPosition> selection = getSelection();
+		List<BufferedItemPosition> selection = getSelection();
 
 		AbstractStandardListAction standardAction;
 
@@ -750,9 +750,9 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		return result;
 	}
 
-	protected boolean canCopyAll(List<ItemPosition> selection) {
+	protected boolean canCopyAll(List<BufferedItemPosition> selection) {
 		boolean result = true;
-		for (ItemPosition selectionItem : selection) {
+		for (BufferedItemPosition selectionItem : selection) {
 			if (!ReflectionUIUtils.canCopy(swingRenderer.getReflectionUI(), selectionItem.getItem())) {
 				result = false;
 				break;
@@ -761,9 +761,9 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		return result;
 	}
 
-	protected boolean canRemoveAll(List<ItemPosition> selection) {
+	protected boolean canRemoveAll(List<BufferedItemPosition> selection) {
 		boolean result = true;
-		for (ItemPosition selectionItem : selection) {
+		for (BufferedItemPosition selectionItem : selection) {
 			if (!new ListModificationFactory(selectionItem, getModificationsTarget())
 					.canRemove(selectionItem.getIndex())) {
 				result = false;
@@ -773,9 +773,9 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		return result;
 	}
 
-	protected boolean canMoveAll(List<ItemPosition> selection, int offset) {
+	protected boolean canMoveAll(List<BufferedItemPosition> selection, int offset) {
 		boolean result = true;
-		for (ItemPosition selectionItem : selection) {
+		for (BufferedItemPosition selectionItem : selection) {
 			if (!new ListModificationFactory(selectionItem, getModificationsTarget()).canMove(selectionItem.getIndex(),
 					offset)) {
 				result = false;
@@ -787,9 +787,9 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	protected boolean allSelectionItemsInSameList() {
 		boolean result = true;
-		List<ItemPosition> selection = getSelection();
-		ItemPosition firstSelectionItem = selection.get(0);
-		for (ItemPosition selectionItem : selection) {
+		List<BufferedItemPosition> selection = getSelection();
+		BufferedItemPosition firstSelectionItem = selection.get(0);
+		for (BufferedItemPosition selectionItem : selection) {
 			if (!ReflectionUIUtils.equalsOrBothNull(firstSelectionItem.getParentItemPosition(),
 					selectionItem.getParentItemPosition())) {
 				result = false;
@@ -799,7 +799,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		return result;
 	}
 
-	protected boolean itemPositionSupportsAllClipboardItems(ItemPosition itemPosition) {
+	protected boolean itemPositionSupportsAllClipboardItems(BufferedItemPosition itemPosition) {
 		boolean result = true;
 		for (Object clipboardItem : clipboard) {
 			if (!itemPosition.supportsItem(clipboardItem)) {
@@ -810,30 +810,12 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		return result;
 	}
 
-	protected ItemPosition getAnySubItemPosition(ItemPosition itemPosition) {
-		if (itemPosition == null) {
-			return getAnyRootListItemPosition();
-		}
-		final IFieldControlData subListData = itemPosition.getSubListData();
-		if (subListData == null) {
-			return null;
-		}
-		return new ItemPosition(itemPosition, subListData, -1) {
-
-			@Override
-			public String getContainingListTitle() {
-				return subListData.getCaption();
-			}
-
-		};
-	}
-
 	protected AbstractStandardListAction createClearAction() {
 		return new AbstractStandardListAction() {
 			protected static final long serialVersionUID = 1L;
 
 			@Override
-			protected boolean perform(List<ItemPosition>[] toPostSelectHolder) {
+			protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
 				if (!userConfirms("Remove all the items?")) {
 					return false;
 				}
@@ -878,14 +860,14 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			protected static final long serialVersionUID = 1L;
 
 			@Override
-			protected boolean perform(List<ItemPosition>[] toPostSelectHolder) {
-				List<ItemPosition> selection = getSelection();
+			protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+				List<BufferedItemPosition> selection = getSelection();
 				if (offset > 0) {
-					selection = new ArrayList<ItemPosition>(selection);
+					selection = new ArrayList<BufferedItemPosition>(selection);
 					Collections.reverse(selection);
 				}
-				List<ItemPosition> newSelection = new ArrayList<ItemPosition>();
-				for (ItemPosition itemPosition : selection) {
+				List<BufferedItemPosition> newSelection = new ArrayList<BufferedItemPosition>();
+				for (BufferedItemPosition itemPosition : selection) {
 					int index = itemPosition.getIndex();
 					getModificationStack().apply(
 							new ListModificationFactory(itemPosition, getModificationsTarget()).move(index, offset));
@@ -907,7 +889,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			public boolean isValid() {
-				List<ItemPosition> selection = getSelection();
+				List<BufferedItemPosition> selection = getSelection();
 				if (selection.size() > 0) {
 					if (canMoveAll(selection, offset)) {
 						if (allSelectionItemsInSameList()) {
@@ -924,8 +906,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	}
 
-	public ItemPosition getSingleSelection() {
-		List<ItemPosition> selection = getSelection();
+	public BufferedItemPosition getSingleSelection() {
+		List<BufferedItemPosition> selection = getSelection();
 		if ((selection.size() == 0) || (selection.size() > 1)) {
 			return null;
 		} else {
@@ -933,8 +915,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		}
 	}
 
-	public List<ItemPosition> getSelection() {
-		List<ItemPosition> result = new ArrayList<ItemPosition>();
+	public List<BufferedItemPosition> getSelection() {
+		List<BufferedItemPosition> result = new ArrayList<BufferedItemPosition>();
 		for (int selectedRow : treeTableComponent.getSelectedRows()) {
 			TreePath path = treeTableComponent.getPathForRow(selectedRow);
 			if (path == null) {
@@ -942,20 +924,20 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			}
 			ItemNode selectedNode = (ItemNode) path.getLastPathComponent();
 			BufferedItemPosition bufferedItemPosition = (BufferedItemPosition) selectedNode.getUserObject();
-			result.add(bufferedItemPosition.getStandardItemPosition());
+			result.add(bufferedItemPosition);
 		}
 		return result;
 	}
 
-	public void setSingleSelection(ItemPosition toSelect) {
+	public void setSingleSelection(BufferedItemPosition toSelect) {
 		setSelection(Collections.singletonList(toSelect));
 	}
 
-	public ItemPosition findItemPositionByReference(final Object item) {
-		final ItemPosition[] result = new ItemPosition[1];
+	public BufferedItemPosition findItemPositionByReference(final Object item) {
+		final BufferedItemPosition[] result = new BufferedItemPosition[1];
 		visitItems(new IItemsVisitor() {
 			@Override
-			public boolean visitItem(ItemPosition itemPosition) {
+			public boolean visitItem(BufferedItemPosition itemPosition) {
 				if (itemPosition.getItem() == item) {
 					result[0] = itemPosition;
 					return false;
@@ -966,21 +948,21 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		return result[0];
 	}
 
-	public void setSelection(List<ItemPosition> toSelect) {
+	public void setSelection(List<BufferedItemPosition> toSelect) {
 		List<TreePath> treePaths = new ArrayList<TreePath>();
 		for (int i = 0; i < toSelect.size(); i++) {
-			ItemPosition itemPosition = toSelect.get(i);
+			BufferedItemPosition itemPosition = toSelect.get(i);
 			if (itemPosition == null) {
 				treeTableComponent.clearSelection();
 			} else {
 				ItemNode itemNode = findNode(itemPosition);
 				if (itemNode == null) {
-					ItemPosition parentItemPosition = itemPosition.getParentItemPosition();
+					BufferedItemPosition parentItemPosition = itemPosition.getParentItemPosition();
 					if (parentItemPosition == null) {
 						treeTableComponent.clearSelection();
 						return;
 					}
-					toSelect = new ArrayList<ItemPosition>(toSelect);
+					toSelect = new ArrayList<BufferedItemPosition>(toSelect);
 					toSelect.set(i, parentItemPosition);
 					setSelection(toSelect);
 					return;
@@ -995,9 +977,9 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		}
 	}
 
-	protected ItemNode findNode(ItemPosition itemPosition) {
+	protected ItemNode findNode(BufferedItemPosition itemPosition) {
 		ItemNode parentNode;
-		if (itemPosition.isRootListItemPosition()) {
+		if (itemPosition.isRoot()) {
 			parentNode = rootNode;
 		} else {
 			parentNode = findNode(itemPosition.getParentItemPosition());
@@ -1020,13 +1002,13 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			protected static final long serialVersionUID = 1L;
 
 			@Override
-			protected boolean perform(List<ItemPosition>[] toPostSelectHolder) {
+			protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
 				if (userConfirms("Remove the element(s)?")) {
-					List<ItemPosition> selection = getSelection();
-					selection = new ArrayList<ItemPosition>(selection);
+					List<BufferedItemPosition> selection = getSelection();
+					selection = new ArrayList<BufferedItemPosition>(selection);
 					Collections.reverse(selection);
-					List<ItemPosition> toPostSelect = new ArrayList<ItemPosition>();
-					for (ItemPosition itemPosition : selection) {
+					List<BufferedItemPosition> toPostSelect = new ArrayList<BufferedItemPosition>();
+					for (BufferedItemPosition itemPosition : selection) {
 						int index = itemPosition.getIndex();
 						getModificationStack().apply(
 								new ListModificationFactory(itemPosition, getModificationsTarget()).remove(index));
@@ -1056,12 +1038,12 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			public boolean isValid() {
-				List<ItemPosition> selection = getSelection();
+				List<BufferedItemPosition> selection = getSelection();
 				if (selection.size() == 0) {
 					return false;
 				}
 				if (selection.size() > 0) {
-					for (ItemPosition selectionItem : selection) {
+					for (BufferedItemPosition selectionItem : selection) {
 						if (!new ListModificationFactory(selectionItem, getModificationsTarget())
 								.canRemove(selectionItem.getIndex())) {
 							return false;
@@ -1076,9 +1058,10 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		};
 	}
 
-	protected void updateItemPositionsAfterItemRemoval(List<ItemPosition> toUpdate, ItemPosition removed) {
+	protected void updateItemPositionsAfterItemRemoval(List<BufferedItemPosition> toUpdate,
+			BufferedItemPosition removed) {
 		for (int i = 0; i < toUpdate.size(); i++) {
-			ItemPosition toUpdateItem = toUpdate.get(i);
+			BufferedItemPosition toUpdateItem = toUpdate.get(i);
 			if (toUpdateItem.equals(removed) || toUpdateItem.getAncestors().contains(removed)) {
 				toUpdate.remove(i);
 				i--;
@@ -1093,14 +1076,16 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			protected static final long serialVersionUID = 1L;
 
 			@Override
-			protected boolean perform(List<ItemPosition>[] toPostSelectHolder) {
-				ItemPosition newItemPosition = getNewItemPosition();
+			protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+				BufferedItemPosition newItemPosition = getNewItemPosition();
 				IListTypeInfo listType = newItemPosition.getContainingListType();
 				Object newItem = createItem(newItemPosition);
 				if (newItem == null) {
 					return false;
 				}
-				BufferedItemPosition futureItemPosition = new BufferedItemPosition(newItemPosition, newItem);
+				BufferedItemPosition futureItemPosition = new BufferedItemPosition(
+						newItemPosition.getStandardItemPosition());
+				futureItemPosition.setBufferedItem(newItem);
 				ItemUIBuilder dialogBuilder = new ItemUIBuilder(futureItemPosition) {
 					ModificationStack dummyModificationStack = new ModificationStack(null);
 
@@ -1124,9 +1109,10 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					newItem = dialogBuilder.getCurrentObjectValue();
 					getModificationStack().apply(new ListModificationFactory(newItemPosition, getModificationsTarget())
 							.add(newItemPosition.getIndex(), newItem));
-					ItemPosition toSelect = newItemPosition;
+					BufferedItemPosition toSelect = newItemPosition;
 					if (!listType.isOrdered()) {
-						int indexToSelect = Arrays.asList(newItemPosition.getContainingListRawValue()).indexOf(newItem);
+						int indexToSelect = Arrays.asList(newItemPosition.retrieveContainingListRawValue())
+								.indexOf(newItem);
 						toSelect = newItemPosition.getSibling(indexToSelect);
 					}
 					toPostSelectHolder[0] = Collections.singletonList(toSelect);
@@ -1138,7 +1124,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			protected String getActionTitle() {
-				ItemPosition newItemPosition = getNewItemPosition();
+				BufferedItemPosition newItemPosition = getNewItemPosition();
 				if (newItemPosition == null) {
 					return null;
 				}
@@ -1168,8 +1154,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				return buttonText;
 			}
 
-			private ItemPosition getNewItemPosition() {
-				ItemPosition singleSelection = getSingleSelection();
+			private BufferedItemPosition getNewItemPosition() {
+				BufferedItemPosition singleSelection = getSingleSelection();
 				final int index;
 				if (singleSelection == null) {
 					return null;
@@ -1191,7 +1177,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			public boolean isValid() {
-				ItemPosition newItemPosition = getNewItemPosition();
+				BufferedItemPosition newItemPosition = getNewItemPosition();
 				if (newItemPosition != null) {
 					if (newItemPosition.getContainingListType().isInsertionAllowed()) {
 						if (new ListModificationFactory(newItemPosition, getModificationsTarget())
@@ -1225,16 +1211,17 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected boolean perform(List<ItemPosition>[] toPostSelectHolder) {
-				ItemPosition newSubItemPosition = getNewSubItemPosition();
+			protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+				BufferedItemPosition newSubItemPosition = getNewSubItemPosition();
 				IListTypeInfo subListType = newSubItemPosition.getContainingListType();
 				Object newSubListItem = createItem(getNewSubItemPosition());
 				if (newSubListItem == null) {
 					return false;
 				}
-				BufferedItemPosition futureSubItemPosition = new BufferedItemPosition(newSubItemPosition,
-						newSubListItem);
-				ItemUIBuilder dialogBuilder = new ItemUIBuilder(futureSubItemPosition) {
+				BufferedItemPosition futureItemPosition = new BufferedItemPosition(
+						newSubItemPosition.getStandardItemPosition());
+				futureItemPosition.setBufferedItem(newSubListItem);
+				ItemUIBuilder dialogBuilder = new ItemUIBuilder(futureItemPosition) {
 					ModificationStack dummyModificationStack = new ModificationStack(null);
 
 					@Override
@@ -1260,10 +1247,10 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 							.apply(new ListModificationFactory(newSubItemPosition, getModificationsTarget())
 									.add(newSubItemPosition.getIndex(), newSubListItem));
 					if (!subListType.isOrdered()) {
-						newSubItemPosition = newSubItemPosition.getSibling(
-								Arrays.asList(newSubItemPosition.getContainingListRawValue()).indexOf(newSubListItem));
+						newSubItemPosition = newSubItemPosition.getSibling(Arrays
+								.asList(newSubItemPosition.retrieveContainingListRawValue()).indexOf(newSubListItem));
 					}
-					ItemPosition toSelect = newSubItemPosition.getSibling(newSubItemPosition.getIndex());
+					BufferedItemPosition toSelect = newSubItemPosition.getSibling(newSubItemPosition.getIndex());
 					toPostSelectHolder[0] = Collections.singletonList(toSelect);
 					return true;
 				} else {
@@ -1273,7 +1260,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			public boolean isValid() {
-				ItemPosition newSubItemPosition = getNewSubItemPosition();
+				BufferedItemPosition newSubItemPosition = getNewSubItemPosition();
 				if (newSubItemPosition == null) {
 					return false;
 				}
@@ -1287,24 +1274,24 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				return true;
 			}
 
-			protected ItemPosition getNewSubItemPosition() {
-				ItemPosition result = null;
-				ItemPosition singleSelection = getSingleSelection();
+			protected BufferedItemPosition getNewSubItemPosition() {
+				BufferedItemPosition result = null;
+				BufferedItemPosition singleSelection = getSingleSelection();
 				if (singleSelection != null) {
-					result = ListControl.this.getAnySubItemPosition(singleSelection);
+					result = singleSelection.getAnySubItemPosition();
 				}
 				if (getSelection().size() == 0) {
 					result = getAnyRootListItemPosition();
 				}
 				if (result != null) {
-					result = result.getSibling(result.getContainingListRawValue().length);
+					result = result.getSibling(result.getContainingListSize());
 				}
 				return result;
 			}
 
 			@Override
 			protected String getActionTitle() {
-				ItemPosition subItemPosition = getNewSubItemPosition();
+				BufferedItemPosition subItemPosition = getNewSubItemPosition();
 				final IListTypeInfo subListType = subItemPosition.getContainingListType();
 				final ITypeInfo subListItemType = subListType.getItemType();
 				String title = "Add";
@@ -1326,7 +1313,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		};
 	}
 
-	protected Object createItem(ItemPosition itemPosition) {
+	protected Object createItem(BufferedItemPosition itemPosition) {
 		IListTypeInfo subListType = itemPosition.getContainingListType();
 		ITypeInfo typeToInstanciate = subListType.getItemType();
 		if (typeToInstanciate == null) {
@@ -1340,16 +1327,16 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		}
 	}
 
-	protected ITypeInfo addSpecificItemContructors(ITypeInfo itemType, final ItemPosition newItemPosition) {
+	protected ITypeInfo addSpecificItemContructors(ITypeInfo itemType, final BufferedItemPosition newItemPosition) {
 		return new TypeInfoProxyFactory() {
 
 			@Override
 			protected List<IMethodInfo> getConstructors(ITypeInfo type) {
 				List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getConstructors(type));
-				IFieldControlData containingListData = newItemPosition.getContainingListData();
+				Object containingList = newItemPosition.retrieveContainingListValue();
 				IListTypeInfo containingListType = newItemPosition.getContainingListType();
 				List<IMethodInfo> specificItemConstructors = containingListType
-						.getAdditionalItemConstructors(containingListData.getValue());
+						.getAdditionalItemConstructors(containingList);
 				if (specificItemConstructors != null) {
 					result.addAll(specificItemConstructors);
 				}
@@ -1369,10 +1356,10 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			protected static final long serialVersionUID = 1L;
 
 			@Override
-			protected boolean perform(List<ItemPosition>[] toPostSelectHolder) {
+			protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
 				clipboard.clear();
-				List<ItemPosition> selection = getSelection();
-				for (ItemPosition itemPosition : selection) {
+				List<BufferedItemPosition> selection = getSelection();
+				for (BufferedItemPosition itemPosition : selection) {
 					clipboard.add(ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), itemPosition.getItem()));
 				}
 				return false;
@@ -1390,7 +1377,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			public boolean isValid() {
-				List<ItemPosition> selection = getSelection();
+				List<BufferedItemPosition> selection = getSelection();
 				if (selection.size() > 0) {
 					if (canCopyAll(selection)) {
 						return true;
@@ -1408,13 +1395,13 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			protected static final long serialVersionUID = 1L;
 
 			@Override
-			protected boolean perform(List<ItemPosition>[] toPostSelectHolder) {
+			protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
 				clipboard.clear();
-				List<ItemPosition> selection = getSelection();
-				selection = new ArrayList<ItemPosition>(selection);
+				List<BufferedItemPosition> selection = getSelection();
+				selection = new ArrayList<BufferedItemPosition>(selection);
 				Collections.reverse(selection);
-				List<ItemPosition> toPostSelect = new ArrayList<ItemPosition>();
-				for (ItemPosition itemPosition : selection) {
+				List<BufferedItemPosition> toPostSelect = new ArrayList<BufferedItemPosition>();
+				for (BufferedItemPosition itemPosition : selection) {
 					clipboard.add(0, ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), itemPosition.getItem()));
 					int index = itemPosition.getIndex();
 					getModificationStack()
@@ -1442,7 +1429,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			public boolean isValid() {
-				List<ItemPosition> selection = getSelection();
+				List<BufferedItemPosition> selection = getSelection();
 				if (selection.size() > 0) {
 					if (canCopyAll(selection) && canRemoveAll(selection)) {
 						return true;
@@ -1460,8 +1447,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			protected static final long serialVersionUID = 1L;
 
 			@Override
-			protected boolean perform(List<ItemPosition>[] toPostSelectHolder) {
-				ItemPosition newItemPosition = getNewItemPosition();
+			protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+				BufferedItemPosition newItemPosition = getNewItemPosition();
 				int index = newItemPosition.getIndex();
 				int initialIndex = index;
 				for (Object clipboardItem : clipboard) {
@@ -1470,7 +1457,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 							.add(index, clipboardItem));
 					index++;
 				}
-				List<ItemPosition> toPostSelect = new ArrayList<ItemPosition>();
+				List<BufferedItemPosition> toPostSelect = new ArrayList<BufferedItemPosition>();
 				IListTypeInfo listType = newItemPosition.getContainingListType();
 				index = initialIndex;
 				for (int i = 0; i < clipboard.size(); i++) {
@@ -1478,7 +1465,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					if (listType.isOrdered()) {
 						index = initialIndex + i;
 					} else {
-						index = Arrays.asList(newItemPosition.getContainingListRawValue()).indexOf(clipboardItem);
+						index = Arrays.asList(newItemPosition.retrieveContainingListRawValue()).indexOf(clipboardItem);
 					}
 					if (index != -1) {
 						toPostSelect.add(newItemPosition.getSibling(index));
@@ -1488,10 +1475,10 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				return true;
 			}
 
-			protected ItemPosition getNewItemPosition() {
-				List<ItemPosition> selection = getSelection();
+			protected BufferedItemPosition getNewItemPosition() {
+				List<BufferedItemPosition> selection = getSelection();
 				if (selection.size() == 1) {
-					ItemPosition singleSelection = selection.get(0);
+					BufferedItemPosition singleSelection = selection.get(0);
 					int index = singleSelection.getIndex();
 					return singleSelection.getSibling(index + 1);
 				} else {
@@ -1520,7 +1507,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			@Override
 			public boolean isValid() {
 				if (clipboard.size() > 0) {
-					ItemPosition newItemPosition = getNewItemPosition();
+					BufferedItemPosition newItemPosition = getNewItemPosition();
 					if (newItemPosition != null) {
 						if (new ListModificationFactory(newItemPosition, getModificationsTarget())
 								.canAdd(newItemPosition.getIndex())) {
@@ -1552,18 +1539,19 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			protected static final long serialVersionUID = 1L;
 
 			@Override
-			protected boolean perform(List<ItemPosition>[] toPostSelectHolder) {
-				ItemPosition subItemPosition = getNewItemPosition();
-				int newSubListItemIndex = subItemPosition.getContainingListRawValue().length;
+			protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+				BufferedItemPosition subItemPosition = getNewItemPosition();
+				int newSubListItemIndex = subItemPosition.getContainingListSize();
 				int newSubListItemInitialIndex = newSubListItemIndex;
 				subItemPosition = subItemPosition.getSibling(newSubListItemIndex);
 				for (Object clipboardItem : clipboard) {
 					clipboardItem = ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), clipboardItem);
-					getModificationStack().apply(new ListModificationFactory(subItemPosition, getModificationsTarget())
-							.add(newSubListItemIndex, clipboardItem));
+					getModificationStack()
+							.apply(new ListModificationFactory(subItemPosition, getModificationsTarget())
+									.add(newSubListItemIndex, clipboardItem));
 					newSubListItemIndex++;
 				}
-				List<ItemPosition> toPostSelect = new ArrayList<ItemPosition>();
+				List<BufferedItemPosition> toPostSelect = new ArrayList<BufferedItemPosition>();
 				IListTypeInfo subListType = subItemPosition.getContainingListType();
 				newSubListItemIndex = newSubListItemInitialIndex;
 				for (int i = 0; i < clipboard.size(); i++) {
@@ -1571,7 +1559,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					if (subListType.isOrdered()) {
 						newSubListItemInitialIndex = newSubListItemInitialIndex + i;
 					} else {
-						newSubListItemInitialIndex = Arrays.asList(subItemPosition.getContainingListRawValue())
+						newSubListItemInitialIndex = Arrays
+								.asList(subItemPosition.retrieveContainingListRawValue())
 								.indexOf(clipboardItem);
 					}
 					if (newSubListItemInitialIndex != -1) {
@@ -1582,13 +1571,13 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				return true;
 			}
 
-			private ItemPosition getNewItemPosition() {
-				List<ItemPosition> selection = getSelection();
+			private BufferedItemPosition getNewItemPosition() {
+				List<BufferedItemPosition> selection = getSelection();
 				if (selection.size() == 0) {
 					return getAnyRootListItemPosition().getSibling(0);
 				}
 				if (selection.size() == 1) {
-					return getAnySubItemPosition(selection.get(0));
+					return selection.get(0).getAnySubItemPosition();
 				}
 				return null;
 			}
@@ -1606,7 +1595,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			@Override
 			protected boolean isValid() {
 				if (clipboard.size() > 0) {
-					ItemPosition newItemPosition = getNewItemPosition();
+					BufferedItemPosition newItemPosition = getNewItemPosition();
 					if (newItemPosition != null) {
 						if (new ListModificationFactory(newItemPosition, getModificationsTarget())
 								.canAdd(newItemPosition.getIndex())) {
@@ -1638,7 +1627,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			protected static final long serialVersionUID = 1L;
 
 			@Override
-			protected boolean perform(List<ItemPosition>[] toPostSelectHolder) {
+			protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
 				AbstractEditorBuilder subDialogBuilder = new AbstractEditorBuilder() {
 
 					@Override
@@ -1833,8 +1822,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			protected static final long serialVersionUID = 1L;
 
 			@Override
-			protected boolean perform(List<ItemPosition>[] toPostSelectHolder) {
-				ItemPosition itemPosition = getSingleSelection();
+			protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+				BufferedItemPosition itemPosition = getSingleSelection();
 				ItemUIBuilder dialogBuilder = new ItemUIBuilder(itemPosition);
 				dialogBuilder.showDialog();
 				return dialogBuilder.isParentModificationStackImpacted();
@@ -1852,7 +1841,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			public boolean isValid() {
-				ItemPosition singleSelectedPosition = getSingleSelection();
+				BufferedItemPosition singleSelectedPosition = getSingleSelection();
 				if (singleSelectedPosition != null) {
 					if (!new ItemUIBuilder(singleSelectedPosition).isObjectFormEmpty()) {
 						if (singleSelectedPosition.getContainingListType().canViewItemDetails()) {
@@ -1896,7 +1885,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected void updateDetailsArea() {
-		ItemPosition singleSelection = getSingleSelection();
+		BufferedItemPosition singleSelection = getSingleSelection();
 		if (!ReflectionUIUtils.equalsOrBothNull(singleSelection, detailsControlItemPosition)) {
 			detailsControlItemPosition = singleSelection;
 			if (detailsControl != null) {
@@ -1947,20 +1936,19 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	public Object[] getRootListRawValue() {
-		return getAnyRootListItemPosition().getContainingListRawValue();
+		return getAnyRootListItemPosition().retrieveContainingListRawValue();
 	}
 
-	public ItemPosition getAnyRootListItemPosition() {
-		return new ItemPosition(listData, -1);
+	public BufferedItemPosition getAnyRootListItemPosition() {
+		return new BufferedItemPosition(new ItemPosition(listData, -1));
 	}
 
-	public ItemPosition getActiveListItemPosition() {
-		ItemPosition result = getSingleSelection();
+	public BufferedItemPosition getActiveListItemPosition() {
+		BufferedItemPosition result = getSingleSelection();
 		if (result == null) {
 			result = getAnyRootListItemPosition();
-			Object[] listRawValue = result.getContainingListRawValue();
-			if (listRawValue != null) {
-				result = result.getSibling(listRawValue.length);
+			if (result.getContainingListSize() > 0) {
+				result = result.getSibling(result.getContainingListSize() - 1);
 			}
 		}
 		return result;
@@ -1987,7 +1975,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected boolean visitItems(IItemsVisitor iItemsVisitor, ItemNode currentNode) {
-		ItemPosition currentListItemPosition = (ItemPosition) currentNode.getUserObject();
+		BufferedItemPosition currentListItemPosition = (BufferedItemPosition) currentNode.getUserObject();
 		if (currentListItemPosition != null) {
 			if (!iItemsVisitor.visitItem(currentListItemPosition)) {
 				return false;
@@ -2069,11 +2057,11 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected void restoringSelectionAsMuchAsPossible(Runnable runnable) {
-		List<ItemPosition> wereSelectedPositions = getSelection();
+		List<BufferedItemPosition> wereSelectedPositions = getSelection();
 		List<Object> wereSelected = new ArrayList<Object>();
 		for (int i = 0; i < wereSelectedPositions.size(); i++) {
 			try {
-				ItemPosition wasSelectedPosition = wereSelectedPositions.get(i);
+				BufferedItemPosition wasSelectedPosition = wereSelectedPositions.get(i);
 				wereSelected.add(wasSelectedPosition.getItem());
 			} catch (Throwable t) {
 				wereSelected.add(null);
@@ -2084,14 +2072,15 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 		runnable.run();
 
-		setSelection(Collections.<ItemPosition>emptyList());
+		setSelection(Collections.<BufferedItemPosition>emptyList());
 		int i = 0;
-		for (Iterator<ItemPosition> it = wereSelectedPositions.iterator(); it.hasNext();) {
-			ItemPosition wasSelectedPosition = it.next();
+		for (Iterator<BufferedItemPosition> it = wereSelectedPositions.iterator(); it.hasNext();) {
+			BufferedItemPosition wasSelectedPosition = it.next();
 			try {
 				if (!wasSelectedPosition.getContainingListType().isOrdered()) {
 					Object wasSelected = wereSelected.get(i);
-					int index = Arrays.asList(wasSelectedPosition.getContainingListRawValue()).indexOf(wasSelected);
+					int index = Arrays.asList(wasSelectedPosition.retrieveContainingListRawValue())
+							.indexOf(wasSelected);
 					wasSelectedPosition = wasSelectedPosition.getSibling(index);
 					wereSelectedPositions.set(i, wasSelectedPosition);
 				}
@@ -2130,15 +2119,15 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		protected List<AbstractLazyTreeNode> createChildrenNodes() {
 			List<AbstractLazyTreeNode> result = new ArrayList<AbstractLazyTreeNode>();
 			if (currentItemPosition == null) {
-				ItemPosition anyRootListItemPosition = getAnyRootListItemPosition();
-				for (int i = 0; i < anyRootListItemPosition.getContainingListRawValue().length; i++) {
-					ItemPosition rootItemPosition = anyRootListItemPosition.getSibling(i);
-					ItemNode node = new ItemNode(
-							new BufferedItemPosition(rootItemPosition, rootItemPosition.getItem()));
+				BufferedItemPosition anyRootListItemPosition = getAnyRootListItemPosition();
+				for (int i = 0; i < anyRootListItemPosition.getContainingListSize(); i++) {
+					BufferedItemPosition rootItemPosition = anyRootListItemPosition.getSibling(i);
+					ItemNode node = new ItemNode(rootItemPosition);
 					result.add(node);
 				}
 			} else {
-				for (BufferedItemPosition childItemPosition : currentItemPosition.getSubItemPositions()) {
+				for (BufferedItemPosition childItemPosition : currentItemPosition
+						.getSubItemPositions()) {
 					ItemNode node = new ItemNode(childItemPosition);
 					result.add(node);
 				}
@@ -2149,9 +2138,9 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected class RefreshStructureModification implements IModification {
-		protected List<ItemPosition> newSelection;
+		protected List<BufferedItemPosition> newSelection;
 
-		public RefreshStructureModification(List<ItemPosition> newSelection) {
+		public RefreshStructureModification(List<BufferedItemPosition> newSelection) {
 			this.newSelection = newSelection;
 		}
 
@@ -2162,7 +2151,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 		@Override
 		public IModification applyAndGetOpposite() {
-			List<ItemPosition> oldSelection = getSelection();
+			List<BufferedItemPosition> oldSelection = getSelection();
 			if (newSelection == null) {
 				restoringSelectionAsMuchAsPossible(new Runnable() {
 					@Override
@@ -2199,7 +2188,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		protected void customizeCellRendererComponent(JLabel label, ItemNode node, int rowIndex, int columnIndex,
 				boolean isSelected, boolean hasFocus) {
 			label.putClientProperty("html.disable", Boolean.TRUE);
-			if (!(node.getUserObject() instanceof ItemPosition)) {
+			if (!(node.getUserObject() instanceof BufferedItemPosition)) {
 				return;
 			}
 			String text = getCellValue(node, columnIndex);
@@ -2260,7 +2249,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 		protected static final long serialVersionUID = 1L;
 
-		protected abstract boolean perform(List<ItemPosition>[] toPostSelectHolder);
+		protected abstract boolean perform(List<BufferedItemPosition>[] toPostSelectHolder);
 
 		protected abstract String getActionTitle();
 
@@ -2286,9 +2275,9 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		final public void actionPerformed(ActionEvent e) {
 			final String modifTitle = getCompositeModificationTitle();
 			@SuppressWarnings("unchecked")
-			final List<ItemPosition>[] toPostSelectHolder = new List[1];
+			final List<BufferedItemPosition>[] toPostSelectHolder = new List[1];
 			if (modifTitle == null) {
-				List<ItemPosition> initialSelection = getSelection();
+				List<BufferedItemPosition> initialSelection = getSelection();
 				if (perform(toPostSelectHolder)) {
 					refreshStructure();
 					if (toPostSelectHolder[0] != null) {
@@ -2328,14 +2317,20 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	};
 
 	protected class ItemUIBuilder extends AbstractEditorBuilder {
-		protected ItemPosition itemPosition;
+		protected BufferedItemPosition bufferedItemPosition;
+		protected ListModificationFactory modificationFactory;
+		protected boolean canCommit;
+		protected ValueReturnMode objectValueReturnMode;
 
-		public ItemUIBuilder(ItemPosition itemPosition) {
+		public ItemUIBuilder(BufferedItemPosition bufferedItemPosition) {
 			super();
-			this.itemPosition = itemPosition;
+			this.bufferedItemPosition = bufferedItemPosition;
+			this.modificationFactory = new ListModificationFactory(bufferedItemPosition.getStandardItemPosition(),
+					getModificationsTarget());
+			this.canCommit = modificationFactory.canSet(bufferedItemPosition.getStandardItemPosition().getIndex());
+			this.objectValueReturnMode = bufferedItemPosition.getStandardItemPosition().getItemReturnMode();
 		}
 
-		
 		@Override
 		public boolean isObjectFormExpanded() {
 			return true;
@@ -2343,18 +2338,17 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 		@Override
 		public boolean isObjectValueNullable() {
-			return itemPosition.getContainingListType().isItemNullable();
+			return bufferedItemPosition.getStandardItemPosition().getContainingListType().isItemNullable();
 		}
 
 		@Override
 		public boolean canCommit() {
-			return new ListModificationFactory(itemPosition, getModificationsTarget()).canSet(itemPosition.getIndex());
+			return canCommit;
 		}
 
 		@Override
 		public IModification createCommitModification(Object newObjectValue) {
-			return new ListModificationFactory(itemPosition, getModificationsTarget()).set(itemPosition.getIndex(),
-					newObjectValue);
+			return modificationFactory.set(bufferedItemPosition.getStandardItemPosition().getIndex(), newObjectValue);
 		}
 
 		@Override
@@ -2374,7 +2368,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 		@Override
 		public ITypeInfo getObjectDeclaredType() {
-			ITypeInfo result = itemPosition.getContainingListType().getItemType();
+			ITypeInfo result = bufferedItemPosition.getStandardItemPosition().getContainingListType().getItemType();
 			if (result == null) {
 				result = swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(Object.class));
 			}
@@ -2383,12 +2377,15 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 		@Override
 		public ValueReturnMode getObjectValueReturnMode() {
-			return itemPosition.getItemReturnMode();
+			return objectValueReturnMode;
 		}
 
 		@Override
 		public Object getInitialObjectValue() {
-			return itemPosition.getItem();
+			if (isObjectValueInitialized()) {
+				bufferedItemPosition.refreshBufferedItem();
+			}
+			return bufferedItemPosition.getItem();
 		}
 
 		@Override
@@ -2406,9 +2403,10 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			return new AbstractDelegatingInfoFilter() {
 				@Override
 				protected IInfoFilter getDelegate() {
-					BufferedItemPosition bufferedItemPosition = new BufferedItemPosition(itemPosition,
-							getCurrentObjectValue());
-					return getStructuralInfo().getItemInfoFilter(bufferedItemPosition);
+					BufferedItemPosition dynamicItemPosition = new BufferedItemPosition(
+							bufferedItemPosition.getStandardItemPosition());
+					dynamicItemPosition.setBufferedItem(getCurrentObjectValue());
+					return getStructuralInfo().getItemInfoFilter(dynamicItemPosition);
 				}
 			};
 		}
@@ -2417,7 +2415,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	public interface IItemsVisitor {
 
-		boolean visitItem(ItemPosition itemPosition);
+		boolean visitItem(BufferedItemPosition itemPosition);
 
 	}
 

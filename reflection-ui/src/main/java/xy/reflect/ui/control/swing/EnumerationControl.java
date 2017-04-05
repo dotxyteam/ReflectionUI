@@ -80,6 +80,11 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 						cellHasFocus);
 				label.setText(swingRenderer.prepareStringToDisplay(getValueText(value)));
 				label.setIcon(getValueIcon(value));
+				if (!possibleValues.contains(value)) {
+					SwingRendererUtils.setErrorBorder(label);
+				}else{
+					label.setBorder(null);
+				}				
 				return label;
 			}
 		});

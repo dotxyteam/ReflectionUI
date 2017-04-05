@@ -160,17 +160,21 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 			if (newSubFormObject == null) {
 				throw new ReflectionUIError();
 			}
-			Object subFormObjectType = swingRenderer.getReflectionUI()
-					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(subFormObject));
-			Object newSubFormObjectType = swingRenderer.getReflectionUI()
-					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newSubFormObject));
-			if (subFormObjectType.equals(newSubFormObjectType)) {
-				swingRenderer.getObjectByForm().put(subForm, newSubFormObject);
+			if (newSubFormObject == subFormObject) {
 				swingRenderer.refreshAllFieldControls(subForm, false);
 			} else {
-				remove(subForm);
-				subForm = null;
-				refreshUI();
+				Object subFormObjectType = swingRenderer.getReflectionUI()
+						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(subFormObject));
+				Object newSubFormObjectType = swingRenderer.getReflectionUI()
+						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newSubFormObject));
+				if (subFormObjectType.equals(newSubFormObjectType)) {
+					swingRenderer.getObjectByForm().put(subForm, newSubFormObject);
+					swingRenderer.refreshAllFieldControls(subForm, false);
+				} else {
+					remove(subForm);
+					subForm = null;
+					refreshUI();
+				}
 			}
 		}
 		return true;

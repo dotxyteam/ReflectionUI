@@ -28,7 +28,16 @@ public class CustomizationsTest {
 		File tmpCustomizationsFile = File.createTempFile(CustomizationsTest.class.getName(), ".icu");
 		tmpCustomizationsFile.deleteOnExit();
 		SwingRenderer swingRenderer = new SwingCustomizer(reflectionUI, infoCustomizations,
-				tmpCustomizationsFile.getPath());
+				tmpCustomizationsFile.getPath()){
+
+					@Override
+					protected boolean areCustomizationToolsDisabled() {
+						return false;
+					}
+
+			
+			
+		};
 		swingRenderer.openObjectFrame(new Sample(), null, null);
 	}
 
@@ -39,7 +48,7 @@ public class CustomizationsTest {
 			return anyObject;
 		}
 
-		public Exception theException = new ClassCastException();
+		public Exception theException = new Exception();
 		public Exception theException2 = new Exception();
 
 		public String theChoice;

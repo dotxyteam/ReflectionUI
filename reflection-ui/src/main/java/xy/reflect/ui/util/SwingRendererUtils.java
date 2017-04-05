@@ -19,8 +19,14 @@ import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.AWTEventListener;
 import java.awt.event.AWTEventListenerProxy;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
+import java.awt.event.HierarchyBoundsListener;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.HierarchyListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -43,12 +49,15 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.input.IFieldControlData;
@@ -673,10 +682,18 @@ public class SwingRendererUtils {
 		JTextArea msgComponent = new JTextArea();
 		msgComponent.setText(msg);
 		msgComponent.setEditable(false);
-		msgComponent.setLineWrap(true);
-		msgComponent.setWrapStyleWord(true);
 		msgComponent.setBackground(getPanelBackgroundColor());
-		return new JOptionPane(msgComponent, messageType, JOptionPane.DEFAULT_OPTION, null, new Object[] {});
+		final JScrollPane scrollPane = new JScrollPane(msgComponent);
+		scrollPane.setBorder(null);
+		JOptionPane result = new JOptionPane(scrollPane, messageType, JOptionPane.DEFAULT_OPTION, null,
+				new Object[] {});
+		result.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				scrollPane.getHorizontalScrollBar().setValue(0);
+			}
+		});
+		return result;
 	}
 
 	public static boolean requestAnyComponentFocus(Component c, Object focusDetails, SwingRenderer swingRenderer) {
@@ -717,7 +734,7 @@ public class SwingRendererUtils {
 			SwingRendererUtils.setErrorBorder(borderComponent);
 			oldTooltipText = tooltipComponent.getToolTipText();
 			String newTooltipText = swingRenderer.prepareStringToDisplay(msg);
-			if(newTooltipText.length()==0){
+			if (newTooltipText.length() == 0) {
 				newTooltipText = null;
 			}
 			SwingRendererUtils.setMultilineToolTipText(tooltipComponent, newTooltipText);

@@ -106,8 +106,8 @@ public class MethodAction extends AbstractAction {
 		final boolean displayReturnValue = shouldDisplayReturnValueIfAny && (data.getReturnValueType() != null);
 		final boolean[] exceptionThrownHolder = new boolean[] { false };
 		final InvocationData invocationData;
-		if (swingRenderer.getLastInvocationDataByMethodSignature().containsKey(data)) {
-			invocationData = swingRenderer.getLastInvocationDataByMethodSignature().get(data);
+		if (swingRenderer.getLastInvocationDataByMethodSignature().containsKey(data.getMethodSignature())) {
+			invocationData = swingRenderer.getLastInvocationDataByMethodSignature().get(data.getMethodSignature());
 		} else {
 			invocationData = new InvocationData();
 		}

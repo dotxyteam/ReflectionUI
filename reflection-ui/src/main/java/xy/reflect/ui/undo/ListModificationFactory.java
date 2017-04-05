@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import xy.reflect.ui.control.input.DefaultFieldControlData;
 import xy.reflect.ui.control.input.FieldControlDataProxy;
 import xy.reflect.ui.control.input.IFieldControlData;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.iterable.item.BufferedItemPosition;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.util.ReflectionUIError;
 
+@SuppressWarnings("unused")
 public class ListModificationFactory {
 
 	protected ItemPosition anyItemPosition;
@@ -23,60 +26,60 @@ public class ListModificationFactory {
 	}
 
 	public boolean canAdd(int index) {
-		if ((index < 0) || (index > anyItemPosition.getContainingListRawValue().length)) {
+		if ((index < 0) || (index > anyItemPosition.getContainingListSize())) {
 			return false;
 		}
 		return ListValueUpdateModification.isCompatibleWith(anyItemPosition);
 	}
 
 	public IModification add(int index, Object newItem) {
-		List<Object> tmpList = new ArrayList<Object>(Arrays.asList(anyItemPosition.getContainingListRawValue()));
+		List<Object> tmpList = new ArrayList<Object>(Arrays.asList(anyItemPosition.retrieveContainingListRawValue()));
 		tmpList.add(index, newItem);
 		Object[] newListRawValue = tmpList.toArray();
 		return new ListValueUpdateModification(anyItemPosition, newListRawValue, modificationTarget);
 	}
 
 	public boolean canRemove(int index) {
-		if ((index < 0) || (index >= anyItemPosition.getContainingListRawValue().length)) {
+		if ((index < 0) || (index >= anyItemPosition.getContainingListSize())) {
 			return false;
 		}
 		return ListValueUpdateModification.isCompatibleWith(anyItemPosition);
 	}
 
 	public IModification remove(int index) {
-		List<Object> tmpList = new ArrayList<Object>(Arrays.asList(anyItemPosition.getContainingListRawValue()));
+		List<Object> tmpList = new ArrayList<Object>(Arrays.asList(anyItemPosition.retrieveContainingListRawValue()));
 		tmpList.remove(index);
 		Object[] newListRawValue = tmpList.toArray();
 		return new ListValueUpdateModification(anyItemPosition, newListRawValue, modificationTarget);
 	}
 
 	public boolean canSet(int index) {
-		if ((index < 0) || (index >= anyItemPosition.getContainingListRawValue().length)) {
+		if ((index < 0) || (index >= anyItemPosition.getContainingListSize())) {
 			return false;
 		}
 		return ListValueUpdateModification.isCompatibleWith(anyItemPosition);
 	}
 
 	public IModification set(int index, Object newItem) {
-		List<Object> tmpList = new ArrayList<Object>(Arrays.asList(anyItemPosition.getContainingListRawValue()));
+		List<Object> tmpList = new ArrayList<Object>(Arrays.asList(anyItemPosition.retrieveContainingListRawValue()));
 		tmpList.set(index, newItem);
 		Object[] newListRawValue = tmpList.toArray();
 		return new ListValueUpdateModification(anyItemPosition, newListRawValue, modificationTarget);
 	}
 
 	public boolean canMove(int index, int offset) {
-		if ((index < 0) || (index >= anyItemPosition.getContainingListRawValue().length)) {
+		if ((index < 0) || (index >= anyItemPosition.getContainingListSize())) {
 			return false;
-		}	
+		}
 		int index2 = index + offset;
-		if ((index2 < 0) || (index2 >= anyItemPosition.getContainingListRawValue().length)) {
+		if ((index2 < 0) || (index2 >= anyItemPosition.getContainingListSize())) {
 			return false;
-		}				
+		}
 		return ListValueUpdateModification.isCompatibleWith(anyItemPosition);
 	}
 
 	public IModification move(int index, int offset) {
-		List<Object> tmpList = new ArrayList<Object>(Arrays.asList(anyItemPosition.getContainingListRawValue()));
+		List<Object> tmpList = new ArrayList<Object>(Arrays.asList(anyItemPosition.retrieveContainingListRawValue()));
 		tmpList.add(index + offset, tmpList.remove(index));
 		Object[] newListRawValue = tmpList.toArray();
 		return new ListValueUpdateModification(anyItemPosition, newListRawValue, modificationTarget);
@@ -110,18 +113,17 @@ public class ListModificationFactory {
 					return false;
 				}
 			}
-			IFieldControlData containingListData = itemPosition.getContainingListData();
 			IListTypeInfo containingListType = itemPosition.getContainingListType();
 			if (containingListType.canReplaceContent()) {
-				if (containingListData.getValueReturnMode() == ValueReturnMode.DIRECT_OR_PROXY) {
+				if (itemPosition.geContainingListReturnMode() == ValueReturnMode.DIRECT_OR_PROXY) {
 					return true;
 				}
-				if (!containingListData.isGetOnly()) {
+				if (!itemPosition.isContainingListGetOnly()) {
 					return true;
 				}
 			}
 			if (containingListType.canInstanciateFromArray()) {
-				if (!containingListData.isGetOnly()) {
+				if (!itemPosition.isContainingListGetOnly()) {
 					return true;
 				}
 			}
@@ -163,19 +165,25 @@ public class ListModificationFactory {
 				return;
 			}
 
-			updateListValue(itemPosition, listRawValue);
+			if (itemPosition.isRoot()) {
+				IFieldControlData listData = itemPosition.getContainingListDataIfRoot();
+				updateListValue(listData, listRawValue);
+			} else {
+				ItemPosition parentItemPosition = itemPosition.getParentItemPosition();
 
-			ItemPosition parentItemPosition = itemPosition.getParentItemPosition();
-			if (parentItemPosition != null) {
-				Object[] parentListRawValue = parentItemPosition.getContainingListRawValue();
-				parentListRawValue[parentItemPosition.getIndex()] = parentItemPosition.getItem();
+				Object[] parentListRawValue = parentItemPosition.retrieveContainingListRawValue();
+				Object parentItem = parentListRawValue[parentItemPosition.getIndex()];
+
+				updateListValue(new DefaultFieldControlData(parentItem, itemPosition.getContainingListFieldIfNotRoot()),
+						listRawValue);
+
+				parentListRawValue[parentItemPosition.getIndex()] = parentItem;
 				updateListValueRecursively(parentItemPosition, parentListRawValue);
 			}
 		}
 
-		protected void updateListValue(ItemPosition itemPosition, Object[] listRawValue) {
-			IFieldControlData listData = itemPosition.getContainingListData();
-			IListTypeInfo listType = itemPosition.getContainingListType();
+		protected void updateListValue(IFieldControlData listData, Object[] newListRawValue) {
+			IListTypeInfo listType = (IListTypeInfo) listData.getType();
 			if (listType.canReplaceContent()) {
 				if (listData.getValueReturnMode() == ValueReturnMode.DIRECT_OR_PROXY) {
 					final Object listValue = listData.getValue();
@@ -184,7 +192,7 @@ public class ListModificationFactory {
 						public Object getValue() {
 							return listValue;
 						}
-					}, listRawValue, target).applyAndGetOpposite());
+					}, newListRawValue, target).applyAndGetOpposite());
 					return;
 				}
 				if (!listData.isGetOnly()) {
@@ -194,19 +202,17 @@ public class ListModificationFactory {
 						public Object getValue() {
 							return listValue;
 						}
-					}, listRawValue, target).applyAndGetOpposite());
+					}, newListRawValue, target).applyAndGetOpposite());
 					undoModifications.add(0,
-							new ControlDataValueModification(itemPosition.getContainingListData(), listValue, target)
-									.applyAndGetOpposite());
+							new ControlDataValueModification(listData, listValue, target).applyAndGetOpposite());
 					return;
 				}
 			}
 			if (listType.canInstanciateFromArray()) {
 				if (!listData.isGetOnly()) {
-					Object listValue = listType.fromArray(listRawValue);
+					Object listValue = listType.fromArray(newListRawValue);
 					undoModifications.add(0,
-							new ControlDataValueModification(itemPosition.getContainingListData(), listValue, target)
-									.applyAndGetOpposite());
+							new ControlDataValueModification(listData, listValue, target).applyAndGetOpposite());
 					return;
 				}
 			}
@@ -252,9 +258,6 @@ public class ListModificationFactory {
 			return "ListValueUpdateModification [itemPosition=" + itemPosition + ", newListRawValue="
 					+ Arrays.toString(newListRawValue) + ", undoModifications=" + undoModifications + "]";
 		}
-		
-		
-		
 
 	}
 
@@ -335,8 +338,6 @@ public class ListModificationFactory {
 			return "ChangeListContentModification [listData=" + listData + ", listRawValue="
 					+ Arrays.toString(listRawValue) + "]";
 		}
-		
-		
 
 	}
 

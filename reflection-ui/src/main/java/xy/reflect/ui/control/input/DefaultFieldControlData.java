@@ -16,6 +16,14 @@ public class DefaultFieldControlData implements IFieldControlData {
 		this.field = field;
 	}
 
+	public Object getObject() {
+		return object;
+	}
+
+	public IFieldInfo getField() {
+		return field;
+	}
+
 	@Override
 	public Object getValue() {
 		return field.getValue(object);
@@ -58,8 +66,6 @@ public class DefaultFieldControlData implements IFieldControlData {
 	public ITypeInfo getType() {
 		return field.getType();
 	}
-	
-	
 
 	@Override
 	public Map<String, Object> getSpecificProperties() {

@@ -5001,6 +5001,16 @@
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Enumeration Item Customization, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$EnumerationItemCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>

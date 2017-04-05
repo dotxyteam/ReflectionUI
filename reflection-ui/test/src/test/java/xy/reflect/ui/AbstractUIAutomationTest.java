@@ -4,7 +4,6 @@ import org.junit.BeforeClass;
 
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
-import xy.ui.testing.util.TestingUtils;
 
 public class AbstractUIAutomationTest { 
 
@@ -25,7 +24,6 @@ public class AbstractUIAutomationTest {
 	@BeforeClass
 	public static void beforeAllTests() {
 		setupTestEnvironment();
-		TestingUtils.purgeSavedImagesDirectory();
 	}
 
 }

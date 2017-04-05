@@ -17,6 +17,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.SwingRendererUtils;
 
 public abstract class AbstractEditorBuilder extends AbstractEditorPanelBuilder {
 
@@ -91,7 +92,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorPanelBuilder {
 
 	public JDialog createDialog() {
 		editorPanel = createEditorPanel(false);
-
+		SwingRendererUtils.requestAnyComponentFocus(editorPanel, null, getSwingRenderer());
 		dialogBuilder = createDelegateDialogBuilder();
 		dialogBuilder.setContentComponent(editorPanel);
 		dialogBuilder.setTitle(getEditorTitle());

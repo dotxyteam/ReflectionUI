@@ -49,16 +49,10 @@
         <string>Is Daemon</string>
         <string>Is Interrupted</string>
         <string>Priority: </string>
-        <string>Context Class Loader: </string>
-        <string>...</string>
         <string>Name: </string>
         <string>State: </string>
         <string>NEW</string>
         <string>Default Uncaught Exception Handler</string>
-        <string>Uncaught Exception Handler: </string>
-        <string>...</string>
-        <string>Thread Group: </string>
-        <string>...</string>
         <string>Id: </string>
         <string>Stack Trace</string>
         <string>Is Native Method</string>
@@ -179,12 +173,8 @@
       <completenessChecked>false</completenessChecked>
       <orderChecked>false</orderChecked>
       <visibleStrings>
-        <string>Localized Message: </string>
         <string>Illegal Thread State Error</string>
-        <string>Message: </string>
         <string>Illegal Thread State Error</string>
-        <string>Cause: </string>
-        <string>...</string>
         <string>Illegal Thread State Error</string>
         <string>Stack Trace</string>
         <string>Is Native Method</string>

@@ -158,9 +158,13 @@ public class SwingCustomizer extends SwingRenderer {
 		return SwingRendererUtils.CUSTOMIZATION_ICON;
 	}
 
+	protected boolean areCustomizationToolsDisabled() {
+		return !SystemProperties.areInfoCustomizationToolsAuthorized();
+	}
+
 	protected boolean areCustomizationsEditable(Object object) {
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		if (!SystemProperties.areInfoCustomizationToolsAuthorized()) {
+		if (areCustomizationToolsDisabled()) {
 			return false;
 		}
 		if (!infoCustomizations

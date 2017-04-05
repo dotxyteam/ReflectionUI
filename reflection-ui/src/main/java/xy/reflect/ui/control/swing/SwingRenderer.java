@@ -1490,6 +1490,7 @@ public class SwingRenderer {
 		protected IFieldInfo field;
 		protected String errorMessageDisplayedOnPlaceHolder;
 		protected IFieldControlData controlData;
+		protected IFieldControlData lastInitialControlData;
 
 		public FieldControlPlaceHolder(JPanel form, IFieldInfo field) {
 			super();
@@ -1661,7 +1662,7 @@ public class SwingRenderer {
 			}
 			if (fieldControl == null) {
 				try {
-					controlData = getInitialControlData();
+					controlData = lastInitialControlData = getInitialControlData();
 					fieldControl = createFieldControl();
 				} catch (Throwable t) {
 					fieldControl = createUIRefreshErrorControl(t);
@@ -1669,13 +1670,30 @@ public class SwingRenderer {
 				add(fieldControl, BorderLayout.CENTER);
 				SwingRendererUtils.handleComponentSizeChange(this);
 			} else {
-				if (!(((fieldControl instanceof IAdvancedFieldControl)
-						&& ((IAdvancedFieldControl) fieldControl).refreshUI()))) {
-					remove(fieldControl);
-					fieldControl = null;
-					refreshUI(false);
+				if (isFieldControlObsolete()) {
+					refreshUI(true);
+				} else {
+					if (!(((fieldControl instanceof IAdvancedFieldControl)
+							&& ((IAdvancedFieldControl) fieldControl).refreshUI()))) {
+						remove(fieldControl);
+						fieldControl = null;
+						refreshUI(false);
+					}
 				}
 			}
+		}
+
+		protected boolean isFieldControlObsolete() {
+			IFieldControlData newInitialControlData;
+			try {
+				newInitialControlData = getInitialControlData();
+			} catch (Throwable t) {
+				return true;
+			}
+			if (!newInitialControlData.equals(lastInitialControlData)) {
+				return true;
+			}
+			return false;
 		}
 
 		public IFieldControlData getInitialControlData() {
@@ -1695,64 +1713,7 @@ public class SwingRenderer {
 				};
 			}
 			final IFieldInfo finalField = field;
-			IFieldControlData result = new IFieldControlData() {
-
-				@Override
-				public Object getValue() {
-					return finalField.getValue(getObject());
-				}
-
-				@Override
-				public void setValue(Object value) {
-					finalField.setValue(getObject(), value);
-				}
-
-				@Override
-				public String getCaption() {
-					return finalField.getCaption();
-				}
-
-				@Override
-				public Runnable getCustomUndoUpdateJob(Object value) {
-					return finalField.getCustomUndoUpdateJob(getObject(), value);
-				}
-
-				@Override
-				public ITypeInfo getType() {
-					return finalField.getType();
-				}
-
-				@Override
-				public boolean isGetOnly() {
-					return finalField.isGetOnly();
-				}
-
-				@Override
-				public ValueReturnMode getValueReturnMode() {
-					return finalField.getValueReturnMode();
-				}
-
-				@Override
-				public boolean isNullable() {
-					return finalField.isNullable();
-				}
-
-				@Override
-				public String getNullValueLabel() {
-					return finalField.getNullValueLabel();
-				}
-
-				@Override
-				public Map<String, Object> getSpecificProperties() {
-					return finalField.getSpecificProperties();
-				}
-
-				@Override
-				public String toString() {
-					return "InitialControlData[of=" + FieldControlPlaceHolder.this + "]";
-				}
-
-			};
+			IFieldControlData result = new InitialFieldControlData(finalField);
 			result = indicateWhenBusy(result);
 			result = handleValueAccessIssues(result);
 			result = makeFieldModificationsUndoable(result);
@@ -1840,6 +1801,103 @@ public class SwingRenderer {
 		@Override
 		public String toString() {
 			return "FieldControlPlaceHolder [form=" + form + ", field=" + field + "]";
+		}
+
+		protected class InitialFieldControlData implements IFieldControlData {
+
+			protected IFieldInfo finalField;
+
+			public InitialFieldControlData(IFieldInfo finalField) {
+				this.finalField = finalField;
+			}
+
+			@Override
+			public Object getValue() {
+				return finalField.getValue(getObject());
+			}
+
+			@Override
+			public void setValue(Object value) {
+				finalField.setValue(getObject(), value);
+			}
+
+			@Override
+			public String getCaption() {
+				return finalField.getCaption();
+			}
+
+			@Override
+			public Runnable getCustomUndoUpdateJob(Object value) {
+				return finalField.getCustomUndoUpdateJob(getObject(), value);
+			}
+
+			@Override
+			public ITypeInfo getType() {
+				return finalField.getType();
+			}
+
+			@Override
+			public boolean isGetOnly() {
+				return finalField.isGetOnly();
+			}
+
+			@Override
+			public ValueReturnMode getValueReturnMode() {
+				return finalField.getValueReturnMode();
+			}
+
+			@Override
+			public boolean isNullable() {
+				return finalField.isNullable();
+			}
+
+			@Override
+			public String getNullValueLabel() {
+				return finalField.getNullValueLabel();
+			}
+
+			@Override
+			public Map<String, Object> getSpecificProperties() {
+				return finalField.getSpecificProperties();
+			}
+
+			private FieldControlPlaceHolder getOuterType() {
+				return FieldControlPlaceHolder.this;
+			}
+
+			@Override
+			public int hashCode() {
+				final int prime = 31;
+				int result = 1;
+				result = prime * result + getOuterType().hashCode();
+				result = prime * result + ((finalField == null) ? 0 : finalField.hashCode());
+				return result;
+			}
+
+			@Override
+			public boolean equals(Object obj) {
+				if (this == obj)
+					return true;
+				if (obj == null)
+					return false;
+				if (getClass() != obj.getClass())
+					return false;
+				InitialFieldControlData other = (InitialFieldControlData) obj;
+				if (!getOuterType().equals(other.getOuterType()))
+					return false;
+				if (finalField == null) {
+					if (other.finalField != null)
+						return false;
+				} else if (!finalField.equals(other.finalField))
+					return false;
+				return true;
+			}
+
+			@Override
+			public String toString() {
+				return "InitialFieldControlData [of=" + getOuterType() + ", finalField=" + finalField + "]";
+			}
+
 		}
 
 	}

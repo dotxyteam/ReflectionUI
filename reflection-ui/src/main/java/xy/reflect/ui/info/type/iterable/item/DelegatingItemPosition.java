@@ -4,6 +4,7 @@ import java.util.List;
 
 import xy.reflect.ui.control.input.IFieldControlData;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 
 public class DelegatingItemPosition extends ItemPosition {
@@ -11,7 +12,7 @@ public class DelegatingItemPosition extends ItemPosition {
 	protected ItemPosition delegate;
 
 	public DelegatingItemPosition(ItemPosition delegate) {
-		super(null, null, -1);
+		super(null, null, null, -1, -1);
 		this.delegate = delegate;
 	}
 
@@ -39,20 +40,16 @@ public class DelegatingItemPosition extends ItemPosition {
 		return delegate.getContainingListTitle();
 	}
 
-	public IFieldControlData getContainingListData() {
-		return delegate.getContainingListData();
-	}
-
-	public Object[] getContainingListRawValue() {
-		return delegate.getContainingListRawValue();
-	}
-
 	public IListTypeInfo getContainingListType() {
 		return delegate.getContainingListType();
 	}
 
 	public ItemPosition getParentItemPosition() {
 		return delegate.getParentItemPosition();
+	}
+
+	public String getPath() {
+		return delegate.getPath();
 	}
 
 	public int getDepth() {
@@ -75,16 +72,44 @@ public class DelegatingItemPosition extends ItemPosition {
 		return delegate.getSibling(index2);
 	}
 
-	public IFieldControlData getSubListData() {
-		return delegate.getSubListData();
+	public IFieldControlData getContainingListDataIfRoot() {
+		return delegate.getContainingListDataIfRoot();
+	}
+
+	public IFieldInfo getContainingListFieldIfNotRoot() {
+		return delegate.getContainingListFieldIfNotRoot();
+	}
+
+	public int getContainingListSize() {
+		return delegate.getContainingListSize();
+	}
+
+	public Object retrieveContainingListValue() {
+		return delegate.retrieveContainingListValue();
+	}
+
+	public Object[] retrieveContainingListRawValue() {
+		return delegate.retrieveContainingListRawValue();
+	}
+
+	public ValueReturnMode geContainingListReturnMode() {
+		return delegate.geContainingListReturnMode();
+	}
+
+	public boolean isContainingListGetOnly() {
+		return delegate.isContainingListGetOnly();
+	}
+
+	public ItemPosition getAnySubItemPosition() {
+		return delegate.getAnySubItemPosition();
 	}
 
 	public List<? extends ItemPosition> getSubItemPositions() {
 		return delegate.getSubItemPositions();
 	}
 
-	public boolean isRootListItemPosition() {
-		return delegate.isRootListItemPosition();
+	public boolean isRoot() {
+		return delegate.isRoot();
 	}
 
 	public ItemPosition getRootListItemPosition() {
@@ -132,7 +157,5 @@ public class DelegatingItemPosition extends ItemPosition {
 	public String toString() {
 		return "DelegatingItemPosition [delegate=" + delegate + "]";
 	}
-	
-	
 
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import xy.reflect.ui.control.input.DefaultFieldControlData;
 import xy.reflect.ui.control.input.IFieldControlData;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -16,24 +15,46 @@ import xy.reflect.ui.util.ReflectionUIError;
 public class ItemPosition implements Cloneable {
 
 	protected ItemPosition parentItemPosition;
-	protected IFieldControlData containingListData;
+	protected IFieldControlData containingListDataIfRoot;
 	protected int index;
+	protected IFieldInfo containingListFieldIfNotRoot;
+	protected int containingListSize;
 
-	protected ItemPosition(ItemPosition parentItemPosition, IFieldControlData containingListData, int index) {
-		super();
+	protected ItemPosition(ItemPosition parentItemPosition, IFieldControlData containingListDataIfRoot,
+			IFieldInfo containingListFieldIfNotRoot, int containingListSize, int index) {
+		if ((containingListFieldIfNotRoot != null) && (containingListDataIfRoot != null)) {
+			throw new ReflectionUIError();
+		}
 		this.parentItemPosition = parentItemPosition;
-		this.containingListData = containingListData;
+		this.containingListDataIfRoot = containingListDataIfRoot;
+		this.containingListFieldIfNotRoot = containingListFieldIfNotRoot;
+		this.containingListSize = containingListSize;
 		this.index = index;
 	}
 
-	public ItemPosition(ItemPosition parentItemPosition, int index) {
-		this.parentItemPosition = parentItemPosition;
-		this.index = index;
+	public ItemPosition(IFieldControlData containingListDataIfRoot, int index) {
+		this(null, containingListDataIfRoot, null, -1, index);
+		this.containingListSize = retrieveContainingListRawValue().length;
 	}
 
-	public ItemPosition(IFieldControlData containingListData, int index) {
-		this.containingListData = containingListData;
-		this.index = index;
+	public IFieldControlData getContainingListDataIfRoot() {
+		return containingListDataIfRoot;
+	}
+
+	public IFieldInfo getContainingListFieldIfNotRoot() {
+		return containingListFieldIfNotRoot;
+	}
+
+	public int getContainingListSize() {
+		return containingListSize;
+	}
+
+	public ItemPosition getParentItemPosition() {
+		return parentItemPosition;
+	}
+
+	public int getIndex() {
+		return index;
 	}
 
 	public boolean supportsItem(Object object) {
@@ -41,12 +62,24 @@ public class ItemPosition implements Cloneable {
 		return (itemType == null) || (itemType.supportsInstance(object));
 	}
 
-	public int getIndex() {
-		return index;
+	public IListTypeInfo getContainingListType() {
+		if (isRoot()) {
+			return (IListTypeInfo) containingListDataIfRoot.getType();
+		} else {
+			return (IListTypeInfo) containingListFieldIfNotRoot.getType();
+		}
+	}
+
+	public String getContainingListTitle() {
+		if (isRoot()) {
+			return containingListDataIfRoot.getCaption();
+		} else {
+			return containingListFieldIfNotRoot.getCaption();
+		}
 	}
 
 	public Object getItem() {
-		Object[] containingListRawValue = getContainingListRawValue();
+		Object[] containingListRawValue = retrieveContainingListRawValue();
 		if ((index >= 0) && (index < containingListRawValue.length)) {
 			return containingListRawValue[index];
 		} else {
@@ -54,31 +87,20 @@ public class ItemPosition implements Cloneable {
 		}
 	}
 
-	public String getContainingListTitle() {
-		return getContainingListData().getCaption();
-	}
-
-	public IFieldControlData getContainingListData() {
-		if (parentItemPosition == null) {
-			return getRootListData();
+	public Object retrieveContainingListValue() {
+		if (isRoot()) {
+			return containingListDataIfRoot.getValue();
+		} else {
+			return containingListFieldIfNotRoot.getValue(parentItemPosition.getItem());
 		}
-		return parentItemPosition.getSubListData();
 	}
 
-	public Object[] getContainingListRawValue() {
-		Object list = getContainingListData().getValue();
+	public Object[] retrieveContainingListRawValue() {
+		Object list = retrieveContainingListValue();
 		if (list == null) {
 			return new Object[0];
 		}
 		return getContainingListType().toArray(list);
-	}
-
-	public IListTypeInfo getContainingListType() {
-		return (IListTypeInfo) getContainingListData().getType();
-	}
-
-	public ItemPosition getParentItemPosition() {
-		return parentItemPosition;
 	}
 
 	public int getDepth() {
@@ -102,7 +124,7 @@ public class ItemPosition implements Cloneable {
 
 	public List<? extends ItemPosition> getFollowingSiblings() {
 		List<ItemPosition> result = new ArrayList<ItemPosition>();
-		for (int i = getIndex() + 1; i < getContainingListRawValue().length; i++) {
+		for (int i = getIndex() + 1; i < retrieveContainingListRawValue().length; i++) {
 			result.add(getSibling(i));
 		}
 		return result;
@@ -124,58 +146,101 @@ public class ItemPosition implements Cloneable {
 		return result;
 	}
 
-	public IFieldControlData getSubListData() {
+	public ItemPosition getAnySubItemPosition() {
 		IListStructuralInfo treeInfo = getRootListItemPosition().getContainingListType().getStructuralInfo();
 		if (treeInfo == null) {
 			return null;
 		}
-		BufferedItemPosition ghostItemPosition = new BufferedItemPosition(this, getItem());
-		final IFieldInfo subListField = treeInfo.getItemSubListField(ghostItemPosition);
+		final Object item = getItem();
+		IFieldInfo subListField = treeInfo.getItemSubListField(new DelegatingItemPosition(this) {
+			@Override
+			public Object getItem() {
+				return item;
+			}
+		});
 		if (subListField == null) {
 			return null;
 		}
-		return new DefaultFieldControlData(ghostItemPosition.getItem(), subListField);
+		ItemPosition result = clone();
+		result.parentItemPosition = this;
+		result.containingListDataIfRoot = null;
+		result.containingListFieldIfNotRoot = subListField;
+		{
+			Object list = subListField.getValue(item);
+			if (list == null) {
+				result.containingListSize = 0;
+			}
+			result.containingListSize = result.getContainingListType().toArray(list).length;
+		}
+		result.index = -1;
+		return result;
 	}
 
 	public List<? extends ItemPosition> getSubItemPositions() {
-		IFieldControlData subListData = getSubListData();
-		if (subListData == null) {
+		ItemPosition anySubItemPosition = getAnySubItemPosition();
+		if (anySubItemPosition == null) {
 			return Collections.emptyList();
 		}
-		ItemPosition anySubItemPosition = clone();
-		anySubItemPosition.parentItemPosition = this;
-		anySubItemPosition.containingListData = subListData;
-		anySubItemPosition.index = -1;
 		List<ItemPosition> result = new ArrayList<ItemPosition>();
-		for (int i = 0; i < anySubItemPosition.getContainingListRawValue().length; i++) {
+		for (int i = 0; i < anySubItemPosition.retrieveContainingListRawValue().length; i++) {
 			result.add(anySubItemPosition.getSibling(i));
 		}
 		return result;
 	}
 
-	public boolean isRootListItemPosition() {
-		return getRootListItemPosition().equals(this);
+	public boolean isRoot() {
+		return parentItemPosition == null;
 	}
 
 	public ItemPosition getRootListItemPosition() {
 		ItemPosition current = this;
-		while (current.getParentItemPosition() != null) {
+		while (!current.isRoot()) {
 			current = current.getParentItemPosition();
 		}
 		return current;
 	}
 
 	public IFieldControlData getRootListData() {
-		return getRootListItemPosition().containingListData;
+		return getRootListItemPosition().containingListDataIfRoot;
 	}
 
 	public ValueReturnMode getItemReturnMode() {
-		ValueReturnMode result = ValueReturnMode.combine(getContainingListData().getValueReturnMode(),
+		ValueReturnMode result = ValueReturnMode.combine(geContainingListReturnMode(),
 				getContainingListType().getItemReturnMode());
 		if (parentItemPosition != null) {
 			result = ValueReturnMode.combine(parentItemPosition.getItemReturnMode(), result);
 		}
 		return result;
+	}
+
+	public ValueReturnMode geContainingListReturnMode() {
+		if (isRoot()) {
+			return containingListDataIfRoot.getValueReturnMode();
+		} else {
+			return containingListFieldIfNotRoot.getValueReturnMode();
+		}
+	}
+
+	public boolean isContainingListGetOnly() {
+		if (isRoot()) {
+			return containingListDataIfRoot.isGetOnly();
+		} else {
+			return containingListFieldIfNotRoot.isGetOnly();
+		}
+	}
+
+	public String getPath() {
+		StringBuilder result = new StringBuilder();
+		ItemPosition current = this;
+		while (current != null) {
+			if (current == this) {
+				result.insert(0, "Item" + current.index);
+			} else {
+				result.insert(0, "Item" + current.index + "->Sub");
+			}
+			current = current.getParentItemPosition();
+		}
+		return result.toString();
 	}
 
 	@Override
@@ -191,7 +256,7 @@ public class ItemPosition implements Cloneable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((containingListData == null) ? 0 : containingListData.hashCode());
+		result = prime * result + ((containingListDataIfRoot == null) ? 0 : containingListDataIfRoot.hashCode());
 		result = prime * result + index;
 		result = prime * result + ((parentItemPosition == null) ? 0 : parentItemPosition.hashCode());
 		return result;
@@ -206,10 +271,10 @@ public class ItemPosition implements Cloneable {
 		if (getClass() != obj.getClass())
 			return false;
 		ItemPosition other = (ItemPosition) obj;
-		if (containingListData == null) {
-			if (other.containingListData != null)
+		if (containingListDataIfRoot == null) {
+			if (other.containingListDataIfRoot != null)
 				return false;
-		} else if (!containingListData.equals(other.containingListData))
+		} else if (!containingListDataIfRoot.equals(other.containingListDataIfRoot))
 			return false;
 		if (index != other.index)
 			return false;
@@ -223,17 +288,7 @@ public class ItemPosition implements Cloneable {
 
 	@Override
 	public String toString() {
-		StringBuilder path = new StringBuilder();
-		ItemPosition current = this;
-		while (current != null) {
-			if (current == this) {
-				path.insert(0, "Item" + current.index);
-			} else {
-				path.insert(0, "Item" + current.index + "->Sub");
-			}
-			current = current.getParentItemPosition();
-		}
-		return "ItemPosition [item=" + getItem() + ", path=" + path.toString() + "]";
+		return "ItemPosition [item=" + getItem() + ", path=" + getPath() + "]";
 	}
 
 }
