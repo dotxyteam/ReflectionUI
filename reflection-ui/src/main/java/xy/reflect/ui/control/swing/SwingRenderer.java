@@ -410,7 +410,7 @@ public class SwingRenderer {
 							refreshAllFieldControls(form, false);
 							updateFormStatusBarInBackground(form);
 							Object object = getObjectByForm().get(form);
-							for (JPanel otherForm : getForms(object)) {
+							for (JPanel otherForm : SwingRendererUtils.findObjectForms(object, SwingRenderer.this)) {
 								if (otherForm != form) {
 									ModificationStack otherModifStack = getModificationStackByForm().get(otherForm);
 									if (otherForm.isDisplayable()) {
@@ -730,10 +730,6 @@ public class SwingRenderer {
 		return result;
 	}
 
-	public List<JPanel> getForms(Object object) {
-		return ReflectionUIUtils.getKeysFromValue(getObjectByForm(), object);
-	}
-
 	public IFieldInfo getFormField(final JPanel form, String fieldName) {
 		List<FieldControlPlaceHolder> fieldControlPlaceHolders = getFieldControlPlaceHoldersByName(form, fieldName);
 		if (fieldControlPlaceHolders.size() == 0) {
@@ -1005,7 +1001,7 @@ public class SwingRenderer {
 
 	public boolean openQuestionDialog(Component activatorComponent, String question, String title, String yesCaption,
 			String noCaption) {
-		DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
+		DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
 		dialogBuilder.setToolbarComponents(dialogBuilder.createStandardOKCancelDialogButtons(yesCaption, noCaption));
 		dialogBuilder.setContentComponent(
 				SwingRendererUtils.getJOptionPane(prepareStringToDisplay(question), JOptionPane.QUESTION_MESSAGE));
@@ -1015,7 +1011,7 @@ public class SwingRenderer {
 	}
 
 	public void openInformationDialog(Component activatorComponent, String msg, String title, Image iconImage) {
-		DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
+		DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
 
 		List<Component> buttons = new ArrayList<Component>();
 		buttons.add(dialogBuilder.createDialogClosingButton("Close", null));
@@ -1029,7 +1025,7 @@ public class SwingRenderer {
 	}
 
 	public void openErrorDialog(Component activatorComponent, String title, final Throwable error) {
-		DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
+		DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
 
 		List<Component> buttons = new ArrayList<Component>();
 		final JButton deatilsButton = new JButton(prepareStringToDisplay("Details"));
@@ -1073,7 +1069,7 @@ public class SwingRenderer {
 
 			@Override
 			protected DialogBuilder createDelegateDialogBuilder() {
-				return createDialogBuilder(ownerComponent);
+				return getDialogBuilder(ownerComponent);
 			}
 
 			@Override
@@ -1108,10 +1104,6 @@ public class SwingRenderer {
 
 	public void showFrame(JFrame frame) {
 		frame.setVisible(true);
-	}
-
-	public void openObjectFrame(Object object, final String title) {
-		openObjectFrame(object, title, getObjectIconImage(object));
 	}
 
 	public void openObjectFrame(Object object) {
@@ -1167,7 +1159,7 @@ public class SwingRenderer {
 
 	}
 
-	public DialogBuilder createDialogBuilder(Component activatorComponent) {
+	public DialogBuilder getDialogBuilder(Component activatorComponent) {
 		return new DialogBuilder(this, activatorComponent);
 	}
 
@@ -1286,7 +1278,7 @@ public class SwingRenderer {
 			throw new ReflectionUIError(e);
 		}
 		if (runner.isAlive()) {
-			final DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
+			final DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
 			final Thread closer = new Thread("BusyDialogCloser: " + title) {
 				@Override
 				public void run() {

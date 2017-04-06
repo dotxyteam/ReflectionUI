@@ -194,6 +194,15 @@ public class CustomizationTools {
 						}
 					}
 
+					@Override
+					protected String toString(ITypeInfo type, Object object) {
+						if (object instanceof CustomizationCategory) {
+							return ((CustomizationCategory)object).getCaption();
+						} else {
+							return super.toString(type, object);
+						}
+					}
+
 				}.get(result);
 				result = customizationToolsCustomizations.get(thisReflectionUI, result);
 				return result;
@@ -427,24 +436,24 @@ public class CustomizationTools {
 						openTypeCustomizationDialog(result, infoCustomizations, customizedType);
 					}
 				});
-				popupMenu.add(
-						new AbstractAction(CustomizationTools.this.customizationToolsRenderer.prepareStringToDisplay("Refresh")) {
-							private static final long serialVersionUID = 1L;
+				popupMenu.add(new AbstractAction(
+						CustomizationTools.this.customizationToolsRenderer.prepareStringToDisplay("Refresh")) {
+					private static final long serialVersionUID = 1L;
 
-							@Override
-							public void actionPerformed(ActionEvent e) {
-								updateUI(result);
-							}
-						});
-				popupMenu.add(
-						new AbstractAction(CustomizationTools.this.customizationToolsRenderer.prepareStringToDisplay("Lock")) {
-							private static final long serialVersionUID = 1L;
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						updateUI(result);
+					}
+				});
+				popupMenu.add(new AbstractAction(
+						CustomizationTools.this.customizationToolsRenderer.prepareStringToDisplay("Lock")) {
+					private static final long serialVersionUID = 1L;
 
-							@Override
-							public void actionPerformed(ActionEvent e) {
-								hideCustomizationTools(result, customizedType.getName());
-							}
-						});
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						hideCustomizationTools(result, customizedType.getName());
+					}
+				});
 
 				showMenu(popupMenu, result);
 			}
@@ -492,7 +501,7 @@ public class CustomizationTools {
 			public Object getInitialObjectValue() {
 				return customization;
 			}
-			
+
 			@Override
 			public boolean isObjectValueNullable() {
 				return false;
@@ -644,7 +653,7 @@ public class CustomizationTools {
 
 			private ITypeInfo getFieldType() {
 				IFieldControlData controlData = fieldControlPlaceHolder.getControlData();
-				if(controlData == null){
+				if (controlData == null) {
 					return null;
 				}
 				return controlData.getType();
@@ -660,25 +669,24 @@ public class CustomizationTools {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				final JPopupMenu popupMenu = new JPopupMenu();
-				popupMenu.add(
-						new AbstractAction(CustomizationTools.this.customizationToolsRenderer.prepareStringToDisplay("Hide")) {
-							private static final long serialVersionUID = 1L;
+				popupMenu.add(new AbstractAction(
+						CustomizationTools.this.customizationToolsRenderer.prepareStringToDisplay("Hide")) {
+					private static final long serialVersionUID = 1L;
 
-							@Override
-							public void actionPerformed(ActionEvent e) {
-								hideField(fieldControlPlaceHolder, getParentFormObjectCustomizedType(), getFieldName());
-							}
-						});
-				popupMenu.add(
-						new AbstractAction(CustomizationTools.this.customizationToolsRenderer.prepareStringToDisplay("Move Up")) {
-							private static final long serialVersionUID = 1L;
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						hideField(fieldControlPlaceHolder, getParentFormObjectCustomizedType(), getFieldName());
+					}
+				});
+				popupMenu.add(new AbstractAction(
+						CustomizationTools.this.customizationToolsRenderer.prepareStringToDisplay("Move Up")) {
+					private static final long serialVersionUID = 1L;
 
-							@Override
-							public void actionPerformed(ActionEvent e) {
-								moveField(fieldControlPlaceHolder, getParentFormObjectCustomizedType(), getFieldName(),
-										-1);
-							}
-						});
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						moveField(fieldControlPlaceHolder, getParentFormObjectCustomizedType(), getFieldName(), -1);
+					}
+				});
 				popupMenu.add(new AbstractAction(
 						CustomizationTools.this.customizationToolsRenderer.prepareStringToDisplay("Move Down")) {
 					private static final long serialVersionUID = 1L;
@@ -731,8 +739,8 @@ public class CustomizationTools {
 					final JMenu sharedTypeInfoSubMenu = new JMenu(
 							CustomizationTools.this.customizationToolsRenderer.prepareStringToDisplay("Shared"));
 					popupMenu.add(sharedTypeInfoSubMenu);
-					sharedTypeInfoSubMenu.add(new AbstractAction(
-							CustomizationTools.this.customizationToolsRenderer.prepareStringToDisplay("Type Options...")) {
+					sharedTypeInfoSubMenu.add(new AbstractAction(CustomizationTools.this.customizationToolsRenderer
+							.prepareStringToDisplay("Type Options...")) {
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -965,15 +973,15 @@ public class CustomizationTools {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				final JPopupMenu popupMenu = new JPopupMenu();
-				popupMenu.add(
-						new AbstractAction(CustomizationTools.this.customizationToolsRenderer.prepareStringToDisplay("Hide")) {
-							private static final long serialVersionUID = 1L;
+				popupMenu.add(new AbstractAction(
+						CustomizationTools.this.customizationToolsRenderer.prepareStringToDisplay("Hide")) {
+					private static final long serialVersionUID = 1L;
 
-							@Override
-							public void actionPerformed(ActionEvent e) {
-								hideMethod(result, getParentFormObjectCustomizedType(), getMethodInfoSignature());
-							}
-						});
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						hideMethod(result, getParentFormObjectCustomizedType(), getMethodInfoSignature());
+					}
+				});
 				popupMenu.add(new AbstractAction(
 						CustomizationTools.this.customizationToolsRenderer.prepareStringToDisplay("Move Left")) {
 					private static final long serialVersionUID = 1L;
@@ -996,8 +1004,8 @@ public class CustomizationTools {
 						getParentFormObjectCustomizedType().getMethods(), getMethodInfoSignature());
 				final ITypeInfo returnValueType = customizedMethod.getReturnValueType();
 				if (returnValueType != null) {
-					popupMenu.add(new AbstractAction(
-							CustomizationTools.this.customizationToolsRenderer.prepareStringToDisplay("Method Return Type...")) {
+					popupMenu.add(new AbstractAction(CustomizationTools.this.customizationToolsRenderer
+							.prepareStringToDisplay("Method Return Type...")) {
 						private static final long serialVersionUID = 1L;
 
 						@Override

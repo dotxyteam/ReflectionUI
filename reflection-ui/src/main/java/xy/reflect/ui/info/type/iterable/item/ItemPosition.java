@@ -124,7 +124,7 @@ public class ItemPosition implements Cloneable {
 
 	public List<? extends ItemPosition> getFollowingSiblings() {
 		List<ItemPosition> result = new ArrayList<ItemPosition>();
-		for (int i = getIndex() + 1; i < retrieveContainingListRawValue().length; i++) {
+		for (int i = getIndex() + 1; i < containingListSize; i++) {
 			result.add(getSibling(i));
 		}
 		return result;
@@ -169,8 +169,9 @@ public class ItemPosition implements Cloneable {
 			Object list = subListField.getValue(item);
 			if (list == null) {
 				result.containingListSize = 0;
+			} else {
+				result.containingListSize = result.getContainingListType().toArray(list).length;
 			}
-			result.containingListSize = result.getContainingListType().toArray(list).length;
 		}
 		result.index = -1;
 		return result;
@@ -182,7 +183,7 @@ public class ItemPosition implements Cloneable {
 			return Collections.emptyList();
 		}
 		List<ItemPosition> result = new ArrayList<ItemPosition>();
-		for (int i = 0; i < anySubItemPosition.retrieveContainingListRawValue().length; i++) {
+		for (int i = 0; i < anySubItemPosition.getContainingListSize(); i++) {
 			result.add(anySubItemPosition.getSibling(i));
 		}
 		return result;

@@ -19,10 +19,11 @@ import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-public abstract class AbstractEditorBuilder extends AbstractEditorPanelBuilder {
+public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
 
 	protected DialogBuilder dialogBuilder;
-	protected JPanel editorPanel;
+	protected JPanel createdEditForm;
+	protected JFrame createdFrame;
 	protected boolean parentModificationStackImpacted = false;
 
 	public abstract Component getOwnerComponent();
@@ -34,7 +35,6 @@ public abstract class AbstractEditorBuilder extends AbstractEditorPanelBuilder {
 		return encapsulatedObjectType.isModificationStackAccessible();
 	}
 
-	@Override
 	public String getEditorTitle() {
 		return getEncapsulatedFieldType().getCaption();
 	}
@@ -62,7 +62,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorPanelBuilder {
 
 	protected List<? extends Component> createAnyWindowToolbarControls() {
 		List<Component> result = new ArrayList<Component>();
-		List<Component> commonToolbarControls = getSwingRenderer().createFormCommonToolbarControls(editorPanel);
+		List<Component> commonToolbarControls = getSwingRenderer().createFormCommonToolbarControls(createdEditForm);
 		if (commonToolbarControls != null) {
 			result.addAll(commonToolbarControls);
 		}
@@ -73,28 +73,32 @@ public abstract class AbstractEditorBuilder extends AbstractEditorPanelBuilder {
 		return result;
 	}
 
+	public JFrame createFrame() {
+		createdEditForm = createForm(true);
+		createdFrame = new JFrame();
+		getSwingRenderer().setupWindow(createdFrame, createdEditForm, createAnyWindowToolbarControls(),
+				getEditorTitle(), getObjectIconImage());
+		createdFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		return createdFrame;
+	}
+
+	public JFrame getCreatedFrame() {
+		return createdFrame;
+	}
+
 	public void showFrame() {
 		getSwingRenderer().showFrame(createFrame());
 	}
 
-	public JFrame createFrame() {
-		editorPanel = createEditorPanel(true);
-		JFrame frame = new JFrame();
-		getSwingRenderer().setupWindow(frame, editorPanel, createAnyWindowToolbarControls(), getEditorTitle(),
-				getObjectIconImage());
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		return frame;
-	}
-
 	protected DialogBuilder createDelegateDialogBuilder() {
-		return getSwingRenderer().createDialogBuilder(getOwnerComponent());
+		return getSwingRenderer().getDialogBuilder(getOwnerComponent());
 	}
 
 	public JDialog createDialog() {
-		editorPanel = createEditorPanel(false);
-		SwingRendererUtils.requestAnyComponentFocus(editorPanel, null, getSwingRenderer());
+		createdEditForm = createForm(false);
+		SwingRendererUtils.requestAnyComponentFocus(createdEditForm, null, getSwingRenderer());
 		dialogBuilder = createDelegateDialogBuilder();
-		dialogBuilder.setContentComponent(editorPanel);
+		dialogBuilder.setContentComponent(createdEditForm);
 		dialogBuilder.setTitle(getEditorTitle());
 		dialogBuilder.setIconImage(getObjectIconImage());
 
@@ -112,11 +116,22 @@ public abstract class AbstractEditorBuilder extends AbstractEditorPanelBuilder {
 		return dialogBuilder.createDialog();
 	}
 
+	public JDialog getCreatedDialog() {
+		if (dialogBuilder == null) {
+			return null;
+		}
+		return dialogBuilder.getCreatedDialog();
+	}
+
 	public void showDialog() {
 		getSwingRenderer().showDialog(createDialog(), true);
 		if (canPotentiallyModifyParent()) {
 			impactParent();
 		}
+	}
+
+	public JPanel getCreatedEditForm() {
+		return createdEditForm;
 	}
 
 	protected void impactParent() {
@@ -142,13 +157,6 @@ public abstract class AbstractEditorBuilder extends AbstractEditorPanelBuilder {
 				childValueReturnMode, childValueReplaced, commitModif, compositeModifTarget, compositeModifTitle);
 	}
 
-	public JDialog getCreatedEditor() {
-		if (dialogBuilder == null) {
-			return null;
-		}
-		return dialogBuilder.getCreatedDialog();
-	}
-
 	public boolean wasOkPressed() {
 		if (dialogBuilder == null) {
 			return false;
@@ -157,10 +165,10 @@ public abstract class AbstractEditorBuilder extends AbstractEditorPanelBuilder {
 	}
 
 	public ModificationStack getSubObjectModificationStack() {
-		if (editorPanel == null) {
+		if (createdEditForm == null) {
 			return null;
 		}
-		return getSwingRenderer().getModificationStackByForm().get(editorPanel);
+		return getSwingRenderer().getModificationStackByForm().get(createdEditForm);
 	}
 
 	public boolean isParentModificationStackImpacted() {

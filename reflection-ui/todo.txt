@@ -5,12 +5,12 @@
 	<= multiple small showBusyDialogWHile() calls are done
 	=> find a way to show the busy dialog anyway
 - check how duplicate field names are handled
-- ListControl calls too much list.toArray() and listData.getValue()
+- ListControl calls too much list.toArray()
 	=> optimize
 . allow to execute dynamic actions or change dynamic properties on 
 multiple nodes
 . restore all control states on refresh,
-even non-focused controls???
+	even non-focused controls???
 ex: embedded form tabbed pane selection
 . expose more customizations feature
 	. screenshot

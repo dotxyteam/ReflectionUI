@@ -23,8 +23,7 @@ public abstract class PrimitiveValueControl extends TextControl {
 
 	@Override
 	protected IFieldControlData retrieveData() {
-		return handleValueConversions(swingRenderer.getReflectionUI(), super.retrieveData(),
-				getPrimitiveJavaType());
+		return handleValueConversions(swingRenderer.getReflectionUI(), super.retrieveData(), getPrimitiveJavaType());
 	}
 
 	protected static IFieldControlData handleValueConversions(final ReflectionUI reflectionUI, IFieldControlData data,
@@ -71,19 +70,23 @@ public abstract class PrimitiveValueControl extends TextControl {
 			return text.charAt(0);
 		} else {
 			try {
-				return javaType.getConstructor(new Class[] { String.class }).newInstance(text);
-			} catch (IllegalArgumentException e) {
-				throw new ReflectionUIError(e);
-			} catch (SecurityException e) {
-				throw new ReflectionUIError(e);
-			} catch (InstantiationException e) {
-				throw new ReflectionUIError(e);
-			} catch (IllegalAccessException e) {
-				throw new ReflectionUIError(e);
-			} catch (InvocationTargetException e) {
-				throw new ReflectionUIError(e.getTargetException());
-			} catch (NoSuchMethodException e) {
-				throw new ReflectionUIError(e);
+				try {
+					return javaType.getConstructor(new Class[] { String.class }).newInstance(text);
+				} catch (IllegalArgumentException e) {
+					throw new ReflectionUIError(e);
+				} catch (SecurityException e) {
+					throw new ReflectionUIError(e);
+				} catch (InstantiationException e) {
+					throw new ReflectionUIError(e);
+				} catch (IllegalAccessException e) {
+					throw new ReflectionUIError(e);
+				} catch (InvocationTargetException e) {
+					throw new ReflectionUIError(e.getTargetException());
+				} catch (NoSuchMethodException e) {
+					throw new ReflectionUIError(e);
+				}
+			} catch (Throwable t) {
+				throw new ReflectionUIError(javaType.getSimpleName() + " Inupt Error: " + t.toString(), t);
 			}
 		}
 	}
@@ -92,6 +95,5 @@ public abstract class PrimitiveValueControl extends TextControl {
 	public String toString() {
 		return "PrimitiveValueControl [data=" + data + "]";
 	}
-	
-	
+
 }

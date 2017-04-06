@@ -1,8 +1,7 @@
 package xy.reflect.ui.info.type.iterable.item;
 
-public class DetachedItemDetailsAccessMode implements IListItemDetailsAccessMode{
+public class DetachedItemDetailsAccessMode implements IListItemDetailsAccessMode {
 
-	
 	@Override
 	public boolean hasDetailsDisplayOption() {
 		return true;
@@ -15,7 +14,7 @@ public class DetachedItemDetailsAccessMode implements IListItemDetailsAccessMode
 
 	@Override
 	public ItemDetailsAreaPosition getDetailsAreaPosition() {
-		return null ;
+		return null;
 	}
 
 	@Override

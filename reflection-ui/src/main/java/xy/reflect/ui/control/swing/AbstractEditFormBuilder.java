@@ -22,7 +22,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-public abstract class AbstractEditorPanelBuilder {
+public abstract class AbstractEditFormBuilder {
 
 	protected Object initialObjectValue;
 	protected boolean objectValueInitialized = false;
@@ -30,8 +30,6 @@ public abstract class AbstractEditorPanelBuilder {
 	protected Accessor<Object> encapsulatedObjectValueAccessor;
 
 	public abstract SwingRenderer getSwingRenderer();
-
-	public abstract String getEditorTitle();
 
 	public abstract ModificationStack getParentModificationStack();
 
@@ -201,15 +199,15 @@ public abstract class AbstractEditorPanelBuilder {
 		return true;
 	}
 
-	public JPanel createEditorPanel(boolean realTimeLinkWithParent) {
+	public JPanel createForm(boolean realTimeLinkWithParent) {
 		Object encapsulated = getEncapsulatedObject();
 		JPanel result = getSwingRenderer().createForm(encapsulated);
 		if (realTimeLinkWithParent) {
 			if (canPotentiallyModifyParent()) {
-				forwardEditorPanelModificationsToParent(result);
+				forwardEditFormModificationsToParent(result);
 			}
 			if (isInReadOnlyMode()) {
-				refreshEditorPanelOnModification(result);
+				refreshEditFormOnModification(result);
 			}
 		}
 		return result;
@@ -228,26 +226,26 @@ public abstract class AbstractEditorPanelBuilder {
 		return getParentModificationStack() != null;
 	}
 
-	protected void refreshEditorPanelOnModification(final JPanel panel) {
-		ModificationStack childModificationStack = getSwingRenderer().getModificationStackByForm().get(panel);
+	protected void refreshEditFormOnModification(final JPanel form) {
+		ModificationStack childModificationStack = getSwingRenderer().getModificationStackByForm().get(form);
 		childModificationStack.addListener(new AbstractSimpleModificationListener() {
 			@Override
 			protected void handleAnyEvent(IModification modification) {
-				refreshEditorPanel(panel);
+				refreshEditForm(form);
 			}
 		});
 	}
 
-	public void refreshEditorPanel(JPanel panel) {
+	public void refreshEditForm(JPanel form) {
 		encapsulatedObjectValueAccessor.set(getInitialObjectValue());
-		getSwingRenderer().refreshAllFieldControls(panel, false);
+		getSwingRenderer().refreshAllFieldControls(form, false);
 	}
 
 	protected boolean isNewObjectValueAccepted(Object value) {
 		return true;
 	}
 
-	protected void forwardEditorPanelModificationsToParent(final JPanel panel) {
+	protected void forwardEditFormModificationsToParent(final JPanel form) {
 		Accessor<Boolean> childModifAcceptedGetter = new Accessor<Boolean>() {
 			@Override
 			public Boolean get() {
@@ -298,7 +296,7 @@ public abstract class AbstractEditorPanelBuilder {
 				return result;
 			}
 		};
-		SwingRendererUtils.forwardSubModifications(getSwingRenderer(), panel, childModifAcceptedGetter,
+		SwingRendererUtils.forwardSubModifications(getSwingRenderer(), form, childModifAcceptedGetter,
 				childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter, childModifTargetGetter,
 				childModifTitleGetter, parentModifStackGetter);
 	}

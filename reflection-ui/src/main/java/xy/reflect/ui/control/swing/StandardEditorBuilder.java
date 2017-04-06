@@ -1,30 +1,15 @@
 package xy.reflect.ui.control.swing;
 
 import java.awt.Component;
-import java.awt.Image;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-
-import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
-import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.SwingRendererUtils;
 
-@SuppressWarnings("unused")
 public class StandardEditorBuilder extends AbstractEditorBuilder {
 
 	protected SwingRenderer swingRenderer;

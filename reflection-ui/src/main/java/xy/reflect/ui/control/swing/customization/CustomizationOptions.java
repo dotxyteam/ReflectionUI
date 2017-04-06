@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.SwingRendererUtils;
 
 public class CustomizationOptions {
 
@@ -52,7 +53,7 @@ public class CustomizationOptions {
 				ITypeInfo objectType = this.swingCustomizer.getReflectionUI()
 						.getTypeInfo(this.swingCustomizer.getReflectionUI().getTypeInfoSource(object));
 				if (typeName.equals(objectType.getName())) {
-					for (JPanel form : this.swingCustomizer.getForms(object)) {
+					for (JPanel form : SwingRendererUtils.findObjectForms(object, this.swingCustomizer)) {
 						this.swingCustomizer.getCustomizationTools().updateUI(form);
 					}
 				}

@@ -35,7 +35,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	protected Component subControl;
 	protected IFieldControlInput input;
 	protected ITypeInfo subControlValueType;
-	protected AbstractEditorPanelBuilder subFormBuilder;
+	protected AbstractEditFormBuilder subFormBuilder;
 
 	public NullableControl(SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
@@ -114,7 +114,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(value));
 			if (newValueType.equals(subControlValueType)) {
 				if (SwingRendererUtils.isForm(subControl, swingRenderer)) {
-					subFormBuilder.refreshEditorPanel((JPanel) subControl);
+					subFormBuilder.refreshEditForm((JPanel) subControl);
 					refreshCaptionForSubForm();
 					return;
 				}
@@ -180,7 +180,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected Component createSubForm() {
-		subFormBuilder = new AbstractEditorPanelBuilder() {
+		subFormBuilder = new AbstractEditFormBuilder() {
 
 			@Override
 			public String getEncapsulatedFieldCaption() {
@@ -215,11 +215,6 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 			@Override
 			public ValueReturnMode getObjectValueReturnMode() {
 				return data.getValueReturnMode();
-			}
-
-			@Override
-			public String getEditorTitle() {
-				return ReflectionUIUtils.composeMessage(data.getType().getCaption(), "Dynamic Wrapper");
 			}
 
 			@Override
@@ -262,7 +257,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 				return data.getValue();
 			}
 		};
-		JPanel result = subFormBuilder.createEditorPanel(true);
+		JPanel result = subFormBuilder.createForm(true);
 		return result;
 	}
 

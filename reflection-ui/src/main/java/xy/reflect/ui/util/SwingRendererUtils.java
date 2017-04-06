@@ -186,12 +186,11 @@ public class SwingRendererUtils {
 	public static List<JPanel> findDescendantForms(Container container, SwingRenderer swingRenderer) {
 		List<JPanel> result = new ArrayList<JPanel>();
 		for (Component childComponent : container.getComponents()) {
-			if (swingRenderer.getObjectByForm().keySet().contains(childComponent)) {
+			if (isForm(childComponent, swingRenderer)) {
 				result.add((JPanel) childComponent);
-			} else {
-				if (childComponent instanceof Container) {
-					result.addAll(findDescendantForms((Container) childComponent, swingRenderer));
-				}
+			}
+			if (childComponent instanceof Container) {
+				result.addAll(findDescendantForms((Container) childComponent, swingRenderer));
 			}
 		}
 		return result;
@@ -743,6 +742,29 @@ public class SwingRendererUtils {
 		if (!ReflectionUIUtils.equalsOrBothNull(oldTooltipText, tooltipComponent.getToolTipText())) {
 			SwingRendererUtils.showTooltipNow(tooltipComponent);
 		}
+	}
+
+	public static List<JPanel> findObjectForms(Object object, SwingRenderer swingRenderer) {
+		return ReflectionUIUtils.getKeysFromValue(swingRenderer.getObjectByForm(), object);
+	}
+
+	public static JPanel findFirstObjectActiveForm(Object object, SwingRenderer swingRenderer) {
+		for (JPanel form : findObjectForms(object, swingRenderer)) {
+			if (form.isDisplayable()) {
+				return form;
+			}
+		}
+		return null;
+	}
+
+	public static JPanel findFirstObjectDescendantForm(Object object, Container container,
+			SwingRenderer swingRenderer) {
+		for (JPanel form : findDescendantForms(container, swingRenderer)) {
+			if (object == swingRenderer.getObjectByForm().get(form)) {
+				return form;
+			}
+		}
+		return null;
 	}
 
 }
