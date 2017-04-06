@@ -76,62 +76,57 @@
 <A NAME="59"></A>            <FONT ID="Public">public</FONT> ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
 <A NAME="60"></A>                <FONT ID="Return">return</FONT> <FONT ID="New">new</FONT> TypeInfoProxyFactory() {
 <A NAME="61"></A>
-<A NAME="62"></A>                    @Override
-<A NAME="63"></A>                    <FONT ID="Public">public</FONT> String toString() {
-<A NAME="64"></A>                        <FONT ID="Return">return</FONT> <A HREF="Example.java.html">Example</A>.<FONT ID="Class">class</FONT>.getName() + TypeInfoProxyFactory.<FONT ID="Class">class</FONT>.getSimpleName();
-<A NAME="65"></A>                    }
-<A NAME="66"></A>
-<A NAME="67"></A>                    <FONT ID="MultiLineComment">/*
-<A NAME="68"></A>                     * For instance you can uppercase all the field captions
-<A NAME="69"></A>                     * this way:
-<A NAME="70"></A>                     */</FONT>
-<A NAME="71"></A>                    @Override
-<A NAME="72"></A>                    <FONT ID="Protected">protected</FONT> String getCaption(IFieldInfo field, ITypeInfo containingType) {
-<A NAME="73"></A>                        <FONT ID="Return">return</FONT> <FONT ID="Super">super</FONT>.getCaption(field, containingType).toUpperCase();
-<A NAME="74"></A>                    }
-<A NAME="75"></A>
-<A NAME="76"></A>                    <FONT ID="MultiLineComment">/*
-<A NAME="77"></A>                     * if your class "toString" method (used in some field
-<A NAME="78"></A>                     * controls) is not implemented as you want then:
-<A NAME="79"></A>                     */</FONT>
-<A NAME="80"></A>                    @Override
-<A NAME="81"></A>                    <FONT ID="Public">public</FONT> String toString(ITypeInfo type, Object object) {
-<A NAME="82"></A>                        <FONT ID="Return">return</FONT> <FONT ID="StringLiteral">"overriden: "</FONT> + <FONT ID="Super">super</FONT>.toString(type, object).toUpperCase();
-<A NAME="83"></A>                    }
-<A NAME="84"></A>
-<A NAME="85"></A>                    <FONT ID="MultiLineComment">/*
-<A NAME="86"></A>                     * copy/cut/paste: By default this functionality is enabled
-<A NAME="87"></A>                     * only for Serializable objects. If your class does not
-<A NAME="88"></A>                     * implement the Serializable interface then override the
-<A NAME="89"></A>                     * following methods:
-<A NAME="90"></A>                     */</FONT>
-<A NAME="91"></A>                    @Override
-<A NAME="92"></A>                    <FONT ID="Public">public</FONT> <FONT ID="Boolean">boolean</FONT> canCopy(ITypeInfo type, Object object) {
-<A NAME="93"></A>                        <FONT ID="SingleLineComment">// TODO: replace with your code
-<A NAME="94"></A></FONT>                        <FONT ID="Return">return</FONT> <FONT ID="Super">super</FONT>.canCopy(type, object);
-<A NAME="95"></A>                    }
-<A NAME="96"></A>
-<A NAME="97"></A>                    @Override
-<A NAME="98"></A>                    <FONT ID="Public">public</FONT> Object copy(ITypeInfo type, Object object) {
-<A NAME="99"></A>                        <FONT ID="SingleLineComment">// TODO: replace with your code
-<A NAME="100"></A></FONT>                        <FONT ID="Return">return</FONT> <FONT ID="Super">super</FONT>.copy(type, object);
-<A NAME="101"></A>                    }
+<A NAME="62"></A>                    <FONT ID="MultiLineComment">/*
+<A NAME="63"></A>                     * For instance you can uppercase all the field captions
+<A NAME="64"></A>                     * this way:
+<A NAME="65"></A>                     */</FONT>
+<A NAME="66"></A>                    @Override
+<A NAME="67"></A>                    <FONT ID="Protected">protected</FONT> String getCaption(IFieldInfo field, ITypeInfo containingType) {
+<A NAME="68"></A>                        <FONT ID="Return">return</FONT> <FONT ID="Super">super</FONT>.getCaption(field, containingType).toUpperCase();
+<A NAME="69"></A>                    }
+<A NAME="70"></A>
+<A NAME="71"></A>                    <FONT ID="MultiLineComment">/*
+<A NAME="72"></A>                     * if your class "toString" method (used in some field
+<A NAME="73"></A>                     * controls) is not implemented as you want then:
+<A NAME="74"></A>                     */</FONT>
+<A NAME="75"></A>                    @Override
+<A NAME="76"></A>                    <FONT ID="Public">public</FONT> String toString(ITypeInfo type, Object object) {
+<A NAME="77"></A>                        <FONT ID="Return">return</FONT> <FONT ID="StringLiteral">"overriden: "</FONT> + <FONT ID="Super">super</FONT>.toString(type, object).toUpperCase();
+<A NAME="78"></A>                    }
+<A NAME="79"></A>
+<A NAME="80"></A>                    <FONT ID="MultiLineComment">/*
+<A NAME="81"></A>                     * copy/cut/paste: By default this functionality is enabled
+<A NAME="82"></A>                     * only for Serializable objects. If your class does not
+<A NAME="83"></A>                     * implement the Serializable interface then override the
+<A NAME="84"></A>                     * following methods:
+<A NAME="85"></A>                     */</FONT>
+<A NAME="86"></A>                    @Override
+<A NAME="87"></A>                    <FONT ID="Public">public</FONT> <FONT ID="Boolean">boolean</FONT> canCopy(ITypeInfo type, Object object) {
+<A NAME="88"></A>                        <FONT ID="SingleLineComment">// TODO: replace with your code
+<A NAME="89"></A></FONT>                        <FONT ID="Return">return</FONT> <FONT ID="Super">super</FONT>.canCopy(type, object);
+<A NAME="90"></A>                    }
+<A NAME="91"></A>
+<A NAME="92"></A>                    @Override
+<A NAME="93"></A>                    <FONT ID="Public">public</FONT> Object copy(ITypeInfo type, Object object) {
+<A NAME="94"></A>                        <FONT ID="SingleLineComment">// TODO: replace with your code
+<A NAME="95"></A></FONT>                        <FONT ID="Return">return</FONT> <FONT ID="Super">super</FONT>.copy(type, object);
+<A NAME="96"></A>                    }
+<A NAME="97"></A>
+<A NAME="98"></A>                    <FONT ID="MultiLineComment">/*
+<A NAME="99"></A>                     * Many more methods can be overriden. Explore the class
+<A NAME="100"></A>                     * TypeInfoProxyFactory to find out...
+<A NAME="101"></A>                     */</FONT>
 <A NAME="102"></A>
-<A NAME="103"></A>                    <FONT ID="MultiLineComment">/*
-<A NAME="104"></A>                     * Many more methods can be overriden. Explore the class
-<A NAME="105"></A>                     * TypeInfoProxyFactory to find out...
-<A NAME="106"></A>                     */</FONT>
-<A NAME="107"></A>
-<A NAME="108"></A>                }.get(<FONT ID="Super">super</FONT>.getTypeInfo(typeSource));
-<A NAME="109"></A>            }
-<A NAME="110"></A>
-<A NAME="111"></A>        };
-<A NAME="112"></A>        SwingRenderer swingRenderer = <FONT ID="New">new</FONT> SwingRenderer(reflectionUI);
-<A NAME="113"></A>        swingRenderer.openObjectDialog(<FONT ID="Null">null</FONT>, myObject, <FONT ID="StringLiteral">"uppercase field captions"</FONT>, <FONT ID="Null">null</FONT>, <FONT ID="False">false</FONT>, <FONT ID="True">true</FONT>);
-<A NAME="114"></A>
-<A NAME="115"></A>    }
-<A NAME="116"></A>}
-<A NAME="117"></A></pre><TABLE id="Header" border="0" cellpadding="0" cellspacing="0" width="100%">
+<A NAME="103"></A>                }.get(<FONT ID="Super">super</FONT>.getTypeInfo(typeSource));
+<A NAME="104"></A>            }
+<A NAME="105"></A>
+<A NAME="106"></A>        };
+<A NAME="107"></A>        SwingRenderer swingRenderer = <FONT ID="New">new</FONT> SwingRenderer(reflectionUI);
+<A NAME="108"></A>        swingRenderer.openObjectDialog(<FONT ID="Null">null</FONT>, myObject, <FONT ID="StringLiteral">"uppercase field captions"</FONT>, <FONT ID="Null">null</FONT>, <FONT ID="False">false</FONT>, <FONT ID="True">true</FONT>);
+<A NAME="109"></A>
+<A NAME="110"></A>    }
+<A NAME="111"></A>}
+<A NAME="112"></A></pre><TABLE id="Header" border="0" cellpadding="0" cellspacing="0" width="100%">
 <tr>
 <td colspan="2" width="33%">&nbsp;</td>
 <td align="center" colspan="2" width="33%">
