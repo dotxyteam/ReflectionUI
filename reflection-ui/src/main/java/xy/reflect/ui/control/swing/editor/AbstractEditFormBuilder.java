@@ -1,10 +1,11 @@
-package xy.reflect.ui.control.swing;
+package xy.reflect.ui.control.swing.editor;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JPanel;
 
+import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.control.swing.customization.SwingCustomizer;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
@@ -31,7 +32,7 @@ public abstract class AbstractEditFormBuilder {
 
 	public abstract SwingRenderer getSwingRenderer();
 
-	public abstract ModificationStack getParentModificationStack();
+	public abstract ModificationStack getParentObjectModificationStack();
 
 	public abstract IInfo getCumulatedModificationsTarget();
 
@@ -52,6 +53,10 @@ public abstract class AbstractEditFormBuilder {
 	public abstract IInfoFilter getObjectFormFilter();
 
 	public abstract boolean isObjectFormExpanded();
+
+	public abstract String getContextIdentifier();
+
+	public abstract String getSubContextIdentifier();
 
 	protected void ensureObjectValueIsInitialized() {
 		if (objectValueInitialized) {
@@ -98,37 +103,52 @@ public abstract class AbstractEditFormBuilder {
 		return canCommit();
 	}
 
-	protected String getCustomEncapsulationTypeName() {
+	protected String getCustomEncapsulationFieldName() {
 		return null;
 	}
 
-	protected String getCustomEncapsulatedFieldName() {
-		return null;
+	public String getEncapsulationTypeName() {
+		String contextDeclaraion;
+		{
+			String contextIdentifier = getContextIdentifier();
+			if (contextIdentifier == null) {
+				contextDeclaraion = "";
+			} else {
+				contextDeclaraion = "context=" + contextIdentifier + ", ";
+			}
+		}
+		String subContextDeclaraion;
+		{
+			String subContextIdentifier = getSubContextIdentifier();
+			if (subContextIdentifier == null) {
+				subContextDeclaraion = "";
+			} else {
+				subContextDeclaraion = "subContext=" + subContextIdentifier + ", ";
+			}
+		}
+		return "Encapsulation [" + contextDeclaraion + subContextDeclaraion + "encapsulatedObjectType="
+				+ getEncapsulationFieldType().getName() + "]";
 	}
 
 	public EncapsulatedObjectFactory getEncapsulation() {
 		EncapsulatedObjectFactory result = new EncapsulatedObjectFactory(getSwingRenderer().getReflectionUI(),
-				getEncapsulatedFieldType(), getEncapsulationTypeCaption(), getEncapsulatedFieldCaption());
-		String customEncapsulationTypeName = getCustomEncapsulationTypeName();
-		{
-			if (customEncapsulationTypeName != null) {
-				result.setTypeName(customEncapsulationTypeName);
-			}
-		}
+				getEncapsulationTypeName(), getEncapsulationFieldType());
 		result.setTypeModificationStackAccessible(!isInReadOnlyMode());
+		result.setTypeCaption(getEncapsulationTypeCaption());
+		result.setFieldCaption(getEncapsulatedFieldCaption());
 		Map<String, Object> typeSpecificProperties = new HashMap<String, Object>();
 		{
 			typeSpecificProperties.put(SwingCustomizer.CUSTOMIZATIONS_FORBIDDEN_PROPERTY_KEY,
 					!isEncapsulationTypeCustomizationAllowed());
 			result.setTypeSpecificProperties(typeSpecificProperties);
 		}
-		String customEncapsulatedFieldName = getCustomEncapsulatedFieldName();
+		String customEncapsulationFieldName = getCustomEncapsulationFieldName();
 		{
-			if (customEncapsulatedFieldName != null) {
-				result.setFieldName(customEncapsulatedFieldName);
+			if (customEncapsulationFieldName != null) {
+				result.setFieldName(customEncapsulationFieldName);
 			}
 		}
-		result.setFieldGetOnly(isInReadOnlyMode() || !canReplaceObjectValue());
+		result.setFieldGetOnly(isInReadOnlyMode() || (canPotentiallyModifyParentObject() && !canReplaceObjectValue()));
 		result.setFieldNullable(isObjectValueNullable());
 		result.setFieldValueReturnMode(
 				(!isInReadOnlyMode()) ? ValueReturnMode.DIRECT_OR_PROXY : ValueReturnMode.CALCULATED);
@@ -147,20 +167,11 @@ public abstract class AbstractEditFormBuilder {
 		return true;
 	}
 
-	public boolean isInReadOnlyMode() {
-		if (isLinkedToParent()) {
-			if (!canPotentiallyModifyParent()) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public String getEncapsulatedFieldCaption() {
 		return "";
 	}
 
-	public ITypeInfo getEncapsulatedFieldType() {
+	public ITypeInfo getEncapsulationFieldType() {
 		ITypeInfo result = getObjectDeclaredType();
 		if (result != null) {
 			return result;
@@ -174,7 +185,7 @@ public abstract class AbstractEditFormBuilder {
 	}
 
 	public String getEncapsulationTypeCaption() {
-		return getEncapsulatedFieldType().getCaption();
+		return getEncapsulationFieldType().getCaption();
 	}
 
 	public boolean isObjectFormEmpty() {
@@ -203,8 +214,8 @@ public abstract class AbstractEditFormBuilder {
 		Object encapsulated = getEncapsulatedObject();
 		JPanel result = getSwingRenderer().createForm(encapsulated);
 		if (realTimeLinkWithParent) {
-			if (canPotentiallyModifyParent()) {
-				forwardEditFormModificationsToParent(result);
+			if (canPotentiallyModifyParentObject()) {
+				forwardEditFormModificationsToParentObject(result);
 			}
 			if (isInReadOnlyMode()) {
 				refreshEditFormOnModification(result);
@@ -213,8 +224,12 @@ public abstract class AbstractEditFormBuilder {
 		return result;
 	}
 
-	public boolean canPotentiallyModifyParent() {
-		if (!isLinkedToParent()) {
+	protected boolean hasParentObject() {
+		return getParentObjectModificationStack() != null;
+	}
+
+	public boolean canPotentiallyModifyParentObject() {
+		if (!hasParentObject()) {
 			return false;
 		}
 		ensureObjectValueIsInitialized();
@@ -222,8 +237,13 @@ public abstract class AbstractEditFormBuilder {
 				initialObjectValue, getObjectValueReturnMode(), canCommit());
 	}
 
-	protected boolean isLinkedToParent() {
-		return getParentModificationStack() != null;
+	public boolean isInReadOnlyMode() {
+		if (hasParentObject()) {
+			if (!canPotentiallyModifyParentObject()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	protected void refreshEditFormOnModification(final JPanel form) {
@@ -241,15 +261,15 @@ public abstract class AbstractEditFormBuilder {
 		getSwingRenderer().refreshAllFieldControls(form, false);
 	}
 
-	protected boolean isNewObjectValueAccepted(Object value) {
+	protected boolean shouldAcceptNewObjectValue(Object value) {
 		return true;
 	}
 
-	protected void forwardEditFormModificationsToParent(final JPanel form) {
+	protected void forwardEditFormModificationsToParentObject(final JPanel form) {
 		Accessor<Boolean> childModifAcceptedGetter = new Accessor<Boolean>() {
 			@Override
 			public Boolean get() {
-				return isNewObjectValueAccepted(getCurrentObjectValue());
+				return shouldAcceptNewObjectValue(getCurrentObjectValue());
 			}
 		};
 		Accessor<ValueReturnMode> childValueReturnModeGetter = new Accessor<ValueReturnMode>() {
@@ -289,7 +309,7 @@ public abstract class AbstractEditFormBuilder {
 
 			@Override
 			public ModificationStack get() {
-				ModificationStack result = getParentModificationStack();
+				ModificationStack result = getParentObjectModificationStack();
 				if (result == null) {
 					throw new ReflectionUIError();
 				}

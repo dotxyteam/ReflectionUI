@@ -1,7 +1,6 @@
 package xy.reflect.ui.control.swing.customization;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.io.File;
@@ -12,10 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.input.IFieldControlData;
 import xy.reflect.ui.control.swing.SwingRenderer;
-import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
-import xy.reflect.ui.control.swing.SwingRenderer.MethodControlPlaceHolder;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -24,7 +20,6 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.SystemProperties;
 
-@SuppressWarnings("unused")
 public class SwingCustomizer extends SwingRenderer {
 
 	public static final String CUSTOMIZATIONS_FORBIDDEN_PROPERTY_KEY = SwingCustomizer.class.getName()
@@ -87,9 +82,10 @@ public class SwingCustomizer extends SwingRenderer {
 			mainCustomizationsControl.add(customizationTools.createTypeInfoCustomizer(infoCustomizations, object),
 					BorderLayout.CENTER);
 			mainCustomizationsControl.add(customizationTools.createSaveControl(), BorderLayout.EAST);
+			mainCustomizationsControl.setBorder(
+					BorderFactory.createEmptyBorder(getLayoutSpacing(), 0, 0, 0));
 			form.add(SwingRendererUtils.flowInLayout(mainCustomizationsControl, GridBagConstraints.CENTER),
 					BorderLayout.NORTH);
-			int spacing = SwingRendererUtils.getStandardCharacterWidth(form) * 2;
 		}
 		super.fillForm(form);
 	}

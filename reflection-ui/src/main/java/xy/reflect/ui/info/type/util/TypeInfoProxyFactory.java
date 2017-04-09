@@ -248,6 +248,10 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return wrapMethodReturnValueType(method.getReturnValueType());
 	}
 
+	protected ITypeInfoProxyFactory getReturnValueTypeSpecificities(IMethodInfo method, ITypeInfo containingType) {
+		return method.getReturnValueTypeSpecificities();
+	}
+
 	protected String getCaption(IMethodInfo method, ITypeInfo containingType) {
 		return method.getCaption();
 	}
@@ -944,7 +948,10 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		public ITypeInfo getReturnValueType() {
 			return TypeInfoProxyFactory.this.getReturnValueType(base, containingType);
 		}
-
+		@Override
+		public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
+			return TypeInfoProxyFactory.this.getReturnValueTypeSpecificities(base, containingType);
+		}
 		@Override
 		public List<IParameterInfo> getParameters() {
 			List<IParameterInfo> result = new ArrayList<IParameterInfo>();

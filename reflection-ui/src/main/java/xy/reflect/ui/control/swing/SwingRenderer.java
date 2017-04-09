@@ -54,6 +54,7 @@ import xy.reflect.ui.control.input.IMethodControlData;
 import xy.reflect.ui.control.input.IMethodControlInput;
 import xy.reflect.ui.control.input.MethodControlDataProxy;
 import xy.reflect.ui.control.swing.customization.SwingCustomizer;
+import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
@@ -65,6 +66,7 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.DefaultConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
@@ -73,9 +75,9 @@ import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.util.GenericEnumerationFactory;
 import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
 import xy.reflect.ui.info.type.util.FilterredTypeFactory;
+import xy.reflect.ui.info.type.util.GenericEnumerationFactory;
 import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
 import xy.reflect.ui.info.type.util.InfoCustomizations;
 import xy.reflect.ui.info.type.util.PolymorphicTypeOptionsFactory;
@@ -242,7 +244,6 @@ public class SwingRenderer {
 	public JPanel createFieldsPanel(List<FieldControlPlaceHolder> fielControlPlaceHolders) {
 		JPanel fieldsPanel = new JPanel();
 		fieldsPanel.setLayout(new GridBagLayout());
-		int spacing = 5;
 		for (int i = 0; i < fielControlPlaceHolders.size(); i++) {
 			FieldControlPlaceHolder fieldControlPlaceHolder = fielControlPlaceHolders.get(i);
 			{
@@ -254,6 +255,7 @@ public class SwingRenderer {
 			IFieldInfo field = fieldControlPlaceHolder.getField();
 			if ((field.getOnlineHelp() != null) && (field.getOnlineHelp().trim().length() > 0)) {
 				GridBagConstraints layoutConstraints = new GridBagConstraints();
+				int spacing = getLayoutSpacing();
 				layoutConstraints.insets = new Insets(spacing, spacing, spacing, spacing);
 				layoutConstraints.gridx = 2;
 				layoutConstraints.gridy = i;
@@ -263,6 +265,10 @@ public class SwingRenderer {
 
 		}
 		return fieldsPanel;
+	}
+
+	public int getLayoutSpacing() {
+		return 1 * SwingRendererUtils.getStandardCharacterWidth(new JPanel());
 	}
 
 	public JFrame createFrame(Component content, String title, Image iconImage,
@@ -279,7 +285,7 @@ public class SwingRenderer {
 
 	public JPanel createMethodsPanel(final List<MethodControlPlaceHolder> methodControlPlaceHolders) {
 		JPanel methodsPanel = new JPanel();
-		methodsPanel.setLayout(new WrapLayout(WrapLayout.CENTER));
+		methodsPanel.setLayout(new WrapLayout(WrapLayout.CENTER, getLayoutSpacing(), getLayoutSpacing()));
 		for (final Component methodControl : methodControlPlaceHolders) {
 			JPanel methodControlContainer = new JPanel() {
 				protected static final long serialVersionUID = 1L;
@@ -863,6 +869,7 @@ public class SwingRenderer {
 				if (silent) {
 					return constructor.invoke(null, new InvocationData());
 				} else {
+					final ITypeInfo finalType = type;
 					MethodAction methodAction = createMethodAction(new IMethodControlInput() {
 
 						ModificationStack dummyModificationStack = new ModificationStack(null);
@@ -878,8 +885,14 @@ public class SwingRenderer {
 						}
 
 						@Override
+						public String getContextIdentifier() {
+							return "ContructorContext [type=" + finalType.getName() + ", signature="
+									+ ReflectionUIUtils.getMethodSignature(constructor) + "]";
+						}
+
+						@Override
 						public IMethodControlData getControlData() {
-							return new DefaultMethodControlData(null, null, constructor);
+							return new DefaultMethodControlData(null, constructor);
 						}
 					});
 					methodAction.setShouldDisplayReturnValueIfAny(false);
@@ -919,6 +932,7 @@ public class SwingRenderer {
 				if (chosenContructor == null) {
 					return null;
 				}
+				final ITypeInfo finalType = type;
 				MethodAction methodAction = createMethodAction(new IMethodControlInput() {
 
 					ModificationStack dummyModificationStack = new ModificationStack(null);
@@ -934,8 +948,14 @@ public class SwingRenderer {
 					}
 
 					@Override
+					public String getContextIdentifier() {
+						return "ContructorContext [type=" + finalType.getName() + ", signature="
+								+ ReflectionUIUtils.getMethodSignature(chosenContructor) + "]";
+					}
+
+					@Override
 					public IMethodControlData getControlData() {
-						return new DefaultMethodControlData(null, null, chosenContructor);
+						return new DefaultMethodControlData(null, chosenContructor);
 					}
 				});
 				methodAction.setShouldDisplayReturnValueIfAny(false);
@@ -965,8 +985,8 @@ public class SwingRenderer {
 		encapsulation.setFieldNullable(false);
 		Object encapsulatedChosenItem = encapsulation.getInstance(chosenItemHolder);
 
-		if (openObjectDialog(parentComponent, encapsulatedChosenItem, title, getObjectIconImage(encapsulatedChosenItem),
-				true, true).wasOkPressed()) {
+		if (!openObjectDialog(parentComponent, encapsulatedChosenItem, title,
+				getObjectIconImage(encapsulatedChosenItem), true, true).isCancelled()) {
 			return chosenItemHolder[0];
 		} else {
 			return null;
@@ -987,8 +1007,8 @@ public class SwingRenderer {
 		encapsulation.setFieldNullable(false);
 		Object encapsulatedValue = encapsulation.getInstance(valueHolder);
 
-		if (openObjectDialog(parentComponent, encapsulatedValue, title, getObjectIconImage(encapsulatedValue), true,
-				true).wasOkPressed()) {
+		if (!openObjectDialog(parentComponent, encapsulatedValue, title, getObjectIconImage(encapsulatedValue), true,
+				true).isCancelled()) {
 			return (T) valueHolder[0];
 		} else {
 			return null;
@@ -1003,8 +1023,8 @@ public class SwingRenderer {
 			String noCaption) {
 		DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
 		dialogBuilder.setToolbarComponents(dialogBuilder.createStandardOKCancelDialogButtons(yesCaption, noCaption));
-		dialogBuilder.setContentComponent(
-				SwingRendererUtils.getJOptionPane(prepareStringToDisplay(question), JOptionPane.QUESTION_MESSAGE));
+		dialogBuilder.setContentComponent(SwingRendererUtils.getMessageJOptionPane(prepareStringToDisplay(question),
+				JOptionPane.QUESTION_MESSAGE));
 		dialogBuilder.setTitle(title);
 		showDialog(dialogBuilder.createDialog(), true);
 		return dialogBuilder.wasOkPressed();
@@ -1018,7 +1038,7 @@ public class SwingRenderer {
 
 		dialogBuilder.setTitle(title);
 		dialogBuilder.setContentComponent(
-				SwingRendererUtils.getJOptionPane(prepareStringToDisplay(msg), JOptionPane.INFORMATION_MESSAGE));
+				SwingRendererUtils.getMessageJOptionPane(prepareStringToDisplay(msg), JOptionPane.INFORMATION_MESSAGE));
 		dialogBuilder.setToolbarComponents(buttons);
 
 		showDialog(dialogBuilder.createDialog(), true);
@@ -1039,7 +1059,7 @@ public class SwingRenderer {
 		buttons.add(dialogBuilder.createDialogClosingButton("Close", null));
 
 		dialogBuilder.setTitle(title);
-		dialogBuilder.setContentComponent(SwingRendererUtils.getJOptionPane(
+		dialogBuilder.setContentComponent(SwingRendererUtils.getMessageJOptionPane(
 				prepareStringToDisplay(ReflectionUIUtils.getPrettyErrorMessage(error)), JOptionPane.ERROR_MESSAGE));
 		dialogBuilder.setToolbarComponents(buttons);
 
@@ -1078,7 +1098,7 @@ public class SwingRenderer {
 			}
 
 			@Override
-			public String getEditorTitle() {
+			public String getEditorWindowTitle() {
 				if (title == null) {
 					return getObjectTitle(object);
 				}
@@ -1351,7 +1371,7 @@ public class SwingRenderer {
 
 	public void updateFieldControlLayout(FieldControlPlaceHolder fieldControlPlaceHolder, boolean initialUpdate) {
 
-		boolean shouldHaveSeparateCaptionControl = !fieldControlPlaceHolder.showCaption()
+		boolean shouldHaveSeparateCaptionControl = !fieldControlPlaceHolder.showsCaption()
 				&& (fieldControlPlaceHolder.getField().getCaption().length() > 0);
 
 		if (!initialUpdate) {
@@ -1474,6 +1494,10 @@ public class SwingRenderer {
 		SwingRendererUtils.handleComponentSizeChange(statusBar);
 	}
 
+	public Color getNullColor() {
+		return SwingRendererUtils.getNonEditableTextBackgroundColor();
+	}
+
 	public class FieldControlPlaceHolder extends JPanel implements IFieldControlInput {
 
 		protected static final long serialVersionUID = 1L;
@@ -1507,6 +1531,12 @@ public class SwingRenderer {
 
 		public void setControlData(IFieldControlData controlData) {
 			this.controlData = controlData;
+		}
+
+		@Override
+		public String getContextIdentifier() {
+			ITypeInfo objectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
+			return "FieldContext [fieldName=" + field.getName() + ", containingType=" + objectType.getName() + "]";
 		}
 
 		@Override
@@ -1725,7 +1755,7 @@ public class SwingRenderer {
 				return new PolymorphicControl(SwingRenderer.this, this);
 			} else {
 				if (controlData.isNullable()) {
-					return new NullableControl2(SwingRenderer.this, this);
+					return new NullableControl(SwingRenderer.this, this);
 				}
 				Object value = controlData.getValue();
 				final ITypeInfo actualValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
@@ -1754,7 +1784,7 @@ public class SwingRenderer {
 			result.add(new NullControl(SwingRenderer.this, new FieldControlInputProxy(this) {
 				@Override
 				public IFieldControlData getControlData() {
-					return new FieldControlDataProxy(super.getControlData()) {
+					return new FieldControlDataProxy(IFieldControlData.NULL_CONTROL_DATA) {
 						@Override
 						public String getNullValueLabel() {
 							return ReflectionUIUtils.getPrettyErrorMessage(t);
@@ -1781,7 +1811,7 @@ public class SwingRenderer {
 			}
 		}
 
-		public boolean showCaption() {
+		public boolean showsCaption() {
 			if (((fieldControl instanceof IAdvancedFieldControl)
 					&& ((IAdvancedFieldControl) fieldControl).showsCaption())) {
 				return true;
@@ -1976,6 +2006,13 @@ public class SwingRenderer {
 			return getModificationStackByForm().get(form);
 		}
 
+		@Override
+		public String getContextIdentifier() {
+			ITypeInfo objectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
+			return "MethodContext [methodSignature=" + ReflectionUIUtils.getMethodSignature(method)
+					+ ", containingType=" + objectType.getName() + "]";
+		}
+
 		public IMethodInfo getMethod() {
 			return method;
 		}
@@ -2008,74 +2045,79 @@ public class SwingRenderer {
 		}
 
 		public IMethodControlData getInitialControlData() {
+			IMethodInfo method = MethodControlPlaceHolder.this.method;
+			final ITypeInfoProxyFactory typeSpecificities = method.getReturnValueTypeSpecificities();
+			if (method.getReturnValueType() != null) {
+				if (typeSpecificities != null) {
+					method = new MethodInfoProxy(method) {
+						@Override
+						public ITypeInfo getReturnValueType() {
+							return typeSpecificities.get(super.getReturnValueType());
+						}
+					};
+				}
+			}
+			final IMethodInfo finalMethod = method;
 			IMethodControlData result = new IMethodControlData() {
 
 				@Override
 				public void validateParameters(InvocationData invocationData) throws Exception {
-					method.validateParameters(getObject(), invocationData);
+					finalMethod.validateParameters(getObject(), invocationData);
 				}
 
 				@Override
 				public boolean isReadOnly() {
-					return method.isReadOnly();
+					return finalMethod.isReadOnly();
 				}
 
 				@Override
 				public Object invoke(InvocationData invocationData) {
-					return method.invoke(getObject(), invocationData);
+					return finalMethod.invoke(getObject(), invocationData);
 				}
 
 				@Override
 				public ValueReturnMode getValueReturnMode() {
-					return method.getValueReturnMode();
+					return finalMethod.getValueReturnMode();
 				}
 
 				@Override
 				public Runnable getUndoJob(InvocationData invocationData) {
-					return method.getUndoJob(getObject(), invocationData);
+					return finalMethod.getUndoJob(getObject(), invocationData);
 				}
 
 				@Override
 				public ITypeInfo getReturnValueType() {
-					return method.getReturnValueType();
+					return finalMethod.getReturnValueType();
 				}
 
 				@Override
 				public List<IParameterInfo> getParameters() {
-					return method.getParameters();
+					return finalMethod.getParameters();
 				}
 
 				@Override
 				public String getNullReturnValueLabel() {
-					return method.getNullReturnValueLabel();
+					return finalMethod.getNullReturnValueLabel();
 				}
 
 				@Override
 				public String getOnlineHelp() {
-					return method.getOnlineHelp();
+					return finalMethod.getOnlineHelp();
 				}
 
 				@Override
 				public Map<String, Object> getSpecificProperties() {
-					return method.getSpecificProperties();
+					return finalMethod.getSpecificProperties();
 				}
 
 				@Override
 				public String getCaption() {
-					return method.getCaption();
+					return finalMethod.getCaption();
 				}
 
 				@Override
 				public String getMethodSignature() {
-					return ReflectionUIUtils.getMethodSignature(method);
-				}
-
-				public ITypeInfo getMethodOwnerType() {
-					Object objet = getObject();
-					if (objet == null) {
-						return null;
-					}
-					return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(objet));
+					return ReflectionUIUtils.getMethodSignature(finalMethod);
 				}
 
 				@Override

@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import xy.reflect.ui.control.input.IMethodControlData;
 import xy.reflect.ui.control.input.IMethodControlInput;
+import xy.reflect.ui.control.swing.editor.AbstractEditorBuilder;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -30,14 +31,12 @@ public class MethodAction extends AbstractAction {
 	protected IMethodControlData data;
 	protected Object returnValue;
 	protected boolean shouldDisplayReturnValueIfAny = false;
-	protected boolean retunValueWindowDetached;
 	protected ModificationStack modificationStack;
 
 	public MethodAction(SwingRenderer swingRenderer, IMethodControlInput input) {
 		this.swingRenderer = swingRenderer;
 		this.input = input;
 		this.data = input.getControlData();
-		this.retunValueWindowDetached = data.getValueReturnMode() == ValueReturnMode.CALCULATED;
 	}
 
 	public SwingRenderer getSwingRenderer() {
@@ -54,14 +53,6 @@ public class MethodAction extends AbstractAction {
 
 	public boolean getShouldDisplayReturnValueIfAny() {
 		return shouldDisplayReturnValueIfAny;
-	}
-
-	public boolean isRetunValueWindowDetached() {
-		return retunValueWindowDetached;
-	}
-
-	public void setRetunValueWindowDetached(boolean retunValueWindowDetached) {
-		this.retunValueWindowDetached = retunValueWindowDetached;
 	}
 
 	public ModificationStack getModificationStack() {
@@ -112,7 +103,7 @@ public class MethodAction extends AbstractAction {
 			invocationData = new InvocationData();
 		}
 		JPanel methodForm = swingRenderer.createForm(
-				new MethodSetupObjectFactory(swingRenderer.getReflectionUI(), data).getInstance(invocationData));
+				new MethodSetupObjectFactory(swingRenderer.getReflectionUI(), input).getInstance(invocationData));
 		final boolean[] invokedStatusHolder = new boolean[] { false };
 		List<Component> toolbarControls = new ArrayList<Component>();
 		String doc = data.getOnlineHelp();
@@ -169,8 +160,17 @@ public class MethodAction extends AbstractAction {
 	}
 
 	protected void openMethodReturnValueWindow(final Component activatorComponent) {
-		final String windowTitle = ReflectionUIUtils.composeMessage(data.getCaption(), "Result");
 		AbstractEditorBuilder editorBuilder = new AbstractEditorBuilder() {
+
+			@Override
+			public String getContextIdentifier() {
+				return input.getContextIdentifier();
+			}
+
+			@Override
+			public String getSubContextIdentifier() {
+				return "MethodResult";
+			}
 
 			@Override
 			public Object getInitialObjectValue() {
@@ -207,16 +207,6 @@ public class MethodAction extends AbstractAction {
 			}
 
 			@Override
-			public String getEditorTitle() {
-				return windowTitle;
-			}
-
-			@Override
-			public String getEncapsulationTypeCaption() {
-				return windowTitle;
-			}
-
-			@Override
 			public Component getOwnerComponent() {
 				return activatorComponent;
 			}
@@ -242,15 +232,15 @@ public class MethodAction extends AbstractAction {
 			}
 
 			@Override
-			public ModificationStack getParentModificationStack() {
+			public ModificationStack getParentObjectModificationStack() {
 				return modificationStack;
 			}
 
 		};
-		if (retunValueWindowDetached) {
-			editorBuilder.showFrame();
-		} else {
+		if (editorBuilder.canPotentiallyModifyParentObject()) {
 			editorBuilder.showDialog();
+		} else {
+			editorBuilder.showFrame();
 		}
 	}
 

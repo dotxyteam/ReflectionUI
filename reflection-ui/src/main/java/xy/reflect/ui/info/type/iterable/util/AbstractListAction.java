@@ -10,6 +10,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
 
 public abstract class AbstractListAction implements IMethodInfo {
 
@@ -35,6 +36,11 @@ public abstract class AbstractListAction implements IMethodInfo {
 	@Override
 	public Map<String, Object> getSpecificProperties() {
 		return Collections.emptyMap();
+	}
+
+	@Override
+	public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
+		return null;
 	}
 
 	@Override

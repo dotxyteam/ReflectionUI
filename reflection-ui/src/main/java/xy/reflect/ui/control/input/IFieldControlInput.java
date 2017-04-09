@@ -11,4 +11,6 @@ public interface IFieldControlInput {
 
 	ModificationStack getModificationStack();
 
+	String getContextIdentifier();
+
 }

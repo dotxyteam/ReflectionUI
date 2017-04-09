@@ -216,11 +216,19 @@ public class SwingRendererUtils {
 		}
 	}
 
-	public static Color getTextBackgroundColor() {
-		return SwingRendererUtils.fixSeveralColorRenderingIssues(new JTextField().getBackground());
+	public static Color getEditableTextBackgroundColor() {
+		return SwingRendererUtils.fixSeveralColorRenderingIssues(new JTextArea().getBackground());
 	}
 
-	public static Color getPanelBackgroundColor() {
+	public static Color getEditableTextForegroundColor() {
+		return SwingRendererUtils.fixSeveralColorRenderingIssues(new JTextArea().getForeground());
+	}
+
+	public static Color getNonEditableTextForegroundColor() {
+		return SwingRendererUtils.fixSeveralColorRenderingIssues(new JTextArea().getDisabledTextColor());
+	}
+
+	public static Color getNonEditableTextBackgroundColor() {
 		return SwingRendererUtils.fixSeveralColorRenderingIssues(new JPanel().getBackground());
 	}
 
@@ -563,10 +571,6 @@ public class SwingRendererUtils {
 		return listenersToRemove.size();
 	}
 
-	public static Color getNullColor() {
-		return fixSeveralColorRenderingIssues(new JTextArea().getDisabledTextColor());
-	}
-
 	public static Image findIconImage(SwingRenderer swingRenderer, Map<String, Object> properties) {
 		if (properties == null) {
 			return null;
@@ -677,11 +681,11 @@ public class SwingRendererUtils {
 
 	}
 
-	public static Component getJOptionPane(String msg, int messageType) {
+	public static Component getMessageJOptionPane(String msg, int messageType) {
 		JTextArea msgComponent = new JTextArea();
 		msgComponent.setText(msg);
 		msgComponent.setEditable(false);
-		msgComponent.setBackground(getPanelBackgroundColor());
+		msgComponent.setBackground(getNonEditableTextBackgroundColor());
 		final JScrollPane scrollPane = new JScrollPane(msgComponent);
 		scrollPane.setBorder(null);
 		JOptionPane result = new JOptionPane(scrollPane, messageType, JOptionPane.DEFAULT_OPTION, null,

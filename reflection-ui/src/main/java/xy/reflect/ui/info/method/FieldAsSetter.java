@@ -10,6 +10,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.parameter.ParameterInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
 
 public class FieldAsSetter implements IMethodInfo {
 
@@ -53,8 +54,13 @@ public class FieldAsSetter implements IMethodInfo {
 	}
 
 	@Override
+	public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
+		return null;
+	}
+
+	@Override
 	public String getName() {
-		return "FieldAsSetter [field=" + field.getName() + "]";
+		return field.getName() + ".set";
 	}
 
 	@Override

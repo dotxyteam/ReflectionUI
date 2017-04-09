@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import xy.reflect.ui.control.input.FieldControlDataProxy;
 import xy.reflect.ui.control.input.IFieldControlData;
 import xy.reflect.ui.control.input.IFieldControlInput;
+import xy.reflect.ui.control.swing.editor.AbstractEditorBuilder;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -164,6 +165,16 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 		return new AbstractEditorBuilder() {
 
 			@Override
+			public String getContextIdentifier() {
+				return input.getContextIdentifier();
+			}
+
+			@Override
+			public String getSubContextIdentifier() {
+				return null;
+			}
+
+			@Override
 			public boolean isObjectFormExpanded() {
 				return true;
 			}
@@ -204,7 +215,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 			}
 
 			@Override
-			public ModificationStack getParentModificationStack() {
+			public ModificationStack getParentObjectModificationStack() {
 				return input.getModificationStack();
 			}
 

@@ -64,6 +64,7 @@ import xy.reflect.ui.control.input.IFieldControlInput;
 import xy.reflect.ui.control.input.IMethodControlData;
 import xy.reflect.ui.control.input.IMethodControlInput;
 import xy.reflect.ui.control.input.MethodControlDataProxy;
+import xy.reflect.ui.control.swing.editor.AbstractEditorBuilder;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.AbstractDelegatingInfoFilter;
@@ -1017,7 +1018,10 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 						if (itemPosition.getContainingListType().isOrdered() && (index > 0)) {
 							toPostSelect.add(itemPosition.getSibling(index - 1));
 						} else {
-							toPostSelect.add(itemPosition.getParentItemPosition());
+							BufferedItemPosition parentItemPosition = itemPosition.getParentItemPosition();
+							if (parentItemPosition != null) {
+								toPostSelect.add(itemPosition.getParentItemPosition());
+							}
 						}
 					}
 					toPostSelectHolder[0] = toPostSelect;
@@ -1091,7 +1095,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					ModificationStack dummyModificationStack = new ModificationStack(null);
 
 					@Override
-					public ModificationStack getParentModificationStack() {
+					public ModificationStack getParentObjectModificationStack() {
 						return dummyModificationStack;
 					}
 
@@ -1106,7 +1110,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					}
 				};
 				dialogBuilder.showDialog();
-				if (dialogBuilder.wasOkPressed()) {
+				if (!dialogBuilder.isCancelled()) {
 					newItem = dialogBuilder.getCurrentObjectValue();
 					getModificationStack().apply(new ListModificationFactory(newItemPosition, getModificationsTarget())
 							.add(newItemPosition.getIndex(), newItem));
@@ -1226,7 +1230,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					ModificationStack dummyModificationStack = new ModificationStack(null);
 
 					@Override
-					public ModificationStack getParentModificationStack() {
+					public ModificationStack getParentObjectModificationStack() {
 						return dummyModificationStack;
 					}
 
@@ -1242,7 +1246,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 				};
 				dialogBuilder.showDialog();
-				if (dialogBuilder.wasOkPressed()) {
+				if (!dialogBuilder.isCancelled()) {
 					newSubListItem = dialogBuilder.getCurrentObjectValue();
 					getModificationStack()
 							.apply(new ListModificationFactory(newSubItemPosition, getModificationsTarget())
@@ -1630,6 +1634,22 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				AbstractEditorBuilder subDialogBuilder = new AbstractEditorBuilder() {
 
 					@Override
+					public String getEncapsulationTypeCaption() {
+						return ReflectionUIUtils.composeMessage(getModificationsTarget().getCaption(),
+								dynamicProperty.getCaption());
+					}
+
+					@Override
+					public String getContextIdentifier() {
+						return input.getContextIdentifier();
+					}
+
+					@Override
+					public String getSubContextIdentifier() {
+						return "ListDynamicProperty [name=" + dynamicProperty.getName() + "]";
+					}
+
+					@Override
 					public boolean isObjectFormExpanded() {
 						return true;
 					}
@@ -1676,7 +1696,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					}
 
 					@Override
-					public ModificationStack getParentModificationStack() {
+					public ModificationStack getParentObjectModificationStack() {
 						return input.getModificationStack();
 					}
 
@@ -1686,7 +1706,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					}
 
 					@Override
-					public String getEditorTitle() {
+					public String getEditorWindowTitle() {
 						return dynamicProperty.getType().getCaption();
 					}
 
@@ -1767,12 +1787,15 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					}
 
 					@Override
+					public String getContextIdentifier() {
+						return "listDynamicAction [name=" + dynamicAction.getName() + ", listContext="
+								+ input.getContextIdentifier() + "]";
+					}
+
+					@Override
 					public IMethodControlData getControlData() {
 						final Object listRootValue = listData.getValue();
-						ITypeInfo listRootValueType = swingRenderer.getReflectionUI()
-								.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(listRootValue));
-						IMethodControlData data = new DefaultMethodControlData(listRootValueType, listRootValue,
-								dynamicAction);
+						IMethodControlData data = new DefaultMethodControlData(listRootValue, dynamicAction);
 						data = new MethodControlDataProxy(data) {
 							@Override
 							public Object invoke(InvocationData invocationData) {
@@ -2340,6 +2363,16 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
+		public String getContextIdentifier() {
+			return input.getContextIdentifier();
+		}
+
+		@Override
+		public String getSubContextIdentifier() {
+			return "ListItem";
+		}
+
+		@Override
 		public boolean isObjectFormExpanded() {
 			return true;
 		}
@@ -2397,7 +2430,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public ModificationStack getParentModificationStack() {
+		public ModificationStack getParentObjectModificationStack() {
 			return ListControl.this.getModificationStack();
 		}
 

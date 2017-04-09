@@ -27,7 +27,7 @@ public class MethodAsField implements IFieldInfo {
 
 	@Override
 	public String getName() {
-		return "MethodAsField [method=" + method.getName() + "]";
+		return method.getName() + ".result";
 	}
 
 	@Override

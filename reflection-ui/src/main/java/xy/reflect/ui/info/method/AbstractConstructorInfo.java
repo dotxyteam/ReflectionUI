@@ -7,6 +7,7 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public abstract class AbstractConstructorInfo implements IMethodInfo {
@@ -30,6 +31,11 @@ public abstract class AbstractConstructorInfo implements IMethodInfo {
 	@Override
 	public String getCaption() {
 		return "Create " + getReturnValueType().getCaption();
+	}
+
+	@Override
+	public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
+		return null;
 	}
 
 	@Override

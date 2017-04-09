@@ -31,6 +31,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	protected IFieldControlData data;
 
 	protected Component textComponent;
+	protected JScrollPane scrollPane;
 	protected boolean listenerDisabled = true;
 
 	public TextControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
@@ -43,31 +44,36 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		textComponent = createTextComponent();
 		{
 			updateTextComponent();
-			JScrollPane scrollPane = new JScrollPane(textComponent) {
-
-				protected static final long serialVersionUID = 1L;
-
-				@Override
-				public Dimension getPreferredSize() {
-					Dimension result = super.getPreferredSize();
-					result = fixScrollPaneSizeWHenVerticalBarVisible(result);
-					int characterSize = SwingRendererUtils.getStandardCharacterWidth(textComponent);
-					result.width = Math.min(result.width, characterSize * 20);
-					result.height = Math.min(result.height, Toolkit.getDefaultToolkit().getScreenSize().height / 3);
-					return result;
-				}
-
-				private Dimension fixScrollPaneSizeWHenVerticalBarVisible(Dimension size) {
-					if (getHorizontalScrollBar().isVisible()) {
-						size.height += getHorizontalScrollBar().getPreferredSize().height;
-					}
-					return size;
-				}
-			};
+			scrollPane = createScrollPane();
+			scrollPane.setViewportView(textComponent);
 			scrollPane.setBorder(null);
 			add(scrollPane, BorderLayout.CENTER);
 		}
 		SwingRendererUtils.handleComponentSizeChange(this);
+	}
+
+	protected JScrollPane createScrollPane() {
+		return new JScrollPane() {
+
+			protected static final long serialVersionUID = 1L;
+
+			@Override
+			public Dimension getPreferredSize() {
+				Dimension result = super.getPreferredSize();
+				result = fixScrollPaneSizeWHenVerticalBarVisible(result);
+				int characterSize = SwingRendererUtils.getStandardCharacterWidth(textComponent);
+				result.width = Math.min(result.width, characterSize * 20);
+				result.height = Math.min(result.height, Toolkit.getDefaultToolkit().getScreenSize().height / 3);
+				return result;
+			}
+
+			private Dimension fixScrollPaneSizeWHenVerticalBarVisible(Dimension size) {
+				if (getHorizontalScrollBar().isVisible()) {
+					size.height += getHorizontalScrollBar().getPreferredSize().height;
+				}
+				return size;
+			}
+		};
 	}
 
 	protected IFieldControlData retrieveData() {

@@ -1,7 +1,8 @@
-package xy.reflect.ui.control.swing;
+package xy.reflect.ui.control.swing.editor;
 
 import java.awt.Component;
 
+import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -29,6 +30,16 @@ public class StandardEditorBuilder extends AbstractEditorBuilder {
 	}
 
 	@Override
+	public String getContextIdentifier() {
+		return null;
+	}
+
+	@Override
+	public String getSubContextIdentifier() {
+		return null;
+	}
+
+	@Override
 	public boolean isCancellable() {
 		return false;
 	}
@@ -44,7 +55,7 @@ public class StandardEditorBuilder extends AbstractEditorBuilder {
 	}
 
 	@Override
-	public ModificationStack getParentModificationStack() {
+	public ModificationStack getParentObjectModificationStack() {
 		return null;
 	}
 

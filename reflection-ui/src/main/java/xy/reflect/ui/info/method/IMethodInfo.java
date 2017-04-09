@@ -9,6 +9,7 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
 
 public interface IMethodInfo extends IInfo {
 
@@ -17,6 +18,11 @@ public interface IMethodInfo extends IInfo {
 		@Override
 		public String getName() {
 			return "NULL_METHOD_INFO";
+		}
+
+		@Override
+		public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
+			return null;
 		}
 
 		@Override
@@ -101,5 +107,7 @@ public interface IMethodInfo extends IInfo {
 	void validateParameters(Object object, InvocationData invocationData) throws Exception;
 
 	ValueReturnMode getValueReturnMode();
+
+	ITypeInfoProxyFactory getReturnValueTypeSpecificities();
 
 }

@@ -7,7 +7,6 @@ import javax.swing.JButton;
 
 import xy.reflect.ui.control.input.IMethodControlData;
 import xy.reflect.ui.control.input.IMethodControlInput;
-import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
@@ -56,7 +55,6 @@ public class MethodControl extends JButton {
 			public void actionPerformed(ActionEvent e) {
 				MethodAction action = swingRenderer.createMethodAction(input);
 				action.setShouldDisplayReturnValueIfAny(true);
-				action.setRetunValueWindowDetached(data.getValueReturnMode() == ValueReturnMode.CALCULATED);
 				action.setModificationStack(
 						ReflectionUIUtils.findParentFormModificationStack(MethodControl.this, swingRenderer));
 				try {

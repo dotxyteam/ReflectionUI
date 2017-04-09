@@ -9,6 +9,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
 
 public class FieldAsGetter implements IMethodInfo {
 
@@ -16,6 +17,11 @@ public class FieldAsGetter implements IMethodInfo {
 
 	public FieldAsGetter(IFieldInfo field) {
 		this.field = field;
+	}
+
+	@Override
+	public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
+		return field.getTypeSpecificities();
 	}
 
 	@Override
@@ -36,7 +42,7 @@ public class FieldAsGetter implements IMethodInfo {
 
 	@Override
 	public String getName() {
-		return "FieldAsGetter [field=" + field.getName() + "]";
+		return field.getName() + ".get";
 	}
 
 	@Override

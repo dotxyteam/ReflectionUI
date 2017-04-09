@@ -125,16 +125,14 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 	@Override
 	public String getName() {
 		StringBuilder result = new StringBuilder();
-		result.append("MultipleFieldsAsOne [fields=");
 		int i = 0;
 		for (IFieldInfo field : fields) {
 			if (i > 0) {
-				result.append(", ");
+				result.append("+");
 			}
 			result.append(field.getName());
 			i++;
 		}
-		result.append("]");
 		return result.toString();
 	}
 
@@ -236,6 +234,11 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 
 		@Override
 		public boolean isRemovalAllowed() {
+			return false;
+		}
+
+		@Override
+		public boolean isOrdered() {
 			return false;
 		}
 

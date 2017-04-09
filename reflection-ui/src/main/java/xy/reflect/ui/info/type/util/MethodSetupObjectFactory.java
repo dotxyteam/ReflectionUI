@@ -7,6 +7,7 @@ import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.input.IMethodControlData;
+import xy.reflect.ui.control.input.IMethodControlInput;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -21,11 +22,13 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MethodSetupObjectFactory {
 
-	protected IMethodControlData data;
+	protected IMethodControlInput input;
 	protected ReflectionUI reflectionUI;
+	protected IMethodControlData data;
 
-	public MethodSetupObjectFactory(ReflectionUI reflectionUI, IMethodControlData data) {
-		this.data = data;
+	public MethodSetupObjectFactory(ReflectionUI reflectionUI, IMethodControlInput input) {
+		this.input = input;
+		this.data = input.getControlData();
 		this.reflectionUI = reflectionUI;
 	}
 
@@ -43,7 +46,7 @@ public class MethodSetupObjectFactory {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((data == null) ? 0 : data.hashCode());
+		result = prime * result + ((input == null) ? 0 : input.hashCode());
 		return result;
 	}
 
@@ -56,17 +59,17 @@ public class MethodSetupObjectFactory {
 		if (getClass() != obj.getClass())
 			return false;
 		MethodSetupObjectFactory other = (MethodSetupObjectFactory) obj;
-		if (data == null) {
-			if (other.data != null)
+		if (input == null) {
+			if (other.input != null)
 				return false;
-		} else if (!data.equals(other.data))
+		} else if (!input.equals(other.input))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "MethodSetupObjectFactory [data=" + data + "]";
+		return "MethodSetupObjectFactory [input=" + input + "]";
 	}
 
 	protected class Instance {
@@ -116,9 +119,7 @@ public class MethodSetupObjectFactory {
 
 		@Override
 		public String getName() {
-			ITypeInfo containingType = data.getMethodOwnerType();
-			return "MethodSetupObject [method=" + data.getMethodSignature() + ", containingType="
-					+ ((containingType == null) ? null : containingType.getName()) + "]";
+			return "MethodSetupObject [context=" + input.getContextIdentifier() + "]";
 		}
 
 		@Override

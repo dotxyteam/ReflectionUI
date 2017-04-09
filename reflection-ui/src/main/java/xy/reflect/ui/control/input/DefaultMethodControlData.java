@@ -14,11 +14,9 @@ public class DefaultMethodControlData implements IMethodControlData {
 
 	protected Object object;
 	protected IMethodInfo method;
-	protected ITypeInfo methodOwnerType;
 
-	public DefaultMethodControlData(ITypeInfo methodOwnerType, Object object, IMethodInfo method) {
+	public DefaultMethodControlData(Object object, IMethodInfo method) {
 		super();
-		this.methodOwnerType = methodOwnerType;
 		this.object = object;
 		this.method = method;
 	}
@@ -84,10 +82,39 @@ public class DefaultMethodControlData implements IMethodControlData {
 	}
 
 	@Override
-	public ITypeInfo getMethodOwnerType() {
-		return methodOwnerType;
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((method == null) ? 0 : method.hashCode());
+		result = prime * result + ((object == null) ? 0 : object.hashCode());
+		return result;
 	}
-	
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DefaultMethodControlData other = (DefaultMethodControlData) obj;
+		if (method == null) {
+			if (other.method != null)
+				return false;
+		} else if (!method.equals(other.method))
+			return false;
+		if (object == null) {
+			if (other.object != null)
+				return false;
+		} else if (!object.equals(other.object))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "DefaultMethodControlData [object=" + object + ", method=" + method + "]";
+	}
 
 }

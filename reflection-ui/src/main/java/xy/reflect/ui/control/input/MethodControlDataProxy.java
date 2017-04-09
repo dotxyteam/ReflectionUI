@@ -67,10 +67,6 @@ public class MethodControlDataProxy implements IMethodControlData {
 		return base.getMethodSignature();
 	}
 
-	public ITypeInfo getMethodOwnerType() {
-		return base.getMethodOwnerType();
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;

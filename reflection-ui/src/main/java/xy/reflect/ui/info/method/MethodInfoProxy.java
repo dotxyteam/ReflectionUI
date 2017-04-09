@@ -7,6 +7,7 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
 
 public class MethodInfoProxy implements IMethodInfo {
 
@@ -14,6 +15,10 @@ public class MethodInfoProxy implements IMethodInfo {
 
 	public MethodInfoProxy(IMethodInfo base) {
 		this.base = base;
+	}
+
+	public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
+		return base.getReturnValueTypeSpecificities();
 	}
 
 	public String getName() {

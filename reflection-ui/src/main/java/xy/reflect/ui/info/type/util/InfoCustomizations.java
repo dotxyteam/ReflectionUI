@@ -731,13 +731,32 @@ public class InfoCustomizations implements Serializable {
 	public static class FieldTypeSpecificities extends InfoCustomizations {
 		private static final long serialVersionUID = 1L;
 
-		public void ensureProxyFactoryInitialized(ReflectionUI reflectionUI, final String typeName,
+		public void ensureProxyFactoryInitialized(ReflectionUI reflectionUI, final String containingTypeName,
 				final String fieldName) {
 			if (proxyFactory == null) {
 				proxyFactory = new Factory(reflectionUI) {
 					@Override
 					public String getIdentifier() {
-						return "FieldTypeSpecificities [typeName=" + typeName + ", fieldName=" + fieldName + "]";
+						return "FieldTypeSpecificities [containingTypeName=" + containingTypeName + ", fieldName="
+								+ fieldName + "]";
+					}
+				};
+			}
+		}
+
+	}
+
+	public static class MethodReturnValueTypeSpecificities extends InfoCustomizations {
+		private static final long serialVersionUID = 1L;
+
+		public void ensureProxyFactoryInitialized(ReflectionUI reflectionUI, final String containingTypeName,
+				final String methodSignature) {
+			if (proxyFactory == null) {
+				proxyFactory = new Factory(reflectionUI) {
+					@Override
+					public String getIdentifier() {
+						return "MethodReturnValueTypeSpecificities [containingTypeName=" + containingTypeName
+								+ ", methodSignature=" + methodSignature + "]";
 					}
 				};
 			}
@@ -898,6 +917,16 @@ public class InfoCustomizations implements Serializable {
 		protected ValueReturnMode customValueReturnMode;
 		protected String nullReturnValueLabel;
 		protected boolean displayedAsField = false;
+		MethodReturnValueTypeSpecificities specificReturnValueTypeCustomizations = new MethodReturnValueTypeSpecificities();
+
+		public MethodReturnValueTypeSpecificities getSpecificReturnValueTypeCustomizations() {
+			return specificReturnValueTypeCustomizations;
+		}
+
+		public void setSpecificReturnValueTypeCustomizations(
+				MethodReturnValueTypeSpecificities specificReturnValueTypeCustomizations) {
+			this.specificReturnValueTypeCustomizations = specificReturnValueTypeCustomizations;
+		}
 
 		public boolean isDisplayedAsField() {
 			return displayedAsField;
@@ -1434,8 +1463,6 @@ public class InfoCustomizations implements Serializable {
 			this.itemCustomizations = itemCustomizations;
 		}
 
-		
-
 		public boolean isDynamicEnumerationForced() {
 			return dynamicEnumerationForced;
 		}
@@ -1820,6 +1847,26 @@ public class InfoCustomizations implements Serializable {
 				}
 			}
 			return super.getTypeSpecificities(field, containingType);
+		}
+
+		@Override
+		protected ITypeInfoProxyFactory getReturnValueTypeSpecificities(IMethodInfo method, ITypeInfo containingType) {
+			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
+			if (t != null) {
+				MethodCustomization m = getMethodCustomization(t, ReflectionUIUtils.getMethodSignature(method));
+				if (m != null) {
+					ITypeInfoProxyFactory baseTypeSpecificities = method.getReturnValueTypeSpecificities();
+					if (baseTypeSpecificities == null) {
+						m.specificReturnValueTypeCustomizations.ensureProxyFactoryInitialized(reflectionUI, t.typeName,
+								ReflectionUIUtils.getMethodSignature(method));
+						return m.specificReturnValueTypeCustomizations.proxyFactory;
+					} else {
+						return new TypeInfoProxyFactorChain(baseTypeSpecificities,
+								m.specificReturnValueTypeCustomizations.proxyFactory);
+					}
+				}
+			}
+			return super.getReturnValueTypeSpecificities(method, containingType);
 		}
 
 		@Override
@@ -2902,6 +2949,8 @@ public class InfoCustomizations implements Serializable {
 
 	public static interface ITypeInfoFinder {
 		ITypeInfo find(ReflectionUI reflectionUI);
+
+		String getCriteria();
 	}
 
 	public static class JavaClassBasedTypeInfoFinder extends AbstractCustomization implements ITypeInfoFinder {
@@ -2915,6 +2964,11 @@ public class InfoCustomizations implements Serializable {
 
 		public void setClassName(String className) {
 			this.className = className;
+		}
+
+		@Override
+		public String getCriteria() {
+			return "className=" + className;
 		}
 
 		@Override
@@ -2971,6 +3025,11 @@ public class InfoCustomizations implements Serializable {
 
 		public void setImplementationClassName(String implementationClassName) {
 			this.implementationClassName = implementationClassName;
+		}
+
+		@Override
+		public String getCriteria() {
+			return "implementationClassName=" + implementationClassName;
 		}
 
 		@Override

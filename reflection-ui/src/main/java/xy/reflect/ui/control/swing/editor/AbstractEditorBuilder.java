@@ -1,4 +1,4 @@
-package xy.reflect.ui.control.swing;
+package xy.reflect.ui.control.swing.editor;
 
 import java.awt.Component;
 import java.awt.Image;
@@ -11,6 +11,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import xy.reflect.ui.control.swing.DialogBuilder;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -35,8 +36,11 @@ public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
 		return encapsulatedObjectType.isModificationStackAccessible();
 	}
 
-	public String getEditorTitle() {
-		return getEncapsulatedFieldType().getCaption();
+	public String getEditorWindowTitle() {
+		Object encapsulatedObject = getEncapsulatedObject();
+		ITypeInfo encapsulatedObjectType = getSwingRenderer().getReflectionUI()
+				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(encapsulatedObject));
+		return encapsulatedObjectType.getCaption();
 	}
 
 	public Image getObjectIconImage() {
@@ -77,7 +81,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
 		createdEditForm = createForm(true);
 		createdFrame = new JFrame();
 		getSwingRenderer().setupWindow(createdFrame, createdEditForm, createAnyWindowToolbarControls(),
-				getEditorTitle(), getObjectIconImage());
+				getEditorWindowTitle(), getObjectIconImage());
 		createdFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		return createdFrame;
 	}
@@ -99,7 +103,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
 		SwingRendererUtils.requestAnyComponentFocus(createdEditForm, null, getSwingRenderer());
 		dialogBuilder = createDelegateDialogBuilder();
 		dialogBuilder.setContentComponent(createdEditForm);
-		dialogBuilder.setTitle(getEditorTitle());
+		dialogBuilder.setTitle(getEditorWindowTitle());
 		dialogBuilder.setIconImage(getObjectIconImage());
 
 		List<Component> toolbarControls = new ArrayList<Component>(createAnyWindowToolbarControls());
@@ -125,8 +129,19 @@ public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
 
 	public void showDialog() {
 		getSwingRenderer().showDialog(createDialog(), true);
-		if (canPotentiallyModifyParent()) {
-			impactParent();
+		if (hasParentObject()) {
+			if (canPotentiallyModifyParentObject()) {
+				impactParent();
+			}
+		} else {
+			if (isCancelled()) {
+				ModificationStack modifStack = getObjectModificationStack();
+				modifStack.undoAll();
+				if (modifStack.wasInvalidated()) {
+					getSwingRenderer().getReflectionUI()
+							.logDebug("WARNING: Cannot undo completely invalidated modification stack: " + modifStack);
+				}
+			}
 		}
 	}
 
@@ -135,11 +150,11 @@ public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
 	}
 
 	protected void impactParent() {
-		ModificationStack parentModifStack = getParentModificationStack();
+		ModificationStack parentModifStack = getParentObjectModificationStack();
 		if (parentModifStack == null) {
 			return;
 		}
-		ModificationStack childModifStack = getSubObjectModificationStack();
+		ModificationStack childModifStack = getObjectModificationStack();
 		IInfo compositeModifTarget = getCumulatedModificationsTarget();
 		ValueReturnMode childValueReturnMode = getObjectValueReturnMode();
 		Object currentValue = getCurrentObjectValue();
@@ -150,21 +165,21 @@ public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
 		} else {
 			commitModif = createCommitModification(currentValue);
 		}
-		boolean childModifAccepted = isNewObjectValueAccepted(currentValue) && ((!isCancellable()) || wasOkPressed());
+		boolean childModifAccepted = shouldAcceptNewObjectValue(currentValue) && ((!isCancellable()) || !isCancelled());
 		String compositeModifTitle = getCumulatedModificationsTitle();
 		parentModificationStackImpacted = ReflectionUIUtils.integrateSubModifications(
 				getSwingRenderer().getReflectionUI(), parentModifStack, childModifStack, childModifAccepted,
 				childValueReturnMode, childValueReplaced, commitModif, compositeModifTarget, compositeModifTitle);
 	}
 
-	public boolean wasOkPressed() {
+	public boolean isCancelled() {
 		if (dialogBuilder == null) {
 			return false;
 		}
-		return dialogBuilder.wasOkPressed();
+		return !dialogBuilder.wasOkPressed();
 	}
 
-	public ModificationStack getSubObjectModificationStack() {
+	public ModificationStack getObjectModificationStack() {
 		if (createdEditForm == null) {
 			return null;
 		}

@@ -24,6 +24,10 @@ public class FieldControlInputProxy implements IFieldControlInput {
 		return base.getModificationStack();
 	}
 
+	public String getContextIdentifier() {
+		return base.getContextIdentifier();
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

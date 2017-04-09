@@ -1,3 +1,4 @@
+- bug: fielTypeSpecificities do not extend to list item type
 - reflectionUI is often excluded from hashCode() and equals()
 	=> justified ?
 - allow to specify ImplicitListField in customizations

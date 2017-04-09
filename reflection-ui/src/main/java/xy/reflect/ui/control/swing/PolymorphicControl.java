@@ -16,6 +16,7 @@ import javax.swing.SwingUtilities;
 import xy.reflect.ui.control.input.FieldControlDataProxy;
 import xy.reflect.ui.control.input.IFieldControlData;
 import xy.reflect.ui.control.input.IFieldControlInput;
+import xy.reflect.ui.control.swing.editor.AbstractEditFormBuilder;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -69,6 +70,16 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			ITypeInfo enumType = swingRenderer.getReflectionUI()
 					.getTypeInfo(typeOptionsFactory.getInstanceTypeInfoSource());
 			Map<ITypeInfo, Object> instanceByEnumerationValueCache = new HashMap<ITypeInfo, Object>();
+
+			@Override
+			public String getContextIdentifier() {
+				return input.getContextIdentifier();
+			}
+
+			@Override
+			public String getSubContextIdentifier() {
+				return null;
+			}
 
 			@Override
 			public boolean isObjectFormExpanded() {
@@ -134,7 +145,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			}
 
 			@Override
-			protected boolean isNewObjectValueAccepted(Object value) {
+			protected boolean shouldAcceptNewObjectValue(Object value) {
 				Object instance;
 				if (value != null) {
 					ITypeInfo selectedSubType = (ITypeInfo) typeOptionsFactory.unwrapInstance(value);
@@ -214,7 +225,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			}
 
 			@Override
-			public ModificationStack getParentModificationStack() {
+			public ModificationStack getParentObjectModificationStack() {
 				return input.getModificationStack();
 			}
 
@@ -237,6 +248,16 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 
 	protected JPanel createDynamicControl(final ITypeInfo instanceType) {
 		dynamicControlBuilder = new AbstractEditFormBuilder() {
+
+			@Override
+			public String getContextIdentifier() {
+				return input.getContextIdentifier();
+			}
+
+			@Override
+			public String getSubContextIdentifier() {
+				return "PolymorphicInstance";
+			}
 
 			@Override
 			public boolean isObjectFormExpanded() {
@@ -294,12 +315,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			}
 
 			@Override
-			public String getEncapsulationTypeCaption() {
-				return ReflectionUIUtils.composeMessage("Polymorphic", polymorphicType.getCaption());
-			}
-
-			@Override
-			public ModificationStack getParentModificationStack() {
+			public ModificationStack getParentObjectModificationStack() {
 				return input.getModificationStack();
 			}
 

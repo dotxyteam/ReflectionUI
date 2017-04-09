@@ -827,7 +827,7 @@ public class ReflectionUIUtils {
 					if (!childModifStack.wasInvalidated()) {
 						childModifStack.undoAll();
 					} else {
-						reflectionUI.logDebug("WARNING: Cannot revert invalidated sub-modification: " + childModifStack
+						reflectionUI.logDebug("WARNING: Cannot undo invalidated sub-modification stack: " + childModifStack
 								+ "\n=> Invalidating parent modification stack");
 						parentModifStack.invalidate();
 						parentValueImpacted = true;
