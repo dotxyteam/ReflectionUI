@@ -32,7 +32,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 
 	protected Component textComponent;
 	protected JScrollPane scrollPane;
-	protected boolean listenerDisabled = true;
+	protected boolean listenerDisabled = false;
 
 	public TextControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;

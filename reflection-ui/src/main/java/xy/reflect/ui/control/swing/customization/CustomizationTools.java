@@ -255,61 +255,6 @@ public class CustomizationTools {
 		}
 	}
 
-	protected IModificationListener getCustomizedWindowsReloadingAdviser(final Component ownerComponent) {
-		return new IModificationListener() {
-
-			@Override
-			public void handleUdno(IModification undoModification) {
-			}
-
-			@Override
-			public void handleRedo(IModification modification) {
-			}
-
-			@Override
-			public void handleInvalidate() {
-			}
-
-			@Override
-			public void handleInvalidationCleared() {
-			}
-
-			@Override
-			public void handlePush(IModification modification) {
-				if (modification != null) {
-					boolean showReloadWarning = false;
-					IInfo modifTarget = modification.getTarget();
-					if (modifTarget instanceof IFieldInfo) {
-						IFieldInfo field = (IFieldInfo) modifTarget;
-						if (field.getName().equals("undoManagementHidden")) {
-							showReloadWarning = true;
-						}
-						if (field.getName().equals(customizationToolsUI.getIconImageFileField().getName())) {
-							showReloadWarning = true;
-						}
-						if (field.getName().equals("validating")) {
-							showReloadWarning = true;
-						}
-						if (field.getName().equals("onlineHelp")) {
-							showReloadWarning = true;
-						}
-					}
-					if (showReloadWarning) {
-						SwingUtilities.invokeLater(new Runnable() {
-							@Override
-							public void run() {
-								customizationToolsRenderer.openInformationDialog(ownerComponent,
-										"You must reload the customized windows\nto view all this change effects.",
-										"Information",
-										CustomizationTools.this.swingCustomizer.getCustomizationsIcon().getImage());
-							}
-						});
-					}
-				}
-			}
-		};
-	}
-
 	public Component createFieldInfoCustomizer(final InfoCustomizations infoCustomizations,
 			final FieldControlPlaceHolder fieldControlPlaceHolder) {
 		final JButton result = createToolAccessButton(this.swingCustomizer.getCustomizationsIcon());
@@ -746,6 +691,7 @@ public class CustomizationTools {
 					} else if (type.getName().equals(FieldCustomization.class.getName())) {
 						List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
 						result.add(getEmbeddedFormCreationField());
+						result.add(getCustomControlForbiddingField());
 						return result;
 					} else if (type.getName().equals(MethodCustomization.class.getName())) {
 						List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
@@ -953,6 +899,96 @@ public class CustomizationTools {
 				public void setValue(Object object, Object value) {
 					FieldCustomization f = (FieldCustomization) object;
 					DesktopSpecificProperty.setSubFormExpanded(
+							DesktopSpecificProperty.accessCustomizationsProperties(f), (Boolean) value);
+				}
+
+				@Override
+				public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+					return null;
+				}
+
+				@Override
+				public Object[] getValueOptions(Object object) {
+					return null;
+				}
+
+				@Override
+				public boolean isNullable() {
+					return false;
+				}
+
+				@Override
+				public boolean isGetOnly() {
+					return false;
+				}
+
+				@Override
+				public ValueReturnMode getValueReturnMode() {
+					return ValueReturnMode.CALCULATED;
+				}
+
+				@Override
+				public InfoCategory getCategory() {
+					return null;
+				}
+
+				@Override
+				public String toString() {
+					return getCaption();
+				}
+
+			};
+		}
+
+		protected IFieldInfo getCustomControlForbiddingField() {
+			return new IFieldInfo() {
+
+				@Override
+				public String getName() {
+					return "customControlForbidden";
+				}
+
+				@Override
+				public String getCaption() {
+					return "Forbid Custom Control";
+				}
+
+				@Override
+				public String getOnlineHelp() {
+					return null;
+				}
+
+				@Override
+				public String getNullValueLabel() {
+					return null;
+				}
+
+				@Override
+				public Map<String, Object> getSpecificProperties() {
+					return Collections.emptyMap();
+				}
+
+				@Override
+				public ITypeInfo getType() {
+					return new BooleanTypeInfo(customizationToolsRenderer.getReflectionUI(), boolean.class);
+				}
+
+				@Override
+				public ITypeInfoProxyFactory getTypeSpecificities() {
+					return null;
+				}
+
+				@Override
+				public Object getValue(Object object) {
+					FieldCustomization f = (FieldCustomization) object;
+					return DesktopSpecificProperty
+							.isCustumControlForbidden(DesktopSpecificProperty.accessCustomizationsProperties(f));
+				}
+
+				@Override
+				public void setValue(Object object, Object value) {
+					FieldCustomization f = (FieldCustomization) object;
+					DesktopSpecificProperty.setCustumControlForbidden(
 							DesktopSpecificProperty.accessCustomizationsProperties(f), (Boolean) value);
 				}
 

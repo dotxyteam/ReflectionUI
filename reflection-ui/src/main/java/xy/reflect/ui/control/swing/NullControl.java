@@ -3,7 +3,6 @@ package xy.reflect.ui.control.swing;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -22,18 +21,6 @@ public class NullControl extends TextControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected Runnable action;
-	protected MouseListener mouseListener = new MouseAdapter() {
-		@Override
-		public void mousePressed(MouseEvent e) {
-			if (action != null) {
-				try {
-					action.run();
-				} catch (Throwable t) {
-					swingRenderer.handleExceptionsFromDisplayedUI(NullControl.this, t);
-				}
-			}
-		}
-	};
 
 	public NullControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		super(swingRenderer, new FieldControlInputProxy(input) {
@@ -66,7 +53,22 @@ public class NullControl extends TextControl {
 
 		});
 		setBorder(BorderFactory.createTitledBorder(data.getCaption()));
-		addMouseListener(mouseListener);
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				runAction();
+			}
+		});
+	}
+
+	protected void runAction() {
+		if (action != null) {
+			try {
+				action.run();
+			} catch (Throwable t) {
+				swingRenderer.handleExceptionsFromDisplayedUI(NullControl.this, t);
+			}
+		}
 	}
 
 	@Override
@@ -79,7 +81,12 @@ public class NullControl extends TextControl {
 		} else {
 			result.setBackground(ReflectionUIUtils.getDisabledTextBackgroundColor());
 		}
-		result.addMouseListener(mouseListener);
+		result.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				runAction();
+			}
+		});
 		return result;
 	}
 

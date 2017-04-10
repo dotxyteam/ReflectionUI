@@ -1071,7 +1071,7 @@ public class SwingRenderer {
 	}
 
 	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object) {
-		return openObjectDialog(activatorComponent, object, getObjectTitle(object), getObjectIconImage(object), false,
+		return openObjectDialog(activatorComponent, object, null, null, false,
 				true);
 	}
 
@@ -1100,7 +1100,7 @@ public class SwingRenderer {
 			@Override
 			public String getEditorWindowTitle() {
 				if (title == null) {
-					return getObjectTitle(object);
+					return super.getEditorWindowTitle();
 				}
 				return title;
 			}
@@ -1108,7 +1108,7 @@ public class SwingRenderer {
 			@Override
 			public Image getObjectIconImage() {
 				if (iconImage == null) {
-					return SwingRenderer.this.getObjectIconImage(object);
+					return super.getObjectIconImage();
 				}
 				return iconImage;
 			}
@@ -1127,7 +1127,7 @@ public class SwingRenderer {
 	}
 
 	public void openObjectFrame(Object object) {
-		openObjectFrame(object, getObjectTitle(object), getObjectIconImage(object));
+		openObjectFrame(object, null, null);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -1743,15 +1743,16 @@ public class SwingRenderer {
 		}
 
 		public Component createFieldControl() {
-			Component result = createCustomFieldControl(this, controlData.isNullable());
-			if (result != null) {
-				return result;
+			if (!DesktopSpecificProperty
+					.isCustumControlForbidden(DesktopSpecificProperty.accessControlDataProperties(controlData))) {
+				Component result = createCustomFieldControl(this, controlData.isNullable());
+				if (result != null) {
+					return result;
+				}
 			}
 			if (controlData.getType() instanceof IEnumerationTypeInfo) {
 				return new EnumerationControl(SwingRenderer.this, this);
-			} else if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(controlData.getType())
-					&& !DesktopSpecificProperty.isPolymorphicControlForbidden(
-							DesktopSpecificProperty.accessControlDataProperties(controlData))) {
+			} else if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(controlData.getType())) {
 				return new PolymorphicControl(SwingRenderer.this, this);
 			} else {
 				if (controlData.isNullable()) {

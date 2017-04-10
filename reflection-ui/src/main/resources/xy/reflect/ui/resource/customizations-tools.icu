@@ -2642,7 +2642,7 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <customFieldCaption>Category Caption</customFieldCaption>
+            <customFieldCaption>Category Name</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
@@ -2823,6 +2823,7 @@
         <customFieldsOrder>expandSubForm</customFieldsOrder>
         <customFieldsOrder>category</customFieldsOrder>
         <customFieldsOrder>onlineHelp</customFieldsOrder>
+        <customFieldsOrder>customControlForbidden</customFieldsOrder>
         <customFieldsOrder>displayedAsMethods</customFieldsOrder>
         <customFieldsOrder>displayedAsSingletonList</customFieldsOrder>
         <customFieldsOrder>displayedEncapsulated</customFieldsOrder>
@@ -3077,6 +3078,19 @@
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>specificTypeCustomizations</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Advanced</caption>
+            </category>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName>customControlForbidden</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -3400,7 +3414,7 @@
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>editOptions</fieldName>
             <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>true</nullableFacetHidden>
+            <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -4446,6 +4460,7 @@
                     <columnsCustomOrder>category</columnsCustomOrder>
                     <columnsCustomOrder>onlineHelp</columnsCustomOrder>
                     <columnsCustomOrder>expandSubForm</columnsCustomOrder>
+                    <columnsCustomOrder>customControlForbidden</columnsCustomOrder>
                     <columnsCustomOrder>displayedAsMethods</columnsCustomOrder>
                     <columnsCustomOrder>displayedAsSingletonList</columnsCustomOrder>
                     <columnsCustomOrder>displayedEncapsulated</columnsCustomOrder>
@@ -4565,6 +4580,7 @@
                     <columnsCustomOrder>parametersCustomizations</columnsCustomOrder>
                     <columnsCustomOrder>nullReturnValueLabel</columnsCustomOrder>
                     <columnsCustomOrder>displayedAsField</columnsCustomOrder>
+                    <columnsCustomOrder>detachedReturnValueForced</columnsCustomOrder>
                     <editOptions>
                         <itemCreationEnabled>false</itemCreationEnabled>
                         <itemDeletionEnabled>true</itemDeletionEnabled>
@@ -5882,6 +5898,28 @@
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [context=FieldContext [fieldName=methodsExcludedFromItemDetails, containingType=xy.reflect.ui.info.type.util.InfoCustomizations$ListCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.util.InfoCustomizations$InfoFilter]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=editOptions, containingType=xy.reflect.ui.info.type.util.InfoCustomizations$ListCustomization], subContext=NullableInstance, encapsulatedObjectType=xy.reflect.ui.info.type.util.InfoCustomizations$ListEditOptions]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

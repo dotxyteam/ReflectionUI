@@ -17,7 +17,7 @@ public class DesktopSpecificProperty {
 			+ ".KEY_ICON_IMAGE_PATH";
 	public static final String CREATE_EMBEDDED_FORM = DesktopSpecificProperty.class.getSimpleName()
 			+ ".CREATE_EMBEDDED_FORM";
-	public static final String FORBID_POLYMORPHIC_CONTROL = DesktopSpecificProperty.class.getSimpleName()
+	public static final String FORBID_CUSTUM_CONTROL = DesktopSpecificProperty.class.getSimpleName()
 			+ ".FORBID_POLYMORPHIC_CONTROL";
 	public static final String INFO_FILTER = DesktopSpecificProperty.class.getSimpleName() + ".INFO_FILTER";
 
@@ -78,12 +78,12 @@ public class DesktopSpecificProperty {
 		properties.put(DesktopSpecificProperty.CREATE_EMBEDDED_FORM, b);
 	}
 
-	public static boolean isPolymorphicControlForbidden(Map<String, Object> properties) {
-		return Boolean.TRUE.equals(properties.get(DesktopSpecificProperty.FORBID_POLYMORPHIC_CONTROL));
+	public static boolean isCustumControlForbidden(Map<String, Object> properties) {
+		return Boolean.TRUE.equals(properties.get(DesktopSpecificProperty.FORBID_CUSTUM_CONTROL));
 	}
 
-	public static void setPolymorphicControlForbidden(Map<String, Object> properties, boolean b) {
-		properties.put(DesktopSpecificProperty.FORBID_POLYMORPHIC_CONTROL, b);
+	public static void setCustumControlForbidden(Map<String, Object> properties, boolean b) {
+		properties.put(DesktopSpecificProperty.FORBID_CUSTUM_CONTROL, b);
 	}
 
 	public static IInfoFilter getFilter(Map<String, Object> properties) {

@@ -2,12 +2,10 @@ import java.io.File;
 
 import xy.reflect.ui.control.swing.SwingRenderer;
 
-public class Test  {
-
-	public File[] disks = File.listRoots();
+public class Test {
 
 	public static void main(String[] args) {
-		SwingRenderer.getDefault().openObjectDialog(null, new Test());
+		SwingRenderer.getDefault().openObjectFrame(new File("tmp"));
 	}
 
 }
