@@ -148,10 +148,10 @@ public abstract class AbstractEditFormBuilder {
 				result.setFieldName(customEncapsulationFieldName);
 			}
 		}
-		result.setFieldGetOnly(isInReadOnlyMode() || (canPotentiallyModifyParentObject() && !canReplaceObjectValue()));
+		result.setFieldGetOnly(hasParentObject() ? !canReplaceObjectValue() : false);
 		result.setFieldNullable(isObjectValueNullable());
 		result.setFieldValueReturnMode(
-				(!isInReadOnlyMode()) ? ValueReturnMode.DIRECT_OR_PROXY : ValueReturnMode.CALCULATED);
+				hasParentObject() ? getObjectValueReturnMode() : ValueReturnMode.DIRECT_OR_PROXY);
 		Map<String, Object> fieldSpecificProperties = new HashMap<String, Object>();
 		{
 			DesktopSpecificProperty.setSubFormExpanded(fieldSpecificProperties, isObjectFormExpanded());

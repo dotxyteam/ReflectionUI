@@ -268,7 +268,7 @@ public class SwingRenderer {
 	}
 
 	public int getLayoutSpacing() {
-		return 1 * SwingRendererUtils.getStandardCharacterWidth(new JPanel());
+		return 5;
 	}
 
 	public JFrame createFrame(Component content, String title, Image iconImage,
@@ -2059,6 +2059,11 @@ public class SwingRenderer {
 			}
 			final IMethodInfo finalMethod = method;
 			IMethodControlData result = new IMethodControlData() {
+
+				@Override
+				public boolean isReturnValueDetached() {
+					return finalMethod.isReturnValueDetached();
+				}
 
 				@Override
 				public void validateParameters(InvocationData invocationData) throws Exception {

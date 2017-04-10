@@ -21,6 +21,11 @@ public interface IMethodInfo extends IInfo {
 		}
 
 		@Override
+		public boolean isReturnValueDetached() {
+			return false;
+		}
+
+		@Override
 		public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
 			return null;
 		}
@@ -90,6 +95,7 @@ public interface IMethodInfo extends IInfo {
 		}
 	};
 
+	
 	ITypeInfo getReturnValueType();
 
 	List<IParameterInfo> getParameters();
@@ -109,5 +115,8 @@ public interface IMethodInfo extends IInfo {
 	ValueReturnMode getValueReturnMode();
 
 	ITypeInfoProxyFactory getReturnValueTypeSpecificities();
+	
+	boolean isReturnValueDetached(); 
+	
 
 }

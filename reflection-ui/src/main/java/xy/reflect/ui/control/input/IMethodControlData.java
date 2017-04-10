@@ -33,4 +33,6 @@ public interface IMethodControlData {
 	String getCaption();
 
 	String getMethodSignature();
+
+	boolean isReturnValueDetached();
 }

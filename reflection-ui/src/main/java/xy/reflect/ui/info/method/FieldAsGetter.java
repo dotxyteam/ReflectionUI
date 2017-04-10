@@ -20,6 +20,11 @@ public class FieldAsGetter implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isReturnValueDetached() {
+		return false;
+	}
+
+	@Override
 	public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
 		return field.getTypeSpecificities();
 	}

@@ -58,6 +58,8 @@ import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.input.IFieldControlData;
@@ -688,14 +690,14 @@ public class SwingRendererUtils {
 		msgComponent.setBackground(getNonEditableTextBackgroundColor());
 		final JScrollPane scrollPane = new JScrollPane(msgComponent);
 		scrollPane.setBorder(null);
-		JOptionPane result = new JOptionPane(scrollPane, messageType, JOptionPane.DEFAULT_OPTION, null,
-				new Object[] {});
-		result.addComponentListener(new ComponentAdapter() {
+		scrollPane.getViewport().addChangeListener(new ChangeListener() {			
 			@Override
-			public void componentResized(ComponentEvent e) {
+			public void stateChanged(ChangeEvent e) {
 				scrollPane.getHorizontalScrollBar().setValue(0);
 			}
 		});
+		JOptionPane result = new JOptionPane(scrollPane, messageType, JOptionPane.DEFAULT_OPTION, null,
+				new Object[] {});
 		return result;
 	}
 

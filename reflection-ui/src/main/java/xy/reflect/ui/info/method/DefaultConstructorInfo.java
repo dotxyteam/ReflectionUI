@@ -43,6 +43,11 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 	}
 
 	@Override
+	public boolean isReturnValueDetached() {
+		return false;
+	}
+
+	@Override
 	public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
 		return null;
 	}

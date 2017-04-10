@@ -917,7 +917,16 @@ public class InfoCustomizations implements Serializable {
 		protected ValueReturnMode customValueReturnMode;
 		protected String nullReturnValueLabel;
 		protected boolean displayedAsField = false;
-		MethodReturnValueTypeSpecificities specificReturnValueTypeCustomizations = new MethodReturnValueTypeSpecificities();
+		protected MethodReturnValueTypeSpecificities specificReturnValueTypeCustomizations = new MethodReturnValueTypeSpecificities();
+		protected boolean detachedReturnValueForced;
+
+		public boolean isDetachedReturnValueForced() {
+			return detachedReturnValueForced;
+		}
+
+		public void setDetachedReturnValueForced(boolean detachedReturnValueForced) {
+			this.detachedReturnValueForced = detachedReturnValueForced;
+		}
 
 		public MethodReturnValueTypeSpecificities getSpecificReturnValueTypeCustomizations() {
 			return specificReturnValueTypeCustomizations;
@@ -1847,6 +1856,20 @@ public class InfoCustomizations implements Serializable {
 				}
 			}
 			return super.getTypeSpecificities(field, containingType);
+		}
+
+		@Override
+		protected boolean isReturnValueDetached(IMethodInfo method, ITypeInfo containingType) {
+			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
+			if (t != null) {
+				MethodCustomization m = getMethodCustomization(t, ReflectionUIUtils.getMethodSignature(method));
+				if (m != null) {
+					if (m.detachedReturnValueForced) {
+						return true;
+					}
+				}
+			}
+			return super.isReturnValueDetached(method, containingType);
 		}
 
 		@Override
@@ -2968,7 +2991,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public String getCriteria() {
-			return "className=" + className;
+			return "className=" + ((className == null) ? "" : className);
 		}
 
 		@Override
@@ -3029,7 +3052,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public String getCriteria() {
-			return "implementationClassName=" + implementationClassName;
+			return "implementationClassName=" + ((implementationClassName == null) ? "" : implementationClassName);
 		}
 
 		@Override

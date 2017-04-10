@@ -245,7 +245,7 @@ public class CustomizationTools {
 
 		};
 		dialogBuilder.showDialog();
-		if (dialogBuilder.isCancelled()) {
+		if (!dialogBuilder.isCancelled()) {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
@@ -812,6 +812,11 @@ public class CustomizationTools {
 
 		protected IMethodInfo getListItemTypeCustomizationDisplayMethod(final InfoCustomizations infoCustomizations) {
 			return new IMethodInfo() {
+
+				@Override
+				public boolean isReturnValueDetached() {
+					return false;
+				}
 
 				@Override
 				public Map<String, Object> getSpecificProperties() {

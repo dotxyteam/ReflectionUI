@@ -54,6 +54,11 @@ public class FieldAsSetter implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isReturnValueDetached() {
+		return false;
+	}
+
+	@Override
 	public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
 		return null;
 	}
@@ -91,7 +96,7 @@ public class FieldAsSetter implements IMethodInfo {
 
 	@Override
 	public List<IParameterInfo> getParameters() {
-		return Collections.<IParameterInfo>singletonList(parameter);
+		return Collections.<IParameterInfo> singletonList(parameter);
 	}
 
 	@Override

@@ -252,6 +252,10 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return method.getReturnValueTypeSpecificities();
 	}
 
+	protected boolean isReturnValueDetached(IMethodInfo method, ITypeInfo containingType) {
+		return method.isReturnValueDetached();
+	}
+
 	protected String getCaption(IMethodInfo method, ITypeInfo containingType) {
 		return method.getCaption();
 	}
@@ -741,6 +745,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		public boolean isDynamicEnumeration() {
 			return TypeInfoProxyFactory.this.isDynamicEnumeration((IEnumerationTypeInfo) base);
 		}
+
 		@Override
 		public Object[] getPossibleValues() {
 			return TypeInfoProxyFactory.this.getPossibleValues((IEnumerationTypeInfo) base);
@@ -948,10 +953,17 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		public ITypeInfo getReturnValueType() {
 			return TypeInfoProxyFactory.this.getReturnValueType(base, containingType);
 		}
+
 		@Override
 		public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
 			return TypeInfoProxyFactory.this.getReturnValueTypeSpecificities(base, containingType);
 		}
+
+		@Override
+		public boolean isReturnValueDetached() {
+			return TypeInfoProxyFactory.this.isReturnValueDetached(base, containingType);
+		}
+
 		@Override
 		public List<IParameterInfo> getParameters() {
 			List<IParameterInfo> result = new ArrayList<IParameterInfo>();

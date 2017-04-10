@@ -34,6 +34,11 @@ public abstract class AbstractConstructorInfo implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isReturnValueDetached() {
+		return true;
+	}
+
+	@Override
 	public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
 		return null;
 	}

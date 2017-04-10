@@ -233,11 +233,15 @@ public class MethodAction extends AbstractAction {
 
 			@Override
 			public ModificationStack getParentObjectModificationStack() {
-				return modificationStack;
+				if (data.isReturnValueDetached()) {
+					return null;
+				} else {
+					return modificationStack;
+				}
 			}
 
 		};
-		if (editorBuilder.canPotentiallyModifyParentObject()) {
+		if (!data.isReturnValueDetached() || (returnValue == null)) {
 			editorBuilder.showDialog();
 		} else {
 			editorBuilder.showFrame();

@@ -1654,6 +1654,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature></methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -1662,6 +1663,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>java.lang.String ()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -1688,6 +1690,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>java.util.List ()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -1736,6 +1739,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>boolean areHiddenFor(java.lang.String)</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -1744,6 +1748,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>void hideFor(java.lang.String)</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -1883,6 +1888,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode DetachedItemDetailsAccessMode()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -1940,6 +1946,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode EmbeddedItemDetailsAccessMode()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -1990,6 +1997,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.source.JavaTypeInfoSource JavaTypeInfoSource(java.lang.Class)</methodSignature>
             <parametersCustomizations>
@@ -2003,6 +2011,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.source.JavaTypeInfoSource JavaTypeInfoSource(java.lang.Class, java.lang.reflect.Member)</methodSignature>
             <parametersCustomizations>
@@ -2021,6 +2030,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.source.JavaTypeInfoSource JavaTypeInfoSource(java.lang.Class, java.lang.reflect.Member, int)</methodSignature>
             <parametersCustomizations>
@@ -2080,6 +2090,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>get</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -2088,6 +2099,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>getFieldCustomization</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -2096,6 +2108,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>getMethodCustomization</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -2104,6 +2117,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>getParameterCustomization</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -2112,6 +2126,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>getTypeCustomization</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -2120,6 +2135,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>loadFromFile</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -2128,6 +2144,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>loadFromStream</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -2136,6 +2153,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>saveToFile</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -2144,6 +2162,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>saveToStream</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -2152,6 +2171,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>void loadFromFile(java.io.File)</methodSignature>
             <parametersCustomizations>
@@ -2165,6 +2185,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>void loadFromStream(java.io.InputStream)</methodSignature>
             <parametersCustomizations>
@@ -2178,6 +2199,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>void saveToFile(java.io.File)</methodSignature>
             <parametersCustomizations>
@@ -2191,6 +2213,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>void saveToStream(java.io.OutputStream)</methodSignature>
             <parametersCustomizations>
@@ -2204,6 +2227,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.ITypeInfo get(xy.reflect.ui.ReflectionUI, xy.reflect.ui.info.type.ITypeInfo)</methodSignature>
             <parametersCustomizations>
@@ -2222,6 +2246,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.ITypeInfo get(xy.reflect.ui.info.type.ITypeInfo)</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -2230,6 +2255,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization getColumnCustomization(java.lang.String, java.lang.String, java.lang.String)</methodSignature>
             <parametersCustomizations>
@@ -2253,6 +2279,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization getColumnCustomization(java.lang.String, java.lang.String, java.lang.String, boolean)</methodSignature>
             <parametersCustomizations>
@@ -2281,6 +2308,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization getFieldCustomization(java.lang.String, java.lang.String)</methodSignature>
             <parametersCustomizations>
@@ -2299,6 +2327,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization getFieldCustomization(java.lang.String, java.lang.String, boolean)</methodSignature>
             <parametersCustomizations>
@@ -2322,6 +2351,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ListCustomization getListCustomization(java.lang.String, java.lang.String)</methodSignature>
             <parametersCustomizations>
@@ -2340,6 +2370,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ListCustomization getListCustomization(java.lang.String, java.lang.String, boolean)</methodSignature>
             <parametersCustomizations>
@@ -2363,6 +2394,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization getMethodCustomization(java.lang.String, java.lang.String)</methodSignature>
             <parametersCustomizations>
@@ -2381,6 +2413,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization getMethodCustomization(java.lang.String, java.lang.String, boolean)</methodSignature>
             <parametersCustomizations>
@@ -2404,6 +2437,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization getParameterCustomization(java.lang.String, java.lang.String, java.lang.String)</methodSignature>
             <parametersCustomizations>
@@ -2427,6 +2461,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization getParameterCustomization(java.lang.String, java.lang.String, java.lang.String, boolean)</methodSignature>
             <parametersCustomizations>
@@ -2455,6 +2490,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization getTypeCustomization(java.lang.String)</methodSignature>
             <parametersCustomizations>
@@ -2473,6 +2509,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization getTypeCustomization(java.lang.String, boolean)</methodSignature>
             <parametersCustomizations>
@@ -2537,6 +2574,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization)</methodSignature>
             <parametersCustomizations>
@@ -2567,6 +2605,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.ITypeInfo find(xy.reflect.ui.ReflectionUI)</methodSignature>
             <parametersCustomizations>
@@ -2580,6 +2619,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$CustomTypeInfoFinder CustomTypeInfoFinder()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -2588,6 +2628,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$CustomTypeInfoFinder new()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -2613,6 +2654,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory CustomizationCategory()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -2702,6 +2744,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$EnumerationCustomization)</methodSignature>
             <parametersCustomizations>
@@ -2755,6 +2798,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$EnumerationItemCustomization)</methodSignature>
             <parametersCustomizations>
@@ -3043,6 +3087,7 @@
         </memberCategories>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization)</methodSignature>
             <parametersCustomizations>
@@ -3056,6 +3101,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization new()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -3073,11 +3119,27 @@
     </typeCustomizations>
     <typeCustomizations>
         <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName>criteria</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.ITypeInfo find(xy.reflect.ui.ReflectionUI)</methodSignature>
+            <parametersCustomizations>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
@@ -3119,6 +3181,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>boolean matches(java.lang.String)</methodSignature>
             <parametersCustomizations>
@@ -3132,6 +3195,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$InfoFilter InfoFilter()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -3154,9 +3218,20 @@
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName>criteria</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.ITypeInfo find(xy.reflect.ui.ReflectionUI)</methodSignature>
             <parametersCustomizations>
@@ -3170,6 +3245,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$JavaClassBasedTypeInfoFinder JavaClassBasedTypeInfoFinder()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -3178,6 +3254,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$JavaClassBasedTypeInfoFinder new()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -3345,7 +3422,7 @@
                 <caption>Exclusions</caption>
             </category>
             <hidden>false</hidden>
-            <customFieldCaption>Names Of Fields Excluded From Details View</customFieldCaption>
+            <customFieldCaption>Fields Excluded From Details View</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
@@ -3479,7 +3556,7 @@
                 <caption>Exclusions</caption>
             </category>
             <hidden>false</hidden>
-            <customFieldCaption>Signatures Of Methods Excluded From Details View</customFieldCaption>
+            <customFieldCaption>Methods Excluded From Details View</customFieldCaption>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
@@ -3564,6 +3641,7 @@
         </memberCategories>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$ListCustomization)</methodSignature>
             <parametersCustomizations>
@@ -3577,6 +3655,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization getColumnCustomization(java.lang.String)</methodSignature>
             <parametersCustomizations>
@@ -3590,6 +3669,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ListCustomization new()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -3601,6 +3681,7 @@
                 <caption>Item Details</caption>
             </category>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>void displayItemTypeCustomization()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -3665,6 +3746,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ListEditOptions ListEditOptions()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -3713,6 +3795,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ListItemFieldShortcut ListItemFieldShortcut()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -3772,6 +3855,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ListItemMethodShortcut ListItemMethodShortcut()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -3792,6 +3876,7 @@
         <customFieldsOrder>category</customFieldsOrder>
         <customFieldsOrder>onlineHelp</customFieldsOrder>
         <customFieldsOrder>nullReturnValueLabel</customFieldsOrder>
+        <customFieldsOrder>detachedReturnValueForced</customFieldsOrder>
         <customFieldsOrder>displayedAsField</customFieldsOrder>
         <customFieldsOrder>validating</customFieldsOrder>
         <customFieldsOrder>iconImageFile</customFieldsOrder>
@@ -4035,11 +4120,25 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
-            <hidden>false</hidden>
+            <hidden>true</hidden>
             <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>specificReturnValueTypeCustomizations</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Advanced</caption>
+            </category>
+            <hidden>false</hidden>
+            <customFieldCaption>Detached Return Value</customFieldCaption>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName>detachedReturnValueForced</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -4053,6 +4152,7 @@
         </memberCategories>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization)</methodSignature>
             <parametersCustomizations>
@@ -4066,6 +4166,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>void setCustomValueReturnMode(xy.reflect.ui.info.ValueReturnMode)</methodSignature>
             <parametersCustomizations>
@@ -4079,6 +4180,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization new()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -4162,6 +4264,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization)</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -4170,6 +4273,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization new()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -4205,6 +4309,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$TreeStructureDiscoverySettings TreeStructureDiscoverySettings()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -4508,7 +4613,39 @@
             <fieldName>polymorphicSubTypeFinders</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
-            <specificTypeCustomizations/>
+            <specificTypeCustomizations>
+                <listCustomizations>
+                    <columnCustomizations>
+                        <columnName>criteria</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <columnCustomizations>
+                        <columnName>toStringValue</columnName>
+                        <hidden>true</hidden>
+                    </columnCustomizations>
+                    <columnCustomizations>
+                        <columnName>typeName</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <editOptions>
+                        <itemCreationEnabled>true</itemCreationEnabled>
+                        <itemDeletionEnabled>true</itemDeletionEnabled>
+                        <itemMoveEnabled>true</itemMoveEnabled>
+                    </editOptions>
+                    <fieldColumnsAdded>true</fieldColumnsAdded>
+                    <fieldsExcludedFromItemDetails>
+                        <regularExpression>false</regularExpression>
+                        <value>criteria</value>
+                    </fieldsExcludedFromItemDetails>
+                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemTypeColumnAdded>true</itemTypeColumnAdded>
+                    <itemTypeName>xy.reflect.ui.info.type.util.InfoCustomizations$ITypeInfoFinder</itemTypeName>
+                    <listSorted>false</listSorted>
+                    <listTypeName>java.util.List</listTypeName>
+                    <positionColumnAdded>false</positionColumnAdded>
+                    <stringValueColumnAdded>false</stringValueColumnAdded>
+                </listCustomizations>
+            </specificTypeCustomizations>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
@@ -4588,6 +4725,7 @@
         </memberCategories>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization)</methodSignature>
             <parametersCustomizations>
@@ -4601,6 +4739,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>moveField</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -4609,6 +4748,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>moveMethod</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -4617,6 +4757,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>void moveField(java.util.List, java.lang.String, int)</methodSignature>
             <parametersCustomizations>
@@ -4640,6 +4781,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>void moveMethod(java.util.List, java.lang.String, int)</methodSignature>
             <parametersCustomizations>
@@ -4771,6 +4913,7 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <customMethodCaption>Open</customMethodCaption>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>void setFile(java.io.File)</methodSignature>
             <parametersCustomizations>
@@ -4834,6 +4977,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.ITypeInfo find(xy.reflect.ui.ReflectionUI)</methodSignature>
             <parametersCustomizations>
@@ -4870,6 +5014,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <displayedAsField>false</displayedAsField>
             <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization)</methodSignature>
             <parametersCustomizations>
@@ -5367,6 +5512,376 @@
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [typeCaption=Nullable - List Instanciation Option, fieldType=xy.reflect.ui.info.type.util.InfoCustomizations$ListInstanciationOption, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=fieldsCustomizations, containingType=xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=methodsCustomizations, containingType=xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=parametersCustomizations, containingType=xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">false</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName>file</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>MethodSetupObject [context=MethodContext [methodSignature=void setFile(java.io.File), containingType=xy.reflect.ui.util.ResourcePath]]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=memberCategories, containingType=xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=polymorphicSubTypeFinders, containingType=xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.util.InfoCustomizations$ITypeInfoFinder]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.type.util.InfoCustomizations$JavaClassBasedTypeInfoFinder]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=polymorphicSubTypeFinders, containingType=xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.util.InfoCustomizations$ITypeInfoFinder]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.type.util.InfoCustomizations$CustomTypeInfoFinder]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=columnCustomizations, containingType=xy.reflect.ui.info.type.util.InfoCustomizations$ListCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=listInstanciationOption, containingType=xy.reflect.ui.info.type.util.InfoCustomizations$ListEditOptions], subContext=NullableInstance, encapsulatedObjectType=xy.reflect.ui.info.type.util.InfoCustomizations$ListInstanciationOption]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=customDetailsAccessMode, containingType=xy.reflect.ui.info.type.util.InfoCustomizations$ListCustomization], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=customDetailsAccessMode, containingType=xy.reflect.ui.info.type.util.InfoCustomizations$ListCustomization], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=treeStructureDiscoverySettings, containingType=xy.reflect.ui.info.type.util.InfoCustomizations$ListCustomization], subContext=NullableInstance, encapsulatedObjectType=xy.reflect.ui.info.type.util.InfoCustomizations$TreeStructureDiscoverySettings]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=itemCustomizations, containingType=xy.reflect.ui.info.type.util.InfoCustomizations$EnumerationCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.util.InfoCustomizations$EnumerationItemCustomization]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=allowedItemFieldShortcuts, containingType=xy.reflect.ui.info.type.util.InfoCustomizations$ListCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.util.InfoCustomizations$ListItemFieldShortcut]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=allowedItemMethodShortcuts, containingType=xy.reflect.ui.info.type.util.InfoCustomizations$ListCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.util.InfoCustomizations$ListItemMethodShortcut]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <customTypeCaption>Excluded Field Name</customTypeCaption>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=fieldsExcludedFromItemDetails, containingType=xy.reflect.ui.info.type.util.InfoCustomizations$ListCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.util.InfoCustomizations$InfoFilter]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <customTypeCaption>Excluded Method Signature</customTypeCaption>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsMethods>false</displayedAsMethods>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=methodsExcludedFromItemDetails, containingType=xy.reflect.ui.info.type.util.InfoCustomizations$ListCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.util.InfoCustomizations$InfoFilter]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

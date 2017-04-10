@@ -384,7 +384,7 @@ public class EncapsulatedObjectFactory {
 		public String toString() {
 			Object result = getValue();
 			return "Encapsulated [value="
-					+ ((result == null) ? "<null>" : (result.getClass() + ": " + result.toString())) + ", factory="
+					+ ((result == null) ? "<null>" : (result.getClass().getName() + ": " + result.toString())) + ", factory="
 					+ EncapsulatedObjectFactory.this + "]";
 		}
 

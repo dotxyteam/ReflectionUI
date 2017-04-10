@@ -17,6 +17,10 @@ public class MethodInfoProxy implements IMethodInfo {
 		this.base = base;
 	}
 
+	public boolean isReturnValueDetached() {
+		return base.isReturnValueDetached();
+	}
+
 	public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
 		return base.getReturnValueTypeSpecificities();
 	}

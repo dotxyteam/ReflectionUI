@@ -44,6 +44,11 @@ public abstract class AbstractListAction implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isReturnValueDetached() {
+		return false;
+	}
+
+	@Override
 	public ITypeInfo getReturnValueType() {
 		return null;
 	}

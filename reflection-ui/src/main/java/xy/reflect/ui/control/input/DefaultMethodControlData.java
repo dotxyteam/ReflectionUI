@@ -22,6 +22,11 @@ public class DefaultMethodControlData implements IMethodControlData {
 	}
 
 	@Override
+	public boolean isReturnValueDetached() {
+		return method.isReturnValueDetached();
+	}
+
+	@Override
 	public String getCaption() {
 		return method.getCaption();
 	}
