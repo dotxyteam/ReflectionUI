@@ -772,13 +772,39 @@ public class InfoCustomizations implements Serializable {
 		protected String customFieldCaption;
 		protected boolean nullableFacetHidden = false;
 		protected boolean getOnlyForced = false;
+		protected String customSetterName;
 		protected String valueOptionsFieldName;
 		protected ValueReturnMode customValueReturnMode;
 		protected String nullValueLabel;
-		protected boolean displayedAsMethods = false;
+		protected String generatedGetterName;
+		protected String generatedSetterName;
 		protected boolean displayedAsSingletonList = false;
 		protected boolean displayedEncapsulated = false;
 		protected FieldTypeSpecificities specificTypeCustomizations = new FieldTypeSpecificities();
+
+		public String getCustomSetterName() {
+			return customSetterName;
+		}
+
+		public void setCustomSetterName(String customSetterName) {
+			this.customSetterName = customSetterName;
+		}
+
+		public String getGeneratedGetterName() {
+			return generatedGetterName;
+		}
+
+		public void setGeneratedGetterName(String generatedGetterName) {
+			this.generatedGetterName = generatedGetterName;
+		}
+
+		public String getGeneratedSetterName() {
+			return generatedSetterName;
+		}
+
+		public void setGeneratedSetterName(String generatedSetterName) {
+			this.generatedSetterName = generatedSetterName;
+		}
 
 		public FieldTypeSpecificities getSpecificTypeCustomizations() {
 			return specificTypeCustomizations;
@@ -794,14 +820,6 @@ public class InfoCustomizations implements Serializable {
 
 		public void setDisplayedEncapsulated(boolean displayedEncapsulated) {
 			this.displayedEncapsulated = displayedEncapsulated;
-		}
-
-		public boolean isDisplayedAsMethods() {
-			return displayedAsMethods;
-		}
-
-		public void setDisplayedAsMethods(boolean displayedAsMethods) {
-			this.displayedAsMethods = displayedAsMethods;
 		}
 
 		public boolean isDisplayedAsSingletonList() {
@@ -916,9 +934,17 @@ public class InfoCustomizations implements Serializable {
 		protected List<ParameterCustomization> parametersCustomizations = new ArrayList<InfoCustomizations.ParameterCustomization>();
 		protected ValueReturnMode customValueReturnMode;
 		protected String nullReturnValueLabel;
-		protected boolean displayedAsField = false;
+		protected String generatedFieldName;
 		protected MethodReturnValueTypeSpecificities specificReturnValueTypeCustomizations = new MethodReturnValueTypeSpecificities();
 		protected boolean detachedReturnValueForced;
+
+		public String getGeneratedFieldName() {
+			return generatedFieldName;
+		}
+
+		public void setGeneratedFieldName(String generatedFieldName) {
+			this.generatedFieldName = generatedFieldName;
+		}
 
 		public boolean isDetachedReturnValueForced() {
 			return detachedReturnValueForced;
@@ -935,14 +961,6 @@ public class InfoCustomizations implements Serializable {
 		public void setSpecificReturnValueTypeCustomizations(
 				MethodReturnValueTypeSpecificities specificReturnValueTypeCustomizations) {
 			this.specificReturnValueTypeCustomizations = specificReturnValueTypeCustomizations;
-		}
-
-		public boolean isDisplayedAsField() {
-			return displayedAsField;
-		}
-
-		public void setDisplayedAsField(boolean displayedAsField) {
-			this.displayedAsField = displayedAsField;
 		}
 
 		public boolean isValidating() {
@@ -2665,6 +2683,11 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		@Override
+		protected void setValue(Object object, Object value, IFieldInfo field, ITypeInfo containingType) {
+			super.setValue(object, value, field, containingType);
+		}
+
+		@Override
 		protected String getCaption(IFieldInfo field, ITypeInfo containingType) {
 			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
 			if (t != null) {
@@ -2742,11 +2765,11 @@ public class InfoCustomizations implements Serializable {
 					}
 				}
 				for (MethodCustomization m : t.methodsCustomizations) {
-					if (m.displayedAsField) {
+					if (m.generatedFieldName != null) {
 						IMethodInfo method = ReflectionUIUtils.findMethodBySignature(containingType.getMethods(),
 								m.methodSignature);
 						if (method != null) {
-							result.add(new MethodAsField(method));
+							result.add(new MethodAsField(method, m.generatedFieldName));
 						}
 					}
 				}
@@ -2754,6 +2777,25 @@ public class InfoCustomizations implements Serializable {
 					IFieldInfo field = result.get(i);
 					final FieldCustomization f = getFieldCustomization(t, field.getName());
 					if (f != null) {
+						if(f.customSetterName != null){
+							field = new FieldInfoProxy(field) {
+								@Override
+								public void setValue(Object object, Object value) {
+									final String customSetterSignature = ReflectionUIUtils.getMethodSignature(new FieldAsSetter(this, f.customSetterName));
+									IMethodInfo customMethod = ReflectionUIUtils.findMethodBySignature(containingType.getMethods(),
+											customSetterSignature);
+									if(customMethod == null){
+										throw new ReflectionUIError(
+												"Custom setter not found: '" + customSetterSignature + "'");									
+									}
+									customMethod.invoke(object, new InvocationData(value));
+								}
+								@Override
+								public boolean isGetOnly() {
+									return false;
+								}								
+							};								
+						}
 						if (f.valueOptionsFieldName != null) {
 							field = new FieldInfoProxy(field) {
 								@Override
@@ -2830,11 +2872,11 @@ public class InfoCustomizations implements Serializable {
 				for (FieldCustomization f : t.fieldsCustomizations) {
 					IFieldInfo field = ReflectionUIUtils.findInfoByName(containingType.getFields(), f.fieldName);
 					if (field != null) {
-						if (f.displayedAsMethods) {
-							result.add(new FieldAsGetter(field));
-							if (!field.isGetOnly()) {
-								result.add(new FieldAsSetter(field));
-							}
+						if (f.generatedGetterName != null) {
+							result.add(new FieldAsGetter(field, f.generatedGetterName));
+						}
+						if (f.generatedSetterName != null) {
+							result.add(new FieldAsSetter(field, f.generatedSetterName));
 						}
 					}
 				}

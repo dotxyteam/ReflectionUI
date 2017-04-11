@@ -482,9 +482,9 @@ public class ReflectionUIUtils {
 				else if (c == '\n')
 					// Handle Newline
 					if (preserveNewLines) {
-						sb.append("<br/>");
+					sb.append("<br/>");
 					} else {
-						sb.append(c);
+					sb.append(c);
 					}
 				else {
 					int ci = 0xffff & c;
@@ -827,8 +827,8 @@ public class ReflectionUIUtils {
 					if (!childModifStack.wasInvalidated()) {
 						childModifStack.undoAll();
 					} else {
-						reflectionUI.logDebug("WARNING: Cannot undo invalidated sub-modification stack: " + childModifStack
-								+ "\n=> Invalidating parent modification stack");
+						reflectionUI.logDebug("WARNING: Cannot undo invalidated sub-modification stack: "
+								+ childModifStack + "\n=> Invalidating parent modification stack");
 						parentModifStack.invalidate();
 						parentValueImpacted = true;
 					}
@@ -904,6 +904,27 @@ public class ReflectionUIUtils {
 				return result;
 			}
 		}
+	}
+
+	public static String getDefaultMethodCaption(IMethodInfo method) {
+		String result = ReflectionUIUtils.identifierToCaption(method.getName());
+		if (method.getReturnValueType() != null) {
+			result = result.replaceAll("^Get ", "Show ");
+		}
+		return result;
+	}
+
+	public static String getDefaultFieldCaption(IFieldInfo field) {
+		String result = ReflectionUIUtils.identifierToCaption(field.getName());
+		if (field.getType().getName().equals(Boolean.class.getName())
+				|| field.getType().getName().equals(boolean.class.getName())) {
+			if (field.getName().matches("^is[A-Z].*")) {
+				result = "Is " + result;
+			} else if (field.getName().matches("^has[A-Z].*")) {
+				result = "Has " + result;
+			}
+		}
+		return result;
 	}
 
 }

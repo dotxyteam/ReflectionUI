@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.field;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Map;
@@ -13,7 +14,6 @@ import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
 import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -63,15 +63,7 @@ public class GetterFieldInfo implements IFieldInfo {
 
 	@Override
 	public String getCaption() {
-		String result = ReflectionUIUtils.identifierToCaption(getName());
-		if (BooleanTypeInfo.isCompatibleWith(javaGetterMethod.getReturnType())) {
-			if (javaGetterMethod.getName().matches("^is[A-Z].*")) {
-				result = "Is " + result;
-			} else if (javaGetterMethod.getName().matches("^has[A-Z].*")) {
-				result = "Has " + result;
-			}
-		}
-		return result;
+		return ReflectionUIUtils.getDefaultFieldCaption(this);
 	}
 
 	@Override
@@ -180,8 +172,16 @@ public class GetterFieldInfo implements IFieldInfo {
 		if (javaMethod.isBridge()) {
 			return false;
 		}
-		if (GetterFieldInfo.getFieldName(javaMethod.getName()) == null) {
+		String fieldName = GetterFieldInfo.getFieldName(javaMethod.getName());
+		if (fieldName == null) {
 			return false;
+		}
+		for (Field siblingField : containingJavaClass.getFields()) {
+			if (PublicFieldInfo.isCompatibleWith(siblingField)) {
+				if (siblingField.getName().equals(fieldName)) {
+					return false;
+				}
+			}
 		}
 		if (javaMethod.getParameterTypes().length > 0) {
 			return false;

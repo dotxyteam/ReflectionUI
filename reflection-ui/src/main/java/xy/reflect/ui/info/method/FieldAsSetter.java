@@ -11,10 +11,13 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.parameter.ParameterInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class FieldAsSetter implements IMethodInfo {
 
 	protected IFieldInfo field;
+	protected String setterName;
+
 	protected IParameterInfo parameter = new ParameterInfoProxy(IParameterInfo.NULL_PARAMETER_INFO) {
 
 		@Override
@@ -48,9 +51,10 @@ public class FieldAsSetter implements IMethodInfo {
 		}
 
 	};
-
-	public FieldAsSetter(IFieldInfo field) {
+	
+	public FieldAsSetter(IFieldInfo field, String setterName) {
 		this.field = field;
+		this.setterName = setterName;
 	}
 
 	@Override
@@ -65,12 +69,12 @@ public class FieldAsSetter implements IMethodInfo {
 
 	@Override
 	public String getName() {
-		return field.getName() + ".set";
+		return setterName;
 	}
 
 	@Override
 	public String getCaption() {
-		return "Update " + field.getCaption();
+		return ReflectionUIUtils.getDefaultMethodCaption(this);
 	}
 
 	@Override

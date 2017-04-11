@@ -8,7 +8,6 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
 import xy.reflect.ui.util.Accessor;
-import xy.reflect.ui.util.ReflectionUIError;
 
 public class EncapsulatedValueField extends FieldInfoProxy {
 
@@ -23,10 +22,14 @@ public class EncapsulatedValueField extends FieldInfoProxy {
 
 	protected EncapsulatedObjectFactory createEncapsulation() {
 		EncapsulatedObjectFactory result = new EncapsulatedObjectFactory(reflectionUI, super.getType(), getCaption(),
-				"");
+				"") {
+			@Override
+			protected Object[] getFieldValueOptions(Object object) {
+				return EncapsulatedValueField.this.base.getValueOptions(object);
+			}
+		};
 		result.setFieldGetOnly(super.isGetOnly());
-		result.setFieldNullable(super.isNullable());
-		result.setFieldNullValueLabel(super.getNullValueLabel());
+		result.setFieldNullable(false);
 		result.setFieldSpecificProperties(super.getSpecificProperties());
 		result.setFieldValueReturnMode(super.getValueReturnMode());
 		return result;
@@ -39,6 +42,9 @@ public class EncapsulatedValueField extends FieldInfoProxy {
 
 	@Override
 	public Object getValue(final Object object) {
+		if (super.getValue(object) == null) {
+			return null;
+		}
 		return encapsulation.getInstance(new Accessor<Object>() {
 
 			@Override
@@ -56,7 +62,11 @@ public class EncapsulatedValueField extends FieldInfoProxy {
 
 	@Override
 	public void setValue(Object object, Object value) {
-		throw new ReflectionUIError();
+		if (value == null) {
+			super.setValue(object, null);
+		}
+		value = encapsulation.unwrapInstance(value);
+		super.setValue(object, value);
 	}
 
 	@Override
@@ -65,18 +75,8 @@ public class EncapsulatedValueField extends FieldInfoProxy {
 	}
 
 	@Override
-	public boolean isNullable() {
-		return false;
-	}
-
-	@Override
-	public String getNullValueLabel() {
-		return null;
-	}
-
-	@Override
 	public boolean isGetOnly() {
-		return true;
+		return super.isGetOnly();
 	}
 
 	@Override

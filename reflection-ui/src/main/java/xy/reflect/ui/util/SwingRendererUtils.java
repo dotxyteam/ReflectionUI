@@ -690,12 +690,6 @@ public class SwingRendererUtils {
 		msgComponent.setBackground(getNonEditableTextBackgroundColor());
 		final JScrollPane scrollPane = new JScrollPane(msgComponent);
 		scrollPane.setBorder(null);
-		scrollPane.getViewport().addChangeListener(new ChangeListener() {			
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				scrollPane.getHorizontalScrollBar().setValue(0);
-			}
-		});
 		JOptionPane result = new JOptionPane(scrollPane, messageType, JOptionPane.DEFAULT_OPTION, null,
 				new Object[] {});
 		return result;

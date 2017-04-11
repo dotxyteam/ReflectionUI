@@ -3,7 +3,6 @@ package xy.reflect.ui.info.type.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -73,7 +72,7 @@ public class GenericEnumerationFactory {
 			return null;
 		}
 		Instance instance = (Instance) obj;
-		if (instance.getOuterType() != this) {
+		if (!instance.getOuterType().equals(this)) {
 			throw new ReflectionUIError();
 		}
 		return instance.getArrayItem();
@@ -232,15 +231,19 @@ public class GenericEnumerationFactory {
 
 		@Override
 		public List<IMethodInfo> getConstructors() {
-			final Iterator<?> iterator = iterable.iterator();
-			if (!iterator.hasNext()) {
+			if (!iterable.iterator().hasNext()) {
 				return Collections.emptyList();
 			} else {
-				return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo(TypeInfo.this) {
+				return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo() {
+
+					@Override
+					public ITypeInfo getReturnValueType() {
+						return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(TypeInfo.this));
+					}
 
 					@Override
 					public Object invoke(Object object, InvocationData invocationData) {
-						return getInstance(iterator.next());
+						return getInstance(iterable.iterator().next());
 					}
 
 					@Override

@@ -10,6 +10,9 @@ import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
+import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.info.method.InvocationData;
 
@@ -37,7 +40,12 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements IEnu
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo(StandardEnumerationTypeInfo.this) {
+		return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo() {
+
+			@Override
+			public ITypeInfo getReturnValueType() {
+				return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(StandardEnumerationTypeInfo.this));
+			}
 
 			@Override
 			public Object invoke(Object object, InvocationData invocationData) {

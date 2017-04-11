@@ -79,7 +79,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 				if (!DefaultConstructorInfo.isCompatibleWith(javaConstructor)) {
 					continue;
 				}
-				constructors.add(new DefaultConstructorInfo(reflectionUI, this, javaConstructor));
+				constructors.add(new DefaultConstructorInfo(reflectionUI, javaConstructor));
 			}
 		}
 		return constructors;
@@ -110,9 +110,6 @@ public class DefaultTypeInfo implements ITypeInfo {
 					continue;
 				}
 				GetterFieldInfo getterFieldInfo = new GetterFieldInfo(reflectionUI, javaMethod, javaType);
-				if (ReflectionUIUtils.findInfoByName(fields, getterFieldInfo.getName()) != null) {
-					continue;
-				}
 				fields.add(getterFieldInfo);
 			}
 			ReflectionUIUtils.sortFields(fields);

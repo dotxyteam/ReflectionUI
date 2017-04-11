@@ -1,3 +1,5 @@
+- detect duplicate generated member names 
+- cannot instanciated value of field encapsulated through customization
 - allow easy control/types extension:
 	. how to allow to configure the controls
 - cannot hide field as getter/setter
@@ -5,7 +7,7 @@
 - allow to merge to getter/setter methods into 1 field
 - allow to set (min) list size ???
 - move member small bug: need to do it twice sometimes
-- cutomization refresh looses list selction
+- customization refresh looses list selection
 - method execution on list item did not refresh the list
 - allow to ignore method result
 - allow to force close method execution window after 

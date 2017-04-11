@@ -9,6 +9,8 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
@@ -23,7 +25,12 @@ public class TextualTypeInfo extends DefaultTypeInfo {
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo(TextualTypeInfo.this) {
+		return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo() {
+
+			@Override
+			public ITypeInfo getReturnValueType() {
+				return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(TextualTypeInfo.this));
+			}
 
 			@Override
 			public Object invoke(Object object, InvocationData invocationData) {

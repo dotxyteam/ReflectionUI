@@ -617,7 +617,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 				Collections.reverse(factoryIds);
 				if (factoryIds.contains(factory.getIdentifier())) {
 					StringBuilder msg = new StringBuilder();
-					msg.append("Duplicate proxy creation detected: New proxy factory identifier:\n- "
+					msg.append("Duplicate proxy creation detected:"
+							+ "\nNew proxy factory identifier:\n- "
 							+ TypeInfoProxyFactory.this.getIdentifier() + "\nExisting factories identifers:\n");
 					for (String id : factoryIds) {
 						msg.append("- " + id + "\n");
@@ -1073,11 +1074,6 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 		public GeneratedConstructorInfoProxy(IMethodInfo ctor, ITypeInfo containingType) {
 			super(ctor, containingType);
-		}
-
-		@Override
-		public ITypeInfo getReturnValueType() {
-			return get(super.getReturnValueType());
 		}
 
 	}

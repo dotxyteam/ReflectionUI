@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.type.util;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +11,8 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
@@ -187,8 +190,23 @@ public class EncapsulatedObjectFactory {
 		return fieldType;
 	}
 
+	protected Object[] getFieldValueOptions(Object object) {
+		return null;
+	}
+
 	public Object getInstance(Object[] fieldValueHolder) {
 		return getInstance(new ArrayAccessor<Object>(fieldValueHolder));
+	}
+
+	public Object unwrapInstance(Object obj) {
+		if (obj == null) {
+			return null;
+		}
+		Instance instance = (Instance) obj;
+		if (!instance.getOuterType().equals(this)) {
+			throw new ReflectionUIError();
+		}
+		return instance.getValue();
 	}
 
 	@Override
@@ -271,7 +289,7 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public boolean isConcrete() {
-			return true;
+			return fieldType.isConcrete();
 		}
 
 		@Override
@@ -281,7 +299,21 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public List<IMethodInfo> getConstructors() {
-			return Collections.emptyList();
+			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
+			for (IMethodInfo ctor : fieldType.getConstructors()) {
+				result.add(new MethodInfoProxy(ctor) {
+					@Override
+					public Object invoke(Object object, InvocationData invocationData) {
+						return getInstance(Accessor.returning(super.invoke(object, invocationData), true));
+					}
+
+					@Override
+					public ITypeInfo getReturnValueType() {
+						return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(TypeInfo.this));
+					}
+				});
+			}
+			return result;
 		}
 
 		@Override
@@ -384,14 +416,15 @@ public class EncapsulatedObjectFactory {
 		public String toString() {
 			Object result = getValue();
 			return "Encapsulated [value="
-					+ ((result == null) ? "<null>" : (result.getClass().getName() + ": " + result.toString())) + ", factory="
-					+ EncapsulatedObjectFactory.this + "]";
+					+ ((result == null) ? "<null>" : (result.getClass().getName() + ": " + result.toString()))
+					+ ", factory=" + getOuterType() + "]";
 		}
 
 		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
+			result = prime * result + getOuterType().hashCode();
 			result = prime * result + ((fieldValueAccessor == null) ? 0 : fieldValueAccessor.hashCode());
 			return result;
 		}
@@ -405,12 +438,18 @@ public class EncapsulatedObjectFactory {
 			if (getClass() != obj.getClass())
 				return false;
 			Instance other = (Instance) obj;
+			if (!getOuterType().equals(other.getOuterType()))
+				return false;
 			if (fieldValueAccessor == null) {
 				if (other.fieldValueAccessor != null)
 					return false;
 			} else if (!fieldValueAccessor.equals(other.fieldValueAccessor))
 				return false;
 			return true;
+		}
+
+		private EncapsulatedObjectFactory getOuterType() {
+			return EncapsulatedObjectFactory.this;
 		}
 
 	}

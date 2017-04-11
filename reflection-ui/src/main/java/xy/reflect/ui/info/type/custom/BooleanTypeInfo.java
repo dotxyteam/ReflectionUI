@@ -7,6 +7,8 @@ import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.info.method.InvocationData;
@@ -22,7 +24,12 @@ public class BooleanTypeInfo extends DefaultTypeInfo {
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		return Collections.<IMethodInfo> singletonList(new AbstractConstructorInfo(BooleanTypeInfo.this) {
+		return Collections.<IMethodInfo> singletonList(new AbstractConstructorInfo() {
+
+			@Override
+			public ITypeInfo getReturnValueType() {
+				return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(BooleanTypeInfo.this));
+			}
 
 			@Override
 			public Object invoke(Object object, InvocationData invocationData) {

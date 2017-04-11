@@ -9,6 +9,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.method.InvocationData;
 
 public class ArrayTypeInfo extends StandardCollectionTypeInfo {
@@ -43,7 +44,12 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo(this) {
+		return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo() {
+
+			@Override
+			public ITypeInfo getReturnValueType() {
+				return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(ArrayTypeInfo.this));
+			}
 
 			@Override
 			public Object invoke(Object object, InvocationData invocationData) {

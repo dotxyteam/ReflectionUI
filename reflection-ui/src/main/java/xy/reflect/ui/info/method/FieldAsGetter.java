@@ -10,13 +10,16 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class FieldAsGetter implements IMethodInfo {
 
 	protected IFieldInfo field;
+	protected String getterName;
 
-	public FieldAsGetter(IFieldInfo field) {
+	public FieldAsGetter(IFieldInfo field, String getterName) {
 		this.field = field;
+		this.getterName = getterName;
 	}
 
 	@Override
@@ -47,12 +50,12 @@ public class FieldAsGetter implements IMethodInfo {
 
 	@Override
 	public String getName() {
-		return field.getName() + ".get";
+		return getterName;
 	}
 
 	@Override
 	public String getCaption() {
-		return "Show " + field.getCaption();
+		return ReflectionUIUtils.getDefaultMethodCaption(this);
 	}
 
 	@Override

@@ -533,7 +533,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -549,7 +548,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -565,7 +563,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -581,7 +578,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -597,7 +593,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -613,7 +608,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -629,7 +623,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -645,7 +638,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -661,7 +653,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -677,7 +668,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -693,7 +683,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -709,7 +698,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -725,7 +713,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -741,7 +728,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -757,7 +743,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -773,7 +758,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -789,7 +773,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -805,7 +788,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -821,7 +803,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -837,7 +818,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>NULL_FIELD_INFO</fieldName>
@@ -853,7 +833,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>NULL_FIELD_INFO</fieldName>
@@ -875,7 +854,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -891,7 +869,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -907,7 +884,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -923,7 +899,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -939,7 +914,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -955,7 +929,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -971,7 +944,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -988,7 +960,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Type Name</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -1004,7 +975,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -1033,7 +1003,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -1055,7 +1024,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -1077,7 +1045,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -1093,7 +1060,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -1109,7 +1075,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -1131,7 +1096,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -1147,7 +1111,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -1163,7 +1126,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -1179,7 +1141,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -1195,7 +1156,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -1211,7 +1171,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -1227,7 +1186,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -1243,7 +1201,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -1259,7 +1216,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -1275,7 +1231,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -1309,7 +1264,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>javaType</fieldName>
@@ -1325,7 +1279,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>containingTypeName</fieldName>
@@ -1335,7 +1288,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>create</fieldName>
@@ -1345,7 +1297,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>fieldName</fieldName>
@@ -1373,7 +1324,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>containingTypeName</fieldName>
@@ -1383,7 +1333,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>create</fieldName>
@@ -1400,7 +1349,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>File</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>file</fieldName>
@@ -1416,7 +1364,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -1432,7 +1379,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -1448,7 +1394,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -1464,7 +1409,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -1480,7 +1424,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -1496,7 +1439,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -1512,7 +1454,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -1528,7 +1469,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -1545,7 +1485,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Change Columns Order</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -1633,7 +1572,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>bytes</fieldName>
@@ -1643,7 +1581,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>empty</fieldName>
@@ -1655,7 +1592,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature></methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -1664,7 +1600,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>java.lang.String ()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -1691,7 +1626,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>java.util.List ()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -1728,7 +1662,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>hiddenCustomizationToolsTypeNames</fieldName>
@@ -1740,7 +1673,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>boolean areHiddenFor(java.lang.String)</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -1749,7 +1681,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>void hideFor(java.lang.String)</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -1762,7 +1693,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>columnInfo</fieldName>
@@ -1782,7 +1712,6 @@
         <customFieldsOrder></customFieldsOrder>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>caption</fieldName>
@@ -1792,7 +1721,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>columnName</fieldName>
@@ -1802,7 +1730,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customCaption</fieldName>
@@ -1813,7 +1740,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Hide</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>hidden</fieldName>
@@ -1847,7 +1773,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>detailsAreaPosition</fieldName>
@@ -1857,7 +1782,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>detailsDisplayArea</fieldName>
@@ -1867,7 +1791,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>detailsDisplayOption</fieldName>
@@ -1877,7 +1800,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>defaultDetailsAreaOccupationRatio</fieldName>
@@ -1889,7 +1811,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode DetachedItemDetailsAccessMode()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -1905,7 +1826,6 @@
         <customFieldsOrder>detailsDisplayOption</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>defaultDetailsAreaOccupationRatio</fieldName>
@@ -1915,7 +1835,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>detailsAreaPosition</fieldName>
@@ -1925,7 +1844,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>detailsDisplayArea</fieldName>
@@ -1935,7 +1853,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>detailsDisplayOption</fieldName>
@@ -1947,7 +1864,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode EmbeddedItemDetailsAccessMode()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -1998,7 +1914,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.source.JavaTypeInfoSource JavaTypeInfoSource(java.lang.Class)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2012,7 +1927,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.source.JavaTypeInfoSource JavaTypeInfoSource(java.lang.Class, java.lang.reflect.Member)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2031,7 +1945,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.source.JavaTypeInfoSource JavaTypeInfoSource(java.lang.Class, java.lang.reflect.Member, int)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2069,7 +1982,6 @@
         <customMethodsOrder>getColumnCustomization</customMethodsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>listCustomizations</fieldName>
@@ -2079,7 +1991,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>typeCustomizations</fieldName>
@@ -2091,7 +2002,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>get</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -2100,7 +2010,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>getFieldCustomization</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -2109,7 +2018,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>getMethodCustomization</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -2118,7 +2026,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>getParameterCustomization</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -2127,7 +2034,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>getTypeCustomization</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -2136,7 +2042,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>loadFromFile</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -2145,7 +2050,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>loadFromStream</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -2154,7 +2058,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>saveToFile</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -2163,7 +2066,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>saveToStream</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -2172,7 +2074,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>void loadFromFile(java.io.File)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2186,7 +2087,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>void loadFromStream(java.io.InputStream)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2200,7 +2100,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>void saveToFile(java.io.File)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2214,7 +2113,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>void saveToStream(java.io.OutputStream)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2228,7 +2126,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.ITypeInfo get(xy.reflect.ui.ReflectionUI, xy.reflect.ui.info.type.ITypeInfo)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2247,7 +2144,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.ITypeInfo get(xy.reflect.ui.info.type.ITypeInfo)</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -2256,7 +2152,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization getColumnCustomization(java.lang.String, java.lang.String, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2280,7 +2175,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization getColumnCustomization(java.lang.String, java.lang.String, java.lang.String, boolean)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2309,7 +2203,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization getFieldCustomization(java.lang.String, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2328,7 +2221,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization getFieldCustomization(java.lang.String, java.lang.String, boolean)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2352,7 +2244,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ListCustomization getListCustomization(java.lang.String, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2371,7 +2262,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ListCustomization getListCustomization(java.lang.String, java.lang.String, boolean)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2395,7 +2285,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization getMethodCustomization(java.lang.String, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2414,7 +2303,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization getMethodCustomization(java.lang.String, java.lang.String, boolean)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2438,7 +2326,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization getParameterCustomization(java.lang.String, java.lang.String, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2462,7 +2349,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization getParameterCustomization(java.lang.String, java.lang.String, java.lang.String, boolean)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2491,7 +2377,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization getTypeCustomization(java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2510,7 +2395,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization getTypeCustomization(java.lang.String, boolean)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2542,7 +2426,6 @@
         <customFieldsOrder>minimalCharacterCount</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>columnName</fieldName>
@@ -2552,7 +2435,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customCaption</fieldName>
@@ -2563,7 +2445,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Hide</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>hidden</fieldName>
@@ -2575,7 +2456,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2594,7 +2474,6 @@
         <customTypeCaption>Custom Type Info</customTypeCaption>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>implementationClassName</fieldName>
@@ -2606,7 +2485,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.ITypeInfo find(xy.reflect.ui.ReflectionUI)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2620,7 +2498,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$CustomTypeInfoFinder CustomTypeInfoFinder()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -2629,7 +2506,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$CustomTypeInfoFinder new()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -2643,7 +2519,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Category Name</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>caption</fieldName>
@@ -2655,7 +2530,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$CustomizationCategory CustomizationCategory()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -2672,7 +2546,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Enumeration Type</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>enumerationTypeName</fieldName>
@@ -2683,7 +2556,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Customize Items</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemCustomizations</fieldName>
@@ -2722,7 +2594,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Static Enumeration</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>staticEnumerationForced</fieldName>
@@ -2733,7 +2604,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Dynamic Enumeration</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>dynamicEnumerationForced</fieldName>
@@ -2745,7 +2615,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$EnumerationCustomization)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2766,7 +2635,6 @@
         <customFieldsOrder>customCaption</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customCaption</fieldName>
@@ -2777,7 +2645,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Hide</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>hidden</fieldName>
@@ -2787,7 +2654,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemName</fieldName>
@@ -2799,7 +2665,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$EnumerationItemCustomization)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -2815,6 +2680,8 @@
     </typeCustomizations>
     <typeCustomizations>
         <abstractForced>false</abstractForced>
+        <customFieldsOrder>generatedGetterName</customFieldsOrder>
+        <customFieldsOrder>generatedSetterName</customFieldsOrder>
         <customFieldsOrder>fieldName</customFieldsOrder>
         <customFieldsOrder>customFieldCaption</customFieldsOrder>
         <customFieldsOrder>hidden</customFieldsOrder>
@@ -2824,15 +2691,14 @@
         <customFieldsOrder>category</customFieldsOrder>
         <customFieldsOrder>onlineHelp</customFieldsOrder>
         <customFieldsOrder>customControlForbidden</customFieldsOrder>
-        <customFieldsOrder>displayedAsMethods</customFieldsOrder>
         <customFieldsOrder>displayedAsSingletonList</customFieldsOrder>
         <customFieldsOrder>displayedEncapsulated</customFieldsOrder>
+        <customFieldsOrder>customSetterName</customFieldsOrder>
         <customFieldsOrder>valueOptionsFieldName</customFieldsOrder>
         <customFieldsOrder>nullValueLabel</customFieldsOrder>
         <customFieldsOrder>customValueReturnMode</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>category</fieldName>
@@ -2842,7 +2708,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>categoryOptions</fieldName>
@@ -2852,7 +2717,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customFieldCaption</fieldName>
@@ -2866,7 +2730,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Change Value Access Mode</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customValueAccessMode</fieldName>
@@ -2880,7 +2743,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Value Return Mode</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customValueReturnMode</fieldName>
@@ -2891,11 +2753,10 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <category>
-                <caption>Advanced</caption>
+                <caption>Dsiplay</caption>
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Unflod (Display The Sub-Form)</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>expandSubForm</fieldName>
@@ -2905,7 +2766,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>fieldName</fieldName>
@@ -2916,7 +2776,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Get-Only</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>getOnlyForced</fieldName>
@@ -2927,7 +2786,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Hide</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>hidden</fieldName>
@@ -2937,10 +2795,9 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <category>
-                <caption>Advanced</caption>
+                <caption>Dsiplay</caption>
             </category>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>nullValueLabel</fieldName>
@@ -2951,7 +2808,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Not Nullable</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>nullableFacetHidden</fieldName>
@@ -2961,7 +2817,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>onlineHelp</fieldName>
@@ -2971,7 +2826,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>parent</fieldName>
@@ -2981,7 +2835,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>specificProperties</fieldName>
@@ -2994,7 +2847,6 @@
                 <caption>Advanced</caption>
             </category>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>valueOptionsFieldName</fieldName>
@@ -3008,7 +2860,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Display As Getter/Setter</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>displayedAsMethods</fieldName>
@@ -3018,11 +2869,10 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <category>
-                <caption>Advanced</caption>
+                <caption>Dsiplay</caption>
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Display As Singleton List</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>displayedAsSingletonList</fieldName>
@@ -3032,11 +2882,10 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <category>
-                <caption>Advanced</caption>
+                <caption>Dsiplay</caption>
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Display Encapsulated</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>displayedEncapsulated</fieldName>
@@ -3050,7 +2899,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Use Shared Type Customization</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>sharedTypeCustomizationUsed</fieldName>
@@ -3064,7 +2912,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Customize Type Informations For This Field Only</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>typeSpecificitiesUsed</fieldName>
@@ -3074,7 +2921,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>specificTypeCustomizations</fieldName>
@@ -3084,10 +2930,9 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <category>
-                <caption>Advanced</caption>
+                <caption>Dsiplay</caption>
             </category>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customControlForbidden</fieldName>
@@ -3095,14 +2940,54 @@
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Advanced</caption>
+            </category>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName>customSetterName</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Advanced</caption>
+            </category>
+            <hidden>false</hidden>
+            <customFieldCaption>Generate Getter</customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>true</displayedEncapsulated>
+            <fieldName>generatedGetterName</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Advanced</caption>
+            </category>
+            <hidden>false</hidden>
+            <customFieldCaption>Generate Setter</customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>true</displayedEncapsulated>
+            <fieldName>generatedSetterName</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <memberCategories>
+            <caption>Dsiplay</caption>
+        </memberCategories>
         <memberCategories>
             <caption>Advanced</caption>
         </memberCategories>
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -3116,7 +3001,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization new()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -3135,7 +3019,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>criteria</fieldName>
@@ -3147,7 +3030,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.ITypeInfo find(xy.reflect.ui.ReflectionUI)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -3174,7 +3056,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Regular Expression</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>regularExpression</fieldName>
@@ -3184,7 +3065,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -3196,7 +3076,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>boolean matches(java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -3210,7 +3089,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$InfoFilter InfoFilter()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -3224,7 +3102,6 @@
         <customTypeCaption>Java Class-Based Type</customTypeCaption>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>className</fieldName>
@@ -3234,7 +3111,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>criteria</fieldName>
@@ -3246,7 +3122,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.ITypeInfo find(xy.reflect.ui.ReflectionUI)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -3260,7 +3135,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$JavaClassBasedTypeInfoFinder JavaClassBasedTypeInfoFinder()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -3269,7 +3143,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$JavaClassBasedTypeInfoFinder new()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -3302,7 +3175,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Item Field Shortcuts</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>allowedItemFieldShortcuts</fieldName>
@@ -3316,7 +3188,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption> Item Method Shortcuts</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>allowedItemMethodShortcuts</fieldName>
@@ -3330,7 +3201,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Customize Columns Display</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>columnCustomizations</fieldName>
@@ -3372,7 +3242,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>columnsCustomOrder</fieldName>
@@ -3392,7 +3261,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Details View Mode</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customDetailsAccessMode</fieldName>
@@ -3409,7 +3277,6 @@
             </specificProperties>
             <hidden>false</hidden>
             <customFieldCaption>Editable</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>editOptions</fieldName>
@@ -3423,7 +3290,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Add Field Columns</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>fieldColumnsAdded</fieldName>
@@ -3437,7 +3303,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Fields Excluded From Details View</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>fieldsExcludedFromItemDetails</fieldName>
@@ -3451,7 +3316,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Disable &lt;Add&gt; Option</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemCreationDisabled</fieldName>
@@ -3465,7 +3329,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Disable &lt;Remove&gt; Option</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemDeletionDisabled</fieldName>
@@ -3479,7 +3342,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Disable Details View</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemDetailsViewDisabled</fieldName>
@@ -3493,7 +3355,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Disable &lt;Move&gt; Option</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemMoveDisabled</fieldName>
@@ -3507,7 +3368,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Add Item Type Column</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemTypeColumnAdded</fieldName>
@@ -3518,7 +3378,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Item Type</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemTypeCustomization</fieldName>
@@ -3529,7 +3388,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Item Type</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemTypeName</fieldName>
@@ -3546,7 +3404,6 @@
             </specificProperties>
             <hidden>false</hidden>
             <customFieldCaption>Sort Items</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>listSorted</fieldName>
@@ -3557,7 +3414,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>List Type</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>listTypeName</fieldName>
@@ -3571,7 +3427,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Methods Excluded From Details View</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>methodsExcludedFromItemDetails</fieldName>
@@ -3581,7 +3436,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>parent</fieldName>
@@ -3595,7 +3449,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Add Item position Column</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>positionColumnAdded</fieldName>
@@ -3609,7 +3462,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Add toString() Column</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>stringValueColumnAdded</fieldName>
@@ -3629,7 +3481,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Auto-Discover Tree Structure</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>treeStructureDiscoverySettings</fieldName>
@@ -3656,7 +3507,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$ListCustomization)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -3670,7 +3520,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ColumnCustomization getColumnCustomization(java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -3684,7 +3533,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ListCustomization new()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -3696,7 +3544,6 @@
             </category>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>void displayItemTypeCustomization()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -3710,7 +3557,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Can Add</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemCreationEnabled</fieldName>
@@ -3721,7 +3567,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Can Delete</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemDeletionEnabled</fieldName>
@@ -3732,7 +3577,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Can Move</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemMoveEnabled</fieldName>
@@ -3749,7 +3593,6 @@
             </specificProperties>
             <hidden>false</hidden>
             <customFieldCaption>Create New List Intance On Modification</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>listInstanciationOption</fieldName>
@@ -3761,7 +3604,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ListEditOptions ListEditOptions()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -3778,7 +3620,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Shortcut Always Displayed</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>alwaysShown</fieldName>
@@ -3788,7 +3629,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customFieldCaption</fieldName>
@@ -3798,7 +3638,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>fieldName</fieldName>
@@ -3810,7 +3649,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ListItemFieldShortcut ListItemFieldShortcut()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -3827,7 +3665,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Shortcut Always Displayed</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>alwaysShown</fieldName>
@@ -3838,7 +3675,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Shortcut Caption</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>caption</fieldName>
@@ -3848,7 +3684,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customMethodCaption</fieldName>
@@ -3858,7 +3693,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>methodSignature</fieldName>
@@ -3870,7 +3704,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ListItemMethodShortcut ListItemMethodShortcut()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -3881,6 +3714,8 @@
     </typeCustomizations>
     <typeCustomizations>
         <abstractForced>false</abstractForced>
+        <customFieldsOrder>generatedFieldName</customFieldsOrder>
+        <customFieldsOrder>nullReturnValueLabel</customFieldsOrder>
         <customFieldsOrder>customValueReturnMode</customFieldsOrder>
         <customFieldsOrder>methodSignature</customFieldsOrder>
         <customFieldsOrder>hidden</customFieldsOrder>
@@ -3889,14 +3724,11 @@
         <customFieldsOrder>parametersCustomizations</customFieldsOrder>
         <customFieldsOrder>category</customFieldsOrder>
         <customFieldsOrder>onlineHelp</customFieldsOrder>
-        <customFieldsOrder>nullReturnValueLabel</customFieldsOrder>
-        <customFieldsOrder>detachedReturnValueForced</customFieldsOrder>
-        <customFieldsOrder>displayedAsField</customFieldsOrder>
         <customFieldsOrder>validating</customFieldsOrder>
         <customFieldsOrder>iconImageFile</customFieldsOrder>
+        <customFieldsOrder>detachedReturnValueForced</customFieldsOrder>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>category</fieldName>
@@ -3906,7 +3738,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>categoryOptions</fieldName>
@@ -3916,7 +3747,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customMethodCaption</fieldName>
@@ -3929,7 +3759,6 @@
                 <caption>Advanced</caption>
             </category>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customReturnValueAccessMode</fieldName>
@@ -3942,7 +3771,6 @@
                 <caption>Advanced</caption>
             </category>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customReturnValueReturnMode</fieldName>
@@ -3956,7 +3784,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Value Return Mode</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customValueReturnMode</fieldName>
@@ -3968,7 +3795,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Hide</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>hidden</fieldName>
@@ -3978,7 +3804,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>methodSignature</fieldName>
@@ -3991,7 +3816,6 @@
                 <caption>Advanced</caption>
             </category>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>nullReturnValueLabel</fieldName>
@@ -4001,7 +3825,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>onlineHelp</fieldName>
@@ -4015,7 +3838,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption></customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>parametersCustomizations</fieldName>
@@ -4066,7 +3888,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>parent</fieldName>
@@ -4077,7 +3898,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Read-Only</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>readOnlyForced</fieldName>
@@ -4087,7 +3907,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>specificProperties</fieldName>
@@ -4101,7 +3920,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Validating</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>validating</fieldName>
@@ -4115,7 +3933,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Display As Field</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>displayedAsField</fieldName>
@@ -4125,7 +3942,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>iconImageFile</fieldName>
@@ -4135,7 +3951,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>specificReturnValueTypeCustomizations</fieldName>
@@ -4149,10 +3964,22 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Detached Return Value</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>detachedReturnValueForced</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Advanced</caption>
+            </category>
+            <hidden>false</hidden>
+            <customFieldCaption>Generate Return Value Field</customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>true</displayedEncapsulated>
+            <fieldName>generatedFieldName</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -4167,7 +3994,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -4181,7 +4007,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>void setCustomValueReturnMode(xy.reflect.ui.info.ValueReturnMode)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -4195,7 +4020,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization new()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -4214,7 +4038,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Custom Caption</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customParameterCaption</fieldName>
@@ -4225,7 +4048,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Hide</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>hidden</fieldName>
@@ -4236,7 +4058,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Not Nullable</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>nullableFacetHidden</fieldName>
@@ -4246,7 +4067,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>onlineHelp</fieldName>
@@ -4257,7 +4077,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Name</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>parameterName</fieldName>
@@ -4267,7 +4086,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>specificProperties</fieldName>
@@ -4279,7 +4097,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization)</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -4288,7 +4105,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization new()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -4302,7 +4118,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Heterogeneous Tree</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>heterogeneousTree</fieldName>
@@ -4312,7 +4127,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>treeColumnFieldName</fieldName>
@@ -4324,7 +4138,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.util.InfoCustomizations$TreeStructureDiscoverySettings TreeStructureDiscoverySettings()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -4351,7 +4164,6 @@
                 <caption>Fields</caption>
             </category>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customFieldsOrder</fieldName>
@@ -4364,7 +4176,6 @@
                 <caption>Methods</caption>
             </category>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customMethodsOrder</fieldName>
@@ -4374,7 +4185,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customTypeCaption</fieldName>
@@ -4388,7 +4198,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Customize Fields Display</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>fieldsCustomizations</fieldName>
@@ -4461,11 +4270,13 @@
                     <columnsCustomOrder>onlineHelp</columnsCustomOrder>
                     <columnsCustomOrder>expandSubForm</columnsCustomOrder>
                     <columnsCustomOrder>customControlForbidden</columnsCustomOrder>
-                    <columnsCustomOrder>displayedAsMethods</columnsCustomOrder>
                     <columnsCustomOrder>displayedAsSingletonList</columnsCustomOrder>
                     <columnsCustomOrder>displayedEncapsulated</columnsCustomOrder>
-                    <columnsCustomOrder>valueOptionsFieldName</columnsCustomOrder>
                     <columnsCustomOrder>nullValueLabel</columnsCustomOrder>
+                    <columnsCustomOrder>generatedGetterName</columnsCustomOrder>
+                    <columnsCustomOrder>generatedSetterName</columnsCustomOrder>
+                    <columnsCustomOrder>customSetterName</columnsCustomOrder>
+                    <columnsCustomOrder>valueOptionsFieldName</columnsCustomOrder>
                     <columnsCustomOrder>customValueReturnMode</columnsCustomOrder>
                     <editOptions>
                         <itemCreationEnabled>false</itemCreationEnabled>
@@ -4485,7 +4296,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>iconImageFile</fieldName>
@@ -4499,7 +4309,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Allow to Classify Fields and Methods</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>memberCategories</fieldName>
@@ -4513,7 +4322,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Customize Methods Display</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>methodsCustomizations</fieldName>
@@ -4575,11 +4383,11 @@
                     <columnsCustomOrder>readOnlyForced</columnsCustomOrder>
                     <columnsCustomOrder>category</columnsCustomOrder>
                     <columnsCustomOrder>onlineHelp</columnsCustomOrder>
-                    <columnsCustomOrder>validating</columnsCustomOrder>
-                    <columnsCustomOrder>customValueReturnMode</columnsCustomOrder>
                     <columnsCustomOrder>parametersCustomizations</columnsCustomOrder>
+                    <columnsCustomOrder>generatedFieldName</columnsCustomOrder>
                     <columnsCustomOrder>nullReturnValueLabel</columnsCustomOrder>
-                    <columnsCustomOrder>displayedAsField</columnsCustomOrder>
+                    <columnsCustomOrder>customValueReturnMode</columnsCustomOrder>
+                    <columnsCustomOrder>validating</columnsCustomOrder>
                     <columnsCustomOrder>detachedReturnValueForced</columnsCustomOrder>
                     <editOptions>
                         <itemCreationEnabled>false</itemCreationEnabled>
@@ -4599,7 +4407,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>onlineHelp</fieldName>
@@ -4609,7 +4416,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>parent</fieldName>
@@ -4623,7 +4429,6 @@
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Specify (Additional) Sub-Types</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>polymorphicSubTypeFinders</fieldName>
@@ -4665,7 +4470,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>specificProperties</fieldName>
@@ -4675,7 +4479,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>typeName</fieldName>
@@ -4686,7 +4489,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Hide Undo/Redo Options</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>undoManagementHidden</fieldName>
@@ -4696,7 +4498,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>unoManagementHidden</fieldName>
@@ -4707,7 +4508,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Immutable</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>immutableForced</fieldName>
@@ -4718,7 +4518,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Abstract</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>abstractForced</fieldName>
@@ -4742,7 +4541,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$TypeCustomization)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -4756,7 +4554,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>moveField</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -4765,7 +4562,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>moveMethod</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -4774,7 +4570,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>void moveField(java.util.List, java.lang.String, int)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -4798,7 +4593,6 @@
         <methodsCustomizations>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>void moveMethod(java.util.List, java.lang.String, int)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -4838,7 +4632,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>alternative</fieldName>
@@ -4849,7 +4642,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>alternativeOptions</fieldName>
@@ -4859,7 +4651,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>fileSpecification</fieldName>
@@ -4875,7 +4666,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>CLASSPATH_RESOURCE_PREFIX</fieldName>
@@ -4885,7 +4675,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>alternativeOptions</fieldName>
@@ -4896,7 +4685,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Select</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>chosenAlternative</fieldName>
@@ -4907,7 +4695,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>file</fieldName>
@@ -4917,7 +4704,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>true</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>specification</fieldName>
@@ -4930,7 +4716,6 @@
             <hidden>false</hidden>
             <customMethodCaption>Open</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>void setFile(java.io.File)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -4954,7 +4739,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -4976,7 +4760,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -4994,7 +4777,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>xy.reflect.ui.info.type.ITypeInfo find(xy.reflect.ui.ReflectionUI)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -5013,7 +4795,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Custom Instance Type</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customInstanceTypeFinder</fieldName>
@@ -5031,7 +4812,6 @@
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <displayedAsField>false</displayedAsField>
             <methodSignature>int compareTo(xy.reflect.ui.info.type.util.InfoCustomizations$ParameterCustomization)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -5049,7 +4829,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -5065,7 +4844,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -5075,7 +4853,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5091,7 +4868,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -5107,7 +4883,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5123,7 +4898,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -5133,7 +4907,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5149,7 +4922,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -5159,7 +4931,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5175,7 +4946,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -5185,7 +4955,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5201,7 +4970,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -5211,7 +4979,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5227,7 +4994,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -5243,7 +5009,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -5259,7 +5024,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -5269,7 +5033,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5285,7 +5048,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -5295,7 +5057,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5311,7 +5072,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -5321,7 +5081,6 @@
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5343,7 +5102,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -5359,7 +5117,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>polymorphicValue</fieldName>
@@ -5375,7 +5132,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5397,7 +5153,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
@@ -5413,7 +5168,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5430,7 +5184,6 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption></customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5452,7 +5205,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5474,7 +5226,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5496,7 +5247,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5518,7 +5268,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5540,7 +5289,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5556,7 +5304,6 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5578,7 +5325,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5600,7 +5346,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>file</fieldName>
@@ -5622,7 +5367,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5644,7 +5388,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5666,7 +5409,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5688,7 +5430,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5710,7 +5451,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5732,7 +5472,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5754,7 +5493,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5776,7 +5514,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5798,7 +5535,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5820,7 +5556,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5842,7 +5577,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5865,7 +5599,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5888,7 +5621,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5910,7 +5642,6 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
@@ -5920,6 +5651,117 @@
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [context=FieldContext [fieldName=editOptions, containingType=xy.reflect.ui.info.type.util.InfoCustomizations$ListCustomization], subContext=NullableInstance, encapsulatedObjectType=xy.reflect.ui.info.type.util.InfoCustomizations$ListEditOptions]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=generatedGetterName, containingType=xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Getter Name, fieldType=java.lang.String, fieldCaption=]]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Method Name</customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [typeCaption=Generated Getter Name, fieldType=java.lang.String, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.type.util.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name, fieldType=java.lang.String, fieldCaption=]]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Method Name</customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [typeCaption=Generated Setter Name, fieldType=java.lang.String, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties>
+                <entry>
+                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
+                </entry>
+            </specificProperties>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=generatedFieldName, containingType=xy.reflect.ui.info.type.util.InfoCustomizations$MethodCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Field Name, fieldType=java.lang.String, fieldCaption=]]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <customFieldCaption>Name</customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [typeCaption=Generated Field Name, fieldType=java.lang.String, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

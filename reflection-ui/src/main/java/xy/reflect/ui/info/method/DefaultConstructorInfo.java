@@ -11,6 +11,7 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.parameter.DefaultParameterInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
 import xy.reflect.ui.util.Parameter;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -21,8 +22,7 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 	protected ReflectionUI reflectionUI;
 	protected ArrayList<IParameterInfo> parameters;
 
-	public DefaultConstructorInfo(ReflectionUI reflectionUI, ITypeInfo ownerType, Constructor<?> javaConstructor) {
-		super(ownerType);
+	public DefaultConstructorInfo(ReflectionUI reflectionUI, Constructor<?> javaConstructor) {
 		this.reflectionUI = reflectionUI;
 		this.javaConstructor = javaConstructor;
 		resolveJavaReflectionModelAccessProblems();
@@ -40,6 +40,11 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 
 	protected void resolveJavaReflectionModelAccessProblems() {
 		javaConstructor.setAccessible(true);
+	}
+
+	@Override
+	public ITypeInfo getReturnValueType() {
+		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaConstructor.getDeclaringClass()));
 	}
 
 	@Override

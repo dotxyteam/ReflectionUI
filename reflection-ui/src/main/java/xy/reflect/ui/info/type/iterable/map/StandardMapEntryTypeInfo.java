@@ -12,6 +12,7 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.info.method.InvocationData;
@@ -98,7 +99,12 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo(StandardMapEntryTypeInfo.this) {
+		return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo() {
+
+			@Override
+			public ITypeInfo getReturnValueType() {
+				return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(StandardMapEntryTypeInfo.this));
+			}
 
 			@Override
 			public Object invoke(Object object, InvocationData invocationData) {

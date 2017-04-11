@@ -456,7 +456,12 @@ public class ImplicitListField implements IFieldInfo {
 		@Override
 		public List<IMethodInfo> getAdditionalItemConstructors(final Object listValue) {
 			final Instance instance = (Instance) listValue;
-			return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo(TypeInfo.this.getItemType()) {
+			return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo() {
+
+				@Override
+				public ITypeInfo getReturnValueType() {
+					return TypeInfo.this.getItemType();
+				}
 
 				@Override
 				public Object invoke(Object nullObject, InvocationData invocationData) {

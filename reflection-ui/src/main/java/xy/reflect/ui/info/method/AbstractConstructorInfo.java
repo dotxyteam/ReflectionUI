@@ -6,18 +6,10 @@ import java.util.Map;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.parameter.IParameterInfo;
-import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public abstract class AbstractConstructorInfo implements IMethodInfo {
-
-	protected ITypeInfo ownerType;
-
-	public AbstractConstructorInfo(ITypeInfo ownerType) {
-		super();
-		this.ownerType = ownerType;
-	}
 
 	@Override
 	public String getName() {
@@ -41,11 +33,6 @@ public abstract class AbstractConstructorInfo implements IMethodInfo {
 	@Override
 	public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
 		return null;
-	}
-
-	@Override
-	public ITypeInfo getReturnValueType() {
-		return ownerType;
 	}
 
 	public static String getDescription(IMethodInfo ctor) {

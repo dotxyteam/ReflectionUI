@@ -50,9 +50,7 @@ public class DefaultMethodInfo implements IMethodInfo {
 
 	@Override
 	public String getCaption() {
-		String result = ReflectionUIUtils.identifierToCaption(javaMethod.getName());
-		result = result.replaceAll("^Get ", "Show ");
-		return result;
+		return ReflectionUIUtils.getDefaultMethodCaption(this);
 	}
 
 	@Override
