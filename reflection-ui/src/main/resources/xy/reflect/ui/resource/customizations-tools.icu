@@ -2742,7 +2742,7 @@
                 <caption>Advanced</caption>
             </category>
             <hidden>false</hidden>
-            <customFieldCaption>Value Return Mode</customFieldCaption>
+            <customFieldCaption>Value Mode</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customValueReturnMode</fieldName>
@@ -2974,6 +2974,18 @@
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>true</displayedEncapsulated>
             <fieldName>generatedSetterName</fieldName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Advanced</caption>
+            </category>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName>customSetterSignature</fieldName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -3783,7 +3795,7 @@
                 <caption>Advanced</caption>
             </category>
             <hidden>false</hidden>
-            <customFieldCaption>Value Return Mode</customFieldCaption>
+            <customFieldCaption>Return Value Mode</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customValueReturnMode</fieldName>

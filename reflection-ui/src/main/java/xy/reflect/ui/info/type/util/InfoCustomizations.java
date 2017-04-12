@@ -772,7 +772,7 @@ public class InfoCustomizations implements Serializable {
 		protected String customFieldCaption;
 		protected boolean nullableFacetHidden = false;
 		protected boolean getOnlyForced = false;
-		protected String customSetterName;
+		protected String customSetterSignature;
 		protected String valueOptionsFieldName;
 		protected ValueReturnMode customValueReturnMode;
 		protected String nullValueLabel;
@@ -782,12 +782,12 @@ public class InfoCustomizations implements Serializable {
 		protected boolean displayedEncapsulated = false;
 		protected FieldTypeSpecificities specificTypeCustomizations = new FieldTypeSpecificities();
 
-		public String getCustomSetterName() {
-			return customSetterName;
+		public String getCustomSetterSignature() {
+			return customSetterSignature;
 		}
 
-		public void setCustomSetterName(String customSetterName) {
-			this.customSetterName = customSetterName;
+		public void setCustomSetterSignature(String customSetterSignature) {
+			this.customSetterSignature = customSetterSignature;
 		}
 
 		public String getGeneratedGetterName() {
@@ -2769,7 +2769,13 @@ public class InfoCustomizations implements Serializable {
 						IMethodInfo method = ReflectionUIUtils.findMethodBySignature(containingType.getMethods(),
 								m.methodSignature);
 						if (method != null) {
-							result.add(new MethodAsField(method, m.generatedFieldName));
+							MethodAsField newField = new MethodAsField(method, m.generatedFieldName);
+							if (ReflectionUIUtils.findInfoByName(result, newField.getName()) != null) {
+								throw new ReflectionUIError("Failed to genrate field for method '"
+										+ ReflectionUIUtils.getMethodSignature(method)
+										+ "': Duplicate field name detected: '" + newField.getName() + "'");
+							}
+							result.add(newField);
 						}
 					}
 				}
@@ -2777,24 +2783,24 @@ public class InfoCustomizations implements Serializable {
 					IFieldInfo field = result.get(i);
 					final FieldCustomization f = getFieldCustomization(t, field.getName());
 					if (f != null) {
-						if(f.customSetterName != null){
+						if (f.customSetterSignature != null) {
 							field = new FieldInfoProxy(field) {
 								@Override
 								public void setValue(Object object, Object value) {
-									final String customSetterSignature = ReflectionUIUtils.getMethodSignature(new FieldAsSetter(this, f.customSetterName));
-									IMethodInfo customMethod = ReflectionUIUtils.findMethodBySignature(containingType.getMethods(),
-											customSetterSignature);
-									if(customMethod == null){
+									IMethodInfo customMethod = ReflectionUIUtils.findMethodBySignature(
+											containingType.getMethods(), f.customSetterSignature);
+									if (customMethod == null) {
 										throw new ReflectionUIError(
-												"Custom setter not found: '" + customSetterSignature + "'");									
+												"Custom setter not found: '" + f.customSetterSignature + "'");
 									}
 									customMethod.invoke(object, new InvocationData(value));
 								}
+
 								@Override
 								public boolean isGetOnly() {
 									return false;
-								}								
-							};								
+								}
+							};
 						}
 						if (f.valueOptionsFieldName != null) {
 							field = new FieldInfoProxy(field) {
@@ -2873,10 +2879,22 @@ public class InfoCustomizations implements Serializable {
 					IFieldInfo field = ReflectionUIUtils.findInfoByName(containingType.getFields(), f.fieldName);
 					if (field != null) {
 						if (f.generatedGetterName != null) {
-							result.add(new FieldAsGetter(field, f.generatedGetterName));
+							FieldAsGetter newMethod = new FieldAsGetter(field, f.generatedGetterName);
+							String newMethodSignature = ReflectionUIUtils.getMethodSignature(newMethod);
+							if (ReflectionUIUtils.findMethodBySignature(result, newMethodSignature) != null) {
+								throw new ReflectionUIError("Failed to genrate getter for field '" + field.getName()
+										+ "': Duplicate method signature detected: '" + newMethodSignature + "'");
+							}
+							result.add(newMethod);
 						}
 						if (f.generatedSetterName != null) {
-							result.add(new FieldAsSetter(field, f.generatedSetterName));
+							FieldAsSetter newMethod = new FieldAsSetter(field, f.generatedSetterName);
+							String newMethodSignature = ReflectionUIUtils.getMethodSignature(newMethod);
+							if (ReflectionUIUtils.findMethodBySignature(result, newMethodSignature) != null) {
+								throw new ReflectionUIError("Failed to genrate getter for field '" + field.getName()
+										+ "': Duplicate method signature detected: '" + newMethodSignature + "'");
+							}
+							result.add(newMethod);
 						}
 					}
 				}

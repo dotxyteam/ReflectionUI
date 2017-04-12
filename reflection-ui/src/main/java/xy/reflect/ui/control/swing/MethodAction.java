@@ -127,9 +127,8 @@ public class MethodAction extends AbstractAction {
 						if (!exceptionThrownHolder[0]) {
 							openMethodReturnValueWindow(activatorComponent);
 						}
-					} else {
-						dialogBuilder.getCreatedDialog().dispose();
 					}
+					dialogBuilder.getCreatedDialog().dispose();
 				}
 			});
 			toolbarControls.add(invokeButton);

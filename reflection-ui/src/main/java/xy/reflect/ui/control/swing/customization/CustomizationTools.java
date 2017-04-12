@@ -164,8 +164,8 @@ public class CustomizationTools {
 		final ITypeInfo customizedType = this.swingCustomizer.getReflectionUI()
 				.getTypeInfo(this.swingCustomizer.getReflectionUI().getTypeInfoSource(object));
 		final JButton result = createToolAccessButton(this.swingCustomizer.getCustomizationsIcon());
-		result.setToolTipText(
-				customizationToolsRenderer.prepareStringToDisplay(customizedType.getName() + " (Customize Display)"));
+		result.setToolTipText(customizationToolsRenderer
+				.prepareStringToDisplay("Customize Display (" + customizedType.getName() + ")"));
 		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -259,7 +259,7 @@ public class CustomizationTools {
 			final FieldControlPlaceHolder fieldControlPlaceHolder) {
 		final JButton result = createToolAccessButton(this.swingCustomizer.getCustomizationsIcon());
 		SwingRendererUtils.setMultilineToolTipText(result, customizationToolsRenderer
-				.prepareStringToDisplay(fieldControlPlaceHolder.getField().getName() + " (Customize Display)"));
+				.prepareStringToDisplay("Customize Display (" + fieldControlPlaceHolder.getField().getName() + ")"));
 		result.addActionListener(new ActionListener() {
 
 			private ITypeInfo getParentFormObjectCustomizedType() {
@@ -578,8 +578,9 @@ public class CustomizationTools {
 	public Component createMethodInfoCustomizer(final InfoCustomizations infoCustomizations,
 			final MethodControlPlaceHolder methodControlPlaceHolder) {
 		final JButton result = createToolAccessButton(this.swingCustomizer.getCustomizationsIcon());
-		SwingRendererUtils.setMultilineToolTipText(result, customizationToolsRenderer.prepareStringToDisplay(
-				ReflectionUIUtils.getMethodSignature(methodControlPlaceHolder.getMethod()) + " (Customize Display)"));
+		SwingRendererUtils.setMultilineToolTipText(result,
+				customizationToolsRenderer.prepareStringToDisplay("Customize Display ("
+						+ ReflectionUIUtils.getMethodSignature(methodControlPlaceHolder.getMethod()) + ")"));
 		result.addActionListener(new ActionListener() {
 
 			private ITypeInfo getParentFormObjectCustomizedType() {
@@ -659,14 +660,14 @@ public class CustomizationTools {
 	}
 
 	protected void updateUI(Component customizedFormComponent) {
-		JPanel form;
+		final JPanel form;
 		if (SwingRendererUtils.isForm(customizedFormComponent, this.swingCustomizer)) {
 			form = (JPanel) customizedFormComponent;
 		} else {
 			form = SwingRendererUtils.findParentForm(customizedFormComponent, this.swingCustomizer);
 		}
-		this.swingCustomizer.recreateFormContent(form);
-		this.swingCustomizer.updateFormStatusBarInBackground(form);
+		swingCustomizer.recreateFormContent(form);
+		swingCustomizer.updateFormStatusBarInBackground(form);
 	}
 
 	protected class CustomizationToolsUI extends ReflectionUI {

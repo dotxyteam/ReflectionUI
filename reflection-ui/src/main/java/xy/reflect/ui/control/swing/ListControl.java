@@ -244,8 +244,11 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			}
 			splitPane.addComponentListener(new ComponentAdapter() {
 				public void componentResized(ComponentEvent event) {
-					splitPane.setDividerLocation(dividerLocation);
-					splitPane.removeComponentListener(this);
+					if (splitPane.isShowing()) {
+						splitPane.setDividerLocation(dividerLocation);
+						splitPane.setResizeWeight(dividerLocation);
+						splitPane.removeComponentListener(this);
+					}
 				}
 			});
 		} else {
@@ -2424,7 +2427,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		@Override
 		public Object getInitialObjectValue() {
 			if (isObjectValueInitialized()) {
-				bufferedItemPosition.refreshBufferedItem();
+				bufferedItemPosition.refreshBufferedItemFromRoot();
 			}
 			return bufferedItemPosition.getItem();
 		}

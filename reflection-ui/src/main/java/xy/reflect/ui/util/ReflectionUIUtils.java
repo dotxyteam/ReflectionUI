@@ -482,9 +482,9 @@ public class ReflectionUIUtils {
 				else if (c == '\n')
 					// Handle Newline
 					if (preserveNewLines) {
-					sb.append("<br/>");
+						sb.append("<br/>");
 					} else {
-					sb.append(c);
+						sb.append(c);
 					}
 				else {
 					int ci = 0xffff & c;
