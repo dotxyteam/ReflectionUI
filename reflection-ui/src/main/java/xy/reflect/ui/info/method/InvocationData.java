@@ -20,10 +20,14 @@ public class InvocationData {
 	}
 
 	public Object getParameterValue(IParameterInfo param) {
-		if (valueByParameterPosition.containsKey(param.getPosition())) {
-			return valueByParameterPosition.get(param.getPosition());
+		return getParameterValue(param.getPosition(), param.getDefaultValue());
+	}
+
+	public Object getParameterValue(int parameterPosition, Object defaultValue) {
+		if (valueByParameterPosition.containsKey(parameterPosition)) {
+			return valueByParameterPosition.get(parameterPosition);
 		} else {
-			return param.getDefaultValue();
+			return defaultValue;
 		}
 	}
 
@@ -39,10 +43,7 @@ public class InvocationData {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime
-				* result
-				+ ((valueByParameterPosition == null) ? 0
-						: valueByParameterPosition.hashCode());
+		result = prime * result + ((valueByParameterPosition == null) ? 0 : valueByParameterPosition.hashCode());
 		return result;
 	}
 
@@ -58,8 +59,7 @@ public class InvocationData {
 		if (valueByParameterPosition == null) {
 			if (other.valueByParameterPosition != null)
 				return false;
-		} else if (!valueByParameterPosition
-				.equals(other.valueByParameterPosition))
+		} else if (!valueByParameterPosition.equals(other.valueByParameterPosition))
 			return false;
 		return true;
 	}

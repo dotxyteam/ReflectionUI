@@ -39,7 +39,7 @@ public interface IFieldInfo extends IInfo {
 		}
 
 		@Override
-		public boolean isNullable() {
+		public boolean isValueNullable() {
 			return true;
 		}
 
@@ -107,7 +107,7 @@ public interface IFieldInfo extends IInfo {
 
 	Runnable getCustomUndoUpdateJob(Object object, Object value);
 
-	boolean isNullable();
+	boolean isValueNullable();
 
 	boolean isGetOnly();
 

@@ -49,12 +49,10 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	public Class<?> getJavaType() {
 		return javaType;
 	}
-	
-	
 
 	@Override
 	public boolean isItemNullable() {
-		if(itemType == null){
+		if (itemType == null) {
 			return true;
 		}
 		return !itemType.isPrimitive();
@@ -100,7 +98,6 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 		return result;
 	}
 
-	
 	@Override
 	public Object[] toArray(Object listValue) {
 		return ((Collection<?>) listValue).toArray();
@@ -153,12 +150,14 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	}
 
 	@Override
-	public List<AbstractListAction> getDynamicActions(List<? extends ItemPosition> selection) {
+	public List<AbstractListAction> getDynamicActions(ItemPosition anyRootListItemPosition,
+			List<? extends ItemPosition> selection) {
 		return Collections.emptyList();
 	}
 
 	@Override
-	public List<AbstractListProperty> getDynamicProperties(List<? extends ItemPosition> selection) {
+	public List<AbstractListProperty> getDynamicProperties(ItemPosition anyRootListItemPosition,
+			List<? extends ItemPosition> selection) {
 		return Collections.emptyList();
 	}
 

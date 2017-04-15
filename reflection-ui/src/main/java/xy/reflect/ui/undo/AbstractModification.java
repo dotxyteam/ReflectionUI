@@ -9,7 +9,7 @@ public abstract class AbstractModification implements IModification {
 	protected Runnable undoJob;
 	protected IInfo target;
 	protected static final String UNDO_TITLE_PREFIX = "(Revert) ";
-	
+
 	protected abstract Runnable createDoJob();
 
 	protected abstract Runnable createUndoJob();
@@ -44,7 +44,7 @@ public abstract class AbstractModification implements IModification {
 
 	@Override
 	public String toString() {
-		return getTitle();
+		return "Modification [title=" + getTitle() + "]";
 	}
 
 	public static String getUndoTitle(String title) {

@@ -4273,6 +4273,22 @@
                         <columnName>customValueReturnMode</columnName>
                         <hidden>false</hidden>
                     </columnCustomizations>
+                    <columnCustomizations>
+                        <columnName>customSetterSignature</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <columnCustomizations>
+                        <columnName>customControlForbidden</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <columnCustomizations>
+                        <columnName>generatedGetterName</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <columnCustomizations>
+                        <columnName>generatedSetterName</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
                     <columnsCustomOrder>fieldName</columnsCustomOrder>
                     <columnsCustomOrder>customFieldCaption</columnsCustomOrder>
                     <columnsCustomOrder>hidden</columnsCustomOrder>
@@ -4285,9 +4301,9 @@
                     <columnsCustomOrder>displayedAsSingletonList</columnsCustomOrder>
                     <columnsCustomOrder>displayedEncapsulated</columnsCustomOrder>
                     <columnsCustomOrder>nullValueLabel</columnsCustomOrder>
+                    <columnsCustomOrder>customSetterSignature</columnsCustomOrder>
                     <columnsCustomOrder>generatedGetterName</columnsCustomOrder>
                     <columnsCustomOrder>generatedSetterName</columnsCustomOrder>
-                    <columnsCustomOrder>customSetterName</columnsCustomOrder>
                     <columnsCustomOrder>valueOptionsFieldName</columnsCustomOrder>
                     <columnsCustomOrder>customValueReturnMode</columnsCustomOrder>
                     <editOptions>

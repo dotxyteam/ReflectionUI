@@ -178,7 +178,7 @@ public class MethodAction extends AbstractAction {
 
 			@Override
 			public boolean isObjectValueNullable() {
-				return true;
+				return data.isReturnValueNullable();
 			}
 
 			@Override
@@ -212,7 +212,7 @@ public class MethodAction extends AbstractAction {
 
 			@Override
 			public String getCumulatedModificationsTitle() {
-				return InvokeMethodModification.getTitle(data);
+				return InvokeMethodModification.getTitle(input.getModificationsTarget());
 			}
 
 			@Override

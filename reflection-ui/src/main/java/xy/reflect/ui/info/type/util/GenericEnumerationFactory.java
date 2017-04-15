@@ -42,27 +42,27 @@ public class GenericEnumerationFactory {
 		this(reflectionUI, Arrays.asList(array), enumerationTypeName, typeCaption, false);
 	}
 
-	protected Map<String, Object> getItemSpecificProperties(Object arrayItem) {
+	protected Map<String, Object> getItemSpecificProperties(Object item) {
 		return Collections.emptyMap();
 	}
 
-	protected String getItemOnlineHelp(Object arrayItem) {
+	protected String getItemOnlineHelp(Object item) {
 		return null;
 	}
 
-	protected String getItemName(Object arrayItem) {
-		return "Item[value=" + arrayItem + "]";
+	protected String getItemName(Object item) {
+		return "Item[value=" + item + "]";
 	}
 
-	protected String getItemCaption(Object arrayItem) {
-		return ReflectionUIUtils.toString(reflectionUI, arrayItem);
+	protected String getItemCaption(Object item) {
+		return ReflectionUIUtils.toString(reflectionUI, item);
 	}
 
-	public Object getInstance(Object arrayItem) {
-		if (arrayItem == null) {
+	public Object getInstance(Object item) {
+		if (item == null) {
 			return null;
 		}
-		Instance result = new Instance(arrayItem);
+		Instance result = new Instance(item);
 		reflectionUI.registerPrecomputedTypeInfoObject(result, new TypeInfo());
 		return result;
 	}
@@ -117,15 +117,15 @@ public class GenericEnumerationFactory {
 	}
 
 	protected class Instance {
-		protected Object arrayItem;
+		protected Object item;
 
-		public Instance(Object arrayItem) {
+		public Instance(Object item) {
 			super();
-			this.arrayItem = arrayItem;
+			this.item = item;
 		}
 
 		public Object getArrayItem() {
-			return arrayItem;
+			return item;
 		}
 
 		@Override
@@ -133,7 +133,7 @@ public class GenericEnumerationFactory {
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + getOuterType().hashCode();
-			result = prime * result + ((arrayItem == null) ? 0 : arrayItem.hashCode());
+			result = prime * result + ((item == null) ? 0 : item.hashCode());
 			return result;
 		}
 
@@ -148,10 +148,10 @@ public class GenericEnumerationFactory {
 			Instance other = (Instance) obj;
 			if (!getOuterType().equals(other.getOuterType()))
 				return false;
-			if (arrayItem == null) {
-				if (other.arrayItem != null)
+			if (item == null) {
+				if (other.item != null)
 					return false;
-			} else if (!arrayItem.equals(other.arrayItem))
+			} else if (!item.equals(other.item))
 				return false;
 			return true;
 		}
@@ -162,7 +162,7 @@ public class GenericEnumerationFactory {
 
 		@Override
 		public String toString() {
-			return arrayItem.toString();
+			return item.toString();
 		}
 
 	}
@@ -257,40 +257,40 @@ public class GenericEnumerationFactory {
 		@Override
 		public Object[] getPossibleValues() {
 			List<Instance> result = new ArrayList<Instance>();
-			for (Object arrayItem : iterable) {
-				result.add((Instance) getInstance(arrayItem));
+			for (Object item : iterable) {
+				result.add((Instance) getInstance(item));
 			}
 			return result.toArray();
 		}
 
 		@Override
 		public IEnumerationItemInfo getValueInfo(final Object object) {
-			final Object arrayItem = unwrapInstance(object);
+			final Object item = unwrapInstance(object);
 			return new IEnumerationItemInfo() {
 
 				@Override
 				public Map<String, Object> getSpecificProperties() {
-					return getItemSpecificProperties(arrayItem);
+					return getItemSpecificProperties(item);
 				}
 
 				@Override
 				public String getOnlineHelp() {
-					return getItemOnlineHelp(arrayItem);
+					return getItemOnlineHelp(item);
 				}
 
 				@Override
 				public String getName() {
-					return getItemName(arrayItem);
+					return getItemName(item);
 				}
 
 				@Override
 				public String getCaption() {
-					return getItemCaption(arrayItem);
+					return getItemCaption(item);
 				}
 
 				@Override
 				public String toString() {
-					return arrayItem.toString();
+					return item.toString();
 				}
 			};
 		}

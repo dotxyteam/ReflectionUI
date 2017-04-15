@@ -39,6 +39,11 @@ public class DefaultMethodInfo implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isReturnValueNullable() {
+		return !getReturnValueType().isPrimitive();
+	}
+
+	@Override
 	public boolean isReturnValueDetached() {
 		return false;
 	}

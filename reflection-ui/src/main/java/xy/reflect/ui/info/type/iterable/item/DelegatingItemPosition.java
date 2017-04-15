@@ -12,7 +12,7 @@ public class DelegatingItemPosition extends ItemPosition {
 	protected ItemPosition delegate;
 
 	public DelegatingItemPosition(ItemPosition delegate) {
-		super(null, null, null, -1, -1);
+		super(null, -1);
 		this.delegate = delegate;
 	}
 
@@ -89,6 +89,9 @@ public class DelegatingItemPosition extends ItemPosition {
 	}
 
 	public Object[] retrieveContainingListRawValue() {
+		if(delegate == null){
+			return new Object[0];
+		}
 		return delegate.retrieveContainingListRawValue();
 	}
 

@@ -27,11 +27,6 @@ public class ModificationProxy implements IModification {
 	}
 
 	@Override
-	public String toString() {
-		return delegate.toString();
-	}
-
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -56,6 +51,9 @@ public class ModificationProxy implements IModification {
 		return true;
 	}
 
-	
+	@Override
+	public String toString() {
+		return "ModificationProxy [delegate=" + delegate + "]";
+	}
 
 }

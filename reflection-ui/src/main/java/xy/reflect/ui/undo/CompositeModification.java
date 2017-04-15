@@ -21,12 +21,10 @@ public class CompositeModification implements IModification {
 		this.undoOrder = undoOrder;
 		this.modifications = modifications;
 	}
-	
+
 	public CompositeModification(IInfo target, String title, UndoOrder undoOrder, List<IModification> modifications) {
 		this(target, title, undoOrder, modifications.toArray(new IModification[modifications.size()]));
 	}
-
-	
 
 	@Override
 	public IInfo getTarget() {
@@ -36,7 +34,7 @@ public class CompositeModification implements IModification {
 	@Override
 	public boolean isNull() {
 		for (IModification modif : modifications) {
-			if(!modif.isNull()){
+			if (!modif.isNull()) {
 				return false;
 			}
 		}
@@ -55,12 +53,37 @@ public class CompositeModification implements IModification {
 				throw new ReflectionUIError();
 			}
 		}
-		return new CompositeModification(target, AbstractModification.getUndoTitle(title), undoOrder, oppositeModifications);
+		return new CompositeModification(target, AbstractModification.getUndoTitle(title), undoOrder,
+				oppositeModifications);
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	@Override
-	public String toString() {
-		return getTitle();
+	public String getTitle() {
+		if (title != null) {
+			return title;
+		} else {
+			return ReflectionUIUtils.stringJoin(Arrays.asList(modifications), ", ");
+		}
+	}
+
+	public IModification[] getModifications() {
+		return modifications;
+	}
+
+	public void setModifications(IModification[] modifications) {
+		this.modifications = modifications;
+	}
+
+	public UndoOrder getUndoOrder() {
+		return undoOrder;
+	}
+
+	public void setUndoOrder(UndoOrder undoOrder) {
+		this.undoOrder = undoOrder;
 	}
 
 	@Override
@@ -94,33 +117,10 @@ public class CompositeModification implements IModification {
 		return true;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
 	@Override
-	public String getTitle() {
-		if (title != null) {
-			return title;
-		} else {
-			return ReflectionUIUtils.stringJoin(Arrays.asList(modifications), ", ");
-		}
-	}
-
-	public IModification[] getModifications() {
-		return modifications;
-	}
-
-	public void setModifications(IModification[] modifications) {
-		this.modifications = modifications;
-	}
-
-	public UndoOrder getUndoOrder() {
-		return undoOrder;
-	}
-
-	public void setUndoOrder(UndoOrder undoOrder) {
-		this.undoOrder = undoOrder;
+	public String toString() {
+		return "CompositeModification [title=" + title + ", undoOrder=" + undoOrder + ", modifications="
+				+ Arrays.toString(modifications) + "]";
 	}
 
 }

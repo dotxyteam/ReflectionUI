@@ -49,8 +49,8 @@ public class DefaultFieldControlData implements IFieldControlData {
 		return field.isGetOnly();
 	}
 
-	public boolean isNullable() {
-		return field.isNullable();
+	public boolean isValueNullable() {
+		return field.isValueNullable();
 	}
 
 	public String getNullValueLabel() {

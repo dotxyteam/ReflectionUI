@@ -1,3 +1,4 @@
+- indent toString()s
 - method controls in other category tabs are not well initialized
 	and they take too much horizontal space
 	=> chang methods layout ???
@@ -8,7 +9,7 @@
 - allow to ignore method result
 
 
-
+- reset column order option
 - reflectionUI is often excluded from hashCode() and equals()
 	=> justified ?
 - allow to specify ImplicitListField in customizations

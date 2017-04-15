@@ -33,7 +33,7 @@ public interface IParameterInfo extends IInfo {
 		}
 
 		@Override
-		public boolean isNullable() {
+		public boolean isValueNullable() {
 			return true;
 		}
 
@@ -60,7 +60,7 @@ public interface IParameterInfo extends IInfo {
 
 	ITypeInfo getType();
 
-	boolean isNullable();
+	boolean isValueNullable();
 
 	Object getDefaultValue();
 

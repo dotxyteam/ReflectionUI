@@ -63,7 +63,16 @@ public class GetterFieldInfo implements IFieldInfo {
 
 	@Override
 	public String getCaption() {
-		return ReflectionUIUtils.getDefaultFieldCaption(this);
+		String result = ReflectionUIUtils.getDefaultFieldCaption(this);
+		if (javaGetterMethod.getReturnType().equals(boolean.class)
+				|| javaGetterMethod.getReturnType().equals(Boolean.class)) {
+			if (javaGetterMethod.getName().matches("^is[A-Z].*")) {
+				result = "Is " + result;
+			} else if (javaGetterMethod.getName().matches("^has[A-Z].*")) {
+				result = "Has " + result;
+			}
+		}
+		return result;
 	}
 
 	@Override
@@ -88,7 +97,7 @@ public class GetterFieldInfo implements IFieldInfo {
 	}
 
 	@Override
-	public boolean isNullable() {
+	public boolean isValueNullable() {
 		return !getType().isPrimitive();
 	}
 

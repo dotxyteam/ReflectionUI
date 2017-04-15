@@ -17,6 +17,10 @@ public class MethodControlDataProxy implements IMethodControlData {
 		this.base = base;
 	}
 
+	public boolean isReturnValueNullable() {
+		return base.isReturnValueNullable();
+	}
+
 	public boolean isReturnValueDetached() {
 		return base.isReturnValueDetached();
 	}

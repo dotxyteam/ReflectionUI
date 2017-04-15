@@ -20,20 +20,11 @@ public class ItemPosition implements Cloneable {
 	protected IFieldInfo containingListFieldIfNotRoot;
 	protected int containingListSize;
 
-	protected ItemPosition(ItemPosition parentItemPosition, IFieldControlData containingListDataIfRoot,
-			IFieldInfo containingListFieldIfNotRoot, int containingListSize, int index) {
-		if ((containingListFieldIfNotRoot != null) && (containingListDataIfRoot != null)) {
-			throw new ReflectionUIError();
-		}
-		this.parentItemPosition = parentItemPosition;
-		this.containingListDataIfRoot = containingListDataIfRoot;
-		this.containingListFieldIfNotRoot = containingListFieldIfNotRoot;
-		this.containingListSize = containingListSize;
-		this.index = index;
-	}
-
 	public ItemPosition(IFieldControlData containingListDataIfRoot, int index) {
-		this(null, containingListDataIfRoot, null, -1, index);
+		this.parentItemPosition = null;
+		this.containingListDataIfRoot = containingListDataIfRoot;
+		this.containingListFieldIfNotRoot = null;
+		this.index = index;
 		this.containingListSize = retrieveContainingListRawValue().length;
 	}
 
@@ -147,7 +138,7 @@ public class ItemPosition implements Cloneable {
 	}
 
 	public ItemPosition getAnySubItemPosition() {
-		IListStructuralInfo treeInfo = getRootListItemPosition().getContainingListType().getStructuralInfo();
+		IListStructuralInfo treeInfo = getStructuralInfo();
 		if (treeInfo == null) {
 			return null;
 		}
@@ -165,16 +156,13 @@ public class ItemPosition implements Cloneable {
 		result.parentItemPosition = this;
 		result.containingListDataIfRoot = null;
 		result.containingListFieldIfNotRoot = subListField;
-		{
-			Object list = subListField.getValue(item);
-			if (list == null) {
-				result.containingListSize = 0;
-			} else {
-				result.containingListSize = result.getContainingListType().toArray(list).length;
-			}
-		}
 		result.index = -1;
+		result.containingListSize = result.retrieveContainingListRawValue().length;
 		return result;
+	}
+
+	public IListStructuralInfo getStructuralInfo() {
+		return getRootListItemPosition().getContainingListType().getStructuralInfo();
 	}
 
 	public List<? extends ItemPosition> getSubItemPositions() {

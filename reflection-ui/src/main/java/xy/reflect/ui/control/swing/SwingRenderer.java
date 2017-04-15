@@ -1745,7 +1745,7 @@ public class SwingRenderer {
 		public Component createFieldControl() {
 			if (!DesktopSpecificProperty
 					.isCustumControlForbidden(DesktopSpecificProperty.accessControlDataProperties(controlData))) {
-				Component result = createCustomFieldControl(this, controlData.isNullable());
+				Component result = createCustomFieldControl(this, controlData.isValueNullable());
 				if (result != null) {
 					return result;
 				}
@@ -1755,7 +1755,7 @@ public class SwingRenderer {
 			} else if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(controlData.getType())) {
 				return new PolymorphicControl(SwingRenderer.this, this);
 			} else {
-				if (controlData.isNullable()) {
+				if (controlData.isValueNullable()) {
 					return new NullableControl(SwingRenderer.this, this);
 				}
 				Object value = controlData.getValue();
@@ -1870,8 +1870,8 @@ public class SwingRenderer {
 			}
 
 			@Override
-			public boolean isNullable() {
-				return finalField.isNullable();
+			public boolean isValueNullable() {
+				return finalField.isValueNullable();
 			}
 
 			@Override
@@ -2060,6 +2060,10 @@ public class SwingRenderer {
 			}
 			final IMethodInfo finalMethod = method;
 			IMethodControlData result = new IMethodControlData() {
+				@Override
+				public boolean isReturnValueNullable() {
+					return finalMethod.isReturnValueNullable();
+				}
 
 				@Override
 				public boolean isReturnValueDetached() {

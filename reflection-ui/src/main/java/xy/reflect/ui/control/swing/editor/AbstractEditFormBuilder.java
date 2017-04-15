@@ -133,7 +133,7 @@ public abstract class AbstractEditFormBuilder {
 	public EncapsulatedObjectFactory getEncapsulation() {
 		EncapsulatedObjectFactory result = new EncapsulatedObjectFactory(getSwingRenderer().getReflectionUI(),
 				getEncapsulationTypeName(), getEncapsulationFieldType());
-		result.setTypeModificationStackAccessible(!isInReadOnlyMode());
+		result.setTypeModificationStackAccessible(isEncapsulationTypeModificationStackAccessible());
 		result.setTypeCaption(getEncapsulationTypeCaption());
 		result.setFieldCaption(getEncapsulatedFieldCaption());
 		Map<String, Object> typeSpecificProperties = new HashMap<String, Object>();
@@ -148,10 +148,9 @@ public abstract class AbstractEditFormBuilder {
 				result.setFieldName(customEncapsulationFieldName);
 			}
 		}
-		result.setFieldGetOnly(hasParentObject() ? !canReplaceObjectValue() : false);
+		result.setFieldGetOnly(isEncapsulationFieldGetOnly());
 		result.setFieldNullable(isObjectValueNullable());
-		result.setFieldValueReturnMode(
-				hasParentObject() ? getObjectValueReturnMode() : ValueReturnMode.DIRECT_OR_PROXY);
+		result.setFieldValueReturnMode(getEncapsulationFieldValueReturnMode());
 		Map<String, Object> fieldSpecificProperties = new HashMap<String, Object>();
 		{
 			DesktopSpecificProperty.setSubFormExpanded(fieldSpecificProperties, isObjectFormExpanded());
@@ -161,6 +160,26 @@ public abstract class AbstractEditFormBuilder {
 			result.setFieldSpecificProperties(fieldSpecificProperties);
 		}
 		return result;
+	}
+
+	protected ValueReturnMode getEncapsulationFieldValueReturnMode() {
+		return hasParentObject() ? getObjectValueReturnMode() : ValueReturnMode.DIRECT_OR_PROXY;
+	}
+
+	protected boolean isEncapsulationFieldGetOnly() {
+		return isInreadOnlyMode() || !canReplaceObjectValue();
+	}
+
+	protected boolean isEncapsulationTypeModificationStackAccessible() {
+		return !isInreadOnlyMode();
+	}
+
+	protected boolean refreshesEditFormOnModification() {
+		return isInreadOnlyMode();
+	}
+
+	protected boolean isInreadOnlyMode() {
+		return hasParentObject() ? !canPotentiallyModifyParentObject() : false;
 	}
 
 	protected boolean isEncapsulationTypeCustomizationAllowed() {
@@ -193,7 +212,7 @@ public abstract class AbstractEditFormBuilder {
 		ITypeInfo encapsulatedObjectType = getSwingRenderer().getReflectionUI()
 				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(encapsulatedObject));
 		IFieldInfo encapsulatedObjectField = encapsulatedObjectType.getFields().get(0);
-		if (encapsulatedObjectField.isNullable()) {
+		if (encapsulatedObjectField.isValueNullable()) {
 			return false;
 		}
 		Object object = getCurrentObjectValue();
@@ -217,7 +236,7 @@ public abstract class AbstractEditFormBuilder {
 			if (canPotentiallyModifyParentObject()) {
 				forwardEditFormModificationsToParentObject(result);
 			}
-			if (isInReadOnlyMode()) {
+			if (refreshesEditFormOnModification()) {
 				refreshEditFormOnModification(result);
 			}
 		}
@@ -234,16 +253,8 @@ public abstract class AbstractEditFormBuilder {
 		}
 		ensureObjectValueIsInitialized();
 		return ReflectionUIUtils.canPotentiallyIntegrateSubModifications(getSwingRenderer().getReflectionUI(),
-				initialObjectValue, getObjectValueReturnMode(), canCommit());
-	}
-
-	public boolean isInReadOnlyMode() {
-		if (hasParentObject()) {
-			if (!canPotentiallyModifyParentObject()) {
-				return true;
-			}
-		}
-		return false;
+				ReflectionUIUtils.isValueImmutable(getSwingRenderer().getReflectionUI(), initialObjectValue),
+				getObjectValueReturnMode(), canCommit());
 	}
 
 	protected void refreshEditFormOnModification(final JPanel form) {

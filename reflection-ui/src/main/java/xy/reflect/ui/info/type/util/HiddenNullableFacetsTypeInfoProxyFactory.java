@@ -32,7 +32,7 @@ public class HiddenNullableFacetsTypeInfoProxyFactory extends TypeInfoProxyFacto
 	}
 
 	@Override
-	protected boolean isNullable(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+	protected boolean isValueNullable(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
 		return false;
 	}
 
@@ -40,7 +40,7 @@ public class HiddenNullableFacetsTypeInfoProxyFactory extends TypeInfoProxyFacto
 	protected Object getDefaultValue(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
 		Object result = super.getDefaultValue(param, method, containingType);
 		if (result == null) {
-			if (!isNullable(param, method, containingType)) {
+			if (!isValueNullable(param, method, containingType)) {
 				result = generateDefaultValue(param, method);
 			}
 		}
@@ -54,7 +54,7 @@ public class HiddenNullableFacetsTypeInfoProxyFactory extends TypeInfoProxyFacto
 		for (IParameterInfo param : method.getParameters()) {
 			Object paramValue = invocationData.getParameterValue(param);
 			if (paramValue == null) {
-				if (!isNullable(param, method, containingType)) {
+				if (!isValueNullable(param, method, containingType)) {
 					paramValue = generateDefaultValue(param, method);
 				}
 			}
@@ -68,7 +68,7 @@ public class HiddenNullableFacetsTypeInfoProxyFactory extends TypeInfoProxyFacto
 	}
 
 	@Override
-	protected boolean isNullable(IFieldInfo field, ITypeInfo containingType) {
+	protected boolean isValueNullable(IFieldInfo field, ITypeInfo containingType) {
 		return false;
 	}
 
@@ -76,7 +76,7 @@ public class HiddenNullableFacetsTypeInfoProxyFactory extends TypeInfoProxyFacto
 	protected Object getValue(Object object, IFieldInfo field, ITypeInfo containingType) {
 		Object result = super.getValue(object, field, containingType);
 		if (result == null) {
-			if (!isNullable(field, containingType)) {
+			if (!isValueNullable(field, containingType)) {
 				result = generateDefaultValue(field);
 			}
 		}

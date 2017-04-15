@@ -22,6 +22,11 @@ public class DefaultMethodControlData implements IMethodControlData {
 	}
 
 	@Override
+	public boolean isReturnValueNullable() {
+		return method.isReturnValueNullable();
+	}
+
+	@Override
 	public boolean isReturnValueDetached() {
 		return method.isReturnValueDetached();
 	}

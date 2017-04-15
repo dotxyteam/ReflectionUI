@@ -110,8 +110,8 @@ public class SubFieldInfo implements IFieldInfo {
 	}
 
 	@Override
-	public boolean isNullable() {
-		return theField.isNullable() || theSubField.isNullable();
+	public boolean isValueNullable() {
+		return theField.isValueNullable() || theSubField.isValueNullable();
 	}
 
 	@Override

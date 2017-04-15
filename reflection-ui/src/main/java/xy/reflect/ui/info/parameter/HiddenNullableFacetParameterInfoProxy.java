@@ -31,7 +31,7 @@ public class HiddenNullableFacetParameterInfoProxy extends ParameterInfoProxy {
 	}
 
 	@Override
-	public boolean isNullable() {
+	public boolean isValueNullable() {
 		return false;
 	}
 

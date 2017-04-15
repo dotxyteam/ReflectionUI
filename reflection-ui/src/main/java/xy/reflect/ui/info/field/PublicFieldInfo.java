@@ -88,11 +88,11 @@ public class PublicFieldInfo implements IFieldInfo {
 
 	@Override
 	public String getCaption() {
-		return ReflectionUIUtils.identifierToCaption(javaField.getName());
+		return ReflectionUIUtils.getDefaultFieldCaption(this);
 	}
 
 	@Override
-	public boolean isNullable() {
+	public boolean isValueNullable() {
 		return !getType().isPrimitive();
 	}
 

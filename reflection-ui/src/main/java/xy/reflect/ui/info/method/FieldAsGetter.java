@@ -28,6 +28,11 @@ public class FieldAsGetter implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isReturnValueNullable() {
+		return field.isValueNullable();
+	}
+
+	@Override
 	public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
 		return field.getTypeSpecificities();
 	}

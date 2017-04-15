@@ -88,7 +88,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 
 			@Override
 			public boolean isObjectValueNullable() {
-				return data.isNullable();
+				return data.isValueNullable();
 			}
 
 			@Override

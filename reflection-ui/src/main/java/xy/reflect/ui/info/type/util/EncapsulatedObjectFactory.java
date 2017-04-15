@@ -477,7 +477,7 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
-		public boolean isNullable() {
+		public boolean isValueNullable() {
 			return fieldNullable;
 		}
 

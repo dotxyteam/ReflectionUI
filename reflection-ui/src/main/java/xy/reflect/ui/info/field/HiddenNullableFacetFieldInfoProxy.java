@@ -42,7 +42,7 @@ public class HiddenNullableFacetFieldInfoProxy extends FieldInfoProxy {
 	}
 
 	@Override
-	public boolean isNullable() {
+	public boolean isValueNullable() {
 		return false;
 	}
 

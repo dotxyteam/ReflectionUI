@@ -8,6 +8,15 @@ import xy.reflect.ui.info.field.IFieldInfo;
 
 public abstract class AbstractListProperty implements IFieldInfo {
 
+	public static final Object NO_OWNER = new Object() {
+
+		@Override
+		public String toString() {
+			return AbstractListProperty.class.getName() + ".NO_OWNER";
+		}
+
+	};
+
 	public boolean isEnabled() {
 		return true;
 	}
@@ -34,7 +43,7 @@ public abstract class AbstractListProperty implements IFieldInfo {
 
 	@Override
 	public String toString() {
-		return "ListProperty[getName()=" + getName() + "]";
+		return "ListProperty[name=" + getName() + "]";
 	}
 
 	@Override

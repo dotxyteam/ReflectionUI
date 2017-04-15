@@ -49,8 +49,8 @@ public class FieldInfoProxy implements IFieldInfo {
 	}
 
 	@Override
-	public boolean isNullable() {
-		return base.isNullable();
+	public boolean isValueNullable() {
+		return base.isValueNullable();
 	}
 
 	public String getNullValueLabel() {

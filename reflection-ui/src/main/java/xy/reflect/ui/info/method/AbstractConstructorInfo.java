@@ -26,6 +26,11 @@ public abstract class AbstractConstructorInfo implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isReturnValueNullable() {
+		return false;
+	}
+
+	@Override
 	public boolean isReturnValueDetached() {
 		return true;
 	}

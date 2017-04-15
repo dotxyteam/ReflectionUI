@@ -34,8 +34,8 @@ public class FieldControlDataProxy implements IFieldControlData {
 		return base.isGetOnly();
 	}
 
-	public boolean isNullable() {
-		return base.isNullable();
+	public boolean isValueNullable() {
+		return base.isValueNullable();
 	}
 
 	public String getNullValueLabel() {

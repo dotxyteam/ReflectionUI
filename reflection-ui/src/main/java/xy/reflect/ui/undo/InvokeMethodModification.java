@@ -3,14 +3,15 @@ package xy.reflect.ui.undo;
 import xy.reflect.ui.control.input.IMethodControlData;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.util.ReflectionUIError;
 
 public class InvokeMethodModification extends AbstractModification {
 
 	protected IMethodControlData data;
 	protected InvocationData invocationData;
 
-	public static String getTitle(IMethodControlData data) {
-		return data.getCaption();
+	public static String getTitle(IInfo target) {
+		return target.getCaption();
 	}
 
 	public InvokeMethodModification(IMethodControlData data, InvocationData invocationData, IInfo target) {
@@ -31,7 +32,11 @@ public class InvokeMethodModification extends AbstractModification {
 
 	@Override
 	protected Runnable createUndoJob() {
-		return data.getUndoJob(invocationData);
+		Runnable result = data.getUndoJob(invocationData);
+		if (result == null) {
+			throw new ReflectionUIError();
+		}
+		return result;
 	}
 
 	@Override
@@ -74,7 +79,5 @@ public class InvokeMethodModification extends AbstractModification {
 	public String toString() {
 		return "InvokeMethodModification [data=" + data + ", invocationData=" + invocationData + "]";
 	}
-
-	
 
 }

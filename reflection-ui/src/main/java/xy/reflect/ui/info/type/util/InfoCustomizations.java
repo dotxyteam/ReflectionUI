@@ -24,6 +24,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.input.DefaultFieldControlData;
+import xy.reflect.ui.control.input.DefaultMethodControlData;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -36,6 +38,7 @@ import xy.reflect.ui.info.method.FieldAsGetter;
 import xy.reflect.ui.info.method.FieldAsSetter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.EnumerationItemInfoProxy;
@@ -51,6 +54,9 @@ import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.undo.ControlDataValueModification;
+import xy.reflect.ui.undo.IModification;
+import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.ListModificationFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -2048,12 +2054,13 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		protected List<AbstractListProperty> getDynamicProperties(IListTypeInfo listType,
-				List<? extends ItemPosition> selection) {
+				ItemPosition anyRootListItemPosition, List<? extends ItemPosition> selection) {
 			ITypeInfo itemType = listType.getItemType();
 			final ListCustomization l = getListCustomization(InfoCustomizations.this, listType.getName(),
 					(itemType == null) ? null : itemType.getName());
 			if (l != null) {
-				List<AbstractListProperty> result = super.getDynamicProperties(listType, selection);
+				List<AbstractListProperty> result = super.getDynamicProperties(listType, anyRootListItemPosition,
+						selection);
 				result = new ArrayList<AbstractListProperty>(result);
 				for (final ListItemFieldShortcut s : l.allowedItemFieldShortcuts) {
 					final String fieldCaption;
@@ -2073,6 +2080,8 @@ public class InfoCustomizations implements Serializable {
 									AbstractListProperty property = new AbstractListProperty() {
 
 										AbstractListProperty thisProperty = this;
+										IModification oppositeItemModification;
+										IModification oppositeListModification;
 
 										@Override
 										public boolean isEnabled() {
@@ -2090,34 +2099,57 @@ public class InfoCustomizations implements Serializable {
 										}
 
 										@Override
+										public ValueReturnMode getValueReturnMode() {
+											return ValueReturnMode.combine(
+													itemPosition.getContainingListType().getItemReturnMode(),
+													itemField.getValueReturnMode());
+										}
+
+										@Override
+										public boolean isGetOnly() {
+											if (!ReflectionUIUtils.canPotentiallyIntegrateSubModifications(reflectionUI,
+													false, itemField.getValueReturnMode(), !itemField.isGetOnly())) {
+												return true;
+											}
+											if (!ReflectionUIUtils.canPotentiallyIntegrateSubModifications(reflectionUI,
+													false, itemPosition.getItemReturnMode(),
+													new ListModificationFactory(itemPosition, this)
+															.canSet(itemPosition.getIndex()))) {
+												return true;
+											}
+											return false;
+										}
+
+										@Override
 										public void setValue(Object object, Object value) {
-											itemField.setValue(item, value);
-											new ListModificationFactory(itemPosition, thisProperty)
-													.set(itemPosition.getIndex(), item).applyAndGetOpposite();
+
+											oppositeItemModification = ReflectionUIUtils.getIntegratedSubModifications(
+													reflectionUI, IModification.FAKE_MODIFICATION,
+													itemField.getValueReturnMode(), true,
+													new ControlDataValueModification(
+															new DefaultFieldControlData(item, itemField), value,
+															itemField),
+													itemField, ControlDataValueModification.getTitle(itemField));
+
+											oppositeListModification = ReflectionUIUtils.getIntegratedSubModifications(
+													reflectionUI, IModification.FAKE_MODIFICATION,
+													itemPosition.getItemReturnMode(), true,
+													new ListModificationFactory(itemPosition, thisProperty)
+															.set(itemPosition.getIndex(), item),
+													thisProperty, ControlDataValueModification.getTitle(thisProperty));
 										}
 
 										@Override
 										public Runnable getCustomUndoUpdateJob(Object object, Object value) {
-											new ListModificationFactory(itemPosition, thisProperty)
-													.set(itemPosition.getIndex(), item).applyAndGetOpposite();
-											final Runnable itemCustomUndoUpdateJob = itemField
-													.getCustomUndoUpdateJob(object, value);
-											if (itemCustomUndoUpdateJob == null) {
-												return null;
-											}
 											return new Runnable() {
 												@Override
 												public void run() {
-													itemCustomUndoUpdateJob.run();
-													new ListModificationFactory(itemPosition, thisProperty)
-															.set(itemPosition.getIndex(), item).applyAndGetOpposite();
+													oppositeItemModification.applyAndGetOpposite();
+													oppositeItemModification = null;
+													oppositeListModification.applyAndGetOpposite();
+													oppositeListModification = null;
 												}
 											};
-										}
-
-										@Override
-										public boolean isNullable() {
-											return itemField.isNullable();
 										}
 
 										@Override
@@ -2126,16 +2158,8 @@ public class InfoCustomizations implements Serializable {
 										}
 
 										@Override
-										public boolean isGetOnly() {
-											return !new ListModificationFactory(itemPosition, this)
-													.canSet(itemPosition.getIndex()) || itemField.isGetOnly();
-										}
-
-										@Override
-										public ValueReturnMode getValueReturnMode() {
-											return ValueReturnMode.combine(
-													itemPosition.getContainingListType().getItemReturnMode(),
-													itemField.getValueReturnMode());
+										public boolean isValueNullable() {
+											return itemField.isValueNullable();
 										}
 
 										@Override
@@ -2185,7 +2209,7 @@ public class InfoCustomizations implements Serializable {
 							}
 
 							@Override
-							public boolean isNullable() {
+							public boolean isValueNullable() {
 								throw new UnsupportedOperationException();
 							}
 
@@ -2221,17 +2245,17 @@ public class InfoCustomizations implements Serializable {
 				}
 				return result;
 			}
-			return super.getDynamicProperties(listType, selection);
+			return super.getDynamicProperties(listType, anyRootListItemPosition, selection);
 		}
 
 		@Override
 		protected List<AbstractListAction> getDynamicActions(IListTypeInfo listType,
-				List<? extends ItemPosition> selection) {
+				ItemPosition anyRootListItemPosition, List<? extends ItemPosition> selection) {
 			ITypeInfo itemType = listType.getItemType();
 			final ListCustomization l = getListCustomization(InfoCustomizations.this, listType.getName(),
 					(itemType == null) ? null : itemType.getName());
 			if (l != null) {
-				List<AbstractListAction> result = super.getDynamicActions(listType, selection);
+				List<AbstractListAction> result = super.getDynamicActions(listType, anyRootListItemPosition, selection);
 				result = new ArrayList<AbstractListAction>(result);
 
 				for (final ListItemMethodShortcut s : l.allowedItemMethodShortcuts) {
@@ -2253,6 +2277,8 @@ public class InfoCustomizations implements Serializable {
 									AbstractListAction action = new AbstractListAction() {
 
 										AbstractListAction thisAction = this;
+										IModification oppositeItemModification;
+										IModification oppositeListModification;
 
 										@Override
 										public String getName() {
@@ -2270,21 +2296,13 @@ public class InfoCustomizations implements Serializable {
 										}
 
 										@Override
-										public boolean isReadOnly() {
-											return !new ListModificationFactory(itemPosition, thisAction)
-													.canSet(itemPosition.getIndex()) || itemMethod.isReadOnly();
-										}
-
-										@Override
 										public String getNullReturnValueLabel() {
 											return itemMethod.getNullReturnValueLabel();
 										}
 
 										@Override
-										public ValueReturnMode getValueReturnMode() {
-											return ValueReturnMode.combine(
-													itemPosition.getContainingListType().getItemReturnMode(),
-													itemMethod.getValueReturnMode());
+										public boolean isReturnValueNullable() {
+											return itemMethod.isReturnValueNullable();
 										}
 
 										@Override
@@ -2309,27 +2327,77 @@ public class InfoCustomizations implements Serializable {
 										}
 
 										@Override
+										public ValueReturnMode getValueReturnMode() {
+											return ValueReturnMode.combine(
+													itemPosition.getContainingListType().getItemReturnMode(),
+													itemMethod.getValueReturnMode());
+										}
+
+										@Override
+										public boolean isReadOnly() {
+											if (!ReflectionUIUtils.canPotentiallyIntegrateSubModifications(reflectionUI,
+													false, itemMethod.getValueReturnMode(), false)) {
+												return true;
+											}
+											if (!ReflectionUIUtils.canPotentiallyIntegrateSubModifications(reflectionUI,
+													false, itemPosition.getItemReturnMode(),
+													new ListModificationFactory(itemPosition, this)
+															.canSet(itemPosition.getIndex()))) {
+												return true;
+											}
+											return false;
+										}
+
+										@Override
 										public Object invoke(Object object, InvocationData invocationData) {
-											Object result = itemMethod.invoke(item, invocationData);
-											new ListModificationFactory(itemPosition, thisAction)
-													.set(itemPosition.getIndex(), item).applyAndGetOpposite();
+											Object result;
+											if (itemMethod.getUndoJob(item, invocationData) == null) {
+												result = itemMethod.invoke(item, invocationData);
+											} else {
+												final Object[] resultHolder = new Object[1];
+												oppositeItemModification = ReflectionUIUtils
+														.getIntegratedSubModifications(reflectionUI,
+																IModification.FAKE_MODIFICATION,
+																itemMethod.getValueReturnMode(), true,
+																new InvokeMethodModification(
+																		new DefaultMethodControlData(item,
+																				new MethodInfoProxy(itemMethod) {
+																					@Override
+																					public Object invoke(Object object,
+																							InvocationData invocationData) {
+																						resultHolder[0] = super.invoke(
+																								object, invocationData);
+																						return resultHolder[0];
+																					}
+																				}),
+																		invocationData, itemMethod),
+																itemMethod,
+																InvokeMethodModification.getTitle(itemMethod));
+												result = resultHolder[0];
+											}
+
+											oppositeListModification = ReflectionUIUtils.getIntegratedSubModifications(
+													reflectionUI, IModification.FAKE_MODIFICATION,
+													itemPosition.getItemReturnMode(), true,
+													new ListModificationFactory(itemPosition, thisAction)
+															.set(itemPosition.getIndex(), item),
+													thisAction, ControlDataValueModification.getTitle(thisAction));
+
 											return result;
 										}
 
 										@Override
 										public Runnable getUndoJob(Object object, final InvocationData invocationData) {
-											final Runnable itemUndoJob = itemMethod.getUndoJob(item, invocationData);
-											if (itemUndoJob == null) {
+											if (itemMethod.getUndoJob(item, invocationData) == null) {
 												return null;
 											}
 											return new Runnable() {
-
 												@Override
 												public void run() {
-													itemUndoJob.run();
-													new ListModificationFactory(itemPosition, thisAction)
-															.set(itemPosition.getIndex(), item).applyAndGetOpposite()
-															.applyAndGetOpposite();
+													oppositeItemModification.applyAndGetOpposite();
+													oppositeItemModification = null;
+													oppositeListModification.applyAndGetOpposite();
+													oppositeListModification = null;
 												}
 
 											};
@@ -2345,6 +2413,11 @@ public class InfoCustomizations implements Serializable {
 					}
 					if ((!methodFound) && s.alwaysShown) {
 						result.add(new AbstractListAction() {
+
+							@Override
+							public boolean isReturnValueNullable() {
+								return false;
+							}
 
 							@Override
 							public String getName() {
@@ -2376,7 +2449,7 @@ public class InfoCustomizations implements Serializable {
 				}
 				return result;
 			}
-			return super.getDynamicActions(listType, selection);
+			return super.getDynamicActions(listType, anyRootListItemPosition, selection);
 		}
 
 		@Override
@@ -2621,7 +2694,7 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		@Override
-		protected boolean isNullable(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+		protected boolean isValueNullable(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
 			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
 			if (t != null) {
 				MethodCustomization m = getMethodCustomization(t, ReflectionUIUtils.getMethodSignature(method));
@@ -2634,7 +2707,7 @@ public class InfoCustomizations implements Serializable {
 					}
 				}
 			}
-			return param.isNullable();
+			return param.isValueNullable();
 		}
 
 		@Override
@@ -2655,7 +2728,7 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		@Override
-		protected boolean isNullable(IFieldInfo field, ITypeInfo containingType) {
+		protected boolean isValueNullable(IFieldInfo field, ITypeInfo containingType) {
 			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
 			if (t != null) {
 				FieldCustomization f = getFieldCustomization(t, field.getName());
@@ -2665,7 +2738,7 @@ public class InfoCustomizations implements Serializable {
 					}
 				}
 			}
-			return field.isNullable();
+			return field.isValueNullable();
 		}
 
 		@Override

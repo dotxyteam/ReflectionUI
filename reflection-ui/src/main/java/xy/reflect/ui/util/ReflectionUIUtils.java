@@ -786,6 +786,17 @@ public class ReflectionUIUtils {
 		}
 	}
 
+	public static IModification getIntegratedSubModifications(ReflectionUI reflectionUI,
+			IModification childUndoModification, ValueReturnMode childValueReturnMode, boolean childValueReplaced,
+			IModification commitModif, IInfo compositeModifTarget, String compositeModifTitle) {
+		ModificationStack parentModifStack = new ModificationStack(null);
+		ModificationStack childModifStack = new ModificationStack(null);
+		childModifStack.pushUndo(childUndoModification);
+		integrateSubModifications(reflectionUI, parentModifStack, childModifStack, true, childValueReturnMode,
+				childValueReplaced, commitModif, compositeModifTarget, compositeModifTitle);
+		return parentModifStack.toCompositeModification(compositeModifTarget, compositeModifTitle);
+	}
+
 	public static boolean integrateSubModifications(ReflectionUI reflectionUI, final ModificationStack parentModifStack,
 			final ModificationStack childModifStack, boolean childModifAccepted,
 			final ValueReturnMode childValueReturnMode, final boolean childValueReplaced,
@@ -838,9 +849,9 @@ public class ReflectionUIUtils {
 		return parentValueImpacted;
 	}
 
-	public static boolean canPotentiallyIntegrateSubModifications(ReflectionUI reflectionUI, Object value,
-			ValueReturnMode childValueReturnMode, boolean canCommit) {
-		if ((childValueReturnMode != ValueReturnMode.CALCULATED) && !isValueImmutable(reflectionUI, value)) {
+	public static boolean canPotentiallyIntegrateSubModifications(ReflectionUI reflectionUI,
+			boolean childValueImmutable, ValueReturnMode childValueReturnMode, boolean canCommit) {
+		if ((childValueReturnMode != ValueReturnMode.CALCULATED) && !childValueImmutable) {
 			return true;
 		}
 		if (canCommit) {
@@ -916,15 +927,9 @@ public class ReflectionUIUtils {
 
 	public static String getDefaultFieldCaption(IFieldInfo field) {
 		String result = ReflectionUIUtils.identifierToCaption(field.getName());
-		if (field.getType().getName().equals(Boolean.class.getName())
-				|| field.getType().getName().equals(boolean.class.getName())) {
-			if (field.getName().matches("^is[A-Z].*")) {
-				result = "Is " + result;
-			} else if (field.getName().matches("^has[A-Z].*")) {
-				result = "Has " + result;
-			}
-		}
 		return result;
 	}
+	
+	
 
 }

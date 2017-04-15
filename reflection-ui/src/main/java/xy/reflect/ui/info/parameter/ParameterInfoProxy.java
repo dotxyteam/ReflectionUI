@@ -25,8 +25,8 @@ public class ParameterInfoProxy implements IParameterInfo {
 		return base.getType();
 	}
 
-	public boolean isNullable() {
-		return base.isNullable();
+	public boolean isValueNullable() {
+		return base.isValueNullable();
 	}
 
 	public Object getDefaultValue() {

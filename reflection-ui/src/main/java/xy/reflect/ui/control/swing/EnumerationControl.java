@@ -58,7 +58,7 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 
 	protected List<Object> collectPossibleValues() {
 		List<Object> result = new ArrayList<Object>(Arrays.asList(enumType.getPossibleValues()));
-		if (data.isNullable()) {
+		if (data.isValueNullable()) {
 			result.add(0, null);
 		}
 		return result;

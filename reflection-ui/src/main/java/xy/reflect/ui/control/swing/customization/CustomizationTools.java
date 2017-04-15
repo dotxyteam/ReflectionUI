@@ -164,8 +164,8 @@ public class CustomizationTools {
 		final ITypeInfo customizedType = this.swingCustomizer.getReflectionUI()
 				.getTypeInfo(this.swingCustomizer.getReflectionUI().getTypeInfoSource(object));
 		final JButton result = createToolAccessButton(this.swingCustomizer.getCustomizationsIcon());
-		result.setToolTipText(customizationToolsRenderer
-				.prepareStringToDisplay("Customize Display (" + customizedType.getName() + ")"));
+		result.setToolTipText(
+				customizationToolsRenderer.prepareStringToDisplay(getCustomizationTitle(customizedType.getName())));
 		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -259,7 +259,7 @@ public class CustomizationTools {
 			final FieldControlPlaceHolder fieldControlPlaceHolder) {
 		final JButton result = createToolAccessButton(this.swingCustomizer.getCustomizationsIcon());
 		SwingRendererUtils.setMultilineToolTipText(result, customizationToolsRenderer
-				.prepareStringToDisplay("Customize Display (" + fieldControlPlaceHolder.getField().getName() + ")"));
+				.prepareStringToDisplay(getCustomizationTitle(fieldControlPlaceHolder.getField().getName())));
 		result.addActionListener(new ActionListener() {
 
 			private ITypeInfo getParentFormObjectCustomizedType() {
@@ -578,9 +578,8 @@ public class CustomizationTools {
 	public Component createMethodInfoCustomizer(final InfoCustomizations infoCustomizations,
 			final MethodControlPlaceHolder methodControlPlaceHolder) {
 		final JButton result = createToolAccessButton(this.swingCustomizer.getCustomizationsIcon());
-		SwingRendererUtils.setMultilineToolTipText(result,
-				customizationToolsRenderer.prepareStringToDisplay("Customize Display ("
-						+ ReflectionUIUtils.getMethodSignature(methodControlPlaceHolder.getMethod()) + ")"));
+		SwingRendererUtils.setMultilineToolTipText(result, customizationToolsRenderer.prepareStringToDisplay(
+				getCustomizationTitle(ReflectionUIUtils.getMethodSignature(methodControlPlaceHolder.getMethod()))));
 		result.addActionListener(new ActionListener() {
 
 			private ITypeInfo getParentFormObjectCustomizedType() {
@@ -656,6 +655,14 @@ public class CustomizationTools {
 				showMenu(popupMenu, result);
 			}
 		});
+		return result;
+	}
+
+	protected String getCustomizationTitle(String targetName) {
+		String result = "Customize";
+		if (targetName.length() > 0) {
+			result += " (" + targetName + ")";
+		}
 		return result;
 	}
 
@@ -759,6 +766,11 @@ public class CustomizationTools {
 
 		protected IMethodInfo getListItemTypeCustomizationDisplayMethod(final InfoCustomizations infoCustomizations) {
 			return new IMethodInfo() {
+
+				@Override
+				public boolean isReturnValueNullable() {
+					return false;
+				}
 
 				@Override
 				public boolean isReturnValueDetached() {
@@ -914,7 +926,7 @@ public class CustomizationTools {
 				}
 
 				@Override
-				public boolean isNullable() {
+				public boolean isValueNullable() {
 					return false;
 				}
 
@@ -1004,7 +1016,7 @@ public class CustomizationTools {
 				}
 
 				@Override
-				public boolean isNullable() {
+				public boolean isValueNullable() {
 					return false;
 				}
 
@@ -1103,7 +1115,7 @@ public class CustomizationTools {
 				}
 
 				@Override
-				public boolean isNullable() {
+				public boolean isValueNullable() {
 					return false;
 				}
 

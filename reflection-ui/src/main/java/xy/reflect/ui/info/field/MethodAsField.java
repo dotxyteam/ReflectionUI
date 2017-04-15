@@ -77,7 +77,7 @@ public class MethodAsField implements IFieldInfo {
 	}
 
 	@Override
-	public boolean isNullable() {
+	public boolean isValueNullable() {
 		return !getType().isPrimitive();
 	}
 

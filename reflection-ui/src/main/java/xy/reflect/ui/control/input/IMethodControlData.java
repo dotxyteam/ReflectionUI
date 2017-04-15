@@ -35,4 +35,6 @@ public interface IMethodControlData {
 	String getMethodSignature();
 
 	boolean isReturnValueDetached();
+
+	boolean isReturnValueNullable();
 }

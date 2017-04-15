@@ -11,7 +11,7 @@
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>&lt;HTML&gt;theException (Customize Display)&lt;/HTML&gt;</visibleString>
+        <visibleString>&lt;HTML&gt;Customize (theException)&lt;/HTML&gt;</visibleString>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
@@ -109,7 +109,7 @@
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
         <occurrencesToSkip>1</occurrencesToSkip>
-        <visibleString>&lt;HTML&gt; (Customize Display)&lt;/HTML&gt;</visibleString>
+        <visibleString>&lt;HTML&gt;Customize&lt;/HTML&gt;</visibleString>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
@@ -269,7 +269,7 @@
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>&lt;HTML&gt;anyObject (Customize Display)&lt;/HTML&gt;</visibleString>
+        <visibleString>&lt;HTML&gt;Customize (anyObject)&lt;/HTML&gt;</visibleString>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
@@ -355,7 +355,7 @@
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>&lt;HTML&gt;theChoice (Customize Display)&lt;/HTML&gt;</visibleString>
+        <visibleString>&lt;HTML&gt;Customize (theChoice)&lt;/HTML&gt;</visibleString>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
@@ -442,7 +442,7 @@
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>&lt;HTML&gt;theChoice (Customize Display)&lt;/HTML&gt;</visibleString>
+        <visibleString>&lt;HTML&gt;Customize (theChoice)&lt;/HTML&gt;</visibleString>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
@@ -560,7 +560,7 @@
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>&lt;HTML&gt;theString (Customize Display)&lt;/HTML&gt;</visibleString>
+        <visibleString>&lt;HTML&gt;Customize (theString)&lt;/HTML&gt;</visibleString>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
@@ -594,14 +594,50 @@
     </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
-      <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
-        <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Display As Getter/Setter</visibleString>
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>javax.swing.JCheckBox</componentClassName>
+        <occurrencesToSkip>11</occurrencesToSkip>
         <windowIndex>1</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.SendKeysAction>
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>xy.reflect.ui.control.swing.TextControl$2</componentClassName>
+        <occurrencesToSkip>1</occurrencesToSkip>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <keyboardInteractions>
+        <xy.ui.testing.action.component.SendKeysAction_-WriteText>
+          <text>getTheString</text>
+        </xy.ui.testing.action.component.SendKeysAction_-WriteText>
+      </keyboardInteractions>
+      <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
+    </xy.ui.testing.action.component.SendKeysAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>javax.swing.JCheckBox</componentClassName>
+        <occurrencesToSkip>12</occurrencesToSkip>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <doubleClick>false</doubleClick>
+      <poupTrigger>false</poupTrigger>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.SendKeysAction>
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>xy.reflect.ui.control.swing.TextControl$2</componentClassName>
+        <occurrencesToSkip>2</occurrencesToSkip>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <keyboardInteractions>
+        <xy.ui.testing.action.component.SendKeysAction_-WriteText>
+          <text>updateTheString</text>
+        </xy.ui.testing.action.component.SendKeysAction_-WriteText>
+      </keyboardInteractions>
+      <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
+    </xy.ui.testing.action.component.SendKeysAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
@@ -625,7 +661,7 @@
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>&lt;HTML&gt;theDate (Customize Display)&lt;/HTML&gt;</visibleString>
+        <visibleString>&lt;HTML&gt;Customize (theDate)&lt;/HTML&gt;</visibleString>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
@@ -673,7 +709,7 @@
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>&lt;HTML&gt;theDate (Customize Display)&lt;/HTML&gt;</visibleString>
+        <visibleString>&lt;HTML&gt;Customize (theDate)&lt;/HTML&gt;</visibleString>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
@@ -744,7 +780,7 @@
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>&lt;HTML&gt;theChoiceOptions (Customize Display)&lt;/HTML&gt;</visibleString>
+        <visibleString>&lt;HTML&gt;Customize (theChoiceOptions)&lt;/HTML&gt;</visibleString>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>
@@ -792,7 +828,7 @@
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.VisibleStringComponentFinder">
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>&lt;HTML&gt;theChoiceOptions (Customize Display)&lt;/HTML&gt;</visibleString>
+        <visibleString>&lt;HTML&gt;Customize (theChoiceOptions)&lt;/HTML&gt;</visibleString>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <doubleClick>false</doubleClick>

@@ -3,55 +3,55 @@ package xy.reflect.ui.info.type.iterable.item;
 import java.util.ArrayList;
 import java.util.List;
 
-import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.control.input.IFieldControlData;
 
 public class BufferedItemPosition extends ItemPosition {
 
-	protected ItemPosition standardItemPosition;
+	protected static final Object NULL_BUFFERED_ITEM_REMEMBERED = new Object() {
+		@Override
+		public String toString() {
+			return "NULL_BUFFERED_ITEM_REMEMBERED";
+		}
+
+	};
 	protected Object bufferedItem;
+	protected Object[] bufferedContainingListRawValue;
+	protected BufferedItemPosition bufferedAnySubItemPosition;
 
-	public BufferedItemPosition(ItemPosition standardItemPosition) {
-		super(null, standardItemPosition.containingListDataIfRoot, standardItemPosition.containingListFieldIfNotRoot,
-				standardItemPosition.containingListSize, standardItemPosition.index);
-		if (standardItemPosition instanceof BufferedItemPosition) {
-			throw new ReflectionUIError();
-		}
-		this.standardItemPosition = standardItemPosition;
-		this.parentItemPosition = createBufferedParentItemPosition();
-	}
-
-	protected BufferedItemPosition createBufferedParentItemPosition() {
-		ItemPosition standardParentItemPosition = standardItemPosition.parentItemPosition;
-		if (standardParentItemPosition != null) {
-			parentItemPosition = new BufferedItemPosition(standardParentItemPosition);
-		}
-		return null;
+	public BufferedItemPosition(IFieldControlData containingListDataIfRoot, int index) {
+		super(containingListDataIfRoot, index);
 	}
 
 	@Override
 	public Object getItem() {
 		if (bufferedItem == null) {
-			if ((index >= 0) && (index < containingListSize)) {
-				refreshBufferedItemFromParent();
-			}
+			setBufferedItem(super.getItem());
 		}
-		return bufferedItem;
+		if (bufferedItem == NULL_BUFFERED_ITEM_REMEMBERED) {
+			return null;
+		} else {
+			return bufferedItem;
+		}
 	}
 
 	public void setBufferedItem(Object item) {
-		this.bufferedItem = item;
+		if (item == null) {
+			bufferedItem = NULL_BUFFERED_ITEM_REMEMBERED;
+		}else{
+			bufferedItem = item;			
+		}
 	}
 
-	public void refreshBufferedItemFromRoot() {
-		setBufferedItem(standardItemPosition.getItem());
-	}
-
-	public void refreshBufferedItemFromParent() {
-		setBufferedItem(super.getItem());
-	}
-
-	public ItemPosition getStandardItemPosition() {
-		return standardItemPosition;
+	public void refreshBranch() {
+		if (!isRoot()) {
+			((BufferedItemPosition) parentItemPosition).refreshBranch();
+		}
+		Object[] newContainingListRawValue = super.retrieveContainingListRawValue();
+		if ((index >= 0) && (index < newContainingListRawValue.length)) {
+			setBufferedItem(newContainingListRawValue[index]);
+		} else {
+			setBufferedItem(null);
+		}
 	}
 
 	@Override
@@ -91,14 +91,24 @@ public class BufferedItemPosition extends ItemPosition {
 
 	@Override
 	public BufferedItemPosition getAnySubItemPosition() {
-		BufferedItemPosition result = (BufferedItemPosition) super.getAnySubItemPosition();
-		if (result != null) {
-			result.standardItemPosition = new ItemPosition(standardItemPosition, null,
-					result.containingListFieldIfNotRoot, result.containingListSize, result.index);
-			result.parentItemPosition = this;
-			result.bufferedItem = null;
+		if (bufferedAnySubItemPosition == null) {
+			bufferedAnySubItemPosition = (BufferedItemPosition) super.getAnySubItemPosition();
+			if (bufferedAnySubItemPosition != null) {
+				bufferedAnySubItemPosition.bufferedContainingListRawValue = null;
+				bufferedAnySubItemPosition.retrieveContainingListRawValue();
+				bufferedAnySubItemPosition.containingListSize = bufferedAnySubItemPosition.bufferedContainingListRawValue.length;
+			}
 		}
-		return result;
+		return bufferedAnySubItemPosition;
+
+	}
+
+	@Override
+	public Object[] retrieveContainingListRawValue() {
+		if (bufferedContainingListRawValue == null) {
+			bufferedContainingListRawValue = super.retrieveContainingListRawValue();
+		}
+		return bufferedContainingListRawValue;
 	}
 
 	@Override
@@ -114,8 +124,7 @@ public class BufferedItemPosition extends ItemPosition {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((bufferedItem == null) ? 0 : bufferedItem.hashCode());
-		result = prime * result + ((standardItemPosition == null) ? 0 : standardItemPosition.hashCode());
+		result = prime * result + ((getItem() == null) ? 0 : getItem().hashCode());
 		return result;
 	}
 
@@ -128,15 +137,10 @@ public class BufferedItemPosition extends ItemPosition {
 		if (getClass() != obj.getClass())
 			return false;
 		BufferedItemPosition other = (BufferedItemPosition) obj;
-		if (bufferedItem == null) {
-			if (other.bufferedItem != null)
+		if (getItem() == null) {
+			if (other.getItem() != null)
 				return false;
-		} else if (!bufferedItem.equals(other.bufferedItem))
-			return false;
-		if (standardItemPosition == null) {
-			if (other.standardItemPosition != null)
-				return false;
-		} else if (!standardItemPosition.equals(other.standardItemPosition))
+		} else if (!getItem().equals(other.getItem()))
 			return false;
 		return true;
 	}

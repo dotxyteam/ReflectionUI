@@ -103,7 +103,7 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 	}
 
 	@Override
-	public boolean isNullable() {
+	public boolean isValueNullable() {
 		return false;
 	}
 

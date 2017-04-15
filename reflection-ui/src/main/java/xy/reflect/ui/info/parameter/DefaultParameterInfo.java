@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.field.FieldInfoProxy;
+import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.Parameter;
@@ -27,7 +29,17 @@ public class DefaultParameterInfo implements IParameterInfo {
 
 	@Override
 	public String getCaption() {
-		String result = ReflectionUIUtils.identifierToCaption(getName());
+		String result = ReflectionUIUtils.getDefaultFieldCaption(new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
+			@Override
+			public ITypeInfo getType() {
+				return DefaultParameterInfo.this.getType();
+			}
+
+			@Override
+			public String getName() {
+				return DefaultParameterInfo.this.getName();
+			}
+		});
 		if (javaParameter.getName() == Parameter.NO_NAME) {
 			result += " (" + getType().getCaption() + ")";
 		}
@@ -83,7 +95,7 @@ public class DefaultParameterInfo implements IParameterInfo {
 	}
 
 	@Override
-	public boolean isNullable() {
+	public boolean isValueNullable() {
 		return !getType().isPrimitive();
 	}
 

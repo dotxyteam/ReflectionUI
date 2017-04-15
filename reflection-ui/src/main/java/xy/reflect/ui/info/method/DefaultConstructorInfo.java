@@ -48,6 +48,11 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 	}
 
 	@Override
+	public boolean isReturnValueNullable() {
+		return !getReturnValueType().isPrimitive();
+	}
+
+	@Override
 	public boolean isReturnValueDetached() {
 		return false;
 	}

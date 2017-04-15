@@ -227,8 +227,8 @@ public class MethodSetupObjectFactory {
 		}
 
 		@Override
-		public boolean isNullable() {
-			return param.isNullable();
+		public boolean isValueNullable() {
+			return param.isValueNullable();
 		}
 
 		@Override

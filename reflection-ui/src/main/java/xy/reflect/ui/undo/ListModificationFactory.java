@@ -10,11 +10,9 @@ import xy.reflect.ui.control.input.IFieldControlData;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
-import xy.reflect.ui.info.type.iterable.item.BufferedItemPosition;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.util.ReflectionUIError;
 
-@SuppressWarnings("unused")
 public class ListModificationFactory {
 
 	protected ItemPosition anyItemPosition;
@@ -170,14 +168,15 @@ public class ListModificationFactory {
 				updateListValue(listData, listRawValue);
 			} else {
 				ItemPosition parentItemPosition = itemPosition.getParentItemPosition();
-
-				Object[] parentListRawValue = parentItemPosition.retrieveContainingListRawValue();
-				Object parentItem = parentListRawValue[parentItemPosition.getIndex()];
+				Object parentItem = parentItemPosition.getItem();
 
 				updateListValue(new DefaultFieldControlData(parentItem, itemPosition.getContainingListFieldIfNotRoot()),
 						listRawValue);
 
-				parentListRawValue[parentItemPosition.getIndex()] = parentItem;
+				Object[] parentListRawValue = parentItemPosition.retrieveContainingListRawValue();
+				if (parentItem != parentListRawValue[parentItemPosition.getIndex()]) {
+					parentListRawValue[parentItemPosition.getIndex()] = parentItem;
+				}
 				updateListValueRecursively(parentItemPosition, parentListRawValue);
 			}
 		}
@@ -186,13 +185,8 @@ public class ListModificationFactory {
 			IListTypeInfo listType = (IListTypeInfo) listData.getType();
 			if (listType.canReplaceContent()) {
 				if (listData.getValueReturnMode() == ValueReturnMode.DIRECT_OR_PROXY) {
-					final Object listValue = listData.getValue();
-					undoModifications.add(0, new ChangeListContentModification(new FieldControlDataProxy(listData) {
-						@Override
-						public Object getValue() {
-							return listValue;
-						}
-					}, newListRawValue, target).applyAndGetOpposite());
+					undoModifications.add(0,
+							new ChangeListContentModification(listData, newListRawValue, target).applyAndGetOpposite());
 					return;
 				}
 				if (!listData.isGetOnly()) {

@@ -31,7 +31,7 @@ public interface IFieldControlData {
 
 	ValueReturnMode getValueReturnMode();
 
-	boolean isNullable();
+	boolean isValueNullable();
 
 	String getNullValueLabel();
 

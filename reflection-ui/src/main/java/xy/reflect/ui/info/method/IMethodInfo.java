@@ -21,6 +21,11 @@ public interface IMethodInfo extends IInfo {
 		}
 
 		@Override
+		public boolean isReturnValueNullable() {
+			return false;
+		}
+
+		@Override
 		public boolean isReturnValueDetached() {
 			return false;
 		}
@@ -116,7 +121,9 @@ public interface IMethodInfo extends IInfo {
 
 	ITypeInfoProxyFactory getReturnValueTypeSpecificities();
 	
-	boolean isReturnValueDetached(); 
+	boolean isReturnValueDetached();
+
+	boolean isReturnValueNullable(); 
 	
 
 }

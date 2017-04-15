@@ -80,7 +80,7 @@ public class ImplicitListField implements IFieldInfo {
 
 	@Override
 	public String getCaption() {
-		return ReflectionUIUtils.identifierToCaption(getName());
+		return ReflectionUIUtils.getDefaultFieldCaption(this);
 	}
 
 	@Override
@@ -147,7 +147,7 @@ public class ImplicitListField implements IFieldInfo {
 	}
 
 	@Override
-	public boolean isNullable() {
+	public boolean isValueNullable() {
 		return false;
 	}
 
@@ -439,12 +439,14 @@ public class ImplicitListField implements IFieldInfo {
 		}
 
 		@Override
-		public List<AbstractListAction> getDynamicActions(List<? extends ItemPosition> selection) {
+		public List<AbstractListAction> getDynamicActions(ItemPosition anyRootListItemPosition,
+				List<? extends ItemPosition> selection) {
 			return Collections.emptyList();
 		}
 
 		@Override
-		public List<AbstractListProperty> getDynamicProperties(List<? extends ItemPosition> selection) {
+		public List<AbstractListProperty> getDynamicProperties(ItemPosition anyRootListItemPosition,
+				List<? extends ItemPosition> selection) {
 			return Collections.emptyList();
 		}
 

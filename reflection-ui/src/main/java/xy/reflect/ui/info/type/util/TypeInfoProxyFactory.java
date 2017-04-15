@@ -143,8 +143,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return wrapParameterType(param.getType());
 	}
 
-	protected boolean isNullable(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
-		return param.isNullable();
+	protected boolean isValueNullable(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+		return param.isValueNullable();
 	}
 
 	protected String getCaption(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
@@ -175,8 +175,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return field.getValueOptions(object);
 	}
 
-	protected boolean isNullable(IFieldInfo field, ITypeInfo containingType) {
-		return field.isNullable();
+	protected boolean isValueNullable(IFieldInfo field, ITypeInfo containingType) {
+		return field.isValueNullable();
 	}
 
 	protected String getNullValueLabel(IFieldInfo field, ITypeInfo containingType) {
@@ -252,6 +252,10 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return method.getReturnValueTypeSpecificities();
 	}
 
+	protected boolean isReturnValueNullable(IMethodInfo method, ITypeInfo containingType) {
+		return method.isReturnValueNullable();
+	}
+
 	protected boolean isReturnValueDetached(IMethodInfo method, ITypeInfo containingType) {
 		return method.isReturnValueDetached();
 	}
@@ -288,13 +292,14 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return type.canReplaceContent();
 	}
 
-	protected List<AbstractListAction> getDynamicActions(IListTypeInfo type, List<? extends ItemPosition> selection) {
-		return type.getDynamicActions(selection);
+	protected List<AbstractListAction> getDynamicActions(IListTypeInfo type, ItemPosition anyRootListItemPosition,
+			List<? extends ItemPosition> selection) {
+		return type.getDynamicActions(anyRootListItemPosition, selection);
 	}
 
-	protected List<AbstractListProperty> getDynamicProperties(IListTypeInfo type,
+	protected List<AbstractListProperty> getDynamicProperties(IListTypeInfo type, ItemPosition anyRootListItemPosition,
 			List<? extends ItemPosition> selection) {
-		return type.getDynamicProperties(selection);
+		return type.getDynamicProperties(anyRootListItemPosition, selection);
 	}
 
 	protected List<IMethodInfo> getAdditionalItemConstructors(IListTypeInfo type, Object listValue) {
@@ -617,8 +622,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 				Collections.reverse(factoryIds);
 				if (factoryIds.contains(factory.getIdentifier())) {
 					StringBuilder msg = new StringBuilder();
-					msg.append("Duplicate proxy creation detected:"
-							+ "\nNew proxy factory identifier:\n- "
+					msg.append("Duplicate proxy creation detected:" + "\nNew proxy factory identifier:\n- "
 							+ TypeInfoProxyFactory.this.getIdentifier() + "\nExisting factories identifers:\n");
 					for (String id : factoryIds) {
 						msg.append("- " + id + "\n");
@@ -709,13 +713,17 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		}
 
 		@Override
-		public List<AbstractListAction> getDynamicActions(List<? extends ItemPosition> selection) {
-			return TypeInfoProxyFactory.this.getDynamicActions((IListTypeInfo) base, selection);
+		public List<AbstractListAction> getDynamicActions(ItemPosition anyRootListItemPosition,
+				List<? extends ItemPosition> selection) {
+			return TypeInfoProxyFactory.this.getDynamicActions((IListTypeInfo) base, anyRootListItemPosition,
+					selection);
 		}
 
 		@Override
-		public List<AbstractListProperty> getDynamicProperties(List<? extends ItemPosition> selection) {
-			return TypeInfoProxyFactory.this.getDynamicProperties((IListTypeInfo) base, selection);
+		public List<AbstractListProperty> getDynamicProperties(ItemPosition anyRootListItemPosition,
+				List<? extends ItemPosition> selection) {
+			return TypeInfoProxyFactory.this.getDynamicProperties((IListTypeInfo) base, anyRootListItemPosition,
+					selection);
 		}
 
 		@Override
@@ -832,8 +840,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		}
 
 		@Override
-		public boolean isNullable() {
-			return TypeInfoProxyFactory.this.isNullable(base, containingType);
+		public boolean isValueNullable() {
+			return TypeInfoProxyFactory.this.isValueNullable(base, containingType);
 		}
 
 		@Override
@@ -958,6 +966,11 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		@Override
 		public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
 			return TypeInfoProxyFactory.this.getReturnValueTypeSpecificities(base, containingType);
+		}
+
+		@Override
+		public boolean isReturnValueNullable() {
+			return TypeInfoProxyFactory.this.isReturnValueNullable(base, containingType);
 		}
 
 		@Override
@@ -1103,8 +1116,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		}
 
 		@Override
-		public boolean isNullable() {
-			return TypeInfoProxyFactory.this.isNullable(base, method, containingType);
+		public boolean isValueNullable() {
+			return TypeInfoProxyFactory.this.isValueNullable(base, method, containingType);
 		}
 
 		@Override

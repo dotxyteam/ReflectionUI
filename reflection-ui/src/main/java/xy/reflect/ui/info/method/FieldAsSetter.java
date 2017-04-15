@@ -36,8 +36,8 @@ public class FieldAsSetter implements IMethodInfo {
 		}
 
 		@Override
-		public boolean isNullable() {
-			return field.isNullable();
+		public boolean isValueNullable() {
+			return field.isValueNullable();
 		}
 
 		@Override
@@ -51,10 +51,15 @@ public class FieldAsSetter implements IMethodInfo {
 		}
 
 	};
-	
+
 	public FieldAsSetter(IFieldInfo field, String setterName) {
 		this.field = field;
 		this.setterName = setterName;
+	}
+
+	@Override
+	public boolean isReturnValueNullable() {
+		return false;
 	}
 
 	@Override
@@ -100,7 +105,7 @@ public class FieldAsSetter implements IMethodInfo {
 
 	@Override
 	public List<IParameterInfo> getParameters() {
-		return Collections.<IParameterInfo> singletonList(parameter);
+		return Collections.<IParameterInfo>singletonList(parameter);
 	}
 
 	@Override
