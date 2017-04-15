@@ -2,6 +2,7 @@ package xy.reflect.ui.control.swing.customization;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.io.File;
 import java.io.IOException;
@@ -82,8 +83,7 @@ public class SwingCustomizer extends SwingRenderer {
 			mainCustomizationsControl.add(customizationTools.createTypeInfoCustomizer(infoCustomizations, object),
 					BorderLayout.CENTER);
 			mainCustomizationsControl.add(customizationTools.createSaveControl(), BorderLayout.EAST);
-			mainCustomizationsControl.setBorder(
-					BorderFactory.createEmptyBorder(getLayoutSpacing(), 0, 0, 0));
+			mainCustomizationsControl.setBorder(BorderFactory.createEmptyBorder(getLayoutSpacing(), 0, 0, 0));
 			form.add(SwingRendererUtils.flowInLayout(mainCustomizationsControl, GridBagConstraints.CENTER),
 					BorderLayout.NORTH);
 		}
@@ -126,6 +126,18 @@ public class SwingCustomizer extends SwingRenderer {
 		return new MethodControlPlaceHolder(form, method) {
 			private static final long serialVersionUID = 1L;
 			protected Component infoCustomizationsComponent;
+
+			@Override
+			public Dimension getPreferredSize() {
+				Dimension result = super.getPreferredSize();
+				if (result == null) {
+					return result;
+				}
+				if (infoCustomizationsComponent != null) {
+					result.width += infoCustomizationsComponent.getWidth();
+				}
+				return result;
+			}
 
 			@Override
 			public void refreshUI(boolean recreate) {

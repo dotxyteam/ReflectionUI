@@ -222,7 +222,7 @@ public class MethodAction extends AbstractAction {
 
 			@Override
 			public IInfoFilter getObjectFormFilter() {
-				return IInfoFilter.NO_FILTER;
+				return IInfoFilter.DEFAULT;
 			}
 
 			@Override

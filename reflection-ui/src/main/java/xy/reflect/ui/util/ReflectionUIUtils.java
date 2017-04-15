@@ -786,13 +786,13 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static IModification getIntegratedSubModifications(ReflectionUI reflectionUI,
-			IModification childUndoModification, ValueReturnMode childValueReturnMode, boolean childValueReplaced,
+	public static IModification integrateSubModifications(ReflectionUI reflectionUI,
+			IModification childUndoModification, boolean childModifAccepted,ValueReturnMode childValueReturnMode, boolean childValueReplaced,
 			IModification commitModif, IInfo compositeModifTarget, String compositeModifTitle) {
 		ModificationStack parentModifStack = new ModificationStack(null);
 		ModificationStack childModifStack = new ModificationStack(null);
 		childModifStack.pushUndo(childUndoModification);
-		integrateSubModifications(reflectionUI, parentModifStack, childModifStack, true, childValueReturnMode,
+		integrateSubModifications(reflectionUI, parentModifStack, childModifStack, childModifAccepted, childValueReturnMode,
 				childValueReplaced, commitModif, compositeModifTarget, compositeModifTitle);
 		return parentModifStack.toCompositeModification(compositeModifTarget, compositeModifTitle);
 	}

@@ -101,7 +101,7 @@ public class StandardEditorBuilder extends AbstractEditorBuilder {
 
 	@Override
 	public IInfoFilter getObjectFormFilter() {
-		return IInfoFilter.NO_FILTER;
+		return IInfoFilter.DEFAULT;
 	}
 
 	@Override

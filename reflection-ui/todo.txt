@@ -7,7 +7,10 @@
 - allow to set (min) list size ???
 - move member small bug: need to do it twice sometimes
 - allow to ignore method result
-
+- should not need to exclude list item members:
+	columns should be able to feed from the uncustomized type???
+	but what about items inside and outside the list at the same time ???
+	=> think about it
 
 - reset column order option
 - reflectionUI is often excluded from hashCode() and equals()

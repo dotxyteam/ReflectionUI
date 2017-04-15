@@ -111,7 +111,7 @@ public class SwingRenderer {
 	protected Map<String, InvocationData> lastInvocationDataByMethodSignature = new HashMap<String, InvocationData>();
 	protected Map<FieldControlPlaceHolder, Component> captionControlByFieldControlPlaceHolder = new MapMaker()
 			.weakKeys().makeMap();
-	protected Map<JPanel, JTabbedPane> categoriesTabbedPaneByForm = new MapMaker().weakKeys().makeMap();
+	protected Map<JPanel, Container> categoriesTabbedPaneByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, Boolean> busyIndicationDisabledByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, Boolean> refreshRequestQueuedByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, Boolean> refreshRequestExecutingByForm = new MapMaker().weakKeys().makeMap();
@@ -241,7 +241,7 @@ public class SwingRenderer {
 		return new FieldControlPlaceHolder(form, field);
 	}
 
-	public JPanel createFieldsPanel(List<FieldControlPlaceHolder> fielControlPlaceHolders) {
+	public Container createFieldsPanel(List<FieldControlPlaceHolder> fielControlPlaceHolders) {
 		JPanel fieldsPanel = new JPanel();
 		fieldsPanel.setLayout(new GridBagLayout());
 		for (int i = 0; i < fielControlPlaceHolders.size(); i++) {
@@ -283,39 +283,16 @@ public class SwingRenderer {
 		return new MethodAction(this, input);
 	}
 
-	public JPanel createMethodsPanel(final List<MethodControlPlaceHolder> methodControlPlaceHolders) {
-		JPanel methodsPanel = new JPanel();
-		methodsPanel.setLayout(new WrapLayout(WrapLayout.CENTER, getLayoutSpacing(), getLayoutSpacing()));
-		for (final Component methodControl : methodControlPlaceHolders) {
-			JPanel methodControlContainer = new JPanel() {
-				protected static final long serialVersionUID = 1L;
-
-				@Override
-				public Dimension getPreferredSize() {
-					Dimension result = super.getPreferredSize();
-					if (result == null) {
-						return super.getPreferredSize();
-					}
-					int maxMethodControlWidth = 0;
-					for (final Component methodControl : methodControlPlaceHolders) {
-						Dimension controlPreferredSize = methodControl.getPreferredSize();
-						if (controlPreferredSize != null) {
-							maxMethodControlWidth = Math.max(maxMethodControlWidth, controlPreferredSize.width);
-						}
-					}
-					result.width = maxMethodControlWidth;
-					return result;
-				}
-			};
-
-			methodControlContainer.setLayout(new BorderLayout());
-			methodControlContainer.add(methodControl, BorderLayout.CENTER);
-			methodsPanel.add(methodControlContainer);
+	public Container createMethodsPanel(final List<MethodControlPlaceHolder> methodControlPlaceHolders) {
+		Container result = new JPanel();
+		result.setLayout(new WrapLayout(WrapLayout.CENTER, getLayoutSpacing(), getLayoutSpacing()));
+		for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHolders) {
+			result.add(methodControlPlaceHolder);
 		}
-		return methodsPanel;
+		return result;
 	}
 
-	public JTabbedPane createMultipleInfoCategoriesComponent(final SortedSet<InfoCategory> allCategories,
+	public Container createMultipleInfoCategoriesComponent(final SortedSet<InfoCategory> allCategories,
 			Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
 			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory) {
 		final JTabbedPane tabbedPane = new JTabbedPane();
@@ -342,7 +319,7 @@ public class SwingRenderer {
 	}
 
 	public JPanel createForm(Object object) {
-		return createForm(object, IInfoFilter.NO_FILTER);
+		return createForm(object, IInfoFilter.DEFAULT);
 	}
 
 	public JPanel createForm(final Object object, IInfoFilter infoFilter) {
@@ -548,7 +525,7 @@ public class SwingRenderer {
 				});
 
 			}
-			final JScrollPane scrollPane = new JScrollPane(new ScrollPaneOptions(content, true, false));
+			final JScrollPane scrollPane = createWindowScrollPane(content);
 			scrollPane.getViewport().setOpaque(false);
 			contentPane.add(scrollPane, BorderLayout.CENTER);
 		}
@@ -558,6 +535,10 @@ public class SwingRenderer {
 			}
 		}
 		return contentPane;
+	}
+
+	public JScrollPane createWindowScrollPane(Component content) {
+		return new JScrollPane(new ScrollPaneOptions(content, true, false));
 	}
 
 	public void recreateFormContent(final JPanel form) {
@@ -602,7 +583,7 @@ public class SwingRenderer {
 	}
 
 	public void setDisplayedInfoCategory(JPanel form, InfoCategory category) {
-		JTabbedPane categoriesControl = categoriesTabbedPaneByForm.get(form);
+		JTabbedPane categoriesControl = (JTabbedPane) categoriesTabbedPaneByForm.get(form);
 		if (categoriesControl != null) {
 			for (int i = 0; i < categoriesControl.getTabCount(); i++) {
 				String categoryCaption = categoriesControl.getTitleAt(i);
@@ -620,7 +601,7 @@ public class SwingRenderer {
 	}
 
 	public InfoCategory getDisplayedInfoCategory(JPanel form) {
-		JTabbedPane categoriesControl = categoriesTabbedPaneByForm.get(form);
+		JTabbedPane categoriesControl = (JTabbedPane) categoriesTabbedPaneByForm.get(form);
 		if (categoriesControl != null) {
 			int currentCategoryIndex = categoriesControl.getSelectedIndex();
 			if (currentCategoryIndex != -1) {
@@ -698,7 +679,7 @@ public class SwingRenderer {
 		} else if (allCategories.size() > 0) {
 			form.add(formContent, BorderLayout.CENTER);
 			formContent.setLayout(new BorderLayout());
-			JTabbedPane categoriesControl = createMultipleInfoCategoriesComponent(allCategories,
+			Container categoriesControl = createMultipleInfoCategoriesComponent(allCategories,
 					fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory);
 			categoriesTabbedPaneByForm.put(form, categoriesControl);
 			formContent.add(categoriesControl, BorderLayout.CENTER);
@@ -793,7 +774,7 @@ public class SwingRenderer {
 		openErrorDialog(activatorComponent, "An Error Occured", t);
 	}
 
-	public void layoutControlPanels(JPanel parentForm, JPanel fieldsPanel, JPanel methodsPanel) {
+	public void layoutControlPanels(JPanel parentForm, Container fieldsPanel, Container methodsPanel) {
 		parentForm.setLayout(new BorderLayout());
 		if (fieldsPanel != null) {
 			parentForm.add(fieldsPanel, BorderLayout.CENTER);
@@ -805,8 +786,9 @@ public class SwingRenderer {
 
 	public void layoutControls(List<FieldControlPlaceHolder> fielControlPlaceHolders,
 			final List<MethodControlPlaceHolder> methodControlPlaceHolders, JPanel parentForm) {
-		JPanel fieldsPanel = (fielControlPlaceHolders.size() == 0) ? null : createFieldsPanel(fielControlPlaceHolders);
-		JPanel methodsPanel = (methodControlPlaceHolders.size() == 0) ? null
+		Container fieldsPanel = (fielControlPlaceHolders.size() == 0) ? null
+				: createFieldsPanel(fielControlPlaceHolders);
+		Container methodsPanel = (methodControlPlaceHolders.size() == 0) ? null
 				: createMethodsPanel(methodControlPlaceHolders);
 		layoutControlPanels(parentForm, fieldsPanel, methodsPanel);
 	}
@@ -1071,8 +1053,7 @@ public class SwingRenderer {
 	}
 
 	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object) {
-		return openObjectDialog(activatorComponent, object, null, null, false,
-				true);
+		return openObjectDialog(activatorComponent, object, null, null, false, true);
 	}
 
 	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object, final String title,
@@ -1939,6 +1920,24 @@ public class SwingRenderer {
 			this.method = method;
 			setLayout(new BorderLayout());
 			refreshUI(false);
+		}
+
+		@Override
+		public Dimension getPreferredSize() {
+			Dimension result = super.getPreferredSize();
+			if (result == null) {
+				return super.getPreferredSize();
+			}
+			int maxMethodControlWidth = 0;
+			for (final MethodControlPlaceHolder methodControlPlaceHolder : getMethodControlPlaceHolders(form)) {
+				Component methodControl = methodControlPlaceHolder.getMethodControl();
+				Dimension controlPreferredSize = methodControl.getPreferredSize();
+				if (controlPreferredSize != null) {
+					maxMethodControlWidth = Math.max(maxMethodControlWidth, controlPreferredSize.width);
+				}
+			}
+			result.width = maxMethodControlWidth;
+			return result;
 		}
 
 		public IMethodControlData makeMethodModificationsUndoable(final IMethodControlData data) {

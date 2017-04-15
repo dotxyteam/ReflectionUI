@@ -1726,7 +1726,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 					@Override
 					public IInfoFilter getObjectFormFilter() {
-						return IInfoFilter.NO_FILTER;
+						return IInfoFilter.DEFAULT;
 					}
 				};
 				subDialogBuilder.showDialog();
@@ -1909,7 +1909,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			detailsControl = new ItemUIBuilder(detailsControlItemPosition).createForm(true);
 			detailsArea.removeAll();
 			detailsArea.setLayout(new BorderLayout());
-			detailsArea.add(new JScrollPane(detailsControl), BorderLayout.CENTER);
+			detailsArea.add(swingRenderer.createWindowScrollPane(detailsControl), BorderLayout.CENTER);
 			detailsArea.add(swingRenderer.createStatusBar(detailsControl), BorderLayout.NORTH);
 			swingRenderer.updateFormStatusBarInBackground(detailsControl);
 			SwingRendererUtils.handleComponentSizeChange(ListControl.this);

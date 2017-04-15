@@ -237,7 +237,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 				IInfoFilter result = DesktopSpecificProperty
 						.getFilter(DesktopSpecificProperty.accessControlDataProperties(data));
 				if (result == null) {
-					result = IInfoFilter.NO_FILTER;
+					result = IInfoFilter.DEFAULT;
 				}
 				return result;
 			}

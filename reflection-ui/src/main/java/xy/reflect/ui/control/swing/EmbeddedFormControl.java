@@ -149,7 +149,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 					.getFilter(DesktopSpecificProperty.accessControlDataProperties(data));
 			{
 				if (filter == null) {
-					filter = IInfoFilter.NO_FILTER;
+					filter = IInfoFilter.DEFAULT;
 				}
 			}
 			subForm = swingRenderer.createForm(subFormObject, filter);

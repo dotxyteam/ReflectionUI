@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -503,9 +504,9 @@ public class InfoCustomizations implements Serializable {
 		protected boolean undoManagementHidden = false;
 		protected boolean immutableForced = false;
 		protected boolean abstractForced = false;
-
 		protected List<ITypeInfoFinder> polymorphicSubTypeFinders = new ArrayList<ITypeInfoFinder>();
 
+		
 		public String getTypeName() {
 			return typeName;
 		}
@@ -2123,16 +2124,16 @@ public class InfoCustomizations implements Serializable {
 										@Override
 										public void setValue(Object object, Object value) {
 
-											oppositeItemModification = ReflectionUIUtils.getIntegratedSubModifications(
-													reflectionUI, IModification.FAKE_MODIFICATION,
+											oppositeItemModification = ReflectionUIUtils.integrateSubModifications(
+													reflectionUI, IModification.FAKE_MODIFICATION, true,
 													itemField.getValueReturnMode(), true,
 													new ControlDataValueModification(
 															new DefaultFieldControlData(item, itemField), value,
 															itemField),
 													itemField, ControlDataValueModification.getTitle(itemField));
 
-											oppositeListModification = ReflectionUIUtils.getIntegratedSubModifications(
-													reflectionUI, IModification.FAKE_MODIFICATION,
+											oppositeListModification = ReflectionUIUtils.integrateSubModifications(
+													reflectionUI, IModification.FAKE_MODIFICATION, true,
 													itemPosition.getItemReturnMode(), true,
 													new ListModificationFactory(itemPosition, thisProperty)
 															.set(itemPosition.getIndex(), item),
@@ -2355,29 +2356,25 @@ public class InfoCustomizations implements Serializable {
 												result = itemMethod.invoke(item, invocationData);
 											} else {
 												final Object[] resultHolder = new Object[1];
-												oppositeItemModification = ReflectionUIUtils
-														.getIntegratedSubModifications(reflectionUI,
-																IModification.FAKE_MODIFICATION,
-																itemMethod.getValueReturnMode(), true,
-																new InvokeMethodModification(
-																		new DefaultMethodControlData(item,
-																				new MethodInfoProxy(itemMethod) {
-																					@Override
-																					public Object invoke(Object object,
-																							InvocationData invocationData) {
-																						resultHolder[0] = super.invoke(
-																								object, invocationData);
-																						return resultHolder[0];
-																					}
-																				}),
-																		invocationData, itemMethod),
-																itemMethod,
-																InvokeMethodModification.getTitle(itemMethod));
+												oppositeItemModification = ReflectionUIUtils.integrateSubModifications(
+														reflectionUI, IModification.FAKE_MODIFICATION, true,
+														itemMethod.getValueReturnMode(), true,
+														new InvokeMethodModification(new DefaultMethodControlData(item,
+																new MethodInfoProxy(itemMethod) {
+																	@Override
+																	public Object invoke(Object object,
+																			InvocationData invocationData) {
+																		resultHolder[0] = super.invoke(object,
+																				invocationData);
+																		return resultHolder[0];
+																	}
+																}), invocationData, itemMethod),
+														itemMethod, InvokeMethodModification.getTitle(itemMethod));
 												result = resultHolder[0];
 											}
 
-											oppositeListModification = ReflectionUIUtils.getIntegratedSubModifications(
-													reflectionUI, IModification.FAKE_MODIFICATION,
+											oppositeListModification = ReflectionUIUtils.integrateSubModifications(
+													reflectionUI, IModification.FAKE_MODIFICATION, true,
 													itemPosition.getItemReturnMode(), true,
 													new ListModificationFactory(itemPosition, thisAction)
 															.set(itemPosition.getIndex(), item),

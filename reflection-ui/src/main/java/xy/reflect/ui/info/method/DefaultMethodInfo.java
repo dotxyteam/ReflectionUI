@@ -140,11 +140,6 @@ public class DefaultMethodInfo implements IMethodInfo {
 		if (javaMethod.isBridge()) {
 			return false;
 		}
-		for (Method commonMethod : Object.class.getMethods()) {
-			if (ReflectionUIUtils.isOverridenBy(commonMethod, javaMethod)) {
-				return false;
-			}
-		}
 		if (GetterFieldInfo.isCompatibleWith(javaMethod, containingJavaClass)) {
 			return false;
 		}
@@ -156,9 +151,6 @@ public class DefaultMethodInfo implements IMethodInfo {
 					}
 				}
 			}
-		}
-		if (ReflectionUIUtils.isJavaClassMainMethod(javaMethod)) {
-			return false;
 		}
 		return true;
 	}

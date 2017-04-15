@@ -161,7 +161,7 @@ public class SwingRendererUtils {
 		return SwingUtilities.getWindowAncestor(c);
 	}
 
-	public static Component flowInLayout(Component c, int gridBagConstraintsAnchor) {
+	public static JPanel flowInLayout(Component c, int gridBagConstraintsAnchor) {
 		JPanel result = new JPanel();
 		result.setLayout(new GridBagLayout());
 		GridBagConstraints contraints = new GridBagConstraints();

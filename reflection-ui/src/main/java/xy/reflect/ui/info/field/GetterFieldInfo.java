@@ -195,11 +195,6 @@ public class GetterFieldInfo implements IFieldInfo {
 		if (javaMethod.getParameterTypes().length > 0) {
 			return false;
 		}
-		for (Method commonMethod : Object.class.getMethods()) {
-			if (ReflectionUIUtils.isOverridenBy(commonMethod, javaMethod)) {
-				return false;
-			}
-		}
 		if (javaMethod.getExceptionTypes().length > 0) {
 			return false;
 		}
