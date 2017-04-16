@@ -96,7 +96,7 @@ public class ImplicitListField implements IFieldInfo {
 	@Override
 	public IListTypeInfo getType() {
 		if (type == null) {
-			type = new TypeInfo();
+			type = new ValueTypeInfo();
 		}
 		return type;
 	}
@@ -108,8 +108,8 @@ public class ImplicitListField implements IFieldInfo {
 
 	@Override
 	public Object getValue(Object object) {
-		Object result = new Instance(object);
-		reflectionUI.registerPrecomputedTypeInfoObject(result, new TypeInfo());
+		Object result = new ValueInstance(object);
+		reflectionUI.registerPrecomputedTypeInfoObject(result, new ValueTypeInfo());
 		return result;
 	}
 
@@ -120,7 +120,7 @@ public class ImplicitListField implements IFieldInfo {
 
 	@Override
 	public void setValue(Object object, Object value) {
-		Instance implicitListFieldValue = (Instance) value;
+		ValueInstance implicitListFieldValue = (ValueInstance) value;
 		if (!this.equals(implicitListFieldValue.getImplicitListField())) {
 			throw new ReflectionUIError();
 		}
@@ -237,11 +237,11 @@ public class ImplicitListField implements IFieldInfo {
 		return true;
 	}
 
-	protected class Instance {
+	protected class ValueInstance {
 		protected Object object;
 		protected Object[] array;
 
-		public Instance(Object object) {
+		public ValueInstance(Object object) {
 			this.object = object;
 			array = buildArrayFromObject();
 		}
@@ -256,7 +256,7 @@ public class ImplicitListField implements IFieldInfo {
 			return result.toArray();
 		}
 
-		public Instance(Object[] precomputedArray) {
+		public ValueInstance(Object[] precomputedArray) {
 			this.array = precomputedArray;
 		}
 
@@ -285,7 +285,7 @@ public class ImplicitListField implements IFieldInfo {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			Instance other = (Instance) obj;
+			ValueInstance other = (ValueInstance) obj;
 			if (!Arrays.equals(getArray(), other.getArray())) {
 				return false;
 			}
@@ -294,12 +294,12 @@ public class ImplicitListField implements IFieldInfo {
 
 		@Override
 		public String toString() {
-			return Instance.class.getSimpleName() + ": " + Arrays.toString(getArray());
+			return ValueInstance.class.getSimpleName() + ": " + Arrays.toString(getArray());
 		}
 
 	}
 
-	protected class TypeInfo implements IListTypeInfo {
+	protected class ValueTypeInfo implements IListTypeInfo {
 
 		@Override
 		public boolean isItemNullable() {
@@ -328,7 +328,7 @@ public class ImplicitListField implements IFieldInfo {
 
 		@Override
 		public String getCaption() {
-			return ReflectionUIUtils.identifierToCaption(getName());
+			return ReflectionUIUtils.getDefaultListTypeCaption(this);
 		}
 
 		@Override
@@ -337,7 +337,7 @@ public class ImplicitListField implements IFieldInfo {
 
 		@Override
 		public boolean supportsInstance(Object object) {
-			return object instanceof Instance;
+			return object instanceof ValueInstance;
 		}
 
 		@Override
@@ -382,7 +382,7 @@ public class ImplicitListField implements IFieldInfo {
 
 		@Override
 		public Object[] toArray(Object listValue) {
-			Instance implicitListFieldValue = (Instance) listValue;
+			ValueInstance implicitListFieldValue = (ValueInstance) listValue;
 			return implicitListFieldValue.getArray();
 
 		}
@@ -394,13 +394,13 @@ public class ImplicitListField implements IFieldInfo {
 
 		@Override
 		public void replaceContent(Object listValue, Object[] array) {
-			Instance implicitListFieldValue = (Instance) listValue;
+			ValueInstance implicitListFieldValue = (ValueInstance) listValue;
 			implicitListFieldValue.array = array;
 		}
 
 		@Override
 		public Object fromArray(Object[] array) {
-			return new Instance(array);
+			return new ValueInstance(array);
 		}
 
 		@Override
@@ -457,12 +457,12 @@ public class ImplicitListField implements IFieldInfo {
 
 		@Override
 		public List<IMethodInfo> getAdditionalItemConstructors(final Object listValue) {
-			final Instance instance = (Instance) listValue;
+			final ValueInstance instance = (ValueInstance) listValue;
 			return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo() {
 
 				@Override
 				public ITypeInfo getReturnValueType() {
-					return TypeInfo.this.getItemType();
+					return ValueTypeInfo.this.getItemType();
 				}
 
 				@Override

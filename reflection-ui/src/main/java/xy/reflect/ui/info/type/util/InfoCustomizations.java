@@ -27,19 +27,26 @@ import javax.xml.bind.annotation.XmlRootElement;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.input.DefaultFieldControlData;
 import xy.reflect.ui.control.input.DefaultMethodControlData;
+import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.ValueAsListField;
+import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.filter.InfoFilterProxy;
+import xy.reflect.ui.info.field.EncapsulatedMethodField;
 import xy.reflect.ui.info.field.EncapsulatedValueField;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MethodAsField;
+import xy.reflect.ui.info.field.MethodParametersField;
+import xy.reflect.ui.info.field.SubFieldInfo;
 import xy.reflect.ui.info.method.FieldAsGetter;
 import xy.reflect.ui.info.method.FieldAsSetter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
+import xy.reflect.ui.info.method.SubMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.EnumerationItemInfoProxy;
@@ -63,6 +70,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
 
+@SuppressWarnings("unused")
 @XmlRootElement
 public class InfoCustomizations implements Serializable {
 
@@ -387,41 +395,49 @@ public class InfoCustomizations implements Serializable {
 	}
 
 	protected static <I extends IInfo> List<String> getInfosOrderAfterMove(List<I> list, I info, int offset) {
-		int index = list.indexOf(info);
-		List<I> resultList = new ArrayList<I>(list);
-		resultList.remove(index);
+		int infoIndex = list.indexOf(info);
+		int newInfoIndex = -1;
 		int offsetSign = ((offset > 0) ? 1 : -1);
 		InfoCategory infoCategory = getCategory(info);
+		int currentInfoIndex = infoIndex;
 		for (int iOffset = 0; iOffset != offset; iOffset = iOffset + offsetSign) {
+			int nextSameCategoryInfoIndex = -1;
 			while (true) {
-				index = index + offsetSign;
-				if (index == 0) {
+				currentInfoIndex += offsetSign;
+				if ((offsetSign == -1) && (currentInfoIndex == 0)) {
 					break;
 				}
-				if (index == resultList.size()) {
+				if ((offsetSign == 1) && (infoIndex == list.size())) {
 					break;
 				}
-				I otherInfo = resultList.get(index);
+				I otherInfo = list.get(currentInfoIndex);
 				InfoCategory otherFieldCategory = getCategory(otherInfo);
 				if (ReflectionUIUtils.equalsOrBothNull(infoCategory, otherFieldCategory)) {
+					nextSameCategoryInfoIndex = currentInfoIndex;
 					break;
 				}
 			}
-			if (index == 0) {
+			if (nextSameCategoryInfoIndex == -1) {
 				break;
-			}
-			if (index == resultList.size()) {
-				break;
+			}else{
+				newInfoIndex = nextSameCategoryInfoIndex;
 			}
 		}
-		resultList.add(index, info);
+
+		if (newInfoIndex == -1) {
+			throw new ReflectionUIError("Cannot move item: Limit reached");
+		}
+
+		List<I> resultList = new ArrayList<I>(list);
+		resultList.remove(info);
+		resultList.add(newInfoIndex, info);
+
 		ArrayList<String> newOrder = new ArrayList<String>();
 		for (I info2 : resultList) {
 			String name = info2.getName();
 			if ((name == null) || (name.trim().length() == 0)) {
-				throw new ReflectionUIError(
-						"Cannot move item order. 'getName()' method returned an empty value for item n°"
-								+ (list.indexOf(info2) + 1) + " (caption='" + info2.getCaption() + "')");
+				throw new ReflectionUIError("Cannot move item: 'getName()' method returned an empty value for item n°"
+						+ (list.indexOf(info2) + 1) + " (caption='" + info2.getCaption() + "')");
 			}
 			newOrder.add(name);
 		}
@@ -506,7 +522,6 @@ public class InfoCustomizations implements Serializable {
 		protected boolean abstractForced = false;
 		protected List<ITypeInfoFinder> polymorphicSubTypeFinders = new ArrayList<ITypeInfoFinder>();
 
-		
 		public String getTypeName() {
 			return typeName;
 		}
@@ -788,6 +803,15 @@ public class InfoCustomizations implements Serializable {
 		protected boolean displayedAsSingletonList = false;
 		protected boolean displayedEncapsulated = false;
 		protected FieldTypeSpecificities specificTypeCustomizations = new FieldTypeSpecificities();
+		protected boolean defaultFormFilterDisabled = false;
+
+		public boolean isDefaultFormFilterDisabled() {
+			return defaultFormFilterDisabled;
+		}
+
+		public void setDefaultFormFilterDisabled(boolean defaultFormFilterDisabled) {
+			this.defaultFormFilterDisabled = defaultFormFilterDisabled;
+		}
 
 		public String getCustomSetterSignature() {
 			return customSetterSignature;
@@ -944,6 +968,24 @@ public class InfoCustomizations implements Serializable {
 		protected String generatedFieldName;
 		protected MethodReturnValueTypeSpecificities specificReturnValueTypeCustomizations = new MethodReturnValueTypeSpecificities();
 		protected boolean detachedReturnValueForced;
+		protected String encapsulationFieldName;
+		protected String parametersFormFieldName;
+
+		public String getEncapsulationFieldName() {
+			return encapsulationFieldName;
+		}
+
+		public void setEncapsulationFieldName(String encapsulationFieldName) {
+			this.encapsulationFieldName = encapsulationFieldName;
+		}
+
+		public String getParametersFormFieldName() {
+			return parametersFormFieldName;
+		}
+
+		public void setParametersFormFieldName(String parametersFormFieldName) {
+			this.parametersFormFieldName = parametersFormFieldName;
+		}
 
 		public String getGeneratedFieldName() {
 			return generatedFieldName;
@@ -2081,8 +2123,33 @@ public class InfoCustomizations implements Serializable {
 									AbstractListProperty property = new AbstractListProperty() {
 
 										AbstractListProperty thisProperty = this;
-										IModification oppositeItemModification;
-										IModification oppositeListModification;
+										IFieldInfo itemPositionAsField = new FieldInfoProxy(
+												IFieldInfo.NULL_FIELD_INFO) {
+
+											@Override
+											public Object getValue(Object object) {
+												return item;
+											}
+
+											@Override
+											public String getCaption() {
+												return itemPosition.getContainingListTitle();
+											}
+
+											@Override
+											public void setValue(Object object, Object value) {
+												new ListModificationFactory(itemPosition, thisProperty)
+														.set(itemPosition.getIndex(), item);
+											}
+
+											@Override
+											public boolean isGetOnly() {
+												return !new ListModificationFactory(itemPosition, this)
+														.canSet(itemPosition.getIndex());
+											}
+
+										};
+										SubFieldInfo delegate = new SubFieldInfo(itemPositionAsField, itemField);
 
 										@Override
 										public boolean isEnabled() {
@@ -2099,83 +2166,56 @@ public class InfoCustomizations implements Serializable {
 											return fieldCaption;
 										}
 
-										@Override
-										public ValueReturnMode getValueReturnMode() {
-											return ValueReturnMode.combine(
-													itemPosition.getContainingListType().getItemReturnMode(),
-													itemField.getValueReturnMode());
-										}
-
-										@Override
-										public boolean isGetOnly() {
-											if (!ReflectionUIUtils.canPotentiallyIntegrateSubModifications(reflectionUI,
-													false, itemField.getValueReturnMode(), !itemField.isGetOnly())) {
-												return true;
-											}
-											if (!ReflectionUIUtils.canPotentiallyIntegrateSubModifications(reflectionUI,
-													false, itemPosition.getItemReturnMode(),
-													new ListModificationFactory(itemPosition, this)
-															.canSet(itemPosition.getIndex()))) {
-												return true;
-											}
-											return false;
-										}
-
-										@Override
-										public void setValue(Object object, Object value) {
-
-											oppositeItemModification = ReflectionUIUtils.integrateSubModifications(
-													reflectionUI, IModification.FAKE_MODIFICATION, true,
-													itemField.getValueReturnMode(), true,
-													new ControlDataValueModification(
-															new DefaultFieldControlData(item, itemField), value,
-															itemField),
-													itemField, ControlDataValueModification.getTitle(itemField));
-
-											oppositeListModification = ReflectionUIUtils.integrateSubModifications(
-													reflectionUI, IModification.FAKE_MODIFICATION, true,
-													itemPosition.getItemReturnMode(), true,
-													new ListModificationFactory(itemPosition, thisProperty)
-															.set(itemPosition.getIndex(), item),
-													thisProperty, ControlDataValueModification.getTitle(thisProperty));
-										}
-
-										@Override
-										public Runnable getCustomUndoUpdateJob(Object object, Object value) {
-											return new Runnable() {
-												@Override
-												public void run() {
-													oppositeItemModification.applyAndGetOpposite();
-													oppositeItemModification = null;
-													oppositeListModification.applyAndGetOpposite();
-													oppositeListModification = null;
-												}
-											};
-										}
-
-										@Override
-										public String getNullValueLabel() {
-											return itemField.getNullValueLabel();
-										}
-
-										@Override
-										public boolean isValueNullable() {
-											return itemField.isValueNullable();
-										}
-
-										@Override
-										public Object getValue(Object object) {
-											return itemField.getValue(item);
-										}
-
-										@Override
 										public ITypeInfo getType() {
-											return itemField.getType();
+											return delegate.getType();
 										}
 
-										@Override
 										public ITypeInfoProxyFactory getTypeSpecificities() {
-											return null;
+											return delegate.getTypeSpecificities();
+										}
+
+										public Object getValue(Object object) {
+											return delegate.getValue(object);
+										}
+
+										public Object[] getValueOptions(Object object) {
+											return delegate.getValueOptions(object);
+										}
+
+										public boolean isGetOnly() {
+											return delegate.isGetOnly();
+										}
+
+										public void setValue(Object object, Object subFieldValue) {
+											delegate.setValue(object, subFieldValue);
+										}
+
+										public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+											return delegate.getCustomUndoUpdateJob(object, value);
+										}
+
+										public boolean isValueNullable() {
+											return delegate.isValueNullable();
+										}
+
+										public String getNullValueLabel() {
+											return delegate.getNullValueLabel();
+										}
+
+										public ValueReturnMode getValueReturnMode() {
+											return delegate.getValueReturnMode();
+										}
+
+										public InfoCategory getCategory() {
+											return delegate.getCategory();
+										}
+
+										public String getOnlineHelp() {
+											return delegate.getOnlineHelp();
+										}
+
+										public Map<String, Object> getSpecificProperties() {
+											return delegate.getSpecificProperties();
 										}
 
 									};
@@ -2278,8 +2318,33 @@ public class InfoCustomizations implements Serializable {
 									AbstractListAction action = new AbstractListAction() {
 
 										AbstractListAction thisAction = this;
-										IModification oppositeItemModification;
-										IModification oppositeListModification;
+										IFieldInfo itemPositionAsField = new FieldInfoProxy(
+												IFieldInfo.NULL_FIELD_INFO) {
+
+											@Override
+											public Object getValue(Object object) {
+												return item;
+											}
+
+											@Override
+											public String getCaption() {
+												return itemPosition.getContainingListTitle();
+											}
+
+											@Override
+											public void setValue(Object object, Object value) {
+												new ListModificationFactory(itemPosition, thisAction)
+														.set(itemPosition.getIndex(), item);
+											}
+
+											@Override
+											public boolean isGetOnly() {
+												return !new ListModificationFactory(itemPosition, this)
+														.canSet(itemPosition.getIndex());
+											}
+
+										};
+										SubMethodInfo delegate = new SubMethodInfo(itemPositionAsField, itemMethod);
 
 										@Override
 										public String getName() {
@@ -2296,108 +2361,61 @@ public class InfoCustomizations implements Serializable {
 											return true;
 										}
 
-										@Override
-										public String getNullReturnValueLabel() {
-											return itemMethod.getNullReturnValueLabel();
+										public ITypeInfo getReturnValueType() {
+											return delegate.getReturnValueType();
 										}
 
-										@Override
+										public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
+											return delegate.getReturnValueTypeSpecificities();
+										}
+
+										public Object invoke(Object object, InvocationData invocationData) {
+											return delegate.invoke(object, invocationData);
+										}
+
+										public boolean isReadOnly() {
+											return delegate.isReadOnly();
+										}
+
+										public Runnable getUndoJob(Object object, InvocationData invocationData) {
+											return delegate.getUndoJob(object, invocationData);
+										}
+
 										public boolean isReturnValueNullable() {
-											return itemMethod.isReturnValueNullable();
+											return delegate.isReturnValueNullable();
 										}
 
-										@Override
+										public String getNullReturnValueLabel() {
+											return delegate.getNullReturnValueLabel();
+										}
+
+										public ValueReturnMode getValueReturnMode() {
+											return delegate.getValueReturnMode();
+										}
+
+										public InfoCategory getCategory() {
+											return delegate.getCategory();
+										}
+
+										public String getOnlineHelp() {
+											return delegate.getOnlineHelp();
+										}
+
+										public Map<String, Object> getSpecificProperties() {
+											return delegate.getSpecificProperties();
+										}
+
+										public List<IParameterInfo> getParameters() {
+											return delegate.getParameters();
+										}
+
 										public void validateParameters(Object object, InvocationData invocationData)
 												throws Exception {
-											itemMethod.validateParameters(item, invocationData);
+											delegate.validateParameters(object, invocationData);
 										}
 
-										@Override
-										public String getOnlineHelp() {
-											return itemMethod.getOnlineHelp();
-										}
-
-										@Override
-										public ITypeInfo getReturnValueType() {
-											return itemMethod.getReturnValueType();
-										}
-
-										@Override
-										public List<IParameterInfo> getParameters() {
-											return itemMethod.getParameters();
-										}
-
-										@Override
-										public ValueReturnMode getValueReturnMode() {
-											return ValueReturnMode.combine(
-													itemPosition.getContainingListType().getItemReturnMode(),
-													itemMethod.getValueReturnMode());
-										}
-
-										@Override
-										public boolean isReadOnly() {
-											if (!ReflectionUIUtils.canPotentiallyIntegrateSubModifications(reflectionUI,
-													false, itemMethod.getValueReturnMode(), false)) {
-												return true;
-											}
-											if (!ReflectionUIUtils.canPotentiallyIntegrateSubModifications(reflectionUI,
-													false, itemPosition.getItemReturnMode(),
-													new ListModificationFactory(itemPosition, this)
-															.canSet(itemPosition.getIndex()))) {
-												return true;
-											}
-											return false;
-										}
-
-										@Override
-										public Object invoke(Object object, InvocationData invocationData) {
-											Object result;
-											if (itemMethod.getUndoJob(item, invocationData) == null) {
-												result = itemMethod.invoke(item, invocationData);
-											} else {
-												final Object[] resultHolder = new Object[1];
-												oppositeItemModification = ReflectionUIUtils.integrateSubModifications(
-														reflectionUI, IModification.FAKE_MODIFICATION, true,
-														itemMethod.getValueReturnMode(), true,
-														new InvokeMethodModification(new DefaultMethodControlData(item,
-																new MethodInfoProxy(itemMethod) {
-																	@Override
-																	public Object invoke(Object object,
-																			InvocationData invocationData) {
-																		resultHolder[0] = super.invoke(object,
-																				invocationData);
-																		return resultHolder[0];
-																	}
-																}), invocationData, itemMethod),
-														itemMethod, InvokeMethodModification.getTitle(itemMethod));
-												result = resultHolder[0];
-											}
-
-											oppositeListModification = ReflectionUIUtils.integrateSubModifications(
-													reflectionUI, IModification.FAKE_MODIFICATION, true,
-													itemPosition.getItemReturnMode(), true,
-													new ListModificationFactory(itemPosition, thisAction)
-															.set(itemPosition.getIndex(), item),
-													thisAction, ControlDataValueModification.getTitle(thisAction));
-
-											return result;
-										}
-
-										@Override
-										public Runnable getUndoJob(Object object, final InvocationData invocationData) {
-											if (itemMethod.getUndoJob(item, invocationData) == null) {
-												return null;
-											}
-											return new Runnable() {
-												@Override
-												public void run() {
-													oppositeItemModification.applyAndGetOpposite();
-													oppositeItemModification = null;
-													oppositeListModification.applyAndGetOpposite();
-													oppositeListModification = null;
-												}
-
-											};
+										public boolean isReturnValueDetached() {
+											return delegate.isReturnValueDetached();
 										}
 
 									};
@@ -2474,9 +2492,9 @@ public class InfoCustomizations implements Serializable {
 						if (l.editOptions.listInstanciationOption.customInstanceTypeFinder != null) {
 							ITypeInfo customInstanceType = l.editOptions.listInstanciationOption.customInstanceTypeFinder
 									.find(reflectionUI);
-							newListInstance = ReflectionUIUtils.createDefaultInstance(reflectionUI, customInstanceType);
+							newListInstance = ReflectionUIUtils.createDefaultInstance(customInstanceType);
 						} else {
-							newListInstance = ReflectionUIUtils.createDefaultInstance(reflectionUI, listType);
+							newListInstance = ReflectionUIUtils.createDefaultInstance(listType);
 						}
 						super.replaceContent(listType, newListInstance, array);
 						return newListInstance;
@@ -2663,6 +2681,32 @@ public class InfoCustomizations implements Serializable {
 							}
 						}
 					}
+					if (f.defaultFormFilterDisabled) {
+						IInfoFilter filter = DesktopSpecificProperty.getFilter(result);
+						if (filter == null) {
+							filter = IInfoFilter.DEFAULT;
+						}
+						filter = new InfoFilterProxy(filter) {
+
+							@Override
+							public boolean excludeField(IFieldInfo field) {
+								if (IInfoFilter.DEFAULT.excludeField(field)) {
+									return false;
+								}
+								return super.excludeField(field);
+							}
+
+							@Override
+							public boolean excludeMethod(IMethodInfo method) {
+								if (IInfoFilter.DEFAULT.excludeMethod(method)) {
+									return false;
+								}
+								return super.excludeMethod(method);
+							}
+
+						};
+						DesktopSpecificProperty.setFilter(result, filter);
+					}
 				}
 			}
 			return result;
@@ -2835,13 +2879,33 @@ public class InfoCustomizations implements Serializable {
 					}
 				}
 				for (MethodCustomization m : t.methodsCustomizations) {
-					if (m.generatedFieldName != null) {
-						IMethodInfo method = ReflectionUIUtils.findMethodBySignature(containingType.getMethods(),
-								m.methodSignature);
-						if (method != null) {
+					IMethodInfo method = ReflectionUIUtils.findMethodBySignature(containingType.getMethods(),
+							m.methodSignature);
+					if (method != null) {
+						if (m.generatedFieldName != null) {
 							MethodAsField newField = new MethodAsField(method, m.generatedFieldName);
 							if (ReflectionUIUtils.findInfoByName(result, newField.getName()) != null) {
-								throw new ReflectionUIError("Failed to genrate field for method '"
+								throw new ReflectionUIError("Failed to genrate return value field for method '"
+										+ ReflectionUIUtils.getMethodSignature(method)
+										+ "': Duplicate field name detected: '" + newField.getName() + "'");
+							}
+							result.add(newField);
+						}
+						if (m.parametersFormFieldName != null) {
+							MethodParametersField newField = new MethodParametersField(reflectionUI, method,
+									m.parametersFormFieldName);
+							if (ReflectionUIUtils.findInfoByName(result, newField.getName()) != null) {
+								throw new ReflectionUIError("Failed to genrate parameters field for method '"
+										+ ReflectionUIUtils.getMethodSignature(method)
+										+ "': Duplicate field name detected: '" + newField.getName() + "'");
+							}
+							result.add(newField);
+						}
+						if (m.encapsulationFieldName != null) {
+							EncapsulatedMethodField newField = new EncapsulatedMethodField(reflectionUI, method,
+									m.encapsulationFieldName);
+							if (ReflectionUIUtils.findInfoByName(result, newField.getName()) != null) {
+								throw new ReflectionUIError("Failed to genrate encapsulation field for method '"
 										+ ReflectionUIUtils.getMethodSignature(method)
 										+ "': Duplicate field name detected: '" + newField.getName() + "'");
 							}
@@ -2940,7 +3004,7 @@ public class InfoCustomizations implements Serializable {
 					IMethodInfo method = it.next();
 					MethodCustomization m = getMethodCustomization(t, ReflectionUIUtils.getMethodSignature(method));
 					if (m != null) {
-						if (m.hidden) {
+						if (m.hidden || (m.encapsulationFieldName != null)) {
 							it.remove();
 						}
 					}
@@ -2968,6 +3032,27 @@ public class InfoCustomizations implements Serializable {
 						}
 					}
 				}
+				for (int i = 0; i < result.size(); i++) {
+					IMethodInfo method = result.get(i);
+					MethodCustomization m = getMethodCustomization(t, ReflectionUIUtils.getMethodSignature(method));
+					if (m != null) {
+						if (m.parametersFormFieldName != null) {
+							method = new MethodInfoProxy(method) {
+								@Override
+								public List<IParameterInfo> getParameters() {
+									return Collections.emptyList();
+								}
+
+								@Override
+								public void validateParameters(Object object, InvocationData invocationData)
+										throws Exception {
+								}
+							};
+						}
+					}
+					result.set(i, method);
+				}
+
 				if (t.customMethodsOrder != null) {
 					Collections.sort(result, ReflectionUIUtils.getInfosComparator(t.customMethodsOrder, result));
 				}

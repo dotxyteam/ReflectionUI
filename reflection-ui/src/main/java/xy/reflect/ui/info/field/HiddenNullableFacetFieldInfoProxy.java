@@ -10,33 +10,29 @@ public class HiddenNullableFacetFieldInfoProxy extends FieldInfoProxy {
 	protected ReflectionUI reflectionUI;
 	protected IFieldInfo base;
 
-	public HiddenNullableFacetFieldInfoProxy(final ReflectionUI reflectionUI,
-			final IFieldInfo base) {
+	public HiddenNullableFacetFieldInfoProxy(final ReflectionUI reflectionUI, final IFieldInfo base) {
 		super(base);
 		this.reflectionUI = reflectionUI;
 		this.base = base;
 	}
-	
+
 	@SuppressWarnings("unused")
 	@Override
 	public Object getValue(final Object object) {
 		final Object[] result = new Object[1];
-		new HiddenNullableFacetsTypeInfoProxyFactory(reflectionUI){
+		new HiddenNullableFacetsTypeInfoProxyFactory(reflectionUI) {
 			{
 				result[0] = getValue(object, base, null);
 			}
 		};
-		return result[0]; 
+		return result[0];
 	}
 
 	protected Object getDefaultValue() {
-		Object result = ReflectionUIUtils.createDefaultInstance(reflectionUI, base.getType());
+		Object result = ReflectionUIUtils.createDefaultInstance(base.getType());
 		if (result == null) {
-			throw new ReflectionUIError(
-					"Failed to instanciate automatically the value of the field '"
-							+ base
-							+ "': Could not instanciate the field type '"
-							+ base.getType() + "'");
+			throw new ReflectionUIError("Failed to instanciate automatically the value of the field '" + base
+					+ "': Could not instanciate the field type '" + base.getType() + "'");
 		}
 		return result;
 	}
@@ -62,14 +58,12 @@ public class HiddenNullableFacetFieldInfoProxy extends FieldInfoProxy {
 		if (!getClass().equals(obj.getClass())) {
 			return false;
 		}
-		return base
-				.equals(((HiddenNullableFacetFieldInfoProxy) obj).base);
+		return base.equals(((HiddenNullableFacetFieldInfoProxy) obj).base);
 	}
 
 	@Override
 	public String toString() {
 		return "HiddenNullableFacetFieldInfoProxy [base=" + base + "]";
 	}
-	
-	
+
 }

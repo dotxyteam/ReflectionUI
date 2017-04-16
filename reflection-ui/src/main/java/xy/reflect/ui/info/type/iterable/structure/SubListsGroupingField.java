@@ -19,7 +19,7 @@ public class SubListsGroupingField extends MultipleFieldsAsOne {
 	}
 	
 	@Override
-	protected ListItem getListItem(Object object, IFieldInfo listFieldInfo) {
+	protected ValueListItem getListItem(Object object, IFieldInfo listFieldInfo) {
 		return new SubListGroup(object, listFieldInfo);
 	}
 
@@ -28,7 +28,7 @@ public class SubListsGroupingField extends MultipleFieldsAsOne {
 		return new SubListGroupTypeInfo(field);
 	}
 	
-	public class SubListGroupTypeInfo extends ListItemTypeInfo{
+	public class SubListGroupTypeInfo extends ValueListItemTypeInfo{
 
 		public SubListGroupTypeInfo(IFieldInfo field) {
 			super(field);
@@ -36,7 +36,7 @@ public class SubListsGroupingField extends MultipleFieldsAsOne {
 		
 	}
 
-	public class SubListGroup extends ListItem{
+	public class SubListGroup extends ValueListItem{
 
 		public SubListGroup(Object object, IFieldInfo field) {
 			super(object, field);

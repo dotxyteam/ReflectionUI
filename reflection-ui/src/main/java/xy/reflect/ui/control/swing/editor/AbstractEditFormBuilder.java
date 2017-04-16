@@ -252,7 +252,7 @@ public abstract class AbstractEditFormBuilder {
 			return false;
 		}
 		ensureObjectValueIsInitialized();
-		return ReflectionUIUtils.canPotentiallyIntegrateSubModifications(getSwingRenderer().getReflectionUI(),
+		return ReflectionUIUtils.canCloseValueEditSession(
 				ReflectionUIUtils.isValueImmutable(getSwingRenderer().getReflectionUI(), initialObjectValue),
 				getObjectValueReturnMode(), canCommit());
 	}
@@ -327,7 +327,7 @@ public abstract class AbstractEditFormBuilder {
 				return result;
 			}
 		};
-		SwingRendererUtils.forwardSubModifications(getSwingRenderer(), form, childModifAcceptedGetter,
+		SwingRendererUtils.forwardFormModifications(getSwingRenderer(), form, childModifAcceptedGetter,
 				childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter, childModifTargetGetter,
 				childModifTitleGetter, parentModifStackGetter);
 	}

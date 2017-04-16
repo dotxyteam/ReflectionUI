@@ -31,7 +31,7 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 
 	@Override
 	public ITypeInfo getType() {
-		return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(new ListTypeInfo()));
+		return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(new ValueListTypeInfo()));
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 	@Override
 	public String getCaption() {
 		StringBuilder result = new StringBuilder(MultipleFieldsAsOne.class.getSimpleName());
-		result.append("(");
+		result.append("List Containing ");
 		int i = 0;
 		for (IFieldInfo field : fields) {
 			if (i > 0) {
@@ -51,27 +51,26 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 			result.append(field.getCaption());
 			i++;
 		}
-		result.append(")");
 		return result.toString();
 	}
 
 	@Override
 	public Object getValue(Object object) {
-		List<ListItem> result = new ArrayList<ListItem>();
+		List<ValueListItem> result = new ArrayList<ValueListItem>();
 		for (IFieldInfo field : fields) {
-			ListItem listItem = getListItem(object, field);
+			ValueListItem listItem = getListItem(object, field);
 			reflectionUI.registerPrecomputedTypeInfoObject(listItem, getListItemTypeInfo(field));
 			result.add(listItem);
 		}
 		return result;
 	}
 
-	protected ListItem getListItem(Object object, IFieldInfo listFieldInfo) {
-		return new ListItem(object, listFieldInfo);
+	protected ValueListItem getListItem(Object object, IFieldInfo listFieldInfo) {
+		return new ValueListItem(object, listFieldInfo);
 	}
 
 	protected ITypeInfo getListItemTypeInfo(IFieldInfo field) {
-		return new ListItemTypeInfo(field);
+		return new ValueListItemTypeInfo(field);
 	}
 
 	@Override
@@ -165,12 +164,12 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 		return fields.equals(((MultipleFieldsAsOne) obj).fields);
 	}
 
-	public class ListItem {
+	public class ValueListItem {
 
 		protected Object object;
 		protected IFieldInfo field;
 
-		public ListItem(Object object, IFieldInfo field) {
+		public ValueListItem(Object object, IFieldInfo field) {
 			this.object = object;
 			this.field = field;
 		}
@@ -200,7 +199,7 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			ListItem other = (ListItem) obj;
+			ValueListItem other = (ValueListItem) obj;
 			if (object == null) {
 				if (other.object != null)
 					return false;
@@ -221,9 +220,9 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 
 	}
 
-	protected class ListTypeInfo extends StandardCollectionTypeInfo {
+	protected class ValueListTypeInfo extends StandardCollectionTypeInfo {
 
-		public ListTypeInfo() {
+		public ValueListTypeInfo() {
 			super(MultipleFieldsAsOne.this.reflectionUI, ArrayList.class, null);
 		}
 
@@ -248,11 +247,11 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 		}
 	}
 
-	protected class ListItemTypeInfo implements ITypeInfo {
+	protected class ValueListItemTypeInfo implements ITypeInfo {
 
 		protected IFieldInfo field;
 
-		public ListItemTypeInfo(IFieldInfo field) {
+		public ValueListItemTypeInfo(IFieldInfo field) {
 			this.field = field;
 		}
 
@@ -262,7 +261,7 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 		}
 
 		public IFieldInfo getDetailsField() {
-			return new ListItemDetailsField(field);
+			return new ValueListItemDetailsField(field);
 		}
 
 		@Override
@@ -313,7 +312,7 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 
 		@Override
 		public boolean supportsInstance(Object object) {
-			return object instanceof ListItem;
+			return object instanceof ValueListItem;
 		}
 
 		@Override
@@ -362,7 +361,7 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			ListItemTypeInfo other = (ListItemTypeInfo) obj;
+			ValueListItemTypeInfo other = (ValueListItemTypeInfo) obj;
 			if (!getOuterType().equals(other.getOuterType()))
 				return false;
 			if (field == null) {
@@ -385,9 +384,9 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 
 	}
 
-	protected class ListItemDetailsField extends FieldInfoProxy {
+	protected class ValueListItemDetailsField extends FieldInfoProxy {
 
-		public ListItemDetailsField(IFieldInfo field) {
+		public ValueListItemDetailsField(IFieldInfo field) {
 			super(field);
 		}
 
@@ -398,25 +397,25 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 
 		@Override
 		public Object getValue(Object object) {
-			object = ((ListItem) object).getObject();
+			object = ((ValueListItem) object).getObject();
 			return super.getValue(object);
 		}
 
 		@Override
 		public void setValue(Object object, Object value) {
-			object = ((ListItem) object).getObject();
+			object = ((ValueListItem) object).getObject();
 			super.setValue(object, value);
 		}
 
 		@Override
 		public Runnable getCustomUndoUpdateJob(Object object, Object value) {
-			object = ((ListItem) object).getObject();
+			object = ((ValueListItem) object).getObject();
 			return super.getCustomUndoUpdateJob(object, value);
 		}
 
 		@Override
 		public Object[] getValueOptions(Object object) {
-			object = ((ListItem) object).getObject();
+			object = ((ValueListItem) object).getObject();
 			return super.getValueOptions(object);
 		}
 

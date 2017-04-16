@@ -20,7 +20,7 @@ public class HiddenNullableFacetsTypeInfoProxyFactory extends TypeInfoProxyFacto
 	public Object generateDefaultValue(ITypeInfo type) {
 		Object result;
 		try {
-			result = ReflectionUIUtils.createDefaultInstance(reflectionUI, type);
+			result = ReflectionUIUtils.createDefaultInstance(type);
 		} catch (Throwable t) {
 			result = null;
 		}

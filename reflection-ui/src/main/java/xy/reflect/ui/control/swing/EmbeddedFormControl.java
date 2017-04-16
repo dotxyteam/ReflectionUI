@@ -81,7 +81,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	protected void forwardSubFormModifications() {
-		if (!ReflectionUIUtils.canPotentiallyIntegrateSubModifications(swingRenderer.getReflectionUI(),
+		if (!ReflectionUIUtils.canCloseValueEditSession(
 				ReflectionUIUtils.isValueImmutable(swingRenderer.getReflectionUI(), subFormObject),
 				data.getValueReturnMode(), !data.isGetOnly())) {
 			ModificationStack childModifStack = swingRenderer.getModificationStackByForm().get(subForm);
@@ -122,7 +122,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 					return input.getModificationStack();
 				}
 			};
-			SwingRendererUtils.forwardSubModifications(swingRenderer, subForm, childModifAcceptedGetter,
+			SwingRendererUtils.forwardFormModifications(swingRenderer, subForm, childModifAcceptedGetter,
 					childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter, childModifTargetGetter,
 					childModifTitleGetter, parentModifStackGetter);
 		}
@@ -147,11 +147,6 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 			}
 			IInfoFilter filter = DesktopSpecificProperty
 					.getFilter(DesktopSpecificProperty.accessControlDataProperties(data));
-			{
-				if (filter == null) {
-					filter = IInfoFilter.DEFAULT;
-				}
-			}
 			subForm = swingRenderer.createForm(subFormObject, filter);
 			add(subForm, BorderLayout.CENTER);
 			forwardSubFormModifications();

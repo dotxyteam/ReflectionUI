@@ -150,26 +150,26 @@ public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
 	}
 
 	protected void impactParent() {
-		ModificationStack parentModifStack = getParentObjectModificationStack();
-		if (parentModifStack == null) {
+		ModificationStack parentObjectModifStack = getParentObjectModificationStack();
+		if (parentObjectModifStack == null) {
 			return;
 		}
-		ModificationStack childModifStack = getObjectModificationStack();
-		IInfo compositeModifTarget = getCumulatedModificationsTarget();
-		ValueReturnMode childValueReturnMode = getObjectValueReturnMode();
+		ModificationStack valueModifStack = getObjectModificationStack();
+		IInfo editSessionTarget = getCumulatedModificationsTarget();
+		ValueReturnMode valueReturnMode = getObjectValueReturnMode();
 		Object currentValue = getCurrentObjectValue();
-		boolean childValueReplaced = isObjectValueReplaced();
+		boolean valueReplaced = isObjectValueReplaced();
 		IModification commitModif;
 		if (!canCommit()) {
 			commitModif = null;
 		} else {
 			commitModif = createCommitModification(currentValue);
 		}
-		boolean childModifAccepted = shouldAcceptNewObjectValue(currentValue) && ((!isCancellable()) || !isCancelled());
-		String compositeModifTitle = getCumulatedModificationsTitle();
-		parentModificationStackImpacted = ReflectionUIUtils.integrateSubModifications(
-				getSwingRenderer().getReflectionUI(), parentModifStack, childModifStack, childModifAccepted,
-				childValueReturnMode, childValueReplaced, commitModif, compositeModifTarget, compositeModifTitle);
+		boolean valueModifAccepted = shouldAcceptNewObjectValue(currentValue) && ((!isCancellable()) || !isCancelled());
+		String editSessionTitle = getCumulatedModificationsTitle();
+		parentModificationStackImpacted = ReflectionUIUtils.closeValueEditSession(parentObjectModifStack, valueModifStack,
+				valueModifAccepted, valueReturnMode, valueReplaced, commitModif, editSessionTarget,
+				editSessionTitle, ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()));
 	}
 
 	public boolean isCancelled() {

@@ -20,7 +20,7 @@ public class ModificationsTest {
 		IFieldInfo field = ReflectionUIUtils.findInfoByName(thisType.getFields(), fieldName);
 		boolean canCommit = !field.isGetOnly();
 		ValueReturnMode childValueReturnMode = field.getValueReturnMode();
-		return ReflectionUIUtils.canPotentiallyIntegrateSubModifications(reflectionUI,
+		return ReflectionUIUtils.canCloseValueEditSession(
 				ReflectionUIUtils.isValueImmutable(reflectionUI, field.getValue(this)), childValueReturnMode,
 				canCommit);
 	}

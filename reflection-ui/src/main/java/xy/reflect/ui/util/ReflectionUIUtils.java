@@ -51,6 +51,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
@@ -708,7 +709,7 @@ public class ReflectionUIUtils {
 		return true;
 	}
 
-	public static Object createDefaultInstance(ReflectionUI reflectionUI, ITypeInfo type) {
+	public static Object createDefaultInstance(ITypeInfo type) {
 		try {
 			if (!type.isConcrete()) {
 				throw new ReflectionUIError("Cannot instanciate abstract type");
@@ -786,46 +787,47 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static IModification integrateSubModifications(ReflectionUI reflectionUI,
-			IModification childUndoModification, boolean childModifAccepted,ValueReturnMode childValueReturnMode, boolean childValueReplaced,
-			IModification commitModif, IInfo compositeModifTarget, String compositeModifTitle) {
-		ModificationStack parentModifStack = new ModificationStack(null);
-		ModificationStack childModifStack = new ModificationStack(null);
-		childModifStack.pushUndo(childUndoModification);
-		integrateSubModifications(reflectionUI, parentModifStack, childModifStack, childModifAccepted, childValueReturnMode,
-				childValueReplaced, commitModif, compositeModifTarget, compositeModifTitle);
-		return parentModifStack.toCompositeModification(compositeModifTarget, compositeModifTitle);
+	public static IModification closeValueEditSession(IModification valueUndoModification, boolean valueModifAccepted,
+			ValueReturnMode valueReturnMode, boolean valueReplaced, IModification commitModif, IInfo editSessionTarget,
+			String editSessionTitle) {
+		ModificationStack parentObjectModifStack = new ModificationStack(null);
+		ModificationStack valueModifStack = new ModificationStack(null);
+		valueModifStack.pushUndo(valueUndoModification);
+		closeValueEditSession(parentObjectModifStack, valueModifStack, valueModifAccepted, valueReturnMode,
+				valueReplaced, commitModif, editSessionTarget, editSessionTitle, null);
+		return parentObjectModifStack.toCompositeModification(editSessionTarget, editSessionTitle);
 	}
 
-	public static boolean integrateSubModifications(ReflectionUI reflectionUI, final ModificationStack parentModifStack,
-			final ModificationStack childModifStack, boolean childModifAccepted,
-			final ValueReturnMode childValueReturnMode, final boolean childValueReplaced,
-			final IModification commitModif, IInfo compositeModifTarget, String compositeModifTitle) {
+	public static boolean closeValueEditSession(final ModificationStack parentObjectModifStack,
+			final ModificationStack valueModifStack, boolean valueModifAccepted, final ValueReturnMode valueReturnMode,
+			final boolean valueReplaced, final IModification commitModif, IInfo editSessionTarget,
+			String editSessionTitle, Listener<String> debugLogListener) {
 
-		if (parentModifStack == null) {
+		if (parentObjectModifStack == null) {
 			throw new ReflectionUIError();
 		}
-		if (childModifStack == null) {
+		if (valueModifStack == null) {
 			throw new ReflectionUIError();
 		}
 
-		boolean parentValueImpacted = false;
-		if (childModifAccepted) {
-			if (!childModifStack.isNull()) {
-				parentValueImpacted = parentModifStack.insideComposite(compositeModifTarget, compositeModifTitle + "'",
+		boolean parentObjectImpacted = false;
+		if (valueModifAccepted) {
+			if (!valueModifStack.isNull()) {
+				parentObjectImpacted = parentObjectModifStack.insideComposite(editSessionTarget, editSessionTitle + "'",
 						UndoOrder.FIFO, new Accessor<Boolean>() {
 							@Override
 							public Boolean get() {
-								if (childValueReturnMode != ValueReturnMode.CALCULATED) {
-									if (childModifStack.wasInvalidated()) {
-										parentModifStack.invalidate();
+								if (valueReturnMode != ValueReturnMode.CALCULATED) {
+									if (valueModifStack.wasInvalidated()) {
+										parentObjectModifStack.invalidate();
 									} else {
-										parentModifStack.pushUndo(childModifStack.toCompositeModification(null, null));
+										parentObjectModifStack
+												.pushUndo(valueModifStack.toCompositeModification(null, null));
 									}
 								}
-								if ((childValueReturnMode != ValueReturnMode.DIRECT_OR_PROXY) || childValueReplaced) {
+								if ((valueReturnMode != ValueReturnMode.DIRECT_OR_PROXY) || valueReplaced) {
 									if (commitModif != null) {
-										parentModifStack.apply(commitModif);
+										parentObjectModifStack.apply(commitModif);
 									}
 								}
 								return true;
@@ -833,25 +835,27 @@ public class ReflectionUIUtils {
 						});
 			}
 		} else {
-			if (!childModifStack.isNull()) {
-				if (childValueReturnMode != ValueReturnMode.CALCULATED) {
-					if (!childModifStack.wasInvalidated()) {
-						childModifStack.undoAll();
+			if (!valueModifStack.isNull()) {
+				if (valueReturnMode != ValueReturnMode.CALCULATED) {
+					if (!valueModifStack.wasInvalidated()) {
+						valueModifStack.undoAll();
 					} else {
-						reflectionUI.logDebug("WARNING: Cannot undo invalidated sub-modification stack: "
-								+ childModifStack + "\n=> Invalidating parent modification stack");
-						parentModifStack.invalidate();
-						parentValueImpacted = true;
+						if (debugLogListener != null) {
+							debugLogListener.handle("WARNING: Cannot undo invalidated sub-modification stack: "
+									+ valueModifStack + "\n=> Invalidating parent modification stack");
+						}
+						parentObjectModifStack.invalidate();
+						parentObjectImpacted = true;
 					}
 				}
 			}
 		}
-		return parentValueImpacted;
+		return parentObjectImpacted;
 	}
 
-	public static boolean canPotentiallyIntegrateSubModifications(ReflectionUI reflectionUI,
-			boolean childValueImmutable, ValueReturnMode childValueReturnMode, boolean canCommit) {
-		if ((childValueReturnMode != ValueReturnMode.CALCULATED) && !childValueImmutable) {
+	public static boolean canCloseValueEditSession(boolean valueImmutable, ValueReturnMode valueReturnMode,
+			boolean canCommit) {
+		if ((valueReturnMode != ValueReturnMode.CALCULATED) && !valueImmutable) {
 			return true;
 		}
 		if (canCommit) {
@@ -929,7 +933,23 @@ public class ReflectionUIUtils {
 		String result = ReflectionUIUtils.identifierToCaption(field.getName());
 		return result;
 	}
-	
-	
+
+	public static String getDefaultListTypeCaption(IListTypeInfo listType) {
+		ITypeInfo itemType = listType.getItemType();
+		if (itemType == null) {
+			return "List";
+		} else {
+			return "List of " + itemType.getCaption() + " elements";
+		}
+	}
+
+	public static Listener<String> getDebugLogListener(final ReflectionUI reflectionUI) {
+		return new Listener<String>() {
+			@Override
+			public void handle(String event) {
+				reflectionUI.logDebug(event);
+			}
+		};
+	}
 
 }

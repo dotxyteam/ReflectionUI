@@ -39,11 +39,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 
 	@Override
 	public String getCaption() {
-		if (itemType == null) {
-			return "List";
-		} else {
-			return "List of " + getItemType().getCaption() + " elements";
-		}
+		return ReflectionUIUtils.getDefaultListTypeCaption(this);		
 	}
 
 	public Class<?> getJavaType() {

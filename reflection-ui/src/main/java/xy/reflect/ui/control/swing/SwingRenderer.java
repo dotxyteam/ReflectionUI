@@ -334,7 +334,11 @@ public class SwingRenderer {
 		};
 		getObjectByForm().put(result, object);
 		getModificationStackByForm().put(result, new ModificationStack(result.toString()));
-		getInfoFilterByForm().put(result, infoFilter);
+		if (infoFilter != null) {
+			getInfoFilterByForm().put(result, infoFilter);
+		} else {
+			getInfoFilterByForm().remove(result);
+		}
 		result.addAncestorListener(new AncestorListener() {
 
 			IModificationListener fieldsUpdateListener = new AbstractSimpleModificationListener() {
@@ -615,6 +619,9 @@ public class SwingRenderer {
 	public void fillForm(JPanel form) {
 		Object object = getObjectByForm().get(form);
 		IInfoFilter infoFilter = getInfoFilterByForm().get(form);
+		if (infoFilter == null) {
+			infoFilter = IInfoFilter.DEFAULT;
+		}
 
 		Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = new HashMap<InfoCategory, List<FieldControlPlaceHolder>>();
 		getFieldControlPlaceHoldersByCategoryByForm().put(form, fieldControlPlaceHoldersByCategory);
@@ -1246,6 +1253,8 @@ public class SwingRenderer {
 			if (fieldControlPlaceHolders.size() > 0) {
 				return SwingRendererUtils.requestAnyComponentFocus(fieldControlPlaceHolders.get(0).getFieldControl(),
 						null, this);
+			} else {
+				return false;
 			}
 		}
 		@SuppressWarnings("unchecked")

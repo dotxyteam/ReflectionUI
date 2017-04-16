@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.input.IMethodControlData;
-import xy.reflect.ui.control.input.IMethodControlInput;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -22,18 +20,17 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MethodSetupObjectFactory {
 
-	protected IMethodControlInput input;
 	protected ReflectionUI reflectionUI;
-	protected IMethodControlData data;
+	protected IMethodInfo method;
+	protected String contextId;
 
-	public MethodSetupObjectFactory(ReflectionUI reflectionUI, IMethodControlInput input) {
-		this.input = input;
-		this.data = input.getControlData();
+	public MethodSetupObjectFactory(ReflectionUI reflectionUI, IMethodInfo method) {
+		this.method = method;
 		this.reflectionUI = reflectionUI;
 	}
 
-	public Instance getInstance(InvocationData invocationData) {
-		Instance result = new MethodSetupObjectFactory.Instance(invocationData);
+	public Instance getInstance(Object object, InvocationData invocationData) {
+		Instance result = new MethodSetupObjectFactory.Instance(object, invocationData);
 		reflectionUI.registerPrecomputedTypeInfoObject(result, new TypeInfo());
 		return result;
 	}
@@ -46,7 +43,8 @@ public class MethodSetupObjectFactory {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((input == null) ? 0 : input.hashCode());
+		result = prime * result + ((contextId == null) ? 0 : contextId.hashCode());
+		result = prime * result + ((method == null) ? 0 : method.hashCode());
 		return result;
 	}
 
@@ -59,29 +57,45 @@ public class MethodSetupObjectFactory {
 		if (getClass() != obj.getClass())
 			return false;
 		MethodSetupObjectFactory other = (MethodSetupObjectFactory) obj;
-		if (input == null) {
-			if (other.input != null)
+		if (contextId == null) {
+			if (other.contextId != null)
 				return false;
-		} else if (!input.equals(other.input))
+		} else if (!contextId.equals(other.contextId))
+			return false;
+		if (method == null) {
+			if (other.method != null)
+				return false;
+		} else if (!method.equals(other.method))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "MethodSetupObjectFactory [input=" + input + "]";
+		return "MethodSetupObjectFactory [method=" + method + ", contextId=" + contextId + "]";
 	}
 
 	protected class Instance {
+		protected Object object;
 		protected InvocationData invocationData;
 
-		public Instance(InvocationData invocationData) {
-			super();
+		public Instance(Object object, InvocationData invocationData) {
+			this.object = object;
 			this.invocationData = invocationData;
 		}
+
+		public Object getObject() {
+			return object;
+		}
+
+		public InvocationData getInvocationData() {
+			return invocationData;
+		}
+
 	}
 
 	protected class TypeInfo implements ITypeInfo {
+
 		@Override
 		public boolean isConcrete() {
 			return true;
@@ -110,7 +124,7 @@ public class MethodSetupObjectFactory {
 		@Override
 		public List<IFieldInfo> getFields() {
 			List<IFieldInfo> result = new ArrayList<IFieldInfo>();
-			for (IParameterInfo param : data.getParameters()) {
+			for (IParameterInfo param : method.getParameters()) {
 				result.add(new ParameterAsField(param));
 			}
 			ReflectionUIUtils.sortFields(result);
@@ -119,17 +133,17 @@ public class MethodSetupObjectFactory {
 
 		@Override
 		public String getName() {
-			return "MethodSetupObject [context=" + input.getContextIdentifier() + "]";
+			return "MethodSetupObject [context=" + contextId + "]";
 		}
 
 		@Override
 		public String getCaption() {
-			return data.getCaption();
+			return ReflectionUIUtils.composeMessage(method.getCaption(), "Execution");
 		}
 
 		@Override
 		public String getOnlineHelp() {
-			return data.getOnlineHelp();
+			return method.getOnlineHelp();
 		}
 
 		@Override
@@ -145,7 +159,7 @@ public class MethodSetupObjectFactory {
 		@Override
 		public String toString(Object object) {
 			Instance instance = (Instance) object;
-			return data.toString() + "\n<= invoked with: " + instance.invocationData.toString();
+			return method.toString() + "\n<= invoked with: " + instance.invocationData.toString();
 		}
 
 		@Override
@@ -167,7 +181,7 @@ public class MethodSetupObjectFactory {
 		@Override
 		public void validate(Object object) throws Exception {
 			Instance instance = (Instance) object;
-			data.validateParameters(instance.invocationData);
+			method.validateParameters(instance.getObject(), instance.getInvocationData());
 		}
 
 		@Override

@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -15,7 +17,10 @@ import xy.reflect.ui.control.swing.editor.AbstractEditorBuilder;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.info.method.MethodInfoProxy;
+import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.util.MethodSetupObjectFactory;
 import xy.reflect.ui.undo.IModification;
@@ -102,8 +107,7 @@ public class MethodAction extends AbstractAction {
 		} else {
 			invocationData = new InvocationData();
 		}
-		JPanel methodForm = swingRenderer.createForm(
-				new MethodSetupObjectFactory(swingRenderer.getReflectionUI(), input).getInstance(invocationData));
+		JPanel methodForm = swingRenderer.createForm(createParametersObject(invocationData));
 		final boolean[] invokedStatusHolder = new boolean[] { false };
 		List<Component> toolbarControls = new ArrayList<Component>();
 		String doc = data.getOnlineHelp();
@@ -156,6 +160,81 @@ public class MethodAction extends AbstractAction {
 		} else {
 			return invokedStatusHolder[0];
 		}
+	}
+
+	protected Object createParametersObject(InvocationData invocationData) {
+		IMethodInfo controlDataAsMethod = new MethodInfoProxy(IMethodInfo.NULL_METHOD_INFO) {
+
+			@Override
+			public boolean isReturnValueNullable() {
+				return data.isReturnValueNullable();
+			}
+
+			@Override
+			public boolean isReturnValueDetached() {
+				return data.isReturnValueDetached();
+			}
+
+			@Override
+			public String getCaption() {
+				return data.getCaption();
+			}
+
+			@Override
+			public ITypeInfo getReturnValueType() {
+				return data.getReturnValueType();
+			}
+
+			@Override
+			public List<IParameterInfo> getParameters() {
+				return data.getParameters();
+			}
+
+			@Override
+			public Object invoke(Object object, InvocationData invocationData) {
+				return data.invoke(invocationData);
+			}
+
+			@Override
+			public String getNullReturnValueLabel() {
+				return data.getNullReturnValueLabel();
+			}
+
+			@Override
+			public boolean isReadOnly() {
+				return data.isReadOnly();
+			}
+
+			@Override
+			public ValueReturnMode getValueReturnMode() {
+				return data.getValueReturnMode();
+			}
+
+			@Override
+			public String getOnlineHelp() {
+				return data.getOnlineHelp();
+			}
+
+			@Override
+			public Runnable getUndoJob(Object object, InvocationData invocationData) {
+				return data.getUndoJob(invocationData);
+			}
+
+			@Override
+			public void validateParameters(Object object, InvocationData invocationData) throws Exception {
+				data.validateParameters(invocationData);
+			}
+
+			@Override
+			public Map<String, Object> getSpecificProperties() {
+				return data.getSpecificProperties();
+			}
+
+		};
+		Object controlDataAsMethodOwner = data;
+		MethodSetupObjectFactory factory = new MethodSetupObjectFactory(swingRenderer.getReflectionUI(),
+				controlDataAsMethod);
+		return factory.getInstance(controlDataAsMethodOwner, invocationData);
 	}
 
 	protected void openMethodReturnValueWindow(final Component activatorComponent) {
