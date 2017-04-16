@@ -3,6 +3,7 @@ package xy.reflect.ui.control.input;
 import java.util.Map;
 
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 public class FieldControlDataProxy implements IFieldControlData {
@@ -49,6 +50,18 @@ public class FieldControlDataProxy implements IFieldControlData {
 	@Override
 	public ValueReturnMode getValueReturnMode() {
 		return base.getValueReturnMode();
+	}
+
+	public boolean isFormControlMandatory() {
+		return base.isFormControlMandatory();
+	}
+
+	public boolean isFormControlEmbedded() {
+		return base.isFormControlEmbedded();
+	}
+
+	public IInfoFilter getFormControlFilter() {
+		return base.getFormControlFilter();
 	}
 
 	public Map<String, Object> getSpecificProperties() {

@@ -8,7 +8,8 @@ import java.util.List;
 
 public class ResourcePath {
 
-	public static final String CLASSPATH_RESOURCE_PREFIX = "<class-path-resource> ";
+	protected static final String CLASSPATH_RESOURCE_PREFIX = "<class-path-resource> ";
+	protected static final String MEMORY_OBJECT_PREFIX = "<memory> ";
 	protected static final int SELF_ALTERNATIVE_INDEX = 0;
 
 	protected String path;
@@ -16,14 +17,17 @@ public class ResourcePath {
 	protected int chosenAlternativeIndex;
 
 	public enum PathKind {
-		CLASS_PATH_RESOURCE, ABSOLUTE_FILE, RELATIVE_FILE
+		CLASS_PATH_RESOURCE, ABSOLUTE_FILE, RELATIVE_FILE, MEMORY_OBJECT
 	}
 
 	public ResourcePath(String specification) {
 		super();
 		if (specification.startsWith(ResourcePath.CLASSPATH_RESOURCE_PREFIX)) {
-			path = specification.substring(ResourcePath.CLASSPATH_RESOURCE_PREFIX.length());
+			path = extractClassPathResourceValue(specification);
 			pathKind = PathKind.CLASS_PATH_RESOURCE;
+		} else if (specification.startsWith(ResourcePath.MEMORY_OBJECT_PREFIX)) {
+			path = extractMemoryObjectValue(specification);
+			pathKind = PathKind.MEMORY_OBJECT;
 		} else {
 			File file = new File(specification);
 			path = file.getPath();
@@ -32,15 +36,44 @@ public class ResourcePath {
 		chosenAlternativeIndex = 0;
 	}
 
-	public String getSpecification() {
-		if (chosenAlternativeIndex != SELF_ALTERNATIVE_INDEX) {
-			return getChosenAlternative().getSpecification();
-		}
-		if (pathKind == PathKind.CLASS_PATH_RESOURCE) {
-			return ResourcePath.CLASSPATH_RESOURCE_PREFIX + path;
+	public static String formatClassPathResourceSpecification(String value) {
+		return ResourcePath.CLASSPATH_RESOURCE_PREFIX + value;
+	}
+
+	public static String extractClassPathResourceValue(String specification) {
+		return specification.substring(ResourcePath.CLASSPATH_RESOURCE_PREFIX.length());
+	}
+
+	public static String formatMemoryObjectSpecification(String value) {
+		return ResourcePath.MEMORY_OBJECT_PREFIX + value;
+	}
+
+	public static String extractMemoryObjectValue(String specification) {
+		return specification.substring(ResourcePath.MEMORY_OBJECT_PREFIX.length());
+	}
+
+	protected ResourcePath getChosen() {
+		if (chosenAlternativeIndex == SELF_ALTERNATIVE_INDEX) {
+			return this;
 		} else {
-			return path;
+			return getChosenAlternative();
 		}
+	}
+
+	public String getSpecification() {
+		ResourcePath chosen = getChosen();
+		if (chosen.pathKind == PathKind.CLASS_PATH_RESOURCE) {
+			return ResourcePath.formatClassPathResourceSpecification(chosen.path);
+		} else if (chosen.pathKind == PathKind.MEMORY_OBJECT) {
+			return ResourcePath.formatMemoryObjectSpecification(chosen.path);
+		} else {
+			return chosen.path;
+		}
+	}
+
+	public PathKind getPathKind() {
+		ResourcePath chosen = getChosen();
+		return chosen.pathKind;
 	}
 
 	public void setFile(File file) {
@@ -64,7 +97,7 @@ public class ResourcePath {
 
 	public List<ResourcePath> getAlternativeOptions() {
 		List<ResourcePath> result = new ArrayList<ResourcePath>();
-		if (pathKind != PathKind.CLASS_PATH_RESOURCE) {
+		if ((pathKind == PathKind.ABSOLUTE_FILE) || (pathKind == PathKind.RELATIVE_FILE)) {
 			if (path.trim().length() > 0) {
 				File file = new File(path);
 				result.addAll(findMatchingClassPathResources(file));
@@ -138,17 +171,8 @@ public class ResourcePath {
 
 	@Override
 	public String toString() {
-		if (path.trim().length() == 0) {
-			return "";
-		}
-		if (pathKind == PathKind.ABSOLUTE_FILE) {
-			return "<absolute-file> " + path;
-		} else if (pathKind == PathKind.RELATIVE_FILE) {
-			return "<relative-file> " + path;
-		} else if (pathKind == PathKind.CLASS_PATH_RESOURCE) {
-			return ResourcePath.CLASSPATH_RESOURCE_PREFIX + path;
-		} else {
-			throw new ReflectionUIError();
-		}
+		return "ResourcePath [path=" + path + ", pathKind=" + pathKind + ", chosenAlternativeIndex="
+				+ chosenAlternativeIndex + ", getSpecification()=" + getSpecification() + "]";
 	}
+
 }

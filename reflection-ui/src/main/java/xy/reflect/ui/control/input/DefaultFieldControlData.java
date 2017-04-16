@@ -4,6 +4,7 @@ import java.util.Map;
 
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 public class DefaultFieldControlData implements IFieldControlData {
@@ -65,6 +66,18 @@ public class DefaultFieldControlData implements IFieldControlData {
 	@Override
 	public ITypeInfo getType() {
 		return field.getType();
+	}
+
+	public boolean isFormControlMandatory() {
+		return field.isFormControlMandatory();
+	}
+
+	public boolean isFormControlEmbedded() {
+		return field.isFormControlEmbedded();
+	}
+
+	public IInfoFilter getFormControlFilter() {
+		return field.getFormControlFilter();
 	}
 
 	@Override

@@ -33,6 +33,7 @@ import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -690,25 +691,6 @@ public class CustomizationTools {
 					return CustomizationTools.class.getName() + TypeInfoProxyFactory.class.getSimpleName();
 				}
 
-				@Override
-				protected List<IFieldInfo> getFields(ITypeInfo type) {
-					if (type.getName().equals(TypeCustomization.class.getName())) {
-						List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
-						result.add(getIconImageFileField());
-						return result;
-					} else if (type.getName().equals(FieldCustomization.class.getName())) {
-						List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
-						result.add(getEmbeddedFormCreationField());
-						result.add(getCustomControlForbiddingField());
-						return result;
-					} else if (type.getName().equals(MethodCustomization.class.getName())) {
-						List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
-						result.add(getIconImageFileField());
-						return result;
-					} else {
-						return super.getFields(type);
-					}
-				}
 
 				@Override
 				protected Object[] getValueOptions(Object object, IFieldInfo field, ITypeInfo containingType) {
@@ -803,6 +785,11 @@ public class CustomizationTools {
 				}
 
 				@Override
+				public String getIconImagePath() {
+					return null;
+				}
+
+				@Override
 				public void validateParameters(Object object, InvocationData invocationData) throws Exception {
 				}
 
@@ -863,284 +850,9 @@ public class CustomizationTools {
 			};
 		}
 
-		protected IFieldInfo getEmbeddedFormCreationField() {
-			return new IFieldInfo() {
+		
 
-				@Override
-				public String getName() {
-					return "expandSubForm";
-				}
-
-				@Override
-				public String getCaption() {
-					return "Expand Sub-form";
-				}
-
-				@Override
-				public String getOnlineHelp() {
-					return null;
-				}
-
-				@Override
-				public String getNullValueLabel() {
-					return null;
-				}
-
-				@Override
-				public Map<String, Object> getSpecificProperties() {
-					return Collections.emptyMap();
-				}
-
-				@Override
-				public ITypeInfo getType() {
-					return new BooleanTypeInfo(customizationToolsRenderer.getReflectionUI(), boolean.class);
-				}
-
-				@Override
-				public ITypeInfoProxyFactory getTypeSpecificities() {
-					return null;
-				}
-
-				@Override
-				public Object getValue(Object object) {
-					FieldCustomization f = (FieldCustomization) object;
-					return DesktopSpecificProperty
-							.isSubFormExpanded(DesktopSpecificProperty.accessCustomizationsProperties(f));
-				}
-
-				@Override
-				public void setValue(Object object, Object value) {
-					FieldCustomization f = (FieldCustomization) object;
-					DesktopSpecificProperty.setSubFormExpanded(
-							DesktopSpecificProperty.accessCustomizationsProperties(f), (Boolean) value);
-				}
-
-				@Override
-				public Runnable getCustomUndoUpdateJob(Object object, Object value) {
-					return null;
-				}
-
-				@Override
-				public Object[] getValueOptions(Object object) {
-					return null;
-				}
-
-				@Override
-				public boolean isValueNullable() {
-					return false;
-				}
-
-				@Override
-				public boolean isGetOnly() {
-					return false;
-				}
-
-				@Override
-				public ValueReturnMode getValueReturnMode() {
-					return ValueReturnMode.CALCULATED;
-				}
-
-				@Override
-				public InfoCategory getCategory() {
-					return null;
-				}
-
-				@Override
-				public String toString() {
-					return getCaption();
-				}
-
-			};
-		}
-
-		protected IFieldInfo getCustomControlForbiddingField() {
-			return new IFieldInfo() {
-
-				@Override
-				public String getName() {
-					return "customControlForbidden";
-				}
-
-				@Override
-				public String getCaption() {
-					return "Forbid Custom Control";
-				}
-
-				@Override
-				public String getOnlineHelp() {
-					return null;
-				}
-
-				@Override
-				public String getNullValueLabel() {
-					return null;
-				}
-
-				@Override
-				public Map<String, Object> getSpecificProperties() {
-					return Collections.emptyMap();
-				}
-
-				@Override
-				public ITypeInfo getType() {
-					return new BooleanTypeInfo(customizationToolsRenderer.getReflectionUI(), boolean.class);
-				}
-
-				@Override
-				public ITypeInfoProxyFactory getTypeSpecificities() {
-					return null;
-				}
-
-				@Override
-				public Object getValue(Object object) {
-					FieldCustomization f = (FieldCustomization) object;
-					return DesktopSpecificProperty
-							.isCustumControlForbidden(DesktopSpecificProperty.accessCustomizationsProperties(f));
-				}
-
-				@Override
-				public void setValue(Object object, Object value) {
-					FieldCustomization f = (FieldCustomization) object;
-					DesktopSpecificProperty.setCustumControlForbidden(
-							DesktopSpecificProperty.accessCustomizationsProperties(f), (Boolean) value);
-				}
-
-				@Override
-				public Runnable getCustomUndoUpdateJob(Object object, Object value) {
-					return null;
-				}
-
-				@Override
-				public Object[] getValueOptions(Object object) {
-					return null;
-				}
-
-				@Override
-				public boolean isValueNullable() {
-					return false;
-				}
-
-				@Override
-				public boolean isGetOnly() {
-					return false;
-				}
-
-				@Override
-				public ValueReturnMode getValueReturnMode() {
-					return ValueReturnMode.CALCULATED;
-				}
-
-				@Override
-				public InfoCategory getCategory() {
-					return null;
-				}
-
-				@Override
-				public String toString() {
-					return getCaption();
-				}
-
-			};
-		}
-
-		protected IFieldInfo getIconImageFileField() {
-			return new IFieldInfo() {
-
-				@Override
-				public String getName() {
-					return "iconImageFile";
-				}
-
-				@Override
-				public String getCaption() {
-					return "Icon Image File";
-				}
-
-				@Override
-				public String getNullValueLabel() {
-					return null;
-				}
-
-				@Override
-				public String getOnlineHelp() {
-					return null;
-				}
-
-				@Override
-				public Map<String, Object> getSpecificProperties() {
-					return Collections.emptyMap();
-				}
-
-				@Override
-				public ITypeInfo getType() {
-					return customizationToolsRenderer.getReflectionUI()
-							.getTypeInfo(new JavaTypeInfoSource(ResourcePath.class));
-				}
-
-				@Override
-				public ITypeInfoProxyFactory getTypeSpecificities() {
-					return null;
-				}
-
-				@Override
-				public Object[] getValueOptions(Object object) {
-					return null;
-				}
-
-				@Override
-				public Object getValue(Object object) {
-					AbstractInfoCustomization c = (AbstractInfoCustomization) object;
-					String pathSpecification = DesktopSpecificProperty
-							.getIconImageFilePath(DesktopSpecificProperty.accessCustomizationsProperties(c));
-					if (pathSpecification == null) {
-						pathSpecification = "";
-					}
-					return new ResourcePath(pathSpecification);
-				}
-
-				@Override
-				public void setValue(Object object, Object value) {
-					String pathSpecification = ((ResourcePath) value).getSpecification();
-					if (pathSpecification.equals("")) {
-						pathSpecification = null;
-					}
-					AbstractInfoCustomization c = (AbstractInfoCustomization) object;
-					DesktopSpecificProperty.setIconImageFilePath(
-							DesktopSpecificProperty.accessCustomizationsProperties(c), pathSpecification);
-				}
-
-				@Override
-				public Runnable getCustomUndoUpdateJob(Object object, Object value) {
-					return null;
-				}
-
-				@Override
-				public boolean isValueNullable() {
-					return false;
-				}
-
-				@Override
-				public boolean isGetOnly() {
-					return false;
-				}
-
-				@Override
-				public ValueReturnMode getValueReturnMode() {
-					return ValueReturnMode.CALCULATED;
-				}
-
-				@Override
-				public InfoCategory getCategory() {
-					return null;
-				}
-
-				@Override
-				public String toString() {
-					return getCaption();
-				}
-			};
-		}
-
+		
 	};
 
 	protected class ColumnOrderItem {

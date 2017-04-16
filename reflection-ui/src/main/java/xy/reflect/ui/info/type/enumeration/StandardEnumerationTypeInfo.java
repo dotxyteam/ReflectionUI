@@ -73,6 +73,11 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements IEnu
 				}
 
 				@Override
+				public String getIconImagePath() {
+					return null;
+				}
+
+				@Override
 				public String getOnlineHelp() {
 					return null;
 				}

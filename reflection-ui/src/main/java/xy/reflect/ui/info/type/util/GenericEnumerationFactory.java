@@ -58,6 +58,10 @@ public class GenericEnumerationFactory {
 		return ReflectionUIUtils.toString(reflectionUI, item);
 	}
 
+	protected String getItemIconImagePath(Object item) {
+		return ReflectionUIUtils.getIconImagePath(reflectionUI, item);
+	}
+
 	public Object getInstance(Object item) {
 		if (item == null) {
 			return null;
@@ -175,6 +179,11 @@ public class GenericEnumerationFactory {
 		}
 
 		@Override
+		public String getIconImagePath() {
+			return null;
+		}
+
+		@Override
 		public boolean isPrimitive() {
 			return false;
 		}
@@ -271,6 +280,11 @@ public class GenericEnumerationFactory {
 				@Override
 				public Map<String, Object> getSpecificProperties() {
 					return getItemSpecificProperties(item);
+				}
+
+				@Override
+				public String getIconImagePath() {
+					return getItemIconImagePath(item);
 				}
 
 				@Override

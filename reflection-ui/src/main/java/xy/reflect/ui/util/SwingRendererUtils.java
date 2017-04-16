@@ -19,14 +19,8 @@ import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.AWTEventListener;
 import java.awt.event.AWTEventListenerProxy;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
-import java.awt.event.HierarchyBoundsListener;
-import java.awt.event.HierarchyEvent;
-import java.awt.event.HierarchyListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -40,6 +34,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -51,22 +46,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.input.IFieldControlData;
 import xy.reflect.ui.control.input.IMethodControlData;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.SwingRenderer;
-import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -76,15 +64,14 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.IModification;
-import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.undo.ModificationProxy;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
+import xy.reflect.ui.util.ResourcePath.PathKind;
 
-@SuppressWarnings("unused")
 public class SwingRendererUtils {
 
-	public static final Image NULL_ICON_IMAGE = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+	public static final Image NULL_IMAGE = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
 	public static final ImageIcon ERROR_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/error.png"));
 	public static final ImageIcon HELP_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/help.png"));
 	public static final ImageIcon DETAILS_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/details.png"));
@@ -371,8 +358,7 @@ public class SwingRendererUtils {
 	}
 
 	public static void forwardFormModifications(final SwingRenderer swingRenderer, final JPanel form,
-			final Accessor<Boolean> valueModifAcceptedGetter,
-			final Accessor<ValueReturnMode> valueReturnModeGetter,
+			final Accessor<Boolean> valueModifAcceptedGetter, final Accessor<ValueReturnMode> valueReturnModeGetter,
 			final Accessor<Boolean> valueReplacedGetter, final Accessor<IModification> commitModifGetter,
 			final Accessor<IInfo> editSessionTargetGetter, final Accessor<String> editSessionTitleGetter,
 			final Accessor<ModificationStack> parentObjectModifStackGetter) {
@@ -437,8 +423,8 @@ public class SwingRendererUtils {
 				IInfo editSessionTarget = editSessionTargetGetter.get();
 				ModificationStack parentObjectModifStack = parentObjectModifStackGetter.get();
 				ReflectionUIUtils.closeValueEditSession(parentObjectModifStack, valueModifStack, valueModifAccepted,
-						valueReturnMode, valueReplaced, commitModif, editSessionTarget,
-						editSessionTitle, ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
+						valueReturnMode, valueReplaced, commitModif, editSessionTarget, editSessionTitle,
+						ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
 			}
 
 			@Override
@@ -573,27 +559,29 @@ public class SwingRendererUtils {
 		return listenersToRemove.size();
 	}
 
-	public static Image findIconImage(SwingRenderer swingRenderer, Map<String, Object> properties) {
-		if (properties == null) {
-			return null;
-		}
-		Image result = DesktopSpecificProperty.getIconImage(properties);
-		if (result != null) {
-			return result;
-		}
-		String imagePath = DesktopSpecificProperty.getIconImageFilePath(properties);
+	public static ResourcePath putImageInCached(Image image) {
+		String imagePathSpecification = ResourcePath
+				.formatMemoryObjectSpecification(Integer.toString(image.hashCode()));
+		SwingRendererUtils.IMAGE_CACHE.put(imagePathSpecification, image);
+		return new ResourcePath(imagePathSpecification);
+	}
+
+	public static Image loadImageThroughcache(ResourcePath imagePath, Listener<String> errorMessageListener) {
 		if (imagePath == null) {
 			return null;
 		}
-		result = SwingRendererUtils.IMAGE_CACHE.get(imagePath);
+		if (imagePath.getPathKind() == PathKind.MEMORY_OBJECT) {
+			return SwingRendererUtils.IMAGE_CACHE.get(imagePath.getSpecification());
+		}
+		Image result = SwingRendererUtils.IMAGE_CACHE.get(imagePath);
 		if (result == null) {
 			URL imageUrl;
-			if (imagePath.startsWith(ResourcePath.CLASSPATH_RESOURCE_PREFIX)) {
-				imagePath = imagePath.substring(ResourcePath.CLASSPATH_RESOURCE_PREFIX.length());
-				imageUrl = SwingRendererUtils.class.getClassLoader().getResource(imagePath);
+			if (imagePath.getPathKind() == PathKind.CLASS_PATH_RESOURCE) {
+				imageUrl = SwingRendererUtils.class.getClassLoader()
+						.getResource(ResourcePath.extractClassPathResourceValue(imagePath.getSpecification()));
 			} else {
 				try {
-					imageUrl = new File(imagePath).toURI().toURL();
+					imageUrl = new File(imagePath.getSpecification()).toURI().toURL();
 				} catch (MalformedURLException e) {
 					throw new ReflectionUIError(e);
 				}
@@ -601,13 +589,14 @@ public class SwingRendererUtils {
 			try {
 				result = ImageIO.read(imageUrl);
 			} catch (IOException e) {
-				swingRenderer.getReflectionUI()
-						.logError("Failed to load image from '" + imageUrl + "': " + e.toString());
-				result = NULL_ICON_IMAGE;
+				if (errorMessageListener != null) {
+					errorMessageListener.handle("Failed to load image from '" + imageUrl + "': " + e.toString());
+				}
+				result = NULL_IMAGE;
 			}
-			SwingRendererUtils.IMAGE_CACHE.put(imagePath, result);
+			SwingRendererUtils.IMAGE_CACHE.put(imagePath.getSpecification(), result);
 		}
-		if (result == NULL_ICON_IMAGE) {
+		if (result == NULL_IMAGE) {
 			return null;
 		}
 		return result;

@@ -75,6 +75,10 @@ public class MethodControlDataProxy implements IMethodControlData {
 		return base.getMethodSignature();
 	}
 
+	public String getIconImagePath() {
+		return base.getIconImagePath();
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

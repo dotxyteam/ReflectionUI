@@ -39,6 +39,11 @@ public class DefaultMethodInfo implements IMethodInfo {
 	}
 
 	@Override
+	public String getIconImagePath() {
+		return null;
+	}
+
+	@Override
 	public boolean isReturnValueNullable() {
 		return !getReturnValueType().isPrimitive();
 	}

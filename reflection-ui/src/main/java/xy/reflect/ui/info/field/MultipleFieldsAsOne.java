@@ -8,6 +8,7 @@ import java.util.Map;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
@@ -117,11 +118,6 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 	}
 
 	@Override
-	public String toString() {
-		return "MultipleFieldAsOne [fields=" + fields + "]";
-	}
-
-	@Override
 	public String getName() {
 		StringBuilder result = new StringBuilder();
 		int i = 0;
@@ -138,6 +134,21 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 	@Override
 	public String getOnlineHelp() {
 		return null;
+	}
+
+	@Override
+	public boolean isFormControlMandatory() {
+		return false;
+	}
+
+	@Override
+	public boolean isFormControlEmbedded() {
+		return false;
+	}
+
+	@Override
+	public IInfoFilter getFormControlFilter() {
+		return IInfoFilter.DEFAULT;
 	}
 
 	@Override
@@ -162,6 +173,11 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 			return false;
 		}
 		return fields.equals(((MultipleFieldsAsOne) obj).fields);
+	}
+
+	@Override
+	public String toString() {
+		return "MultipleFieldAsOne [fields=" + fields + "]";
 	}
 
 	public class ValueListItem {
@@ -253,6 +269,11 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 
 		public ValueListItemTypeInfo(IFieldInfo field) {
 			this.field = field;
+		}
+
+		@Override
+		public String getIconImagePath() {
+			return null;
 		}
 
 		@Override

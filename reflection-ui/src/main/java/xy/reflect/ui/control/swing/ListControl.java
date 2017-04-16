@@ -1657,7 +1657,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 					@Override
 					public boolean isObjectFormExpanded() {
-						return true;
+						return dynamicProperty.isFormControlEmbedded();
 					}
 
 					@Override
@@ -1726,7 +1726,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 					@Override
 					public IInfoFilter getObjectFormFilter() {
-						return IInfoFilter.DEFAULT;
+						return dynamicProperty.getFormControlFilter();
 					}
 				};
 				subDialogBuilder.showDialog();

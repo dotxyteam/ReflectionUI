@@ -10,6 +10,7 @@ import java.util.Map;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -211,6 +212,10 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return type.copy(object);
 	}
 
+	protected String getIconImagePath(ITypeInfo type) {
+		return type.getIconImagePath();
+	}
+
 	protected String getCaption(IFieldInfo field, ITypeInfo containingType) {
 		return field.getCaption();
 	}
@@ -398,6 +403,18 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return new GeneratedFieldInfoProxy(type.getValueField(), type);
 	}
 
+	protected boolean isFormControlMandatory(IFieldInfo field, ITypeInfo containingType) {
+		return field.isFormControlMandatory();
+	}
+
+	protected boolean isFormControlEmbedded(IFieldInfo field, ITypeInfo containingType) {
+		return field.isFormControlEmbedded();
+	}
+
+	protected IInfoFilter getFormControlFilter(IFieldInfo field, ITypeInfo containingType) {
+		return field.getFormControlFilter();
+	}
+
 	protected String getOnlineHelp(IFieldInfo field, ITypeInfo containingType) {
 		return field.getOnlineHelp();
 	}
@@ -429,6 +446,10 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	protected String getOnlineHelp(IMethodInfo method, ITypeInfo containingType) {
 		return method.getOnlineHelp();
+	}
+
+	protected String getIconImagePath(IMethodInfo method, ITypeInfo containingType) {
+		return method.getIconImagePath();
 	}
 
 	protected Map<String, Object> getSpecificProperties(IMethodInfo method, ITypeInfo containingType) {
@@ -550,6 +571,11 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		@Override
 		public Object copy(Object object) {
 			return TypeInfoProxyFactory.this.copy(base, object);
+		}
+
+		@Override
+		public String getIconImagePath() {
+			return TypeInfoProxyFactory.this.getIconImagePath(base);
 		}
 
 		@Override
@@ -881,6 +907,21 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		}
 
 		@Override
+		public boolean isFormControlMandatory() {
+			return TypeInfoProxyFactory.this.isFormControlMandatory(base, containingType);
+		}
+
+		@Override
+		public boolean isFormControlEmbedded() {
+			return TypeInfoProxyFactory.this.isFormControlEmbedded(base, containingType);
+		}
+
+		@Override
+		public IInfoFilter getFormControlFilter() {
+			return TypeInfoProxyFactory.this.getFormControlFilter(base, containingType);
+		}
+
+		@Override
 		public Map<String, Object> getSpecificProperties() {
 			return TypeInfoProxyFactory.this.getSpecificProperties(base, containingType);
 		}
@@ -1015,6 +1056,11 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		@Override
 		public String getOnlineHelp() {
 			return TypeInfoProxyFactory.this.getOnlineHelp(base, containingType);
+		}
+
+		@Override
+		public String getIconImagePath() {
+			return TypeInfoProxyFactory.this.getIconImagePath(base, containingType);
 		}
 
 		@Override

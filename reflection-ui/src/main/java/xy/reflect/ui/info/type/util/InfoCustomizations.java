@@ -49,6 +49,7 @@ import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.method.SubMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
 import xy.reflect.ui.info.type.enumeration.EnumerationItemInfoProxy;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
@@ -62,12 +63,16 @@ import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.util.InfoCustomizations.AbstractInfoCustomization;
+import xy.reflect.ui.info.type.util.InfoCustomizations.FieldCustomization;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.ListModificationFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.ResourcePath;
+import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.SystemProperties;
 
 @SuppressWarnings("unused")
@@ -419,7 +424,7 @@ public class InfoCustomizations implements Serializable {
 			}
 			if (nextSameCategoryInfoIndex == -1) {
 				break;
-			}else{
+			} else {
 				newInfoIndex = nextSameCategoryInfoIndex;
 			}
 		}
@@ -521,6 +526,30 @@ public class InfoCustomizations implements Serializable {
 		protected boolean immutableForced = false;
 		protected boolean abstractForced = false;
 		protected List<ITypeInfoFinder> polymorphicSubTypeFinders = new ArrayList<ITypeInfoFinder>();
+		protected ResourcePath iconImagePath;
+
+		@Override
+		public void setSpecificProperties(Map<String, Object> specificProperties) {
+			if (specificProperties != null) {
+				String pathSpecification = DesktopSpecificProperty.getIconImageFilePath(specificProperties);
+				if (pathSpecification == null) {
+					pathSpecification = "";
+				}
+				if (pathSpecification.length() > 0) {
+					iconImagePath = new ResourcePath(pathSpecification);
+					specificProperties.remove(DesktopSpecificProperty.KEY_ICON_IMAGE_PATH);
+				}
+			}
+			super.setSpecificProperties(specificProperties);
+		}
+
+		public ResourcePath getIconImagePath() {
+			return iconImagePath;
+		}
+
+		public void setIconImagePath(ResourcePath iconImagePath) {
+			this.iconImagePath = iconImagePath;
+		}
 
 		public String getTypeName() {
 			return typeName;
@@ -804,6 +833,39 @@ public class InfoCustomizations implements Serializable {
 		protected boolean displayedEncapsulated = false;
 		protected FieldTypeSpecificities specificTypeCustomizations = new FieldTypeSpecificities();
 		protected boolean defaultFormFilterDisabled = false;
+		protected boolean formControlEmbeddingForced = false;
+		protected boolean formControlCreationForced = false;
+
+		@Override
+		public void setSpecificProperties(Map<String, Object> specificProperties) {
+			if (specificProperties != null) {
+				if (DesktopSpecificProperty.isSubFormExpanded(specificProperties)) {
+					formControlEmbeddingForced = true;
+					specificProperties.remove(DesktopSpecificProperty.CREATE_EMBEDDED_FORM);
+				}
+				if (DesktopSpecificProperty.isCustumControlForbidden(specificProperties)) {
+					formControlCreationForced = true;
+					specificProperties.remove(DesktopSpecificProperty.FORBID_CUSTUM_CONTROL);
+				}
+			}
+			super.setSpecificProperties(specificProperties);
+		}
+
+		public boolean isFormControlCreationForced() {
+			return formControlCreationForced;
+		}
+
+		public void setFormControlCreationForced(boolean formControlCreationForced) {
+			this.formControlCreationForced = formControlCreationForced;
+		}
+
+		public boolean isFormControlEmbeddingForced() {
+			return formControlEmbeddingForced;
+		}
+
+		public void setFormControlEmbeddingForced(boolean formControlEmbeddingForced) {
+			this.formControlEmbeddingForced = formControlEmbeddingForced;
+		}
 
 		public boolean isDefaultFormFilterDisabled() {
 			return defaultFormFilterDisabled;
@@ -970,6 +1032,30 @@ public class InfoCustomizations implements Serializable {
 		protected boolean detachedReturnValueForced;
 		protected String encapsulationFieldName;
 		protected String parametersFormFieldName;
+		protected ResourcePath iconImagePath;
+
+		@Override
+		public void setSpecificProperties(Map<String, Object> specificProperties) {
+			if (specificProperties != null) {
+				String pathSpecification = DesktopSpecificProperty.getIconImageFilePath(specificProperties);
+				if (pathSpecification == null) {
+					pathSpecification = "";
+				}
+				if (pathSpecification.length() > 0) {
+					iconImagePath = new ResourcePath(pathSpecification);
+					specificProperties.remove(DesktopSpecificProperty.KEY_ICON_IMAGE_PATH);
+				}
+			}
+			super.setSpecificProperties(specificProperties);
+		}
+
+		public ResourcePath getIconImagePath() {
+			return iconImagePath;
+		}
+
+		public void setIconImagePath(ResourcePath iconImagePath) {
+			this.iconImagePath = iconImagePath;
+		}
 
 		public String getEncapsulationFieldName() {
 			return encapsulationFieldName;
@@ -2631,6 +2717,96 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		@Override
+		protected String getIconImagePath(ITypeInfo type) {
+			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, type.getName());
+			if (t != null) {
+				if (t.iconImagePath != null) {
+					return t.iconImagePath.getSpecification();
+				}
+			}
+			return super.getIconImagePath(type);
+		}
+
+		@Override
+		protected String getIconImagePath(IMethodInfo method, ITypeInfo containingType) {
+			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
+			if (t != null) {
+				MethodCustomization m = getMethodCustomization(t, ReflectionUIUtils.getMethodSignature(method));
+				if (m != null) {
+					if (m.iconImagePath != null) {
+						return m.iconImagePath.getSpecification();
+					}
+				}
+			}
+			return super.getIconImagePath(method, containingType);
+		}
+
+		@Override
+		protected boolean isFormControlMandatory(IFieldInfo field, ITypeInfo containingType) {
+			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
+			if (t != null) {
+				FieldCustomization f = getFieldCustomization(t, field.getName());
+				if (f != null) {
+					if (f.formControlCreationForced) {
+						return true;
+					}
+				}
+			}
+			return super.isFormControlMandatory(field, containingType);
+		}
+
+		@Override
+		protected boolean isFormControlEmbedded(IFieldInfo field, ITypeInfo containingType) {
+			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
+			if (t != null) {
+				FieldCustomization f = getFieldCustomization(t, field.getName());
+				if (f != null) {
+					if (f.formControlEmbeddingForced) {
+						return true;
+					}
+				}
+			}
+			return super.isFormControlEmbedded(field, containingType);
+		}
+
+		@Override
+		protected IInfoFilter getFormControlFilter(IFieldInfo field, ITypeInfo containingType) {
+			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
+			if (t != null) {
+				FieldCustomization f = getFieldCustomization(t, field.getName());
+				if (f != null) {
+					if (f.defaultFormFilterDisabled) {
+						IInfoFilter filter = super.getFormControlFilter(field, containingType);
+						if (filter == null) {
+							filter = IInfoFilter.DEFAULT;
+						}
+						filter = new InfoFilterProxy(filter) {
+
+							@Override
+							public boolean excludeField(IFieldInfo field) {
+								if (IInfoFilter.DEFAULT.excludeField(field)) {
+									return false;
+								}
+								return super.excludeField(field);
+							}
+
+							@Override
+							public boolean excludeMethod(IMethodInfo method) {
+								if (IInfoFilter.DEFAULT.excludeMethod(method)) {
+									return false;
+								}
+								return super.excludeMethod(method);
+							}
+
+						};
+						return filter;
+					}
+				}
+			}
+			return super.getFormControlFilter(field, containingType);
+		}
+
+		@Override
 		protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
 			Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(type));
 			result.put(CURRENT_PROXY_SOURCE_PROPERTY_KEY, InfoCustomizations.this);
@@ -2639,6 +2815,23 @@ public class InfoCustomizations implements Serializable {
 				if (t.specificProperties != null) {
 					if (t.specificProperties.entrySet().size() > 0) {
 						result.putAll(t.specificProperties);
+					}
+				}
+			}
+			return result;
+		}
+
+		@Override
+		protected Map<String, Object> getSpecificProperties(IFieldInfo field, ITypeInfo containingType) {
+			Map<String, Object> result = new HashMap<String, Object>(
+					super.getSpecificProperties(field, containingType));
+			result.put(CURRENT_PROXY_SOURCE_PROPERTY_KEY, InfoCustomizations.this);
+			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
+			if (t != null) {
+				FieldCustomization f = getFieldCustomization(t, field.getName());
+				if (f != null) {
+					if (f.specificProperties != null) {
+						result.putAll(f.specificProperties);
 					}
 				}
 			}
@@ -2665,58 +2858,11 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		@Override
-		protected Map<String, Object> getSpecificProperties(IFieldInfo field, ITypeInfo containingType) {
-			Map<String, Object> result = new HashMap<String, Object>(
-					super.getSpecificProperties(field, containingType));
-			result.put(CURRENT_PROXY_SOURCE_PROPERTY_KEY, InfoCustomizations.this);
-			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
-			if (t != null) {
-				FieldCustomization f = getFieldCustomization(t, field.getName());
-				if (f != null) {
-					if (f.specificProperties != null) {
-						for (String key : f.specificProperties.keySet()) {
-							Object value = f.specificProperties.get(key);
-							if (value != null) {
-								result.put(key, value);
-							}
-						}
-					}
-					if (f.defaultFormFilterDisabled) {
-						IInfoFilter filter = DesktopSpecificProperty.getFilter(result);
-						if (filter == null) {
-							filter = IInfoFilter.DEFAULT;
-						}
-						filter = new InfoFilterProxy(filter) {
-
-							@Override
-							public boolean excludeField(IFieldInfo field) {
-								if (IInfoFilter.DEFAULT.excludeField(field)) {
-									return false;
-								}
-								return super.excludeField(field);
-							}
-
-							@Override
-							public boolean excludeMethod(IMethodInfo method) {
-								if (IInfoFilter.DEFAULT.excludeMethod(method)) {
-									return false;
-								}
-								return super.excludeMethod(method);
-							}
-
-						};
-						DesktopSpecificProperty.setFilter(result, filter);
-					}
-				}
-			}
-			return result;
-		}
-
-		@Override
 		protected Map<String, Object> getSpecificProperties(IParameterInfo param, IMethodInfo method,
 				ITypeInfo containingType) {
 			Map<String, Object> result = new HashMap<String, Object>(
 					super.getSpecificProperties(param, method, containingType));
+			result.put(CURRENT_PROXY_SOURCE_PROPERTY_KEY, InfoCustomizations.this);
 			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
 			if (t != null) {
 				MethodCustomization m = getMethodCustomization(t, ReflectionUIUtils.getMethodSignature(method));

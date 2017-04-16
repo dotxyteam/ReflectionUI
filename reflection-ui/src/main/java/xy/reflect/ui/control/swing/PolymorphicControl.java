@@ -301,8 +301,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 
 			@Override
 			public IInfoFilter getObjectFormFilter() {
-				IInfoFilter result = DesktopSpecificProperty
-						.getFilter(DesktopSpecificProperty.accessControlDataProperties(data));
+				IInfoFilter result = data.getFormControlFilter();
 				if (result == null) {
 					result = IInfoFilter.DEFAULT;
 				}

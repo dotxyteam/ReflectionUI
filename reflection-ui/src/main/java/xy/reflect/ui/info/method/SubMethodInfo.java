@@ -181,6 +181,10 @@ public class SubMethodInfo implements IMethodInfo {
 		return theSubMethod.isReturnValueDetached();
 	}
 
+	public String getIconImagePath() {
+		return theSubMethod.getIconImagePath();
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

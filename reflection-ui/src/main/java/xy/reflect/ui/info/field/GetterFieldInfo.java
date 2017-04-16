@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -32,6 +33,62 @@ public class GetterFieldInfo implements IFieldInfo {
 		resolveJavaReflectionModelAccessProblems();
 	}
 
+	public static String getFieldName(String getterMethodName) {
+		Matcher m = Pattern.compile("^(?:get|is|has)([A-Z].*)").matcher(getterMethodName);
+		if (!m.matches()) {
+			return null;
+		}
+		String result = m.group(1);
+		if (result != null) {
+			result = ReflectionUIUtils.changeCase(result, false, 0, 1);
+		}
+		return result;
+	}
+
+	public static Method getValidSetterMethod(Method javaGetterMethod, Class<?> containingJavaClass) {
+		String fieldName = getFieldName(javaGetterMethod.getName());
+		String setterMethodName = "set" + ReflectionUIUtils.changeCase(fieldName, true, 0, 1);
+		Method result;
+		try {
+			result = containingJavaClass.getMethod(setterMethodName, new Class[] { javaGetterMethod.getReturnType() });
+		} catch (NoSuchMethodException e) {
+			return null;
+		} catch (SecurityException e) {
+			throw new ReflectionUIError(e);
+		}
+		if (result.getExceptionTypes().length > 0) {
+			return null;
+		}
+		return result;
+	}
+
+	public static boolean isCompatibleWith(Method javaMethod, Class<?> containingJavaClass) {
+		if (javaMethod.isSynthetic()) {
+			return false;
+		}
+		if (javaMethod.isBridge()) {
+			return false;
+		}
+		String fieldName = GetterFieldInfo.getFieldName(javaMethod.getName());
+		if (fieldName == null) {
+			return false;
+		}
+		for (Field siblingField : containingJavaClass.getFields()) {
+			if (PublicFieldInfo.isCompatibleWith(siblingField)) {
+				if (siblingField.getName().equals(fieldName)) {
+					return false;
+				}
+			}
+		}
+		if (javaMethod.getParameterTypes().length > 0) {
+			return false;
+		}
+		if (javaMethod.getExceptionTypes().length > 0) {
+			return false;
+		}
+		return true;
+	}
+
 	protected void resolveJavaReflectionModelAccessProblems() {
 		javaGetterMethod.setAccessible(true);
 	}
@@ -46,6 +103,11 @@ public class GetterFieldInfo implements IFieldInfo {
 			return null;
 		}
 		return new DefaultMethodInfo(reflectionUI, javaSetterMethod);
+	}
+
+	@Override
+	public String getName() {
+		return GetterFieldInfo.getFieldName(javaGetterMethod.getName());
 	}
 
 	@Override
@@ -117,13 +179,33 @@ public class GetterFieldInfo implements IFieldInfo {
 	}
 
 	@Override
-	public String toString() {
-		return "GetterFieldInfo [javaGetterMethod=" + javaGetterMethod + "]";
+	public InfoCategory getCategory() {
+		return null;
 	}
 
 	@Override
-	public String getName() {
-		return GetterFieldInfo.getFieldName(javaGetterMethod.getName());
+	public String getOnlineHelp() {
+		return null;
+	}
+
+	@Override
+	public boolean isFormControlMandatory() {
+		return false;
+	}
+
+	@Override
+	public boolean isFormControlEmbedded() {
+		return false;
+	}
+
+	@Override
+	public IInfoFilter getFormControlFilter() {
+		return IInfoFilter.DEFAULT;
+	}
+
+	@Override
+	public Map<String, Object> getSpecificProperties() {
+		return Collections.emptyMap();
 	}
 
 	@Override
@@ -145,75 +227,9 @@ public class GetterFieldInfo implements IFieldInfo {
 		return javaGetterMethod.equals(((GetterFieldInfo) obj).javaGetterMethod);
 	}
 
-	public static String getFieldName(String getterMethodName) {
-		Matcher m = Pattern.compile("^(?:get|is|has)([A-Z].*)").matcher(getterMethodName);
-		if (!m.matches()) {
-			return null;
-		}
-		String result = m.group(1);
-		if (result != null) {
-			result = ReflectionUIUtils.changeCase(result, false, 0, 1);
-		}
-		return result;
-	}
-
-	public static Method getValidSetterMethod(Method javaGetterMethod, Class<?> containingJavaClass) {
-		String fieldName = getFieldName(javaGetterMethod.getName());
-		String setterMethodName = "set" + ReflectionUIUtils.changeCase(fieldName, true, 0, 1);
-		Method result;
-		try {
-			result = containingJavaClass.getMethod(setterMethodName, new Class[] { javaGetterMethod.getReturnType() });
-		} catch (NoSuchMethodException e) {
-			return null;
-		} catch (SecurityException e) {
-			throw new ReflectionUIError(e);
-		}
-		if (result.getExceptionTypes().length > 0) {
-			return null;
-		}
-		return result;
-	}
-
-	public static boolean isCompatibleWith(Method javaMethod, Class<?> containingJavaClass) {
-		if (javaMethod.isSynthetic()) {
-			return false;
-		}
-		if (javaMethod.isBridge()) {
-			return false;
-		}
-		String fieldName = GetterFieldInfo.getFieldName(javaMethod.getName());
-		if (fieldName == null) {
-			return false;
-		}
-		for (Field siblingField : containingJavaClass.getFields()) {
-			if (PublicFieldInfo.isCompatibleWith(siblingField)) {
-				if (siblingField.getName().equals(fieldName)) {
-					return false;
-				}
-			}
-		}
-		if (javaMethod.getParameterTypes().length > 0) {
-			return false;
-		}
-		if (javaMethod.getExceptionTypes().length > 0) {
-			return false;
-		}
-		return true;
-	}
-
 	@Override
-	public InfoCategory getCategory() {
-		return null;
-	}
-
-	@Override
-	public String getOnlineHelp() {
-		return null;
-	}
-
-	@Override
-	public Map<String, Object> getSpecificProperties() {
-		return Collections.emptyMap();
+	public String toString() {
+		return "GetterFieldInfo [javaGetterMethod=" + javaGetterMethod + "]";
 	}
 
 }

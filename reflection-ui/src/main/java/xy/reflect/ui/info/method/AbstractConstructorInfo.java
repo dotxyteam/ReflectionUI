@@ -26,6 +26,11 @@ public abstract class AbstractConstructorInfo implements IMethodInfo {
 	}
 
 	@Override
+	public String getIconImagePath() {
+		return null;
+	}
+
+	@Override
 	public boolean isReturnValueNullable() {
 		return false;
 	}

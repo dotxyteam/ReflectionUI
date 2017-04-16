@@ -91,6 +91,10 @@ public class DefaultMethodControlData implements IMethodControlData {
 		return ReflectionUIUtils.getMethodSignature(method);
 	}
 
+	public String getIconImagePath() {
+		return method.getIconImagePath();
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

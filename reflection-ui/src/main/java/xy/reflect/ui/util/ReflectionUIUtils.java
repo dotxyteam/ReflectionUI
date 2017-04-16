@@ -768,6 +768,14 @@ public class ReflectionUIUtils {
 		return type.toString(object);
 	}
 
+	public static String getIconImagePath(ReflectionUI reflectionUI, Object object) {
+		if (object == null) {
+			return "";
+		}
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		return type.getIconImagePath();
+	}
+
 	public static boolean canCopy(ReflectionUI reflectionUI, Object object) {
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		return type.canCopy(object);
@@ -948,6 +956,15 @@ public class ReflectionUIUtils {
 			@Override
 			public void handle(String event) {
 				reflectionUI.logDebug(event);
+			}
+		};
+	}
+
+	public static Listener<String> getErrorLogListener(final ReflectionUI reflectionUI) {
+		return new Listener<String>() {
+			@Override
+			public void handle(String event) {
+				reflectionUI.logError(event);
 			}
 		};
 	}

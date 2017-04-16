@@ -22,6 +22,10 @@ public class EnumerationItemInfoProxy implements IEnumerationItemInfo {
 		return base.getOnlineHelp();
 	}
 
+	public String getIconImagePath() {
+		return base.getIconImagePath();
+	}
+
 	public Map<String, Object> getSpecificProperties() {
 		return base.getSpecificProperties();
 	}

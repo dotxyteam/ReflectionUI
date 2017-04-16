@@ -1,6 +1,5 @@
 package xy.reflect.ui.info.parameter;
 
-import java.util.Collections;
 import java.util.Map;
 
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -37,19 +36,14 @@ public class ParameterInfoProxy implements IParameterInfo {
 		return base.getPosition();
 	}
 
-	
-
-	
-
 	@Override
 	public String getOnlineHelp() {
 		return base.getOnlineHelp();
 	}
 
-
 	@Override
 	public Map<String, Object> getSpecificProperties() {
-		return Collections.emptyMap();
+		return base.getSpecificProperties();
 	}
 
 	@Override

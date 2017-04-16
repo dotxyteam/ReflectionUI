@@ -9,6 +9,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -95,6 +96,11 @@ public class MethodSetupObjectFactory {
 	}
 
 	protected class TypeInfo implements ITypeInfo {
+
+		@Override
+		public String getIconImagePath() {
+			return method.getIconImagePath();
+		}
 
 		@Override
 		public boolean isConcrete() {
@@ -299,6 +305,21 @@ public class MethodSetupObjectFactory {
 		@Override
 		public String getOnlineHelp() {
 			return param.getOnlineHelp();
+		}
+
+		@Override
+		public boolean isFormControlMandatory() {
+			return false;
+		}
+
+		@Override
+		public boolean isFormControlEmbedded() {
+			return false;
+		}
+
+		@Override
+		public IInfoFilter getFormControlFilter() {
+			return IInfoFilter.DEFAULT;
 		}
 
 		@Override

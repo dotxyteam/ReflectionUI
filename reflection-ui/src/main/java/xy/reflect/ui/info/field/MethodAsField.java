@@ -4,6 +4,7 @@ import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -99,6 +100,21 @@ public class MethodAsField implements IFieldInfo {
 	@Override
 	public InfoCategory getCategory() {
 		return method.getCategory();
+	}
+
+	@Override
+	public boolean isFormControlMandatory() {
+		return false;
+	}
+
+	@Override
+	public boolean isFormControlEmbedded() {
+		return false;
+	}
+
+	@Override
+	public IInfoFilter getFormControlFilter() {
+		return IInfoFilter.DEFAULT;
 	}
 
 	@Override

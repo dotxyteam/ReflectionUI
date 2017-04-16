@@ -18,7 +18,6 @@ import xy.reflect.ui.control.input.FieldControlInputProxy;
 import xy.reflect.ui.control.input.IFieldControlData;
 import xy.reflect.ui.control.input.IFieldControlInput;
 import xy.reflect.ui.control.swing.editor.AbstractEditFormBuilder;
-import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -234,8 +233,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			public IInfoFilter getObjectFormFilter() {
-				IInfoFilter result = DesktopSpecificProperty
-						.getFilter(DesktopSpecificProperty.accessControlDataProperties(data));
+				IInfoFilter result = data.getFormControlFilter();
 				if (result == null) {
 					result = IInfoFilter.DEFAULT;
 				}

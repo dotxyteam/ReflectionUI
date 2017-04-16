@@ -8,6 +8,7 @@ import java.util.Map;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
@@ -106,16 +107,47 @@ public class PublicFieldInfo implements IFieldInfo {
 		return ValueReturnMode.DIRECT_OR_PROXY;
 	}
 
-	@Override
-	public String toString() {
-		return "PublicFieldInfo [javaField=" + javaField + "]";
-	}
-
+	
 	@Override
 	public String getName() {
 		return javaField.getName();
 	}
 
+	
+	public static boolean isCompatibleWith(Field field) {
+		return true;
+	}
+
+	@Override
+	public InfoCategory getCategory() {
+		return null;
+	}
+
+	@Override
+	public String getOnlineHelp() {
+		return null;
+	}
+
+	@Override
+	public boolean isFormControlMandatory() {
+		return false;
+	}
+
+	@Override
+	public boolean isFormControlEmbedded() {
+		return false;
+	}
+
+	@Override
+	public IInfoFilter getFormControlFilter() {
+		return IInfoFilter.DEFAULT;
+	}
+
+	@Override
+	public Map<String, Object> getSpecificProperties() {
+		return Collections.emptyMap();
+	}
+	
 	@Override
 	public int hashCode() {
 		return javaField.hashCode();
@@ -134,24 +166,10 @@ public class PublicFieldInfo implements IFieldInfo {
 		}
 		return javaField.equals(((PublicFieldInfo) obj).javaField);
 	}
-
-	public static boolean isCompatibleWith(Field field) {
-		return true;
-	}
-
 	@Override
-	public InfoCategory getCategory() {
-		return null;
+	public String toString() {
+		return "PublicFieldInfo [javaField=" + javaField + "]";
 	}
 
-	@Override
-	public String getOnlineHelp() {
-		return null;
-	}
-
-	@Override
-	public Map<String, Object> getSpecificProperties() {
-		return Collections.emptyMap();
-	}
 
 };

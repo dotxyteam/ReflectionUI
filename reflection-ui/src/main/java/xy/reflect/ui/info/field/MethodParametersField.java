@@ -6,6 +6,7 @@ import java.util.Map;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -109,5 +110,59 @@ public class MethodParametersField implements IFieldInfo {
 	public InfoCategory getCategory() {
 		return method.getCategory();
 	}
+
+	@Override
+	public boolean isFormControlMandatory() {
+		return false;
+	}
+
+	@Override
+	public boolean isFormControlEmbedded() {
+		return false;
+	}
+
+	@Override
+	public IInfoFilter getFormControlFilter() {
+		return IInfoFilter.DEFAULT;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((fieldName == null) ? 0 : fieldName.hashCode());
+		result = prime * result + ((method == null) ? 0 : method.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MethodParametersField other = (MethodParametersField) obj;
+		if (fieldName == null) {
+			if (other.fieldName != null)
+				return false;
+		} else if (!fieldName.equals(other.fieldName))
+			return false;
+		if (method == null) {
+			if (other.method != null)
+				return false;
+		} else if (!method.equals(other.method))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "MethodParametersField [method=" + method + ", fieldName=" + fieldName + "]";
+	}
+	
+	
+	
 
 }

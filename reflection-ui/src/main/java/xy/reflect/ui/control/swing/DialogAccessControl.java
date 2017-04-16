@@ -236,8 +236,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 
 			@Override
 			public IInfoFilter getObjectFormFilter() {
-				return DesktopSpecificProperty
-						.getFilter(DesktopSpecificProperty.accessControlDataProperties(data));
+				return data.getFormControlFilter();
 			}
 		};
 	}

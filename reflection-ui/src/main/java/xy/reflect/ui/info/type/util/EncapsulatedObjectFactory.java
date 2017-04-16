@@ -10,6 +10,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
@@ -41,6 +42,9 @@ public class EncapsulatedObjectFactory {
 	protected String fieldNullValueLabel;
 	protected String fieldOnlineHelp;
 	protected InfoCategory fieldCategory;
+	protected boolean fieldFormControlMandatory = false;
+	protected boolean fieldFormControlEmbedded = false;
+	protected IInfoFilter fieldFormControlFilter = IInfoFilter.DEFAULT;
 
 	public EncapsulatedObjectFactory(ReflectionUI reflectionUI, String typeName, ITypeInfo fieldType) {
 		this.reflectionUI = reflectionUI;
@@ -178,6 +182,30 @@ public class EncapsulatedObjectFactory {
 		this.fieldValueReturnMode = fieldValueReturnMode;
 	}
 
+	public boolean isFieldFormControlMandatory() {
+		return fieldFormControlMandatory;
+	}
+
+	public void setFieldFormControlMandatory(boolean fieldFormControlMandatory) {
+		this.fieldFormControlMandatory = fieldFormControlMandatory;
+	}
+
+	public boolean isFieldFormControlEmbedded() {
+		return fieldFormControlEmbedded;
+	}
+
+	public void setFieldFormControlEmbedded(boolean fieldFormControlEmbedded) {
+		this.fieldFormControlEmbedded = fieldFormControlEmbedded;
+	}
+
+	public IInfoFilter getFieldFormControlFilter() {
+		return fieldFormControlFilter;
+	}
+
+	public void setFieldFormControlFilter(IInfoFilter fieldFormControlFilter) {
+		this.fieldFormControlFilter = fieldFormControlFilter;
+	}
+
 	public Map<String, Object> getFieldSpecificProperties() {
 		return fieldSpecificProperties;
 	}
@@ -265,6 +293,11 @@ public class EncapsulatedObjectFactory {
 		@Override
 		public String getCaption() {
 			return typeCaption;
+		}
+
+		@Override
+		public String getIconImagePath() {
+			return null;
 		}
 
 		@Override
@@ -484,6 +517,21 @@ public class EncapsulatedObjectFactory {
 		@Override
 		public String getNullValueLabel() {
 			return fieldNullValueLabel;
+		}
+
+		@Override
+		public boolean isFormControlMandatory() {
+			return fieldFormControlMandatory;
+		}
+
+		@Override
+		public boolean isFormControlEmbedded() {
+			return fieldFormControlEmbedded;
+		}
+
+		@Override
+		public IInfoFilter getFormControlFilter() {
+			return fieldFormControlFilter;
 		}
 
 		@Override

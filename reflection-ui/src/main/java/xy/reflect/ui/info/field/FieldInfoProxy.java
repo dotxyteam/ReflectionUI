@@ -4,6 +4,7 @@ import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
 
@@ -65,6 +66,18 @@ public class FieldInfoProxy implements IFieldInfo {
 	@Override
 	public ValueReturnMode getValueReturnMode() {
 		return base.getValueReturnMode();
+	}
+
+	public boolean isFormControlMandatory() {
+		return base.isFormControlMandatory();
+	}
+
+	public boolean isFormControlEmbedded() {
+		return base.isFormControlEmbedded();
+	}
+
+	public IInfoFilter getFormControlFilter() {
+		return base.getFormControlFilter();
 	}
 
 	@Override

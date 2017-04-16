@@ -5,6 +5,7 @@ import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.filter.IInfoFilter;
 
 public abstract class AbstractListProperty implements IFieldInfo {
 
@@ -41,11 +42,7 @@ public abstract class AbstractListProperty implements IFieldInfo {
 		return Collections.emptyMap();
 	}
 
-	@Override
-	public String toString() {
-		return "ListProperty[name=" + getName() + "]";
-	}
-
+	
 	@Override
 	public Object[] getValueOptions(Object object) {
 		return null;
@@ -55,4 +52,25 @@ public abstract class AbstractListProperty implements IFieldInfo {
 	public Runnable getCustomUndoUpdateJob(Object object, Object value) {
 		return null;
 	}
+	
+	@Override
+	public boolean isFormControlMandatory() {
+		return false;
+	}
+
+	@Override
+	public boolean isFormControlEmbedded() {
+		return true;
+	}
+
+	@Override
+	public IInfoFilter getFormControlFilter() {
+		return IInfoFilter.DEFAULT;
+	}
+
+	@Override
+	public String toString() {
+		return "ListProperty[name=" + getName() + "]";
+	}
+
 }

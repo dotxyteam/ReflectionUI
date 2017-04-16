@@ -87,6 +87,10 @@ public class MethodInfoProxy implements IMethodInfo {
 		base.validateParameters(object, invocationData);
 	}
 
+	public String getIconImagePath() {
+		return base.getIconImagePath();
+	}
+
 	@Override
 	public Map<String, Object> getSpecificProperties() {
 		return base.getSpecificProperties();

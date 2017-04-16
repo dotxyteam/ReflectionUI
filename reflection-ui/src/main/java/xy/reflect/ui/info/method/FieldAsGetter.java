@@ -23,6 +23,11 @@ public class FieldAsGetter implements IMethodInfo {
 	}
 
 	@Override
+	public String getIconImagePath() {
+		return null;
+	}
+
+	@Override
 	public boolean isReturnValueDetached() {
 		return false;
 	}

@@ -82,7 +82,7 @@ public class DesktopSpecificProperty {
 		return Boolean.TRUE.equals(properties.get(DesktopSpecificProperty.FORBID_CUSTUM_CONTROL));
 	}
 
-	public static void setCustumControlForbidden(Map<String, Object> properties, boolean b) {
+	public static void setCustomControlForbidden(Map<String, Object> properties, boolean b) {
 		properties.put(DesktopSpecificProperty.FORBID_CUSTUM_CONTROL, b);
 	}
 

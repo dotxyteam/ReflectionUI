@@ -78,6 +78,11 @@ public abstract class AbstractListAction implements IMethodInfo {
 	}
 
 	@Override
+	public String getIconImagePath() {
+		return null;
+	}
+
+	@Override
 	public String toString() {
 		return "ListAction[name=" + getName() + "]";
 	}

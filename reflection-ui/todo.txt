@@ -1,3 +1,4 @@
+- delete SwingSpecifiProperty class
 - indent toString()s
 - method controls in other category tabs are not well initialized
 	and they take too much horizontal space

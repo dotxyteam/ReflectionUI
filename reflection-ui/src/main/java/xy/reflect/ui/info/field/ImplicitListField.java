@@ -9,6 +9,7 @@ import java.util.Map;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -168,7 +169,22 @@ public class ImplicitListField implements IFieldInfo {
 
 	@Override
 	public InfoCategory getCategory() {
-		return getGetMethod().getCategory();
+		return null;
+	}
+
+	@Override
+	public boolean isFormControlMandatory() {
+		return false;
+	}
+
+	@Override
+	public boolean isFormControlEmbedded() {
+		return false;
+	}
+
+	@Override
+	public IInfoFilter getFormControlFilter() {
+		return IInfoFilter.DEFAULT;
 	}
 
 	@Override
@@ -183,11 +199,6 @@ public class ImplicitListField implements IFieldInfo {
 		result = prime * result + ((removeMethodName == null) ? 0 : removeMethodName.hashCode());
 		result = prime * result + ((sizeMethodName == null) ? 0 : sizeMethodName.hashCode());
 		return result;
-	}
-
-	@Override
-	public String toString() {
-		return "ImplicitListField [fieldName=" + fieldName + ", parentType=" + parentType + "]";
 	}
 
 	@Override
@@ -235,6 +246,11 @@ public class ImplicitListField implements IFieldInfo {
 		} else if (!sizeMethodName.equals(other.sizeMethodName))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "ImplicitListField [fieldName=" + fieldName + ", parentType=" + parentType + "]";
 	}
 
 	protected class ValueInstance {
@@ -300,6 +316,11 @@ public class ImplicitListField implements IFieldInfo {
 	}
 
 	protected class ValueTypeInfo implements IListTypeInfo {
+
+		@Override
+		public String getIconImagePath() {
+			return null;
+		}
 
 		@Override
 		public boolean isItemNullable() {

@@ -165,6 +165,11 @@ public class DefaultTypeInfo implements ITypeInfo {
 	}
 
 	@Override
+	public String getIconImagePath() {
+		return null;
+	}
+
+	@Override
 	public String getOnlineHelp() {
 		return null;
 	}

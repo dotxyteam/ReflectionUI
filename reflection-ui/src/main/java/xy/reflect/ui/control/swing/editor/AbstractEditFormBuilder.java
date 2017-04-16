@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.control.swing.customization.SwingCustomizer;
-import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -151,17 +150,17 @@ public abstract class AbstractEditFormBuilder {
 		result.setFieldGetOnly(isEncapsulationFieldGetOnly());
 		result.setFieldNullable(isObjectValueNullable());
 		result.setFieldValueReturnMode(getEncapsulationFieldValueReturnMode());
-		Map<String, Object> fieldSpecificProperties = new HashMap<String, Object>();
-		{
-			DesktopSpecificProperty.setSubFormExpanded(fieldSpecificProperties, isObjectFormExpanded());
-			DesktopSpecificProperty.setFilter(fieldSpecificProperties, getObjectFormFilter());
-			DesktopSpecificProperty.setIconImage(fieldSpecificProperties, SwingRendererUtils
-					.findIconImage(getSwingRenderer(), result.getFieldType().getSpecificProperties()));
-			result.setFieldSpecificProperties(fieldSpecificProperties);
-		}
+		result.setFieldFormControlEmbedded(isObjectFormExpanded());
+		result.setFieldFormControlFilter(getObjectFormFilter());
+		result.setFieldFormControlMandatory(isObjectCustomControlForbidden());
+		
 		return result;
 	}
+	public boolean isObjectCustomControlForbidden(){
+		return false;
+	}
 
+	
 	protected ValueReturnMode getEncapsulationFieldValueReturnMode() {
 		return hasParentObject() ? getObjectValueReturnMode() : ValueReturnMode.DIRECT_OR_PROXY;
 	}

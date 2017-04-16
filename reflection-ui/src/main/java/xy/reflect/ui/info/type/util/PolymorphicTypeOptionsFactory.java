@@ -2,12 +2,8 @@ package xy.reflect.ui.info.type.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -59,14 +55,9 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 	}
 
 	@Override
-	protected Map<String, Object> getItemSpecificProperties(Object arrayItem) {
+	protected String getItemIconImagePath(Object arrayItem) {
 		ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;
-		Map<String, Object> result = new HashMap<String, Object>();
-		DesktopSpecificProperty.setIconImageFilePath(result, DesktopSpecificProperty
-				.getIconImageFilePath(DesktopSpecificProperty.accessInfoProperties(polyTypesItem)));
-		DesktopSpecificProperty.setIconImage(result,
-				DesktopSpecificProperty.getIconImage(DesktopSpecificProperty.accessInfoProperties(polyTypesItem)));
-		return result;
+		return polyTypesItem.getIconImagePath();
 	}
 
 	@Override

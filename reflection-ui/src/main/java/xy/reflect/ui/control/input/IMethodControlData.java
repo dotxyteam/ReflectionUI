@@ -37,4 +37,6 @@ public interface IMethodControlData {
 	boolean isReturnValueDetached();
 
 	boolean isReturnValueNullable();
+	
+	String getIconImagePath();
 }

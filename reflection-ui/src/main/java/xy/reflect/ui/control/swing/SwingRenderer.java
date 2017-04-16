@@ -55,7 +55,6 @@ import xy.reflect.ui.control.input.IMethodControlInput;
 import xy.reflect.ui.control.input.MethodControlDataProxy;
 import xy.reflect.ui.control.swing.customization.SwingCustomizer;
 import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
-import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -89,6 +88,7 @@ import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.ResourcePath;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.SystemProperties;
 import xy.reflect.ui.util.component.ScrollPaneOptions;
@@ -208,7 +208,7 @@ public class SwingRenderer {
 			((JDialog) window).setTitle(prepareStringToDisplay(title));
 		}
 		if (iconImage == null) {
-			window.setIconImage(SwingRendererUtils.NULL_ICON_IMAGE);
+			window.setIconImage(SwingRendererUtils.NULL_IMAGE);
 		} else {
 			window.setIconImage(iconImage);
 		}
@@ -764,7 +764,12 @@ public class SwingRenderer {
 	public Image getObjectIconImage(Object object) {
 		if (object != null) {
 			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-			Image result = SwingRendererUtils.findIconImage(this, type.getSpecificProperties());
+			String imagePathSpecification = type.getIconImagePath();
+			if (imagePathSpecification == null) {
+				return null;
+			}
+			Image result = SwingRendererUtils.loadImageThroughcache(new ResourcePath(imagePathSpecification),
+					ReflectionUIUtils.getErrorLogListener(reflectionUI));
 			if (result != null) {
 				return result;
 			}
@@ -773,7 +778,12 @@ public class SwingRenderer {
 	}
 
 	public Image getMethodIconImage(IMethodControlData data) {
-		return SwingRendererUtils.findIconImage(this, data.getSpecificProperties());
+		String imagePathSpecification = data.getIconImagePath();
+		if (imagePathSpecification == null) {
+			return null;
+		}
+		return SwingRendererUtils.loadImageThroughcache(new ResourcePath(imagePathSpecification),
+				ReflectionUIUtils.getErrorLogListener(reflectionUI));
 	}
 
 	public void handleExceptionsFromDisplayedUI(Component activatorComponent, final Throwable t) {
@@ -1138,15 +1148,14 @@ public class SwingRenderer {
 			}
 
 			@Override
-			protected Map<String, Object> getItemSpecificProperties(Object choice) {
-				Map<String, Object> properties = new HashMap<String, Object>();
-				DesktopSpecificProperty.setIconImage(properties, iconImages.get(choice));
-				return properties;
+			protected String getItemIconImagePath(Object choice) {
+				Image image = iconImages.get(choice);
+				return SwingRendererUtils.putImageInCached(image).getSpecification();
 			}
 
 			@Override
 			protected String getItemName(Object choice) {
-				return "option(" + captions.get(choice) + ")";
+				return "Option [caption=" + captions.get(choice) + "]";
 			}
 
 			@Override
@@ -1733,8 +1742,7 @@ public class SwingRenderer {
 		}
 
 		public Component createFieldControl() {
-			if (!DesktopSpecificProperty
-					.isCustumControlForbidden(DesktopSpecificProperty.accessControlDataProperties(controlData))) {
+			if (!controlData.isFormControlMandatory()) {
 				Component result = createCustomFieldControl(this, controlData.isValueNullable());
 				if (result != null) {
 					return result;
@@ -1759,8 +1767,7 @@ public class SwingRenderer {
 					};
 					return createFieldControl();
 				}
-				if (DesktopSpecificProperty
-						.isSubFormExpanded(DesktopSpecificProperty.accessControlDataProperties(controlData))) {
+				if (controlData.isFormControlEmbedded()) {
 					return new EmbeddedFormControl(SwingRenderer.this, this);
 				} else {
 					return new DialogAccessControl(SwingRenderer.this, this);
@@ -1867,6 +1874,18 @@ public class SwingRenderer {
 			@Override
 			public String getNullValueLabel() {
 				return finalField.getNullValueLabel();
+			}
+
+			public boolean isFormControlMandatory() {
+				return finalField.isFormControlMandatory();
+			}
+
+			public boolean isFormControlEmbedded() {
+				return finalField.isFormControlEmbedded();
+			}
+
+			public IInfoFilter getFormControlFilter() {
+				return finalField.getFormControlFilter();
 			}
 
 			@Override
@@ -2067,83 +2086,7 @@ public class SwingRenderer {
 				}
 			}
 			final IMethodInfo finalMethod = method;
-			IMethodControlData result = new IMethodControlData() {
-				@Override
-				public boolean isReturnValueNullable() {
-					return finalMethod.isReturnValueNullable();
-				}
-
-				@Override
-				public boolean isReturnValueDetached() {
-					return finalMethod.isReturnValueDetached();
-				}
-
-				@Override
-				public void validateParameters(InvocationData invocationData) throws Exception {
-					finalMethod.validateParameters(getObject(), invocationData);
-				}
-
-				@Override
-				public boolean isReadOnly() {
-					return finalMethod.isReadOnly();
-				}
-
-				@Override
-				public Object invoke(InvocationData invocationData) {
-					return finalMethod.invoke(getObject(), invocationData);
-				}
-
-				@Override
-				public ValueReturnMode getValueReturnMode() {
-					return finalMethod.getValueReturnMode();
-				}
-
-				@Override
-				public Runnable getUndoJob(InvocationData invocationData) {
-					return finalMethod.getUndoJob(getObject(), invocationData);
-				}
-
-				@Override
-				public ITypeInfo getReturnValueType() {
-					return finalMethod.getReturnValueType();
-				}
-
-				@Override
-				public List<IParameterInfo> getParameters() {
-					return finalMethod.getParameters();
-				}
-
-				@Override
-				public String getNullReturnValueLabel() {
-					return finalMethod.getNullReturnValueLabel();
-				}
-
-				@Override
-				public String getOnlineHelp() {
-					return finalMethod.getOnlineHelp();
-				}
-
-				@Override
-				public Map<String, Object> getSpecificProperties() {
-					return finalMethod.getSpecificProperties();
-				}
-
-				@Override
-				public String getCaption() {
-					return finalMethod.getCaption();
-				}
-
-				@Override
-				public String getMethodSignature() {
-					return ReflectionUIUtils.getMethodSignature(finalMethod);
-				}
-
-				@Override
-				public String toString() {
-					return "InitialControlData [of=" + MethodControlPlaceHolder.this + "]";
-				}
-
-			};
+			IMethodControlData result = new InitialMethodControlData(finalMethod);
 
 			result = indicateWhenBusy(result);
 			result = makeMethodModificationsUndoable(result);
@@ -2154,6 +2097,127 @@ public class SwingRenderer {
 		public String toString() {
 			return "MethodControlPlaceHolder [form=" + form + ", method=" + method + "]";
 		}
+
+		protected class InitialMethodControlData implements IMethodControlData {
+			protected IMethodInfo finalMethod;
+
+			public InitialMethodControlData(IMethodInfo finalMethod) {
+				this.finalMethod = finalMethod;
+			}
+
+			@Override
+			public boolean isReturnValueNullable() {
+				return finalMethod.isReturnValueNullable();
+			}
+
+			@Override
+			public boolean isReturnValueDetached() {
+				return finalMethod.isReturnValueDetached();
+			}
+
+			@Override
+			public void validateParameters(InvocationData invocationData) throws Exception {
+				finalMethod.validateParameters(getObject(), invocationData);
+			}
+
+			@Override
+			public boolean isReadOnly() {
+				return finalMethod.isReadOnly();
+			}
+
+			@Override
+			public Object invoke(InvocationData invocationData) {
+				return finalMethod.invoke(getObject(), invocationData);
+			}
+
+			@Override
+			public ValueReturnMode getValueReturnMode() {
+				return finalMethod.getValueReturnMode();
+			}
+
+			@Override
+			public Runnable getUndoJob(InvocationData invocationData) {
+				return finalMethod.getUndoJob(getObject(), invocationData);
+			}
+
+			@Override
+			public ITypeInfo getReturnValueType() {
+				return finalMethod.getReturnValueType();
+			}
+
+			@Override
+			public List<IParameterInfo> getParameters() {
+				return finalMethod.getParameters();
+			}
+
+			@Override
+			public String getNullReturnValueLabel() {
+				return finalMethod.getNullReturnValueLabel();
+			}
+
+			@Override
+			public String getOnlineHelp() {
+				return finalMethod.getOnlineHelp();
+			}
+
+			@Override
+			public Map<String, Object> getSpecificProperties() {
+				return finalMethod.getSpecificProperties();
+			}
+
+			@Override
+			public String getCaption() {
+				return finalMethod.getCaption();
+			}
+
+			@Override
+			public String getMethodSignature() {
+				return ReflectionUIUtils.getMethodSignature(finalMethod);
+			}
+
+			@Override
+			public String getIconImagePath() {
+				return finalMethod.getIconImagePath();
+			}
+
+			private Object getOuterType() {
+				return MethodControlPlaceHolder.this;
+			}
+
+			@Override
+			public int hashCode() {
+				final int prime = 31;
+				int result = 1;
+				result = prime * result + getOuterType().hashCode();
+				result = prime * result + ((finalMethod == null) ? 0 : finalMethod.hashCode());
+				return result;
+			}
+
+			@Override
+			public boolean equals(Object obj) {
+				if (this == obj)
+					return true;
+				if (obj == null)
+					return false;
+				if (getClass() != obj.getClass())
+					return false;
+				InitialMethodControlData other = (InitialMethodControlData) obj;
+				if (!getOuterType().equals(other.getOuterType()))
+					return false;
+				if (finalMethod == null) {
+					if (other.finalMethod != null)
+						return false;
+				} else if (!finalMethod.equals(other.finalMethod))
+					return false;
+				return true;
+			}
+
+			@Override
+			public String toString() {
+				return "InitialControlData [of=" + MethodControlPlaceHolder.this + "]";
+			}
+
+		};
 
 	}
 }

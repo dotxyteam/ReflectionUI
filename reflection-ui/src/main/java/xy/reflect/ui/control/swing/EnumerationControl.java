@@ -29,6 +29,7 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.ResourcePath;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 @SuppressWarnings({ "rawtypes", "unchecked", "unused" })
@@ -45,7 +46,7 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 	protected IFieldControlData data;
 	protected JComboBox comboBox;
 	protected boolean listenerDisabled = false;
-	
+
 	@SuppressWarnings({})
 	public EnumerationControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
@@ -82,9 +83,9 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 				label.setIcon(getValueIcon(value));
 				if (!possibleValues.contains(value)) {
 					SwingRendererUtils.setErrorBorder(label);
-				}else{
+				} else {
 					label.setBorder(null);
-				}				
+				}
 				return label;
 			}
 		});
@@ -147,11 +148,17 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 			} else {
 				s = itemInfo.getCaption();
 			}
-			Image iconImage = SwingRendererUtils.findIconImage(swingRenderer, itemInfo.getSpecificProperties());
-			if (iconImage == null) {
+			String imagePathSpecification = itemInfo.getIconImagePath();
+			if (imagePathSpecification == null) {
 				return null;
 			} else {
-				return SwingRendererUtils.getSmallIcon(iconImage);
+				Image iconImage = SwingRendererUtils.loadImageThroughcache(new ResourcePath(imagePathSpecification),
+						ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+				if (iconImage == null) {
+					return null;
+				} else {
+					return SwingRendererUtils.getSmallIcon(iconImage);
+				}
 			}
 		}
 	}
@@ -184,7 +191,7 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 			comboBox.setSelectedItem(currentValue);
 		} finally {
 			listenerDisabled = false;
-		}		
+		}
 		return true;
 	}
 

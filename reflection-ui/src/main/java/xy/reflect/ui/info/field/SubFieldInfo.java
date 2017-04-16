@@ -5,6 +5,7 @@ import java.util.Map;
 import xy.reflect.ui.control.input.DefaultFieldControlData;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
 import xy.reflect.ui.undo.ControlDataValueModification;
@@ -141,6 +142,18 @@ public class SubFieldInfo implements IFieldInfo {
 	@Override
 	public String getOnlineHelp() {
 		return theSubField.getOnlineHelp();
+	}
+
+	public boolean isFormControlMandatory() {
+		return theSubField.isFormControlMandatory();
+	}
+
+	public boolean isFormControlEmbedded() {
+		return theSubField.isFormControlEmbedded();
+	}
+
+	public IInfoFilter getFormControlFilter() {
+		return theSubField.getFormControlFilter();
 	}
 
 	@Override

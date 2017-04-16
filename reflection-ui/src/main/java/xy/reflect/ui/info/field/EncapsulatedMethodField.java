@@ -7,6 +7,7 @@ import java.util.Map;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
@@ -35,6 +36,21 @@ public class EncapsulatedMethodField implements IFieldInfo {
 	@Override
 	public String getCaption() {
 		return ReflectionUIUtils.getDefaultFieldCaption(this);
+	}
+
+	@Override
+	public boolean isFormControlMandatory() {
+		return false;
+	}
+
+	@Override
+	public boolean isFormControlEmbedded() {
+		return true;
+	}
+
+	@Override
+	public IInfoFilter getFormControlFilter() {
+		return IInfoFilter.DEFAULT;
 	}
 
 	@Override
@@ -200,6 +216,11 @@ public class EncapsulatedMethodField implements IFieldInfo {
 		@Override
 		public String getCaption() {
 			return ReflectionUIUtils.composeMessage(method.getCaption(), "Execution");
+		}
+
+		@Override
+		public String getIconImagePath() {
+			return null;
 		}
 
 		@Override

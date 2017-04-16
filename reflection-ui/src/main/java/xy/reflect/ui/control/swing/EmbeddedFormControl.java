@@ -145,8 +145,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 			if (subFormObject == null) {
 				throw new ReflectionUIError();
 			}
-			IInfoFilter filter = DesktopSpecificProperty
-					.getFilter(DesktopSpecificProperty.accessControlDataProperties(data));
+			IInfoFilter filter = data.getFormControlFilter();
 			subForm = swingRenderer.createForm(subFormObject, filter);
 			add(subForm, BorderLayout.CENTER);
 			forwardSubFormModifications();

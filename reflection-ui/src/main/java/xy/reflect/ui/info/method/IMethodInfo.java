@@ -21,6 +21,11 @@ public interface IMethodInfo extends IInfo {
 		}
 
 		@Override
+		public String getIconImagePath() {
+			return null;
+		}
+
+		@Override
 		public boolean isReturnValueNullable() {
 			return false;
 		}
@@ -118,6 +123,8 @@ public interface IMethodInfo extends IInfo {
 	void validateParameters(Object object, InvocationData invocationData) throws Exception;
 
 	ValueReturnMode getValueReturnMode();
+	
+	String getIconImagePath();
 
 	ITypeInfoProxyFactory getReturnValueTypeSpecificities();
 	

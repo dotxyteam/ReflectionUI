@@ -7,6 +7,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
@@ -84,6 +85,21 @@ public interface IFieldInfo extends IInfo {
 		}
 
 		@Override
+		public boolean isFormControlMandatory() {
+			return false;
+		}
+
+		@Override
+		public boolean isFormControlEmbedded() {
+			return false;
+		}
+
+		@Override
+		public IInfoFilter getFormControlFilter() {
+			return IInfoFilter.DEFAULT;
+		}
+
+		@Override
 		public Map<String, Object> getSpecificProperties() {
 			return Collections.emptyMap();
 		}
@@ -116,5 +132,11 @@ public interface IFieldInfo extends IInfo {
 	ValueReturnMode getValueReturnMode();
 
 	InfoCategory getCategory();
+	
+	boolean isFormControlMandatory();
+	
+	boolean isFormControlEmbedded();
+	
+	IInfoFilter getFormControlFilter();
 
 }
