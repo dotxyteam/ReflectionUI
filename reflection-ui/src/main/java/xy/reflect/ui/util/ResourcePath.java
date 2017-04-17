@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 public class ResourcePath {
 
 	protected static final String CLASSPATH_RESOURCE_PREFIX = "<class-path-resource> ";
@@ -18,6 +20,10 @@ public class ResourcePath {
 
 	public enum PathKind {
 		CLASS_PATH_RESOURCE, ABSOLUTE_FILE, RELATIVE_FILE, MEMORY_OBJECT
+	}
+
+	public ResourcePath() {
+		this("");
 	}
 
 	public ResourcePath(String specification) {
@@ -82,6 +88,7 @@ public class ResourcePath {
 		chosenAlternativeIndex = 0;
 	}
 
+	@XmlTransient
 	public ResourcePath getChosenAlternative() {
 		List<ResourcePath> options = getAlternativeOptions();
 		if ((chosenAlternativeIndex >= 0) && (chosenAlternativeIndex < options.size())) {
@@ -132,7 +139,7 @@ public class ResourcePath {
 			String candidateResourcePath = candidateResourceFile.getPath().replaceAll("\\\\", "/");
 			URL resourceURL = ResourcePath.class.getClassLoader().getResource(candidateResourcePath);
 			if (resourceURL != null) {
-				result.add(new ResourcePath(ResourcePath.CLASSPATH_RESOURCE_PREFIX + candidateResourcePath));
+				result.add(new ResourcePath(formatClassPathResourceSpecification(candidateResourcePath)));
 			}
 		}
 		return result;

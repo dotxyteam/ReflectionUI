@@ -466,8 +466,28 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return method.getUndoJob(object, invocationData);
 	}
 
-	protected IEnumerationItemInfo getValueInfo(Object object, IEnumerationTypeInfo type) {
+	protected IEnumerationItemInfo getValueInfo(IEnumerationTypeInfo type, Object object) {
 		return type.getValueInfo(object);
+	}
+
+	protected String getName(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
+		return info.getName();
+	}
+
+	protected Map<String, Object> getSpecificProperties(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
+		return info.getSpecificProperties();
+	}
+
+	protected String getIconImagePath(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
+		return info.getIconImagePath();
+	}
+
+	protected String getOnlineHelp(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
+		return info.getOnlineHelp();
+	}
+
+	protected String getCaption(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
+		return info.getCaption();
 	}
 
 	private class GeneratedBasicTypeInfoProxy implements ITypeInfo {
@@ -788,7 +808,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 		@Override
 		public IEnumerationItemInfo getValueInfo(Object object) {
-			return TypeInfoProxyFactory.this.getValueInfo(object, (IEnumerationTypeInfo) base);
+			IEnumerationItemInfo itemInfo = TypeInfoProxyFactory.this.getValueInfo((IEnumerationTypeInfo) base, object);
+			return new GeneratedEnumerationItemInfoProxy(itemInfo, base);
 		}
 
 		@Override
@@ -1244,6 +1265,89 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		@Override
 		public String toString() {
 			return "GeneratedParameterInfoProxy [name=" + getName() + ", factory=" + factory + ", base=" + base + "]";
+		}
+
+	}
+
+	private class GeneratedEnumerationItemInfoProxy implements IEnumerationItemInfo {
+
+		protected TypeInfoProxyFactory factory = TypeInfoProxyFactory.this;
+
+		protected IEnumerationItemInfo base;
+		protected ITypeInfo parentEnumType;
+
+		public GeneratedEnumerationItemInfoProxy(IEnumerationItemInfo base, ITypeInfo parentEnumType) {
+			this.base = base;
+			this.parentEnumType = parentEnumType;
+		}
+
+		@Override
+		public String getName() {
+			return TypeInfoProxyFactory.this.getName(base, parentEnumType);
+		}
+
+		@Override
+		public String getCaption() {
+			return TypeInfoProxyFactory.this.getCaption(base, parentEnumType);
+		}
+
+		@Override
+		public String getOnlineHelp() {
+			return TypeInfoProxyFactory.this.getOnlineHelp(base, parentEnumType);
+		}
+
+		@Override
+		public Map<String, Object> getSpecificProperties() {
+			return TypeInfoProxyFactory.this.getSpecificProperties(base, parentEnumType);
+		}
+
+		@Override
+		public String getIconImagePath() {
+			return TypeInfoProxyFactory.this.getIconImagePath(base, parentEnumType);
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + getOuterType().hashCode();
+			result = prime * result + ((base == null) ? 0 : base.hashCode());
+			result = prime * result + ((parentEnumType == null) ? 0 : parentEnumType.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			GeneratedEnumerationItemInfoProxy other = (GeneratedEnumerationItemInfoProxy) obj;
+			if (!getOuterType().equals(other.getOuterType()))
+				return false;
+			if (base == null) {
+				if (other.base != null)
+					return false;
+			} else if (!base.equals(other.base))
+				return false;
+			if (parentEnumType == null) {
+				if (other.parentEnumType != null)
+					return false;
+			} else if (!parentEnumType.equals(other.parentEnumType))
+				return false;
+			return true;
+		}
+
+		private TypeInfoProxyFactory getOuterType() {
+			return TypeInfoProxyFactory.this;
+		}
+
+		@Override
+		public String toString() {
+			return "GeneratedEnumerationItemInfoProxy [name=" + getName() + ", factory=" + factory + ",base=" + base
+					+ "]";
 		}
 
 	}

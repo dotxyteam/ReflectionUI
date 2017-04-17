@@ -691,7 +691,6 @@ public class CustomizationTools {
 					return CustomizationTools.class.getName() + TypeInfoProxyFactory.class.getSimpleName();
 				}
 
-
 				@Override
 				protected Object[] getValueOptions(Object object, IFieldInfo field, ITypeInfo containingType) {
 					if ((object instanceof AbstractMemberCustomization) && field.getName().equals("category")) {
@@ -732,10 +731,118 @@ public class CustomizationTools {
 					}
 				}
 
+				protected IMethodInfo getListItemTypeCustomizationDisplayMethod(
+						final InfoCustomizations infoCustomizations) {
+					return new IMethodInfo() {
+
+						@Override
+						public boolean isReturnValueNullable() {
+							return false;
+						}
+
+						@Override
+						public boolean isReturnValueDetached() {
+							return false;
+						}
+
+						@Override
+						public Map<String, Object> getSpecificProperties() {
+							return Collections.emptyMap();
+						}
+
+						@Override
+						public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
+							return null;
+						}
+
+						@Override
+						public String getOnlineHelp() {
+							return null;
+						}
+
+						@Override
+						public String getName() {
+							return "displayItemTypeCustomization";
+						}
+
+						@Override
+						public String getCaption() {
+							return "Display Item Type Customization";
+						}
+
+						@Override
+						public String getIconImagePath() {
+							return null;
+						}
+
+						@Override
+						public void validateParameters(Object object, InvocationData invocationData) throws Exception {
+						}
+
+						@Override
+						public boolean isReadOnly() {
+							return true;
+						}
+
+						@Override
+						public Object invoke(final Object object, InvocationData invocationData) {
+							SwingUtilities.invokeLater(new Runnable() {
+								@Override
+								public void run() {
+									ListCustomization lc = (ListCustomization) object;
+									if (lc.getItemTypeName() == null) {
+										customizationToolsRenderer.openInformationDialog(null,
+												"The item type is not defined",
+												customizationToolsRenderer.getObjectTitle(lc),
+												customizationToolsRenderer.getObjectIconImage(lc));
+									} else {
+										TypeCustomization t = InfoCustomizations
+												.getTypeCustomization(infoCustomizations, lc.getItemTypeName());
+										openCustomizationEditor(null, t);
+									}
+								}
+							});
+							return null;
+						}
+
+						@Override
+						public ValueReturnMode getValueReturnMode() {
+							return ValueReturnMode.DIRECT_OR_PROXY;
+						}
+
+						@Override
+						public Runnable getUndoJob(Object object, InvocationData invocationData) {
+							return null;
+						}
+
+						@Override
+						public ITypeInfo getReturnValueType() {
+							return null;
+						}
+
+						@Override
+						public List<IParameterInfo> getParameters() {
+							return Collections.emptyList();
+						}
+
+						@Override
+						public String getNullReturnValueLabel() {
+							return null;
+						}
+
+						@Override
+						public InfoCategory getCategory() {
+							return null;
+						}
+					};
+				}
+
 				@Override
 				protected String toString(ITypeInfo type, Object object) {
 					if (object instanceof CustomizationCategory) {
 						return ((CustomizationCategory) object).getCaption();
+					} else if (object instanceof ResourcePath) {
+						return ((ResourcePath) object).getSpecification();
 					} else {
 						return super.toString(type, object);
 					}
@@ -746,113 +853,6 @@ public class CustomizationTools {
 			return result;
 		}
 
-		protected IMethodInfo getListItemTypeCustomizationDisplayMethod(final InfoCustomizations infoCustomizations) {
-			return new IMethodInfo() {
-
-				@Override
-				public boolean isReturnValueNullable() {
-					return false;
-				}
-
-				@Override
-				public boolean isReturnValueDetached() {
-					return false;
-				}
-
-				@Override
-				public Map<String, Object> getSpecificProperties() {
-					return Collections.emptyMap();
-				}
-
-				@Override
-				public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
-					return null;
-				}
-
-				@Override
-				public String getOnlineHelp() {
-					return null;
-				}
-
-				@Override
-				public String getName() {
-					return "displayItemTypeCustomization";
-				}
-
-				@Override
-				public String getCaption() {
-					return "Display Item Type Customization";
-				}
-
-				@Override
-				public String getIconImagePath() {
-					return null;
-				}
-
-				@Override
-				public void validateParameters(Object object, InvocationData invocationData) throws Exception {
-				}
-
-				@Override
-				public boolean isReadOnly() {
-					return true;
-				}
-
-				@Override
-				public Object invoke(final Object object, InvocationData invocationData) {
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							ListCustomization lc = (ListCustomization) object;
-							if (lc.getItemTypeName() == null) {
-								customizationToolsRenderer.openInformationDialog(null, "The item type is not defined",
-										customizationToolsRenderer.getObjectTitle(lc),
-										customizationToolsRenderer.getObjectIconImage(lc));
-							} else {
-								TypeCustomization t = InfoCustomizations.getTypeCustomization(infoCustomizations,
-										lc.getItemTypeName());
-								openCustomizationEditor(null, t);
-							}
-						}
-					});
-					return null;
-				}
-
-				@Override
-				public ValueReturnMode getValueReturnMode() {
-					return ValueReturnMode.DIRECT_OR_PROXY;
-				}
-
-				@Override
-				public Runnable getUndoJob(Object object, InvocationData invocationData) {
-					return null;
-				}
-
-				@Override
-				public ITypeInfo getReturnValueType() {
-					return null;
-				}
-
-				@Override
-				public List<IParameterInfo> getParameters() {
-					return Collections.emptyList();
-				}
-
-				@Override
-				public String getNullReturnValueLabel() {
-					return null;
-				}
-
-				@Override
-				public InfoCategory getCategory() {
-					return null;
-				}
-			};
-		}
-
-		
-
-		
 	};
 
 	protected class ColumnOrderItem {

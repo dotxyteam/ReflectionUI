@@ -15,7 +15,7 @@ import xy.reflect.ui.info.type.util.MethodSetupObjectFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class MethodParametersField implements IFieldInfo {
+public class MethodParametersAsField implements IFieldInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected IMethodInfo method;
@@ -24,7 +24,7 @@ public class MethodParametersField implements IFieldInfo {
 	protected MethodSetupObjectFactory factory;
 	protected InvocationData invocationData = new InvocationData();
 
-	public MethodParametersField(ReflectionUI reflectionUI, IMethodInfo method, String fieldName) {
+	public MethodParametersAsField(ReflectionUI reflectionUI, IMethodInfo method, String fieldName) {
 		this.reflectionUI = reflectionUI;
 		this.method = method;
 		this.fieldName = fieldName;
@@ -118,7 +118,7 @@ public class MethodParametersField implements IFieldInfo {
 
 	@Override
 	public boolean isFormControlEmbedded() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -143,7 +143,7 @@ public class MethodParametersField implements IFieldInfo {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MethodParametersField other = (MethodParametersField) obj;
+		MethodParametersAsField other = (MethodParametersAsField) obj;
 		if (fieldName == null) {
 			if (other.fieldName != null)
 				return false;

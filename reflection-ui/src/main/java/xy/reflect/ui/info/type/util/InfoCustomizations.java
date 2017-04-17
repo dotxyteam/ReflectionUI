@@ -39,7 +39,7 @@ import xy.reflect.ui.info.field.EncapsulatedValueField;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MethodAsField;
-import xy.reflect.ui.info.field.MethodParametersField;
+import xy.reflect.ui.info.field.MethodParametersAsField;
 import xy.reflect.ui.info.field.SubFieldInfo;
 import xy.reflect.ui.info.method.FieldAsGetter;
 import xy.reflect.ui.info.method.FieldAsSetter;
@@ -412,7 +412,7 @@ public class InfoCustomizations implements Serializable {
 				if ((offsetSign == -1) && (currentInfoIndex == 0)) {
 					break;
 				}
-				if ((offsetSign == 1) && (infoIndex == list.size())) {
+				if ((offsetSign == 1) && (currentInfoIndex == list.size())) {
 					break;
 				}
 				I otherInfo = list.get(currentInfoIndex);
@@ -832,7 +832,6 @@ public class InfoCustomizations implements Serializable {
 		protected boolean displayedAsSingletonList = false;
 		protected boolean displayedEncapsulated = false;
 		protected FieldTypeSpecificities specificTypeCustomizations = new FieldTypeSpecificities();
-		protected boolean defaultFormFilterDisabled = false;
 		protected boolean formControlEmbeddingForced = false;
 		protected boolean formControlCreationForced = false;
 
@@ -865,14 +864,6 @@ public class InfoCustomizations implements Serializable {
 
 		public void setFormControlEmbeddingForced(boolean formControlEmbeddingForced) {
 			this.formControlEmbeddingForced = formControlEmbeddingForced;
-		}
-
-		public boolean isDefaultFormFilterDisabled() {
-			return defaultFormFilterDisabled;
-		}
-
-		public void setDefaultFormFilterDisabled(boolean defaultFormFilterDisabled) {
-			this.defaultFormFilterDisabled = defaultFormFilterDisabled;
 		}
 
 		public String getCustomSetterSignature() {
@@ -2105,7 +2096,7 @@ public class InfoCustomizations implements Serializable {
 			if (e != null) {
 				List<Object> result = new ArrayList<Object>();
 				for (Object value : super.getPossibleValues(enumType)) {
-					IEnumerationItemInfo valueInfo = getValueInfo(value, enumType);
+					IEnumerationItemInfo valueInfo = getValueInfo(enumType, value);
 					EnumerationItemCustomization i = getEnumerationItemCustomization(e, valueInfo.getName());
 					if (i != null) {
 						if (i.hidden) {
@@ -2131,8 +2122,8 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		@Override
-		protected IEnumerationItemInfo getValueInfo(Object object, IEnumerationTypeInfo enumType) {
-			IEnumerationItemInfo result = super.getValueInfo(object, enumType);
+		protected IEnumerationItemInfo getValueInfo(IEnumerationTypeInfo enumType, Object object) {
+			IEnumerationItemInfo result = super.getValueInfo(enumType, object);
 			EnumerationCustomization e = getEnumerationCustomization(InfoCustomizations.this, enumType.getName());
 			if (e != null) {
 				final EnumerationItemCustomization i = getEnumerationItemCustomization(e, result.getName());
@@ -2721,7 +2712,10 @@ public class InfoCustomizations implements Serializable {
 			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, type.getName());
 			if (t != null) {
 				if (t.iconImagePath != null) {
-					return t.iconImagePath.getSpecification();
+					String result = t.iconImagePath.getSpecification();
+					if(result.length() > 0){
+						return result;
+					}
 				}
 			}
 			return super.getIconImagePath(type);
@@ -2734,7 +2728,10 @@ public class InfoCustomizations implements Serializable {
 				MethodCustomization m = getMethodCustomization(t, ReflectionUIUtils.getMethodSignature(method));
 				if (m != null) {
 					if (m.iconImagePath != null) {
-						return m.iconImagePath.getSpecification();
+						String result = m.iconImagePath.getSpecification();
+						if(result.length() > 0){
+							return result;
+						}
 					}
 				}
 			}
@@ -2769,42 +2766,6 @@ public class InfoCustomizations implements Serializable {
 			return super.isFormControlEmbedded(field, containingType);
 		}
 
-		@Override
-		protected IInfoFilter getFormControlFilter(IFieldInfo field, ITypeInfo containingType) {
-			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
-			if (t != null) {
-				FieldCustomization f = getFieldCustomization(t, field.getName());
-				if (f != null) {
-					if (f.defaultFormFilterDisabled) {
-						IInfoFilter filter = super.getFormControlFilter(field, containingType);
-						if (filter == null) {
-							filter = IInfoFilter.DEFAULT;
-						}
-						filter = new InfoFilterProxy(filter) {
-
-							@Override
-							public boolean excludeField(IFieldInfo field) {
-								if (IInfoFilter.DEFAULT.excludeField(field)) {
-									return false;
-								}
-								return super.excludeField(field);
-							}
-
-							@Override
-							public boolean excludeMethod(IMethodInfo method) {
-								if (IInfoFilter.DEFAULT.excludeMethod(method)) {
-									return false;
-								}
-								return super.excludeMethod(method);
-							}
-
-						};
-						return filter;
-					}
-				}
-			}
-			return super.getFormControlFilter(field, containingType);
-		}
 
 		@Override
 		protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
@@ -3038,7 +2999,7 @@ public class InfoCustomizations implements Serializable {
 							result.add(newField);
 						}
 						if (m.parametersFormFieldName != null) {
-							MethodParametersField newField = new MethodParametersField(reflectionUI, method,
+							MethodParametersAsField newField = new MethodParametersAsField(reflectionUI, method,
 									m.parametersFormFieldName);
 							if (ReflectionUIUtils.findInfoByName(result, newField.getName()) != null) {
 								throw new ReflectionUIError("Failed to genrate parameters field for method '"

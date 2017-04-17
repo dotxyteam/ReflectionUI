@@ -962,28 +962,26 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		List<TreePath> treePaths = new ArrayList<TreePath>();
 		for (int i = 0; i < toSelect.size(); i++) {
 			BufferedItemPosition itemPosition = toSelect.get(i);
-			if (itemPosition == null) {
-				treeTableComponent.clearSelection();
-			} else {
-				ItemNode itemNode = findNode(itemPosition);
-				if (itemNode == null) {
-					BufferedItemPosition parentItemPosition = itemPosition.getParentItemPosition();
-					if (parentItemPosition == null) {
-						treeTableComponent.clearSelection();
-						return;
-					}
-					toSelect = new ArrayList<BufferedItemPosition>(toSelect);
-					toSelect.set(i, parentItemPosition);
-					setSelection(toSelect);
+			ItemNode itemNode = findNode(itemPosition);
+			if (itemNode == null) {
+				BufferedItemPosition parentItemPosition = itemPosition.getParentItemPosition();
+				if (parentItemPosition == null) {
+					treeTableComponent.clearSelection();
 					return;
 				}
-				treePaths.add(new TreePath(itemNode.getPath()));
+				toSelect = new ArrayList<BufferedItemPosition>(toSelect);
+				toSelect.set(i, parentItemPosition);
+				setSelection(toSelect);
+				return;
 			}
+			treePaths.add(new TreePath(itemNode.getPath()));
 		}
 		treeTableComponent.getTreeSelectionModel().setSelectionPaths(treePaths.toArray(new TreePath[treePaths.size()]));
-		try {
-			treeTableComponent.scrollRowToVisible(treeTableComponent.getRowForPath(treePaths.get(0)));
-		} catch (Throwable ignore) {
+		if (treePaths.size() > 0) {
+			try {
+				treeTableComponent.scrollRowToVisible(treeTableComponent.getRowForPath(treePaths.get(0)));
+			} catch (Throwable ignore) {
+			}
 		}
 	}
 

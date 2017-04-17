@@ -1,12 +1,8 @@
 - delete SwingSpecifiProperty class
 - indent toString()s
-- method controls in other category tabs are not well initialized
-	and they take too much horizontal space
-	=> chang methods layout ???
 - allow easy control/types extension:
 	. how to allow to configure the controls
 - allow to set (min) list size ???
-- move member small bug: need to do it twice sometimes
 - allow to ignore method result
 - should not need to exclude list item members:
 	columns should be able to feed from the uncustomized type???

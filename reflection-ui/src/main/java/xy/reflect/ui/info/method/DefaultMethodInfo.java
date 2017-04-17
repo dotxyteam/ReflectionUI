@@ -157,6 +157,11 @@ public class DefaultMethodInfo implements IMethodInfo {
 				}
 			}
 		}
+		for (Method commonMethod : Object.class.getMethods()) {
+			if (ReflectionUIUtils.isOverridenBy(commonMethod, javaMethod)) {
+				return false;
+			}
+		}
 		return true;
 	}
 
