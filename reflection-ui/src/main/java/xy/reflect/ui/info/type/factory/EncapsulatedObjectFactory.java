@@ -445,12 +445,8 @@ public class EncapsulatedObjectFactory {
 			fieldValueAccessor.set(value);
 		}
 
-		@Override
-		public String toString() {
-			Object result = getValue();
-			return "Encapsulated [value="
-					+ ((result == null) ? "<null>" : (result.getClass().getName() + ": " + result.toString()))
-					+ ", factory=" + getOuterType() + "]";
+		protected EncapsulatedObjectFactory getOuterType() {
+			return EncapsulatedObjectFactory.this;
 		}
 
 		@Override
@@ -481,8 +477,12 @@ public class EncapsulatedObjectFactory {
 			return true;
 		}
 
-		private EncapsulatedObjectFactory getOuterType() {
-			return EncapsulatedObjectFactory.this;
+		@Override
+		public String toString() {
+			Object result = getValue();
+			return "Encapsulated [value="
+					+ ((result == null) ? "<null>" : (result.getClass().getName() + ": " + result.toString()))
+					+ ", factory=" + getOuterType() + "]";
 		}
 
 	}

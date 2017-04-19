@@ -1333,10 +1333,10 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			typeToInstanciate = new DefaultTypeInfo(swingRenderer.getReflectionUI(), Object.class);
 		}
 		typeToInstanciate = addSpecificItemContructors(typeToInstanciate, itemPosition);
-		try {
-			return ReflectionUIUtils.createInstance(typeToInstanciate);
-		} catch (Throwable ignore) {
+		if (subListType.isItemConstructorSelectable()) {
 			return swingRenderer.onTypeInstanciationRequest(ListControl.this, typeToInstanciate);
+		} else{ 
+			return ReflectionUIUtils.createDefaultInstance(typeToInstanciate);
 		}
 	}
 

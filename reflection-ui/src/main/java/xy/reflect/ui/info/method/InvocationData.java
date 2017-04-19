@@ -2,6 +2,7 @@ package xy.reflect.ui.info.method;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import xy.reflect.ui.info.parameter.IParameterInfo;
 
@@ -39,6 +40,10 @@ public class InvocationData {
 		valueByParameterPosition.put(parameterPosition, value);
 	}
 
+	
+	public Set<Integer> getPositions(){
+		return valueByParameterPosition.keySet();
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;

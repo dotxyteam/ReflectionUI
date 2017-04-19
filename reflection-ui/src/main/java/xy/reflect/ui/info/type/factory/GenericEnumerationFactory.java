@@ -132,6 +132,10 @@ public class GenericEnumerationFactory {
 			return item;
 		}
 
+		protected GenericEnumerationFactory getOuterType() {
+			return GenericEnumerationFactory.this;
+		}
+
 		@Override
 		public int hashCode() {
 			final int prime = 31;
@@ -160,13 +164,9 @@ public class GenericEnumerationFactory {
 			return true;
 		}
 
-		private GenericEnumerationFactory getOuterType() {
-			return GenericEnumerationFactory.this;
-		}
-
 		@Override
 		public String toString() {
-			return item.toString();
+			return "GenericEnumerationInstance [item=" + item + "]";
 		}
 
 	}

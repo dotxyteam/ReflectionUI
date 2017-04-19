@@ -17,39 +17,60 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 		this.polymorphicType = polymorphicType;
 	}
 
-	public static List<ITypeInfo> collectTypeOptions(final ITypeInfo polymorphicType) {
+	protected static List<ITypeInfo> collectTypeOptions(final ITypeInfo polymorphicType) {
 		final List<ITypeInfo> result = new ArrayList<ITypeInfo>(polymorphicType.getPolymorphicInstanceSubTypes());
 		{
 			if (polymorphicType.isConcrete()) {
-				if (!result.contains(polymorphicType)) {
-					result.add(0, new TypeInfoProxyFactory() {
-
-						@Override
-						protected String getCaption(ITypeInfo type) {
-							return ReflectionUIUtils.composeMessage("Basic", super.getCaption(type));
-						}
-
-						@Override
-						public String getIdentifier() {
-							return "PolymorphicRecursionBlocker [polymorphicType=" + polymorphicType.getName() + "]";
-						}
-
-						@Override
-						protected List<ITypeInfo> getPolymorphicInstanceSubTypes(ITypeInfo type) {
-							return Collections.emptyList();
-						}
-
-					}.get(polymorphicType));
-				}
+				result.add(0, blockPolymorphism(polymorphicType));
 			}
 		}
 		return result;
+	}
+
+	protected static ITypeInfo blockPolymorphism(final ITypeInfo type) {
+		return new TypeInfoProxyFactory() {
+
+			@Override
+			protected String getCaption(ITypeInfo type) {
+				return ReflectionUIUtils.composeMessage("Basic", super.getCaption(type));
+			}
+
+			@Override
+			public String getIdentifier() {
+				return "PolymorphicRecursionBlocker [polymorphicType=" + type.getName() + "]";
+			}
+
+			@Override
+			protected List<ITypeInfo> getPolymorphicInstanceSubTypes(ITypeInfo type) {
+				return Collections.emptyList();
+			}
+
+		}.get(type);
 	}
 
 	public List<ITypeInfo> getTypeOptions() {
 		List<ITypeInfo> result = new ArrayList<ITypeInfo>();
 		for (Object arrayItem : iterable) {
 			result.add((ITypeInfo) arrayItem);
+		}
+		return result;
+	}
+
+	public ITypeInfo guessSubType(Object instance) {
+		List<ITypeInfo> options = new ArrayList<ITypeInfo>(getTypeOptions());
+		Collections.reverse(options);
+		ITypeInfo result = null;
+		for (ITypeInfo type : options) {
+			if (type.supportsInstance(instance)) {
+				return type;
+			}
+		}
+		if (result == null) {
+			result = reflectionUI
+					.getTypeInfo(reflectionUI.getTypeInfoSource(instance));
+			if(result.getName().equals(polymorphicType.getName())){
+				result = blockPolymorphism(result);
+			}
 		}
 		return result;
 	}

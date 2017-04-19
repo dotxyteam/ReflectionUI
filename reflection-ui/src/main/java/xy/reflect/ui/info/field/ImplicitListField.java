@@ -318,6 +318,11 @@ public class ImplicitListField implements IFieldInfo {
 	protected class ValueTypeInfo implements IListTypeInfo {
 
 		@Override
+		public boolean isItemConstructorSelectable() {
+			return false;
+		}
+
+		@Override
 		public String getIconImagePath() {
 			return null;
 		}

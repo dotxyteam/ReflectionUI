@@ -3,19 +3,21 @@ package xy.reflect.ui.info.type.iterable.map;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
+import xy.reflect.ui.info.parameter.ParameterInfoProxy;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.info.method.InvocationData;
 
 public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEntryTypeInfo {
 
@@ -99,40 +101,87 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo() {
+		final ITypeInfo keyType = getKeyField().getType();
+		final ITypeInfo valueType = getValueField().getType();
+		if (!keyType.isConcrete()) {
+			return Collections.emptyList();
+		}
+		if (!valueType.isConcrete()) {
+			return Collections.emptyList();
+		}
+		List<IMethodInfo> result = new ArrayList<IMethodInfo>();
+		for (final IMethodInfo keyCtor : keyType.getConstructors()) {
+			for (final IMethodInfo valueCtor : valueType.getConstructors()) {
+				result.add(new AbstractConstructorInfo() {
 
-			@Override
-			public ITypeInfo getReturnValueType() {
-				return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(StandardMapEntryTypeInfo.this));
-			}
-
-			@Override
-			public Object invoke(Object object, InvocationData invocationData) {
-				Object key = null;
-				{
-					try {
-						key = ReflectionUIUtils.createInstance(getKeyField().getType());
-					} catch (Throwable ignore) {
+					@Override
+					public ITypeInfo getReturnValueType() {
+						return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(StandardMapEntryTypeInfo.this));
 					}
-				}
-				Object value = null;
-				{
-					try {
-						value = ReflectionUIUtils.createInstance(getValueField().getType());
-					} catch (Throwable ignore) {
-					}
-				}
-				@SuppressWarnings({ "rawtypes", "unchecked" })
-				StandardMapEntry result = new StandardMapEntry(key, value);
-				reflectionUI.registerPrecomputedTypeInfoObject(result, StandardMapEntryTypeInfo.this);
-				return result;
-			}
 
-			@Override
-			public List<IParameterInfo> getParameters() {
-				return Collections.emptyList();
+					@Override
+					public Object invoke(Object object, InvocationData invocationData) {
+						Object key = keyCtor.invoke(null, shiftParameterValues(invocationData, 0));
+						Object value = valueCtor.invoke(null,
+								shiftParameterValues(invocationData, -keyCtor.getParameters().size()));
+
+						@SuppressWarnings({ "rawtypes", "unchecked" })
+						StandardMapEntry result = new StandardMapEntry(key, value);
+						reflectionUI.registerPrecomputedTypeInfoObject(result, StandardMapEntryTypeInfo.this);
+
+						return result;
+					}
+
+					@Override
+					public List<IParameterInfo> getParameters() {
+						List<IParameterInfo> result = new ArrayList<IParameterInfo>();
+						result.addAll(shiftParameter(keyCtor.getParameters(), 0, getKeyField().getName(), ""));
+						result.addAll(shiftParameter(valueCtor.getParameters(), keyCtor.getParameters().size(),
+								getValueField().getName(), ""));
+						return result;
+					}
+
+					private List<IParameterInfo> shiftParameter(List<IParameterInfo> parameters, final int offset,
+							final String namePrefix, final String captionPrefix) {
+						List<IParameterInfo> result = new ArrayList<IParameterInfo>();
+						for (IParameterInfo param : parameters) {
+							result.add(new ParameterInfoProxy(param) {
+								@Override
+								public int getPosition() {
+									return super.getPosition() + offset;
+								}
+
+								@Override
+								public String getName() {
+									return namePrefix + "." + super.getName();
+								}
+
+								@Override
+								public String getCaption() {
+									return ReflectionUIUtils.composeMessage(captionPrefix, super.getCaption());
+								}
+							});
+						}
+						return result;
+					}
+
+					private InvocationData shiftParameterValues(InvocationData invocationData, int offset) {
+						InvocationData result = new InvocationData();
+						Object NO_DEFAULT_VALUE = new Object();
+						for (Integer position : invocationData.getPositions()) {
+							Object value = invocationData.getParameterValue(position, NO_DEFAULT_VALUE);
+							if (value != NO_DEFAULT_VALUE) {
+								result.setparameterValue(position + offset, value);
+							}
+						}
+						return result;
+					}
+
+				});
 			}
-		});
+		}
+		return result;
+
 	}
 
 	@Override

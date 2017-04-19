@@ -11,7 +11,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
-import xy.reflect.ui.info.type.factory.MethodSetupObjectFactory;
+import xy.reflect.ui.info.type.factory.MethodParametersAsObjectFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -21,7 +21,7 @@ public class MethodParametersAsField implements IFieldInfo {
 	protected IMethodInfo method;
 	protected String fieldName;
 
-	protected MethodSetupObjectFactory factory;
+	protected MethodParametersAsObjectFactory factory;
 	protected InvocationData invocationData = new InvocationData();
 
 	public MethodParametersAsField(ReflectionUI reflectionUI, IMethodInfo method, String fieldName) {
@@ -32,8 +32,8 @@ public class MethodParametersAsField implements IFieldInfo {
 		this.factory = createFactory();
 	}
 
-	private MethodSetupObjectFactory createFactory() {
-		return new MethodSetupObjectFactory(reflectionUI, method, "MethodParametersAsFieldContext [methodSignature="
+	protected MethodParametersAsObjectFactory createFactory() {
+		return new MethodParametersAsObjectFactory(reflectionUI, method, "MethodParametersAsFieldContext [methodSignature="
 				+ ReflectionUIUtils.getMethodSignature(method) + ", fieldName=" + fieldName + "]");
 	}
 

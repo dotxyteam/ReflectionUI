@@ -20,10 +20,12 @@ import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.info.type.factory.InfoCustomizations;
 import xy.reflect.ui.info.type.factory.TypeInfoProxyFactory;
 import xy.reflect.ui.info.type.factory.InfoCustomizations.AbstractMemberCustomization;
+import xy.reflect.ui.info.type.factory.InfoCustomizations.ColumnCustomization;
 import xy.reflect.ui.info.type.factory.InfoCustomizations.CustomizationCategory;
 import xy.reflect.ui.info.type.factory.InfoCustomizations.FieldCustomization;
 import xy.reflect.ui.info.type.factory.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.type.factory.InfoCustomizations.MethodCustomization;
+import xy.reflect.ui.info.type.factory.InfoCustomizations.ParameterCustomization;
 import xy.reflect.ui.info.type.factory.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.util.ResourcePath;
@@ -198,7 +200,17 @@ class CustomizationToolsUI extends ReflectionUI {
 
 			@Override
 			protected String toString(ITypeInfo type, Object object) {
-				if (object instanceof CustomizationCategory) {
+				if (object instanceof TypeCustomization) {
+					return ((TypeCustomization) object).getTypeName();
+				} else if (object instanceof FieldCustomization) {
+					return ((FieldCustomization) object).getFieldName();
+				} else if (object instanceof MethodCustomization) {
+					return ((MethodCustomization) object).getMethodName();
+				} else if (object instanceof ParameterCustomization) {
+					return ((ParameterCustomization) object).getParameterName();
+				} else if (object instanceof ColumnCustomization) {
+					return ((ColumnCustomization) object).getColumnName();
+				} else if (object instanceof CustomizationCategory) {
 					return ((CustomizationCategory) object).getCaption();
 				} else if (object instanceof ResourcePath) {
 					return ((ResourcePath) object).getSpecification();

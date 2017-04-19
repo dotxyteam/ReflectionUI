@@ -3,7 +3,6 @@ package xy.reflect.ui.info.type.iterable;
 import java.util.List;
 
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
@@ -12,7 +11,6 @@ import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 
-@SuppressWarnings("unused")
 public interface IListTypeInfo extends ITypeInfo {
 	ITypeInfo getItemType();
 	
@@ -47,5 +45,7 @@ public interface IListTypeInfo extends ITypeInfo {
 	boolean isItemNullable();
 	
 	ValueReturnMode getItemReturnMode();
+
+	boolean isItemConstructorSelectable();
 
 }

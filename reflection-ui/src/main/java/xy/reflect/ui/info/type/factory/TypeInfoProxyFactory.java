@@ -331,6 +331,10 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return type.isItemNullable();
 	}
 
+	protected boolean isItemConstructorSelectable(IListTypeInfo type) {
+		return type.isItemConstructorSelectable();
+	}
+
 	protected ValueReturnMode getItemReturnMode(IListTypeInfo type) {
 		return type.getItemReturnMode();
 	}
@@ -686,6 +690,11 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 		public GeneratedListTypeInfoProxy(IListTypeInfo type) {
 			super(type);
+		}
+
+		@Override
+		public boolean isItemConstructorSelectable() {
+			return TypeInfoProxyFactory.this.isItemConstructorSelectable((IListTypeInfo) base);
 		}
 
 		@Override

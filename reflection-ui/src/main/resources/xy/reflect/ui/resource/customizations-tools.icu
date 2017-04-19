@@ -11,6 +11,7 @@
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
         <fieldColumnsAdded>true</fieldColumnsAdded>
+        <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>true</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.lang.Object</itemTypeName>
@@ -52,6 +53,7 @@
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
         <fieldColumnsAdded>true</fieldColumnsAdded>
+        <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ColumnCustomization</itemTypeName>
@@ -71,6 +73,7 @@
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
         <fieldColumnsAdded>false</fieldColumnsAdded>
+        <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$CustomizationCategory</itemTypeName>
@@ -90,6 +93,7 @@
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
         <fieldColumnsAdded>false</fieldColumnsAdded>
+        <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ITypeInfoFinder</itemTypeName>
@@ -117,6 +121,7 @@
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
         <fieldColumnsAdded>true</fieldColumnsAdded>
+        <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$InfoFilter</itemTypeName>
@@ -148,6 +153,7 @@
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
         <fieldColumnsAdded>true</fieldColumnsAdded>
+        <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ListItemFieldShortcut</itemTypeName>
@@ -167,6 +173,7 @@
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
         <fieldColumnsAdded>true</fieldColumnsAdded>
+        <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ListItemMethodShortcut</itemTypeName>
@@ -248,6 +255,7 @@
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
         <fieldColumnsAdded>true</fieldColumnsAdded>
+        <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$MethodCustomization</itemTypeName>
@@ -292,6 +300,7 @@
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
         <fieldColumnsAdded>true</fieldColumnsAdded>
+        <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ParameterCustomization</itemTypeName>
@@ -327,6 +336,7 @@
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
         <fieldColumnsAdded>true</fieldColumnsAdded>
+        <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ColumnCustomization</itemTypeName>
@@ -357,6 +367,7 @@
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
         <fieldColumnsAdded>true</fieldColumnsAdded>
+        <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$EnumerationItemCustomization</itemTypeName>
@@ -376,6 +387,7 @@
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
         <fieldColumnsAdded>false</fieldColumnsAdded>
+        <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization</itemTypeName>
@@ -395,6 +407,7 @@
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
         <fieldColumnsAdded>false</fieldColumnsAdded>
+        <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$MethodCustomization</itemTypeName>
@@ -427,6 +440,7 @@
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
         <fieldColumnsAdded>true</fieldColumnsAdded>
+        <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$EnumerationItemCustomization</itemTypeName>
@@ -515,6 +529,7 @@
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
         <fieldColumnsAdded>true</fieldColumnsAdded>
+        <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization</itemTypeName>
@@ -3933,6 +3948,7 @@
                         <itemMoveEnabled>false</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
                     <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$EnumerationItemCustomization</itemTypeName>
@@ -5984,6 +6000,7 @@
         <customFieldsOrder>editOptions</customFieldsOrder>
         <customFieldsOrder>itemDetailsViewDisabled</customFieldsOrder>
         <customFieldsOrder>customDetailsAccessMode</customFieldsOrder>
+        <customFieldsOrder>itemContructorSelectableforced</customFieldsOrder>
         <customFieldsOrder>listSorted</customFieldsOrder>
         <fieldsCustomizations>
             <category>
@@ -6052,6 +6069,7 @@
                         <itemMoveEnabled>false</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
                     <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ColumnCustomization</itemTypeName>
@@ -6328,6 +6346,36 @@
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
+        <fieldsCustomizations>
+            <category>
+                <caption>Item Details</caption>
+            </category>
+            <hidden>false</hidden>
+            <customFieldCaption>Allow To Select Item Constructor</customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName>itemContructorSelectableforced</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <abstractForced>false</abstractForced>
+                    <immutableForced>false</immutableForced>
+                    <methodsCustomizations>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>boolean ()</methodSignature>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <typeName>boolean</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <memberCategories>
             <caption>Columns</caption>
@@ -6383,6 +6431,7 @@
                 <caption>Item Details</caption>
             </category>
             <hidden>false</hidden>
+            <customMethodCaption>Show Item Type Shared Customization</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>void displayItemTypeCustomization()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -6758,6 +6807,7 @@
                         <itemMoveEnabled>false</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
                     <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ParameterCustomization</itemTypeName>
@@ -7382,6 +7432,7 @@
                         <itemMoveEnabled>false</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
                     <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization</itemTypeName>
@@ -7526,6 +7577,7 @@
                         <itemMoveEnabled>false</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
                     <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$MethodCustomization</itemTypeName>
@@ -7595,6 +7647,7 @@
                         <regularExpression>false</regularExpression>
                         <value>criteria</value>
                     </fieldsExcludedFromItemDetails>
+                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemTypeColumnAdded>true</itemTypeColumnAdded>
                     <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ITypeInfoFinder</itemTypeName>

@@ -21,7 +21,6 @@ import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IFieldControlData;
-import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.plugin.ICustomizableFieldControlPlugin;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.NullableControl;
@@ -29,36 +28,27 @@ import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.SwingRenderer.MethodControlPlaceHolder;
 import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
-import xy.reflect.ui.info.DesktopSpecificProperty;
-import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.factory.InfoCustomizations;
-import xy.reflect.ui.info.type.factory.InfoCustomizations.AbstractInfoCustomization;
 import xy.reflect.ui.info.type.factory.InfoCustomizations.EnumerationCustomization;
 import xy.reflect.ui.info.type.factory.InfoCustomizations.FieldCustomization;
-import xy.reflect.ui.info.type.factory.InfoCustomizations.FieldTypeSpecificities;
 import xy.reflect.ui.info.type.factory.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.type.factory.InfoCustomizations.MethodCustomization;
 import xy.reflect.ui.info.type.factory.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
-import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.undo.IModification;
-import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.util.FileUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.SystemProperties;
 
-@SuppressWarnings("unused")
 public class CustomizationTools {
 
 	protected final SwingCustomizer swingCustomizer;
@@ -163,7 +153,7 @@ public class CustomizationTools {
 			public void actionPerformed(ActionEvent e) {
 				final JPopupMenu popupMenu = new JPopupMenu();
 				popupMenu.add(new AbstractAction(
-						CustomizationTools.this.customizationToolsRenderer.prepareStringToDisplay("Type Options...")) {
+						CustomizationTools.this.customizationToolsRenderer.prepareStringToDisplay("Shared Type Options...")) {
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -608,21 +598,6 @@ public class CustomizationTools {
 
 			private String getMethodInfoSignature() {
 				return ReflectionUIUtils.getMethodSignature(methodControlPlaceHolder.getMethod());
-			}
-
-			private ITypeInfo getMethodReturnValueType() {
-				IMethodControlData controlData = methodControlPlaceHolder.getControlData();
-				if (controlData == null) {
-					return null;
-				}
-				return controlData.getReturnValueType();
-			}
-
-			private MethodCustomization getMethodCustomization() {
-				TypeCustomization t = InfoCustomizations.getTypeCustomization(infoCustomizations,
-						getParentFormObjectCustomizedType().getName(), true);
-				MethodCustomization mc = InfoCustomizations.getMethodCustomization(t, getMethodInfoSignature(), true);
-				return mc;
 			}
 
 			@Override

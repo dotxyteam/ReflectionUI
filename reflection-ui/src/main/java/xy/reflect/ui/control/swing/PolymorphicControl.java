@@ -1,12 +1,7 @@
 package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
@@ -17,14 +12,10 @@ import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.editor.AbstractEditFormBuilder;
-import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
-import xy.reflect.ui.info.type.factory.GenericEnumerationFactory;
 import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
@@ -34,7 +25,6 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-@SuppressWarnings("unused")
 public class PolymorphicControl extends JPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
@@ -94,39 +84,16 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			@Override
 			public Object getInitialObjectValue() {
 				Object instance = data.getValue();
-				ITypeInfo selectedType = ReflectionUIUtils.getFirstKeyFromValue(instanceByEnumerationValueCache,
-						instance);
-				if (selectedType == null) {
-					selectedType = guessSubType(instance);
-					if (selectedType == null) {
-						return null;
-					}
-					instanceByEnumerationValueCache.put(selectedType, instance);
-				}
-				return typeOptionsFactory.getInstance(selectedType);
-			}
-
-			ITypeInfo guessSubType(Object instance) {
 				if (instance == null) {
 					return null;
 				}
-				List<ITypeInfo> options = new ArrayList<ITypeInfo>(typeOptionsFactory.getTypeOptions());
-				Collections.reverse(options);
-				for (ITypeInfo type : options) {
-					if (!type.getName().equals(polymorphicType.getName())) {
-						if (type.supportsInstance(instance)) {
-							return type;
-						}
-					}
+				ITypeInfo selectedType = ReflectionUIUtils.getFirstKeyFromValue(instanceByEnumerationValueCache,
+						instance);
+				if (selectedType == null) {
+					selectedType = typeOptionsFactory.guessSubType(instance);
+					instanceByEnumerationValueCache.put(selectedType, instance);
 				}
-				for (ITypeInfo type : typeOptionsFactory.getTypeOptions()) {
-					if (type.getName().equals(polymorphicType.getName())) {
-						if (type.supportsInstance(instance)) {
-							return type;
-						}
-					}
-				}
-				return null;
+				return typeOptionsFactory.getInstance(selectedType);
 			}
 
 			@Override
@@ -151,7 +118,12 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 					ITypeInfo selectedSubType = (ITypeInfo) typeOptionsFactory.unwrapInstance(value);
 					instance = instanceByEnumerationValueCache.get(selectedSubType);
 					if (instance == null) {
-						instance = swingRenderer.onTypeInstanciationRequest(PolymorphicControl.this, selectedSubType);
+						try {
+							instance = swingRenderer.onTypeInstanciationRequest(PolymorphicControl.this,
+									selectedSubType);
+						} catch (Throwable t) {
+							instance = null;
+						}
 						if (instance == null) {
 							SwingUtilities.invokeLater(new Runnable() {
 								@Override
@@ -182,6 +154,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 						Object instance;
 						if (value == null) {
 							instance = null;
+							instanceByEnumerationValueCache.clear();
 						} else {
 							ITypeInfo selectedSubType = (ITypeInfo) typeOptionsFactory.unwrapInstance(value);
 							instance = instanceByEnumerationValueCache.get(selectedSubType);

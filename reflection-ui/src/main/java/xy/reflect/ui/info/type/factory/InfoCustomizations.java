@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -25,15 +24,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.DefaultFieldControlData;
-import xy.reflect.ui.control.DefaultMethodControlData;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.ValueAsListField;
-import xy.reflect.ui.info.filter.IInfoFilter;
-import xy.reflect.ui.info.filter.InfoFilterProxy;
 import xy.reflect.ui.info.field.EncapsulatedMethodField;
 import xy.reflect.ui.info.field.EncapsulatedValueField;
 import xy.reflect.ui.info.field.FieldInfoProxy;
@@ -52,8 +47,6 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.EnumerationItemInfoProxy;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
-import xy.reflect.ui.info.type.factory.InfoCustomizations.AbstractInfoCustomization;
-import xy.reflect.ui.info.type.factory.InfoCustomizations.FieldCustomization;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode;
@@ -64,17 +57,12 @@ import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.undo.ControlDataValueModification;
-import xy.reflect.ui.undo.IModification;
-import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.ListModificationFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.ResourcePath;
-import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.SystemProperties;
 
-@SuppressWarnings("unused")
 @XmlRootElement
 public class InfoCustomizations implements Serializable {
 
@@ -1692,6 +1680,15 @@ public class InfoCustomizations implements Serializable {
 		protected ListEditOptions editOptions = new ListEditOptions();
 		protected boolean listSorted = false;
 		protected IListItemDetailsAccessMode customDetailsAccessMode = null;
+		protected boolean itemContructorSelectableforced = false;
+
+		public boolean isItemContructorSelectableforced() {
+			return itemContructorSelectableforced;
+		}
+
+		public void setItemContructorSelectableforced(boolean itemContructorSelectableforced) {
+			this.itemContructorSelectableforced = itemContructorSelectableforced;
+		}
 
 		@XmlElements({ @XmlElement(name = "detachedDetailsAccessMode", type = DetachedItemDetailsAccessMode.class),
 				@XmlElement(name = "embeddedDetailsAccessMode", type = EmbeddedItemDetailsAccessMode.class) })
@@ -1979,6 +1976,19 @@ public class InfoCustomizations implements Serializable {
 		@Override
 		public String getIdentifier() {
 			return InfoCustomizations.this.toString();
+		}
+
+		@Override
+		protected boolean isItemConstructorSelectable(IListTypeInfo listType) {
+			ITypeInfo itemType = listType.getItemType();
+			final ListCustomization l = getListCustomization(InfoCustomizations.this, listType.getName(),
+					(itemType == null) ? null : itemType.getName());
+			if (l != null) {
+				if (l.itemContructorSelectableforced) {
+					return true;
+				}
+			}
+			return super.isItemConstructorSelectable(listType);
 		}
 
 		@Override
@@ -2579,9 +2589,9 @@ public class InfoCustomizations implements Serializable {
 						if (l.editOptions.listInstanciationOption.customInstanceTypeFinder != null) {
 							ITypeInfo customInstanceType = l.editOptions.listInstanciationOption.customInstanceTypeFinder
 									.find(reflectionUI);
-							newListInstance = ReflectionUIUtils.createInstance(customInstanceType);
+							newListInstance = ReflectionUIUtils.createDefaultInstance(customInstanceType);
 						} else {
-							newListInstance = ReflectionUIUtils.createInstance(listType);
+							newListInstance = ReflectionUIUtils.createDefaultInstance(listType);
 						}
 						super.replaceContent(listType, newListInstance, array);
 						return newListInstance;

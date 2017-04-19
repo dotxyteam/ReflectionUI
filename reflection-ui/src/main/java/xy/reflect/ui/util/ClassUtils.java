@@ -128,7 +128,7 @@ public class ClassUtils {
 		} else if (clazz.equals(char.class)) {
 			return DEFAULT_CHAR;
 		} else {
-			throw new IllegalArgumentException("Class type " + clazz + " not supported");
+			throw new IllegalArgumentException("Class '" + clazz + "' is not a valid primitive wrapper class");
 		}
 	}
 

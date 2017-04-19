@@ -34,16 +34,13 @@ public class MethodControl extends JButton {
 				setText(swingRenderer.prepareStringToDisplay(caption));
 			}
 		}
-		String toolTipText = "";
+		String toolTipText = caption;
 		{
 			if (data.getParameters().size() > 0) {
-				toolTipText += "Parameter(s): " + ReflectionUIUtils.formatParameterList(data.getParameters());
+				toolTipText += "\nParameter(s): " + ReflectionUIUtils.formatParameterList(data.getParameters());
 			}
 			if ((data.getOnlineHelp() != null) && (data.getOnlineHelp().trim().length() > 0)) {
-				if (toolTipText.length() > 0) {
-					toolTipText += ":\n";
-				}
-				toolTipText += data.getOnlineHelp();
+				toolTipText += "\nDescription: " + data.getOnlineHelp();
 			}
 			if (toolTipText.length() > 0) {
 				SwingRendererUtils.setMultilineToolTipText(this, swingRenderer.prepareStringToDisplay(toolTipText));

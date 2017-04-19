@@ -39,7 +39,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 
 	@Override
 	public String getCaption() {
-		return ReflectionUIUtils.getDefaultListTypeCaption(this);		
+		return ReflectionUIUtils.getDefaultListTypeCaption(this);
 	}
 
 	public Class<?> getJavaType() {
@@ -160,6 +160,11 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	@Override
 	public List<IMethodInfo> getAdditionalItemConstructors(Object listValue) {
 		return Collections.emptyList();
+	}
+
+	@Override
+	public boolean isItemConstructorSelectable() {
+		return false;
 	}
 
 	@Override

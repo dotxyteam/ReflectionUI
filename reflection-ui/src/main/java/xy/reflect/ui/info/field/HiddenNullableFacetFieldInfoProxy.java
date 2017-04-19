@@ -2,8 +2,6 @@ package xy.reflect.ui.info.field;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.factory.HiddenNullableFacetsTypeInfoProxyFactory;
-import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class HiddenNullableFacetFieldInfoProxy extends FieldInfoProxy {
 

@@ -1,9 +1,6 @@
-import java.awt.AWTEvent;
 import java.awt.Color;
-import java.awt.Toolkit;
-import java.awt.event.AWTEventListener;
-import java.awt.event.FocusEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -15,8 +12,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import java.util.Vector;
-
-import javax.swing.JButton;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.SwingRenderer;
@@ -88,6 +83,7 @@ public class ReflectionUITest {
 		public File theFile = new File("tmp");
 		private Date theDate = new Date();
 		char c = 'a';
+		public List<Exception> theExceptionList = new ArrayList<Exception>();
 		public List<String> theStringList = new ArrayList<String>(Arrays.asList("a", "b", "c", "d"));
 		public List<Boolean> theBooleanList = new ArrayList<Boolean>(Arrays.asList(true, false, true, false));
 		public float[] theFloatArray = new float[] { 1.1f, 2.2f, 3.3f, 4.4f, 5.5f };
@@ -105,6 +101,7 @@ public class ReflectionUITest {
 
 			}
 		});
+		public Map<FileNotFoundException, ArrayIndexOutOfBoundsException> theExceptionMap = new HashMap<FileNotFoundException, ArrayIndexOutOfBoundsException>();
 		public Map<Integer, Test2> theTest2Map = new HashMap<Integer, Test2>();
 		public List<File> theFileList = Arrays.asList(new File("tmp"));
 		public Set<Integer> theSet = new HashSet<Integer>(Arrays.asList(1, 2, 3));
@@ -275,22 +272,6 @@ public class ReflectionUITest {
 	}
 
 	public static void main(String[] args) {
-		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
-
-			@Override
-			public void eventDispatched(AWTEvent event) {
-				//System.out.println(event);
-				if (event instanceof FocusEvent) {
-					FocusEvent focusEvent = (FocusEvent) event;
-					if (focusEvent.toString().contains("custom.png")) {
-						if (focusEvent.getSource() instanceof JButton) {
-							//System.out.println(((JButton) focusEvent.getSource()).getToolTipText());
-						}
-					}
-				}
-			}
-		}, AWTEvent.KEY_EVENT_MASK | AWTEvent.FOCUS_EVENT_MASK);
-
 		final InfoCustomizations infoCustomizations = InfoCustomizations.getDefault();
 		ReflectionUI reflectionUI = new ReflectionUI() {
 			@Override

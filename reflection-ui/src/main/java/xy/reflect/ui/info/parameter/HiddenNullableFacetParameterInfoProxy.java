@@ -4,25 +4,23 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.parameter.ParameterInfoProxy;
 import xy.reflect.ui.info.type.factory.HiddenNullableFacetsTypeInfoProxyFactory;
-import xy.reflect.ui.util.ReflectionUIError;
 
-@SuppressWarnings("unused")
 public class HiddenNullableFacetParameterInfoProxy extends ParameterInfoProxy {
 
 	protected ReflectionUI reflectionUI;
 	protected IParameterInfo base;
 
-	public HiddenNullableFacetParameterInfoProxy(final ReflectionUI reflectionUI,
-			final IParameterInfo base) {
+	public HiddenNullableFacetParameterInfoProxy(final ReflectionUI reflectionUI, final IParameterInfo base) {
 		super(base);
 		this.reflectionUI = reflectionUI;
 		this.base = base;
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	public Object getDefaultValue() {
 		final Object[] result = new Object[1];
-		new HiddenNullableFacetsTypeInfoProxyFactory(reflectionUI){
+		new HiddenNullableFacetsTypeInfoProxyFactory(reflectionUI) {
 			{
 				result[0] = getDefaultValue(base, null, null);
 			}
@@ -51,7 +49,6 @@ public class HiddenNullableFacetParameterInfoProxy extends ParameterInfoProxy {
 		if (!getClass().equals(obj.getClass())) {
 			return false;
 		}
-		return base
-				.equals(((HiddenNullableFacetParameterInfoProxy) obj).base);
+		return base.equals(((HiddenNullableFacetParameterInfoProxy) obj).base);
 	}
 }

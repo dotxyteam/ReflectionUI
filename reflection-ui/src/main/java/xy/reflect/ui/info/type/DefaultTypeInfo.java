@@ -82,14 +82,21 @@ public class DefaultTypeInfo implements ITypeInfo {
 	public List<IMethodInfo> getConstructors() {
 		if (constructors == null) {
 			constructors = new ArrayList<IMethodInfo>();
-			for (Constructor<?> javaConstructor : javaType.getConstructors()) {
-				if (!DefaultConstructorInfo.isCompatibleWith(javaConstructor)) {
-					continue;
-				}
-				constructors.add(new DefaultConstructorInfo(reflectionUI, javaConstructor));
-			}
-			if (ClassUtils.isPrimitiveClassOrWrapper(javaType)) {
+			if (ClassUtils.isPrimitiveClassOrWrapperOrString(javaType)) {
 				constructors.add(new AbstractConstructorInfo() {
+
+					@Override
+					public Object invoke(Object object, InvocationData invocationData) {
+						if (String.class.equals(javaType)) {
+							return "";
+						} else {
+							Class<?> primitiveType = javaType;
+							if (ClassUtils.isPrimitiveWrapper(primitiveType)) {
+								primitiveType = ClassUtils.wrapperToPrimitiveClass(javaType);
+							}
+							return ClassUtils.getDefaultPrimitiveValue(primitiveType);
+						}
+					}
 
 					@Override
 					public ITypeInfo getReturnValueType() {
@@ -97,20 +104,41 @@ public class DefaultTypeInfo implements ITypeInfo {
 					}
 
 					@Override
-					public Object invoke(Object object, InvocationData invocationData) {
-						Class<?> primitiveType = javaType;
-						if (ClassUtils.isPrimitiveWrapper(primitiveType)) {
-							primitiveType = ClassUtils.wrapperToPrimitiveClass(javaType);
-						}
-						return ClassUtils.getDefaultPrimitiveValue(primitiveType);
-					}
-
-					@Override
 					public List<IParameterInfo> getParameters() {
 						return Collections.emptyList();
 					}
-
 				});
+			} else {
+				for (Constructor<?> javaConstructor : javaType.getConstructors()) {
+					if (!DefaultConstructorInfo.isCompatibleWith(javaConstructor)) {
+						continue;
+					}
+					constructors.add(new DefaultConstructorInfo(reflectionUI, javaConstructor));
+				}
+				if (ClassUtils.isPrimitiveClassOrWrapper(javaType)) {
+					constructors.add(new AbstractConstructorInfo() {
+
+						@Override
+						public ITypeInfo getReturnValueType() {
+							return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(DefaultTypeInfo.this));
+						}
+
+						@Override
+						public Object invoke(Object object, InvocationData invocationData) {
+							Class<?> primitiveType = javaType;
+							if (ClassUtils.isPrimitiveWrapper(primitiveType)) {
+								primitiveType = ClassUtils.wrapperToPrimitiveClass(javaType);
+							}
+							return ClassUtils.getDefaultPrimitiveValue(primitiveType);
+						}
+
+						@Override
+						public List<IParameterInfo> getParameters() {
+							return Collections.emptyList();
+						}
+
+					});
+				}
 			}
 		}
 		return constructors;

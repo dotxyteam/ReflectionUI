@@ -708,25 +708,25 @@ public class ReflectionUIUtils {
 		}
 		return true;
 	}
-	
-	public static Object createInstance(ITypeInfo type) {
-		return createInstance(type, true);
-	}
-		
 
-	public static Object createInstance(ITypeInfo type, boolean subTypeInstanceAllowed) {
+	public static Object createDefaultInstance(ITypeInfo type) {
+		return createDefaultInstance(type, true);
+	}
+
+	public static Object createDefaultInstance(ITypeInfo type, boolean subTypeInstanceAllowed) {
 		try {
 			if (!type.isConcrete()) {
 				if (subTypeInstanceAllowed) {
 					if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(type)) {
 						for (ITypeInfo subType : type.getPolymorphicInstanceSubTypes()) {
 							try {
-								return createInstance(subType, true);
+								return createDefaultInstance(subType, true);
 							} catch (Throwable ignore) {
 							}
 						}
 					}
-					throw new ReflectionUIError("Cannot instanciate abstract type and no valid sub-type found");
+					throw new ReflectionUIError(
+							"Cannot instanciate abstract type and failed to create a default instance of sub-types");
 				} else {
 					throw new ReflectionUIError("Cannot instanciate abstract type");
 				}
@@ -741,7 +741,7 @@ public class ReflectionUIUtils {
 
 		} catch (Throwable t) {
 			throw new ReflectionUIError(
-					"Could not create an instance of type '" + type.getName() + "': " + t.toString(), t);
+					"Failed to create a default instance of type '" + type.getName() + "': " + t.toString(), t);
 
 		}
 
@@ -782,7 +782,16 @@ public class ReflectionUIUtils {
 			return "";
 		}
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		return type.toString(object);
+		if (type instanceof IListTypeInfo) {
+			IListTypeInfo listType = (IListTypeInfo) type;
+			List<String> result = new ArrayList<String>();
+			for (Object item : listType.toArray(object)) {
+				result.add(toString(reflectionUI, item));
+			}
+			return ReflectionUIUtils.stringJoin(result, ", ");
+		} else {
+			return type.toString(object);
+		}
 	}
 
 	public static String getIconImagePath(ReflectionUI reflectionUI, Object object) {

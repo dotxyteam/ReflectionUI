@@ -19,22 +19,44 @@ import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class MethodSetupObjectFactory {
+public class MethodParametersAsObjectFactory {
 
 	protected ReflectionUI reflectionUI;
 	protected IMethodInfo method;
 	protected String contextId;
 
-	public MethodSetupObjectFactory(ReflectionUI reflectionUI, IMethodInfo method, String contextId) {
+	public MethodParametersAsObjectFactory(ReflectionUI reflectionUI, IMethodInfo method, String contextId) {
 		this.reflectionUI = reflectionUI;
 		this.method = method;
 		this.contextId = contextId;
 	}
 
 	public Instance getInstance(Object object, InvocationData invocationData) {
-		Instance result = new MethodSetupObjectFactory.Instance(object, invocationData);
+		Instance result = new MethodParametersAsObjectFactory.Instance(object, invocationData);
 		reflectionUI.registerPrecomputedTypeInfoObject(result, new TypeInfo());
 		return result;
+	}
+	
+	public Object unwrapInstanceObject(Object obj) {
+		if (obj == null) {
+			return null;
+		}
+		Instance instance = (Instance) obj;
+		if (!instance.getOuterType().equals(this)) {
+			throw new ReflectionUIError();
+		}
+		return instance.getObject();
+	}
+	
+	public InvocationData unwrapInstanceInvocationData(Object obj) {
+		if (obj == null) {
+			return null;
+		}
+		Instance instance = (Instance) obj;
+		if (!instance.getOuterType().equals(this)) {
+			throw new ReflectionUIError();
+		}
+		return instance.getInvocationData();
 	}
 
 	public ITypeInfoSource getInstanceTypeInfoSource() {
@@ -58,7 +80,7 @@ public class MethodSetupObjectFactory {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MethodSetupObjectFactory other = (MethodSetupObjectFactory) obj;
+		MethodParametersAsObjectFactory other = (MethodParametersAsObjectFactory) obj;
 		if (contextId == null) {
 			if (other.contextId != null)
 				return false;
@@ -94,13 +116,58 @@ public class MethodSetupObjectFactory {
 			return invocationData;
 		}
 
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + getOuterType().hashCode();
+			result = prime * result + ((invocationData == null) ? 0 : invocationData.hashCode());
+			result = prime * result + ((object == null) ? 0 : object.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Instance other = (Instance) obj;
+			if (!getOuterType().equals(other.getOuterType()))
+				return false;
+			if (invocationData == null) {
+				if (other.invocationData != null)
+					return false;
+			} else if (!invocationData.equals(other.invocationData))
+				return false;
+			if (object == null) {
+				if (other.object != null)
+					return false;
+			} else if (!object.equals(other.object))
+				return false;
+			return true;
+		}
+
+		private MethodParametersAsObjectFactory getOuterType() {
+			return MethodParametersAsObjectFactory.this;
+		}
+
+		@Override
+		public String toString() {
+			return "MethodParametersAsObject [object=" + object + ", invocationData=" + invocationData + "]";
+		}
+		
+		
+
 	}
 
 	protected class TypeInfo implements ITypeInfo {
 
 		@Override
 		public String getIconImagePath() {
-			return method.getIconImagePath();
+			return null;
 		}
 
 		@Override
@@ -134,7 +201,6 @@ public class MethodSetupObjectFactory {
 			for (IParameterInfo param : method.getParameters()) {
 				result.add(new ParameterAsField(param));
 			}
-			ReflectionUIUtils.sortFields(result);
 			return result;
 		}
 
@@ -150,7 +216,7 @@ public class MethodSetupObjectFactory {
 
 		@Override
 		public String getOnlineHelp() {
-			return method.getOnlineHelp();
+			return null;
 		}
 
 		@Override
@@ -218,8 +284,8 @@ public class MethodSetupObjectFactory {
 			return true;
 		}
 
-		private MethodSetupObjectFactory getOuterType() {
-			return MethodSetupObjectFactory.this;
+		private MethodParametersAsObjectFactory getOuterType() {
+			return MethodParametersAsObjectFactory.this;
 		}
 
 		@Override
@@ -328,8 +394,8 @@ public class MethodSetupObjectFactory {
 			return Collections.emptyMap();
 		}
 
-		private MethodSetupObjectFactory getOuterType() {
-			return MethodSetupObjectFactory.this;
+		private MethodParametersAsObjectFactory getOuterType() {
+			return MethodParametersAsObjectFactory.this;
 		}
 
 		@Override

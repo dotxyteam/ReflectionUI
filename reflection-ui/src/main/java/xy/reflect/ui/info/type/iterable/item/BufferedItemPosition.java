@@ -3,14 +3,11 @@ package xy.reflect.ui.info.type.iterable.item;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.plaf.basic.BasicIconFactory;
-
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 
-@SuppressWarnings("unused")
 public class BufferedItemPosition extends ItemPosition {
 
 	public static final Object NULL_FAKE_ITEM = new Object() {

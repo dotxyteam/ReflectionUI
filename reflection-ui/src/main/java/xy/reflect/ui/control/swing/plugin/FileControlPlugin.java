@@ -17,10 +17,8 @@ import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ClassUtils;
-import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-@SuppressWarnings("unused")
 public class FileControlPlugin implements IFieldControlPlugin {
 
 	protected static final File DEFAULT_FILE = new File("");
