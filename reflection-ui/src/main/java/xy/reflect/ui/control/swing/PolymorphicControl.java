@@ -13,9 +13,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import xy.reflect.ui.control.input.FieldControlDataProxy;
-import xy.reflect.ui.control.input.IFieldControlData;
-import xy.reflect.ui.control.input.IFieldControlInput;
+import xy.reflect.ui.control.FieldControlDataProxy;
+import xy.reflect.ui.control.IFieldControlData;
+import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.editor.AbstractEditFormBuilder;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
@@ -23,9 +23,9 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.util.GenericEnumerationFactory;
-import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
-import xy.reflect.ui.info.type.util.PolymorphicTypeOptionsFactory;
+import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
+import xy.reflect.ui.info.type.factory.GenericEnumerationFactory;
+import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationProxy;
@@ -151,8 +151,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 					ITypeInfo selectedSubType = (ITypeInfo) typeOptionsFactory.unwrapInstance(value);
 					instance = instanceByEnumerationValueCache.get(selectedSubType);
 					if (instance == null) {
-						instance = swingRenderer.onTypeInstanciationRequest(PolymorphicControl.this, selectedSubType,
-								false);
+						instance = swingRenderer.onTypeInstanciationRequest(PolymorphicControl.this, selectedSubType);
 						if (instance == null) {
 							SwingUtilities.invokeLater(new Runnable() {
 								@Override

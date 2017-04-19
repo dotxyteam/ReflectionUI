@@ -3,14 +3,14 @@ package xy.reflect.ui.info.method;
 import java.util.List;
 import java.util.Map;
 
-import xy.reflect.ui.control.input.DefaultFieldControlData;
-import xy.reflect.ui.control.input.DefaultMethodControlData;
+import xy.reflect.ui.control.DefaultFieldControlData;
+import xy.reflect.ui.control.DefaultMethodControlData;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
+import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.InvokeMethodModification;
@@ -67,13 +67,7 @@ public class SubMethodInfo implements IMethodInfo {
 	protected Object getTheFieldValue(Object object) {
 		Object result = theField.getValue(object);
 		if (result == null) {
-			try {
-				result = ReflectionUIUtils.createDefaultInstance(theField.getType());
-			} catch (Throwable t) {
-				throw new ReflectionUIError(
-						"Sub-method error: Parent field value is missing and cannot be constructed: " + t.toString(),
-						t);
-			}
+			throw new ReflectionUIError("Sub-method error: Parent field value is missing");
 		}
 		return result;
 	}

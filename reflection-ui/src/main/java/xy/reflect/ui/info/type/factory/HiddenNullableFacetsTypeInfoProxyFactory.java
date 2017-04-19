@@ -1,4 +1,4 @@
-package xy.reflect.ui.info.type.util;
+package xy.reflect.ui.info.type.factory;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -20,7 +20,7 @@ public class HiddenNullableFacetsTypeInfoProxyFactory extends TypeInfoProxyFacto
 	public Object generateDefaultValue(ITypeInfo type) {
 		Object result;
 		try {
-			result = ReflectionUIUtils.createDefaultInstance(type);
+			result = ReflectionUIUtils.createInstance(type);
 		} catch (Throwable t) {
 			result = null;
 		}

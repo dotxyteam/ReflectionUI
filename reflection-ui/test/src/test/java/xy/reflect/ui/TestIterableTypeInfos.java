@@ -7,18 +7,19 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import xy.reflect.ui.control.input.DefaultFieldControlData;
+import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.factory.InfoCustomizations;
+import xy.reflect.ui.info.type.factory.InfoCustomizations.ListCustomization;
+import xy.reflect.ui.info.type.factory.InfoCustomizations.TreeStructureDiscoverySettings;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
+import xy.reflect.ui.info.type.iterable.item.ItemPositionFactory;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.util.InfoCustomizations;
-import xy.reflect.ui.info.type.util.InfoCustomizations.ListCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizations.TreeStructureDiscoverySettings;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class TestIterableTypeInfos extends AbstractUIAutomationTest {
@@ -81,7 +82,8 @@ public class TestIterableTypeInfos extends AbstractUIAutomationTest {
 
 		IListStructuralInfo itemListStructuralInfo = itemListTypeInfo.getStructuralInfo();
 
-		ItemPosition firstItemPosition = new ItemPosition(new DefaultFieldControlData(this, itemListInfo), 0);
+		ItemPosition firstItemPosition = new ItemPositionFactory(new DefaultFieldControlData(this, itemListInfo))
+				.getRootItemPosition(0);
 		ITypeInfo firstItemType = reflectionUI.getTypeInfo(new JavaTypeInfoSource(itemList.get(0).getClass()));
 		Assert.assertEquals(itemListStructuralInfo.getColumns().get(0).getCellValue(firstItemPosition),
 				firstItemType.getCaption());

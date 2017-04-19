@@ -51,8 +51,8 @@ import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.input.IFieldControlData;
-import xy.reflect.ui.control.input.IMethodControlData;
+import xy.reflect.ui.control.IFieldControlData;
+import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
@@ -482,8 +482,8 @@ public class SwingRendererUtils {
 		Rectangle bounds = window.getBounds();
 		int widthGrowth, heightGrowth;
 		{
-			if (bounds.width < (characterSize * 60)) {
-				widthGrowth = (characterSize * 60) - bounds.width;
+			if (bounds.width < (characterSize * 80)) {
+				widthGrowth = (characterSize * 80) - bounds.width;
 			} else {
 				widthGrowth = 0;
 			}

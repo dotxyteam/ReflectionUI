@@ -2,12 +2,12 @@ package xy.reflect.ui.info.field;
 
 import java.util.Map;
 
-import xy.reflect.ui.control.input.DefaultFieldControlData;
+import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
+import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -61,20 +61,19 @@ public class SubFieldInfo implements IFieldInfo {
 
 	@Override
 	public Object getValue(Object object) {
-		Object fieldValue = getTheSubFieldValue(object);
+		Object fieldValue = getTheFieldValue(object);
 		return theSubField.getValue(fieldValue);
 	}
 
 	@Override
 	public Object[] getValueOptions(Object object) {
-		Object fieldValue = getTheSubFieldValue(object);
+		Object fieldValue = getTheFieldValue(object);
 		return theSubField.getValueOptions(fieldValue);
 	}
 
 	@Override
 	public boolean isGetOnly() {
-		if (!ReflectionUIUtils.canCloseValueEditSession(false, theField.getValueReturnMode(),
-				!theField.isGetOnly())) {
+		if (!ReflectionUIUtils.canCloseValueEditSession(false, theField.getValueReturnMode(), !theField.isGetOnly())) {
 			return true;
 		}
 		return theSubField.isGetOnly();
@@ -82,7 +81,7 @@ public class SubFieldInfo implements IFieldInfo {
 
 	@Override
 	public void setValue(Object object, Object subFieldValue) {
-		Object fieldValue = getTheSubFieldValue(object);
+		Object fieldValue = getTheFieldValue(object);
 
 		oppositeSubFieldModification = new ControlDataValueModification(
 				new DefaultFieldControlData(fieldValue, theSubField), subFieldValue, theSubField).applyAndGetOpposite();
@@ -93,15 +92,10 @@ public class SubFieldInfo implements IFieldInfo {
 				theField, ControlDataValueModification.getTitle(theField));
 	}
 
-	protected Object getTheSubFieldValue(Object object) {
+	protected Object getTheFieldValue(Object object) {
 		Object result = theField.getValue(object);
 		if (result == null) {
-			try {
-				result = ReflectionUIUtils.createDefaultInstance(theField.getType());
-			} catch (Throwable t) {
-				throw new ReflectionUIError(
-						"Sub-field error: Parent field value is missing and cannot be constructed: " + t.toString(), t);
-			}
+			throw new ReflectionUIError("Sub-field error: Parent field value is missing");
 		}
 		return result;
 	}

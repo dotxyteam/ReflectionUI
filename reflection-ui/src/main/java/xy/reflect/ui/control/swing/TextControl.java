@@ -3,7 +3,6 @@ package xy.reflect.ui.control.swing;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
 import java.awt.Toolkit;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,12 +16,11 @@ import javax.swing.JTextArea;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
-import xy.reflect.ui.control.input.IFieldControlData;
-import xy.reflect.ui.control.input.IFieldControlInput;
+import xy.reflect.ui.control.IFieldControlData;
+import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-@SuppressWarnings("unused")
 public class TextControl extends JPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
@@ -37,7 +35,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	public TextControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
 		this.input = input;
-		this.data = retrieveData();
+		this.data = input.getControlData();
 
 		setLayout(new BorderLayout());
 
@@ -74,10 +72,6 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 				return size;
 			}
 		};
-	}
-
-	protected IFieldControlData retrieveData() {
-		return input.getControlData();
 	}
 
 	protected Component createTextComponent() {
@@ -151,9 +145,6 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		return new JLabel();
 	}
 
-	public static String toText(Object object) {
-		return object.toString();
-	}
 
 	@Override
 	public Dimension getMinimumSize() {
@@ -216,5 +207,6 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	public String toString() {
 		return "TextControl [data=" + data + "]";
 	}
+
 
 }

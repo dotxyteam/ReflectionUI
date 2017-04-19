@@ -126,7 +126,7 @@
       <componentFinder>
         <menuItemPath>
           <xy.ui.testing.finder.PropertyBasedComponentFinder>
-            <componentClassName>javax.swing.JPopupMenu$1</componentClassName>
+            <componentClassName>javax.swing.JMenuItem</componentClassName>
             <occurrencesToSkip>0</occurrencesToSkip>
             <propertyValueList>
               <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
@@ -214,7 +214,7 @@
       <componentFinder>
         <menuItemPath>
           <xy.ui.testing.finder.PropertyBasedComponentFinder>
-            <componentClassName>javax.swing.JPopupMenu$1</componentClassName>
+            <componentClassName>javax.swing.JMenuItem</componentClassName>
             <occurrencesToSkip>0</occurrencesToSkip>
             <propertyValueList>
               <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
@@ -314,7 +314,7 @@
       <componentFinder>
         <menuItemPath>
           <xy.ui.testing.finder.PropertyBasedComponentFinder>
-            <componentClassName>javax.swing.JPopupMenu$1</componentClassName>
+            <componentClassName>javax.swing.JMenuItem</componentClassName>
             <occurrencesToSkip>0</occurrencesToSkip>
             <propertyValueList>
               <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>

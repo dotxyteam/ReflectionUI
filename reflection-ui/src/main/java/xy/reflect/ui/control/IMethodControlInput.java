@@ -1,16 +1,15 @@
-package xy.reflect.ui.control.input;
+package xy.reflect.ui.control;
 
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.undo.ModificationStack;
 
-public interface IFieldControlInput {
+public interface IMethodControlInput {
 
-	IFieldControlData getControlData();
+	IMethodControlData getControlData();
 
 	IInfo getModificationsTarget();
 
 	ModificationStack getModificationStack();
 
 	String getContextIdentifier();
-
 }

@@ -5,21 +5,17 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
-import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.info.method.InvocationData;
 
-@SuppressWarnings({ "rawtypes", "unused" })
 public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements IEnumerationTypeInfo {
 
-	public StandardEnumerationTypeInfo(ReflectionUI reflectionUI, Class javaEnumType) {
+	public StandardEnumerationTypeInfo(ReflectionUI reflectionUI, Class<?> javaEnumType) {
 		super(reflectionUI, javaEnumType);
 	}
 

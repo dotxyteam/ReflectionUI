@@ -9,7 +9,7 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
+import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 
 public interface IMethodInfo extends IInfo {
 

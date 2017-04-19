@@ -1,4 +1,4 @@
-package xy.reflect.ui.info.type.util;
+package xy.reflect.ui.info.type.factory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,7 +51,7 @@ public class GenericEnumerationFactory {
 	}
 
 	protected String getItemName(Object item) {
-		return "Item[value=" + item + "]";
+		return "Item [value=" + item + "]";
 	}
 
 	protected String getItemCaption(Object item) {

@@ -16,7 +16,7 @@ import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.util.InfoCustomizations;
+import xy.reflect.ui.info.type.factory.InfoCustomizations;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.SystemProperties;
@@ -80,9 +80,9 @@ public class SwingCustomizer extends SwingRenderer {
 		if (areCustomizationsEditable(object)) {
 			JPanel mainCustomizationsControl = new JPanel();
 			mainCustomizationsControl.setLayout(new BorderLayout());
-			mainCustomizationsControl.add(customizationTools.createTypeInfoCustomizer(infoCustomizations, object),
+			mainCustomizationsControl.add(customizationTools.makeTypeInfoCustomizer(infoCustomizations, object),
 					BorderLayout.CENTER);
-			mainCustomizationsControl.add(customizationTools.createSaveControl(), BorderLayout.EAST);
+			mainCustomizationsControl.add(customizationTools.makeSaveControl(), BorderLayout.EAST);
 			mainCustomizationsControl.setBorder(BorderFactory.createEmptyBorder(getLayoutSpacing(), 0, 0, 0));
 			form.add(SwingRendererUtils.flowInLayout(mainCustomizationsControl, GridBagConstraints.CENTER),
 					BorderLayout.NORTH);
@@ -107,7 +107,7 @@ public class SwingCustomizer extends SwingRenderer {
 					return;
 				}
 				if (infoCustomizationsComponent == null) {
-					infoCustomizationsComponent = customizationTools.createFieldInfoCustomizer(infoCustomizations,
+					infoCustomizationsComponent = customizationTools.makeFieldInfoCustomizer(infoCustomizations,
 							this);
 					add(infoCustomizationsComponent, BorderLayout.EAST);
 					SwingRendererUtils.handleComponentSizeChange(this);
@@ -149,7 +149,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 			protected void refreshInfoCustomizationsControl() {
 				if (infoCustomizationsComponent == null) {
-					infoCustomizationsComponent = customizationTools.createMethodInfoCustomizer(infoCustomizations,
+					infoCustomizationsComponent = customizationTools.makeMethodInfoCustomizer(infoCustomizations,
 							this);
 					add(infoCustomizationsComponent, BorderLayout.WEST);
 					SwingRendererUtils.handleComponentSizeChange(this);

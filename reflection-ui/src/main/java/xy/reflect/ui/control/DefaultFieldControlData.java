@@ -1,4 +1,4 @@
-package xy.reflect.ui.control.input;
+package xy.reflect.ui.control;
 
 import java.util.Map;
 

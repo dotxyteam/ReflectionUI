@@ -1,4 +1,4 @@
-package xy.reflect.ui.info.type.util;
+package xy.reflect.ui.info.type.factory;
 
 import java.util.ArrayList;
 import java.util.Collections;

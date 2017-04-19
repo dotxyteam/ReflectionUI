@@ -8,9 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
@@ -22,48 +20,41 @@ import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.input.IFieldControlData;
-import xy.reflect.ui.control.input.IMethodControlData;
+import xy.reflect.ui.control.IFieldControlData;
+import xy.reflect.ui.control.IMethodControlData;
+import xy.reflect.ui.control.plugin.ICustomizableFieldControlPlugin;
+import xy.reflect.ui.control.plugin.IFieldControlPlugin;
+import xy.reflect.ui.control.swing.NullableControl;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.SwingRenderer.MethodControlPlaceHolder;
 import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
-import xy.reflect.ui.info.InfoCategory;
-import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
+import xy.reflect.ui.info.type.factory.InfoCustomizations;
+import xy.reflect.ui.info.type.factory.InfoCustomizations.AbstractInfoCustomization;
+import xy.reflect.ui.info.type.factory.InfoCustomizations.EnumerationCustomization;
+import xy.reflect.ui.info.type.factory.InfoCustomizations.FieldCustomization;
+import xy.reflect.ui.info.type.factory.InfoCustomizations.FieldTypeSpecificities;
+import xy.reflect.ui.info.type.factory.InfoCustomizations.ListCustomization;
+import xy.reflect.ui.info.type.factory.InfoCustomizations.MethodCustomization;
+import xy.reflect.ui.info.type.factory.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
-import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
-import xy.reflect.ui.info.type.util.InfoCustomizations;
-import xy.reflect.ui.info.type.util.TypeInfoProxyFactory;
-import xy.reflect.ui.info.type.util.InfoCustomizations.AbstractInfoCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizations.AbstractMemberCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizations.CustomizationCategory;
-import xy.reflect.ui.info.type.util.InfoCustomizations.EnumerationCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizations.FieldCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizations.FieldTypeSpecificities;
-import xy.reflect.ui.info.type.util.InfoCustomizations.ListCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizations.MethodCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.util.FileUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.ResourcePath;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.SystemProperties;
 
@@ -140,10 +131,10 @@ public class CustomizationTools {
 	}
 
 	protected CustomizationToolsUI createCustomizationToolsUI() {
-		return new CustomizationToolsUI();
+		return new CustomizationToolsUI(swingCustomizer);
 	}
 
-	public JButton createSaveControl() {
+	public JButton makeSaveControl() {
 		final JButton result = createToolAccessButton(SwingRendererUtils.SAVE_ALL_ICON);
 		result.setToolTipText(customizationToolsRenderer.prepareStringToDisplay("Save all the customizations"));
 		result.addActionListener(new ActionListener() {
@@ -161,7 +152,7 @@ public class CustomizationTools {
 		return result;
 	}
 
-	public Component createTypeInfoCustomizer(final InfoCustomizations infoCustomizations, final Object object) {
+	public Component makeTypeInfoCustomizer(final InfoCustomizations infoCustomizations, final Object object) {
 		final ITypeInfo customizedType = this.swingCustomizer.getReflectionUI()
 				.getTypeInfo(this.swingCustomizer.getReflectionUI().getTypeInfoSource(object));
 		final JButton result = createToolAccessButton(this.swingCustomizer.getCustomizationsIcon());
@@ -186,7 +177,11 @@ public class CustomizationTools {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						updateUI(result);
+						try {
+							updateUI(result);
+						} catch (Throwable t) {
+							customizationToolsRenderer.handleExceptionsFromDisplayedUI(result, t);
+						}
 					}
 				});
 				popupMenu.add(new AbstractAction(
@@ -195,7 +190,11 @@ public class CustomizationTools {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						hideCustomizationTools(result, customizedType.getName());
+						try {
+							hideCustomizationTools(result, customizedType.getName());
+						} catch (Throwable t) {
+							customizationToolsRenderer.handleExceptionsFromDisplayedUI(result, t);
+						}
 					}
 				});
 
@@ -256,7 +255,7 @@ public class CustomizationTools {
 		}
 	}
 
-	public Component createFieldInfoCustomizer(final InfoCustomizations infoCustomizations,
+	public Component makeFieldInfoCustomizer(final InfoCustomizations infoCustomizations,
 			final FieldControlPlaceHolder fieldControlPlaceHolder) {
 		final JButton result = createToolAccessButton(this.swingCustomizer.getCustomizationsIcon());
 		SwingRendererUtils.setMultilineToolTipText(result, customizationToolsRenderer
@@ -297,7 +296,11 @@ public class CustomizationTools {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						hideField(fieldControlPlaceHolder, getParentFormObjectCustomizedType(), getFieldName());
+						try {
+							hideField(fieldControlPlaceHolder, getParentFormObjectCustomizedType(), getFieldName());
+						} catch (Throwable t) {
+							customizationToolsRenderer.handleExceptionsFromDisplayedUI(result, t);
+						}
 					}
 				});
 				popupMenu.add(new AbstractAction(
@@ -306,7 +309,11 @@ public class CustomizationTools {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						moveField(fieldControlPlaceHolder, getParentFormObjectCustomizedType(), getFieldName(), -1);
+						try {
+							moveField(fieldControlPlaceHolder, getParentFormObjectCustomizedType(), getFieldName(), -1);
+						} catch (Throwable t) {
+							customizationToolsRenderer.handleExceptionsFromDisplayedUI(result, t);
+						}
 					}
 				});
 				popupMenu.add(new AbstractAction(
@@ -315,7 +322,11 @@ public class CustomizationTools {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						moveField(fieldControlPlaceHolder, getParentFormObjectCustomizedType(), getFieldName(), 1);
+						try {
+							moveField(fieldControlPlaceHolder, getParentFormObjectCustomizedType(), getFieldName(), 1);
+						} catch (Throwable t) {
+							customizationToolsRenderer.handleExceptionsFromDisplayedUI(result, t);
+						}
 					}
 				});
 				popupMenu.add(new AbstractAction(
@@ -324,8 +335,12 @@ public class CustomizationTools {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						moveField(fieldControlPlaceHolder, getParentFormObjectCustomizedType(), getFieldName(),
-								Short.MIN_VALUE);
+						try {
+							moveField(fieldControlPlaceHolder, getParentFormObjectCustomizedType(), getFieldName(),
+									Short.MIN_VALUE);
+						} catch (Throwable t) {
+							customizationToolsRenderer.handleExceptionsFromDisplayedUI(result, t);
+						}
 					}
 				});
 				popupMenu.add(new AbstractAction(
@@ -334,12 +349,18 @@ public class CustomizationTools {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						moveField(fieldControlPlaceHolder, getParentFormObjectCustomizedType(), getFieldName(),
-								Short.MAX_VALUE);
+						try {
+							moveField(fieldControlPlaceHolder, getParentFormObjectCustomizedType(), getFieldName(),
+									Short.MAX_VALUE);
+						} catch (Throwable t) {
+							customizationToolsRenderer.handleExceptionsFromDisplayedUI(result, t);
+						}
 					}
 				});
-				addMemberTypeInfoCustomizers(popupMenu, fieldControlPlaceHolder, "Type Options...", infoCustomizations,
-						getFieldCustomization().getSpecificTypeCustomizations(), getFieldType());
+				for (JMenuItem menuItem : makeFieldTypeInfoCustomizers(fieldControlPlaceHolder, "Type Options...",
+						infoCustomizations, getFieldCustomization().getSpecificTypeCustomizations(), getFieldType())) {
+					popupMenu.add(menuItem);
+				}
 				popupMenu.add(new AbstractAction(
 						CustomizationTools.this.customizationToolsRenderer.prepareStringToDisplay("More Options...")) {
 					private static final long serialVersionUID = 1L;
@@ -357,53 +378,57 @@ public class CustomizationTools {
 		return result;
 	}
 
-	protected void addMemberTypeInfoCustomizers(JPopupMenu popupMenu, final Component activatorComponent,
+	public List<JMenuItem> makeFieldTypeInfoCustomizers(final FieldControlPlaceHolder fieldControlPlaceHolder,
 			final String mainCaption, final InfoCustomizations sharedInfoCustomizations,
-			final InfoCustomizations specificTypeCustomizations, final ITypeInfo memberType) {
-		popupMenu.add(new AbstractAction(
+			final InfoCustomizations specificTypeCustomizations, final ITypeInfo fieldType) {
+		List<JMenuItem> result = new ArrayList<JMenuItem>();
+		result.add(new JMenuItem(new AbstractAction(
 				CustomizationTools.this.customizationToolsRenderer.prepareStringToDisplay(mainCaption)) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				openTypeCustomizationDialog(activatorComponent, specificTypeCustomizations, memberType);
+				openTypeCustomizationDialog(fieldControlPlaceHolder, specificTypeCustomizations, fieldType);
 			}
-		});
-		if (memberType instanceof IListTypeInfo) {
-			popupMenu.add(createListInfoCustomizer(specificTypeCustomizations, activatorComponent,
-					(IListTypeInfo) memberType));
+		}));
+		if (fieldType instanceof IListTypeInfo) {
+			result.add(makeListInfoCustomizer(fieldControlPlaceHolder, specificTypeCustomizations,
+					(IListTypeInfo) fieldType));
 		}
-		if (memberType instanceof IEnumerationTypeInfo) {
-			popupMenu.add(createEnumerationCustomizer(activatorComponent, specificTypeCustomizations,
-					(IEnumerationTypeInfo) memberType));
+		if (fieldType instanceof IEnumerationTypeInfo) {
+			result.add(makeEnumerationCustomizer(fieldControlPlaceHolder, specificTypeCustomizations,
+					(IEnumerationTypeInfo) fieldType));
 		}
-		if (swingCustomizer.getCustomizationOptions().areFieldSharedTypeOptionsDisplayed()) {
-			final JMenu sharedTypeInfoSubMenu = new JMenu(
-					CustomizationTools.this.customizationToolsRenderer.prepareStringToDisplay("Shared"));
-			popupMenu.add(sharedTypeInfoSubMenu);
-			sharedTypeInfoSubMenu.add(new AbstractAction(
-					CustomizationTools.this.customizationToolsRenderer.prepareStringToDisplay(mainCaption)) {
-				private static final long serialVersionUID = 1L;
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					openTypeCustomizationDialog(activatorComponent, sharedInfoCustomizations, memberType);
-				}
-			});
-			if (memberType instanceof IListTypeInfo) {
-				sharedTypeInfoSubMenu.add(createListInfoCustomizer(sharedInfoCustomizations, activatorComponent,
-						(IListTypeInfo) memberType));
-			}
-			if (memberType instanceof IEnumerationTypeInfo) {
-				sharedTypeInfoSubMenu.add(createEnumerationCustomizer(activatorComponent, sharedInfoCustomizations,
-						(IEnumerationTypeInfo) memberType));
+		Component fieldControl = fieldControlPlaceHolder.getFieldControl();
+		if (fieldControl instanceof NullableControl) {
+			fieldControl = ((NullableControl) fieldControl).getSubControl();
+		}
+		IFieldControlPlugin fieldControlPlugin = swingCustomizer.getPluginByFieldControl().get(fieldControl);
+		if (fieldControlPlugin != null) {
+			if (fieldControlPlugin instanceof ICustomizableFieldControlPlugin) {
+				result.add(((ICustomizableFieldControlPlugin) fieldControlPlugin).makeCustomizerMenuItem(fieldType,
+						specificTypeCustomizations));
 			}
 		}
+
+		if (sharedInfoCustomizations != null) {
+			if (swingCustomizer.getCustomizationOptions().areFieldSharedTypeOptionsDisplayed()) {
+				final JMenu sharedTypeInfoSubMenu = new JMenu(
+						CustomizationTools.this.customizationToolsRenderer.prepareStringToDisplay("Shared"));
+				result.add(sharedTypeInfoSubMenu);
+				for (JMenuItem menuItem : makeFieldTypeInfoCustomizers(fieldControlPlaceHolder, mainCaption, null,
+						sharedInfoCustomizations, fieldType)) {
+					sharedTypeInfoSubMenu.add(menuItem);
+				}
+			}
+		}
+		return result;
 
 	}
 
-	protected JMenuItem createListInfoCustomizer(final InfoCustomizations infoCustomizations,
-			final Component activatorComponent, final IListTypeInfo customizedListType) {
+	public JMenuItem makeListInfoCustomizer(final Component activatorComponent,
+			final InfoCustomizations infoCustomizations, final IListTypeInfo customizedListType) {
 		JMenu result = new JMenu(this.customizationToolsRenderer.prepareStringToDisplay("List"));
 		{
 			result.add(new AbstractAction(this.customizationToolsRenderer.prepareStringToDisplay("Move Columns...")) {
@@ -426,7 +451,7 @@ public class CustomizationTools {
 		return result;
 	}
 
-	protected JMenuItem createEnumerationCustomizer(final Component activatorComponent,
+	public JMenuItem makeEnumerationCustomizer(final Component activatorComponent,
 			final InfoCustomizations infoCustomizations, final IEnumerationTypeInfo customizedEnumType) {
 		JMenu result = new JMenu(this.customizationToolsRenderer.prepareStringToDisplay("Enumeration"));
 		{
@@ -465,11 +490,7 @@ public class CustomizationTools {
 	protected void moveField(Component activatorComponent, ITypeInfo customizedType, String fieldName, int offset) {
 		TypeCustomization tc = InfoCustomizations.getTypeCustomization(this.swingCustomizer.getInfoCustomizations(),
 				customizedType.getName(), true);
-		try {
-			tc.moveField(customizedType.getFields(), fieldName, offset);
-		} catch (Throwable t) {
-			this.customizationToolsRenderer.handleExceptionsFromDisplayedUI(activatorComponent, t);
-		}
+		tc.moveField(customizedType.getFields(), fieldName, offset);
 		updateUI(activatorComponent);
 	}
 
@@ -477,11 +498,7 @@ public class CustomizationTools {
 			int offset) {
 		TypeCustomization tc = InfoCustomizations.getTypeCustomization(this.swingCustomizer.getInfoCustomizations(),
 				customizedType.getName(), true);
-		try {
-			tc.moveMethod(customizedType.getMethods(), methodSignature, offset);
-		} catch (Throwable t) {
-			this.customizationToolsRenderer.handleExceptionsFromDisplayedUI(activatorComponent, t);
-		}
+		tc.moveMethod(customizedType.getMethods(), methodSignature, offset);
 		updateUI(activatorComponent);
 	}
 
@@ -576,7 +593,7 @@ public class CustomizationTools {
 		}
 	}
 
-	public Component createMethodInfoCustomizer(final InfoCustomizations infoCustomizations,
+	public Component makeMethodInfoCustomizer(final InfoCustomizations infoCustomizations,
 			final MethodControlPlaceHolder methodControlPlaceHolder) {
 		final JButton result = createToolAccessButton(this.swingCustomizer.getCustomizationsIcon());
 		SwingRendererUtils.setMultilineToolTipText(result, customizationToolsRenderer.prepareStringToDisplay(
@@ -617,7 +634,11 @@ public class CustomizationTools {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						hideMethod(result, getParentFormObjectCustomizedType(), getMethodInfoSignature());
+						try {
+							hideMethod(result, getParentFormObjectCustomizedType(), getMethodInfoSignature());
+						} catch (Throwable t) {
+							customizationToolsRenderer.handleExceptionsFromDisplayedUI(result, t);
+						}
 					}
 				});
 				popupMenu.add(new AbstractAction(
@@ -626,7 +647,11 @@ public class CustomizationTools {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						moveMethod(result, getParentFormObjectCustomizedType(), getMethodInfoSignature(), -1);
+						try {
+							moveMethod(result, getParentFormObjectCustomizedType(), getMethodInfoSignature(), -1);
+						} catch (Throwable t) {
+							customizationToolsRenderer.handleExceptionsFromDisplayedUI(result, t);
+						}
 					}
 				});
 				popupMenu.add(new AbstractAction(
@@ -635,14 +660,13 @@ public class CustomizationTools {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						moveMethod(result, getParentFormObjectCustomizedType(), getMethodInfoSignature(), 1);
+						try {
+							moveMethod(result, getParentFormObjectCustomizedType(), getMethodInfoSignature(), 1);
+						} catch (Throwable t) {
+							customizationToolsRenderer.handleExceptionsFromDisplayedUI(result, t);
+						}
 					}
 				});
-				if (getMethodReturnValueType() != null) {
-					addMemberTypeInfoCustomizers(popupMenu, methodControlPlaceHolder, "Return Value Type Options...",
-							infoCustomizations, getMethodCustomization().getSpecificReturnValueTypeCustomizations(),
-							getMethodReturnValueType());
-				}
 				popupMenu.add(new AbstractAction(
 						CustomizationTools.this.customizationToolsRenderer.prepareStringToDisplay("More Options...")) {
 					private static final long serialVersionUID = 1L;
@@ -677,183 +701,6 @@ public class CustomizationTools {
 		swingCustomizer.recreateFormContent(form);
 		swingCustomizer.updateFormStatusBarInBackground(form);
 	}
-
-	protected class CustomizationToolsUI extends ReflectionUI {
-
-		ReflectionUI thisReflectionUI = this;
-
-		@Override
-		public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-			ITypeInfo result = super.getTypeInfo(typeSource);
-			result = new TypeInfoProxyFactory() {
-				@Override
-				public String toString() {
-					return CustomizationTools.class.getName() + TypeInfoProxyFactory.class.getSimpleName();
-				}
-
-				@Override
-				protected Object[] getValueOptions(Object object, IFieldInfo field, ITypeInfo containingType) {
-					if ((object instanceof AbstractMemberCustomization) && field.getName().equals("category")) {
-						TypeCustomization tc = findParentTypeCustomization((AbstractMemberCustomization) object,
-								CustomizationTools.this.swingCustomizer.getInfoCustomizations());
-						List<CustomizationCategory> categories = tc.getMemberCategories();
-						return categories.toArray(new CustomizationCategory[categories.size()]);
-					} else {
-						return super.getValueOptions(object, field, containingType);
-					}
-				}
-
-				protected TypeCustomization findParentTypeCustomization(AbstractMemberCustomization custumizationMember,
-						InfoCustomizations infoCustomizations) {
-					for (TypeCustomization tc : infoCustomizations.getTypeCustomizations()) {
-						for (FieldCustomization fc : tc.getFieldsCustomizations()) {
-							if (fc == custumizationMember) {
-								return tc;
-							}
-						}
-						for (MethodCustomization mc : tc.getMethodsCustomizations()) {
-							if (mc == custumizationMember) {
-								return tc;
-							}
-						}
-					}
-					return null;
-				}
-
-				@Override
-				protected List<IMethodInfo> getMethods(ITypeInfo type) {
-					if (type.getName().equals(ListCustomization.class.getName())) {
-						List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getMethods(type));
-						result.add(getListItemTypeCustomizationDisplayMethod(swingCustomizer.getInfoCustomizations()));
-						return result;
-					} else {
-						return super.getMethods(type);
-					}
-				}
-
-				protected IMethodInfo getListItemTypeCustomizationDisplayMethod(
-						final InfoCustomizations infoCustomizations) {
-					return new IMethodInfo() {
-
-						@Override
-						public boolean isReturnValueNullable() {
-							return false;
-						}
-
-						@Override
-						public boolean isReturnValueDetached() {
-							return false;
-						}
-
-						@Override
-						public Map<String, Object> getSpecificProperties() {
-							return Collections.emptyMap();
-						}
-
-						@Override
-						public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
-							return null;
-						}
-
-						@Override
-						public String getOnlineHelp() {
-							return null;
-						}
-
-						@Override
-						public String getName() {
-							return "displayItemTypeCustomization";
-						}
-
-						@Override
-						public String getCaption() {
-							return "Display Item Type Customization";
-						}
-
-						@Override
-						public String getIconImagePath() {
-							return null;
-						}
-
-						@Override
-						public void validateParameters(Object object, InvocationData invocationData) throws Exception {
-						}
-
-						@Override
-						public boolean isReadOnly() {
-							return true;
-						}
-
-						@Override
-						public Object invoke(final Object object, InvocationData invocationData) {
-							SwingUtilities.invokeLater(new Runnable() {
-								@Override
-								public void run() {
-									ListCustomization lc = (ListCustomization) object;
-									if (lc.getItemTypeName() == null) {
-										customizationToolsRenderer.openInformationDialog(null,
-												"The item type is not defined",
-												customizationToolsRenderer.getObjectTitle(lc),
-												customizationToolsRenderer.getObjectIconImage(lc));
-									} else {
-										TypeCustomization t = InfoCustomizations
-												.getTypeCustomization(infoCustomizations, lc.getItemTypeName());
-										openCustomizationEditor(null, t);
-									}
-								}
-							});
-							return null;
-						}
-
-						@Override
-						public ValueReturnMode getValueReturnMode() {
-							return ValueReturnMode.DIRECT_OR_PROXY;
-						}
-
-						@Override
-						public Runnable getUndoJob(Object object, InvocationData invocationData) {
-							return null;
-						}
-
-						@Override
-						public ITypeInfo getReturnValueType() {
-							return null;
-						}
-
-						@Override
-						public List<IParameterInfo> getParameters() {
-							return Collections.emptyList();
-						}
-
-						@Override
-						public String getNullReturnValueLabel() {
-							return null;
-						}
-
-						@Override
-						public InfoCategory getCategory() {
-							return null;
-						}
-					};
-				}
-
-				@Override
-				protected String toString(ITypeInfo type, Object object) {
-					if (object instanceof CustomizationCategory) {
-						return ((CustomizationCategory) object).getCaption();
-					} else if (object instanceof ResourcePath) {
-						return ((ResourcePath) object).getSpecification();
-					} else {
-						return super.toString(type, object);
-					}
-				}
-
-			}.get(result);
-			result = customizationToolsCustomizations.get(thisReflectionUI, result);
-			return result;
-		}
-
-	};
 
 	protected class ColumnOrderItem {
 		IColumnInfo columnInfo;

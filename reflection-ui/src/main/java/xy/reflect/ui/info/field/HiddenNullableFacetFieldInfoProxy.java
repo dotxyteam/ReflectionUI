@@ -1,7 +1,7 @@
 package xy.reflect.ui.info.field;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.type.util.HiddenNullableFacetsTypeInfoProxyFactory;
+import xy.reflect.ui.info.type.factory.HiddenNullableFacetsTypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -26,15 +26,6 @@ public class HiddenNullableFacetFieldInfoProxy extends FieldInfoProxy {
 			}
 		};
 		return result[0];
-	}
-
-	protected Object getDefaultValue() {
-		Object result = ReflectionUIUtils.createDefaultInstance(base.getType());
-		if (result == null) {
-			throw new ReflectionUIError("Failed to instanciate automatically the value of the field '" + base
-					+ "': Could not instanciate the field type '" + base.getType() + "'");
-		}
-		return result;
 	}
 
 	@Override

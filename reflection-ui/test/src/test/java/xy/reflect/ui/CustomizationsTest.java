@@ -9,8 +9,8 @@ import java.util.List;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.control.swing.customization.SwingCustomizer;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.factory.InfoCustomizations;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
-import xy.reflect.ui.info.type.util.InfoCustomizations;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class CustomizationsTest {

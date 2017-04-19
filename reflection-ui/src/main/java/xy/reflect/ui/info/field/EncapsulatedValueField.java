@@ -6,8 +6,9 @@ import java.util.Map;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
+import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
 import xy.reflect.ui.util.Accessor;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class EncapsulatedValueField extends FieldInfoProxy {
 
@@ -21,8 +22,8 @@ public class EncapsulatedValueField extends FieldInfoProxy {
 	}
 
 	protected EncapsulatedObjectFactory createEncapsulation() {
-		EncapsulatedObjectFactory result = new EncapsulatedObjectFactory(reflectionUI, super.getType(), getCaption(),
-				"") {
+		String encapsulationTypeName = ReflectionUIUtils.composeMessage(getCaption(), "Value");
+		EncapsulatedObjectFactory result = new EncapsulatedObjectFactory(reflectionUI, super.getType(), encapsulationTypeName, "") {
 			@Override
 			protected Object[] getFieldValueOptions(Object object) {
 				return EncapsulatedValueField.this.base.getValueOptions(object);

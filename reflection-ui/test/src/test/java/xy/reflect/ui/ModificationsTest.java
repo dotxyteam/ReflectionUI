@@ -39,16 +39,16 @@ public class ModificationsTest {
 		Assert.assertTrue(!canModify("theGetOnlyInt"));
 		Assert.assertTrue(!canModify("theGetOnlyInteger"));
 		Assert.assertTrue(!canModify("theGetOnlyString"));
-		Assert.assertTrue(!canModify("theGetOnlyFile"));
-		Assert.assertTrue(!canModify("theGetOnlyColor"));
+		Assert.assertTrue(canModify("theGetOnlyFile"));
+		Assert.assertTrue(canModify("theGetOnlyColor"));
 		Assert.assertTrue(canModify("theGetOnlyDate"));
 
 		Assert.assertTrue(!canModify("thePublicFinalNull"));
 		Assert.assertTrue(!canModify("thePublicFinalInt"));
 		Assert.assertTrue(!canModify("thePublicFinalInteger"));
 		Assert.assertTrue(!canModify("thePublicFinalString"));
-		Assert.assertTrue(!canModify("thePublicFinalFile"));
-		Assert.assertTrue(!canModify("thePublicFinalColor"));
+		Assert.assertTrue(canModify("thePublicFinalFile"));
+		Assert.assertTrue(canModify("thePublicFinalColor"));
 		Assert.assertTrue(canModify("thePublicFinalDate"));
 
 	}

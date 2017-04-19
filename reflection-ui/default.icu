@@ -3490,6 +3490,7 @@
             <fieldName>theStringList</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <generatedGetterName>getTheStringList</generatedGetterName>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -4936,6 +4937,30 @@
             <methodSignature>java.util.Date theDate.asGetter()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>java.util.List getTheStringList()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations>
+                <listCustomizations>
+                    <editOptions>
+                        <itemCreationEnabled>true</itemCreationEnabled>
+                        <itemDeletionEnabled>true</itemDeletionEnabled>
+                        <itemMoveEnabled>true</itemMoveEnabled>
+                    </editOptions>
+                    <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
+                    <itemTypeName>java.lang.String</itemTypeName>
+                    <listSorted>false</listSorted>
+                    <listTypeName>java.util.List</listTypeName>
+                    <positionColumnAdded>false</positionColumnAdded>
+                    <stringValueColumnAdded>false</stringValueColumnAdded>
+                </listCustomizations>
+            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <typeName>ReflectionUITest$Test</typeName>
@@ -10881,12 +10906,31 @@
     </typeCustomizations>
     <typeCustomizations>
         <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName>params</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>void callWithManyParams(int, java.lang.String, java.util.Date, java.awt.Color)</methodSignature>
             <parametersFormFieldName>params</parametersFormFieldName>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>void callWithManyParams()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>

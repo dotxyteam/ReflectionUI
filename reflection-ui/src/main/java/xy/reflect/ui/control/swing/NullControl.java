@@ -9,12 +9,12 @@ import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import xy.reflect.ui.control.input.FieldControlDataProxy;
-import xy.reflect.ui.control.input.FieldControlInputProxy;
-import xy.reflect.ui.control.input.IFieldControlData;
-import xy.reflect.ui.control.input.IFieldControlInput;
+import xy.reflect.ui.control.FieldControlDataProxy;
+import xy.reflect.ui.control.FieldControlInputProxy;
+import xy.reflect.ui.control.IFieldControlData;
+import xy.reflect.ui.control.IFieldControlInput;
+import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class NullControl extends TextControl {
@@ -40,7 +40,7 @@ public class NullControl extends TextControl {
 
 					@Override
 					public ITypeInfo getType() {
-						return new TextualTypeInfo(swingRenderer.getReflectionUI(), String.class);
+						return new DefaultTypeInfo(swingRenderer.getReflectionUI(), String.class);
 					}
 
 					@Override

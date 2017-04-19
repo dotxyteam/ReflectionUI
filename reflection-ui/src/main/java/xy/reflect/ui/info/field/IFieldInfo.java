@@ -10,7 +10,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
+import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 
 public interface IFieldInfo extends IInfo {
 	public IFieldInfo NULL_FIELD_INFO = new IFieldInfo() {

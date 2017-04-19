@@ -10,8 +10,8 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
-import xy.reflect.ui.info.type.util.MethodSetupObjectFactory;
+import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
+import xy.reflect.ui.info.type.factory.MethodSetupObjectFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -33,7 +33,8 @@ public class MethodParametersAsField implements IFieldInfo {
 	}
 
 	private MethodSetupObjectFactory createFactory() {
-		return new MethodSetupObjectFactory(reflectionUI, method);
+		return new MethodSetupObjectFactory(reflectionUI, method, "MethodParametersAsFieldContext [methodSignature="
+				+ ReflectionUIUtils.getMethodSignature(method) + ", fieldName=" + fieldName + "]");
 	}
 
 	@Override
@@ -161,8 +162,5 @@ public class MethodParametersAsField implements IFieldInfo {
 	public String toString() {
 		return "MethodParametersField [method=" + method + ", fieldName=" + fieldName + "]";
 	}
-	
-	
-	
 
 }

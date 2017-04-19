@@ -1,18 +1,18 @@
-package xy.reflect.ui.control.input;
+package xy.reflect.ui.control;
 
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.undo.ModificationStack;
 
-public class MethodControlInputProxy implements IMethodControlInput {
+public class FieldControlInputProxy implements IFieldControlInput {
 
-	protected IMethodControlInput base;
+	protected IFieldControlInput base;
 
-	public MethodControlInputProxy(IMethodControlInput base) {
+	public FieldControlInputProxy(IFieldControlInput base) {
 		super();
 		this.base = base;
 	}
 
-	public IMethodControlData getControlData() {
+	public IFieldControlData getControlData() {
 		return base.getControlData();
 	}
 
@@ -44,7 +44,7 @@ public class MethodControlInputProxy implements IMethodControlInput {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MethodControlInputProxy other = (MethodControlInputProxy) obj;
+		FieldControlInputProxy other = (FieldControlInputProxy) obj;
 		if (base == null) {
 			if (other.base != null)
 				return false;
@@ -55,8 +55,7 @@ public class MethodControlInputProxy implements IMethodControlInput {
 
 	@Override
 	public String toString() {
-		return "MethodControlInputProxy [base=" + base + "]";
+		return "FieldControlInputProxy [base=" + base + "]";
 	}
-	
-	
+
 }

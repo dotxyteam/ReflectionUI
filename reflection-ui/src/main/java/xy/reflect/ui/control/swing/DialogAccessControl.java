@@ -7,33 +7,27 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import xy.reflect.ui.control.input.FieldControlDataProxy;
-import xy.reflect.ui.control.input.IFieldControlData;
-import xy.reflect.ui.control.input.IFieldControlInput;
+import xy.reflect.ui.control.FieldControlDataProxy;
+import xy.reflect.ui.control.FieldControlInputProxy;
+import xy.reflect.ui.control.IFieldControlData;
+import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.editor.AbstractEditorBuilder;
-import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.custom.TextualTypeInfo;
-import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
+import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.undo.ControlDataValueModification;
-import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-@SuppressWarnings("unused")
 public class DialogAccessControl extends JPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
@@ -128,12 +122,10 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	protected Component createStatusControl(IFieldControlInput input) {
-		return new TextControl(swingRenderer, input) {
-
-			private static final long serialVersionUID = 1L;
+		return new TextControl(swingRenderer, new FieldControlInputProxy(input) {
 
 			@Override
-			protected IFieldControlData retrieveData() {
+			public IFieldControlData getControlData() {
 				return new FieldControlDataProxy(IFieldControlData.NULL_CONTROL_DATA) {
 
 					@Override
@@ -144,13 +136,12 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 
 					@Override
 					public ITypeInfo getType() {
-						return new TextualTypeInfo(swingRenderer.getReflectionUI(), String.class);
+						return new DefaultTypeInfo(swingRenderer.getReflectionUI(), String.class);
 					}
 
 				};
 			}
-
-		};
+		});
 	}
 
 	protected void openDialog() {

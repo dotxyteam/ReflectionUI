@@ -45,16 +45,20 @@ import org.jdesktop.swingx.JXBusyLabel;
 import com.google.common.collect.MapMaker;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.input.DefaultMethodControlData;
-import xy.reflect.ui.control.input.FieldControlDataProxy;
-import xy.reflect.ui.control.input.FieldControlInputProxy;
-import xy.reflect.ui.control.input.IFieldControlData;
-import xy.reflect.ui.control.input.IFieldControlInput;
-import xy.reflect.ui.control.input.IMethodControlData;
-import xy.reflect.ui.control.input.IMethodControlInput;
-import xy.reflect.ui.control.input.MethodControlDataProxy;
+import xy.reflect.ui.control.DefaultMethodControlData;
+import xy.reflect.ui.control.FieldControlDataProxy;
+import xy.reflect.ui.control.FieldControlInputProxy;
+import xy.reflect.ui.control.IFieldControlData;
+import xy.reflect.ui.control.IFieldControlInput;
+import xy.reflect.ui.control.IMethodControlData;
+import xy.reflect.ui.control.IMethodControlInput;
+import xy.reflect.ui.control.MethodControlDataProxy;
+import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.customization.SwingCustomizer;
 import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
+import xy.reflect.ui.control.swing.plugin.BooleanControlPlugin;
+import xy.reflect.ui.control.swing.plugin.ColorControlPlugin;
+import xy.reflect.ui.control.swing.plugin.FileControlPlugin;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -62,24 +66,20 @@ import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.ValueOptionsAsEnumerationField;
 import xy.reflect.ui.info.filter.IInfoFilter;
-import xy.reflect.ui.info.method.DefaultConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
-import xy.reflect.ui.info.type.custom.FileTypeInfo;
-import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
+import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
+import xy.reflect.ui.info.type.factory.FilterredTypeFactory;
+import xy.reflect.ui.info.type.factory.GenericEnumerationFactory;
+import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
+import xy.reflect.ui.info.type.factory.InfoCustomizations;
+import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.util.EncapsulatedObjectFactory;
-import xy.reflect.ui.info.type.util.FilterredTypeFactory;
-import xy.reflect.ui.info.type.util.GenericEnumerationFactory;
-import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
-import xy.reflect.ui.info.type.util.InfoCustomizations;
-import xy.reflect.ui.info.type.util.PolymorphicTypeOptionsFactory;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.IModification;
@@ -115,6 +115,7 @@ public class SwingRenderer {
 	protected Map<JPanel, Boolean> busyIndicationDisabledByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, Boolean> refreshRequestQueuedByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, Boolean> refreshRequestExecutingByForm = new MapMaker().weakKeys().makeMap();
+	protected Map<Component, IFieldControlPlugin> pluginByFieldControl = new MapMaker().weakKeys().makeMap();
 
 	public SwingRenderer(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
@@ -163,6 +164,10 @@ public class SwingRenderer {
 
 	protected Map<JPanel, Boolean> getRefreshRequestExecutingByForm() {
 		return refreshRequestExecutingByForm;
+	}
+
+	public Map<Component, IFieldControlPlugin> getPluginByFieldControl() {
+		return pluginByFieldControl;
 	}
 
 	public Map<String, InvocationData> getLastInvocationDataByMethodSignature() {
@@ -432,45 +437,48 @@ public class SwingRenderer {
 		}.start();
 	}
 
-	public Component createCustomFieldControl(IFieldControlInput input, boolean nullable) {
-		if (nullable) {
-			return null;
+	public Component createCustomFieldControl(IFieldControlInput input) {
+		for (IFieldControlPlugin plugin : getFieldControlPlugins()) {
+			if (plugin.handles(input)) {
+				Component result = plugin.createControl(SwingRenderer.this, input);
+				getPluginByFieldControl().put(result, plugin);
+				return result;
+			}
 		}
-		ITypeInfo fieldType = input.getControlData().getType();
-		if (fieldType instanceof IListTypeInfo) {
-			return new ListControl(this, input);
-		} else {
+		if (input.getControlData().getType() instanceof IEnumerationTypeInfo) {
+			return new EnumerationControl(SwingRenderer.this, input);
+		}
+		if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(input.getControlData().getType())) {
+			return new PolymorphicControl(SwingRenderer.this, input);
+		}
+		if (!input.getControlData().isValueNullable()) {
+			ITypeInfo fieldType = input.getControlData().getType();
+			if (fieldType instanceof IListTypeInfo) {
+				return new ListControl(this, input);
+			}
 			final Class<?> javaType;
 			try {
 				javaType = ClassUtils.getCachedClassforName(fieldType.getName());
 			} catch (ClassNotFoundException e) {
 				return null;
 			}
-			if (javaType == Color.class) {
-				return new ColorControl(this, input);
-			} else if (BooleanTypeInfo.isCompatibleWith(javaType)) {
-				return new CheckBoxControl(this, input);
-			} else if (TextualTypeInfo.isCompatibleWith(javaType)) {
-				if (javaType == String.class) {
-					return new TextControl(this, input);
-				} else {
-					return new PrimitiveValueControl(this, input) {
-
-						private static final long serialVersionUID = 1L;
-
-						@Override
-						protected Class<?> getPrimitiveJavaType() {
-							return javaType;
-						}
-
-					};
-				}
-			} else if (FileTypeInfo.isCompatibleWith(javaType)) {
-				return new FileControl(this, input);
-			} else {
-				return null;
+			if (ClassUtils.isPrimitiveClassOrWrapper(javaType)) {
+				return new PrimitiveValueControl(this, input, javaType);
+			}
+			if (javaType == String.class) {
+				return new TextControl(this, input);
 			}
 		}
+		return null;
+
+	}
+
+	public List<IFieldControlPlugin> getFieldControlPlugins() {
+		List<IFieldControlPlugin> result = new ArrayList<IFieldControlPlugin>();
+		result.add(new FileControlPlugin());
+		result.add(new BooleanControlPlugin());
+		result.add(new ColorControlPlugin());
+		return result;
 	}
 
 	public Component createCustomMethodControl(IMethodControlInput input) {
@@ -552,7 +560,6 @@ public class SwingRenderer {
 				form.removeAll();
 				fillForm(form);
 				SwingRendererUtils.handleComponentSizeChange(form);
-
 			}
 		});
 	}
@@ -810,15 +817,77 @@ public class SwingRenderer {
 		layoutControlPanels(parentForm, fieldsPanel, methodsPanel);
 	}
 
-	public Object onTypeInstanciationRequest(final Component activatorComponent, ITypeInfo type, boolean silent) {
+	public Object onTypeInstanciationRequest(final Component activatorComponent, ITypeInfo type) {
 		try {
-			if (!type.isConcrete() && ReflectionUIUtils.hasPolymorphicInstanceSubTypes(type)) {
-				List<ITypeInfo> polyTypes = type.getPolymorphicInstanceSubTypes();
-				if (polyTypes.size() == 1) {
-					type = polyTypes.get(0);
+
+			if (type.isConcrete() && (type.getConstructors().size() > 0)) {
+				List<IMethodInfo> constructors = type.getConstructors();
+				final IMethodInfo chosenConstructor;
+				if (constructors.size() == 1) {
+					chosenConstructor = constructors.get(0);
 				} else {
-					if (silent) {
-						type = polyTypes.get(0);
+					constructors = new ArrayList<IMethodInfo>(constructors);
+					Collections.sort(constructors, new Comparator<IMethodInfo>() {
+
+						@Override
+						public int compare(IMethodInfo o1, IMethodInfo o2) {
+							return new Integer(o1.getParameters().size())
+									.compareTo(new Integer(o2.getParameters().size()));
+						}
+					});
+
+					final GenericEnumerationFactory enumFactory = new GenericEnumerationFactory(reflectionUI,
+							constructors.toArray(), "ConstructorSelection [type=" + type.getName() + "]", "") {
+						protected String getItemCaption(Object choice) {
+							return ReflectionUIUtils.getContructorDescription((IMethodInfo) choice);
+						}
+					};
+					IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
+							.getTypeInfo(enumFactory.getInstanceTypeInfoSource());
+					Object resultEnumItem = openSelectionDialog(activatorComponent, enumType, null, "Choose an option",
+							"Create " + type.getCaption());
+					if (resultEnumItem == null) {
+						return null;
+					}
+					chosenConstructor = (IMethodInfo) enumFactory.unwrapInstance(resultEnumItem);
+					if (chosenConstructor == null) {
+						return null;
+					}
+				}
+				final ITypeInfo finalType = type;
+				MethodAction methodAction = createMethodAction(new IMethodControlInput() {
+
+					ModificationStack dummyModificationStack = new ModificationStack(null);
+
+					@Override
+					public IInfo getModificationsTarget() {
+						return chosenConstructor;
+					}
+
+					@Override
+					public ModificationStack getModificationStack() {
+						return dummyModificationStack;
+					}
+
+					@Override
+					public String getContextIdentifier() {
+						return "ContructorContext [type=" + finalType.getName() + ", signature="
+								+ ReflectionUIUtils.getMethodSignature(chosenConstructor) + "]";
+					}
+
+					@Override
+					public IMethodControlData getControlData() {
+						return new DefaultMethodControlData(null, chosenConstructor);
+					}
+				});
+				methodAction.setShouldDisplayReturnValueIfAny(false);
+				methodAction.execute(activatorComponent);
+				return methodAction.getReturnValue();
+			} else {
+				if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(type)) {
+					List<ITypeInfo> polyTypes = type.getPolymorphicInstanceSubTypes();
+					if (polyTypes.size() == 1) {
+						return onTypeInstanciationRequest(activatorComponent, polyTypes.get(0));
 					} else {
 						final PolymorphicTypeOptionsFactory enumFactory = new PolymorphicTypeOptionsFactory(
 								reflectionUI, type);
@@ -829,24 +898,18 @@ public class SwingRenderer {
 						if (resultEnumItem == null) {
 							return null;
 						}
-						type = (ITypeInfo) enumFactory.unwrapInstance(resultEnumItem);
+						return onTypeInstanciationRequest(activatorComponent,
+								(ITypeInfo) enumFactory.unwrapInstance(resultEnumItem));
 					}
-				}
-			}
-
-			List<IMethodInfo> workingConstructors;
-			if (type.isConcrete()) {
-				workingConstructors = type.getConstructors();
-			} else {
-				workingConstructors = Collections.emptyList();
-			}
-
-			if (workingConstructors.size() == 0) {
-				if (silent) {
-					throw new ReflectionUIError("No accessible constructor found");
 				} else {
-					String className = openInputDialog(activatorComponent, "",
-							"Create '" + type.getCaption() + "' of type", null);
+					String typeCaption = type.getCaption();
+					String msg;
+					if (typeCaption.length() == 0) {
+						msg = "Create";
+					} else {
+						msg = "Create " + type.getCaption() + " of type";
+					}
+					String className = openInputDialog(activatorComponent, "", msg, null);
 					if (className == null) {
 						return null;
 					}
@@ -858,109 +921,11 @@ public class SwingRenderer {
 					if (type == null) {
 						return null;
 					} else {
-						return onTypeInstanciationRequest(activatorComponent, type, silent);
+						return onTypeInstanciationRequest(activatorComponent, type);
 					}
 				}
 			}
 
-			if (workingConstructors.size() == 1) {
-				final IMethodInfo constructor = workingConstructors.get(0);
-				if (silent) {
-					return constructor.invoke(null, new InvocationData());
-				} else {
-					final ITypeInfo finalType = type;
-					MethodAction methodAction = createMethodAction(new IMethodControlInput() {
-
-						ModificationStack dummyModificationStack = new ModificationStack(null);
-
-						@Override
-						public IInfo getModificationsTarget() {
-							return constructor;
-						}
-
-						@Override
-						public ModificationStack getModificationStack() {
-							return dummyModificationStack;
-						}
-
-						@Override
-						public String getContextIdentifier() {
-							return "ContructorContext [type=" + finalType.getName() + ", signature="
-									+ ReflectionUIUtils.getMethodSignature(constructor) + "]";
-						}
-
-						@Override
-						public IMethodControlData getControlData() {
-							return new DefaultMethodControlData(null, constructor);
-						}
-					});
-					methodAction.setShouldDisplayReturnValueIfAny(false);
-					methodAction.execute(activatorComponent);
-					return methodAction.getReturnValue();
-				}
-			}
-
-			workingConstructors = new ArrayList<IMethodInfo>(workingConstructors);
-			Collections.sort(workingConstructors, new Comparator<IMethodInfo>() {
-
-				@Override
-				public int compare(IMethodInfo o1, IMethodInfo o2) {
-					return new Integer(o1.getParameters().size()).compareTo(new Integer(o2.getParameters().size()));
-				}
-			});
-
-			if (silent) {
-
-				IMethodInfo smallerConstructor = workingConstructors.get(0);
-				return smallerConstructor.invoke(null, new InvocationData());
-			} else {
-				final GenericEnumerationFactory enumFactory = new GenericEnumerationFactory(reflectionUI,
-						workingConstructors.toArray(), "ConstructorSelection [type=" + type.getName() + "]", "") {
-					protected String getItemCaption(Object choice) {
-						return DefaultConstructorInfo.getDescription((IMethodInfo) choice);
-					}
-				};
-				IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
-						.getTypeInfo(enumFactory.getInstanceTypeInfoSource());
-				Object resultEnumItem = openSelectionDialog(activatorComponent, enumType, null, "Choose an option",
-						"Create '" + type.getCaption() + "'");
-				if (resultEnumItem == null) {
-					return null;
-				}
-				final IMethodInfo chosenContructor = (IMethodInfo) enumFactory.unwrapInstance(resultEnumItem);
-				if (chosenContructor == null) {
-					return null;
-				}
-				final ITypeInfo finalType = type;
-				MethodAction methodAction = createMethodAction(new IMethodControlInput() {
-
-					ModificationStack dummyModificationStack = new ModificationStack(null);
-
-					@Override
-					public IInfo getModificationsTarget() {
-						return chosenContructor;
-					}
-
-					@Override
-					public ModificationStack getModificationStack() {
-						return dummyModificationStack;
-					}
-
-					@Override
-					public String getContextIdentifier() {
-						return "ContructorContext [type=" + finalType.getName() + ", signature="
-								+ ReflectionUIUtils.getMethodSignature(chosenContructor) + "]";
-					}
-
-					@Override
-					public IMethodControlData getControlData() {
-						return new DefaultMethodControlData(null, chosenContructor);
-					}
-				});
-				methodAction.setShouldDisplayReturnValueIfAny(false);
-				methodAction.execute(activatorComponent);
-				return methodAction.getReturnValue();
-			}
 		} catch (
 
 		Throwable t) {
@@ -1743,35 +1708,29 @@ public class SwingRenderer {
 
 		public Component createFieldControl() {
 			if (!controlData.isFormControlMandatory()) {
-				Component result = createCustomFieldControl(this, controlData.isValueNullable());
+				Component result = createCustomFieldControl(this);
 				if (result != null) {
 					return result;
 				}
 			}
-			if (controlData.getType() instanceof IEnumerationTypeInfo) {
-				return new EnumerationControl(SwingRenderer.this, this);
-			} else if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(controlData.getType())) {
-				return new PolymorphicControl(SwingRenderer.this, this);
+			if (controlData.isValueNullable()) {
+				return new NullableControl(SwingRenderer.this, this);
+			}
+			Object value = controlData.getValue();
+			final ITypeInfo actualValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
+			if (!controlData.getType().getName().equals(actualValueType.getName())) {
+				controlData = new FieldControlDataProxy(controlData) {
+					@Override
+					public ITypeInfo getType() {
+						return actualValueType;
+					}
+				};
+				return createFieldControl();
+			}
+			if (controlData.isFormControlEmbedded()) {
+				return new EmbeddedFormControl(SwingRenderer.this, this);
 			} else {
-				if (controlData.isValueNullable()) {
-					return new NullableControl(SwingRenderer.this, this);
-				}
-				Object value = controlData.getValue();
-				final ITypeInfo actualValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
-				if (!controlData.getType().getName().equals(actualValueType.getName())) {
-					controlData = new FieldControlDataProxy(controlData) {
-						@Override
-						public ITypeInfo getType() {
-							return actualValueType;
-						}
-					};
-					return createFieldControl();
-				}
-				if (controlData.isFormControlEmbedded()) {
-					return new EmbeddedFormControl(SwingRenderer.this, this);
-				} else {
-					return new DialogAccessControl(SwingRenderer.this, this);
-				}
+				return new DialogAccessControl(SwingRenderer.this, this);
 			}
 		}
 

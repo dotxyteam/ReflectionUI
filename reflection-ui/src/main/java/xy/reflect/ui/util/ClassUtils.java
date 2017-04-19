@@ -147,29 +147,41 @@ public class ClassUtils {
 
 	public static Object primitiveFromText(String text, Class<?> javaType) {
 		if (javaType.isPrimitive()) {
-			javaType = primitiveToWrapperClass(javaType);
+			javaType = ClassUtils.primitiveToWrapperClass(javaType);
 		}
 		if (javaType == Character.class) {
-			text = text.trim();
 			if (text.length() != 1) {
 				throw new RuntimeException("Invalid value: '" + text + "'. 1 character is expected");
 			}
 			return text.charAt(0);
+		} else if (javaType == Boolean.class) {
+			if (Boolean.TRUE.toString().equals(text)) {
+				return true;
+			}
+			if (Boolean.FALSE.toString().equals(text)) {
+				return false;
+			}
+			throw new RuntimeException("Invalid value: '" + text + "'. Expected '" + Boolean.TRUE.toString() + "' or '"
+					+ Boolean.FALSE.toString() + "'");
 		} else {
 			try {
-				return javaType.getConstructor(new Class[] { String.class }).newInstance(text);
-			} catch (IllegalArgumentException e) {
-				throw new ReflectionUIError(e);
-			} catch (SecurityException e) {
-				throw new ReflectionUIError(e);
-			} catch (InstantiationException e) {
-				throw new ReflectionUIError(e);
-			} catch (IllegalAccessException e) {
-				throw new ReflectionUIError(e);
-			} catch (InvocationTargetException e) {
-				throw new ReflectionUIError(e.getTargetException());
-			} catch (NoSuchMethodException e) {
-				throw new ReflectionUIError(e);
+				try {
+					return javaType.getConstructor(new Class[] { String.class }).newInstance(text);
+				} catch (IllegalArgumentException e) {
+					throw new ReflectionUIError(e);
+				} catch (SecurityException e) {
+					throw new ReflectionUIError(e);
+				} catch (InstantiationException e) {
+					throw new ReflectionUIError(e);
+				} catch (IllegalAccessException e) {
+					throw new ReflectionUIError(e);
+				} catch (InvocationTargetException e) {
+					throw new ReflectionUIError(e.getTargetException());
+				} catch (NoSuchMethodException e) {
+					throw new ReflectionUIError(e);
+				}
+			} catch (Throwable t) {
+				throw new ReflectionUIError(javaType.getSimpleName() + " Inupt Error: " + t.toString(), t);
 			}
 		}
 	}

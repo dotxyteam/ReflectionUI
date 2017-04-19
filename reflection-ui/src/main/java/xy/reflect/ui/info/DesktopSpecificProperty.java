@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import xy.reflect.ui.control.input.IFieldControlData;
+import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.info.filter.IInfoFilter;
-import xy.reflect.ui.info.type.util.InfoCustomizations.AbstractInfoCustomization;
+import xy.reflect.ui.info.type.factory.InfoCustomizations.AbstractInfoCustomization;
 
 public class DesktopSpecificProperty {
 	public static final String KEY_ICON_IMAGE = DesktopSpecificProperty.class.getSimpleName() + ".KEY_ICON_IMAGE";

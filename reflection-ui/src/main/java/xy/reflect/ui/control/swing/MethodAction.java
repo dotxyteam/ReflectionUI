@@ -11,8 +11,8 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import xy.reflect.ui.control.input.IMethodControlData;
-import xy.reflect.ui.control.input.IMethodControlInput;
+import xy.reflect.ui.control.IMethodControlData;
+import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.swing.editor.AbstractEditorBuilder;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -22,7 +22,7 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.util.MethodSetupObjectFactory;
+import xy.reflect.ui.info.type.factory.MethodSetupObjectFactory;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.ModificationStack;
@@ -233,7 +233,7 @@ public class MethodAction extends AbstractAction {
 		};
 		Object controlDataAsMethodOwner = data;
 		MethodSetupObjectFactory factory = new MethodSetupObjectFactory(swingRenderer.getReflectionUI(),
-				controlDataAsMethod);
+				controlDataAsMethod, input.getContextIdentifier());
 		return factory.getInstance(controlDataAsMethodOwner, invocationData);
 	}
 

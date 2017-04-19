@@ -2,17 +2,17 @@ package xy.reflect.ui.info.type.iterable.item;
 
 import java.util.List;
 
-import xy.reflect.ui.control.input.IFieldControlData;
+import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 
 public class DelegatingItemPosition extends ItemPosition {
 
 	protected ItemPosition delegate;
 
 	public DelegatingItemPosition(ItemPosition delegate) {
-		super(null, -1);
 		this.delegate = delegate;
 	}
 
@@ -72,27 +72,12 @@ public class DelegatingItemPosition extends ItemPosition {
 		return delegate.getSibling(index2);
 	}
 
-	public IFieldControlData getContainingListDataIfRoot() {
-		return delegate.getContainingListDataIfRoot();
-	}
-
 	public IFieldInfo getContainingListFieldIfNotRoot() {
 		return delegate.getContainingListFieldIfNotRoot();
 	}
 
 	public int getContainingListSize() {
 		return delegate.getContainingListSize();
-	}
-
-	public Object retrieveContainingListValue() {
-		return delegate.retrieveContainingListValue();
-	}
-
-	public Object[] retrieveContainingListRawValue() {
-		if(delegate == null){
-			return new Object[0];
-		}
-		return delegate.retrieveContainingListRawValue();
 	}
 
 	public ValueReturnMode geContainingListReturnMode() {
@@ -103,10 +88,6 @@ public class DelegatingItemPosition extends ItemPosition {
 		return delegate.isContainingListGetOnly();
 	}
 
-	public ItemPosition getAnySubItemPosition() {
-		return delegate.getAnySubItemPosition();
-	}
-
 	public List<? extends ItemPosition> getSubItemPositions() {
 		return delegate.getSubItemPositions();
 	}
@@ -115,8 +96,8 @@ public class DelegatingItemPosition extends ItemPosition {
 		return delegate.isRoot();
 	}
 
-	public ItemPosition getRootListItemPosition() {
-		return delegate.getRootListItemPosition();
+	public ItemPosition getRoot() {
+		return delegate.getRoot();
 	}
 
 	public IFieldControlData getRootListData() {
@@ -125,6 +106,22 @@ public class DelegatingItemPosition extends ItemPosition {
 
 	public ValueReturnMode getItemReturnMode() {
 		return delegate.getItemReturnMode();
+	}
+
+	public Object[] retrieveSubListRawValue() {
+		return delegate.retrieveSubListRawValue();
+	}
+
+	public IFieldInfo getSubListField() {
+		return delegate.getSubListField();
+	}
+
+	public ItemPosition getSubItemPosition(int index) {
+		return delegate.getSubItemPosition(index);
+	}
+
+	public IListStructuralInfo getStructuralInfo() {
+		return delegate.getStructuralInfo();
 	}
 
 	public ItemPosition clone() {

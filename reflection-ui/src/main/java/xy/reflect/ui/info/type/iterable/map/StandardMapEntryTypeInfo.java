@@ -111,14 +111,14 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 				Object key = null;
 				{
 					try {
-						key = ReflectionUIUtils.createDefaultInstance(getKeyField().getType());
+						key = ReflectionUIUtils.createInstance(getKeyField().getType());
 					} catch (Throwable ignore) {
 					}
 				}
 				Object value = null;
 				{
 					try {
-						value = ReflectionUIUtils.createDefaultInstance(getValueField().getType());
+						value = ReflectionUIUtils.createInstance(getValueField().getType());
 					} catch (Throwable ignore) {
 					}
 				}

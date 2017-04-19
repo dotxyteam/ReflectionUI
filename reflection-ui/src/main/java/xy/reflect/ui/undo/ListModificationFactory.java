@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import xy.reflect.ui.control.input.DefaultFieldControlData;
-import xy.reflect.ui.control.input.FieldControlDataProxy;
-import xy.reflect.ui.control.input.IFieldControlData;
+import xy.reflect.ui.control.DefaultFieldControlData;
+import xy.reflect.ui.control.FieldControlDataProxy;
+import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
@@ -164,7 +164,7 @@ public class ListModificationFactory {
 			}
 
 			if (itemPosition.isRoot()) {
-				IFieldControlData listData = itemPosition.getContainingListDataIfRoot();
+				IFieldControlData listData = itemPosition.getRootListData();
 				updateListValue(listData, listRawValue);
 			} else {
 				ItemPosition parentItemPosition = itemPosition.getParentItemPosition();

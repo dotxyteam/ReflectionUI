@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.util.GenericEnumerationFactory;
+import xy.reflect.ui.info.type.factory.GenericEnumerationFactory;
 
 public class ValueOptionsAsEnumerationField extends FieldInfoProxy {
 

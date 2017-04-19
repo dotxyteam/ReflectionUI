@@ -5,19 +5,13 @@ import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.parameter.IParameterInfo;
-import xy.reflect.ui.info.type.util.ITypeInfoProxyFactory;
-import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 
 public abstract class AbstractConstructorInfo implements IMethodInfo {
 
 	@Override
 	public String getName() {
-		StringBuilder result = new StringBuilder("new");
-		for (IParameterInfo param : getParameters()) {
-			result.append("+param" + param.getType().getName());
-		}
-		return result.toString();
+		return "";
 	}
 
 	@Override
@@ -43,17 +37,6 @@ public abstract class AbstractConstructorInfo implements IMethodInfo {
 	@Override
 	public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
 		return null;
-	}
-
-	public static String getDescription(IMethodInfo ctor) {
-		StringBuilder result = new StringBuilder(ctor.getCaption());
-		if (ctor.getParameters().size() == 0) {
-			result.append(" - by default");
-		} else {
-			result.append(" - specify ");
-			result.append(ReflectionUIUtils.formatParameterList(ctor.getParameters()));
-		}
-		return result.toString();
 	}
 
 	@Override

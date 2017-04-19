@@ -144,10 +144,11 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -160,10 +161,11 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -176,10 +178,11 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -192,10 +195,11 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -208,10 +212,11 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -224,10 +229,11 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -246,10 +252,11 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -262,10 +269,11 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -278,10 +286,11 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -294,10 +303,11 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -310,10 +320,11 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -326,10 +337,11 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -378,30 +390,33 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>location</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>x</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>y</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -409,7 +424,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>double distance(double, double)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -427,7 +442,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>double distance(double, double, double, double)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -455,7 +470,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>double distance(java.awt.geom.Point2D)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -468,7 +483,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>double distanceSq(double, double)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -486,7 +501,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>double distanceSq(double, double, double, double)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -514,7 +529,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>double distanceSq(java.awt.geom.Point2D)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -527,7 +542,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>java.awt.Point Point()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -535,7 +550,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>java.awt.Point Point(int, int)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -553,7 +568,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>java.awt.Point Point(java.awt.Point)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -566,7 +581,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>java.lang.Object clone()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -574,7 +589,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>void move(int, int)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -592,7 +607,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>void setLocation(double, double)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -610,7 +625,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>void setLocation(int, int)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -628,7 +643,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>void setLocation(java.awt.geom.Point2D)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -641,7 +656,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>void translate(int, int)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -700,50 +715,55 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>className</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>fileName</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>lineNumber</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>methodName</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>nativeMethod</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -762,50 +782,55 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>cause</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>localizedMessage</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>message</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>stackTrace</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>suppressed</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -830,40 +855,44 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>author</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>description</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>name</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>price</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -871,7 +900,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>xy.reflect.ui.TableTreeModelExample$Book Book()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -884,10 +913,11 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>products</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations>
@@ -930,7 +960,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>xy.reflect.ui.TableTreeModelExample$Catalog Catalog()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -943,50 +973,55 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>arstist</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>description</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>genre</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>name</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>price</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -994,7 +1029,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>xy.reflect.ui.TableTreeModelExample$CompactDisc CompactDisc()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -1007,40 +1042,44 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>description</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>name</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>price</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>productsByDuration</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1048,7 +1087,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>xy.reflect.ui.TableTreeModelExample$Loaning Loaning()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -1061,40 +1100,44 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>description</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>name</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>price</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>products</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1102,7 +1145,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>xy.reflect.ui.TableTreeModelExample$Package Package()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -1115,30 +1158,33 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>description</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>name</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>price</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1166,50 +1212,55 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>description</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>female</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>name</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>price</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>size</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1217,7 +1268,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>xy.reflect.ui.TableTreeModelExample$Shoes Shoes()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -1231,10 +1282,11 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Duration</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>key</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1242,10 +1294,11 @@
         <fieldsCustomizations>
             <hidden>false</hidden>
             <customFieldCaption>Products</customFieldCaption>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1264,50 +1317,55 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>cause</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>localizedMessage</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>message</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>stackTrace</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>suppressed</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1315,7 +1373,7 @@
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>java.lang.Throwable fillInStackTrace()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -1323,7 +1381,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>java.lang.Throwable initCause(java.lang.Throwable)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -1336,7 +1394,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>void addSuppressed(java.lang.Throwable)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -1349,7 +1407,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>void printStackTrace()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -1357,7 +1415,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>void printStackTrace(java.io.PrintStream)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -1370,7 +1428,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <hidden>false</hidden>
-            <displayedAsField>false</displayedAsField>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>void printStackTrace(java.io.PrintWriter)</methodSignature>
             <parametersCustomizations>
                 <hidden>false</hidden>
@@ -1387,17 +1445,13 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1409,17 +1463,13 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1431,17 +1481,13 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1460,10 +1506,11 @@
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1475,17 +1522,13 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1497,17 +1540,13 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1520,10 +1559,11 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1536,20 +1576,22 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>key</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1562,20 +1604,22 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>name</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>uncaughtExceptionHandler</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1587,17 +1631,13 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1609,17 +1649,13 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1631,17 +1667,13 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1653,17 +1685,13 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1675,17 +1703,13 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1698,10 +1722,11 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1713,17 +1738,13 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1736,10 +1757,11 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1751,17 +1773,13 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1773,17 +1791,13 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1795,17 +1809,13 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1817,17 +1827,13 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1839,17 +1845,13 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1862,26 +1864,23 @@
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1893,33 +1892,25 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1931,33 +1922,25 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -1969,33 +1952,25 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -2007,33 +1982,25 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -2045,33 +2012,25 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -2083,17 +2042,13 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -2105,17 +2060,13 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -2127,17 +2078,13 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -2149,17 +2096,13 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -2171,17 +2114,13 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -2193,17 +2132,13 @@
     <typeCustomizations>
         <abstractForced>false</abstractForced>
         <fieldsCustomizations>
-            <specificProperties>
-                <entry>
-                    <key>DesktopSpecificProperty.CREATE_EMBEDDED_FORM</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</value>
-                </entry>
-            </specificProperties>
+            <specificProperties/>
             <hidden>false</hidden>
-            <displayedAsMethods>false</displayedAsMethods>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>

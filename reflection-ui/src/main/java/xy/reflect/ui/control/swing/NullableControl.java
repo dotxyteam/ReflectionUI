@@ -13,10 +13,10 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import xy.reflect.ui.control.input.FieldControlDataProxy;
-import xy.reflect.ui.control.input.FieldControlInputProxy;
-import xy.reflect.ui.control.input.IFieldControlData;
-import xy.reflect.ui.control.input.IFieldControlInput;
+import xy.reflect.ui.control.FieldControlDataProxy;
+import xy.reflect.ui.control.FieldControlInputProxy;
+import xy.reflect.ui.control.IFieldControlData;
+import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.editor.AbstractEditFormBuilder;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -93,7 +93,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	protected Object generateNonNullValue() {
 		Object result = null;
 		try {
-			result = this.swingRenderer.onTypeInstanciationRequest(this, input.getControlData().getType(), false);
+			result = this.swingRenderer.onTypeInstanciationRequest(this, input.getControlData().getType());
 		} catch (Throwable t) {
 			swingRenderer.handleExceptionsFromDisplayedUI(this, t);
 		}

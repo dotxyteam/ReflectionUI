@@ -18,9 +18,13 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.PublicFieldInfo;
+import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.DefaultConstructorInfo;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.info.parameter.IParameterInfo;
+import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -60,6 +64,9 @@ public class DefaultTypeInfo implements ITypeInfo {
 		if ((!javaType.isPrimitive()) && Modifier.isAbstract(javaType.getModifiers())) {
 			return false;
 		}
+		if (javaType.isInterface()) {
+			return false;
+		}
 		if (javaType == Object.class) {
 			return false;
 		}
@@ -80,6 +87,30 @@ public class DefaultTypeInfo implements ITypeInfo {
 					continue;
 				}
 				constructors.add(new DefaultConstructorInfo(reflectionUI, javaConstructor));
+			}
+			if (ClassUtils.isPrimitiveClassOrWrapper(javaType)) {
+				constructors.add(new AbstractConstructorInfo() {
+
+					@Override
+					public ITypeInfo getReturnValueType() {
+						return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(DefaultTypeInfo.this));
+					}
+
+					@Override
+					public Object invoke(Object object, InvocationData invocationData) {
+						Class<?> primitiveType = javaType;
+						if (ClassUtils.isPrimitiveWrapper(primitiveType)) {
+							primitiveType = ClassUtils.wrapperToPrimitiveClass(javaType);
+						}
+						return ClassUtils.getDefaultPrimitiveValue(primitiveType);
+					}
+
+					@Override
+					public List<IParameterInfo> getParameters() {
+						return Collections.emptyList();
+					}
+
+				});
 			}
 		}
 		return constructors;

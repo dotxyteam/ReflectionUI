@@ -1,3 +1,12 @@
+- listControl: allow to edit multiple items at the same time
+- What about list item creation that may display the
+item constructor and the item itself during the same interaction
+- ReflectionUIUtils.createInstance() should not be called 
+	unless the developer accepts it in some way
+	<= it imposes a constructor and it can be blocking 
+- how to deal with hidden nullables when the value remains null
+- good idea to create an instance silently
+knowing that we may not be able to alter it ???
 - delete SwingSpecifiProperty class
 - indent toString()s
 - allow easy control/types extension:

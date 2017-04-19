@@ -1,6 +1,6 @@
 package xy.reflect.ui.undo;
 
-import xy.reflect.ui.control.input.IFieldControlData;
+import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.info.IInfo;
 
 public class ControlDataValueModification extends AbstractModification {

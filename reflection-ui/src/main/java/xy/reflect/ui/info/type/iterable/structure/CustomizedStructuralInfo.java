@@ -11,6 +11,10 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.filter.InfoFilterProxy;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.factory.InfoCustomizations;
+import xy.reflect.ui.info.type.factory.InfoCustomizations.ColumnCustomization;
+import xy.reflect.ui.info.type.factory.InfoCustomizations.InfoFilter;
+import xy.reflect.ui.info.type.factory.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.map.IMapEntryTypeInfo;
@@ -21,10 +25,6 @@ import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.PositionColumnInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.StringValueColumnInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.TypeNameColumnInfo;
-import xy.reflect.ui.info.type.util.InfoCustomizations;
-import xy.reflect.ui.info.type.util.InfoCustomizations.ColumnCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizations.InfoFilter;
-import xy.reflect.ui.info.type.util.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
@@ -76,19 +76,21 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 	protected List<IFieldInfo> getItemSubListCandidateFields(ItemPosition itemPosition) {
 		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
 		Object item = itemPosition.getItem();
-		ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
-		if (actualItemType instanceof SubListGroupTypeInfo) {
-			result.add(((SubListGroupTypeInfo) actualItemType).getDetailsField());
-		} else {
-			List<IFieldInfo> itemFields = actualItemType.getFields();
-			for (IFieldInfo field : itemFields) {
-				ITypeInfo fieldType = field.getType();
-				if (fieldType instanceof IListTypeInfo) {
-					ITypeInfo subListItemType = ((IListTypeInfo) fieldType).getItemType();
-					if (item instanceof ValueListItem) {
-						result.add(field);
-					} else if (isValidSubListNodeItemType(subListItemType)) {
-						result.add(field);
+		if (item != null) {
+			ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
+			if (actualItemType instanceof SubListGroupTypeInfo) {
+				result.add(((SubListGroupTypeInfo) actualItemType).getDetailsField());
+			} else {
+				List<IFieldInfo> itemFields = actualItemType.getFields();
+				for (IFieldInfo field : itemFields) {
+					ITypeInfo fieldType = field.getType();
+					if (fieldType instanceof IListTypeInfo) {
+						ITypeInfo subListItemType = ((IListTypeInfo) fieldType).getItemType();
+						if (item instanceof ValueListItem) {
+							result.add(field);
+						} else if (isValidSubListNodeItemType(subListItemType)) {
+							result.add(field);
+						}
 					}
 				}
 			}

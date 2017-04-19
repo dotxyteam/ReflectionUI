@@ -1,6 +1,6 @@
 package xy.reflect.ui.undo;
 
-import xy.reflect.ui.control.input.IMethodControlData;
+import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.util.ReflectionUIError;

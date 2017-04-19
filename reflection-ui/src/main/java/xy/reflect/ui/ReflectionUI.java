@@ -10,10 +10,8 @@ import com.google.common.cache.CacheBuilder;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
-import xy.reflect.ui.info.type.custom.FileTypeInfo;
-import xy.reflect.ui.info.type.custom.TextualTypeInfo;
 import xy.reflect.ui.info.type.enumeration.StandardEnumerationTypeInfo;
+import xy.reflect.ui.info.type.factory.InfoCustomizations;
 import xy.reflect.ui.info.type.iterable.ArrayTypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.iterable.map.StandardMapAsListTypeInfo;
@@ -21,7 +19,6 @@ import xy.reflect.ui.info.type.iterable.map.StandardMapEntryTypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
-import xy.reflect.ui.info.type.util.InfoCustomizations;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
@@ -113,12 +110,6 @@ public class ReflectionUI {
 					result = new ArrayTypeInfo(this, javaTypeSource.getJavaType());
 				} else if (javaTypeSource.getJavaType().isEnum()) {
 					result = new StandardEnumerationTypeInfo(this, javaTypeSource.getJavaType());
-				} else if (BooleanTypeInfo.isCompatibleWith(javaTypeSource.getJavaType())) {
-					result = new BooleanTypeInfo(this, javaTypeSource.getJavaType());
-				} else if (TextualTypeInfo.isCompatibleWith(javaTypeSource.getJavaType())) {
-					result = new TextualTypeInfo(this, javaTypeSource.getJavaType());
-				} else if (FileTypeInfo.isCompatibleWith(javaTypeSource.getJavaType())) {
-					result = new FileTypeInfo(this);
 				} else {
 					result = new DefaultTypeInfo(this, javaTypeSource.getJavaType());
 				}
@@ -170,7 +161,7 @@ public class ReflectionUI {
 				throw new IllegalArgumentException(usageText);
 			}
 			Object object = SwingRenderer.getDefault().onTypeInstanciationRequest(null,
-					ReflectionUI.getDefault().getTypeInfo(new JavaTypeInfoSource(clazz)), false);
+					ReflectionUI.getDefault().getTypeInfo(new JavaTypeInfoSource(clazz)));
 			if (object == null) {
 				return;
 			}

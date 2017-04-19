@@ -1,4 +1,4 @@
-package xy.reflect.ui.info.type.util;
+package xy.reflect.ui.info.type.factory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,9 +25,10 @@ public class MethodSetupObjectFactory {
 	protected IMethodInfo method;
 	protected String contextId;
 
-	public MethodSetupObjectFactory(ReflectionUI reflectionUI, IMethodInfo method) {
-		this.method = method;
+	public MethodSetupObjectFactory(ReflectionUI reflectionUI, IMethodInfo method, String contextId) {
 		this.reflectionUI = reflectionUI;
+		this.method = method;
+		this.contextId = contextId;
 	}
 
 	public Instance getInstance(Object object, InvocationData invocationData) {

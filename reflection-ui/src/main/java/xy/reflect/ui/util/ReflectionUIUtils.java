@@ -40,9 +40,9 @@ import com.thoughtworks.paranamer.DefaultParanamer;
 import com.thoughtworks.paranamer.Paranamer;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.input.IFieldControlData;
-import xy.reflect.ui.control.input.IMethodControlData;
-import xy.reflect.ui.control.input.MethodControlDataProxy;
+import xy.reflect.ui.control.IFieldControlData;
+import xy.reflect.ui.control.IMethodControlData;
+import xy.reflect.ui.control.MethodControlDataProxy;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -146,7 +146,7 @@ public class ReflectionUIUtils {
 	}
 
 	public static String extractMethodNameFromSignature(String methodSignature) {
-		Pattern pattern = Pattern.compile("([^ ]+)\\s+([^ ]+)\\(([^ ]+\\s+[^ ]+,?)*\\)");
+		Pattern pattern = Pattern.compile("([^ ]+)\\s+([^ ]+)\\(([^ ]+\\s*,?\\s*)*\\)");
 		Matcher matcher = pattern.matcher(methodSignature);
 		if (!matcher.matches()) {
 			return null;
@@ -708,11 +708,28 @@ public class ReflectionUIUtils {
 		}
 		return true;
 	}
+	
+	public static Object createInstance(ITypeInfo type) {
+		return createInstance(type, true);
+	}
+		
 
-	public static Object createDefaultInstance(ITypeInfo type) {
+	public static Object createInstance(ITypeInfo type, boolean subTypeInstanceAllowed) {
 		try {
 			if (!type.isConcrete()) {
-				throw new ReflectionUIError("Cannot instanciate abstract type");
+				if (subTypeInstanceAllowed) {
+					if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(type)) {
+						for (ITypeInfo subType : type.getPolymorphicInstanceSubTypes()) {
+							try {
+								return createInstance(subType, true);
+							} catch (Throwable ignore) {
+							}
+						}
+					}
+					throw new ReflectionUIError("Cannot instanciate abstract type and no valid sub-type found");
+				} else {
+					throw new ReflectionUIError("Cannot instanciate abstract type");
+				}
 			}
 
 			IMethodInfo constructor = getZeroParameterConstrucor(type);
@@ -967,6 +984,17 @@ public class ReflectionUIUtils {
 				reflectionUI.logError(event);
 			}
 		};
+	}
+
+	public static String getContructorDescription(IMethodInfo ctor) {
+		StringBuilder result = new StringBuilder(ctor.getCaption());
+		if (ctor.getParameters().size() == 0) {
+			result.append(" - by default");
+		} else {
+			result.append(" - specify ");
+			result.append(formatParameterList(ctor.getParameters()));
+		}
+		return result.toString();
 	}
 
 }

@@ -28,18 +28,7 @@ public class ResourcePath {
 
 	public ResourcePath(String specification) {
 		super();
-		if (specification.startsWith(ResourcePath.CLASSPATH_RESOURCE_PREFIX)) {
-			path = extractClassPathResourceValue(specification);
-			pathKind = PathKind.CLASS_PATH_RESOURCE;
-		} else if (specification.startsWith(ResourcePath.MEMORY_OBJECT_PREFIX)) {
-			path = extractMemoryObjectValue(specification);
-			pathKind = PathKind.MEMORY_OBJECT;
-		} else {
-			File file = new File(specification);
-			path = file.getPath();
-			pathKind = file.isAbsolute() ? PathKind.ABSOLUTE_FILE : PathKind.RELATIVE_FILE;
-		}
-		chosenAlternativeIndex = 0;
+		setSpecification(specification);
 	}
 
 	public static String formatClassPathResourceSpecification(String value) {
@@ -58,14 +47,6 @@ public class ResourcePath {
 		return specification.substring(ResourcePath.MEMORY_OBJECT_PREFIX.length());
 	}
 
-	protected ResourcePath getChosen() {
-		if (chosenAlternativeIndex == SELF_ALTERNATIVE_INDEX) {
-			return this;
-		} else {
-			return getChosenAlternative();
-		}
-	}
-
 	public String getSpecification() {
 		ResourcePath chosen = getChosen();
 		if (chosen.pathKind == PathKind.CLASS_PATH_RESOURCE) {
@@ -74,6 +55,29 @@ public class ResourcePath {
 			return ResourcePath.formatMemoryObjectSpecification(chosen.path);
 		} else {
 			return chosen.path;
+		}
+	}
+
+	public void setSpecification(String specification) {
+		if (specification.startsWith(ResourcePath.CLASSPATH_RESOURCE_PREFIX)) {
+			path = extractClassPathResourceValue(specification);
+			pathKind = PathKind.CLASS_PATH_RESOURCE;
+		} else if (specification.startsWith(ResourcePath.MEMORY_OBJECT_PREFIX)) {
+			path = extractMemoryObjectValue(specification);
+			pathKind = PathKind.MEMORY_OBJECT;
+		} else {
+			File file = new File(specification);
+			path = file.getPath();
+			pathKind = file.isAbsolute() ? PathKind.ABSOLUTE_FILE : PathKind.RELATIVE_FILE;
+		}
+		chosenAlternativeIndex = 0;
+	}
+
+	protected ResourcePath getChosen() {
+		if (chosenAlternativeIndex == SELF_ALTERNATIVE_INDEX) {
+			return this;
+		} else {
+			return getChosenAlternative();
 		}
 	}
 

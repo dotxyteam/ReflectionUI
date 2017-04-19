@@ -1,4 +1,4 @@
-package xy.reflect.ui.info.type.util;
+package xy.reflect.ui.info.type.factory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -25,8 +25,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.input.DefaultFieldControlData;
-import xy.reflect.ui.control.input.DefaultMethodControlData;
+import xy.reflect.ui.control.DefaultFieldControlData;
+import xy.reflect.ui.control.DefaultMethodControlData;
 import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
@@ -49,10 +49,11 @@ import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.method.SubMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.custom.BooleanTypeInfo;
 import xy.reflect.ui.info.type.enumeration.EnumerationItemInfoProxy;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
+import xy.reflect.ui.info.type.factory.InfoCustomizations.AbstractInfoCustomization;
+import xy.reflect.ui.info.type.factory.InfoCustomizations.FieldCustomization;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode;
@@ -63,8 +64,6 @@ import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.util.InfoCustomizations.AbstractInfoCustomization;
-import xy.reflect.ui.info.type.util.InfoCustomizations.FieldCustomization;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.InvokeMethodModification;
@@ -112,8 +111,8 @@ public class InfoCustomizations implements Serializable {
 				if (file.exists()) {
 					try {
 						defaultInstance.loadFromFile(file);
-					} catch (Exception e) {
-						throw new ReflectionUIError(e);
+					} catch (Throwable t) {
+						throw new ReflectionUIError(t);
 					}
 				}
 			}
@@ -174,6 +173,13 @@ public class InfoCustomizations implements Serializable {
 			throw new IOException(e);
 		}
 		typeCustomizations = loaded.typeCustomizations;
+		for (TypeCustomization t : typeCustomizations) {
+			if ("Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=products, containingType=xy.reflect.ui.TableTreeModelExample$Catalog], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Product]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Book]"
+					.equals(t.getTypeName())) {
+				System.out.println(t.fieldsCustomizations.get(0).formControlEmbeddingForced);
+				System.out.println("debug");
+			}
+		}
 		listCustomizations = loaded.listCustomizations;
 		enumerationCustomizations = loaded.enumerationCustomizations;
 
@@ -1025,6 +1031,10 @@ public class InfoCustomizations implements Serializable {
 		protected String parametersFormFieldName;
 		protected ResourcePath iconImagePath;
 
+		public String getMethodName() {
+			return ReflectionUIUtils.extractMethodNameFromSignature(methodSignature);
+		}
+
 		@Override
 		public void setSpecificProperties(Map<String, Object> specificProperties) {
 			if (specificProperties != null) {
@@ -1172,7 +1182,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public int compareTo(MethodCustomization o) {
-			return ReflectionUIUtils.compareNullables(methodSignature, o.methodSignature);
+			return ReflectionUIUtils.compareNullables(getMethodName(), o.getMethodName());
 		}
 
 		@Override
@@ -2569,9 +2579,9 @@ public class InfoCustomizations implements Serializable {
 						if (l.editOptions.listInstanciationOption.customInstanceTypeFinder != null) {
 							ITypeInfo customInstanceType = l.editOptions.listInstanciationOption.customInstanceTypeFinder
 									.find(reflectionUI);
-							newListInstance = ReflectionUIUtils.createDefaultInstance(customInstanceType);
+							newListInstance = ReflectionUIUtils.createInstance(customInstanceType);
 						} else {
-							newListInstance = ReflectionUIUtils.createDefaultInstance(listType);
+							newListInstance = ReflectionUIUtils.createInstance(listType);
 						}
 						super.replaceContent(listType, newListInstance, array);
 						return newListInstance;
@@ -2713,7 +2723,7 @@ public class InfoCustomizations implements Serializable {
 			if (t != null) {
 				if (t.iconImagePath != null) {
 					String result = t.iconImagePath.getSpecification();
-					if(result.length() > 0){
+					if (result.length() > 0) {
 						return result;
 					}
 				}
@@ -2729,7 +2739,7 @@ public class InfoCustomizations implements Serializable {
 				if (m != null) {
 					if (m.iconImagePath != null) {
 						String result = m.iconImagePath.getSpecification();
-						if(result.length() > 0){
+						if (result.length() > 0) {
 							return result;
 						}
 					}
@@ -2765,7 +2775,6 @@ public class InfoCustomizations implements Serializable {
 			}
 			return super.isFormControlEmbedded(field, containingType);
 		}
-
 
 		@Override
 		protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
