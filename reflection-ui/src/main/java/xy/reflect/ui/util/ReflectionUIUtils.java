@@ -2,10 +2,13 @@ package xy.reflect.ui.util;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.AccessibleObject;
@@ -26,6 +29,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.JPanel;
+
+import org.apache.commons.codec.binary.Base64;
 
 import com.fasterxml.classmate.MemberResolver;
 import com.fasterxml.classmate.ResolvedType;
@@ -1004,6 +1009,31 @@ public class ReflectionUIUtils {
 			result.append(formatParameterList(ctor.getParameters()));
 		}
 		return result.toString();
+	}
+
+	public static Object serializeToHexaText(Object object) {
+		try {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ObjectOutputStream oos;
+			oos = new ObjectOutputStream(baos);
+			oos.writeObject(object);
+			oos.flush();
+			byte[] binary = baos.toByteArray();
+			return Base64.encodeBase64String(binary);
+		} catch (Throwable e) {
+			throw new ReflectionUIError(e);
+		}
+	}
+
+	public static Object deserializeFromHexaText(String text) {
+		try {
+			byte[] binary = Base64.decodeBase64(text);
+			ByteArrayInputStream bais = new ByteArrayInputStream(binary);
+			ObjectInputStream ois = new ObjectInputStream(bais);
+			return ois.readObject();
+		} catch (Throwable e) {
+			throw new ReflectionUIError(e);
+		}
 	}
 
 }

@@ -1116,6 +1116,11 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					public IModification createCommitModification(Object newObjectValue) {
 						return IModification.NULL_MODIFICATION;
 					}
+
+					@Override
+					public boolean isCancellable() {
+						return true;
+					}
 				};
 				dialogBuilder.showDialog();
 				if (!dialogBuilder.isCancelled()) {
@@ -1226,7 +1231,6 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			@Override
 			protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
 				BufferedItemPosition newSubItemPosition = getNewSubItemPosition();
-				System.out.println();
 				IListTypeInfo subListType = newSubItemPosition.getContainingListType();
 				Object newSubListItem = createItem(getNewSubItemPosition());
 				if (newSubListItem == null) {
@@ -1250,6 +1254,11 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					@Override
 					public IModification createCommitModification(Object newObjectValue) {
 						return IModification.NULL_MODIFICATION;
+					}
+
+					@Override
+					public boolean isCancellable() {
+						return true;
 					}
 
 				};
@@ -1335,7 +1344,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		typeToInstanciate = addSpecificItemContructors(typeToInstanciate, itemPosition);
 		if (subListType.isItemConstructorSelectable()) {
 			return swingRenderer.onTypeInstanciationRequest(ListControl.this, typeToInstanciate);
-		} else{ 
+		} else {
 			return ReflectionUIUtils.createDefaultInstance(typeToInstanciate);
 		}
 	}

@@ -152,8 +152,8 @@ public class CustomizationTools {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				final JPopupMenu popupMenu = new JPopupMenu();
-				popupMenu.add(new AbstractAction(
-						CustomizationTools.this.customizationToolsRenderer.prepareStringToDisplay("Shared Type Options...")) {
+				popupMenu.add(new AbstractAction(CustomizationTools.this.customizationToolsRenderer
+						.prepareStringToDisplay("Type Options (Shared)...")) {
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -347,10 +347,27 @@ public class CustomizationTools {
 						}
 					}
 				});
+
+				Component fieldControl = fieldControlPlaceHolder.getFieldControl();
+				if (fieldControl instanceof NullableControl) {
+					fieldControl = ((NullableControl) fieldControl).getSubControl();
+				}
+				IFieldControlPlugin fieldControlPlugin = swingCustomizer.getPluginByFieldControl().get(fieldControl);
+				if (fieldControlPlugin != null) {
+					if (fieldControlPlugin instanceof ICustomizableFieldControlPlugin) {
+						TypeCustomization t = InfoCustomizations.getTypeCustomization(infoCustomizations,
+								getParentFormObjectCustomizedType().getName(), true);
+						FieldCustomization fc = InfoCustomizations.getFieldCustomization(t, getFieldName(), true);
+						popupMenu.add(((ICustomizableFieldControlPlugin) fieldControlPlugin)
+								.makeCustomizerMenuItem(fieldControlPlaceHolder, fc, customizationToolsRenderer));
+					}
+				}
+
 				for (JMenuItem menuItem : makeFieldTypeInfoCustomizers(fieldControlPlaceHolder, "Type Options...",
 						infoCustomizations, getFieldCustomization().getSpecificTypeCustomizations(), getFieldType())) {
 					popupMenu.add(menuItem);
 				}
+
 				popupMenu.add(new AbstractAction(
 						CustomizationTools.this.customizationToolsRenderer.prepareStringToDisplay("More Options...")) {
 					private static final long serialVersionUID = 1L;
@@ -388,18 +405,6 @@ public class CustomizationTools {
 		if (fieldType instanceof IEnumerationTypeInfo) {
 			result.add(makeEnumerationCustomizer(fieldControlPlaceHolder, specificTypeCustomizations,
 					(IEnumerationTypeInfo) fieldType));
-		}
-
-		Component fieldControl = fieldControlPlaceHolder.getFieldControl();
-		if (fieldControl instanceof NullableControl) {
-			fieldControl = ((NullableControl) fieldControl).getSubControl();
-		}
-		IFieldControlPlugin fieldControlPlugin = swingCustomizer.getPluginByFieldControl().get(fieldControl);
-		if (fieldControlPlugin != null) {
-			if (fieldControlPlugin instanceof ICustomizableFieldControlPlugin) {
-				result.add(((ICustomizableFieldControlPlugin) fieldControlPlugin).makeCustomizerMenuItem(fieldType,
-						specificTypeCustomizations));
-			}
 		}
 
 		if (sharedInfoCustomizations != null) {

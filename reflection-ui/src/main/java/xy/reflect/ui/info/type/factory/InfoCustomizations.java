@@ -493,7 +493,7 @@ public class InfoCustomizations implements Serializable {
 
 		private static final long serialVersionUID = 1L;
 
-		protected Map<String, Object> specificProperties;
+		protected Map<String, Object> specificProperties = new HashMap<String, Object>();
 
 		public Map<String, Object> getSpecificProperties() {
 			return specificProperties;

@@ -151,7 +151,13 @@ public class DefaultTypeInfo implements ITypeInfo {
 
 	@Override
 	public String getCaption() {
-		return ReflectionUIUtils.identifierToCaption(javaType.getSimpleName());
+		if (String.class.equals(javaType)) {
+			return "Text";
+		} else if (javaType.isPrimitive()) {
+			return ClassUtils.primitiveToWrapperClass(javaType).getSimpleName();
+		} else {
+			return ReflectionUIUtils.identifierToCaption(javaType.getSimpleName());
+		}
 	}
 
 	@Override
