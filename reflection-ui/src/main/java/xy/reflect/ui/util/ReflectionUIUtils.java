@@ -826,18 +826,18 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static IModification closeValueEditSession(IModification valueUndoModification, boolean valueModifAccepted,
+	public static IModification finalizeParentObjectValueEditSession(IModification valueUndoModification, boolean valueModifAccepted,
 			ValueReturnMode valueReturnMode, boolean valueReplaced, IModification commitModif, IInfo editSessionTarget,
 			String editSessionTitle) {
 		ModificationStack parentObjectModifStack = new ModificationStack(null);
 		ModificationStack valueModifStack = new ModificationStack(null);
 		valueModifStack.pushUndo(valueUndoModification);
-		closeValueEditSession(parentObjectModifStack, valueModifStack, valueModifAccepted, valueReturnMode,
+		finalizeParentObjectValueEditSession(parentObjectModifStack, valueModifStack, valueModifAccepted, valueReturnMode,
 				valueReplaced, commitModif, editSessionTarget, editSessionTitle, null);
 		return parentObjectModifStack.toCompositeModification(editSessionTarget, editSessionTitle);
 	}
 
-	public static boolean closeValueEditSession(final ModificationStack parentObjectModifStack,
+	public static boolean finalizeParentObjectValueEditSession(final ModificationStack parentObjectModifStack,
 			final ModificationStack valueModifStack, boolean valueModifAccepted, final ValueReturnMode valueReturnMode,
 			final boolean valueReplaced, final IModification commitModif, IInfo editSessionTarget,
 			String editSessionTitle, Listener<String> debugLogListener) {
@@ -892,7 +892,7 @@ public class ReflectionUIUtils {
 		return parentObjectImpacted;
 	}
 
-	public static boolean canCloseValueEditSession(boolean valueImmutable, ValueReturnMode valueReturnMode,
+	public static boolean canEditParentObjectValue(boolean valueImmutable, ValueReturnMode valueReturnMode,
 			boolean canCommit) {
 		if ((valueReturnMode != ValueReturnMode.CALCULATED) && !valueImmutable) {
 			return true;

@@ -251,7 +251,7 @@ public abstract class AbstractEditFormBuilder {
 			return false;
 		}
 		ensureObjectValueIsInitialized();
-		return ReflectionUIUtils.canCloseValueEditSession(
+		return ReflectionUIUtils.canEditParentObjectValue(
 				ReflectionUIUtils.isValueImmutable(getSwingRenderer().getReflectionUI(), initialObjectValue),
 				getObjectValueReturnMode(), canCommit());
 	}

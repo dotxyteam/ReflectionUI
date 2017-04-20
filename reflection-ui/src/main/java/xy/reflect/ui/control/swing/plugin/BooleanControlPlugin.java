@@ -9,30 +9,22 @@ import javax.swing.JCheckBox;
 
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
-import xy.reflect.ui.control.plugin.IFieldControlPlugin;
+import xy.reflect.ui.control.plugin.AbstractSimpleFieldControlPlugin;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.SwingRenderer;
-import xy.reflect.ui.util.ClassUtils;
 
-public class BooleanControlPlugin implements IFieldControlPlugin {
+public class BooleanControlPlugin extends AbstractSimpleFieldControlPlugin {
 
 	protected static File lastDirectory = new File(".").getAbsoluteFile();
 
 	@Override
-	public boolean handles(IFieldControlInput input) {
-		if (input.getControlData().isValueNullable()) {
-			return false;
-		}
-		final Class<?> javaType;
-		try {
-			javaType = ClassUtils.getCachedClassforName(input.getControlData().getType().getName());
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
-		if (!javaType.equals(boolean.class) && !javaType.equals(Boolean.class)) {
-			return false;
-		}
-		return true;
+	protected boolean handles(Class<?> javaType) {
+		return javaType.equals(boolean.class) || javaType.equals(Boolean.class);
+	}
+
+	@Override
+	protected boolean handlesNull() {
+		return false;
 	}
 
 	@Override

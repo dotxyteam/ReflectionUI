@@ -3,8 +3,6 @@ package xy.reflect.ui.info.type.iterable.item;
 import java.util.ArrayList;
 import java.util.List;
 
-import xy.reflect.ui.control.FieldControlDataProxy;
-import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 
@@ -58,20 +56,6 @@ public class BufferedItemPosition extends ItemPosition {
 		bufferedSubListField = null;
 	}
 
-	@Override
-	public IFieldControlData getRootListData() {
-		IFieldControlData result = super.getRootListData();
-		if (result != null) {
-			result = new FieldControlDataProxy(result) {
-				@Override
-				public void setValue(Object value) {
-					super.setValue(value);
-					refreshBranch();
-				}
-			};
-		}
-		return result;
-	}
 
 	@Override
 	public IFieldInfo getContainingListFieldIfNotRoot() {

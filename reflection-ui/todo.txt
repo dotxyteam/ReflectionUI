@@ -1,3 +1,5 @@
+- cannot configure 'Add Text' => 'Add Extension'
+	=> may be get the Add caption from the item encapsulation
 - listControl: allow to edit multiple items at the same time
 - What about list item creation that may display the
 item constructor and the item itself during the same interaction

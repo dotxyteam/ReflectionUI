@@ -67,20 +67,20 @@ public class CustomizationTools {
 		} catch (IOException e) {
 			throw new ReflectionUIError(e);
 		}
-		customizationToolsUI = createCustomizationToolsUI();
-		customizationToolsRenderer = createCustomizationToolsRenderer();
+		customizationToolsUI = createToolsUI();
+		customizationToolsRenderer = createToolsRenderer();
 
 	}
 
-	public SwingRenderer getCustomizationToolsRenderer() {
+	public SwingRenderer getToolsRenderer() {
 		return customizationToolsRenderer;
 	}
 
-	public CustomizationToolsUI getCustomizationToolsUI() {
+	public CustomizationToolsUI getToolsUI() {
 		return customizationToolsUI;
 	}
 
-	public InfoCustomizations getCustomizationToolsCustomizations() {
+	public InfoCustomizations getToolsCustomizations() {
 		return customizationToolsCustomizations;
 	}
 
@@ -90,7 +90,7 @@ public class CustomizationTools {
 		return result;
 	}
 
-	protected SwingRenderer createCustomizationToolsRenderer() {
+	protected SwingRenderer createToolsRenderer() {
 		if (SystemProperties.isInfoCustomizationToolsCustomizationAllowed()) {
 			String customizationToolsCustomizationsOutputFilePath = System
 					.getProperty(SystemProperties.INFO_CUSTOMIZATION_TOOLS_CUSTOMIZATIONS_FILE_PATH);
@@ -102,7 +102,7 @@ public class CustomizationTools {
 					return new CustomizationTools(this) {
 
 						@Override
-						protected SwingRenderer createCustomizationToolsRenderer() {
+						protected SwingRenderer createToolsRenderer() {
 							return new SwingRenderer(this.customizationToolsUI);
 						}
 
@@ -120,7 +120,7 @@ public class CustomizationTools {
 		}
 	}
 
-	protected CustomizationToolsUI createCustomizationToolsUI() {
+	protected CustomizationToolsUI createToolsUI() {
 		return new CustomizationToolsUI(swingCustomizer);
 	}
 
@@ -168,7 +168,7 @@ public class CustomizationTools {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						try {
-							updateUI(result);
+							rebuildForm(result);
 						} catch (Throwable t) {
 							customizationToolsRenderer.handleExceptionsFromDisplayedUI(result, t);
 						}
@@ -239,7 +239,7 @@ public class CustomizationTools {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					updateUI(activatorComponent);
+					rebuildForm(activatorComponent);
 				}
 			});
 		}
@@ -359,7 +359,7 @@ public class CustomizationTools {
 								getParentFormObjectCustomizedType().getName(), true);
 						FieldCustomization fc = InfoCustomizations.getFieldCustomization(t, getFieldName(), true);
 						popupMenu.add(((ICustomizableFieldControlPlugin) fieldControlPlugin)
-								.makeCustomizerMenuItem(fieldControlPlaceHolder, fc, customizationToolsRenderer));
+								.makeFieldCustomizerMenuItem(fieldControlPlaceHolder, fc, CustomizationTools.this));
 					}
 				}
 
@@ -471,7 +471,7 @@ public class CustomizationTools {
 				customizedType.getName(), true);
 		MethodCustomization mc = InfoCustomizations.getMethodCustomization(t, methodSignature, true);
 		mc.setHidden(true);
-		updateUI(activatorComponent);
+		rebuildForm(activatorComponent);
 	}
 
 	protected void hideField(Component activatorComponent, ITypeInfo customizedType, String fieldName) {
@@ -479,14 +479,14 @@ public class CustomizationTools {
 				customizedType.getName(), true);
 		FieldCustomization fc = InfoCustomizations.getFieldCustomization(t, fieldName, true);
 		fc.setHidden(true);
-		updateUI(activatorComponent);
+		rebuildForm(activatorComponent);
 	}
 
 	protected void moveField(Component activatorComponent, ITypeInfo customizedType, String fieldName, int offset) {
 		TypeCustomization tc = InfoCustomizations.getTypeCustomization(this.swingCustomizer.getInfoCustomizations(),
 				customizedType.getName(), true);
 		tc.moveField(customizedType.getFields(), fieldName, offset);
-		updateUI(activatorComponent);
+		rebuildForm(activatorComponent);
 	}
 
 	protected void moveMethod(Component activatorComponent, ITypeInfo customizedType, String methodSignature,
@@ -494,7 +494,7 @@ public class CustomizationTools {
 		TypeCustomization tc = InfoCustomizations.getTypeCustomization(this.swingCustomizer.getInfoCustomizations(),
 				customizedType.getName(), true);
 		tc.moveMethod(customizedType.getMethods(), methodSignature, offset);
-		updateUI(activatorComponent);
+		rebuildForm(activatorComponent);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -522,7 +522,7 @@ public class CustomizationTools {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					updateUI(activatorComponent);
+					rebuildForm(activatorComponent);
 				}
 			});
 		}
@@ -671,7 +671,7 @@ public class CustomizationTools {
 		return result;
 	}
 
-	protected void updateUI(Component customizedFormComponent) {
+	public void rebuildForm(Component customizedFormComponent) {
 		final JPanel form;
 		if (SwingRendererUtils.isForm(customizedFormComponent, this.swingCustomizer)) {
 			form = (JPanel) customizedFormComponent;

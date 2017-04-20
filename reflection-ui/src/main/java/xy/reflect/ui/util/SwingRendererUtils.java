@@ -405,7 +405,7 @@ public class SwingRendererUtils {
 				}
 				ModificationStack parentObjectModifStack = parentObjectModifStackGetter.get();
 				IInfo editSessionTarget = editSessionTargetGetter.get();
-				return ReflectionUIUtils.closeValueEditSession(parentObjectModifStack, valueModifStack,
+				return ReflectionUIUtils.finalizeParentObjectValueEditSession(parentObjectModifStack, valueModifStack,
 						valueModifAccepted, valueReturnMode, valueReplaced, commitModif, editSessionTarget,
 						editSessionTitle, ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
 			}
@@ -422,7 +422,7 @@ public class SwingRendererUtils {
 				String editSessionTitle = null;
 				IInfo editSessionTarget = editSessionTargetGetter.get();
 				ModificationStack parentObjectModifStack = parentObjectModifStackGetter.get();
-				ReflectionUIUtils.closeValueEditSession(parentObjectModifStack, valueModifStack, valueModifAccepted,
+				ReflectionUIUtils.finalizeParentObjectValueEditSession(parentObjectModifStack, valueModifStack, valueModifAccepted,
 						valueReturnMode, valueReplaced, commitModif, editSessionTarget, editSessionTitle,
 						ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
 			}

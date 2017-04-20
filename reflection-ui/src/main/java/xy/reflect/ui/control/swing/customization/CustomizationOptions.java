@@ -26,9 +26,9 @@ public class CustomizationOptions {
 	}
 
 	protected void openWindow(Component activatorComponent) {
-		this.swingCustomizer.getCustomizationTools().getCustomizationToolsRenderer().openObjectDialog(
+		this.swingCustomizer.getCustomizationTools().getToolsRenderer().openObjectDialog(
 				activatorComponent, CustomizationOptions.this,
-				this.swingCustomizer.getCustomizationTools().getCustomizationToolsRenderer()
+				this.swingCustomizer.getCustomizationTools().getToolsRenderer()
 						.getObjectTitle(CustomizationOptions.this),
 				this.swingCustomizer.getCustomizationsIcon().getImage(), false, true);
 	}
@@ -54,7 +54,7 @@ public class CustomizationOptions {
 						.getTypeInfo(this.swingCustomizer.getReflectionUI().getTypeInfoSource(object));
 				if (typeName.equals(objectType.getName())) {
 					for (JPanel form : SwingRendererUtils.findObjectForms(object, this.swingCustomizer)) {
-						this.swingCustomizer.getCustomizationTools().updateUI(form);
+						this.swingCustomizer.getCustomizationTools().rebuildForm(form);
 					}
 				}
 			}

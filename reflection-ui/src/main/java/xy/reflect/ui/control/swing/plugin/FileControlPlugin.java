@@ -1,106 +1,58 @@
 package xy.reflect.ui.control.swing.plugin;
 
 import java.awt.Component;
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
-import javax.swing.JMenuItem;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
-import xy.reflect.ui.control.plugin.ICustomizableFieldControlPlugin;
+import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
 import xy.reflect.ui.control.swing.DialogAccessControl;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.control.swing.TextControl;
-import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.InfoCustomizations.AbstractCustomization;
-import xy.reflect.ui.info.type.factory.InfoCustomizations.FieldCustomization;
-import xy.reflect.ui.util.ClassUtils;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-public class FileControlPlugin implements ICustomizableFieldControlPlugin {
+public class FileControlPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
 	protected static final File DEFAULT_FILE = new File("");
 
 	protected static File lastDirectory = new File(".").getAbsoluteFile();
 
 	@Override
-	public boolean handles(IFieldControlInput input) {
-		final Class<?> javaType;
-		try {
-			javaType = ClassUtils.getCachedClassforName(input.getControlData().getType().getName());
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
-		if (!File.class.isAssignableFrom(javaType)) {
-			return false;
-		}
+	protected String getControlTitle() {
+		return "File Control";
+	}
+
+	@Override
+	protected boolean handles(Class<?> javaType) {
+		return File.class.isAssignableFrom(javaType);
+	}
+
+	@Override
+	protected boolean handlesNull() {
 		return true;
 	}
 
 	@Override
-	public JMenuItem makeCustomizerMenuItem(final Component activatorComponent,
-			final FieldCustomization fieldCustomization, final SwingRenderer customizationToolsRenderer) {
-		return new JMenuItem(new AbstractAction(customizationToolsRenderer.prepareStringToDisplay("File...")) {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				FileControlCustomization controlCustomization = (FileControlCustomization) loadCustomization(
-						FileControlCustomization.class, fieldCustomization);
-				if (controlCustomization == null) {
-					controlCustomization = new FileControlCustomization();
-				}
-				StandardEditorBuilder status = customizationToolsRenderer.openObjectDialog(activatorComponent,
-						controlCustomization, null, null, true, true);
-				if (status.isCancelled()) {
-					return;
-				}
-				storeCustomization(controlCustomization, fieldCustomization);
-			}
-		});
-	}
-
-	protected void storeCustomization(Object controlCustomization, FieldCustomization fieldCustomization) {
-		Map<String, Object> specificProperties = fieldCustomization.getSpecificProperties();
-		specificProperties = new HashMap<String, Object>(specificProperties);
-		specificProperties.put(controlCustomization.getClass().getName(),
-				ReflectionUIUtils.serializeToHexaText(controlCustomization));
-		fieldCustomization.setSpecificProperties(specificProperties);
-	}
-
-	@SuppressWarnings("unchecked")
-	protected <T> T loadCustomization(Class<T> customizationClass, Map<String, Object> specificProperties) {
-		String text = (String) specificProperties.get(customizationClass.getName());
-		if (text == null) {
-			return null;
-		}
-		return (T) ReflectionUIUtils.deserializeFromHexaText(text);
-	}
-
-	protected <T> T loadCustomization(Class<T> customizationClass, FieldCustomization fieldCustomization) {
-		return loadCustomization(customizationClass, fieldCustomization.getSpecificProperties());
-	}
-
-	protected <T> T loadCustomization(Class<T> customizationClass, IFieldControlInput input) {
-		return (T) loadCustomization(customizationClass, input.getControlData().getSpecificProperties());
+	protected AbstractCustomization getDefaultControlCustomization() {
+		return new FileControlCustomization();
 	}
 
 	@Override
-	public Component createControl(Object renderer, IFieldControlInput input) {
+	protected Component createControl(Object renderer, IFieldControlInput input,
+			AbstractCustomization controlCustomization) {
 		if (input.getControlData().isValueNullable()) {
 			input = new FieldControlInputProxy(input) {
 
@@ -128,13 +80,21 @@ public class FileControlPlugin implements ICustomizableFieldControlPlugin {
 
 			};
 		}
-		return new FileControl((SwingRenderer) renderer, input);
+		return new FileControl((SwingRenderer) renderer, input, (FileControlCustomization) controlCustomization);
 	}
 
-	protected static class FileControlCustomization extends AbstractCustomization {
+	public static class FileControlCustomization extends AbstractCustomization {
 		private static final long serialVersionUID = 1L;
 
 		public List<FileNameFilter> fileNameFilters = new ArrayList<FileNameFilter>();
+		public String actionTitle = "Select";
+		public SelectionMode selectionMode = SelectionMode.FILES_AND_DIRECTORIES;
+
+		@Override
+		public String toString() {
+			return "FileControlCustomization [fileNameFilters=" + fileNameFilters + ", actionTitle=" + actionTitle
+					+ ", selectionMode=" + selectionMode + "]";
+		}
 
 	}
 
@@ -143,6 +103,25 @@ public class FileControlPlugin implements ICustomizableFieldControlPlugin {
 
 		public String description = "";
 		public List<String> extensions = new ArrayList<String>();
+
+		public void validate(){
+			if(description.length() == 0){
+				throw new ReflectionUIError("Description is mandatory");
+			}
+			if(extensions.size() == 0){
+				throw new ReflectionUIError("At least 1 extension is mandatory");
+			}
+		}
+		
+		@Override
+		public String toString() {
+			return "FileNameFilter [description=" + description + ", extensions=" + extensions + "]";
+		}
+	}
+
+	public static enum SelectionMode {
+		FILES_AND_DIRECTORIES, FILES_ONLY, DIRECTORIES_ONLY
+
 	}
 
 	protected class FileControl extends DialogAccessControl implements IAdvancedFieldControl {
@@ -150,9 +129,12 @@ public class FileControlPlugin implements ICustomizableFieldControlPlugin {
 		protected static final long serialVersionUID = 1L;
 
 		protected boolean textChangedByUser = true;
+		protected FileControlCustomization controlCustomization;
 
-		public FileControl(SwingRenderer swingRenderer, IFieldControlInput input) {
+		public FileControl(SwingRenderer swingRenderer, IFieldControlInput input,
+				FileControlCustomization controlCustomization) {
 			super(swingRenderer, input);
+			this.controlCustomization = controlCustomization;
 		}
 
 		@Override
@@ -198,16 +180,26 @@ public class FileControlPlugin implements ICustomizableFieldControlPlugin {
 			if ((currentFile != null) && !currentFile.equals(DEFAULT_FILE)) {
 				fileChooser.setSelectedFile(currentFile.getAbsoluteFile());
 			}
-			fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-			FileControlCustomization controlCustomization = loadCustomization(FileControlCustomization.class, input);
+			if (controlCustomization.selectionMode == SelectionMode.FILES_AND_DIRECTORIES) {
+				fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+			} else if (controlCustomization.selectionMode == SelectionMode.FILES_ONLY) {
+				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+			} else if (controlCustomization.selectionMode == SelectionMode.DIRECTORIES_ONLY) {
+				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			} else {
+				throw new ReflectionUIError();
+			}
 			for (FileNameFilter filter : controlCustomization.fileNameFilters) {
-				fileChooser.addChoosableFileFilter(new FileNameExtensionFilter(filter.description,
-						filter.extensions.toArray(new String[filter.extensions.size()])));
+				String swingFilterDescription = filter.description + "(*."
+						+ ReflectionUIUtils.stringJoin(filter.extensions, ", *.") + ")";
+				String[] swingFilterExtensions = filter.extensions.toArray(new String[filter.extensions.size()]);
+				fileChooser.addChoosableFileFilter(
+						new FileNameExtensionFilter(swingFilterDescription, swingFilterExtensions));
 			}
 		}
 
 		protected String getDialogTitle() {
-			return "Select";
+			return controlCustomization.actionTitle;
 		}
 
 		@Override

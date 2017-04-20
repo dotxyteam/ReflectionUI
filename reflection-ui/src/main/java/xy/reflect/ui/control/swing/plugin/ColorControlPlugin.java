@@ -10,31 +10,23 @@ import javax.swing.JLabel;
 import javax.swing.border.EtchedBorder;
 
 import xy.reflect.ui.control.IFieldControlInput;
-import xy.reflect.ui.control.plugin.IFieldControlPlugin;
+import xy.reflect.ui.control.plugin.AbstractSimpleFieldControlPlugin;
 import xy.reflect.ui.control.swing.DialogAccessControl;
 import xy.reflect.ui.control.swing.SwingRenderer;
-import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-public class ColorControlPlugin implements IFieldControlPlugin {
+public class ColorControlPlugin extends AbstractSimpleFieldControlPlugin {
 
 	protected static File lastDirectory = new File(".").getAbsoluteFile();
 
 	@Override
-	public boolean handles(IFieldControlInput input) {
-		if (input.getControlData().isValueNullable()) {
-			return false;
-		}
-		final Class<?> javaType;
-		try {
-			javaType = ClassUtils.getCachedClassforName(input.getControlData().getType().getName());
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
-		if (javaType != Color.class) {
-			return false;
-		}
-		return true;
+	protected boolean handles(Class<?> javaType) {
+		return javaType.equals(Color.class);
+	}
+
+	@Override
+	protected boolean handlesNull() {
+		return false;
 	}
 
 	@Override

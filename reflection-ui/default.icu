@@ -3586,7 +3586,7 @@
             <specificProperties>
                 <entry>
                     <key>xy.reflect.ui.control.swing.plugin.FileControlPlugin$FileControlCustomization</key>
-                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">rO0ABXNyAE14eS5yZWZsZWN0LnVpLmNvbnRyb2wuc3dpbmcucGx1Z2luLkZpbGVDb250cm9sUGx1Z2luJEZpbGVDb250cm9sQ3VzdG9taXphdGlvbgAAAAAAAAABAgABTAAPZmlsZU5hbWVGaWx0ZXJzdAAQTGphdmEvdXRpbC9MaXN0O3hyAEh4eS5yZWZsZWN0LnVpLmluZm8udHlwZS5mYWN0b3J5LkluZm9DdXN0b21pemF0aW9ucyRBYnN0cmFjdEN1c3RvbWl6YXRpb24AAAAAAAAAAQIAAHhwc3IAE2phdmEudXRpbC5BcnJheUxpc3R4gdIdmcdhnQMAAUkABHNpemV4cAAAAAF3BAAAAApzcgBDeHkucmVmbGVjdC51aS5jb250cm9sLnN3aW5nLnBsdWdpbi5GaWxlQ29udHJvbFBsdWdpbiRGaWxlTmFtZUZpbHRlcgAAAAAAAAABAgACTAALZGVzY3JpcHRpb250ABJMamF2YS9sYW5nL1N0cmluZztMAApleHRlbnNpb25zcQB+AAF4cQB+AAJ0ACFTb3VyY2UgQ29kZSAoKmNwcCwgKi5waHAsICouamF2YSlzcQB+AAQAAAADdwQAAAAKdAADY3BwdAADcGhwdAAEamF2YXh4</value>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">rO0ABXNyAE14eS5yZWZsZWN0LnVpLmNvbnRyb2wuc3dpbmcucGx1Z2luLkZpbGVDb250cm9sUGx1Z2luJEZpbGVDb250cm9sQ3VzdG9taXphdGlvbgAAAAAAAAABAgADTAALYWN0aW9uVGl0bGV0ABJMamF2YS9sYW5nL1N0cmluZztMAA9maWxlTmFtZUZpbHRlcnN0ABBMamF2YS91dGlsL0xpc3Q7TAANc2VsZWN0aW9uTW9kZXQAREx4eS9yZWZsZWN0L3VpL2NvbnRyb2wvc3dpbmcvcGx1Z2luL0ZpbGVDb250cm9sUGx1Z2luJFNlbGVjdGlvbk1vZGU7eHIASHh5LnJlZmxlY3QudWkuaW5mby50eXBlLmZhY3RvcnkuSW5mb0N1c3RvbWl6YXRpb25zJEFic3RyYWN0Q3VzdG9taXphdGlvbgAAAAAAAAABAgAAeHB0AARPcGVuc3IAE2phdmEudXRpbC5BcnJheUxpc3R4gdIdmcdhnQMAAUkABHNpemV4cAAAAAF3BAAAAApzcgBDeHkucmVmbGVjdC51aS5jb250cm9sLnN3aW5nLnBsdWdpbi5GaWxlQ29udHJvbFBsdWdpbiRGaWxlTmFtZUZpbHRlcgAAAAAAAAABAgACTAALZGVzY3JpcHRpb25xAH4AAUwACmV4dGVuc2lvbnNxAH4AAnhxAH4ABHQAC1NvdXJjZSBDb2Rlc3EAfgAHAAAAA3cEAAAACnQAA2NwcHQAA3BocHQABGphdmF4eH5yAEJ4eS5yZWZsZWN0LnVpLmNvbnRyb2wuc3dpbmcucGx1Z2luLkZpbGVDb250cm9sUGx1Z2luJFNlbGVjdGlvbk1vZGUAAAAAAAAAABIAAHhyAA5qYXZhLmxhbmcuRW51bQAAAAAAAAAAEgAAeHB0AApGSUxFU19PTkxZ</value>
                 </entry>
             </specificProperties>
             <hidden>false</hidden>
@@ -4074,7 +4074,712 @@
                         </entry>
                     </specificProperties>
                     <abstractForced>false</abstractForced>
+                    <fieldsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <displayedAsSingletonList>false</displayedAsSingletonList>
+                        <displayedEncapsulated>false</displayedEncapsulated>
+                        <fieldName>absolute</fieldName>
+                        <formControlCreationForced>false</formControlCreationForced>
+                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
+                        <getOnlyForced>false</getOnlyForced>
+                        <nullableFacetHidden>false</nullableFacetHidden>
+                        <specificTypeCustomizations/>
+                    </fieldsCustomizations>
+                    <fieldsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <displayedAsSingletonList>false</displayedAsSingletonList>
+                        <displayedEncapsulated>false</displayedEncapsulated>
+                        <fieldName>directory</fieldName>
+                        <formControlCreationForced>false</formControlCreationForced>
+                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
+                        <getOnlyForced>false</getOnlyForced>
+                        <nullableFacetHidden>false</nullableFacetHidden>
+                        <specificTypeCustomizations/>
+                    </fieldsCustomizations>
+                    <fieldsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <displayedAsSingletonList>false</displayedAsSingletonList>
+                        <displayedEncapsulated>false</displayedEncapsulated>
+                        <fieldName>file</fieldName>
+                        <formControlCreationForced>false</formControlCreationForced>
+                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
+                        <getOnlyForced>false</getOnlyForced>
+                        <nullableFacetHidden>false</nullableFacetHidden>
+                        <specificTypeCustomizations/>
+                    </fieldsCustomizations>
+                    <fieldsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <displayedAsSingletonList>false</displayedAsSingletonList>
+                        <displayedEncapsulated>false</displayedEncapsulated>
+                        <fieldName>hidden</fieldName>
+                        <formControlCreationForced>false</formControlCreationForced>
+                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
+                        <getOnlyForced>false</getOnlyForced>
+                        <nullableFacetHidden>false</nullableFacetHidden>
+                        <specificTypeCustomizations/>
+                    </fieldsCustomizations>
+                    <fieldsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <displayedAsSingletonList>false</displayedAsSingletonList>
+                        <displayedEncapsulated>false</displayedEncapsulated>
+                        <fieldName>pathSeparatorChar</fieldName>
+                        <formControlCreationForced>false</formControlCreationForced>
+                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
+                        <getOnlyForced>false</getOnlyForced>
+                        <nullableFacetHidden>false</nullableFacetHidden>
+                        <specificTypeCustomizations/>
+                    </fieldsCustomizations>
+                    <fieldsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <displayedAsSingletonList>false</displayedAsSingletonList>
+                        <displayedEncapsulated>false</displayedEncapsulated>
+                        <fieldName>separatorChar</fieldName>
+                        <formControlCreationForced>false</formControlCreationForced>
+                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
+                        <getOnlyForced>false</getOnlyForced>
+                        <nullableFacetHidden>false</nullableFacetHidden>
+                        <specificTypeCustomizations/>
+                    </fieldsCustomizations>
+                    <fieldsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <displayedAsSingletonList>false</displayedAsSingletonList>
+                        <displayedEncapsulated>false</displayedEncapsulated>
+                        <fieldName>absoluteFile</fieldName>
+                        <formControlCreationForced>false</formControlCreationForced>
+                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
+                        <getOnlyForced>false</getOnlyForced>
+                        <nullableFacetHidden>false</nullableFacetHidden>
+                        <specificTypeCustomizations/>
+                    </fieldsCustomizations>
+                    <fieldsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <displayedAsSingletonList>false</displayedAsSingletonList>
+                        <displayedEncapsulated>false</displayedEncapsulated>
+                        <fieldName>parentFile</fieldName>
+                        <formControlCreationForced>false</formControlCreationForced>
+                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
+                        <getOnlyForced>false</getOnlyForced>
+                        <nullableFacetHidden>false</nullableFacetHidden>
+                        <specificTypeCustomizations/>
+                    </fieldsCustomizations>
+                    <fieldsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <displayedAsSingletonList>false</displayedAsSingletonList>
+                        <displayedEncapsulated>false</displayedEncapsulated>
+                        <fieldName>absolutePath</fieldName>
+                        <formControlCreationForced>false</formControlCreationForced>
+                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
+                        <getOnlyForced>false</getOnlyForced>
+                        <nullableFacetHidden>false</nullableFacetHidden>
+                        <specificTypeCustomizations/>
+                    </fieldsCustomizations>
+                    <fieldsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <displayedAsSingletonList>false</displayedAsSingletonList>
+                        <displayedEncapsulated>false</displayedEncapsulated>
+                        <fieldName>name</fieldName>
+                        <formControlCreationForced>false</formControlCreationForced>
+                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
+                        <getOnlyForced>false</getOnlyForced>
+                        <nullableFacetHidden>false</nullableFacetHidden>
+                        <specificTypeCustomizations/>
+                    </fieldsCustomizations>
+                    <fieldsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <displayedAsSingletonList>false</displayedAsSingletonList>
+                        <displayedEncapsulated>false</displayedEncapsulated>
+                        <fieldName>parent</fieldName>
+                        <formControlCreationForced>false</formControlCreationForced>
+                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
+                        <getOnlyForced>false</getOnlyForced>
+                        <nullableFacetHidden>false</nullableFacetHidden>
+                        <specificTypeCustomizations/>
+                    </fieldsCustomizations>
+                    <fieldsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <displayedAsSingletonList>false</displayedAsSingletonList>
+                        <displayedEncapsulated>false</displayedEncapsulated>
+                        <fieldName>path</fieldName>
+                        <formControlCreationForced>false</formControlCreationForced>
+                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
+                        <getOnlyForced>false</getOnlyForced>
+                        <nullableFacetHidden>false</nullableFacetHidden>
+                        <specificTypeCustomizations/>
+                    </fieldsCustomizations>
+                    <fieldsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <displayedAsSingletonList>false</displayedAsSingletonList>
+                        <displayedEncapsulated>false</displayedEncapsulated>
+                        <fieldName>pathSeparator</fieldName>
+                        <formControlCreationForced>false</formControlCreationForced>
+                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
+                        <getOnlyForced>false</getOnlyForced>
+                        <nullableFacetHidden>false</nullableFacetHidden>
+                        <specificTypeCustomizations/>
+                    </fieldsCustomizations>
+                    <fieldsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <displayedAsSingletonList>false</displayedAsSingletonList>
+                        <displayedEncapsulated>false</displayedEncapsulated>
+                        <fieldName>separator</fieldName>
+                        <formControlCreationForced>false</formControlCreationForced>
+                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
+                        <getOnlyForced>false</getOnlyForced>
+                        <nullableFacetHidden>false</nullableFacetHidden>
+                        <specificTypeCustomizations/>
+                    </fieldsCustomizations>
+                    <fieldsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <displayedAsSingletonList>false</displayedAsSingletonList>
+                        <displayedEncapsulated>false</displayedEncapsulated>
+                        <fieldName>freeSpace</fieldName>
+                        <formControlCreationForced>false</formControlCreationForced>
+                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
+                        <getOnlyForced>false</getOnlyForced>
+                        <nullableFacetHidden>false</nullableFacetHidden>
+                        <specificTypeCustomizations/>
+                    </fieldsCustomizations>
+                    <fieldsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <displayedAsSingletonList>false</displayedAsSingletonList>
+                        <displayedEncapsulated>false</displayedEncapsulated>
+                        <fieldName>totalSpace</fieldName>
+                        <formControlCreationForced>false</formControlCreationForced>
+                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
+                        <getOnlyForced>false</getOnlyForced>
+                        <nullableFacetHidden>false</nullableFacetHidden>
+                        <specificTypeCustomizations/>
+                    </fieldsCustomizations>
+                    <fieldsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <displayedAsSingletonList>false</displayedAsSingletonList>
+                        <displayedEncapsulated>false</displayedEncapsulated>
+                        <fieldName>usableSpace</fieldName>
+                        <formControlCreationForced>false</formControlCreationForced>
+                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
+                        <getOnlyForced>false</getOnlyForced>
+                        <nullableFacetHidden>false</nullableFacetHidden>
+                        <specificTypeCustomizations/>
+                    </fieldsCustomizations>
+                    <fieldsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <displayedAsSingletonList>false</displayedAsSingletonList>
+                        <displayedEncapsulated>false</displayedEncapsulated>
+                        <fieldName>theFileList</fieldName>
+                        <formControlCreationForced>false</formControlCreationForced>
+                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
+                        <getOnlyForced>false</getOnlyForced>
+                        <nullableFacetHidden>false</nullableFacetHidden>
+                        <specificTypeCustomizations/>
+                    </fieldsCustomizations>
                     <immutableForced>false</immutableForced>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>void deleteOnExit()</methodSignature>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>[Ljava.io.File; listFiles()</methodSignature>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>[Ljava.io.File; listRoots()</methodSignature>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>[Ljava.lang.String; list()</methodSignature>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>boolean canExecute()</methodSignature>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>boolean canRead()</methodSignature>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>boolean canWrite()</methodSignature>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>boolean createNewFile()</methodSignature>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>boolean delete()</methodSignature>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>boolean exists()</methodSignature>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>boolean mkdir()</methodSignature>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>boolean mkdirs()</methodSignature>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>boolean setReadOnly()</methodSignature>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>java.io.File getCanonicalFile()</methodSignature>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>java.lang.String getCanonicalPath()</methodSignature>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>java.net.URI toURI()</methodSignature>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>java.net.URL toURL()</methodSignature>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>long lastModified()</methodSignature>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>long length()</methodSignature>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>boolean setExecutable(boolean)</methodSignature>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter1</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>boolean setReadable(boolean)</methodSignature>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter1</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>boolean setWritable(boolean)</methodSignature>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter1</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>boolean setExecutable(boolean, boolean)</methodSignature>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter1</parameterName>
+                        </parametersCustomizations>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter2</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>boolean setReadable(boolean, boolean)</methodSignature>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter1</parameterName>
+                        </parametersCustomizations>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter2</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>boolean setWritable(boolean, boolean)</methodSignature>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter1</parameterName>
+                        </parametersCustomizations>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter2</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>boolean renameTo(java.io.File)</methodSignature>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter1</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>int compareTo(java.io.File)</methodSignature>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter1</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>java.io.File createTempFile(java.lang.String, java.lang.String, java.io.File)</methodSignature>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter1</parameterName>
+                        </parametersCustomizations>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter2</parameterName>
+                        </parametersCustomizations>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter3</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>[Ljava.io.File; listFiles(java.io.FileFilter)</methodSignature>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter1</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>[Ljava.io.File; listFiles(java.io.FilenameFilter)</methodSignature>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter1</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>[Ljava.lang.String; list(java.io.FilenameFilter)</methodSignature>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter1</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>java.io.File createTempFile(java.lang.String, java.lang.String)</methodSignature>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter1</parameterName>
+                        </parametersCustomizations>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter2</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>boolean setLastModified(long)</methodSignature>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter1</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>java.io.File (java.lang.String)</methodSignature>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter1</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>java.io.File (java.lang.String, java.lang.String)</methodSignature>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter1</parameterName>
+                        </parametersCustomizations>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter2</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>java.io.File (java.io.File, java.lang.String)</methodSignature>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter1</parameterName>
+                        </parametersCustomizations>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter2</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <methodSignature>java.io.File (java.net.URI)</methodSignature>
+                        <parametersCustomizations>
+                            <specificProperties/>
+                            <hidden>false</hidden>
+                            <nullableFacetHidden>false</nullableFacetHidden>
+                            <parameterName>parameter1</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
                     <typeName>java.io.File</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
@@ -4096,16 +4801,20 @@
             <specificTypeCustomizations>
                 <listCustomizations>
                     <columnCustomizations>
-                        <columnName>name</columnName>
-                        <hidden>false</hidden>
-                    </columnCustomizations>
-                    <columnCustomizations>
                         <columnName>directory</columnName>
                         <hidden>false</hidden>
                     </columnCustomizations>
                     <columnCustomizations>
                         <columnName>hidden</columnName>
                         <hidden>false</hidden>
+                    </columnCustomizations>
+                    <columnCustomizations>
+                        <columnName>name</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <columnCustomizations>
+                        <columnName>theFileList</columnName>
+                        <hidden>true</hidden>
                     </columnCustomizations>
                     <editOptions>
                         <itemCreationEnabled>true</itemCreationEnabled>
@@ -4264,7 +4973,28 @@
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
-            <specificTypeCustomizations/>
+            <specificTypeCustomizations>
+                <listCustomizations>
+                    <columnCustomizations>
+                        <columnName>toStringValue</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <editOptions>
+                        <itemCreationEnabled>true</itemCreationEnabled>
+                        <itemDeletionEnabled>true</itemDeletionEnabled>
+                        <itemMoveEnabled>true</itemMoveEnabled>
+                    </editOptions>
+                    <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <itemContructorSelectableforced>true</itemContructorSelectableforced>
+                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
+                    <itemTypeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,ReflectionUITest$Test2&gt;</itemTypeName>
+                    <listSorted>false</listSorted>
+                    <listTypeName>java.util.Map</listTypeName>
+                    <positionColumnAdded>false</positionColumnAdded>
+                    <stringValueColumnAdded>false</stringValueColumnAdded>
+                </listCustomizations>
+            </specificTypeCustomizations>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <specificProperties/>
@@ -9139,7 +9869,40 @@
     <typeCustomizations>
         <specificProperties/>
         <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName>key</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,ReflectionUITest$Test2&gt; ()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
         <typeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,ReflectionUITest$Test2&gt;</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -13849,6 +14612,25 @@
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [context=FieldContext [fieldName=theString, containingType=ReflectionUITest$Test], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=theDouble, containingType=ReflectionUITest$Test], subContext=NullableInstance, encapsulatedObjectType=java.lang.Double]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

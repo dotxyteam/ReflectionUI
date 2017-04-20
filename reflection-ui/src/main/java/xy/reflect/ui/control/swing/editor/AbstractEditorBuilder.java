@@ -167,7 +167,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
 		}
 		boolean valueModifAccepted = shouldAcceptNewObjectValue(currentValue) && ((!isCancellable()) || !isCancelled());
 		String editSessionTitle = getCumulatedModificationsTitle();
-		parentModificationStackImpacted = ReflectionUIUtils.closeValueEditSession(parentObjectModifStack, valueModifStack,
+		parentModificationStackImpacted = ReflectionUIUtils.finalizeParentObjectValueEditSession(parentObjectModifStack, valueModifStack,
 				valueModifAccepted, valueReturnMode, valueReplaced, commitModif, editSessionTarget,
 				editSessionTitle, ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()));
 	}

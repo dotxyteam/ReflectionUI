@@ -153,7 +153,7 @@ class CustomizationToolsUI extends ReflectionUI {
 								ListCustomization lc = (ListCustomization) object;
 								if (lc.getItemTypeName() == null) {
 									SwingRenderer renderer = swingCustomizer.getCustomizationTools()
-											.getCustomizationToolsRenderer();
+											.getToolsRenderer();
 									renderer.openInformationDialog(null, "The item type is not defined",
 											renderer.getObjectTitle(lc), renderer.getObjectIconImage(lc));
 								} else {
@@ -220,7 +220,7 @@ class CustomizationToolsUI extends ReflectionUI {
 			}
 
 		}.get(result);
-		result = swingCustomizer.getCustomizationTools().getCustomizationToolsCustomizations().get(this, result);
+		result = swingCustomizer.getCustomizationTools().getToolsCustomizations().get(this, result);
 		return result;
 	}
 

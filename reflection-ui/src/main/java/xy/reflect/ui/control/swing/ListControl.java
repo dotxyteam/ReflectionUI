@@ -1097,47 +1097,23 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				if (newItem == null) {
 					return false;
 				}
-				BufferedItemPosition futureItemPosition = newItemPosition.getSibling(-1);
-				futureItemPosition.setFakeItem(newItem);
-				ItemUIBuilder dialogBuilder = new ItemUIBuilder(futureItemPosition) {
-					ModificationStack dummyModificationStack = new ModificationStack(null);
-
-					@Override
-					public ModificationStack getParentObjectModificationStack() {
-						return dummyModificationStack;
+				if (!listType.isItemConstructorSelectable()) {
+					ItemUIBuilder dialogBuilder = openAnticipatedItemDialog(newItemPosition, newItem);
+					if (dialogBuilder.isCancelled()) {
+						return false;
 					}
-
-					@Override
-					public boolean canCommit() {
-						return true;
-					}
-
-					@Override
-					public IModification createCommitModification(Object newObjectValue) {
-						return IModification.NULL_MODIFICATION;
-					}
-
-					@Override
-					public boolean isCancellable() {
-						return true;
-					}
-				};
-				dialogBuilder.showDialog();
-				if (!dialogBuilder.isCancelled()) {
 					newItem = dialogBuilder.getCurrentObjectValue();
-					getModificationStack().apply(new ListModificationFactory(newItemPosition, getModificationsTarget())
-							.add(newItemPosition.getIndex(), newItem));
-					BufferedItemPosition toSelect = newItemPosition;
-					if (!listType.isOrdered()) {
-						int indexToSelect = Arrays.asList(newItemPosition.retrieveContainingListRawValue())
-								.indexOf(newItem);
-						toSelect = newItemPosition.getSibling(indexToSelect);
-					}
-					toPostSelectHolder[0] = Collections.singletonList(toSelect);
-					return true;
-				} else {
-					return false;
 				}
+				getModificationStack().apply(new ListModificationFactory(newItemPosition, getModificationsTarget())
+						.add(newItemPosition.getIndex(), newItem));
+				BufferedItemPosition toSelect = newItemPosition;
+				if (!listType.isOrdered()) {
+					int indexToSelect = Arrays.asList(newItemPosition.retrieveContainingListRawValue())
+							.indexOf(newItem);
+					toSelect = newItemPosition.getSibling(indexToSelect);
+				}
+				toPostSelectHolder[0] = Collections.singletonList(toSelect);
+				return true;
 			}
 
 			@Override
@@ -1152,7 +1128,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				String buttonText = "Insert";
 				{
 					if (itemType != null) {
-						buttonText += " " + itemType.getCaption();
+						buttonText += " " + getItemTitle(newItemPosition);
 					}
 					if (listType.isOrdered()) {
 						if (insertPosition == InsertPosition.AFTER) {
@@ -1223,6 +1199,36 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		};
 	}
 
+	protected ItemUIBuilder openAnticipatedItemDialog(BufferedItemPosition anticipatedItemPosition, Object anticipatedItem) {
+		BufferedItemPosition fakeItemPosition = anticipatedItemPosition.getSibling(-1);
+		fakeItemPosition.setFakeItem(anticipatedItem);
+		ItemUIBuilder dialogBuilder = new ItemUIBuilder(fakeItemPosition) {
+			ModificationStack dummyModificationStack = new ModificationStack(null);
+
+			@Override
+			public ModificationStack getParentObjectModificationStack() {
+				return dummyModificationStack;
+			}
+
+			@Override
+			public boolean canCommit() {
+				return true;
+			}
+
+			@Override
+			public IModification createCommitModification(Object newObjectValue) {
+				return IModification.NULL_MODIFICATION;
+			}
+
+			@Override
+			public boolean isCancellable() {
+				return true;
+			}
+		};
+		dialogBuilder.showDialog();
+		return dialogBuilder;
+	}
+
 	protected AbstractStandardListAction createAddChildAction() {
 		return new AbstractStandardListAction() {
 
@@ -1236,48 +1242,22 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				if (newSubListItem == null) {
 					return false;
 				}
-				BufferedItemPosition futureItemPosition = newSubItemPosition.getSibling(-1);
-				futureItemPosition.setFakeItem(newSubListItem);
-				ItemUIBuilder dialogBuilder = new ItemUIBuilder(futureItemPosition) {
-					ModificationStack dummyModificationStack = new ModificationStack(null);
-
-					@Override
-					public ModificationStack getParentObjectModificationStack() {
-						return dummyModificationStack;
+				if (!subListType.isItemConstructorSelectable()) {
+					ItemUIBuilder dialogBuilder = openAnticipatedItemDialog(newSubItemPosition, newSubListItem);
+					if (dialogBuilder.isCancelled()) {
+						return false;
 					}
-
-					@Override
-					public boolean canCommit() {
-						return true;
-					}
-
-					@Override
-					public IModification createCommitModification(Object newObjectValue) {
-						return IModification.NULL_MODIFICATION;
-					}
-
-					@Override
-					public boolean isCancellable() {
-						return true;
-					}
-
-				};
-				dialogBuilder.showDialog();
-				if (!dialogBuilder.isCancelled()) {
 					newSubListItem = dialogBuilder.getCurrentObjectValue();
-					getModificationStack()
-							.apply(new ListModificationFactory(newSubItemPosition, getModificationsTarget())
-									.add(newSubItemPosition.getIndex(), newSubListItem));
-					if (!subListType.isOrdered()) {
-						newSubItemPosition = newSubItemPosition.getSibling(Arrays
-								.asList(newSubItemPosition.retrieveContainingListRawValue()).indexOf(newSubListItem));
-					}
-					BufferedItemPosition toSelect = newSubItemPosition.getSibling(newSubItemPosition.getIndex());
-					toPostSelectHolder[0] = Collections.singletonList(toSelect);
-					return true;
-				} else {
-					return false;
 				}
+				getModificationStack().apply(new ListModificationFactory(newSubItemPosition, getModificationsTarget())
+						.add(newSubItemPosition.getIndex(), newSubListItem));
+				if (!subListType.isOrdered()) {
+					newSubItemPosition = newSubItemPosition.getSibling(
+							Arrays.asList(newSubItemPosition.retrieveContainingListRawValue()).indexOf(newSubListItem));
+				}
+				BufferedItemPosition toSelect = newSubItemPosition.getSibling(newSubItemPosition.getIndex());
+				toPostSelectHolder[0] = Collections.singletonList(toSelect);
+				return true;
 			}
 
 			@Override
@@ -1321,7 +1301,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					title += " Child";
 				}
 				if (subListItemType != null) {
-					title += " " + subListItemType.getCaption();
+					title += " " + getItemTitle(subItemPosition);
 				}
 				title += "...";
 				return title;
@@ -1333,6 +1313,13 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			}
 
 		};
+	}
+
+	protected String getItemTitle(BufferedItemPosition itemPosition) {
+		Object encapsulatedObject = new ItemUIBuilder(itemPosition).getEncapsulatedObject();
+		ITypeInfo encapsulatedObjectType = swingRenderer.getReflectionUI()
+				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(encapsulatedObject));
+		return encapsulatedObjectType.getCaption();
 	}
 
 	protected Object createItem(BufferedItemPosition itemPosition) {
