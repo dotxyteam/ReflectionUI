@@ -54,7 +54,7 @@ public class CustomizationOptions {
 						.getTypeInfo(this.swingCustomizer.getReflectionUI().getTypeInfoSource(object));
 				if (typeName.equals(objectType.getName())) {
 					for (JPanel form : SwingRendererUtils.findObjectForms(object, this.swingCustomizer)) {
-						this.swingCustomizer.getCustomizationTools().rebuildForm(form);
+						this.swingCustomizer.getCustomizationTools().rebuildCustomizerForm(form);
 					}
 				}
 			}

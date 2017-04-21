@@ -6,11 +6,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.AbstractAction;
+import javax.swing.JButton;
 import javax.swing.JMenuItem;
 
 import xy.reflect.ui.control.IFieldControlInput;
+import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.customization.CustomizationTools;
 import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
+import xy.reflect.ui.info.type.factory.InfoCustomizations;
 import xy.reflect.ui.info.type.factory.InfoCustomizations.AbstractCustomization;
 import xy.reflect.ui.info.type.factory.InfoCustomizations.FieldCustomization;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -26,23 +29,25 @@ public abstract class AbstractSimpleCustomizableFieldControlPlugin extends Abstr
 	protected abstract String getControlTitle();
 
 	@Override
-	public JMenuItem makeFieldCustomizerMenuItem(final Component customizedFormComponent,
-			final FieldCustomization fieldCustomization, final CustomizationTools customizationTools) {
+	public JMenuItem makeFieldCustomizerMenuItem(final JButton customizer, final FieldControlPlaceHolder fieldControlPlaceHolder,
+			final InfoCustomizations infoCustomizations, final CustomizationTools customizationTools) {
 		return new JMenuItem(new AbstractAction(
 				customizationTools.getToolsRenderer().prepareStringToDisplay(getControlTitle() + " Options...")) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				FieldCustomization fieldCustomization = customizationTools
+						.getFieldCustomization(fieldControlPlaceHolder, infoCustomizations);
 				Object controlCustomization = getControlCustomization(getControlCutomizationStorageId(),
 						fieldCustomization);
 				StandardEditorBuilder status = customizationTools.getToolsRenderer()
-						.openObjectDialog(customizedFormComponent, controlCustomization, null, null, true, true);
+						.openObjectDialog(customizer, controlCustomization, null, null, true, true);
 				if (status.isCancelled()) {
 					return;
 				}
 				storeControlCustomization(controlCustomization, fieldCustomization);
-				customizationTools.rebuildForm(customizedFormComponent);
+				customizationTools.rebuildCustomizerForm(customizer);
 			}
 		});
 	}
@@ -62,7 +67,7 @@ public abstract class AbstractSimpleCustomizableFieldControlPlugin extends Abstr
 	protected AbstractCustomization getControlCustomization(String storageId, Map<String, Object> specificProperties) {
 		String text = (String) specificProperties.get(storageId);
 		if (text == null) {
-			return  getDefaultControlCustomization();
+			return getDefaultControlCustomization();
 		}
 		return (AbstractCustomization) ReflectionUIUtils.deserializeFromHexaText(text);
 	}

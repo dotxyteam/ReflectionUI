@@ -80,8 +80,7 @@ public class SwingCustomizer extends SwingRenderer {
 		if (areCustomizationsEditable(object)) {
 			JPanel mainCustomizationsControl = new JPanel();
 			mainCustomizationsControl.setLayout(new BorderLayout());
-			mainCustomizationsControl.add(customizationTools.makeTypeInfoCustomizer(infoCustomizations, object),
-					BorderLayout.CENTER);
+			mainCustomizationsControl.add(customizationTools.makeCustomizerForTypeInfo(object), BorderLayout.CENTER);
 			mainCustomizationsControl.add(customizationTools.makeSaveControl(), BorderLayout.EAST);
 			mainCustomizationsControl.setBorder(BorderFactory.createEmptyBorder(getLayoutSpacing(), 0, 0, 0));
 			form.add(SwingRendererUtils.flowInLayout(mainCustomizationsControl, GridBagConstraints.CENTER),
@@ -107,8 +106,7 @@ public class SwingCustomizer extends SwingRenderer {
 					return;
 				}
 				if (infoCustomizationsComponent == null) {
-					infoCustomizationsComponent = customizationTools.makeFieldInfoCustomizer(infoCustomizations,
-							this);
+					infoCustomizationsComponent = customizationTools.makeCustomizerForFieldInfo(this);
 					add(infoCustomizationsComponent, BorderLayout.EAST);
 					SwingRendererUtils.handleComponentSizeChange(this);
 				} else {
@@ -149,8 +147,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 			protected void refreshInfoCustomizationsControl() {
 				if (infoCustomizationsComponent == null) {
-					infoCustomizationsComponent = customizationTools.makeMethodInfoCustomizer(infoCustomizations,
-							this);
+					infoCustomizationsComponent = customizationTools.makeCustomizerForMethodInfo(this);
 					add(infoCustomizationsComponent, BorderLayout.WEST);
 					SwingRendererUtils.handleComponentSizeChange(this);
 				} else {

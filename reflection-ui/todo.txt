@@ -1,3 +1,7 @@
+- allow to change switch between 2 matching pluings
+- plugin must be able to store their conf in any apropriate info
+	depending on the control itself
+- FileControlCustomization must be renamed. eg: FileControlConfiguration
 - cannot configure 'Add Text' => 'Add Extension'
 	=> may be get the Add caption from the item encapsulation
 - listControl: allow to edit multiple items at the same time

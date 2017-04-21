@@ -1,0 +1,34 @@
+- Analysis: 
+	Controls feed from FieldInfo and TypeInfo.
+	These infos are extracted from the code directly.
+	Sometimes controls also feed from code extensions: Customizations.
+	But there is an ambiguity: TypeCustomization eg is not an
+	info extension but rather an info change specification, a proxy
+	of the exsisting infos. On the other hand, FileControlConfiguration
+	is an actual extension of the File TypeInfo+FieldInfo. 
+- Analysis 2: 
+	TypeInfo, FieldInfo ... are abstract GUI model elements. 
+	They are indeed enrichment of code model elements, enough to feed
+	a basic usable GUI. Ideally the same Infos could be used to feed
+	efficiently very different UI systems (ex: conolse UI an GUI).
+	Class is 
+		* what data do we have 
+		* what can we done with it.
+	TypeInfo is 
+		* what data do we have ++ and how is it displayed  
+		* what can we do with it ++ and how should we do it
+	unfortunately these infos cannot all be generated from the
+	code and moreover, some of them need to be changed because
+	the language did not allow to specify them properly (Eg:
+	String Not Nullable). To cover this need we use Customizations. 
+	Basically Infos conceptualize any GUI as a set of forms.   
+	A form organizes and displays controls. A default control 
+	displays basic information: primitive, list, enumeration, 
+	method and sub form.
+	In real world application default controls are not enough.
+	we need to replace them with custom controls that will 
+	display the same data in a more elegant way. Some of these
+	custom controls may have variations. this is where plugins
+	become useful by providing these controls and their variations
+	through ControlConfiguration objects. These objects are therefore
+	stored as specific properties of any appropriate info.  
