@@ -1,3 +1,8 @@
+- allow to merge fields into sub form
+- allow to change fields layout (VERTICAL, HORIZONTAL)
+- option to put method in menu
+- date control plugin ???
+- password control plugin
 - allow SliderPlugin to handle long and short and byte
 - create SpinnerPlugin
 - listControl: allow to edit multiple items at the same time

@@ -12,27 +12,20 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
-import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
-import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
-import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.ResourcePath;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-@SuppressWarnings({ "all" })
 public class EnumerationControl extends JPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
@@ -142,12 +135,6 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 			return null;
 		} else {
 			IEnumerationItemInfo itemInfo = enumType.getValueInfo(value);
-			String s;
-			if (itemInfo == null) {
-				s = "";
-			} else {
-				s = itemInfo.getCaption();
-			}
 			String imagePathSpecification = itemInfo.getIconImagePath();
 			if (imagePathSpecification == null) {
 				return null;

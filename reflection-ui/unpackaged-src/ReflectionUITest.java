@@ -76,6 +76,9 @@ public class ReflectionUITest {
 			this.theInt = theInt;
 		}
 
+		public byte theByte = 1;
+		public Short theShort = 2;
+		public Long theLong = 3l;
 		public float theFloat = 0.5f;
 		public Double theDouble = 145678e-2;
 		public boolean theBooleanPrimitive;

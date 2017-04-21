@@ -402,10 +402,10 @@ public class InfoCustomizations implements Serializable {
 			int nextSameCategoryInfoIndex = -1;
 			while (true) {
 				currentInfoIndex += offsetSign;
-				if ((offsetSign == -1) && (currentInfoIndex == 0)) {
+				if ((offsetSign == -1) && (currentInfoIndex < 0)) {
 					break;
 				}
-				if ((offsetSign == 1) && (currentInfoIndex == list.size())) {
+				if ((offsetSign == 1) && (currentInfoIndex > list.size())) {
 					break;
 				}
 				I otherInfo = list.get(currentInfoIndex);

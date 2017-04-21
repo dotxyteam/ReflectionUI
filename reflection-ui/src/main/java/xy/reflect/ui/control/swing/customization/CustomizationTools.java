@@ -15,6 +15,7 @@ import java.util.Map;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -391,12 +392,11 @@ public class CustomizationTools {
 		if (fieldControl instanceof NullableControl) {
 			fieldControl = ((NullableControl) fieldControl).getSubControl();
 		}
-		IFieldControlPlugin currentFieldControlPlugin = swingCustomizer.getPluginByFieldControl().get(fieldControl);
-		if (currentFieldControlPlugin != null) {
-			if (currentFieldControlPlugin instanceof ICustomizableFieldControlPlugin) {
-				result.add(((ICustomizableFieldControlPlugin) currentFieldControlPlugin).makeFieldCustomizerMenuItem(
-						customizer, fieldControlPlaceHolder, swingCustomizer.getInfoCustomizations(),
-						CustomizationTools.this));
+		final IFieldControlPlugin currentPlugin = swingCustomizer.getPluginByFieldControl().get(fieldControl);
+		if (currentPlugin != null) {
+			if (currentPlugin instanceof ICustomizableFieldControlPlugin) {
+				result.add(((ICustomizableFieldControlPlugin) currentPlugin).makeFieldCustomizerMenuItem(customizer,
+						fieldControlPlaceHolder, swingCustomizer.getInfoCustomizations(), CustomizationTools.this));
 			}
 		}
 
@@ -411,8 +411,8 @@ public class CustomizationTools {
 		if (potentialFieldControlPlugins.size() > 0) {
 			JMenu changeFieldControlPluginMenu = new JMenu(toolsRenderer.prepareStringToDisplay("Change Control"));
 			result.add(changeFieldControlPluginMenu);
-			changeFieldControlPluginMenu
-					.add(new AbstractAction(toolsRenderer.prepareStringToDisplay("Default Control")) {
+			changeFieldControlPluginMenu.add(
+					new JCheckBoxMenuItem(new AbstractAction(toolsRenderer.prepareStringToDisplay("Default Control")) {
 
 						private static final long serialVersionUID = 1L;
 
@@ -423,14 +423,21 @@ public class CustomizationTools {
 							Map<String, Object> specificProperties = fieldCustomization.getSpecificProperties();
 							specificProperties = new HashMap<String, Object>(specificProperties);
 							specificProperties.put(IFieldControlPlugin.CHOSEN_PROPERTY_KEY,
-									IFieldControlPlugin.ID_DISABLE_PLUGINS);
+									IFieldControlPlugin.NONE_IDENTIFIER);
 							fieldCustomization.setSpecificProperties(specificProperties);
 							rebuildCustomizerForm(customizer);
 						}
+					}) {
+						private static final long serialVersionUID = 1L;
+						{
+							if (currentPlugin == null) {
+								setSelected(true);
+							}
+						}
 					});
 			for (final IFieldControlPlugin plugin : potentialFieldControlPlugins) {
-				changeFieldControlPluginMenu
-						.add(new AbstractAction(toolsRenderer.prepareStringToDisplay(plugin.getControlTitle())) {
+				changeFieldControlPluginMenu.add(new JCheckBoxMenuItem(
+						new AbstractAction(toolsRenderer.prepareStringToDisplay(plugin.getControlTitle())) {
 							private static final long serialVersionUID = 1L;
 
 							@Override
@@ -443,7 +450,16 @@ public class CustomizationTools {
 								fieldCustomization.setSpecificProperties(specificProperties);
 								rebuildCustomizerForm(customizer);
 							}
-						});
+						}) {
+					private static final long serialVersionUID = 1L;
+					{
+						if (currentPlugin != null) {
+							if (currentPlugin.getIdentifier().equals(plugin.getIdentifier())) {
+								setSelected(true);
+							}
+						}
+					}
+				});
 			}
 		}
 

@@ -1,8 +1,11 @@
 package xy.reflect.ui.control.swing.plugin;
 
 import java.awt.Component;
+import java.awt.ComponentOrientation;
 
-import javax.swing.JSlider;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -15,18 +18,19 @@ import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.NumberUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
-public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
+public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
 	@Override
 	public String getControlTitle() {
-		return "Slider";
+		return "Spinner";
 	}
 
 	@Override
 	protected boolean handles(Class<?> javaType) {
-		return Byte.class.equals(javaType) || byte.class.equals(javaType) || Short.class.equals(javaType)
-				|| short.class.equals(javaType) || Integer.class.equals(javaType) || int.class.equals(javaType)
-				|| Long.class.equals(javaType) || long.class.equals(javaType);
+		if (javaType.isPrimitive()) {
+			javaType = ClassUtils.primitiveToWrapperClass(javaType);
+		}
+		return Number.class.isAssignableFrom(javaType);
 	}
 
 	@Override
@@ -36,37 +40,50 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
 	@Override
 	protected AbstractConfiguration getDefaultControlConfiguration() {
-		return new SliderConfiguration();
+		return new SpinnerConfiguration();
 	}
 
 	@Override
 	protected Component createControl(Object renderer, IFieldControlInput input,
 			AbstractConfiguration controlCustomization) {
-		return new Slider((SwingRenderer) renderer, input, (SliderConfiguration) controlCustomization);
+		return new Spinner((SwingRenderer) renderer, input, (SpinnerConfiguration) controlCustomization);
 	}
 
-	public static class SliderConfiguration extends AbstractConfiguration {
+	protected static Number parseNumber(String s) {
+		try {
+			Number result = org.apache.commons.lang3.math.NumberUtils.createNumber(s);
+			return result;
+		} catch (NumberFormatException e) {
+			throw new ReflectionUIError(e);
+		}
+	}
+
+	public static class SpinnerConfiguration extends AbstractConfiguration {
 		private static final long serialVersionUID = 1L;
-		public int maximum = 100;
-		public int minimum = 0;
-		public boolean paintTicks = true;
-		public boolean paintLabels = true;
-		public int minorTickSpacing = 1;
-		public int majorTickSpacing = 10;
 
+		public String minimum = "0";
+		public String maximum = "100";
+		public String stepSize = "1";
+
+		public void validate() {
+			parseNumber(minimum);
+			parseNumber(maximum);
+			parseNumber(stepSize);
+		}
 	}
 
-	protected class Slider extends JSlider implements IAdvancedFieldControl {
+	protected class Spinner extends JSpinner implements IAdvancedFieldControl {
 		private static final long serialVersionUID = 1L;
 
 		protected SwingRenderer swingRenderer;
 		protected IFieldControlInput input;
 		protected IFieldControlData data;
-		protected SliderConfiguration controlCustomization;
+		protected SpinnerConfiguration controlCustomization;
 		protected boolean listenerDisabled = false;
 		protected Class<?> numberClass;
 
-		public Slider(SwingRenderer swingRenderer, IFieldControlInput input, SliderConfiguration controlCustomization) {
+		public Spinner(SwingRenderer swingRenderer, IFieldControlInput input,
+				SpinnerConfiguration controlCustomization) {
 			this.swingRenderer = swingRenderer;
 			this.input = input;
 			this.data = input.getControlData();
@@ -80,12 +97,14 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 				throw new ReflectionUIError(e1);
 			}
 
-			setMaximum(controlCustomization.maximum);
-			setMinimum(controlCustomization.minimum);
-			setPaintTicks(controlCustomization.paintTicks);
-			setPaintLabels(controlCustomization.paintLabels);
-			setMinorTickSpacing(controlCustomization.minorTickSpacing);
-			setMajorTickSpacing(controlCustomization.majorTickSpacing);
+			Number value = (Number) data.getValue();
+			Number minimum = getConvertedNumber(controlCustomization.minimum);
+			Number maximum = getConvertedNumber(controlCustomization.maximum);
+			Number stepSize = getConvertedNumber(controlCustomization.stepSize);
+			setModel(new SpinnerNumberModel(value, (Comparable<?>) minimum, (Comparable<?>) maximum, stepSize));
+
+			setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+			((DefaultEditor) getEditor()).getTextField().setHorizontalAlignment(JTextField.LEFT);
 
 			if (data.isGetOnly()) {
 				setEnabled(false);
@@ -96,12 +115,18 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 						if (listenerDisabled) {
 							return;
 						}
-						onSlide();
+						onSpin();
 					}
 				});
 			}
 
 			refreshUI();
+		}
+
+		protected Number getConvertedNumber(String s) {
+			Number result = parseNumber(s);
+			result = NumberUtils.convertNumberToTargetClass(result, numberClass);
+			return result;
 		}
 
 		@Override
@@ -114,22 +139,14 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 			return false;
 		}
 
-		protected void onSlide() {
-			Object value = NumberUtils.convertNumberToTargetClass(Slider.this.getValue(), numberClass);
+		protected void onSpin() {
+			Object value = NumberUtils.convertNumberToTargetClass((Number) Spinner.this.getValue(), numberClass);
 			data.setValue(value);
 		}
 
 		@Override
 		public boolean refreshUI() {
-			final int value = (Integer) NumberUtils.convertNumberToTargetClass((Number) data.getValue(), Integer.class);
-			if (value > getMaximum()) {
-				throw new ReflectionUIError(
-						"The value is greater than the maximum value: " + value + " > " + getMaximum());
-			}
-			if (value < getMinimum()) {
-				throw new ReflectionUIError(
-						"The value is less than the minimum value: " + value + " < " + getMinimum());
-			}
+			Number value = (Number) data.getValue();
 			listenerDisabled = true;
 			try {
 				setValue(value);
@@ -160,7 +177,7 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
 		@Override
 		public String toString() {
-			return "Slider [data=" + data + "]";
+			return "Spinner [data=" + data + "]";
 		}
 	}
 

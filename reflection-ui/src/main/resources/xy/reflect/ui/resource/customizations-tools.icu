@@ -11384,4 +11384,59 @@
         <typeName>xy.reflect.ui.control.swing.plugin.SliderPlugin$SliderConfiguration</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
+    <typeCustomizations>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <customFieldsOrder>minimum</customFieldsOrder>
+        <customFieldsOrder>maximum</customFieldsOrder>
+        <customFieldsOrder>stepSize</customFieldsOrder>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName>minimum</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName>maximum</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <displayedEncapsulated>false</displayedEncapsulated>
+            <fieldName>stepSize</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>void validate()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>true</validating>
+        </methodsCustomizations>
+        <typeName>xy.reflect.ui.control.swing.plugin.SpinnerPlugin$SpinnerConfiguration</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
 </infoCustomizations>

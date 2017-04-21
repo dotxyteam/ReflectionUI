@@ -59,6 +59,7 @@ import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
 import xy.reflect.ui.control.swing.plugin.ColorPickerPlugin;
 import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin;
 import xy.reflect.ui.control.swing.plugin.SliderPlugin;
+import xy.reflect.ui.control.swing.plugin.SpinnerPlugin;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -437,15 +438,37 @@ public class SwingRenderer {
 		}.start();
 	}
 
+	public Component createErrorControl(final Throwable t) {
+		reflectionUI.logError(t);
+		JPanel result = new JPanel();
+		result.setLayout(new BorderLayout());
+		result.add(
+				new NullControl(SwingRenderer.this, new FieldControlInputProxy(IFieldControlInput.NULL_CONTROL_INPUT) {
+					@Override
+					public IFieldControlData getControlData() {
+						return new FieldControlDataProxy(IFieldControlData.NULL_CONTROL_DATA) {
+							@Override
+							public String getNullValueLabel() {
+								return ReflectionUIUtils.getPrettyErrorMessage(t);
+							}
+						};
+					}
+				}), BorderLayout.CENTER);
+		SwingRendererUtils.setErrorBorder(result);
+		return result;
+	}
+
 	public Component createCustomFieldControl(IFieldControlInput input) {
 		IFieldControlPlugin currentPlugin = null;
 		String chosenPluginId = (String) input.getControlData().getSpecificProperties()
 				.get(IFieldControlPlugin.CHOSEN_PROPERTY_KEY);
-		if (!IFieldControlPlugin.ID_DISABLE_PLUGINS.equals(chosenPluginId)) {
+		if (!IFieldControlPlugin.NONE_IDENTIFIER.equals(chosenPluginId)) {
 			for (IFieldControlPlugin plugin : getFieldControlPlugins()) {
 				if (plugin.getIdentifier().equals(chosenPluginId)) {
-					currentPlugin = plugin;
-					break;
+					if (plugin.handles(input)) {
+						currentPlugin = plugin;
+						break;
+					}
 				}
 			}
 		}
@@ -480,16 +503,24 @@ public class SwingRenderer {
 			}
 		}
 
-		if (!IFieldControlPlugin.ID_DISABLE_PLUGINS.equals(chosenPluginId)) {
-			for (IFieldControlPlugin plugin : getFieldControlPlugins()) {
-				if (plugin.handles(input)) {
-					currentPlugin = plugin;
-					break;
+		if (currentPlugin == null) {
+			if (!IFieldControlPlugin.NONE_IDENTIFIER.equals(chosenPluginId)) {
+				for (IFieldControlPlugin plugin : getFieldControlPlugins()) {
+					if (plugin.handles(input)) {
+						currentPlugin = plugin;
+						break;
+					}
 				}
-			}			
+			}
 		}
+
 		if (currentPlugin != null) {
-			Component result = currentPlugin.createControl(SwingRenderer.this, input);
+			Component result;
+			try {
+				result = currentPlugin.createControl(SwingRenderer.this, input);
+			} catch (Throwable t) {
+				result = createErrorControl(t);
+			}
 			getPluginByFieldControl().put(result, currentPlugin);
 			return result;
 		}
@@ -500,6 +531,7 @@ public class SwingRenderer {
 	public List<IFieldControlPlugin> getFieldControlPlugins() {
 		List<IFieldControlPlugin> result = new ArrayList<IFieldControlPlugin>();
 		result.add(new SliderPlugin());
+		result.add(new SpinnerPlugin());
 		result.add(new FileBrowserPlugin());
 		result.add(new ColorPickerPlugin());
 		return result;
@@ -1675,7 +1707,7 @@ public class SwingRenderer {
 					controlData = lastInitialControlData = getInitialControlData();
 					fieldControl = createFieldControl();
 				} catch (Throwable t) {
-					fieldControl = createUIRefreshErrorControl(t);
+					fieldControl = createErrorControl(t);
 				}
 				add(fieldControl, BorderLayout.CENTER);
 				SwingRendererUtils.handleComponentSizeChange(this);
@@ -1756,25 +1788,6 @@ public class SwingRenderer {
 			} else {
 				return new DialogAccessControl(SwingRenderer.this, this);
 			}
-		}
-
-		public Component createUIRefreshErrorControl(final Throwable t) {
-			reflectionUI.logError(t);
-			JPanel result = new JPanel();
-			result.setLayout(new BorderLayout());
-			result.add(new NullControl(SwingRenderer.this, new FieldControlInputProxy(this) {
-				@Override
-				public IFieldControlData getControlData() {
-					return new FieldControlDataProxy(IFieldControlData.NULL_CONTROL_DATA) {
-						@Override
-						public String getNullValueLabel() {
-							return ReflectionUIUtils.getPrettyErrorMessage(t);
-						}
-					};
-				}
-			}), BorderLayout.CENTER);
-			SwingRendererUtils.setErrorBorder(result);
-			return result;
 		}
 
 		public void displayError(String msg) {
