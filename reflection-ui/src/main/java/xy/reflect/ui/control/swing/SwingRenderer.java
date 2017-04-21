@@ -56,9 +56,9 @@ import xy.reflect.ui.control.MethodControlDataProxy;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.customization.SwingCustomizer;
 import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
-import xy.reflect.ui.control.swing.plugin.BooleanControlPlugin;
-import xy.reflect.ui.control.swing.plugin.ColorControlPlugin;
-import xy.reflect.ui.control.swing.plugin.FileControlPlugin;
+import xy.reflect.ui.control.swing.plugin.ColorPickerPlugin;
+import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin;
+import xy.reflect.ui.control.swing.plugin.SliderPlugin;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -438,46 +438,70 @@ public class SwingRenderer {
 	}
 
 	public Component createCustomFieldControl(IFieldControlInput input) {
-		for (IFieldControlPlugin plugin : getFieldControlPlugins()) {
-			if (plugin.handles(input)) {
-				Component result = plugin.createControl(SwingRenderer.this, input);
-				getPluginByFieldControl().put(result, plugin);
-				return result;
+		IFieldControlPlugin currentPlugin = null;
+		String chosenPluginId = (String) input.getControlData().getSpecificProperties()
+				.get(IFieldControlPlugin.CHOSEN_PROPERTY_KEY);
+		if (!IFieldControlPlugin.ID_DISABLE_PLUGINS.equals(chosenPluginId)) {
+			for (IFieldControlPlugin plugin : getFieldControlPlugins()) {
+				if (plugin.getIdentifier().equals(chosenPluginId)) {
+					currentPlugin = plugin;
+					break;
+				}
 			}
 		}
-		if (input.getControlData().getType() instanceof IEnumerationTypeInfo) {
-			return new EnumerationControl(SwingRenderer.this, input);
-		}
-		if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(input.getControlData().getType())) {
-			return new PolymorphicControl(SwingRenderer.this, input);
-		}
-		if (!input.getControlData().isValueNullable()) {
-			ITypeInfo fieldType = input.getControlData().getType();
-			if (fieldType instanceof IListTypeInfo) {
-				return new ListControl(this, input);
-			}
-			final Class<?> javaType;
-			try {
-				javaType = ClassUtils.getCachedClassforName(fieldType.getName());
-			} catch (ClassNotFoundException e) {
-				return null;
-			}
-			if (ClassUtils.isPrimitiveClassOrWrapper(javaType)) {
-				return new PrimitiveValueControl(this, input, javaType);
-			}
-			if (javaType == String.class) {
-				return new TextControl(this, input);
-			}
-		}
-		return null;
 
+		if (currentPlugin == null) {
+			if (input.getControlData().getType() instanceof IEnumerationTypeInfo) {
+				return new EnumerationControl(SwingRenderer.this, input);
+			}
+			if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(input.getControlData().getType())) {
+				return new PolymorphicControl(SwingRenderer.this, input);
+			}
+			if (!input.getControlData().isValueNullable()) {
+				ITypeInfo fieldType = input.getControlData().getType();
+				if (fieldType instanceof IListTypeInfo) {
+					return new ListControl(this, input);
+				}
+				final Class<?> javaType;
+				try {
+					javaType = ClassUtils.getCachedClassforName(fieldType.getName());
+				} catch (ClassNotFoundException e) {
+					return null;
+				}
+				if (boolean.class.equals(javaType) || Boolean.class.equals(javaType)) {
+					return new CheckBoxControl(this, input);
+				}
+				if (ClassUtils.isPrimitiveClassOrWrapper(javaType)) {
+					return new PrimitiveValueControl(this, input, javaType);
+				}
+				if (String.class.equals(javaType)) {
+					return new TextControl(this, input);
+				}
+			}
+		}
+
+		if (!IFieldControlPlugin.ID_DISABLE_PLUGINS.equals(chosenPluginId)) {
+			for (IFieldControlPlugin plugin : getFieldControlPlugins()) {
+				if (plugin.handles(input)) {
+					currentPlugin = plugin;
+					break;
+				}
+			}			
+		}
+		if (currentPlugin != null) {
+			Component result = currentPlugin.createControl(SwingRenderer.this, input);
+			getPluginByFieldControl().put(result, currentPlugin);
+			return result;
+		}
+
+		return null;
 	}
 
 	public List<IFieldControlPlugin> getFieldControlPlugins() {
 		List<IFieldControlPlugin> result = new ArrayList<IFieldControlPlugin>();
-		result.add(new FileControlPlugin());
-		result.add(new BooleanControlPlugin());
-		result.add(new ColorControlPlugin());
+		result.add(new SliderPlugin());
+		result.add(new FileBrowserPlugin());
+		result.add(new ColorPickerPlugin());
 		return result;
 	}
 

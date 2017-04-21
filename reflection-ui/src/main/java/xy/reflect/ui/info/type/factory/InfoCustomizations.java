@@ -24,7 +24,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.DesktopSpecificProperty;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -522,21 +521,6 @@ public class InfoCustomizations implements Serializable {
 		protected List<ITypeInfoFinder> polymorphicSubTypeFinders = new ArrayList<ITypeInfoFinder>();
 		protected ResourcePath iconImagePath;
 
-		@Override
-		public void setSpecificProperties(Map<String, Object> specificProperties) {
-			if (specificProperties != null) {
-				String pathSpecification = DesktopSpecificProperty.getIconImageFilePath(specificProperties);
-				if (pathSpecification == null) {
-					pathSpecification = "";
-				}
-				if (pathSpecification.length() > 0) {
-					iconImagePath = new ResourcePath(pathSpecification);
-					specificProperties.remove(DesktopSpecificProperty.KEY_ICON_IMAGE_PATH);
-				}
-			}
-			super.setSpecificProperties(specificProperties);
-		}
-
 		public ResourcePath getIconImagePath() {
 			return iconImagePath;
 		}
@@ -829,21 +813,6 @@ public class InfoCustomizations implements Serializable {
 		protected boolean formControlEmbeddingForced = false;
 		protected boolean formControlCreationForced = false;
 
-		@Override
-		public void setSpecificProperties(Map<String, Object> specificProperties) {
-			if (specificProperties != null) {
-				if (DesktopSpecificProperty.isSubFormExpanded(specificProperties)) {
-					formControlEmbeddingForced = true;
-					specificProperties.remove(DesktopSpecificProperty.CREATE_EMBEDDED_FORM);
-				}
-				if (DesktopSpecificProperty.isCustumControlForbidden(specificProperties)) {
-					formControlCreationForced = true;
-					specificProperties.remove(DesktopSpecificProperty.FORBID_CUSTUM_CONTROL);
-				}
-			}
-			super.setSpecificProperties(specificProperties);
-		}
-
 		public boolean isFormControlCreationForced() {
 			return formControlCreationForced;
 		}
@@ -1021,21 +990,6 @@ public class InfoCustomizations implements Serializable {
 
 		public String getMethodName() {
 			return ReflectionUIUtils.extractMethodNameFromSignature(methodSignature);
-		}
-
-		@Override
-		public void setSpecificProperties(Map<String, Object> specificProperties) {
-			if (specificProperties != null) {
-				String pathSpecification = DesktopSpecificProperty.getIconImageFilePath(specificProperties);
-				if (pathSpecification == null) {
-					pathSpecification = "";
-				}
-				if (pathSpecification.length() > 0) {
-					iconImagePath = new ResourcePath(pathSpecification);
-					specificProperties.remove(DesktopSpecificProperty.KEY_ICON_IMAGE_PATH);
-				}
-			}
-			super.setSpecificProperties(specificProperties);
 		}
 
 		public ResourcePath getIconImagePath() {

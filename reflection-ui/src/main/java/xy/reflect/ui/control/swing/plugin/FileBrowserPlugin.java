@@ -19,20 +19,19 @@ import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.InfoCustomizations.AbstractCustomization;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-public class FileControlPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
+public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
 	protected static final File DEFAULT_FILE = new File("");
 
 	protected static File lastDirectory = new File(".").getAbsoluteFile();
 
 	@Override
-	protected String getControlTitle() {
-		return "File Control";
+	public String getControlTitle() {
+		return "File Browser";
 	}
 
 	@Override
@@ -46,13 +45,13 @@ public class FileControlPlugin extends AbstractSimpleCustomizableFieldControlPlu
 	}
 
 	@Override
-	protected AbstractCustomization getDefaultControlCustomization() {
-		return new FileControlCustomization();
+	protected AbstractConfiguration getDefaultControlConfiguration() {
+		return new FileBrowserConfiguration();
 	}
 
 	@Override
 	protected Component createControl(Object renderer, IFieldControlInput input,
-			AbstractCustomization controlCustomization) {
+			AbstractConfiguration controlConfiguration) {
 		if (input.getControlData().isValueNullable()) {
 			input = new FieldControlInputProxy(input) {
 
@@ -80,25 +79,25 @@ public class FileControlPlugin extends AbstractSimpleCustomizableFieldControlPlu
 
 			};
 		}
-		return new FileControl((SwingRenderer) renderer, input, (FileControlCustomization) controlCustomization);
+		return new FileBrowser((SwingRenderer) renderer, input, (FileBrowserConfiguration) controlConfiguration);
 	}
 
-	public static class FileControlCustomization extends AbstractCustomization {
+	public static class FileBrowserConfiguration extends AbstractConfiguration {
 		private static final long serialVersionUID = 1L;
 
-		public List<FileNameFilter> fileNameFilters = new ArrayList<FileNameFilter>();
+		public List<FileNameFilterConfiguration> fileNameFilters = new ArrayList<FileNameFilterConfiguration>();
 		public String actionTitle = "Select";
-		public SelectionMode selectionMode = SelectionMode.FILES_AND_DIRECTORIES;
+		public SelectionModeConfiguration selectionMode = SelectionModeConfiguration.FILES_AND_DIRECTORIES;
 
 		@Override
 		public String toString() {
-			return "FileControlCustomization [fileNameFilters=" + fileNameFilters + ", actionTitle=" + actionTitle
+			return "FilecontrolConfiguration [fileNameFilters=" + fileNameFilters + ", actionTitle=" + actionTitle
 					+ ", selectionMode=" + selectionMode + "]";
 		}
 
 	}
 
-	public static class FileNameFilter extends AbstractCustomization {
+	public static class FileNameFilterConfiguration extends AbstractConfiguration {
 		private static final long serialVersionUID = 1L;
 
 		public String description = "";
@@ -119,22 +118,22 @@ public class FileControlPlugin extends AbstractSimpleCustomizableFieldControlPlu
 		}
 	}
 
-	public static enum SelectionMode {
+	public static enum SelectionModeConfiguration {
 		FILES_AND_DIRECTORIES, FILES_ONLY, DIRECTORIES_ONLY
 
 	}
 
-	protected class FileControl extends DialogAccessControl implements IAdvancedFieldControl {
+	protected class FileBrowser extends DialogAccessControl implements IAdvancedFieldControl {
 
 		protected static final long serialVersionUID = 1L;
 
 		protected boolean textChangedByUser = true;
-		protected FileControlCustomization controlCustomization;
+		protected FileBrowserConfiguration controlConfiguration;
 
-		public FileControl(SwingRenderer swingRenderer, IFieldControlInput input,
-				FileControlCustomization controlCustomization) {
+		public FileBrowser(SwingRenderer swingRenderer, IFieldControlInput input,
+				FileBrowserConfiguration controlConfiguration) {
 			super(swingRenderer, input);
-			this.controlCustomization = controlCustomization;
+			this.controlConfiguration = controlConfiguration;
 		}
 
 		@Override
@@ -180,16 +179,16 @@ public class FileControlPlugin extends AbstractSimpleCustomizableFieldControlPlu
 			if ((currentFile != null) && !currentFile.equals(DEFAULT_FILE)) {
 				fileChooser.setSelectedFile(currentFile.getAbsoluteFile());
 			}
-			if (controlCustomization.selectionMode == SelectionMode.FILES_AND_DIRECTORIES) {
+			if (controlConfiguration.selectionMode == SelectionModeConfiguration.FILES_AND_DIRECTORIES) {
 				fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-			} else if (controlCustomization.selectionMode == SelectionMode.FILES_ONLY) {
+			} else if (controlConfiguration.selectionMode == SelectionModeConfiguration.FILES_ONLY) {
 				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-			} else if (controlCustomization.selectionMode == SelectionMode.DIRECTORIES_ONLY) {
+			} else if (controlConfiguration.selectionMode == SelectionModeConfiguration.DIRECTORIES_ONLY) {
 				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			} else {
 				throw new ReflectionUIError();
 			}
-			for (FileNameFilter filter : controlCustomization.fileNameFilters) {
+			for (FileNameFilterConfiguration filter : controlConfiguration.fileNameFilters) {
 				String swingFilterDescription = filter.description + "(*."
 						+ ReflectionUIUtils.stringJoin(filter.extensions, ", *.") + ")";
 				String[] swingFilterExtensions = filter.extensions.toArray(new String[filter.extensions.size()]);
@@ -199,7 +198,7 @@ public class FileControlPlugin extends AbstractSimpleCustomizableFieldControlPlu
 		}
 
 		protected String getDialogTitle() {
-			return controlCustomization.actionTitle;
+			return controlConfiguration.actionTitle;
 		}
 
 		@Override
@@ -245,7 +244,7 @@ public class FileControlPlugin extends AbstractSimpleCustomizableFieldControlPlu
 
 		@Override
 		public String toString() {
-			return "FileControl [data=" + data + "]";
+			return "FileBrowser [data=" + data + "]";
 		}
 
 	}

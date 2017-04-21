@@ -15,9 +15,14 @@ import xy.reflect.ui.control.swing.DialogAccessControl;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-public class ColorControlPlugin extends AbstractSimpleFieldControlPlugin {
+public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 
 	protected static File lastDirectory = new File(".").getAbsoluteFile();
+
+	@Override
+	public String getControlTitle() {
+		return "Color Picker";
+	}
 
 	@Override
 	protected boolean handles(Class<?> javaType) {

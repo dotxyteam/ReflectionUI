@@ -10,6 +10,12 @@ public abstract class AbstractSimpleFieldControlPlugin implements IFieldControlP
 	protected abstract boolean handlesNull();
 
 	@Override
+	public String getIdentifier() {
+		return getClass().getName();
+	}
+
+	
+	@Override
 	public boolean handles(IFieldControlInput input) {
 		final Class<?> javaType;
 		try {

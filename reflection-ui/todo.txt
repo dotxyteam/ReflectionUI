@@ -1,22 +1,10 @@
-- allow to change switch between 2 matching pluings
-- plugin must be able to store their conf in any apropriate info
-	depending on the control itself
-- FileControlCustomization must be renamed. eg: FileControlConfiguration
-- cannot configure 'Add Text' => 'Add Extension'
-	=> may be get the Add caption from the item encapsulation
+- allow SliderPlugin to handle long and short and byte
+- create SpinnerPlugin
 - listControl: allow to edit multiple items at the same time
-- What about list item creation that may display the
-item constructor and the item itself during the same interaction
-- ReflectionUIUtils.createInstance() should not be called 
-	unless the developer accepts it in some way
-	<= it imposes a constructor and it can be blocking 
 - how to deal with hidden nullables when the value remains null
 - good idea to create an instance silently
 knowing that we may not be able to alter it ???
-- delete SwingSpecifiProperty class
 - indent toString()s
-- allow easy control/types extension:
-	. how to allow to configure the controls
 - allow to set (min) list size ???
 - allow to ignore method result
 - should not need to exclude list item members:
