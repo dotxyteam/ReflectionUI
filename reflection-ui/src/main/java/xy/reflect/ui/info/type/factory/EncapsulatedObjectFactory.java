@@ -45,6 +45,7 @@ public class EncapsulatedObjectFactory {
 	protected boolean fieldFormControlMandatory = false;
 	protected boolean fieldFormControlEmbedded = false;
 	protected IInfoFilter fieldFormControlFilter = IInfoFilter.DEFAULT;
+	protected ITypeInfoProxyFactory fieldTypeSpecificities;
 
 	public EncapsulatedObjectFactory(ReflectionUI reflectionUI, String typeName, ITypeInfo fieldType) {
 		this.reflectionUI = reflectionUI;
@@ -214,11 +215,23 @@ public class EncapsulatedObjectFactory {
 		this.fieldSpecificProperties = fieldSpecificProperties;
 	}
 
+	public ITypeInfoProxyFactory getFieldTypeSpecificities() {
+		return fieldTypeSpecificities;
+	}
+
+	public void setFieldTypeSpecificities(ITypeInfoProxyFactory fieldTypeSpecificities) {
+		this.fieldTypeSpecificities = fieldTypeSpecificities;
+	}
+
 	public ITypeInfo getFieldType() {
 		return fieldType;
 	}
 
 	protected Object[] getFieldValueOptions(Object object) {
+		return null;
+	}
+
+	protected Runnable getFieldCustomUndoUpdateJob(Object object, Object value) {
 		return null;
 	}
 

@@ -16,12 +16,12 @@ import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 
-public class MultipleFieldsAsOne implements IFieldInfo {
+public class MultipleFieldsAsListField implements IFieldInfo {
 
 	protected List<IFieldInfo> fields;
 	protected ReflectionUI reflectionUI;
 
-	public MultipleFieldsAsOne(ReflectionUI reflectionUI, List<IFieldInfo> fields) {
+	public MultipleFieldsAsListField(ReflectionUI reflectionUI, List<IFieldInfo> fields) {
 		this.reflectionUI = reflectionUI;
 		this.fields = fields;
 	}
@@ -42,7 +42,7 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 
 	@Override
 	public String getCaption() {
-		StringBuilder result = new StringBuilder(MultipleFieldsAsOne.class.getSimpleName());
+		StringBuilder result = new StringBuilder(MultipleFieldsAsListField.class.getSimpleName());
 		result.append("List Containing ");
 		int i = 0;
 		for (IFieldInfo field : fields) {
@@ -86,10 +86,6 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 
 	@Override
 	public boolean isGetOnly() {
-		return isGetOnlyAndCompatibilityFixedWithUpdateListValueModification();
-	}
-
-	private boolean isGetOnlyAndCompatibilityFixedWithUpdateListValueModification() {
 		return false;
 	}
 
@@ -172,12 +168,12 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 		if (!getClass().equals(obj.getClass())) {
 			return false;
 		}
-		return fields.equals(((MultipleFieldsAsOne) obj).fields);
+		return fields.equals(((MultipleFieldsAsListField) obj).fields);
 	}
 
 	@Override
 	public String toString() {
-		return "MultipleFieldAsOne [fields=" + fields + "]";
+		return "MultipleFieldAsListField [fields=" + fields + "]";
 	}
 
 	public class ValueListItem {
@@ -239,7 +235,7 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 	protected class ValueListTypeInfo extends StandardCollectionTypeInfo {
 
 		public ValueListTypeInfo() {
-			super(MultipleFieldsAsOne.this.reflectionUI, ArrayList.class, null);
+			super(MultipleFieldsAsListField.this.reflectionUI, ArrayList.class, null);
 		}
 
 		@Override
@@ -292,8 +288,8 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 
 		@Override
 		public String getName() {
-			return "ListItemTypeInfo [index=" + MultipleFieldsAsOne.this.fields.indexOf(field) + ", of="
-					+ MultipleFieldsAsOne.this.getName() + "]";
+			return "ListItemTypeInfo [index=" + MultipleFieldsAsListField.this.fields.indexOf(field) + ", of="
+					+ MultipleFieldsAsListField.this.getName() + "]";
 		}
 
 		@Override
@@ -393,13 +389,13 @@ public class MultipleFieldsAsOne implements IFieldInfo {
 			return true;
 		}
 
-		private MultipleFieldsAsOne getOuterType() {
-			return MultipleFieldsAsOne.this;
+		private MultipleFieldsAsListField getOuterType() {
+			return MultipleFieldsAsListField.this;
 		}
 
 		@Override
 		public String toString() {
-			return "ListItemTypeInfo [index=" + MultipleFieldsAsOne.this.fields.indexOf(field) + ", of="
+			return "ListItemTypeInfo [index=" + MultipleFieldsAsListField.this.fields.indexOf(field) + ", of="
 					+ getOuterType() + "]";
 		}
 

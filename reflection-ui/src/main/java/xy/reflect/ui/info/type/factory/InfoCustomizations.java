@@ -28,12 +28,14 @@ import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.ValueAsListField;
-import xy.reflect.ui.info.field.EncapsulatedMethodField;
-import xy.reflect.ui.info.field.EncapsulatedValueField;
+import xy.reflect.ui.info.field.MethodAsSubObjectMethod;
+import xy.reflect.ui.info.field.FieldAsSubObjectField;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MethodAsField;
 import xy.reflect.ui.info.field.MethodParametersAsField;
+import xy.reflect.ui.info.field.NerverNullField;
+import xy.reflect.ui.info.field.NullStatusField;
 import xy.reflect.ui.info.field.SubFieldInfo;
 import xy.reflect.ui.info.method.FieldAsGetter;
 import xy.reflect.ui.info.method.FieldAsSetter;
@@ -402,10 +404,10 @@ public class InfoCustomizations implements Serializable {
 			int nextSameCategoryInfoIndex = -1;
 			while (true) {
 				currentInfoIndex += offsetSign;
-				if ((offsetSign == -1) && (currentInfoIndex < 0)) {
+				if ((offsetSign == -1) && (currentInfoIndex == -1)) {
 					break;
 				}
-				if ((offsetSign == 1) && (currentInfoIndex > list.size())) {
+				if ((offsetSign == 1) && (currentInfoIndex == list.size())) {
 					break;
 				}
 				I otherInfo = list.get(currentInfoIndex);
@@ -808,7 +810,7 @@ public class InfoCustomizations implements Serializable {
 		protected String generatedGetterName;
 		protected String generatedSetterName;
 		protected boolean displayedAsSingletonList = false;
-		protected boolean displayedEncapsulated = false;
+		protected String nullStatusFieldNamed;
 		protected FieldTypeSpecificities specificTypeCustomizations = new FieldTypeSpecificities();
 		protected boolean formControlEmbeddingForced = false;
 		protected boolean formControlCreationForced = false;
@@ -861,12 +863,12 @@ public class InfoCustomizations implements Serializable {
 			this.specificTypeCustomizations = specificTypeCustomizations;
 		}
 
-		public boolean isDisplayedEncapsulated() {
-			return displayedEncapsulated;
+		public String getNullStatusFieldNamed() {
+			return nullStatusFieldNamed;
 		}
 
-		public void setDisplayedEncapsulated(boolean displayedEncapsulated) {
-			this.displayedEncapsulated = displayedEncapsulated;
+		public void setNullStatusFieldNamed(String nullStatusFieldNamed) {
+			this.nullStatusFieldNamed = nullStatusFieldNamed;
 		}
 
 		public boolean isDisplayedAsSingletonList() {
@@ -2948,15 +2950,18 @@ public class InfoCustomizations implements Serializable {
 		protected List<IFieldInfo> getFields(final ITypeInfo containingType) {
 			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
 			if (t != null) {
-				final List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(containingType));
-				for (Iterator<IFieldInfo> it = result.iterator(); it.hasNext();) {
-					IFieldInfo field = it.next();
+				final List<IFieldInfo> result = new ArrayList<IFieldInfo>();
+				for (IFieldInfo field:super.getFields(containingType)) {
 					FieldCustomization f = getFieldCustomization(t, field.getName());
 					if (f != null) {
 						if (f.hidden) {
-							it.remove();
+							continue;
+						}
+						if(f.nullStatusFieldNamed != null){
+							result.add(new NullStatusField(reflectionUI, field, f.nullStatusFieldNamed));
 						}
 					}
+					result.add(field);
 				}
 				for (MethodCustomization m : t.methodsCustomizations) {
 					IMethodInfo method = ReflectionUIUtils.findMethodBySignature(containingType.getMethods(),
@@ -2982,7 +2987,7 @@ public class InfoCustomizations implements Serializable {
 							result.add(newField);
 						}
 						if (m.encapsulationFieldName != null) {
-							EncapsulatedMethodField newField = new EncapsulatedMethodField(reflectionUI, method,
+							MethodAsSubObjectMethod newField = new MethodAsSubObjectMethod(reflectionUI, method,
 									m.encapsulationFieldName);
 							if (ReflectionUIUtils.findInfoByName(result, newField.getName()) != null) {
 								throw new ReflectionUIError("Failed to genrate encapsulation field for method '"
@@ -3039,8 +3044,8 @@ public class InfoCustomizations implements Serializable {
 						if (f.displayedAsSingletonList) {
 							field = new ValueAsListField(reflectionUI, field);
 						}
-						if (f.displayedEncapsulated) {
-							field = new EncapsulatedValueField(reflectionUI, field);
+						if (f.nullStatusFieldNamed != null) {
+							field = new NerverNullField(reflectionUI, field);
 						}
 						result.set(i, field);
 					}

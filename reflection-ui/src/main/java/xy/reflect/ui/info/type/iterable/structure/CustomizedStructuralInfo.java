@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.MultipleFieldsAsOne;
-import xy.reflect.ui.info.field.MultipleFieldsAsOne.ValueListItem;
+import xy.reflect.ui.info.field.MultipleFieldsAsListField;
+import xy.reflect.ui.info.field.MultipleFieldsAsListField.ValueListItem;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.filter.InfoFilterProxy;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -218,7 +218,7 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 
 	protected boolean displaysSubListFieldNameAsTreeNode(IFieldInfo subListField, ItemPosition itemPosition) {
 		ITypeInfo itemType = itemPosition.getContainingListType().getItemType();
-		if (itemPosition.getItem() instanceof MultipleFieldsAsOne.ValueListItem) {
+		if (itemPosition.getItem() instanceof MultipleFieldsAsListField.ValueListItem) {
 			return false;
 		}
 		if (itemType instanceof IMapEntryTypeInfo) {

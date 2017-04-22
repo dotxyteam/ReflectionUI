@@ -16,13 +16,13 @@ import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class EncapsulatedMethodField implements IFieldInfo {
+public class MethodAsSubObjectMethod implements IFieldInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected IMethodInfo method;
 	protected String fieldName;
 
-	public EncapsulatedMethodField(ReflectionUI reflectionUI, IMethodInfo method, String fieldName) {
+	public MethodAsSubObjectMethod(ReflectionUI reflectionUI, IMethodInfo method, String fieldName) {
 		this.reflectionUI = reflectionUI;
 		this.method = method;
 		this.fieldName = fieldName;
@@ -136,7 +136,7 @@ public class EncapsulatedMethodField implements IFieldInfo {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		EncapsulatedMethodField other = (EncapsulatedMethodField) obj;
+		MethodAsSubObjectMethod other = (MethodAsSubObjectMethod) obj;
 		if (fieldName == null) {
 			if (other.fieldName != null)
 				return false;
@@ -195,8 +195,8 @@ public class EncapsulatedMethodField implements IFieldInfo {
 			return true;
 		}
 
-		private EncapsulatedMethodField getOuterType() {
-			return EncapsulatedMethodField.this;
+		private MethodAsSubObjectMethod getOuterType() {
+			return MethodAsSubObjectMethod.this;
 		}
 
 		@Override

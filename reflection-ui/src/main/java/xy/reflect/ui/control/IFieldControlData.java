@@ -24,7 +24,7 @@ public interface IFieldControlData {
 
 	String getCaption();
 
-	Runnable getCustomUndoUpdateJob(Object value);
+	Runnable getCustomUndoUpdateJob(Object newValue);
 
 	ITypeInfo getType();
 

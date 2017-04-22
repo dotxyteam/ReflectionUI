@@ -1,3 +1,4 @@
+- what was decided about valiation of controls with no caption ???
 - allow to merge fields into sub form
 - allow to change fields layout (VERTICAL, HORIZONTAL)
 - option to put method in menu

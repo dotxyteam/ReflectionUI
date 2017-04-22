@@ -145,7 +145,15 @@ public class ClassUtils {
 		return result;
 	}
 
-	public static Object primitiveFromText(String text, Class<?> javaType) {
+	public static String primitiveToString(Object object) {
+		Class<?> javaType = object.getClass();
+		if (!isPrimitiveClassOrWrapper(javaType)) {
+			throw new RuntimeException("Invalid primitive type: '" + javaType.getName() + "'");
+		}
+		return object.toString();
+	}
+
+	public static Object primitiveFromString(String text, Class<?> javaType) {
 		if (javaType.isPrimitive()) {
 			javaType = ClassUtils.primitiveToWrapperClass(javaType);
 		}

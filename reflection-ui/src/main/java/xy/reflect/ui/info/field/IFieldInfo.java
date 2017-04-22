@@ -121,7 +121,7 @@ public interface IFieldInfo extends IInfo {
 
 	void setValue(Object object, Object value);
 
-	Runnable getCustomUndoUpdateJob(Object object, Object value);
+	Runnable getCustomUndoUpdateJob(Object object, Object newValue);
 
 	boolean isValueNullable();
 

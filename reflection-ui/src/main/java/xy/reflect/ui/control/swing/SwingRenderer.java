@@ -495,7 +495,7 @@ public class SwingRenderer {
 					return new CheckBoxControl(this, input);
 				}
 				if (ClassUtils.isPrimitiveClassOrWrapper(javaType)) {
-					return new PrimitiveValueControl(this, input, javaType);
+					return new PrimitiveValueControl(this, input);
 				}
 				if (String.class.equals(javaType)) {
 					return new TextControl(this, input);
@@ -1451,16 +1451,6 @@ public class SwingRenderer {
 		return new JLabel(prepareStringToDisplay(caption + ": "));
 	}
 
-	public void updateFormStatusBar(final JPanel form) {
-		try {
-			validateForm(form);
-			setStatusBarError(form, null);
-		} catch (Exception e) {
-			String errorMsg = new ReflectionUIError(e).toString();
-			setStatusBarError(form, errorMsg);
-		}
-	}
-
 	public void validateForm(JPanel form) throws Exception {
 		final Object object = getObjectByForm().get(form);
 		if (object == null) {
@@ -1491,7 +1481,23 @@ public class SwingRenderer {
 		new Thread("Validator: " + getObjectByForm().get(form)) {
 			@Override
 			public void run() {
-				updateFormStatusBar(form);
+				try {
+					validateForm(form);
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							setStatusBarError(form, null);
+						}
+					});
+				} catch (Exception e) {
+					final String errorMsg = new ReflectionUIError(e).toString();
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							setStatusBarError(form, errorMsg);
+						}
+					});
+				}
 			}
 		}.start();
 	}
@@ -1598,23 +1604,13 @@ public class SwingRenderer {
 						}
 						lastFieldValue = data.getValue();
 						lastFieldValueInitialized = true;
-						SwingUtilities.invokeLater(new Runnable() {
-							@Override
-							public void run() {
-								displayError(null);
-							}
-						});
+						displayError(null);
 					} catch (final Throwable t) {
 						if (!lastFieldValueInitialized) {
 							throw new ReflectionUIError(t);
 						} else {
-							SwingUtilities.invokeLater(new Runnable() {
-								@Override
-								public void run() {
-									t.printStackTrace();
-									displayError(ReflectionUIUtils.getPrettyErrorMessage(t));
-								}
-							});
+							t.printStackTrace();
+							displayError(ReflectionUIUtils.getPrettyErrorMessage(t));
 						}
 					}
 					return lastFieldValue;
@@ -1663,11 +1659,11 @@ public class SwingRenderer {
 				}
 
 				@Override
-				public Runnable getCustomUndoUpdateJob(Object value) {
+				public Runnable getCustomUndoUpdateJob(Object newValue) {
 					if (isBusyIndicationDisabled()) {
-						return super.getCustomUndoUpdateJob(value);
+						return super.getCustomUndoUpdateJob(newValue);
 					}
-					final Runnable result = data.getCustomUndoUpdateJob(value);
+					final Runnable result = data.getCustomUndoUpdateJob(newValue);
 					if (result == null) {
 						return null;
 					}
@@ -1715,8 +1711,15 @@ public class SwingRenderer {
 				if (isFieldControlObsolete()) {
 					refreshUI(true);
 				} else {
-					if (!(((fieldControl instanceof IAdvancedFieldControl)
-							&& ((IAdvancedFieldControl) fieldControl).refreshUI()))) {
+					boolean refreshed = false;
+					if (fieldControl instanceof IAdvancedFieldControl) {
+						try {
+							refreshed = ((IAdvancedFieldControl) fieldControl).refreshUI();
+						} catch (Throwable t) {
+							refreshed = false;
+						}
+					}
+					if (!refreshed) {
 						remove(fieldControl);
 						fieldControl = null;
 						refreshUI(false);
@@ -1843,8 +1846,8 @@ public class SwingRenderer {
 			}
 
 			@Override
-			public Runnable getCustomUndoUpdateJob(Object value) {
-				return finalField.getCustomUndoUpdateJob(getObject(), value);
+			public Runnable getCustomUndoUpdateJob(Object newValue) {
+				return finalField.getCustomUndoUpdateJob(getObject(), newValue);
 			}
 
 			@Override

@@ -37,6 +37,8 @@ public class ReflectionUITest {
 
 		private String theString = "azerty";
 
+		private int theBoundedInt = 0;
+
 		public int getTheBoundedInt() {
 			return theBoundedInt;
 		}
@@ -65,8 +67,6 @@ public class ReflectionUITest {
 		}
 
 		private int theInt = 50;
-
-		private int theBoundedInt = 0;
 
 		public int getTheInt() {
 			return theInt;

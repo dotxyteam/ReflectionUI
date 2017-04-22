@@ -4,10 +4,10 @@ import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.MultipleFieldsAsOne;
+import xy.reflect.ui.info.field.MultipleFieldsAsListField;
 import xy.reflect.ui.info.type.ITypeInfo;
 
-public class SubListsGroupingField extends MultipleFieldsAsOne {
+public class SubListsGroupingField extends MultipleFieldsAsListField {
 
 	public SubListsGroupingField(ReflectionUI reflectionUI, List<IFieldInfo> fields) {
 		super(reflectionUI, fields);

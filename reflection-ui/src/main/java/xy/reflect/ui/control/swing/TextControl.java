@@ -88,12 +88,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 				} finally {
 					listenerDisabled = listenerWasDisabled;
 				}
-				try {
-					onTextChange(getText());
-				} catch (Throwable t) {
-					swingRenderer.getReflectionUI().logError(t);
-					displayError(ReflectionUIUtils.getPrettyErrorMessage(t));
-				}
+				textComponentEditHappened();
 			}
 
 		};
@@ -105,20 +100,24 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 
 				@Override
 				public void undoableEditHappened(UndoableEditEvent e) {
-					if (listenerDisabled) {
-						return;
-					}
-					try {
-						onTextChange(result.getText());
-					} catch (Throwable t) {
-						swingRenderer.getReflectionUI().logError(t);
-						displayError(ReflectionUIUtils.getPrettyErrorMessage(t));
-					}
+					TextControl.this.textComponentEditHappened();
 				}
 			});
 		}
 		result.setBorder(BorderFactory.createTitledBorder(""));
 		return result;
+	}
+
+	protected void textComponentEditHappened() {
+		if (listenerDisabled) {
+			return;
+		}
+		try {
+			onTextChange(((JTextArea) textComponent).getText());
+		} catch (Throwable t) {
+			swingRenderer.getReflectionUI().logError(t);
+			displayError(ReflectionUIUtils.getPrettyErrorMessage(t));
+		}
 	}
 
 	protected void onTextChange(String newStringValue) {
@@ -134,6 +133,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 				((JTextArea) textComponent).setText(newText);
 				((JTextArea) textComponent)
 						.setCaretPosition(Math.min(lastCaretPosition, ((JTextArea) textComponent).getText().length()));
+				displayError(null);				
 				SwingRendererUtils.handleComponentSizeChange(this);
 			}
 		} finally {
@@ -145,7 +145,6 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		return new JLabel();
 	}
 
-
 	@Override
 	public Dimension getMinimumSize() {
 		return super.getPreferredSize();
@@ -154,14 +153,15 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	@Override
 	public boolean displayError(String msg) {
 		SwingRendererUtils.displayErrorOnBorderAndTooltip(this, (JComponent) textComponent, msg, swingRenderer);
+		if (msg == null) {
+			new Exception().printStackTrace();
+		}
 		return true;
 	}
 
 	@Override
 	public boolean refreshUI() {
 		updateTextComponent();
-		displayError(null);
-		SwingRendererUtils.handleComponentSizeChange(this);
 		return true;
 	}
 
@@ -207,6 +207,5 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	public String toString() {
 		return "TextControl [data=" + data + "]";
 	}
-
 
 }

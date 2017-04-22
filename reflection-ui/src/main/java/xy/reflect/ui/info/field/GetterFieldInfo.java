@@ -56,9 +56,6 @@ public class GetterFieldInfo implements IFieldInfo {
 		} catch (SecurityException e) {
 			throw new ReflectionUIError(e);
 		}
-		if (result.getExceptionTypes().length > 0) {
-			return null;
-		}
 		return result;
 	}
 

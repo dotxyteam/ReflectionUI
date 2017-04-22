@@ -552,7 +552,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -571,7 +570,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -590,7 +588,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -609,7 +606,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -628,7 +624,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -647,7 +642,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -666,7 +660,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -685,7 +678,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -704,7 +696,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -723,7 +714,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -742,7 +732,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -761,7 +750,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -780,7 +768,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -799,7 +786,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -818,7 +804,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -837,7 +822,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -856,7 +840,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -875,7 +858,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -894,7 +876,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -913,7 +894,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -932,7 +912,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>NULL_FIELD_INFO</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -951,7 +930,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -970,7 +948,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -989,7 +966,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1008,7 +984,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1027,7 +1002,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1046,7 +1020,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1065,7 +1038,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1085,7 +1057,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Type Name</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1104,7 +1075,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1131,7 +1101,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -1150,7 +1119,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -1176,7 +1144,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1195,7 +1162,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1214,7 +1180,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1240,7 +1205,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1259,7 +1223,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1278,7 +1241,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1297,7 +1259,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1316,7 +1277,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1335,7 +1295,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1354,7 +1313,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1373,7 +1331,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1392,7 +1349,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1411,7 +1367,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1451,7 +1406,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>javaType</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1470,7 +1424,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>containingTypeName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1482,7 +1435,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>create</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1494,7 +1446,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>fieldName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1527,7 +1478,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>containingTypeName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1539,7 +1489,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>create</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1559,7 +1508,6 @@
             <hidden>false</hidden>
             <customFieldCaption>File</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>file</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1578,7 +1526,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1597,7 +1544,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1616,7 +1562,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1635,7 +1580,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1654,7 +1598,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1673,7 +1616,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1692,7 +1634,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1711,7 +1652,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1731,7 +1671,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Change Columns Order</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1834,7 +1773,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>bytes</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1846,7 +1784,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>empty</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1858,7 +1795,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>CASE_INSENSITIVE_ORDER</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3330,7 +3266,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>hiddenCustomizationToolsTypeNames</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3367,7 +3302,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>columnInfo</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3390,7 +3324,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>caption</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3402,7 +3335,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>columnName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3414,7 +3346,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customCaption</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3427,7 +3358,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Hide</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>hidden</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3467,7 +3397,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>detailsAreaPosition</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3479,7 +3408,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>detailsDisplayArea</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3491,7 +3419,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>detailsDisplayOption</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3503,7 +3430,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>defaultDetailsAreaOccupationRatio</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3534,7 +3460,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>defaultDetailsAreaOccupationRatio</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3546,7 +3471,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>detailsAreaPosition</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3558,7 +3482,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>detailsDisplayArea</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3570,7 +3493,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>detailsDisplayOption</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3719,7 +3641,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>listCustomizations</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3731,7 +3652,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>typeCustomizations</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -4237,7 +4157,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>columnName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -4249,7 +4168,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customCaption</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -4262,7 +4180,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Hide</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>hidden</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -4297,7 +4214,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>implementationClassName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -4350,7 +4266,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Category Name</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>caption</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -4382,7 +4297,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Enumeration Type</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>enumerationTypeName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -4395,7 +4309,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Customize Items</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemCustomizations</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -4437,7 +4350,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Static Enumeration</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>staticEnumerationForced</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -4450,7 +4362,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Dynamic Enumeration</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>dynamicEnumerationForced</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -4487,7 +4398,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customCaption</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -4500,7 +4410,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Hide</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>hidden</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -4512,7 +4421,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -4553,17 +4461,17 @@
         <customFieldsOrder>category</customFieldsOrder>
         <customFieldsOrder>onlineHelp</customFieldsOrder>
         <customFieldsOrder>displayedAsSingletonList</customFieldsOrder>
-        <customFieldsOrder>displayedEncapsulated</customFieldsOrder>
         <customFieldsOrder>valueOptionsFieldName</customFieldsOrder>
         <customFieldsOrder>generatedGetterName</customFieldsOrder>
         <customFieldsOrder>generatedSetterName</customFieldsOrder>
         <customFieldsOrder>nullValueLabel</customFieldsOrder>
+        <customFieldsOrder>nullStatusAsBoolean</customFieldsOrder>
+        <customFieldsOrder>nullStatusFieldNamed</customFieldsOrder>
         <customFieldsOrder>customValueReturnMode</customFieldsOrder>
         <fieldsCustomizations>
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>category</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -4575,7 +4483,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>categoryOptions</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -4587,7 +4494,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customFieldCaption</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -4603,7 +4509,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Change Value Access Mode</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customValueAccessMode</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -4619,7 +4524,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Value Mode</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customValueReturnMode</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -4636,7 +4540,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Unflod (Display The Sub-Form)</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>expandSubForm</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -4648,7 +4551,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>fieldName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -4661,7 +4563,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Get-Only</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>getOnlyForced</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -4674,7 +4575,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Hide</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>hidden</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -4689,7 +4589,6 @@
             </category>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>nullValueLabel</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -4703,7 +4602,6 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <displayedEncapsulated>false</displayedEncapsulated>
                         <fieldName>empty</fieldName>
                         <formControlCreationForced>false</formControlCreationForced>
                         <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -4715,7 +4613,6 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <displayedEncapsulated>false</displayedEncapsulated>
                         <fieldName>CASE_INSENSITIVE_ORDER</fieldName>
                         <formControlCreationForced>false</formControlCreationForced>
                         <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -4727,7 +4624,6 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <displayedEncapsulated>false</displayedEncapsulated>
                         <fieldName>bytes</fieldName>
                         <formControlCreationForced>false</formControlCreationForced>
                         <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6141,7 +6037,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Not Nullable</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>nullableFacetHidden</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6153,7 +6048,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>onlineHelp</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6165,7 +6059,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>parent</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6177,7 +6070,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>specificProperties</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6192,7 +6084,6 @@
             </category>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>valueOptionsFieldName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6208,7 +6099,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Display As Getter/Setter</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>displayedAsMethods</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6224,7 +6114,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Display As Singleton List</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>displayedAsSingletonList</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6240,7 +6129,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Display Encapsulated</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>displayedEncapsulated</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6256,7 +6144,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Use Shared Type Customization</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>sharedTypeCustomizationUsed</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6272,7 +6159,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Customize Type Informations For This Field Only</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>typeSpecificitiesUsed</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6284,7 +6170,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>specificTypeCustomizations</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6299,7 +6184,6 @@
             </category>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customControlForbidden</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6314,7 +6198,6 @@
             </category>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customSetterName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6330,7 +6213,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Generate Getter</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>true</displayedEncapsulated>
             <fieldName>generatedGetterName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6346,7 +6228,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Generate Setter</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>true</displayedEncapsulated>
             <fieldName>generatedSetterName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6361,7 +6242,6 @@
             </category>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customSetterSignature</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6377,7 +6257,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Disable Sub-Form Default Filter</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>defaultFormFilterDisabled</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6389,7 +6268,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>class</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6405,7 +6283,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Forbid Custom Control</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>formControlCreationForced</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6421,8 +6298,36 @@
             <hidden>false</hidden>
             <customFieldCaption>Unflod (Display The Sub-Form)</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>formControlEmbeddingForced</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <category>
+                <caption>Display</caption>
+            </category>
+            <hidden>false</hidden>
+            <customFieldCaption>Null Status As Boolean</customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>nullStatusFieldNamed</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <category>
+                <caption>Display</caption>
+            </category>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>nullStatusAsBoolean</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
@@ -6573,7 +6478,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>criteria</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6616,7 +6520,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Regular Expression</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>regularExpression</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6628,7 +6531,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6672,7 +6574,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>className</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6684,7 +6585,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>criteria</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6757,7 +6657,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Item Field Shortcuts</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>allowedItemFieldShortcuts</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6773,7 +6672,6 @@
             <hidden>false</hidden>
             <customFieldCaption> Item Method Shortcuts</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>allowedItemMethodShortcuts</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6789,7 +6687,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Customize Columns Display</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>columnCustomizations</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6834,7 +6731,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>columnsCustomOrder</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6850,7 +6746,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Details View Mode</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customDetailsAccessMode</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -6863,7 +6758,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Editable</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>editOptions</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -6879,7 +6773,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Add Field Columns</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>fieldColumnsAdded</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6895,7 +6788,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Fields Excluded From Details View</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>fieldsExcludedFromItemDetails</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6911,7 +6803,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Disable &lt;Add&gt; Option</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemCreationDisabled</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6927,7 +6818,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Disable &lt;Remove&gt; Option</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemDeletionDisabled</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6943,7 +6833,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Disable Details View</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemDetailsViewDisabled</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6959,7 +6848,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Disable &lt;Move&gt; Option</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemMoveDisabled</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6975,7 +6863,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Add Item Type Column</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemTypeColumnAdded</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6988,7 +6875,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Item Type</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemTypeCustomization</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7001,7 +6887,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Item Type</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemTypeName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7014,7 +6899,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Sort Items</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>listSorted</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -7027,7 +6911,6 @@
             <hidden>false</hidden>
             <customFieldCaption>List Type</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>listTypeName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7043,7 +6926,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Methods Excluded From Details View</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>methodsExcludedFromItemDetails</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7055,7 +6937,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>parent</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7071,7 +6952,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Add Item position Column</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>positionColumnAdded</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7087,7 +6967,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Add toString() Column</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>stringValueColumnAdded</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7103,7 +6982,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Auto-Discover Tree Structure</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>treeStructureDiscoverySettings</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -7119,7 +6997,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Allow To Select Item Constructor</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemContructorSelectableforced</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7223,7 +7100,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Can Add</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemCreationEnabled</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7236,7 +7112,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Can Delete</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemDeletionEnabled</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7249,7 +7124,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Can Move</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>itemMoveEnabled</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7262,7 +7136,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Create New List Intance On Modification</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>listInstanciationOption</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -7294,7 +7167,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Shortcut Always Displayed</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>alwaysShown</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7306,7 +7178,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customFieldCaption</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7318,7 +7189,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>fieldName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7350,7 +7220,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Shortcut Always Displayed</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>alwaysShown</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7363,7 +7232,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Shortcut Caption</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>caption</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7375,7 +7243,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customMethodCaption</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7387,7 +7254,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>methodSignature</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7430,7 +7296,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>category</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7442,7 +7307,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>categoryOptions</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7454,7 +7318,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customMethodCaption</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7469,7 +7332,6 @@
             </category>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customReturnValueAccessMode</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7484,7 +7346,6 @@
             </category>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customReturnValueReturnMode</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7500,7 +7361,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Return Value Mode</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customValueReturnMode</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7514,7 +7374,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Hide</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>hidden</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7527,7 +7386,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Signature</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>methodSignature</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7542,7 +7400,6 @@
             </category>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>nullReturnValueLabel</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7554,7 +7411,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>onlineHelp</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7570,7 +7426,6 @@
             <hidden>false</hidden>
             <customFieldCaption></customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>parametersCustomizations</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7624,7 +7479,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>parent</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7637,7 +7491,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Read-Only</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>readOnlyForced</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7649,7 +7502,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>specificProperties</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7665,7 +7517,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Validating</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>validating</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7681,7 +7532,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Display As Field</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>displayedAsField</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7693,7 +7543,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>iconImageFile</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7705,7 +7554,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>specificReturnValueTypeCustomizations</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7721,7 +7569,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Detached Return Value</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>detachedReturnValueForced</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7737,7 +7584,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Display Return Value As Field</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>true</displayedEncapsulated>
             <fieldName>generatedFieldName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7749,7 +7595,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>class</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7765,7 +7610,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Display Encapsulated</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>true</displayedEncapsulated>
             <fieldName>encapsulationFieldName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7781,7 +7625,6 @@
             <hidden>false</hidden>
             <customFieldCaption>DIsplay Parameters As Sub-Form</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>true</displayedEncapsulated>
             <fieldName>parametersFormFieldName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7793,7 +7636,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>iconImagePath</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7805,7 +7647,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>methodName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7974,7 +7815,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Custom Caption</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customParameterCaption</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -7987,7 +7827,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Hide</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>hidden</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8000,7 +7839,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Not Nullable</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>nullableFacetHidden</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8012,7 +7850,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>onlineHelp</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8025,7 +7862,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Name</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>parameterName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8037,7 +7873,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>specificProperties</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8075,7 +7910,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Heterogeneous Tree</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>heterogeneousTree</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8087,7 +7921,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>treeColumnFieldName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8129,7 +7962,6 @@
             </category>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customFieldsOrder</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8144,7 +7976,6 @@
             </category>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customMethodsOrder</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8156,7 +7987,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customTypeCaption</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8172,7 +8002,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Customize Fields Display</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>fieldsCustomizations</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8298,7 +8127,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>iconImageFile</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8314,7 +8142,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Allow to Classify Fields and Methods</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>memberCategories</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8330,7 +8157,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Customize Methods Display</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>methodsCustomizations</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8446,7 +8272,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>onlineHelp</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8458,7 +8283,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>parent</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8474,7 +8298,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Specify (Additional) Sub-Types</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>polymorphicSubTypeFinders</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8519,7 +8342,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>specificProperties</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8531,7 +8353,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>typeName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8544,7 +8365,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Hide Undo/Redo Options</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>undoManagementHidden</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8556,7 +8376,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>unoManagementHidden</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8569,7 +8388,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Immutable</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>immutableForced</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8582,7 +8400,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Abstract</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>abstractForced</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8594,7 +8411,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>iconImagePath</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8726,7 +8542,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>alternative</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8739,7 +8554,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>alternativeOptions</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8751,7 +8565,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>fileSpecification</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8770,7 +8583,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>CLASSPATH_RESOURCE_PREFIX</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8782,7 +8594,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>alternativeOptions</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8795,7 +8606,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Select</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>chosenAlternative</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8825,7 +8635,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>file</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8837,7 +8646,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>specification</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8849,7 +8657,6 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>pathKind</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -8920,7 +8727,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -8939,7 +8745,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -8981,7 +8786,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Custom Instance Type</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>customInstanceTypeFinder</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9022,7 +8826,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9041,7 +8844,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9053,7 +8855,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9072,7 +8873,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9084,7 +8884,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9103,7 +8902,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9115,7 +8913,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9134,7 +8931,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9146,7 +8942,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9165,7 +8960,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9177,7 +8971,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9196,7 +8989,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9208,7 +9000,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9227,7 +9018,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9246,7 +9036,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9265,7 +9054,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9277,7 +9065,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9296,7 +9083,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9308,7 +9094,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9327,7 +9112,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9339,7 +9123,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9358,7 +9141,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9370,7 +9152,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>polymorphicValue</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9382,7 +9163,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9401,7 +9181,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>value</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9413,7 +9192,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9433,7 +9211,6 @@
             <hidden>false</hidden>
             <customFieldCaption></customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9452,7 +9229,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9471,7 +9247,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9490,7 +9265,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9509,7 +9283,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9528,7 +9301,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9547,7 +9319,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9566,7 +9337,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9590,7 +9360,6 @@
             </specificProperties>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>file</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9609,7 +9378,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9628,7 +9396,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9647,7 +9414,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9666,7 +9432,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9685,7 +9450,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9704,7 +9468,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9723,7 +9486,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9742,7 +9504,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9761,7 +9522,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9780,7 +9540,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9799,7 +9558,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9819,7 +9577,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9839,7 +9596,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9858,7 +9614,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9877,7 +9632,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9897,7 +9651,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Method Name</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9916,7 +9669,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9936,7 +9688,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Method Name</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9955,7 +9706,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -9975,7 +9725,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Field Name</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -9994,7 +9743,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -10014,7 +9762,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Field Name</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -10033,7 +9780,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -10053,7 +9799,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Field Name</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -10073,7 +9818,6 @@
             <hidden>false</hidden>
             <customFieldCaption></customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>file</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -10092,7 +9836,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -10111,7 +9854,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -10457,7 +10199,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -10476,7 +10217,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -10495,7 +10235,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -10514,7 +10253,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -10860,7 +10598,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>fileNameExtensionFilters</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -10893,7 +10630,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>fileNameFilters</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -10905,7 +10641,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>actionTitle</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -10924,7 +10659,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>description</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -10936,7 +10670,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>extensions</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -11013,7 +10746,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Description</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>parameter1</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -11026,7 +10758,6 @@
             <hidden>false</hidden>
             <customFieldCaption>Extensions</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>parameter2</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -11045,7 +10776,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -11064,7 +10794,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -11104,7 +10833,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -11123,7 +10851,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -11142,7 +10869,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>description</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -11154,7 +10880,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>extensions</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -11173,7 +10898,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -11192,7 +10916,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -11211,7 +10934,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -11230,7 +10952,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -11249,7 +10970,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>description</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -11261,7 +10981,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>extensions</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -11290,7 +11009,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -11324,7 +11042,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>minimum</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -11336,7 +11053,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>maximum</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -11348,7 +11064,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>paintLabels</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -11360,7 +11075,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>paintTicks</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -11372,7 +11086,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>minorTickSpacing</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -11394,7 +11107,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>minimum</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -11406,7 +11118,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>maximum</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -11418,7 +11129,6 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
-            <displayedEncapsulated>false</displayedEncapsulated>
             <fieldName>stepSize</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -11437,6 +11147,63 @@
             <validating>true</validating>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.control.swing.plugin.SpinnerPlugin$SpinnerConfiguration</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customFieldCaption>Field Name</customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customFieldCaption>Boolean Field Name</customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=nullStatusFieldNamed, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customFieldCaption>Field Name</customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=generatedGetterName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>
