@@ -15,7 +15,7 @@ import java.util.Vector;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.SwingRenderer;
-import xy.reflect.ui.control.swing.customization.SwingCustomizer;
+import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;

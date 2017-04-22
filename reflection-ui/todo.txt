@@ -1,3 +1,8 @@
+- clean:
+	* extract InfoCut.Factory class
+	* check Info class names
+		. remove "Info" except for interfaces
+		. find better names if possible
 - what was decided about valiation of controls with no caption ???
 - allow to merge fields into sub form
 - allow to change fields layout (VERTICAL, HORIZONTAL)

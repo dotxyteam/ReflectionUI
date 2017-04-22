@@ -1,4 +1,4 @@
-package xy.reflect.ui.control.swing.customization;
+package xy.reflect.ui.control.swing.customizer;
 
 import java.awt.Component;
 import java.awt.Dimension;
