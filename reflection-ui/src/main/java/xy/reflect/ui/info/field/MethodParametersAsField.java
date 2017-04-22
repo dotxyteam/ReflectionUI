@@ -114,7 +114,7 @@ public class MethodParametersAsField implements IFieldInfo {
 
 	@Override
 	public boolean isFormControlMandatory() {
-		return false;
+		return true;
 	}
 
 	@Override

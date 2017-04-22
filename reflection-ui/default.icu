@@ -2969,6 +2969,11 @@
             </entry>
         </specificProperties>
         <abstractForced>false</abstractForced>
+        <customFieldsOrder>theLong</customFieldsOrder>
+        <customFieldsOrder>theInt</customFieldsOrder>
+        <customFieldsOrder>theExceptionList</customFieldsOrder>
+        <customFieldsOrder>theExceptionMap</customFieldsOrder>
+        <customFieldsOrder>x</customFieldsOrder>
         <customFieldsOrder>theException</customFieldsOrder>
         <customFieldsOrder>theException2</customFieldsOrder>
         <customFieldsOrder>theBooleanObject</customFieldsOrder>
@@ -2979,7 +2984,6 @@
         <customFieldsOrder>pI</customFieldsOrder>
         <customFieldsOrder>theFloat</customFieldsOrder>
         <customFieldsOrder>theBoundedInt</customFieldsOrder>
-        <customFieldsOrder>theInt</customFieldsOrder>
         <customFieldsOrder>theFile</customFieldsOrder>
         <customFieldsOrder>theDouble</customFieldsOrder>
         <customFieldsOrder>theChoice</customFieldsOrder>
@@ -3174,7 +3178,6 @@
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
-            <nullStatusFieldNamed>makeAChoice</nullStatusFieldNamed>
             <nullValueLabel>&lt;Please Choose&gt;</nullValueLabel>
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
@@ -5209,6 +5212,7 @@
             </specificProperties>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <encapsulationFieldName>x</encapsulationFieldName>
             <fieldName>theByte</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -5245,6 +5249,7 @@
             </specificProperties>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <encapsulationFieldName>x</encapsulationFieldName>
             <fieldName>theShort</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -6457,6 +6462,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <encapsulationFieldName>x</encapsulationFieldName>
             <iconImagePath>
                 <specification></specification>
             </iconImagePath>
@@ -6469,6 +6475,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <encapsulationFieldName>x</encapsulationFieldName>
             <methodSignature>void incrementTheInt()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -6493,6 +6500,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <encapsulationFieldName>x</encapsulationFieldName>
             <methodSignature>void resettheStringList()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
@@ -6526,6 +6534,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <encapsulationFieldName>x</encapsulationFieldName>
             <methodSignature>void throwException()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>

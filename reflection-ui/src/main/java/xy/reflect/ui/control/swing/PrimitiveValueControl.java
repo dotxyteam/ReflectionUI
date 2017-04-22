@@ -1,9 +1,5 @@
 package xy.reflect.ui.control.swing;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.text.ParsePosition;
-
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
@@ -12,7 +8,6 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ClassUtils;
-import xy.reflect.ui.util.NumberUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class PrimitiveValueControl extends TextControl {
@@ -67,26 +62,11 @@ public class PrimitiveValueControl extends TextControl {
 	}
 
 	protected static String toText(Object object) {
-		if (object instanceof Number) {
-			return NumberFormat.getInstance().format(object);
-		} else {
-			return ClassUtils.primitiveToString(object);
-		}
+		return ClassUtils.primitiveToString(object);
 	}
 
 	protected static Object fromText(String text, Class<?> primitiveWrapperClass) {
-		if (Number.class.isAssignableFrom(primitiveWrapperClass)) {
-			ParsePosition parseposition = new ParsePosition(0);
-			Number result = NumberFormat.getInstance().parse(text, parseposition);
-			if (parseposition.getIndex() != (text.length())) {
-				throw new NumberFormatException("'" + text + "' is not a valid "
-						+ primitiveWrapperClass.getSimpleName().toLowerCase() + " number");
-			}
-			result = NumberUtils.convertNumberToTargetClass(result, primitiveWrapperClass);
-			return result;
-		} else {
-			return ClassUtils.primitiveFromString(text, primitiveWrapperClass);
-		}
+		return ClassUtils.primitiveFromString(text, primitiveWrapperClass);
 	}
 
 	@Override

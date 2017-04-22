@@ -4465,8 +4465,8 @@
         <customFieldsOrder>generatedGetterName</customFieldsOrder>
         <customFieldsOrder>generatedSetterName</customFieldsOrder>
         <customFieldsOrder>nullValueLabel</customFieldsOrder>
-        <customFieldsOrder>nullStatusAsBoolean</customFieldsOrder>
         <customFieldsOrder>nullStatusFieldNamed</customFieldsOrder>
+        <customFieldsOrder>encapsulationFieldName</customFieldsOrder>
         <customFieldsOrder>customValueReturnMode</customFieldsOrder>
         <fieldsCustomizations>
             <specificProperties/>
@@ -6334,6 +6334,21 @@
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <category>
+                <caption>Display</caption>
+            </category>
+            <hidden>false</hidden>
+            <customFieldCaption>Display In Sub-Form</customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>encapsulationFieldName</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <memberCategories>
             <caption>Display</caption>
@@ -7277,10 +7292,11 @@
     <typeCustomizations>
         <specificProperties/>
         <abstractForced>false</abstractForced>
+        <customFieldsOrder>methodName</customFieldsOrder>
         <customFieldsOrder>generatedFieldName</customFieldsOrder>
-        <customFieldsOrder>encapsulationFieldName</customFieldsOrder>
         <customFieldsOrder>parametersFormFieldName</customFieldsOrder>
         <customFieldsOrder>nullReturnValueLabel</customFieldsOrder>
+        <customFieldsOrder>encapsulationFieldName</customFieldsOrder>
         <customFieldsOrder>customValueReturnMode</customFieldsOrder>
         <customFieldsOrder>methodSignature</customFieldsOrder>
         <customFieldsOrder>hidden</customFieldsOrder>
@@ -7608,7 +7624,7 @@
                 <caption>Display</caption>
             </category>
             <hidden>false</hidden>
-            <customFieldCaption>Display Encapsulated</customFieldCaption>
+            <customFieldCaption>Display In Sub-Form</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>encapsulationFieldName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
@@ -11204,6 +11220,44 @@
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [context=FieldContext [fieldName=generatedGetterName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customFieldCaption>Sub-Form Field Name</customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=encapsulationFieldName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$MethodCustomization], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customFieldCaption>Sub-Form Field Name</customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=encapsulationFieldName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

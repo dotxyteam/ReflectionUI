@@ -153,9 +153,6 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	@Override
 	public boolean displayError(String msg) {
 		SwingRendererUtils.displayErrorOnBorderAndTooltip(this, (JComponent) textComponent, msg, swingRenderer);
-		if (msg == null) {
-			new Exception().printStackTrace();
-		}
 		return true;
 	}
 
