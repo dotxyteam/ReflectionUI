@@ -1447,7 +1447,7 @@ public class SwingRenderer {
 					fieldControlPlaceHolderLayoutConstraints.gridx = 1;
 				}
 				fieldControlPlaceHolderLayoutConstraints.gridy = fieldIndex;
-				
+
 			} else if (fieldsOrientation == ITypeInfo.FieldsLayout.HORIZONTAL_FLOW) {
 				if (!shouldHaveSeparateCaptionControl) {
 					fieldControlPlaceHolderLayoutConstraints.gridheight = 2;
@@ -1456,7 +1456,7 @@ public class SwingRenderer {
 					fieldControlPlaceHolderLayoutConstraints.gridy = 1;
 				}
 				fieldControlPlaceHolderLayoutConstraints.gridx = fieldIndex;
-				
+
 			} else {
 				throw new ReflectionUIError();
 			}

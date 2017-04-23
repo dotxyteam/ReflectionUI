@@ -2166,6 +2166,31 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		@Override
+		protected Object[] getValueOptions(Object object, IFieldInfo field, ITypeInfo containingType) {
+			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
+			if (t != null) {
+				FieldCustomization f = getFieldCustomization(t, field.getName());
+				if (f != null) {
+					if (f.valueOptionsFieldName != null) {
+						IFieldInfo valueOptionsfield = ReflectionUIUtils.findInfoByName(containingType.getFields(),
+								f.valueOptionsFieldName);
+						if (valueOptionsfield == null) {
+							throw new ReflectionUIError(
+									"Value options field not found: '" + f.valueOptionsFieldName + "'");
+						}
+						IListTypeInfo valueOptionsfieldType = (IListTypeInfo) valueOptionsfield.getType();
+						Object options = valueOptionsfield.getValue(object);
+						if (options == null) {
+							return null;
+						}
+						return valueOptionsfieldType.toArray(options);
+					}
+				}
+			}
+			return super.getValueOptions(object, field, containingType);
+		}
+
+		@Override
 		protected ValueReturnMode getValueReturnMode(IMethodInfo method, ITypeInfo containingType) {
 			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
 			if (t != null) {
@@ -2904,6 +2929,9 @@ public class InfoCustomizations implements Serializable {
 					if (f.getOnlyForced) {
 						return true;
 					}
+					if (f.customSetterSignature != null) {
+						return false;
+					}
 				}
 			}
 			return super.isGetOnly(field, containingType);
@@ -2911,6 +2939,20 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		protected void setValue(Object object, Object value, IFieldInfo field, ITypeInfo containingType) {
+			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
+			if (t != null) {
+				FieldCustomization f = getFieldCustomization(t, field.getName());
+				if (f != null) {
+					if (f.customSetterSignature != null) {
+						IMethodInfo customMethod = ReflectionUIUtils.findMethodBySignature(containingType.getMethods(),
+								f.customSetterSignature);
+						if (customMethod == null) {
+							throw new ReflectionUIError("Custom setter not found: '" + f.customSetterSignature + "'");
+						}
+						customMethod.invoke(object, new InvocationData(value));
+					}
+				}
+			}
 			super.setValue(object, value, field, containingType);
 		}
 
@@ -3003,26 +3045,140 @@ public class InfoCustomizations implements Serializable {
 		protected List<IFieldInfo> getFields(final ITypeInfo containingType) {
 			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
 			if (t != null) {
-				final List<IFieldInfo> result = new ArrayList<IFieldInfo>();
+				List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(containingType));
+				result = addGeneratedFields(result, containingType);
+				result = encapsulateFields(result, containingType);
+				result = transformFields(result, containingType);
+				result = removeHiddenFields(result, containingType);
+				result = sortFields(result, containingType);
+				return result;
+			}
+			return super.getFields(containingType);
+		}
 
-				for (IFieldInfo field : super.getFields(containingType)) {
+		protected List<IFieldInfo> sortFields(List<IFieldInfo> fields, ITypeInfo containingType) {
+			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
+			if (t != null) {
+				if (t != null) {
+					List<IFieldInfo> result = new ArrayList<IFieldInfo>(fields);
+					if (t.customFieldsOrder != null) {
+						Collections.sort(result, ReflectionUIUtils.getInfosComparator(t.customFieldsOrder, result));
+					}
+					return result;
+				}
+			}
+			return fields;
+		}
+
+		protected List<IFieldInfo> transformFields(List<IFieldInfo> fields, ITypeInfo containingType) {
+			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
+			if (t != null) {
+				List<IFieldInfo> result = new ArrayList<IFieldInfo>(fields);
+				for (int i = 0; i < result.size(); i++) {
+					IFieldInfo field = result.get(i);
+					final FieldCustomization f = getFieldCustomization(t, field.getName());
+					if (f != null) {
+
+						if (f.displayedAsSingletonList) {
+							field = new ValueAsListField(reflectionUI, field);
+						}
+						if (f.nullStatusFieldNamed != null) {
+							field = new NerverNullField(reflectionUI, field);
+						}
+						result.set(i, field);
+					}
+				}
+				return result;
+			}
+			return fields;
+		}
+
+		protected List<IFieldInfo> encapsulateFields(List<IFieldInfo> fields, ITypeInfo containingType) {
+			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
+			if (t != null) {
+				List<IFieldInfo> result = new ArrayList<IFieldInfo>(fields);
+				Map<String, Pair<List<IFieldInfo>, List<IMethodInfo>>> encapsulatedMembersByCapsuleFieldName = new HashMap<String, Pair<List<IFieldInfo>, List<IMethodInfo>>>();
+				for (IFieldInfo field : fields) {
+					FieldCustomization fc = getFieldCustomization(t, field.getName());
+					if (fc != null) {
+						if (fc.encapsulationFieldName != null) {
+							Pair<List<IFieldInfo>, List<IMethodInfo>> encapsulatedMembers = encapsulatedMembersByCapsuleFieldName
+									.get(fc.encapsulationFieldName);
+							if (encapsulatedMembers == null) {
+								encapsulatedMembers = new Pair<List<IFieldInfo>, List<IMethodInfo>>(
+										new ArrayList<IFieldInfo>(), new ArrayList<IMethodInfo>());
+								encapsulatedMembersByCapsuleFieldName.put(fc.encapsulationFieldName,
+										encapsulatedMembers);
+							}
+							encapsulatedMembers.getFirst().add(field);
+							result.remove(field);
+						}
+					}
+				}
+				for (IMethodInfo method : super.getMethods(containingType)) {
+					MethodCustomization mc = getMethodCustomization(t, ReflectionUIUtils.getMethodSignature(method));
+					if (mc != null) {
+						if (mc.encapsulationFieldName != null) {
+							Pair<List<IFieldInfo>, List<IMethodInfo>> encapsulatedMembers = encapsulatedMembersByCapsuleFieldName
+									.get(mc.encapsulationFieldName);
+							if (encapsulatedMembers == null) {
+								encapsulatedMembers = new Pair<List<IFieldInfo>, List<IMethodInfo>>(
+										new ArrayList<IFieldInfo>(), new ArrayList<IMethodInfo>());
+								encapsulatedMembersByCapsuleFieldName.put(mc.encapsulationFieldName,
+										encapsulatedMembers);
+							}
+							encapsulatedMembers.getSecond().add(method);
+						}
+					}
+				}
+
+				if (encapsulatedMembersByCapsuleFieldName.size() == 0) {
+					return fields;
+				}
+
+				for (String capsuleFieldName : encapsulatedMembersByCapsuleFieldName.keySet()) {
+					Pair<List<IFieldInfo>, List<IMethodInfo>> pair = encapsulatedMembersByCapsuleFieldName
+							.get(capsuleFieldName);
+					List<IFieldInfo> encapsulatedFields = pair.getFirst();
+					List<IMethodInfo> encapsulatedMethods = pair.getSecond();
+					IFieldInfo duplicateField = ReflectionUIUtils.findInfoByName(result, capsuleFieldName);
+					if (duplicateField != null) {
+						if (duplicateField instanceof MultipleMembersAsField) {
+							MultipleMembersAsField capsuleField = (MultipleMembersAsField) duplicateField;
+							encapsulatedFields.addAll(0, capsuleField.getFields());
+							encapsulatedMethods.addAll(0, capsuleField.getMethods());
+							result.remove(capsuleField);
+						} else {
+							throw new ReflectionUIError(
+									"Failed to generate capsule field: Duplicate field name detected: '"
+											+ capsuleFieldName + "'");
+						}
+					}
+					String contextId = "EncapsulationContext [containingType=" + containingType.getName() + "]";
+					result.add(new MultipleMembersAsField(reflectionUI, capsuleFieldName, encapsulatedFields,
+							encapsulatedMethods, contextId));
+				}
+
+				return encapsulateFields(result, containingType);
+			}
+			return fields;
+		}
+
+		protected List<IFieldInfo> addGeneratedFields(List<IFieldInfo> fields, ITypeInfo containingType) {
+			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
+			if (t != null) {
+				List<IFieldInfo> result = new ArrayList<IFieldInfo>(fields);
+				for (IFieldInfo field : fields) {
 					FieldCustomization f = getFieldCustomization(t, field.getName());
 					if (f != null) {
-						if (f.hidden) {
-							continue;
-						}
-						if (f.encapsulationFieldName != null) {
-							continue;
-						}
 						if (f.nullStatusFieldNamed != null) {
 							result.add(new NullStatusField(reflectionUI, field, f.nullStatusFieldNamed));
 						}
 					}
-					result.add(field);
 				}
 
 				for (MethodCustomization m : t.methodsCustomizations) {
-					IMethodInfo method = ReflectionUIUtils.findMethodBySignature(containingType.getMethods(),
+					IMethodInfo method = ReflectionUIUtils.findMethodBySignature(super.getMethods(containingType),
 							m.methodSignature);
 					if (method != null) {
 						if (m.generatedFieldName != null) {
@@ -3046,135 +3202,91 @@ public class InfoCustomizations implements Serializable {
 						}
 					}
 				}
+				return result;
+			}
+			return fields;
+		}
 
-				Map<String, Pair<List<IFieldInfo>, List<IMethodInfo>>> encapsulatedMembersByCapsuleFieldName = new HashMap<String, Pair<List<IFieldInfo>, List<IMethodInfo>>>();
-				{
-					for (IFieldInfo field : containingType.getFields()) {
-						FieldCustomization fc = getFieldCustomization(t, field.getName());
-						if (fc != null) {
-							if (fc.encapsulationFieldName != null) {
-								Pair<List<IFieldInfo>, List<IMethodInfo>> encapsulatedMembers = encapsulatedMembersByCapsuleFieldName
-										.get(fc.encapsulationFieldName);
-								if (encapsulatedMembers == null) {
-									encapsulatedMembers = new Pair<List<IFieldInfo>, List<IMethodInfo>>(
-											new ArrayList<IFieldInfo>(), new ArrayList<IMethodInfo>());
-									encapsulatedMembersByCapsuleFieldName.put(fc.encapsulationFieldName,
-											encapsulatedMembers);
-								}
-								encapsulatedMembers.getFirst().add(field);
-							}
-						}
-					}
-					for (IMethodInfo method : containingType.getMethods()) {
-						MethodCustomization mc = getMethodCustomization(t,
-								ReflectionUIUtils.getMethodSignature(method));
-						if (mc != null) {
-							if (mc.encapsulationFieldName != null) {
-								Pair<List<IFieldInfo>, List<IMethodInfo>> encapsulatedMembers = encapsulatedMembersByCapsuleFieldName
-										.get(mc.encapsulationFieldName);
-								if (encapsulatedMembers == null) {
-									encapsulatedMembers = new Pair<List<IFieldInfo>, List<IMethodInfo>>(
-											new ArrayList<IFieldInfo>(), new ArrayList<IMethodInfo>());
-									encapsulatedMembersByCapsuleFieldName.put(mc.encapsulationFieldName,
-											encapsulatedMembers);
-								}
-								encapsulatedMembers.getSecond().add(method);
-							}
-						}
-					}
-					for (String capsuleFieldName : encapsulatedMembersByCapsuleFieldName.keySet()) {
-						if (ReflectionUIUtils.findInfoByName(result, capsuleFieldName) != null) {
-							throw new ReflectionUIError(
-									"Failed to generate encapsulation field: Duplicate field name detected: '"
-											+ capsuleFieldName + "'");
-						}
-						Pair<List<IFieldInfo>, List<IMethodInfo>> pair = encapsulatedMembersByCapsuleFieldName
-								.get(capsuleFieldName);
-						List<IFieldInfo> encapsulatedFields = pair.getFirst();
-						List<IMethodInfo> encapsulatedMethods = pair.getSecond();
-						String contextId = "EncapsulationContext [containingType=" + containingType.getName() + "]";
-						result.add(new MultipleMembersAsField(reflectionUI, capsuleFieldName, encapsulatedFields,
-								encapsulatedMethods, contextId));
-					}
-				}
-
-				for (int i = 0; i < result.size(); i++) {
-					IFieldInfo field = result.get(i);
-					final FieldCustomization f = getFieldCustomization(t, field.getName());
+		protected List<IFieldInfo> removeHiddenFields(List<IFieldInfo> fields, ITypeInfo containingType) {
+			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
+			if (t != null) {
+				List<IFieldInfo> result = new ArrayList<IFieldInfo>();
+				for (IFieldInfo field : fields) {
+					FieldCustomization f = getFieldCustomization(t, field.getName());
 					if (f != null) {
-						if (f.customSetterSignature != null) {
-							field = new FieldInfoProxy(field) {
-								@Override
-								public void setValue(Object object, Object value) {
-									IMethodInfo customMethod = ReflectionUIUtils.findMethodBySignature(
-											containingType.getMethods(), f.customSetterSignature);
-									if (customMethod == null) {
-										throw new ReflectionUIError(
-												"Custom setter not found: '" + f.customSetterSignature + "'");
-									}
-									customMethod.invoke(object, new InvocationData(value));
-								}
-
-								@Override
-								public boolean isGetOnly() {
-									return false;
-								}
-							};
+						if (f.hidden) {
+							continue;
 						}
-						if (f.valueOptionsFieldName != null) {
-							field = new FieldInfoProxy(field) {
-								@Override
-								public Object[] getValueOptions(Object object) {
-									IFieldInfo valueOptionsfield = ReflectionUIUtils
-											.findInfoByName(containingType.getFields(), f.valueOptionsFieldName);
-									if (valueOptionsfield == null) {
-										throw new ReflectionUIError(
-												"Value options field not found: '" + f.valueOptionsFieldName + "'");
-									}
-									IListTypeInfo valueOptionsfieldType = (IListTypeInfo) valueOptionsfield.getType();
-									Object options = valueOptionsfield.getValue(object);
-									if (options == null) {
-										return null;
-									}
-									return valueOptionsfieldType.toArray(options);
-								}
-
-							};
+						if (f.encapsulationFieldName != null) {
+							continue;
 						}
-						if (f.displayedAsSingletonList) {
-							field = new ValueAsListField(reflectionUI, field);
-						}
-						if (f.nullStatusFieldNamed != null) {
-							field = new NerverNullField(reflectionUI, field);
-						}
-						result.set(i, field);
 					}
-				}
-				if (t.customFieldsOrder != null) {
-					Collections.sort(result, ReflectionUIUtils.getInfosComparator(t.customFieldsOrder, result));
+					result.add(field);
 				}
 				return result;
 			}
-			return super.getFields(containingType);
+			return fields;
 		}
 
 		@Override
 		protected List<IMethodInfo> getMethods(ITypeInfo containingType) {
 			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
 			if (t != null) {
-				List<IMethodInfo> result = new ArrayList<IMethodInfo>();
-				for (IMethodInfo method : super.getMethods(containingType)) {
+				List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getMethods(containingType));
+				result = addGeneratedMethods(result, containingType);
+				result = transformMethods(result, containingType);
+				result = removeHiddenMethods(result, containingType);
+				result = sortMethods(result, containingType);
+				return result;
+			}
+			return super.getMethods(containingType);
+		}
+
+		protected List<IMethodInfo> sortMethods(List<IMethodInfo> methods, ITypeInfo containingType) {
+			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
+			if (t != null) {
+				List<IMethodInfo> result = new ArrayList<IMethodInfo>(methods);
+				if (t.customMethodsOrder != null) {
+					Collections.sort(result, ReflectionUIUtils.getInfosComparator(t.customMethodsOrder, result));
+				}
+				return result;
+			}
+			return methods;
+		}
+
+		protected List<IMethodInfo> transformMethods(List<IMethodInfo> methods, ITypeInfo containingType) {
+			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
+			if (t != null) {
+				List<IMethodInfo> result = new ArrayList<IMethodInfo>(methods);
+				for (int i = 0; i < result.size(); i++) {
+					IMethodInfo method = result.get(i);
 					MethodCustomization m = getMethodCustomization(t, ReflectionUIUtils.getMethodSignature(method));
 					if (m != null) {
-						if (m.hidden) {
-							continue;
-						}
-						if (m.encapsulationFieldName != null) {
-							continue;
+						if (m.parametersFormFieldName != null) {
+							method = new MethodInfoProxy(method) {
+								@Override
+								public List<IParameterInfo> getParameters() {
+									return Collections.emptyList();
+								}
+
+								@Override
+								public void validateParameters(Object object, InvocationData invocationData)
+										throws Exception {
+								}
+							};
 						}
 					}
-					result.add(method);
+					result.set(i, method);
 				}
+				return result;
+			}
+			return methods;
+		}
+
+		protected List<IMethodInfo> addGeneratedMethods(List<IMethodInfo> methods, ITypeInfo containingType) {
+			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
+			if (t != null) {
+				List<IMethodInfo> result = new ArrayList<IMethodInfo>(methods);
 				for (FieldCustomization f : t.fieldsCustomizations) {
 					IFieldInfo field = ReflectionUIUtils.findInfoByName(containingType.getFields(), f.fieldName);
 					if (field != null) {
@@ -3198,33 +3310,30 @@ public class InfoCustomizations implements Serializable {
 						}
 					}
 				}
-				for (int i = 0; i < result.size(); i++) {
-					IMethodInfo method = result.get(i);
+				return result;
+			}
+			return methods;
+		}
+
+		protected List<IMethodInfo> removeHiddenMethods(List<IMethodInfo> methods, ITypeInfo containingType) {
+			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
+			if (t != null) {
+				List<IMethodInfo> result = new ArrayList<IMethodInfo>();
+				for (IMethodInfo method : methods) {
 					MethodCustomization m = getMethodCustomization(t, ReflectionUIUtils.getMethodSignature(method));
 					if (m != null) {
-						if (m.parametersFormFieldName != null) {
-							method = new MethodInfoProxy(method) {
-								@Override
-								public List<IParameterInfo> getParameters() {
-									return Collections.emptyList();
-								}
-
-								@Override
-								public void validateParameters(Object object, InvocationData invocationData)
-										throws Exception {
-								}
-							};
+						if (m.hidden) {
+							continue;
+						}
+						if (m.encapsulationFieldName != null) {
+							continue;
 						}
 					}
-					result.set(i, method);
-				}
-
-				if (t.customMethodsOrder != null) {
-					Collections.sort(result, ReflectionUIUtils.getInfosComparator(t.customMethodsOrder, result));
+					result.add(method);
 				}
 				return result;
 			}
-			return super.getMethods(containingType);
+			return methods;
 		}
 
 		@Override

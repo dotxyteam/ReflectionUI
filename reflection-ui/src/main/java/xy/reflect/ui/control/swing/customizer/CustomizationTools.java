@@ -759,8 +759,12 @@ public class CustomizationTools {
 	}
 
 	public void rebuildCustomizerForm(JPanel form) {
-		swingCustomizer.recreateFormContent(form);
-		swingCustomizer.validateFormInBackgroundAndReport(form);
+		try {
+			swingCustomizer.recreateFormContent(form);
+			swingCustomizer.validateFormInBackgroundAndReport(form);
+		} catch (Throwable t) {
+			swingCustomizer.handleExceptionsFromDisplayedUI(form, t);
+		}
 	}
 
 	protected class ColumnOrderItem {

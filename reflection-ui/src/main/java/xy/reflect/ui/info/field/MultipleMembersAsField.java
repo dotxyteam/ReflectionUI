@@ -34,6 +34,18 @@ public class MultipleMembersAsField implements IFieldInfo {
 		this.contextId = contextId;
 	}
 
+	public List<IFieldInfo> getFields() {
+		return fields;
+	}
+
+	public List<IMethodInfo> getMethods() {
+		return methods;
+	}
+
+	public String getContextId() {
+		return contextId;
+	}
+
 	@Override
 	public String getName() {
 		return fieldName;
