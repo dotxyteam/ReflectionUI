@@ -511,18 +511,23 @@
             <hidden>false</hidden>
         </columnCustomizations>
         <columnsCustomOrder>fieldName</columnsCustomOrder>
-        <columnsCustomOrder>hidden</columnsCustomOrder>
         <columnsCustomOrder>customFieldCaption</columnsCustomOrder>
+        <columnsCustomOrder>hidden</columnsCustomOrder>
         <columnsCustomOrder>getOnlyForced</columnsCustomOrder>
         <columnsCustomOrder>nullableFacetHidden</columnsCustomOrder>
-        <columnsCustomOrder>expandSubForm</columnsCustomOrder>
         <columnsCustomOrder>category</columnsCustomOrder>
-        <columnsCustomOrder>valueOptionsFieldName</columnsCustomOrder>
         <columnsCustomOrder>onlineHelp</columnsCustomOrder>
-        <columnsCustomOrder>customValueReturnMode</columnsCustomOrder>
-        <columnsCustomOrder>nullValueLabel</columnsCustomOrder>
-        <columnsCustomOrder>displayedAsMethods</columnsCustomOrder>
+        <columnsCustomOrder>formControlEmbeddingForced</columnsCustomOrder>
+        <columnsCustomOrder>formControlCreationForced</columnsCustomOrder>
         <columnsCustomOrder>displayedAsSingletonList</columnsCustomOrder>
+        <columnsCustomOrder>nullValueLabel</columnsCustomOrder>
+        <columnsCustomOrder>nullStatusFieldNamed</columnsCustomOrder>
+        <columnsCustomOrder>encapsulationFieldName</columnsCustomOrder>
+        <columnsCustomOrder>customSetterSignature</columnsCustomOrder>
+        <columnsCustomOrder>generatedGetterName</columnsCustomOrder>
+        <columnsCustomOrder>generatedSetterName</columnsCustomOrder>
+        <columnsCustomOrder>valueOptionsFieldName</columnsCustomOrder>
+        <columnsCustomOrder>customValueReturnMode</columnsCustomOrder>
         <editOptions>
             <itemCreationEnabled>true</itemCreationEnabled>
             <itemDeletionEnabled>true</itemDeletionEnabled>
@@ -7301,11 +7306,11 @@
         <customFieldsOrder>methodSignature</customFieldsOrder>
         <customFieldsOrder>hidden</customFieldsOrder>
         <customFieldsOrder>customMethodCaption</customFieldsOrder>
-        <customFieldsOrder>iconImagePath</customFieldsOrder>
         <customFieldsOrder>readOnlyForced</customFieldsOrder>
         <customFieldsOrder>parametersCustomizations</customFieldsOrder>
-        <customFieldsOrder>category</customFieldsOrder>
         <customFieldsOrder>onlineHelp</customFieldsOrder>
+        <customFieldsOrder>category</customFieldsOrder>
+        <customFieldsOrder>iconImagePath</customFieldsOrder>
         <customFieldsOrder>validating</customFieldsOrder>
         <customFieldsOrder>detachedReturnValueForced</customFieldsOrder>
         <fieldsCustomizations>
@@ -7656,7 +7661,7 @@
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>false</nullableFacetHidden>
+            <nullableFacetHidden>true</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -7966,6 +7971,7 @@
         <customFieldsOrder>immutableForced</customFieldsOrder>
         <customFieldsOrder>abstractForced</customFieldsOrder>
         <customFieldsOrder>iconImagePath</customFieldsOrder>
+        <customFieldsOrder>fieldsLayout</customFieldsOrder>
         <customFieldsOrder>onlineHelp</customFieldsOrder>
         <customFieldsOrder>memberCategories</customFieldsOrder>
         <customFieldsOrder>polymorphicSubTypeFinders</customFieldsOrder>
@@ -8432,6 +8438,18 @@
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>fieldsLayout</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullValueLabel>&lt;Default&gt;</nullValueLabel>
+            <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>

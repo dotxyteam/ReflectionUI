@@ -179,6 +179,11 @@ public class GenericEnumerationFactory {
 		}
 
 		@Override
+		public FieldsLayout getFieldsLayout() {
+			return FieldsLayout.VERTICAL_FLOW;
+		}
+
+		@Override
 		public String getIconImagePath() {
 			return null;
 		}

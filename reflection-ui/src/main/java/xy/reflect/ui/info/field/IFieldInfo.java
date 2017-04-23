@@ -13,6 +13,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 
 public interface IFieldInfo extends IInfo {
+
 	public IFieldInfo NULL_FIELD_INFO = new IFieldInfo() {
 
 		@Override
@@ -132,11 +133,11 @@ public interface IFieldInfo extends IInfo {
 	ValueReturnMode getValueReturnMode();
 
 	InfoCategory getCategory();
-	
+
 	boolean isFormControlMandatory();
-	
+
 	boolean isFormControlEmbedded();
-	
+
 	IInfoFilter getFormControlFilter();
 
 }

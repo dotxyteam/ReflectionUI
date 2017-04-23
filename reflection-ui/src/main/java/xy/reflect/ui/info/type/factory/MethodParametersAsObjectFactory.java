@@ -36,7 +36,7 @@ public class MethodParametersAsObjectFactory {
 		reflectionUI.registerPrecomputedTypeInfoObject(result, new TypeInfo());
 		return result;
 	}
-	
+
 	public Object unwrapInstanceObject(Object obj) {
 		if (obj == null) {
 			return null;
@@ -47,7 +47,7 @@ public class MethodParametersAsObjectFactory {
 		}
 		return instance.getObject();
 	}
-	
+
 	public InvocationData unwrapInstanceInvocationData(Object obj) {
 		if (obj == null) {
 			return null;
@@ -158,8 +158,6 @@ public class MethodParametersAsObjectFactory {
 		public String toString() {
 			return "MethodParametersAsObject [object=" + object + ", invocationData=" + invocationData + "]";
 		}
-		
-		
 
 	}
 
@@ -168,6 +166,11 @@ public class MethodParametersAsObjectFactory {
 		@Override
 		public String getIconImagePath() {
 			return null;
+		}
+
+		@Override
+		public FieldsLayout getFieldsLayout() {
+			return FieldsLayout.VERTICAL_FLOW;
 		}
 
 		@Override

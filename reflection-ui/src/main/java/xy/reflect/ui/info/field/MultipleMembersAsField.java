@@ -238,10 +238,6 @@ public class MultipleMembersAsField implements IFieldInfo {
 			return "MultipleMembersAsFieldType [context=" + contextId + ", fieldName=" + fieldName + "]";
 		}
 
-		protected MultipleMembersAsField getOuterType() {
-			return MultipleMembersAsField.this;
-		}
-
 		@Override
 		public String getCaption() {
 			return MultipleMembersAsField.this.getCaption();
@@ -378,6 +374,20 @@ public class MultipleMembersAsField implements IFieldInfo {
 		@Override
 		public String getIconImagePath() {
 			return null;
+		}
+
+		@Override
+		public FieldsLayout getFieldsLayout() {
+			return FieldsLayout.VERTICAL_FLOW;
+		}
+
+		protected MultipleMembersAsField getOuterType() {
+			return MultipleMembersAsField.this;
+		}
+
+		@Override
+		public String toString() {
+			return "ValueTypeInfo [of=" + getOuterType() + "]";
 		}
 
 	}

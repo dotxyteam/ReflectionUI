@@ -1,8 +1,14 @@
+- customizations issue:
+	* some customizations cannot be cumulated
+	=> very annoying
+- bug: cannot move columns
+- focus on default control on dialog opening not working
 - clean:
 	* extract InfoCut.Factory class
 	* check Info class names
 		. remove "Info" except for interfaces
 		. find better names if possible
+	* extract SwingRenderer.*PlaceHolder classes
 - what was decided about valiation of controls with no caption ???
 - allow to merge fields into sub form
 - allow to change fields layout (VERTICAL, HORIZONTAL)

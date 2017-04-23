@@ -1,5 +1,6 @@
 package xy.reflect.ui.control.swing;
 
+import javax.swing.event.AncestorListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -38,7 +39,6 @@ import javax.swing.JToolTip;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
 
 import org.jdesktop.swingx.JXBusyLabel;
 
@@ -253,10 +253,8 @@ public class SwingRenderer {
 		for (int i = 0; i < fielControlPlaceHolders.size(); i++) {
 			FieldControlPlaceHolder fieldControlPlaceHolder = fielControlPlaceHolders.get(i);
 			{
-				GridBagConstraints layoutConstraints = new GridBagConstraints();
-				layoutConstraints.gridy = i;
-				fieldsPanel.add(fieldControlPlaceHolder, layoutConstraints);
-				updateFieldControlLayout(fieldControlPlaceHolder, true);
+				fieldsPanel.add(fieldControlPlaceHolder);
+				updateFieldControlLayout(fieldControlPlaceHolder, i);
 			}
 			IFieldInfo field = fieldControlPlaceHolder.getField();
 			if ((field.getOnlineHelp() != null) && (field.getOnlineHelp().trim().length() > 0)) {
@@ -401,7 +399,7 @@ public class SwingRenderer {
 					public void run() {
 						try {
 							refreshAllFieldControls(form, false);
-							updateFormStatusBarInBackground(form);
+							validateFormInBackgroundAndReport(form);
 							Object object = getObjectByForm().get(form);
 							for (JPanel otherForm : SwingRendererUtils.findObjectForms(object, SwingRenderer.this)) {
 								if (otherForm != form) {
@@ -588,7 +586,7 @@ public class SwingRenderer {
 				window.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowOpened(WindowEvent e) {
-						updateFormStatusBarInBackground(form);
+						validateFormInBackgroundAndReport(form);
 					}
 				});
 
@@ -1221,10 +1219,12 @@ public class SwingRenderer {
 		preservingFormFocusAsMuchAsPossible(form, new Runnable() {
 			@Override
 			public void run() {
-				for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
+				List<FieldControlPlaceHolder> fieldControlPlaceHolders = getFieldControlPlaceHolders(form);
+				for (int i = 0; i < fieldControlPlaceHolders.size(); i++) {
+					FieldControlPlaceHolder fieldControlPlaceHolder = fieldControlPlaceHolders.get(i);
 					if (fieldName.equals(fieldControlPlaceHolder.getModificationsTarget().getName())) {
 						fieldControlPlaceHolder.refreshUI(recreate);
-						updateFieldControlLayout(fieldControlPlaceHolder, false);
+						updateFieldControlLayout(fieldControlPlaceHolder, i);
 					}
 				}
 				SwingRendererUtils.handleComponentSizeChange(form);
@@ -1237,9 +1237,11 @@ public class SwingRenderer {
 		preservingFormFocusAsMuchAsPossible(form, new Runnable() {
 			@Override
 			public void run() {
-				for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
+				List<FieldControlPlaceHolder> fieldControlPlaceHolders = getFieldControlPlaceHolders(form);
+				for (int i = 0; i < fieldControlPlaceHolders.size(); i++) {
+					FieldControlPlaceHolder fieldControlPlaceHolder = fieldControlPlaceHolders.get(i);
 					fieldControlPlaceHolder.refreshUI(recreate);
-					updateFieldControlLayout(fieldControlPlaceHolder, false);
+					updateFieldControlLayout(fieldControlPlaceHolder, i);
 				}
 				SwingRendererUtils.handleComponentSizeChange(form);
 			}
@@ -1389,59 +1391,80 @@ public class SwingRenderer {
 
 	}
 
-	public void updateFieldControlLayout(FieldControlPlaceHolder fieldControlPlaceHolder, boolean initialUpdate) {
+	public void updateFieldControlLayout(FieldControlPlaceHolder fieldControlPlaceHolder, int fieldIndex) {
 
 		boolean shouldHaveSeparateCaptionControl = !fieldControlPlaceHolder.showsCaption()
 				&& (fieldControlPlaceHolder.getField().getCaption().length() > 0);
+
+		Container container = fieldControlPlaceHolder.getParent();
+		GridBagLayout layout = (GridBagLayout) container.getLayout();
+		boolean initialUpdate = (layout.getConstraints(fieldControlPlaceHolder).gridx == -1);
 
 		if (!initialUpdate) {
 			boolean hasSeparateCaptionControl = captionControlByFieldControlPlaceHolder
 					.containsKey(fieldControlPlaceHolder);
 			if (hasSeparateCaptionControl == shouldHaveSeparateCaptionControl) {
-				if (!hasSeparateCaptionControl) {
-
-				}
 				return;
 			}
 		}
 
-		Container container = fieldControlPlaceHolder.getParent();
-		GridBagLayout layout = (GridBagLayout) container.getLayout();
-		int i = layout.getConstraints(fieldControlPlaceHolder).gridy;
-
-		container.remove(fieldControlPlaceHolder);
 		Component captionControl = captionControlByFieldControlPlaceHolder.get(fieldControlPlaceHolder);
 		if (captionControl != null) {
 			container.remove(captionControl);
 			captionControlByFieldControlPlaceHolder.remove(fieldControlPlaceHolder);
 		}
 
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(fieldControlPlaceHolder.getObject()));
+		ITypeInfo.FieldsLayout fieldsOrientation = type.getFieldsLayout();
+
 		int spacing = 5;
 		if (shouldHaveSeparateCaptionControl) {
 			captionControl = createSeparateCaptionControl(fieldControlPlaceHolder.getField().getCaption());
-			GridBagConstraints layoutConstraints = new GridBagConstraints();
-			layoutConstraints.insets = new Insets(spacing, spacing, spacing, spacing);
-			layoutConstraints.gridx = 0;
-			layoutConstraints.gridy = i;
-			layoutConstraints.weighty = 1.0;
-			layoutConstraints.anchor = GridBagConstraints.WEST;
-			container.add(captionControl, layoutConstraints);
+			GridBagConstraints captionControlLayoutConstraints = new GridBagConstraints();
+			captionControlLayoutConstraints.insets = new Insets(spacing, spacing, spacing, spacing);
+			if (fieldsOrientation == ITypeInfo.FieldsLayout.VERTICAL_FLOW) {
+				captionControlLayoutConstraints.gridx = 0;
+				captionControlLayoutConstraints.gridy = fieldIndex;
+			} else if (fieldsOrientation == ITypeInfo.FieldsLayout.HORIZONTAL_FLOW) {
+				captionControlLayoutConstraints.gridy = 0;
+				captionControlLayoutConstraints.gridx = fieldIndex;
+			} else {
+				throw new ReflectionUIError();
+			}
+			captionControlLayoutConstraints.weighty = 1.0;
+			captionControlLayoutConstraints.anchor = GridBagConstraints.WEST;
+			container.add(captionControl, captionControlLayoutConstraints);
 			captionControlByFieldControlPlaceHolder.put(fieldControlPlaceHolder, captionControl);
 		}
 		{
-			GridBagConstraints layoutConstraints = new GridBagConstraints();
-			layoutConstraints.insets = new Insets(spacing, spacing, spacing, spacing);
-			if (!shouldHaveSeparateCaptionControl) {
-				layoutConstraints.gridwidth = 2;
-				layoutConstraints.gridx = 0;
+			GridBagConstraints fieldControlPlaceHolderLayoutConstraints = new GridBagConstraints();
+			fieldControlPlaceHolderLayoutConstraints.insets = new Insets(spacing, spacing, spacing, spacing);
+			if (fieldsOrientation == ITypeInfo.FieldsLayout.VERTICAL_FLOW) {
+				if (!shouldHaveSeparateCaptionControl) {
+					fieldControlPlaceHolderLayoutConstraints.gridwidth = 2;
+					fieldControlPlaceHolderLayoutConstraints.gridx = 0;
+				} else {
+					fieldControlPlaceHolderLayoutConstraints.gridx = 1;
+				}
+				fieldControlPlaceHolderLayoutConstraints.gridy = fieldIndex;
+				
+			} else if (fieldsOrientation == ITypeInfo.FieldsLayout.HORIZONTAL_FLOW) {
+				if (!shouldHaveSeparateCaptionControl) {
+					fieldControlPlaceHolderLayoutConstraints.gridheight = 2;
+					fieldControlPlaceHolderLayoutConstraints.gridy = 0;
+				} else {
+					fieldControlPlaceHolderLayoutConstraints.gridy = 1;
+				}
+				fieldControlPlaceHolderLayoutConstraints.gridx = fieldIndex;
+				
 			} else {
-				layoutConstraints.gridx = 1;
+				throw new ReflectionUIError();
 			}
-			layoutConstraints.gridy = i;
-			layoutConstraints.weightx = 1.0;
-			layoutConstraints.weighty = 1.0;
-			layoutConstraints.fill = GridBagConstraints.HORIZONTAL;
-			container.add(fieldControlPlaceHolder, layoutConstraints);
+			fieldControlPlaceHolderLayoutConstraints.weightx = 1.0;
+			fieldControlPlaceHolderLayoutConstraints.weighty = 1.0;
+			fieldControlPlaceHolderLayoutConstraints.fill = GridBagConstraints.HORIZONTAL;
+			container.remove(fieldControlPlaceHolder);
+			container.add(fieldControlPlaceHolder, fieldControlPlaceHolderLayoutConstraints);
 		}
 
 		container.validate();
@@ -1477,7 +1500,7 @@ public class SwingRenderer {
 		}
 	}
 
-	public void updateFormStatusBarInBackground(final JPanel form) {
+	public void validateFormInBackgroundAndReport(final JPanel form) {
 		new Thread("Validator: " + getObjectByForm().get(form)) {
 			@Override
 			public void run() {

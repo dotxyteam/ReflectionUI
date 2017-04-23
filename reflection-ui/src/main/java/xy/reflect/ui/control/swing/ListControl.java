@@ -1909,7 +1909,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			detailsArea.setLayout(new BorderLayout());
 			detailsArea.add(swingRenderer.createWindowScrollPane(detailsControl), BorderLayout.CENTER);
 			detailsArea.add(swingRenderer.createStatusBar(detailsControl), BorderLayout.NORTH);
-			swingRenderer.updateFormStatusBarInBackground(detailsControl);
+			swingRenderer.validateFormInBackgroundAndReport(detailsControl);
 			SwingRendererUtils.handleComponentSizeChange(ListControl.this);
 		}
 	}

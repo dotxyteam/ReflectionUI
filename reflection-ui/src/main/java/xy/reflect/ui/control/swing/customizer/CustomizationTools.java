@@ -760,7 +760,7 @@ public class CustomizationTools {
 
 	public void rebuildCustomizerForm(JPanel form) {
 		swingCustomizer.recreateFormContent(form);
-		swingCustomizer.updateFormStatusBarInBackground(form);
+		swingCustomizer.validateFormInBackgroundAndReport(form);
 	}
 
 	protected class ColumnOrderItem {

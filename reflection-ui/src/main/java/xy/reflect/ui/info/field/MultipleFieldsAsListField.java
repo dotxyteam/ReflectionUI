@@ -273,6 +273,11 @@ public class MultipleFieldsAsListField implements IFieldInfo {
 		}
 
 		@Override
+		public FieldsLayout getFieldsLayout() {
+			return FieldsLayout.VERTICAL_FLOW;
+		}
+
+		@Override
 		public String getCaption() {
 			return getItemTitle(field);
 		}

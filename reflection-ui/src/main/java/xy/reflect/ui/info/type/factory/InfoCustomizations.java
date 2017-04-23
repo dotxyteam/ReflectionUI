@@ -45,6 +45,7 @@ import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.method.SubMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.FieldsLayout;
 import xy.reflect.ui.info.type.enumeration.EnumerationItemInfoProxy;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
@@ -523,6 +524,15 @@ public class InfoCustomizations implements Serializable {
 		protected boolean abstractForced = false;
 		protected List<ITypeInfoFinder> polymorphicSubTypeFinders = new ArrayList<ITypeInfoFinder>();
 		protected ResourcePath iconImagePath;
+		protected ITypeInfo.FieldsLayout fieldsLayout;
+
+		public ITypeInfo.FieldsLayout getFieldsLayout() {
+			return fieldsLayout;
+		}
+
+		public void setFieldsLayout(ITypeInfo.FieldsLayout fieldsLayout) {
+			this.fieldsLayout = fieldsLayout;
+		}
 
 		public ResourcePath getIconImagePath() {
 			return iconImagePath;
@@ -1937,6 +1947,17 @@ public class InfoCustomizations implements Serializable {
 
 		public Factory(ReflectionUI reflectionUI) {
 			super(reflectionUI);
+		}
+
+		@Override
+		protected FieldsLayout getFieldsLayout(ITypeInfo type) {
+			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, type.getName());
+			if (t != null) {
+				if (t.fieldsLayout != null) {
+					return t.fieldsLayout;
+				}
+			}
+			return super.getFieldsLayout(type);
 		}
 
 		@Override

@@ -14,6 +14,7 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.FieldsLayout;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
@@ -214,6 +215,10 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	protected String getIconImagePath(ITypeInfo type) {
 		return type.getIconImagePath();
+	}
+
+	protected FieldsLayout getFieldsLayout(ITypeInfo type) {
+		return type.getFieldsLayout();
 	}
 
 	protected String getCaption(IFieldInfo field, ITypeInfo containingType) {
@@ -600,6 +605,11 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		@Override
 		public String getIconImagePath() {
 			return TypeInfoProxyFactory.this.getIconImagePath(base);
+		}
+
+		@Override
+		public FieldsLayout getFieldsLayout() {
+			return TypeInfoProxyFactory.this.getFieldsLayout(base);
 		}
 
 		@Override

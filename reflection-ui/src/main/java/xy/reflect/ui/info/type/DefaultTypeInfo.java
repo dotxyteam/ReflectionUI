@@ -50,6 +50,11 @@ public class DefaultTypeInfo implements ITypeInfo {
 	}
 
 	@Override
+	public FieldsLayout getFieldsLayout() {
+		return FieldsLayout.VERTICAL_FLOW;
+	}
+
+	@Override
 	public boolean isPrimitive() {
 		return javaType.isPrimitive();
 	}

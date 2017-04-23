@@ -459,7 +459,7 @@ public class SwingRendererUtils {
 	}
 
 	public static void handleComponentSizeChange(Component c) {
-		c.validate();
+		c.invalidate();
 		Window window = SwingUtilities.getWindowAncestor(c);
 		if (window != null) {
 			window.validate();

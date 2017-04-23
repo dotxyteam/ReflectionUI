@@ -318,6 +318,11 @@ public class ImplicitListField implements IFieldInfo {
 	protected class ValueTypeInfo implements IListTypeInfo {
 
 		@Override
+		public FieldsLayout getFieldsLayout() {
+			return FieldsLayout.VERTICAL_FLOW;
+		}
+
+		@Override
 		public boolean isItemConstructorSelectable() {
 			return false;
 		}
