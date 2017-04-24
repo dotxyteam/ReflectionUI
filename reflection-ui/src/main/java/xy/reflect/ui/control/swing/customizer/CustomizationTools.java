@@ -470,7 +470,7 @@ public class CustomizationTools {
 			final FieldControlPlaceHolder fieldControlPlaceHolder, final String mainCaption,
 			final boolean infoCustomizationsShared, final ITypeInfo fieldType) {
 		final InfoCustomizations infoCustomizations;
-		if (!infoCustomizationsShared) {
+		if (infoCustomizationsShared) {
 			infoCustomizations = swingCustomizer.getInfoCustomizations();
 		} else {
 			FieldCustomization fieldCustomization = getFieldCustomization(fieldControlPlaceHolder,

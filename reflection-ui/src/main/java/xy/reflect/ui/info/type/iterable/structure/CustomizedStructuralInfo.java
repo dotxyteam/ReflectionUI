@@ -208,9 +208,9 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 			filteredResult.add(column);
 		}
 
-		if (customization.getColumnsCustomOrder() != null) {
-			Collections.sort(filteredResult,
-					ReflectionUIUtils.getInfosComparator(customization.getColumnsCustomOrder(), filteredResult));
+		List<String> customOrder = customization.getColumnsCustomOrder();
+		if (customOrder != null) {
+			Collections.sort(filteredResult, ReflectionUIUtils.getInfosComparator(customOrder, filteredResult));
 		}
 
 		return filteredResult;

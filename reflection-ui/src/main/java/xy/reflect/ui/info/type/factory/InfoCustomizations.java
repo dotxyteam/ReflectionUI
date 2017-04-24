@@ -2730,11 +2730,11 @@ public class InfoCustomizations implements Serializable {
 		@Override
 		protected IListStructuralInfo getStructuralInfo(IListTypeInfo listType) {
 			ITypeInfo itemType = listType.getItemType();
-			final ListCustomization customization = getListCustomization(InfoCustomizations.this, listType.getName(),
+			final ListCustomization l = getListCustomization(InfoCustomizations.this, listType.getName(),
 					(itemType == null) ? null : itemType.getName());
-			if (customization != null) {
+			if (l != null) {
 				final IListStructuralInfo base = super.getStructuralInfo(listType);
-				return new CustomizedStructuralInfo(reflectionUI, base, listType, customization);
+				return new CustomizedStructuralInfo(reflectionUI, base, listType, l);
 			}
 			return super.getStructuralInfo(listType);
 		}

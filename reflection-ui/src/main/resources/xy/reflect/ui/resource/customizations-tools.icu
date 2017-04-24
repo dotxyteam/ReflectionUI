@@ -8121,8 +8121,9 @@
                     <columnsCustomOrder>formControlEmbeddingForced</columnsCustomOrder>
                     <columnsCustomOrder>formControlCreationForced</columnsCustomOrder>
                     <columnsCustomOrder>displayedAsSingletonList</columnsCustomOrder>
-                    <columnsCustomOrder>displayedEncapsulated</columnsCustomOrder>
                     <columnsCustomOrder>nullValueLabel</columnsCustomOrder>
+                    <columnsCustomOrder>nullStatusFieldNamed</columnsCustomOrder>
+                    <columnsCustomOrder>encapsulationFieldName</columnsCustomOrder>
                     <columnsCustomOrder>customSetterSignature</columnsCustomOrder>
                     <columnsCustomOrder>generatedGetterName</columnsCustomOrder>
                     <columnsCustomOrder>generatedSetterName</columnsCustomOrder>
