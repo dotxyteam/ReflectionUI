@@ -12,6 +12,10 @@ public class ParameterInfoProxy implements IParameterInfo {
 		this.base = base;
 	}
 
+	public IParameterInfo getBase() {
+		return base;
+	}
+
 	public String getName() {
 		return base.getName();
 	}

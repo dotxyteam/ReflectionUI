@@ -16,6 +16,10 @@ public class FieldInfoProxy implements IFieldInfo {
 		this.base = base;
 	}
 
+	public IFieldInfo getBase() {
+		return base;
+	}
+
 	@Override
 	public Object getValue(Object object) {
 		return base.getValue(object);

@@ -23,46 +23,50 @@ public class ListModificationFactory {
 		this.modificationTarget = modificationTarget;
 	}
 
+	protected IModification createListModification(ItemPosition itemPosition, Object[] newListRawValue, IInfo target) {
+		return new ListModification(itemPosition, newListRawValue, target);
+	}
+
 	public boolean canAdd(int index) {
 		if ((index < 0) || (index > anyItemPosition.getContainingListSize())) {
 			return false;
 		}
-		return ListValueUpdateModification.isCompatibleWith(anyItemPosition);
+		return ListModification.isCompatibleWith(anyItemPosition);
 	}
 
 	public IModification add(int index, Object newItem) {
 		List<Object> tmpList = new ArrayList<Object>(Arrays.asList(anyItemPosition.retrieveContainingListRawValue()));
 		tmpList.add(index, newItem);
 		Object[] newListRawValue = tmpList.toArray();
-		return new ListValueUpdateModification(anyItemPosition, newListRawValue, modificationTarget);
+		return createListModification(anyItemPosition, newListRawValue, modificationTarget);
 	}
 
 	public boolean canRemove(int index) {
 		if ((index < 0) || (index >= anyItemPosition.getContainingListSize())) {
 			return false;
 		}
-		return ListValueUpdateModification.isCompatibleWith(anyItemPosition);
+		return ListModification.isCompatibleWith(anyItemPosition);
 	}
 
 	public IModification remove(int index) {
 		List<Object> tmpList = new ArrayList<Object>(Arrays.asList(anyItemPosition.retrieveContainingListRawValue()));
 		tmpList.remove(index);
 		Object[] newListRawValue = tmpList.toArray();
-		return new ListValueUpdateModification(anyItemPosition, newListRawValue, modificationTarget);
+		return createListModification(anyItemPosition, newListRawValue, modificationTarget);
 	}
 
 	public boolean canSet(int index) {
 		if ((index < 0) || (index >= anyItemPosition.getContainingListSize())) {
 			return false;
 		}
-		return ListValueUpdateModification.isCompatibleWith(anyItemPosition);
+		return ListModification.isCompatibleWith(anyItemPosition);
 	}
 
 	public IModification set(int index, Object newItem) {
 		List<Object> tmpList = new ArrayList<Object>(Arrays.asList(anyItemPosition.retrieveContainingListRawValue()));
 		tmpList.set(index, newItem);
 		Object[] newListRawValue = tmpList.toArray();
-		return new ListValueUpdateModification(anyItemPosition, newListRawValue, modificationTarget);
+		return createListModification(anyItemPosition, newListRawValue, modificationTarget);
 	}
 
 	public boolean canMove(int index, int offset) {
@@ -73,32 +77,32 @@ public class ListModificationFactory {
 		if ((index2 < 0) || (index2 >= anyItemPosition.getContainingListSize())) {
 			return false;
 		}
-		return ListValueUpdateModification.isCompatibleWith(anyItemPosition);
+		return ListModification.isCompatibleWith(anyItemPosition);
 	}
 
 	public IModification move(int index, int offset) {
 		List<Object> tmpList = new ArrayList<Object>(Arrays.asList(anyItemPosition.retrieveContainingListRawValue()));
 		tmpList.add(index + offset, tmpList.remove(index));
 		Object[] newListRawValue = tmpList.toArray();
-		return new ListValueUpdateModification(anyItemPosition, newListRawValue, modificationTarget);
+		return createListModification(anyItemPosition, newListRawValue, modificationTarget);
 	}
 
 	public boolean canClear() {
-		return ListValueUpdateModification.isCompatibleWith(anyItemPosition);
+		return ListModification.isCompatibleWith(anyItemPosition);
 	}
 
 	public IModification clear() {
-		return new ListValueUpdateModification(anyItemPosition, new Object[0], modificationTarget);
+		return createListModification(anyItemPosition, new Object[0], modificationTarget);
 	}
 
-	protected static class ListValueUpdateModification extends AbstractModification {
+	protected static class ListModification extends AbstractModification {
 
 		protected ItemPosition itemPosition;
 		protected Object[] newListRawValue;
 
 		protected List<IModification> undoModifications;
 
-		public ListValueUpdateModification(ItemPosition itemPosition, Object[] newListRawValue, IInfo target) {
+		public ListModification(ItemPosition itemPosition, Object[] newListRawValue, IInfo target) {
 			super(target);
 			this.itemPosition = itemPosition;
 			this.newListRawValue = newListRawValue;
@@ -185,13 +189,13 @@ public class ListModificationFactory {
 			IListTypeInfo listType = (IListTypeInfo) listData.getType();
 			if (listType.canReplaceContent()) {
 				if (listData.getValueReturnMode() == ValueReturnMode.DIRECT_OR_PROXY) {
-					undoModifications.add(0,
-							new ChangeListContentModification(listData, newListRawValue, target).applyAndGetOpposite());
+					undoModifications.add(0, new ReplaceListContentModification(listData, newListRawValue, target)
+							.applyAndGetOpposite());
 					return;
 				}
 				if (!listData.isGetOnly()) {
 					final Object listValue = listData.getValue();
-					undoModifications.add(0, new ChangeListContentModification(new FieldControlDataProxy(listData) {
+					undoModifications.add(0, new ReplaceListContentModification(new FieldControlDataProxy(listData) {
 						@Override
 						public Object getValue() {
 							return listValue;
@@ -231,7 +235,7 @@ public class ListModificationFactory {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			ListValueUpdateModification other = (ListValueUpdateModification) obj;
+			ListModification other = (ListModification) obj;
 			if (itemPosition == null) {
 				if (other.itemPosition != null)
 					return false;
@@ -255,12 +259,12 @@ public class ListModificationFactory {
 
 	}
 
-	protected static class ChangeListContentModification extends AbstractModification {
+	protected static class ReplaceListContentModification extends AbstractModification {
 
 		protected IFieldControlData listData;
 		protected Object[] listRawValue;
 
-		public ChangeListContentModification(IFieldControlData listData, Object[] listRawValue, IInfo target) {
+		public ReplaceListContentModification(IFieldControlData listData, Object[] listRawValue, IInfo target) {
 			super(target);
 			this.listData = listData;
 			this.listRawValue = listRawValue;
@@ -316,7 +320,7 @@ public class ListModificationFactory {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			ChangeListContentModification other = (ChangeListContentModification) obj;
+			ReplaceListContentModification other = (ReplaceListContentModification) obj;
 			if (listData == null) {
 				if (other.listData != null)
 					return false;

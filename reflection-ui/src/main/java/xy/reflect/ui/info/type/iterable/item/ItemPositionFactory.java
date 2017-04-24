@@ -22,7 +22,6 @@ public class ItemPositionFactory {
 		result.parentItemPosition = null;
 		result.containingListFieldIfNotRoot = null;
 		result.index = index;
-		result.containingListSize = retrieveRootListRawValue().length;
 		return result;
 	}
 

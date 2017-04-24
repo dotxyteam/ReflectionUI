@@ -19,27 +19,35 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MultipleMembersAsField implements IFieldInfo {
 
-	protected List<IFieldInfo> fields;
-	protected List<IMethodInfo> methods;
+	protected List<IFieldInfo> encapsulatedFields;
+	protected List<IMethodInfo> encapsulatedMethods;
 	protected ReflectionUI reflectionUI;
 	protected String fieldName;
 	protected String contextId;
 
-	public MultipleMembersAsField(ReflectionUI reflectionUI, String fieldName, List<IFieldInfo> fields,
-			List<IMethodInfo> methods, String contextId) {
+	public MultipleMembersAsField(ReflectionUI reflectionUI, String fieldName, List<IFieldInfo> encapsulatedFields,
+			List<IMethodInfo> encapsulatedMethods, String contextId) {
 		this.reflectionUI = reflectionUI;
 		this.fieldName = fieldName;
-		this.fields = fields;
-		this.methods = methods;
+		this.encapsulatedFields = encapsulatedFields;
+		this.encapsulatedMethods = encapsulatedMethods;
 		this.contextId = contextId;
 	}
 
-	public List<IFieldInfo> getFields() {
-		return fields;
+	public List<IFieldInfo> getEncapsulatedFields() {
+		return encapsulatedFields;
 	}
 
-	public List<IMethodInfo> getMethods() {
-		return methods;
+	public List<IMethodInfo> getEncapsulatedMethods() {
+		return encapsulatedMethods;
+	}
+
+	public void setEncapsulatedFields(List<IFieldInfo> encapsulatedFields) {
+		this.encapsulatedFields = encapsulatedFields;
+	}
+
+	public void setEncapsulatedMethods(List<IMethodInfo> encapsulatedMethods) {
+		this.encapsulatedMethods = encapsulatedMethods;
 	}
 
 	public String getContextId() {
@@ -148,8 +156,8 @@ public class MultipleMembersAsField implements IFieldInfo {
 		int result = 1;
 		result = prime * result + ((contextId == null) ? 0 : contextId.hashCode());
 		result = prime * result + ((fieldName == null) ? 0 : fieldName.hashCode());
-		result = prime * result + ((fields == null) ? 0 : fields.hashCode());
-		result = prime * result + ((methods == null) ? 0 : methods.hashCode());
+		result = prime * result + ((encapsulatedFields == null) ? 0 : encapsulatedFields.hashCode());
+		result = prime * result + ((encapsulatedMethods == null) ? 0 : encapsulatedMethods.hashCode());
 		return result;
 	}
 
@@ -172,23 +180,23 @@ public class MultipleMembersAsField implements IFieldInfo {
 				return false;
 		} else if (!fieldName.equals(other.fieldName))
 			return false;
-		if (fields == null) {
-			if (other.fields != null)
+		if (encapsulatedFields == null) {
+			if (other.encapsulatedFields != null)
 				return false;
-		} else if (!fields.equals(other.fields))
+		} else if (!encapsulatedFields.equals(other.encapsulatedFields))
 			return false;
-		if (methods == null) {
-			if (other.methods != null)
+		if (encapsulatedMethods == null) {
+			if (other.encapsulatedMethods != null)
 				return false;
-		} else if (!methods.equals(other.methods))
+		} else if (!encapsulatedMethods.equals(other.encapsulatedMethods))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "MultipleMembersAsField [fieldName=" + fieldName + ", contextId=" + contextId + ", fields=" + fields
-				+ ", methods=" + methods + "]";
+		return "MultipleMembersAsField [fieldName=" + fieldName + ", contextId=" + contextId + ", fields="
+				+ encapsulatedFields + ", methods=" + encapsulatedMethods + "]";
 	}
 
 	protected class Instance {
@@ -288,34 +296,8 @@ public class MultipleMembersAsField implements IFieldInfo {
 		@Override
 		public List<IFieldInfo> getFields() {
 			List<IFieldInfo> result = new ArrayList<IFieldInfo>();
-			for (IFieldInfo field : MultipleMembersAsField.this.fields) {
-				result.add(new FieldInfoProxy(field) {
-
-					@Override
-					public Object getValue(Object object) {
-						object = ((Instance) object).getObject();
-						return super.getValue(object);
-					}
-
-					@Override
-					public Runnable getCustomUndoUpdateJob(Object object, Object value) {
-						object = ((Instance) object).getObject();
-						return super.getCustomUndoUpdateJob(object, value);
-					}
-
-					@Override
-					public Object[] getValueOptions(Object object) {
-						object = ((Instance) object).getObject();
-						return super.getValueOptions(object);
-					}
-
-					@Override
-					public void setValue(Object object, Object value) {
-						object = ((Instance) object).getObject();
-						super.setValue(object, value);
-					}
-
-				});
+			for (IFieldInfo field : MultipleMembersAsField.this.encapsulatedFields) {
+				result.add(new FieldProxy(field));
 			}
 			return result;
 		}
@@ -323,28 +305,8 @@ public class MultipleMembersAsField implements IFieldInfo {
 		@Override
 		public List<IMethodInfo> getMethods() {
 			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
-			for (IMethodInfo method : MultipleMembersAsField.this.methods) {
-				result.add(new MethodInfoProxy(method) {
-
-					@Override
-					public Object invoke(Object object, InvocationData invocationData) {
-						object = ((Instance) object).getObject();
-						return super.invoke(object, invocationData);
-					}
-
-					@Override
-					public Runnable getUndoJob(Object object, InvocationData invocationData) {
-						object = ((Instance) object).getObject();
-						return super.getUndoJob(object, invocationData);
-					}
-
-					@Override
-					public void validateParameters(Object object, InvocationData invocationData) throws Exception {
-						object = ((Instance) object).getObject();
-						super.validateParameters(object, invocationData);
-					}
-
-				});
+			for (IMethodInfo method : MultipleMembersAsField.this.encapsulatedMethods) {
+				result.add(new MethodProxy(method));
 			}
 			return result;
 		}
@@ -400,6 +362,64 @@ public class MultipleMembersAsField implements IFieldInfo {
 		@Override
 		public String toString() {
 			return "ValueTypeInfo [of=" + getOuterType() + "]";
+		}
+
+	}
+
+	public class FieldProxy extends FieldInfoProxy {
+
+		public FieldProxy(IFieldInfo base) {
+			super(base);
+		}
+
+		@Override
+		public Object getValue(Object object) {
+			object = ((Instance) object).getObject();
+			return super.getValue(object);
+		}
+
+		@Override
+		public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+			object = ((Instance) object).getObject();
+			return super.getCustomUndoUpdateJob(object, value);
+		}
+
+		@Override
+		public Object[] getValueOptions(Object object) {
+			object = ((Instance) object).getObject();
+			return super.getValueOptions(object);
+		}
+
+		@Override
+		public void setValue(Object object, Object value) {
+			object = ((Instance) object).getObject();
+			super.setValue(object, value);
+		}
+
+	}
+
+	public class MethodProxy extends MethodInfoProxy {
+
+		public MethodProxy(IMethodInfo base) {
+			super(base);
+		}
+
+		@Override
+		public Object invoke(Object object, InvocationData invocationData) {
+			object = ((Instance) object).getObject();
+			return super.invoke(object, invocationData);
+		}
+
+		@Override
+		public Runnable getUndoJob(Object object, InvocationData invocationData) {
+			object = ((Instance) object).getObject();
+			return super.getUndoJob(object, invocationData);
+		}
+
+		@Override
+		public void validateParameters(Object object, InvocationData invocationData) throws Exception {
+			object = ((Instance) object).getObject();
+			super.validateParameters(object, invocationData);
 		}
 
 	}

@@ -3047,7 +3047,7 @@ public class InfoCustomizations implements Serializable {
 			if (t != null) {
 				List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(containingType));
 				result = addGeneratedFields(result, containingType);
-				result = encapsulateFields(result, containingType);
+				result = encapsulateMembers(result, containingType);
 				result = transformFields(result, containingType);
 				result = removeHiddenFields(result, containingType);
 				result = sortFields(result, containingType);
@@ -3093,7 +3093,7 @@ public class InfoCustomizations implements Serializable {
 			return fields;
 		}
 
-		protected List<IFieldInfo> encapsulateFields(List<IFieldInfo> fields, ITypeInfo containingType) {
+		protected List<IFieldInfo> encapsulateMembers(List<IFieldInfo> fields, ITypeInfo containingType) {
 			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
 			if (t != null) {
 				List<IFieldInfo> result = new ArrayList<IFieldInfo>(fields);
@@ -3143,25 +3143,39 @@ public class InfoCustomizations implements Serializable {
 					List<IMethodInfo> encapsulatedMethods = pair.getSecond();
 					IFieldInfo duplicateField = ReflectionUIUtils.findInfoByName(result, capsuleFieldName);
 					if (duplicateField != null) {
+						while (duplicateField instanceof MultipleMembersAsField.FieldProxy) {
+							duplicateField = ((MultipleMembersAsField.FieldProxy) duplicateField).getBase();
+							for (int i = 0; i < encapsulatedFields.size(); i++) {
+								encapsulatedFields.set(i,
+										((MultipleMembersAsField.FieldProxy) encapsulatedFields.get(i)).getBase());
+							}
+							for (int i = 0; i < encapsulatedMethods.size(); i++) {
+								encapsulatedMethods.set(i,
+										((MultipleMembersAsField.MethodProxy) encapsulatedMethods.get(i)).getBase());
+							}
+						}
 						if (duplicateField instanceof MultipleMembersAsField) {
 							MultipleMembersAsField capsuleField = (MultipleMembersAsField) duplicateField;
-							encapsulatedFields.addAll(0, capsuleField.getFields());
-							encapsulatedMethods.addAll(0, capsuleField.getMethods());
-							result.remove(capsuleField);
+							encapsulatedFields.addAll(0, capsuleField.getEncapsulatedFields());
+							encapsulatedMethods.addAll(0, capsuleField.getEncapsulatedMethods());
+							capsuleField.setEncapsulatedFields(encapsulatedFields);
+							capsuleField.setEncapsulatedMethods(encapsulatedMethods);
 						} else {
 							throw new ReflectionUIError(
 									"Failed to generate capsule field: Duplicate field name detected: '"
 											+ capsuleFieldName + "'");
 						}
+					} else {
+						String contextId = "EncapsulationContext [containingType=" + containingType.getName() + "]";
+						result.add(new MultipleMembersAsField(reflectionUI, capsuleFieldName, encapsulatedFields,
+								encapsulatedMethods, contextId));
 					}
-					String contextId = "EncapsulationContext [containingType=" + containingType.getName() + "]";
-					result.add(new MultipleMembersAsField(reflectionUI, capsuleFieldName, encapsulatedFields,
-							encapsulatedMethods, contextId));
 				}
 
-				return encapsulateFields(result, containingType);
+				return encapsulateMembers(result, containingType);
 			}
 			return fields;
+
 		}
 
 		protected List<IFieldInfo> addGeneratedFields(List<IFieldInfo> fields, ITypeInfo containingType) {

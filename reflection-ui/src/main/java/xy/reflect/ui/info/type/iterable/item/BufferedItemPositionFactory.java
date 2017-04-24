@@ -1,6 +1,5 @@
 package xy.reflect.ui.info.type.iterable.item;
 
-import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.IFieldControlData;
 
 public class BufferedItemPositionFactory extends ItemPositionFactory {
@@ -9,21 +8,6 @@ public class BufferedItemPositionFactory extends ItemPositionFactory {
 
 	public BufferedItemPositionFactory(IFieldControlData containingListDataIfRoot) {
 		super(containingListDataIfRoot);
-	}
-
-	@Override
-	public IFieldControlData getRootListData() {
-		IFieldControlData result = super.getRootListData();
-		if (result != null) {
-			result = new FieldControlDataProxy(result) {
-				@Override
-				public void setValue(Object value) {
-					super.setValue(value);
-					refresh();
-				}
-			};
-		}
-		return result;
 	}
 
 	@Override

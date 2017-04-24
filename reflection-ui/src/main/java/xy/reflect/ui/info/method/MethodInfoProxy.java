@@ -17,6 +17,10 @@ public class MethodInfoProxy implements IMethodInfo {
 		this.base = base;
 	}
 
+	public IMethodInfo getBase() {
+		return base;
+	}
+
 	public boolean isReturnValueNullable() {
 		return base.isReturnValueNullable();
 	}

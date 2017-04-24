@@ -85,6 +85,7 @@ import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.undo.BufferedListModificationFactory;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ListModificationFactory;
@@ -777,8 +778,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	protected boolean canRemoveAll(List<BufferedItemPosition> selection) {
 		boolean result = true;
 		for (BufferedItemPosition selectionItem : selection) {
-			if (!new ListModificationFactory(selectionItem, getModificationsTarget())
-					.canRemove(selectionItem.getIndex())) {
+			if (!createListModificationFactory(selectionItem).canRemove(selectionItem.getIndex())) {
 				result = false;
 				break;
 			}
@@ -789,13 +789,16 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	protected boolean canMoveAll(List<BufferedItemPosition> selection, int offset) {
 		boolean result = true;
 		for (BufferedItemPosition selectionItem : selection) {
-			if (!new ListModificationFactory(selectionItem, getModificationsTarget()).canMove(selectionItem.getIndex(),
-					offset)) {
+			if (!createListModificationFactory(selectionItem).canMove(selectionItem.getIndex(), offset)) {
 				result = false;
 				break;
 			}
 		}
 		return result;
+	}
+
+	protected ListModificationFactory createListModificationFactory(BufferedItemPosition itemPosition) {
+		return new BufferedListModificationFactory(itemPosition, getModificationsTarget());
 	}
 
 	protected boolean allSelectionItemsInSameList() {
@@ -832,8 +835,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				if (!userConfirms("Remove all the items?")) {
 					return false;
 				}
-				getModificationStack().apply(new ListModificationFactory(itemPositionFactory.getRootItemPosition(-1),
-						getModificationsTarget()).clear());
+				getModificationStack()
+						.apply(createListModificationFactory(itemPositionFactory.getRootItemPosition(-1)).clear());
 				toPostSelectHolder[0] = Collections.emptyList();
 				return true;
 			}
@@ -851,8 +854,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			@Override
 			public boolean isValid() {
 				if (getRootListRawValue().length > 0) {
-					if (new ListModificationFactory(itemPositionFactory.getRootItemPosition(-1),
-							getModificationsTarget()).canClear()) {
+					if (createListModificationFactory(itemPositionFactory.getRootItemPosition(-1)).canClear()) {
 						if (getRootListType().isRemovalAllowed()) {
 							return true;
 						}
@@ -883,7 +885,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				for (BufferedItemPosition itemPosition : selection) {
 					int index = itemPosition.getIndex();
 					getModificationStack().apply(
-							new ListModificationFactory(itemPosition, getModificationsTarget()).move(index, offset));
+							createListModificationFactory(itemPosition).move(index, offset));
 					newSelection.add(itemPosition.getSibling(index + offset));
 				}
 				toPostSelectHolder[0] = newSelection;
@@ -1022,7 +1024,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					for (BufferedItemPosition itemPosition : selection) {
 						int index = itemPosition.getIndex();
 						getModificationStack().apply(
-								new ListModificationFactory(itemPosition, getModificationsTarget()).remove(index));
+								createListModificationFactory(itemPosition).remove(index));
 						updateItemPositionsAfterItemRemoval(toPostSelect, itemPosition);
 						if (itemPosition.getContainingListType().isOrdered() && (index > 0)) {
 							toPostSelect.add(itemPosition.getSibling(index - 1));
@@ -1058,7 +1060,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				}
 				if (selection.size() > 0) {
 					for (BufferedItemPosition selectionItem : selection) {
-						if (!new ListModificationFactory(selectionItem, getModificationsTarget())
+						if (!createListModificationFactory(selectionItem)
 								.canRemove(selectionItem.getIndex())) {
 							return false;
 						}
@@ -1104,7 +1106,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					}
 					newItem = dialogBuilder.getCurrentObjectValue();
 				}
-				getModificationStack().apply(new ListModificationFactory(newItemPosition, getModificationsTarget())
+				getModificationStack().apply(createListModificationFactory(newItemPosition)
 						.add(newItemPosition.getIndex(), newItem));
 				BufferedItemPosition toSelect = newItemPosition;
 				if (!listType.isOrdered()) {
@@ -1174,7 +1176,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				BufferedItemPosition newItemPosition = getNewItemPosition();
 				if (newItemPosition != null) {
 					if (newItemPosition.getContainingListType().isInsertionAllowed()) {
-						if (new ListModificationFactory(newItemPosition, getModificationsTarget())
+						if (createListModificationFactory(newItemPosition)
 								.canAdd(newItemPosition.getIndex())) {
 							if (insertPosition == InsertPosition.BEFORE) {
 								if (newItemPosition.getContainingListType().isOrdered()) {
@@ -1199,7 +1201,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		};
 	}
 
-	protected ItemUIBuilder openAnticipatedItemDialog(BufferedItemPosition anticipatedItemPosition, Object anticipatedItem) {
+	protected ItemUIBuilder openAnticipatedItemDialog(BufferedItemPosition anticipatedItemPosition,
+			Object anticipatedItem) {
 		BufferedItemPosition fakeItemPosition = anticipatedItemPosition.getSibling(-1);
 		fakeItemPosition.setFakeItem(anticipatedItem);
 		ItemUIBuilder dialogBuilder = new ItemUIBuilder(fakeItemPosition) {
@@ -1249,7 +1252,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					}
 					newSubListItem = dialogBuilder.getCurrentObjectValue();
 				}
-				getModificationStack().apply(new ListModificationFactory(newSubItemPosition, getModificationsTarget())
+				getModificationStack().apply(createListModificationFactory(newSubItemPosition)
 						.add(newSubItemPosition.getIndex(), newSubListItem));
 				if (!subListType.isOrdered()) {
 					newSubItemPosition = newSubItemPosition.getSibling(
@@ -1266,7 +1269,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				if (newSubItemPosition == null) {
 					return false;
 				}
-				if (!new ListModificationFactory(newSubItemPosition, getModificationsTarget())
+				if (!createListModificationFactory(newSubItemPosition)
 						.canAdd(newSubItemPosition.getIndex())) {
 					return false;
 				}
@@ -1414,7 +1417,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					clipboard.add(0, ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), itemPosition.getItem()));
 					int index = itemPosition.getIndex();
 					getModificationStack()
-							.apply(new ListModificationFactory(itemPosition, getModificationsTarget()).remove(index));
+							.apply(createListModificationFactory(itemPosition).remove(index));
 					updateItemPositionsAfterItemRemoval(toPostSelect, itemPosition);
 					if (itemPosition.getContainingListType().isOrdered() && (index > 0)) {
 						toPostSelect.add(itemPosition.getSibling(index - 1));
@@ -1462,7 +1465,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				int initialIndex = index;
 				for (Object clipboardItem : clipboard) {
 					clipboardItem = ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), clipboardItem);
-					getModificationStack().apply(new ListModificationFactory(newItemPosition, getModificationsTarget())
+					getModificationStack().apply(createListModificationFactory(newItemPosition)
 							.add(index, clipboardItem));
 					index++;
 				}
@@ -1518,7 +1521,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				if (clipboard.size() > 0) {
 					BufferedItemPosition newItemPosition = getNewItemPosition();
 					if (newItemPosition != null) {
-						if (new ListModificationFactory(newItemPosition, getModificationsTarget())
+						if (createListModificationFactory(newItemPosition)
 								.canAdd(newItemPosition.getIndex())) {
 							if (itemPositionSupportsAllClipboardItems(newItemPosition)) {
 								if (newItemPosition.getContainingListType().isOrdered()) {
@@ -1555,7 +1558,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				subItemPosition = subItemPosition.getSibling(newSubListItemIndex);
 				for (Object clipboardItem : clipboard) {
 					clipboardItem = ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), clipboardItem);
-					getModificationStack().apply(new ListModificationFactory(subItemPosition, getModificationsTarget())
+					getModificationStack().apply(createListModificationFactory(subItemPosition)
 							.add(newSubListItemIndex, clipboardItem));
 					newSubListItemIndex++;
 				}
@@ -1604,7 +1607,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				if (clipboard.size() > 0) {
 					BufferedItemPosition newItemPosition = getNewItemPosition();
 					if (newItemPosition != null) {
-						if (new ListModificationFactory(newItemPosition, getModificationsTarget())
+						if (createListModificationFactory(newItemPosition)
 								.canAdd(newItemPosition.getIndex())) {
 							if (itemPositionSupportsAllClipboardItems(newItemPosition)) {
 								return true;
@@ -2322,7 +2325,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		public ItemUIBuilder(BufferedItemPosition bufferedItemPosition) {
 			super();
 			this.bufferedItemPosition = bufferedItemPosition;
-			this.modificationFactory = new ListModificationFactory(bufferedItemPosition, getModificationsTarget());
+			this.modificationFactory = createListModificationFactory(bufferedItemPosition);
 			this.canCommit = modificationFactory.canSet(bufferedItemPosition.getIndex());
 			this.objectValueReturnMode = bufferedItemPosition.getItemReturnMode();
 		}

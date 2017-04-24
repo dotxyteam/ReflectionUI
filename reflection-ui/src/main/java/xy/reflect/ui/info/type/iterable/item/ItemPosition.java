@@ -18,8 +18,7 @@ public class ItemPosition implements Cloneable {
 	protected ItemPosition parentItemPosition;
 	protected int index;
 	protected IFieldInfo containingListFieldIfNotRoot;
-	protected int containingListSize;
-
+	
 	protected ItemPosition() {
 		super();
 	}
@@ -29,7 +28,7 @@ public class ItemPosition implements Cloneable {
 	}
 
 	public int getContainingListSize() {
-		return containingListSize;
+		return retrieveContainingListRawValue().length;
 	}
 
 	public ItemPosition getParentItemPosition() {
@@ -96,6 +95,7 @@ public class ItemPosition implements Cloneable {
 
 	public List<? extends ItemPosition> getFollowingSiblings() {
 		List<ItemPosition> result = new ArrayList<ItemPosition>();
+		int containingListSize = getContainingListSize();
 		for (int i = getIndex() + 1; i < containingListSize; i++) {
 			result.add(getSibling(i));
 		}
@@ -176,7 +176,6 @@ public class ItemPosition implements Cloneable {
 		result.parentItemPosition = this;
 		result.containingListFieldIfNotRoot = getSubListField();
 		result.index = index;
-		result.containingListSize = subListRawValue.length;
 		return result;
 	}
 
@@ -267,7 +266,6 @@ public class ItemPosition implements Cloneable {
 		int result = 1;
 		result = prime * result
 				+ ((containingListFieldIfNotRoot == null) ? 0 : containingListFieldIfNotRoot.hashCode());
-		result = prime * result + containingListSize;
 		result = prime * result + ((factory == null) ? 0 : factory.hashCode());
 		result = prime * result + index;
 		result = prime * result + ((parentItemPosition == null) ? 0 : parentItemPosition.hashCode());
@@ -287,8 +285,6 @@ public class ItemPosition implements Cloneable {
 			if (other.containingListFieldIfNotRoot != null)
 				return false;
 		} else if (!containingListFieldIfNotRoot.equals(other.containingListFieldIfNotRoot))
-			return false;
-		if (containingListSize != other.containingListSize)
 			return false;
 		if (factory == null) {
 			if (other.factory != null)
