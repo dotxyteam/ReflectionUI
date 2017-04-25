@@ -8,10 +8,11 @@ import java.util.Map;
 import com.google.common.cache.CacheBuilder;
 
 import xy.reflect.ui.control.swing.SwingRenderer;
+import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.StandardEnumerationTypeInfo;
-import xy.reflect.ui.info.type.factory.InfoCustomizations;
+import xy.reflect.ui.info.type.factory.InfoCustomizationsFactory;
 import xy.reflect.ui.info.type.iterable.ArrayTypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.iterable.map.StandardMapAsListTypeInfo;
@@ -49,7 +50,7 @@ public class ReflectionUI {
 				public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
 					ITypeInfo result = super.getTypeInfo(typeSource);
 					if (SystemProperties.areDefaultInfoCustomizationsActive()) {
-						result = InfoCustomizations.getDefault().get(this, result);
+						result = new InfoCustomizationsFactory(this, InfoCustomizations.getDefault()).get(result);
 					}
 					return result;
 				}

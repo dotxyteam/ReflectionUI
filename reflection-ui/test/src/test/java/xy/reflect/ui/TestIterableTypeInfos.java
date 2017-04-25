@@ -8,12 +8,13 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import xy.reflect.ui.control.DefaultFieldControlData;
+import xy.reflect.ui.info.custom.InfoCustomizations;
+import xy.reflect.ui.info.custom.InfoCustomizations.ListCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.TreeStructureDiscoverySettings;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.InfoCustomizations;
-import xy.reflect.ui.info.type.factory.InfoCustomizations.ListCustomization;
-import xy.reflect.ui.info.type.factory.InfoCustomizations.TreeStructureDiscoverySettings;
+import xy.reflect.ui.info.type.factory.InfoCustomizationsFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.item.ItemPositionFactory;
@@ -60,7 +61,7 @@ public class TestIterableTypeInfos extends AbstractUIAutomationTest {
 		ReflectionUI reflectionUI = new ReflectionUI() {
 			@Override
 			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-				return customizations.get(this, super.getTypeInfo(typeSource));
+				return new InfoCustomizationsFactory(this, customizations).get(super.getTypeInfo(typeSource));
 			}
 		};
 		ITypeInfo typeInfo = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(this));

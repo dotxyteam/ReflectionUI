@@ -11,22 +11,22 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.custom.InfoCustomizations;
+import xy.reflect.ui.info.custom.InfoCustomizations.AbstractMemberCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.ColumnCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.CustomizationCategory;
+import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.ListCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.MethodCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.ParameterCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
-import xy.reflect.ui.info.type.factory.InfoCustomizations;
 import xy.reflect.ui.info.type.factory.TypeInfoProxyFactory;
-import xy.reflect.ui.info.type.factory.InfoCustomizations.AbstractMemberCustomization;
-import xy.reflect.ui.info.type.factory.InfoCustomizations.ColumnCustomization;
-import xy.reflect.ui.info.type.factory.InfoCustomizations.CustomizationCategory;
-import xy.reflect.ui.info.type.factory.InfoCustomizations.FieldCustomization;
-import xy.reflect.ui.info.type.factory.InfoCustomizations.ListCustomization;
-import xy.reflect.ui.info.type.factory.InfoCustomizations.MethodCustomization;
-import xy.reflect.ui.info.type.factory.InfoCustomizations.ParameterCustomization;
-import xy.reflect.ui.info.type.factory.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.util.ResourcePath;
 
@@ -220,7 +220,7 @@ class CustomizationToolsUI extends ReflectionUI {
 			}
 
 		}.get(result);
-		result = swingCustomizer.getCustomizationTools().getToolsCustomizations().get(this, result);
+		result = swingCustomizer.getCustomizationTools().getToolsCustomizationsFactory().get(result);
 		return result;
 	}
 

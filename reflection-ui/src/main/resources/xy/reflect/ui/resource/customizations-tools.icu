@@ -56,7 +56,7 @@
         <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
-        <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ColumnCustomization</itemTypeName>
+        <itemTypeName>xy.reflect.ui.info.custom.InfoCustomizations$ColumnCustomization</itemTypeName>
         <listSorted>false</listSorted>
         <listTypeName>java.util.List</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
@@ -76,7 +76,7 @@
         <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
-        <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$CustomizationCategory</itemTypeName>
+        <itemTypeName>xy.reflect.ui.info.custom.InfoCustomizations$CustomizationCategory</itemTypeName>
         <listSorted>false</listSorted>
         <listTypeName>java.util.List</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
@@ -96,7 +96,7 @@
         <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
-        <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ITypeInfoFinder</itemTypeName>
+        <itemTypeName>xy.reflect.ui.info.custom.InfoCustomizations$ITypeInfoFinder</itemTypeName>
         <listSorted>false</listSorted>
         <listTypeName>java.util.List</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
@@ -124,7 +124,7 @@
         <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
-        <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$InfoFilter</itemTypeName>
+        <itemTypeName>xy.reflect.ui.info.custom.InfoCustomizations$InfoFilter</itemTypeName>
         <listSorted>false</listSorted>
         <listTypeName>java.util.List</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
@@ -156,7 +156,7 @@
         <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
-        <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ListItemFieldShortcut</itemTypeName>
+        <itemTypeName>xy.reflect.ui.info.custom.InfoCustomizations$ListItemFieldShortcut</itemTypeName>
         <listSorted>false</listSorted>
         <listTypeName>java.util.List</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
@@ -176,7 +176,7 @@
         <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
-        <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ListItemMethodShortcut</itemTypeName>
+        <itemTypeName>xy.reflect.ui.info.custom.InfoCustomizations$ListItemMethodShortcut</itemTypeName>
         <listSorted>false</listSorted>
         <listTypeName>java.util.List</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
@@ -258,7 +258,7 @@
         <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
-        <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$MethodCustomization</itemTypeName>
+        <itemTypeName>xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization</itemTypeName>
         <listSorted>false</listSorted>
         <listTypeName>java.util.List</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
@@ -303,7 +303,7 @@
         <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
-        <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ParameterCustomization</itemTypeName>
+        <itemTypeName>xy.reflect.ui.info.custom.InfoCustomizations$ParameterCustomization</itemTypeName>
         <listSorted>false</listSorted>
         <listTypeName>java.util.List</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
@@ -339,7 +339,7 @@
         <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
-        <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ColumnCustomization</itemTypeName>
+        <itemTypeName>xy.reflect.ui.info.custom.InfoCustomizations$ColumnCustomization</itemTypeName>
         <listSorted>false</listSorted>
         <listTypeName>java.util.Set</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
@@ -370,7 +370,7 @@
         <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
-        <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$EnumerationItemCustomization</itemTypeName>
+        <itemTypeName>xy.reflect.ui.info.custom.InfoCustomizations$EnumerationItemCustomization</itemTypeName>
         <listSorted>false</listSorted>
         <listTypeName>java.util.Set</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
@@ -390,7 +390,7 @@
         <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
-        <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization</itemTypeName>
+        <itemTypeName>xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization</itemTypeName>
         <listSorted>false</listSorted>
         <listTypeName>java.util.Set</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
@@ -410,7 +410,7 @@
         <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
-        <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$MethodCustomization</itemTypeName>
+        <itemTypeName>xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization</itemTypeName>
         <listSorted>false</listSorted>
         <listTypeName>java.util.Set</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
@@ -443,7 +443,7 @@
         <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
-        <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$EnumerationItemCustomization</itemTypeName>
+        <itemTypeName>xy.reflect.ui.info.custom.InfoCustomizations$EnumerationItemCustomization</itemTypeName>
         <listSorted>false</listSorted>
         <listTypeName>java.util.List</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
@@ -537,7 +537,7 @@
         <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
-        <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization</itemTypeName>
+        <itemTypeName>xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization</itemTypeName>
         <listSorted>false</listSorted>
         <listTypeName>java.util.List</listTypeName>
         <positionColumnAdded>false</positionColumnAdded>
@@ -871,7 +871,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption= Item Method Shortcuts - Item, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$ListItemMethodShortcut, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption= Item Method Shortcuts - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$ListItemMethodShortcut, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -943,7 +943,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$EnumerationItemCustomization, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$EnumerationItemCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -961,7 +961,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=Allow to Classify Fields and Methods - Item, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$CustomizationCategory, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Allow to Classify Fields and Methods - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$CustomizationCategory, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -979,7 +979,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=Customize Columns Display - Item, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$ColumnCustomization, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Customize Columns Display - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$ColumnCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -997,7 +997,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=Customize Fields Display - Item, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Customize Fields Display - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1015,7 +1015,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=Customize Items - Item, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$EnumerationItemCustomization, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Customize Items - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$EnumerationItemCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1033,7 +1033,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=Customize Methods Display - Item, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$MethodCustomization, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Customize Methods Display - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1051,7 +1051,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=Fields Excluded From Item Details - Item, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$InfoFilter, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Fields Excluded From Item Details - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$InfoFilter, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1157,7 +1157,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=Item Field Shortcuts - Item, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$ListItemFieldShortcut, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Item Field Shortcuts - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$ListItemFieldShortcut, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1175,7 +1175,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=Methods Excluded From Item Details - Item, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$InfoFilter, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Methods Excluded From Item Details - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$InfoFilter, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1193,32 +1193,14 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=Parameters Customizations - Item, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$ParameterCustomization, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Parameters Customizations - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$ParameterCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=Selection, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$ITypeInfoFinder.SubTypesEnumeration, fieldCaption=Choose a type:]</typeName>
-        <undoManagementHidden>false</undoManagementHidden>
-    </typeCustomizations>
-    <typeCustomizations>
-        <specificProperties/>
-        <abstractForced>false</abstractForced>
-        <fieldsCustomizations>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <fieldName>value</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <nullableFacetHidden>true</nullableFacetHidden>
-            <specificTypeCustomizations/>
-        </fieldsCustomizations>
-        <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=Specify Implementations of Abstract Types - Item, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$CustomTypeInfoFinder, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Selection, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$ITypeInfoFinder.SubTypesEnumeration, fieldCaption=Choose a type:]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1236,7 +1218,25 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=Specify Implementations of Abstract Types - Item, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$JavaClassBasedTypeInfoFinder, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Specify Implementations of Abstract Types - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$CustomTypeInfoFinder, fieldCaption=]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>value</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [typeCaption=Specify Implementations of Abstract Types - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$JavaClassBasedTypeInfoFinder, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1698,7 +1698,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
-        <typeName>[Lxy.reflect.ui.info.type.factory.InfoCustomizations$CustomizationCategory;</typeName>
+        <typeName>[Lxy.reflect.ui.info.custom.InfoCustomizations$CustomizationCategory;</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -3840,7 +3840,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$ColumnCustomization getColumnCustomization(java.lang.String, java.lang.String, java.lang.String)</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$ColumnCustomization getColumnCustomization(java.lang.String, java.lang.String, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -3867,7 +3867,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$ColumnCustomization getColumnCustomization(java.lang.String, java.lang.String, java.lang.String, boolean)</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$ColumnCustomization getColumnCustomization(java.lang.String, java.lang.String, java.lang.String, boolean)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -3900,7 +3900,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization getFieldCustomization(java.lang.String, java.lang.String)</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization getFieldCustomization(java.lang.String, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -3921,7 +3921,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization getFieldCustomization(java.lang.String, java.lang.String, boolean)</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization getFieldCustomization(java.lang.String, java.lang.String, boolean)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -3948,7 +3948,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$ListCustomization getListCustomization(java.lang.String, java.lang.String)</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization getListCustomization(java.lang.String, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -3969,7 +3969,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$ListCustomization getListCustomization(java.lang.String, java.lang.String, boolean)</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization getListCustomization(java.lang.String, java.lang.String, boolean)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -3996,7 +3996,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$MethodCustomization getMethodCustomization(java.lang.String, java.lang.String)</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization getMethodCustomization(java.lang.String, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -4017,7 +4017,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$MethodCustomization getMethodCustomization(java.lang.String, java.lang.String, boolean)</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization getMethodCustomization(java.lang.String, java.lang.String, boolean)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -4044,7 +4044,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$ParameterCustomization getParameterCustomization(java.lang.String, java.lang.String, java.lang.String)</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$ParameterCustomization getParameterCustomization(java.lang.String, java.lang.String, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -4071,7 +4071,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$ParameterCustomization getParameterCustomization(java.lang.String, java.lang.String, java.lang.String, boolean)</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$ParameterCustomization getParameterCustomization(java.lang.String, java.lang.String, java.lang.String, boolean)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -4104,7 +4104,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$TypeCustomization getTypeCustomization(java.lang.String)</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization getTypeCustomization(java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -4125,7 +4125,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$TypeCustomization getTypeCustomization(java.lang.String, boolean)</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization getTypeCustomization(java.lang.String, boolean)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -4148,7 +4148,7 @@
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>xy.reflect.ui.info.type.factory.InfoCustomizations</typeName>
+        <typeName>xy.reflect.ui.info.custom.InfoCustomizations</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -4197,7 +4197,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>int compareTo(xy.reflect.ui.info.type.factory.InfoCustomizations$ColumnCustomization)</methodSignature>
+            <methodSignature>int compareTo(xy.reflect.ui.info.custom.InfoCustomizations$ColumnCustomization)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -4208,7 +4208,7 @@
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ColumnCustomization</typeName>
+        <typeName>xy.reflect.ui.info.custom.InfoCustomizations$ColumnCustomization</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -4246,7 +4246,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$CustomTypeInfoFinder CustomTypeInfoFinder()</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$CustomTypeInfoFinder CustomTypeInfoFinder()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
@@ -4255,12 +4255,12 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$CustomTypeInfoFinder new()</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$CustomTypeInfoFinder new()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>xy.reflect.ui.info.type.factory.InfoCustomizations$CustomTypeInfoFinder</typeName>
+        <typeName>xy.reflect.ui.info.custom.InfoCustomizations$CustomTypeInfoFinder</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -4283,12 +4283,12 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$CustomizationCategory CustomizationCategory()</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$CustomizationCategory CustomizationCategory()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>xy.reflect.ui.info.type.factory.InfoCustomizations$CustomizationCategory</typeName>
+        <typeName>xy.reflect.ui.info.custom.InfoCustomizations$CustomizationCategory</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -4342,7 +4342,7 @@
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$EnumerationItemCustomization</itemTypeName>
+                    <itemTypeName>xy.reflect.ui.info.custom.InfoCustomizations$EnumerationItemCustomization</itemTypeName>
                     <listSorted>true</listSorted>
                     <listTypeName>java.util.List</listTypeName>
                     <positionColumnAdded>false</positionColumnAdded>
@@ -4379,7 +4379,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>int compareTo(xy.reflect.ui.info.type.factory.InfoCustomizations$EnumerationCustomization)</methodSignature>
+            <methodSignature>int compareTo(xy.reflect.ui.info.custom.InfoCustomizations$EnumerationCustomization)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -4390,7 +4390,7 @@
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>xy.reflect.ui.info.type.factory.InfoCustomizations$EnumerationCustomization</typeName>
+        <typeName>xy.reflect.ui.info.custom.InfoCustomizations$EnumerationCustomization</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -4438,7 +4438,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>int compareTo(xy.reflect.ui.info.type.factory.InfoCustomizations$EnumerationItemCustomization)</methodSignature>
+            <methodSignature>int compareTo(xy.reflect.ui.info.custom.InfoCustomizations$EnumerationItemCustomization)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -4449,7 +4449,7 @@
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>xy.reflect.ui.info.type.factory.InfoCustomizations$EnumerationItemCustomization</typeName>
+        <typeName>xy.reflect.ui.info.custom.InfoCustomizations$EnumerationItemCustomization</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -6365,7 +6365,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>int compareTo(xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization)</methodSignature>
+            <methodSignature>int compareTo(xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -6380,7 +6380,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization new()</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization new()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
@@ -6481,14 +6481,14 @@
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization</typeName>
+        <typeName>xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
-        <typeName>xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization.category.ValueOptions</typeName>
+        <typeName>xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization.category.ValueOptions</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -6522,12 +6522,12 @@
             <validating>false</validating>
         </methodsCustomizations>
         <javaClassBasedTypeInfoFinder>
-            <className>xy.reflect.ui.info.type.factory.InfoCustomizations$JavaClassBasedTypeInfoFinder</className>
+            <className>xy.reflect.ui.info.custom.InfoCustomizations$JavaClassBasedTypeInfoFinder</className>
         </javaClassBasedTypeInfoFinder>
         <javaClassBasedTypeInfoFinder>
-            <className>xy.reflect.ui.info.type.factory.InfoCustomizations$CustomTypeInfoFinder</className>
+            <className>xy.reflect.ui.info.custom.InfoCustomizations$CustomTypeInfoFinder</className>
         </javaClassBasedTypeInfoFinder>
-        <typeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ITypeInfoFinder</typeName>
+        <typeName>xy.reflect.ui.info.custom.InfoCustomizations$ITypeInfoFinder</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -6578,12 +6578,12 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$InfoFilter InfoFilter()</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$InfoFilter InfoFilter()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>xy.reflect.ui.info.type.factory.InfoCustomizations$InfoFilter</typeName>
+        <typeName>xy.reflect.ui.info.custom.InfoCustomizations$InfoFilter</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -6632,7 +6632,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$JavaClassBasedTypeInfoFinder JavaClassBasedTypeInfoFinder()</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$JavaClassBasedTypeInfoFinder JavaClassBasedTypeInfoFinder()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
@@ -6641,12 +6641,12 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$JavaClassBasedTypeInfoFinder new()</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$JavaClassBasedTypeInfoFinder new()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>xy.reflect.ui.info.type.factory.InfoCustomizations$JavaClassBasedTypeInfoFinder</typeName>
+        <typeName>xy.reflect.ui.info.custom.InfoCustomizations$JavaClassBasedTypeInfoFinder</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -6739,7 +6739,7 @@
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ColumnCustomization</itemTypeName>
+                    <itemTypeName>xy.reflect.ui.info.custom.InfoCustomizations$ColumnCustomization</itemTypeName>
                     <listSorted>true</listSorted>
                     <listTypeName>java.util.List</listTypeName>
                     <positionColumnAdded>false</positionColumnAdded>
@@ -7061,7 +7061,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>int compareTo(xy.reflect.ui.info.type.factory.InfoCustomizations$ListCustomization)</methodSignature>
+            <methodSignature>int compareTo(xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -7076,7 +7076,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$ColumnCustomization getColumnCustomization(java.lang.String)</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$ColumnCustomization getColumnCustomization(java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -7091,7 +7091,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$ListCustomization new()</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization new()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
@@ -7109,7 +7109,7 @@
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ListCustomization</typeName>
+        <typeName>xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -7168,12 +7168,12 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$ListEditOptions ListEditOptions()</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$ListEditOptions ListEditOptions()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ListEditOptions</typeName>
+        <typeName>xy.reflect.ui.info.custom.InfoCustomizations$ListEditOptions</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -7221,12 +7221,12 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$ListItemFieldShortcut ListItemFieldShortcut()</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$ListItemFieldShortcut ListItemFieldShortcut()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ListItemFieldShortcut</typeName>
+        <typeName>xy.reflect.ui.info.custom.InfoCustomizations$ListItemFieldShortcut</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -7286,12 +7286,12 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$ListItemMethodShortcut ListItemMethodShortcut()</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$ListItemMethodShortcut ListItemMethodShortcut()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ListItemMethodShortcut</typeName>
+        <typeName>xy.reflect.ui.info.custom.InfoCustomizations$ListItemMethodShortcut</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -7488,7 +7488,7 @@
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ParameterCustomization</itemTypeName>
+                    <itemTypeName>xy.reflect.ui.info.custom.InfoCustomizations$ParameterCustomization</itemTypeName>
                     <listSorted>true</listSorted>
                     <listTypeName>java.util.List</listTypeName>
                     <positionColumnAdded>false</positionColumnAdded>
@@ -7689,7 +7689,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>int compareTo(xy.reflect.ui.info.type.factory.InfoCustomizations$MethodCustomization)</methodSignature>
+            <methodSignature>int compareTo(xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -7719,7 +7719,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$MethodCustomization new()</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization new()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
@@ -7820,7 +7820,7 @@
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>xy.reflect.ui.info.type.factory.InfoCustomizations$MethodCustomization</typeName>
+        <typeName>xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -7906,7 +7906,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>int compareTo(xy.reflect.ui.info.type.factory.InfoCustomizations$ParameterCustomization)</methodSignature>
+            <methodSignature>int compareTo(xy.reflect.ui.info.custom.InfoCustomizations$ParameterCustomization)</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
@@ -7915,12 +7915,12 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$ParameterCustomization new()</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$ParameterCustomization new()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ParameterCustomization</typeName>
+        <typeName>xy.reflect.ui.info.custom.InfoCustomizations$ParameterCustomization</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -7954,12 +7954,12 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>xy.reflect.ui.info.type.factory.InfoCustomizations$TreeStructureDiscoverySettings TreeStructureDiscoverySettings()</methodSignature>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$TreeStructureDiscoverySettings TreeStructureDiscoverySettings()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>xy.reflect.ui.info.type.factory.InfoCustomizations$TreeStructureDiscoverySettings</typeName>
+        <typeName>xy.reflect.ui.info.custom.InfoCustomizations$TreeStructureDiscoverySettings</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -8138,7 +8138,7 @@
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization</itemTypeName>
+                    <itemTypeName>xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization</itemTypeName>
                     <listSorted>true</listSorted>
                     <listTypeName>java.util.List</listTypeName>
                     <positionColumnAdded>false</positionColumnAdded>
@@ -8283,7 +8283,7 @@
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$MethodCustomization</itemTypeName>
+                    <itemTypeName>xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization</itemTypeName>
                     <listSorted>true</listSorted>
                     <listTypeName>java.util.List</listTypeName>
                     <positionColumnAdded>false</positionColumnAdded>
@@ -8353,7 +8353,7 @@
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemTypeColumnAdded>true</itemTypeColumnAdded>
-                    <itemTypeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ITypeInfoFinder</itemTypeName>
+                    <itemTypeName>xy.reflect.ui.info.custom.InfoCustomizations$ITypeInfoFinder</itemTypeName>
                     <listSorted>false</listSorted>
                     <listTypeName>java.util.List</listTypeName>
                     <positionColumnAdded>false</positionColumnAdded>
@@ -8470,7 +8470,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>int compareTo(xy.reflect.ui.info.type.factory.InfoCustomizations$TypeCustomization)</methodSignature>
+            <methodSignature>int compareTo(xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -8553,7 +8553,7 @@
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>xy.reflect.ui.info.type.factory.InfoCustomizations$TypeCustomization</typeName>
+        <typeName>xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -8770,7 +8770,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=IType Info Finder - Polymorphic Value, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$JavaClassBasedTypeInfoFinder, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=IType Info Finder - Polymorphic Value, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$JavaClassBasedTypeInfoFinder, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -8788,7 +8788,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=IType Info Finder - Polymorphic Value, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$CustomTypeInfoFinder, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=IType Info Finder - Polymorphic Value, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$CustomTypeInfoFinder, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -8829,7 +8829,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>xy.reflect.ui.info.type.factory.InfoCustomizations$ListInstanciationOption</typeName>
+        <typeName>xy.reflect.ui.info.custom.InfoCustomizations$ListInstanciationOption</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -8840,7 +8840,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>int compareTo(xy.reflect.ui.info.type.factory.InfoCustomizations$ParameterCustomization)</methodSignature>
+            <methodSignature>int compareTo(xy.reflect.ui.info.custom.InfoCustomizations$ParameterCustomization)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -8869,7 +8869,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=Item, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$ParameterCustomization, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$ParameterCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -8898,7 +8898,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=Column Customization, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$ColumnCustomization, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Column Customization, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$ColumnCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -8927,7 +8927,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=Field Customization, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Field Customization, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -8956,7 +8956,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=Info Filter, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$InfoFilter, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Info Filter, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$InfoFilter, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -8985,7 +8985,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=Method Customization, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$MethodCustomization, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Method Customization, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9014,7 +9014,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=Parameter Customization, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$ParameterCustomization, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Parameter Customization, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$ParameterCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9043,7 +9043,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=Customization Category, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$CustomizationCategory, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Customization Category, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$CustomizationCategory, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9108,7 +9108,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=List Item Field Shortcut, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$ListItemFieldShortcut, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=List Item Field Shortcut, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$ListItemFieldShortcut, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9137,7 +9137,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=List Item Method Shortcut, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$ListItemMethodShortcut, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=List Item Method Shortcut, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$ListItemMethodShortcut, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9166,7 +9166,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=Enumeration Item Customization, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$EnumerationItemCustomization, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Enumeration Item Customization, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$EnumerationItemCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9206,7 +9206,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=Polymorphic - IType Info Finder, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$JavaClassBasedTypeInfoFinder, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Polymorphic - IType Info Finder, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$JavaClassBasedTypeInfoFinder, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9235,7 +9235,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=Polymorphic - IType Info Finder, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$CustomTypeInfoFinder, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Polymorphic - IType Info Finder, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$CustomTypeInfoFinder, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9254,7 +9254,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=Customize Fields Display - Item, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization, fieldCaption=Field Customization]</typeName>
+        <typeName>Encapsulation [typeCaption=Customize Fields Display - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization, fieldCaption=Field Customization]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9308,7 +9308,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=Nullable - Tree Structure Discovery Settings, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$TreeStructureDiscoverySettings, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Nullable - Tree Structure Discovery Settings, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$TreeStructureDiscoverySettings, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9326,7 +9326,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [typeCaption=Nullable - List Instanciation Option, fieldType=xy.reflect.ui.info.type.factory.InfoCustomizations$ListInstanciationOption, fieldCaption=]</typeName>
+        <typeName>Encapsulation [typeCaption=Nullable - List Instanciation Option, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$ListInstanciationOption, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9344,7 +9344,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=fieldsCustomizations, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=fieldsCustomizations, containingType=xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9362,7 +9362,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=methodsCustomizations, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.factory.InfoCustomizations$MethodCustomization]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=methodsCustomizations, containingType=xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9380,7 +9380,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=parametersCustomizations, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$MethodCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.factory.InfoCustomizations$ParameterCustomization]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=parametersCustomizations, containingType=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$ParameterCustomization]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9421,7 +9421,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=memberCategories, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.factory.InfoCustomizations$CustomizationCategory]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=memberCategories, containingType=xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$CustomizationCategory]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9439,7 +9439,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=polymorphicSubTypeFinders, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.factory.InfoCustomizations$ITypeInfoFinder]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.type.factory.InfoCustomizations$JavaClassBasedTypeInfoFinder]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=polymorphicSubTypeFinders, containingType=xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$ITypeInfoFinder]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$JavaClassBasedTypeInfoFinder]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9457,7 +9457,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=polymorphicSubTypeFinders, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.factory.InfoCustomizations$ITypeInfoFinder]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.type.factory.InfoCustomizations$CustomTypeInfoFinder]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=polymorphicSubTypeFinders, containingType=xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$ITypeInfoFinder]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$CustomTypeInfoFinder]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9475,7 +9475,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=columnCustomizations, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$ListCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.factory.InfoCustomizations$ColumnCustomization]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=columnCustomizations, containingType=xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$ColumnCustomization]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9493,7 +9493,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=listInstanciationOption, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$ListEditOptions], subContext=NullableInstance, encapsulatedObjectType=xy.reflect.ui.info.type.factory.InfoCustomizations$ListInstanciationOption]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=listInstanciationOption, containingType=xy.reflect.ui.info.custom.InfoCustomizations$ListEditOptions], subContext=NullableInstance, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$ListInstanciationOption]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9511,7 +9511,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=customDetailsAccessMode, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$ListCustomization], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=customDetailsAccessMode, containingType=xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9529,7 +9529,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=customDetailsAccessMode, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$ListCustomization], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=customDetailsAccessMode, containingType=xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9547,7 +9547,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=treeStructureDiscoverySettings, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$ListCustomization], subContext=NullableInstance, encapsulatedObjectType=xy.reflect.ui.info.type.factory.InfoCustomizations$TreeStructureDiscoverySettings]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=treeStructureDiscoverySettings, containingType=xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization], subContext=NullableInstance, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$TreeStructureDiscoverySettings]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9565,7 +9565,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=itemCustomizations, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$EnumerationCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.factory.InfoCustomizations$EnumerationItemCustomization]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=itemCustomizations, containingType=xy.reflect.ui.info.custom.InfoCustomizations$EnumerationCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$EnumerationItemCustomization]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9583,7 +9583,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=allowedItemFieldShortcuts, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$ListCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.factory.InfoCustomizations$ListItemFieldShortcut]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=allowedItemFieldShortcuts, containingType=xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$ListItemFieldShortcut]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9601,7 +9601,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=allowedItemMethodShortcuts, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$ListCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.factory.InfoCustomizations$ListItemMethodShortcut]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=allowedItemMethodShortcuts, containingType=xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$ListItemMethodShortcut]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9620,7 +9620,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=fieldsExcludedFromItemDetails, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$ListCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.factory.InfoCustomizations$InfoFilter]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=fieldsExcludedFromItemDetails, containingType=xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$InfoFilter]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9639,7 +9639,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=methodsExcludedFromItemDetails, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$ListCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.factory.InfoCustomizations$InfoFilter]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=methodsExcludedFromItemDetails, containingType=xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$InfoFilter]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9657,7 +9657,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=editOptions, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$ListCustomization], subContext=NullableInstance, encapsulatedObjectType=xy.reflect.ui.info.type.factory.InfoCustomizations$ListEditOptions]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=editOptions, containingType=xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization], subContext=NullableInstance, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$ListEditOptions]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9675,7 +9675,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=generatedGetterName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Getter Name, fieldType=java.lang.String, fieldCaption=]]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=generatedGetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Getter Name, fieldType=java.lang.String, fieldCaption=]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9712,7 +9712,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name, fieldType=java.lang.String, fieldCaption=]]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name, fieldType=java.lang.String, fieldCaption=]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9749,7 +9749,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=generatedFieldName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$MethodCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Field Name, fieldType=java.lang.String, fieldCaption=]]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=generatedFieldName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Field Name, fieldType=java.lang.String, fieldCaption=]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9786,7 +9786,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=encapsulationFieldName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$MethodCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Encapsulation Field Name, fieldType=java.lang.String, fieldCaption=]]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=encapsulationFieldName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Encapsulation Field Name, fieldType=java.lang.String, fieldCaption=]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9823,7 +9823,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=parametersFormFieldName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$MethodCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Parameters Form Field Name, fieldType=java.lang.String, fieldCaption=]]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=parametersFormFieldName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Parameters Form Field Name, fieldType=java.lang.String, fieldCaption=]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9879,7 +9879,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=generatedGetterName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Getter Name - Value, fieldType=java.lang.String, fieldCaption=]]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=generatedGetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Getter Name - Value, fieldType=java.lang.String, fieldCaption=]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9901,7 +9901,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new()</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
@@ -9910,7 +9910,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+paramjava.lang.String(java.lang.String)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+paramjava.lang.String(java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -9925,7 +9925,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+param[C([C)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+param[C([C)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -9940,34 +9940,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+param[C+paramint+paramint([C, int, int)</methodSignature>
-            <parametersCustomizations>
-                <specificProperties/>
-                <hidden>false</hidden>
-                <nullableFacetHidden>false</nullableFacetHidden>
-                <parameterName>parameter1</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <specificProperties/>
-                <hidden>false</hidden>
-                <nullableFacetHidden>false</nullableFacetHidden>
-                <parameterName>parameter2</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <specificProperties/>
-                <hidden>false</hidden>
-                <nullableFacetHidden>false</nullableFacetHidden>
-                <parameterName>parameter3</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <specificReturnValueTypeCustomizations/>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+param[I+paramint+paramint([I, int, int)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+param[C+paramint+paramint([C, int, int)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -9994,7 +9967,34 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+param[B+paramint+paramint+paramint([B, int, int, int)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+param[I+paramint+paramint([I, int, int)</methodSignature>
+            <parametersCustomizations>
+                <specificProperties/>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <specificProperties/>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter2</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <specificProperties/>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter3</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+param[B+paramint+paramint+paramint([B, int, int, int)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -10027,7 +10027,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+param[B+paramint([B, int)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+param[B+paramint([B, int)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -10048,40 +10048,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+param[B+paramint+paramint+paramjava.lang.String([B, int, int, java.lang.String)</methodSignature>
-            <parametersCustomizations>
-                <specificProperties/>
-                <hidden>false</hidden>
-                <nullableFacetHidden>false</nullableFacetHidden>
-                <parameterName>parameter1</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <specificProperties/>
-                <hidden>false</hidden>
-                <nullableFacetHidden>false</nullableFacetHidden>
-                <parameterName>parameter2</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <specificProperties/>
-                <hidden>false</hidden>
-                <nullableFacetHidden>false</nullableFacetHidden>
-                <parameterName>parameter3</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <specificProperties/>
-                <hidden>false</hidden>
-                <nullableFacetHidden>false</nullableFacetHidden>
-                <parameterName>parameter4</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <specificReturnValueTypeCustomizations/>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+param[B+paramint+paramint+paramjava.nio.charset.Charset([B, int, int, java.nio.charset.Charset)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+param[B+paramint+paramint+paramjava.lang.String([B, int, int, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -10114,7 +10081,40 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+param[B+paramjava.lang.String([B, java.lang.String)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+param[B+paramint+paramint+paramjava.nio.charset.Charset([B, int, int, java.nio.charset.Charset)</methodSignature>
+            <parametersCustomizations>
+                <specificProperties/>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <specificProperties/>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter2</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <specificProperties/>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter3</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <specificProperties/>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>parameter4</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+param[B+paramjava.lang.String([B, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -10135,7 +10135,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+param[B+paramjava.nio.charset.Charset([B, java.nio.charset.Charset)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+param[B+paramjava.nio.charset.Charset([B, java.nio.charset.Charset)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -10156,7 +10156,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+param[B+paramint+paramint([B, int, int)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+param[B+paramint+paramint([B, int, int)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -10183,7 +10183,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+param[B([B)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+param[B([B)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -10198,7 +10198,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+paramjava.lang.StringBuffer(java.lang.StringBuffer)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+paramjava.lang.StringBuffer(java.lang.StringBuffer)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -10213,7 +10213,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+paramjava.lang.StringBuilder(java.lang.StringBuilder)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]] new+paramjava.lang.StringBuilder(java.lang.StringBuilder)</methodSignature>
             <parametersCustomizations>
                 <specificProperties/>
                 <hidden>false</hidden>
@@ -10224,7 +10224,7 @@
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name - Value, fieldType=java.lang.String, fieldCaption=]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -10242,7 +10242,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=generatedFieldName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$MethodCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Field Name - Value, fieldType=java.lang.String, fieldCaption=]]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=generatedFieldName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Field Name - Value, fieldType=java.lang.String, fieldCaption=]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -10260,7 +10260,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=encapsulationFieldName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$MethodCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Encapsulation Field Name - Value, fieldType=java.lang.String, fieldCaption=]]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=encapsulationFieldName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Encapsulation Field Name - Value, fieldType=java.lang.String, fieldCaption=]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -10278,7 +10278,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=parametersFormFieldName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$MethodCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Parameters Form Field Name - Value, fieldType=java.lang.String, fieldCaption=]]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=parametersFormFieldName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Parameters Form Field Name - Value, fieldType=java.lang.String, fieldCaption=]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -11200,7 +11200,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -11219,7 +11219,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=nullStatusFieldNamed, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=nullStatusFieldNamed, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -11238,7 +11238,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=generatedGetterName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=generatedGetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -11257,7 +11257,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=encapsulationFieldName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$MethodCustomization], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=encapsulationFieldName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -11276,7 +11276,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <typeName>Encapsulation [context=FieldContext [fieldName=encapsulationFieldName, containingType=xy.reflect.ui.info.type.factory.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=encapsulationFieldName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

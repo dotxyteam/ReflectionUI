@@ -8,8 +8,9 @@ import java.util.List;
 
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
+import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.InfoCustomizations;
+import xy.reflect.ui.info.type.factory.InfoCustomizationsFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -21,22 +22,20 @@ public class CustomizationsTest {
 			@Override
 			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
 				ITypeInfo result = super.getTypeInfo(typeSource);
-				result = infoCustomizations.get(this, result);
+				result = new InfoCustomizationsFactory(this, infoCustomizations).get(result);
 				return result;
 			}
 		};
 		File tmpCustomizationsFile = File.createTempFile(CustomizationsTest.class.getName(), ".icu");
 		tmpCustomizationsFile.deleteOnExit();
 		SwingRenderer swingRenderer = new SwingCustomizer(reflectionUI, infoCustomizations,
-				tmpCustomizationsFile.getPath()){
+				tmpCustomizationsFile.getPath()) {
 
-					@Override
-					protected boolean areCustomizationToolsDisabled() {
-						return false;
-					}
+			@Override
+			protected boolean areCustomizationToolsDisabled() {
+				return false;
+			}
 
-			
-			
 		};
 		swingRenderer.openObjectFrame(new Sample(), null, null);
 	}

@@ -31,18 +31,19 @@ import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.SwingRenderer.MethodControlPlaceHolder;
 import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
+import xy.reflect.ui.info.custom.InfoCustomizations;
+import xy.reflect.ui.info.custom.InfoCustomizations.EnumerationCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.ListCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.MethodCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
-import xy.reflect.ui.info.type.factory.InfoCustomizations;
-import xy.reflect.ui.info.type.factory.InfoCustomizations.EnumerationCustomization;
-import xy.reflect.ui.info.type.factory.InfoCustomizations.FieldCustomization;
-import xy.reflect.ui.info.type.factory.InfoCustomizations.ListCustomization;
-import xy.reflect.ui.info.type.factory.InfoCustomizations.MethodCustomization;
-import xy.reflect.ui.info.type.factory.InfoCustomizations.TypeCustomization;
+import xy.reflect.ui.info.type.factory.InfoCustomizationsFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
@@ -57,21 +58,21 @@ public class CustomizationTools {
 	protected final SwingCustomizer swingCustomizer;
 	protected SwingRenderer toolsRenderer;
 	protected CustomizationToolsUI toolsUI;
-	protected InfoCustomizations toolsCustomizations;
+	protected InfoCustomizationsFactory toolsCustomizationsFactory;
 
 	public CustomizationTools(SwingCustomizer swingCustomizer) {
 		this.swingCustomizer = swingCustomizer;
-		toolsCustomizations = new InfoCustomizations();
+		toolsUI = createToolsUI();
+		toolsRenderer = createToolsRenderer();
+		toolsCustomizationsFactory = new InfoCustomizationsFactory(toolsUI, new InfoCustomizations());
 		URL url = ReflectionUI.class.getResource("resource/customizations-tools.icu");
 		try {
 			File customizationsFile = FileUtils.getStreamAsFile(url.openStream());
 			String customizationsFilePath = customizationsFile.getPath();
-			toolsCustomizations.loadFromFile(new File(customizationsFilePath));
+			toolsCustomizationsFactory.getInfoCustomizations().loadFromFile(new File(customizationsFilePath));
 		} catch (IOException e) {
 			throw new ReflectionUIError(e);
 		}
-		toolsUI = createToolsUI();
-		toolsRenderer = createToolsRenderer();
 
 	}
 
@@ -83,8 +84,8 @@ public class CustomizationTools {
 		return toolsUI;
 	}
 
-	public InfoCustomizations getToolsCustomizations() {
-		return toolsCustomizations;
+	public InfoCustomizationsFactory getToolsCustomizationsFactory() {
+		return toolsCustomizationsFactory;
 	}
 
 	protected JButton createToolAccessButton(ImageIcon imageIcon) {
@@ -97,7 +98,8 @@ public class CustomizationTools {
 		if (SystemProperties.isInfoCustomizationToolsCustomizationAllowed()) {
 			String customizationToolsCustomizationsOutputFilePath = System
 					.getProperty(SystemProperties.INFO_CUSTOMIZATION_TOOLS_CUSTOMIZATIONS_FILE_PATH);
-			return new SwingCustomizer(toolsUI, toolsCustomizations, customizationToolsCustomizationsOutputFilePath) {
+			return new SwingCustomizer(toolsUI, toolsCustomizationsFactory.getInfoCustomizations(),
+					customizationToolsCustomizationsOutputFilePath) {
 
 				@Override
 				protected CustomizationTools createCustomizationTools() {

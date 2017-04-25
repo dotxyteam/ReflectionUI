@@ -13,10 +13,10 @@ import javax.swing.JPanel;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.SwingRenderer;
+import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.InfoCustomizations;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.SystemProperties;

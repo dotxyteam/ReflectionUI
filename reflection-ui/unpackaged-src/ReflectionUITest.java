@@ -16,10 +16,11 @@ import java.util.Vector;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
+import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.InfoCustomizations;
+import xy.reflect.ui.info.type.factory.InfoCustomizationsFactory;
 import xy.reflect.ui.info.type.factory.TypeInfoProxyFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -281,7 +282,7 @@ public class ReflectionUITest {
 			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
 				ITypeInfo result = super.getTypeInfo(typeSource);
 				if (SystemProperties.areDefaultInfoCustomizationsActive()) {
-					result = infoCustomizations.get(this, result);
+					result = new InfoCustomizationsFactory(this, infoCustomizations).get(result);
 				}
 				return new TypeInfoProxyFactory() {
 
