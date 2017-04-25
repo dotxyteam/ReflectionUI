@@ -6345,7 +6345,7 @@
                 <caption>Display</caption>
             </category>
             <hidden>false</hidden>
-            <customFieldCaption>Display In Sub-Form</customFieldCaption>
+            <customFieldCaption>Move Into Sub-Form</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>encapsulationFieldName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
@@ -7629,7 +7629,7 @@
                 <caption>Display</caption>
             </category>
             <hidden>false</hidden>
-            <customFieldCaption>Display In Sub-Form</customFieldCaption>
+            <customFieldCaption>Move Into Sub-Form</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>encapsulationFieldName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>

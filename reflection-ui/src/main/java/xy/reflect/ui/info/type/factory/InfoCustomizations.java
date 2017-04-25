@@ -2990,19 +2990,30 @@ public class InfoCustomizations implements Serializable {
 			if (t != null) {
 				MethodCustomization m = getMethodCustomization(t, ReflectionUIUtils.getMethodSignature(method));
 				if (m != null) {
+					if (m.parametersFormFieldName != null) {
+						return Collections.emptyList();
+					}
 					List<IParameterInfo> result = new ArrayList<IParameterInfo>(
 							super.getParameters(method, containingType));
-					for (Iterator<IParameterInfo> it = result.iterator(); it.hasNext();) {
-						IParameterInfo param = it.next();
-						ParameterCustomization p = getParameterCustomization(m, param.getName());
-						if ((p != null) && p.hidden) {
-							it.remove();
-						}
-					}
-
+					result = removeHiddenParameters(result, m);
+					return result;
 				}
 			}
 			return super.getParameters(method, containingType);
+		}
+
+		protected List<IParameterInfo> removeHiddenParameters(List<IParameterInfo> params, MethodCustomization m) {
+			List<IParameterInfo> result = new ArrayList<IParameterInfo>();
+			for (IParameterInfo param : params) {
+				ParameterCustomization p = getParameterCustomization(m, param.getName());
+				if (p != null) {
+					if (p.hidden) {
+						continue;
+					}
+				}
+				result.add(param);
+			}
+			return result;
 		}
 
 		@Override
@@ -3047,8 +3058,8 @@ public class InfoCustomizations implements Serializable {
 			if (t != null) {
 				List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(containingType));
 				result = addGeneratedFields(result, containingType);
-				result = encapsulateMembers(result, containingType);
 				result = transformFields(result, containingType);
+				result = encapsulateMembers(result, containingType);
 				result = removeHiddenFields(result, containingType);
 				result = sortFields(result, containingType);
 				return result;
@@ -3078,7 +3089,6 @@ public class InfoCustomizations implements Serializable {
 					IFieldInfo field = result.get(i);
 					final FieldCustomization f = getFieldCustomization(t, field.getName());
 					if (f != null) {
-
 						if (f.displayedAsSingletonList) {
 							field = new ValueAsListField(reflectionUI, field);
 						}
@@ -3248,7 +3258,6 @@ public class InfoCustomizations implements Serializable {
 			if (t != null) {
 				List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getMethods(containingType));
 				result = addGeneratedMethods(result, containingType);
-				result = transformMethods(result, containingType);
 				result = removeHiddenMethods(result, containingType);
 				result = sortMethods(result, containingType);
 				return result;
@@ -3262,35 +3271,6 @@ public class InfoCustomizations implements Serializable {
 				List<IMethodInfo> result = new ArrayList<IMethodInfo>(methods);
 				if (t.customMethodsOrder != null) {
 					Collections.sort(result, ReflectionUIUtils.getInfosComparator(t.customMethodsOrder, result));
-				}
-				return result;
-			}
-			return methods;
-		}
-
-		protected List<IMethodInfo> transformMethods(List<IMethodInfo> methods, ITypeInfo containingType) {
-			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
-			if (t != null) {
-				List<IMethodInfo> result = new ArrayList<IMethodInfo>(methods);
-				for (int i = 0; i < result.size(); i++) {
-					IMethodInfo method = result.get(i);
-					MethodCustomization m = getMethodCustomization(t, ReflectionUIUtils.getMethodSignature(method));
-					if (m != null) {
-						if (m.parametersFormFieldName != null) {
-							method = new MethodInfoProxy(method) {
-								@Override
-								public List<IParameterInfo> getParameters() {
-									return Collections.emptyList();
-								}
-
-								@Override
-								public void validateParameters(Object object, InvocationData invocationData)
-										throws Exception {
-								}
-							};
-						}
-					}
-					result.set(i, method);
 				}
 				return result;
 			}
@@ -3359,6 +3339,23 @@ public class InfoCustomizations implements Serializable {
 				}
 			}
 			return super.getCaption(type);
+		}
+
+		@Override
+		protected void validateParameters(IMethodInfo method, ITypeInfo containingType, Object object,
+				InvocationData invocationData) throws Exception {
+			TypeCustomization t = getTypeCustomization(InfoCustomizations.this, containingType.getName());
+			if (t != null) {
+				MethodCustomization m = InfoCustomizations.getMethodCustomization(t,
+						ReflectionUIUtils.getMethodSignature(method));
+				if (m != null) {
+					if (m.parametersFormFieldName != null) {
+						return;
+					}
+				}
+			}
+			super.validateParameters(method, containingType, object, invocationData);
+
 		}
 
 		@Override
