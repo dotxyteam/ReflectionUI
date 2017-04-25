@@ -63,8 +63,8 @@ public class CustomizationTools {
 	public CustomizationTools(SwingCustomizer swingCustomizer) {
 		this.swingCustomizer = swingCustomizer;
 		toolsUI = createToolsUI();
-		toolsRenderer = createToolsRenderer();
 		toolsCustomizationsFactory = new InfoCustomizationsFactory(toolsUI, new InfoCustomizations());
+		toolsRenderer = createToolsRenderer();
 		URL url = ReflectionUI.class.getResource("resource/customizations-tools.icu");
 		try {
 			File customizationsFile = FileUtils.getStreamAsFile(url.openStream());
