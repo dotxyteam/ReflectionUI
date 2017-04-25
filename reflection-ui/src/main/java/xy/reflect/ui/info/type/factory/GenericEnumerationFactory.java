@@ -178,6 +178,7 @@ public class GenericEnumerationFactory {
 			return dynamicEnumeration;
 		}
 
+
 		@Override
 		public FieldsLayout getFieldsLayout() {
 			return FieldsLayout.VERTICAL_FLOW;

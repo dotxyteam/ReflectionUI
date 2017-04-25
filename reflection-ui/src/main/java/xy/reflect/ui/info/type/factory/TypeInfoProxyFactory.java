@@ -254,6 +254,10 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return method.getParameters();
 	}
 
+	protected List<String> getMenuPath(IMethodInfo method, ITypeInfo containingType) {
+		return method.getMenuPath();
+	}
+
 	protected ITypeInfo getReturnValueType(IMethodInfo method, ITypeInfo containingType) {
 		return wrapMethodReturnValueType(method.getReturnValueType());
 	}
@@ -1037,6 +1041,11 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		@Override
 		public String getCaption() {
 			return TypeInfoProxyFactory.this.getCaption(base, containingType);
+		}
+
+		@Override
+		public List<String> getMenuPath() {
+			return TypeInfoProxyFactory.this.getMenuPath(base, containingType);
 		}
 
 		@Override

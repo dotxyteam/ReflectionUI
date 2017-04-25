@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.method;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -52,6 +53,11 @@ public class SubMethodInfo implements IMethodInfo {
 	@Override
 	public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
 		return theSubMethod.getReturnValueTypeSpecificities();
+	}
+
+	@Override
+	public List<String> getMenuPath() {
+		return Collections.emptyList();
 	}
 
 	@Override

@@ -58,6 +58,11 @@ public class FieldAsSetter implements IMethodInfo {
 	}
 
 	@Override
+	public List<String> getMenuPath() {
+		return Collections.emptyList();
+	}
+
+	@Override
 	public String getIconImagePath() {
 		return null;
 	}

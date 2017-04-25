@@ -21,6 +21,10 @@ public class MethodInfoProxy implements IMethodInfo {
 		return base;
 	}
 
+	public List<String> getMenuPath() {
+		return base.getMenuPath();
+	}
+
 	public boolean isReturnValueNullable() {
 		return base.isReturnValueNullable();
 	}
@@ -49,12 +53,9 @@ public class MethodInfoProxy implements IMethodInfo {
 		return base.getParameters();
 	}
 
-	public Object invoke(Object object,
-			InvocationData invocationData) {
+	public Object invoke(Object object, InvocationData invocationData) {
 		return base.invoke(object, invocationData);
 	}
-
-	
 
 	public String getNullReturnValueLabel() {
 		return base.getNullReturnValueLabel();
@@ -80,14 +81,12 @@ public class MethodInfoProxy implements IMethodInfo {
 	}
 
 	@Override
-	public Runnable getUndoJob(Object object,
-			InvocationData invocationData) {
+	public Runnable getUndoJob(Object object, InvocationData invocationData) {
 		return base.getUndoJob(object, invocationData);
 	}
 
 	@Override
-	public void validateParameters(Object object,
-			InvocationData invocationData) throws Exception {
+	public void validateParameters(Object object, InvocationData invocationData) throws Exception {
 		base.validateParameters(object, invocationData);
 	}
 
@@ -129,6 +128,5 @@ public class MethodInfoProxy implements IMethodInfo {
 	public String toString() {
 		return "MethodInfoProxy [base=" + base + "]";
 	}
-	
-	
+
 }

@@ -21,6 +21,11 @@ public interface IMethodInfo extends IInfo {
 		}
 
 		@Override
+		public List<String> getMenuPath() {
+			return Collections.emptyList();
+		}
+
+		@Override
 		public String getIconImagePath() {
 			return null;
 		}
@@ -105,7 +110,8 @@ public interface IMethodInfo extends IInfo {
 		}
 	};
 
-	
+	List<String> getMenuPath();
+
 	ITypeInfo getReturnValueType();
 
 	List<IParameterInfo> getParameters();
@@ -123,14 +129,13 @@ public interface IMethodInfo extends IInfo {
 	void validateParameters(Object object, InvocationData invocationData) throws Exception;
 
 	ValueReturnMode getValueReturnMode();
-	
+
 	String getIconImagePath();
 
 	ITypeInfoProxyFactory getReturnValueTypeSpecificities();
-	
+
 	boolean isReturnValueDetached();
 
-	boolean isReturnValueNullable(); 
-	
+	boolean isReturnValueNullable();
 
 }

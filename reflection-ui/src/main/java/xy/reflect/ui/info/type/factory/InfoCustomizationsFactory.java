@@ -20,6 +20,7 @@ import xy.reflect.ui.info.custom.InfoCustomizations.ITypeInfoFinder;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListItemFieldShortcut;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListItemMethodShortcut;
+import xy.reflect.ui.info.custom.InfoCustomizations.MenuItemCategory;
 import xy.reflect.ui.info.custom.InfoCustomizations.MethodCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ParameterCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
@@ -66,6 +67,31 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 
 	public InfoCustomizations getInfoCustomizations() {
 		return infoCustomizations;
+	}
+
+	@Override
+	protected List<String> getMenuPath(IMethodInfo method, ITypeInfo containingType) {
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.infoCustomizations,
+				containingType.getName());
+		if (t != null) {
+			MethodCustomization m = InfoCustomizations.getMethodCustomization(t,
+					ReflectionUIUtils.getMethodSignature(method));
+			if (m != null) {
+				if (m.getMenuItemCategory() != null) {
+					List<MenuItemCategory> path = InfoCustomizations.getMenuItemCategoryPath(t,
+							m.getMenuItemCategory());
+					if (path == null) {
+						return Collections.emptyList();
+					}
+					List<String> result = new ArrayList<String>();
+					for (MenuItemCategory pathItem : path) {
+						result.add(pathItem.getName());
+					}
+					return result;
+				}
+			}
+		}
+		return super.getMenuPath(method, containingType);
 	}
 
 	@Override

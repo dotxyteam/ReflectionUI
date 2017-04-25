@@ -236,13 +236,15 @@ public class CustomizationTools {
 
 		};
 		dialogBuilder.showDialog();
-		if (!dialogBuilder.isCancelled()) {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					rebuildCustomizerForm(customizer);
-				}
-			});
+		if (customizer != null) {
+			if (!dialogBuilder.isCancelled()) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						rebuildCustomizerForm(customizer);
+					}
+				});
+			}
 		}
 	}
 

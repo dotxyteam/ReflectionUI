@@ -19,6 +19,11 @@ public abstract class AbstractListAction implements IMethodInfo {
 	}
 
 	@Override
+	public List<String> getMenuPath() {
+		return Collections.emptyList();
+	}
+
+	@Override
 	public InfoCategory getCategory() {
 		return null;
 	}

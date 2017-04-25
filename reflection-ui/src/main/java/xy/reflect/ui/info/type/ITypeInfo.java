@@ -8,11 +8,6 @@ import xy.reflect.ui.info.method.IMethodInfo;
 
 public interface ITypeInfo extends IInfo {
 
-	enum FieldsLayout {
-		VERTICAL_FLOW, HORIZONTAL_FLOW
-	
-	}
-
 	boolean isImmutable();
 
 	boolean isPrimitive();
@@ -38,8 +33,14 @@ public interface ITypeInfo extends IInfo {
 	Object copy(Object object);
 
 	boolean isModificationStackAccessible();
-	
+
 	String getIconImagePath();
 
 	ITypeInfo.FieldsLayout getFieldsLayout();
+
+	enum FieldsLayout {
+		VERTICAL_FLOW, HORIZONTAL_FLOW
+
+	}
+
 }

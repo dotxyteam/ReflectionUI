@@ -9,6 +9,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -181,6 +183,94 @@ public class InfoCustomizations implements Serializable {
 			throw new IOException(e);
 		}
 
+	}
+
+	public static List<MenuItemCategory> getMenuItemCategoryPath(TypeCustomization t,
+			MenuItemCategory menuItemCategory) {
+		for (MenuSpecification menu : t.getMenuSpecifications()) {
+			List<MenuItemCategory> path = getMenuItemCategoryPath(menu, menuItemCategory);
+			if (path != null) {
+				List<MenuItemCategory> result = new ArrayList<InfoCustomizations.MenuItemCategory>();
+				result.add(menu);
+				result.addAll(path);
+				return result;
+			}
+		}
+		return null;
+	}
+
+	public static List<MenuItemCategory> getMenuItemCategoryPath(MenuSpecification menu,
+			MenuItemCategory menuItemCategory) {
+		if (menu == menuItemCategory) {
+			return Collections.emptyList();
+		}
+		for (MenuItemCategory item : menu.getItemCategories()) {
+			if (item == menuItemCategory) {
+				return Collections.singletonList(item);
+			}
+			if (item instanceof MenuSpecification) {
+				MenuSpecification subMenu = (MenuSpecification) item;
+				List<MenuItemCategory> path = getMenuItemCategoryPath(menu, menuItemCategory);
+				if (path != null) {
+					List<MenuItemCategory> result = new ArrayList<InfoCustomizations.MenuItemCategory>();
+					result.add(subMenu);
+					result.addAll(path);
+					return result;
+				}
+			}
+		}
+		return null;
+	}
+
+	public static List<MenuItemCategory> getMethodMenuPathOptions(InfoCustomizations infoCustomizations,
+			MethodCustomization m) {
+		List<MenuItemCategory> result = new ArrayList<InfoCustomizations.MenuItemCategory>();
+		TypeCustomization tc = findParentTypeCustomization(infoCustomizations, m);
+		for (MenuSpecification menu : tc.getMenuSpecifications()) {
+			result.addAll(getAllMenuItemCategories(menu));
+		}
+		return result;
+	}
+
+	public static Collection<? extends MenuItemCategory> getAllMenuItemCategories(MenuSpecification menu) {
+		List<MenuItemCategory> result = new ArrayList<InfoCustomizations.MenuItemCategory>();
+		result.add(menu);
+		for (MenuItemCategory item : menu.getItemCategories()) {
+			result.add(item);
+			if (item instanceof MenuSpecification) {
+				MenuSpecification subMenu = (MenuSpecification) item;
+				result.addAll(getAllMenuItemCategories(subMenu));
+			}
+		}
+		return result;
+	}
+
+	public static List<CustomizationCategory> getMemberCategoryOptions(InfoCustomizations infoCustomizations,
+			AbstractMemberCustomization m) {
+		TypeCustomization tc = findParentTypeCustomization(infoCustomizations, m);
+		return tc.getMemberCategories();
+	}
+
+	public static TypeCustomization findParentTypeCustomization(InfoCustomizations infoCustomizations,
+			AbstractMemberCustomization custumizationMember) {
+		for (TypeCustomization tc : infoCustomizations.getTypeCustomizations()) {
+			for (FieldCustomization fc : tc.getFieldsCustomizations()) {
+				if (fc == custumizationMember) {
+					return tc;
+				}
+				TypeCustomization fieldTc = findParentTypeCustomization(fc.getSpecificTypeCustomizations(),
+						custumizationMember);
+				if (fieldTc != null) {
+					return fieldTc;
+				}
+			}
+			for (MethodCustomization mc : tc.getMethodsCustomizations()) {
+				if (mc == custumizationMember) {
+					return tc;
+				}
+			}
+		}
+		return null;
 	}
 
 	public static ParameterCustomization getParameterCustomization(MethodCustomization m, String paramName) {
@@ -467,6 +557,96 @@ public class InfoCustomizations implements Serializable {
 
 	}
 
+	public static class MenuItemCategory extends AbstractCustomization {
+		private static final long serialVersionUID = 1L;
+
+		protected String name = "";
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((name == null) ? 0 : name.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			MenuItemCategory other = (MenuItemCategory) obj;
+			if (name == null) {
+				if (other.name != null)
+					return false;
+			} else if (!name.equals(other.name))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "MenuItemCategory [name=" + name + "]";
+		}
+
+	}
+
+	public static class MenuSpecification extends MenuItemCategory {
+		private static final long serialVersionUID = 1L;
+
+		protected List<MenuItemCategory> itemCategories = new ArrayList<MenuItemCategory>();
+
+		public List<MenuItemCategory> getItemCategories() {
+			return itemCategories;
+		}
+
+		public void setItemCategories(List<MenuItemCategory> itemCategories) {
+			this.itemCategories = itemCategories;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = super.hashCode();
+			result = prime * result + ((itemCategories == null) ? 0 : itemCategories.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (!super.equals(obj))
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			MenuSpecification other = (MenuSpecification) obj;
+			if (itemCategories == null) {
+				if (other.itemCategories != null)
+					return false;
+			} else if (!itemCategories.equals(other.itemCategories))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "MenuSpecification [name=" + name + ", itemCategories=" + itemCategories + "]";
+		}
+
+	}
+
 	public static class TypeCustomization extends AbstractInfoCustomization implements Comparable<TypeCustomization> {
 		private static final long serialVersionUID = 1L;
 
@@ -484,6 +664,15 @@ public class InfoCustomizations implements Serializable {
 		protected List<ITypeInfoFinder> polymorphicSubTypeFinders = new ArrayList<ITypeInfoFinder>();
 		protected ResourcePath iconImagePath;
 		protected ITypeInfo.FieldsLayout fieldsLayout;
+		protected List<MenuSpecification> menuSpecifications = new ArrayList<InfoCustomizations.MenuSpecification>();
+
+		public List<MenuSpecification> getMenuSpecifications() {
+			return menuSpecifications;
+		}
+
+		public void setMenuSpecifications(List<MenuSpecification> menuSpecifications) {
+			this.menuSpecifications = menuSpecifications;
+		}
 
 		public ITypeInfo.FieldsLayout getFieldsLayout() {
 			return fieldsLayout;
@@ -942,6 +1131,15 @@ public class InfoCustomizations implements Serializable {
 		protected String encapsulationFieldName;
 		protected String parametersFormFieldName;
 		protected ResourcePath iconImagePath;
+		protected MenuItemCategory menuItemCategory;
+
+		public MenuItemCategory getMenuItemCategory() {
+			return menuItemCategory;
+		}
+
+		public void setMenuItemCategory(MenuItemCategory menuItemCategory) {
+			this.menuItemCategory = menuItemCategory;
+		}
 
 		public String getMethodName() {
 			return ReflectionUIUtils.extractMethodNameFromSignature(methodSignature);

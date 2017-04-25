@@ -5356,6 +5356,24 @@
         <memberCategories>
             <caption>Lists</caption>
         </memberCategories>
+        <menuSpecifications>
+            <name>Edit</name>
+            <itemCategories>
+                <name>clipboard</name>
+            </itemCategories>
+            <itemCategories>
+                <name>modifications</name>
+            </itemCategories>
+        </menuSpecifications>
+        <menuSpecifications>
+            <name>File</name>
+            <itemCategories>
+                <name>persist</name>
+            </itemCategories>
+            <itemCategories>
+                <name>close</name>
+            </itemCategories>
+        </menuSpecifications>
         <methodsCustomizations>
             <specificProperties/>
             <hidden>false</hidden>

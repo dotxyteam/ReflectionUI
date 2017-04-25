@@ -1,6 +1,7 @@
 package xy.reflect.ui.info.method;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
@@ -17,6 +18,11 @@ public abstract class AbstractConstructorInfo implements IMethodInfo {
 	@Override
 	public String getCaption() {
 		return "Create " + getReturnValueType().getCaption();
+	}
+
+	@Override
+	public List<String> getMenuPath() {
+		return Collections.emptyList();
 	}
 
 	@Override

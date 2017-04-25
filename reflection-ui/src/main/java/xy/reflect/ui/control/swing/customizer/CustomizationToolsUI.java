@@ -17,6 +17,8 @@ import xy.reflect.ui.info.custom.InfoCustomizations.ColumnCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.CustomizationCategory;
 import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.MenuItemCategory;
+import xy.reflect.ui.info.custom.InfoCustomizations.MenuSpecification;
 import xy.reflect.ui.info.custom.InfoCustomizations.MethodCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ParameterCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
@@ -50,35 +52,16 @@ class CustomizationToolsUI extends ReflectionUI {
 			@Override
 			protected Object[] getValueOptions(Object object, IFieldInfo field, ITypeInfo containingType) {
 				if ((object instanceof AbstractMemberCustomization) && field.getName().equals("category")) {
-					TypeCustomization tc = findParentTypeCustomization((AbstractMemberCustomization) object,
-							swingCustomizer.getInfoCustomizations());
-					List<CustomizationCategory> categories = tc.getMemberCategories();
-					return categories.toArray(new CustomizationCategory[categories.size()]);
+					List<CustomizationCategory> result = InfoCustomizations.getMemberCategoryOptions(
+							swingCustomizer.getInfoCustomizations(), (AbstractMemberCustomization) object);
+					return result.toArray();
+				} else if ((object instanceof MethodCustomization) && field.getName().equals("menuItemCategory")) {
+					List<MenuItemCategory> result = InfoCustomizations.getMethodMenuPathOptions(
+							swingCustomizer.getInfoCustomizations(), (MethodCustomization) object);
+					return result.toArray();
 				} else {
 					return super.getValueOptions(object, field, containingType);
 				}
-			}
-
-			protected TypeCustomization findParentTypeCustomization(AbstractMemberCustomization custumizationMember,
-					InfoCustomizations infoCustomizations) {
-				for (TypeCustomization tc : infoCustomizations.getTypeCustomizations()) {
-					for (FieldCustomization fc : tc.getFieldsCustomizations()) {
-						if (fc == custumizationMember) {
-							return tc;
-						}
-						TypeCustomization fieldTc = findParentTypeCustomization(custumizationMember,
-								fc.getSpecificTypeCustomizations());
-						if (fieldTc != null) {
-							return fieldTc;
-						}
-					}
-					for (MethodCustomization mc : tc.getMethodsCustomizations()) {
-						if (mc == custumizationMember) {
-							return tc;
-						}
-					}
-				}
-				return null;
 			}
 
 			@Override
@@ -95,6 +78,11 @@ class CustomizationToolsUI extends ReflectionUI {
 			protected IMethodInfo getListItemTypeCustomizationDisplayMethod(
 					final InfoCustomizations infoCustomizations) {
 				return new IMethodInfo() {
+
+					@Override
+					public List<String> getMenuPath() {
+						return Collections.emptyList();
+					}
 
 					@Override
 					public boolean isReturnValueNullable() {
@@ -152,8 +140,7 @@ class CustomizationToolsUI extends ReflectionUI {
 							public void run() {
 								ListCustomization lc = (ListCustomization) object;
 								if (lc.getItemTypeName() == null) {
-									SwingRenderer renderer = swingCustomizer.getCustomizationTools()
-											.getToolsRenderer();
+									SwingRenderer renderer = swingCustomizer.getCustomizationTools().getToolsRenderer();
 									renderer.openInformationDialog(null, "The item type is not defined",
 											renderer.getObjectTitle(lc), renderer.getObjectIconImage(lc));
 								} else {
@@ -214,6 +201,8 @@ class CustomizationToolsUI extends ReflectionUI {
 					return ((CustomizationCategory) object).getCaption();
 				} else if (object instanceof ResourcePath) {
 					return ((ResourcePath) object).getSpecification();
+				} else if (object instanceof MenuItemCategory) {
+					return ((MenuItemCategory) object).getName();
 				} else {
 					return super.toString(type, object);
 				}
