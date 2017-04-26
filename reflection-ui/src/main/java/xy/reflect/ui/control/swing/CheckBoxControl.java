@@ -7,6 +7,7 @@ import javax.swing.JCheckBox;
 
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 
 public  class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl {
 

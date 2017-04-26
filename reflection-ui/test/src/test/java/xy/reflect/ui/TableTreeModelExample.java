@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import xy.reflect.ui.control.swing.SwingRenderer;
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 
 public class TableTreeModelExample {
 

@@ -2,7 +2,7 @@ package xy.reflect.ui.control.swing.editor;
 
 import java.awt.Component;
 
-import xy.reflect.ui.control.swing.SwingRenderer;
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;

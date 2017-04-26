@@ -3,7 +3,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.swing.SwingRenderer;
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.TypeInfoProxyFactory;

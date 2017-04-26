@@ -7,7 +7,7 @@ import java.util.Map;
 
 import com.google.common.cache.CacheBuilder;
 
-import xy.reflect.ui.control.swing.SwingRenderer;
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;

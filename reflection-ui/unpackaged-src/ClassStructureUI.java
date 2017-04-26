@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.swing.SwingRenderer;
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 
 
 public class ClassStructureUI {

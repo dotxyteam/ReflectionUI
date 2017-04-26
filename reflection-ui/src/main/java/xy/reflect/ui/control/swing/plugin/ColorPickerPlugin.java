@@ -12,7 +12,7 @@ import javax.swing.border.EtchedBorder;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleFieldControlPlugin;
 import xy.reflect.ui.control.swing.DialogAccessControl;
-import xy.reflect.ui.control.swing.SwingRenderer;
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {

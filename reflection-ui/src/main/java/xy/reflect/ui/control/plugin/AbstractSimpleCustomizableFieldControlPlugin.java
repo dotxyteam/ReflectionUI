@@ -11,9 +11,9 @@ import javax.swing.JButton;
 import javax.swing.JMenuItem;
 
 import xy.reflect.ui.control.IFieldControlInput;
-import xy.reflect.ui.control.swing.SwingRenderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.customizer.CustomizationTools;
 import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
+import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
 import xy.reflect.ui.util.ReflectionUIUtils;

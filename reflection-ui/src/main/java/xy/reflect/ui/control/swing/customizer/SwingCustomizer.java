@@ -12,7 +12,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.swing.SwingRenderer;
+import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
+import xy.reflect.ui.control.swing.renderer.MethodControlPlaceHolder;
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -91,7 +93,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 	@Override
 	public FieldControlPlaceHolder createFieldControlPlaceHolder(JPanel form, IFieldInfo field) {
-		return new FieldControlPlaceHolder(form, field) {
+		return new FieldControlPlaceHolder(this, form, field) {
 			private static final long serialVersionUID = 1L;
 			protected Component infoCustomizationsComponent;
 
@@ -121,7 +123,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 	@Override
 	public MethodControlPlaceHolder createMethodControlPlaceHolder(JPanel form, IMethodInfo method) {
-		return new MethodControlPlaceHolder(form, method) {
+		return new MethodControlPlaceHolder(this, form, method) {
 			private static final long serialVersionUID = 1L;
 			protected Component infoCustomizationsComponent;
 

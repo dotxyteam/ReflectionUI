@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.IModificationListener;

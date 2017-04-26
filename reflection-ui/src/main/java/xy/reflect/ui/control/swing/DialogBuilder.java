@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 public class DialogBuilder {

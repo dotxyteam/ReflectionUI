@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.swing.SwingRenderer;
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.SubFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;

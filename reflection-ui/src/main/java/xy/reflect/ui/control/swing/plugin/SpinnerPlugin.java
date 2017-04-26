@@ -13,7 +13,7 @@ import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
-import xy.reflect.ui.control.swing.SwingRenderer;
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.NumberUtils;
 import xy.reflect.ui.util.ReflectionUIError;

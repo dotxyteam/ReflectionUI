@@ -7,6 +7,7 @@ import javax.swing.JButton;
 
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 

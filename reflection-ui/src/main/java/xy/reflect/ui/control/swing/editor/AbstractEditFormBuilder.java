@@ -5,8 +5,8 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
-import xy.reflect.ui.control.swing.SwingRenderer;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
