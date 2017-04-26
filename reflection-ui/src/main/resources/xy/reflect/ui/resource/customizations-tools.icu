@@ -8274,6 +8274,7 @@
                         <columnName>iconImagePath</columnName>
                         <hidden>false</hidden>
                     </columnCustomizations>
+                    <columnsCustomOrder>methodName</columnsCustomOrder>
                     <columnsCustomOrder>methodSignature</columnsCustomOrder>
                     <columnsCustomOrder>customMethodCaption</columnsCustomOrder>
                     <columnsCustomOrder>hidden</columnsCustomOrder>
@@ -8282,6 +8283,7 @@
                     <columnsCustomOrder>iconImagePath</columnsCustomOrder>
                     <columnsCustomOrder>onlineHelp</columnsCustomOrder>
                     <columnsCustomOrder>parametersCustomizations</columnsCustomOrder>
+                    <columnsCustomOrder>menuItemCategory</columnsCustomOrder>
                     <columnsCustomOrder>generatedFieldName</columnsCustomOrder>
                     <columnsCustomOrder>encapsulationFieldName</columnsCustomOrder>
                     <columnsCustomOrder>parametersFormFieldName</columnsCustomOrder>
@@ -8483,7 +8485,19 @@
             <specificTypeCustomizations>
                 <listCustomizations>
                     <columnCustomizations>
+                        <columnName>itemCategories</columnName>
+                        <hidden>true</hidden>
+                    </columnCustomizations>
+                    <columnCustomizations>
+                        <columnName>name</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <columnCustomizations>
                         <columnName>toStringValue</columnName>
+                        <hidden>true</hidden>
+                    </columnCustomizations>
+                    <columnCustomizations>
+                        <columnName>typeName</columnName>
                         <hidden>false</hidden>
                     </columnCustomizations>
                     <editOptions>
@@ -8491,10 +8505,10 @@
                         <itemDeletionEnabled>true</itemDeletionEnabled>
                         <itemMoveEnabled>true</itemMoveEnabled>
                     </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <fieldColumnsAdded>true</fieldColumnsAdded>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
+                    <itemTypeColumnAdded>true</itemTypeColumnAdded>
                     <itemTypeName>xy.reflect.ui.info.custom.InfoCustomizations$MenuSpecification</itemTypeName>
                     <listSorted>false</listSorted>
                     <listTypeName>java.util.List</listTypeName>
@@ -8505,6 +8519,21 @@
                     </treeStructureDiscoverySettings>
                 </listCustomizations>
             </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <category>
+                <caption>Menus</caption>
+            </category>
+            <hidden>false</hidden>
+            <customFieldCaption>Specify Menus Here</customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>menus</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <memberCategories>
@@ -11365,10 +11394,11 @@
     <typeCustomizations>
         <specificProperties/>
         <abstractForced>false</abstractForced>
+        <customTypeCaption>Menu</customTypeCaption>
         <fieldsCustomizations>
             <specificProperties/>
             <hidden>false</hidden>
-            <customFieldCaption>x</customFieldCaption>
+            <customFieldCaption>(Items)</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>itemCategories</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
@@ -11433,6 +11463,7 @@
     <typeCustomizations>
         <specificProperties/>
         <abstractForced>false</abstractForced>
+        <customTypeCaption>Category</customTypeCaption>
         <fieldsCustomizations>
             <specificProperties/>
             <hidden>false</hidden>
@@ -11513,11 +11544,12 @@
                     <dynamicEnumerationForced>false</dynamicEnumerationForced>
                     <enumerationTypeName>SubTypesEnumeration [polymorphicType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]</enumerationTypeName>
                     <itemCustomizations>
+                        <customCaption>Category</customCaption>
                         <hidden>false</hidden>
                         <itemName>xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory</itemName>
                     </itemCustomizations>
                     <itemCustomizations>
-                        <customCaption>Sub-Menu Specification</customCaption>
+                        <customCaption>Sub-Menu</customCaption>
                         <hidden>false</hidden>
                         <itemName>xy.reflect.ui.info.custom.InfoCustomizations$MenuSpecification</itemName>
                     </itemCustomizations>
@@ -11562,6 +11594,83 @@
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=menuSpecifications, containingType=xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations>
+                <enumerationCustomizations>
+                    <dynamicEnumerationForced>false</dynamicEnumerationForced>
+                    <enumerationTypeName>SubTypesEnumeration [polymorphicType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]</enumerationTypeName>
+                    <itemCustomizations>
+                        <hidden>false</hidden>
+                        <itemName>xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <customCaption>Sub-Menu Specification</customCaption>
+                        <hidden>false</hidden>
+                        <itemName>xy.reflect.ui.info.custom.InfoCustomizations$MenuSpecification</itemName>
+                    </itemCustomizations>
+                </enumerationCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=menuSpecifications, containingType=xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]], encapsulatedObjectType=SubTypesEnumeration [polymorphicType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]] ()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=menuSpecifications, containingType=xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]], encapsulatedObjectType=SubTypesEnumeration [polymorphicType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=menus, containingType=xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=menus, containingType=xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuSpecification]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

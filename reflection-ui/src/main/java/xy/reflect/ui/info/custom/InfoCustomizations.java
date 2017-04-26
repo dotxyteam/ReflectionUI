@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -185,38 +184,43 @@ public class InfoCustomizations implements Serializable {
 
 	}
 
-	public static List<MenuItemCategory> getMenuItemCategoryPath(TypeCustomization t,
+	public static List<MenuItemCategory> getMenuItemCategoryPath(InfoCustomizations infoCustomizations,
 			MenuItemCategory menuItemCategory) {
-		for (MenuSpecification menu : t.getMenuSpecifications()) {
-			List<MenuItemCategory> path = getMenuItemCategoryPath(menu, menuItemCategory);
-			if (path != null) {
-				List<MenuItemCategory> result = new ArrayList<InfoCustomizations.MenuItemCategory>();
-				result.add(menu);
-				result.addAll(path);
+		for (TypeCustomization tc : getTypeCustomizationsPlusMemberSpecificities(infoCustomizations)) {
+			List<MenuItemCategory> result = getMenuItemCategoryPath(tc, menuItemCategory);
+			if (result != null) {
 				return result;
 			}
 		}
 		return null;
 	}
 
-	public static List<MenuItemCategory> getMenuItemCategoryPath(MenuSpecification menu,
+	public static List<MenuItemCategory> getMenuItemCategoryPath(TypeCustomization t,
 			MenuItemCategory menuItemCategory) {
-		if (menu == menuItemCategory) {
-			return Collections.emptyList();
-		}
-		for (MenuItemCategory item : menu.getItemCategories()) {
-			if (item == menuItemCategory) {
-				return Collections.singletonList(item);
+		for (MenuItemCategory rootMenu : t.getMenus()) {
+			List<MenuItemCategory> result = getMenuItemCategoryPath(rootMenu, menuItemCategory);
+			if (result != null) {
+				return result;
 			}
-			if (item instanceof MenuSpecification) {
-				MenuSpecification subMenu = (MenuSpecification) item;
-				List<MenuItemCategory> path = getMenuItemCategoryPath(menu, menuItemCategory);
-				if (path != null) {
-					List<MenuItemCategory> result = new ArrayList<InfoCustomizations.MenuItemCategory>();
-					result.add(subMenu);
-					result.addAll(path);
+		}
+		return null;
+	}
+
+	public static List<MenuItemCategory> getMenuItemCategoryPath(MenuItemCategory from,
+			MenuItemCategory menuItemCategory) {
+		if (from == menuItemCategory) {
+			return Collections.singletonList(from);
+		}
+		if (from instanceof MenuSpecification) {
+			MenuSpecification menu = (MenuSpecification) from;
+			for (MenuItemCategory item : menu.getItemCategories()) {
+				List<MenuItemCategory> result = getMenuItemCategoryPath(item, menuItemCategory);
+				if (result != null) {
+					result = new ArrayList<InfoCustomizations.MenuItemCategory>(result);
+					result.add(0, from);
 					return result;
 				}
+				;
 			}
 		}
 		return null;
@@ -226,20 +230,18 @@ public class InfoCustomizations implements Serializable {
 			MethodCustomization m) {
 		List<MenuItemCategory> result = new ArrayList<InfoCustomizations.MenuItemCategory>();
 		TypeCustomization tc = findParentTypeCustomization(infoCustomizations, m);
-		for (MenuSpecification menu : tc.getMenuSpecifications()) {
-			result.addAll(getAllMenuItemCategories(menu));
+		for (MenuItemCategory rootMenu : tc.getMenus()) {
+			result.addAll(getAllMenuItemCategories(rootMenu));
 		}
 		return result;
 	}
 
-	public static Collection<? extends MenuItemCategory> getAllMenuItemCategories(MenuSpecification menu) {
+	public static List<MenuItemCategory> getAllMenuItemCategories(MenuItemCategory from) {
 		List<MenuItemCategory> result = new ArrayList<InfoCustomizations.MenuItemCategory>();
-		result.add(menu);
-		for (MenuItemCategory item : menu.getItemCategories()) {
-			result.add(item);
-			if (item instanceof MenuSpecification) {
-				MenuSpecification subMenu = (MenuSpecification) item;
-				result.addAll(getAllMenuItemCategories(subMenu));
+		result.add(from);
+		if (from instanceof MenuSpecification) {
+			for (MenuItemCategory item : ((MenuSpecification)from).getItemCategories()) {
+				result.addAll(getAllMenuItemCategories(item));				
 			}
 		}
 		return result;
@@ -252,25 +254,36 @@ public class InfoCustomizations implements Serializable {
 	}
 
 	public static TypeCustomization findParentTypeCustomization(InfoCustomizations infoCustomizations,
-			AbstractMemberCustomization custumizationMember) {
-		for (TypeCustomization tc : infoCustomizations.getTypeCustomizations()) {
+			AbstractMemberCustomization memberCustumization) {
+		for (TypeCustomization tc : getTypeCustomizationsPlusMemberSpecificities(infoCustomizations)) {
 			for (FieldCustomization fc : tc.getFieldsCustomizations()) {
-				if (fc == custumizationMember) {
+				if (fc == memberCustumization) {
 					return tc;
-				}
-				TypeCustomization fieldTc = findParentTypeCustomization(fc.getSpecificTypeCustomizations(),
-						custumizationMember);
-				if (fieldTc != null) {
-					return fieldTc;
 				}
 			}
 			for (MethodCustomization mc : tc.getMethodsCustomizations()) {
-				if (mc == custumizationMember) {
+				if (mc == memberCustumization) {
 					return tc;
 				}
 			}
 		}
 		return null;
+	}
+
+	public static List<TypeCustomization> getTypeCustomizationsPlusMemberSpecificities(
+			InfoCustomizations infoCustomizations) {
+		List<TypeCustomization> result = new ArrayList<InfoCustomizations.TypeCustomization>();
+		for (TypeCustomization tc : infoCustomizations.getTypeCustomizations()) {
+			result.add(tc);
+			for (FieldCustomization fc : tc.getFieldsCustomizations()) {
+				result.addAll(getTypeCustomizationsPlusMemberSpecificities(fc.getSpecificTypeCustomizations()));
+			}
+			for (MethodCustomization mc : tc.getMethodsCustomizations()) {
+				result.addAll(
+						getTypeCustomizationsPlusMemberSpecificities(mc.getSpecificReturnValueTypeCustomizations()));
+			}
+		}
+		return result;
 	}
 
 	public static ParameterCustomization getParameterCustomization(MethodCustomization m, String paramName) {
@@ -664,14 +677,14 @@ public class InfoCustomizations implements Serializable {
 		protected List<ITypeInfoFinder> polymorphicSubTypeFinders = new ArrayList<ITypeInfoFinder>();
 		protected ResourcePath iconImagePath;
 		protected ITypeInfo.FieldsLayout fieldsLayout;
-		protected List<MenuSpecification> menuSpecifications = new ArrayList<InfoCustomizations.MenuSpecification>();
+		protected List<MenuItemCategory> menus = new ArrayList<MenuItemCategory>();
 
-		public List<MenuSpecification> getMenuSpecifications() {
-			return menuSpecifications;
+		public List<MenuItemCategory> getMenus() {
+			return menus;
 		}
 
-		public void setMenuSpecifications(List<MenuSpecification> menuSpecifications) {
-			this.menuSpecifications = menuSpecifications;
+		public void setMenus(List<MenuItemCategory> menus) {
+			this.menus = menus;
 		}
 
 		public ITypeInfo.FieldsLayout getFieldsLayout() {

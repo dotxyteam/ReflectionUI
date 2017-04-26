@@ -5356,28 +5356,19 @@
         <memberCategories>
             <caption>Lists</caption>
         </memberCategories>
-        <menuSpecifications>
-            <name>Edit</name>
-            <itemCategories>
-                <name>clipboard</name>
-            </itemCategories>
-            <itemCategories>
-                <name>modifications</name>
-            </itemCategories>
-        </menuSpecifications>
-        <menuSpecifications>
+        <menus>
             <name>File</name>
-            <itemCategories>
-                <name>persist</name>
-            </itemCategories>
-            <itemCategories>
-                <name>close</name>
-            </itemCategories>
-        </menuSpecifications>
+        </menus>
+        <menus>
+            <name>Edit</name>
+        </menus>
         <methodsCustomizations>
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <menuItemCategory>
+                <name>Prefs</name>
+            </menuItemCategory>
             <methodSignature>void doLongTask()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>

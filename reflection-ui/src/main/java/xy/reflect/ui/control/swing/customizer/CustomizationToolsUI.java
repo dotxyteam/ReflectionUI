@@ -30,6 +30,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.info.type.factory.TypeInfoProxyFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
+import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.ResourcePath;
 
 class CustomizationToolsUI extends ReflectionUI {
@@ -202,7 +203,20 @@ class CustomizationToolsUI extends ReflectionUI {
 				} else if (object instanceof ResourcePath) {
 					return ((ResourcePath) object).getSpecification();
 				} else if (object instanceof MenuItemCategory) {
-					return ((MenuItemCategory) object).getName();
+					List<MenuItemCategory> path = InfoCustomizations.getMenuItemCategoryPath(
+							swingCustomizer.getInfoCustomizations(), (MenuItemCategory) object);
+					if (path == null) {
+						return ((MenuItemCategory) object).getName();
+					}
+					List<String> result = new ArrayList<String>();
+					for (MenuItemCategory pathItem : path) {
+						if (pathItem instanceof MenuSpecification) {
+							result.add(pathItem.getName());
+						} else {
+							result.add("(" + pathItem.getName() + ")");
+						}
+					}
+					return ReflectionUIUtils.stringJoin(result, " / ");
 				} else {
 					return super.toString(type, object);
 				}

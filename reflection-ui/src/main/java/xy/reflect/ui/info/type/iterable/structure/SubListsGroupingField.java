@@ -14,11 +14,6 @@ public class SubListsGroupingField extends MultipleFieldsAsListField {
 	}
 	
 	@Override
-	public String getItemTitle(IFieldInfo field) {
-		return "(" + super.getItemTitle(field) + ")";
-	}
-	
-	@Override
 	protected ValueListItem getListItem(Object object, IFieldInfo listFieldInfo) {
 		return new SubListGroup(object, listFieldInfo);
 	}
