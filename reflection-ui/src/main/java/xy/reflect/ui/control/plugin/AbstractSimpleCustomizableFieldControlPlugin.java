@@ -27,7 +27,7 @@ public abstract class AbstractSimpleCustomizableFieldControlPlugin extends Abstr
 	protected abstract AbstractConfiguration getDefaultControlConfiguration();
 
 	@Override
-	public JMenuItem makeFieldCustomizerMenuItem(final JButton customizer,
+	public JMenuItem makeFieldCustomizerMenuItem(final JButton customizerButton,
 			final FieldControlPlaceHolder fieldControlPlaceHolder, final InfoCustomizations infoCustomizations,
 			final CustomizationTools customizationTools) {
 		return new JMenuItem(new AbstractAction(
@@ -39,13 +39,13 @@ public abstract class AbstractSimpleCustomizableFieldControlPlugin extends Abstr
 				FieldCustomization fieldCustomization = customizationTools
 						.getFieldCustomization(fieldControlPlaceHolder, infoCustomizations);
 				Object controlConfiguration = getControlCustomization(fieldCustomization);
-				StandardEditorBuilder status = customizationTools.getToolsRenderer().openObjectDialog(customizer,
+				StandardEditorBuilder status = customizationTools.getToolsRenderer().openObjectDialog(customizerButton,
 						controlConfiguration, null, null, true, true);
 				if (status.isCancelled()) {
 					return;
 				}
 				storeControlCustomization(controlConfiguration, fieldCustomization);
-				customizationTools.rebuildCustomizerForm(customizer);
+				customizationTools.rebuildCustomizerForm(customizerButton);
 			}
 		});
 	}

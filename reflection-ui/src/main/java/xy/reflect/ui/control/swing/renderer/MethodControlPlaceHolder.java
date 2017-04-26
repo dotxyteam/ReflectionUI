@@ -27,11 +27,9 @@ import xy.reflect.ui.util.SwingRendererUtils;
 
 public class MethodControlPlaceHolder extends JPanel implements IMethodControlInput {
 
-	/**
-	 * 
-	 */
-	private final SwingRenderer swingRenderer;
 	protected static final long serialVersionUID = 1L;
+	
+	protected final SwingRenderer swingRenderer;
 	protected JPanel form;
 	protected Component methodControl;
 	protected IMethodInfo method;
@@ -53,7 +51,8 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 			return super.getPreferredSize();
 		}
 		int maxMethodControlWidth = 0;
-		for (final MethodControlPlaceHolder methodControlPlaceHolder : this.swingRenderer.getMethodControlPlaceHolders(form)) {
+		for (final MethodControlPlaceHolder methodControlPlaceHolder : this.swingRenderer
+				.getMethodControlPlaceHolders(form)) {
 			Component methodControl = methodControlPlaceHolder.getMethodControl();
 			Dimension controlPreferredSize = methodControl.getPreferredSize();
 			if (controlPreferredSize != null) {
@@ -94,12 +93,13 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 				return new Runnable() {
 					@Override
 					public void run() {
-						MethodControlPlaceHolder.this.swingRenderer.showBusyDialogWhile(MethodControlPlaceHolder.this, new Runnable() {
-							public void run() {
-								result.run();
-							}
-						}, AbstractModification
-								.getUndoTitle(ReflectionUIUtils.composeMessage(data.getCaption(), "Execution")));
+						MethodControlPlaceHolder.this.swingRenderer.showBusyDialogWhile(MethodControlPlaceHolder.this,
+								new Runnable() {
+									public void run() {
+										result.run();
+									}
+								}, AbstractModification.getUndoTitle(
+										ReflectionUIUtils.composeMessage(data.getCaption(), "Execution")));
 					}
 				};
 			}
@@ -132,9 +132,10 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 
 	@Override
 	public String getContextIdentifier() {
-		ITypeInfo objectType = this.swingRenderer.reflectionUI.getTypeInfo(this.swingRenderer.reflectionUI.getTypeInfoSource(getObject()));
-		return "MethodContext [methodSignature=" + ReflectionUIUtils.getMethodSignature(method)
-				+ ", containingType=" + objectType.getName() + "]";
+		ITypeInfo objectType = this.swingRenderer.reflectionUI
+				.getTypeInfo(this.swingRenderer.reflectionUI.getTypeInfoSource(getObject()));
+		return "MethodContext [methodSignature=" + ReflectionUIUtils.getMethodSignature(method) + ", containingType="
+				+ objectType.getName() + "]";
 	}
 
 	public IMethodInfo getMethod() {

@@ -9,7 +9,7 @@ import xy.reflect.ui.info.custom.InfoCustomizations;
 
 public interface ICustomizableFieldControlPlugin extends IFieldControlPlugin {
 
-	JMenuItem makeFieldCustomizerMenuItem(JButton customizer, FieldControlPlaceHolder fieldControlPlaceHolder,
+	JMenuItem makeFieldCustomizerMenuItem(JButton customizerButton, FieldControlPlaceHolder fieldControlPlaceHolder,
 			InfoCustomizations infoCustomizations, CustomizationTools customizationTools);
 
 }

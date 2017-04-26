@@ -29,11 +29,9 @@ import xy.reflect.ui.util.SwingRendererUtils;
 
 public class FieldControlPlaceHolder extends JPanel implements IFieldControlInput {
 
-	/**
-	 * 
-	 */
-	private final SwingRenderer swingRenderer;
 	protected static final long serialVersionUID = 1L;
+	
+	protected final SwingRenderer swingRenderer;
 	protected Component fieldControl;
 	protected JPanel form;
 	protected IFieldInfo field;

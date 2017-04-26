@@ -1,7 +1,5 @@
 package xy.reflect.ui.control.swing.customizer;
 
-import java.awt.Component;
-import java.awt.event.AWTEventListener;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -16,21 +14,12 @@ import xy.reflect.ui.util.SwingRendererUtils;
 public class CustomizationOptions {
 
 	protected final SwingCustomizer swingCustomizer;
-	protected AWTEventListener openWindowListener;
-
+	
 	protected final TreeSet<String> hiddenCustomizationToolsTypeNames = new TreeSet<String>();
 	protected boolean fieldSharedTypeOptionsDisplayed = true;
 
 	public CustomizationOptions(SwingCustomizer swingCustomizer) {
 		this.swingCustomizer = swingCustomizer;
-	}
-
-	protected void openWindow(Component activatorComponent) {
-		this.swingCustomizer.getCustomizationTools().getToolsRenderer().openObjectDialog(
-				activatorComponent, CustomizationOptions.this,
-				this.swingCustomizer.getCustomizationTools().getToolsRenderer()
-						.getObjectTitle(CustomizationOptions.this),
-				this.swingCustomizer.getCustomizationsIcon().getImage(), false, true);
 	}
 
 	public Set<String> getHiddenCustomizationToolsTypeNames() {

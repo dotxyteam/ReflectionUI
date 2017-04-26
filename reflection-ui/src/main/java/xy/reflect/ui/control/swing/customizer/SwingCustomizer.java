@@ -32,12 +32,14 @@ public class SwingCustomizer extends SwingRenderer {
 	protected String infoCustomizationsOutputFilePath;
 	protected CustomizationTools customizationTools;
 	protected CustomizationOptions customizationOptions;
+	protected CustomizationController customizationController;
 
 	public SwingCustomizer(ReflectionUI reflectionUI, InfoCustomizations infoCustomizations,
 			String infoCustomizationsOutputFilePath) {
 		super(reflectionUI);
 		this.customizationTools = createCustomizationTools();
-		this.customizationOptions = initializeCustomizationOptions();
+		this.customizationOptions = createCustomizationOptions();
+		this.customizationController = createCustomizationController();
 		this.infoCustomizations = infoCustomizations;
 		this.infoCustomizationsOutputFilePath = infoCustomizationsOutputFilePath;
 		if (infoCustomizationsOutputFilePath != null) {
@@ -52,7 +54,11 @@ public class SwingCustomizer extends SwingRenderer {
 		}
 	}
 
-	protected CustomizationOptions initializeCustomizationOptions() {
+	protected CustomizationController createCustomizationController() {
+		return new CustomizationController(this);
+	}
+
+	protected CustomizationOptions createCustomizationOptions() {
 		return new CustomizationOptions(this);
 	}
 
@@ -76,14 +82,17 @@ public class SwingCustomizer extends SwingRenderer {
 		return customizationOptions;
 	}
 
+
+	public CustomizationController getCustomizationController() {
+		return customizationController;
+	}
 	@Override
 	public void fillForm(JPanel form) {
 		Object object = getObjectByForm().get(form);
 		if (areCustomizationsEditable(object)) {
 			JPanel mainCustomizationsControl = new JPanel();
 			mainCustomizationsControl.setLayout(new BorderLayout());
-			mainCustomizationsControl.add(customizationTools.makeCustomizerForTypeInfo(object), BorderLayout.CENTER);
-			mainCustomizationsControl.add(customizationTools.makeSaveControl(), BorderLayout.EAST);
+			mainCustomizationsControl.add(customizationTools.makeButtonForTypeInfo(object), BorderLayout.CENTER);
 			mainCustomizationsControl.setBorder(BorderFactory.createEmptyBorder(getLayoutSpacing(), 0, 0, 0));
 			form.add(SwingRendererUtils.flowInLayout(mainCustomizationsControl, GridBagConstraints.CENTER),
 					BorderLayout.NORTH);
@@ -108,7 +117,7 @@ public class SwingCustomizer extends SwingRenderer {
 					return;
 				}
 				if (infoCustomizationsComponent == null) {
-					infoCustomizationsComponent = customizationTools.makeCustomizerForFieldInfo(this);
+					infoCustomizationsComponent = customizationTools.makeButtonForFieldInfo(this);
 					add(infoCustomizationsComponent, BorderLayout.EAST);
 					SwingRendererUtils.handleComponentSizeChange(this);
 				} else {
@@ -149,7 +158,7 @@ public class SwingCustomizer extends SwingRenderer {
 
 			protected void refreshInfoCustomizationsControl() {
 				if (infoCustomizationsComponent == null) {
-					infoCustomizationsComponent = customizationTools.makeCustomizerForMethodInfo(this);
+					infoCustomizationsComponent = customizationTools.makeButtonForMethodInfo(this);
 					add(infoCustomizationsComponent, BorderLayout.WEST);
 					SwingRendererUtils.handleComponentSizeChange(this);
 				} else {
