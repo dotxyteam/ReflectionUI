@@ -16,8 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.AbstractAction;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
@@ -256,27 +254,31 @@ public class CustomizationTools {
 
 	protected void openTypeCustomizationDialog(JButton customizerButton, InfoCustomizations infoCustomizations,
 			ITypeInfo customizedType) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(infoCustomizations, customizedType.getName(),
+		TypeCustomization tc = InfoCustomizations.getTypeCustomization(infoCustomizations, customizedType.getName(),
 				true);
-		updateTypeCustomization(t, customizedType);
-		openCustomizationEditor(customizerButton, t);
+		updateTypeCustomization(tc, customizedType);
+		openCustomizationEditor(customizerButton, tc);
 	}
 
-	protected void updateTypeCustomization(TypeCustomization t, ITypeInfo customizedType) {
-		for (IFieldInfo field : customizedType.getFields()) {
-			InfoCustomizations.getFieldCustomization(t, field.getName(), true);
-		}
-		for (IMethodInfo method : customizedType.getMethods()) {
-			String methodSignature = ReflectionUIUtils.getMethodSignature(method);
-			InfoCustomizations.getMethodCustomization(t, methodSignature, true);
-			MethodCustomization mc = InfoCustomizations.getMethodCustomization(t, methodSignature, true);
-			updateMethodCustomization(mc, method);
-		}
-		for (IMethodInfo ctor : customizedType.getConstructors()) {
-			String methodSignature = ReflectionUIUtils.getMethodSignature(ctor);
-			InfoCustomizations.getMethodCustomization(t, methodSignature, true);
-			MethodCustomization mc = InfoCustomizations.getMethodCustomization(t, methodSignature, true);
-			updateMethodCustomization(mc, ctor);
+	protected void updateTypeCustomization(TypeCustomization tc, ITypeInfo customizedType) {
+		try {
+			for (IFieldInfo field : customizedType.getFields()) {
+				InfoCustomizations.getFieldCustomization(tc, field.getName(), true);
+			}
+			for (IMethodInfo method : customizedType.getMethods()) {
+				String methodSignature = ReflectionUIUtils.getMethodSignature(method);
+				InfoCustomizations.getMethodCustomization(tc, methodSignature, true);
+				MethodCustomization mc = InfoCustomizations.getMethodCustomization(tc, methodSignature, true);
+				updateMethodCustomization(mc, method);
+			}
+			for (IMethodInfo ctor : customizedType.getConstructors()) {
+				String methodSignature = ReflectionUIUtils.getMethodSignature(ctor);
+				InfoCustomizations.getMethodCustomization(tc, methodSignature, true);
+				MethodCustomization mc = InfoCustomizations.getMethodCustomization(tc, methodSignature, true);
+				updateMethodCustomization(mc, ctor);
+			}
+		} catch (Throwable t) {
+			swingCustomizer.getReflectionUI().logDebug(t);
 		}
 	}
 
@@ -686,9 +688,13 @@ public class CustomizationTools {
 
 	protected void updateEnumerationCustomization(EnumerationCustomization ec,
 			IEnumerationTypeInfo customizedEnumType) {
-		for (Object item : customizedEnumType.getPossibleValues()) {
-			IEnumerationItemInfo itemInfo = customizedEnumType.getValueInfo(item);
-			InfoCustomizations.getEnumerationItemCustomization(ec, itemInfo.getName(), true);
+		try {
+			for (Object item : customizedEnumType.getPossibleValues()) {
+				IEnumerationItemInfo itemInfo = customizedEnumType.getValueInfo(item);
+				InfoCustomizations.getEnumerationItemCustomization(ec, itemInfo.getName(), true);
+			}
+		} catch (Throwable t) {
+			swingCustomizer.getReflectionUI().logDebug(t);
 		}
 	}
 
@@ -703,14 +709,18 @@ public class CustomizationTools {
 	}
 
 	protected void updateListCustomization(ListCustomization lc, IListTypeInfo customizedListType) {
-		for (IColumnInfo column : customizedListType.getStructuralInfo().getColumns()) {
-			InfoCustomizations.getColumnCustomization(lc, column.getName(), true);
-		}
-		ITypeInfo customizedItemType = customizedListType.getItemType();
-		if (customizedItemType != null) {
-			TypeCustomization t = InfoCustomizations.getTypeCustomization(swingCustomizer.getInfoCustomizations(),
-					customizedItemType.getName(), true);
-			updateTypeCustomization(t, customizedItemType);
+		try {
+			for (IColumnInfo column : customizedListType.getStructuralInfo().getColumns()) {
+				InfoCustomizations.getColumnCustomization(lc, column.getName(), true);
+			}
+			ITypeInfo customizedItemType = customizedListType.getItemType();
+			if (customizedItemType != null) {
+				TypeCustomization t = InfoCustomizations.getTypeCustomization(swingCustomizer.getInfoCustomizations(),
+						customizedItemType.getName(), true);
+				updateTypeCustomization(t, customizedItemType);
+			}
+		} catch (Throwable t) {
+			swingCustomizer.getReflectionUI().logDebug(t);
 		}
 	}
 
@@ -731,8 +741,12 @@ public class CustomizationTools {
 	}
 
 	protected void updateMethodCustomization(MethodCustomization mc, IMethodInfo customizedMethod) {
-		for (IParameterInfo param : customizedMethod.getParameters()) {
-			InfoCustomizations.getParameterCustomization(mc, param.getName(), true);
+		try {
+			for (IParameterInfo param : customizedMethod.getParameters()) {
+				InfoCustomizations.getParameterCustomization(mc, param.getName(), true);
+			}
+		} catch (Throwable t) {
+			swingCustomizer.getReflectionUI().logDebug(t);
 		}
 	}
 

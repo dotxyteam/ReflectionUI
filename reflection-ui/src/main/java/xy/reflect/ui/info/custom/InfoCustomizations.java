@@ -50,6 +50,7 @@ public class InfoCustomizations implements Serializable {
 	protected List<TypeCustomization> typeCustomizations = new ArrayList<InfoCustomizations.TypeCustomization>();
 	protected List<ListCustomization> listCustomizations = new ArrayList<InfoCustomizations.ListCustomization>();
 	protected List<EnumerationCustomization> enumerationCustomizations = new ArrayList<InfoCustomizations.EnumerationCustomization>();
+	protected List<MenuItemCategory> menus = new ArrayList<MenuItemCategory>();
 
 	@Override
 	public String toString() {
@@ -102,6 +103,14 @@ public class InfoCustomizations implements Serializable {
 		this.enumerationCustomizations = enumerationCustomizations;
 	}
 
+	public List<MenuItemCategory> getMenus() {
+		return menus;
+	}
+
+	public void setMenus(List<MenuItemCategory> menus) {
+		this.menus = menus;
+	}
+
 	public void loadFromFile(File input) throws IOException {
 		FileInputStream stream = new FileInputStream(input);
 		try {
@@ -124,15 +133,9 @@ public class InfoCustomizations implements Serializable {
 			throw new IOException(e);
 		}
 		typeCustomizations = loaded.typeCustomizations;
-		for (TypeCustomization t : typeCustomizations) {
-			if ("Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=products, containingType=xy.reflect.ui.TableTreeModelExample$Catalog], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Product]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Book]"
-					.equals(t.getTypeName())) {
-				System.out.println(t.fieldsCustomizations.get(0).formControlEmbeddingForced);
-				System.out.println("debug");
-			}
-		}
 		listCustomizations = loaded.listCustomizations;
 		enumerationCustomizations = loaded.enumerationCustomizations;
+		menus = loaded.menus;
 
 		fillXMLSerializationGap();
 	}
@@ -186,18 +189,7 @@ public class InfoCustomizations implements Serializable {
 
 	public static List<MenuItemCategory> getMenuItemCategoryPath(InfoCustomizations infoCustomizations,
 			MenuItemCategory menuItemCategory) {
-		for (TypeCustomization tc : getTypeCustomizationsPlusMemberSpecificities(infoCustomizations)) {
-			List<MenuItemCategory> result = getMenuItemCategoryPath(tc, menuItemCategory);
-			if (result != null) {
-				return result;
-			}
-		}
-		return null;
-	}
-
-	public static List<MenuItemCategory> getMenuItemCategoryPath(TypeCustomization t,
-			MenuItemCategory menuItemCategory) {
-		for (MenuItemCategory rootMenu : t.getMenus()) {
+		for (MenuItemCategory rootMenu : infoCustomizations.getMenus()) {
 			List<MenuItemCategory> result = getMenuItemCategoryPath(rootMenu, menuItemCategory);
 			if (result != null) {
 				return result;
@@ -229,8 +221,7 @@ public class InfoCustomizations implements Serializable {
 	public static List<MenuItemCategory> getMethodMenuPathOptions(InfoCustomizations infoCustomizations,
 			MethodCustomization m) {
 		List<MenuItemCategory> result = new ArrayList<InfoCustomizations.MenuItemCategory>();
-		TypeCustomization tc = findParentTypeCustomization(infoCustomizations, m);
-		for (MenuItemCategory rootMenu : tc.getMenus()) {
+		for (MenuItemCategory rootMenu : infoCustomizations.getMenus()) {
 			result.addAll(getAllMenuItemCategories(rootMenu));
 		}
 		return result;
@@ -240,8 +231,8 @@ public class InfoCustomizations implements Serializable {
 		List<MenuItemCategory> result = new ArrayList<InfoCustomizations.MenuItemCategory>();
 		result.add(from);
 		if (from instanceof MenuSpecification) {
-			for (MenuItemCategory item : ((MenuSpecification)from).getItemCategories()) {
-				result.addAll(getAllMenuItemCategories(item));				
+			for (MenuItemCategory item : ((MenuSpecification) from).getItemCategories()) {
+				result.addAll(getAllMenuItemCategories(item));
 			}
 		}
 		return result;
@@ -677,15 +668,6 @@ public class InfoCustomizations implements Serializable {
 		protected List<ITypeInfoFinder> polymorphicSubTypeFinders = new ArrayList<ITypeInfoFinder>();
 		protected ResourcePath iconImagePath;
 		protected ITypeInfo.FieldsLayout fieldsLayout;
-		protected List<MenuItemCategory> menus = new ArrayList<MenuItemCategory>();
-
-		public List<MenuItemCategory> getMenus() {
-			return menus;
-		}
-
-		public void setMenus(List<MenuItemCategory> menus) {
-			this.menus = menus;
-		}
 
 		public ITypeInfo.FieldsLayout getFieldsLayout() {
 			return fieldsLayout;
@@ -954,10 +936,10 @@ public class InfoCustomizations implements Serializable {
 		protected ValueReturnMode customValueReturnMode;
 		protected String nullValueLabel;
 		protected String encapsulationFieldName;
-		protected String generatedGetterName;
-		protected String generatedSetterName;
+		protected boolean getterGenerated;
+		protected boolean setterGenerated;
 		protected boolean displayedAsSingletonList = false;
-		protected String nullStatusFieldNamed;
+		protected boolean nullStatusFieldDisplayed;
 		protected FieldTypeSpecificities specificTypeCustomizations = new FieldTypeSpecificities();
 		protected boolean formControlEmbeddingForced = false;
 		protected boolean formControlCreationForced = false;
@@ -994,20 +976,20 @@ public class InfoCustomizations implements Serializable {
 			this.customSetterSignature = customSetterSignature;
 		}
 
-		public String getGeneratedGetterName() {
-			return generatedGetterName;
+		public boolean isGetterGenerated() {
+			return getterGenerated;
 		}
 
-		public void setGeneratedGetterName(String generatedGetterName) {
-			this.generatedGetterName = generatedGetterName;
+		public void setGetterGenerated(boolean getterGenerated) {
+			this.getterGenerated = getterGenerated;
 		}
 
-		public String getGeneratedSetterName() {
-			return generatedSetterName;
+		public boolean isSetterGenerated() {
+			return setterGenerated;
 		}
 
-		public void setGeneratedSetterName(String generatedSetterName) {
-			this.generatedSetterName = generatedSetterName;
+		public void setSetterGenerated(boolean setterGenerated) {
+			this.setterGenerated = setterGenerated;
 		}
 
 		public FieldTypeSpecificities getSpecificTypeCustomizations() {
@@ -1018,12 +1000,12 @@ public class InfoCustomizations implements Serializable {
 			this.specificTypeCustomizations = specificTypeCustomizations;
 		}
 
-		public String getNullStatusFieldNamed() {
-			return nullStatusFieldNamed;
+		public boolean isNullStatusFieldDisplayed() {
+			return nullStatusFieldDisplayed;
 		}
 
-		public void setNullStatusFieldNamed(String nullStatusFieldNamed) {
-			this.nullStatusFieldNamed = nullStatusFieldNamed;
+		public void setNullStatusFieldDisplayed(boolean nullStatusFieldDisplayed) {
+			this.nullStatusFieldDisplayed = nullStatusFieldDisplayed;
 		}
 
 		public boolean isDisplayedAsSingletonList() {
@@ -1138,11 +1120,11 @@ public class InfoCustomizations implements Serializable {
 		protected List<ParameterCustomization> parametersCustomizations = new ArrayList<InfoCustomizations.ParameterCustomization>();
 		protected ValueReturnMode customValueReturnMode;
 		protected String nullReturnValueLabel;
-		protected String generatedFieldName;
+		protected boolean returnValueFieldGenerated;
 		protected MethodReturnValueTypeSpecificities specificReturnValueTypeCustomizations = new MethodReturnValueTypeSpecificities();
 		protected boolean detachedReturnValueForced;
 		protected String encapsulationFieldName;
-		protected String parametersFormFieldName;
+		protected boolean parametersFormDisplayed;
 		protected ResourcePath iconImagePath;
 		protected MenuItemCategory menuItemCategory;
 
@@ -1174,20 +1156,20 @@ public class InfoCustomizations implements Serializable {
 			this.encapsulationFieldName = encapsulationFieldName;
 		}
 
-		public String getParametersFormFieldName() {
-			return parametersFormFieldName;
+		public boolean isReturnValueFieldGenerated() {
+			return returnValueFieldGenerated;
 		}
 
-		public void setParametersFormFieldName(String parametersFormFieldName) {
-			this.parametersFormFieldName = parametersFormFieldName;
+		public void setReturnValueFieldGenerated(boolean returnValueFieldGenerated) {
+			this.returnValueFieldGenerated = returnValueFieldGenerated;
 		}
 
-		public String getGeneratedFieldName() {
-			return generatedFieldName;
+		public boolean isParametersFormDisplayed() {
+			return parametersFormDisplayed;
 		}
 
-		public void setGeneratedFieldName(String generatedFieldName) {
-			this.generatedFieldName = generatedFieldName;
+		public void setParametersFormDisplayed(boolean parametersFormDisplayed) {
+			this.parametersFormDisplayed = parametersFormDisplayed;
 		}
 
 		public boolean isDetachedReturnValueForced() {

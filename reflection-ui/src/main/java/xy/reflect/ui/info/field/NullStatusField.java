@@ -12,12 +12,10 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class NullStatusField extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;
-	protected String fieldName;
-
-	public NullStatusField(ReflectionUI reflectionUI, IFieldInfo base, String fieldName) {
+	
+	public NullStatusField(ReflectionUI reflectionUI, IFieldInfo base) {
 		super(base);
 		this.reflectionUI = reflectionUI;
-		this.fieldName = fieldName;
 	}
 
 	protected Object valueToBoolean(Object value) {
@@ -32,10 +30,6 @@ public class NullStatusField extends FieldInfoProxy {
 		}
 	}
 
-	@Override
-	public String getName() {
-		return fieldName;
-	}
 
 	@Override
 	public Object getValue(Object object) {

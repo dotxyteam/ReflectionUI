@@ -3634,6 +3634,8 @@
         <abstractForced>false</abstractForced>
         <customFieldsOrder>typeCustomizations</customFieldsOrder>
         <customFieldsOrder>listCustomizations</customFieldsOrder>
+        <customFieldsOrder>enumerationCustomizations</customFieldsOrder>
+        <customFieldsOrder>menus</customFieldsOrder>
         <customMethodsOrder>getTypeCustomization</customMethodsOrder>
         <customMethodsOrder>getListCustomization</customMethodsOrder>
         <customMethodsOrder>getFieldCustomization</customMethodsOrder>
@@ -3662,6 +3664,61 @@
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <nullableFacetHidden>true</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>CURRENT_PROXY_SOURCE_PROPERTY_KEY</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>enumerationCustomizations</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>menus</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>default</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>defaultInstance</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -3748,7 +3805,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <specificProperties/>
-            <hidden>false</hidden>
+            <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>void loadFromFile(java.io.File)</methodSignature>
             <parametersCustomizations>
@@ -3778,7 +3835,7 @@
         </methodsCustomizations>
         <methodsCustomizations>
             <specificProperties/>
-            <hidden>false</hidden>
+            <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>void saveToFile(java.io.File)</methodSignature>
             <parametersCustomizations>
@@ -4144,6 +4201,213 @@
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>typeName</parameterName>
             </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$EnumerationCustomization getEnumerationCustomization(xy.reflect.ui.info.custom.InfoCustomizations, java.lang.String, boolean)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$EnumerationItemCustomization getEnumerationItemCustomization(xy.reflect.ui.info.custom.InfoCustomizations$EnumerationCustomization, java.lang.String, boolean)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$ParameterCustomization getParameterCustomization(xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization, java.lang.String, boolean)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$EnumerationCustomization getEnumerationCustomization(xy.reflect.ui.info.custom.InfoCustomizations, java.lang.String)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$EnumerationItemCustomization getEnumerationItemCustomization(xy.reflect.ui.info.custom.InfoCustomizations$EnumerationCustomization, java.lang.String)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$ParameterCustomization getParameterCustomization(xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization, java.lang.String)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>java.util.List getTypeCustomizationsPlusMemberSpecificities(xy.reflect.ui.info.custom.InfoCustomizations)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>java.util.List getMemberCategoryOptions(xy.reflect.ui.info.custom.InfoCustomizations, xy.reflect.ui.info.custom.InfoCustomizations$AbstractMemberCustomization)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization findParentTypeCustomization(xy.reflect.ui.info.custom.InfoCustomizations, xy.reflect.ui.info.custom.InfoCustomizations$AbstractMemberCustomization)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>java.util.List getMenuItemCategoryPath(xy.reflect.ui.info.custom.InfoCustomizations, xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>java.util.List getMethodMenuPathOptions(xy.reflect.ui.info.custom.InfoCustomizations, xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>java.util.List getAllMenuItemCategories(xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>java.util.List getMenuItemCategoryPath(xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory, xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization getTypeCustomization(xy.reflect.ui.info.custom.InfoCustomizations, java.lang.String, boolean)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization getTypeCustomization(xy.reflect.ui.info.custom.InfoCustomizations, java.lang.String)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization getListCustomization(xy.reflect.ui.info.custom.InfoCustomizations, java.lang.String, java.lang.String, boolean)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization getListCustomization(xy.reflect.ui.info.custom.InfoCustomizations, java.lang.String, java.lang.String)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization getFieldCustomization(xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization, java.lang.String, boolean)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization getFieldCustomization(xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization, java.lang.String)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization getMethodCustomization(xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization, java.lang.String, boolean)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization getMethodCustomization(xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization, java.lang.String)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$ColumnCustomization getColumnCustomization(xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization, java.lang.String, boolean)</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$ColumnCustomization getColumnCustomization(xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization, java.lang.String)</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
@@ -11676,8 +11940,9 @@
     <typeCustomizations>
         <specificProperties/>
         <abstractForced>false</abstractForced>
-        <customMethodsOrder>getOptions</customMethodsOrder>
         <customMethodsOrder>saveCustomoizations</customMethodsOrder>
+        <customMethodsOrder>getAllCustomizations</customMethodsOrder>
+        <customMethodsOrder>getOptions</customMethodsOrder>
         <fieldsCustomizations>
             <specificProperties/>
             <hidden>true</hidden>
@@ -11690,11 +11955,46 @@
             <nullableFacetHidden>false</nullableFacetHidden>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>allCustomizations</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <generatedGetterName>getAllCustomizations</generatedGetterName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <encapsulationFieldName>menusContainer</encapsulationFieldName>
+            <fieldName>menus</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>menusContainer</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <generatedGetterName>getMenus</generatedGetterName>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <methodsCustomizations>
             <specificProperties/>
             <hidden>false</hidden>
-            <customMethodCaption></customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <iconImagePath>
                 <specification>&lt;class-path-resource&gt; xy/reflect/ui/resource/save-all.png</specification>
@@ -11707,7 +12007,6 @@
         <methodsCustomizations>
             <specificProperties/>
             <hidden>false</hidden>
-            <customMethodCaption>Options...</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <methodSignature>xy.reflect.ui.control.swing.customizer.CustomizationOptions getOptions()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
@@ -11802,6 +12101,24 @@
             <validating>false</validating>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.control.swing.customizer.CustomizationOptions</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <typeName>Encapsulation [context=MethodContext [methodSignature=xy.reflect.ui.info.custom.InfoCustomizations getAllCustomizations(), containingType=xy.reflect.ui.control.swing.customizer.CustomizationController], subContext=MethodResult, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

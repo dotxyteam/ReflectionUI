@@ -134,6 +134,10 @@ public class ReflectionUI {
 		System.out.println(formatLogMessage("DEBUG - " + msg));
 	}
 
+	public void logDebug(Throwable t) {
+		logDebug(ReflectionUIUtils.getPrintedStackTrace(t));
+	}
+
 	public void logError(String msg) {
 		System.err.println(formatLogMessage("ERROR - " + msg));
 	}

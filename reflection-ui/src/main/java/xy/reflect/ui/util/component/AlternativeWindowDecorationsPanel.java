@@ -170,14 +170,13 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				JComponent b = (JComponent) e.getSource();
 				Window w = SwingUtilities.getWindowAncestor(b);
-				JFrame frame = (JFrame) w;
 				if (minimizeBounds != null) {
 					w.setBounds(minimizeBounds);
 					minimizeBounds = null;
 				} else {
 					minimizeBounds = w.getBounds();
 					Rectangle maxBounds = SwingRendererUtils
-							.getMaximumWindowBounds(SwingRendererUtils.getWindowCurrentGraphicsDevice(frame));
+							.getMaximumWindowBounds(SwingRendererUtils.getWindowCurrentGraphicsDevice(w));
 					w.setBounds(maxBounds);
 				}
 			}

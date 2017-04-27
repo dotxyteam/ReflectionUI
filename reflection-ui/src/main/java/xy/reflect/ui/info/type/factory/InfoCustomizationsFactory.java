@@ -28,7 +28,7 @@ import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MethodAsField;
 import xy.reflect.ui.info.field.MethodParametersAsField;
-import xy.reflect.ui.info.field.MultipleMembersAsField;
+import xy.reflect.ui.info.field.CapsuleField;
 import xy.reflect.ui.info.field.NerverNullField;
 import xy.reflect.ui.info.field.NullStatusField;
 import xy.reflect.ui.info.field.SubFieldInfo;
@@ -37,6 +37,7 @@ import xy.reflect.ui.info.method.FieldAsGetter;
 import xy.reflect.ui.info.method.FieldAsSetter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.method.SubMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -78,7 +79,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 					ReflectionUIUtils.getMethodSignature(method));
 			if (m != null) {
 				if (m.getMenuItemCategory() != null) {
-					List<MenuItemCategory> path = InfoCustomizations.getMenuItemCategoryPath(t,
+					List<MenuItemCategory> path = InfoCustomizations.getMenuItemCategoryPath(this.infoCustomizations,
 							m.getMenuItemCategory());
 					if (path == null) {
 						return Collections.emptyList();
@@ -1178,9 +1179,6 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 			MethodCustomization m = InfoCustomizations.getMethodCustomization(t,
 					ReflectionUIUtils.getMethodSignature(method));
 			if (m != null) {
-				if (m.getParametersFormFieldName() != null) {
-					return Collections.emptyList();
-				}
 				List<IParameterInfo> result = new ArrayList<IParameterInfo>(
 						super.getParameters(method, containingType));
 				result = removeHiddenParameters(result, m);
@@ -1249,15 +1247,63 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.infoCustomizations,
 				containingType.getName());
 		if (t != null) {
-			List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(containingType));
-			result = addGeneratedFields(result, containingType);
-			result = transformFields(result, containingType);
-			result = encapsulateMembers(result, containingType);
+			Pair<List<IFieldInfo>, List<IMethodInfo>> members = new Pair<List<IFieldInfo>, List<IMethodInfo>>(
+					super.getFields(containingType), super.getMethods(containingType));
+			members = evolveMemberLists(members, containingType);
+			List<IFieldInfo> result = members.getFirst();
 			result = removeHiddenFields(result, containingType);
 			result = sortFields(result, containingType);
 			return result;
+
 		}
 		return super.getFields(containingType);
+	}
+
+	protected Pair<List<IFieldInfo>, List<IMethodInfo>> evolveMemberLists(
+			Pair<List<IFieldInfo>, List<IMethodInfo>> members, ITypeInfo containingType) {
+
+		final boolean[] changeDone = new boolean[] { false };
+		Runnable changeDoneNotification = new Runnable() {
+			@Override
+			public void run() {
+				changeDone[0] = true;
+			}
+		};
+
+		members = transformMembers(members, containingType, changeDoneNotification);
+		members = encapsulateMembers(members, containingType, changeDoneNotification);
+		checkDuplicates(members);
+
+		if (changeDone[0]) {
+			return evolveMemberLists(members, containingType);
+		} else {
+			return members;
+		}
+	}
+
+	protected void checkDuplicates(Pair<List<IFieldInfo>, List<IMethodInfo>> members) {
+		List<IFieldInfo> fields = members.getFirst();
+		for (int i = 0; i < fields.size(); i++) {
+			for (int j = i + 1; j < fields.size(); j++) {
+				IFieldInfo field1 = fields.get(i);
+				IFieldInfo field2 = fields.get(j);
+				if (field1.getName().equals(field2.getName())) {
+					throw new ReflectionUIError("Duplicate field detected: '" + field1.getName() + "'");
+				}
+			}
+		}
+		List<IMethodInfo> methods = members.getSecond();
+		for (int i = 0; i < methods.size(); i++) {
+			for (int j = i + 1; j < methods.size(); j++) {
+				IMethodInfo method1 = methods.get(i);
+				IMethodInfo method2 = methods.get(j);
+				if (ReflectionUIUtils.getMethodSignature(method1)
+						.equals(ReflectionUIUtils.getMethodSignature(method2))) {
+					throw new ReflectionUIError(
+							"Duplicate method detected: '" + ReflectionUIUtils.getMethodSignature(method1) + "'");
+				}
+			}
+		}
 	}
 
 	protected List<IFieldInfo> sortFields(List<IFieldInfo> fields, ITypeInfo containingType) {
@@ -1275,34 +1321,138 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 		return fields;
 	}
 
-	protected List<IFieldInfo> transformFields(List<IFieldInfo> fields, ITypeInfo containingType) {
+	protected Pair<List<IFieldInfo>, List<IMethodInfo>> transformMembers(
+			Pair<List<IFieldInfo>, List<IMethodInfo>> members, ITypeInfo containingType,
+			Runnable changeDoneNotification) {
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.infoCustomizations,
 				containingType.getName());
 		if (t != null) {
-			List<IFieldInfo> result = new ArrayList<IFieldInfo>(fields);
-			for (int i = 0; i < result.size(); i++) {
-				IFieldInfo field = result.get(i);
-				final FieldCustomization f = InfoCustomizations.getFieldCustomization(t, field.getName());
+			List<IFieldInfo> resultFields = new ArrayList<IFieldInfo>(members.getFirst());
+			List<IMethodInfo> resultMethods = new ArrayList<IMethodInfo>(members.getSecond());
+
+			for (IFieldInfo field : members.getFirst()) {
+				FieldCustomization f = InfoCustomizations.getFieldCustomization(t, field.getName());
 				if (f != null) {
+					if (f.isGetterGenerated()) {
+						resultFields.remove(field);
+						resultMethods.add(new FieldAsGetter(field, field.getName() + ".get"));
+						resultFields.add(field = new FieldInfoProxy(field) {
+							@Override
+							public String getName() {
+								return super.getName() + ".withGeneratedGetter";
+							}
+						});
+						changeDoneNotification.run();
+					}
+					if (f.isSetterGenerated()) {
+						resultFields.remove(field);
+						resultMethods.add(new FieldAsSetter(field, field.getName() + ".set"));
+						resultFields.add(field = new FieldInfoProxy(field) {
+							@Override
+							public String getName() {
+								return super.getName() + ".withGeneratedSetter";
+							}
+						});
+						changeDoneNotification.run();
+					}
+					if (f.isNullStatusFieldDisplayed()) {
+						resultFields.remove(field);
+						resultFields.add(new NullStatusField(reflectionUI, field) {
+
+							@Override
+							public String getCaption() {
+								return "Set " + super.getCaption();
+							}
+
+							@Override
+							public String getName() {
+								return super.getName() + ".nullStatus";
+							}
+
+						});
+						resultFields.add(field = new NerverNullField(reflectionUI, field) {
+
+							@Override
+							public String getName() {
+								return super.getName() + ".withSeparatedNullStatus";
+							}
+
+						});
+						changeDoneNotification.run();
+					}
 					if (f.isDisplayedAsSingletonList()) {
-						field = new ValueAsListField(reflectionUI, field);
+						resultFields.remove(field);
+						resultFields.add(field = new ValueAsListField(reflectionUI, field) {
+
+							@Override
+							public String getName() {
+								return super.getName() + ".asSingletonList";
+							}
+
+						});
+						changeDoneNotification.run();
 					}
-					if (f.getNullStatusFieldNamed() != null) {
-						field = new NerverNullField(reflectionUI, field);
-					}
-					result.set(i, field);
+
 				}
 			}
-			return result;
+
+			for (IMethodInfo method : members.getSecond()) {
+				MethodCustomization m = InfoCustomizations.getMethodCustomization(t,
+						ReflectionUIUtils.getMethodSignature(method));
+				if (m != null) {
+					if (m.isReturnValueFieldGenerated()) {
+						resultMethods.remove(method);
+						resultFields.add(new MethodAsField(method, method.getName() + ".result"));
+						resultMethods.add(method = new MethodInfoProxy(method) {
+
+							@Override
+							public String getName() {
+								return super.getName() + ".withGeneratedReturnValueField";
+							}
+
+						});
+						changeDoneNotification.run();
+					}
+					if (m.isParametersFormDisplayed()) {
+						resultMethods.remove(method);
+						resultFields.add(
+								new MethodParametersAsField(reflectionUI, method, method.getName() + ".parameters"));
+						resultMethods.add(method = new MethodInfoProxy(method) {
+
+							@Override
+							public String getName() {
+								return super.getName() + ".withSeparatedParameters";
+							}
+
+							@Override
+							public List<IParameterInfo> getParameters() {
+								return Collections.emptyList();
+							}
+
+							@Override
+							public void validateParameters(Object object, InvocationData invocationData)
+									throws Exception {
+							}
+
+						});
+						changeDoneNotification.run();
+					}
+				}
+			}
+
+			return new Pair<List<IFieldInfo>, List<IMethodInfo>>(resultFields, resultMethods);
 		}
-		return fields;
+		return members;
 	}
 
-	protected List<IFieldInfo> encapsulateMembers(List<IFieldInfo> fields, ITypeInfo containingType) {
+	protected Pair<List<IFieldInfo>, List<IMethodInfo>> encapsulateMembers(
+			Pair<List<IFieldInfo>, List<IMethodInfo>> members, ITypeInfo containingType,
+			Runnable changeDoneNotification) {
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.infoCustomizations,
 				containingType.getName());
 		if (t != null) {
-			List<IFieldInfo> result = new ArrayList<IFieldInfo>(fields);
+			List<IFieldInfo> fields = members.getFirst();
+			List<IFieldInfo> resultFields = new ArrayList<IFieldInfo>(fields);
 			Map<String, Pair<List<IFieldInfo>, List<IMethodInfo>>> encapsulatedMembersByCapsuleFieldName = new HashMap<String, Pair<List<IFieldInfo>, List<IMethodInfo>>>();
 			for (IFieldInfo field : fields) {
 				FieldCustomization fc = InfoCustomizations.getFieldCustomization(t, field.getName());
@@ -1317,11 +1467,15 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 									encapsulatedMembers);
 						}
 						encapsulatedMembers.getFirst().add(field);
-						result.remove(field);
+						resultFields.remove(field);
+						changeDoneNotification.run();
 					}
 				}
 			}
-			for (IMethodInfo method : super.getMethods(containingType)) {
+
+			List<IMethodInfo> methods = members.getSecond();
+			List<IMethodInfo> resultMethods = new ArrayList<IMethodInfo>(methods);
+			for (IMethodInfo method : methods) {
 				MethodCustomization mc = InfoCustomizations.getMethodCustomization(t,
 						ReflectionUIUtils.getMethodSignature(method));
 				if (mc != null) {
@@ -1335,97 +1489,45 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 									encapsulatedMembers);
 						}
 						encapsulatedMembers.getSecond().add(method);
+						resultMethods.remove(method);
+						changeDoneNotification.run();
 					}
 				}
 			}
 
 			if (encapsulatedMembersByCapsuleFieldName.size() == 0) {
-				return fields;
+				return members;
 			}
 
 			for (String capsuleFieldName : encapsulatedMembersByCapsuleFieldName.keySet()) {
-				Pair<List<IFieldInfo>, List<IMethodInfo>> pair = encapsulatedMembersByCapsuleFieldName
+				Pair<List<IFieldInfo>, List<IMethodInfo>> encapsulatedMembers = encapsulatedMembersByCapsuleFieldName
 						.get(capsuleFieldName);
-				List<IFieldInfo> encapsulatedFields = pair.getFirst();
-				List<IMethodInfo> encapsulatedMethods = pair.getSecond();
-				IFieldInfo duplicateField = ReflectionUIUtils.findInfoByName(result, capsuleFieldName);
+				List<IFieldInfo> encapsulatedFields = encapsulatedMembers.getFirst();
+				List<IMethodInfo> encapsulatedMethods = encapsulatedMembers.getSecond();
+				IFieldInfo duplicateField = ReflectionUIUtils.findInfoByName(resultFields, capsuleFieldName);
+				String contextId = "EncapsulationContext [containingType=" + containingType.getName() + "]";
 				if (duplicateField != null) {
-					while (duplicateField instanceof MultipleMembersAsField.FieldProxy) {
-						duplicateField = ((MultipleMembersAsField.FieldProxy) duplicateField).getBase();
-						for (int i = 0; i < encapsulatedFields.size(); i++) {
-							encapsulatedFields.set(i,
-									((MultipleMembersAsField.FieldProxy) encapsulatedFields.get(i)).getBase());
-						}
-						for (int i = 0; i < encapsulatedMethods.size(); i++) {
-							encapsulatedMethods.set(i,
-									((MultipleMembersAsField.MethodProxy) encapsulatedMethods.get(i)).getBase());
-						}
-					}
-					if (duplicateField instanceof MultipleMembersAsField) {
-						MultipleMembersAsField capsuleField = (MultipleMembersAsField) duplicateField;
-						encapsulatedFields.addAll(0, capsuleField.getEncapsulatedFields());
-						encapsulatedMethods.addAll(0, capsuleField.getEncapsulatedMethods());
-						capsuleField.setEncapsulatedFields(encapsulatedFields);
-						capsuleField.setEncapsulatedMethods(encapsulatedMethods);
+					CapsuleField duplicateFieldTranslatedCapsule = CapsuleField
+							.translateProxy(duplicateField);
+					if (duplicateFieldTranslatedCapsule != null) {
+						resultFields.remove(duplicateField);
+						encapsulatedFields.addAll(0, duplicateFieldTranslatedCapsule.getEncapsulatedFields());
+						encapsulatedMethods.addAll(0, duplicateFieldTranslatedCapsule.getEncapsulatedMethods());
+						contextId = duplicateFieldTranslatedCapsule.getContextId();
+						changeDoneNotification.run();
 					} else {
 						throw new ReflectionUIError("Failed to generate capsule field: Duplicate field name detected: '"
 								+ capsuleFieldName + "'");
 					}
-				} else {
-					String contextId = "EncapsulationContext [containingType=" + containingType.getName() + "]";
-					result.add(new MultipleMembersAsField(reflectionUI, capsuleFieldName, encapsulatedFields,
-							encapsulatedMethods, contextId));
 				}
+				resultFields.add(new CapsuleField(reflectionUI, capsuleFieldName, encapsulatedFields,
+						encapsulatedMethods, contextId));
+				changeDoneNotification.run();
 			}
-
-			return encapsulateMembers(result, containingType);
+			return new Pair<List<IFieldInfo>, List<IMethodInfo>>(resultFields, resultMethods);
 		}
-		return fields;
+		return members;
 
-	}
-
-	protected List<IFieldInfo> addGeneratedFields(List<IFieldInfo> fields, ITypeInfo containingType) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.infoCustomizations,
-				containingType.getName());
-		if (t != null) {
-			List<IFieldInfo> result = new ArrayList<IFieldInfo>(fields);
-			for (IFieldInfo field : fields) {
-				FieldCustomization f = InfoCustomizations.getFieldCustomization(t, field.getName());
-				if (f != null) {
-					if (f.getNullStatusFieldNamed() != null) {
-						result.add(new NullStatusField(reflectionUI, field, f.getNullStatusFieldNamed()));
-					}
-				}
-			}
-
-			for (MethodCustomization m : t.getMethodsCustomizations()) {
-				IMethodInfo method = ReflectionUIUtils.findMethodBySignature(super.getMethods(containingType),
-						m.getMethodSignature());
-				if (method != null) {
-					if (m.getGeneratedFieldName() != null) {
-						MethodAsField newField = new MethodAsField(method, m.getGeneratedFieldName());
-						if (ReflectionUIUtils.findInfoByName(result, newField.getName()) != null) {
-							throw new ReflectionUIError("Failed to genrate return value field for method '"
-									+ ReflectionUIUtils.getMethodSignature(method)
-									+ "': Duplicate field name detected: '" + newField.getName() + "'");
-						}
-						result.add(newField);
-					}
-					if (m.getParametersFormFieldName() != null) {
-						MethodParametersAsField newField = new MethodParametersAsField(reflectionUI, method,
-								m.getParametersFormFieldName());
-						if (ReflectionUIUtils.findInfoByName(result, newField.getName()) != null) {
-							throw new ReflectionUIError("Failed to genrate parameters field for method '"
-									+ ReflectionUIUtils.getMethodSignature(method)
-									+ "': Duplicate field name detected: '" + newField.getName() + "'");
-						}
-						result.add(newField);
-					}
-				}
-			}
-			return result;
-		}
-		return fields;
 	}
 
 	protected List<IFieldInfo> removeHiddenFields(List<IFieldInfo> fields, ITypeInfo containingType) {
@@ -1437,9 +1539,6 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 				FieldCustomization f = InfoCustomizations.getFieldCustomization(t, field.getName());
 				if (f != null) {
 					if (f.isHidden()) {
-						continue;
-					}
-					if (f.getEncapsulationFieldName() != null) {
 						continue;
 					}
 				}
@@ -1455,8 +1554,10 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.infoCustomizations,
 				containingType.getName());
 		if (t != null) {
-			List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getMethods(containingType));
-			result = addGeneratedMethods(result, containingType);
+			Pair<List<IFieldInfo>, List<IMethodInfo>> memberLists = new Pair<List<IFieldInfo>, List<IMethodInfo>>(
+					super.getFields(containingType), super.getMethods(containingType));
+			memberLists = evolveMemberLists(memberLists, containingType);
+			List<IMethodInfo> result = memberLists.getSecond();
 			result = removeHiddenMethods(result, containingType);
 			result = sortMethods(result, containingType);
 			return result;
@@ -1477,39 +1578,6 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 		return methods;
 	}
 
-	protected List<IMethodInfo> addGeneratedMethods(List<IMethodInfo> methods, ITypeInfo containingType) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.infoCustomizations,
-				containingType.getName());
-		if (t != null) {
-			List<IMethodInfo> result = new ArrayList<IMethodInfo>(methods);
-			for (FieldCustomization f : t.getFieldsCustomizations()) {
-				IFieldInfo field = ReflectionUIUtils.findInfoByName(containingType.getFields(), f.getFieldName());
-				if (field != null) {
-					if (f.getGeneratedGetterName() != null) {
-						FieldAsGetter newMethod = new FieldAsGetter(field, f.getGeneratedGetterName());
-						String newMethodSignature = ReflectionUIUtils.getMethodSignature(newMethod);
-						if (ReflectionUIUtils.findMethodBySignature(result, newMethodSignature) != null) {
-							throw new ReflectionUIError("Failed to genrate getter for field '" + field.getName()
-									+ "': Duplicate method signature detected: '" + newMethodSignature + "'");
-						}
-						result.add(newMethod);
-					}
-					if (f.getGeneratedSetterName() != null) {
-						FieldAsSetter newMethod = new FieldAsSetter(field, f.getGeneratedSetterName());
-						String newMethodSignature = ReflectionUIUtils.getMethodSignature(newMethod);
-						if (ReflectionUIUtils.findMethodBySignature(result, newMethodSignature) != null) {
-							throw new ReflectionUIError("Failed to genrate getter for field '" + field.getName()
-									+ "': Duplicate method signature detected: '" + newMethodSignature + "'");
-						}
-						result.add(newMethod);
-					}
-				}
-			}
-			return result;
-		}
-		return methods;
-	}
-
 	protected List<IMethodInfo> removeHiddenMethods(List<IMethodInfo> methods, ITypeInfo containingType) {
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.infoCustomizations,
 				containingType.getName());
@@ -1520,9 +1588,6 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 						ReflectionUIUtils.getMethodSignature(method));
 				if (m != null) {
 					if (m.isHidden()) {
-						continue;
-					}
-					if (m.getEncapsulationFieldName() != null) {
 						continue;
 					}
 				}
@@ -1542,24 +1607,6 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 			}
 		}
 		return super.getCaption(type);
-	}
-
-	@Override
-	protected void validateParameters(IMethodInfo method, ITypeInfo containingType, Object object,
-			InvocationData invocationData) throws Exception {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.infoCustomizations,
-				containingType.getName());
-		if (t != null) {
-			MethodCustomization m = InfoCustomizations.getMethodCustomization(t,
-					ReflectionUIUtils.getMethodSignature(method));
-			if (m != null) {
-				if (m.getParametersFormFieldName() != null) {
-					return;
-				}
-			}
-		}
-		super.validateParameters(method, containingType, object, invocationData);
-
 	}
 
 	@Override

@@ -15,9 +15,10 @@ import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
+import xy.reflect.ui.util.Pair;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class MultipleMembersAsField implements IFieldInfo {
+public class CapsuleField implements IFieldInfo {
 
 	protected List<IFieldInfo> encapsulatedFields;
 	protected List<IMethodInfo> encapsulatedMethods;
@@ -25,7 +26,7 @@ public class MultipleMembersAsField implements IFieldInfo {
 	protected String fieldName;
 	protected String contextId;
 
-	public MultipleMembersAsField(ReflectionUI reflectionUI, String fieldName, List<IFieldInfo> encapsulatedFields,
+	public CapsuleField(ReflectionUI reflectionUI, String fieldName, List<IFieldInfo> encapsulatedFields,
 			List<IMethodInfo> encapsulatedMethods, String contextId) {
 		this.reflectionUI = reflectionUI;
 		this.fieldName = fieldName;
@@ -34,20 +35,35 @@ public class MultipleMembersAsField implements IFieldInfo {
 		this.contextId = contextId;
 	}
 
+	public static CapsuleField translateProxy(IFieldInfo field) {
+		if (field instanceof CapsuleField) {
+			return (CapsuleField) field;
+		}
+		if (field instanceof EncapsulatedFieldProxy) {
+			EncapsulatedFieldProxy subFieldProxy = (EncapsulatedFieldProxy) field;
+			IFieldInfo baseField = subFieldProxy.getBase();
+			CapsuleField baseResult = translateProxy(baseField);
+			List<IFieldInfo> resultEncapsulatedFields = new ArrayList<IFieldInfo>();
+			List<IMethodInfo> resultEncapsulatedMethods = new ArrayList<IMethodInfo>();
+			for (IFieldInfo baseEncapsulatedField : baseResult.getEncapsulatedFields()) {
+				resultEncapsulatedFields.add(subFieldProxy.getOuterType().new EncapsulatedFieldProxy(baseEncapsulatedField));
+			}
+			for (IMethodInfo baseEncapsulatedMethod : baseResult.getEncapsulatedMethods()) {
+				resultEncapsulatedMethods
+						.add(subFieldProxy.getOuterType().new EncapsulatedMethodProxy(baseEncapsulatedMethod));
+			}
+			return new CapsuleField(baseResult.reflectionUI, baseResult.fieldName, resultEncapsulatedFields,
+					resultEncapsulatedMethods, baseResult.contextId);
+		}
+		return null;
+	}
+
 	public List<IFieldInfo> getEncapsulatedFields() {
 		return encapsulatedFields;
 	}
 
 	public List<IMethodInfo> getEncapsulatedMethods() {
 		return encapsulatedMethods;
-	}
-
-	public void setEncapsulatedFields(List<IFieldInfo> encapsulatedFields) {
-		this.encapsulatedFields = encapsulatedFields;
-	}
-
-	public void setEncapsulatedMethods(List<IMethodInfo> encapsulatedMethods) {
-		this.encapsulatedMethods = encapsulatedMethods;
 	}
 
 	public String getContextId() {
@@ -169,7 +185,7 @@ public class MultipleMembersAsField implements IFieldInfo {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MultipleMembersAsField other = (MultipleMembersAsField) obj;
+		CapsuleField other = (CapsuleField) obj;
 		if (contextId == null) {
 			if (other.contextId != null)
 				return false;
@@ -240,8 +256,8 @@ public class MultipleMembersAsField implements IFieldInfo {
 			return true;
 		}
 
-		private MultipleMembersAsField getOuterType() {
-			return MultipleMembersAsField.this;
+		private CapsuleField getOuterType() {
+			return CapsuleField.this;
 		}
 
 		@Override
@@ -260,7 +276,7 @@ public class MultipleMembersAsField implements IFieldInfo {
 
 		@Override
 		public String getCaption() {
-			return MultipleMembersAsField.this.getCaption();
+			return CapsuleField.this.getCaption();
 		}
 
 		@Override
@@ -296,8 +312,8 @@ public class MultipleMembersAsField implements IFieldInfo {
 		@Override
 		public List<IFieldInfo> getFields() {
 			List<IFieldInfo> result = new ArrayList<IFieldInfo>();
-			for (IFieldInfo field : MultipleMembersAsField.this.encapsulatedFields) {
-				result.add(new FieldProxy(field));
+			for (IFieldInfo field : CapsuleField.this.encapsulatedFields) {
+				result.add(new EncapsulatedFieldProxy(field));
 			}
 			return result;
 		}
@@ -305,8 +321,8 @@ public class MultipleMembersAsField implements IFieldInfo {
 		@Override
 		public List<IMethodInfo> getMethods() {
 			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
-			for (IMethodInfo method : MultipleMembersAsField.this.encapsulatedMethods) {
-				result.add(new MethodProxy(method));
+			for (IMethodInfo method : CapsuleField.this.encapsulatedMethods) {
+				result.add(new EncapsulatedMethodProxy(method));
 			}
 			return result;
 		}
@@ -355,8 +371,8 @@ public class MultipleMembersAsField implements IFieldInfo {
 			return FieldsLayout.VERTICAL_FLOW;
 		}
 
-		protected MultipleMembersAsField getOuterType() {
-			return MultipleMembersAsField.this;
+		protected CapsuleField getOuterType() {
+			return CapsuleField.this;
 		}
 
 		@Override
@@ -366,10 +382,14 @@ public class MultipleMembersAsField implements IFieldInfo {
 
 	}
 
-	public class FieldProxy extends FieldInfoProxy {
+	protected class EncapsulatedFieldProxy extends FieldInfoProxy {
 
-		public FieldProxy(IFieldInfo base) {
+		public EncapsulatedFieldProxy(IFieldInfo base) {
 			super(base);
+		}
+
+		public CapsuleField getOuterType() {
+			return CapsuleField.this;
 		}
 
 		@Override
@@ -398,10 +418,14 @@ public class MultipleMembersAsField implements IFieldInfo {
 
 	}
 
-	public class MethodProxy extends MethodInfoProxy {
+	protected class EncapsulatedMethodProxy extends MethodInfoProxy {
 
-		public MethodProxy(IMethodInfo base) {
+		public EncapsulatedMethodProxy(IMethodInfo base) {
 			super(base);
+		}
+
+		public CapsuleField getOuterType() {
+			return CapsuleField.this;
 		}
 
 		@Override

@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.JFrame;
@@ -11,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.info.custom.InfoCustomizations;
+import xy.reflect.ui.info.custom.InfoCustomizations.MenuItemCategory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.component.AlternativeWindowDecorationsPanel;
 
@@ -80,6 +83,18 @@ public class CustomizationController {
 
 	public CustomizationOptions getOptions() {
 		return swingCustomizer.getCustomizationOptions();
+	}
+	
+	public InfoCustomizations getAllCustomizations() {
+		return swingCustomizer.getInfoCustomizations();
+	}
+	
+	public List<MenuItemCategory> getMenus() {
+		return swingCustomizer.getInfoCustomizations().getMenus();
+	}
+	
+	public void setMenus(List<MenuItemCategory> menus) {
+		swingCustomizer.getInfoCustomizations().setMenus(menus);
 	}
 
 }
