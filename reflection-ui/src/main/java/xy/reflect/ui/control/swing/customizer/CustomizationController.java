@@ -71,7 +71,7 @@ public class CustomizationController {
 		window = null;
 	}
 
-	public void saveCustomoizations() {
+	public void saveCustomizations() {
 		File file = new File(
 				swingCustomizer.getCustomizationTools().swingCustomizer.getInfoCustomizationsOutputFilePath());
 		try {

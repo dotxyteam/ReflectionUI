@@ -15,7 +15,6 @@ import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
-import xy.reflect.ui.util.Pair;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class CapsuleField implements IFieldInfo {
@@ -211,7 +210,7 @@ public class CapsuleField implements IFieldInfo {
 
 	@Override
 	public String toString() {
-		return "MultipleMembersAsField [fieldName=" + fieldName + ", contextId=" + contextId + ", fields="
+		return "CapsuleField [fieldName=" + fieldName + ", contextId=" + contextId + ", fields="
 				+ encapsulatedFields + ", methods=" + encapsulatedMethods + "]";
 	}
 
@@ -262,7 +261,7 @@ public class CapsuleField implements IFieldInfo {
 
 		@Override
 		public String toString() {
-			return "MultipleMembersAsFieldInstance [object=" + object + "]";
+			return "CapsuleFieldFieldInstance [object=" + object + "]";
 		}
 
 	}
@@ -271,7 +270,7 @@ public class CapsuleField implements IFieldInfo {
 
 		@Override
 		public String getName() {
-			return "MultipleMembersAsFieldType [context=" + contextId + ", fieldName=" + fieldName + "]";
+			return "CapsuleFieldType [context=" + contextId + ", fieldName=" + fieldName + "]";
 		}
 
 		@Override

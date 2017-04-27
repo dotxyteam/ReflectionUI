@@ -6105,6 +6105,21 @@
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
+        <fieldsCustomizations>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <encapsulationFieldName>dates</encapsulationFieldName>
+            <fieldName>theDate.asSingletonList</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <memberCategories>
             <caption>Lists</caption>

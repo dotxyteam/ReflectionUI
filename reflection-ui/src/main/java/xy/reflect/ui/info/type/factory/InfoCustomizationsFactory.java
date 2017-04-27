@@ -1335,7 +1335,14 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 				if (f != null) {
 					if (f.isGetterGenerated()) {
 						resultFields.remove(field);
-						resultMethods.add(new FieldAsGetter(field, field.getName() + ".get"));
+						resultMethods.add(new FieldAsGetter(field, field.getName() + ".get") {
+
+							@Override
+							public String getCaption() {
+								return "Show " + field.getCaption();
+							}
+
+						});
 						resultFields.add(field = new FieldInfoProxy(field) {
 							@Override
 							public String getName() {
@@ -1346,7 +1353,14 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 					}
 					if (f.isSetterGenerated()) {
 						resultFields.remove(field);
-						resultMethods.add(new FieldAsSetter(field, field.getName() + ".set"));
+						resultMethods.add(new FieldAsSetter(field, field.getName() + ".set") {
+
+							@Override
+							public String getCaption() {
+								return "Set " + field.getCaption();
+							}
+
+						});
 						resultFields.add(field = new FieldInfoProxy(field) {
 							@Override
 							public String getName() {
@@ -1361,7 +1375,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 
 							@Override
 							public String getCaption() {
-								return "Set " + super.getCaption();
+								return "Set " + base.getCaption();
 							}
 
 							@Override
@@ -1402,7 +1416,14 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 				if (m != null) {
 					if (m.isReturnValueFieldGenerated()) {
 						resultMethods.remove(method);
-						resultFields.add(new MethodAsField(method, method.getName() + ".result"));
+						resultFields.add(new MethodAsField(method, method.getName() + ".result") {
+
+							@Override
+							public String getCaption() {
+								return method.getCaption() + " Result";
+							}
+							
+						});
 						resultMethods.add(method = new MethodInfoProxy(method) {
 
 							@Override
@@ -1507,8 +1528,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 				IFieldInfo duplicateField = ReflectionUIUtils.findInfoByName(resultFields, capsuleFieldName);
 				String contextId = "EncapsulationContext [containingType=" + containingType.getName() + "]";
 				if (duplicateField != null) {
-					CapsuleField duplicateFieldTranslatedCapsule = CapsuleField
-							.translateProxy(duplicateField);
+					CapsuleField duplicateFieldTranslatedCapsule = CapsuleField.translateProxy(duplicateField);
 					if (duplicateFieldTranslatedCapsule != null) {
 						resultFields.remove(duplicateField);
 						encapsulatedFields.addAll(0, duplicateFieldTranslatedCapsule.getEncapsulatedFields());
