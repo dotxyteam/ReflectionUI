@@ -23,6 +23,7 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
+import xy.reflect.ui.menu.MenuModel;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.ResourcePath;
 import xy.reflect.ui.util.SwingRendererUtils;
@@ -200,6 +201,10 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 
 	@Override
 	public void validateSubForm() throws Exception {
+	}
+
+	@Override
+	public void addMenuContribution(MenuModel menuModel) {
 	}
 
 	@Override

@@ -31,6 +31,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -86,6 +87,8 @@ import xy.reflect.ui.info.type.factory.GenericEnumerationFactory;
 import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.menu.IMenuElementPosition;
+import xy.reflect.ui.menu.MenuModel;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.IModificationListener;
@@ -109,6 +112,7 @@ public class SwingRenderer {
 	protected Map<JPanel, Boolean> fieldsUpdateListenerDisabledByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, IInfoFilter> infoFilterByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, JLabel> statusBarByForm = new MapMaker().weakKeys().makeMap();
+	protected Map<JPanel, JMenuBar> menuBarByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, Map<InfoCategory, List<FieldControlPlaceHolder>>> fieldControlPlaceHoldersByCategoryByForm = new MapMaker()
 			.weakKeys().makeMap();
 	protected Map<JPanel, Map<InfoCategory, List<MethodControlPlaceHolder>>> methodControlPlaceHoldersByCategoryByForm = new MapMaker()
@@ -167,11 +171,11 @@ public class SwingRenderer {
 		return fieldsUpdateListenerDisabledByForm;
 	}
 
-	protected Map<JPanel, Boolean> getRefreshRequestQueuedByForm() {
+	public Map<JPanel, Boolean> getRefreshRequestQueuedByForm() {
 		return refreshRequestQueuedByForm;
 	}
 
-	protected Map<JPanel, Boolean> getRefreshRequestExecutingByForm() {
+	public Map<JPanel, Boolean> getRefreshRequestExecutingByForm() {
 		return refreshRequestExecutingByForm;
 	}
 
@@ -189,6 +193,10 @@ public class SwingRenderer {
 
 	public Map<JPanel, JLabel> getStatusBarByForm() {
 		return statusBarByForm;
+	}
+
+	public Map<JPanel, JMenuBar> getMenuBarByForm() {
+		return menuBarByForm;
 	}
 
 	public Map<JPanel, Boolean> getBusyIndicationDisabledByForm() {
@@ -226,9 +234,28 @@ public class SwingRenderer {
 		} else {
 			window.setIconImage(iconImage);
 		}
+
+		if (SwingRendererUtils.isForm(content, this)) {
+			JPanel form = (JPanel) content;
+			JMenuBar menuBar = createMenuBar(form);
+			updateMenuBar(form);
+			if (window instanceof JFrame) {
+				((JFrame) window).setJMenuBar(menuBar);
+			} else if (window instanceof JDialog) {
+				((JDialog) window).setJMenuBar(menuBar);
+			}
+		}
+
 		Container contentPane = createWindowContentPane(window, content, toolbarControls);
 		SwingRendererUtils.setContentPane(window, contentPane);
+
 		SwingRendererUtils.adjustWindowInitialBounds(window);
+	}
+
+	public JMenuBar createMenuBar(JPanel form) {
+		JMenuBar result = new JMenuBar();
+		getMenuBarByForm().put(form, result);
+		return result;
 	}
 
 	public List<Component> createFormCommonToolbarControls(final JPanel form) {
@@ -304,7 +331,7 @@ public class SwingRenderer {
 		return result;
 	}
 
-	public Container createMultipleInfoCategoriesComponent(JPanel form, SortedSet<InfoCategory> allCategories,
+	public Container createFormCategoriesControl(SortedSet<InfoCategory> allCategories,
 			Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
 			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory) {
 		final JTabbedPane result = new JTabbedPane();
@@ -325,9 +352,8 @@ public class SwingRenderer {
 
 			JPanel tabContent = new JPanel();
 			tab.add(tabContent, BorderLayout.NORTH);
-			layoutControls(fieldControlPlaceHolders, methodControlPlaceHolders, tabContent);
+			layoutFormCategoryControls(fieldControlPlaceHolders, methodControlPlaceHolders, tabContent);
 		}
-		getCategoriesControlByForm().put(form, result);
 		return result;
 	}
 
@@ -381,7 +407,6 @@ public class SwingRenderer {
 			}
 
 		});
-		result.setLayout(new BorderLayout());
 		fillForm(result);
 		return result;
 	}
@@ -407,8 +432,7 @@ public class SwingRenderer {
 					@Override
 					public void run() {
 						try {
-							refreshAllFieldControls(form, false);
-							validateFormInBackgroundAndReport(form);
+							refreshForm(form, false);
 							Object object = getObjectByForm().get(form);
 							for (JPanel otherForm : SwingRendererUtils.findObjectForms(object, SwingRenderer.this)) {
 								if (otherForm != form) {
@@ -595,7 +619,7 @@ public class SwingRenderer {
 				window.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowOpened(WindowEvent e) {
-						validateFormInBackgroundAndReport(form);
+						validateFormInBackgroundAndReportOnStatusBar(form);
 					}
 				});
 
@@ -623,6 +647,8 @@ public class SwingRenderer {
 				form.removeAll();
 				fillForm(form);
 				SwingRendererUtils.handleComponentSizeChange(form);
+				updateMenuBar(form);
+				validateFormInBackgroundAndReportOnStatusBar(form);
 			}
 		});
 	}
@@ -692,6 +718,12 @@ public class SwingRenderer {
 				type.getFields(), form);
 		Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory = createMethodControlPlaceHoldersByCategory(
 				type.getMethods(), form);
+		layoutFormControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory, form);
+	}
+
+	public void layoutFormControls(Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
+			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory,
+			Container container) {
 		SortedSet<InfoCategory> allCategories = new TreeSet<InfoCategory>();
 		allCategories.addAll(fieldControlPlaceHoldersByCategory.keySet());
 		allCategories.addAll(methodControlPlaceHoldersByCategory.keySet());
@@ -706,22 +738,16 @@ public class SwingRenderer {
 			if (methodControlPlaceHolders == null) {
 				methodControlPlaceHolders = Collections.emptyList();
 			}
-			JPanel formContent = new JPanel();
-			{
-				layoutControls(fieldControlPlaceHolders, methodControlPlaceHolders, formContent);
-			}
-			form.add(formContent, BorderLayout.CENTER);
+			layoutFormCategoryControls(fieldControlPlaceHolders, methodControlPlaceHolders, container);
 		} else if (allCategories.size() > 0) {
-			JPanel formContent = new JPanel();
-			{
-				formContent.setLayout(new BorderLayout());
-				Container categoriesControl = createMultipleInfoCategoriesComponent(form, allCategories,
-						fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory);
-				formContent.add(categoriesControl, BorderLayout.CENTER);
-			}
-			form.add(formContent, BorderLayout.CENTER);
+			container.setLayout(new BorderLayout());
+			Container categoriesControl = createFormCategoriesControl(allCategories, fieldControlPlaceHoldersByCategory,
+					methodControlPlaceHoldersByCategory);
+			JPanel form = SwingRendererUtils.getForm(fieldControlPlaceHoldersByCategory,
+					methodControlPlaceHoldersByCategory);
+			getCategoriesControlByForm().put(form, categoriesControl);
+			container.add(categoriesControl, BorderLayout.CENTER);
 		}
-
 	}
 
 	public Map<InfoCategory, List<MethodControlPlaceHolder>> createMethodControlPlaceHoldersByCategory(
@@ -911,23 +937,23 @@ public class SwingRenderer {
 		openErrorDialog(activatorComponent, "An Error Occured", t);
 	}
 
-	public void layoutControlPanels(JPanel parentForm, Container fieldsPanel, Container methodsPanel) {
-		parentForm.setLayout(new BorderLayout());
+	public void layoutFormCategoryPanels(Container container, Container fieldsPanel, Container methodsPanel) {
+		container.setLayout(new BorderLayout());
 		if (fieldsPanel != null) {
-			parentForm.add(fieldsPanel, BorderLayout.CENTER);
+			container.add(fieldsPanel, BorderLayout.CENTER);
 		}
 		if (methodsPanel != null) {
-			parentForm.add(methodsPanel, BorderLayout.SOUTH);
+			container.add(methodsPanel, BorderLayout.SOUTH);
 		}
 	}
 
-	public void layoutControls(List<FieldControlPlaceHolder> fielControlPlaceHolders,
-			final List<MethodControlPlaceHolder> methodControlPlaceHolders, JPanel parentPanel) {
+	public void layoutFormCategoryControls(List<FieldControlPlaceHolder> fielControlPlaceHolders,
+			final List<MethodControlPlaceHolder> methodControlPlaceHolders, Container container) {
 		Container fieldsPanel = (fielControlPlaceHolders.size() == 0) ? null
 				: createFieldsPanel(fielControlPlaceHolders);
 		Container methodsPanel = (methodControlPlaceHolders.size() == 0) ? null
 				: createMethodsPanel(methodControlPlaceHolders);
-		layoutControlPanels(parentPanel, fieldsPanel, methodsPanel);
+		layoutFormCategoryPanels(container, fieldsPanel, methodsPanel);
 	}
 
 	public Object onTypeInstanciationRequest(final Component activatorComponent, ITypeInfo type) {
@@ -1275,7 +1301,7 @@ public class SwingRenderer {
 		return result;
 	}
 
-	public void refreshAllFieldControls(final JPanel form, final boolean recreate) {
+	public void refreshForm(final JPanel form, final boolean recreate) {
 		preservingFormFocusAsMuchAsPossible(form, new Runnable() {
 			@Override
 			public void run() {
@@ -1286,6 +1312,8 @@ public class SwingRenderer {
 					updateFieldControlLayout(fieldControlPlaceHolder, i);
 				}
 				SwingRendererUtils.handleComponentSizeChange(form);
+				updateMenuBar(form);
+				validateFormInBackgroundAndReportOnStatusBar(form);
 			}
 		});
 	}
@@ -1514,21 +1542,51 @@ public class SwingRenderer {
 		return new JLabel(prepareStringToDisplay(caption + ": "));
 	}
 
-	public void validateForm(JPanel form) throws Exception {
-		final Object object = getObjectByForm().get(form);
-		if (object == null) {
+	public void updateMenuBar(final JPanel form) {
+		JMenuBar menuBar = getMenuBarByForm().get(form);
+		if (menuBar == null) {
 			return;
 		}
-		final ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		MenuModel menuModel = new MenuModel();
+		addFormMenuContribution(form, menuModel);
+		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
+			Component fieldControl = fieldControlPlaceHolder.getFieldControl();
+			if (fieldControl instanceof IAdvancedFieldControl) {
+				((IAdvancedFieldControl) fieldControl).addMenuContribution(menuModel);
+			}
+		}
+		SwingRendererUtils.updateMenubar(menuBar, menuModel);
+	}
+
+	public void addFormMenuContribution(final JPanel form, MenuModel menuModel) {
+		ITypeInfo type = getFormFilteredType(form);
+		for (final IMethodInfo method : type.getMethods()) {
+			IMenuElementPosition menuItemPosition = method.getMenuItemPosition();
+			if (menuItemPosition != null) {
+				menuModel.add(menuItemPosition, new Runnable() {
+					@Override
+					public void run() {
+						MethodAction methodAction = createMethodAction(createMethodControlPlaceHolder(form, method));
+						methodAction.setShouldDisplayReturnValueIfAny(true);
+						methodAction.execute(form);
+					}
+				});
+			}
+		}
+	}
+
+	public void validateForm(JPanel form) throws Exception {
+		Object object = getObjectByForm().get(form);
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		type.validate(object);
 		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
 			Component fieldControl = fieldControlPlaceHolder.getFieldControl();
 			if (fieldControl instanceof IAdvancedFieldControl) {
-				IFieldInfo field = fieldControlPlaceHolder.getField();
 				try {
 					((IAdvancedFieldControl) fieldControl).validateSubForm();
 				} catch (Exception e) {
 					String errorMsg = e.toString();
+					IFieldInfo field = fieldControlPlaceHolder.getField();
 					errorMsg = ReflectionUIUtils.composeMessage(field.getCaption(), errorMsg);
 					InfoCategory fieldCategory = field.getCategory();
 					if (fieldCategory != null) {
@@ -1540,7 +1598,7 @@ public class SwingRenderer {
 		}
 	}
 
-	public void validateFormInBackgroundAndReport(final JPanel form) {
+	public void validateFormInBackgroundAndReportOnStatusBar(final JPanel form) {
 		new Thread("Validator: " + getObjectByForm().get(form)) {
 			@Override
 			public void run() {

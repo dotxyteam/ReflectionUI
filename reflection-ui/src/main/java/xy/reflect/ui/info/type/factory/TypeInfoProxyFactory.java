@@ -24,6 +24,7 @@ import xy.reflect.ui.info.type.iterable.map.IMapEntryTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
+import xy.reflect.ui.menu.IMenuElementPosition;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.info.method.InvocationData;
 
@@ -254,8 +255,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return method.getParameters();
 	}
 
-	protected List<String> getMenuPath(IMethodInfo method, ITypeInfo containingType) {
-		return method.getMenuPath();
+	protected IMenuElementPosition getMenuItemPosition(IMethodInfo method, ITypeInfo containingType) {
+		return method.getMenuItemPosition();
 	}
 
 	protected ITypeInfo getReturnValueType(IMethodInfo method, ITypeInfo containingType) {
@@ -1044,8 +1045,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		}
 
 		@Override
-		public List<String> getMenuPath() {
-			return TypeInfoProxyFactory.this.getMenuPath(base, containingType);
+		public IMenuElementPosition getMenuItemPosition() {
+			return TypeInfoProxyFactory.this.getMenuItemPosition(base, containingType);
 		}
 
 		@Override

@@ -10,6 +10,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
+import xy.reflect.ui.menu.IMenuElementPosition;
 
 public interface IMethodInfo extends IInfo {
 
@@ -21,8 +22,8 @@ public interface IMethodInfo extends IInfo {
 		}
 
 		@Override
-		public List<String> getMenuPath() {
-			return Collections.emptyList();
+		public IMenuElementPosition getMenuItemPosition() {
+			return null;
 		}
 
 		@Override
@@ -110,7 +111,7 @@ public interface IMethodInfo extends IInfo {
 		}
 	};
 
-	List<String> getMenuPath();
+	IMenuElementPosition getMenuItemPosition();
 
 	ITypeInfo getReturnValueType();
 

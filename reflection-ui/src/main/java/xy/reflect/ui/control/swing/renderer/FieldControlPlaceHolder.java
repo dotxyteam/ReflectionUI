@@ -56,6 +56,10 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 		return this.swingRenderer.getObjectByForm().get(form);
 	}
 
+	public JPanel getForm() {
+		return form;
+	}
+
 	@Override
 	public IFieldControlData getControlData() {
 		return controlData;

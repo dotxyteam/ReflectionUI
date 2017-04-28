@@ -19,6 +19,7 @@ import javax.swing.event.UndoableEditListener;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.menu.MenuModel;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
@@ -134,7 +135,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 				((JTextArea) textComponent).setText(newText);
 				((JTextArea) textComponent)
 						.setCaretPosition(Math.min(lastCaretPosition, ((JTextArea) textComponent).getText().length()));
-				displayError(null);				
+				displayError(null);
 				SwingRendererUtils.handleComponentSizeChange(this);
 			}
 		} finally {
@@ -199,6 +200,10 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 
 	@Override
 	public void validateSubForm() throws Exception {
+	}
+
+	@Override
+	public void addMenuContribution(MenuModel menuModel) {
 	}
 
 	@Override

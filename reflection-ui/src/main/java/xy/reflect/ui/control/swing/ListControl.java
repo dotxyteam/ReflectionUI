@@ -86,6 +86,7 @@ import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.menu.MenuModel;
 import xy.reflect.ui.undo.BufferedListModificationFactory;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
@@ -885,8 +886,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				List<BufferedItemPosition> newSelection = new ArrayList<BufferedItemPosition>();
 				for (BufferedItemPosition itemPosition : selection) {
 					int index = itemPosition.getIndex();
-					getModificationStack().apply(
-							createListModificationFactory(itemPosition).move(index, offset));
+					getModificationStack().apply(createListModificationFactory(itemPosition).move(index, offset));
 					newSelection.add(itemPosition.getSibling(index + offset));
 				}
 				toPostSelectHolder[0] = newSelection;
@@ -1024,8 +1024,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					List<BufferedItemPosition> toPostSelect = new ArrayList<BufferedItemPosition>();
 					for (BufferedItemPosition itemPosition : selection) {
 						int index = itemPosition.getIndex();
-						getModificationStack().apply(
-								createListModificationFactory(itemPosition).remove(index));
+						getModificationStack().apply(createListModificationFactory(itemPosition).remove(index));
 						updateItemPositionsAfterItemRemoval(toPostSelect, itemPosition);
 						if (itemPosition.getContainingListType().isOrdered() && (index > 0)) {
 							toPostSelect.add(itemPosition.getSibling(index - 1));
@@ -1061,8 +1060,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				}
 				if (selection.size() > 0) {
 					for (BufferedItemPosition selectionItem : selection) {
-						if (!createListModificationFactory(selectionItem)
-								.canRemove(selectionItem.getIndex())) {
+						if (!createListModificationFactory(selectionItem).canRemove(selectionItem.getIndex())) {
 							return false;
 						}
 						if (!selectionItem.getContainingListType().isRemovalAllowed()) {
@@ -1107,8 +1105,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					}
 					newItem = dialogBuilder.getCurrentObjectValue();
 				}
-				getModificationStack().apply(createListModificationFactory(newItemPosition)
-						.add(newItemPosition.getIndex(), newItem));
+				getModificationStack()
+						.apply(createListModificationFactory(newItemPosition).add(newItemPosition.getIndex(), newItem));
 				BufferedItemPosition toSelect = newItemPosition;
 				if (!listType.isOrdered()) {
 					int indexToSelect = Arrays.asList(newItemPosition.retrieveContainingListRawValue())
@@ -1177,8 +1175,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				BufferedItemPosition newItemPosition = getNewItemPosition();
 				if (newItemPosition != null) {
 					if (newItemPosition.getContainingListType().isInsertionAllowed()) {
-						if (createListModificationFactory(newItemPosition)
-								.canAdd(newItemPosition.getIndex())) {
+						if (createListModificationFactory(newItemPosition).canAdd(newItemPosition.getIndex())) {
 							if (insertPosition == InsertPosition.BEFORE) {
 								if (newItemPosition.getContainingListType().isOrdered()) {
 									return true;
@@ -1270,8 +1267,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				if (newSubItemPosition == null) {
 					return false;
 				}
-				if (!createListModificationFactory(newSubItemPosition)
-						.canAdd(newSubItemPosition.getIndex())) {
+				if (!createListModificationFactory(newSubItemPosition).canAdd(newSubItemPosition.getIndex())) {
 					return false;
 				}
 				if (!newSubItemPosition.getContainingListType().isInsertionAllowed()) {
@@ -1417,8 +1413,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				for (BufferedItemPosition itemPosition : selection) {
 					clipboard.add(0, ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), itemPosition.getItem()));
 					int index = itemPosition.getIndex();
-					getModificationStack()
-							.apply(createListModificationFactory(itemPosition).remove(index));
+					getModificationStack().apply(createListModificationFactory(itemPosition).remove(index));
 					updateItemPositionsAfterItemRemoval(toPostSelect, itemPosition);
 					if (itemPosition.getContainingListType().isOrdered() && (index > 0)) {
 						toPostSelect.add(itemPosition.getSibling(index - 1));
@@ -1466,8 +1461,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				int initialIndex = index;
 				for (Object clipboardItem : clipboard) {
 					clipboardItem = ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), clipboardItem);
-					getModificationStack().apply(createListModificationFactory(newItemPosition)
-							.add(index, clipboardItem));
+					getModificationStack()
+							.apply(createListModificationFactory(newItemPosition).add(index, clipboardItem));
 					index++;
 				}
 				List<BufferedItemPosition> toPostSelect = new ArrayList<BufferedItemPosition>();
@@ -1522,8 +1517,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				if (clipboard.size() > 0) {
 					BufferedItemPosition newItemPosition = getNewItemPosition();
 					if (newItemPosition != null) {
-						if (createListModificationFactory(newItemPosition)
-								.canAdd(newItemPosition.getIndex())) {
+						if (createListModificationFactory(newItemPosition).canAdd(newItemPosition.getIndex())) {
 							if (itemPositionSupportsAllClipboardItems(newItemPosition)) {
 								if (newItemPosition.getContainingListType().isOrdered()) {
 									if (insertPosition == InsertPosition.BEFORE) {
@@ -1559,8 +1553,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				subItemPosition = subItemPosition.getSibling(newSubListItemIndex);
 				for (Object clipboardItem : clipboard) {
 					clipboardItem = ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), clipboardItem);
-					getModificationStack().apply(createListModificationFactory(subItemPosition)
-							.add(newSubListItemIndex, clipboardItem));
+					getModificationStack().apply(
+							createListModificationFactory(subItemPosition).add(newSubListItemIndex, clipboardItem));
 					newSubListItemIndex++;
 				}
 				List<BufferedItemPosition> toPostSelect = new ArrayList<BufferedItemPosition>();
@@ -1608,8 +1602,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				if (clipboard.size() > 0) {
 					BufferedItemPosition newItemPosition = getNewItemPosition();
 					if (newItemPosition != null) {
-						if (createListModificationFactory(newItemPosition)
-								.canAdd(newItemPosition.getIndex())) {
+						if (createListModificationFactory(newItemPosition).canAdd(newItemPosition.getIndex())) {
 							if (itemPositionSupportsAllClipboardItems(newItemPosition)) {
 								return true;
 							}
@@ -1761,7 +1754,6 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			public void actionPerformed(ActionEvent e) {
 				MethodAction action = swingRenderer.createMethodAction(getMethodInput());
 				action.setShouldDisplayReturnValueIfAny(true);
-				action.setModificationStack(getModificationStack());
 				action.execute(ListControl.this);
 			}
 
@@ -1906,14 +1898,14 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			return;
 		}
 		if (detailsControl != null) {
-			swingRenderer.refreshAllFieldControls(detailsControl, false);
+			swingRenderer.refreshForm(detailsControl, false);
 		} else {
 			detailsControl = new ItemUIBuilder(detailsControlItemPosition).createForm(true);
 			detailsArea.removeAll();
 			detailsArea.setLayout(new BorderLayout());
 			detailsArea.add(swingRenderer.createWindowScrollPane(detailsControl), BorderLayout.CENTER);
 			detailsArea.add(swingRenderer.createStatusBar(detailsControl), BorderLayout.NORTH);
-			swingRenderer.validateFormInBackgroundAndReport(detailsControl);
+			swingRenderer.validateFormInBackgroundAndReportOnStatusBar(detailsControl);
 			SwingRendererUtils.handleComponentSizeChange(ListControl.this);
 		}
 	}
@@ -2032,6 +2024,10 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	@Override
 	public void validateSubForm() throws Exception {
+	}
+
+	@Override
+	public void addMenuContribution(MenuModel menuModel) {
 	}
 
 	protected void restoringColumnWidthsAsMuchAsPossible(Runnable runnable) {

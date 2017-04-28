@@ -58,6 +58,11 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.menu.AbstractMenuItem;
+import xy.reflect.ui.menu.IMenuElement;
+import xy.reflect.ui.menu.Menu;
+import xy.reflect.ui.menu.MenuElementKind;
+import xy.reflect.ui.menu.MenuItemCategory;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.InvokeMethodModification;
@@ -1035,5 +1040,19 @@ public class ReflectionUIUtils {
 			throw new ReflectionUIError(e);
 		}
 	}
+
+	public static MenuElementKind getMenuElementKind(IMenuElement element){
+		if (element instanceof Menu) {
+			return MenuElementKind.MENU;
+		} else if (element instanceof MenuItemCategory) {
+			return MenuElementKind.ITEM_CATEGORY;
+		} else if (element instanceof AbstractMenuItem) {
+			return MenuElementKind.ITEM;
+		} else {
+			throw new ReflectionUIError();
+		}	
+	}
+	
+	
 
 }

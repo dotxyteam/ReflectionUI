@@ -1,5 +1,7 @@
 package xy.reflect.ui.control.swing;
 
+import xy.reflect.ui.menu.MenuModel;
+
 public interface IAdvancedFieldControl {
 	boolean displayError(String msg);
 
@@ -14,4 +16,6 @@ public interface IAdvancedFieldControl {
 	boolean requestDetailedFocus(Object value);
 
 	void validateSubForm() throws Exception;
+
+	void addMenuContribution(MenuModel menuModel);
 }

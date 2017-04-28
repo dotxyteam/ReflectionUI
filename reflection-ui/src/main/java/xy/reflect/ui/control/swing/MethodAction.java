@@ -27,6 +27,7 @@ import xy.reflect.ui.info.type.factory.MethodParametersAsObjectFactory;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MethodAction extends AbstractAction {
@@ -38,6 +39,7 @@ public class MethodAction extends AbstractAction {
 	protected Object returnValue;
 	protected boolean shouldDisplayReturnValueIfAny = false;
 	protected ModificationStack modificationStack;
+	protected boolean exceptionThrown = false;
 
 	public MethodAction(SwingRenderer swingRenderer, IMethodControlInput input) {
 		this.swingRenderer = swingRenderer;
@@ -53,20 +55,16 @@ public class MethodAction extends AbstractAction {
 		return returnValue;
 	}
 
+	public boolean wasExceptionThrown() {
+		return exceptionThrown;
+	}
+
 	public void setShouldDisplayReturnValueIfAny(boolean shouldDisplayReturnValueIfAny) {
 		this.shouldDisplayReturnValueIfAny = shouldDisplayReturnValueIfAny;
 	}
 
 	public boolean getShouldDisplayReturnValueIfAny() {
 		return shouldDisplayReturnValueIfAny;
-	}
-
-	public ModificationStack getModificationStack() {
-		return modificationStack;
-	}
-
-	public void setModificationStack(ModificationStack modificationStack) {
-		this.modificationStack = modificationStack;
 	}
 
 	@Override
@@ -88,20 +86,13 @@ public class MethodAction extends AbstractAction {
 		if (data.getParameters().size() > 0) {
 			return openMethoExecutionSettingDialog(activatorComponent);
 		} else {
-			final boolean displayReturnValue = shouldDisplayReturnValueIfAny && (data.getReturnValueType() != null);
-			final boolean[] exceptionThrownHoler = new boolean[] { false };
-			returnValue = data.invoke(new InvocationData());
-			if (displayReturnValue && !exceptionThrownHoler[0]) {
-				openMethodReturnValueWindow(activatorComponent);
-			}
+			invoke(new InvocationData(), activatorComponent);
 		}
 		return true;
 	}
 
 	protected boolean openMethoExecutionSettingDialog(final Component activatorComponent) {
 		final DialogBuilder dialogBuilder = swingRenderer.getDialogBuilder(activatorComponent);
-		final boolean displayReturnValue = shouldDisplayReturnValueIfAny && (data.getReturnValueType() != null);
-		final boolean[] exceptionThrownHolder = new boolean[] { false };
 		final InvocationData invocationData;
 		if (swingRenderer.getLastInvocationDataByMethodSignature().containsKey(data.getMethodSignature())) {
 			invocationData = swingRenderer.getLastInvocationDataByMethodSignature().get(data.getMethodSignature());
@@ -122,23 +113,13 @@ public class MethodAction extends AbstractAction {
 				public void actionPerformed(ActionEvent e) {
 					swingRenderer.getLastInvocationDataByMethodSignature().put(data.getMethodSignature(),
 							invocationData);
-					try {
-						returnValue = data.invoke(invocationData);
-					} catch (Throwable t) {
-						swingRenderer.handleExceptionsFromDisplayedUI(invokeButton, t);
-						exceptionThrownHolder[0] = true;
-					}
-					if (displayReturnValue) {
-						if (!exceptionThrownHolder[0]) {
-							openMethodReturnValueWindow(activatorComponent);
-						}
-					}
+					invoke(invocationData, invokeButton);
 					dialogBuilder.getCreatedDialog().dispose();
 				}
 			});
 			toolbarControls.add(invokeButton);
 		}
-		JButton closeButton = new JButton(displayReturnValue ? "Close" : "Cancel");
+		JButton closeButton = new JButton(shouldDisplayReturnValue() ? "Close" : "Cancel");
 		{
 			closeButton.addActionListener(new ActionListener() {
 
@@ -156,11 +137,28 @@ public class MethodAction extends AbstractAction {
 		dialogBuilder.setToolbarComponents(toolbarControls);
 
 		swingRenderer.showDialog(dialogBuilder.createDialog(), true);
-		if (displayReturnValue) {
+		if (shouldDisplayReturnValue()) {
 			return true;
 		} else {
 			return invokedStatusHolder[0];
 		}
+	}
+
+	protected void invoke(InvocationData invocationData, Component activatorComponent) {
+		try {
+			returnValue = data.invoke(invocationData);
+			exceptionThrown = false;
+		} catch (Throwable t) {
+			swingRenderer.handleExceptionsFromDisplayedUI(activatorComponent, t);
+			exceptionThrown = true;
+		}
+		if (shouldDisplayReturnValue() && !exceptionThrown) {
+			openMethodReturnValueWindow(activatorComponent);
+		}
+	}
+
+	protected boolean shouldDisplayReturnValue() {
+		return shouldDisplayReturnValueIfAny && (data.getReturnValueType() != null);
 	}
 
 	protected Object createParametersObject(InvocationData invocationData) {
@@ -193,7 +191,7 @@ public class MethodAction extends AbstractAction {
 
 			@Override
 			public Object invoke(Object object, InvocationData invocationData) {
-				return data.invoke(invocationData);
+				throw new ReflectionUIError();
 			}
 
 			@Override

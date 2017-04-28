@@ -15,6 +15,7 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.menu.MenuModel;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
@@ -152,7 +153,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 				throw new ReflectionUIError();
 			}
 			if (newSubFormObject == subFormObject) {
-				swingRenderer.refreshAllFieldControls(subForm, false);
+				swingRenderer.refreshForm(subForm, false);
 			} else {
 				Object subFormObjectType = swingRenderer.getReflectionUI()
 						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(subFormObject));
@@ -160,7 +161,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newSubFormObject));
 				if (subFormObjectType.equals(newSubFormObjectType)) {
 					swingRenderer.getObjectByForm().put(subForm, newSubFormObject);
-					swingRenderer.refreshAllFieldControls(subForm, false);
+					swingRenderer.refreshForm(subForm, false);
 				} else {
 					return false;
 				}
@@ -177,6 +178,11 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	@Override
 	public void validateSubForm() throws Exception {
 		swingRenderer.validateForm(subForm);
+	}
+
+	@Override
+	public void addMenuContribution(MenuModel menuModel) {
+		swingRenderer.addFormMenuContribution(subForm, menuModel);
 	}
 
 	@Override

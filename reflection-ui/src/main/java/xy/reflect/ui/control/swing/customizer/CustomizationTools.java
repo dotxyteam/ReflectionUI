@@ -836,7 +836,7 @@ public class CustomizationTools {
 	public void rebuildCustomizerForm(JPanel form) {
 		try {
 			swingCustomizer.recreateFormContent(form);
-			swingCustomizer.validateFormInBackgroundAndReport(form);
+			swingCustomizer.validateFormInBackgroundAndReportOnStatusBar(form);
 		} catch (Throwable t) {
 			swingCustomizer.handleExceptionsFromDisplayedUI(form, t);
 		}

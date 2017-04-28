@@ -23,6 +23,7 @@ import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.menu.MenuModel;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
@@ -305,6 +306,13 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	public void validateSubForm() throws Exception {
 		if (SwingRendererUtils.isForm(subControl, swingRenderer)) {
 			swingRenderer.validateForm((JPanel) subControl);
+		}
+	}
+
+	@Override
+	public void addMenuContribution(MenuModel menuModel) {
+		if (SwingRendererUtils.isForm(subControl, swingRenderer)) {
+			swingRenderer.addFormMenuContribution((JPanel) subControl, menuModel);
 		}
 	}
 

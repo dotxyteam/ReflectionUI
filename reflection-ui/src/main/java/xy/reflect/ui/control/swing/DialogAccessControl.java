@@ -23,6 +23,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.menu.MenuModel;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
@@ -279,6 +280,10 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 
 	@Override
 	public void validateSubForm() throws Exception {
+	}
+
+	@Override
+	public void addMenuContribution(MenuModel menuModel) {
 	}
 
 	@Override

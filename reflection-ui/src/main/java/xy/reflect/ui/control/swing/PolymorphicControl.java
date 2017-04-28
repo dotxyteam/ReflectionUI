@@ -18,6 +18,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory;
+import xy.reflect.ui.menu.MenuModel;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationProxy;
@@ -377,7 +378,16 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 
 	@Override
 	public void validateSubForm() throws Exception {
-		swingRenderer.validateForm(dynamicControl);
+		if (dynamicControl != null) {
+			swingRenderer.validateForm(dynamicControl);
+		}
+	}
+
+	@Override
+	public void addMenuContribution(MenuModel menuModel) {
+		if (dynamicControl != null) {
+			swingRenderer.addFormMenuContribution(dynamicControl, menuModel);
+		}
 	}
 
 	@Override

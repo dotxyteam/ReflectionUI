@@ -20,7 +20,6 @@ import xy.reflect.ui.info.custom.InfoCustomizations.ITypeInfoFinder;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListItemFieldShortcut;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListItemMethodShortcut;
-import xy.reflect.ui.info.custom.InfoCustomizations.MenuItemCategory;
 import xy.reflect.ui.info.custom.InfoCustomizations.MethodCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ParameterCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
@@ -52,6 +51,10 @@ import xy.reflect.ui.info.type.iterable.structure.CustomizedStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
+import xy.reflect.ui.menu.IMenuElementPosition;
+import xy.reflect.ui.menu.IMenuItemContainer;
+import xy.reflect.ui.menu.MenuElementKind;
+import xy.reflect.ui.menu.DefaultMenuElementPosition;
 import xy.reflect.ui.undo.ListModificationFactory;
 import xy.reflect.ui.util.Pair;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -71,28 +74,26 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 	}
 
 	@Override
-	protected List<String> getMenuPath(IMethodInfo method, ITypeInfo containingType) {
+	protected IMenuElementPosition getMenuItemPosition(IMethodInfo method, ITypeInfo containingType) {
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.infoCustomizations,
 				containingType.getName());
 		if (t != null) {
 			MethodCustomization m = InfoCustomizations.getMethodCustomization(t,
 					ReflectionUIUtils.getMethodSignature(method));
 			if (m != null) {
-				if (m.getMenuItemCategory() != null) {
-					List<MenuItemCategory> path = InfoCustomizations.getMenuItemCategoryPath(this.infoCustomizations,
-							m.getMenuItemCategory());
-					if (path == null) {
-						return Collections.emptyList();
+				if (m.getMenuLocation() != null) {
+					List<IMenuItemContainer> ancestors = InfoCustomizations
+							.getMenuElementAncestors(this.infoCustomizations, m.getMenuLocation());
+					if (ancestors == null) {
+						return null;
 					}
-					List<String> result = new ArrayList<String>();
-					for (MenuItemCategory pathItem : path) {
-						result.add(pathItem.getName());
-					}
-					return result;
+					ancestors = new ArrayList<IMenuItemContainer>(ancestors);
+					ancestors.add(0, m.getMenuLocation());
+					return new DefaultMenuElementPosition(method.getCaption(), MenuElementKind.ITEM, ancestors);
 				}
 			}
 		}
-		return super.getMenuPath(method, containingType);
+		return super.getMenuItemPosition(method, containingType);
 	}
 
 	@Override
@@ -1422,7 +1423,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 							public String getCaption() {
 								return method.getCaption() + " Result";
 							}
-							
+
 						});
 						resultMethods.add(method = new MethodInfoProxy(method) {
 

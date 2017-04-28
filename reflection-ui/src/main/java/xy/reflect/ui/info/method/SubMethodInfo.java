@@ -1,6 +1,5 @@
 package xy.reflect.ui.info.method;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +11,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
+import xy.reflect.ui.menu.IMenuElementPosition;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.InvokeMethodModification;
@@ -56,8 +56,8 @@ public class SubMethodInfo implements IMethodInfo {
 	}
 
 	@Override
-	public List<String> getMenuPath() {
-		return Collections.emptyList();
+	public IMenuElementPosition getMenuItemPosition() {
+		return null;
 	}
 
 	@Override

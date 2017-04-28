@@ -268,7 +268,7 @@ public abstract class AbstractEditFormBuilder {
 
 	public void refreshEditForm(JPanel form) {
 		encapsulatedObjectValueAccessor.set(getInitialObjectValue());
-		getSwingRenderer().refreshAllFieldControls(form, false);
+		getSwingRenderer().refreshForm(form, false);
 	}
 
 	protected boolean shouldAcceptNewObjectValue(Object value) {

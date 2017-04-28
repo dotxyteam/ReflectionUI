@@ -8,6 +8,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
+import xy.reflect.ui.menu.IMenuElementPosition;
 
 public class MethodInfoProxy implements IMethodInfo {
 
@@ -21,8 +22,9 @@ public class MethodInfoProxy implements IMethodInfo {
 		return base;
 	}
 
-	public List<String> getMenuPath() {
-		return base.getMenuPath();
+	@Override
+	public IMenuElementPosition getMenuItemPosition() {
+		return null;
 	}
 
 	public boolean isReturnValueNullable() {

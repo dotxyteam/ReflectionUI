@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.rmi.server.UID;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,6 +34,11 @@ import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.menu.MenuItemCategory;
+import xy.reflect.ui.menu.AbstractMenuItem;
+import xy.reflect.ui.menu.IMenuElement;
+import xy.reflect.ui.menu.IMenuItemContainer;
+import xy.reflect.ui.menu.Menu;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.ResourcePath;
@@ -50,7 +56,7 @@ public class InfoCustomizations implements Serializable {
 	protected List<TypeCustomization> typeCustomizations = new ArrayList<InfoCustomizations.TypeCustomization>();
 	protected List<ListCustomization> listCustomizations = new ArrayList<InfoCustomizations.ListCustomization>();
 	protected List<EnumerationCustomization> enumerationCustomizations = new ArrayList<InfoCustomizations.EnumerationCustomization>();
-	protected List<MenuItemCategory> menus = new ArrayList<MenuItemCategory>();
+	protected List<Menu> menus = new ArrayList<Menu>();
 
 	@Override
 	public String toString() {
@@ -103,11 +109,11 @@ public class InfoCustomizations implements Serializable {
 		this.enumerationCustomizations = enumerationCustomizations;
 	}
 
-	public List<MenuItemCategory> getMenus() {
+	public List<Menu> getMenus() {
 		return menus;
 	}
 
-	public void setMenus(List<MenuItemCategory> menus) {
+	public void setMenus(List<Menu> menus) {
 		this.menus = menus;
 	}
 
@@ -145,11 +151,23 @@ public class InfoCustomizations implements Serializable {
 			List<AbstractMemberCustomization> allMembers = new ArrayList<AbstractMemberCustomization>();
 			allMembers.addAll(t.fieldsCustomizations);
 			allMembers.addAll(t.methodsCustomizations);
-			for (AbstractMemberCustomization m : allMembers) {
-				if (m.category != null) {
+			for (AbstractMemberCustomization mc : allMembers) {
+				if (mc.category != null) {
 					for (CustomizationCategory c : t.memberCategories) {
-						if (m.category.caption.equals(c.caption)) {
-							m.category = c;
+						if (mc.uniqueIdentifier.equals(c.uniqueIdentifier)) {
+							mc.category = c;
+						}
+					}
+				}
+			}
+			for (MethodCustomization mc : t.methodsCustomizations) {
+				if (mc.menuLocation != null) {
+					for (IMenuItemContainer container : getAllMenuItemContainers(this)) {
+						AbstractCustomization menuLocationAsCustomization = (AbstractCustomization) mc.menuLocation;
+						AbstractCustomization containerAsCustomization = (AbstractCustomization) container;
+						if (menuLocationAsCustomization.uniqueIdentifier
+								.equals(containerAsCustomization.uniqueIdentifier)) {
+							mc.menuLocation = container;
 						}
 					}
 				}
@@ -176,6 +194,7 @@ public class InfoCustomizations implements Serializable {
 		toSave.typeCustomizations = typeCustomizations;
 		toSave.listCustomizations = listCustomizations;
 		toSave.enumerationCustomizations = enumerationCustomizations;
+		toSave.menus = menus;
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(InfoCustomizations.class);
 			javax.xml.bind.Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -187,10 +206,23 @@ public class InfoCustomizations implements Serializable {
 
 	}
 
-	public static List<MenuItemCategory> getMenuItemCategoryPath(InfoCustomizations infoCustomizations,
-			MenuItemCategory menuItemCategory) {
-		for (MenuItemCategory rootMenu : infoCustomizations.getMenus()) {
-			List<MenuItemCategory> result = getMenuItemCategoryPath(rootMenu, menuItemCategory);
+	public static List<IMenuItemContainer> getMenuElementAncestors(InfoCustomizations infoCustomizations,
+			IMenuElement menuElement) {
+		List<IMenuElement> path = getMenuElementPath(infoCustomizations, menuElement);
+		if (path == null) {
+			return null;
+		}
+		List<IMenuItemContainer> result = new ArrayList<IMenuItemContainer>();
+		for (int i = path.size() - 2; i >= 0; i--) {
+			result.add((IMenuItemContainer) path.get(i));
+		}
+		return result;
+	}
+
+	public static List<IMenuElement> getMenuElementPath(InfoCustomizations infoCustomizations,
+			IMenuElement menuElement) {
+		for (IMenuElement rootMenuElement : infoCustomizations.getMenus()) {
+			List<IMenuElement> result = getMenuElementPath(rootMenuElement, menuElement);
 			if (result != null) {
 				return result;
 			}
@@ -198,17 +230,28 @@ public class InfoCustomizations implements Serializable {
 		return null;
 	}
 
-	public static List<MenuItemCategory> getMenuItemCategoryPath(MenuItemCategory from,
-			MenuItemCategory menuItemCategory) {
-		if (from == menuItemCategory) {
+	public static List<IMenuElement> getMenuElementPath(IMenuElement from, IMenuElement menuElement) {
+		if (from == menuElement) {
 			return Collections.singletonList(from);
 		}
-		if (from instanceof MenuSpecification) {
-			MenuSpecification menu = (MenuSpecification) from;
-			for (MenuItemCategory item : menu.getItemCategories()) {
-				List<MenuItemCategory> result = getMenuItemCategoryPath(item, menuItemCategory);
+		if (from instanceof IMenuItemContainer) {
+			IMenuItemContainer container = (IMenuItemContainer) from;
+			for (IMenuElement element : container.getItems()) {
+				List<IMenuElement> result = getMenuElementPath(element, menuElement);
 				if (result != null) {
-					result = new ArrayList<InfoCustomizations.MenuItemCategory>(result);
+					result = new ArrayList<IMenuElement>(result);
+					result.add(0, from);
+					return result;
+				}
+
+			}
+		}
+		if (from instanceof Menu) {
+			Menu menu = (Menu) from;
+			for (MenuItemCategory category : menu.getItemCategories()) {
+				List<IMenuElement> result = getMenuElementPath(category, menuElement);
+				if (result != null) {
+					result = new ArrayList<IMenuElement>(result);
 					result.add(0, from);
 					return result;
 				}
@@ -218,21 +261,27 @@ public class InfoCustomizations implements Serializable {
 		return null;
 	}
 
-	public static List<MenuItemCategory> getMethodMenuPathOptions(InfoCustomizations infoCustomizations,
-			MethodCustomization m) {
-		List<MenuItemCategory> result = new ArrayList<InfoCustomizations.MenuItemCategory>();
-		for (MenuItemCategory rootMenu : infoCustomizations.getMenus()) {
-			result.addAll(getAllMenuItemCategories(rootMenu));
+	public static List<IMenuItemContainer> getAllMenuItemContainers(InfoCustomizations infoCustomizations) {
+		List<IMenuItemContainer> result = new ArrayList<IMenuItemContainer>();
+		for (IMenuElement rootMenuElement : infoCustomizations.getMenus()) {
+			if (rootMenuElement instanceof IMenuItemContainer) {
+				result.addAll(getAllMenuItemContainers((IMenuItemContainer) rootMenuElement));
+			}
 		}
 		return result;
 	}
 
-	public static List<MenuItemCategory> getAllMenuItemCategories(MenuItemCategory from) {
-		List<MenuItemCategory> result = new ArrayList<InfoCustomizations.MenuItemCategory>();
+	public static List<IMenuItemContainer> getAllMenuItemContainers(IMenuItemContainer from) {
+		List<IMenuItemContainer> result = new ArrayList<IMenuItemContainer>();
 		result.add(from);
-		if (from instanceof MenuSpecification) {
-			for (MenuItemCategory item : ((MenuSpecification) from).getItemCategories()) {
-				result.addAll(getAllMenuItemCategories(item));
+		for (AbstractMenuItem item : from.getItems()) {
+			if (item instanceof IMenuItemContainer) {
+				result.addAll(getAllMenuItemContainers((IMenuItemContainer) item));
+			}
+		}
+		if (from instanceof Menu) {
+			for (MenuItemCategory item : ((Menu) from).getItemCategories()) {
+				result.addAll(getAllMenuItemContainers(item));
 			}
 		}
 		return result;
@@ -543,6 +592,16 @@ public class InfoCustomizations implements Serializable {
 	public static abstract class AbstractCustomization implements Serializable {
 		private static final long serialVersionUID = 1L;
 
+		protected String uniqueIdentifier = new UID().toString();
+
+		public String getUniqueIdentifier() {
+			return uniqueIdentifier;
+		}
+
+		public void setUniqueIdentifier(String uniqueIdentifier) {
+			this.uniqueIdentifier = uniqueIdentifier;
+		}
+
 	}
 
 	public static abstract class AbstractInfoCustomization extends AbstractCustomization {
@@ -557,96 +616,6 @@ public class InfoCustomizations implements Serializable {
 
 		public void setSpecificProperties(Map<String, Object> specificProperties) {
 			this.specificProperties = specificProperties;
-		}
-
-	}
-
-	public static class MenuItemCategory extends AbstractCustomization {
-		private static final long serialVersionUID = 1L;
-
-		protected String name = "";
-
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((name == null) ? 0 : name.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			MenuItemCategory other = (MenuItemCategory) obj;
-			if (name == null) {
-				if (other.name != null)
-					return false;
-			} else if (!name.equals(other.name))
-				return false;
-			return true;
-		}
-
-		@Override
-		public String toString() {
-			return "MenuItemCategory [name=" + name + "]";
-		}
-
-	}
-
-	public static class MenuSpecification extends MenuItemCategory {
-		private static final long serialVersionUID = 1L;
-
-		protected List<MenuItemCategory> itemCategories = new ArrayList<MenuItemCategory>();
-
-		public List<MenuItemCategory> getItemCategories() {
-			return itemCategories;
-		}
-
-		public void setItemCategories(List<MenuItemCategory> itemCategories) {
-			this.itemCategories = itemCategories;
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = super.hashCode();
-			result = prime * result + ((itemCategories == null) ? 0 : itemCategories.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (!super.equals(obj))
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			MenuSpecification other = (MenuSpecification) obj;
-			if (itemCategories == null) {
-				if (other.itemCategories != null)
-					return false;
-			} else if (!itemCategories.equals(other.itemCategories))
-				return false;
-			return true;
-		}
-
-		@Override
-		public String toString() {
-			return "MenuSpecification [name=" + name + ", itemCategories=" + itemCategories + "]";
 		}
 
 	}
@@ -896,6 +865,7 @@ public class InfoCustomizations implements Serializable {
 			this.hidden = hidden;
 		}
 
+		// @XmlIDREF
 		public CustomizationCategory getCategory() {
 			return category;
 		}
@@ -1126,14 +1096,16 @@ public class InfoCustomizations implements Serializable {
 		protected String encapsulationFieldName;
 		protected boolean parametersFormDisplayed;
 		protected ResourcePath iconImagePath;
-		protected MenuItemCategory menuItemCategory;
+		protected IMenuItemContainer menuLocation;
 
-		public MenuItemCategory getMenuItemCategory() {
-			return menuItemCategory;
+		@XmlElements({ @XmlElement(name = "menu", type = Menu.class),
+				@XmlElement(name = "menuItemCategory", type = MenuItemCategory.class) })
+		public IMenuItemContainer getMenuLocation() {
+			return menuLocation;
 		}
 
-		public void setMenuItemCategory(MenuItemCategory menuItemCategory) {
-			this.menuItemCategory = menuItemCategory;
+		public void setMenuLocation(IMenuItemContainer menuLocation) {
+			this.menuLocation = menuLocation;
 		}
 
 		public String getMethodName() {

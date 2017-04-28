@@ -19,6 +19,7 @@ import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.AWTEventListener;
 import java.awt.event.AWTEventListenerProxy;
+import java.awt.event.ActionEvent;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
 import java.awt.event.InputEvent;
@@ -36,12 +37,16 @@ import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -54,14 +59,22 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
+import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
+import xy.reflect.ui.control.swing.renderer.MethodControlPlaceHolder;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
+import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.menu.AbstractMenuItem;
+import xy.reflect.ui.menu.ActionMenuItem;
+import xy.reflect.ui.menu.Menu;
+import xy.reflect.ui.menu.MenuItemCategory;
+import xy.reflect.ui.menu.MenuModel;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationProxy;
@@ -755,5 +768,66 @@ public class SwingRendererUtils {
 		}
 		return null;
 	}
+
+	public static JPanel getForm(Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
+			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory) {
+		if (fieldControlPlaceHoldersByCategory.values().size() > 0) {
+			List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory.values()
+					.iterator().next();
+			if (fieldControlPlaceHolders.size() > 0) {
+				return fieldControlPlaceHolders.get(0).getForm();
+			}
+		}
+		if (methodControlPlaceHoldersByCategory.values().size() > 0) {
+			List<MethodControlPlaceHolder> methodControlPlaceHolders = methodControlPlaceHoldersByCategory.values()
+					.iterator().next();
+			if (methodControlPlaceHolders.size() > 0) {
+				return methodControlPlaceHolders.get(0).getForm();
+			}
+		}
+		return null;
+	}
+
+	public static void updateMenubar(JMenuBar menuBar, MenuModel menuModel) {
+		menuBar.removeAll();
+		for (Menu menu : menuModel.getMenus()) {
+			menuBar.add(createJMenu(menu));
+		}
+	}
+
+	public static JMenu createJMenu(Menu menu) {
+		JMenu result = new JMenu(menu.getName());
+		for (AbstractMenuItem item : menu.getItems()) {
+			result.add(createJMenuItem(item));			
+		}
+		for(MenuItemCategory category: menu.getItemCategories()){
+			result.addSeparator();
+			for(AbstractMenuItem item: category.getItems()){
+				result.add(createJMenuItem(item));
+			}
+		}
+		return result;
+	}
+
+	public static JMenuItem createJMenuItem(AbstractMenuItem item) {
+		if (item instanceof ActionMenuItem) {
+			return createJMenuActionItem((ActionMenuItem) item);
+		} else if (item instanceof Menu) {
+			return createJMenu((Menu) item);
+		} else {
+			throw new ReflectionUIError();
+		}
+	}
+
+	public static JMenuItem createJMenuActionItem(final ActionMenuItem actionItem) {
+		return new JMenuItem(new AbstractAction(actionItem.getName()) {			
+			private static final long serialVersionUID = 1L;
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				actionItem.getAction().run();
+			}
+		});
+	}
+
 
 }

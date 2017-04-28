@@ -53,8 +53,6 @@ public class MethodControl extends JButton {
 			public void actionPerformed(ActionEvent e) {
 				MethodAction action = swingRenderer.createMethodAction(input);
 				action.setShouldDisplayReturnValueIfAny(true);
-				action.setModificationStack(
-						ReflectionUIUtils.findParentFormModificationStack(MethodControl.this, swingRenderer));
 				try {
 					action.actionPerformed(e);
 				} catch (Throwable t) {

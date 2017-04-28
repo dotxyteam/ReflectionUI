@@ -28,7 +28,7 @@ import xy.reflect.ui.util.SwingRendererUtils;
 public class MethodControlPlaceHolder extends JPanel implements IMethodControlInput {
 
 	protected static final long serialVersionUID = 1L;
-	
+
 	protected final SwingRenderer swingRenderer;
 	protected JPanel form;
 	protected Component methodControl;
@@ -42,6 +42,10 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 		this.method = method;
 		setLayout(new BorderLayout());
 		refreshUI(false);
+	}
+
+	public JPanel getForm() {
+		return form;
 	}
 
 	@Override

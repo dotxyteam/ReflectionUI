@@ -12,13 +12,12 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.custom.InfoCustomizations;
+import xy.reflect.ui.info.custom.InfoCustomizations.AbstractCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.AbstractMemberCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ColumnCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.CustomizationCategory;
 import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListCustomization;
-import xy.reflect.ui.info.custom.InfoCustomizations.MenuItemCategory;
-import xy.reflect.ui.info.custom.InfoCustomizations.MenuSpecification;
 import xy.reflect.ui.info.custom.InfoCustomizations.MethodCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ParameterCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
@@ -30,6 +29,13 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.info.type.factory.TypeInfoProxyFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
+import xy.reflect.ui.menu.MenuItemCategory;
+import xy.reflect.ui.menu.IMenuElement;
+import xy.reflect.ui.menu.IMenuElementPosition;
+import xy.reflect.ui.menu.IMenuItemContainer;
+import xy.reflect.ui.menu.Menu;
+import xy.reflect.ui.util.ClassUtils;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.ResourcePath;
 
@@ -50,18 +56,43 @@ class CustomizationToolsUI extends ReflectionUI {
 				return CustomizationTools.class.getName() + TypeInfoProxyFactory.class.getSimpleName();
 			}
 
+			protected boolean isCustomizationTypeInfo(ITypeInfo type) {
+				Class<?> clazz;
+				try {
+					clazz = ClassUtils.getCachedClassforName(type.getName());
+				} catch (ClassNotFoundException e) {
+					return false;
+				}
+				if (AbstractCustomization.class.isAssignableFrom(clazz)) {
+					return true;
+				}
+				return false;
+			}
+
 			@Override
 			protected Object[] getValueOptions(Object object, IFieldInfo field, ITypeInfo containingType) {
 				if ((object instanceof AbstractMemberCustomization) && field.getName().equals("category")) {
 					List<CustomizationCategory> result = InfoCustomizations.getMemberCategoryOptions(
 							swingCustomizer.getInfoCustomizations(), (AbstractMemberCustomization) object);
 					return result.toArray();
-				} else if ((object instanceof MethodCustomization) && field.getName().equals("menuItemCategory")) {
-					List<MenuItemCategory> result = InfoCustomizations.getMethodMenuPathOptions(
-							swingCustomizer.getInfoCustomizations(), (MethodCustomization) object);
+				} else if ((object instanceof MethodCustomization) && field.getName().equals("menuLocation")) {
+					List<IMenuItemContainer> result = InfoCustomizations
+							.getAllMenuItemContainers(swingCustomizer.getInfoCustomizations());
 					return result.toArray();
 				} else {
 					return super.getValueOptions(object, field, containingType);
+				}
+			}
+
+			@Override
+			protected List<IFieldInfo> getFields(ITypeInfo type) {
+				if (isCustomizationTypeInfo(type)) {
+					List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
+					IFieldInfo uidField = ReflectionUIUtils.findInfoByName(result, "uniqueIdentifier");
+					result.remove(uidField);
+					return result;
+				} else {
+					return super.getFields(type);
 				}
 			}
 
@@ -81,8 +112,8 @@ class CustomizationToolsUI extends ReflectionUI {
 				return new IMethodInfo() {
 
 					@Override
-					public List<String> getMenuPath() {
-						return Collections.emptyList();
+					public IMenuElementPosition getMenuItemPosition() {
+						return null;
 					}
 
 					@Override
@@ -202,18 +233,20 @@ class CustomizationToolsUI extends ReflectionUI {
 					return ((CustomizationCategory) object).getCaption();
 				} else if (object instanceof ResourcePath) {
 					return ((ResourcePath) object).getSpecification();
-				} else if (object instanceof MenuItemCategory) {
-					List<MenuItemCategory> path = InfoCustomizations.getMenuItemCategoryPath(
-							swingCustomizer.getInfoCustomizations(), (MenuItemCategory) object);
+				} else if (object instanceof IMenuElement) {
+					List<IMenuElement> path = InfoCustomizations
+							.getMenuElementPath(swingCustomizer.getInfoCustomizations(), (IMenuElement) object);
 					if (path == null) {
-						return ((MenuItemCategory) object).getName();
+						return ((IMenuElement) object).getName();
 					}
 					List<String> result = new ArrayList<String>();
-					for (MenuItemCategory pathItem : path) {
-						if (pathItem instanceof MenuSpecification) {
+					for (IMenuElement pathItem : path) {
+						if (pathItem instanceof Menu) {
 							result.add(pathItem.getName());
+						} else if (pathItem instanceof MenuItemCategory) {
+							result.add("<" + pathItem.getName() + ">");
 						} else {
-							result.add("(" + pathItem.getName() + ")");
+							throw new ReflectionUIError();
 						}
 					}
 					return ReflectionUIUtils.stringJoin(result, " / ");

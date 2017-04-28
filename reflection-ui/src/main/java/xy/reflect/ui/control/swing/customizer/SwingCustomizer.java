@@ -2,10 +2,13 @@ package xy.reflect.ui.control.swing.customizer;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -15,6 +18,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.renderer.MethodControlPlaceHolder;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -82,22 +86,38 @@ public class SwingCustomizer extends SwingRenderer {
 		return customizationOptions;
 	}
 
-
 	public CustomizationController getCustomizationController() {
 		return customizationController;
 	}
+
 	@Override
-	public void fillForm(JPanel form) {
+	public void layoutFormControls(Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
+			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory,
+			Container container) {
+		JPanel form = SwingRendererUtils.getForm(fieldControlPlaceHoldersByCategory,
+				methodControlPlaceHoldersByCategory);
 		Object object = getObjectByForm().get(form);
 		if (areCustomizationsEditable(object)) {
+			container.setLayout(new BorderLayout());
+			JPanel newContainer = new JPanel();
+			{
+				super.layoutFormControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory,
+						newContainer);
+				container.add(newContainer, BorderLayout.CENTER);
+			}
 			JPanel mainCustomizationsControl = new JPanel();
-			mainCustomizationsControl.setLayout(new BorderLayout());
-			mainCustomizationsControl.add(customizationTools.makeButtonForTypeInfo(object), BorderLayout.CENTER);
-			mainCustomizationsControl.setBorder(BorderFactory.createEmptyBorder(getLayoutSpacing(), 0, 0, 0));
-			form.add(SwingRendererUtils.flowInLayout(mainCustomizationsControl, GridBagConstraints.CENTER),
-					BorderLayout.NORTH);
+			{
+				mainCustomizationsControl.setLayout(new BorderLayout());
+				mainCustomizationsControl.add(customizationTools.makeButtonForTypeInfo(object), BorderLayout.CENTER);
+				mainCustomizationsControl.setBorder(BorderFactory.createEmptyBorder(getLayoutSpacing(), 0, 0, 0));
+				container.add(SwingRendererUtils.flowInLayout(mainCustomizationsControl, GridBagConstraints.CENTER),
+						BorderLayout.NORTH);
+			}
+		} else {
+			super.layoutFormControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory,
+					container);
 		}
-		super.fillForm(form);
+
 	}
 
 	@Override
