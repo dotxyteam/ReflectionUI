@@ -53,6 +53,7 @@ import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.menu.IMenuElementPosition;
 import xy.reflect.ui.menu.IMenuItemContainer;
+import xy.reflect.ui.menu.Menu;
 import xy.reflect.ui.menu.MenuElementKind;
 import xy.reflect.ui.menu.DefaultMenuElementPosition;
 import xy.reflect.ui.undo.ListModificationFactory;
@@ -74,16 +75,29 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 	}
 
 	@Override
+	protected List<Menu> getMenus(ITypeInfo type) {
+		TypeCustomization tc = InfoCustomizations.getTypeCustomization(this.infoCustomizations, type.getName());
+		if (tc != null) {
+			List<Menu> result = new ArrayList<Menu>(super.getMenus(type));
+			for (Menu menu : tc.getMenus()) {
+				result.add((Menu) ReflectionUIUtils.copyThroughSerialization(menu));
+			}
+			return result;
+		}
+		return super.getMenus(type);
+	}
+
+	@Override
 	protected IMenuElementPosition getMenuItemPosition(IMethodInfo method, ITypeInfo containingType) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.infoCustomizations,
+		TypeCustomization tc = InfoCustomizations.getTypeCustomization(this.infoCustomizations,
 				containingType.getName());
-		if (t != null) {
-			MethodCustomization m = InfoCustomizations.getMethodCustomization(t,
+		if (tc != null) {
+			MethodCustomization m = InfoCustomizations.getMethodCustomization(tc,
 					ReflectionUIUtils.getMethodSignature(method));
 			if (m != null) {
 				if (m.getMenuLocation() != null) {
-					List<IMenuItemContainer> ancestors = InfoCustomizations
-							.getMenuElementAncestors(this.infoCustomizations, m.getMenuLocation());
+					List<IMenuItemContainer> ancestors = InfoCustomizations.getMenuElementAncestors(tc,
+							m.getMenuLocation());
 					if (ancestors == null) {
 						return null;
 					}

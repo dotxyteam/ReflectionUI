@@ -87,7 +87,9 @@ import xy.reflect.ui.info.type.factory.GenericEnumerationFactory;
 import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.menu.ActionMenuItem;
 import xy.reflect.ui.menu.IMenuElementPosition;
+import xy.reflect.ui.menu.Menu;
 import xy.reflect.ui.menu.MenuModel;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.IModification;
@@ -112,7 +114,7 @@ public class SwingRenderer {
 	protected Map<JPanel, Boolean> fieldsUpdateListenerDisabledByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, IInfoFilter> infoFilterByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, JLabel> statusBarByForm = new MapMaker().weakKeys().makeMap();
-	protected Map<JPanel, JMenuBar> menuBarByForm = new MapMaker().weakKeys().makeMap();
+	protected Map<Window, JPanel> mainFormByWindow = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, Map<InfoCategory, List<FieldControlPlaceHolder>>> fieldControlPlaceHoldersByCategoryByForm = new MapMaker()
 			.weakKeys().makeMap();
 	protected Map<JPanel, Map<InfoCategory, List<MethodControlPlaceHolder>>> methodControlPlaceHoldersByCategoryByForm = new MapMaker()
@@ -195,8 +197,8 @@ public class SwingRenderer {
 		return statusBarByForm;
 	}
 
-	public Map<JPanel, JMenuBar> getMenuBarByForm() {
-		return menuBarByForm;
+	public Map<Window, JPanel> getMainFormByWindow() {
+		return mainFormByWindow;
 	}
 
 	public Map<JPanel, Boolean> getBusyIndicationDisabledByForm() {
@@ -224,37 +226,27 @@ public class SwingRenderer {
 
 	public void setupWindow(Window window, Component content, List<? extends Component> toolbarControls, String title,
 			Image iconImage) {
-		if (window instanceof JFrame) {
-			((JFrame) window).setTitle(prepareStringToDisplay(title));
-		} else if (window instanceof JDialog) {
-			((JDialog) window).setTitle(prepareStringToDisplay(title));
-		}
+		SwingRendererUtils.setTitle(window, prepareStringToDisplay(title));
 		if (iconImage == null) {
 			window.setIconImage(SwingRendererUtils.NULL_IMAGE);
 		} else {
 			window.setIconImage(iconImage);
 		}
 
+		Container contentPane = createWindowContentPane(window, content, toolbarControls);
+		SwingRendererUtils.setContentPane(window, contentPane);
+
 		if (SwingRendererUtils.isForm(content, this)) {
 			JPanel form = (JPanel) content;
 			JMenuBar menuBar = createMenuBar(form);
-			updateMenuBar(form);
-			if (window instanceof JFrame) {
-				((JFrame) window).setJMenuBar(menuBar);
-			} else if (window instanceof JDialog) {
-				((JDialog) window).setJMenuBar(menuBar);
-			}
+			SwingRendererUtils.setMenuBar(window, menuBar);
 		}
-
-		Container contentPane = createWindowContentPane(window, content, toolbarControls);
-		SwingRendererUtils.setContentPane(window, contentPane);
 
 		SwingRendererUtils.adjustWindowInitialBounds(window);
 	}
 
 	public JMenuBar createMenuBar(JPanel form) {
 		JMenuBar result = new JMenuBar();
-		getMenuBarByForm().put(form, result);
 		return result;
 	}
 
@@ -607,18 +599,20 @@ public class SwingRenderer {
 		return result;
 	}
 
-	public Container createWindowContentPane(Window window, Component content,
+	public Container createWindowContentPane(final Window window, Component content,
 			List<? extends Component> toolbarControls) {
 		final JPanel contentPane = new JPanel();
 		contentPane.setLayout(new BorderLayout());
 		if (content != null) {
 			if (SwingRendererUtils.isForm(content, this)) {
 				final JPanel form = (JPanel) content;
+				getMainFormByWindow().put(window, form);
 				contentPane.add(createStatusBar(form), BorderLayout.NORTH);
 				setStatusBarError(form, null);
 				window.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowOpened(WindowEvent e) {
+						updateFormBasedWindowMenuBar(window);						
 						validateFormInBackgroundAndReportOnStatusBar(form);
 					}
 				});
@@ -646,11 +640,18 @@ public class SwingRenderer {
 			public void run() {
 				form.removeAll();
 				fillForm(form);
-				SwingRendererUtils.handleComponentSizeChange(form);
-				updateMenuBar(form);
-				validateFormInBackgroundAndReportOnStatusBar(form);
+				finalizeFormUpdate(form);
 			}
 		});
+	}
+
+	public void finalizeFormUpdate(JPanel form) {
+		Window window = SwingUtilities.getWindowAncestor(form);
+		if (window != null) {
+			updateFormBasedWindowMenuBar(window);
+		}
+		SwingRendererUtils.handleComponentSizeChange(form);
+		validateFormInBackgroundAndReportOnStatusBar(form);
 	}
 
 	public void preservingFormFocusAsMuchAsPossible(final JPanel form, Runnable runnable) {
@@ -1311,9 +1312,7 @@ public class SwingRenderer {
 					fieldControlPlaceHolder.refreshUI(recreate);
 					updateFieldControlLayout(fieldControlPlaceHolder, i);
 				}
-				SwingRendererUtils.handleComponentSizeChange(form);
-				updateMenuBar(form);
-				validateFormInBackgroundAndReportOnStatusBar(form);
+				finalizeFormUpdate(form);
 			}
 		});
 	}
@@ -1542,8 +1541,12 @@ public class SwingRenderer {
 		return new JLabel(prepareStringToDisplay(caption + ": "));
 	}
 
-	public void updateMenuBar(final JPanel form) {
-		JMenuBar menuBar = getMenuBarByForm().get(form);
+	public void updateFormBasedWindowMenuBar(final Window window) {
+		JPanel form = getMainFormByWindow().get(window);
+		if (form == null) {
+			return;
+		}
+		JMenuBar menuBar = SwingRendererUtils.getMenuBar(window);
 		if (menuBar == null) {
 			return;
 		}
@@ -1560,10 +1563,13 @@ public class SwingRenderer {
 
 	public void addFormMenuContribution(final JPanel form, MenuModel menuModel) {
 		ITypeInfo type = getFormFilteredType(form);
+		for (Menu menu : type.getMenus()) {
+			menuModel.addOrMergeIn(menu);
+		}
 		for (final IMethodInfo method : type.getMethods()) {
 			IMenuElementPosition menuItemPosition = method.getMenuItemPosition();
 			if (menuItemPosition != null) {
-				menuModel.add(menuItemPosition, new Runnable() {
+				ActionMenuItem menuAction = new ActionMenuItem(menuItemPosition.getElementName(), new Runnable() {
 					@Override
 					public void run() {
 						MethodAction methodAction = createMethodAction(createMethodControlPlaceHolder(form, method));
@@ -1571,6 +1577,7 @@ public class SwingRenderer {
 						methodAction.execute(form);
 					}
 				});
+				menuModel.contribute(menuItemPosition, menuAction);
 			}
 		}
 	}

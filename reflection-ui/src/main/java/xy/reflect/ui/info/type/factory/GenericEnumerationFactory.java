@@ -17,6 +17,7 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
+import xy.reflect.ui.menu.Menu;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -120,7 +121,7 @@ public class GenericEnumerationFactory {
 				+ "]";
 	}
 
-	protected class Instance {
+	public class Instance {
 		protected Object item;
 
 		public Instance(Object item) {
@@ -171,17 +172,21 @@ public class GenericEnumerationFactory {
 
 	}
 
-	protected class TypeInfo implements IEnumerationTypeInfo {
+	public class TypeInfo implements IEnumerationTypeInfo {
 
 		@Override
 		public boolean isDynamicEnumeration() {
 			return dynamicEnumeration;
 		}
 
-
 		@Override
 		public FieldsLayout getFieldsLayout() {
 			return FieldsLayout.VERTICAL_FLOW;
+		}
+
+		@Override
+		public List<Menu> getMenus() {
+			return Collections.emptyList();
 		}
 
 		@Override
@@ -281,38 +286,7 @@ public class GenericEnumerationFactory {
 		@Override
 		public IEnumerationItemInfo getValueInfo(final Object object) {
 			final Object item = unwrapInstance(object);
-			return new IEnumerationItemInfo() {
-
-				@Override
-				public Map<String, Object> getSpecificProperties() {
-					return getItemSpecificProperties(item);
-				}
-
-				@Override
-				public String getIconImagePath() {
-					return getItemIconImagePath(item);
-				}
-
-				@Override
-				public String getOnlineHelp() {
-					return getItemOnlineHelp(item);
-				}
-
-				@Override
-				public String getName() {
-					return getItemName(item);
-				}
-
-				@Override
-				public String getCaption() {
-					return getItemCaption(item);
-				}
-
-				@Override
-				public String toString() {
-					return item.toString();
-				}
-			};
+			return new ItemInfo(item);
 		}
 
 		@Override
@@ -342,13 +316,61 @@ public class GenericEnumerationFactory {
 			return object.toString();
 		}
 
-		GenericEnumerationFactory getOuterType() {
+		protected GenericEnumerationFactory getOuterType() {
 			return GenericEnumerationFactory.this;
 		}
 
 		@Override
 		public String toString() {
 			return "TypeInfo [of=" + getOuterType() + "]";
+		}
+
+	}
+
+	public class ItemInfo implements IEnumerationItemInfo {
+
+		protected Object item;
+
+		public ItemInfo(Object item) {
+			this.item = item;
+		}
+
+		public Object getItem() {
+			return item;
+		}
+
+		@Override
+		public Map<String, Object> getSpecificProperties() {
+			return getItemSpecificProperties(item);
+		}
+
+		@Override
+		public String getIconImagePath() {
+			return getItemIconImagePath(item);
+		}
+
+		@Override
+		public String getOnlineHelp() {
+			return getItemOnlineHelp(item);
+		}
+
+		@Override
+		public String getName() {
+			return getItemName(item);
+		}
+
+		@Override
+		public String getCaption() {
+			return getItemCaption(item);
+		}
+
+		GenericEnumerationFactory getOuterType() {
+			return GenericEnumerationFactory.this;
+		}
+
+		@Override
+		public String toString() {
+			return "ItemInfo [of=" + getOuterType() + ", item=" + item + "]";
 		}
 
 	}

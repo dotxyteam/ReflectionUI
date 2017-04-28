@@ -17,6 +17,7 @@ import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
+import xy.reflect.ui.menu.Menu;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ArrayAccessor;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -311,6 +312,11 @@ public class EncapsulatedObjectFactory {
 		@Override
 		public FieldsLayout getFieldsLayout() {
 			return FieldsLayout.VERTICAL_FLOW;
+		}
+
+		@Override
+		public List<Menu> getMenus() {
+			return Collections.emptyList();
 		}
 
 		@Override

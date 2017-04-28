@@ -14,6 +14,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
+import xy.reflect.ui.menu.Menu;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class MultipleFieldsAsListField implements IFieldInfo {
@@ -275,6 +276,11 @@ public class MultipleFieldsAsListField implements IFieldInfo {
 		@Override
 		public FieldsLayout getFieldsLayout() {
 			return FieldsLayout.VERTICAL_FLOW;
+		}
+
+		@Override
+		public List<Menu> getMenus() {
+			return Collections.emptyList();
 		}
 
 		@Override

@@ -26,6 +26,8 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
+import xy.reflect.ui.info.type.factory.GenericEnumerationFactory;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.info.type.factory.TypeInfoProxyFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
@@ -70,14 +72,41 @@ class CustomizationToolsUI extends ReflectionUI {
 			}
 
 			@Override
+			protected String getCaption(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
+				if (info instanceof GenericEnumerationFactory.ItemInfo) {
+					Object item = ((GenericEnumerationFactory.ItemInfo) info).getItem();
+					if (item instanceof IMenuElement) {
+						List<IMenuElement> path = InfoCustomizations
+								.getMenuElementPath(swingCustomizer.getInfoCustomizations(), (IMenuElement) item);
+						if (path == null) {
+							return ((IMenuElement) item).getName();
+						}
+						List<String> result = new ArrayList<String>();
+						for (IMenuElement pathItem : path) {
+							if (pathItem instanceof Menu) {
+								result.add(pathItem.getName());
+							} else if (pathItem instanceof MenuItemCategory) {
+								result.add("(" + pathItem.getName() + ")");
+							} else {
+								throw new ReflectionUIError();
+							}
+						}
+						return ReflectionUIUtils.stringJoin(result, " / ");
+					}
+				}
+				return super.getCaption(info, parentEnumType);
+			}
+
+			@Override
 			protected Object[] getValueOptions(Object object, IFieldInfo field, ITypeInfo containingType) {
 				if ((object instanceof AbstractMemberCustomization) && field.getName().equals("category")) {
 					List<CustomizationCategory> result = InfoCustomizations.getMemberCategoryOptions(
 							swingCustomizer.getInfoCustomizations(), (AbstractMemberCustomization) object);
 					return result.toArray();
 				} else if ((object instanceof MethodCustomization) && field.getName().equals("menuLocation")) {
-					List<IMenuItemContainer> result = InfoCustomizations
-							.getAllMenuItemContainers(swingCustomizer.getInfoCustomizations());
+					TypeCustomization tc = InfoCustomizations.findParentTypeCustomization(
+							swingCustomizer.getInfoCustomizations(), (MethodCustomization) object);
+					List<IMenuItemContainer> result = InfoCustomizations.getAllMenuItemContainers(tc);
 					return result.toArray();
 				} else {
 					return super.getValueOptions(object, field, containingType);
@@ -234,22 +263,7 @@ class CustomizationToolsUI extends ReflectionUI {
 				} else if (object instanceof ResourcePath) {
 					return ((ResourcePath) object).getSpecification();
 				} else if (object instanceof IMenuElement) {
-					List<IMenuElement> path = InfoCustomizations
-							.getMenuElementPath(swingCustomizer.getInfoCustomizations(), (IMenuElement) object);
-					if (path == null) {
-						return ((IMenuElement) object).getName();
-					}
-					List<String> result = new ArrayList<String>();
-					for (IMenuElement pathItem : path) {
-						if (pathItem instanceof Menu) {
-							result.add(pathItem.getName());
-						} else if (pathItem instanceof MenuItemCategory) {
-							result.add("<" + pathItem.getName() + ">");
-						} else {
-							throw new ReflectionUIError();
-						}
-					}
-					return ReflectionUIUtils.stringJoin(result, " / ");
+					return ((IMenuElement) object).getName();
 				} else {
 					return super.toString(type, object);
 				}

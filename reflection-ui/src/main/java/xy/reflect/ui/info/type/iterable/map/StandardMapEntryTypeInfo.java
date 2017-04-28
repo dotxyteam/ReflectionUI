@@ -47,6 +47,34 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 	}
 
 	@Override
+	public boolean supportsInstance(Object object) {
+		if (!super.supportsInstance(object)) {
+			return false;
+		}
+		@SuppressWarnings("rawtypes")
+		StandardMapEntry entry = (StandardMapEntry) object;
+		if (entry != null) {
+			Object key = entry.getKey();
+			if (key != null) {
+				if (keyJavaType != null) {
+					if (!keyJavaType.isInstance(key)) {
+						return false;
+					}
+				}
+			}
+			Object value = entry.getValue();
+			if (value != null) {
+				if (valueJavaType != null) {
+					if (!valueJavaType.isInstance(value)) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	@Override
 	public IFieldInfo getKeyField() {
 		try {
 			return new GetterFieldInfo(reflectionUI, StandardMapEntry.class.getMethod("getKey", new Class<?>[0]),

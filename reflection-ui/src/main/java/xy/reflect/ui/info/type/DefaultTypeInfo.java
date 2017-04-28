@@ -1,9 +1,5 @@
 package xy.reflect.ui.info.type;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -25,6 +21,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
+import xy.reflect.ui.menu.Menu;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -52,6 +49,11 @@ public class DefaultTypeInfo implements ITypeInfo {
 	@Override
 	public FieldsLayout getFieldsLayout() {
 		return FieldsLayout.VERTICAL_FLOW;
+	}
+
+	@Override
+	public List<Menu> getMenus() {
+		return Collections.emptyList();
 	}
 
 	@Override
@@ -272,17 +274,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 		if (object == null) {
 			return null;
 		}
-		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(baos);
-			oos.writeObject(object);
-			ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-			ObjectInputStream ois = new ObjectInputStream(bais);
-			Object copy = ois.readObject();
-			return copy;
-		} catch (Throwable t) {
-			throw new ReflectionUIError("Could not copy object: " + t.toString());
-		}
+		return ReflectionUIUtils.copyThroughSerialization((Serializable) object);		
 	}
 
 	@Override

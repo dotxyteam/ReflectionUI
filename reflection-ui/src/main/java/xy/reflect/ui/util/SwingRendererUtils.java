@@ -435,9 +435,9 @@ public class SwingRendererUtils {
 				String editSessionTitle = null;
 				IInfo editSessionTarget = editSessionTargetGetter.get();
 				ModificationStack parentObjectModifStack = parentObjectModifStackGetter.get();
-				ReflectionUIUtils.finalizeParentObjectValueEditSession(parentObjectModifStack, valueModifStack, valueModifAccepted,
-						valueReturnMode, valueReplaced, commitModif, editSessionTarget, editSessionTitle,
-						ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
+				ReflectionUIUtils.finalizeParentObjectValueEditSession(parentObjectModifStack, valueModifStack,
+						valueModifAccepted, valueReturnMode, valueReplaced, commitModif, editSessionTarget,
+						editSessionTitle, ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
 			}
 
 			@Override
@@ -798,11 +798,11 @@ public class SwingRendererUtils {
 	public static JMenu createJMenu(Menu menu) {
 		JMenu result = new JMenu(menu.getName());
 		for (AbstractMenuItem item : menu.getItems()) {
-			result.add(createJMenuItem(item));			
+			result.add(createJMenuItem(item));
 		}
-		for(MenuItemCategory category: menu.getItemCategories()){
+		for (MenuItemCategory category : menu.getItemCategories()) {
 			result.addSeparator();
-			for(AbstractMenuItem item: category.getItems()){
+			for (AbstractMenuItem item : category.getItems()) {
 				result.add(createJMenuItem(item));
 			}
 		}
@@ -820,8 +820,9 @@ public class SwingRendererUtils {
 	}
 
 	public static JMenuItem createJMenuActionItem(final ActionMenuItem actionItem) {
-		return new JMenuItem(new AbstractAction(actionItem.getName()) {			
+		return new JMenuItem(new AbstractAction(actionItem.getName()) {
 			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				actionItem.getAction().run();
@@ -829,5 +830,44 @@ public class SwingRendererUtils {
 		});
 	}
 
+	public static void setMenuBar(Window window, JMenuBar menuBar) {
+		if (window instanceof JFrame) {
+			((JFrame) window).setJMenuBar(menuBar);
+		} else if (window instanceof JDialog) {
+			((JDialog) window).setJMenuBar(menuBar);
+		} else {
+			throw new ReflectionUIError();
+		}
+	}
+
+	public static JMenuBar getMenuBar(Window window) {
+		if (window instanceof JFrame) {
+			return ((JFrame) window).getJMenuBar();
+		} else if (window instanceof JDialog) {
+			return ((JDialog) window).getJMenuBar();
+		} else {
+			throw new ReflectionUIError();
+		}
+	}
+
+	public static void setTitle(Window window, String title) {
+		if (window instanceof JFrame) {
+			((JFrame) window).setTitle(title);
+		} else if (window instanceof JDialog) {
+			((JDialog) window).setTitle(title);
+		} else {
+			throw new ReflectionUIError();
+		}
+	}
+
+	public static String getTitle(Window window) {
+		if (window instanceof JFrame) {
+			return ((JFrame) window).getTitle();
+		} else if (window instanceof JDialog) {
+			return ((JDialog) window).getTitle();
+		} else {
+			throw new ReflectionUIError();
+		}
+	}
 
 }

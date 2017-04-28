@@ -9,6 +9,7 @@ import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -187,6 +188,7 @@ public class ListModificationFactory {
 
 		protected void updateListValue(IFieldControlData listData, Object[] newListRawValue) {
 			IListTypeInfo listType = (IListTypeInfo) listData.getType();
+			checkListRawValue(listType, newListRawValue);
 			if (listType.canReplaceContent()) {
 				if (listData.getValueReturnMode() == ValueReturnMode.DIRECT_OR_PROXY) {
 					undoModifications.add(0, new ReplaceListContentModification(listData, newListRawValue, target)
@@ -215,6 +217,21 @@ public class ListModificationFactory {
 				}
 			}
 			throw new ReflectionUIError();
+		}
+
+		protected void checkListRawValue(IListTypeInfo listType, Object[] listRawValue) {
+			ITypeInfo itemType = listType.getItemType();
+			if (itemType != null) {
+				for (Object item : listRawValue) {
+					if (item != null) {
+						if (!itemType.supportsInstance(item)) {
+							throw new ReflectionUIError("Item not supported: '" + item
+									+ "'. Was expecting instance of '" + itemType.getName() + "'");
+
+						}
+					}
+				}
+			}
 		}
 
 		@Override

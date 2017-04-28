@@ -11,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.Serializable;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -831,14 +832,14 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static IModification finalizeParentObjectValueEditSession(IModification valueUndoModification, boolean valueModifAccepted,
-			ValueReturnMode valueReturnMode, boolean valueReplaced, IModification commitModif, IInfo editSessionTarget,
-			String editSessionTitle) {
+	public static IModification finalizeParentObjectValueEditSession(IModification valueUndoModification,
+			boolean valueModifAccepted, ValueReturnMode valueReturnMode, boolean valueReplaced,
+			IModification commitModif, IInfo editSessionTarget, String editSessionTitle) {
 		ModificationStack parentObjectModifStack = new ModificationStack(null);
 		ModificationStack valueModifStack = new ModificationStack(null);
 		valueModifStack.pushUndo(valueUndoModification);
-		finalizeParentObjectValueEditSession(parentObjectModifStack, valueModifStack, valueModifAccepted, valueReturnMode,
-				valueReplaced, commitModif, editSessionTarget, editSessionTitle, null);
+		finalizeParentObjectValueEditSession(parentObjectModifStack, valueModifStack, valueModifAccepted,
+				valueReturnMode, valueReplaced, commitModif, editSessionTarget, editSessionTitle, null);
 		return parentObjectModifStack.toCompositeModification(editSessionTarget, editSessionTitle);
 	}
 
@@ -1041,7 +1042,7 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static MenuElementKind getMenuElementKind(IMenuElement element){
+	public static MenuElementKind getMenuElementKind(IMenuElement element) {
 		if (element instanceof Menu) {
 			return MenuElementKind.MENU;
 		} else if (element instanceof MenuItemCategory) {
@@ -1050,9 +1051,21 @@ public class ReflectionUIUtils {
 			return MenuElementKind.ITEM;
 		} else {
 			throw new ReflectionUIError();
-		}	
+		}
 	}
-	
-	
+
+	public static Object copyThroughSerialization(Serializable object) {
+		try {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ObjectOutputStream oos = new ObjectOutputStream(baos);
+			oos.writeObject(object);
+			ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+			ObjectInputStream ois = new ObjectInputStream(bais);
+			Object copy = ois.readObject();
+			return copy;
+		} catch (Throwable t) {
+			throw new ReflectionUIError("Could not copy object through serialization: " + t.toString());
+		}
+	}
 
 }

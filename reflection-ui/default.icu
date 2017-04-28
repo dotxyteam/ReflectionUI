@@ -850,18 +850,6 @@
         <positionColumnAdded>false</positionColumnAdded>
         <stringValueColumnAdded>false</stringValueColumnAdded>
     </listCustomizations>
-    <menus>
-        <uniqueIdentifier>48c4c300:15bb2792085:-7f67</uniqueIdentifier>
-        <name>File</name>
-        <itemCategories>
-            <uniqueIdentifier>48c4c300:15bb2792085:-7f66</uniqueIdentifier>
-            <name>persist</name>
-        </itemCategories>
-    </menus>
-    <menus>
-        <uniqueIdentifier>48c4c300:15bb2792085:-7f65</uniqueIdentifier>
-        <name>Edit</name>
-    </menus>
     <typeCustomizations>
         <uniqueIdentifier>48c4c300:15bb2792085:-7f64</uniqueIdentifier>
         <specificProperties/>
@@ -6804,14 +6792,50 @@
             <uniqueIdentifier>48c4c300:15bb2792085:-7d47</uniqueIdentifier>
             <caption>Lists</caption>
         </memberCategories>
+        <menus>
+            <uniqueIdentifier>-6b6f8ee7:15bb5a04990:-6c26</uniqueIdentifier>
+            <name>File</name>
+            <itemCategories>
+                <uniqueIdentifier>-6b6f8ee7:15bb5a04990:-6c22</uniqueIdentifier>
+                <name>Save</name>
+            </itemCategories>
+            <itemCategories>
+                <uniqueIdentifier>-6b6f8ee7:15bb5a04990:-6c21</uniqueIdentifier>
+                <name>Close</name>
+            </itemCategories>
+            <menu>
+                <uniqueIdentifier>-6b6f8ee7:15bb5a04990:-6c20</uniqueIdentifier>
+                <name>New</name>
+            </menu>
+            <menu>
+                <uniqueIdentifier>-6b6f8ee7:15bb5a04990:-6c23</uniqueIdentifier>
+                <name>Import</name>
+            </menu>
+        </menus>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7d46</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <menu>
-                <uniqueIdentifier>48c4c300:15bb2792085:-7f65</uniqueIdentifier>
-                <name>Edit</name>
+                <uniqueIdentifier>-6b6f8ee7:15bb5a04990:-6c26</uniqueIdentifier>
+                <name>File</name>
+                <itemCategories>
+                    <uniqueIdentifier>-6b6f8ee7:15bb5a04990:-6c22</uniqueIdentifier>
+                    <name>Save</name>
+                </itemCategories>
+                <itemCategories>
+                    <uniqueIdentifier>-6b6f8ee7:15bb5a04990:-6c21</uniqueIdentifier>
+                    <name>Close</name>
+                </itemCategories>
+                <menu>
+                    <uniqueIdentifier>-6b6f8ee7:15bb5a04990:-6c20</uniqueIdentifier>
+                    <name>New</name>
+                </menu>
+                <menu>
+                    <uniqueIdentifier>-6b6f8ee7:15bb5a04990:-6c23</uniqueIdentifier>
+                    <name>Import</name>
+                </menu>
             </menu>
             <methodSignature>void doLongTask()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -6826,12 +6850,8 @@
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <menu>
-                <uniqueIdentifier>48c4c300:15bb2792085:-7f67</uniqueIdentifier>
-                <name>File</name>
-                <itemCategories>
-                    <uniqueIdentifier>48c4c300:15bb2792085:-7f66</uniqueIdentifier>
-                    <name>persist</name>
-                </itemCategories>
+                <uniqueIdentifier>-6b6f8ee7:15bb5a04990:-6c20</uniqueIdentifier>
+                <name>New</name>
             </menu>
             <methodSignature>void incrementTheInt()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -6845,14 +6865,10 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <menu>
-                <uniqueIdentifier>48c4c300:15bb2792085:-7f67</uniqueIdentifier>
-                <name>File</name>
-                <itemCategories>
-                    <uniqueIdentifier>48c4c300:15bb2792085:-7f66</uniqueIdentifier>
-                    <name>persist</name>
-                </itemCategories>
-            </menu>
+            <menuItemCategory>
+                <uniqueIdentifier>-6b6f8ee7:15bb5a04990:-6c22</uniqueIdentifier>
+                <name>Save</name>
+            </menuItemCategory>
             <methodSignature>void resettheStringList()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
@@ -6881,10 +6897,10 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <menu>
-                <uniqueIdentifier>48c4c300:15bb2792085:-7f65</uniqueIdentifier>
-                <name>Edit</name>
-            </menu>
+            <menuItemCategory>
+                <uniqueIdentifier>-6b6f8ee7:15bb5a04990:-6c21</uniqueIdentifier>
+                <name>Close</name>
+            </menuItemCategory>
             <methodSignature>void verify()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
@@ -6960,6 +6976,10 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <menu>
+                <uniqueIdentifier>-6b6f8ee7:15bb5a04990:-6c23</uniqueIdentifier>
+                <name>Import</name>
+            </menu>
             <methodSignature>void callWithManyParams(int, java.lang.String, java.util.Date, java.awt.Color)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>48c4c300:15bb2792085:-7d39</uniqueIdentifier>

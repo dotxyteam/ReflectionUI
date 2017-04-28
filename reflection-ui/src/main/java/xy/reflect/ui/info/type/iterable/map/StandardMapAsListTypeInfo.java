@@ -44,13 +44,15 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 	@Override
 	public void replaceContent(Object listValue, Object[] array) {
 		Map map = (Map) listValue;
-		map.clear();
 		for (Object item : array) {
 			StandardMapEntry entry = (StandardMapEntry) item;
 			if (map.containsKey(entry.getKey())) {
 				throw new ReflectionUIError(
 						"Duplicate key: '" + ReflectionUIUtils.toString(reflectionUI, entry.getKey()) + "'");
-			}
+			}			
+		}
+		map.clear();
+		for (Object item : array) {
 			StandardMapEntry standardMapEntry = (StandardMapEntry) item;
 			map.put(standardMapEntry.getKey(), standardMapEntry.getValue());
 		}
@@ -75,7 +77,7 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 	public Object[] toArray(Object listValue) {
 		List<StandardMapEntry> result = new ArrayList<StandardMapEntry>();
 		for (Object obj : ((Map) listValue).entrySet()) {
-			Map.Entry entry = (Entry) obj; 
+			Map.Entry entry = (Entry) obj;
 			StandardMapEntry standardMapEntry = new StandardMapEntry(entry.getKey(), entry.getValue());
 			reflectionUI.registerPrecomputedTypeInfoObject(standardMapEntry,
 					new StandardMapEntryTypeInfo(reflectionUI, keyJavaType, valueJavaType));

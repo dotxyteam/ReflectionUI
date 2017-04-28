@@ -25,6 +25,7 @@ import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.menu.IMenuElementPosition;
+import xy.reflect.ui.menu.Menu;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.info.method.InvocationData;
 
@@ -220,6 +221,10 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	protected FieldsLayout getFieldsLayout(ITypeInfo type) {
 		return type.getFieldsLayout();
+	}
+
+	protected List<Menu> getMenus(ITypeInfo type) {
+		return type.getMenus();
 	}
 
 	protected String getCaption(IFieldInfo field, ITypeInfo containingType) {
@@ -615,6 +620,11 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		@Override
 		public FieldsLayout getFieldsLayout() {
 			return TypeInfoProxyFactory.this.getFieldsLayout(base);
+		}
+
+		@Override
+		public List<Menu> getMenus() {
+			return TypeInfoProxyFactory.this.getMenus(base);
 		}
 
 		@Override

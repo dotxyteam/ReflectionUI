@@ -5,6 +5,7 @@ import java.util.List;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.menu.Menu;
 
 public interface ITypeInfo extends IInfo {
 
@@ -37,6 +38,8 @@ public interface ITypeInfo extends IInfo {
 	String getIconImagePath();
 
 	ITypeInfo.FieldsLayout getFieldsLayout();
+
+	List<Menu> getMenus();
 
 	enum FieldsLayout {
 		VERTICAL_FLOW, HORIZONTAL_FLOW

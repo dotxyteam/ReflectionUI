@@ -68,7 +68,6 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	@Override
 	public void replaceContent(Object listValue, Object[] array) {
 		Collection collection = (Collection) listValue;
-		collection.clear();
 		for (Object item : array) {
 			if (collection instanceof Set) {
 				if (collection.contains(item)) {
@@ -76,6 +75,9 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 							"Duplicate item: '" + ReflectionUIUtils.toString(reflectionUI, item) + "'");
 				}
 			}
+		}
+		collection.clear();
+		for (Object item : array) {
 			collection.add(item);
 		}
 	}

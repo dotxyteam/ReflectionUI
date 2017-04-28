@@ -15,6 +15,7 @@ import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
+import xy.reflect.ui.menu.Menu;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class CapsuleField implements IFieldInfo {
@@ -368,6 +369,11 @@ public class CapsuleField implements IFieldInfo {
 		@Override
 		public FieldsLayout getFieldsLayout() {
 			return FieldsLayout.VERTICAL_FLOW;
+		}
+
+		@Override
+		public List<Menu> getMenus() {
+			return Collections.emptyList();
 		}
 
 		protected CapsuleField getOuterType() {

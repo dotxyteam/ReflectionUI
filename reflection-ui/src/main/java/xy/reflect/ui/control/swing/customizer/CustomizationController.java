@@ -3,9 +3,7 @@ package xy.reflect.ui.control.swing.customizer;
 import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.swing.JFrame;
@@ -14,8 +12,6 @@ import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.custom.InfoCustomizations;
-import xy.reflect.ui.menu.IMenuItemContainer;
-import xy.reflect.ui.menu.Menu;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.component.AlternativeWindowDecorationsPanel;
 
@@ -89,24 +85,6 @@ public class CustomizationController {
 
 	public InfoCustomizations getAllCustomizations() {
 		return swingCustomizer.getInfoCustomizations();
-	}
-
-	public List<IMenuItemContainer> getMenusStructure() {
-		List<IMenuItemContainer> result = new ArrayList<IMenuItemContainer>();
-		result.addAll(swingCustomizer.getInfoCustomizations().getMenus());
-		return result;
-	}
-
-	public void setMenusStructure(List<IMenuItemContainer> menuElements) {
-		List<Menu> menus = new ArrayList<Menu>();
-		for (IMenuItemContainer element : menuElements) {
-			if (!(element instanceof Menu)) {
-				throw new ReflectionUIError("Unexpected element: " + element + ".Only " + Menu.class.getSimpleName()
-						+ "s can be added at root position");
-			}
-			menus.add((Menu) element);
-		}
-		swingCustomizer.getInfoCustomizations().setMenus(menus);
 	}
 
 }

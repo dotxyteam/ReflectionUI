@@ -56,7 +56,6 @@ public class InfoCustomizations implements Serializable {
 	protected List<TypeCustomization> typeCustomizations = new ArrayList<InfoCustomizations.TypeCustomization>();
 	protected List<ListCustomization> listCustomizations = new ArrayList<InfoCustomizations.ListCustomization>();
 	protected List<EnumerationCustomization> enumerationCustomizations = new ArrayList<InfoCustomizations.EnumerationCustomization>();
-	protected List<Menu> menus = new ArrayList<Menu>();
 
 	@Override
 	public String toString() {
@@ -109,14 +108,6 @@ public class InfoCustomizations implements Serializable {
 		this.enumerationCustomizations = enumerationCustomizations;
 	}
 
-	public List<Menu> getMenus() {
-		return menus;
-	}
-
-	public void setMenus(List<Menu> menus) {
-		this.menus = menus;
-	}
-
 	public void loadFromFile(File input) throws IOException {
 		FileInputStream stream = new FileInputStream(input);
 		try {
@@ -141,7 +132,6 @@ public class InfoCustomizations implements Serializable {
 		typeCustomizations = loaded.typeCustomizations;
 		listCustomizations = loaded.listCustomizations;
 		enumerationCustomizations = loaded.enumerationCustomizations;
-		menus = loaded.menus;
 
 		fillXMLSerializationGap();
 	}
@@ -162,7 +152,7 @@ public class InfoCustomizations implements Serializable {
 			}
 			for (MethodCustomization mc : t.methodsCustomizations) {
 				if (mc.menuLocation != null) {
-					for (IMenuItemContainer container : getAllMenuItemContainers(this)) {
+					for (IMenuItemContainer container : getAllMenuItemContainers(t)) {
 						AbstractCustomization menuLocationAsCustomization = (AbstractCustomization) mc.menuLocation;
 						AbstractCustomization containerAsCustomization = (AbstractCustomization) container;
 						if (menuLocationAsCustomization.uniqueIdentifier
@@ -194,7 +184,6 @@ public class InfoCustomizations implements Serializable {
 		toSave.typeCustomizations = typeCustomizations;
 		toSave.listCustomizations = listCustomizations;
 		toSave.enumerationCustomizations = enumerationCustomizations;
-		toSave.menus = menus;
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(InfoCustomizations.class);
 			javax.xml.bind.Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -208,7 +197,17 @@ public class InfoCustomizations implements Serializable {
 
 	public static List<IMenuItemContainer> getMenuElementAncestors(InfoCustomizations infoCustomizations,
 			IMenuElement menuElement) {
-		List<IMenuElement> path = getMenuElementPath(infoCustomizations, menuElement);
+		for (TypeCustomization tc : infoCustomizations.typeCustomizations) {
+			List<IMenuItemContainer> result = getMenuElementAncestors(tc, menuElement);
+			if (result != null) {
+				return result;
+			}
+		}
+		return null;
+	}
+
+	public static List<IMenuItemContainer> getMenuElementAncestors(TypeCustomization tc, IMenuElement menuElement) {
+		List<IMenuElement> path = getMenuElementPath(tc, menuElement);
 		if (path == null) {
 			return null;
 		}
@@ -221,7 +220,17 @@ public class InfoCustomizations implements Serializable {
 
 	public static List<IMenuElement> getMenuElementPath(InfoCustomizations infoCustomizations,
 			IMenuElement menuElement) {
-		for (IMenuElement rootMenuElement : infoCustomizations.getMenus()) {
+		for (TypeCustomization tc : infoCustomizations.typeCustomizations) {
+			List<IMenuElement> result = getMenuElementPath(tc, menuElement);
+			if (result != null) {
+				return result;
+			}
+		}
+		return null;
+	}
+
+	public static List<IMenuElement> getMenuElementPath(TypeCustomization tc, IMenuElement menuElement) {
+		for (IMenuElement rootMenuElement : tc.getMenus()) {
 			List<IMenuElement> result = getMenuElementPath(rootMenuElement, menuElement);
 			if (result != null) {
 				return result;
@@ -261,9 +270,9 @@ public class InfoCustomizations implements Serializable {
 		return null;
 	}
 
-	public static List<IMenuItemContainer> getAllMenuItemContainers(InfoCustomizations infoCustomizations) {
+	public static List<IMenuItemContainer> getAllMenuItemContainers(TypeCustomization tc) {
 		List<IMenuItemContainer> result = new ArrayList<IMenuItemContainer>();
-		for (IMenuElement rootMenuElement : infoCustomizations.getMenus()) {
+		for (IMenuElement rootMenuElement : tc.getMenus()) {
 			if (rootMenuElement instanceof IMenuItemContainer) {
 				result.addAll(getAllMenuItemContainers((IMenuItemContainer) rootMenuElement));
 			}
@@ -637,6 +646,15 @@ public class InfoCustomizations implements Serializable {
 		protected List<ITypeInfoFinder> polymorphicSubTypeFinders = new ArrayList<ITypeInfoFinder>();
 		protected ResourcePath iconImagePath;
 		protected ITypeInfo.FieldsLayout fieldsLayout;
+		protected List<Menu> menus = new ArrayList<Menu>();
+
+		public List<Menu> getMenus() {
+			return menus;
+		}
+
+		public void setMenus(List<Menu> menus) {
+			this.menus = menus;
+		}
 
 		public ITypeInfo.FieldsLayout getFieldsLayout() {
 			return fieldsLayout;

@@ -14,69 +14,90 @@ public class MenuModel {
 		return menus;
 	}
 
-	public void add(IMenuElementPosition position, Runnable action) {
-		ActionMenuItem menuItem = createActionMenuItem(position.getElementName(), action);
+	public IMenuElement contribute(IMenuElementPosition position, IMenuElement element) {
 		if (position.getParent() == null) {
-			throw new ReflectionUIError("No container found for menu element: " + position);
+			return addOrMergeIn(element, null);
 		} else {
-			IMenuItemContainer container = addMenuElementContainer(position.getParent());
-			addInContainer(menuItem, container);
+			IMenuElementPosition containerPosition = position.getParent();
+			IMenuItemContainer container = getContainer(containerPosition);
+			return addOrMergeIn(element, container);
 		}
 	}
 
-	protected void addInContainer(IMenuElement menuElement, IMenuItemContainer container) {
-		if (container instanceof Menu) {
-			if (menuElement instanceof AbstractMenuItem) {
-				((Menu) container).addItem((AbstractMenuItem) menuElement);
-			} else if (menuElement instanceof MenuItemCategory) {
-				((Menu) container).addItemCategory((MenuItemCategory) menuElement);
+	public void merge(MenuModel model) {
+		for(Menu menu: model.getMenus()){
+			addOrMergeIn(menu);
+		}
+	}
+
+	public void addOrMergeIn(Menu menu) {
+		addOrMergeIn(menu, null);		
+	}
+
+	protected void merge(IMenuElement sourceElement, IMenuElement targetElement) {
+		if (!same(sourceElement, targetElement)) {
+			throw new ReflectionUIError();
+		}
+		if (!(sourceElement instanceof IMenuItemContainer)) {
+			throw new ReflectionUIError(
+					"Duplicate menu item detected (cannot merge): '" + sourceElement.getName() + "'");
+		}
+		for (IMenuElement sourceElementChild : getChildren(sourceElement)) {
+			addOrMergeIn(sourceElementChild, (IMenuItemContainer) targetElement);
+		}
+	}
+
+	protected IMenuItemContainer getContainer(IMenuElementPosition containerPosition) {
+		IMenuItemContainer container = createContainer(containerPosition);
+		container = (IMenuItemContainer) contribute(containerPosition, container);
+		return container;
+	}
+
+	protected List<IMenuElement> getChildren(IMenuElement element) {
+		List<IMenuElement> result = new ArrayList<IMenuElement>();
+		if (element == null) {
+			result.addAll(menus);
+		}
+		if (element instanceof IMenuItemContainer) {
+			result.addAll(((IMenuItemContainer) element).getItems());
+		}
+		if (element instanceof Menu) {
+			result.addAll(((Menu) element).getItemCategories());
+		}
+		return result;
+	}
+
+	protected IMenuElement addOrMergeIn(IMenuElement element, IMenuItemContainer container) {
+		for (IMenuElement containerChild : getChildren(container)) {
+			if (same(element, containerChild)) {
+				merge(element, containerChild);
+				return containerChild;
+			}
+		}
+		if (container == null) {
+			if (!(element instanceof Menu)) {
+				throw new ReflectionUIError("Unexpected element at root position: " + element + ". Only "
+						+ Menu.class.getSimpleName() + "s are expected at this position");
+			}
+			menus.add((Menu) element);
+		} else if (container instanceof Menu) {
+			if (element instanceof AbstractMenuItem) {
+				((Menu) container).addItem((AbstractMenuItem) element);
+			} else if (element instanceof MenuItemCategory) {
+				((Menu) container).addItemCategory((MenuItemCategory) element);
 			} else {
 				throw new ReflectionUIError();
 			}
 		} else if (container instanceof MenuItemCategory) {
-			if (menuElement instanceof AbstractMenuItem) {
-				((MenuItemCategory) container).addItem((AbstractMenuItem) menuElement);
+			if (element instanceof AbstractMenuItem) {
+				((MenuItemCategory) container).addItem((AbstractMenuItem) element);
 			} else {
 				throw new ReflectionUIError();
 			}
 		} else {
 			throw new ReflectionUIError();
 		}
-	}
-
-	protected ActionMenuItem createActionMenuItem(String name, Runnable action) {
-		return new ActionMenuItem(name, action);
-	}
-
-	protected IMenuItemContainer addMenuElementContainer(IMenuElementPosition containerPosition) {
-		IMenuItemContainer container = createContainer(containerPosition);
-		if (containerPosition.getParent() == null) {
-			if (containerPosition.getElementKind() != MenuElementKind.MENU) {
-				throw new ReflectionUIError("Unexpected menu element at root position: " + containerPosition);
-			}
-			for (Menu menu : menus) {
-				if (same(container, menu)) {
-					return menu;
-				}
-			}
-			menus.add((Menu) container);
-		} else {
-			IMenuItemContainer containerParent = addMenuElementContainer(containerPosition.getParent());
-			for (AbstractMenuItem item : containerParent.getItems()) {
-				if (same(container, item)) {
-					return (IMenuItemContainer) item;
-				}
-			}
-			if (containerParent instanceof Menu) {
-				for (MenuItemCategory category : ((Menu) containerParent).getItemCategories()) {
-					if (same(container, category)) {
-						return category;
-					}
-				}
-			}
-			addInContainer(container, containerParent);
-		}
-		return container;
+		return element;
 	}
 
 	protected boolean same(IMenuElement menuElement1, IMenuElement menuElement2) {

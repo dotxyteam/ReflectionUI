@@ -47,10 +47,12 @@ public class Menu extends AbstractMenuItem implements IMenuItemContainer {
 		this.itemCategories.add(itemCategory);
 	}
 
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((itemCategories == null) ? 0 : itemCategories.hashCode());
 		result = prime * result + ((items == null) ? 0 : items.hashCode());
 		return result;
@@ -60,7 +62,7 @@ public class Menu extends AbstractMenuItem implements IMenuItemContainer {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
