@@ -32,6 +32,11 @@ import xy.reflect.ui.info.field.NerverNullField;
 import xy.reflect.ui.info.field.NullStatusField;
 import xy.reflect.ui.info.field.SubFieldInfo;
 import xy.reflect.ui.info.field.ValueAsListField;
+import xy.reflect.ui.info.menu.DefaultMenuElementPosition;
+import xy.reflect.ui.info.menu.IMenuElementPosition;
+import xy.reflect.ui.info.menu.IMenuItemContainer;
+import xy.reflect.ui.info.menu.MenuElementKind;
+import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.FieldAsGetter;
 import xy.reflect.ui.info.method.FieldAsSetter;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -51,11 +56,6 @@ import xy.reflect.ui.info.type.iterable.structure.CustomizedStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
-import xy.reflect.ui.menu.IMenuElementPosition;
-import xy.reflect.ui.menu.IMenuItemContainer;
-import xy.reflect.ui.menu.Menu;
-import xy.reflect.ui.menu.MenuElementKind;
-import xy.reflect.ui.menu.DefaultMenuElementPosition;
 import xy.reflect.ui.undo.ListModificationFactory;
 import xy.reflect.ui.util.Pair;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -75,16 +75,16 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 	}
 
 	@Override
-	protected List<Menu> getMenus(ITypeInfo type) {
+	protected MenuModel getMenuModel(ITypeInfo type) {
 		TypeCustomization tc = InfoCustomizations.getTypeCustomization(this.infoCustomizations, type.getName());
 		if (tc != null) {
-			List<Menu> result = new ArrayList<Menu>(super.getMenus(type));
-			for (Menu menu : tc.getMenus()) {
-				result.add((Menu) ReflectionUIUtils.copyThroughSerialization(menu));
-			}
+			MenuModel result = new MenuModel();
+			result.merge(super.getMenuModel(type));
+			result.merge(tc.getMenuModel());
+			result = (MenuModel) ReflectionUIUtils.copyThroughSerialization(result);
 			return result;
 		}
-		return super.getMenus(type);
+		return super.getMenuModel(type);
 	}
 
 	@Override

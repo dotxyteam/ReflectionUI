@@ -7,10 +7,10 @@ import java.util.Map;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.menu.IMenuElementPosition;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
-import xy.reflect.ui.menu.IMenuElementPosition;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class FieldAsGetter implements IMethodInfo {

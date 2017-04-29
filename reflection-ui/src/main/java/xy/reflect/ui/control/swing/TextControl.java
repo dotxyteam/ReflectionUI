@@ -19,7 +19,7 @@ import javax.swing.event.UndoableEditListener;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.menu.MenuModel;
+import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 

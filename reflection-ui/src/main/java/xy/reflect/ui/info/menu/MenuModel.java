@@ -1,17 +1,23 @@
-package xy.reflect.ui.menu;
+package xy.reflect.ui.info.menu;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class MenuModel {
+public class MenuModel implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	protected List<Menu> menus = new ArrayList<Menu>();
 
 	public List<Menu> getMenus() {
 		return menus;
+	}
+
+	public void setMenus(List<Menu> menus) {
+		this.menus = menus;
 	}
 
 	public IMenuElement contribute(IMenuElementPosition position, IMenuElement element) {
@@ -25,13 +31,9 @@ public class MenuModel {
 	}
 
 	public void merge(MenuModel model) {
-		for(Menu menu: model.getMenus()){
-			addOrMergeIn(menu);
+		for (Menu menu : model.getMenus()) {
+			addOrMergeIn(menu, null);
 		}
-	}
-
-	public void addOrMergeIn(Menu menu) {
-		addOrMergeIn(menu, null);		
 	}
 
 	protected void merge(IMenuElement sourceElement, IMenuElement targetElement) {

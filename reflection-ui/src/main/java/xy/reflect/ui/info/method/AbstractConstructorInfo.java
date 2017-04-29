@@ -5,8 +5,8 @@ import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.menu.IMenuElementPosition;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
-import xy.reflect.ui.menu.IMenuElementPosition;
 
 public abstract class AbstractConstructorInfo implements IMethodInfo {
 

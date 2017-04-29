@@ -1,4 +1,4 @@
-package xy.reflect.ui.menu;
+package xy.reflect.ui.info.menu;
 
 import java.util.List;
 

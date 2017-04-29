@@ -77,6 +77,9 @@ import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.menu.ActionMenuItem;
+import xy.reflect.ui.info.menu.IMenuElementPosition;
+import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -87,10 +90,6 @@ import xy.reflect.ui.info.type.factory.GenericEnumerationFactory;
 import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.menu.ActionMenuItem;
-import xy.reflect.ui.menu.IMenuElementPosition;
-import xy.reflect.ui.menu.Menu;
-import xy.reflect.ui.menu.MenuModel;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.IModificationListener;
@@ -1563,9 +1562,7 @@ public class SwingRenderer {
 
 	public void addFormMenuContribution(final JPanel form, MenuModel menuModel) {
 		ITypeInfo type = getFormFilteredType(form);
-		for (Menu menu : type.getMenus()) {
-			menuModel.addOrMergeIn(menu);
-		}
+		menuModel.merge(type.getMenuModel());
 		for (final IMethodInfo method : type.getMethods()) {
 			IMenuElementPosition menuItemPosition = method.getMenuItemPosition();
 			if (menuItemPosition != null) {

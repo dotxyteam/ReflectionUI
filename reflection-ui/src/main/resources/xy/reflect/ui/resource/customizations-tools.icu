@@ -641,6 +641,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName></typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -664,6 +665,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=Column Order Item, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -687,6 +689,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=Customization Category, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -710,6 +713,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=Embedded Item Details Access Mode, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -733,6 +737,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=Enumeration Customization, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -756,6 +761,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=Enumeration Item Customization, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -779,6 +785,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=Field Customization, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -802,6 +809,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=Info Filter, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -825,6 +833,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=Input, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -848,6 +857,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=Java Class Based Type Info Finder, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -871,6 +881,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=List Customization, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -894,6 +905,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=List Structure Customization, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -917,6 +929,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=List of Object elements, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -940,6 +953,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=Method Customization, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -963,6 +977,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=Selection, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -986,6 +1001,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=String, fieldCaption=Create 'IList Details Access Mode' of type]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1009,6 +1025,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=Type Customization, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1032,6 +1049,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=xy.reflect.ui.control.swing.SwingRenderer#onTypeInstanciationRequest(): PolymorphicInstanceSubTypes As Enumeration, fieldCaption=Choose a type:]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1055,6 +1073,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption= Item Method Shortcuts - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$ListItemMethodShortcut, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1078,6 +1097,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=Field Customization, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1101,6 +1121,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=Method Customization, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1124,6 +1145,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=Type Customization, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1147,6 +1169,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$EnumerationItemCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1170,6 +1193,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Allow to Classify Fields and Methods - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$CustomizationCategory, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1193,6 +1217,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Customize Columns Display - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$ColumnCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1216,6 +1241,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Customize Fields Display - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1239,6 +1265,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Customize Items - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$EnumerationItemCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1262,6 +1289,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Customize Methods Display - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1285,6 +1313,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Fields Excluded From Item Details - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$InfoFilter, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1309,6 +1338,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Hidden Customization Tools Type Names - Item, fieldType=java.lang.String, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1333,6 +1363,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=IList Item Details Access Mode - Polymorphic Type, fieldType=SubTypesEnumeration [polymorphicType=xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode], fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1341,6 +1372,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=IList Item Details Access Mode - Polymorphic Type, fieldType=xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode.SubTypesEnumeration, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1364,6 +1396,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=IList Item Details Access Mode - Polymorphic Value, fieldType=xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1387,6 +1420,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=IList Item Details Access Mode - Polymorphic Value, fieldType=xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1395,6 +1429,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Information, fieldType=java.lang.String, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1418,6 +1453,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Item Field Shortcuts - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$ListItemFieldShortcut, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1441,6 +1477,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Methods Excluded From Item Details - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$InfoFilter, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1464,6 +1501,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Parameters Customizations - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$ParameterCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1472,6 +1510,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Selection, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$ITypeInfoFinder.SubTypesEnumeration, fieldCaption=Choose a type:]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1495,6 +1534,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Specify Implementations of Abstract Types - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$CustomTypeInfoFinder, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1518,6 +1558,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Specify Implementations of Abstract Types - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$JavaClassBasedTypeInfoFinder, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1541,6 +1582,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulationTypeInfo [fieldType=Column Customization, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1564,6 +1606,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulationTypeInfo [fieldType=Field Customization, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1587,6 +1630,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulationTypeInfo [fieldType=Info Filter, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1610,6 +1654,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulationTypeInfo [fieldType=List Item Field Shortcut, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1633,6 +1678,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulationTypeInfo [fieldType=List Item Method Shortcut, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1656,6 +1702,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulationTypeInfo [fieldType=List Structure Customization, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1679,6 +1726,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulationTypeInfo()</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1702,6 +1750,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulationTypeInfo(Message)</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1710,6 +1759,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>MethodParametersAsTypeInfo(CustomizationCategory)</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1718,6 +1768,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>MethodParametersAsTypeInfo(FieldCustomization)</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1726,6 +1777,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>MethodParametersAsTypeInfo(InfoCustomizations)</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1749,6 +1801,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>MethodParametersAsTypeInfo(JavaTypeInfoSource)</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1802,6 +1855,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>MethodParametersAsTypeInfo(getFieldCustomization)</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1810,6 +1864,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>MethodParametersAsTypeInfo(getMethodCustomization)</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1818,6 +1873,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>MethodParametersAsTypeInfo(getParameterCustomization)</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1856,6 +1912,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>MethodParametersAsTypeInfo(getTypeCustomization)</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1880,6 +1937,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>MethodSetupObject [method=void setFile(java.io.File), containingType=xy.reflect.ui.util.ResourcePath]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1903,6 +1961,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>VirtualFieldWrapperTypeInfo()</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1926,6 +1985,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>VirtualFieldWrapperTypeInfo(Choose a type:)</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1949,6 +2009,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>VirtualFieldWrapperTypeInfo(Choose an option:)</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1972,6 +2033,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>VirtualFieldWrapperTypeInfo(Choose the type of 'IType Info Finder')</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1995,6 +2057,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>VirtualFieldWrapperTypeInfo(Choose the type:)</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2018,6 +2081,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>VirtualFieldWrapperTypeInfo(Create 'IType Info Finder' of type)</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2041,6 +2105,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>VirtualFieldWrapperTypeInfo(Create 'Object' of type)</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2064,6 +2129,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>VirtualFieldWrapperTypeInfo(Message)</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2088,6 +2154,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>VirtualFieldWrapperTypeInfo(Value)</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2096,6 +2163,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>[B</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2104,6 +2172,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>[Lxy.reflect.ui.info.custom.InfoCustomizations$CustomizationCategory;</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2112,6 +2181,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>boolean</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2120,6 +2190,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>byte</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2128,6 +2199,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>double</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2136,6 +2208,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>int</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2144,6 +2217,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.io.File</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2152,6 +2226,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.io.InputStream</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2160,6 +2235,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.io.OutputStream</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2168,6 +2244,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.lang.Boolean</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2176,6 +2253,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.lang.Class</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2184,6 +2262,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.lang.Object</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2237,6 +2316,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-71c9</uniqueIdentifier>
             <specificProperties/>
@@ -3985,6 +4065,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.lang.reflect.Member</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3993,6 +4074,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.util.ArrayList</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -4001,6 +4083,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7103</uniqueIdentifier>
             <specificProperties/>
@@ -4021,6 +4104,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.util.Map</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -4029,6 +4113,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.util.Set</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -4037,6 +4122,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.ReflectionUI</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -4045,6 +4131,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.control.swing.PolymorphicEmbeddedForm$1</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -4068,6 +4155,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-70fc</uniqueIdentifier>
             <specificProperties/>
@@ -4115,6 +4203,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.control.swing.SwingCustomizer$CustomizationTools$1ColumnOrderItem</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -4188,6 +4277,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.control.swing.SwingCustomizer$CustomizationTools$1ColumnSetting</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -4196,6 +4286,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.info.ValueAccessMode</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -4204,6 +4295,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.info.ValueReturnMode</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -4212,6 +4304,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.info.type.ITypeInfo</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -4280,6 +4373,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-70eb</uniqueIdentifier>
             <specificProperties/>
@@ -4363,6 +4457,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-70e5</uniqueIdentifier>
             <specificProperties/>
@@ -4383,6 +4478,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <javaClassBasedTypeInfoFinder>
             <uniqueIdentifier>48c4c300:15bb2792085:-70e3</uniqueIdentifier>
             <className>xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode</className>
@@ -4399,6 +4495,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.info.type.iterable.item.ItemDetailsAreaPosition</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -4407,6 +4504,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.info.type.iterable.item.details.IListDetailsAccessMode</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -4415,6 +4513,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -4423,6 +4522,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.info.type.iterable.structure.column.PositionColumnInfo</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -4431,6 +4531,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-70dc</uniqueIdentifier>
             <specificProperties/>
@@ -4634,6 +4735,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-70cb</uniqueIdentifier>
             <specificProperties/>
@@ -5572,6 +5674,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-706d</uniqueIdentifier>
             <specificProperties/>
@@ -5615,6 +5718,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7069</uniqueIdentifier>
             <specificProperties/>
@@ -5682,6 +5786,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7063</uniqueIdentifier>
             <specificProperties/>
@@ -5803,6 +5908,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7057</uniqueIdentifier>
             <specificProperties/>
@@ -5879,6 +5985,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7051</uniqueIdentifier>
             <specificProperties/>
@@ -6144,6 +6251,7 @@
                         <specificTypeCustomizations/>
                     </fieldsCustomizations>
                     <immutableForced>false</immutableForced>
+                    <menuModel/>
                     <methodsCustomizations>
                         <uniqueIdentifier>48c4c300:15bb2792085:-703c</uniqueIdentifier>
                         <specificProperties/>
@@ -8384,6 +8492,7 @@
             <uniqueIdentifier>48c4c300:15bb2792085:-6f4a</uniqueIdentifier>
             <caption>Advanced</caption>
         </memberCategories>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6f49</uniqueIdentifier>
             <specificProperties/>
@@ -8547,6 +8656,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization.category.ValueOptions</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -8570,6 +8680,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6f37</uniqueIdentifier>
             <specificProperties/>
@@ -8638,6 +8749,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6f30</uniqueIdentifier>
             <specificProperties/>
@@ -8708,6 +8820,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6f2a</uniqueIdentifier>
             <specificProperties/>
@@ -9248,6 +9361,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <immutableForced>false</immutableForced>
+                    <menuModel/>
                     <methodsCustomizations>
                         <uniqueIdentifier>48c4c300:15bb2792085:-6ef6</uniqueIdentifier>
                         <specificProperties/>
@@ -9286,6 +9400,7 @@
             <uniqueIdentifier>48c4c300:15bb2792085:-6ef1</uniqueIdentifier>
             <caption>Tree Structure</caption>
         </memberCategories>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6ef0</uniqueIdentifier>
             <specificProperties/>
@@ -9425,6 +9540,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6ee4</uniqueIdentifier>
             <specificProperties/>
@@ -9494,6 +9610,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6edf</uniqueIdentifier>
             <specificProperties/>
@@ -9579,6 +9696,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6ed9</uniqueIdentifier>
             <specificProperties/>
@@ -10187,6 +10305,7 @@
             <uniqueIdentifier>48c4c300:15bb2792085:-6ea1</uniqueIdentifier>
             <caption>Advanced</caption>
         </memberCategories>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6ea0</uniqueIdentifier>
             <specificProperties/>
@@ -10468,6 +10587,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6e88</uniqueIdentifier>
             <specificProperties/>
@@ -10531,6 +10651,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6e83</uniqueIdentifier>
             <specificProperties/>
@@ -11276,6 +11397,25 @@
                 </listCustomizations>
             </specificTypeCustomizations>
         </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-3ecbbeb6:15bb7c9607e:-6c13</uniqueIdentifier>
+            <specificProperties/>
+            <category>
+                <uniqueIdentifier>48c4c300:15bb2792085:-6e27</uniqueIdentifier>
+                <caption>Menus</caption>
+            </category>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>menuModel</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <memberCategories>
             <uniqueIdentifier>48c4c300:15bb2792085:-6e2a</uniqueIdentifier>
@@ -11297,6 +11437,7 @@
             <uniqueIdentifier>48c4c300:15bb2792085:-6e26</uniqueIdentifier>
             <caption>Sub-Types</caption>
         </memberCategories>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6e25</uniqueIdentifier>
             <specificProperties/>
@@ -11426,6 +11567,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.info.type.util.InfoProxyGenerator$GeneratedMethodInfoProxy</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -11434,6 +11576,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.info.type.util.TypeInfoProxyFactory$GeneratedBasicTypeInfoProxy</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -11488,6 +11631,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.util.PathOption</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -11609,6 +11753,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6e07</uniqueIdentifier>
             <specificProperties/>
@@ -11700,6 +11845,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=IType Info Finder - Polymorphic Value, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$JavaClassBasedTypeInfoFinder, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -11723,6 +11869,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=IType Info Finder - Polymorphic Value, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$CustomTypeInfoFinder, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -11731,6 +11878,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6dfc</uniqueIdentifier>
             <specificProperties/>
@@ -11774,6 +11922,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.info.custom.InfoCustomizations$ListInstanciationOption</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -11782,6 +11931,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6df7</uniqueIdentifier>
             <specificProperties/>
@@ -11824,6 +11974,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$ParameterCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -11862,6 +12013,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Column Customization, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$ColumnCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -11900,6 +12052,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Field Customization, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -11938,6 +12091,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Info Filter, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$InfoFilter, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -11976,6 +12130,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Method Customization, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12014,6 +12169,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Parameter Customization, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$ParameterCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12052,6 +12208,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Customization Category, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$CustomizationCategory, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12075,6 +12232,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Object, fieldType=java.lang.Object, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12098,6 +12256,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Columns Order, fieldType=java.util.ArrayList, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12136,6 +12295,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=List Item Field Shortcut, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$ListItemFieldShortcut, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12174,6 +12334,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=List Item Method Shortcut, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$ListItemMethodShortcut, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12212,6 +12373,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Enumeration Item Customization, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$EnumerationItemCustomization, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12265,6 +12427,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Polymorphic - IType Info Finder, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$JavaClassBasedTypeInfoFinder, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12303,6 +12466,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Polymorphic - IType Info Finder, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$CustomTypeInfoFinder, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12327,6 +12491,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Customize Fields Display - Item, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization, fieldCaption=Field Customization]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12350,6 +12515,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Polymorphic - IList Item Details Access Mode, fieldType=xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12373,6 +12539,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Polymorphic - IList Item Details Access Mode, fieldType=xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12396,6 +12563,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Nullable - Tree Structure Discovery Settings, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$TreeStructureDiscoverySettings, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12419,6 +12587,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Nullable - List Instanciation Option, fieldType=xy.reflect.ui.info.custom.InfoCustomizations$ListInstanciationOption, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12442,6 +12611,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=fieldsCustomizations, containingType=xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12465,6 +12635,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=methodsCustomizations, containingType=xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12488,6 +12659,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=parametersCustomizations, containingType=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$ParameterCustomization]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12516,6 +12688,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>MethodSetupObject [context=MethodContext [methodSignature=void setFile(java.io.File), containingType=xy.reflect.ui.util.ResourcePath]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12539,6 +12712,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=memberCategories, containingType=xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$CustomizationCategory]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12562,6 +12736,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=polymorphicSubTypeFinders, containingType=xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$ITypeInfoFinder]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$JavaClassBasedTypeInfoFinder]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12585,6 +12760,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=polymorphicSubTypeFinders, containingType=xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$ITypeInfoFinder]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$CustomTypeInfoFinder]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12608,6 +12784,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=columnCustomizations, containingType=xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$ColumnCustomization]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12631,6 +12808,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=listInstanciationOption, containingType=xy.reflect.ui.info.custom.InfoCustomizations$ListEditOptions], subContext=NullableInstance, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$ListInstanciationOption]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12654,6 +12832,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=customDetailsAccessMode, containingType=xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12677,6 +12856,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=customDetailsAccessMode, containingType=xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12700,6 +12880,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=treeStructureDiscoverySettings, containingType=xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization], subContext=NullableInstance, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$TreeStructureDiscoverySettings]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12723,6 +12904,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=itemCustomizations, containingType=xy.reflect.ui.info.custom.InfoCustomizations$EnumerationCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$EnumerationItemCustomization]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12746,6 +12928,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=allowedItemFieldShortcuts, containingType=xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$ListItemFieldShortcut]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12769,6 +12952,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=allowedItemMethodShortcuts, containingType=xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$ListItemMethodShortcut]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12793,6 +12977,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=fieldsExcludedFromItemDetails, containingType=xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$InfoFilter]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12817,6 +13002,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=methodsExcludedFromItemDetails, containingType=xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$InfoFilter]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12840,6 +13026,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=editOptions, containingType=xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization], subContext=NullableInstance, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$ListEditOptions]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12863,6 +13050,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=generatedGetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Getter Name, fieldType=java.lang.String, fieldCaption=]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12887,6 +13075,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Generated Getter Name, fieldType=java.lang.String, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12910,6 +13099,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Setter Name, fieldType=java.lang.String, fieldCaption=]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12934,6 +13124,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Generated Setter Name, fieldType=java.lang.String, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12957,6 +13148,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=generatedFieldName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Field Name, fieldType=java.lang.String, fieldCaption=]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12981,6 +13173,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Generated Field Name, fieldType=java.lang.String, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -13004,6 +13197,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=encapsulationFieldName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Encapsulation Field Name, fieldType=java.lang.String, fieldCaption=]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -13028,6 +13222,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Encapsulation Field Name, fieldType=java.lang.String, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -13051,6 +13246,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=parametersFormFieldName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Parameters Form Field Name, fieldType=java.lang.String, fieldCaption=]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -13075,6 +13271,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Parameters Form Field Name, fieldType=java.lang.String, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -13099,6 +13296,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>MethodSetupObject [context=null]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -13122,6 +13320,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=generatedGetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Getter Name - Value, fieldType=java.lang.String, fieldCaption=]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -13145,6 +13344,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6d85</uniqueIdentifier>
             <specificProperties/>
@@ -13572,6 +13772,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=generatedFieldName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Generated Field Name - Value, fieldType=java.lang.String, fieldCaption=]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -13595,6 +13796,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=encapsulationFieldName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Encapsulation Field Name - Value, fieldType=java.lang.String, fieldCaption=]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -13618,6 +13820,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=parametersFormFieldName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization], subContext=NullableInstance, encapsulatedObjectType=Encapsulation [typeCaption=Parameters Form Field Name - Value, fieldType=java.lang.String, fieldCaption=]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -13641,6 +13844,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6d4e</uniqueIdentifier>
             <specificProperties/>
@@ -14122,6 +14326,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.control.swing.plugin.FileControlPlugin$FileControlCustomization</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14184,6 +14389,7 @@
             </specificTypeCustomizations>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6d10</uniqueIdentifier>
             <specificProperties/>
@@ -14269,6 +14475,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>MethodSetupObject [context=ContructorContext [type=javax.swing.filechooser.FileNameExtensionFilter, signature=javax.swing.filechooser.FileNameExtensionFilter (java.lang.String, [Ljava.lang.String;)]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14292,6 +14499,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=parameter2, containingType=MethodSetupObject [context=ContructorContext [type=javax.swing.filechooser.FileNameExtensionFilter, signature=javax.swing.filechooser.FileNameExtensionFilter (java.lang.String, [Ljava.lang.String;)]]], subContext=ListItem, encapsulatedObjectType=java.lang.String]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14315,6 +14523,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6d04</uniqueIdentifier>
             <specificProperties/>
@@ -14364,6 +14573,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=extensions, containingType=javax.swing.filechooser.FileNameExtensionFilter], subContext=ListItem, encapsulatedObjectType=java.lang.String]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14387,6 +14597,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=fileNameExtensionFilters, containingType=xy.reflect.ui.control.swing.plugin.FileControlPlugin$FileControlCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.control.swing.plugin.FileControlPlugin$FileControlCustomization$FileNameExtensionFilter]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14425,6 +14636,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.control.swing.plugin.FileControlPlugin$FileControlCustomization$FileNameExtensionFilter</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14448,6 +14660,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=extensions, containingType=xy.reflect.ui.control.swing.plugin.FileControlPlugin$FileControlCustomization$FileNameExtensionFilter], subContext=NullableInstance, encapsulatedObjectType=java.util.List]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14471,6 +14684,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=extensions, containingType=xy.reflect.ui.control.swing.plugin.FileControlPlugin$FileControlCustomization$FileNameExtensionFilter], subContext=ListItem, encapsulatedObjectType=java.lang.String]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14494,6 +14708,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [encapsulatedObjectType=xy.reflect.ui.control.swing.plugin.FileControlPlugin$FileControlCustomization]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14517,6 +14732,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=fileNameFilters, containingType=xy.reflect.ui.control.swing.plugin.FileControlPlugin$FileControlCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.control.swing.plugin.FileControlPlugin$FileNameFilter]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14555,6 +14771,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6cef</uniqueIdentifier>
             <specificProperties/>
@@ -14591,6 +14808,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6cec</uniqueIdentifier>
             <specificProperties/>
@@ -14692,6 +14910,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.control.swing.plugin.SliderPlugin$SliderConfiguration</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14748,6 +14967,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6ce1</uniqueIdentifier>
             <specificProperties/>
@@ -14784,6 +15004,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=generatedSetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14808,6 +15029,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=nullStatusFieldNamed, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14832,6 +15054,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=generatedGetterName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14856,6 +15079,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=encapsulationFieldName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14880,6 +15104,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=encapsulationFieldName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14903,6 +15128,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=menuSpecifications, containingType=xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuSpecification]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14958,6 +15184,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6cd0</uniqueIdentifier>
             <specificProperties/>
@@ -14993,6 +15220,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=itemCategories, containingType=xy.reflect.ui.info.custom.InfoCustomizations$MenuSpecification], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -15017,6 +15245,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6ccb</uniqueIdentifier>
             <specificProperties/>
@@ -15056,6 +15285,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=itemCategories, containingType=xy.reflect.ui.info.custom.InfoCustomizations$MenuSpecification], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -15079,6 +15309,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=itemCategories, containingType=xy.reflect.ui.info.custom.InfoCustomizations$MenuSpecification], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuSpecification]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -15120,6 +15351,7 @@
             </specificTypeCustomizations>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=itemCategories, containingType=xy.reflect.ui.info.custom.InfoCustomizations$MenuSpecification], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]], encapsulatedObjectType=SubTypesEnumeration [polymorphicType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -15143,6 +15375,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=menuSpecifications, containingType=xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuSpecification]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -15166,6 +15399,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=menuSpecifications, containingType=xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -15206,6 +15440,7 @@
             </specificTypeCustomizations>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6cb7</uniqueIdentifier>
             <specificProperties/>
@@ -15241,6 +15476,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=menus, containingType=xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -15264,6 +15500,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=menus, containingType=xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuSpecification]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -15412,6 +15649,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6ca8</uniqueIdentifier>
             <specificProperties/>
@@ -15517,6 +15755,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=MethodContext [methodSignature=xy.reflect.ui.control.swing.customizer.CustomizationOptions getOptions(), containingType=xy.reflect.ui.control.swing.customizer.CustomizationController], subContext=MethodResult, encapsulatedObjectType=xy.reflect.ui.control.swing.customizer.CustomizationOptions]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -15558,6 +15797,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6c9e</uniqueIdentifier>
             <specificProperties/>
@@ -15629,6 +15869,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=MethodContext [methodSignature=xy.reflect.ui.info.custom.InfoCustomizations getAllCustomizations(), containingType=xy.reflect.ui.control.swing.customizer.CustomizationController], subContext=MethodResult, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -15676,6 +15917,7 @@
             </specificTypeCustomizations>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.control.swing.customizer.CustomizationController], fieldName=menusContainer]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -15699,6 +15941,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=MethodContext [methodSignature=xy.reflect.ui.control.swing.customizer.CustomizationOptions options.get(), containingType=xy.reflect.ui.control.swing.customizer.CustomizationController], subContext=MethodResult, encapsulatedObjectType=xy.reflect.ui.control.swing.customizer.CustomizationOptions]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -15723,6 +15966,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6c8e</uniqueIdentifier>
             <specificProperties/>
@@ -15758,6 +16002,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=menus, containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.control.swing.customizer.CustomizationController], fieldName=menusContainer]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -15781,6 +16026,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=menus, containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.control.swing.customizer.CustomizationController], fieldName=menusContainer]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuItemCategory]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$MenuSpecification]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -15805,6 +16051,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=MethodContext [methodSignature=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.control.swing.customizer.CustomizationController], fieldName=menusContainer] menusContainer.get(), containingType=xy.reflect.ui.control.swing.customizer.CustomizationController], subContext=MethodResult, encapsulatedObjectType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.control.swing.customizer.CustomizationController], fieldName=menusContainer]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -15828,6 +16075,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <javaClassBasedTypeInfoFinder>
             <uniqueIdentifier>48c4c300:15bb2792085:-6c85</uniqueIdentifier>
             <className>xy.reflect.ui.menu.Menu</className>
@@ -15859,6 +16107,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=menus, containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.control.swing.customizer.CustomizationController], fieldName=menusContainer]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.menu.IMenuElement]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.menu.Menu]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -15946,6 +16195,7 @@
             <specification>&lt;class-path-resource&gt; xy/reflect/ui/resource/menu.png</specification>
         </iconImagePath>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6c7d</uniqueIdentifier>
             <specificProperties/>
@@ -16024,6 +16274,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6c76</uniqueIdentifier>
             <specificProperties/>
@@ -16097,6 +16348,7 @@
             <specification>&lt;class-path-resource&gt; xy/reflect/ui/resource/category.png</specification>
         </iconImagePath>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6c70</uniqueIdentifier>
             <specificProperties/>
@@ -16170,6 +16422,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=itemCategories, containingType=xy.reflect.ui.menu.Menu], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.menu.MenuItemCategory]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -16193,6 +16446,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=MethodContext [methodSignature=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.control.swing.customizer.CustomizationController], fieldName=menusStructureContainer] menusStructureContainer.get(), containingType=xy.reflect.ui.control.swing.customizer.CustomizationController], subContext=MethodResult, encapsulatedObjectType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.control.swing.customizer.CustomizationController], fieldName=menusStructureContainer]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -16260,6 +16514,7 @@
             </specificTypeCustomizations>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.control.swing.customizer.CustomizationController], fieldName=menusStructureContainer]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -16283,6 +16538,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=menusStructure, containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.control.swing.customizer.CustomizationController], fieldName=menusStructureContainer]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.menu.IMenuItemContainer]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -16321,6 +16577,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <javaClassBasedTypeInfoFinder>
             <uniqueIdentifier>48c4c300:15bb2792085:-6c58</uniqueIdentifier>
             <className>xy.reflect.ui.menu.Menu</className>
@@ -16352,6 +16609,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=menusStructure, containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.control.swing.customizer.CustomizationController], fieldName=menusStructureContainer]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.menu.IMenuItemContainer]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.menu.Menu]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -16375,6 +16633,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=menusStructure, containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.control.swing.customizer.CustomizationController], fieldName=menusStructureContainer]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.menu.IMenuItemContainer]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.menu.MenuItemCategory]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -16398,6 +16657,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=menusStructure, containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.control.swing.customizer.CustomizationController], fieldName=menusStructureContainer]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.menu.MenuItemCategory]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -16421,6 +16681,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=menus, containingType=xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.menu.Menu]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -16444,6 +16705,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>-46301ff0:15bb572bb09:-6c43</uniqueIdentifier>
             <specificProperties/>
@@ -16502,6 +16764,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=items, containingType=xy.reflect.ui.menu.Menu], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.menu.AbstractMenuItem]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.menu.Menu]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -16525,6 +16788,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=items, containingType=xy.reflect.ui.menu.Menu], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.menu.AbstractMenuItem]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.menu.MenuItemCategory]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -16548,6 +16812,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=menus, containingType=xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.menu.MenuItemCategory]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -16571,7 +16836,716 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=menus, containingType=xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.menu.AbstractMenuItem]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.menu.Menu]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-3ecbbeb6:15bb7c9607e:-6c12</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-3ecbbeb6:15bb7c9607e:-6c11</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customFieldCaption></customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>menus</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <listCustomizations>
+                    <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bd3</uniqueIdentifier>
+                    <columnCustomizations>
+                        <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bd1</uniqueIdentifier>
+                        <columnName>toStringValue</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <editOptions>
+                        <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bd2</uniqueIdentifier>
+                        <itemCreationEnabled>true</itemCreationEnabled>
+                        <itemDeletionEnabled>true</itemDeletionEnabled>
+                        <itemMoveEnabled>true</itemMoveEnabled>
+                    </editOptions>
+                    <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
+                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
+                    <itemTypeName>xy.reflect.ui.info.menu.Menu</itemTypeName>
+                    <listSorted>false</listSorted>
+                    <listTypeName>java.util.List</listTypeName>
+                    <positionColumnAdded>false</positionColumnAdded>
+                    <stringValueColumnAdded>false</stringValueColumnAdded>
+                    <treeStructureDiscoverySettings>
+                        <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bd0</uniqueIdentifier>
+                        <heterogeneousTree>true</heterogeneousTree>
+                    </treeStructureDiscoverySettings>
+                </listCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <methodsCustomizations>
+            <uniqueIdentifier>-3ecbbeb6:15bb7c9607e:-6c10</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.menu.IMenuElement contribute(xy.reflect.ui.info.menu.IMenuElementPosition, xy.reflect.ui.info.menu.IMenuElement)</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-3ecbbeb6:15bb7c9607e:-6c0f</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>void merge(xy.reflect.ui.info.menu.MenuModel)</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>xy.reflect.ui.info.menu.MenuModel</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6c06</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6c05</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [context=FieldContext [fieldName=menus, containingType=xy.reflect.ui.info.menu.MenuModel], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.menu.Menu]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6c04</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <customFieldsOrder>name</customFieldsOrder>
+        <customFieldsOrder>items</customFieldsOrder>
+        <customFieldsOrder>itemCategories</customFieldsOrder>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6c03</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>name</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6c02</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>itemCategories</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6c01</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>items</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <listCustomizations>
+                    <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bfe</uniqueIdentifier>
+                    <columnCustomizations>
+                        <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bfc</uniqueIdentifier>
+                        <columnName>toStringValue</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <editOptions>
+                        <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bfd</uniqueIdentifier>
+                        <itemCreationEnabled>true</itemCreationEnabled>
+                        <itemDeletionEnabled>true</itemDeletionEnabled>
+                        <itemMoveEnabled>true</itemMoveEnabled>
+                    </editOptions>
+                    <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
+                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
+                    <itemTypeName>xy.reflect.ui.info.menu.AbstractMenuItem</itemTypeName>
+                    <listSorted>false</listSorted>
+                    <listTypeName>java.util.List</listTypeName>
+                    <positionColumnAdded>false</positionColumnAdded>
+                    <stringValueColumnAdded>false</stringValueColumnAdded>
+                </listCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <iconImagePath>
+            <specification>&lt;class-path-resource&gt; xy/reflect/ui/resource/menu.png</specification>
+        </iconImagePath>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <methodsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6c00</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>void addItem(xy.reflect.ui.info.menu.AbstractMenuItem)</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bff</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>void addItemCategory(xy.reflect.ui.info.menu.MenuItemCategory)</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bd7</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.menu.Menu (java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bd6</uniqueIdentifier>
+                <specificProperties/>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>name</parameterName>
+            </parametersCustomizations>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bd5</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.menu.Menu ()</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>xy.reflect.ui.info.menu.Menu</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bfb</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bfa</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>name</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <methodsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bf9</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.menu.AbstractMenuItem (java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bf8</uniqueIdentifier>
+                <specificProperties/>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>name</parameterName>
+            </parametersCustomizations>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bf7</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.menu.AbstractMenuItem ()</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <javaClassBasedTypeInfoFinder>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bf6</uniqueIdentifier>
+            <className>xy.reflect.ui.info.menu.Menu</className>
+        </javaClassBasedTypeInfoFinder>
+        <typeName>xy.reflect.ui.info.menu.AbstractMenuItem</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bf4</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bf3</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=items, containingType=xy.reflect.ui.info.menu.Menu], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.menu.AbstractMenuItem]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.menu.Menu]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bf0</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bef</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [context=FieldContext [fieldName=itemCategories, containingType=xy.reflect.ui.info.menu.Menu], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.menu.MenuItemCategory]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bee</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bed</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>name</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bec</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>items</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <iconImagePath>
+            <specification>&lt;class-path-resource&gt; xy/reflect/ui/resource/category.png</specification>
+        </iconImagePath>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <methodsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6beb</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>void addItem(xy.reflect.ui.info.menu.AbstractMenuItem)</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bc3</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.menu.MenuItemCategory (java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bc2</uniqueIdentifier>
+                <specificProperties/>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>name</parameterName>
+            </parametersCustomizations>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bc1</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.menu.MenuItemCategory ()</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>xy.reflect.ui.info.menu.MenuItemCategory</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6be9</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6be8</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=items, containingType=xy.reflect.ui.info.menu.MenuItemCategory], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.menu.AbstractMenuItem]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.menu.Menu]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6be6</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <customTypeCaption>Menu</customTypeCaption>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6be5</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <methodsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6be4</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=items, containingType=xy.reflect.ui.info.menu.MenuItemCategory], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.menu.AbstractMenuItem] (java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6be3</uniqueIdentifier>
+                <specificProperties/>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>name</parameterName>
+            </parametersCustomizations>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6be2</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=items, containingType=xy.reflect.ui.info.menu.MenuItemCategory], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.menu.AbstractMenuItem] ()</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>Encapsulation [context=FieldContext [fieldName=items, containingType=xy.reflect.ui.info.menu.MenuItemCategory], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.menu.AbstractMenuItem]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bdf</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <customTypeCaption>Menu</customTypeCaption>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bde</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <methodsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bdd</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=items, containingType=xy.reflect.ui.info.menu.Menu], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.menu.AbstractMenuItem] (java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bdc</uniqueIdentifier>
+                <specificProperties/>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>name</parameterName>
+            </parametersCustomizations>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bdb</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=items, containingType=xy.reflect.ui.info.menu.Menu], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.menu.AbstractMenuItem] ()</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>Encapsulation [context=FieldContext [fieldName=items, containingType=xy.reflect.ui.info.menu.Menu], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.menu.AbstractMenuItem]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bda</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bd9</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <methodsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bd8</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=items, containingType=xy.reflect.ui.info.menu.Menu], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.menu.AbstractMenuItem]], encapsulatedObjectType=SubTypesEnumeration [polymorphicType=xy.reflect.ui.info.menu.AbstractMenuItem]] ()</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=items, containingType=xy.reflect.ui.info.menu.Menu], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.menu.AbstractMenuItem]], encapsulatedObjectType=SubTypesEnumeration [polymorphicType=xy.reflect.ui.info.menu.AbstractMenuItem]]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bcd</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <customTypeCaption>Menu</customTypeCaption>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bcc</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <methodsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bcb</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=menus, containingType=xy.reflect.ui.info.menu.MenuModel], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.menu.AbstractMenuItem] (java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bca</uniqueIdentifier>
+                <specificProperties/>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>name</parameterName>
+            </parametersCustomizations>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bc9</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=menus, containingType=xy.reflect.ui.info.menu.MenuModel], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.menu.AbstractMenuItem] ()</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>Encapsulation [context=FieldContext [fieldName=menus, containingType=xy.reflect.ui.info.menu.MenuModel], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.menu.AbstractMenuItem]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bc8</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bc7</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=menus, containingType=xy.reflect.ui.info.menu.MenuModel], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.menu.AbstractMenuItem]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.info.menu.Menu]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bc5</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bc4</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [context=FieldContext [fieldName=menus, containingType=xy.reflect.ui.info.menu.MenuModel], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.menu.MenuItemCategory]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

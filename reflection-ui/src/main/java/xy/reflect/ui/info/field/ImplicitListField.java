@@ -10,6 +10,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -24,7 +25,6 @@ import xy.reflect.ui.info.type.iterable.structure.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
-import xy.reflect.ui.menu.Menu;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -324,9 +324,10 @@ public class ImplicitListField implements IFieldInfo {
 		}
 
 		@Override
-		public List<Menu> getMenus() {
-			return Collections.emptyList();
+		public MenuModel getMenuModel() {
+			return new MenuModel();
 		}
+
 
 		@Override
 		public boolean isItemConstructorSelectable() {

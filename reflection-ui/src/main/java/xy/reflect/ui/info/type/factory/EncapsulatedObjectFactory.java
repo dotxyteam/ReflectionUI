@@ -11,13 +11,13 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
-import xy.reflect.ui.menu.Menu;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ArrayAccessor;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -315,8 +315,8 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
-		public List<Menu> getMenus() {
-			return Collections.emptyList();
+		public MenuModel getMenuModel() {
+			return new MenuModel();
 		}
 
 		@Override

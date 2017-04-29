@@ -22,6 +22,12 @@ import xy.reflect.ui.info.custom.InfoCustomizations.MethodCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ParameterCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.menu.AbstractMenuElement;
+import xy.reflect.ui.info.menu.IMenuElement;
+import xy.reflect.ui.info.menu.IMenuElementPosition;
+import xy.reflect.ui.info.menu.IMenuItemContainer;
+import xy.reflect.ui.info.menu.Menu;
+import xy.reflect.ui.info.menu.MenuItemCategory;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -31,11 +37,6 @@ import xy.reflect.ui.info.type.factory.GenericEnumerationFactory;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.info.type.factory.TypeInfoProxyFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
-import xy.reflect.ui.menu.MenuItemCategory;
-import xy.reflect.ui.menu.IMenuElement;
-import xy.reflect.ui.menu.IMenuElementPosition;
-import xy.reflect.ui.menu.IMenuItemContainer;
-import xy.reflect.ui.menu.Menu;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -58,14 +59,14 @@ class CustomizationToolsUI extends ReflectionUI {
 				return CustomizationTools.class.getName() + TypeInfoProxyFactory.class.getSimpleName();
 			}
 
-			protected boolean isCustomizationTypeInfo(ITypeInfo type) {
+			protected boolean isDerivedTypeInfo(ITypeInfo type, Class<?> baseClass) {
 				Class<?> clazz;
 				try {
 					clazz = ClassUtils.getCachedClassforName(type.getName());
 				} catch (ClassNotFoundException e) {
 					return false;
 				}
-				if (AbstractCustomization.class.isAssignableFrom(clazz)) {
+				if (baseClass.isAssignableFrom(clazz)) {
 					return true;
 				}
 				return false;
@@ -115,7 +116,8 @@ class CustomizationToolsUI extends ReflectionUI {
 
 			@Override
 			protected List<IFieldInfo> getFields(ITypeInfo type) {
-				if (isCustomizationTypeInfo(type)) {
+				if (isDerivedTypeInfo(type, AbstractCustomization.class)
+						|| isDerivedTypeInfo(type, AbstractMenuElement.class)) {
 					List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
 					IFieldInfo uidField = ReflectionUIUtils.findInfoByName(result, "uniqueIdentifier");
 					result.remove(uidField);

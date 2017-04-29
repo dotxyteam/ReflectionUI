@@ -855,6 +855,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName></typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -878,6 +879,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=Date, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -901,6 +903,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=Illegal Access Exception, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -924,6 +927,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=Selection Dialog Array As Enumeration, fieldCaption=Choose an option:]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -947,6 +951,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=Selection, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -970,6 +975,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=String, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -993,6 +999,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=Test 2, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1016,6 +1023,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=Test 3, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1039,6 +1047,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=Test 4, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1062,6 +1071,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulatedObjectFactory [fieldType=Test, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1085,6 +1095,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=Input, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1123,6 +1134,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=Selection, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1146,6 +1158,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=Test 2, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1169,6 +1182,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=Test 2, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1192,6 +1206,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=Test 3, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1230,6 +1245,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=Test, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1253,6 +1269,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@108622a, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1276,6 +1293,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@10c7d5c, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1299,6 +1317,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1176de6, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1322,6 +1341,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@11d565f, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1345,6 +1365,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@12b4986, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1368,6 +1389,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@12b644e, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1391,6 +1413,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@13c66d8, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1414,6 +1437,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@152c19d, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1437,6 +1461,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@15a191e, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1460,6 +1485,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@15ee9e3, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1483,6 +1509,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1623f3e, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1506,6 +1533,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1636731, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1529,6 +1557,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1681629, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1552,6 +1581,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@16995a2, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1575,6 +1605,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@16d383a, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1598,6 +1629,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1727596, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1621,6 +1653,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@17e7f88, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1644,6 +1677,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@17e9134, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1667,6 +1701,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1854518, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1690,6 +1725,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@186b0ee, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1713,6 +1749,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@186c40d, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1736,6 +1773,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@19cc1e3, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1759,6 +1797,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1a1644b, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1782,6 +1821,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1a2a618, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1805,6 +1845,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1aa7aac, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1828,6 +1869,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1b510b8, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1851,6 +1893,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1b887b2, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1874,6 +1917,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1b92a37, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1897,6 +1941,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1c78000, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1920,6 +1965,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1cf56e9, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1943,6 +1989,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1d510be, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1966,6 +2013,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1d6d61d, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -1989,6 +2037,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1d7b155, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2012,6 +2061,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1fd5730, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2035,6 +2085,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1ff3510, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2058,6 +2109,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@27f394, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2081,6 +2133,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@2b6fc7, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2104,6 +2157,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@2bfa91, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2127,6 +2181,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@32087b, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2150,6 +2205,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@346762, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2173,6 +2229,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@34c0bd, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2196,6 +2253,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@3c78e1, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2219,6 +2277,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@4134e0, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2242,6 +2301,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@426fde, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2265,6 +2325,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@5161e1, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2288,6 +2349,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@55a58f, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2311,6 +2373,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@56291a, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2334,6 +2397,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@56e684, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2357,6 +2421,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@592bb1, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2380,6 +2445,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@5cd7f9, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2403,6 +2469,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@5dfc67, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2426,6 +2493,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@5ef1eb, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2449,6 +2517,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@64064b, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2472,6 +2541,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@67a232, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2495,6 +2565,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@6d3209, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2518,6 +2589,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@8f612f, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2541,6 +2613,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@9133f6, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2564,6 +2637,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@94b0ca, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2587,6 +2661,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@966905, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2610,6 +2685,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@991d56, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2633,6 +2709,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@9ba045, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2656,6 +2733,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@9fa2fb, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2679,6 +2757,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@a50ea1, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2702,6 +2781,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@a81019, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2725,6 +2805,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@a93a16, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2748,6 +2829,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@b65a68, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2771,6 +2853,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@c2480b, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2794,6 +2877,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@c37f31, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2817,6 +2901,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@c42804, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2840,6 +2925,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@cc5c38, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2863,6 +2949,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@ceb62f, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2886,6 +2973,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@d9cc1a, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2909,6 +2997,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@db248c, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2932,6 +3021,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@dbb83a, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2955,6 +3045,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@dc51c8, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -2978,6 +3069,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@dc64a2, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3001,6 +3093,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@df804e, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3024,6 +3117,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@e1f6c, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3047,6 +3141,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@ea58e3, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3070,6 +3165,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@ec850, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3093,6 +3189,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@f04d94, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3116,6 +3213,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@ffeba4, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3139,6 +3237,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Error, fieldType=String, fieldCaption=Message]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3147,6 +3246,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Error, fieldType=java.lang.String, fieldCaption=Message]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3155,6 +3255,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Exception - Polymorphic Type, fieldType=SubTypesEnumeration [polymorphicType=java.lang.Exception], fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3163,6 +3264,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Exception - Polymorphic Value, fieldType=java.lang.ClassNotFoundException, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3171,6 +3273,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Exception - Polymorphic Value, fieldType=java.lang.NullPointerException, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3194,6 +3297,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Input, fieldType=String, fieldCaption=Create 'Abstrcat Test Descendant' of type]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3217,6 +3321,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Input, fieldType=String, fieldCaption=Create 'Object' of type]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3240,6 +3345,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Return Nothing - Result - &lt;null&gt;, fieldType=java.lang.Object, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3248,6 +3354,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Selection, fieldType=ConstructorSelection [type=java.io.File], fieldCaption=Choose an option]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3256,6 +3363,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Selection, fieldType=ConstructorSelection [type=java.lang.ClassNotFoundException], fieldCaption=Choose an option]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3264,6 +3372,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Selection, fieldType=SelectionDialogArrayAsEnumeration [title=Icon Image], fieldCaption=Choose an option]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3272,6 +3381,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Selection, fieldType=SubTypesEnumeration [polymorphicType=ReflectionUITest$AbstrcatTestDescendant], fieldCaption=Choose a type:]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3295,6 +3405,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Selection, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@119ca2c, fieldCaption=Choose an option:]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3318,6 +3429,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Selection, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@1b8737f, fieldCaption=Choose an option:]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3341,6 +3453,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Selection, fieldType=xy.reflect.ui.info.type.util.ArrayAsEnumerationFactory$TypeInfo@ee7e66, fieldCaption=Choose a type:]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3349,6 +3462,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=The Array Tree Table - Dynamic Property, fieldType=ReflectionUITest$AbstrcatTestDescendant$Day, fieldCaption=The Day]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3357,6 +3471,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=The Array Tree Table - Item, fieldType=ReflectionUITest$Test2, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3365,6 +3480,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=The Array Tree Table - Item, fieldType=ReflectionUITest$Test3, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3388,6 +3504,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=The Boolean List - Item, fieldType=java.lang.Boolean, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3396,6 +3513,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=The File List - Item, fieldType=java.io.File, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3404,6 +3522,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=The Generic Vector - Item, fieldType=ReflectionUITest$Test2, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3427,6 +3546,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=The Map - Item, fieldType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,java.lang.String&gt;, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3435,6 +3555,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=The String List - Item, fieldType=java.lang.String, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3458,6 +3579,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulationTypeInfo [fieldType=Day, fieldCaption=The Day]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3481,6 +3603,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulationTypeInfo [fieldType=Test 2, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3504,6 +3627,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulationTypeInfo [fieldType=Test 3, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3527,6 +3651,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulationTypeInfo [fieldType=Test, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3550,6 +3675,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulationTypeInfo [fieldType=xy.reflect.ui.info.type.util.EncapsulationTypeInfo@f4863541, fieldCaption=Value]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3573,6 +3699,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>EncapsulationTypeInfo()</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3596,6 +3723,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>MethodInvocationObjectFactory(AWTException)</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3604,6 +3732,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>MethodSetupObject [method=boolean after(java.util.Date), containingType=java.util.Date]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3612,6 +3741,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>MethodSetupObject [method=void multiplyTheFloat(int), containingType=ReflectionUITest$Test]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3620,6 +3750,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>MethodSetupObject [method=void setTheBoundedInt(int), containingType=ReflectionUITest$Test]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3674,6 +3805,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <javaClassBasedTypeInfoFinder>
             <uniqueIdentifier>48c4c300:15bb2792085:-7e6a</uniqueIdentifier>
             <className>ReflectionUITest$Test2</className>
@@ -3690,6 +3822,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>ReflectionUITest$AbstrcatTestDescendant$Day</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3698,6 +3831,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>ReflectionUITest$AbstrcatTestDescendant.PolymorphicInstanceSubTypesEnumeration</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -4194,6 +4328,7 @@
                         <specificTypeCustomizations/>
                     </fieldsCustomizations>
                     <immutableForced>false</immutableForced>
+                    <menuModel/>
                     <methodsCustomizations>
                         <uniqueIdentifier>48c4c300:15bb2792085:-7e41</uniqueIdentifier>
                         <specificProperties/>
@@ -4479,6 +4614,7 @@
                         <specificTypeCustomizations/>
                     </fieldsCustomizations>
                     <immutableForced>false</immutableForced>
+                    <menuModel/>
                     <methodsCustomizations>
                         <uniqueIdentifier>48c4c300:15bb2792085:-7e26</uniqueIdentifier>
                         <specificProperties/>
@@ -4924,6 +5060,7 @@
                         <specificTypeCustomizations/>
                     </fieldsCustomizations>
                     <immutableForced>false</immutableForced>
+                    <menuModel/>
                     <methodsCustomizations>
                         <uniqueIdentifier>48c4c300:15bb2792085:-7df5</uniqueIdentifier>
                         <specificProperties/>
@@ -5711,6 +5848,7 @@
                         <specificTypeCustomizations/>
                     </fieldsCustomizations>
                     <immutableForced>false</immutableForced>
+                    <menuModel/>
                     <methodsCustomizations>
                         <uniqueIdentifier>48c4c300:15bb2792085:-7dae</uniqueIdentifier>
                         <specificProperties/>
@@ -6792,49 +6930,35 @@
             <uniqueIdentifier>48c4c300:15bb2792085:-7d47</uniqueIdentifier>
             <caption>Lists</caption>
         </memberCategories>
-        <menus>
-            <uniqueIdentifier>7d4df933:15bb7b4cc84:-7d49</uniqueIdentifier>
-            <name>File</name>
-            <itemCategories>
-                <uniqueIdentifier>-6b6f8ee7:15bb5a04990:-6c22</uniqueIdentifier>
-                <name>Save</name>
-            </itemCategories>
-            <itemCategories>
-                <uniqueIdentifier>-6b6f8ee7:15bb5a04990:-6c21</uniqueIdentifier>
-                <name>Close</name>
-            </itemCategories>
-            <menu>
-                <uniqueIdentifier>7d4df933:15bb7b4cc84:-7d46</uniqueIdentifier>
-                <name>New</name>
-            </menu>
-            <menu>
-                <uniqueIdentifier>7d4df933:15bb7b4cc84:-7d45</uniqueIdentifier>
-                <name>Import</name>
-            </menu>
-        </menus>
+        <menuModel>
+            <menus>
+                <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bcf</uniqueIdentifier>
+                <name>File</name>
+                <itemCategories>
+                    <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bc6</uniqueIdentifier>
+                    <name>Close</name>
+                </itemCategories>
+                <menu>
+                    <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bce</uniqueIdentifier>
+                    <name>New</name>
+                </menu>
+            </menus>
+        </menuModel>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7d46</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <menu>
-                <uniqueIdentifier>7d4df933:15bb7b4cc84:-7d49</uniqueIdentifier>
+                <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bcf</uniqueIdentifier>
                 <name>File</name>
                 <itemCategories>
-                    <uniqueIdentifier>-6b6f8ee7:15bb5a04990:-6c22</uniqueIdentifier>
-                    <name>Save</name>
-                </itemCategories>
-                <itemCategories>
-                    <uniqueIdentifier>-6b6f8ee7:15bb5a04990:-6c21</uniqueIdentifier>
+                    <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bc6</uniqueIdentifier>
                     <name>Close</name>
                 </itemCategories>
                 <menu>
-                    <uniqueIdentifier>7d4df933:15bb7b4cc84:-7d46</uniqueIdentifier>
+                    <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bce</uniqueIdentifier>
                     <name>New</name>
-                </menu>
-                <menu>
-                    <uniqueIdentifier>7d4df933:15bb7b4cc84:-7d45</uniqueIdentifier>
-                    <name>Import</name>
                 </menu>
             </menu>
             <methodSignature>void doLongTask()</methodSignature>
@@ -6850,8 +6974,16 @@
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <menu>
-                <uniqueIdentifier>7d4df933:15bb7b4cc84:-7d3d</uniqueIdentifier>
-                <name>New</name>
+                <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bcf</uniqueIdentifier>
+                <name>File</name>
+                <itemCategories>
+                    <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bc6</uniqueIdentifier>
+                    <name>Close</name>
+                </itemCategories>
+                <menu>
+                    <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bce</uniqueIdentifier>
+                    <name>New</name>
+                </menu>
             </menu>
             <methodSignature>void incrementTheInt()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -6865,10 +6997,10 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <menuItemCategory>
-                <uniqueIdentifier>-6b6f8ee7:15bb5a04990:-6c22</uniqueIdentifier>
-                <name>Save</name>
-            </menuItemCategory>
+            <menu>
+                <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bce</uniqueIdentifier>
+                <name>New</name>
+            </menu>
             <methodSignature>void resettheStringList()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
@@ -6881,10 +7013,10 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <menuItemCategory>
-                <uniqueIdentifier>48c4c300:15bb2792085:-7f66</uniqueIdentifier>
-                <name>persist</name>
-            </menuItemCategory>
+            <menu>
+                <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bce</uniqueIdentifier>
+                <name>New</name>
+            </menu>
             <methodSignature>void throwException()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
@@ -6898,7 +7030,7 @@
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <menuItemCategory>
-                <uniqueIdentifier>-6b6f8ee7:15bb5a04990:-6c21</uniqueIdentifier>
+                <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bc6</uniqueIdentifier>
                 <name>Close</name>
             </menuItemCategory>
             <methodSignature>void verify()</methodSignature>
@@ -6913,10 +7045,10 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <menu>
-                <uniqueIdentifier>7d4df933:15bb7b4cc84:-7d35</uniqueIdentifier>
-                <name>Edit</name>
-            </menu>
+            <menuItemCategory>
+                <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bc6</uniqueIdentifier>
+                <name>Close</name>
+            </menuItemCategory>
             <methodSignature>java.lang.Object returnAnyObject()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
@@ -7047,6 +7179,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>ReflectionUITest$Test.theChoice.ValueOptions</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -7115,6 +7248,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7d2d</uniqueIdentifier>
             <specificProperties/>
@@ -7258,6 +7392,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7d20</uniqueIdentifier>
             <specificProperties/>
@@ -7286,6 +7421,7 @@
             <specification></specification>
         </iconImagePath>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7d1e</uniqueIdentifier>
             <specificProperties/>
@@ -7498,6 +7634,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>SelectionDialogArrayAsEnumeration</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -7506,6 +7643,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>SubTypesEnumeration [polymorphicType=java.lang.Exception]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -7529,6 +7667,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>VirtualFieldWrapperTypeInfo()</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -7552,6 +7691,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>VirtualFieldWrapperTypeInfo(Create 'Abstrcat Test Descendant' of type)</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -7560,6 +7700,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>[B</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -7568,6 +7709,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>[LReflectionUITest$AbstrcatTestDescendant;</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -7576,6 +7718,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>[Ljava.lang.StackTraceElement;</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -7584,6 +7727,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>[Ljava.lang.String;</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -7592,6 +7736,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>boolean</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -7600,6 +7745,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>char</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -7608,6 +7754,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>double</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -7616,6 +7763,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>float</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -7624,6 +7772,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>int</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -7632,6 +7781,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7cfd</uniqueIdentifier>
             <specificProperties/>
@@ -7929,6 +8079,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7ce8</uniqueIdentifier>
             <specificProperties/>
@@ -8677,6 +8828,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.io.PrintStream</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -8685,6 +8837,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.io.PrintWriter</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -8738,6 +8891,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7c97</uniqueIdentifier>
             <specificProperties/>
@@ -8902,6 +9056,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.lang.Class</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -8918,6 +9073,7 @@
             <specification></specification>
         </iconImagePath>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7c88</uniqueIdentifier>
             <specificProperties/>
@@ -9040,6 +9196,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.lang.Double</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -9123,6 +9280,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7c75</uniqueIdentifier>
             <specificProperties/>
@@ -9391,6 +9549,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.lang.Exception.SubTypesEnumeration</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -9399,6 +9558,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.lang.Float</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -9467,6 +9627,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7c52</uniqueIdentifier>
             <specificProperties/>
@@ -9647,6 +9808,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.lang.Integer</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -9655,6 +9817,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.lang.NullPointerException</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -9663,6 +9826,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.lang.Object</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -9671,6 +9835,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.lang.Short</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -9754,6 +9919,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.lang.StackTraceElement</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -9807,6 +9973,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7c35</uniqueIdentifier>
             <specificProperties/>
@@ -9827,6 +9994,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.lang.Throwable</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -9850,6 +10018,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7c31</uniqueIdentifier>
             <specificProperties/>
@@ -10278,6 +10447,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.util.Arrays$ArrayList</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -10286,6 +10456,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.util.Collection</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -10294,6 +10465,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.util.Comparator</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -10437,6 +10609,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7c01</uniqueIdentifier>
             <specificProperties/>
@@ -10826,6 +10999,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.util.HashMap</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -10834,6 +11008,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.util.HashSet</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -10842,6 +11017,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.util.List</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -10850,6 +11026,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.util.Map</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -10858,6 +11035,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.util.Set</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -10866,6 +11044,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.util.Stack</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -10874,6 +11053,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>java.util.Vector</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -10882,6 +11062,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>long</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -10890,6 +11071,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>short</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -10898,6 +11080,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.control.swing.PolymorphicControl$1</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -10906,6 +11089,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.control.swing.PolymorphicEmbeddedForm$1</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -10944,6 +11128,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7bc8</uniqueIdentifier>
             <specificProperties/>
@@ -10994,6 +11179,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,java.lang.String&gt;</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -11032,6 +11218,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -11040,6 +11227,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.info.type.util.TypeInfoProxyFactory$GeneratedBasicTypeInfoProxy</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -11048,6 +11236,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.info.type.util.TypeInfoProxyFactory$GeneratedMethodInfoProxy</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -11056,6 +11245,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>xy.reflect.ui.util.ReflectionUIError</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -11109,6 +11299,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>MethodSetupObject [method=void callWithManyParams(int, java.lang.String, java.util.Date, java.awt.Color), containingType=ReflectionUITest$Test]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -11117,6 +11308,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7bb9</uniqueIdentifier>
             <specificProperties/>
@@ -11144,6 +11336,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7bb6</uniqueIdentifier>
             <specificProperties/>
@@ -11171,6 +11364,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7bb3</uniqueIdentifier>
             <specificProperties/>
@@ -11219,6 +11413,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7bad</uniqueIdentifier>
             <specificProperties/>
@@ -11246,6 +11441,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7baa</uniqueIdentifier>
             <specificProperties/>
@@ -11299,6 +11495,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7ba4</uniqueIdentifier>
             <specificProperties/>
@@ -11352,6 +11549,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b9e</uniqueIdentifier>
             <specificProperties/>
@@ -11405,6 +11603,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b98</uniqueIdentifier>
             <specificProperties/>
@@ -11432,6 +11631,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b95</uniqueIdentifier>
             <specificProperties/>
@@ -11478,6 +11678,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b90</uniqueIdentifier>
             <specificProperties/>
@@ -11545,6 +11746,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b88</uniqueIdentifier>
             <specificProperties/>
@@ -11591,6 +11793,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b83</uniqueIdentifier>
             <specificProperties/>
@@ -11618,6 +11821,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b80</uniqueIdentifier>
             <specificProperties/>
@@ -11645,6 +11849,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b7d</uniqueIdentifier>
             <specificProperties/>
@@ -11679,6 +11884,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b79</uniqueIdentifier>
             <specificProperties/>
@@ -11706,6 +11912,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b76</uniqueIdentifier>
             <specificProperties/>
@@ -11740,6 +11947,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b72</uniqueIdentifier>
             <specificProperties/>
@@ -11767,6 +11975,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b6f</uniqueIdentifier>
             <specificProperties/>
@@ -11794,6 +12003,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b6c</uniqueIdentifier>
             <specificProperties/>
@@ -11840,6 +12050,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b67</uniqueIdentifier>
             <specificProperties/>
@@ -11867,6 +12078,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b64</uniqueIdentifier>
             <specificProperties/>
@@ -11901,6 +12113,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b60</uniqueIdentifier>
             <specificProperties/>
@@ -11935,6 +12148,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b5c</uniqueIdentifier>
             <specificProperties/>
@@ -11969,6 +12183,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b58</uniqueIdentifier>
             <specificProperties/>
@@ -12003,6 +12218,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b54</uniqueIdentifier>
             <specificProperties/>
@@ -12030,6 +12246,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b51</uniqueIdentifier>
             <specificProperties/>
@@ -12072,6 +12289,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Test Descendant - Polymorphic Value, fieldType=ReflectionUITest$Test3, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12095,6 +12313,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=The Array Tree Table - Item, fieldType=ReflectionUITest$AbstrcatTestDescendant, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12118,6 +12337,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Test Descendant - Polymorphic Value, fieldType=ReflectionUITest$Test2, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12126,6 +12346,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b48</uniqueIdentifier>
             <specificProperties/>
@@ -12153,6 +12374,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b45</uniqueIdentifier>
             <specificProperties/>
@@ -12180,6 +12402,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b42</uniqueIdentifier>
             <specificProperties/>
@@ -12207,6 +12430,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b3f</uniqueIdentifier>
             <specificProperties/>
@@ -12253,6 +12477,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b3a</uniqueIdentifier>
             <specificProperties/>
@@ -12280,6 +12505,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b37</uniqueIdentifier>
             <specificProperties/>
@@ -12314,6 +12540,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b33</uniqueIdentifier>
             <specificProperties/>
@@ -12367,6 +12594,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b2d</uniqueIdentifier>
             <specificProperties/>
@@ -12401,6 +12629,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b29</uniqueIdentifier>
             <specificProperties/>
@@ -12454,6 +12683,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b23</uniqueIdentifier>
             <specificProperties/>
@@ -12481,6 +12711,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b20</uniqueIdentifier>
             <specificProperties/>
@@ -12508,6 +12739,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b1d</uniqueIdentifier>
             <specificProperties/>
@@ -12535,6 +12767,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b1a</uniqueIdentifier>
             <specificProperties/>
@@ -12562,6 +12795,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b17</uniqueIdentifier>
             <specificProperties/>
@@ -12589,6 +12823,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b14</uniqueIdentifier>
             <specificProperties/>
@@ -12616,6 +12851,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b11</uniqueIdentifier>
             <specificProperties/>
@@ -12643,6 +12879,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b0e</uniqueIdentifier>
             <specificProperties/>
@@ -12670,6 +12907,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b0b</uniqueIdentifier>
             <specificProperties/>
@@ -12697,6 +12935,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b08</uniqueIdentifier>
             <specificProperties/>
@@ -12724,6 +12963,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b05</uniqueIdentifier>
             <specificProperties/>
@@ -12751,6 +12991,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7b02</uniqueIdentifier>
             <specificProperties/>
@@ -12793,6 +13034,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=ReflectionUITest$Test2, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12816,6 +13058,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=ReflectionUITest$Test4, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12839,6 +13082,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Test 2 - Dynamic Wrapper, fieldType=ReflectionUITest$Test2, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12862,6 +13106,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Float, fieldType=float, fieldCaption=]</typeName>
         <undoManagementHidden>true</undoManagementHidden>
     </typeCustomizations>
@@ -12885,6 +13130,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Polymorphic - Exception, fieldType=java.lang.NullPointerException, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12923,6 +13169,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Object, fieldType=java.lang.Object, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12946,6 +13193,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Nullable - Test 2, fieldType=ReflectionUITest$Test2, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12969,6 +13217,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Polymorphic - Exception, fieldType=java.lang.IllegalAccessException, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -12992,6 +13241,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Date, fieldType=java.util.Date, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -13015,6 +13265,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7aeb</uniqueIdentifier>
             <specificProperties/>
@@ -13564,6 +13815,7 @@
             <specification></specification>
         </iconImagePath>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Test 4, fieldType=ReflectionUITest$Test4, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -13587,6 +13839,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Polymorphic - Exception, fieldType=java.lang.Exception, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -13641,6 +13894,7 @@
             </specificTypeCustomizations>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=SubTypesEnumeration [polymorphicType=java.lang.Exception], fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -13742,6 +13996,7 @@
                         <specificTypeCustomizations/>
                     </fieldsCustomizations>
                     <immutableForced>false</immutableForced>
+                    <menuModel/>
                     <methodsCustomizations>
                         <uniqueIdentifier>48c4c300:15bb2792085:-7aa3</uniqueIdentifier>
                         <specificProperties/>
@@ -13932,6 +14187,7 @@
             </specificTypeCustomizations>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Polymorphic - Exception, fieldType=java.lang.RuntimeException, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14015,6 +14271,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7a89</uniqueIdentifier>
             <specificProperties/>
@@ -14214,6 +14471,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Polymorphic - Exception, fieldType=java.lang.IllegalStateException, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14297,6 +14555,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7a6f</uniqueIdentifier>
             <specificProperties/>
@@ -14496,6 +14755,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=SubTypesEnumeration [polymorphicType=java.lang.IllegalStateException], fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14519,6 +14779,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Polymorphic - Runtime Exception, fieldType=java.lang.IllegalStateException, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14542,6 +14803,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Nullable - Test 2, fieldType=ReflectionUITest$Test2, fieldCaption=Test 2]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14565,6 +14827,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Exception, fieldType=java.lang.Exception, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14603,6 +14866,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <onlineHelp>Reflection UI test</onlineHelp>
         <typeName>Encapsulation [typeCaption=Test, fieldType=ReflectionUITest$Test, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
@@ -14628,6 +14892,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Nullable - Boolean, fieldType=java.lang.Boolean, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14667,6 +14932,7 @@
             </specificTypeCustomizations>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=, fieldType=SubTypesEnumeration [polymorphicType=java.lang.RuntimeException], fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14714,6 +14980,7 @@
             </specificTypeCustomizations>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [typeCaption=Nullable - List of Object elements, fieldType=java.util.ArrayList, fieldCaption=]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14760,6 +15027,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <immutableForced>false</immutableForced>
+                    <menuModel/>
                     <methodsCustomizations>
                         <uniqueIdentifier>48c4c300:15bb2792085:-7a3e</uniqueIdentifier>
                         <specificProperties/>
@@ -14778,6 +15046,7 @@
             </specificTypeCustomizations>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=theException, containingType=ReflectionUITest$Test], encapsulatedObjectType=SubTypesEnumeration [polymorphicType=java.lang.Exception]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -14879,6 +15148,7 @@
                         <specificTypeCustomizations/>
                     </fieldsCustomizations>
                     <immutableForced>false</immutableForced>
+                    <menuModel/>
                     <methodsCustomizations>
                         <uniqueIdentifier>48c4c300:15bb2792085:-7a35</uniqueIdentifier>
                         <specificProperties/>
@@ -15061,6 +15331,7 @@
             </specificTypeCustomizations>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=theException2, containingType=ReflectionUITest$Test], subContext=PolymorphicInstance, encapsulatedObjectType=java.lang.RuntimeException]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -15162,6 +15433,7 @@
                         <specificTypeCustomizations/>
                     </fieldsCustomizations>
                     <immutableForced>false</immutableForced>
+                    <menuModel/>
                     <methodsCustomizations>
                         <uniqueIdentifier>48c4c300:15bb2792085:-7a1b</uniqueIdentifier>
                         <specificProperties/>
@@ -15376,6 +15648,7 @@
                         <specificTypeCustomizations/>
                     </fieldsCustomizations>
                     <immutableForced>false</immutableForced>
+                    <menuModel/>
                     <methodsCustomizations>
                         <uniqueIdentifier>48c4c300:15bb2792085:-7a08</uniqueIdentifier>
                         <specificProperties/>
@@ -15562,6 +15835,7 @@
             </specificTypeCustomizations>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=theException, containingType=ReflectionUITest$Test], subContext=PolymorphicInstance, encapsulatedObjectType=java.lang.RuntimeException]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -15585,6 +15859,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>MethodSetupObject [context=MethodContext [methodSignature=void FieldAsSetter [field=theDay](ReflectionUITest$AbstrcatTestDescendant$Day), containingType=ReflectionUITest$Test2]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -15608,6 +15883,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-79f1</uniqueIdentifier>
             <specificProperties/>
@@ -15671,6 +15947,7 @@
             </specificTypeCustomizations>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=theException2, containingType=ReflectionUITest$Test], encapsulatedObjectType=SubTypesEnumeration [polymorphicType=java.lang.Exception]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -15694,6 +15971,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-79e8</uniqueIdentifier>
             <specificProperties/>
@@ -15741,6 +16019,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=theMap, containingType=ReflectionUITest$Test], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,java.lang.String&gt;]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -15845,6 +16124,7 @@
                         <specificTypeCustomizations/>
                     </fieldsCustomizations>
                     <immutableForced>false</immutableForced>
+                    <menuModel/>
                     <methodsCustomizations>
                         <uniqueIdentifier>48c4c300:15bb2792085:-79dc</uniqueIdentifier>
                         <specificProperties/>
@@ -15982,6 +16262,7 @@
             </specificTypeCustomizations>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-79cf</uniqueIdentifier>
             <specificProperties/>
@@ -16182,6 +16463,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-79bb</uniqueIdentifier>
             <specificProperties/>
@@ -16363,6 +16645,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-79ab</uniqueIdentifier>
             <specificProperties/>
@@ -16519,6 +16802,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-799c</uniqueIdentifier>
             <specificProperties/>
@@ -16651,6 +16935,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-798e</uniqueIdentifier>
             <specificProperties/>
@@ -16716,6 +17001,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>MethodSetupObject [context=ContructorContext [type=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.io.FileNotFoundException,java.lang.ArrayIndexOutOfBoundsException&gt;, signature=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.io.FileNotFoundException,java.lang.ArrayIndexOutOfBoundsException&gt; (java.lang.String, int)]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -16754,6 +17040,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>MethodSetupObject [context=ContructorContext [type=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.io.FileNotFoundException,java.lang.ArrayIndexOutOfBoundsException&gt;, signature=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.io.FileNotFoundException,java.lang.ArrayIndexOutOfBoundsException&gt; (java.lang.String)]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -16792,6 +17079,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>MethodSetupObject [context=ContructorContext [type=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.io.FileNotFoundException,java.lang.ArrayIndexOutOfBoundsException&gt;, signature=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.io.FileNotFoundException,java.lang.ArrayIndexOutOfBoundsException&gt; (java.lang.String, java.lang.String)]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -16815,6 +17103,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=theString, containingType=ReflectionUITest$Test], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -16838,6 +17127,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=theDouble, containingType=ReflectionUITest$Test], subContext=NullableInstance, encapsulatedObjectType=java.lang.Double]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -17142,6 +17432,7 @@
             <uniqueIdentifier>48c4c300:15bb2792085:-7959</uniqueIdentifier>
             <caption>Array Tree Table</caption>
         </memberCategories>
+        <menuModel/>
         <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=ReflectionUITest$Test], fieldName=lists]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -17165,6 +17456,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7956</uniqueIdentifier>
             <specificProperties/>
@@ -17200,6 +17492,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7953</uniqueIdentifier>
             <specificProperties/>
@@ -17235,6 +17528,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=theGenericVector, containingType=CapsuleFieldType [context=EncapsulationContext [containingType=ReflectionUITest$Test], fieldName=lists]], subContext=ListItem, encapsulatedObjectType=java.lang.Object]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -17404,6 +17698,7 @@
         </fieldsCustomizations>
         <fieldsLayout>HORIZONTAL_FLOW</fieldsLayout>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=ReflectionUITest$Test], fieldName=numbers]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -17442,6 +17737,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=ReflectionUITest$Test], fieldName=numbers]], fieldName=numbers2]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -17465,6 +17761,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=ReflectionUITest$Test], fieldName=numbers]], fieldName=numbers1]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -17519,6 +17816,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=ReflectionUITest$Test], fieldName=middle]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -17542,6 +17840,7 @@
             <specificTypeCustomizations/>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
+        <menuModel/>
         <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=ReflectionUITest$Test], fieldName=middle]], fieldName=middle]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>

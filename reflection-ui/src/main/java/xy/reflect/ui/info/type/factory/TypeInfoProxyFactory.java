@@ -11,6 +11,8 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.menu.IMenuElementPosition;
+import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -24,8 +26,6 @@ import xy.reflect.ui.info.type.iterable.map.IMapEntryTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
-import xy.reflect.ui.menu.IMenuElementPosition;
-import xy.reflect.ui.menu.Menu;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.info.method.InvocationData;
 
@@ -223,8 +223,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return type.getFieldsLayout();
 	}
 
-	protected List<Menu> getMenus(ITypeInfo type) {
-		return type.getMenus();
+	protected MenuModel getMenuModel(ITypeInfo type) {
+		return type.getMenuModel();
 	}
 
 	protected String getCaption(IFieldInfo field, ITypeInfo containingType) {
@@ -623,8 +623,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		}
 
 		@Override
-		public List<Menu> getMenus() {
-			return TypeInfoProxyFactory.this.getMenus(base);
+		public MenuModel getMenuModel() {
+			return TypeInfoProxyFactory.this.getMenuModel(base);
 		}
 
 		@Override

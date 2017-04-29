@@ -9,13 +9,13 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
-import xy.reflect.ui.menu.Menu;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class CapsuleField implements IFieldInfo {
@@ -372,8 +372,8 @@ public class CapsuleField implements IFieldInfo {
 		}
 
 		@Override
-		public List<Menu> getMenus() {
-			return Collections.emptyList();
+		public MenuModel getMenuModel() {
+			return new MenuModel();
 		}
 
 		protected CapsuleField getOuterType() {

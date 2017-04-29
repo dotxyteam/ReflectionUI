@@ -8,6 +8,7 @@ import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -17,7 +18,6 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
-import xy.reflect.ui.menu.Menu;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -185,9 +185,10 @@ public class GenericEnumerationFactory {
 		}
 
 		@Override
-		public List<Menu> getMenus() {
-			return Collections.emptyList();
+		public MenuModel getMenuModel() {
+			return new MenuModel();
 		}
+
 
 		@Override
 		public String getIconImagePath() {

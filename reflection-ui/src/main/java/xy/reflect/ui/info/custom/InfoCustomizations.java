@@ -28,18 +28,19 @@ import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.menu.AbstractMenuElement;
+import xy.reflect.ui.info.menu.AbstractMenuItem;
+import xy.reflect.ui.info.menu.IMenuElement;
+import xy.reflect.ui.info.menu.IMenuItemContainer;
+import xy.reflect.ui.info.menu.Menu;
+import xy.reflect.ui.info.menu.MenuItemCategory;
+import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.menu.MenuItemCategory;
-import xy.reflect.ui.menu.AbstractMenuElement;
-import xy.reflect.ui.menu.AbstractMenuItem;
-import xy.reflect.ui.menu.IMenuElement;
-import xy.reflect.ui.menu.IMenuItemContainer;
-import xy.reflect.ui.menu.Menu;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.ResourcePath;
@@ -152,19 +153,11 @@ public class InfoCustomizations implements Serializable {
 				}
 			}
 			for (MethodCustomization mc : t.methodsCustomizations) {
-				if (mc.getMethodSignature().equals("void doLongTask()")) {
-					System.out.println("debug");
-				}
 				if (mc.menuLocation != null) {
-					if (((AbstractMenuElement) mc.menuLocation).getUniqueIdentifier() != null) {
-						for (IMenuItemContainer container : getAllMenuItemContainers(t)) {
-							if (container.getName().equals("File")) {
-								System.out.println("debug");
-							}
-							if (((AbstractMenuElement) mc.menuLocation).getUniqueIdentifier()
-									.equals(((AbstractMenuElement) container).getUniqueIdentifier())) {
-								mc.menuLocation = container;
-							}
+					for (IMenuItemContainer container : getAllMenuItemContainers(t)) {
+						if (((AbstractMenuElement) mc.menuLocation).getUniqueIdentifier()
+								.equals(((AbstractMenuElement) container).getUniqueIdentifier())) {
+							mc.menuLocation = container;
 						}
 					}
 				}
@@ -237,7 +230,7 @@ public class InfoCustomizations implements Serializable {
 	}
 
 	public static List<IMenuElement> getMenuElementPath(TypeCustomization tc, IMenuElement menuElement) {
-		for (IMenuElement rootMenuElement : tc.getMenus()) {
+		for (IMenuElement rootMenuElement : tc.getMenuModel().getMenus()) {
 			List<IMenuElement> result = getMenuElementPath(rootMenuElement, menuElement);
 			if (result != null) {
 				return result;
@@ -279,7 +272,7 @@ public class InfoCustomizations implements Serializable {
 
 	public static List<IMenuItemContainer> getAllMenuItemContainers(TypeCustomization tc) {
 		List<IMenuItemContainer> result = new ArrayList<IMenuItemContainer>();
-		for (IMenuElement rootMenuElement : tc.getMenus()) {
+		for (IMenuElement rootMenuElement : tc.getMenuModel().getMenus()) {
 			if (rootMenuElement instanceof IMenuItemContainer) {
 				result.addAll(getAllMenuItemContainers((IMenuItemContainer) rootMenuElement));
 			}
@@ -653,14 +646,14 @@ public class InfoCustomizations implements Serializable {
 		protected List<ITypeInfoFinder> polymorphicSubTypeFinders = new ArrayList<ITypeInfoFinder>();
 		protected ResourcePath iconImagePath;
 		protected ITypeInfo.FieldsLayout fieldsLayout;
-		protected List<Menu> menus = new ArrayList<Menu>();
+		protected MenuModel menuModel = new MenuModel();
 
-		public List<Menu> getMenus() {
-			return menus;
+		public MenuModel getMenuModel() {
+			return menuModel;
 		}
 
-		public void setMenus(List<Menu> menus) {
-			this.menus = menus;
+		public void setMenuModel(MenuModel menuModel) {
+			this.menuModel = menuModel;
 		}
 
 		public ITypeInfo.FieldsLayout getFieldsLayout() {

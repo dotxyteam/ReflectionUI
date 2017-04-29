@@ -1,6 +1,6 @@
 package xy.reflect.ui.control.swing;
 
-import xy.reflect.ui.menu.MenuModel;
+import xy.reflect.ui.info.menu.MenuModel;
 
 public interface IAdvancedFieldControl {
 	boolean displayError(String msg);
