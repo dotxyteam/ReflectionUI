@@ -35,6 +35,7 @@ import xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.menu.MenuItemCategory;
+import xy.reflect.ui.menu.AbstractMenuElement;
 import xy.reflect.ui.menu.AbstractMenuItem;
 import xy.reflect.ui.menu.IMenuElement;
 import xy.reflect.ui.menu.IMenuItemContainer;
@@ -151,13 +152,19 @@ public class InfoCustomizations implements Serializable {
 				}
 			}
 			for (MethodCustomization mc : t.methodsCustomizations) {
+				if (mc.getMethodSignature().equals("void doLongTask()")) {
+					System.out.println("debug");
+				}
 				if (mc.menuLocation != null) {
-					for (IMenuItemContainer container : getAllMenuItemContainers(t)) {
-						AbstractCustomization menuLocationAsCustomization = (AbstractCustomization) mc.menuLocation;
-						AbstractCustomization containerAsCustomization = (AbstractCustomization) container;
-						if (menuLocationAsCustomization.uniqueIdentifier
-								.equals(containerAsCustomization.uniqueIdentifier)) {
-							mc.menuLocation = container;
+					if (((AbstractMenuElement) mc.menuLocation).getUniqueIdentifier() != null) {
+						for (IMenuItemContainer container : getAllMenuItemContainers(t)) {
+							if (container.getName().equals("File")) {
+								System.out.println("debug");
+							}
+							if (((AbstractMenuElement) mc.menuLocation).getUniqueIdentifier()
+									.equals(((AbstractMenuElement) container).getUniqueIdentifier())) {
+								mc.menuLocation = container;
+							}
 						}
 					}
 				}

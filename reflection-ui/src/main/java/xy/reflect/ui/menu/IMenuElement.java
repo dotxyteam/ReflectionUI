@@ -1,6 +1,12 @@
 package xy.reflect.ui.menu;
 
-public interface IMenuElement {
+import java.io.Serializable;
+
+public interface IMenuElement extends Serializable {
 
 	String getName();
+
+	void setUniqueIdentifier(String uniqueIdentifier);
+
+	String getUniqueIdentifier();
 }

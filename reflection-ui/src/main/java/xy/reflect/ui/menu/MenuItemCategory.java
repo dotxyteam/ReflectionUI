@@ -6,9 +6,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 
-import xy.reflect.ui.info.custom.InfoCustomizations.AbstractCustomization;
-
-public class MenuItemCategory extends AbstractCustomization implements IMenuItemContainer {
+public class MenuItemCategory extends AbstractMenuElement implements IMenuItemContainer {
 	private static final long serialVersionUID = 1L;
 
 	protected String name = "";
@@ -45,8 +43,6 @@ public class MenuItemCategory extends AbstractCustomization implements IMenuItem
 	public void addItem(AbstractMenuItem item) {
 		this.items.add(item);
 	}
-
-
 
 	@Override
 	public int hashCode() {

@@ -1,8 +1,6 @@
 package xy.reflect.ui.menu;
 
-import xy.reflect.ui.info.custom.InfoCustomizations.AbstractCustomization;
-
-public abstract class AbstractMenuItem extends AbstractCustomization implements IMenuElement {
+public abstract class AbstractMenuItem extends AbstractMenuElement {
 	private static final long serialVersionUID = 1L;
 
 	protected String name = "";
@@ -11,7 +9,7 @@ public abstract class AbstractMenuItem extends AbstractCustomization implements 
 		super();
 		this.name = name;
 	}
-	
+
 	public AbstractMenuItem() {
 		this("");
 	}

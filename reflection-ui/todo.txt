@@ -1,10 +1,21 @@
+- customization controller
+	* stabilize window
+	* allow to lock/unlock all types ???
+	* ask to save customizations before disposing ??? 
+- menu icons
+- add ITypeInfo.equals() ???
+	=> not urgent at first sight
+- separate from customizations model:
+	- menu classes
+	- list item details mode classes
+	- ...
 - customizations issue:
 	* some customizations cannot be cumulated
 	=> very annoying
 - bug: cannot move columns
 - focus on default control on dialog opening not working
 - clean:
-	* extract InfoCut.Factory class
+	* make every info inner class public
 	* check Info class names
 		. remove "Info" except for interfaces
 		. find better names if possible
