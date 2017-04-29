@@ -6949,6 +6949,9 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <iconImagePath>
+                <specification>website/Business_zonne_b.jpg</specification>
+            </iconImagePath>
             <menu>
                 <uniqueIdentifier>-466e5d4c:15bb7dad45e:-6bcf</uniqueIdentifier>
                 <name>File</name>

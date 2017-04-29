@@ -8,12 +8,11 @@ import javax.xml.bind.annotation.XmlElements;
 
 public class Menu extends AbstractMenuItem implements IMenuItemContainer {
 
-	public Menu(String name) {
-		super(name);
+	public Menu(String name, String iconImagePath) {
+		super(name, iconImagePath);
 	}
 	
 	public Menu() {
-		this("");
 	}
 
 	private static final long serialVersionUID = 1L;

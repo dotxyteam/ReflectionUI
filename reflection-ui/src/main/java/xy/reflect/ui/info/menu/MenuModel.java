@@ -113,7 +113,7 @@ public class MenuModel implements Serializable {
 
 	protected IMenuItemContainer createContainer(IMenuElementPosition containerPosition) {
 		if (containerPosition.getElementKind() == MenuElementKind.MENU) {
-			return new Menu(containerPosition.getElementName());
+			return new Menu(containerPosition.getElementName(), null);
 		} else if (containerPosition.getElementKind() == MenuElementKind.ITEM_CATEGORY) {
 			return new MenuItemCategory(containerPosition.getElementName());
 		} else {

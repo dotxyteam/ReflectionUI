@@ -77,6 +77,7 @@ import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.menu.AbstractMenuItem;
 import xy.reflect.ui.info.menu.ActionMenuItem;
 import xy.reflect.ui.info.menu.IMenuElementPosition;
 import xy.reflect.ui.info.menu.MenuModel;
@@ -611,7 +612,7 @@ public class SwingRenderer {
 				window.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowOpened(WindowEvent e) {
-						updateFormBasedWindowMenuBar(window);						
+						updateFormBasedWindowMenuBar(window);
 						validateFormInBackgroundAndReportOnStatusBar(form);
 					}
 				});
@@ -925,6 +926,15 @@ public class SwingRenderer {
 
 	public Image getMethodIconImage(IMethodControlData data) {
 		String imagePathSpecification = data.getIconImagePath();
+		if (imagePathSpecification == null) {
+			return null;
+		}
+		return SwingRendererUtils.loadImageThroughcache(new ResourcePath(imagePathSpecification),
+				ReflectionUIUtils.getErrorLogListener(reflectionUI));
+	}
+
+	public Image getMenuIconImage(AbstractMenuItem menuItem) {
+		String imagePathSpecification = menuItem.getIconImagePath();
 		if (imagePathSpecification == null) {
 			return null;
 		}
@@ -1557,7 +1567,7 @@ public class SwingRenderer {
 				((IAdvancedFieldControl) fieldControl).addMenuContribution(menuModel);
 			}
 		}
-		SwingRendererUtils.updateMenubar(menuBar, menuModel);
+		SwingRendererUtils.updateMenubar(menuBar, menuModel, this);
 	}
 
 	public void addFormMenuContribution(final JPanel form, MenuModel menuModel) {
@@ -1566,14 +1576,16 @@ public class SwingRenderer {
 		for (final IMethodInfo method : type.getMethods()) {
 			IMenuElementPosition menuItemPosition = method.getMenuItemPosition();
 			if (menuItemPosition != null) {
-				ActionMenuItem menuAction = new ActionMenuItem(menuItemPosition.getElementName(), new Runnable() {
-					@Override
-					public void run() {
-						MethodAction methodAction = createMethodAction(createMethodControlPlaceHolder(form, method));
-						methodAction.setShouldDisplayReturnValueIfAny(true);
-						methodAction.execute(form);
-					}
-				});
+				ActionMenuItem menuAction = new ActionMenuItem(menuItemPosition.getElementName(),
+						method.getIconImagePath(), new Runnable() {
+							@Override
+							public void run() {
+								IMethodControlInput methodActionInput = createMethodControlPlaceHolder(form, method);
+								MethodAction methodAction = createMethodAction(methodActionInput);
+								methodAction.setShouldDisplayReturnValueIfAny(true);
+								methodAction.execute(form);
+							}
+						});
 				menuModel.contribute(menuItemPosition, menuAction);
 			}
 		}

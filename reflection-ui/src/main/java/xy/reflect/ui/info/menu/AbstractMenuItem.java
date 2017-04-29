@@ -4,14 +4,15 @@ public abstract class AbstractMenuItem extends AbstractMenuElement {
 	private static final long serialVersionUID = 1L;
 
 	protected String name = "";
+	protected String iconImagePath;
 
-	public AbstractMenuItem(String name) {
+	public AbstractMenuItem(String name, String iconImagePath) {
 		super();
 		this.name = name;
+		this.iconImagePath = iconImagePath;
 	}
 
 	public AbstractMenuItem() {
-		this("");
 	}
 
 	public String getName() {
@@ -20,6 +21,14 @@ public abstract class AbstractMenuItem extends AbstractMenuElement {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getIconImagePath() {
+		return iconImagePath;
+	}
+
+	public void setIconImagePath(String iconImagePath) {
+		this.iconImagePath = iconImagePath;
 	}
 
 	@Override

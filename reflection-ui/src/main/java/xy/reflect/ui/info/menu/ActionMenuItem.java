@@ -6,8 +6,8 @@ public class ActionMenuItem extends AbstractMenuItem {
 
 	protected Runnable action;
 
-	public ActionMenuItem(String name, Runnable action) {
-		super(name);
+	public ActionMenuItem(String name, String iconImagePath, Runnable action) {
+		super(name, iconImagePath);
 		this.action = action;
 	}
 

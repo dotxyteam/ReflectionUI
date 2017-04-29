@@ -636,6 +636,15 @@ public class SwingRendererUtils {
 		}
 	}
 
+	public static Icon getMenuItemIcon(SwingRenderer swingRenderer, AbstractMenuItem menuItem) {
+		Image iconImage = swingRenderer.getMenuIconImage(menuItem);
+		if (iconImage != null) {
+			return SwingRendererUtils.getSmallIcon(iconImage);
+		} else {
+			return null;
+		}
+	}
+
 	public static Window getActiveWindow() {
 		return KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusedWindow();
 	}
@@ -788,39 +797,40 @@ public class SwingRendererUtils {
 		return null;
 	}
 
-	public static void updateMenubar(JMenuBar menuBar, MenuModel menuModel) {
+	public static void updateMenubar(JMenuBar menuBar, MenuModel menuModel, SwingRenderer swingRenderer) {
 		menuBar.removeAll();
 		for (Menu menu : menuModel.getMenus()) {
-			menuBar.add(createJMenu(menu));
+			menuBar.add(createJMenu(menu, swingRenderer));
 		}
 	}
 
-	public static JMenu createJMenu(Menu menu) {
+	public static JMenu createJMenu(Menu menu, SwingRenderer swingRenderer) {
 		JMenu result = new JMenu(menu.getName());
+		result.setIcon(getMenuItemIcon(swingRenderer, menu));
 		for (AbstractMenuItem item : menu.getItems()) {
-			result.add(createJMenuItem(item));
+			result.add(createJMenuItem(item, swingRenderer));
 		}
 		for (MenuItemCategory category : menu.getItemCategories()) {
 			result.addSeparator();
 			for (AbstractMenuItem item : category.getItems()) {
-				result.add(createJMenuItem(item));
+				result.add(createJMenuItem(item, swingRenderer));
 			}
 		}
 		return result;
 	}
 
-	public static JMenuItem createJMenuItem(AbstractMenuItem item) {
+	public static JMenuItem createJMenuItem(AbstractMenuItem item, SwingRenderer swingRenderer) {
 		if (item instanceof ActionMenuItem) {
-			return createJMenuActionItem((ActionMenuItem) item);
+			return createJMenuActionItem((ActionMenuItem) item, swingRenderer);
 		} else if (item instanceof Menu) {
-			return createJMenu((Menu) item);
+			return createJMenu((Menu) item, swingRenderer);
 		} else {
 			throw new ReflectionUIError();
 		}
 	}
 
-	public static JMenuItem createJMenuActionItem(final ActionMenuItem actionItem) {
-		return new JMenuItem(new AbstractAction(actionItem.getName()) {
+	public static JMenuItem createJMenuActionItem(final ActionMenuItem actionItem, SwingRenderer swingRenderer) {
+		JMenuItem result = new JMenuItem(new AbstractAction(actionItem.getName()) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -828,6 +838,8 @@ public class SwingRendererUtils {
 				actionItem.getAction().run();
 			}
 		});
+		result.setIcon(getMenuItemIcon(swingRenderer, actionItem));
+		return result;
 	}
 
 	public static void setMenuBar(Window window, JMenuBar menuBar) {

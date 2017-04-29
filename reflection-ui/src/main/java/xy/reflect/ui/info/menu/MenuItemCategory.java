@@ -13,12 +13,10 @@ public class MenuItemCategory extends AbstractMenuElement implements IMenuItemCo
 	protected List<AbstractMenuItem> items = new ArrayList<AbstractMenuItem>();
 
 	public MenuItemCategory(String name) {
-		super();
 		this.name = name;
 	}
 
 	public MenuItemCategory() {
-		this("");
 	}
 
 	@Override
