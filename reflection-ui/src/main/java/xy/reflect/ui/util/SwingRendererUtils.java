@@ -58,7 +58,9 @@ import javax.swing.UIManager;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IMethodControlData;
+import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
+import xy.reflect.ui.control.swing.MethodAction;
 import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.renderer.MethodControlPlaceHolder;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
@@ -68,7 +70,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.AbstractMenuItem;
-import xy.reflect.ui.info.menu.ActionMenuItem;
+import xy.reflect.ui.info.menu.MethodActionMenuItem;
 import xy.reflect.ui.info.menu.Menu;
 import xy.reflect.ui.info.menu.MenuItemCategory;
 import xy.reflect.ui.info.menu.MenuModel;
@@ -820,8 +822,8 @@ public class SwingRendererUtils {
 	}
 
 	public static JMenuItem createJMenuItem(AbstractMenuItem item, SwingRenderer swingRenderer) {
-		if (item instanceof ActionMenuItem) {
-			return createJMenuActionItem((ActionMenuItem) item, swingRenderer);
+		if (item instanceof MethodActionMenuItem) {
+			return createJMenuActionItem((MethodActionMenuItem) item, swingRenderer);
 		} else if (item instanceof Menu) {
 			return createJMenu((Menu) item, swingRenderer);
 		} else {
@@ -829,13 +831,17 @@ public class SwingRendererUtils {
 		}
 	}
 
-	public static JMenuItem createJMenuActionItem(final ActionMenuItem actionItem, SwingRenderer swingRenderer) {
+	public static JMenuItem createJMenuActionItem(final MethodActionMenuItem actionItem, final SwingRenderer swingRenderer) {
 		JMenuItem result = new JMenuItem(new AbstractAction(actionItem.getName()) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				actionItem.getAction().run();
+				JPanel form = swingRenderer.getFormByMethodActionMenuItem().get(actionItem);
+				IMethodControlInput input = swingRenderer.createMethodControlPlaceHolder(form, actionItem.getMethod());
+				MethodAction methodAction= swingRenderer.createMethodAction(input);
+				methodAction.setShouldDisplayReturnValueIfAny(true);
+				methodAction.execute(form);
 			}
 		});
 		result.setIcon(getMenuItemIcon(swingRenderer, actionItem));

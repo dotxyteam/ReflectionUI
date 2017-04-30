@@ -6,6 +6,7 @@ import java.util.List;
 
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.Visitor;
 
 public class MenuModel implements Serializable {
 
@@ -20,38 +21,54 @@ public class MenuModel implements Serializable {
 		this.menus = menus;
 	}
 
-	public IMenuElement contribute(IMenuElementPosition position, IMenuElement element) {
+	public IMenuElement importContribution(IMenuElementPosition position, IMenuElement element) {
+		if (position.getElementKind() != ReflectionUIUtils.getMenuElementKind(element)) {
+			throw new ReflectionUIError("Failed to add menu contribution: Position '" + position
+					+ "' does not match element '" + element + "'");
+		}
 		if (position.getParent() == null) {
-			return addOrMergeIn(element, null);
+			return importContributionIn(element, null);
 		} else {
 			IMenuElementPosition containerPosition = position.getParent();
 			IMenuItemContainer container = getContainer(containerPosition);
-			return addOrMergeIn(element, container);
+			return importContributionIn(element, container);
 		}
 	}
 
-	public void merge(MenuModel model) {
+	public void importContributions(MenuModel model) {
 		for (Menu menu : model.getMenus()) {
-			addOrMergeIn(menu, null);
+			importContributionIn(menu, null);
 		}
 	}
 
-	protected void merge(IMenuElement sourceElement, IMenuElement targetElement) {
-		if (!same(sourceElement, targetElement)) {
+	public void visit(Visitor<IMenuElement> visitor) {
+		visitChildren(visitor, null);
+	}
+
+	protected boolean visitChildren(Visitor<IMenuElement> visitor, IMenuElement element) {
+		for (IMenuElement child : getChildren(element)) {
+			if (!visitor.visit(child)) {
+				return false;
+			}
+			if (!visitChildren(visitor, child)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	protected void importChildrenContributions(IMenuItemContainer sourceContainer, IMenuItemContainer targetContainer) {
+		if (!same(sourceContainer, targetContainer)) {
 			throw new ReflectionUIError();
 		}
-		if (!(sourceElement instanceof IMenuItemContainer)) {
-			throw new ReflectionUIError(
-					"Duplicate menu item detected (cannot merge): '" + sourceElement.getName() + "'");
-		}
-		for (IMenuElement sourceElementChild : getChildren(sourceElement)) {
-			addOrMergeIn(sourceElementChild, (IMenuItemContainer) targetElement);
+		for (IMenuElement sourceElementChild : getChildren(sourceContainer)) {
+			importContributionIn(sourceElementChild, (IMenuItemContainer) targetContainer);
 		}
 	}
 
 	protected IMenuItemContainer getContainer(IMenuElementPosition containerPosition) {
 		IMenuItemContainer container = createContainer(containerPosition);
-		container = (IMenuItemContainer) contribute(containerPosition, container);
+		container = (IMenuItemContainer) importContribution(containerPosition, container);
 		return container;
 	}
 
@@ -69,12 +86,21 @@ public class MenuModel implements Serializable {
 		return result;
 	}
 
-	protected IMenuElement addOrMergeIn(IMenuElement element, IMenuItemContainer container) {
+	protected IMenuElement importContributionIn(IMenuElement element, IMenuItemContainer container) {
 		for (IMenuElement containerChild : getChildren(container)) {
 			if (same(element, containerChild)) {
-				merge(element, containerChild);
+				if (!(containerChild instanceof IMenuItemContainer)) {
+					throw new ReflectionUIError(
+							"Duplicate menu item detected (cannot merge): '" + containerChild.getName() + "'");
+				}
+				importChildrenContributions((IMenuItemContainer) element, (IMenuItemContainer) containerChild);
 				return containerChild;
 			}
+		}
+		if (element instanceof IMenuItemContainer) {
+			IMenuItemContainer sameElement = createSameContainer((IMenuItemContainer) element);
+			importChildrenContributions((IMenuItemContainer) element, sameElement);
+			element = sameElement;
 		}
 		if (container == null) {
 			if (!(element instanceof Menu)) {
@@ -100,6 +126,16 @@ public class MenuModel implements Serializable {
 			throw new ReflectionUIError();
 		}
 		return element;
+	}
+
+	protected IMenuItemContainer createSameContainer(IMenuItemContainer element) {
+		if (element instanceof Menu) {
+			return new Menu(((Menu) element).getName(), ((Menu) element).getIconImagePath());
+		} else if (element instanceof MenuItemCategory) {
+			return new MenuItemCategory(((MenuItemCategory) element).getName());
+		} else {
+			throw new ReflectionUIError();
+		}
 	}
 
 	protected boolean same(IMenuElement menuElement1, IMenuElement menuElement2) {

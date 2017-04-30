@@ -7,7 +7,6 @@ import java.util.Map;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.menu.IMenuElementPosition;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
@@ -21,11 +20,6 @@ public class FieldAsGetter implements IMethodInfo {
 	public FieldAsGetter(IFieldInfo field, String getterName) {
 		this.field = field;
 		this.getterName = getterName;
-	}
-
-	@Override
-	public IMenuElementPosition getMenuItemPosition() {
-		return null;
 	}
 
 	@Override

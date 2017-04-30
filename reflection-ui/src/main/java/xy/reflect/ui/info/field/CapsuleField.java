@@ -92,14 +92,11 @@ public class CapsuleField implements IFieldInfo {
 
 	@Override
 	public Object getValue(Object object) {
-		return getInstance(object);
-	}
-
-	public Object getInstance(Object object) {
-		Instance result = new Instance(object);
+		Value result = new Value(object);
 		reflectionUI.registerPrecomputedTypeInfoObject(result, new ValueTypeInfo());
 		return result;
 	}
+
 
 	@Override
 	public Runnable getCustomUndoUpdateJob(Object object, Object value) {
@@ -215,11 +212,11 @@ public class CapsuleField implements IFieldInfo {
 				+ encapsulatedFields + ", methods=" + encapsulatedMethods + "]";
 	}
 
-	protected class Instance {
+	protected class Value {
 
 		protected Object object;
 
-		public Instance(Object object) {
+		public Value(Object object) {
 			super();
 			this.object = object;
 		}
@@ -245,7 +242,7 @@ public class CapsuleField implements IFieldInfo {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			Instance other = (Instance) obj;
+			Value other = (Value) obj;
 			if (!getOuterType().equals(other.getOuterType()))
 				return false;
 			if (object == null) {
@@ -329,7 +326,7 @@ public class CapsuleField implements IFieldInfo {
 
 		@Override
 		public boolean supportsInstance(Object object) {
-			return object instanceof Instance;
+			return object instanceof Value;
 		}
 
 		@Override
@@ -399,25 +396,25 @@ public class CapsuleField implements IFieldInfo {
 
 		@Override
 		public Object getValue(Object object) {
-			object = ((Instance) object).getObject();
+			object = ((Value) object).getObject();
 			return super.getValue(object);
 		}
 
 		@Override
 		public Runnable getCustomUndoUpdateJob(Object object, Object value) {
-			object = ((Instance) object).getObject();
+			object = ((Value) object).getObject();
 			return super.getCustomUndoUpdateJob(object, value);
 		}
 
 		@Override
 		public Object[] getValueOptions(Object object) {
-			object = ((Instance) object).getObject();
+			object = ((Value) object).getObject();
 			return super.getValueOptions(object);
 		}
 
 		@Override
 		public void setValue(Object object, Object value) {
-			object = ((Instance) object).getObject();
+			object = ((Value) object).getObject();
 			super.setValue(object, value);
 		}
 
@@ -435,19 +432,19 @@ public class CapsuleField implements IFieldInfo {
 
 		@Override
 		public Object invoke(Object object, InvocationData invocationData) {
-			object = ((Instance) object).getObject();
+			object = ((Value) object).getObject();
 			return super.invoke(object, invocationData);
 		}
 
 		@Override
 		public Runnable getUndoJob(Object object, InvocationData invocationData) {
-			object = ((Instance) object).getObject();
+			object = ((Value) object).getObject();
 			return super.getUndoJob(object, invocationData);
 		}
 
 		@Override
 		public void validateParameters(Object object, InvocationData invocationData) throws Exception {
-			object = ((Instance) object).getObject();
+			object = ((Value) object).getObject();
 			super.validateParameters(object, invocationData);
 		}
 

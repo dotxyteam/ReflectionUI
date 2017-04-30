@@ -5,7 +5,6 @@ import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.menu.IMenuElementPosition;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 
 public abstract class AbstractConstructorInfo implements IMethodInfo {
@@ -18,11 +17,6 @@ public abstract class AbstractConstructorInfo implements IMethodInfo {
 	@Override
 	public String getCaption() {
 		return "Create " + getReturnValueType().getCaption();
-	}
-
-	@Override
-	public IMenuElementPosition getMenuItemPosition() {
-		return null;
 	}
 
 	@Override

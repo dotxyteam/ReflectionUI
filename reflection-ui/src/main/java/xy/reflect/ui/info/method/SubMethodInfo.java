@@ -8,7 +8,6 @@ import xy.reflect.ui.control.DefaultMethodControlData;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.menu.IMenuElementPosition;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
@@ -53,11 +52,6 @@ public class SubMethodInfo implements IMethodInfo {
 	@Override
 	public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
 		return theSubMethod.getReturnValueTypeSpecificities();
-	}
-
-	@Override
-	public IMenuElementPosition getMenuItemPosition() {
-		return null;
 	}
 
 	@Override

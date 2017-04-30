@@ -6,7 +6,6 @@ import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.menu.IMenuElementPosition;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -17,11 +16,6 @@ public abstract class AbstractListAction implements IMethodInfo {
 
 	public boolean isEnabled() {
 		return true;
-	}
-
-	@Override
-	public IMenuElementPosition getMenuItemPosition() {
-		return null;
 	}
 
 	@Override

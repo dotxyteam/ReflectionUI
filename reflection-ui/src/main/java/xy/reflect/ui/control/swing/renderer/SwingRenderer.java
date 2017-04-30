@@ -78,8 +78,8 @@ import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.AbstractMenuItem;
-import xy.reflect.ui.info.menu.ActionMenuItem;
-import xy.reflect.ui.info.menu.IMenuElementPosition;
+import xy.reflect.ui.info.menu.IMenuElement;
+import xy.reflect.ui.info.menu.MethodActionMenuItem;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -101,6 +101,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.ResourcePath;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.SystemProperties;
+import xy.reflect.ui.util.Visitor;
 import xy.reflect.ui.util.component.ScrollPaneOptions;
 import xy.reflect.ui.util.component.WrapLayout;
 
@@ -127,7 +128,8 @@ public class SwingRenderer {
 	protected Map<JPanel, Boolean> refreshRequestQueuedByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, Boolean> refreshRequestExecutingByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<Component, IFieldControlPlugin> pluginByFieldControl = new MapMaker().weakKeys().makeMap();
-
+	protected Map<MethodActionMenuItem, JPanel> formByMethodActionMenuItem = new MapMaker().weakKeys().makeMap();
+	
 	public SwingRenderer(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
 	}
@@ -185,6 +187,14 @@ public class SwingRenderer {
 		return pluginByFieldControl;
 	}
 
+	public Map<FieldControlPlaceHolder, Component> getCaptionControlByFieldControlPlaceHolder() {
+		return captionControlByFieldControlPlaceHolder;
+	}
+
+	public Map<MethodActionMenuItem, JPanel> getFormByMethodActionMenuItem() {
+		return formByMethodActionMenuItem;
+	}
+
 	public Map<String, InvocationData> getLastInvocationDataByMethodSignature() {
 		return lastInvocationDataByMethodSignature;
 	}
@@ -237,15 +247,15 @@ public class SwingRenderer {
 		SwingRendererUtils.setContentPane(window, contentPane);
 
 		if (SwingRendererUtils.isForm(content, this)) {
-			JPanel form = (JPanel) content;
-			JMenuBar menuBar = createMenuBar(form);
+			JMenuBar menuBar = createMenuBar();
 			SwingRendererUtils.setMenuBar(window, menuBar);
+			updateFormBasedWindowMenuBar(window);			
 		}
 
 		SwingRendererUtils.adjustWindowInitialBounds(window);
 	}
 
-	public JMenuBar createMenuBar(JPanel form) {
+	public JMenuBar createMenuBar() {
 		JMenuBar result = new JMenuBar();
 		return result;
 	}
@@ -612,7 +622,6 @@ public class SwingRenderer {
 				window.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowOpened(WindowEvent e) {
-						updateFormBasedWindowMenuBar(window);
 						validateFormInBackgroundAndReportOnStatusBar(form);
 					}
 				});
@@ -1479,17 +1488,17 @@ public class SwingRenderer {
 		boolean initialUpdate = (layout.getConstraints(fieldControlPlaceHolder).gridx == -1);
 
 		if (!initialUpdate) {
-			boolean hasSeparateCaptionControl = captionControlByFieldControlPlaceHolder
+			boolean hasSeparateCaptionControl = getCaptionControlByFieldControlPlaceHolder()
 					.containsKey(fieldControlPlaceHolder);
 			if (hasSeparateCaptionControl == shouldHaveSeparateCaptionControl) {
 				return;
 			}
 		}
 
-		Component captionControl = captionControlByFieldControlPlaceHolder.get(fieldControlPlaceHolder);
+		Component captionControl = getCaptionControlByFieldControlPlaceHolder().get(fieldControlPlaceHolder);
 		if (captionControl != null) {
 			container.remove(captionControl);
-			captionControlByFieldControlPlaceHolder.remove(fieldControlPlaceHolder);
+			getCaptionControlByFieldControlPlaceHolder().remove(fieldControlPlaceHolder);
 		}
 
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(fieldControlPlaceHolder.getObject()));
@@ -1512,7 +1521,7 @@ public class SwingRenderer {
 			captionControlLayoutConstraints.weighty = 1.0;
 			captionControlLayoutConstraints.anchor = GridBagConstraints.WEST;
 			container.add(captionControl, captionControlLayoutConstraints);
-			captionControlByFieldControlPlaceHolder.put(fieldControlPlaceHolder, captionControl);
+			getCaptionControlByFieldControlPlaceHolder().put(fieldControlPlaceHolder, captionControl);
 		}
 		{
 			GridBagConstraints fieldControlPlaceHolderLayoutConstraints = new GridBagConstraints();
@@ -1572,23 +1581,18 @@ public class SwingRenderer {
 
 	public void addFormMenuContribution(final JPanel form, MenuModel menuModel) {
 		ITypeInfo type = getFormFilteredType(form);
-		menuModel.merge(type.getMenuModel());
-		for (final IMethodInfo method : type.getMethods()) {
-			IMenuElementPosition menuItemPosition = method.getMenuItemPosition();
-			if (menuItemPosition != null) {
-				ActionMenuItem menuAction = new ActionMenuItem(menuItemPosition.getElementName(),
-						method.getIconImagePath(), new Runnable() {
-							@Override
-							public void run() {
-								IMethodControlInput methodActionInput = createMethodControlPlaceHolder(form, method);
-								MethodAction methodAction = createMethodAction(methodActionInput);
-								methodAction.setShouldDisplayReturnValueIfAny(true);
-								methodAction.execute(form);
-							}
-						});
-				menuModel.contribute(menuItemPosition, menuAction);
+		MenuModel formMenuModel = type.getMenuModel();
+		formMenuModel.visit(new Visitor<IMenuElement>() {			
+			@Override
+			public boolean visit(IMenuElement e) {
+				if(e instanceof MethodActionMenuItem){
+					MethodActionMenuItem methodAction = (MethodActionMenuItem)e;
+					getFormByMethodActionMenuItem().put(methodAction, form);
+				}
+				return true;
 			}
-		}
+		});
+		menuModel.importContributions(formMenuModel);		
 	}
 
 	public void validateForm(JPanel form) throws Exception {

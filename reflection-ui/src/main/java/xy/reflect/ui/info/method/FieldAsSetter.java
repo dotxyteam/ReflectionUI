@@ -7,7 +7,6 @@ import java.util.Map;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.menu.IMenuElementPosition;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.parameter.ParameterInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -56,11 +55,6 @@ public class FieldAsSetter implements IMethodInfo {
 	public FieldAsSetter(IFieldInfo field, String setterName) {
 		this.field = field;
 		this.setterName = setterName;
-	}
-
-	@Override
-	public IMenuElementPosition getMenuItemPosition() {
-		return null;
 	}
 
 	@Override

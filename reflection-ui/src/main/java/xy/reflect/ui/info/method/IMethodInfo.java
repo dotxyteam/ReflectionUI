@@ -7,7 +7,6 @@ import java.util.Map;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.menu.IMenuElementPosition;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
@@ -19,11 +18,6 @@ public interface IMethodInfo extends IInfo {
 		@Override
 		public String getName() {
 			return "NULL_METHOD_INFO";
-		}
-
-		@Override
-		public IMenuElementPosition getMenuItemPosition() {
-			return null;
 		}
 
 		@Override
@@ -110,8 +104,6 @@ public interface IMethodInfo extends IInfo {
 			return getName();
 		}
 	};
-
-	IMenuElementPosition getMenuItemPosition();
 
 	ITypeInfo getReturnValueType();
 

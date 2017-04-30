@@ -15560,7 +15560,7 @@
         <fieldsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6cae</uniqueIdentifier>
             <specificProperties/>
-            <hidden>false</hidden>
+            <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>options</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
@@ -16914,6 +16914,42 @@
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
         </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-342b0631:15bbcc84088:-6aff</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.menu.IMenuElement importContribution(xy.reflect.ui.info.menu.IMenuElementPosition, xy.reflect.ui.info.menu.IMenuElement)</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-342b0631:15bbcc84088:-6afe</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>void importContributions(xy.reflect.ui.info.menu.MenuModel)</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-342b0631:15bbcc84088:-6afd</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <methodSignature>void visit(xy.reflect.ui.util.Visitor)</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
         <typeName>xy.reflect.ui.info.menu.MenuModel</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -16946,6 +16982,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <customFieldsOrder>name</customFieldsOrder>
+        <customFieldsOrder>iconImagePath</customFieldsOrder>
         <customFieldsOrder>items</customFieldsOrder>
         <customFieldsOrder>itemCategories</customFieldsOrder>
         <fieldsCustomizations>
@@ -17016,6 +17053,21 @@
                     <stringValueColumnAdded>false</stringValueColumnAdded>
                 </listCustomizations>
             </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-342b0631:15bbcc84088:-6b00</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>iconImagePath</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
         </fieldsCustomizations>
         <iconImagePath>
             <specification>&lt;class-path-resource&gt; xy/reflect/ui/resource/menu.png</specification>
@@ -17546,6 +17598,30 @@
         <immutableForced>false</immutableForced>
         <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=menus, containingType=xy.reflect.ui.info.menu.MenuModel], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.menu.MenuItemCategory]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-342b0631:15bbcc84088:-6b28</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-342b0631:15bbcc84088:-6b27</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [context=MethodContext [methodSignature=xy.reflect.ui.control.swing.customizer.CustomizationOptions options.get(), containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.control.swing.customizer.CustomizationController], fieldName=]], subContext=MethodResult, encapsulatedObjectType=xy.reflect.ui.control.swing.customizer.CustomizationOptions]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

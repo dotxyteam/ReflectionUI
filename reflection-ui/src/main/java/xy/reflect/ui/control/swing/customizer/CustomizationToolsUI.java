@@ -24,7 +24,6 @@ import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.menu.AbstractMenuElement;
 import xy.reflect.ui.info.menu.IMenuElement;
-import xy.reflect.ui.info.menu.IMenuElementPosition;
 import xy.reflect.ui.info.menu.IMenuItemContainer;
 import xy.reflect.ui.info.menu.Menu;
 import xy.reflect.ui.info.menu.MenuItemCategory;
@@ -142,11 +141,7 @@ class CustomizationToolsUI extends ReflectionUI {
 					final InfoCustomizations infoCustomizations) {
 				return new IMethodInfo() {
 
-					@Override
-					public IMenuElementPosition getMenuItemPosition() {
-						return null;
-					}
-
+					
 					@Override
 					public boolean isReturnValueNullable() {
 						return false;

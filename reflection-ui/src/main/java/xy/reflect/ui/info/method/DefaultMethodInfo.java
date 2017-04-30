@@ -12,7 +12,6 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.GetterFieldInfo;
-import xy.reflect.ui.info.menu.IMenuElementPosition;
 import xy.reflect.ui.info.parameter.DefaultParameterInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -37,11 +36,6 @@ public class DefaultMethodInfo implements IMethodInfo {
 
 	protected void resolveJavaReflectionModelAccessProblems() {
 		javaMethod.setAccessible(true);
-	}
-
-	@Override
-	public IMenuElementPosition getMenuItemPosition() {
-		return null;
 	}
 
 	@Override

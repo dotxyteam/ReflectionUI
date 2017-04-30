@@ -11,7 +11,6 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
-import xy.reflect.ui.info.menu.IMenuElementPosition;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -260,10 +259,6 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return method.getParameters();
 	}
 
-	protected IMenuElementPosition getMenuItemPosition(IMethodInfo method, ITypeInfo containingType) {
-		return method.getMenuItemPosition();
-	}
-
 	protected ITypeInfo getReturnValueType(IMethodInfo method, ITypeInfo containingType) {
 		return wrapMethodReturnValueType(method.getReturnValueType());
 	}
@@ -509,7 +504,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return info.getCaption();
 	}
 
-	private class GeneratedBasicTypeInfoProxy implements ITypeInfo {
+	protected class GeneratedBasicTypeInfoProxy implements ITypeInfo {
 
 		protected String GENERATED_PROXY_FACTORY_LIST_KEY = TypeInfoProxyFactory.class.getName()
 				+ "GENERATED_PROXY_FACTORY_LIST";
@@ -711,7 +706,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	}
 
-	private class GeneratedListTypeInfoProxy extends GeneratedBasicTypeInfoProxy implements IListTypeInfo {
+	protected class GeneratedListTypeInfoProxy extends GeneratedBasicTypeInfoProxy implements IListTypeInfo {
 
 		public GeneratedListTypeInfoProxy(IListTypeInfo type) {
 			super(type);
@@ -823,7 +818,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	}
 
-	private class GeneratedEnumerationTypeInfoProxy extends GeneratedBasicTypeInfoProxy
+	protected class GeneratedEnumerationTypeInfoProxy extends GeneratedBasicTypeInfoProxy
 			implements IEnumerationTypeInfo {
 
 		public GeneratedEnumerationTypeInfoProxy(IEnumerationTypeInfo type) {
@@ -854,7 +849,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	}
 
-	private class GeneratedMapEntryTypeInfoProxy extends GeneratedBasicTypeInfoProxy implements IMapEntryTypeInfo {
+	protected class GeneratedMapEntryTypeInfoProxy extends GeneratedBasicTypeInfoProxy implements IMapEntryTypeInfo {
 
 		public GeneratedMapEntryTypeInfoProxy(IMapEntryTypeInfo type) {
 			super(type);
@@ -878,7 +873,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	}
 
-	private class GeneratedFieldInfoProxy implements IFieldInfo {
+	protected class GeneratedFieldInfoProxy implements IFieldInfo {
 
 		protected TypeInfoProxyFactory factory = TypeInfoProxyFactory.this;
 
@@ -1032,7 +1027,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	}
 
-	private class GeneratedMethodInfoProxy implements IMethodInfo {
+	protected class GeneratedMethodInfoProxy implements IMethodInfo {
 
 		protected TypeInfoProxyFactory factory = TypeInfoProxyFactory.this;
 
@@ -1052,11 +1047,6 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		@Override
 		public String getCaption() {
 			return TypeInfoProxyFactory.this.getCaption(base, containingType);
-		}
-
-		@Override
-		public IMenuElementPosition getMenuItemPosition() {
-			return TypeInfoProxyFactory.this.getMenuItemPosition(base, containingType);
 		}
 
 		@Override
@@ -1189,7 +1179,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	}
 
-	private class GeneratedConstructorInfoProxy extends GeneratedMethodInfoProxy {
+	protected class GeneratedConstructorInfoProxy extends GeneratedMethodInfoProxy {
 
 		public GeneratedConstructorInfoProxy(IMethodInfo ctor, ITypeInfo containingType) {
 			super(ctor, containingType);
@@ -1197,7 +1187,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	}
 
-	private class GeneratedParameterInfoProxy implements IParameterInfo {
+	protected class GeneratedParameterInfoProxy implements IParameterInfo {
 
 		protected TypeInfoProxyFactory factory = TypeInfoProxyFactory.this;
 
@@ -1308,7 +1298,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	}
 
-	private class GeneratedEnumerationItemInfoProxy implements IEnumerationItemInfo {
+	protected class GeneratedEnumerationItemInfoProxy implements IEnumerationItemInfo {
 
 		protected TypeInfoProxyFactory factory = TypeInfoProxyFactory.this;
 
