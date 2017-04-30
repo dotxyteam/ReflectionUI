@@ -1,40 +1,24 @@
+- List Item Not Nullable customization
 - customization controller
 	* stabilize window
 	* allow to lock/unlock all types ???
 	* ask to save customizations before disposing ??? 
-- menu icons
 - add ITypeInfo.equals() ???
 	=> not urgent at first sight
-- separate from customizations model:
-	- menu classes
-	- list item details mode classes
-	- ...
-- customizations issue:
-	* some customizations cannot be cumulated
-	=> very annoying
-- bug: cannot move columns
 - focus on default control on dialog opening not working
 - clean:
 	* make every info inner class public
 	* check Info class names
 		. remove "Info" except for interfaces
 		. find better names if possible
-	* extract SwingRenderer.*PlaceHolder classes
 - what was decided about valiation of controls with no caption ???
-- allow to merge fields into sub form
-- allow to change fields layout (VERTICAL, HORIZONTAL)
-- option to put method in menu
 - date control plugin ???
 - password control plugin
-- allow SliderPlugin to handle long and short and byte
-- create SpinnerPlugin
 - listControl: allow to edit multiple items at the same time
 - how to deal with hidden nullables when the value remains null
-- good idea to create an instance silently
-knowing that we may not be able to alter it ???
-- indent toString()s
+- indent toString()s ???
 - allow to set (min) list size ???
-- allow to ignore method result
+- allow to ignore method result (in customizations) ???
 - should not need to exclude list item members:
 	columns should be able to feed from the uncustomized type???
 	but what about items inside and outside the list at the same time ???
