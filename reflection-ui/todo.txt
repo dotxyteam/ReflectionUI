@@ -1,3 +1,4 @@
+- reset column order option
 - too much borders => reduce
 - evolve customizations:
 	* add ParameterCustomization.inputFieldName???
@@ -28,7 +29,6 @@
 	but what about items inside and outside the list at the same time ???
 	=> think about it
 
-- reset column order option
 - reflectionUI is often excluded from hashCode() and equals()
 	=> justified ?
 - allow to specify ImplicitListField in customizations
