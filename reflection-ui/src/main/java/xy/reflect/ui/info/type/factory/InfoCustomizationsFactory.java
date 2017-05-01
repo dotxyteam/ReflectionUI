@@ -166,7 +166,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 				containingType.getName());
 		if (t != null) {
 			MethodCustomization m = InfoCustomizations.getMethodCustomization(t,
-					ReflectionUIUtils.getMethodSignature(method));
+					method.getSignature());
 			if (m != null) {
 				if (m.isDetachedReturnValueForced()) {
 					return true;
@@ -183,14 +183,14 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 				containingType.getName());
 		if (t != null) {
 			MethodCustomization m = InfoCustomizations.getMethodCustomization(t,
-					ReflectionUIUtils.getMethodSignature(method));
+					method.getSignature());
 			if (m != null) {
 				ITypeInfoProxyFactory result = new InfoCustomizationsFactory(reflectionUI,
 						m.getSpecificReturnValueTypeCustomizations()) {
 					@Override
 					public String getIdentifier() {
 						return "MethodReturnValueTypeSpecificities [containingTypeName=" + containingType.getName()
-								+ ", methodSignature=" + ReflectionUIUtils.getMethodSignature(method) + "]";
+								+ ", methodSignature=" + method.getSignature() + "]";
 					}
 				};
 				ITypeInfoProxyFactory baseTypeSpecificities = method.getReturnValueTypeSpecificities();
@@ -250,7 +250,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 				containingType.getName());
 		if (t != null) {
 			MethodCustomization m = InfoCustomizations.getMethodCustomization(t,
-					ReflectionUIUtils.getMethodSignature(method));
+					method.getSignature());
 			if (m != null) {
 				if (m.getNullReturnValueLabel() != null) {
 					return m.getNullReturnValueLabel();
@@ -366,7 +366,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 				containingType.getName());
 		if (t != null) {
 			MethodCustomization m = InfoCustomizations.getMethodCustomization(t,
-					ReflectionUIUtils.getMethodSignature(method));
+					method.getSignature());
 			if (m != null) {
 				if (m.getCustomValueReturnMode() != null) {
 					return m.getCustomValueReturnMode();
@@ -594,7 +594,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 					if (item != null) {
 						ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
 						for (final IMethodInfo itemMethod : actualItemType.getMethods()) {
-							if (ReflectionUIUtils.getMethodSignature(itemMethod).equals(s.getMethodSignature())) {
+							if (itemMethod.getSignature().equals(s.getMethodSignature())) {
 								AbstractListAction action = new AbstractListAction() {
 
 									AbstractListAction thisAction = this;
@@ -929,7 +929,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 				containingType.getName());
 		if (t != null) {
 			MethodCustomization m = InfoCustomizations.getMethodCustomization(t,
-					ReflectionUIUtils.getMethodSignature(method));
+					method.getSignature());
 			if (m != null) {
 				if (m.getIconImagePath() != null) {
 					String result = m.getIconImagePath().getSpecification();
@@ -1012,7 +1012,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 				containingType.getName());
 		if (t != null) {
 			MethodCustomization m = InfoCustomizations.getMethodCustomization(t,
-					ReflectionUIUtils.getMethodSignature(method));
+					method.getSignature());
 			if (m != null) {
 				if (m.getSpecificProperties() != null) {
 					if (m.getSpecificProperties().entrySet().size() > 0) {
@@ -1034,7 +1034,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 				containingType.getName());
 		if (t != null) {
 			MethodCustomization m = InfoCustomizations.getMethodCustomization(t,
-					ReflectionUIUtils.getMethodSignature(method));
+					method.getSignature());
 			if (m != null) {
 				ParameterCustomization p = InfoCustomizations.getParameterCustomization(m, param.getName());
 				if (p != null) {
@@ -1055,7 +1055,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 				containingType.getName());
 		if (t != null) {
 			MethodCustomization m = InfoCustomizations.getMethodCustomization(t,
-					ReflectionUIUtils.getMethodSignature(method));
+					method.getSignature());
 			if (m != null) {
 				ParameterCustomization p = InfoCustomizations.getParameterCustomization(m, param.getName());
 				if (p != null) {
@@ -1074,7 +1074,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 				containingType.getName());
 		if (t != null) {
 			MethodCustomization m = InfoCustomizations.getMethodCustomization(t,
-					ReflectionUIUtils.getMethodSignature(method));
+					method.getSignature());
 			if (m != null) {
 				ParameterCustomization p = InfoCustomizations.getParameterCustomization(m, param.getName());
 				if (p != null) {
@@ -1161,7 +1161,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 				containingType.getName());
 		if (t != null) {
 			MethodCustomization m = InfoCustomizations.getMethodCustomization(t,
-					ReflectionUIUtils.getMethodSignature(method));
+					method.getSignature());
 			if (m != null) {
 				if (m.isReadOnlyForced()) {
 					return true;
@@ -1177,7 +1177,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 				containingType.getName());
 		if (t != null) {
 			MethodCustomization m = InfoCustomizations.getMethodCustomization(t,
-					ReflectionUIUtils.getMethodSignature(method));
+					method.getSignature());
 			if (m != null) {
 				List<IParameterInfo> result = new ArrayList<IParameterInfo>(
 						super.getParameters(method, containingType));
@@ -1208,7 +1208,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 				containingType.getName());
 		if (t != null) {
 			MethodCustomization m = InfoCustomizations.getMethodCustomization(t,
-					ReflectionUIUtils.getMethodSignature(method));
+					method.getSignature());
 			if (m != null) {
 				if (m.getCustomMethodCaption() != null) {
 					return m.getCustomMethodCaption();
@@ -1227,7 +1227,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 			for (Iterator<IMethodInfo> it = result.iterator(); it.hasNext();) {
 				IMethodInfo ctor = it.next();
 				MethodCustomization m = InfoCustomizations.getMethodCustomization(t,
-						ReflectionUIUtils.getMethodSignature(ctor));
+						ctor.getSignature());
 				if (m != null) {
 					if (m.isHidden()) {
 						it.remove();
@@ -1292,10 +1292,8 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 			for (int j = i + 1; j < methods.size(); j++) {
 				IMethodInfo method1 = methods.get(i);
 				IMethodInfo method2 = methods.get(j);
-				if (ReflectionUIUtils.getMethodSignature(method1)
-						.equals(ReflectionUIUtils.getMethodSignature(method2))) {
-					throw new ReflectionUIError(
-							"Duplicate method detected: '" + ReflectionUIUtils.getMethodSignature(method1) + "'");
+				if (method1.getSignature().equals(method2.getSignature())) {
+					throw new ReflectionUIError("Duplicate method detected: '" + method1.getSignature() + "'");
 				}
 			}
 		}
@@ -1372,7 +1370,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 			for (IMethodInfo method : new ArrayList<IMethodInfo>(inputMethods)) {
 				inputMethods.remove(method);
 				MethodCustomization mc = InfoCustomizations.getMethodCustomization(tc,
-						ReflectionUIUtils.getMethodSignature(method));
+						method.getSignature());
 				if (mc != null) {
 					if (mc.isReturnValueFieldGenerated()) {
 						inputFields.add(new MethodAsField(method, method.getName() + ".result") {
@@ -1386,11 +1384,12 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 					}
 					for (final IParameterInfo param : method.getParameters()) {
 						final ParameterCustomization pc = InfoCustomizations.getParameterCustomization(mc,
-								param.getName());						
+								param.getName());
 						if (pc != null) {
 							if (pc.isDisplayedAsField()) {
 								final IMethodInfo finalMethod = method;
-								final MethodParameterAsField methodParameterAsField = new MethodParameterAsField(method, param) {
+								final MethodParameterAsField methodParameterAsField = new MethodParameterAsField(method,
+										param) {
 
 									@Override
 									public String getName() {
@@ -1406,7 +1405,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 								};
 								inputFields.add(methodParameterAsField);
 								method = new MethodInfoProxy(method) {
-									
+
 									@Override
 									public List<IParameterInfo> getParameters() {
 										List<IParameterInfo> result = new ArrayList<IParameterInfo>();
@@ -1421,8 +1420,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 
 									@Override
 									public Object invoke(Object object, InvocationData invocationData) {
-										Object paramValue = methodParameterAsField
-												.getValue(object);
+										Object paramValue = methodParameterAsField.getValue(object);
 										invocationData.setParameterValue(param, paramValue);
 										try {
 											super.validateParameters(object, invocationData);
@@ -1517,7 +1515,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 
 			for (IMethodInfo method : new ArrayList<IMethodInfo>(outputMethods)) {
 				MethodCustomization mc = InfoCustomizations.getMethodCustomization(tc,
-						ReflectionUIUtils.getMethodSignature(method));
+						method.getSignature());
 				if (mc != null) {
 					if (mc.getEncapsulationFieldName() != null) {
 						Pair<List<IFieldInfo>, List<IMethodInfo>> encapsulatedMembers = encapsulatedMembersByCapsuleFieldName
@@ -1589,11 +1587,11 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 		}
 		for (IMethodInfo method : capsuleFieldType.getMethods()) {
 			if (InfoCustomizations.getMethodCustomization(capsuleTc,
-					ReflectionUIUtils.getMethodSignature(method)) == null) {
+					method.getSignature()) == null) {
 				MethodCustomization initialMc = InfoCustomizations.getMethodCustomization(capsuleTc,
-						ReflectionUIUtils.getMethodSignature(method), true);
+						method.getSignature(), true);
 				MethodCustomization baseMc = InfoCustomizations.getMethodCustomization(containingTc,
-						ReflectionUIUtils.getMethodSignature(method));
+						method.getSignature());
 				initialMc.setCustomMethodCaption(baseMc.getCustomMethodCaption());
 				initialMc.setCustomValueReturnMode(baseMc.getCustomValueReturnMode());
 				initialMc.setDetachedReturnValueForced(baseMc.isDetachedReturnValueForced());
@@ -1664,7 +1662,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 			for (IMethodInfo method : methods) {
 				MethodCustomization m = InfoCustomizations.getMethodCustomization(t,
-						ReflectionUIUtils.getMethodSignature(method));
+						method.getSignature());
 				if (m != null) {
 					if (m.isHidden()) {
 						continue;
@@ -1699,7 +1697,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 					if (method != null) {
 						if (method.getParameters().size() > 0) {
 							throw new ReflectionUIError("Invalid validating method: Number of parameters > 0: "
-									+ ReflectionUIUtils.getMethodSignature(method));
+									+ method.getSignature());
 						}
 						method.invoke(object, new InvocationData());
 					}
@@ -1733,7 +1731,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 				containingType.getName());
 		if (t != null) {
 			MethodCustomization m = InfoCustomizations.getMethodCustomization(t,
-					ReflectionUIUtils.getMethodSignature(method));
+					method.getSignature());
 			if (m != null) {
 				CustomizationCategory category = m.getCategory();
 				List<CustomizationCategory> categories = t.getMemberCategories();
@@ -1767,7 +1765,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 				containingType.getName());
 		if (t != null) {
 			MethodCustomization m = InfoCustomizations.getMethodCustomization(t,
-					ReflectionUIUtils.getMethodSignature(method));
+					method.getSignature());
 			if (m != null) {
 				ParameterCustomization p = InfoCustomizations.getParameterCustomization(m, param.getName());
 				if (p != null) {
@@ -1797,7 +1795,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 				containingType.getName());
 		if (t != null) {
 			MethodCustomization m = InfoCustomizations.getMethodCustomization(t,
-					ReflectionUIUtils.getMethodSignature(method));
+					method.getSignature());
 			if (m != null) {
 				if (m.getOnlineHelp() != null) {
 					return m.getOnlineHelp();

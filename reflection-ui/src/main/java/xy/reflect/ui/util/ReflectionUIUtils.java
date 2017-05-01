@@ -255,7 +255,7 @@ public class ReflectionUIUtils {
 
 	public static <T extends IMethodInfo> T findMethodBySignature(List<T> methods, String signature) {
 		for (T method : methods) {
-			String candidateMethodSignature = getMethodSignature(method);
+			String candidateMethodSignature = method.getSignature();
 			if (candidateMethodSignature.equals(signature)) {
 				return method;
 			}

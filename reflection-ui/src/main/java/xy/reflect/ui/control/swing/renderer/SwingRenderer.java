@@ -129,7 +129,7 @@ public class SwingRenderer {
 	protected Map<JPanel, Boolean> refreshRequestExecutingByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<Component, IFieldControlPlugin> pluginByFieldControl = new MapMaker().weakKeys().makeMap();
 	protected Map<MethodActionMenuItem, JPanel> formByMethodActionMenuItem = new MapMaker().weakKeys().makeMap();
-	
+
 	public SwingRenderer(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
 	}
@@ -249,7 +249,7 @@ public class SwingRenderer {
 		if (SwingRendererUtils.isForm(content, this)) {
 			JMenuBar menuBar = createMenuBar();
 			SwingRendererUtils.setMenuBar(window, menuBar);
-			updateFormBasedWindowMenuBar(window);			
+			updateFormBasedWindowMenuBar(window);
 		}
 
 		SwingRendererUtils.adjustWindowInitialBounds(window);
@@ -910,7 +910,7 @@ public class SwingRenderer {
 	public List<MethodControlPlaceHolder> getMethodControlPlaceHoldersBySignature(JPanel form, String methodSignature) {
 		List<MethodControlPlaceHolder> result = new ArrayList<MethodControlPlaceHolder>();
 		for (MethodControlPlaceHolder methodControlPlaceHolder : getMethodControlPlaceHolders(form)) {
-			if (ReflectionUIUtils.getMethodSignature(methodControlPlaceHolder.getMethod()).equals(methodSignature)) {
+			if (methodControlPlaceHolder.getMethod().getSignature().equals(methodSignature)) {
 				result.add(methodControlPlaceHolder);
 			}
 		}
@@ -1030,7 +1030,7 @@ public class SwingRenderer {
 					@Override
 					public String getContextIdentifier() {
 						return "ContructorContext [type=" + finalType.getName() + ", signature="
-								+ ReflectionUIUtils.getMethodSignature(chosenConstructor) + "]";
+								+ chosenConstructor.getSignature() + "]";
 					}
 
 					@Override
@@ -1582,17 +1582,17 @@ public class SwingRenderer {
 	public void addFormMenuContribution(final JPanel form, MenuModel menuModel) {
 		ITypeInfo type = getFormFilteredType(form);
 		MenuModel formMenuModel = type.getMenuModel();
-		formMenuModel.visit(new Visitor<IMenuElement>() {			
+		formMenuModel.visit(new Visitor<IMenuElement>() {
 			@Override
 			public boolean visit(IMenuElement e) {
-				if(e instanceof MethodActionMenuItem){
-					MethodActionMenuItem methodAction = (MethodActionMenuItem)e;
+				if (e instanceof MethodActionMenuItem) {
+					MethodActionMenuItem methodAction = (MethodActionMenuItem) e;
 					getFormByMethodActionMenuItem().put(methodAction, form);
 				}
 				return true;
 			}
 		});
-		menuModel.importContributions(formMenuModel);		
+		menuModel.importContributions(formMenuModel);
 	}
 
 	public void validateForm(JPanel form) throws Exception {

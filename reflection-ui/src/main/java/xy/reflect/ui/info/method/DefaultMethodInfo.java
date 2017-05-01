@@ -34,6 +34,11 @@ public class DefaultMethodInfo implements IMethodInfo {
 		resolveJavaReflectionModelAccessProblems();
 	}
 
+	@Override
+	public String getSignature() {
+		return ReflectionUIUtils.getMethodSignature(this);
+	}
+
 	protected void resolveJavaReflectionModelAccessProblems() {
 		javaMethod.setAccessible(true);
 	}

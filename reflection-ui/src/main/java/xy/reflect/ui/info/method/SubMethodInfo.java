@@ -45,6 +45,11 @@ public class SubMethodInfo implements IMethodInfo {
 	}
 
 	@Override
+	public String getSignature() {
+		return ReflectionUIUtils.getMethodSignature(this);
+	}
+
+	@Override
 	public ITypeInfo getReturnValueType() {
 		return theSubMethod.getReturnValueType();
 	}

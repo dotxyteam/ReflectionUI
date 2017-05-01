@@ -26,6 +26,7 @@ import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.info.method.InvocationData;
 
 public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
@@ -281,6 +282,10 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	protected String getName(IMethodInfo method, ITypeInfo containingType) {
 		return method.getName();
+	}
+
+	protected String getSignature(IMethodInfo method, ITypeInfo containingType) {
+		return method.getSignature();
 	}
 
 	protected Object[] getPossibleValues(IEnumerationTypeInfo type) {
@@ -1042,6 +1047,11 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		@Override
 		public String getName() {
 			return TypeInfoProxyFactory.this.getName(base, containingType);
+		}
+
+		@Override
+		public String getSignature() {
+			return TypeInfoProxyFactory.this.getSignature(base, containingType);
 		}
 
 		@Override

@@ -141,7 +141,11 @@ class CustomizationToolsUI extends ReflectionUI {
 					final InfoCustomizations infoCustomizations) {
 				return new IMethodInfo() {
 
-					
+					@Override
+					public String getSignature() {
+						return ReflectionUIUtils.getMethodSignature(this);
+					}
+
 					@Override
 					public boolean isReturnValueNullable() {
 						return false;

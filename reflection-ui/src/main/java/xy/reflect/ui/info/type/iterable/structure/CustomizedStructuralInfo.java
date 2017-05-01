@@ -124,7 +124,7 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 
 			@Override
 			public boolean excludeMethod(IMethodInfo method) {
-				String methodSignature = ReflectionUIUtils.getMethodSignature(method);
+				String methodSignature = method.getSignature();
 				for (InfoFilter filter : customization.getMethodsExcludedFromItemDetails()) {
 					if (filter.matches(methodSignature)) {
 						return true;

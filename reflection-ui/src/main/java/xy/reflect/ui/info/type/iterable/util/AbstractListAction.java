@@ -11,8 +11,14 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public abstract class AbstractListAction implements IMethodInfo {
+
+	@Override
+	public String getSignature() {
+		return ReflectionUIUtils.getMethodSignature(this);
+	}
 
 	public boolean isEnabled() {
 		return true;

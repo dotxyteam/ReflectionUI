@@ -58,6 +58,11 @@ public class FieldAsSetter implements IMethodInfo {
 	}
 
 	@Override
+	public String getSignature() {
+		return ReflectionUIUtils.getMethodSignature(this);
+	}
+
+	@Override
 	public String getIconImagePath() {
 		return null;
 	}

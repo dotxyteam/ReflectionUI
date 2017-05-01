@@ -8,6 +8,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MethodInfoProxy implements IMethodInfo {
 
@@ -19,6 +20,11 @@ public class MethodInfoProxy implements IMethodInfo {
 
 	public IMethodInfo getBase() {
 		return base;
+	}
+
+	@Override
+	public String getSignature() {
+		return base.getSignature();
 	}
 
 	public boolean isReturnValueNullable() {

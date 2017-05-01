@@ -88,7 +88,7 @@ public class DefaultMethodControlData implements IMethodControlData {
 
 	@Override
 	public String getMethodSignature() {
-		return ReflectionUIUtils.getMethodSignature(method);
+		return method.getSignature();
 	}
 
 	public String getIconImagePath() {

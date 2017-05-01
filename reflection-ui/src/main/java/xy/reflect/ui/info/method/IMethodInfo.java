@@ -10,6 +10,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public interface IMethodInfo extends IInfo {
 
@@ -18,6 +19,11 @@ public interface IMethodInfo extends IInfo {
 		@Override
 		public String getName() {
 			return "NULL_METHOD_INFO";
+		}
+
+		@Override
+		public String getSignature() {
+			return ReflectionUIUtils.getMethodSignature(this);
 		}
 
 		@Override
@@ -104,6 +110,8 @@ public interface IMethodInfo extends IInfo {
 			return getName();
 		}
 	};
+
+	String getSignature();
 
 	ITypeInfo getReturnValueType();
 

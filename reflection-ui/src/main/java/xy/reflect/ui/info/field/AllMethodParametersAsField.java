@@ -38,8 +38,8 @@ public class AllMethodParametersAsField implements IFieldInfo {
 
 	protected MethodInvocationDataAsObjectFactory createFactory() {
 		return new MethodInvocationDataAsObjectFactory(reflectionUI, method,
-				"MethodParametersAsFieldContext [methodSignature=" + ReflectionUIUtils.getMethodSignature(method)
-						+ ", fieldName=" + fieldName + "]");
+				"MethodParametersAsFieldContext [methodSignature=" + method.getSignature() + ", fieldName=" + fieldName
+						+ "]");
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class AllMethodParametersAsField implements IFieldInfo {
 			invocationDataByMethodByObject.put(object, invocationDataByMethod);
 		}
 		InvocationData invocationData = invocationDataByMethod.get(method);
-		if(invocationData == null){
+		if (invocationData == null) {
 			invocationData = new InvocationData();
 			invocationDataByMethod.put(method, invocationData);
 		}

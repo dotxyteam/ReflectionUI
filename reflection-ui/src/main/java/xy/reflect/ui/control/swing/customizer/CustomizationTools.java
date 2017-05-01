@@ -266,15 +266,13 @@ public class CustomizationTools {
 				InfoCustomizations.getFieldCustomization(tc, field.getName(), true);
 			}
 			for (IMethodInfo method : customizedType.getMethods()) {
-				String methodSignature = ReflectionUIUtils.getMethodSignature(method);
-				InfoCustomizations.getMethodCustomization(tc, methodSignature, true);
-				MethodCustomization mc = InfoCustomizations.getMethodCustomization(tc, methodSignature, true);
+				InfoCustomizations.getMethodCustomization(tc, method.getSignature(), true);
+				MethodCustomization mc = InfoCustomizations.getMethodCustomization(tc, method.getSignature(), true);
 				updateMethodCustomization(mc, method);
 			}
 			for (IMethodInfo ctor : customizedType.getConstructors()) {
-				String methodSignature = ReflectionUIUtils.getMethodSignature(ctor);
-				InfoCustomizations.getMethodCustomization(tc, methodSignature, true);
-				MethodCustomization mc = InfoCustomizations.getMethodCustomization(tc, methodSignature, true);
+				InfoCustomizations.getMethodCustomization(tc, ctor.getSignature(), true);
+				MethodCustomization mc = InfoCustomizations.getMethodCustomization(tc, ctor.getSignature(), true);
 				updateMethodCustomization(mc, ctor);
 			}
 		} catch (Throwable t) {
@@ -755,12 +753,12 @@ public class CustomizationTools {
 
 	public Component makeButtonForMethodInfo(final MethodControlPlaceHolder methodControlPlaceHolder) {
 		final JButton result = makeButton();
-		SwingRendererUtils.setMultilineToolTipText(result, toolsRenderer.prepareStringToDisplay(
-				getCustomizationTitle(ReflectionUIUtils.getMethodSignature(methodControlPlaceHolder.getMethod()))));
+		SwingRendererUtils.setMultilineToolTipText(result, toolsRenderer
+				.prepareStringToDisplay(getCustomizationTitle(methodControlPlaceHolder.getMethod().getSignature())));
 		result.addActionListener(new ActionListener() {
 
 			private String getMethodInfoSignature() {
-				return ReflectionUIUtils.getMethodSignature(methodControlPlaceHolder.getMethod());
+				return methodControlPlaceHolder.getMethod().getSignature();
 			}
 
 			@Override

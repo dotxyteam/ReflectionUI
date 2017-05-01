@@ -138,7 +138,7 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 	public String getContextIdentifier() {
 		ITypeInfo objectType = this.swingRenderer.reflectionUI
 				.getTypeInfo(this.swingRenderer.reflectionUI.getTypeInfoSource(getObject()));
-		return "MethodContext [methodSignature=" + ReflectionUIUtils.getMethodSignature(method) + ", containingType="
+		return "MethodContext [methodSignature=" + method.getSignature() + ", containingType="
 				+ objectType.getName() + "]";
 	}
 
@@ -273,7 +273,7 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 
 		@Override
 		public String getMethodSignature() {
-			return ReflectionUIUtils.getMethodSignature(finalMethod);
+			return finalMethod.getSignature();
 		}
 
 		@Override
