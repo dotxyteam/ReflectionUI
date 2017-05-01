@@ -1,3 +1,7 @@
+- evolve customizations:
+	* MethodCustomization.parametersFormDisplayed => ParameterCustomization.displayedAsField
+	* add ParameterCustomization.inputFieldName
+	* add Field.nullStatusBooleanFieldName???
 - List Item Not Nullable customization
 - customization controller
 	* stabilize window

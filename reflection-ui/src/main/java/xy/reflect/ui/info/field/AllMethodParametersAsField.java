@@ -1,7 +1,10 @@
 package xy.reflect.ui.info.field;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
+
+import com.google.common.collect.MapMaker;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
@@ -11,20 +14,21 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
-import xy.reflect.ui.info.type.factory.MethodParametersAsObjectFactory;
+import xy.reflect.ui.info.type.factory.MethodInvocationDataAsObjectFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class MethodParametersAsField implements IFieldInfo {
+public class AllMethodParametersAsField implements IFieldInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected IMethodInfo method;
 	protected String fieldName;
 
-	protected MethodParametersAsObjectFactory factory;
-	protected InvocationData invocationData = new InvocationData();
+	protected MethodInvocationDataAsObjectFactory factory;
+	protected static Map<Object, Map<IMethodInfo, InvocationData>> invocationDataByMethodByObject = new MapMaker()
+			.weakKeys().makeMap();
 
-	public MethodParametersAsField(ReflectionUI reflectionUI, IMethodInfo method, String fieldName) {
+	public AllMethodParametersAsField(ReflectionUI reflectionUI, IMethodInfo method, String fieldName) {
 		this.reflectionUI = reflectionUI;
 		this.method = method;
 		this.fieldName = fieldName;
@@ -32,9 +36,10 @@ public class MethodParametersAsField implements IFieldInfo {
 		this.factory = createFactory();
 	}
 
-	protected MethodParametersAsObjectFactory createFactory() {
-		return new MethodParametersAsObjectFactory(reflectionUI, method, "MethodParametersAsFieldContext [methodSignature="
-				+ ReflectionUIUtils.getMethodSignature(method) + ", fieldName=" + fieldName + "]");
+	protected MethodInvocationDataAsObjectFactory createFactory() {
+		return new MethodInvocationDataAsObjectFactory(reflectionUI, method,
+				"MethodParametersAsFieldContext [methodSignature=" + ReflectionUIUtils.getMethodSignature(method)
+						+ ", fieldName=" + fieldName + "]");
 	}
 
 	@Override
@@ -69,6 +74,16 @@ public class MethodParametersAsField implements IFieldInfo {
 
 	@Override
 	public Object getValue(Object object) {
+		Map<IMethodInfo, InvocationData> invocationDataByMethod = invocationDataByMethodByObject.get(object);
+		if (invocationDataByMethod == null) {
+			invocationDataByMethod = new HashMap<IMethodInfo, InvocationData>();
+			invocationDataByMethodByObject.put(object, invocationDataByMethod);
+		}
+		InvocationData invocationData = invocationDataByMethod.get(method);
+		if(invocationData == null){
+			invocationData = new InvocationData();
+			invocationDataByMethod.put(method, invocationData);
+		}
 		return factory.getInstance(object, invocationData);
 	}
 
@@ -144,7 +159,7 @@ public class MethodParametersAsField implements IFieldInfo {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MethodParametersAsField other = (MethodParametersAsField) obj;
+		AllMethodParametersAsField other = (AllMethodParametersAsField) obj;
 		if (fieldName == null) {
 			if (other.fieldName != null)
 				return false;

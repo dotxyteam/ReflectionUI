@@ -137,8 +137,8 @@ public class ImplicitListField implements IFieldInfo {
 		for (int i = 0; i < array.length; i++) {
 			Object item = array[i];
 			InvocationData invocationData = new InvocationData();
-			invocationData.setparameterValue(0, i);
-			invocationData.setparameterValue(1, item);
+			invocationData.setParameterValue(0, i);
+			invocationData.setParameterValue(1, item);
 			getAddMethod().invoke(object, invocationData);
 		}
 	}

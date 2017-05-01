@@ -133,6 +133,10 @@ public class ReflectionUITest {
 			theFloat *= factor;
 		}
 
+		public void multiplyTheInt(int factor) {
+			theInt *= factor;
+		}
+
 		public void doLongTask() {
 			try {
 				Thread.sleep(5000);

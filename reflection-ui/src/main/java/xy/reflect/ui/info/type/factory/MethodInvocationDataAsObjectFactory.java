@@ -6,10 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.InfoCategory;
-import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.field.MethodParameterAsField;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -20,20 +18,20 @@ import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class MethodParametersAsObjectFactory {
+public class MethodInvocationDataAsObjectFactory {
 
 	protected ReflectionUI reflectionUI;
 	protected IMethodInfo method;
 	protected String contextId;
 
-	public MethodParametersAsObjectFactory(ReflectionUI reflectionUI, IMethodInfo method, String contextId) {
+	public MethodInvocationDataAsObjectFactory(ReflectionUI reflectionUI, IMethodInfo method, String contextId) {
 		this.reflectionUI = reflectionUI;
 		this.method = method;
 		this.contextId = contextId;
 	}
 
 	public Instance getInstance(Object object, InvocationData invocationData) {
-		Instance result = new MethodParametersAsObjectFactory.Instance(object, invocationData);
+		Instance result = new MethodInvocationDataAsObjectFactory.Instance(object, invocationData);
 		reflectionUI.registerPrecomputedTypeInfoObject(result, new TypeInfo());
 		return result;
 	}
@@ -81,7 +79,7 @@ public class MethodParametersAsObjectFactory {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MethodParametersAsObjectFactory other = (MethodParametersAsObjectFactory) obj;
+		MethodInvocationDataAsObjectFactory other = (MethodInvocationDataAsObjectFactory) obj;
 		if (contextId == null) {
 			if (other.contextId != null)
 				return false;
@@ -100,7 +98,7 @@ public class MethodParametersAsObjectFactory {
 		return "MethodSetupObjectFactory [method=" + method + ", contextId=" + contextId + "]";
 	}
 
-	protected class Instance {
+	public class Instance {
 		protected Object object;
 		protected InvocationData invocationData;
 
@@ -151,8 +149,8 @@ public class MethodParametersAsObjectFactory {
 			return true;
 		}
 
-		private MethodParametersAsObjectFactory getOuterType() {
-			return MethodParametersAsObjectFactory.this;
+		private MethodInvocationDataAsObjectFactory getOuterType() {
+			return MethodInvocationDataAsObjectFactory.this;
 		}
 
 		@Override
@@ -178,7 +176,6 @@ public class MethodParametersAsObjectFactory {
 		public MenuModel getMenuModel() {
 			return new MenuModel();
 		}
-
 
 		@Override
 		public boolean isConcrete() {
@@ -209,7 +206,7 @@ public class MethodParametersAsObjectFactory {
 		public List<IFieldInfo> getFields() {
 			List<IFieldInfo> result = new ArrayList<IFieldInfo>();
 			for (IParameterInfo param : method.getParameters()) {
-				result.add(new ParameterAsField(param));
+				result.add(new FieldInfo(param));
 			}
 			return result;
 		}
@@ -294,8 +291,8 @@ public class MethodParametersAsObjectFactory {
 			return true;
 		}
 
-		private MethodParametersAsObjectFactory getOuterType() {
-			return MethodParametersAsObjectFactory.this;
+		private MethodInvocationDataAsObjectFactory getOuterType() {
+			return MethodInvocationDataAsObjectFactory.this;
 		}
 
 		@Override
@@ -305,32 +302,16 @@ public class MethodParametersAsObjectFactory {
 
 	}
 
-	protected class ParameterAsField implements IFieldInfo {
-		protected IParameterInfo param;
-
-		public ParameterAsField(IParameterInfo param) {
-			this.param = param;
+	protected class FieldInfo extends MethodParameterAsField {
+		
+		public FieldInfo(IParameterInfo param) {
+			super(MethodInvocationDataAsObjectFactory.this.method, param);
 		}
 
 		@Override
 		public void setValue(Object object, Object value) {
 			Instance instance = (Instance) object;
-			instance.invocationData.setparameterValue(param, value);
-		}
-
-		@Override
-		public Runnable getCustomUndoUpdateJob(Object object, Object value) {
-			return null;
-		}
-
-		@Override
-		public boolean isValueNullable() {
-			return param.isValueNullable();
-		}
-
-		@Override
-		public String getNullValueLabel() {
-			return null;
+			instance.invocationData.setParameterValue(param, value);
 		}
 
 		@Override
@@ -339,73 +320,8 @@ public class MethodParametersAsObjectFactory {
 			return instance.invocationData.getParameterValue(param);
 		}
 
-		@Override
-		public Object[] getValueOptions(Object object) {
-			return null;
-		}
-
-		@Override
-		public ITypeInfo getType() {
-			return param.getType();
-		}
-
-		@Override
-		public ITypeInfoProxyFactory getTypeSpecificities() {
-			return null;
-		}
-
-		@Override
-		public String getCaption() {
-			return param.getCaption();
-		}
-
-		@Override
-		public boolean isGetOnly() {
-			return false;
-		}
-
-		@Override
-		public ValueReturnMode getValueReturnMode() {
-			return ValueReturnMode.INDETERMINATE;
-		}
-
-		@Override
-		public String getName() {
-			return param.getName();
-		}
-
-		@Override
-		public InfoCategory getCategory() {
-			return null;
-		}
-
-		@Override
-		public String getOnlineHelp() {
-			return param.getOnlineHelp();
-		}
-
-		@Override
-		public boolean isFormControlMandatory() {
-			return false;
-		}
-
-		@Override
-		public boolean isFormControlEmbedded() {
-			return false;
-		}
-
-		@Override
-		public IInfoFilter getFormControlFilter() {
-			return IInfoFilter.DEFAULT;
-		}
-
-		@Override
-		public Map<String, Object> getSpecificProperties() {
-			return Collections.emptyMap();
-		}
-
-		private MethodParametersAsObjectFactory getOuterType() {
-			return MethodParametersAsObjectFactory.this;
+		private MethodInvocationDataAsObjectFactory getOuterType() {
+			return MethodInvocationDataAsObjectFactory.this;
 		}
 
 		@Override
@@ -425,7 +341,7 @@ public class MethodParametersAsObjectFactory {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			ParameterAsField other = (ParameterAsField) obj;
+			FieldInfo other = (FieldInfo) obj;
 			if (!getOuterType().equals(other.getOuterType()))
 				return false;
 			if (param == null) {

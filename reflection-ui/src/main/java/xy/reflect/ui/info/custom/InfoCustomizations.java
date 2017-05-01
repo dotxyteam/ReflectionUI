@@ -1281,6 +1281,15 @@ public class InfoCustomizations implements Serializable {
 		protected boolean hidden = false;
 		protected boolean nullableFacetHidden = false;
 		protected String onlineHelp;
+		protected boolean displayedAsField;
+
+		public boolean isDisplayedAsField() {
+			return displayedAsField;
+		}
+
+		public void setDisplayedAsField(boolean displayedAsField) {
+			this.displayedAsField = displayedAsField;
+		}
 
 		public String getParameterName() {
 			return parameterName;

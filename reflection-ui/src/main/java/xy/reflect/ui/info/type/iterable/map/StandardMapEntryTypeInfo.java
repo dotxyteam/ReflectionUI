@@ -199,7 +199,7 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 						for (Integer position : invocationData.getPositions()) {
 							Object value = invocationData.getParameterValue(position, NO_DEFAULT_VALUE);
 							if (value != NO_DEFAULT_VALUE) {
-								result.setparameterValue(position + offset, value);
+								result.setParameterValue(position + offset, value);
 							}
 						}
 						return result;

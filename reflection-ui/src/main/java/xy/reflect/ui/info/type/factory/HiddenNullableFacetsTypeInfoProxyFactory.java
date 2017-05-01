@@ -58,7 +58,7 @@ public class HiddenNullableFacetsTypeInfoProxyFactory extends TypeInfoProxyFacto
 					paramValue = generateDefaultValue(param, method);
 				}
 			}
-			newIinvocationData.setparameterValue(param, paramValue);
+			newIinvocationData.setParameterValue(param, paramValue);
 		}
 		return super.invoke(object, newIinvocationData, method, containingType);
 	}

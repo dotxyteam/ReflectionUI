@@ -32,11 +32,11 @@ public class InvocationData {
 		}
 	}
 
-	public void setparameterValue(IParameterInfo param, Object value) {
-		setparameterValue(param.getPosition(), value);
+	public void setParameterValue(IParameterInfo param, Object value) {
+		setParameterValue(param.getPosition(), value);
 	}
 
-	public void setparameterValue(int parameterPosition, Object value) {
+	public void setParameterValue(int parameterPosition, Object value) {
 		valueByParameterPosition.put(parameterPosition, value);
 	}
 

@@ -26,10 +26,11 @@ import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MethodAsField;
-import xy.reflect.ui.info.field.MethodParametersAsField;
+import xy.reflect.ui.info.field.AllMethodParametersAsField;
 import xy.reflect.ui.info.field.CapsuleField;
 import xy.reflect.ui.info.field.NerverNullField;
 import xy.reflect.ui.info.field.NullStatusField;
+import xy.reflect.ui.info.field.MethodParameterAsField;
 import xy.reflect.ui.info.field.SubFieldInfo;
 import xy.reflect.ui.info.field.ValueAsListField;
 import xy.reflect.ui.info.menu.DefaultMenuElementPosition;
@@ -49,6 +50,7 @@ import xy.reflect.ui.info.type.ITypeInfo.FieldsLayout;
 import xy.reflect.ui.info.type.enumeration.EnumerationItemInfoProxy;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
+import xy.reflect.ui.info.type.factory.MethodInvocationDataAsObjectFactory.Instance;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
@@ -1369,10 +1371,10 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 
 			for (IMethodInfo method : new ArrayList<IMethodInfo>(inputMethods)) {
 				inputMethods.remove(method);
-				MethodCustomization m = InfoCustomizations.getMethodCustomization(tc,
+				MethodCustomization mc = InfoCustomizations.getMethodCustomization(tc,
 						ReflectionUIUtils.getMethodSignature(method));
-				if (m != null) {
-					if (m.isReturnValueFieldGenerated()) {
+				if (mc != null) {
+					if (mc.isReturnValueFieldGenerated()) {
 						inputFields.add(new MethodAsField(method, method.getName() + ".result") {
 
 							@Override
@@ -1382,9 +1384,68 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 
 						});
 					}
-					if (m.isParametersFormDisplayed()) {
-						inputFields.add(
-								new MethodParametersAsField(reflectionUI, method, method.getName() + ".parameters"));
+					for (final IParameterInfo param : method.getParameters()) {
+						final ParameterCustomization pc = InfoCustomizations.getParameterCustomization(mc,
+								param.getName());						
+						if (pc != null) {
+							if (pc.isDisplayedAsField()) {
+								final IMethodInfo finalMethod = method;
+								final MethodParameterAsField methodParameterAsField = new MethodParameterAsField(method, param) {
+
+									@Override
+									public String getName() {
+										return finalMethod.getName() + "." + param.getName();
+									}
+
+									@Override
+									public String getCaption() {
+										return ReflectionUIUtils.composeMessage(finalMethod.getCaption(),
+												param.getCaption());
+									}
+
+								};
+								inputFields.add(methodParameterAsField);
+								method = new MethodInfoProxy(method) {
+									
+									@Override
+									public List<IParameterInfo> getParameters() {
+										List<IParameterInfo> result = new ArrayList<IParameterInfo>();
+										for (IParameterInfo param : super.getParameters()) {
+											if (pc.getParameterName().equals(param.getName())) {
+												continue;
+											}
+											result.add(param);
+										}
+										return result;
+									}
+
+									@Override
+									public Object invoke(Object object, InvocationData invocationData) {
+										Object paramValue = methodParameterAsField
+												.getValue(object);
+										invocationData.setParameterValue(param, paramValue);
+										try {
+											super.validateParameters(object, invocationData);
+										} catch (Exception e) {
+											throw new ReflectionUIError(e);
+										}
+										return super.invoke(object, invocationData);
+									}
+								};
+							}
+						}
+					}
+					if (mc.isParametersFormDisplayed()) {
+						final AllMethodParametersAsField methodParametersAsField = new AllMethodParametersAsField(
+								reflectionUI, method, method.getName() + ".parameters") {
+
+							@Override
+							public String getCaption() {
+								return ReflectionUIUtils.composeMessage(method.getCaption(), "Settings");
+							}
+
+						};
+						inputFields.add(methodParametersAsField);
 						method = new MethodInfoProxy(method) {
 
 							@Override
@@ -1397,14 +1458,27 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 									throws Exception {
 							}
 
+							@Override
+							public Object invoke(Object object, InvocationData invocationData) {
+								MethodInvocationDataAsObjectFactory.Instance instance = (Instance) methodParametersAsField
+										.getValue(object);
+								invocationData = instance.getInvocationData();
+								try {
+									super.validateParameters(object, invocationData);
+								} catch (Exception e) {
+									throw new ReflectionUIError(e);
+								}
+								return super.invoke(object, invocationData);
+							}
+
 						};
 					}
-					if (m.getMenuLocation() != null) {
+					if (mc.getMenuLocation() != null) {
 						List<IMenuItemContainer> ancestors = InfoCustomizations.getMenuElementAncestors(tc,
-								m.getMenuLocation());
+								mc.getMenuLocation());
 						if (ancestors != null) {
 							ancestors = new ArrayList<IMenuItemContainer>(ancestors);
-							ancestors.add(0, m.getMenuLocation());
+							ancestors.add(0, mc.getMenuLocation());
 							DefaultMenuElementPosition menuPosition = new DefaultMenuElementPosition(
 									method.getCaption(), MenuElementKind.ITEM, ancestors);
 							menuModel.importContribution(menuPosition,
@@ -1419,12 +1493,12 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 
 	protected void encapsulateOutputMembers(List<IFieldInfo> inputFields, List<IMethodInfo> inputMethods,
 			List<IFieldInfo> outputFields, List<IMethodInfo> outputMethods, ITypeInfo containingType) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.infoCustomizations,
+		TypeCustomization tc = InfoCustomizations.getTypeCustomization(this.infoCustomizations,
 				containingType.getName());
-		if (t != null) {
+		if (tc != null) {
 			Map<String, Pair<List<IFieldInfo>, List<IMethodInfo>>> encapsulatedMembersByCapsuleFieldName = new HashMap<String, Pair<List<IFieldInfo>, List<IMethodInfo>>>();
 			for (IFieldInfo field : new ArrayList<IFieldInfo>(outputFields)) {
-				FieldCustomization fc = InfoCustomizations.getFieldCustomization(t, field.getName());
+				FieldCustomization fc = InfoCustomizations.getFieldCustomization(tc, field.getName());
 				if (fc != null) {
 					if (fc.getEncapsulationFieldName() != null) {
 						Pair<List<IFieldInfo>, List<IMethodInfo>> encapsulatedMembers = encapsulatedMembersByCapsuleFieldName
@@ -1442,7 +1516,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 			}
 
 			for (IMethodInfo method : new ArrayList<IMethodInfo>(outputMethods)) {
-				MethodCustomization mc = InfoCustomizations.getMethodCustomization(t,
+				MethodCustomization mc = InfoCustomizations.getMethodCustomization(tc,
 						ReflectionUIUtils.getMethodSignature(method));
 				if (mc != null) {
 					if (mc.getEncapsulationFieldName() != null) {
@@ -1472,19 +1546,61 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 				IFieldInfo duplicateField = ReflectionUIUtils.findInfoByName(outputFields, capsuleFieldName);
 				String contextId = "EncapsulationContext [containingType=" + containingType.getName() + "]";
 				if (duplicateField != null) {
-					CapsuleField duplicateFieldTranslatedCapsule = CapsuleField.translateProxy(duplicateField);
-					if (duplicateFieldTranslatedCapsule != null) {
+					CapsuleField duplicateFieldAsTranslatedCapsuleField = CapsuleField.translateProxy(duplicateField);
+					if (duplicateFieldAsTranslatedCapsuleField != null) {
 						outputFields.remove(duplicateField);
-						encapsulatedFields.addAll(0, duplicateFieldTranslatedCapsule.getEncapsulatedFields());
-						encapsulatedMethods.addAll(0, duplicateFieldTranslatedCapsule.getEncapsulatedMethods());
-						contextId = duplicateFieldTranslatedCapsule.getContextId();
+						encapsulatedFields.addAll(0, duplicateFieldAsTranslatedCapsuleField.getEncapsulatedFields());
+						encapsulatedMethods.addAll(0, duplicateFieldAsTranslatedCapsuleField.getEncapsulatedMethods());
+						contextId = duplicateFieldAsTranslatedCapsuleField.getContextId();
 					} else {
 						throw new ReflectionUIError("Failed to generate capsule field: Duplicate field name detected: '"
 								+ capsuleFieldName + "'");
 					}
 				}
-				inputFields.add(new CapsuleField(reflectionUI, capsuleFieldName, encapsulatedFields,
-						encapsulatedMethods, contextId));
+				CapsuleField capsuleField = new CapsuleField(reflectionUI, capsuleFieldName, encapsulatedFields,
+						encapsulatedMethods, contextId);
+				initializeEncapsulatedMemberCustomizations(capsuleField, containingType);
+				inputFields.add(capsuleField);
+			}
+		}
+	}
+
+	protected void initializeEncapsulatedMemberCustomizations(CapsuleField capsuleField, ITypeInfo containingType) {
+		TypeCustomization containingTc = InfoCustomizations.getTypeCustomization(this.infoCustomizations,
+				containingType.getName());
+		ITypeInfo capsuleFieldType = capsuleField.getType();
+		TypeCustomization capsuleTc = InfoCustomizations.getTypeCustomization(infoCustomizations,
+				capsuleFieldType.getName(), true);
+		for (IFieldInfo field : capsuleFieldType.getFields()) {
+			if (InfoCustomizations.getFieldCustomization(capsuleTc, field.getName()) == null) {
+				FieldCustomization initialFc = InfoCustomizations.getFieldCustomization(capsuleTc, field.getName(),
+						true);
+				FieldCustomization baseFc = InfoCustomizations.getFieldCustomization(containingTc, field.getName());
+				initialFc.setCustomFieldCaption(baseFc.getCustomFieldCaption());
+				initialFc.setCustomValueReturnMode(baseFc.getCustomValueReturnMode());
+				initialFc.setDisplayedAsSingletonList(baseFc.isDisplayedAsSingletonList());
+				initialFc.setFormControlCreationForced(baseFc.isFormControlCreationForced());
+				initialFc.setFormControlEmbeddingForced(baseFc.isFormControlEmbeddingForced());
+				initialFc.setGetOnlyForced(baseFc.isGetOnlyForced());
+				initialFc.setNullableFacetHidden(baseFc.isNullableFacetHidden());
+				initialFc.setNullValueLabel(baseFc.getNullValueLabel());
+				initialFc.setOnlineHelp(baseFc.getOnlineHelp());
+			}
+		}
+		for (IMethodInfo method : capsuleFieldType.getMethods()) {
+			if (InfoCustomizations.getMethodCustomization(capsuleTc,
+					ReflectionUIUtils.getMethodSignature(method)) == null) {
+				MethodCustomization initialMc = InfoCustomizations.getMethodCustomization(capsuleTc,
+						ReflectionUIUtils.getMethodSignature(method), true);
+				MethodCustomization baseMc = InfoCustomizations.getMethodCustomization(containingTc,
+						ReflectionUIUtils.getMethodSignature(method));
+				initialMc.setCustomMethodCaption(baseMc.getCustomMethodCaption());
+				initialMc.setCustomValueReturnMode(baseMc.getCustomValueReturnMode());
+				initialMc.setDetachedReturnValueForced(baseMc.isDetachedReturnValueForced());
+				initialMc.setIconImagePath(baseMc.getIconImagePath());
+				initialMc.setNullReturnValueLabel(baseMc.getNullReturnValueLabel());
+				initialMc.setOnlineHelp(baseMc.getOnlineHelp());
+				initialMc.setReadOnlyForced(baseMc.isReadOnlyForced());
 			}
 		}
 	}

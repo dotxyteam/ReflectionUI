@@ -734,9 +734,12 @@ public class CustomizationTools {
 
 	protected void openMethodCutomizationDialog(JButton customizerButton, InfoCustomizations infoCustomizations,
 			final ITypeInfo customizedType, String methodSignature) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(infoCustomizations, customizedType.getName(),
+		TypeCustomization tc = InfoCustomizations.getTypeCustomization(infoCustomizations, customizedType.getName(),
 				true);
-		MethodCustomization mc = InfoCustomizations.getMethodCustomization(t, methodSignature, true);
+		MethodCustomization mc = InfoCustomizations.getMethodCustomization(tc, methodSignature, true);
+		IMethodInfo customizedMethod = ReflectionUIUtils.findMethodBySignature(customizedType.getMethods(),
+				methodSignature);
+		updateMethodCustomization(mc, customizedMethod);
 		openCustomizationEditor(customizerButton, mc);
 	}
 
