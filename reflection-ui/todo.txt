@@ -1,6 +1,6 @@
+- too much borders => reduce
 - evolve customizations:
-	* MethodCustomization.returnValueIgnored
-	* add ParameterCustomization.inputFieldName
+	* add ParameterCustomization.inputFieldName???
 	* add Field.nullStatusBooleanFieldName???
 - List Item Not Nullable customization
 - customization controller

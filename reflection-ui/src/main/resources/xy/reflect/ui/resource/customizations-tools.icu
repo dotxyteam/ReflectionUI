@@ -10782,7 +10782,7 @@
                 <uniqueIdentifier>48c4c300:15bb2792085:-6ea2</uniqueIdentifier>
                 <caption>Display</caption>
             </category>
-            <hidden>false</hidden>
+            <hidden>true</hidden>
             <customFieldCaption>Display Parameters In Current Form</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>parametersFormDisplayed</fieldName>
