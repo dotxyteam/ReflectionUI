@@ -36,6 +36,7 @@ import xy.reflect.ui.info.menu.Menu;
 import xy.reflect.ui.info.menu.MenuItemCategory;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode;
@@ -548,8 +549,8 @@ public class InfoCustomizations implements Serializable {
 		ArrayList<String> newOrder = new ArrayList<String>();
 		for (I info2 : resultList) {
 			String name = info2.getName();
-			if ((name == null) || (name.trim().length() == 0)) {
-				throw new ReflectionUIError("Cannot move item: 'getName()' method returned an empty value for item n°"
+			if (name == null) {
+				throw new ReflectionUIError("Cannot move item: 'getName()' method returned <null> for item n°"
 						+ (list.indexOf(info2) + 1) + " (caption='" + info2.getCaption() + "')");
 			}
 			newOrder.add(name);
@@ -1097,6 +1098,40 @@ public class InfoCustomizations implements Serializable {
 
 	}
 
+	public static class TextualStorage extends AbstractCustomization {
+		private static final long serialVersionUID = 1L;
+
+		protected String data;
+
+		public TextualStorage() {
+		}
+
+		public String getData() {
+			return data;
+		}
+
+		public void setData(String data) {
+			this.data = data;
+		}
+
+		public void save(Object object) {
+			if (object == null) {
+				this.data = null;
+			} else {
+				this.data = ReflectionUIUtils.serializeToHexaText(object);
+			}
+		}
+
+		public Object load() {
+			if (data == null) {
+				return null;
+			} else {
+				return ReflectionUIUtils.deserializeFromHexaText(data);
+			}
+		}
+
+	}
+
 	public static class MethodCustomization extends AbstractMemberCustomization
 			implements Comparable<MethodCustomization> {
 		private static final long serialVersionUID = 1L;
@@ -1108,13 +1143,31 @@ public class InfoCustomizations implements Serializable {
 		protected List<ParameterCustomization> parametersCustomizations = new ArrayList<InfoCustomizations.ParameterCustomization>();
 		protected ValueReturnMode customValueReturnMode;
 		protected String nullReturnValueLabel;
-		protected boolean returnValueFieldGenerated;
+		protected boolean returnValueFieldGenerated = false;
 		protected MethodReturnValueTypeSpecificities specificReturnValueTypeCustomizations = new MethodReturnValueTypeSpecificities();
-		protected boolean detachedReturnValueForced;
+		protected boolean detachedReturnValueForced = false;
 		protected String encapsulationFieldName;
-		protected boolean parametersFormDisplayed;
+		protected boolean parametersFormDisplayed = false;
 		protected ResourcePath iconImagePath;
 		protected IMenuItemContainer menuLocation;
+		protected boolean ignoredReturnValueForced = false;
+		protected List<TextualStorage> serializedInvocationDatas = new ArrayList<TextualStorage>();
+
+		public List<TextualStorage> getSerializedInvocationDatas() {
+			return serializedInvocationDatas;
+		}
+
+		public void setSerializedInvocationDatas(List<TextualStorage> serializedInvocationDatas) {
+			this.serializedInvocationDatas = serializedInvocationDatas;
+		}
+
+		public boolean isIgnoredReturnValueForced() {
+			return ignoredReturnValueForced;
+		}
+
+		public void setIgnoredReturnValueForced(boolean ignoredReturnValueForced) {
+			this.ignoredReturnValueForced = ignoredReturnValueForced;
+		}
 
 		@XmlElements({ @XmlElement(name = "menu", type = Menu.class),
 				@XmlElement(name = "menuItemCategory", type = MenuItemCategory.class) })

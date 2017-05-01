@@ -41,6 +41,11 @@ public abstract class AbstractConstructorInfo implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isReturnValueIgnored() {
+		return false;
+	}
+
+	@Override
 	public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
 		return null;
 	}

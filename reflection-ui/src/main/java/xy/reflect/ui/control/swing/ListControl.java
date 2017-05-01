@@ -1753,7 +1753,6 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				MethodAction action = swingRenderer.createMethodAction(getMethodInput());
-				action.setShouldDisplayReturnValueIfAny(true);
 				action.execute(ListControl.this);
 			}
 

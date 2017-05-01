@@ -55,6 +55,11 @@ public abstract class AbstractListAction implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isReturnValueIgnored() {
+		return false;
+	}
+
+	@Override
 	public ITypeInfo getReturnValueType() {
 		return null;
 	}

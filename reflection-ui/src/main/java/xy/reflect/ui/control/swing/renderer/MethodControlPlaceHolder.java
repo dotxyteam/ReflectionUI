@@ -138,8 +138,8 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 	public String getContextIdentifier() {
 		ITypeInfo objectType = this.swingRenderer.reflectionUI
 				.getTypeInfo(this.swingRenderer.reflectionUI.getTypeInfoSource(getObject()));
-		return "MethodContext [methodSignature=" + method.getSignature() + ", containingType="
-				+ objectType.getName() + "]";
+		return "MethodContext [methodSignature=" + method.getSignature() + ", containingType=" + objectType.getName()
+				+ "]";
 	}
 
 	public IMethodInfo getMethod() {
@@ -214,6 +214,10 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 		@Override
 		public boolean isReturnValueDetached() {
 			return finalMethod.isReturnValueDetached();
+		}
+
+		public boolean isReturnValueIgnored() {
+			return finalMethod.isReturnValueIgnored();
 		}
 
 		@Override

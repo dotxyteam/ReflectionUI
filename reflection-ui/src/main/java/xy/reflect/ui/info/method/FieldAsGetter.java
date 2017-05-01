@@ -15,11 +15,14 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class FieldAsGetter implements IMethodInfo {
 
 	protected IFieldInfo field;
-	protected String getterName;
 
-	public FieldAsGetter(IFieldInfo field, String getterName) {
+	public FieldAsGetter(IFieldInfo field) {
 		this.field = field;
-		this.getterName = getterName;
+	}
+
+	@Override
+	public String getName() {
+		return field.getName() + ".get";
 	}
 
 	@Override
@@ -34,6 +37,11 @@ public class FieldAsGetter implements IMethodInfo {
 
 	@Override
 	public boolean isReturnValueDetached() {
+		return false;
+	}
+
+	@Override
+	public boolean isReturnValueIgnored() {
 		return false;
 	}
 
@@ -61,11 +69,6 @@ public class FieldAsGetter implements IMethodInfo {
 			result = "Retrieve: " + result;
 		}
 		return result;
-	}
-
-	@Override
-	public String getName() {
-		return getterName;
 	}
 
 	@Override

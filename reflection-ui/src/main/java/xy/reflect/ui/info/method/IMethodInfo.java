@@ -42,6 +42,11 @@ public interface IMethodInfo extends IInfo {
 		}
 
 		@Override
+		public boolean isReturnValueIgnored() {
+			return false;
+		}
+
+		@Override
 		public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
 			return null;
 		}
@@ -138,5 +143,7 @@ public interface IMethodInfo extends IInfo {
 	boolean isReturnValueDetached();
 
 	boolean isReturnValueNullable();
+
+	boolean isReturnValueIgnored();
 
 }

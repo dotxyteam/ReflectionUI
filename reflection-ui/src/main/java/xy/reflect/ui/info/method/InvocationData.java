@@ -1,14 +1,17 @@
 package xy.reflect.ui.info.method;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 import xy.reflect.ui.info.parameter.IParameterInfo;
 
-public class InvocationData {
+public class InvocationData implements Serializable {
 
-	private Map<Integer, Object> valueByParameterPosition = new HashMap<Integer, Object>();
+	private static final long serialVersionUID = 1L;
+
+	protected Map<Integer, Object> valueByParameterPosition = new HashMap<Integer, Object>();
 
 	public InvocationData() {
 		this(new Object[0]);
@@ -18,6 +21,14 @@ public class InvocationData {
 		for (int i = 0; i < parameterValues.length; i++) {
 			valueByParameterPosition.put(i, parameterValues[i]);
 		}
+	}
+
+	public Map<Integer, Object> getValueByParameterPosition() {
+		return valueByParameterPosition;
+	}
+
+	public void setValueByParameterPosition(Map<Integer, Object> valueByParameterPosition) {
+		this.valueByParameterPosition = valueByParameterPosition;
 	}
 
 	public Object getParameterValue(IParameterInfo param) {
@@ -40,10 +51,10 @@ public class InvocationData {
 		valueByParameterPosition.put(parameterPosition, value);
 	}
 
-	
-	public Set<Integer> getPositions(){
+	public Set<Integer> getPositions() {
 		return valueByParameterPosition.keySet();
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

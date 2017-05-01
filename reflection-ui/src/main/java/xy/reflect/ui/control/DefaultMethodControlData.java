@@ -8,7 +8,6 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class DefaultMethodControlData implements IMethodControlData {
 
@@ -29,6 +28,10 @@ public class DefaultMethodControlData implements IMethodControlData {
 	@Override
 	public boolean isReturnValueDetached() {
 		return method.isReturnValueDetached();
+	}
+
+	public boolean isReturnValueIgnored() {
+		return method.isReturnValueIgnored();
 	}
 
 	@Override

@@ -52,7 +52,6 @@ public class MethodControl extends JButton {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				MethodAction action = swingRenderer.createMethodAction(input);
-				action.setShouldDisplayReturnValueIfAny(true);
 				try {
 					action.actionPerformed(e);
 				} catch (Throwable t) {

@@ -39,4 +39,6 @@ public interface IMethodControlData {
 	boolean isReturnValueNullable();
 	
 	String getIconImagePath();
+
+	boolean isReturnValueIgnored();
 }

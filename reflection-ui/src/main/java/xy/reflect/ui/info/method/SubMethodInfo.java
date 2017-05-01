@@ -94,8 +94,9 @@ public class SubMethodInfo implements IMethodInfo {
 			result = theSubMethod.invoke(fieldValue, invocationData);
 		} else {
 			final Object[] resultHolder = new Object[1];
-			oppositeSubMethodModification = ReflectionUIUtils.finalizeParentObjectValueEditSession(IModification.FAKE_MODIFICATION,
-					true, theSubMethod.getValueReturnMode(), true, new InvokeMethodModification(
+			oppositeSubMethodModification = ReflectionUIUtils.finalizeParentObjectValueEditSession(
+					IModification.FAKE_MODIFICATION, true, theSubMethod.getValueReturnMode(), true,
+					new InvokeMethodModification(
 							new DefaultMethodControlData(fieldValue, new MethodInfoProxy(theSubMethod) {
 								@Override
 								public Object invoke(Object object, InvocationData invocationData) {
@@ -107,8 +108,8 @@ public class SubMethodInfo implements IMethodInfo {
 			result = resultHolder[0];
 		}
 
-		oppositeFieldModification = ReflectionUIUtils.finalizeParentObjectValueEditSession(IModification.FAKE_MODIFICATION, true,
-				theField.getValueReturnMode(), true,
+		oppositeFieldModification = ReflectionUIUtils.finalizeParentObjectValueEditSession(
+				IModification.FAKE_MODIFICATION, true, theField.getValueReturnMode(), true,
 				new ControlDataValueModification(new DefaultFieldControlData(object, theField), fieldValue, theField),
 				theField, ControlDataValueModification.getTitle(theField));
 
@@ -178,6 +179,11 @@ public class SubMethodInfo implements IMethodInfo {
 	@Override
 	public boolean isReturnValueDetached() {
 		return theSubMethod.isReturnValueDetached();
+	}
+
+	@Override
+	public boolean isReturnValueIgnored() {
+		return false;
 	}
 
 	public String getIconImagePath() {

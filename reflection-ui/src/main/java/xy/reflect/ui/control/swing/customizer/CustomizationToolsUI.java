@@ -20,6 +20,7 @@ import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.MethodCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ParameterCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.TextualStorage;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.menu.AbstractMenuElement;
@@ -29,6 +30,7 @@ import xy.reflect.ui.info.menu.Menu;
 import xy.reflect.ui.info.menu.MenuItemCategory;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
@@ -130,16 +132,19 @@ class CustomizationToolsUI extends ReflectionUI {
 			protected List<IMethodInfo> getMethods(ITypeInfo type) {
 				if (type.getName().equals(ListCustomization.class.getName())) {
 					List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getMethods(type));
-					result.add(getListItemTypeCustomizationDisplayMethod(swingCustomizer.getInfoCustomizations()));
+					result.add(getListItemTypeCustomizationDisplayMethod());
+					return result;
+				} else if (type.getName().equals(MethodCustomization.class.getName())) {
+					List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getMethods(type));
+					result.add(getLastInvocationDataStorageMethod());
 					return result;
 				} else {
 					return super.getMethods(type);
 				}
 			}
 
-			protected IMethodInfo getListItemTypeCustomizationDisplayMethod(
-					final InfoCustomizations infoCustomizations) {
-				return new IMethodInfo() {
+			protected IMethodInfo getLastInvocationDataStorageMethod() {
+				return new MethodInfoProxy(IMethodInfo.NULL_METHOD_INFO) {
 
 					@Override
 					public String getSignature() {
@@ -147,28 +152,62 @@ class CustomizationToolsUI extends ReflectionUI {
 					}
 
 					@Override
-					public boolean isReturnValueNullable() {
-						return false;
+					public String getName() {
+						return "storeLastInvocationData";
 					}
 
 					@Override
-					public boolean isReturnValueDetached() {
-						return false;
+					public String getCaption() {
+						return "Store Last Invocation Data";
 					}
 
 					@Override
-					public Map<String, Object> getSpecificProperties() {
-						return Collections.emptyMap();
-					}
-
-					@Override
-					public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
+					public Object invoke(Object object, InvocationData invocationData) {
+						MethodCustomization mc = (MethodCustomization) object;
+						InvocationData lastInvocationData = swingCustomizer
+								.getLastInvocationDataByMethodSignature().get(mc.getMethodSignature());
+						if (lastInvocationData == null) {
+							throw new ReflectionUIError("Last invocation data not found for the method '"
+									+ mc.getMethodSignature() + "'");
+						}
+						List<TextualStorage> storages = new ArrayList<InfoCustomizations.TextualStorage>(
+								mc.getSerializedInvocationDatas());
+						TextualStorage newStorage = new TextualStorage();
+						newStorage.save(lastInvocationData);
+						storages.add(newStorage);
+						mc.setSerializedInvocationDatas(storages);
 						return null;
 					}
 
 					@Override
-					public String getOnlineHelp() {
-						return null;
+					public boolean isReadOnly() {
+						return false;
+					}
+
+					@Override
+					public Runnable getUndoJob(final Object object, InvocationData invocationData) {
+						return new Runnable() {
+
+							@Override
+							public void run() {
+								MethodCustomization mc = (MethodCustomization) object;
+								List<TextualStorage> storages = new ArrayList<InfoCustomizations.TextualStorage>(
+										mc.getSerializedInvocationDatas());
+								storages.remove(storages.size() - 1);
+								mc.setSerializedInvocationDatas(storages);
+							}
+						};
+					}
+
+				};
+			}
+
+			protected IMethodInfo getListItemTypeCustomizationDisplayMethod() {
+				return new MethodInfoProxy(IMethodInfo.NULL_METHOD_INFO) {
+
+					@Override
+					public String getSignature() {
+						return ReflectionUIUtils.getMethodSignature(this);
 					}
 
 					@Override
@@ -179,15 +218,6 @@ class CustomizationToolsUI extends ReflectionUI {
 					@Override
 					public String getCaption() {
 						return "Display Item Type Customization";
-					}
-
-					@Override
-					public String getIconImagePath() {
-						return null;
-					}
-
-					@Override
-					public void validateParameters(Object object, InvocationData invocationData) throws Exception {
 					}
 
 					@Override
@@ -206,8 +236,8 @@ class CustomizationToolsUI extends ReflectionUI {
 									renderer.openInformationDialog(null, "The item type is not defined",
 											renderer.getObjectTitle(lc), renderer.getObjectIconImage(lc));
 								} else {
-									TypeCustomization t = InfoCustomizations.getTypeCustomization(infoCustomizations,
-											lc.getItemTypeName());
+									TypeCustomization t = InfoCustomizations.getTypeCustomization(
+											swingCustomizer.getInfoCustomizations(), lc.getItemTypeName());
 									swingCustomizer.getCustomizationTools().openCustomizationEditor(null, t);
 								}
 							}
@@ -215,35 +245,6 @@ class CustomizationToolsUI extends ReflectionUI {
 						return null;
 					}
 
-					@Override
-					public ValueReturnMode getValueReturnMode() {
-						return ValueReturnMode.DIRECT_OR_PROXY;
-					}
-
-					@Override
-					public Runnable getUndoJob(Object object, InvocationData invocationData) {
-						return null;
-					}
-
-					@Override
-					public ITypeInfo getReturnValueType() {
-						return null;
-					}
-
-					@Override
-					public List<IParameterInfo> getParameters() {
-						return Collections.emptyList();
-					}
-
-					@Override
-					public String getNullReturnValueLabel() {
-						return null;
-					}
-
-					@Override
-					public InfoCategory getCategory() {
-						return null;
-					}
 				};
 			}
 

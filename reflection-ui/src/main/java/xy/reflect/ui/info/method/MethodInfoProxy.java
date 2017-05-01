@@ -8,7 +8,6 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MethodInfoProxy implements IMethodInfo {
 
@@ -33,6 +32,10 @@ public class MethodInfoProxy implements IMethodInfo {
 
 	public boolean isReturnValueDetached() {
 		return base.isReturnValueDetached();
+	}
+
+	public boolean isReturnValueIgnored() {
+		return base.isReturnValueIgnored();
 	}
 
 	public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {

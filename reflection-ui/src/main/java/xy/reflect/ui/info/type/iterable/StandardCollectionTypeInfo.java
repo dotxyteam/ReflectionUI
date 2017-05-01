@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.type.iterable;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -67,19 +68,19 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void replaceContent(Object listValue, Object[] array) {
-		Collection collection = (Collection) listValue;
+		Collection tmpCollection = new ArrayList();
 		for (Object item : array) {
-			if (collection instanceof Set) {
-				if (collection.contains(item)) {
+			if (listValue instanceof Set) {
+				if (tmpCollection.contains(item)) {
 					throw new ReflectionUIError(
 							"Duplicate item: '" + ReflectionUIUtils.toString(reflectionUI, item) + "'");
 				}
 			}
+			tmpCollection.add(item);
 		}
+		Collection collection = (Collection) listValue;
 		collection.clear();
-		for (Object item : array) {
-			collection.add(item);
-		}
+		collection.addAll(tmpCollection);
 	}
 
 	@Override

@@ -2,9 +2,11 @@ package xy.reflect.ui.info.type.iterable.map;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.SortedMap;
 
 import xy.reflect.ui.ReflectionUI;
@@ -43,19 +45,18 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void replaceContent(Object listValue, Object[] array) {
-		Map map = (Map) listValue;
+		Map tmpMap = new HashMap();
 		for (Object item : array) {
 			StandardMapEntry entry = (StandardMapEntry) item;
-			if (map.containsKey(entry.getKey())) {
+			if (tmpMap.containsKey(entry.getKey())) {
 				throw new ReflectionUIError(
 						"Duplicate key: '" + ReflectionUIUtils.toString(reflectionUI, entry.getKey()) + "'");
-			}			
+			}
+			tmpMap.put(entry.getKey(), entry.getValue());
 		}
+		Map map = (Map) listValue;
 		map.clear();
-		for (Object item : array) {
-			StandardMapEntry standardMapEntry = (StandardMapEntry) item;
-			map.put(standardMapEntry.getKey(), standardMapEntry.getValue());
-		}
+		map.putAll(tmpMap);
 	}
 
 	@Override

@@ -37,7 +37,7 @@ public class MethodAction extends AbstractAction {
 	protected IMethodControlInput input;
 	protected IMethodControlData data;
 	protected Object returnValue;
-	protected boolean shouldDisplayReturnValueIfAny = false;
+	protected boolean shouldDisplayReturnValueIfAny;
 	protected ModificationStack modificationStack;
 	protected boolean exceptionThrown = false;
 
@@ -45,6 +45,7 @@ public class MethodAction extends AbstractAction {
 		this.swingRenderer = swingRenderer;
 		this.input = input;
 		this.data = input.getControlData();
+		this.shouldDisplayReturnValueIfAny = !data.isReturnValueIgnored();
 	}
 
 	public SwingRenderer getSwingRenderer() {

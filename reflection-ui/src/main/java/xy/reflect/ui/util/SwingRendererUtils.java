@@ -840,7 +840,6 @@ public class SwingRendererUtils {
 				JPanel form = swingRenderer.getFormByMethodActionMenuItem().get(actionItem);
 				IMethodControlInput input = swingRenderer.createMethodControlPlaceHolder(form, actionItem.getMethod());
 				MethodAction methodAction= swingRenderer.createMethodAction(input);
-				methodAction.setShouldDisplayReturnValueIfAny(true);
 				methodAction.execute(form);
 			}
 		});

@@ -846,7 +846,7 @@ public class ReflectionUIUtils {
 	public static boolean finalizeParentObjectValueEditSession(final ModificationStack parentObjectModifStack,
 			final ModificationStack valueModifStack, boolean valueModifAccepted, final ValueReturnMode valueReturnMode,
 			final boolean valueReplaced, final IModification commitModif, IInfo editSessionTarget,
-			String editSessionTitle, Listener<String> debugLogListener) {
+			String editSessionTitle, final Listener<String> debugLogListener) {
 
 		if (parentObjectModifStack == null) {
 			throw new ReflectionUIError();
@@ -872,6 +872,9 @@ public class ReflectionUIUtils {
 								}
 								if ((valueReturnMode != ValueReturnMode.DIRECT_OR_PROXY) || valueReplaced) {
 									if (commitModif != null) {
+										if (debugLogListener != null) {
+											debugLogListener.handle("Executing " + commitModif);
+										}
 										parentObjectModifStack.apply(commitModif);
 									}
 								}
@@ -883,6 +886,9 @@ public class ReflectionUIUtils {
 			if (!valueModifStack.isNull()) {
 				if (valueReturnMode != ValueReturnMode.CALCULATED) {
 					if (!valueModifStack.wasInvalidated()) {
+						if (debugLogListener != null) {
+							debugLogListener.handle("Undoing " + valueModifStack);
+						}
 						valueModifStack.undoAll();
 					} else {
 						if (debugLogListener != null) {
@@ -1017,7 +1023,7 @@ public class ReflectionUIUtils {
 		return result.toString();
 	}
 
-	public static Object serializeToHexaText(Object object) {
+	public static String serializeToHexaText(Object object) {
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ObjectOutputStream oos;

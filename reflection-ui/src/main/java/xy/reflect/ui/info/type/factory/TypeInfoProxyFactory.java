@@ -26,7 +26,6 @@ import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.info.method.InvocationData;
 
 public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
@@ -274,6 +273,10 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	protected boolean isReturnValueDetached(IMethodInfo method, ITypeInfo containingType) {
 		return method.isReturnValueDetached();
+	}
+
+	protected boolean isReturnValueIgnored(IMethodInfo method, ITypeInfo containingType) {
+		return method.isReturnValueIgnored();
 	}
 
 	protected String getCaption(IMethodInfo method, ITypeInfo containingType) {
@@ -1077,6 +1080,11 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		@Override
 		public boolean isReturnValueDetached() {
 			return TypeInfoProxyFactory.this.isReturnValueDetached(base, containingType);
+		}
+
+		@Override
+		public boolean isReturnValueIgnored() {
+			return TypeInfoProxyFactory.this.isReturnValueIgnored(base, containingType);
 		}
 
 		@Override

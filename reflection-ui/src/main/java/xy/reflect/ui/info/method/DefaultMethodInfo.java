@@ -59,6 +59,11 @@ public class DefaultMethodInfo implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isReturnValueIgnored() {
+		return false;
+	}
+
+	@Override
 	public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
 		return null;
 	}

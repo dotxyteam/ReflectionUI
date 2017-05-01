@@ -165,6 +165,10 @@ public class ReflectionUITest {
 
 		public void callWithManyParams(int i, String s, Date d, Color c) throws Exception {
 		}
+
+		public Object echo(Object object) {
+			return object;
+		}
 	}
 
 	public static abstract class AbstrcatTestDescendant {
