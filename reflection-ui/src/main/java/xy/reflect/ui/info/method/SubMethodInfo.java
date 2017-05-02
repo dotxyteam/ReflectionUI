@@ -6,6 +6,7 @@ import java.util.Map;
 import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.DefaultMethodControlData;
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -46,7 +47,7 @@ public class SubMethodInfo implements IMethodInfo {
 
 	@Override
 	public String getSignature() {
-		return ReflectionUIUtils.getMethodSignature(this);
+		return ReflectionUIUtils.buildMethodSignature(this);
 	}
 
 	@Override
@@ -186,7 +187,7 @@ public class SubMethodInfo implements IMethodInfo {
 		return false;
 	}
 
-	public String getIconImagePath() {
+	public ResourcePath getIconImagePath() {
 		return theSubMethod.getIconImagePath();
 	}
 

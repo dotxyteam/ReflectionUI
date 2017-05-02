@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -214,7 +215,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return type.copy(object);
 	}
 
-	protected String getIconImagePath(ITypeInfo type) {
+	protected ResourcePath getIconImagePath(ITypeInfo type) {
 		return type.getIconImagePath();
 	}
 
@@ -470,7 +471,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return method.getOnlineHelp();
 	}
 
-	protected String getIconImagePath(IMethodInfo method, ITypeInfo containingType) {
+	protected ResourcePath getIconImagePath(IMethodInfo method, ITypeInfo containingType) {
 		return method.getIconImagePath();
 	}
 
@@ -500,7 +501,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return info.getSpecificProperties();
 	}
 
-	protected String getIconImagePath(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
+	protected ResourcePath getIconImagePath(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
 		return info.getIconImagePath();
 	}
 
@@ -616,7 +617,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		}
 
 		@Override
-		public String getIconImagePath() {
+		public ResourcePath getIconImagePath() {
 			return TypeInfoProxyFactory.this.getIconImagePath(base);
 		}
 
@@ -1127,7 +1128,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		}
 
 		@Override
-		public String getIconImagePath() {
+		public ResourcePath getIconImagePath() {
 			return TypeInfoProxyFactory.this.getIconImagePath(base, containingType);
 		}
 
@@ -1192,7 +1193,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedMethodInfoProxy [name=" + getName() + ", factory=" + factory + ", base=" + base + "]";
+			return "GeneratedMethodInfoProxy [signature=" + getSignature() + ", factory=" + factory + ", base=" + base
+					+ "]";
 		}
 
 	}
@@ -1349,7 +1351,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		}
 
 		@Override
-		public String getIconImagePath() {
+		public ResourcePath getIconImagePath() {
 			return TypeInfoProxyFactory.this.getIconImagePath(base, parentEnumType);
 		}
 

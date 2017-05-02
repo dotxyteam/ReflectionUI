@@ -10,6 +10,7 @@ import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.custom.InfoCustomizations.CustomizationCategory;
@@ -922,12 +923,12 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 	}
 
 	@Override
-	protected String getIconImagePath(ITypeInfo type) {
+	protected ResourcePath getIconImagePath(ITypeInfo type) {
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.infoCustomizations, type.getName());
 		if (t != null) {
-			if (t.getIconImagePath() != null) {
-				String result = t.getIconImagePath().getSpecification();
-				if (result.length() > 0) {
+			ResourcePath result = t.getIconImagePath();
+			if (result != null) {
+				if (result.getSpecification().length() > 0) {
 					return result;
 				}
 			}
@@ -936,15 +937,15 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 	}
 
 	@Override
-	protected String getIconImagePath(IMethodInfo method, ITypeInfo containingType) {
+	protected ResourcePath getIconImagePath(IMethodInfo method, ITypeInfo containingType) {
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.infoCustomizations,
 				containingType.getName());
 		if (t != null) {
 			MethodCustomization m = InfoCustomizations.getMethodCustomization(t, method.getSignature());
 			if (m != null) {
-				if (m.getIconImagePath() != null) {
-					String result = m.getIconImagePath().getSpecification();
-					if (result.length() > 0) {
+				ResourcePath result = m.getIconImagePath();
+				if (result != null) {
+					if (result.getSpecification().length() > 0) {
 						return result;
 					}
 				}
@@ -1374,16 +1375,6 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 				inputMethods.remove(method);
 				MethodCustomization mc = InfoCustomizations.getMethodCustomization(tc, method.getSignature());
 				if (mc != null) {
-					if (mc.isReturnValueFieldGenerated()) {
-						inputFields.add(new MethodAsField(method, method.getName() + ".result") {
-
-							@Override
-							public String getCaption() {
-								return method.getCaption() + " Result";
-							}
-
-						});
-					}
 					for (int i = 0; i < mc.getSerializedInvocationDatas().size(); i++) {
 						final TextualStorage invocationDataStorage = mc.getSerializedInvocationDatas().get(i);
 						final int finalI = i;
@@ -1396,7 +1387,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 
 							@Override
 							public String getSignature() {
-								return ReflectionUIUtils.getMethodSignature(this);
+								return ReflectionUIUtils.buildMethodSignature(this);
 							}
 
 							@Override
@@ -1505,6 +1496,9 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 							}
 
 						};
+					}
+					if (mc.isReturnValueFieldGenerated()) {
+						inputFields.add(new MethodAsField(method));
 					}
 					if (mc.getMenuLocation() != null) {
 						List<IMenuItemContainer> ancestors = InfoCustomizations.getMenuElementAncestors(tc,

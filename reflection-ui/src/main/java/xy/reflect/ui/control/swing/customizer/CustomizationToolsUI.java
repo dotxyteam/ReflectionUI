@@ -1,16 +1,12 @@
 package xy.reflect.ui.control.swing.customizer;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-
 import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.info.InfoCategory;
-import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.custom.InfoCustomizations.AbstractCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.AbstractMemberCustomization;
@@ -31,17 +27,14 @@ import xy.reflect.ui.info.menu.MenuItemCategory;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
-import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.factory.GenericEnumerationFactory;
-import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.info.type.factory.TypeInfoProxyFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.ResourcePath;
 
 class CustomizationToolsUI extends ReflectionUI {
 
@@ -148,7 +141,7 @@ class CustomizationToolsUI extends ReflectionUI {
 
 					@Override
 					public String getSignature() {
-						return ReflectionUIUtils.getMethodSignature(this);
+						return ReflectionUIUtils.buildMethodSignature(this);
 					}
 
 					@Override
@@ -207,7 +200,7 @@ class CustomizationToolsUI extends ReflectionUI {
 
 					@Override
 					public String getSignature() {
-						return ReflectionUIUtils.getMethodSignature(this);
+						return ReflectionUIUtils.buildMethodSignature(this);
 					}
 
 					@Override

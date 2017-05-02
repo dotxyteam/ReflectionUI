@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.PublicFieldInfo;
@@ -238,7 +239,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 	}
 
 	@Override
-	public String getIconImagePath() {
+	public ResourcePath getIconImagePath() {
 		return null;
 	}
 

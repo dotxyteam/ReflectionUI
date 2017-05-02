@@ -10,6 +10,7 @@ import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.parameter.DefaultParameterInfo;
@@ -36,7 +37,7 @@ public class DefaultMethodInfo implements IMethodInfo {
 
 	@Override
 	public String getSignature() {
-		return ReflectionUIUtils.getMethodSignature(this);
+		return ReflectionUIUtils.buildMethodSignature(this);
 	}
 
 	protected void resolveJavaReflectionModelAccessProblems() {
@@ -44,7 +45,7 @@ public class DefaultMethodInfo implements IMethodInfo {
 	}
 
 	@Override
-	public String getIconImagePath() {
+	public ResourcePath getIconImagePath() {
 		return null;
 	}
 

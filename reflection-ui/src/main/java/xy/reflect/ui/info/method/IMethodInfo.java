@@ -6,6 +6,7 @@ import java.util.Map;
 
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -23,11 +24,11 @@ public interface IMethodInfo extends IInfo {
 
 		@Override
 		public String getSignature() {
-			return ReflectionUIUtils.getMethodSignature(this);
+			return ReflectionUIUtils.buildMethodSignature(this);
 		}
 
 		@Override
-		public String getIconImagePath() {
+		public ResourcePath getIconImagePath() {
 			return null;
 		}
 
@@ -136,7 +137,7 @@ public interface IMethodInfo extends IInfo {
 
 	ValueReturnMode getValueReturnMode();
 
-	String getIconImagePath();
+	ResourcePath getIconImagePath();
 
 	ITypeInfoProxyFactory getReturnValueTypeSpecificities();
 

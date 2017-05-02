@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -76,7 +77,7 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 	}
 
 	@Override
-	protected String getItemIconImagePath(Object arrayItem) {
+	protected ResourcePath getItemIconImagePath(Object arrayItem) {
 		ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;
 		return polyTypesItem.getIconImagePath();
 	}

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -69,7 +70,7 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements IEnu
 				}
 
 				@Override
-				public String getIconImagePath() {
+				public ResourcePath getIconImagePath() {
 					return null;
 				}
 

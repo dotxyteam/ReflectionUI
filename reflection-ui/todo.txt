@@ -1,3 +1,7 @@
+- 1 only sub type => no polymorphic control
+- Not Nullable by default ???
+- allow to disable copy/cut/paste on lists
+- every customization should have its opposite for more power
 - reset column order option
 - too much borders => reduce
 - evolve customizations:

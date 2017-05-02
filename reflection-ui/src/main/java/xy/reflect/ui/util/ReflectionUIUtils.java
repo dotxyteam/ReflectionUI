@@ -51,6 +51,7 @@ import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.MethodControlDataProxy;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.menu.AbstractMenuItem;
@@ -139,7 +140,7 @@ public class ReflectionUIUtils {
 		return result;
 	}
 
-	public static String getMethodSignature(IMethodInfo method) {
+	public static String buildMethodSignature(IMethodInfo method) {
 		StringBuilder result = new StringBuilder();
 		ITypeInfo returnType = method.getReturnValueType();
 		result.append(((returnType == null) ? "void" : returnType.getName()));
@@ -805,9 +806,9 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static String getIconImagePath(ReflectionUI reflectionUI, Object object) {
+	public static ResourcePath getIconImagePath(ReflectionUI reflectionUI, Object object) {
 		if (object == null) {
-			return "";
+			return null;
 		}
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		return type.getIconImagePath();

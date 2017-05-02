@@ -3,6 +3,7 @@ package xy.reflect.ui.control;
 import java.util.List;
 import java.util.Map;
 
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -38,7 +39,7 @@ public interface IMethodControlData {
 
 	boolean isReturnValueNullable();
 	
-	String getIconImagePath();
+	ResourcePath getIconImagePath();
 
 	boolean isReturnValueIgnored();
 }

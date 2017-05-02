@@ -3,7 +3,6 @@ package xy.reflect.ui.control.swing.customizer;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.io.File;
 import java.io.IOException;
@@ -155,18 +154,6 @@ public class SwingCustomizer extends SwingRenderer {
 		return new MethodControlPlaceHolder(this, form, method) {
 			private static final long serialVersionUID = 1L;
 			protected Component infoCustomizationsComponent;
-
-			@Override
-			public Dimension getPreferredSize() {
-				Dimension result = super.getPreferredSize();
-				if (result == null) {
-					return result;
-				}
-				if (infoCustomizationsComponent != null) {
-					result.width += infoCustomizationsComponent.getWidth();
-				}
-				return result;
-			}
 
 			@Override
 			public void refreshUI(boolean recreate) {

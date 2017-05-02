@@ -7,7 +7,7 @@
 
 	<target name="default">
 		<mkdir dir="${buildDir}" />
-		<copy file="${basedir}/../../unpackaged-src/Example.java" todir="${buildDir}">
+		<copy file="${basedir}/../../examples/src/main/java/Example.java" todir="${buildDir}">
 		</copy>
 		<java classname="j2h">
 			<arg value="-js" />

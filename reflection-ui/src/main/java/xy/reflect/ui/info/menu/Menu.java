@@ -6,9 +6,11 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 
+import xy.reflect.ui.info.ResourcePath;
+
 public class Menu extends AbstractMenuItem implements IMenuItemContainer {
 
-	public Menu(String name, String iconImagePath) {
+	public Menu(String name, ResourcePath iconImagePath) {
 		super(name, iconImagePath);
 	}
 	

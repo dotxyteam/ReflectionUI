@@ -21,11 +21,11 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.ResourcePath;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 public class EnumerationControl extends JPanel implements IAdvancedFieldControl {
@@ -137,11 +137,11 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 			return null;
 		} else {
 			IEnumerationItemInfo itemInfo = enumType.getValueInfo(value);
-			String imagePathSpecification = itemInfo.getIconImagePath();
-			if (imagePathSpecification == null) {
+			ResourcePath imagePath = itemInfo.getIconImagePath();
+			if (imagePath == null) {
 				return null;
 			} else {
-				Image iconImage = SwingRendererUtils.loadImageThroughcache(new ResourcePath(imagePathSpecification),
+				Image iconImage = SwingRendererUtils.loadImageThroughcache(imagePath,
 						ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
 				if (iconImage == null) {
 					return null;

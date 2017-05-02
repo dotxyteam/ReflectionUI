@@ -2,6 +2,8 @@ package xy.reflect.ui.info.type.enumeration;
 
 import java.util.Map;
 
+import xy.reflect.ui.info.ResourcePath;
+
 public class EnumerationItemInfoProxy implements IEnumerationItemInfo {
 
 	protected IEnumerationItemInfo base;
@@ -22,7 +24,7 @@ public class EnumerationItemInfoProxy implements IEnumerationItemInfo {
 		return base.getOnlineHelp();
 	}
 
-	public String getIconImagePath() {
+	public ResourcePath getIconImagePath() {
 		return base.getIconImagePath();
 	}
 

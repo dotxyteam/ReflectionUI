@@ -8,6 +8,7 @@ import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
@@ -335,7 +336,7 @@ public class ImplicitListField implements IFieldInfo {
 		}
 
 		@Override
-		public String getIconImagePath() {
+		public ResourcePath getIconImagePath() {
 			return null;
 		}
 

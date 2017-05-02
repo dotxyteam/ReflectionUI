@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.AbstractConstructorInfo;
@@ -59,7 +60,7 @@ public class GenericEnumerationFactory {
 		return ReflectionUIUtils.toString(reflectionUI, item);
 	}
 
-	protected String getItemIconImagePath(Object item) {
+	protected ResourcePath getItemIconImagePath(Object item) {
 		return ReflectionUIUtils.getIconImagePath(reflectionUI, item);
 	}
 
@@ -191,7 +192,7 @@ public class GenericEnumerationFactory {
 
 
 		@Override
-		public String getIconImagePath() {
+		public ResourcePath getIconImagePath() {
 			return null;
 		}
 
@@ -346,7 +347,7 @@ public class GenericEnumerationFactory {
 		}
 
 		@Override
-		public String getIconImagePath() {
+		public ResourcePath getIconImagePath() {
 			return getItemIconImagePath(item);
 		}
 

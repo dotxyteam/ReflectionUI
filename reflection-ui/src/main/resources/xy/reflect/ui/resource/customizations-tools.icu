@@ -4851,7 +4851,31 @@
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
             <nullableFacetHidden>true</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations/>
+            <specificTypeCustomizations>
+                <listCustomizations>
+                    <uniqueIdentifier>-76b40ab:15bc5a6e743:-713b</uniqueIdentifier>
+                    <columnCustomizations>
+                        <uniqueIdentifier>-76b40ab:15bc5a6e743:-7139</uniqueIdentifier>
+                        <columnName>toStringValue</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <editOptions>
+                        <uniqueIdentifier>-76b40ab:15bc5a6e743:-713a</uniqueIdentifier>
+                        <itemCreationEnabled>false</itemCreationEnabled>
+                        <itemDeletionEnabled>true</itemDeletionEnabled>
+                        <itemMoveEnabled>true</itemMoveEnabled>
+                    </editOptions>
+                    <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
+                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
+                    <itemTypeName>xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization</itemTypeName>
+                    <listSorted>true</listSorted>
+                    <listTypeName>java.util.List</listTypeName>
+                    <positionColumnAdded>false</positionColumnAdded>
+                    <stringValueColumnAdded>false</stringValueColumnAdded>
+                </listCustomizations>
+            </specificTypeCustomizations>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-70d1</uniqueIdentifier>
@@ -4866,7 +4890,31 @@
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
             <nullableFacetHidden>true</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations/>
+            <specificTypeCustomizations>
+                <listCustomizations>
+                    <uniqueIdentifier>-76b40ab:15bc5a6e743:-7137</uniqueIdentifier>
+                    <columnCustomizations>
+                        <uniqueIdentifier>-76b40ab:15bc5a6e743:-7135</uniqueIdentifier>
+                        <columnName>toStringValue</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <editOptions>
+                        <uniqueIdentifier>-76b40ab:15bc5a6e743:-7136</uniqueIdentifier>
+                        <itemCreationEnabled>false</itemCreationEnabled>
+                        <itemDeletionEnabled>true</itemDeletionEnabled>
+                        <itemMoveEnabled>true</itemMoveEnabled>
+                    </editOptions>
+                    <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
+                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
+                    <itemTypeName>xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization</itemTypeName>
+                    <listSorted>true</listSorted>
+                    <listTypeName>java.util.List</listTypeName>
+                    <positionColumnAdded>false</positionColumnAdded>
+                    <stringValueColumnAdded>false</stringValueColumnAdded>
+                </listCustomizations>
+            </specificTypeCustomizations>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-70d0</uniqueIdentifier>
@@ -4896,7 +4944,31 @@
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
             <nullableFacetHidden>true</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations/>
+            <specificTypeCustomizations>
+                <listCustomizations>
+                    <uniqueIdentifier>-76b40ab:15bc5a6e743:-7134</uniqueIdentifier>
+                    <columnCustomizations>
+                        <uniqueIdentifier>-76b40ab:15bc5a6e743:-7132</uniqueIdentifier>
+                        <columnName>toStringValue</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <editOptions>
+                        <uniqueIdentifier>-76b40ab:15bc5a6e743:-7133</uniqueIdentifier>
+                        <itemCreationEnabled>false</itemCreationEnabled>
+                        <itemDeletionEnabled>true</itemDeletionEnabled>
+                        <itemMoveEnabled>true</itemMoveEnabled>
+                    </editOptions>
+                    <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
+                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
+                    <itemTypeName>xy.reflect.ui.info.custom.InfoCustomizations$EnumerationCustomization</itemTypeName>
+                    <listSorted>true</listSorted>
+                    <listTypeName>java.util.List</listTypeName>
+                    <positionColumnAdded>false</positionColumnAdded>
+                    <stringValueColumnAdded>false</stringValueColumnAdded>
+                </listCustomizations>
+            </specificTypeCustomizations>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-70ce</uniqueIdentifier>
@@ -5915,6 +5987,97 @@
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
         </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-76b40ab:15bc5a6e743:-7146</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>java.util.List getMenuElementAncestors(xy.reflect.ui.info.custom.InfoCustomizations, xy.reflect.ui.info.menu.IMenuElement)</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-76b40ab:15bc5a6e743:-7145</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>java.util.List getMenuElementPath(xy.reflect.ui.info.custom.InfoCustomizations, xy.reflect.ui.info.menu.IMenuElement)</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-76b40ab:15bc5a6e743:-7144</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>java.util.List getAllMenuItemContainers(xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization)</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-76b40ab:15bc5a6e743:-7143</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>java.util.List getMenuElementAncestors(xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization, xy.reflect.ui.info.menu.IMenuElement)</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-76b40ab:15bc5a6e743:-7142</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>java.util.List getMenuElementPath(xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization, xy.reflect.ui.info.menu.IMenuElement)</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-76b40ab:15bc5a6e743:-7141</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>java.util.List getMenuElementPath(xy.reflect.ui.info.menu.IMenuElement, xy.reflect.ui.info.menu.IMenuElement)</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-76b40ab:15bc5a6e743:-7140</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>java.util.List getAllMenuItemContainers(xy.reflect.ui.info.menu.IMenuItemContainer)</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
         <typeName>xy.reflect.ui.info.custom.InfoCustomizations</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -6236,6 +6399,19 @@
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
         </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-76b40ab:15bc5a6e743:-7131</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$EnumerationCustomization ()</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
         <typeName>xy.reflect.ui.info.custom.InfoCustomizations$EnumerationCustomization</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -6351,6 +6527,7 @@
             <getOnlyForced>false</getOnlyForced>
             <getterGenerated>false</getterGenerated>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueLabel>&lt;General&gt;</nullValueLabel>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
@@ -8567,10 +8744,11 @@
             <uniqueIdentifier>48c4c300:15bb2792085:-6f75</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>48c4c300:15bb2792085:-6f4a</uniqueIdentifier>
-                <caption>Advanced</caption>
+                <uniqueIdentifier>48c4c300:15bb2792085:-6f4b</uniqueIdentifier>
+                <caption>Display</caption>
             </category>
             <hidden>false</hidden>
+            <customFieldCaption>Dispay Value Options</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>valueOptionsFieldName</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
@@ -8783,6 +8961,7 @@
                 <caption>Advanced</caption>
             </category>
             <hidden>false</hidden>
+            <customFieldCaption>Use Custom Setter</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>customSetterSignature</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
@@ -8932,8 +9111,8 @@
             <uniqueIdentifier>48c4c300:15bb2792085:-6f51</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>48c4c300:15bb2792085:-6f4b</uniqueIdentifier>
-                <caption>Display</caption>
+                <uniqueIdentifier>48c4c300:15bb2792085:-6f4a</uniqueIdentifier>
+                <caption>Advanced</caption>
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Generate Getter</customFieldCaption>
@@ -8972,8 +9151,8 @@
             <uniqueIdentifier>48c4c300:15bb2792085:-6f4d</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>48c4c300:15bb2792085:-6f4b</uniqueIdentifier>
-                <caption>Display</caption>
+                <uniqueIdentifier>48c4c300:15bb2792085:-6f4a</uniqueIdentifier>
+                <caption>Advanced</caption>
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Generate Setter</customFieldCaption>
@@ -10004,6 +10183,19 @@
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
         </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-76b40ab:15bc5a6e743:-7138</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization ()</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
         <typeName>xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -10256,12 +10448,11 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <customFieldsOrder>menuLocation</customFieldsOrder>
+        <customFieldsOrder>customValueReturnMode</customFieldsOrder>
         <customFieldsOrder>returnValueFieldGenerated</customFieldsOrder>
-        <customFieldsOrder>parametersFormDisplayed</customFieldsOrder>
         <customFieldsOrder>methodName</customFieldsOrder>
         <customFieldsOrder>nullReturnValueLabel</customFieldsOrder>
         <customFieldsOrder>encapsulationFieldName</customFieldsOrder>
-        <customFieldsOrder>customValueReturnMode</customFieldsOrder>
         <customFieldsOrder>methodSignature</customFieldsOrder>
         <customFieldsOrder>hidden</customFieldsOrder>
         <customFieldsOrder>customMethodCaption</customFieldsOrder>
@@ -10799,8 +10990,8 @@
             <uniqueIdentifier>48c4c300:15bb2792085:-6ea7</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>48c4c300:15bb2792085:-6ea2</uniqueIdentifier>
-                <caption>Display</caption>
+                <uniqueIdentifier>48c4c300:15bb2792085:-6ea1</uniqueIdentifier>
+                <caption>Advanced</caption>
             </category>
             <hidden>false</hidden>
             <customFieldCaption>Generate Return Value Field</customFieldCaption>
@@ -10906,7 +11097,7 @@
                 <caption>Parameters</caption>
             </category>
             <hidden>false</hidden>
-            <customFieldCaption>Save Invocation Datas And Generate Preset Executions</customFieldCaption>
+            <customFieldCaption>Save Invocation Datas And Generate Preset Methods</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>invocationData</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
@@ -11135,6 +11326,19 @@
             <encapsulationFieldName>invocationData</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>void storeLastInvocationData()</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-2ba792b3:15bc5094452:-70c1</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization ()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
@@ -11696,6 +11900,32 @@
                         <hidden>false</hidden>
                     </columnCustomizations>
                     <columnCustomizations>
+                        <uniqueIdentifier>48c4c300:15bb2792085:-6e4b</uniqueIdentifier>
+                        <columnName>iconImagePath</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <columnCustomizations>
+                        <uniqueIdentifier>-2ba792b3:15bc5094452:-70c5</uniqueIdentifier>
+                        <columnName>ignoredReturnValueForced</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <columnCustomizations>
+                        <uniqueIdentifier>-2ba792b3:15bc5094452:-70c6</uniqueIdentifier>
+                        <columnName>invocationData</columnName>
+                        <customCaption>Preset Invocation Datas</customCaption>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <columnCustomizations>
+                        <uniqueIdentifier>-2ba792b3:15bc5094452:-70c3</uniqueIdentifier>
+                        <columnName>menuLocation</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <columnCustomizations>
+                        <uniqueIdentifier>-2ba792b3:15bc5094452:-70c4</uniqueIdentifier>
+                        <columnName>methodName</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <columnCustomizations>
                         <uniqueIdentifier>48c4c300:15bb2792085:-6e53</uniqueIdentifier>
                         <columnName>methodSignature</columnName>
                         <hidden>false</hidden>
@@ -11726,6 +11956,11 @@
                         <hidden>false</hidden>
                     </columnCustomizations>
                     <columnCustomizations>
+                        <uniqueIdentifier>-2ba792b3:15bc5094452:-70c2</uniqueIdentifier>
+                        <columnName>returnValueFieldGenerated</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <columnCustomizations>
                         <uniqueIdentifier>48c4c300:15bb2792085:-6e4d</uniqueIdentifier>
                         <columnName>specificReturnValueTypeCustomizations</columnName>
                         <hidden>false</hidden>
@@ -11733,11 +11968,6 @@
                     <columnCustomizations>
                         <uniqueIdentifier>48c4c300:15bb2792085:-6e4c</uniqueIdentifier>
                         <columnName>validating</columnName>
-                        <hidden>false</hidden>
-                    </columnCustomizations>
-                    <columnCustomizations>
-                        <uniqueIdentifier>48c4c300:15bb2792085:-6e4b</uniqueIdentifier>
-                        <columnName>iconImagePath</columnName>
                         <hidden>false</hidden>
                     </columnCustomizations>
                     <columnsCustomOrder>methodName</columnsCustomOrder>
@@ -11749,14 +11979,15 @@
                     <columnsCustomOrder>iconImagePath</columnsCustomOrder>
                     <columnsCustomOrder>onlineHelp</columnsCustomOrder>
                     <columnsCustomOrder>parametersCustomizations</columnsCustomOrder>
+                    <columnsCustomOrder>invocationData</columnsCustomOrder>
                     <columnsCustomOrder>menuLocation</columnsCustomOrder>
                     <columnsCustomOrder>returnValueFieldGenerated</columnsCustomOrder>
-                    <columnsCustomOrder>parametersFormDisplayed</columnsCustomOrder>
                     <columnsCustomOrder>encapsulationFieldName</columnsCustomOrder>
                     <columnsCustomOrder>nullReturnValueLabel</columnsCustomOrder>
                     <columnsCustomOrder>customValueReturnMode</columnsCustomOrder>
                     <columnsCustomOrder>validating</columnsCustomOrder>
                     <columnsCustomOrder>detachedReturnValueForced</columnsCustomOrder>
+                    <columnsCustomOrder>ignoredReturnValueForced</columnsCustomOrder>
                     <editOptions>
                         <uniqueIdentifier>48c4c300:15bb2792085:-6e4a</uniqueIdentifier>
                         <itemCreationEnabled>false</itemCreationEnabled>
@@ -16344,6 +16575,21 @@
         <customMethodsOrder>getAllCustomizations</customMethodsOrder>
         <customMethodsOrder>getOptions</customMethodsOrder>
         <fieldsCustomizations>
+            <uniqueIdentifier>-76b40ab:15bc5a6e743:-7150</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6cb1</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
@@ -16352,7 +16598,7 @@
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
+            <getterGenerated>true</getterGenerated>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
@@ -16384,36 +16630,6 @@
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <getterGenerated>true</getterGenerated>
-            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
-            <nullableFacetHidden>false</nullableFacetHidden>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations/>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
-            <uniqueIdentifier>48c4c300:15bb2792085:-6cae</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>true</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <fieldName>options</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>true</getterGenerated>
-            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
-            <nullableFacetHidden>false</nullableFacetHidden>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations/>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
-            <uniqueIdentifier>48c4c300:15bb2792085:-6cad</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>true</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <fieldName>options.withGeneratedGetter</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
@@ -16471,6 +16687,36 @@
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>menusStructureContainer.withGeneratedGetter</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>48c4c300:15bb2792085:-6cae</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>options</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>true</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>48c4c300:15bb2792085:-6cad</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>options.withGeneratedGetter</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
@@ -16570,6 +16816,20 @@
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
         </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-76b40ab:15bc5a6e743:-714f</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <encapsulationFieldName></encapsulationFieldName>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations allCustomizations.get()</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
         <typeName>xy.reflect.ui.control.swing.customizer.CustomizationController</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -16601,6 +16861,8 @@
         <uniqueIdentifier>48c4c300:15bb2792085:-6ca1</uniqueIdentifier>
         <specificProperties/>
         <abstractForced>false</abstractForced>
+        <customFieldsOrder>areFieldSharedTypeOptionsDisplayed.result</customFieldsOrder>
+        <customFieldsOrder>hiddenCustomizationToolsTypeNames</customFieldsOrder>
         <fieldsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6ca0</uniqueIdentifier>
             <specificProperties/>
@@ -16634,8 +16896,46 @@
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
         </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-76b40ab:15bc5a6e743:-7149</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customFieldCaption>Show Shared Type Menu Options</customFieldCaption>
+            <customSetterSignature>void setFieldSharedTypeOptionsDisplayed(boolean)</customSetterSignature>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>areFieldSharedTypeOptionsDisplayed.result</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel/>
+        <methodsCustomizations>
+            <uniqueIdentifier>-76b40ab:15bc5a6e743:-714b</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>xy.reflect.ui.control.swing.customizer.CustomizationOptions (xy.reflect.ui.control.swing.customizer.SwingCustomizer)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>-76b40ab:15bc5a6e743:-714a</uniqueIdentifier>
+                <specificProperties/>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>swingCustomizer</parameterName>
+            </parametersCustomizations>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
         <methodsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-6c9e</uniqueIdentifier>
             <specificProperties/>
@@ -16645,17 +16945,17 @@
             <methodSignature>boolean areFieldSharedTypeOptionsDisplayed()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <returnValueFieldGenerated>true</returnValueFieldGenerated>
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
-            <uniqueIdentifier>48c4c300:15bb2792085:-6c9d</uniqueIdentifier>
+            <uniqueIdentifier>48c4c300:15bb2792085:-6c9b</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>void setFieldSharedTypeOptionsDisplayed(boolean)</methodSignature>
+            <methodSignature>boolean areHiddenFor(java.lang.String)</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
@@ -16676,12 +16976,12 @@
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
-            <uniqueIdentifier>48c4c300:15bb2792085:-6c9b</uniqueIdentifier>
+            <uniqueIdentifier>48c4c300:15bb2792085:-6c9d</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>boolean areHiddenFor(java.lang.String)</methodSignature>
+            <methodSignature>void setFieldSharedTypeOptionsDisplayed(boolean)</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
@@ -18507,6 +18807,27 @@
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel/>
+        <methodsCustomizations>
+            <uniqueIdentifier>-76b40ab:15bc5a6e743:-714d</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>xy.reflect.ui.control.swing.customizer.CustomizationOptions (xy.reflect.ui.control.swing.customizer.SwingCustomizer)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>-76b40ab:15bc5a6e743:-714c</uniqueIdentifier>
+                <specificProperties/>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>swingCustomizer</parameterName>
+            </parametersCustomizations>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
         <typeName>Encapsulation [context=MethodContext [methodSignature=xy.reflect.ui.control.swing.customizer.CustomizationOptions options.get(), containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.control.swing.customizer.CustomizationController], fieldName=]], subContext=MethodResult, encapsulatedObjectType=xy.reflect.ui.control.swing.customizer.CustomizationOptions]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -18514,6 +18835,9 @@
         <uniqueIdentifier>21cc9f0a:15bbfac0b92:-6b07</uniqueIdentifier>
         <specificProperties/>
         <abstractForced>false</abstractForced>
+        <customMethodsOrder>saveCustomizations</customMethodsOrder>
+        <customMethodsOrder>allCustomizations.get</customMethodsOrder>
+        <customMethodsOrder>options.get</customMethodsOrder>
         <immutableForced>false</immutableForced>
         <menuModel/>
         <methodsCustomizations>
@@ -18539,6 +18863,19 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>xy.reflect.ui.control.swing.customizer.CustomizationOptions options.get()</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-76b40ab:15bc5a6e743:-714e</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.custom.InfoCustomizations allCustomizations.get()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
@@ -18955,6 +19292,104 @@
         <immutableForced>false</immutableForced>
         <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=valueByParameterPosition, containingType=xy.reflect.ui.info.method.InvocationData], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,java.lang.Object&gt;]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>5235a7a6:15bc52889e3:-70a9</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <uniqueIdentifier>5235a7a6:15bc52889e3:-70a8</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customFieldCaption>Method Signature</customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [context=FieldContext [fieldName=customSetterSignature, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>5235a7a6:15bc52889e3:-70a7</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <uniqueIdentifier>5235a7a6:15bc52889e3:-70a6</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customFieldCaption>Options Field Name</customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [context=FieldContext [fieldName=valueOptionsFieldName, containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-76b40ab:15bc5a6e743:-7148</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-76b40ab:15bc5a6e743:-7147</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [context=MethodContext [methodSignature=xy.reflect.ui.info.custom.InfoCustomizations allCustomizations.get(), containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.control.swing.customizer.CustomizationController], fieldName=]], subContext=MethodResult, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-76b40ab:15bc5a6e743:-713d</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-76b40ab:15bc5a6e743:-713c</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [context=FieldContext [fieldName=listCustomizations, containingType=xy.reflect.ui.info.custom.InfoCustomizations], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

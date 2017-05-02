@@ -8,6 +8,7 @@ import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -320,7 +321,7 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
-		public String getIconImagePath() {
+		public ResourcePath getIconImagePath() {
 			return null;
 		}
 

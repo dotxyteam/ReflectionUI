@@ -3,6 +3,7 @@ package xy.reflect.ui.control;
 import java.util.List;
 import java.util.Map;
 
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -79,7 +80,7 @@ public class MethodControlDataProxy implements IMethodControlData {
 		return base.getMethodSignature();
 	}
 
-	public String getIconImagePath() {
+	public ResourcePath getIconImagePath() {
 		return base.getIconImagePath();
 	}
 

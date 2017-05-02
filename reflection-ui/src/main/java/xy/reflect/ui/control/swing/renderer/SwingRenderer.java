@@ -73,6 +73,7 @@ import xy.reflect.ui.control.swing.plugin.SliderPlugin;
 import xy.reflect.ui.control.swing.plugin.SpinnerPlugin;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -98,7 +99,6 @@ import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.ResourcePath;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.SystemProperties;
 import xy.reflect.ui.util.Visitor;
@@ -920,11 +920,11 @@ public class SwingRenderer {
 	public Image getObjectIconImage(Object object) {
 		if (object != null) {
 			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-			String imagePathSpecification = type.getIconImagePath();
-			if (imagePathSpecification == null) {
+			ResourcePath imagePath = type.getIconImagePath();
+			if (imagePath == null) {
 				return null;
 			}
-			Image result = SwingRendererUtils.loadImageThroughcache(new ResourcePath(imagePathSpecification),
+			Image result = SwingRendererUtils.loadImageThroughcache(imagePath,
 					ReflectionUIUtils.getErrorLogListener(reflectionUI));
 			if (result != null) {
 				return result;
@@ -934,21 +934,19 @@ public class SwingRenderer {
 	}
 
 	public Image getMethodIconImage(IMethodControlData data) {
-		String imagePathSpecification = data.getIconImagePath();
-		if (imagePathSpecification == null) {
+		ResourcePath imagePath = data.getIconImagePath();
+		if (imagePath == null) {
 			return null;
 		}
-		return SwingRendererUtils.loadImageThroughcache(new ResourcePath(imagePathSpecification),
-				ReflectionUIUtils.getErrorLogListener(reflectionUI));
+		return SwingRendererUtils.loadImageThroughcache(imagePath, ReflectionUIUtils.getErrorLogListener(reflectionUI));
 	}
 
 	public Image getMenuIconImage(AbstractMenuItem menuItem) {
-		String imagePathSpecification = menuItem.getIconImagePath();
-		if (imagePathSpecification == null) {
+		ResourcePath imagePath = menuItem.getIconImagePath();
+		if (imagePath == null) {
 			return null;
 		}
-		return SwingRendererUtils.loadImageThroughcache(new ResourcePath(imagePathSpecification),
-				ReflectionUIUtils.getErrorLogListener(reflectionUI));
+		return SwingRendererUtils.loadImageThroughcache(imagePath, ReflectionUIUtils.getErrorLogListener(reflectionUI));
 	}
 
 	public void handleExceptionsFromDisplayedUI(Component activatorComponent, final Throwable t) {
@@ -1272,9 +1270,9 @@ public class SwingRenderer {
 			}
 
 			@Override
-			protected String getItemIconImagePath(Object choice) {
+			protected ResourcePath getItemIconImagePath(Object choice) {
 				Image image = iconImages.get(choice);
-				return SwingRendererUtils.putImageInCached(image).getSpecification();
+				return SwingRendererUtils.putImageInCached(image);
 			}
 
 			@Override

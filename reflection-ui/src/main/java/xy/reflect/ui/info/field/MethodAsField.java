@@ -15,9 +15,8 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class MethodAsField implements IFieldInfo {
 
 	protected IMethodInfo method;
-	protected String fieldName;
 
-	public MethodAsField(IMethodInfo method, String fieldName) {
+	public MethodAsField(IMethodInfo method) {
 		if (method.getParameters().size() > 0) {
 			throw new ReflectionUIError("Cannot create field from method having parameters");
 		}
@@ -25,17 +24,16 @@ public class MethodAsField implements IFieldInfo {
 			throw new ReflectionUIError("Cannot create field from method having void return type");
 		}
 		this.method = method;
-		this.fieldName = fieldName;
 	}
 
 	@Override
 	public String getName() {
-		return fieldName;
+		return method.getName() + ".result";
 	}
 
 	@Override
 	public String getCaption() {
-		return ReflectionUIUtils.getDefaultFieldCaption(this);
+		return ReflectionUIUtils.composeMessage(method.getCaption(), " Result");
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -17,7 +18,7 @@ public abstract class AbstractListAction implements IMethodInfo {
 
 	@Override
 	public String getSignature() {
-		return ReflectionUIUtils.getMethodSignature(this);
+		return ReflectionUIUtils.buildMethodSignature(this);
 	}
 
 	public boolean isEnabled() {
@@ -89,7 +90,7 @@ public abstract class AbstractListAction implements IMethodInfo {
 	}
 
 	@Override
-	public String getIconImagePath() {
+	public ResourcePath getIconImagePath() {
 		return null;
 	}
 

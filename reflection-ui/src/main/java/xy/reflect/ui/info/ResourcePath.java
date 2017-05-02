@@ -1,4 +1,4 @@
-package xy.reflect.ui.util;
+package xy.reflect.ui.info;
 
 import java.io.File;
 import java.net.URL;
@@ -7,6 +7,8 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlTransient;
+
+import xy.reflect.ui.util.FileUtils;
 
 public class ResourcePath {
 

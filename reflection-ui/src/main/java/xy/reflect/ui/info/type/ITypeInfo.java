@@ -3,6 +3,7 @@ package xy.reflect.ui.info.type;
 import java.util.List;
 
 import xy.reflect.ui.info.IInfo;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -35,7 +36,7 @@ public interface ITypeInfo extends IInfo {
 
 	boolean isModificationStackAccessible();
 
-	String getIconImagePath();
+	ResourcePath getIconImagePath();
 
 	ITypeInfo.FieldsLayout getFieldsLayout();
 

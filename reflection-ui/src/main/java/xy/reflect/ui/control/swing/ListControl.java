@@ -1830,6 +1830,9 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			public boolean isValid() {
+				if(getDetailsAccessMode().hasDetailsDisplayArea()){
+					return false;
+				}
 				BufferedItemPosition singleSelectedPosition = getSingleSelection();
 				if (singleSelectedPosition != null) {
 					if (!new ItemUIBuilder(singleSelectedPosition).isObjectFormEmpty()) {

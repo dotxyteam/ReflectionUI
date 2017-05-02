@@ -66,7 +66,9 @@ import xy.reflect.ui.control.swing.renderer.MethodControlPlaceHolder;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.ResourcePath.PathKind;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.AbstractMenuItem;
@@ -82,7 +84,6 @@ import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationProxy;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
-import xy.reflect.ui.util.ResourcePath.PathKind;
 
 public class SwingRendererUtils {
 

@@ -1,12 +1,14 @@
 package xy.reflect.ui.info.menu;
 
+import xy.reflect.ui.info.ResourcePath;
+
 public abstract class AbstractMenuItem extends AbstractMenuElement {
 	private static final long serialVersionUID = 1L;
 
 	protected String name = "";
-	protected String iconImagePath;
+	protected ResourcePath iconImagePath;
 
-	public AbstractMenuItem(String name, String iconImagePath) {
+	public AbstractMenuItem(String name, ResourcePath iconImagePath) {
 		super();
 		this.name = name;
 		this.iconImagePath = iconImagePath;
@@ -23,11 +25,11 @@ public abstract class AbstractMenuItem extends AbstractMenuElement {
 		this.name = name;
 	}
 
-	public String getIconImagePath() {
+	public ResourcePath getIconImagePath() {
 		return iconImagePath;
 	}
 
-	public void setIconImagePath(String iconImagePath) {
+	public void setIconImagePath(ResourcePath iconImagePath) {
 		this.iconImagePath = iconImagePath;
 	}
 

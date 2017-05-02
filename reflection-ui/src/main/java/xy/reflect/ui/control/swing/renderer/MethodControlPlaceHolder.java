@@ -13,6 +13,7 @@ import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.MethodControlDataProxy;
 import xy.reflect.ui.control.swing.MethodControl;
 import xy.reflect.ui.info.IInfo;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -54,13 +55,15 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 		if (result == null) {
 			return super.getPreferredSize();
 		}
-		int maxMethodControlWidth = 0;
-		for (final MethodControlPlaceHolder methodControlPlaceHolder : this.swingRenderer
+		int maxMethodControlWidth = result.width;
+		for (final MethodControlPlaceHolder methodControlPlaceHolder : swingRenderer
 				.getMethodControlPlaceHolders(form)) {
-			Component methodControl = methodControlPlaceHolder.getMethodControl();
-			Dimension controlPreferredSize = methodControl.getPreferredSize();
-			if (controlPreferredSize != null) {
-				maxMethodControlWidth = Math.max(maxMethodControlWidth, controlPreferredSize.width);
+			if (methodControlPlaceHolder != this) {
+				Component methodControl = methodControlPlaceHolder.getMethodControl();
+				Dimension controlPreferredSize = methodControl.getPreferredSize();
+				if (controlPreferredSize != null) {
+					maxMethodControlWidth = Math.max(maxMethodControlWidth, controlPreferredSize.width);
+				}
 			}
 		}
 		result.width = maxMethodControlWidth;
@@ -281,7 +284,7 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 		}
 
 		@Override
-		public String getIconImagePath() {
+		public ResourcePath getIconImagePath() {
 			return finalMethod.getIconImagePath();
 		}
 
