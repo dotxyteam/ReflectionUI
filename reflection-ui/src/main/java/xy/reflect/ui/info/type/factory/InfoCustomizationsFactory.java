@@ -936,27 +936,22 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 					containingType.getName());
 			if (containingTypeCustomization != null) {
 				initializeMembers(inputFields, inputMethods, menuModel);
+				if (containingTypeCustomization.isAnyDefaultObjectMemberIncluded()) {
+					addDefaultObjectMembers(inputFields, inputMethods);
+				}
+				menuModel.importContributions(containingTypeCustomization.getMenuModel());
 				evolveMembers();
 				outputFields = removeHiddenFields(outputFields);
 				outputMethods = removeHiddenMethods(outputMethods);
-
 			} else {
 				initializeMembers(outputFields, outputMethods, menuModel);
 			}
 		}
 
 		protected void initializeMembers(List<IFieldInfo> fields, List<IMethodInfo> methods, MenuModel menuModel) {
-			TypeCustomization tc = InfoCustomizations.getTypeCustomization(infoCustomizations,
-					containingType.getName());
-			if (tc != null) {
-				fields.addAll(InfoCustomizationsFactory.super.getFields(containingType));
-				methods.addAll(InfoCustomizationsFactory.super.getMethods(containingType));
-				if (tc.isAnyDefaultObjectMemberIncluded()) {
-					addDefaultObjectMembers(fields, methods);
-				}
-				menuModel.importContributions(InfoCustomizationsFactory.super.getMenuModel(containingType));
-				menuModel.importContributions(tc.getMenuModel());
-			}
+			fields.addAll(InfoCustomizationsFactory.super.getFields(containingType));
+			methods.addAll(InfoCustomizationsFactory.super.getMethods(containingType));
+			menuModel.importContributions(InfoCustomizationsFactory.super.getMenuModel(containingType));
 		}
 
 		protected void addDefaultObjectMembers(List<IFieldInfo> fields, List<IMethodInfo> methods) {
@@ -970,33 +965,30 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 		}
 
 		protected void evolveMembers() {
+			encapsulateIntputMembers();
 			transformInputFields();
+			checkDuplicates();
+
+			encapsulateIntputMembers();
 			transformInputMethods();
-			encapsulateOutputMembers();
 			checkDuplicates();
 
 			if ((inputFields.size() > 0) || (inputMethods.size() > 0)) {
-				if (new Exception().getStackTrace().length > 1000) {
-					System.out.println("debug");
-				}
 				evolveMembers();
 			}
 		}
 
 		protected void transformInputFields() {
-			TypeCustomization tc = InfoCustomizations.getTypeCustomization(infoCustomizations,
-					containingType.getName());
-			if (tc != null) {
-				for (IFieldInfo field : new ArrayList<IFieldInfo>(inputFields)) {
-					inputFields.remove(field);
-					FieldCustomization f = InfoCustomizations.getFieldCustomization(tc, field.getName());
-					if (f != null) {
-						for (AbstractFieldTransformer transformer : getFieldTransformers()) {
-							field = transformer.process(field, f);
-						}
+			for (IFieldInfo field : new ArrayList<IFieldInfo>(inputFields)) {
+				inputFields.remove(field);
+				FieldCustomization f = InfoCustomizations.getFieldCustomization(containingTypeCustomization,
+						field.getName());
+				if (f != null) {
+					for (AbstractFieldTransformer transformer : getFieldTransformers()) {
+						field = transformer.process(field, f);
 					}
-					outputFields.add(field);
 				}
+				outputFields.add(field);
 			}
 		}
 
@@ -1015,21 +1007,17 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 		}
 
 		protected void transformInputMethods() {
-			TypeCustomization tc = InfoCustomizations.getTypeCustomization(infoCustomizations,
-					containingType.getName());
-			if (tc != null) {
-				for (IMethodInfo method : new ArrayList<IMethodInfo>(inputMethods)) {
-					inputMethods.remove(method);
-					MethodCustomization mc = InfoCustomizations.getMethodCustomization(tc, method.getSignature());
-					if (mc != null) {
-						for (AbstractMethodTransformer transformer : getMethodTransformers()) {
-							method = transformer.process(method, mc);
-						}
+			for (IMethodInfo method : new ArrayList<IMethodInfo>(inputMethods)) {
+				inputMethods.remove(method);
+				MethodCustomization mc = InfoCustomizations.getMethodCustomization(containingTypeCustomization,
+						method.getSignature());
+				if (mc != null) {
+					for (AbstractMethodTransformer transformer : getMethodTransformers()) {
+						method = transformer.process(method, mc);
 					}
-					outputMethods.add(method);
 				}
+				outputMethods.add(method);
 			}
-
 		}
 
 		protected List<AbstractMethodTransformer> getMethodTransformers() {
@@ -1045,84 +1033,76 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 			return result;
 		}
 
-		protected void encapsulateOutputMembers() {
-			TypeCustomization tc = InfoCustomizations.getTypeCustomization(infoCustomizations,
-					containingType.getName());
-			if (tc != null) {
-				Map<String, Pair<List<IFieldInfo>, List<IMethodInfo>>> encapsulatedMembersByCapsuleFieldName = new HashMap<String, Pair<List<IFieldInfo>, List<IMethodInfo>>>();
-				for (IFieldInfo field : new ArrayList<IFieldInfo>(outputFields)) {
-					FieldCustomization fc = InfoCustomizations.getFieldCustomization(tc, field.getName());
-					if (fc != null) {
-						if (fc.getEncapsulationFieldName() != null) {
-							Pair<List<IFieldInfo>, List<IMethodInfo>> encapsulatedMembers = encapsulatedMembersByCapsuleFieldName
-									.get(fc.getEncapsulationFieldName());
-							if (encapsulatedMembers == null) {
-								encapsulatedMembers = new Pair<List<IFieldInfo>, List<IMethodInfo>>(
-										new ArrayList<IFieldInfo>(), new ArrayList<IMethodInfo>());
-								encapsulatedMembersByCapsuleFieldName.put(fc.getEncapsulationFieldName(),
-										encapsulatedMembers);
-							}
-							encapsulatedMembers.getFirst().add(field);
-							outputFields.remove(field);
+		protected void encapsulateIntputMembers() {
+			Map<String, Pair<List<IFieldInfo>, List<IMethodInfo>>> encapsulatedMembersByCapsuleFieldName = new HashMap<String, Pair<List<IFieldInfo>, List<IMethodInfo>>>();
+			for (IFieldInfo field : new ArrayList<IFieldInfo>(inputFields)) {
+				FieldCustomization fc = InfoCustomizations.getFieldCustomization(containingTypeCustomization,
+						field.getName());
+				if (fc != null) {
+					if (fc.getEncapsulationFieldName() != null) {
+						Pair<List<IFieldInfo>, List<IMethodInfo>> encapsulatedMembers = encapsulatedMembersByCapsuleFieldName
+								.get(fc.getEncapsulationFieldName());
+						if (encapsulatedMembers == null) {
+							encapsulatedMembers = new Pair<List<IFieldInfo>, List<IMethodInfo>>(
+									new ArrayList<IFieldInfo>(), new ArrayList<IMethodInfo>());
+							encapsulatedMembersByCapsuleFieldName.put(fc.getEncapsulationFieldName(),
+									encapsulatedMembers);
 						}
+						encapsulatedMembers.getFirst().add(field);
+						inputFields.remove(field);
 					}
 				}
+			}
 
-				for (IMethodInfo method : new ArrayList<IMethodInfo>(outputMethods)) {
-					MethodCustomization mc = InfoCustomizations.getMethodCustomization(tc, method.getSignature());
-					if (mc != null) {
-						if (mc.getEncapsulationFieldName() != null) {
-							Pair<List<IFieldInfo>, List<IMethodInfo>> encapsulatedMembers = encapsulatedMembersByCapsuleFieldName
-									.get(mc.getEncapsulationFieldName());
-							if (encapsulatedMembers == null) {
-								encapsulatedMembers = new Pair<List<IFieldInfo>, List<IMethodInfo>>(
-										new ArrayList<IFieldInfo>(), new ArrayList<IMethodInfo>());
-								encapsulatedMembersByCapsuleFieldName.put(mc.getEncapsulationFieldName(),
-										encapsulatedMembers);
-							}
-							encapsulatedMembers.getSecond().add(method);
-							outputMethods.remove(method);
+			for (IMethodInfo method : new ArrayList<IMethodInfo>(inputMethods)) {
+				MethodCustomization mc = InfoCustomizations.getMethodCustomization(containingTypeCustomization,
+						method.getSignature());
+				if (mc != null) {
+					if (mc.getEncapsulationFieldName() != null) {
+						Pair<List<IFieldInfo>, List<IMethodInfo>> encapsulatedMembers = encapsulatedMembersByCapsuleFieldName
+								.get(mc.getEncapsulationFieldName());
+						if (encapsulatedMembers == null) {
+							encapsulatedMembers = new Pair<List<IFieldInfo>, List<IMethodInfo>>(
+									new ArrayList<IFieldInfo>(), new ArrayList<IMethodInfo>());
+							encapsulatedMembersByCapsuleFieldName.put(mc.getEncapsulationFieldName(),
+									encapsulatedMembers);
 						}
+						encapsulatedMembers.getSecond().add(method);
+						inputMethods.remove(method);
 					}
 				}
+			}
 
-				if (encapsulatedMembersByCapsuleFieldName.size() == 0) {
-					return;
-				}
-				for (String capsuleFieldName : encapsulatedMembersByCapsuleFieldName.keySet()) {
-					Pair<List<IFieldInfo>, List<IMethodInfo>> encapsulatedMembers = encapsulatedMembersByCapsuleFieldName
-							.get(capsuleFieldName);
-					List<IFieldInfo> encapsulatedFields = encapsulatedMembers.getFirst();
-					List<IMethodInfo> encapsulatedMethods = encapsulatedMembers.getSecond();
-					IFieldInfo duplicateField = ReflectionUIUtils.findInfoByName(outputFields, capsuleFieldName);
-					String contextId = "EncapsulationContext [containingType=" + containingType.getName() + "]";
-					if (duplicateField != null) {
-						CapsuleField duplicateFieldAsTranslatedCapsuleField = CapsuleField
-								.translateProxy(duplicateField);
-						if (duplicateFieldAsTranslatedCapsuleField != null) {
-							outputFields.remove(duplicateField);
-							encapsulatedFields.addAll(0,
-									duplicateFieldAsTranslatedCapsuleField.getEncapsulatedFields());
-							encapsulatedMethods.addAll(0,
-									duplicateFieldAsTranslatedCapsuleField.getEncapsulatedMethods());
-							contextId = duplicateFieldAsTranslatedCapsuleField.getContextId();
-						} else {
-							throw new ReflectionUIError(
-									"Failed to generate capsule field: Duplicate field name detected: '"
-											+ capsuleFieldName + "'");
-						}
+			if (encapsulatedMembersByCapsuleFieldName.size() == 0) {
+				return;
+			}
+			for (String capsuleFieldName : encapsulatedMembersByCapsuleFieldName.keySet()) {
+				Pair<List<IFieldInfo>, List<IMethodInfo>> encapsulatedMembers = encapsulatedMembersByCapsuleFieldName
+						.get(capsuleFieldName);
+				List<IFieldInfo> encapsulatedFields = encapsulatedMembers.getFirst();
+				List<IMethodInfo> encapsulatedMethods = encapsulatedMembers.getSecond();
+				IFieldInfo duplicateField = ReflectionUIUtils.findInfoByName(outputFields, capsuleFieldName);
+				String contextId = "EncapsulationContext [containingType=" + containingType.getName() + "]";
+				if (duplicateField != null) {
+					CapsuleField duplicateFieldAsTranslatedCapsuleField = CapsuleField.translateProxy(duplicateField);
+					if (duplicateFieldAsTranslatedCapsuleField != null) {
+						outputFields.remove(duplicateField);
+						encapsulatedFields.addAll(0, duplicateFieldAsTranslatedCapsuleField.getEncapsulatedFields());
+						encapsulatedMethods.addAll(0, duplicateFieldAsTranslatedCapsuleField.getEncapsulatedMethods());
+						contextId = duplicateFieldAsTranslatedCapsuleField.getContextId();
+					} else {
+						throw new ReflectionUIError("Failed to generate capsule field: Duplicate field name detected: '"
+								+ capsuleFieldName + "'");
 					}
-					CapsuleField capsuleField = new CapsuleField(reflectionUI, capsuleFieldName, encapsulatedFields,
-							encapsulatedMethods, contextId);
-					initializeEncapsulatedMemberCustomizations(capsuleField, containingType);
-					inputFields.add(capsuleField);
 				}
+				CapsuleField capsuleField = new CapsuleField(reflectionUI, capsuleFieldName, encapsulatedFields,
+						encapsulatedMethods, contextId);
+				initializeEncapsulatedMemberCustomizations(capsuleField, containingType);
+				inputFields.add(capsuleField);
 			}
 		}
 
 		protected void initializeEncapsulatedMemberCustomizations(CapsuleField capsuleField, ITypeInfo containingType) {
-			TypeCustomization containingTc = InfoCustomizations.getTypeCustomization(infoCustomizations,
-					containingType.getName());
 			ITypeInfo capsuleFieldType = capsuleField.getType();
 			TypeCustomization capsuleTc = InfoCustomizations.getTypeCustomization(infoCustomizations,
 					capsuleFieldType.getName(), true);
@@ -1130,7 +1110,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 				if (InfoCustomizations.getFieldCustomization(capsuleTc, field.getName()) == null) {
 					FieldCustomization initialFc = InfoCustomizations.getFieldCustomization(capsuleTc, field.getName(),
 							true);
-					FieldCustomization baseFc = InfoCustomizations.getFieldCustomization(containingTc, field.getName());
+					FieldCustomization baseFc = InfoCustomizations.getFieldCustomization(containingTypeCustomization, field.getName());
 					if (baseFc != null) {
 						initialFc.setCustomFieldCaption(baseFc.getCustomFieldCaption());
 						initialFc.setCustomValueReturnMode(baseFc.getCustomValueReturnMode());
@@ -1151,7 +1131,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 				if (InfoCustomizations.getMethodCustomization(capsuleTc, method.getSignature()) == null) {
 					MethodCustomization initialMc = InfoCustomizations.getMethodCustomization(capsuleTc,
 							method.getSignature(), true);
-					MethodCustomization baseMc = InfoCustomizations.getMethodCustomization(containingTc,
+					MethodCustomization baseMc = InfoCustomizations.getMethodCustomization(containingTypeCustomization,
 							method.getSignature());
 					if (baseMc != null) {
 						initialMc.setCustomMethodCaption(baseMc.getCustomMethodCaption());
