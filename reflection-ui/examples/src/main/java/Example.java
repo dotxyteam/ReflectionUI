@@ -5,7 +5,6 @@ import javax.swing.JOptionPane;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.TypeInfoProxyFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
@@ -45,7 +44,7 @@ public class Example {
 		SwingRenderer.getDefault().openObjectDialog(null, myObject);
 
 		/* You can just create a form and then insert it in any container: */
-		JOptionPane.showMessageDialog(null, SwingRenderer.getDefault().createForm(myObject, IInfoFilter.DEFAULT));
+		JOptionPane.showMessageDialog(null, SwingRenderer.getDefault().createForm(myObject));
 
 		/*
 		 * SwingRenderer.getDefault() assumes that the Java coding standards are

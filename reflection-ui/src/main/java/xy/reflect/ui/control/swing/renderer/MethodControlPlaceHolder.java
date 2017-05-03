@@ -61,9 +61,13 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 			Component methodControl = methodControlPlaceHolder.getMethodControl();
 			maxMethodControlWidth = Math.max(maxMethodControlWidth, methodControl.getPreferredSize().width);
 		}
-		maxMethodControlWidth = maxMethodControlWidth - (maxMethodControlWidth % 20) + 20;
+		maxMethodControlWidth = maxMethodControlWidth - (maxMethodControlWidth % getIndentWidth()) + getIndentWidth();
 		result.width = maxMethodControlWidth;
 		return result;
+	}
+
+	protected int getIndentWidth() {
+		return SwingRendererUtils.getStandardCharacterWidth(form) * 10;
 	}
 
 	public IMethodControlData makeMethodModificationsUndoable(final IMethodControlData data) {

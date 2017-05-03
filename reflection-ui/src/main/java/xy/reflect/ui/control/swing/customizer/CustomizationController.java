@@ -11,7 +11,6 @@ import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.custom.InfoCustomizations;
-import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.component.AlternativeWindowDecorationsPanel;
 
@@ -53,7 +52,7 @@ public class CustomizationController {
 	protected void openWindow() {
 		window = new JFrame();
 		SwingRenderer customizationsToolsRenderer = swingCustomizer.getCustomizationTools().getToolsRenderer();
-		JPanel form = customizationsToolsRenderer.createForm(this, IInfoFilter.DEFAULT);
+		JPanel form = customizationsToolsRenderer.createForm(this);
 		customizationsToolsRenderer.setupWindow(window, form, null, customizationsToolsRenderer.getObjectTitle(this),
 				customizationsToolsRenderer.getObjectIconImage(this));
 		AlternativeWindowDecorationsPanel decorations = (AlternativeWindowDecorationsPanel) window.getContentPane();

@@ -9,6 +9,7 @@ public class Calculator {
 	public static void main(String[] args) {
 		System.setProperty(SystemProperties.DEFAULT_INFO_CUSTOMIZATIONS_ACTIVE, "true");
 		System.setProperty(SystemProperties.DEFAULT_INFO_CUSTOMIZATIONS_FILE_PATH, "calculator.icu");
+		//System.setProperty(SystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS, "true");
 
 		ScriptEngineManager factory = new ScriptEngineManager();
 		ScriptEngine engine = factory.getEngineByName("JavaScript");

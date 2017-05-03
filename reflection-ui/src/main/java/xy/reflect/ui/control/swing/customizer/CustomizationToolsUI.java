@@ -276,6 +276,15 @@ class CustomizationToolsUI extends ReflectionUI {
 					return ((JavaClassBasedTypeInfoFinder) object).getClassName();
 				} else if (object instanceof CustomTypeInfoFinder) {
 					return "Custom Type Implemented By " + ((CustomTypeInfoFinder) object).getImplementationClassName();
+				} else if (object instanceof TextualStorage) {
+					Object stored = ((TextualStorage) object).load();
+					String result = ReflectionUIUtils.toString(CustomizationToolsUI.this, stored);
+					if (stored != null) {
+						ITypeInfo storedType = CustomizationToolsUI.this
+								.getTypeInfo(CustomizationToolsUI.this.getTypeInfoSource(stored));
+						result = "(" + storedType.getCaption() + ") " + result;
+					}
+					return result;
 				} else {
 					return super.toString(type, object);
 				}

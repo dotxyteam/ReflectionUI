@@ -38,9 +38,6 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		this.swingRenderer = swingRenderer;
 		this.input = input;
 		this.data = input.getControlData();
-		if (data.getCaption().equals("Use Custom Setter") && !data.isValueNullable()) {
-			System.out.println("debug");
-		}
 		
 		setLayout(new BorderLayout());
 

@@ -119,16 +119,23 @@ public class SwingCustomizer extends SwingRenderer {
 	public void layoutFormControls(Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
 			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory,
 			Container container) {
-		JPanel form = SwingRendererUtils.getForm(fieldControlPlaceHoldersByCategory,
-				methodControlPlaceHoldersByCategory);
+		JPanel form;
+		if (SwingRendererUtils.isForm(container, this)) {
+			form = (JPanel) container;
+		} else {
+			form = SwingRendererUtils.findParentForm(container, this);
+		}
+		if (form == null) {
+			throw new ReflectionUIError();
+		}
 		Object object = getObjectByForm().get(form);
 		if (areCustomizationsEditable(object)) {
 			container.setLayout(new BorderLayout());
 			JPanel newContainer = new JPanel();
 			{
+				container.add(newContainer, BorderLayout.CENTER);
 				super.layoutFormControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory,
 						newContainer);
-				container.add(newContainer, BorderLayout.CENTER);
 			}
 			JPanel mainCustomizationsControl = new JPanel();
 			{
@@ -207,13 +214,12 @@ public class SwingCustomizer extends SwingRenderer {
 				if (result == null) {
 					return null;
 				}
-				if(infoCustomizationsComponent != null){
+				if (infoCustomizationsComponent != null) {
 					result.width += infoCustomizationsComponent.getPreferredSize().width;
 				}
 				return result;
 			}
-			
-			
+
 		};
 	}
 

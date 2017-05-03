@@ -23,11 +23,11 @@ public class InvocationData implements Serializable {
 		}
 	}
 
-	public Map<Integer, Object> getValueByParameterPosition() {
+	public Map<Integer, Object> getInternalMap() {
 		return valueByParameterPosition;
 	}
 
-	public void setValueByParameterPosition(Map<Integer, Object> valueByParameterPosition) {
+	public void setInternalMap(Map<Integer, Object> valueByParameterPosition) {
 		this.valueByParameterPosition = valueByParameterPosition;
 	}
 
@@ -51,7 +51,7 @@ public class InvocationData implements Serializable {
 		valueByParameterPosition.put(parameterPosition, value);
 	}
 
-	public Set<Integer> getPositions() {
+	public Set<Integer> getProvidedParameterValuePositions() {
 		return valueByParameterPosition.keySet();
 	}
 

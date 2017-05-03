@@ -979,6 +979,9 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		public IMethodInfo find() {
+			if ((conversionMethodSignature == null) || (conversionMethodSignature.length() == 0)) {
+				return null;
+			}
 			try {
 				String conversionMethodName = ReflectionUIUtils
 						.extractMethodNameFromSignature(conversionMethodSignature);
@@ -1141,6 +1144,15 @@ public class InfoCustomizations implements Serializable {
 		protected boolean formControlEmbeddingForced = false;
 		protected boolean formControlCreationForced = false;
 		protected TypeConversion typeConversion = new TypeConversion();
+		protected TextualStorage nullReplacement = new TextualStorage();
+
+		public TextualStorage getNullReplacement() {
+			return nullReplacement;
+		}
+
+		public void setNullReplacement(TextualStorage nullReplacement) {
+			this.nullReplacement = nullReplacement;
+		}
 
 		public TypeConversion getTypeConversion() {
 			return typeConversion;
@@ -1346,6 +1358,8 @@ public class InfoCustomizations implements Serializable {
 				return ReflectionUIUtils.deserializeFromHexaText(data);
 			}
 		}
+		
+		
 
 	}
 
@@ -1552,6 +1566,15 @@ public class InfoCustomizations implements Serializable {
 		protected boolean nullableFacetHidden = false;
 		protected String onlineHelp;
 		protected boolean displayedAsField;
+		protected TextualStorage defaultValue = new TextualStorage();
+
+		public TextualStorage getDefaultValue() {
+			return defaultValue;
+		}
+
+		public void setDefaultValue(TextualStorage defaultValue) {
+			this.defaultValue = defaultValue;
+		}
 
 		public boolean isDisplayedAsField() {
 			return displayedAsField;

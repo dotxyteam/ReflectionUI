@@ -1,7 +1,8 @@
 package xy.reflect.ui.info.field;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.type.factory.HiddenNullableFacetsTypeInfoProxyFactory;
+import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class HiddenNullableFacetFieldInfoProxy extends FieldInfoProxy {
 
@@ -14,24 +15,30 @@ public class HiddenNullableFacetFieldInfoProxy extends FieldInfoProxy {
 		this.base = base;
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	public Object getValue(final Object object) {
-		final Object[] result = new Object[1];
-		new HiddenNullableFacetsTypeInfoProxyFactory(reflectionUI) {
-			{
-				result[0] = getValue(object, base, null);
+		Object result = super.getValue(object);
+		if (result == null) {
+			if (!isValueNullable()) {
+				result = generateNullReplacementValue();
 			}
-		};
-		return result[0];
+		}
+		return result;
+	}
+
+	public Object generateNullReplacementValue() {
+		try {
+			return ReflectionUIUtils.createDefaultInstance(getType());
+		} catch (Throwable t) {
+			throw new ReflectionUIError("Unable to generate a default value for the field: '" + getType().getName()
+					+ " " + getName() + "'");
+		}
 	}
 
 	@Override
 	public boolean isValueNullable() {
 		return false;
 	}
-
-	
 
 	@Override
 	public int hashCode() {

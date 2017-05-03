@@ -196,7 +196,7 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 					private InvocationData shiftParameterValues(InvocationData invocationData, int offset) {
 						InvocationData result = new InvocationData();
 						Object NO_DEFAULT_VALUE = new Object();
-						for (Integer position : invocationData.getPositions()) {
+						for (Integer position : invocationData.getProvidedParameterValuePositions()) {
 							Object value = invocationData.getParameterValue(position, NO_DEFAULT_VALUE);
 							if (value != NO_DEFAULT_VALUE) {
 								result.setParameterValue(position + offset, value);

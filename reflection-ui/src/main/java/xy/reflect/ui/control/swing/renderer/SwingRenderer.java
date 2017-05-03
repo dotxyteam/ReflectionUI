@@ -359,6 +359,10 @@ public class SwingRenderer {
 		return result;
 	}
 
+	public JPanel createForm(Object object) {
+		return createForm(object, IInfoFilter.DEFAULT);
+	}
+
 	public JPanel createForm(final Object object, IInfoFilter infoFilter) {
 		final JPanel result = new JPanel() {
 			private static final long serialVersionUID = 1L;
@@ -749,10 +753,12 @@ public class SwingRenderer {
 			container.setLayout(new BorderLayout());
 			Container categoriesControl = createFormCategoriesControl(allCategories, fieldControlPlaceHoldersByCategory,
 					methodControlPlaceHoldersByCategory);
-			JPanel form = SwingRendererUtils.getForm(fieldControlPlaceHoldersByCategory,
-					methodControlPlaceHoldersByCategory);
-			getCategoriesControlByForm().put(form, categoriesControl);
 			container.add(categoriesControl, BorderLayout.CENTER);
+			JPanel form = SwingRendererUtils.findParentForm(categoriesControl, this);
+			if (form == null) {
+				throw new ReflectionUIError();
+			}
+			getCategoriesControlByForm().put(form, categoriesControl);
 		}
 	}
 

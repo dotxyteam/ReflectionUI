@@ -3,7 +3,8 @@ package xy.reflect.ui.info.parameter;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.parameter.ParameterInfoProxy;
-import xy.reflect.ui.info.type.factory.HiddenNullableFacetsTypeInfoProxyFactory;
+import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class HiddenNullableFacetParameterInfoProxy extends ParameterInfoProxy {
 
@@ -16,16 +17,29 @@ public class HiddenNullableFacetParameterInfoProxy extends ParameterInfoProxy {
 		this.base = base;
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	public Object getDefaultValue() {
-		final Object[] result = new Object[1];
-		new HiddenNullableFacetsTypeInfoProxyFactory(reflectionUI) {
-			{
-				result[0] = getDefaultValue(base, null, null);
+		Object result = super.getDefaultValue();
+		if (result == null) {
+			if (!isValueNullable()) {
+				result = generateDefaultValueReplacement();
 			}
-		};
-		return result[0];
+		}
+		return result;
+	}
+
+	public Object generateDefaultValueReplacement() {
+		Object result;
+		try {
+			result = ReflectionUIUtils.createDefaultInstance(getType());
+		} catch (Throwable t) {
+			result = null;
+		}
+		if (result == null) {
+			throw new ReflectionUIError(
+					"Unable to generate a default value for the parameter '" + getType().getName() + " " + getName() + "'");
+		}
+		return result;
 	}
 
 	@Override

@@ -61,11 +61,8 @@ import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.MethodAction;
-import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
-import xy.reflect.ui.control.swing.renderer.MethodControlPlaceHolder;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
-import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.ResourcePath.PathKind;
@@ -781,25 +778,7 @@ public class SwingRendererUtils {
 		return null;
 	}
 
-	public static JPanel getForm(Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
-			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory) {
-		if (fieldControlPlaceHoldersByCategory.values().size() > 0) {
-			List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory.values()
-					.iterator().next();
-			if (fieldControlPlaceHolders.size() > 0) {
-				return fieldControlPlaceHolders.get(0).getForm();
-			}
-		}
-		if (methodControlPlaceHoldersByCategory.values().size() > 0) {
-			List<MethodControlPlaceHolder> methodControlPlaceHolders = methodControlPlaceHoldersByCategory.values()
-					.iterator().next();
-			if (methodControlPlaceHolders.size() > 0) {
-				return methodControlPlaceHolders.get(0).getForm();
-			}
-		}
-		return null;
-	}
-
+	
 	public static void updateMenubar(JMenuBar menuBar, MenuModel menuModel, SwingRenderer swingRenderer) {
 		menuBar.removeAll();
 		for (Menu menu : menuModel.getMenus()) {
