@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.type.factory;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -24,12 +25,16 @@ import xy.reflect.ui.info.custom.InfoCustomizations.ListItemMethodShortcut;
 import xy.reflect.ui.info.custom.InfoCustomizations.MethodCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ParameterCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.TextualStorage;
+import xy.reflect.ui.info.custom.InfoCustomizations.TypeConversion;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.field.FieldInfoProxy;
+import xy.reflect.ui.info.field.GetterFieldInfo;
+import xy.reflect.ui.info.field.HiddenNullableFacetFieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MethodAsField;
 import xy.reflect.ui.info.field.AllMethodParametersAsField;
 import xy.reflect.ui.info.field.CapsuleField;
+import xy.reflect.ui.info.field.ChangedTypeField;
 import xy.reflect.ui.info.field.NerverNullField;
 import xy.reflect.ui.info.field.NullStatusField;
 import xy.reflect.ui.info.field.MethodParameterAsField;
@@ -40,12 +45,15 @@ import xy.reflect.ui.info.menu.IMenuItemContainer;
 import xy.reflect.ui.info.menu.MenuElementKind;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.menu.MethodActionMenuItem;
+import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.FieldAsGetter;
 import xy.reflect.ui.info.method.FieldAsSetter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
+import xy.reflect.ui.info.method.PresetInvocationDataMethod;
 import xy.reflect.ui.info.method.SubMethodInfo;
+import xy.reflect.ui.info.parameter.HiddenNullableFacetParameterInfoProxy;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo.FieldsLayout;
@@ -65,12 +73,13 @@ import xy.reflect.ui.util.Pair;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxyFactory {
+public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 
+	protected ReflectionUI reflectionUI;
 	protected final InfoCustomizations infoCustomizations;
 
 	public InfoCustomizationsFactory(ReflectionUI reflectionUI, InfoCustomizations infoCustomizations) {
-		super(reflectionUI);
+		this.reflectionUI = reflectionUI;
 		this.infoCustomizations = infoCustomizations;
 	}
 
@@ -97,14 +106,13 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 	protected MenuModel getMenuModel(ITypeInfo type) {
 		TypeCustomization tc = InfoCustomizations.getTypeCustomization(this.infoCustomizations, type.getName());
 		if (tc != null) {
-			MenuModel menuModel = new MenuModel();
-			menuModel.importContributions(super.getMenuModel(type));
-			menuModel.importContributions(tc.getMenuModel());
 
-			List<IFieldInfo> inputFields = new ArrayList<IFieldInfo>(super.getFields(type));
-			List<IMethodInfo> inputMethods = new ArrayList<IMethodInfo>(super.getMethods(type));
+			List<IFieldInfo> inputFields = new ArrayList<IFieldInfo>();
+			List<IMethodInfo> inputMethods = new ArrayList<IMethodInfo>();
 			List<IFieldInfo> outputFields = new ArrayList<IFieldInfo>();
 			List<IMethodInfo> outputMethods = new ArrayList<IMethodInfo>();
+			MenuModel menuModel = new MenuModel();
+			initializeMembers(inputFields, inputMethods, outputFields, outputMethods, menuModel, type);
 			evolveMembers(inputFields, inputMethods, outputFields, outputMethods, menuModel, type);
 
 			return menuModel;
@@ -1060,24 +1068,6 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 	}
 
 	@Override
-	protected boolean isValueNullable(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.infoCustomizations,
-				containingType.getName());
-		if (t != null) {
-			MethodCustomization m = InfoCustomizations.getMethodCustomization(t, method.getSignature());
-			if (m != null) {
-				ParameterCustomization p = InfoCustomizations.getParameterCustomization(m, param.getName());
-				if (p != null) {
-					if (p.isNullableFacetHidden()) {
-						return false;
-					}
-				}
-			}
-		}
-		return param.isValueNullable();
-	}
-
-	@Override
 	protected String getCaption(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.infoCustomizations,
 				containingType.getName());
@@ -1093,21 +1083,6 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 			}
 		}
 		return super.getCaption(param, method, containingType);
-	}
-
-	@Override
-	protected boolean isValueNullable(IFieldInfo field, ITypeInfo containingType) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.infoCustomizations,
-				containingType.getName());
-		if (t != null) {
-			FieldCustomization f = InfoCustomizations.getFieldCustomization(t, field.getName());
-			if (f != null) {
-				if (f.isNullableFacetHidden()) {
-					return false;
-				}
-			}
-		}
-		return field.isValueNullable();
 	}
 
 	@Override
@@ -1139,7 +1114,8 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 					IMethodInfo customMethod = ReflectionUIUtils.findMethodBySignature(containingType.getMethods(),
 							f.getCustomSetterSignature());
 					if (customMethod == null) {
-						throw new ReflectionUIError("Custom setter not found: '" + f.getCustomSetterSignature() + "'");
+						throw new ReflectionUIError("Field '" + f.getFieldName() + "': Custom setter not found: '"
+								+ f.getCustomSetterSignature() + "'");
 					}
 					customMethod.invoke(object, new InvocationData(value));
 				}
@@ -1185,8 +1161,16 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 		if (t != null) {
 			MethodCustomization m = InfoCustomizations.getMethodCustomization(t, method.getSignature());
 			if (m != null) {
-				List<IParameterInfo> result = new ArrayList<IParameterInfo>(
-						super.getParameters(method, containingType));
+				List<IParameterInfo> result = new ArrayList<IParameterInfo>();
+				for (IParameterInfo param : super.getParameters(method, containingType)) {
+					ParameterCustomization p = InfoCustomizations.getParameterCustomization(m, param.getName());
+					if (p != null) {
+						if (p.isNullableFacetHidden()) {
+							param = new HiddenNullableFacetParameterInfoProxy(reflectionUI, param);
+						}
+					}
+					result.add(param);
+				}
 				result = removeHiddenParameters(result, m);
 				return result;
 			}
@@ -1248,15 +1232,16 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 
 	@Override
 	protected List<IFieldInfo> getFields(final ITypeInfo containingType) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.infoCustomizations,
+		TypeCustomization tc = InfoCustomizations.getTypeCustomization(this.infoCustomizations,
 				containingType.getName());
-		if (t != null) {
+		if (tc != null) {
 
-			List<IFieldInfo> inputFields = new ArrayList<IFieldInfo>(super.getFields(containingType));
-			List<IMethodInfo> inputMethods = new ArrayList<IMethodInfo>(super.getMethods(containingType));
+			List<IFieldInfo> inputFields = new ArrayList<IFieldInfo>();
+			List<IMethodInfo> inputMethods = new ArrayList<IMethodInfo>();
 			List<IFieldInfo> outputFields = new ArrayList<IFieldInfo>();
 			List<IMethodInfo> outputMethods = new ArrayList<IMethodInfo>();
 			MenuModel menuModel = new MenuModel();
+			initializeMembers(inputFields, inputMethods, outputFields, outputMethods, menuModel, containingType);
 			evolveMembers(inputFields, inputMethods, outputFields, outputMethods, menuModel, containingType);
 
 			outputFields = removeHiddenFields(outputFields, containingType);
@@ -1267,37 +1252,63 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 		return super.getFields(containingType);
 	}
 
+	protected void initializeMembers(List<IFieldInfo> inputFields, List<IMethodInfo> inputMethods,
+			List<IFieldInfo> outputFields, List<IMethodInfo> outputMethods, MenuModel menuModel,
+			ITypeInfo containingType) {
+		TypeCustomization tc = InfoCustomizations.getTypeCustomization(this.infoCustomizations,
+				containingType.getName());
+		if (tc != null) {
+			inputFields.addAll(super.getFields(containingType));
+			inputMethods.addAll(super.getMethods(containingType));
+			if (tc.isAnyDefaultObjectMemberIncluded()) {
+				addDefaultObjectMembers(inputFields, inputMethods);
+			}
+			menuModel.importContributions(super.getMenuModel(containingType));
+			menuModel.importContributions(tc.getMenuModel());
+		}
+	}
+
+	protected void addDefaultObjectMembers(List<IFieldInfo> inputFields, List<IMethodInfo> inputMethods) {
+		for (Method objectMethod : Object.class.getMethods()) {
+			if (GetterFieldInfo.GETTER_PATTERN.matcher(objectMethod.getName()).matches()) {
+				inputFields.add(new GetterFieldInfo(reflectionUI, objectMethod, Object.class));
+			} else {
+				inputMethods.add(new DefaultMethodInfo(reflectionUI, objectMethod));
+			}
+		}
+	}
+
 	protected void evolveMembers(List<IFieldInfo> inputFields, List<IMethodInfo> inputMethods,
 			List<IFieldInfo> outputFields, List<IMethodInfo> outputMethods, MenuModel menuModel,
 			ITypeInfo containingType) {
 
 		transformInputMembers(inputFields, inputMethods, outputFields, outputMethods, menuModel, containingType);
 		encapsulateOutputMembers(inputFields, inputMethods, outputFields, outputMethods, containingType);
-		checkDuplicates(new Pair<List<IFieldInfo>, List<IMethodInfo>>(outputFields, outputMethods));
+		checkDuplicates(outputFields, outputMethods, containingType);
 
 		if ((inputFields.size() > 0) || (inputMethods.size() > 0)) {
 			evolveMembers(inputFields, inputMethods, outputFields, outputMethods, menuModel, containingType);
 		}
 	}
 
-	protected void checkDuplicates(Pair<List<IFieldInfo>, List<IMethodInfo>> members) {
-		List<IFieldInfo> fields = members.getFirst();
+	protected void checkDuplicates(List<IFieldInfo> fields, List<IMethodInfo> methods, ITypeInfo containingType) {
 		for (int i = 0; i < fields.size(); i++) {
 			for (int j = i + 1; j < fields.size(); j++) {
 				IFieldInfo field1 = fields.get(i);
 				IFieldInfo field2 = fields.get(j);
 				if (field1.getName().equals(field2.getName())) {
-					throw new ReflectionUIError("Duplicate field detected: '" + field1.getName() + "'");
+					throw new ReflectionUIError("Duplicate field '" + field1.getName() + "' detected in type '"
+							+ containingType.getName() + "'");
 				}
 			}
 		}
-		List<IMethodInfo> methods = members.getSecond();
 		for (int i = 0; i < methods.size(); i++) {
 			for (int j = i + 1; j < methods.size(); j++) {
 				IMethodInfo method1 = methods.get(i);
 				IMethodInfo method2 = methods.get(j);
 				if (method1.getSignature().equals(method2.getSignature())) {
-					throw new ReflectionUIError("Duplicate method detected: '" + method1.getSignature() + "'");
+					throw new ReflectionUIError("Duplicate method '" + method1.getSignature() + "' detected in type '"
+							+ containingType.getName() + "'");
 				}
 			}
 		}
@@ -1328,6 +1339,19 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 				inputFields.remove(field);
 				FieldCustomization f = InfoCustomizations.getFieldCustomization(tc, field.getName());
 				if (f != null) {
+					if (f.isNullableFacetHidden()) {
+						field = new HiddenNullableFacetFieldInfoProxy(reflectionUI, field);
+					}
+					if (f.getTypeConversion() != null) {
+						if (!ReflectionUIUtils.equalsOrBothNull(new TypeConversion().getNewTypeFinder(),
+								f.getTypeConversion().getNewTypeFinder())) {
+							ITypeInfo newType = f.getTypeConversion().getNewTypeFinder().find(reflectionUI);
+							IMethodInfo conversionMethod = f.getTypeConversion().getConversionMethodFinder().find();
+							IMethodInfo reverseConversionMethod = f.getTypeConversion()
+									.getReverseConversionMethodFinder().find();
+							field = new ChangedTypeField(field, newType, conversionMethod, reverseConversionMethod);
+						}
+					}
 					if (f.isGetterGenerated()) {
 						inputMethods.add(new FieldAsGetter(field) {
 
@@ -1378,35 +1402,20 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 					for (int i = 0; i < mc.getSerializedInvocationDatas().size(); i++) {
 						final TextualStorage invocationDataStorage = mc.getSerializedInvocationDatas().get(i);
 						final int finalI = i;
-						inputMethods.add(new MethodInfoProxy(method) {
+						inputMethods.add(
+								new PresetInvocationDataMethod(method, (InvocationData) invocationDataStorage.load()) {
+									@Override
+									public String getName() {
+										return super.getName() + ".savedInvocation" + finalI;
+									}
 
-							@Override
-							public String getName() {
-								return super.getName() + ".savedInvocation" + finalI;
-							}
+									@Override
+									public String getCaption() {
+										return ReflectionUIUtils.composeMessage(super.getCaption(),
+												"Preset " + (finalI + 1));
+									}
 
-							@Override
-							public String getSignature() {
-								return ReflectionUIUtils.buildMethodSignature(this);
-							}
-
-							@Override
-							public String getCaption() {
-								return ReflectionUIUtils.composeMessage(super.getCaption(), "Preset " + (finalI + 1));
-							}
-
-							@Override
-							public List<IParameterInfo> getParameters() {
-								return Collections.emptyList();
-							}
-
-							@Override
-							public Object invoke(Object object, InvocationData invocationData) {
-								invocationData = (InvocationData) invocationDataStorage.load();
-								return super.invoke(object, invocationData);
-							}
-
-						});
+								});
 					}
 					for (final IParameterInfo param : method.getParameters()) {
 						final ParameterCustomization pc = InfoCustomizations.getParameterCustomization(mc,
@@ -1563,7 +1572,6 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 			if (encapsulatedMembersByCapsuleFieldName.size() == 0) {
 				return;
 			}
-
 			for (String capsuleFieldName : encapsulatedMembersByCapsuleFieldName.keySet()) {
 				Pair<List<IFieldInfo>, List<IMethodInfo>> encapsulatedMembers = encapsulatedMembersByCapsuleFieldName
 						.get(capsuleFieldName);
@@ -1612,6 +1620,9 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 					initialFc.setNullableFacetHidden(baseFc.isNullableFacetHidden());
 					initialFc.setNullValueLabel(baseFc.getNullValueLabel());
 					initialFc.setOnlineHelp(baseFc.getOnlineHelp());
+					initialFc.setTypeConversion(
+							(TypeConversion) ReflectionUIUtils.copyThroughSerialization(baseFc.getTypeConversion()));
+
 				}
 			}
 		}
@@ -1629,6 +1640,7 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 					initialMc.setNullReturnValueLabel(baseMc.getNullReturnValueLabel());
 					initialMc.setOnlineHelp(baseMc.getOnlineHelp());
 					initialMc.setReadOnlyForced(baseMc.isReadOnlyForced());
+					initialMc.setIgnoredReturnValueForced(baseMc.isIgnoredReturnValueForced());
 				}
 			}
 		}
@@ -1659,11 +1671,12 @@ public class InfoCustomizationsFactory extends HiddenNullableFacetsTypeInfoProxy
 				containingType.getName());
 		if (t != null) {
 
-			List<IFieldInfo> inputFields = new ArrayList<IFieldInfo>(super.getFields(containingType));
-			List<IMethodInfo> inputMethods = new ArrayList<IMethodInfo>(super.getMethods(containingType));
+			List<IFieldInfo> inputFields = new ArrayList<IFieldInfo>();
+			List<IMethodInfo> inputMethods = new ArrayList<IMethodInfo>();
 			List<IFieldInfo> outputFields = new ArrayList<IFieldInfo>();
 			List<IMethodInfo> outputMethods = new ArrayList<IMethodInfo>();
 			MenuModel menuModel = new MenuModel();
+			initializeMembers(inputFields, inputMethods, outputFields, outputMethods, menuModel, containingType);
 			evolveMembers(inputFields, inputMethods, outputFields, outputMethods, menuModel, containingType);
 
 			outputMethods = removeHiddenMethods(outputMethods, containingType);

@@ -2,9 +2,10 @@ package xy.reflect.ui.info.type.enumeration;
 
 import java.util.Map;
 
+import xy.reflect.ui.info.AbstractInfoProxy;
 import xy.reflect.ui.info.ResourcePath;
 
-public class EnumerationItemInfoProxy implements IEnumerationItemInfo {
+public class EnumerationItemInfoProxy extends AbstractInfoProxy implements IEnumerationItemInfo {
 
 	protected IEnumerationItemInfo base;
 
@@ -32,10 +33,12 @@ public class EnumerationItemInfoProxy implements IEnumerationItemInfo {
 		return base.getSpecificProperties();
 	}
 
+	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((base == null) ? 0 : base.hashCode());
 		return result;
 	}
@@ -44,7 +47,7 @@ public class EnumerationItemInfoProxy implements IEnumerationItemInfo {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -62,6 +65,4 @@ public class EnumerationItemInfoProxy implements IEnumerationItemInfo {
 		return "EnumerationItemInfoProxy [base=" + base + "]";
 	}
 
-	
-	
 }

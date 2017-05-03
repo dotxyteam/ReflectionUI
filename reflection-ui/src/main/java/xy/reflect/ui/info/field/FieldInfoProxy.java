@@ -2,13 +2,14 @@ package xy.reflect.ui.info.field;
 
 import java.util.Map;
 
+import xy.reflect.ui.info.AbstractInfoProxy;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 
-public class FieldInfoProxy implements IFieldInfo {
+public class FieldInfoProxy extends AbstractInfoProxy implements IFieldInfo {
 
 	protected IFieldInfo base;
 
@@ -90,25 +91,6 @@ public class FieldInfoProxy implements IFieldInfo {
 	}
 
 	@Override
-	public int hashCode() {
-		return base.hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (obj == this) {
-			return true;
-		}
-		if (!getClass().equals(obj.getClass())) {
-			return false;
-		}
-		return base.equals(((FieldInfoProxy) obj).base);
-	}
-
-	@Override
 	public InfoCategory getCategory() {
 		return base.getCategory();
 	}
@@ -124,8 +106,33 @@ public class FieldInfoProxy implements IFieldInfo {
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((base == null) ? 0 : base.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FieldInfoProxy other = (FieldInfoProxy) obj;
+		if (base == null) {
+			if (other.base != null)
+				return false;
+		} else if (!base.equals(other.base))
+			return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
-		return "FieldInfoProxy [base=" + base + "]";
+		return "FieldInfoProxy [name=" + getName() + ", base=" + base + "]";
 	}
 
 }

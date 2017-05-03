@@ -2,9 +2,10 @@ package xy.reflect.ui.info.type.iterable.structure.column;
 
 import java.util.Map;
 
+import xy.reflect.ui.info.AbstractInfoProxy;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 
-public class ColumnInfoProxy implements IColumnInfo {
+public class ColumnInfoProxy extends AbstractInfoProxy implements IColumnInfo {
 	protected IColumnInfo base;
 
 	public ColumnInfoProxy(IColumnInfo base) {
@@ -40,10 +41,12 @@ public class ColumnInfoProxy implements IColumnInfo {
 		return base.getSpecificProperties();
 	}
 
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((base == null) ? 0 : base.hashCode());
 		return result;
 	}
@@ -52,7 +55,7 @@ public class ColumnInfoProxy implements IColumnInfo {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -69,7 +72,5 @@ public class ColumnInfoProxy implements IColumnInfo {
 	public String toString() {
 		return "ColumnInfoProxy [base=" + base + "]";
 	}
-
-	
 
 }

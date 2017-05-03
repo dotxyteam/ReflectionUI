@@ -1,5 +1,6 @@
 package xy.reflect.ui.control.swing.customizer;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -7,6 +8,7 @@ import java.util.TreeSet;
 
 import javax.swing.JPanel;
 
+import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
@@ -14,7 +16,7 @@ import xy.reflect.ui.util.SwingRendererUtils;
 public class CustomizationOptions {
 
 	protected final SwingCustomizer swingCustomizer;
-	
+
 	protected final TreeSet<String> hiddenCustomizationToolsTypeNames = new TreeSet<String>();
 	protected boolean fieldSharedTypeOptionsDisplayed = true;
 
@@ -50,14 +52,26 @@ public class CustomizationOptions {
 		}
 	}
 
-	public void hideFor(String typeName) {
+	public void hideCustomizationToolsFor(String typeName) {
 		Set<String> newHiddenCustomizationToolsTypeNames = new HashSet<String>(getHiddenCustomizationToolsTypeNames());
 		newHiddenCustomizationToolsTypeNames.add(typeName);
 		setHiddenCustomizationToolsTypeNames(newHiddenCustomizationToolsTypeNames);
 	}
 
-	public boolean areHiddenFor(String typeName) {
+	public boolean areCustomizationToolsHiddenFor(String typeName) {
 		return hiddenCustomizationToolsTypeNames.contains(typeName);
+	}
+
+	public void hideAllCustomizationTools() {
+		Set<String> newHiddenCustomizationToolsTypeNames = new HashSet<String>(getHiddenCustomizationToolsTypeNames());
+		for (TypeCustomization tc : swingCustomizer.getInfoCustomizations().getTypeCustomizations()) {
+			newHiddenCustomizationToolsTypeNames.add(tc.getTypeName());
+		}
+		setHiddenCustomizationToolsTypeNames(newHiddenCustomizationToolsTypeNames);
+	}
+	
+	public void unhideAllCustomizationTools() {
+		setHiddenCustomizationToolsTypeNames(Collections.<String>emptySet());
 	}
 
 	public boolean areFieldSharedTypeOptionsDisplayed() {

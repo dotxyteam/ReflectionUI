@@ -39,4 +39,9 @@ public class NerverNullField extends FieldInfoProxy {
 		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(Object.class));
 	}
 
+	@Override
+	public String toString() {
+		return "NerverNullField []";
+	}
+
 }

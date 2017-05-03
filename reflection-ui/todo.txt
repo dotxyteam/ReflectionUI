@@ -1,3 +1,4 @@
+- customization: method confirmation before invoke
 - 1 only sub type => no polymorphic control
 - Not Nullable by default ???
 - allow to disable copy/cut/paste on lists

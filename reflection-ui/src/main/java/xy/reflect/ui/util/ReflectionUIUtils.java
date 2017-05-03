@@ -74,6 +74,7 @@ import xy.reflect.ui.undo.UndoOrder;
 public class ReflectionUIUtils {
 
 	public static final String[] NEW_LINE_SEQUENCES = new String[] { "\r\n", "\n", "\r" };
+	public static final String METHOD_SIGNATURE_REGEX = "(\\s*[^ ]+\\s*)(\\s+[^ ]+\\s*)?\\(([^\\)]*)\\)\\s*";
 
 	public static File getCanonicalParent(File file) {
 		try {
@@ -158,12 +159,27 @@ public class ReflectionUIUtils {
 	}
 
 	public static String extractMethodNameFromSignature(String methodSignature) {
-		Pattern pattern = Pattern.compile("([^ ]+)\\s+([^ ]+)\\(([^ ]+\\s*,?\\s*)*\\)");
+		Pattern pattern = Pattern.compile(METHOD_SIGNATURE_REGEX);
 		Matcher matcher = pattern.matcher(methodSignature);
 		if (!matcher.matches()) {
 			return null;
 		}
-		return matcher.group(2);
+		String result = matcher.group(2);
+		if (result != null) {
+			result = result.trim();
+		}
+		return result;
+	}
+
+	public static String[] extractMethodParameterTypeNamesFromSignature(String methodSignature) {
+		Pattern pattern = Pattern.compile(METHOD_SIGNATURE_REGEX);
+		Matcher matcher = pattern.matcher(methodSignature);
+		if (!matcher.matches()) {
+			return null;
+		}
+		String paramListString = matcher.group(3);
+		paramListString = paramListString.trim();
+		return paramListString.split("\\s*,\\s*");
 	}
 
 	public static List<Parameter> getJavaParameters(Method javaMethod) {
@@ -414,7 +430,12 @@ public class ReflectionUIUtils {
 
 	public static String[] getJavaParameterNames(Member owner) {
 		Paranamer paranamer = new AdaptiveParanamer(new DefaultParanamer(), new BytecodeReadingParanamer());
-		String[] parameterNames = paranamer.lookupParameterNames((AccessibleObject) owner, false);
+		String[] parameterNames;
+		try {
+			parameterNames = paranamer.lookupParameterNames((AccessibleObject) owner, false);
+		} catch (Throwable t) {
+			return null;
+		}
 		if ((parameterNames == null) || (parameterNames.length == 0)) {
 			return null;
 		}

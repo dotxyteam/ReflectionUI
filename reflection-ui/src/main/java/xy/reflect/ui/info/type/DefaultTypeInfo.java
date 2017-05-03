@@ -57,7 +57,6 @@ public class DefaultTypeInfo implements ITypeInfo {
 		return new MenuModel();
 	}
 
-
 	@Override
 	public boolean isPrimitive() {
 		return javaType.isPrimitive();
@@ -225,6 +224,8 @@ public class DefaultTypeInfo implements ITypeInfo {
 		ReflectionUIUtils.checkInstance(this, object);
 		if (object == null) {
 			return null;
+		} else if (object instanceof String) {
+			return (String) object;
 		} else {
 			String result = object.toString();
 			if (result == null) {
@@ -276,7 +277,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 		if (object == null) {
 			return null;
 		}
-		return ReflectionUIUtils.copyThroughSerialization((Serializable) object);		
+		return ReflectionUIUtils.copyThroughSerialization((Serializable) object);
 	}
 
 	@Override

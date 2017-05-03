@@ -23,9 +23,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
-
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.plugin.ICustomizableFieldControlPlugin;
@@ -97,22 +94,6 @@ public class CustomizationTools {
 		final JButton result = new JButton(this.swingCustomizer.getCustomizationsIcon());
 		result.setForeground(getToolsForegroundColor());
 		result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
-		result.addAncestorListener(new AncestorListener() {
-
-			@Override
-			public void ancestorRemoved(AncestorEvent event) {
-				swingCustomizer.getCustomizationController().customizingComponentRemoved(result);
-			}
-
-			@Override
-			public void ancestorMoved(AncestorEvent event) {
-			}
-
-			@Override
-			public void ancestorAdded(AncestorEvent event) {
-				swingCustomizer.getCustomizationController().customizingComponentAdded(result);
-			}
-		});
 		return result;
 	}
 
@@ -249,7 +230,7 @@ public class CustomizationTools {
 	}
 
 	protected void hideCustomizationTools(JButton customizerButton, String typeName) {
-		this.swingCustomizer.getCustomizationOptions().hideFor(typeName);
+		this.swingCustomizer.getCustomizationOptions().hideCustomizationToolsFor(typeName);
 	}
 
 	protected void openTypeCustomizationDialog(JButton customizerButton, InfoCustomizations infoCustomizations,

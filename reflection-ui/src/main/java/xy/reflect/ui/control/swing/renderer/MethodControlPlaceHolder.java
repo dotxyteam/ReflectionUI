@@ -53,19 +53,15 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 	public Dimension getPreferredSize() {
 		Dimension result = super.getPreferredSize();
 		if (result == null) {
-			return super.getPreferredSize();
+			return null;
 		}
-		int maxMethodControlWidth = result.width;
+		int maxMethodControlWidth = 0;
 		for (final MethodControlPlaceHolder methodControlPlaceHolder : swingRenderer
 				.getMethodControlPlaceHolders(form)) {
-			if (methodControlPlaceHolder != this) {
-				Component methodControl = methodControlPlaceHolder.getMethodControl();
-				Dimension controlPreferredSize = methodControl.getPreferredSize();
-				if (controlPreferredSize != null) {
-					maxMethodControlWidth = Math.max(maxMethodControlWidth, controlPreferredSize.width);
-				}
-			}
+			Component methodControl = methodControlPlaceHolder.getMethodControl();
+			maxMethodControlWidth = Math.max(maxMethodControlWidth, methodControl.getPreferredSize().width);
 		}
+		maxMethodControlWidth = maxMethodControlWidth - (maxMethodControlWidth % 20) + 20;
 		result.width = maxMethodControlWidth;
 		return result;
 	}

@@ -1,6 +1,5 @@
 package xy.reflect.ui.control.swing.customizer;
 
-import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
@@ -12,21 +11,22 @@ import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.custom.InfoCustomizations;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.component.AlternativeWindowDecorationsPanel;
 
 public class CustomizationController {
 
 	protected SwingCustomizer swingCustomizer;
-	protected Set<Component> activeCustomizingComponents = new HashSet<Component>();
+	protected Set<JPanel> activeForms = new HashSet<JPanel>();
 	protected JFrame window;
 
 	protected CustomizationController(SwingCustomizer swingCustomizer) {
 		this.swingCustomizer = swingCustomizer;
 	}
 
-	protected synchronized void customizingComponentAdded(Component customizingComponent) {
-		if (activeCustomizingComponents.size() == 0) {
+	protected synchronized void formAdded(JPanel form) {
+		if (activeForms.size() == 0) {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
@@ -34,12 +34,12 @@ public class CustomizationController {
 				}
 			});
 		}
-		activeCustomizingComponents.add(customizingComponent);
+		activeForms.add(form);
 	}
 
-	protected synchronized void customizingComponentRemoved(Component customizingComponent) {
-		activeCustomizingComponents.remove(customizingComponent);
-		if (activeCustomizingComponents.size() == 0) {
+	protected synchronized void formRemoved(JPanel customizingComponent) {
+		activeForms.remove(customizingComponent);
+		if (activeForms.size() == 0) {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
@@ -53,7 +53,7 @@ public class CustomizationController {
 	protected void openWindow() {
 		window = new JFrame();
 		SwingRenderer customizationsToolsRenderer = swingCustomizer.getCustomizationTools().getToolsRenderer();
-		JPanel form = customizationsToolsRenderer.createForm(this);
+		JPanel form = customizationsToolsRenderer.createForm(this, IInfoFilter.DEFAULT);
 		customizationsToolsRenderer.setupWindow(window, form, null, customizationsToolsRenderer.getObjectTitle(this),
 				customizationsToolsRenderer.getObjectIconImage(this));
 		AlternativeWindowDecorationsPanel decorations = (AlternativeWindowDecorationsPanel) window.getContentPane();

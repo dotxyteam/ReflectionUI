@@ -112,4 +112,9 @@ public class NullStatusField extends FieldInfoProxy {
 		return Collections.emptyMap();
 	}
 
+	@Override
+	public String toString() {
+		return "NullStatusField []";
+	}
+
 }

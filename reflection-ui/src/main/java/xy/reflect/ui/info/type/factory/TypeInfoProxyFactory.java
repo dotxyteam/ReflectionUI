@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import xy.reflect.ui.info.AbstractInfoProxy;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -513,7 +514,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return info.getCaption();
 	}
 
-	protected class GeneratedBasicTypeInfoProxy implements ITypeInfo {
+	protected class GeneratedBasicTypeInfoProxy extends AbstractInfoProxy implements ITypeInfo {
 
 		protected String GENERATED_PROXY_FACTORY_LIST_KEY = TypeInfoProxyFactory.class.getName()
 				+ "GENERATED_PROXY_FACTORY_LIST";
@@ -632,39 +633,6 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		}
 
 		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + getFactory().hashCode();
-			result = prime * result + ((base == null) ? 0 : base.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			GeneratedBasicTypeInfoProxy other = (GeneratedBasicTypeInfoProxy) obj;
-			if (!getFactory().equals(other.getFactory()))
-				return false;
-			if (base == null) {
-				if (other.base != null)
-					return false;
-			} else if (!base.equals(other.base))
-				return false;
-			return true;
-		}
-
-		@Override
-		public String toString() {
-			return "GeneratedBasicTypeInfoProxy [name=" + getName() + ", factory=" + factory + ", base=" + base + "]";
-		}
-
-		@Override
 		public String getOnlineHelp() {
 			return TypeInfoProxyFactory.this.getOnlineHelp(base);
 		}
@@ -711,6 +679,49 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 					throw new ReflectionUIError(msg.toString());
 				}
 			}
+		}
+
+		private TypeInfoProxyFactory getOuterType() {
+			return TypeInfoProxyFactory.this;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = super.hashCode();
+			result = prime * result + getOuterType().hashCode();
+			result = prime * result + ((base == null) ? 0 : base.hashCode());
+			result = prime * result + ((factory == null) ? 0 : factory.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (!super.equals(obj))
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			GeneratedBasicTypeInfoProxy other = (GeneratedBasicTypeInfoProxy) obj;
+			if (!getOuterType().equals(other.getOuterType()))
+				return false;
+			if (base == null) {
+				if (other.base != null)
+					return false;
+			} else if (!base.equals(other.base))
+				return false;
+			if (factory == null) {
+				if (other.factory != null)
+					return false;
+			} else if (!factory.equals(other.factory))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "GeneratedBasicTypeInfoProxy [name=" + getName() + ", factory=" + factory + ", base=" + base + "]";
 		}
 
 	}
@@ -882,7 +893,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	}
 
-	protected class GeneratedFieldInfoProxy implements IFieldInfo {
+	protected class GeneratedFieldInfoProxy extends AbstractInfoProxy implements IFieldInfo {
 
 		protected TypeInfoProxyFactory factory = TypeInfoProxyFactory.this;
 
@@ -985,10 +996,15 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 			return TypeInfoProxyFactory.this.getSpecificProperties(base, containingType);
 		}
 
+		
+		private TypeInfoProxyFactory getOuterType() {
+			return TypeInfoProxyFactory.this;
+		}
+
 		@Override
 		public int hashCode() {
 			final int prime = 31;
-			int result = 1;
+			int result = super.hashCode();
 			result = prime * result + getOuterType().hashCode();
 			result = prime * result + ((base == null) ? 0 : base.hashCode());
 			result = prime * result + ((containingType == null) ? 0 : containingType.hashCode());
@@ -1000,7 +1016,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		public boolean equals(Object obj) {
 			if (this == obj)
 				return true;
-			if (obj == null)
+			if (!super.equals(obj))
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
@@ -1025,10 +1041,6 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 			return true;
 		}
 
-		private TypeInfoProxyFactory getOuterType() {
-			return TypeInfoProxyFactory.this;
-		}
-
 		@Override
 		public String toString() {
 			return "GeneratedFieldInfoProxy [name=" + getName() + ", factory=" + factory + ", base=" + base + "]";
@@ -1036,7 +1048,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	}
 
-	protected class GeneratedMethodInfoProxy implements IMethodInfo {
+	protected class GeneratedMethodInfoProxy extends AbstractInfoProxy implements IMethodInfo {
 
 		protected TypeInfoProxyFactory factory = TypeInfoProxyFactory.this;
 
@@ -1147,10 +1159,14 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 			return TypeInfoProxyFactory.this.getUndoModification(base, containingType, object, invocationData);
 		}
 
+		private TypeInfoProxyFactory getOuterType() {
+			return TypeInfoProxyFactory.this;
+		}
+
 		@Override
 		public int hashCode() {
 			final int prime = 31;
-			int result = 1;
+			int result = super.hashCode();
 			result = prime * result + getOuterType().hashCode();
 			result = prime * result + ((base == null) ? 0 : base.hashCode());
 			result = prime * result + ((containingType == null) ? 0 : containingType.hashCode());
@@ -1162,7 +1178,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		public boolean equals(Object obj) {
 			if (this == obj)
 				return true;
-			if (obj == null)
+			if (!super.equals(obj))
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
@@ -1187,10 +1203,6 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 			return true;
 		}
 
-		private TypeInfoProxyFactory getOuterType() {
-			return TypeInfoProxyFactory.this;
-		}
-
 		@Override
 		public String toString() {
 			return "GeneratedMethodInfoProxy [signature=" + getSignature() + ", factory=" + factory + ", base=" + base
@@ -1207,7 +1219,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	}
 
-	protected class GeneratedParameterInfoProxy implements IParameterInfo {
+	protected class GeneratedParameterInfoProxy extends AbstractInfoProxy implements IParameterInfo {
 
 		protected TypeInfoProxyFactory factory = TypeInfoProxyFactory.this;
 
@@ -1261,10 +1273,14 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 			return TypeInfoProxyFactory.this.getSpecificProperties(base, method, containingType);
 		}
 
+		private TypeInfoProxyFactory getOuterType() {
+			return TypeInfoProxyFactory.this;
+		}
+
 		@Override
 		public int hashCode() {
 			final int prime = 31;
-			int result = 1;
+			int result = super.hashCode();
 			result = prime * result + getOuterType().hashCode();
 			result = prime * result + ((base == null) ? 0 : base.hashCode());
 			result = prime * result + ((containingType == null) ? 0 : containingType.hashCode());
@@ -1277,7 +1293,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		public boolean equals(Object obj) {
 			if (this == obj)
 				return true;
-			if (obj == null)
+			if (!super.equals(obj))
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
@@ -1307,10 +1323,6 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 			return true;
 		}
 
-		private TypeInfoProxyFactory getOuterType() {
-			return TypeInfoProxyFactory.this;
-		}
-
 		@Override
 		public String toString() {
 			return "GeneratedParameterInfoProxy [name=" + getName() + ", factory=" + factory + ", base=" + base + "]";
@@ -1318,7 +1330,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	}
 
-	protected class GeneratedEnumerationItemInfoProxy implements IEnumerationItemInfo {
+	protected class GeneratedEnumerationItemInfoProxy extends AbstractInfoProxy implements IEnumerationItemInfo {
 
 		protected TypeInfoProxyFactory factory = TypeInfoProxyFactory.this;
 
@@ -1355,12 +1367,17 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 			return TypeInfoProxyFactory.this.getIconImagePath(base, parentEnumType);
 		}
 
+		private TypeInfoProxyFactory getOuterType() {
+			return TypeInfoProxyFactory.this;
+		}
+
 		@Override
 		public int hashCode() {
 			final int prime = 31;
-			int result = 1;
+			int result = super.hashCode();
 			result = prime * result + getOuterType().hashCode();
 			result = prime * result + ((base == null) ? 0 : base.hashCode());
+			result = prime * result + ((factory == null) ? 0 : factory.hashCode());
 			result = prime * result + ((parentEnumType == null) ? 0 : parentEnumType.hashCode());
 			return result;
 		}
@@ -1369,7 +1386,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		public boolean equals(Object obj) {
 			if (this == obj)
 				return true;
-			if (obj == null)
+			if (!super.equals(obj))
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
@@ -1381,16 +1398,17 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 					return false;
 			} else if (!base.equals(other.base))
 				return false;
+			if (factory == null) {
+				if (other.factory != null)
+					return false;
+			} else if (!factory.equals(other.factory))
+				return false;
 			if (parentEnumType == null) {
 				if (other.parentEnumType != null)
 					return false;
 			} else if (!parentEnumType.equals(other.parentEnumType))
 				return false;
 			return true;
-		}
-
-		private TypeInfoProxyFactory getOuterType() {
-			return TypeInfoProxyFactory.this;
 		}
 
 		@Override

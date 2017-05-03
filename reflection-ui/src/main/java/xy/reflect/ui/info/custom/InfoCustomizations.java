@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.rmi.server.UID;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,12 +39,15 @@ import xy.reflect.ui.info.menu.IMenuItemContainer;
 import xy.reflect.ui.info.menu.Menu;
 import xy.reflect.ui.info.menu.MenuItemCategory;
 import xy.reflect.ui.info.menu.MenuModel;
+import xy.reflect.ui.info.method.DefaultConstructorInfo;
+import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
@@ -647,6 +653,15 @@ public class InfoCustomizations implements Serializable {
 		protected ResourcePath iconImagePath;
 		protected ITypeInfo.FieldsLayout fieldsLayout;
 		protected MenuModel menuModel = new MenuModel();
+		protected boolean anyDefaultObjectMemberIncluded = false;
+
+		public boolean isAnyDefaultObjectMemberIncluded() {
+			return anyDefaultObjectMemberIncluded;
+		}
+
+		public void setAnyDefaultObjectMemberIncluded(boolean anyDefaultObjectMemberIncluded) {
+			this.anyDefaultObjectMemberIncluded = anyDefaultObjectMemberIncluded;
+		}
 
 		public MenuModel getMenuModel() {
 			return menuModel;
@@ -911,6 +926,200 @@ public class InfoCustomizations implements Serializable {
 
 	}
 
+	public static class ConversionMethodFinder extends AbstractCustomization {
+		private static final long serialVersionUID = 1L;
+
+		protected String conversionClassName;
+		protected String conversionMethodSignature;
+
+		public String getConversionClassName() {
+			return conversionClassName;
+		}
+
+		public void setConversionClassName(String conversionClassName) {
+			this.conversionClassName = conversionClassName;
+		}
+
+		public String getConversionMethodSignature() {
+			return conversionMethodSignature;
+		}
+
+		public void setConversionMethodSignature(String conversionMethodSignature) {
+			this.conversionMethodSignature = conversionMethodSignature;
+		}
+
+		public List<String> getConversionMethodSignatureOptions() {
+			Class<?> conversionClass;
+			try {
+				conversionClass = ClassUtils.getCachedClassforName(conversionClassName);
+			} catch (Exception e) {
+				return null;
+			}
+			List<String> result = new ArrayList<String>();
+			for (Constructor<?> ctor : conversionClass.getConstructors()) {
+				if (ctor.getParameterTypes().length != 1) {
+					continue;
+				}
+				result.add(
+						ReflectionUIUtils.buildMethodSignature(new DefaultConstructorInfo(new ReflectionUI(), ctor)));
+			}
+			for (Method method : conversionClass.getMethods()) {
+				if (!Modifier.isStatic(method.getModifiers())) {
+					continue;
+				}
+				if (method.getParameterTypes().length != 1) {
+					continue;
+				}
+				if (method.getReturnType().equals(void.class)) {
+					continue;
+				}
+				result.add(ReflectionUIUtils.buildMethodSignature(new DefaultMethodInfo(new ReflectionUI(), method)));
+			}
+			return result;
+		}
+
+		public IMethodInfo find() {
+			try {
+				String conversionMethodName = ReflectionUIUtils
+						.extractMethodNameFromSignature(conversionMethodSignature);
+				String[] conversionMethodParameterTypeNames = ReflectionUIUtils
+						.extractMethodParameterTypeNamesFromSignature(conversionMethodSignature);
+				Class<?>[] conversionMethodParameterTypes = new Class<?>[conversionMethodParameterTypeNames.length];
+				for (int i = 0; i < conversionMethodParameterTypeNames.length; i++) {
+					conversionMethodParameterTypes[i] = ClassUtils
+							.getCachedClassforName(conversionMethodParameterTypeNames[i]);
+				}
+				Class<?> conversionClass = ClassUtils.getCachedClassforName(conversionClassName);
+				if (conversionMethodName == null) {
+					return new DefaultConstructorInfo(new ReflectionUI(),
+							conversionClass.getDeclaredConstructor(conversionMethodParameterTypes));
+				} else {
+					return new DefaultMethodInfo(new ReflectionUI(),
+							conversionClass.getMethod(conversionMethodName, conversionMethodParameterTypes));
+				}
+			} catch (Throwable t) {
+				throw new ReflectionUIError(t);
+			}
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((conversionClassName == null) ? 0 : conversionClassName.hashCode());
+			result = prime * result + ((conversionMethodSignature == null) ? 0 : conversionMethodSignature.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			ConversionMethodFinder other = (ConversionMethodFinder) obj;
+			if (conversionClassName == null) {
+				if (other.conversionClassName != null)
+					return false;
+			} else if (!conversionClassName.equals(other.conversionClassName))
+				return false;
+			if (conversionMethodSignature == null) {
+				if (other.conversionMethodSignature != null)
+					return false;
+			} else if (!conversionMethodSignature.equals(other.conversionMethodSignature))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "ConversionMethodFinder [conversionClassName=" + conversionClassName + ", conversionMethodSignature="
+					+ conversionMethodSignature + "]";
+		}
+
+	}
+
+	public static class TypeConversion extends AbstractCustomization {
+		private static final long serialVersionUID = 1L;
+
+		protected ITypeInfoFinder newTypeFinder = new JavaClassBasedTypeInfoFinder();
+		protected ConversionMethodFinder conversionMethodFinder = new ConversionMethodFinder();
+		protected ConversionMethodFinder reverseConversionMethodFinder = new ConversionMethodFinder();
+
+		@XmlElements({ @XmlElement(name = "javaClassBasedTypeInfoFinder", type = JavaClassBasedTypeInfoFinder.class),
+				@XmlElement(name = "customTypeInfoFinder", type = CustomTypeInfoFinder.class) })
+		public ITypeInfoFinder getNewTypeFinder() {
+			return newTypeFinder;
+		}
+
+		public void setNewTypeFinder(ITypeInfoFinder newTypeFinder) {
+			this.newTypeFinder = newTypeFinder;
+		}
+
+		public ConversionMethodFinder getConversionMethodFinder() {
+			return conversionMethodFinder;
+		}
+
+		public void setConversionMethodFinder(ConversionMethodFinder conversionMethodFinder) {
+			this.conversionMethodFinder = conversionMethodFinder;
+		}
+
+		public ConversionMethodFinder getReverseConversionMethodFinder() {
+			return reverseConversionMethodFinder;
+		}
+
+		public void setReverseConversionMethodFinder(ConversionMethodFinder reverseConversionMethodFinder) {
+			this.reverseConversionMethodFinder = reverseConversionMethodFinder;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((conversionMethodFinder == null) ? 0 : conversionMethodFinder.hashCode());
+			result = prime * result + ((newTypeFinder == null) ? 0 : newTypeFinder.hashCode());
+			result = prime * result
+					+ ((reverseConversionMethodFinder == null) ? 0 : reverseConversionMethodFinder.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			TypeConversion other = (TypeConversion) obj;
+			if (conversionMethodFinder == null) {
+				if (other.conversionMethodFinder != null)
+					return false;
+			} else if (!conversionMethodFinder.equals(other.conversionMethodFinder))
+				return false;
+			if (newTypeFinder == null) {
+				if (other.newTypeFinder != null)
+					return false;
+			} else if (!newTypeFinder.equals(other.newTypeFinder))
+				return false;
+			if (reverseConversionMethodFinder == null) {
+				if (other.reverseConversionMethodFinder != null)
+					return false;
+			} else if (!reverseConversionMethodFinder.equals(other.reverseConversionMethodFinder))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "TypeConversion [newType=" + newTypeFinder + ", conversionMethodFinder=" + conversionMethodFinder
+					+ ", reverseConversionMethodFinder=" + reverseConversionMethodFinder + "]";
+		}
+
+	}
+
 	public static class FieldCustomization extends AbstractMemberCustomization
 			implements Comparable<FieldCustomization> {
 		private static final long serialVersionUID = 1L;
@@ -931,6 +1140,15 @@ public class InfoCustomizations implements Serializable {
 		protected FieldTypeSpecificities specificTypeCustomizations = new FieldTypeSpecificities();
 		protected boolean formControlEmbeddingForced = false;
 		protected boolean formControlCreationForced = false;
+		protected TypeConversion typeConversion = new TypeConversion();
+
+		public TypeConversion getTypeConversion() {
+			return typeConversion;
+		}
+
+		public void setTypeConversion(TypeConversion typeConversion) {
+			this.typeConversion = typeConversion;
+		}
 
 		public String getEncapsulationFieldName() {
 			return encapsulationFieldName;
@@ -2144,6 +2362,10 @@ public class InfoCustomizations implements Serializable {
 			return "className=" + ((className == null) ? "" : className);
 		}
 
+		public void validate() throws ClassNotFoundException {
+			ClassUtils.getCachedClassforName(className);
+		}
+
 		@Override
 		public ITypeInfo find(ReflectionUI reflectionUI) {
 			Class<?> javaType;
@@ -2203,6 +2425,10 @@ public class InfoCustomizations implements Serializable {
 		@Override
 		public String getCriteria() {
 			return "implementationClassName=" + ((implementationClassName == null) ? "" : implementationClassName);
+		}
+
+		public void validate() throws ClassNotFoundException {
+			ClassUtils.getCachedClassforName(implementationClassName);
 		}
 
 		@Override

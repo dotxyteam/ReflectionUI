@@ -3,6 +3,7 @@ package xy.reflect.ui.info.method;
 import java.util.List;
 import java.util.Map;
 
+import xy.reflect.ui.info.AbstractInfoProxy;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -10,7 +11,7 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 
-public class MethodInfoProxy implements IMethodInfo {
+public class MethodInfoProxy extends AbstractInfoProxy implements IMethodInfo {
 
 	protected IMethodInfo base;
 
@@ -105,10 +106,12 @@ public class MethodInfoProxy implements IMethodInfo {
 		return base.getSpecificProperties();
 	}
 
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((base == null) ? 0 : base.hashCode());
 		return result;
 	}
@@ -117,7 +120,7 @@ public class MethodInfoProxy implements IMethodInfo {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -132,7 +135,7 @@ public class MethodInfoProxy implements IMethodInfo {
 
 	@Override
 	public String toString() {
-		return "MethodInfoProxy [base=" + base + "]";
+		return "MethodInfoProxy [signature=" + getSignature() + ", base=" + base + "]";
 	}
 
 }

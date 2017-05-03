@@ -230,7 +230,7 @@ public abstract class AbstractEditFormBuilder {
 
 	public JPanel createForm(boolean realTimeLinkWithParent) {
 		Object encapsulated = getEncapsulatedObject();
-		JPanel result = getSwingRenderer().createForm(encapsulated);
+		JPanel result = getSwingRenderer().createForm(encapsulated, IInfoFilter.DEFAULT);
 		if (realTimeLinkWithParent) {
 			if (canPotentiallyModifyParentObject()) {
 				forwardEditFormModificationsToParentObject(result);

@@ -359,10 +359,6 @@ public class SwingRenderer {
 		return result;
 	}
 
-	public JPanel createForm(Object object) {
-		return createForm(object, IInfoFilter.DEFAULT);
-	}
-
 	public JPanel createForm(final Object object, IInfoFilter infoFilter) {
 		final JPanel result = new JPanel() {
 			private static final long serialVersionUID = 1L;
@@ -815,10 +811,12 @@ public class SwingRenderer {
 
 			List<IFieldInfo> fields;
 			List<IMethodInfo> methods;
+			MenuModel menuModel;
 			{
 				try {
 					fields = super.getFields(rawType);
 					methods = super.getMethods(rawType);
+					menuModel = super.getMenuModel(rawType);
 				} catch (final Throwable t) {
 					fields = Collections.<IFieldInfo>singletonList(new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
 						@Override
@@ -832,6 +830,7 @@ public class SwingRenderer {
 						}
 					});
 					methods = Collections.emptyList();
+					menuModel = new MenuModel();
 				}
 			}
 
@@ -843,6 +842,11 @@ public class SwingRenderer {
 			@Override
 			protected List<IMethodInfo> getMethods(ITypeInfo type) {
 				return methods;
+			}
+
+			@Override
+			protected MenuModel getMenuModel(ITypeInfo type) {
+				return menuModel;
 			}
 
 		}.get(rawType);

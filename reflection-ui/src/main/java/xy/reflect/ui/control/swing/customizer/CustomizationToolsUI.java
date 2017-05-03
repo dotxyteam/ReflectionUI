@@ -11,12 +11,16 @@ import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.custom.InfoCustomizations.AbstractCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.AbstractMemberCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ColumnCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.CustomTypeInfoFinder;
 import xy.reflect.ui.info.custom.InfoCustomizations.CustomizationCategory;
 import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.ITypeInfoFinder;
+import xy.reflect.ui.info.custom.InfoCustomizations.JavaClassBasedTypeInfoFinder;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.MethodCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ParameterCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.TextualStorage;
+import xy.reflect.ui.info.custom.InfoCustomizations.TypeConversion;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.menu.AbstractMenuElement;
@@ -157,11 +161,11 @@ class CustomizationToolsUI extends ReflectionUI {
 					@Override
 					public Object invoke(Object object, InvocationData invocationData) {
 						MethodCustomization mc = (MethodCustomization) object;
-						InvocationData lastInvocationData = swingCustomizer
-								.getLastInvocationDataByMethodSignature().get(mc.getMethodSignature());
+						InvocationData lastInvocationData = swingCustomizer.getLastInvocationDataByMethodSignature()
+								.get(mc.getMethodSignature());
 						if (lastInvocationData == null) {
-							throw new ReflectionUIError("Last invocation data not found for the method '"
-									+ mc.getMethodSignature() + "'");
+							throw new ReflectionUIError(
+									"Last invocation data not found for the method '" + mc.getMethodSignature() + "'");
 						}
 						List<TextualStorage> storages = new ArrayList<InfoCustomizations.TextualStorage>(
 								mc.getSerializedInvocationDatas());
@@ -259,6 +263,19 @@ class CustomizationToolsUI extends ReflectionUI {
 					return ((ResourcePath) object).getSpecification();
 				} else if (object instanceof IMenuElement) {
 					return ((IMenuElement) object).getName();
+				} else if (object instanceof TypeConversion) {
+					String result = "Convert To ";
+					ITypeInfoFinder newTypeFinder = ((TypeConversion) object).getNewTypeFinder();
+					if (ReflectionUIUtils.equalsOrBothNull(newTypeFinder, new TypeConversion().getNewTypeFinder())) {
+						result += "...";
+					} else {
+						result += "<" + ReflectionUIUtils.toString(CustomizationToolsUI.this, newTypeFinder) + ">";
+					}
+					return result;
+				} else if (object instanceof JavaClassBasedTypeInfoFinder) {
+					return ((JavaClassBasedTypeInfoFinder) object).getClassName();
+				} else if (object instanceof CustomTypeInfoFinder) {
+					return "Custom Type Implemented By " + ((CustomTypeInfoFinder) object).getImplementationClassName();
 				} else {
 					return super.toString(type, object);
 				}

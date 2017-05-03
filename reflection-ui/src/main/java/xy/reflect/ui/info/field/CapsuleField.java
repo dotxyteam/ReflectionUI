@@ -47,7 +47,8 @@ public class CapsuleField implements IFieldInfo {
 			List<IFieldInfo> resultEncapsulatedFields = new ArrayList<IFieldInfo>();
 			List<IMethodInfo> resultEncapsulatedMethods = new ArrayList<IMethodInfo>();
 			for (IFieldInfo baseEncapsulatedField : baseResult.getEncapsulatedFields()) {
-				resultEncapsulatedFields.add(subFieldProxy.getOuterType().new EncapsulatedFieldProxy(baseEncapsulatedField));
+				resultEncapsulatedFields
+						.add(subFieldProxy.getOuterType().new EncapsulatedFieldProxy(baseEncapsulatedField));
 			}
 			for (IMethodInfo baseEncapsulatedMethod : baseResult.getEncapsulatedMethods()) {
 				resultEncapsulatedMethods
@@ -97,7 +98,6 @@ public class CapsuleField implements IFieldInfo {
 		reflectionUI.registerPrecomputedTypeInfoObject(result, new ValueTypeInfo());
 		return result;
 	}
-
 
 	@Override
 	public Runnable getCustomUndoUpdateJob(Object object, Object value) {
@@ -151,7 +151,7 @@ public class CapsuleField implements IFieldInfo {
 
 	@Override
 	public boolean isFormControlEmbedded() {
-		return true;
+		return false;
 	}
 
 	@Override
@@ -209,8 +209,8 @@ public class CapsuleField implements IFieldInfo {
 
 	@Override
 	public String toString() {
-		return "CapsuleField [fieldName=" + fieldName + ", contextId=" + contextId + ", fields="
-				+ encapsulatedFields + ", methods=" + encapsulatedMethods + "]";
+		return "CapsuleField [fieldName=" + fieldName + ", contextId=" + contextId + ", fields=" + encapsulatedFields
+				+ ", methods=" + encapsulatedMethods + "]";
 	}
 
 	protected class Value {
@@ -337,7 +337,7 @@ public class CapsuleField implements IFieldInfo {
 
 		@Override
 		public String toString(Object object) {
-			return object.toString();
+			return "";
 		}
 
 		@Override

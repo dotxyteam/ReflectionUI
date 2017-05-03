@@ -21,6 +21,8 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class GetterFieldInfo implements IFieldInfo {
 
+	public static final Pattern GETTER_PATTERN = Pattern.compile("^(?:get|is|has)([A-Z].*)");
+
 	protected ReflectionUI reflectionUI;
 	protected Method javaGetterMethod;
 	protected Class<?> containingJavaClass;
@@ -34,7 +36,7 @@ public class GetterFieldInfo implements IFieldInfo {
 	}
 
 	public static String getFieldName(String getterMethodName) {
-		Matcher m = Pattern.compile("^(?:get|is|has)([A-Z].*)").matcher(getterMethodName);
+		Matcher m = GETTER_PATTERN.matcher(getterMethodName);
 		if (!m.matches()) {
 			return null;
 		}

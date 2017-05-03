@@ -161,6 +161,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newSubFormObject));
 				if (subFormObjectType.equals(newSubFormObjectType)) {
 					swingRenderer.getObjectByForm().put(subForm, newSubFormObject);
+					subFormObject = newSubFormObject;
 					swingRenderer.refreshForm(subForm, false);
 				} else {
 					return false;

@@ -31,23 +31,31 @@ public class HiddenNullableFacetFieldInfoProxy extends FieldInfoProxy {
 		return false;
 	}
 
+	
+
 	@Override
 	public int hashCode() {
-		return base.hashCode();
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((base == null) ? 0 : base.hashCode());
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (obj == this) {
+		if (this == obj)
 			return true;
-		}
-		if (!getClass().equals(obj.getClass())) {
+		if (!super.equals(obj))
 			return false;
-		}
-		return base.equals(((HiddenNullableFacetFieldInfoProxy) obj).base);
+		if (getClass() != obj.getClass())
+			return false;
+		HiddenNullableFacetFieldInfoProxy other = (HiddenNullableFacetFieldInfoProxy) obj;
+		if (base == null) {
+			if (other.base != null)
+				return false;
+		} else if (!base.equals(other.base))
+			return false;
+		return true;
 	}
 
 	@Override

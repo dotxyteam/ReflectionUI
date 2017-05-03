@@ -3,6 +3,7 @@ package xy.reflect.ui.control.swing.customizer;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +13,8 @@ import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
@@ -20,6 +23,7 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -87,6 +91,28 @@ public class SwingCustomizer extends SwingRenderer {
 
 	public CustomizationController getCustomizationController() {
 		return customizationController;
+	}
+
+	@Override
+	public JPanel createForm(Object object, IInfoFilter infoFilter) {
+		final JPanel result = super.createForm(object, infoFilter);
+		result.addAncestorListener(new AncestorListener() {
+
+			@Override
+			public void ancestorRemoved(AncestorEvent event) {
+				getCustomizationController().formRemoved(result);
+			}
+
+			@Override
+			public void ancestorMoved(AncestorEvent event) {
+			}
+
+			@Override
+			public void ancestorAdded(AncestorEvent event) {
+				getCustomizationController().formAdded(result);
+			}
+		});
+		return result;
 	}
 
 	@Override
@@ -174,6 +200,20 @@ public class SwingCustomizer extends SwingRenderer {
 					refreshInfoCustomizationsControl();
 				}
 			}
+
+			@Override
+			public Dimension getPreferredSize() {
+				Dimension result = super.getPreferredSize();
+				if (result == null) {
+					return null;
+				}
+				if(infoCustomizationsComponent != null){
+					result.width += infoCustomizationsComponent.getPreferredSize().width;
+				}
+				return result;
+			}
+			
+			
 		};
 	}
 
@@ -197,7 +237,7 @@ public class SwingCustomizer extends SwingRenderer {
 		if (infoCustomizationsOutputFilePath == null) {
 			return false;
 		}
-		if (Boolean.TRUE.equals(customizationOptions.areHiddenFor(type.getName()))) {
+		if (Boolean.TRUE.equals(customizationOptions.areCustomizationToolsHiddenFor(type.getName()))) {
 			return false;
 		}
 		if (Boolean.TRUE.equals(type.getSpecificProperties().get(CUSTOMIZATIONS_FORBIDDEN_PROPERTY_KEY))) {

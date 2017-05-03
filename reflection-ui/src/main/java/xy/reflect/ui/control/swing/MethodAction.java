@@ -100,7 +100,7 @@ public class MethodAction extends AbstractAction {
 		} else {
 			invocationData = new InvocationData();
 		}
-		JPanel methodForm = swingRenderer.createForm(createParametersObject(invocationData));
+		JPanel methodForm = swingRenderer.createForm(createParametersObject(invocationData), IInfoFilter.DEFAULT);
 		final boolean[] invokedStatusHolder = new boolean[] { false };
 		List<Component> toolbarControls = new ArrayList<Component>();
 		String doc = data.getOnlineHelp();
