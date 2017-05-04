@@ -1909,6 +1909,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			detailsArea.add(swingRenderer.createStatusBar(detailsControl), BorderLayout.NORTH);
 			swingRenderer.validateFormInBackgroundAndReportOnStatusBar(detailsControl);
 			SwingRendererUtils.handleComponentSizeChange(ListControl.this);
+			SwingRendererUtils.requestAnyComponentFocus(detailsControl, swingRenderer);
 		}
 	}
 
@@ -1938,6 +1939,10 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	public Object[] getRootListRawValue() {
 		return itemPositionFactory.getRootItemPosition(-1).retrieveContainingListRawValue();
+	}
+	
+	public int getRootListSize() {
+		return itemPositionFactory.getRootItemPosition(-1).getContainingListSize();
 	}
 
 	public BufferedItemPosition getActiveListItemPosition() {
@@ -1999,27 +2004,12 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public Object getFocusDetails() {
-		Object detailsControlFocusDetails = null;
-		if (detailsControl != null) {
-			detailsControlFocusDetails = swingRenderer.getFormFocusDetails(detailsControl);
+	public boolean requestCustomFocus() {
+		if(getRootListSize() > 0){
+			setSingleSelection(getRootListItemPosition(0));
 		}
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("detailsControlFocusDetails", detailsControlFocusDetails);
-		return result;
-	}
-
-	@Override
-	public boolean requestDetailedFocus(Object focusDetails) {
-		if (focusDetails == null) {
-			return SwingRendererUtils.requestAnyComponentFocus(treeTableComponent, null, swingRenderer);
-		}
-		@SuppressWarnings("unchecked")
-		Map<String, Object> map = (Map<String, Object>) focusDetails;
-		Object detailsControlFocusDetails = map.get("detailsControlFocusDetails");
-		if (detailsControlFocusDetails != null) {
-			return SwingRendererUtils.requestAnyComponentFocus(detailsControl, detailsControlFocusDetails,
-					swingRenderer);
+		if(SwingRendererUtils.requestAnyComponentFocus(treeTableComponent, swingRenderer)){
+			return true;
 		}
 		return false;
 	}

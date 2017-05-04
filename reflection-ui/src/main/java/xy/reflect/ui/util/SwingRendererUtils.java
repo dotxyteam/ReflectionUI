@@ -726,34 +726,32 @@ public class SwingRendererUtils {
 		return result;
 	}
 
-	public static boolean requestAnyComponentFocus(Component c, Object focusDetails, SwingRenderer swingRenderer) {
-		if (true) {
-			return true;
-		}
-		if (c instanceof IAdvancedFieldControl) {
-			if (((IAdvancedFieldControl) c).requestDetailedFocus(focusDetails)) {
-				return true;
-			}
-			if (focusDetails != null) {
-				if (((IAdvancedFieldControl) c).requestDetailedFocus(null)) {
-					return true;
-				}
-			}
-		}
-		if (isForm(c, swingRenderer)) {
-			if (swingRenderer.requestFormDetailedFocus((JPanel) c, focusDetails)) {
-				return true;
-			}
-			if (focusDetails != null) {
-				if (swingRenderer.requestFormDetailedFocus((JPanel) c, null)) {
-					return true;
-				}
-			}
-		}
+	public static boolean requestAnyComponentFocus(Component c, SwingRenderer swingRenderer) {
 		if (c.hasFocus()) {
 			return true;
 		}
-		return c.requestFocusInWindow();
+		if (c instanceof IAdvancedFieldControl) {
+			if (((IAdvancedFieldControl) c).requestCustomFocus()) {
+				return true;
+			}
+		}
+		if (isForm(c, swingRenderer)) {
+			return swingRenderer.requestFormFocus((JPanel) c);
+		}
+		if (c.requestFocusInWindow()) {
+			return true;
+		}
+		if (c instanceof Container) {
+			try {
+				for (Component child : ((Container) c).getComponents()) {
+					if (requestAnyComponentFocus(child, swingRenderer)) {
+						return true;
+					}
+				}
+			} catch (Throwable ignore) {
+			}
+		}
+		return false;
 	}
 
 	public static void displayErrorOnBorderAndTooltip(JComponent borderComponent, JComponent tooltipComponent,

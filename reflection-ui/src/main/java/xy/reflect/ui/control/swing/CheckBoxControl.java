@@ -55,12 +55,7 @@ public  class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl
 	}
 
 	@Override
-	public Object getFocusDetails() {
-		return null;
-	}
-
-	@Override
-	public boolean requestDetailedFocus(Object focusDetails) {
+	public boolean requestCustomFocus() {
 		return false;
 	}
 

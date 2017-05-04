@@ -269,13 +269,8 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	@Override
-	public Object getFocusDetails() {
-		return null;
-	}
-
-	@Override
-	public boolean requestDetailedFocus(Object focusDetails) {
-		return SwingRendererUtils.requestAnyComponentFocus(button, null, swingRenderer);
+	public boolean requestCustomFocus() {
+		return SwingRendererUtils.requestAnyComponentFocus(statusControl, swingRenderer);
 	}
 
 	@Override

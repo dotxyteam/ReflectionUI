@@ -613,6 +613,12 @@ public class SwingRenderer {
 					@Override
 					public void windowOpened(WindowEvent e) {
 						validateFormInBackgroundAndReportOnStatusBar(form);
+						SwingUtilities.invokeLater(new Runnable() {							
+							@Override
+							public void run() {
+								SwingRendererUtils.requestAnyComponentFocus(form, SwingRenderer.this);
+							}
+						});
 					}
 				});
 
@@ -634,14 +640,9 @@ public class SwingRenderer {
 	}
 
 	public void recreateFormContent(final JPanel form) {
-		preservingFormFocusAsMuchAsPossible(form, new Runnable() {
-			@Override
-			public void run() {
-				form.removeAll();
-				fillForm(form);
-				finalizeFormUpdate(form);
-			}
-		});
+		form.removeAll();
+		fillForm(form);
+		finalizeFormUpdate(form);
 	}
 
 	public void finalizeFormUpdate(JPanel form) {
@@ -651,35 +652,6 @@ public class SwingRenderer {
 		}
 		SwingRendererUtils.handleComponentSizeChange(form);
 		validateFormInBackgroundAndReportOnStatusBar(form);
-	}
-
-	public void preservingFormFocusAsMuchAsPossible(final JPanel form, Runnable runnable) {
-		final Object formFocusDetails = getFormFocusDetails(form);
-		final InfoCategory focusedCategory = getDisplayedInfoCategory(form);
-		try {
-			runnable.run();
-		} finally {
-			if (focusedCategory != null) {
-				setDisplayedInfoCategory(form, focusedCategory);
-			}
-			final boolean success;
-			if (formFocusDetails != null) {
-				success = requestFormDetailedFocus(form, formFocusDetails);
-			} else {
-				success = false;
-			}
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					boolean successConfirmedLater = SwingRendererUtils.hasOrContainsFocus(form);
-					if ((formFocusDetails != null) && (!success || !successConfirmedLater)) {
-						reflectionUI.logDebug("WARNING: Failed to restore focus of " + form + "\n\tfocusedCategory="
-								+ focusedCategory + "\n\tformFocusDetails=" + formFocusDetails + "\n\tsuccess="
-								+ success + "\n\tsuccessConfirmedLater=" + successConfirmedLater);
-					}
-				}
-			});
-		}
 	}
 
 	public void setDisplayedInfoCategory(JPanel form, InfoCategory category) {
@@ -1320,72 +1292,22 @@ public class SwingRenderer {
 	}
 
 	public void refreshForm(final JPanel form, final boolean recreate) {
-		preservingFormFocusAsMuchAsPossible(form, new Runnable() {
-			@Override
-			public void run() {
-				List<FieldControlPlaceHolder> fieldControlPlaceHolders = getFieldControlPlaceHolders(form);
-				for (int i = 0; i < fieldControlPlaceHolders.size(); i++) {
-					FieldControlPlaceHolder fieldControlPlaceHolder = fieldControlPlaceHolders.get(i);
-					fieldControlPlaceHolder.refreshUI(recreate);
-					if (fieldControlPlaceHolder.isLayoutUpdateNeeded()) {
-						updateFieldControlLayout(fieldControlPlaceHolder, i);
-						fieldControlPlaceHolder.setLayoutUpdateNeeded(false);
-					}
-				}
-				finalizeFormUpdate(form);
+		List<FieldControlPlaceHolder> fieldControlPlaceHolders = getFieldControlPlaceHolders(form);
+		for (int i = 0; i < fieldControlPlaceHolders.size(); i++) {
+			FieldControlPlaceHolder fieldControlPlaceHolder = fieldControlPlaceHolders.get(i);
+			fieldControlPlaceHolder.refreshUI(recreate);
+			if (fieldControlPlaceHolder.isLayoutUpdateNeeded()) {
+				updateFieldControlLayout(fieldControlPlaceHolder, i);
+				fieldControlPlaceHolder.setLayoutUpdateNeeded(false);
 			}
-		});
+		}
+		finalizeFormUpdate(form);
 	}
 
-	public Object getFormFocusDetails(JPanel form) {
+	public boolean requestFormFocus(JPanel form) {
 		List<FieldControlPlaceHolder> fieldControlPlaceHolders = getFieldControlPlaceHolders(form);
-		int focusedFieldIndex = -1;
-		{
-			int i = 0;
-			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHolders) {
-				if (SwingRendererUtils.hasOrContainsFocus(fieldControlPlaceHolder)) {
-					focusedFieldIndex = i;
-					break;
-				}
-				i++;
-			}
-		}
-		if (focusedFieldIndex == -1) {
-			return null;
-		}
-		Object focusedFieldFocusDetails = null;
-		if (focusedFieldIndex != -1) {
-			final FieldControlPlaceHolder focusedFieldControlPaceHolder = fieldControlPlaceHolders
-					.get(focusedFieldIndex);
-			Component focusedFieldControl = focusedFieldControlPaceHolder.getFieldControl();
-			if (focusedFieldControl instanceof IAdvancedFieldControl) {
-				focusedFieldFocusDetails = ((IAdvancedFieldControl) focusedFieldControl).getFocusDetails();
-			}
-		}
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("focusedFieldIndex", focusedFieldIndex);
-		result.put("focusedFieldFocusDetails", focusedFieldFocusDetails);
-		return result;
-	}
-
-	public boolean requestFormDetailedFocus(JPanel form, Object focusDetails) {
-		List<FieldControlPlaceHolder> fieldControlPlaceHolders = getFieldControlPlaceHolders(form);
-		if (focusDetails == null) {
-			if (fieldControlPlaceHolders.size() > 0) {
-				return SwingRendererUtils.requestAnyComponentFocus(fieldControlPlaceHolders.get(0).getFieldControl(),
-						null, this);
-			} else {
-				return false;
-			}
-		}
-		@SuppressWarnings("unchecked")
-		Map<String, Object> map = (Map<String, Object>) focusDetails;
-		int focusedFieldIndex = (Integer) map.get("focusedFieldIndex");
-		Object focusedFieldFocusDetails = map.get("focusedFieldFocusDetails");
-
-		if ((focusedFieldIndex != -1) && (focusedFieldIndex < fieldControlPlaceHolders.size())) {
-			Component focusedFieldControl = fieldControlPlaceHolders.get(focusedFieldIndex).getFieldControl();
-			return SwingRendererUtils.requestAnyComponentFocus(focusedFieldControl, focusedFieldFocusDetails, this);
+		if (fieldControlPlaceHolders.size() > 0) {
+			return SwingRendererUtils.requestAnyComponentFocus(fieldControlPlaceHolders.get(0).getFieldControl(), this);
 		}
 		return false;
 	}

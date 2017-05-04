@@ -163,12 +163,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 		}
 
 		@Override
-		public Object getFocusDetails() {
-			return null;
-		}
-
-		@Override
-		public boolean requestDetailedFocus(Object value) {
+		public boolean requestCustomFocus() {
 			return false;
 		}
 

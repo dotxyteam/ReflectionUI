@@ -13,7 +13,6 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleFieldControlPlugin;
 import xy.reflect.ui.control.swing.DialogAccessControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.util.SwingRendererUtils;
 
 public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 
@@ -64,11 +63,7 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 			return null;
 		}
 
-		@Override
-		public boolean requestDetailedFocus(Object focusDetails) {
-			return SwingRendererUtils.requestAnyComponentFocus(statusControl, null, swingRenderer);
-		}
-
+		
 		@Override
 		protected void openDialog() {
 			Color newColor = JColorChooser.showDialog(this, "Choose a color", statusControl.getBackground());

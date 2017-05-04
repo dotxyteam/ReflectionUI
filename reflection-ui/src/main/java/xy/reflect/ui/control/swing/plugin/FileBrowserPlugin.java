@@ -21,7 +21,6 @@ import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.SwingRendererUtils;
 
 public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
@@ -237,10 +236,6 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 			return false;
 		}
 
-		@Override
-		public boolean requestDetailedFocus(Object focusDetails) {
-			return SwingRendererUtils.requestAnyComponentFocus(statusControl, null, swingRenderer);
-		}
 
 		@Override
 		public String toString() {

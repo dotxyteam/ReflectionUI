@@ -5,9 +5,6 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -75,7 +72,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected void onNullingControlStateChange() {
-		Object newValue;
+		final Object newValue;
 		if (getNullStatusControlState()) {
 			newValue = null;
 		} else {
@@ -87,9 +84,14 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				requestDetailedFocus(null);
+				requestCustomFocus();
 			}
 		});
+	}
+
+	@Override
+	public boolean requestCustomFocus() {
+		return SwingRendererUtils.requestAnyComponentFocus(subControl, swingRenderer);
 	}
 
 	protected Object generateNonNullValue() {
@@ -275,31 +277,6 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	@Override
 	public boolean handlesModificationStackUpdate() {
 		return true;
-	}
-
-	@Override
-	public Object getFocusDetails() {
-		if (!SwingRendererUtils.isForm(subControl, swingRenderer)) {
-			return null;
-		}
-		Object subControlFocusDetails = swingRenderer.getFormFocusDetails((JPanel) subControl);
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("subControlFocusDetails", subControlFocusDetails);
-		return result;
-	}
-
-	@Override
-	public boolean requestDetailedFocus(Object focusDetails) {
-		if (focusDetails == null) {
-			return SwingRendererUtils.requestAnyComponentFocus(subControl, null, swingRenderer);
-		}
-		@SuppressWarnings("unchecked")
-		Map<String, Object> map = (Map<String, Object>) focusDetails;
-		Object subControlFocusDetails = map.get("subControlFocusDetails");
-		if (subControlFocusDetails != null) {
-			return SwingRendererUtils.requestAnyComponentFocus(subControl, subControlFocusDetails, swingRenderer);
-		}
-		return false;
 	}
 
 	@Override

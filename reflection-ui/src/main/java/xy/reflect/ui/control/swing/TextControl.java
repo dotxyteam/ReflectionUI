@@ -4,10 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -30,7 +26,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	protected IFieldControlInput input;
 	protected IFieldControlData data;
 
-	protected Component textComponent;
+	protected JTextArea textComponent;
 	protected JScrollPane scrollPane;
 	protected boolean listenerDisabled = false;
 
@@ -76,11 +72,11 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		};
 	}
 
-	protected Component createTextComponent() {
+	protected JTextArea createTextComponent() {
 		JTextArea result = new JTextArea() {
 
 			private static final long serialVersionUID = 1L;
-			
+
 			@Override
 			public void replaceSelection(String content) {
 				boolean listenerWasDisabled = listenerDisabled;
@@ -115,7 +111,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 			return;
 		}
 		try {
-			onTextChange(((JTextArea) textComponent).getText());
+			onTextChange(textComponent.getText());
 		} catch (Throwable t) {
 			swingRenderer.getReflectionUI().logError(t);
 			displayError(ReflectionUIUtils.getPrettyErrorMessage(t));
@@ -130,10 +126,10 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		listenerDisabled = true;
 		try {
 			String newText = (String) data.getValue();
-			if (!ReflectionUIUtils.equalsOrBothNull(((JTextArea) textComponent).getText(), newText)) {
-				int lastCaretPosition = ((JTextArea) textComponent).getCaretPosition();
-				((JTextArea) textComponent).setText(newText);
-				((JTextArea) textComponent)
+			if (!ReflectionUIUtils.equalsOrBothNull(textComponent.getText(), newText)) {
+				int lastCaretPosition = textComponent.getCaretPosition();
+				textComponent.setText(newText);
+				textComponent
 						.setCaretPosition(Math.min(lastCaretPosition, ((JTextArea) textComponent).getText().length()));
 				displayError(null);
 				SwingRendererUtils.handleComponentSizeChange(this);
@@ -154,7 +150,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean displayError(String msg) {
-		SwingRendererUtils.displayErrorOnBorderAndTooltip(this, (JComponent) textComponent, msg, swingRenderer);
+		SwingRendererUtils.displayErrorOnBorderAndTooltip(this, textComponent, msg, swingRenderer);
 		return true;
 	}
 
@@ -175,27 +171,12 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public Object getFocusDetails() {
-		int caretPosition = ((JTextArea) textComponent).getCaretPosition();
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("caretPosition", caretPosition);
-		return result;
-	}
-
-	@Override
-	public boolean requestDetailedFocus(Object focusDetails) {
-		if (focusDetails == null) {
-			return SwingRendererUtils.requestAnyComponentFocus(textComponent, null, swingRenderer);
+	public boolean requestCustomFocus() {
+		textComponent.setCaretPosition(textComponent.getText().length());
+		if (SwingRendererUtils.requestAnyComponentFocus(textComponent, swingRenderer)) {
+			return true;
 		}
-		@SuppressWarnings("unchecked")
-		Map<String, Object> map = (Map<String, Object>) focusDetails;
-		Integer caretPosition = (Integer) map.get("caretPosition");
-		if (caretPosition != null) {
-			((JTextArea) textComponent)
-					.setCaretPosition(Math.min(caretPosition, ((JTextArea) textComponent).getText().length()));
-		}
-		return SwingRendererUtils.requestAnyComponentFocus(textComponent, null, swingRenderer);
-
+		return false;
 	}
 
 	@Override

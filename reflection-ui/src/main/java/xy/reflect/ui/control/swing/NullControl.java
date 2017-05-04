@@ -1,6 +1,5 @@
 package xy.reflect.ui.control.swing;
 
-import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -73,7 +72,7 @@ public class NullControl extends TextControl {
 	}
 
 	@Override
-	protected Component createTextComponent() {
+	protected JTextArea createTextComponent() {
 		final JTextArea result = new JTextArea();
 		result.setEditable(false);
 		((JComponent) result).setBorder(null);

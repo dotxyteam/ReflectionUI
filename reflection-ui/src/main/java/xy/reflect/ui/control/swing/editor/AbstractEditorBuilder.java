@@ -18,7 +18,6 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.SwingRendererUtils;
 
 public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
 
@@ -100,7 +99,6 @@ public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
 
 	public JDialog createDialog() {
 		createdEditForm = createForm(false);
-		SwingRendererUtils.requestAnyComponentFocus(createdEditForm, null, getSwingRenderer());
 		dialogBuilder = createDelegateDialogBuilder();
 		dialogBuilder.setContentComponent(createdEditForm);
 		dialogBuilder.setTitle(getEditorWindowTitle());

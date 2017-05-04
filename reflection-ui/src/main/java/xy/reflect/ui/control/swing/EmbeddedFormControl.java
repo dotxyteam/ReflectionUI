@@ -2,9 +2,6 @@ package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -57,26 +54,11 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 		return subForm;
 	}
 
-	@Override
-	public Object getFocusDetails() {
-		Object subFormFocusDetails = swingRenderer.getFormFocusDetails(subForm);
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("subFormFocusDetails", subFormFocusDetails);
-		return result;
-	}
+	
 
 	@Override
-	public boolean requestDetailedFocus(Object focusDetails) {
-		if (focusDetails == null) {
-			return SwingRendererUtils.requestAnyComponentFocus(subForm, null, swingRenderer);
-		}
-		@SuppressWarnings("unchecked")
-		Map<String, Object> map = (Map<String, Object>) focusDetails;
-		Object subFormFocusDetails = map.get("subFormFocusDetails");
-		if (subFormFocusDetails != null) {
-			return SwingRendererUtils.requestAnyComponentFocus(subForm, subFormFocusDetails, swingRenderer);
-		}
-		return false;
+	public boolean requestCustomFocus() {
+		return SwingRendererUtils.requestAnyComponentFocus(subForm, swingRenderer);
 	}
 
 	protected void forwardSubFormModifications() {

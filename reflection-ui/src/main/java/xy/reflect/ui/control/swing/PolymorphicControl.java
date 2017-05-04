@@ -353,29 +353,8 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 	}
 
 	@Override
-	public Object getFocusDetails() {
-		Object dynamicControlFocusDetails = null;
-		if (dynamicControl != null) {
-			dynamicControlFocusDetails = swingRenderer.getFormFocusDetails(dynamicControl);
-		}
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("dynamicControlFocusDetails", dynamicControlFocusDetails);
-		return result;
-	}
-
-	@Override
-	public boolean requestDetailedFocus(Object focusDetails) {
-		if (focusDetails == null) {
-			return SwingRendererUtils.requestAnyComponentFocus(typeEnumerationControl, null, swingRenderer);
-		}
-		@SuppressWarnings("unchecked")
-		Map<String, Object> map = (Map<String, Object>) focusDetails;
-		Object dynamicControlFocusDetails = map.get("dynamicControlFocusDetails");
-		if (dynamicControlFocusDetails != null) {
-			return SwingRendererUtils.requestAnyComponentFocus(dynamicControl, dynamicControlFocusDetails,
-					swingRenderer);
-		}
-		return false;
+	public boolean requestCustomFocus() {
+		return SwingRendererUtils.requestAnyComponentFocus(typeEnumerationControl, swingRenderer);
 	}
 
 	@Override

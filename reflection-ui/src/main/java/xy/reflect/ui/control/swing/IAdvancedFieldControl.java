@@ -11,11 +11,9 @@ public interface IAdvancedFieldControl {
 
 	boolean handlesModificationStackUpdate();
 
-	Object getFocusDetails();
-
-	boolean requestDetailedFocus(Object value);
-
 	void validateSubForm() throws Exception;
 
 	void addMenuContribution(MenuModel menuModel);
+
+	boolean requestCustomFocus();
 }

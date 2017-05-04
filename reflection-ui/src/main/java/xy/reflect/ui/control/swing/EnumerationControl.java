@@ -201,13 +201,8 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 	}
 
 	@Override
-	public Object getFocusDetails() {
-		return null;
-	}
-
-	@Override
-	public boolean requestDetailedFocus(Object focusDetails) {
-		return SwingRendererUtils.requestAnyComponentFocus(comboBox, null, swingRenderer);
+	public boolean requestCustomFocus() {
+		return SwingRendererUtils.requestAnyComponentFocus(comboBox, swingRenderer);
 	}
 
 	@Override
