@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -14,7 +15,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public abstract class AbstractListAction implements IMethodInfo {
+public abstract class AbstractListAction extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public String getSignature() {
@@ -92,6 +93,25 @@ public abstract class AbstractListAction implements IMethodInfo {
 	@Override
 	public ResourcePath getIconImagePath() {
 		return null;
+	}
+
+	@Override
+	public int hashCode() {
+		return getSignature().hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (!getClass().equals(obj.getClass())) {
+			return false;
+		}
+		if (!getSignature().equals(((AbstractListAction) obj).getSignature())) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override

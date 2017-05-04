@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -298,7 +299,7 @@ public class EncapsulatedObjectFactory {
 				+ fieldType + ", fieldCaption=" + fieldCaption + "]";
 	}
 
-	protected class TypeInfo implements ITypeInfo {
+	protected class TypeInfo   extends AbstractInfo implements ITypeInfo {
 
 		@Override
 		public String getName() {
@@ -512,7 +513,7 @@ public class EncapsulatedObjectFactory {
 
 	}
 
-	protected class ValueField implements IFieldInfo {
+	protected class ValueField   extends AbstractInfo implements IFieldInfo {
 		@Override
 		public String getName() {
 			return fieldName;

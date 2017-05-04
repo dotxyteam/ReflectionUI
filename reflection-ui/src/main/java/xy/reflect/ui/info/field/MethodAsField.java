@@ -2,6 +2,7 @@ package xy.reflect.ui.info.field;
 
 import java.util.Map;
 
+import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -12,7 +13,7 @@ import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class MethodAsField implements IFieldInfo {
+public class MethodAsField   extends AbstractInfo implements IFieldInfo {
 
 	protected IMethodInfo method;
 

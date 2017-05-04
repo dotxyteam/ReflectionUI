@@ -141,7 +141,8 @@ public class SwingCustomizer extends SwingRenderer {
 			{
 				mainCustomizationsControl.setLayout(new BorderLayout());
 				mainCustomizationsControl.add(customizationTools.makeButtonForTypeInfo(object), BorderLayout.CENTER);
-				mainCustomizationsControl.setBorder(BorderFactory.createEmptyBorder(getLayoutSpacing(), 0, 0, 0));
+				mainCustomizationsControl.setBorder(
+						BorderFactory.createEmptyBorder(getLayoutSpacing(mainCustomizationsControl), 0, 0, 0));
 				container.add(SwingRendererUtils.flowInLayout(mainCustomizationsControl, GridBagConstraints.CENTER),
 						BorderLayout.NORTH);
 			}

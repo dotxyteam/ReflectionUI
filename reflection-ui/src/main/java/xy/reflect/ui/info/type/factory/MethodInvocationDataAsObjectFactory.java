@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MethodParameterAsField;
@@ -161,7 +162,7 @@ public class MethodInvocationDataAsObjectFactory {
 
 	}
 
-	protected class TypeInfo implements ITypeInfo {
+	protected class TypeInfo   extends AbstractInfo implements ITypeInfo {
 
 		@Override
 		public ResourcePath getIconImagePath() {

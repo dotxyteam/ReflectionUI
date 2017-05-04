@@ -91,7 +91,7 @@ public class CustomizationTools {
 	}
 
 	protected JButton makeButton() {
-		final JButton result = new JButton(this.swingCustomizer.getCustomizationsIcon());
+		JButton result = new JButton(this.swingCustomizer.getCustomizationsIcon());
 		result.setForeground(getToolsForegroundColor());
 		result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
 		return result;

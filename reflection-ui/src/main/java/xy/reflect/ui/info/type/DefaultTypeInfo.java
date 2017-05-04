@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -27,7 +28,7 @@ import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class DefaultTypeInfo implements ITypeInfo {
+public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 
 	protected Class<?> javaType;
 	protected ReflectionUI reflectionUI;
@@ -122,31 +123,7 @@ public class DefaultTypeInfo implements ITypeInfo {
 						continue;
 					}
 					constructors.add(new DefaultConstructorInfo(reflectionUI, javaConstructor));
-				}
-				if (ClassUtils.isPrimitiveClassOrWrapper(javaType)) {
-					constructors.add(new AbstractConstructorInfo() {
-
-						@Override
-						public ITypeInfo getReturnValueType() {
-							return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(DefaultTypeInfo.this));
-						}
-
-						@Override
-						public Object invoke(Object object, InvocationData invocationData) {
-							Class<?> primitiveType = javaType;
-							if (ClassUtils.isPrimitiveWrapper(primitiveType)) {
-								primitiveType = ClassUtils.wrapperToPrimitiveClass(javaType);
-							}
-							return ClassUtils.getDefaultPrimitiveValue(primitiveType);
-						}
-
-						@Override
-						public List<IParameterInfo> getParameters() {
-							return Collections.emptyList();
-						}
-
-					});
-				}
+				}				
 			}
 		}
 		return constructors;

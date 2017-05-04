@@ -4,11 +4,12 @@ import java.util.Collections;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.map.StandardMapEntry;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class TypeNameColumnInfo implements IColumnInfo {
+public class TypeNameColumnInfo   extends AbstractInfo implements IColumnInfo {
 
 	protected ReflectionUI reflectionUI;
 

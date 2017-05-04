@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -19,7 +20,7 @@ import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class CapsuleField implements IFieldInfo {
+public class CapsuleField extends AbstractInfo implements IFieldInfo {
 
 	protected List<IFieldInfo> encapsulatedFields;
 	protected List<IMethodInfo> encapsulatedMethods;
@@ -265,7 +266,7 @@ public class CapsuleField implements IFieldInfo {
 
 	}
 
-	protected class ValueTypeInfo implements ITypeInfo {
+	protected class ValueTypeInfo extends AbstractInfo implements ITypeInfo {
 
 		@Override
 		public String getName() {
@@ -376,6 +377,25 @@ public class CapsuleField implements IFieldInfo {
 
 		protected CapsuleField getOuterType() {
 			return CapsuleField.this;
+		}
+
+		@Override
+		public int hashCode() {
+			return getOuterType().hashCode();
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (obj == null) {
+				return false;
+			}
+			if (!getClass().equals(obj.getClass())) {
+				return false;
+			}
+			if (!getOuterType().equals(((ValueTypeInfo) obj).getOuterType())) {
+				return false;
+			}
+			return true;
 		}
 
 		@Override

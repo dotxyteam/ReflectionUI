@@ -8594,6 +8594,7 @@
                 <caption>Advanced</caption>
             </category>
             <hidden>false</hidden>
+            <customFieldCaption></customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>accessors</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
@@ -12277,6 +12278,7 @@
                 <caption>Display</caption>
             </category>
             <hidden>false</hidden>
+            <customFieldCaption></customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>type</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
@@ -16183,7 +16185,6 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-        <customFieldsOrder>fieldsLayout</customFieldsOrder>
         <customFieldsOrder>anyDefaultObjectMemberIncluded</customFieldsOrder>
         <customFieldsOrder>menuModel</customFieldsOrder>
         <customFieldsOrder>typeName</customFieldsOrder>
@@ -16191,6 +16192,7 @@
         <customFieldsOrder>undoManagementHidden</customFieldsOrder>
         <customFieldsOrder>immutableForced</customFieldsOrder>
         <customFieldsOrder>abstractForced</customFieldsOrder>
+        <customFieldsOrder>fieldsLayout</customFieldsOrder>
         <customFieldsOrder>onlineHelp</customFieldsOrder>
         <customFieldsOrder>iconImagePath</customFieldsOrder>
         <customFieldsOrder>memberCategories</customFieldsOrder>
@@ -28168,6 +28170,8 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <customFieldsOrder>formControlCreationForced</customFieldsOrder>
+        <customFieldsOrder>formControlEmbeddingForced</customFieldsOrder>
         <fieldsCustomizations>
             <uniqueIdentifier>-4ae45705:15bca100395:-710c</uniqueIdentifier>
             <specificProperties/>
@@ -28176,7 +28180,7 @@
                 <caption>Form</caption>
             </category>
             <hidden>false</hidden>
-            <customFieldCaption>Force Use Form-Based Control</customFieldCaption>
+            <customFieldCaption>Force Use Sub-Form Based Control</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>formControlCreationForced</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
@@ -28211,7 +28215,7 @@
                 <caption>Form</caption>
             </category>
             <hidden>false</hidden>
-            <customFieldCaption>Embed The Sub-Form In The Current One</customFieldCaption>
+            <customFieldCaption>Embed Sub-Form In Current Form</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <fieldName>formControlEmbeddingForced</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
@@ -29100,6 +29104,509 @@
             <validating>false</validating>
         </methodsCustomizations>
         <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.control.swing.customizer.CustomizationOptions], fieldName=customizationTools]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>42701aaa:15bd1140e6d:-2167</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <customFieldsOrder>setFile.file</customFieldsOrder>
+        <customFieldsOrder>kind</customFieldsOrder>
+        <fieldsCustomizations>
+            <uniqueIdentifier>42701aaa:15bd1140e6d:-137f</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <encapsulationFieldName>kind</encapsulationFieldName>
+            <fieldName>alternativeOptions</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>42701aaa:15bd1140e6d:-137a</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+            <typeConversion>
+                <uniqueIdentifier>42701aaa:15bd1140e6d:-137e</uniqueIdentifier>
+                <conversionMethodFinder>
+                    <uniqueIdentifier>42701aaa:15bd1140e6d:-137c</uniqueIdentifier>
+                </conversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>42701aaa:15bd1140e6d:-137d</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
+                <reverseConversionMethodFinder>
+                    <uniqueIdentifier>42701aaa:15bd1140e6d:-137b</uniqueIdentifier>
+                </reverseConversionMethodFinder>
+            </typeConversion>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>42701aaa:15bd1140e6d:-1385</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <encapsulationFieldName>kind</encapsulationFieldName>
+            <fieldName>chosenAlternative</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>42701aaa:15bd1140e6d:-1380</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+            <typeConversion>
+                <uniqueIdentifier>42701aaa:15bd1140e6d:-1384</uniqueIdentifier>
+                <conversionMethodFinder>
+                    <uniqueIdentifier>42701aaa:15bd1140e6d:-1382</uniqueIdentifier>
+                </conversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>42701aaa:15bd1140e6d:-1383</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
+                <reverseConversionMethodFinder>
+                    <uniqueIdentifier>42701aaa:15bd1140e6d:-1381</uniqueIdentifier>
+                </reverseConversionMethodFinder>
+            </typeConversion>
+            <valueOptionsFieldName>alternativeOptions</valueOptionsFieldName>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>12ed3574:15bd15364be:-4487</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customFieldCaption>Access Type</customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>kind</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>12ed3574:15bd15364be:-4482</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+            <typeConversion>
+                <uniqueIdentifier>12ed3574:15bd15364be:-4486</uniqueIdentifier>
+                <conversionMethodFinder>
+                    <uniqueIdentifier>12ed3574:15bd15364be:-4484</uniqueIdentifier>
+                </conversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>12ed3574:15bd15364be:-4485</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
+                <reverseConversionMethodFinder>
+                    <uniqueIdentifier>12ed3574:15bd15364be:-4483</uniqueIdentifier>
+                </reverseConversionMethodFinder>
+            </typeConversion>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>42701aaa:15bd1140e6d:f47</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <encapsulationFieldName>kind</encapsulationFieldName>
+            <fieldName>pathKind</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>42701aaa:15bd1140e6d:f4c</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+            <typeConversion>
+                <uniqueIdentifier>42701aaa:15bd1140e6d:f48</uniqueIdentifier>
+                <conversionMethodFinder>
+                    <uniqueIdentifier>42701aaa:15bd1140e6d:f4a</uniqueIdentifier>
+                </conversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>42701aaa:15bd1140e6d:f49</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
+                <reverseConversionMethodFinder>
+                    <uniqueIdentifier>42701aaa:15bd1140e6d:f4b</uniqueIdentifier>
+                </reverseConversionMethodFinder>
+            </typeConversion>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>42701aaa:15bd1140e6d:-13a7</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customFieldCaption></customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>setFile.file</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>42701aaa:15bd1140e6d:-13a2</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+            <typeConversion>
+                <uniqueIdentifier>42701aaa:15bd1140e6d:-13a6</uniqueIdentifier>
+                <conversionMethodFinder>
+                    <uniqueIdentifier>42701aaa:15bd1140e6d:-13a4</uniqueIdentifier>
+                </conversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>42701aaa:15bd1140e6d:-13a5</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
+                <reverseConversionMethodFinder>
+                    <uniqueIdentifier>42701aaa:15bd1140e6d:-13a3</uniqueIdentifier>
+                </reverseConversionMethodFinder>
+            </typeConversion>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>12ed3574:15bd15364be:-3925</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>specification</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>12ed3574:15bd15364be:-3920</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+            <typeConversion>
+                <uniqueIdentifier>12ed3574:15bd15364be:-3924</uniqueIdentifier>
+                <conversionMethodFinder>
+                    <uniqueIdentifier>12ed3574:15bd15364be:-3922</uniqueIdentifier>
+                </conversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>12ed3574:15bd15364be:-3923</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
+                <reverseConversionMethodFinder>
+                    <uniqueIdentifier>12ed3574:15bd15364be:-3921</uniqueIdentifier>
+                </reverseConversionMethodFinder>
+            </typeConversion>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>12ed3574:15bd1585683:14e3</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customFieldCaption></customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>file</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>12ed3574:15bd1585683:14e8</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+            <typeConversion>
+                <uniqueIdentifier>12ed3574:15bd1585683:14e4</uniqueIdentifier>
+                <conversionMethodFinder>
+                    <uniqueIdentifier>12ed3574:15bd1585683:14e6</uniqueIdentifier>
+                </conversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>12ed3574:15bd1585683:14e5</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
+                <reverseConversionMethodFinder>
+                    <uniqueIdentifier>12ed3574:15bd1585683:14e7</uniqueIdentifier>
+                </reverseConversionMethodFinder>
+            </typeConversion>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <methodsCustomizations>
+            <uniqueIdentifier>12ed3574:15bd15364be:-38ff</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.ResourcePath ()</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>12ed3574:15bd15364be:-38fe</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>xy.reflect.ui.info.ResourcePath (java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>12ed3574:15bd15364be:-38fd</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>12ed3574:15bd15364be:-38fc</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>specification</parameterName>
+            </parametersCustomizations>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>42701aaa:15bd1140e6d:e23</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>java.lang.String extractClassPathResourceValue(java.lang.String)</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>42701aaa:15bd1140e6d:e6c</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>java.lang.String extractMemoryObjectValue(java.lang.String)</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>42701aaa:15bd1140e6d:eb5</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>java.lang.String formatClassPathResourceSpecification(java.lang.String)</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>42701aaa:15bd1140e6d:efe</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>java.lang.String formatMemoryObjectSpecification(java.lang.String)</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>42701aaa:15bd1140e6d:-2166</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customMethodCaption>Open</customMethodCaption>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <encapsulationFieldName>file</encapsulationFieldName>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>void setFile(java.io.File)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>42701aaa:15bd1140e6d:-2165</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>42701aaa:15bd1140e6d:-2164</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullableFacetHidden>false</nullableFacetHidden>
+                <parameterName>file</parameterName>
+            </parametersCustomizations>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>xy.reflect.ui.info.ResourcePath</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>42701aaa:15bd1140e6d:51c5</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <customFieldsOrder>pathKind</customFieldsOrder>
+        <customFieldsOrder>chosenAlternative</customFieldsOrder>
+        <fieldsCustomizations>
+            <uniqueIdentifier>42701aaa:15bd1140e6d:51c6</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customFieldCaption></customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>pathKind</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>42701aaa:15bd1140e6d:51cb</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <enumerationCustomizations>
+                    <uniqueIdentifier>-6c79e8d4:15bd176708e:-746e</uniqueIdentifier>
+                    <dynamicEnumerationForced>false</dynamicEnumerationForced>
+                    <enumerationTypeName>xy.reflect.ui.info.ResourcePath$PathKind</enumerationTypeName>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-6c79e8d4:15bd176708e:-746c</uniqueIdentifier>
+                        <customCaption>Absolute File</customCaption>
+                        <hidden>false</hidden>
+                        <itemName>ABSOLUTE_FILE</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-6c79e8d4:15bd176708e:-746d</uniqueIdentifier>
+                        <customCaption>From Classpath</customCaption>
+                        <hidden>false</hidden>
+                        <itemName>CLASS_PATH_RESOURCE</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-6c79e8d4:15bd176708e:-746a</uniqueIdentifier>
+                        <customCaption>From Memory</customCaption>
+                        <hidden>false</hidden>
+                        <itemName>MEMORY_OBJECT</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-6c79e8d4:15bd176708e:-746b</uniqueIdentifier>
+                        <customCaption>Relative File</customCaption>
+                        <hidden>false</hidden>
+                        <itemName>RELATIVE_FILE</itemName>
+                    </itemCustomizations>
+                </enumerationCustomizations>
+            </specificTypeCustomizations>
+            <typeConversion>
+                <uniqueIdentifier>42701aaa:15bd1140e6d:f48</uniqueIdentifier>
+                <conversionMethodFinder>
+                    <uniqueIdentifier>42701aaa:15bd1140e6d:f4a</uniqueIdentifier>
+                </conversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>42701aaa:15bd1140e6d:f49</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
+                <reverseConversionMethodFinder>
+                    <uniqueIdentifier>42701aaa:15bd1140e6d:f4b</uniqueIdentifier>
+                </reverseConversionMethodFinder>
+            </typeConversion>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>12ed3574:15bd15364be:-4515</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customFieldCaption>Change</customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>chosenAlternative</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>12ed3574:15bd15364be:-4510</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+            <typeConversion>
+                <uniqueIdentifier>42701aaa:15bd1140e6d:-1384</uniqueIdentifier>
+                <conversionMethodFinder>
+                    <uniqueIdentifier>42701aaa:15bd1140e6d:-1382</uniqueIdentifier>
+                </conversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>42701aaa:15bd1140e6d:-1383</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
+                <reverseConversionMethodFinder>
+                    <uniqueIdentifier>42701aaa:15bd1140e6d:-1381</uniqueIdentifier>
+                </reverseConversionMethodFinder>
+            </typeConversion>
+            <valueOptionsFieldName>alternativeOptions</valueOptionsFieldName>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>12ed3574:15bd15364be:5ccd</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <fieldName>alternativeOptions</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>12ed3574:15bd15364be:5cd2</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+            <typeConversion>
+                <uniqueIdentifier>42701aaa:15bd1140e6d:-137e</uniqueIdentifier>
+                <conversionMethodFinder>
+                    <uniqueIdentifier>42701aaa:15bd1140e6d:-137c</uniqueIdentifier>
+                </conversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>42701aaa:15bd1140e6d:-137d</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
+                <reverseConversionMethodFinder>
+                    <uniqueIdentifier>42701aaa:15bd1140e6d:-137b</uniqueIdentifier>
+                </reverseConversionMethodFinder>
+            </typeConversion>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.info.ResourcePath], fieldName=kind]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>12ed3574:15bd1585683:13fd</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <methodsCustomizations>
+            <uniqueIdentifier>12ed3574:15bd1585683:13fe</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customMethodCaption>Open</customMethodCaption>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>void setFile(java.io.File)</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.info.ResourcePath], fieldName=file]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

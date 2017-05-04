@@ -2,6 +2,7 @@ package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.JComboBox;
@@ -42,7 +42,6 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 	protected JComboBox comboBox;
 	protected boolean listenerDisabled = false;
 
-	@SuppressWarnings({})
 	public EnumerationControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
 		this.input = input;
@@ -62,8 +61,20 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 
 	protected void initialize() {
 		setLayout(new BorderLayout());
-		setBorder(BorderFactory.createTitledBorder(""));
-		comboBox = new JComboBox();
+		comboBox = new JComboBox() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Dimension getMinimumSize() {
+				Dimension result = super.getMinimumSize();
+				if (result == null) {
+					return null;
+				}
+				result.width = Math.max(20, result.width);
+				return result;
+			}
+
+		};
 		add(comboBox, BorderLayout.CENTER);
 		comboBox.setRenderer(new BasicComboBoxRenderer() {
 

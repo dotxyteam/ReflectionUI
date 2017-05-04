@@ -53,7 +53,7 @@ public class NullControl extends TextControl {
 			}
 
 		});
-		setBorder(BorderFactory.createTitledBorder(data.getCaption()));
+		setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {

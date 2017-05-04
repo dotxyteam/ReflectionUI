@@ -5,6 +5,7 @@ import java.util.Map;
 
 import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.DefaultMethodControlData;
+import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -18,7 +19,7 @@ import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class SubMethodInfo implements IMethodInfo {
+public class SubMethodInfo   extends AbstractInfo implements IMethodInfo {
 
 	protected IFieldInfo theField;
 	protected IMethodInfo theSubMethod;

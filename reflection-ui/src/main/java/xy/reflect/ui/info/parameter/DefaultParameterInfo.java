@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -12,7 +13,7 @@ import xy.reflect.ui.util.Parameter;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class DefaultParameterInfo implements IParameterInfo {
+public class DefaultParameterInfo   extends AbstractInfo implements IParameterInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected Parameter javaParameter;

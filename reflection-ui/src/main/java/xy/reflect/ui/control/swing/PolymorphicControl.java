@@ -52,7 +52,9 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		this.typeOptionsFactory = new PolymorphicTypeOptionsFactory(swingRenderer.getReflectionUI(), polymorphicType);
 
 		setLayout(new BorderLayout());
-		setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
+		if (data.getCaption().length() > 0) {
+			setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
+		}
 		refreshUI();
 	}
 

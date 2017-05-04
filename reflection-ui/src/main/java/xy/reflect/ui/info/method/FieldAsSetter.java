@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -14,7 +15,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class FieldAsSetter implements IMethodInfo {
+public class FieldAsSetter   extends AbstractInfo implements IMethodInfo {
 
 	protected IFieldInfo field;
 

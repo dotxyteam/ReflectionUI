@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -29,7 +30,7 @@ import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class ImplicitListField implements IFieldInfo {
+public class ImplicitListField extends AbstractInfo implements IFieldInfo {
 	protected ReflectionUI reflectionUI;
 	protected String fieldName;
 	protected IListTypeInfo type;
@@ -317,7 +318,7 @@ public class ImplicitListField implements IFieldInfo {
 
 	}
 
-	protected class ValueTypeInfo implements IListTypeInfo {
+	protected class ValueTypeInfo extends AbstractInfo implements IListTypeInfo {
 
 		@Override
 		public FieldsLayout getFieldsLayout() {
@@ -328,7 +329,6 @@ public class ImplicitListField implements IFieldInfo {
 		public MenuModel getMenuModel() {
 			return new MenuModel();
 		}
-
 
 		@Override
 		public boolean isItemConstructorSelectable() {
@@ -537,6 +537,25 @@ public class ImplicitListField implements IFieldInfo {
 
 		public ImplicitListField getOuterType() {
 			return ImplicitListField.this;
+		}
+
+		@Override
+		public int hashCode() {
+			return getOuterType().hashCode();
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (obj == null) {
+				return false;
+			}
+			if (!getClass().equals(obj.getClass())) {
+				return false;
+			}
+			if (!getOuterType().equals(((ValueTypeInfo) obj).getOuterType())) {
+				return false;
+			}
+			return true;
 		}
 
 		@Override

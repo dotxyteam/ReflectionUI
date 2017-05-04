@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -18,7 +19,7 @@ import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 
-public class MultipleFieldsAsListField implements IFieldInfo {
+public class MultipleFieldsAsListField   extends AbstractInfo implements IFieldInfo {
 
 	protected List<IFieldInfo> fields;
 	protected ReflectionUI reflectionUI;
@@ -261,7 +262,7 @@ public class MultipleFieldsAsListField implements IFieldInfo {
 		}
 	}
 
-	protected class ValueListItemTypeInfo implements ITypeInfo {
+	protected class ValueListItemTypeInfo   extends AbstractInfo implements ITypeInfo {
 
 		protected IFieldInfo field;
 

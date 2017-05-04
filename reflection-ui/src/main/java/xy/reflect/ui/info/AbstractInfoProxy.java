@@ -1,6 +1,6 @@
 package xy.reflect.ui.info;
 
-public abstract class AbstractInfoProxy implements IInfo {
+public abstract class AbstractInfoProxy extends AbstractInfo {
 
 	@Override
 	public int hashCode() {

@@ -136,7 +136,7 @@ public class SwingRendererUtils {
 						KeyEvent.VK_F1, KeyEvent.CHAR_UNDEFINED);
 				c.dispatchEvent(ke);
 			} catch (Throwable e2) {
-				throw new ReflectionUIError(
+				System.err.println(
 						"Failed to show tooltip programmatically: \n1st failure: " + e1 + "\n2nd failure: \n" + e2);
 			}
 		}
@@ -330,13 +330,32 @@ public class SwingRendererUtils {
 		return new ImageIcon(ReflectionUI.class.getResource("resource/help.png"));
 	}
 
-	public static List<Object> getActiveInstances(ITypeInfo type, SwingRenderer swingRenderer) {
-		List<Object> result = new ArrayList<Object>();
+	public static List<JPanel> getAllDisplayedForms(SwingRenderer swingRenderer) {
+		List<JPanel> result = new ArrayList<JPanel>();
 		for (Map.Entry<JPanel, Object> entry : swingRenderer.getObjectByForm().entrySet()) {
-			Object object = entry.getValue();
+			JPanel form = entry.getKey();
+			if (form.isDisplayable()) {
+				result.add(form);
+			}
+		}
+		return result;
+	}
+
+	public static List<Object> getAllDisplayedObjects(SwingRenderer swingRenderer) {
+		List<Object> result = new ArrayList<Object>();
+		for (JPanel form : getAllDisplayedForms(swingRenderer)) {
+			Object object = swingRenderer.getObjectByForm().get(form);
+			result.add(object);
+		}
+		return result;
+	}
+
+	public static List<Object> getDisplayedInstances(ITypeInfo type, SwingRenderer swingRenderer) {
+		List<Object> result = new ArrayList<Object>();
+		for (Object object : getAllDisplayedObjects(swingRenderer)) {
 			ITypeInfo objectType = swingRenderer.getReflectionUI()
 					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
-			if (objectType.equals(type)) {
+			if (objectType.getName().equals(type.getName())) {
 				result.add(object);
 			}
 		}
@@ -490,13 +509,14 @@ public class SwingRendererUtils {
 		}
 		Rectangle maxBounds = SwingRendererUtils.getMaximumWindowBounds(getWindowCurrentGraphicsDevice(window));
 		int characterSize = getStandardCharacterWidth(window);
+		int minWidth = characterSize * 80;
 		window.setBounds(maxBounds);
 		window.pack();
 		Rectangle bounds = window.getBounds();
 		int widthGrowth, heightGrowth;
 		{
-			if (bounds.width < (characterSize * 80)) {
-				widthGrowth = (characterSize * 80) - bounds.width;
+			if (bounds.width < minWidth) {
+				widthGrowth = minWidth - bounds.width;
 			} else {
 				widthGrowth = 0;
 			}
@@ -736,22 +756,25 @@ public class SwingRendererUtils {
 	public static void displayErrorOnBorderAndTooltip(JComponent borderComponent, JComponent tooltipComponent,
 			String msg, SwingRenderer swingRenderer) {
 		String oldTooltipText;
+		String newTooltipText;
 		if (msg == null) {
 			borderComponent.setBorder(null);
 			oldTooltipText = tooltipComponent.getToolTipText();
-			tooltipComponent.setToolTipText(null);
+			newTooltipText = null;
 		} else {
 			SwingRendererUtils.setErrorBorder(borderComponent);
 			oldTooltipText = tooltipComponent.getToolTipText();
-			String newTooltipText = swingRenderer.prepareStringToDisplay(msg);
+			newTooltipText = swingRenderer.prepareStringToDisplay(msg);
 			if (newTooltipText.length() == 0) {
 				newTooltipText = null;
 			}
-			SwingRendererUtils.setMultilineToolTipText(tooltipComponent, newTooltipText);
 		}
-		SwingRendererUtils.handleComponentSizeChange(borderComponent);
+		SwingRendererUtils.setMultilineToolTipText(tooltipComponent, newTooltipText);
 		if (!ReflectionUIUtils.equalsOrBothNull(oldTooltipText, tooltipComponent.getToolTipText())) {
-			SwingRendererUtils.showTooltipNow(tooltipComponent);
+			if (newTooltipText != null) {
+				SwingRendererUtils.showTooltipNow(tooltipComponent);
+			}
+			SwingRendererUtils.handleComponentSizeChange(borderComponent);
 		}
 	}
 
@@ -778,7 +801,6 @@ public class SwingRendererUtils {
 		return null;
 	}
 
-	
 	public static void updateMenubar(JMenuBar menuBar, MenuModel menuModel, SwingRenderer swingRenderer) {
 		menuBar.removeAll();
 		for (Menu menu : menuModel.getMenus()) {
@@ -811,7 +833,8 @@ public class SwingRendererUtils {
 		}
 	}
 
-	public static JMenuItem createJMenuActionItem(final MethodActionMenuItem actionItem, final SwingRenderer swingRenderer) {
+	public static JMenuItem createJMenuActionItem(final MethodActionMenuItem actionItem,
+			final SwingRenderer swingRenderer) {
 		JMenuItem result = new JMenuItem(new AbstractAction(actionItem.getName()) {
 			private static final long serialVersionUID = 1L;
 
@@ -819,7 +842,7 @@ public class SwingRendererUtils {
 			public void actionPerformed(ActionEvent e) {
 				JPanel form = swingRenderer.getFormByMethodActionMenuItem().get(actionItem);
 				IMethodControlInput input = swingRenderer.createMethodControlPlaceHolder(form, actionItem.getMethod());
-				MethodAction methodAction= swingRenderer.createMethodAction(input);
+				MethodAction methodAction = swingRenderer.createMethodAction(input);
 				methodAction.execute(form);
 			}
 		});

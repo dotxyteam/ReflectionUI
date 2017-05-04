@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -22,7 +23,7 @@ import xy.reflect.ui.util.Parameter;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class DefaultMethodInfo implements IMethodInfo {
+public class DefaultMethodInfo   extends AbstractInfo implements IMethodInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected Method javaMethod;

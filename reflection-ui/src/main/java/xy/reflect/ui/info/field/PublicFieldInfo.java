@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -15,7 +16,7 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class PublicFieldInfo implements IFieldInfo {
+public class PublicFieldInfo   extends AbstractInfo implements IFieldInfo {
 
 	protected Field javaField;
 	protected ReflectionUI reflectionUI;

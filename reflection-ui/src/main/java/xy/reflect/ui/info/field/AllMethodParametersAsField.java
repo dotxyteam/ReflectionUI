@@ -7,6 +7,7 @@ import java.util.Map;
 import com.google.common.collect.MapMaker;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -18,7 +19,7 @@ import xy.reflect.ui.info.type.factory.MethodInvocationDataAsObjectFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class AllMethodParametersAsField implements IFieldInfo {
+public class AllMethodParametersAsField   extends AbstractInfo implements IFieldInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected IMethodInfo method;

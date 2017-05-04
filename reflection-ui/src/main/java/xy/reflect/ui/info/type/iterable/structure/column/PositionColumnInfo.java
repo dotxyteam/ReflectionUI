@@ -3,9 +3,10 @@ package xy.reflect.ui.info.type.iterable.structure.column;
 import java.util.Collections;
 import java.util.Map;
 
+import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 
-public class PositionColumnInfo implements IColumnInfo {
+public class PositionColumnInfo extends AbstractInfo implements IColumnInfo {
 
 	@Override
 	public String getCellValue(ItemPosition itemPosition) {
@@ -46,6 +47,23 @@ public class PositionColumnInfo implements IColumnInfo {
 		return Collections.emptyMap();
 	}
 
+	@Override
+	public int hashCode() {
+		return 1;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (!getClass().equals(obj.getClass())) {
+			return false;
+		}
+		return true;
+	}
+
+	
 	@Override
 	public String toString() {
 		return "PositionColumnInfo []";

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.google.common.collect.MapMaker;
 
+import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -14,7 +15,7 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 
-public class MethodParameterAsField implements IFieldInfo {
+public class MethodParameterAsField   extends AbstractInfo implements IFieldInfo {
 	protected IParameterInfo param;
 	protected IMethodInfo method;
 

@@ -7,12 +7,12 @@ import java.awt.Toolkit;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
@@ -38,7 +38,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		this.swingRenderer = swingRenderer;
 		this.input = input;
 		this.data = input.getControlData();
-		
+
 		setLayout(new BorderLayout());
 
 		textComponent = createTextComponent();
@@ -77,10 +77,10 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected Component createTextComponent() {
-		final JTextArea result = new JTextArea() {
+		JTextArea result = new JTextArea() {
 
 			private static final long serialVersionUID = 1L;
-
+			
 			@Override
 			public void replaceSelection(String content) {
 				boolean listenerWasDisabled = listenerDisabled;
@@ -106,7 +106,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 				}
 			});
 		}
-		result.setBorder(BorderFactory.createTitledBorder(""));
+		result.setBorder(new JTextField().getBorder());
 		return result;
 	}
 

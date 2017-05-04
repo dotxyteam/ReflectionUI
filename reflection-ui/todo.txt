@@ -1,3 +1,7 @@
+- focus restoring may not be necessary anymore 
+	containers are almost never rebuilt unless 
+	really needed or explicitly requested
+- sub-(field|method) customization 
 - customization: method confirmation before invoke
 - 1 only sub type => no polymorphic control
 - Not Nullable by default ???

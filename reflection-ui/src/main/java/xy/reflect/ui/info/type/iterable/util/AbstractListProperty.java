@@ -3,11 +3,12 @@ package xy.reflect.ui.info.type.iterable.util;
 import java.util.Collections;
 import java.util.Map;
 
+import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 
-public abstract class AbstractListProperty implements IFieldInfo {
+public abstract class AbstractListProperty extends AbstractInfo implements IFieldInfo {
 
 	public static final Object NO_OWNER = new Object() {
 
@@ -42,7 +43,6 @@ public abstract class AbstractListProperty implements IFieldInfo {
 		return Collections.emptyMap();
 	}
 
-	
 	@Override
 	public Object[] getValueOptions(Object object) {
 		return null;
@@ -52,7 +52,7 @@ public abstract class AbstractListProperty implements IFieldInfo {
 	public Runnable getCustomUndoUpdateJob(Object object, Object value) {
 		return null;
 	}
-	
+
 	@Override
 	public boolean isFormControlMandatory() {
 		return false;
@@ -66,6 +66,25 @@ public abstract class AbstractListProperty implements IFieldInfo {
 	@Override
 	public IInfoFilter getFormControlFilter() {
 		return IInfoFilter.DEFAULT;
+	}
+
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (!getClass().equals(obj.getClass())) {
+			return false;
+		}
+		if (!getName().equals(((AbstractListProperty) obj).getName())) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override

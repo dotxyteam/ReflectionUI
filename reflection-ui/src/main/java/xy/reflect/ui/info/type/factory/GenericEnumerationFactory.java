@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.menu.MenuModel;
@@ -173,7 +174,7 @@ public class GenericEnumerationFactory {
 
 	}
 
-	public class TypeInfo implements IEnumerationTypeInfo {
+	public class TypeInfo extends AbstractInfo implements IEnumerationTypeInfo {
 
 		@Override
 		public boolean isDynamicEnumeration() {
@@ -189,7 +190,6 @@ public class GenericEnumerationFactory {
 		public MenuModel getMenuModel() {
 			return new MenuModel();
 		}
-
 
 		@Override
 		public ResourcePath getIconImagePath() {
@@ -320,6 +320,25 @@ public class GenericEnumerationFactory {
 
 		protected GenericEnumerationFactory getOuterType() {
 			return GenericEnumerationFactory.this;
+		}
+
+		@Override
+		public int hashCode() {
+			return getOuterType().hashCode();
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (obj == null) {
+				return false;
+			}
+			if (!getClass().equals(obj.getClass())) {
+				return false;
+			}
+			if (!getOuterType().equals(((TypeInfo) obj).getOuterType())) {
+				return false;
+			}
+			return true;
 		}
 
 		@Override

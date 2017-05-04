@@ -30,7 +30,7 @@ import xy.reflect.ui.util.SwingRendererUtils;
 public class FieldControlPlaceHolder extends JPanel implements IFieldControlInput {
 
 	protected static final long serialVersionUID = 1L;
-	
+
 	protected final SwingRenderer swingRenderer;
 	protected Component fieldControl;
 	protected JPanel form;
@@ -38,6 +38,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 	protected String errorMessageDisplayedOnPlaceHolder;
 	protected IFieldControlData controlData;
 	protected IFieldControlData lastInitialControlData;
+	protected boolean layoutUpdateNeeded = true;
 
 	public FieldControlPlaceHolder(SwingRenderer swingRenderer, JPanel form, IFieldInfo field) {
 		super();
@@ -69,9 +70,18 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 		this.controlData = controlData;
 	}
 
+	public boolean isLayoutUpdateNeeded() {
+		return layoutUpdateNeeded;
+	}
+
+	public void setLayoutUpdateNeeded(boolean layoutUpdateNeeded) {
+		this.layoutUpdateNeeded = layoutUpdateNeeded;
+	}
+
 	@Override
 	public String getContextIdentifier() {
-		ITypeInfo objectType = this.swingRenderer.reflectionUI.getTypeInfo(this.swingRenderer.reflectionUI.getTypeInfoSource(getObject()));
+		ITypeInfo objectType = this.swingRenderer.reflectionUI
+				.getTypeInfo(this.swingRenderer.reflectionUI.getTypeInfoSource(getObject()));
 		return "FieldContext [fieldName=" + field.getName() + ", containingType=" + objectType.getName() + "]";
 	}
 
@@ -146,7 +156,8 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 
 			private boolean isBusyIndicationDisabled() {
 				JPanel form = SwingRendererUtils.findParentForm(FieldControlPlaceHolder.this, swingRenderer);
-				return Boolean.TRUE.equals(FieldControlPlaceHolder.this.swingRenderer.getBusyIndicationDisabledByForm().get(form));
+				return Boolean.TRUE
+						.equals(FieldControlPlaceHolder.this.swingRenderer.getBusyIndicationDisabledByForm().get(form));
 			}
 
 			@Override
@@ -164,8 +175,8 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 					super.setValue(value);
 					return;
 				}
-				SwingRendererUtils.showBusyDialogWhileSettingFieldValue(FieldControlPlaceHolder.this,
-						swingRenderer, data, value);
+				SwingRendererUtils.showBusyDialogWhileSettingFieldValue(FieldControlPlaceHolder.this, swingRenderer,
+						data, value);
 			}
 
 			@Override
@@ -180,11 +191,12 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 				return new Runnable() {
 					@Override
 					public void run() {
-						FieldControlPlaceHolder.this.swingRenderer.showBusyDialogWhile(FieldControlPlaceHolder.this, new Runnable() {
-							public void run() {
-								result.run();
-							}
-						}, AbstractModification.getUndoTitle("Setting " + data.getCaption()));
+						FieldControlPlaceHolder.this.swingRenderer.showBusyDialogWhile(FieldControlPlaceHolder.this,
+								new Runnable() {
+									public void run() {
+										result.run();
+									}
+								}, AbstractModification.getUndoTitle("Setting " + data.getCaption()));
 					}
 				};
 			}
@@ -216,7 +228,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 				fieldControl = this.swingRenderer.createErrorControl(t);
 			}
 			add(fieldControl, BorderLayout.CENTER);
-			SwingRendererUtils.handleComponentSizeChange(this);
+			layoutUpdateNeeded = true;
 		} else {
 			if (isFieldControlObsolete()) {
 				refreshUI(true);
@@ -225,14 +237,11 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 				if (fieldControl instanceof IAdvancedFieldControl) {
 					try {
 						refreshed = ((IAdvancedFieldControl) fieldControl).refreshUI();
-					} catch (Throwable t) {
-						refreshed = false;
+					} catch (Throwable ignore) {
 					}
 				}
 				if (!refreshed) {
-					remove(fieldControl);
-					fieldControl = null;
-					refreshUI(false);
+					refreshUI(true);
 				}
 			}
 		}
@@ -286,7 +295,8 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 			return new NullableControl(this.swingRenderer, this);
 		}
 		Object value = controlData.getValue();
-		final ITypeInfo actualValueType = this.swingRenderer.reflectionUI.getTypeInfo(this.swingRenderer.reflectionUI.getTypeInfoSource(value));
+		final ITypeInfo actualValueType = this.swingRenderer.reflectionUI
+				.getTypeInfo(this.swingRenderer.reflectionUI.getTypeInfoSource(value));
 		if (!controlData.getType().getName().equals(actualValueType.getName())) {
 			controlData = new FieldControlDataProxy(controlData) {
 				@Override

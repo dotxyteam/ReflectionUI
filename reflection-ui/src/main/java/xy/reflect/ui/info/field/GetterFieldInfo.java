@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -19,7 +20,7 @@ import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class GetterFieldInfo implements IFieldInfo {
+public class GetterFieldInfo   extends AbstractInfo implements IFieldInfo {
 
 	public static final Pattern GETTER_PATTERN = Pattern.compile("^(?:get|is|has)([A-Z].*)");
 

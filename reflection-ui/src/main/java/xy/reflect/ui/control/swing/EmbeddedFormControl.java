@@ -43,7 +43,9 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 		this.input = input;
 		this.data = retrieveData();
 		setLayout(new BorderLayout());
-		setBorder(BorderFactory.createTitledBorder(data.getCaption()));
+		if (data.getCaption().length() > 0) {
+			setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
+		}
 		refreshUI();
 	}
 

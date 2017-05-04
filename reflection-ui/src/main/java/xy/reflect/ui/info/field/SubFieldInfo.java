@@ -3,6 +3,7 @@ package xy.reflect.ui.info.field;
 import java.util.Map;
 
 import xy.reflect.ui.control.DefaultFieldControlData;
+import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -13,7 +14,7 @@ import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class SubFieldInfo implements IFieldInfo {
+public class SubFieldInfo   extends AbstractInfo implements IFieldInfo {
 
 	protected IFieldInfo theField;
 	protected IFieldInfo theSubField;
