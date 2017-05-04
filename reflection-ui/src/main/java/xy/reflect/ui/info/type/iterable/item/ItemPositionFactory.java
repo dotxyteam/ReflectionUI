@@ -45,4 +45,36 @@ public class ItemPositionFactory {
 		return (IListTypeInfo) rootListData.getType();
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((rootListData == null) ? 0 : rootListData.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ItemPositionFactory other = (ItemPositionFactory) obj;
+		if (rootListData == null) {
+			if (other.rootListData != null)
+				return false;
+		} else if (!rootListData.equals(other.rootListData))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "ItemPositionFactory [rootListData=" + rootListData + "]";
+	}
+	
+	
+
 }

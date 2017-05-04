@@ -261,7 +261,6 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((constructors == null) ? 0 : constructors.hashCode());
 		result = prime * result + ((javaType == null) ? 0 : javaType.hashCode());
 		return result;
 	}

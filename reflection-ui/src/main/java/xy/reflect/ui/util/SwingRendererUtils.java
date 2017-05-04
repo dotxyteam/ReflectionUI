@@ -727,6 +727,9 @@ public class SwingRendererUtils {
 	}
 
 	public static boolean requestAnyComponentFocus(Component c, Object focusDetails, SwingRenderer swingRenderer) {
+		if (true) {
+			return true;
+		}
 		if (c instanceof IAdvancedFieldControl) {
 			if (((IAdvancedFieldControl) c).requestDetailedFocus(focusDetails)) {
 				return true;

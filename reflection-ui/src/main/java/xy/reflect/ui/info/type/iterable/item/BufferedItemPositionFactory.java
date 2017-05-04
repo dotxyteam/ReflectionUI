@@ -31,5 +31,7 @@ public class BufferedItemPositionFactory extends ItemPositionFactory {
 	public void refresh() {
 		bufferedRootListRawValue = null;
 	}
+	
+	
 
 }
