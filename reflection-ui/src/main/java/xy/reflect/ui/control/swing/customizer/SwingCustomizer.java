@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
@@ -134,6 +135,17 @@ public class SwingCustomizer extends SwingRenderer {
 			JPanel newContainer = new JPanel();
 			{
 				container.add(newContainer, BorderLayout.CENTER);
+				Border newContainerBporder;
+				{
+					int borderThickness = 2;
+					newContainerBporder = BorderFactory
+							.createLineBorder(getCustomizationTools().getToolsForegroundColor(), borderThickness);
+					newContainerBporder = BorderFactory.createCompoundBorder(newContainerBporder, BorderFactory
+							.createLineBorder(getCustomizationTools().getToolsBackgroundColor(), borderThickness));
+					newContainerBporder = BorderFactory.createCompoundBorder(newContainerBporder, BorderFactory
+							.createLineBorder(getCustomizationTools().getToolsForegroundColor(), borderThickness));
+					newContainer.setBorder(newContainerBporder);
+				}
 				super.layoutFormControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory,
 						newContainer);
 			}
