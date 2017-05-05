@@ -35,6 +35,9 @@ public class SystemProperties {
 	@Usage("If the value of this property is  \"true\" then ReflectionUI objects will print debug messages to the console output by default.")
 	public static final String DEBUG = PREFIX + ".debug";
 
+	@Usage("If the value of this property is  \"true\" then customizations will be initialized if not found.")
+	public static final String CREATE_INFO_CUSTOMIZATIONS_IF_NOT_FOUND = PREFIX + ".createCustomizationsIfNotFound";
+
 	public static String describe() {
 		StringBuilder result = new StringBuilder();
 		for (Field field : SystemProperties.class.getFields()) {
@@ -56,24 +59,28 @@ public class SystemProperties {
 		return result.toString();
 	}
 
-	public static boolean areInfoCustomizationToolsAuthorized() {
-		return !"true".equals(System.getProperty(SystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS, "false"));
-	}
-
-	public static boolean isInfoCustomizationToolsCustomizationAllowed() {
-		return System.getProperty(SystemProperties.INFO_CUSTOMIZATION_TOOLS_CUSTOMIZATIONS_FILE_PATH) != null;
-	}
-
 	public static boolean areDefaultInfoCustomizationsActive() {
-		return System.getProperty(SystemProperties.DEFAULT_INFO_CUSTOMIZATIONS_ACTIVE, "false").equals("true");
+		return System.getProperty(SystemProperties.DEFAULT_INFO_CUSTOMIZATIONS_ACTIVE, "true").equals("true");
 	}
 
 	public static String getDefaultInfoCustomizationsFilePath() {
 		return System.getProperty(SystemProperties.DEFAULT_INFO_CUSTOMIZATIONS_FILE_PATH, "default.icu");
 	}
 
+	public static boolean areCustomizationToolsDisabled() {
+		return System.getProperty(SystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS, "false").equals("true");
+	}
+
+	public static boolean isInfoCustomizationToolsCustomizationAllowed() {
+		return System.getProperty(SystemProperties.INFO_CUSTOMIZATION_TOOLS_CUSTOMIZATIONS_FILE_PATH) != null;
+	}
+
 	public static boolean isDebugModeActive() {
 		return System.getProperty(SystemProperties.DEBUG, "false").equals("true");
+	}
+
+	public static boolean areInfoCustomizationsCreatedIfNotFound() {
+		return System.getProperty(SystemProperties.CREATE_INFO_CUSTOMIZATIONS_IF_NOT_FOUND, "true").equals("true");
 	}
 
 }

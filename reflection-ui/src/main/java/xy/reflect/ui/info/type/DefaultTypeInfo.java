@@ -100,7 +100,7 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 							return "";
 						} else {
 							Class<?> primitiveType = javaType;
-							if (ClassUtils.isPrimitiveWrapper(primitiveType)) {
+							if (ClassUtils.isPrimitiveWrapperClass(primitiveType)) {
 								primitiveType = ClassUtils.wrapperToPrimitiveClass(javaType);
 							}
 							return ClassUtils.getDefaultPrimitiveValue(primitiveType);

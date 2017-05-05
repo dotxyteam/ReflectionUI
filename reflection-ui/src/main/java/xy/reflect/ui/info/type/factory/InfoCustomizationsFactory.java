@@ -1107,41 +1107,41 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 			TypeCustomization capsuleTc = InfoCustomizations.getTypeCustomization(infoCustomizations,
 					capsuleFieldType.getName(), true);
 			for (IFieldInfo field : capsuleFieldType.getFields()) {
-				if (InfoCustomizations.getFieldCustomization(capsuleTc, field.getName()) == null) {
-					FieldCustomization initialFc = InfoCustomizations.getFieldCustomization(capsuleTc, field.getName(),
-							true);
-					FieldCustomization baseFc = InfoCustomizations.getFieldCustomization(containingTypeCustomization, field.getName());
-					if (baseFc != null) {
-						initialFc.setCustomFieldCaption(baseFc.getCustomFieldCaption());
-						initialFc.setCustomValueReturnMode(baseFc.getCustomValueReturnMode());
-						initialFc.setDisplayedAsSingletonList(baseFc.isDisplayedAsSingletonList());
-						initialFc.setFormControlCreationForced(baseFc.isFormControlCreationForced());
-						initialFc.setFormControlEmbeddingForced(baseFc.isFormControlEmbeddingForced());
-						initialFc.setGetOnlyForced(baseFc.isGetOnlyForced());
-						initialFc.setNullableFacetHidden(baseFc.isNullableFacetHidden());
-						initialFc.setNullValueLabel(baseFc.getNullValueLabel());
-						initialFc.setOnlineHelp(baseFc.getOnlineHelp());
-						initialFc.setTypeConversion((TypeConversion) ReflectionUIUtils
+				FieldCustomization fc = InfoCustomizations.getFieldCustomization(capsuleTc, field.getName(), true);
+				if (fc.isInitial()) {
+					FieldCustomization baseFc = InfoCustomizations.getFieldCustomization(containingTypeCustomization,
+							field.getName(), true);
+					if (!baseFc.isInitial()) {
+						fc.setCustomFieldCaption(baseFc.getCustomFieldCaption());
+						fc.setCustomValueReturnMode(baseFc.getCustomValueReturnMode());
+						fc.setDisplayedAsSingletonList(baseFc.isDisplayedAsSingletonList());
+						fc.setFormControlCreationForced(baseFc.isFormControlCreationForced());
+						fc.setFormControlEmbeddingForced(baseFc.isFormControlEmbeddingForced());
+						fc.setGetOnlyForced(baseFc.isGetOnlyForced());
+						fc.setNullableFacetHidden(baseFc.isNullableFacetHidden());
+						fc.setNullValueLabel(baseFc.getNullValueLabel());
+						fc.setOnlineHelp(baseFc.getOnlineHelp());
+						fc.setTypeConversion((TypeConversion) ReflectionUIUtils
 								.copyThroughSerialization(baseFc.getTypeConversion()));
 
 					}
 				}
 			}
 			for (IMethodInfo method : capsuleFieldType.getMethods()) {
-				if (InfoCustomizations.getMethodCustomization(capsuleTc, method.getSignature()) == null) {
-					MethodCustomization initialMc = InfoCustomizations.getMethodCustomization(capsuleTc,
-							method.getSignature(), true);
+				MethodCustomization mc = InfoCustomizations.getMethodCustomization(capsuleTc, method.getSignature(),
+						true);
+				if (mc.isInitial()) {
 					MethodCustomization baseMc = InfoCustomizations.getMethodCustomization(containingTypeCustomization,
-							method.getSignature());
-					if (baseMc != null) {
-						initialMc.setCustomMethodCaption(baseMc.getCustomMethodCaption());
-						initialMc.setCustomValueReturnMode(baseMc.getCustomValueReturnMode());
-						initialMc.setDetachedReturnValueForced(baseMc.isDetachedReturnValueForced());
-						initialMc.setIconImagePath(baseMc.getIconImagePath());
-						initialMc.setNullReturnValueLabel(baseMc.getNullReturnValueLabel());
-						initialMc.setOnlineHelp(baseMc.getOnlineHelp());
-						initialMc.setReadOnlyForced(baseMc.isReadOnlyForced());
-						initialMc.setIgnoredReturnValueForced(baseMc.isIgnoredReturnValueForced());
+							method.getSignature(), true);
+					if (!baseMc.isInitial()) {
+						mc.setCustomMethodCaption(baseMc.getCustomMethodCaption());
+						mc.setCustomValueReturnMode(baseMc.getCustomValueReturnMode());
+						mc.setDetachedReturnValueForced(baseMc.isDetachedReturnValueForced());
+						mc.setIconImagePath(baseMc.getIconImagePath());
+						mc.setNullReturnValueLabel(baseMc.getNullReturnValueLabel());
+						mc.setOnlineHelp(baseMc.getOnlineHelp());
+						mc.setReadOnlyForced(baseMc.isReadOnlyForced());
+						mc.setIgnoredReturnValueForced(baseMc.isIgnoredReturnValueForced());
 					}
 				}
 			}
@@ -1544,7 +1544,21 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 									List<IParameterInfo> result = new ArrayList<IParameterInfo>();
 									for (IParameterInfo param : super.getParameters()) {
 										if (pc.getParameterName().equals(param.getName())) {
-											param = new HiddenNullableFacetParameterInfoProxy(reflectionUI, param);
+											param = new HiddenNullableFacetParameterInfoProxy(reflectionUI, param) {
+
+												@Override
+												public Object generateDefaultValueReplacement() {
+													try {
+														return super.generateDefaultValueReplacement();
+													} catch (Throwable t) {
+														throw new ReflectionUIError(
+																t.toString()
+																		+ ":\nDeclare the parameter as nullable or provide a default value from the customizations editor",
+																t);
+													}
+												}
+
+											};
 										}
 										result.add(param);
 									}
@@ -1917,11 +1931,14 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 
 						@Override
 						public Object generateNullReplacementValue() {
-							Object nullReplacement = f.getNullReplacement().load();
-							if (nullReplacement != null) {
-								return nullReplacement;
+							try {
+								return super.generateNullReplacementValue();
+							} catch (Throwable t) {
+								throw new ReflectionUIError(
+										t.toString()
+												+ ":\nDeclare the field as nullable or provide a null replacement value from the customizations editor Or ensure that the field value in never null from the source code",
+										t);
 							}
-							return super.generateNullReplacementValue();
 						}
 
 					};

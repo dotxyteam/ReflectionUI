@@ -145,7 +145,8 @@ public class SwingRenderer {
 
 	public static SwingRenderer getDefault() {
 		if (defaultInstance == null) {
-			if (SystemProperties.areDefaultInfoCustomizationsActive()) {
+			if (SystemProperties.areDefaultInfoCustomizationsActive()
+					&& !SystemProperties.areCustomizationToolsDisabled()) {
 				defaultInstance = new SwingCustomizer(ReflectionUI.getDefault(), InfoCustomizations.getDefault(),
 						SystemProperties.getDefaultInfoCustomizationsFilePath());
 			} else {
@@ -153,6 +154,7 @@ public class SwingRenderer {
 			}
 		}
 		return defaultInstance;
+
 	}
 
 	public ReflectionUI getReflectionUI() {
@@ -424,7 +426,7 @@ public class SwingRenderer {
 					@Override
 					public void run() {
 						try {
-							refreshForm(form, false);
+							refreshAllFieldControls(form, false);
 							Object object = getObjectByForm().get(form);
 							for (JPanel otherForm : SwingRendererUtils.findObjectForms(object, SwingRenderer.this)) {
 								if (otherForm != form) {
@@ -613,12 +615,7 @@ public class SwingRenderer {
 					@Override
 					public void windowOpened(WindowEvent e) {
 						validateFormInBackgroundAndReportOnStatusBar(form);
-						SwingUtilities.invokeLater(new Runnable() {							
-							@Override
-							public void run() {
-								SwingRendererUtils.requestAnyComponentFocus(form, SwingRenderer.this);
-							}
-						});
+						SwingRendererUtils.requestAnyComponentFocus(form, SwingRenderer.this);
 					}
 				});
 
@@ -639,7 +636,7 @@ public class SwingRenderer {
 		return new JScrollPane(new ScrollPaneOptions(content, true, false));
 	}
 
-	public void recreateFormContent(final JPanel form) {
+	public void recbuildForm(final JPanel form) {
 		form.removeAll();
 		fillForm(form);
 		finalizeFormUpdate(form);
@@ -1017,8 +1014,12 @@ public class SwingRenderer {
 
 					List<ITypeInfo> polyTypes = type.getPolymorphicInstanceSubTypes();
 					if (polyTypes.size() == 1) {
-						return onTypeInstanciationRequest(activatorComponent, polyTypes.get(0));
-					} else {
+						return
+
+						onTypeInstanciationRequest(activatorComponent, polyTypes.get(0));
+					} else
+
+					{
 						final PolymorphicTypeOptionsFactory enumFactory = new PolymorphicTypeOptionsFactory(
 								reflectionUI, type);
 						IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
@@ -1291,15 +1292,12 @@ public class SwingRenderer {
 		return result;
 	}
 
-	public void refreshForm(final JPanel form, final boolean recreate) {
+	public void refreshAllFieldControls(final JPanel form, final boolean recreate) {
 		List<FieldControlPlaceHolder> fieldControlPlaceHolders = getFieldControlPlaceHolders(form);
 		for (int i = 0; i < fieldControlPlaceHolders.size(); i++) {
 			FieldControlPlaceHolder fieldControlPlaceHolder = fieldControlPlaceHolders.get(i);
 			fieldControlPlaceHolder.refreshUI(recreate);
-			if (fieldControlPlaceHolder.isLayoutUpdateNeeded()) {
-				updateFieldControlLayout(fieldControlPlaceHolder, i);
-				fieldControlPlaceHolder.setLayoutUpdateNeeded(false);
-			}
+			updateFieldControlLayout(fieldControlPlaceHolder, i);
 		}
 		finalizeFormUpdate(form);
 	}
@@ -1404,6 +1402,10 @@ public class SwingRenderer {
 
 	public void updateFieldControlLayout(FieldControlPlaceHolder fieldControlPlaceHolder, int fieldIndex) {
 
+		if (!fieldControlPlaceHolder.isLayoutUpdateNeeded()) {
+			return;
+		}
+
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(fieldControlPlaceHolder.getObject()));
 		ITypeInfo.FieldsLayout fieldsOrientation = type.getFieldsLayout();
 		Container container = fieldControlPlaceHolder.getParent();
@@ -1479,6 +1481,8 @@ public class SwingRenderer {
 			}
 			container.add(createOnlineHelpControl(field.getOnlineHelp()), layoutConstraints);
 		}
+
+		fieldControlPlaceHolder.setLayoutUpdateNeeded(false);
 
 	}
 

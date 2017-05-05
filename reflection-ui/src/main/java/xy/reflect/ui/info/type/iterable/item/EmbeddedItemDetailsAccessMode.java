@@ -1,6 +1,7 @@
 package xy.reflect.ui.info.type.iterable.item;
 
 public class EmbeddedItemDetailsAccessMode implements IListItemDetailsAccessMode {
+	private static final long serialVersionUID = 1L;
 
 	protected ItemDetailsAreaPosition detailsAreaPosition = ItemDetailsAreaPosition.RIGHT;
 	protected double defaultDetailsAreaOccupationRatio = 0.66;

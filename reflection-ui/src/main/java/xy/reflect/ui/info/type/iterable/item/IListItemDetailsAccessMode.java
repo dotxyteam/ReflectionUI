@@ -1,6 +1,8 @@
 package xy.reflect.ui.info.type.iterable.item;
 
-public interface IListItemDetailsAccessMode {
+import java.io.Serializable;
+
+public interface IListItemDetailsAccessMode extends Serializable{
 
 	boolean hasDetailsDisplayOption();
 

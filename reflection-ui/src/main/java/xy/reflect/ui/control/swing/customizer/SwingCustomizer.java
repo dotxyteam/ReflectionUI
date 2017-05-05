@@ -28,8 +28,8 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
-import xy.reflect.ui.util.SystemProperties;
 
 public class SwingCustomizer extends SwingRenderer {
 
@@ -54,7 +54,8 @@ public class SwingCustomizer extends SwingRenderer {
 			File file = new File(infoCustomizationsOutputFilePath);
 			if (!file.exists()) {
 				try {
-					infoCustomizations.saveToFile(file);
+					infoCustomizations.saveToFile(file,
+							ReflectionUIUtils.getDebugLogListener(SwingCustomizer.this.getReflectionUI()));
 				} catch (IOException e) {
 					throw new ReflectionUIError(e);
 				}
@@ -241,7 +242,7 @@ public class SwingCustomizer extends SwingRenderer {
 	}
 
 	protected boolean areCustomizationToolsDisabled() {
-		return !SystemProperties.areInfoCustomizationToolsAuthorized();
+		return !customizationOptions.isInEditMode();
 	}
 
 	protected boolean areCustomizationsEditable(Object object) {
@@ -254,9 +255,6 @@ public class SwingCustomizer extends SwingRenderer {
 			return false;
 		}
 		if (infoCustomizationsOutputFilePath == null) {
-			return false;
-		}
-		if (Boolean.TRUE.equals(customizationOptions.areCustomizationToolsHiddenFor(type.getName()))) {
 			return false;
 		}
 		if (Boolean.TRUE.equals(type.getSpecificProperties().get(CUSTOMIZATIONS_FORBIDDEN_PROPERTY_KEY))) {

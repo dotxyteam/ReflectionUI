@@ -1,6 +1,7 @@
 package xy.reflect.ui.info;
 
 import java.io.File;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,8 +11,9 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import xy.reflect.ui.util.FileUtils;
 
-public class ResourcePath {
-
+public class ResourcePath implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	protected static final String CLASSPATH_RESOURCE_PREFIX = "<class-path-resource> ";
 	protected static final String MEMORY_OBJECT_PREFIX = "<memory> ";
 	protected static final int SELF_ALTERNATIVE_INDEX = 0;

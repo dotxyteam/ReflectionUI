@@ -13,6 +13,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.rmi.server.UID;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +33,7 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.AbstractMenuElement;
 import xy.reflect.ui.info.menu.AbstractMenuItem;
 import xy.reflect.ui.info.menu.IMenuElement;
@@ -48,19 +50,21 @@ import xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ClassUtils;
+import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
 
 @XmlRootElement
 public class InfoCustomizations implements Serializable {
-
 	private static final long serialVersionUID = 1L;
 
-	public static InfoCustomizations defaultInstance;
 	public static final String CURRENT_PROXY_SOURCE_PROPERTY_KEY = InfoCustomizations.class.getName()
 			+ ".CURRENT_PROXY_SOURCE";
+	public static final String UID_FIELD_NAME = "uniqueIdentifier";
+	public static final Object INITIAL_STATE_FIELD_NAME = "initial";
 
+	public static InfoCustomizations defaultInstance;
 	protected List<TypeCustomization> typeCustomizations = new ArrayList<InfoCustomizations.TypeCustomization>();
 	protected List<ListCustomization> listCustomizations = new ArrayList<InfoCustomizations.ListCustomization>();
 	protected List<EnumerationCustomization> enumerationCustomizations = new ArrayList<InfoCustomizations.EnumerationCustomization>();
@@ -82,7 +86,7 @@ public class InfoCustomizations implements Serializable {
 				File file = new File(filePath);
 				if (file.exists()) {
 					try {
-						defaultInstance.loadFromFile(file);
+						defaultInstance.loadFromFile(file, null);
 					} catch (Throwable t) {
 						throw new ReflectionUIError(t);
 					}
@@ -116,10 +120,10 @@ public class InfoCustomizations implements Serializable {
 		this.enumerationCustomizations = enumerationCustomizations;
 	}
 
-	public void loadFromFile(File input) throws IOException {
+	public void loadFromFile(File input, Listener<String> debugLogListener) throws IOException {
 		FileInputStream stream = new FileInputStream(input);
 		try {
-			loadFromStream(stream);
+			loadFromStream(stream, debugLogListener);
 		} finally {
 			try {
 				stream.close();
@@ -128,7 +132,7 @@ public class InfoCustomizations implements Serializable {
 		}
 	}
 
-	public void loadFromStream(InputStream input) throws IOException {
+	public void loadFromStream(InputStream input, Listener<String> debugLogListener) throws IOException {
 		InfoCustomizations loaded;
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(InfoCustomizations.class);
@@ -171,9 +175,9 @@ public class InfoCustomizations implements Serializable {
 		}
 	}
 
-	public void saveToFile(File output) throws IOException {
+	public void saveToFile(File output, Listener<String> debugLogListener) throws IOException {
 		ByteArrayOutputStream memoryStream = new ByteArrayOutputStream();
-		saveToStream(memoryStream);
+		saveToStream(memoryStream, debugLogListener);
 		FileOutputStream stream = new FileOutputStream(output);
 		try {
 			stream.write(memoryStream.toByteArray());
@@ -185,11 +189,16 @@ public class InfoCustomizations implements Serializable {
 		}
 	}
 
-	public void saveToStream(OutputStream output) throws IOException {
+	@SuppressWarnings("unchecked")
+	public void saveToStream(OutputStream output, Listener<String> debugLogListener) throws IOException {
 		InfoCustomizations toSave = new InfoCustomizations();
-		toSave.typeCustomizations = typeCustomizations;
-		toSave.listCustomizations = listCustomizations;
-		toSave.enumerationCustomizations = enumerationCustomizations;
+		toSave.typeCustomizations = (List<TypeCustomization>) ReflectionUIUtils
+				.copyThroughSerialization((Serializable) typeCustomizations);
+		toSave.listCustomizations = (List<ListCustomization>) ReflectionUIUtils
+				.copyThroughSerialization((Serializable) listCustomizations);
+		toSave.enumerationCustomizations = (List<EnumerationCustomization>) ReflectionUIUtils
+				.copyThroughSerialization((Serializable) enumerationCustomizations);
+		clean(toSave, debugLogListener);
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(InfoCustomizations.class);
 			javax.xml.bind.Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -199,6 +208,88 @@ public class InfoCustomizations implements Serializable {
 			throw new IOException(e);
 		}
 
+	}
+
+	public static void clean(InfoCustomizations infoCustomizations, Listener<String> debugLogListener) {
+		for (TypeCustomization tc : new ArrayList<TypeCustomization>(infoCustomizations.typeCustomizations)) {
+			for (FieldCustomization fc : new ArrayList<FieldCustomization>(tc.fieldsCustomizations)) {
+				if (fc.isInitial()) {
+					tc.fieldsCustomizations.remove(fc);
+					continue;
+				}
+			}
+			for (MethodCustomization mc : new ArrayList<MethodCustomization>(tc.methodsCustomizations)) {
+				if (mc.isInitial()) {
+					tc.methodsCustomizations.remove(mc);
+					continue;
+				}
+			}
+			if (tc.isInitial()) {
+				if (debugLogListener != null) {
+					debugLogListener.handle("Serialization cleanup: Excluding " + tc);
+				}
+				infoCustomizations.typeCustomizations.remove(tc);
+				continue;
+			}
+
+		}
+		for (ListCustomization lc : new ArrayList<ListCustomization>(infoCustomizations.listCustomizations)) {
+			for (ColumnCustomization cc : new ArrayList<ColumnCustomization>(lc.columnCustomizations)) {
+				if (cc.isInitial()) {
+					lc.columnCustomizations.remove(cc);
+					continue;
+				}
+			}
+			if (lc.isInitial()) {
+				if (debugLogListener != null) {
+					debugLogListener.handle("Serialization cleanup: Excluding " + lc);
+				}
+				infoCustomizations.listCustomizations.remove(lc);
+				continue;
+			}
+
+		}
+		for (EnumerationCustomization ec : new ArrayList<EnumerationCustomization>(
+				infoCustomizations.enumerationCustomizations)) {
+			for (EnumerationItemCustomization ic : new ArrayList<EnumerationItemCustomization>(ec.itemCustomizations)) {
+				if (ic.isInitial()) {
+					ec.itemCustomizations.remove(ic);
+					continue;
+				}
+			}
+			if (ec.isInitial()) {
+				if (debugLogListener != null) {
+					debugLogListener.handle("Serialization cleanup: Excluding " + ec);
+				}
+				infoCustomizations.enumerationCustomizations.remove(ec);
+				continue;
+			}
+		}
+	}
+
+	public static boolean isSimilar(final AbstractCustomization c1, final AbstractCustomization c2,
+			final String... excludedFieldNames) {
+		return ReflectionUIUtils.equalsAccordingInfos(c1, c2, new ReflectionUI(), new IInfoFilter() {
+
+			@Override
+			public boolean excludeMethod(IMethodInfo method) {
+				return false;
+			}
+
+			@Override
+			public boolean excludeField(IFieldInfo field) {
+				if (field.getName().equals(InfoCustomizations.UID_FIELD_NAME)) {
+					return true;
+				}
+				if (field.getName().equals(InfoCustomizations.INITIAL_STATE_FIELD_NAME)) {
+					return true;
+				}
+				if (Arrays.asList(excludedFieldNames).contains(field.getName())) {
+					return true;
+				}
+				return false;
+			}
+		});
 	}
 
 	public static List<IMenuItemContainer> getMenuElementAncestors(InfoCustomizations infoCustomizations,
@@ -341,8 +432,12 @@ public class InfoCustomizations implements Serializable {
 		return result;
 	}
 
+	public static boolean areInfoCustomizationsCreatedIfNotFound() {
+		return SystemProperties.areInfoCustomizationsCreatedIfNotFound();
+	}
+
 	public static ParameterCustomization getParameterCustomization(MethodCustomization m, String paramName) {
-		return getParameterCustomization(m, paramName, false);
+		return getParameterCustomization(m, paramName, areInfoCustomizationsCreatedIfNotFound());
 	}
 
 	public static ParameterCustomization getParameterCustomization(MethodCustomization m, String paramName,
@@ -364,7 +459,7 @@ public class InfoCustomizations implements Serializable {
 	}
 
 	public static FieldCustomization getFieldCustomization(TypeCustomization t, String fieldName) {
-		return getFieldCustomization(t, fieldName, false);
+		return getFieldCustomization(t, fieldName, areInfoCustomizationsCreatedIfNotFound());
 	}
 
 	public static FieldCustomization getFieldCustomization(TypeCustomization t, String fieldName,
@@ -386,7 +481,7 @@ public class InfoCustomizations implements Serializable {
 	}
 
 	public static MethodCustomization getMethodCustomization(TypeCustomization t, String methodSignature) {
-		return getMethodCustomization(t, methodSignature, false);
+		return getMethodCustomization(t, methodSignature, areInfoCustomizationsCreatedIfNotFound());
 	}
 
 	public static MethodCustomization getMethodCustomization(TypeCustomization t, String methodSignature,
@@ -408,7 +503,7 @@ public class InfoCustomizations implements Serializable {
 	}
 
 	public static TypeCustomization getTypeCustomization(InfoCustomizations infoCustomizations, String typeName) {
-		return getTypeCustomization(infoCustomizations, typeName, false);
+		return getTypeCustomization(infoCustomizations, typeName, areInfoCustomizationsCreatedIfNotFound());
 	}
 
 	public static TypeCustomization getTypeCustomization(InfoCustomizations infoCustomizations, String typeName,
@@ -429,7 +524,8 @@ public class InfoCustomizations implements Serializable {
 
 	public static ListCustomization getListCustomization(InfoCustomizations infoCustomizations, String listTypeName,
 			String itemTypeName) {
-		return getListCustomization(infoCustomizations, listTypeName, itemTypeName, false);
+		return getListCustomization(infoCustomizations, listTypeName, itemTypeName,
+				areInfoCustomizationsCreatedIfNotFound());
 	}
 
 	public static ListCustomization getListCustomization(InfoCustomizations infoCustomizations, String listTypeName,
@@ -452,7 +548,7 @@ public class InfoCustomizations implements Serializable {
 	}
 
 	public static ColumnCustomization getColumnCustomization(ListCustomization l, String columnName) {
-		return getColumnCustomization(l, columnName, false);
+		return getColumnCustomization(l, columnName, areInfoCustomizationsCreatedIfNotFound());
 	}
 
 	public static ColumnCustomization getColumnCustomization(ListCustomization l, String columnName,
@@ -473,7 +569,7 @@ public class InfoCustomizations implements Serializable {
 
 	public static EnumerationItemCustomization getEnumerationItemCustomization(EnumerationCustomization e,
 			String enumItemName) {
-		return getEnumerationItemCustomization(e, enumItemName, false);
+		return getEnumerationItemCustomization(e, enumItemName, areInfoCustomizationsCreatedIfNotFound());
 	}
 
 	public static EnumerationItemCustomization getEnumerationItemCustomization(EnumerationCustomization e,
@@ -494,7 +590,7 @@ public class InfoCustomizations implements Serializable {
 
 	public static EnumerationCustomization getEnumerationCustomization(InfoCustomizations infoCustomizations,
 			String enumTypeName) {
-		return getEnumerationCustomization(infoCustomizations, enumTypeName, false);
+		return getEnumerationCustomization(infoCustomizations, enumTypeName, areInfoCustomizationsCreatedIfNotFound());
 	}
 
 	public static EnumerationCustomization getEnumerationCustomization(InfoCustomizations infoCustomizations,
@@ -607,6 +703,14 @@ public class InfoCustomizations implements Serializable {
 	public static abstract class AbstractCustomization implements Serializable {
 		private static final long serialVersionUID = 1L;
 
+		public boolean isInitial() {
+			try {
+				return isSimilar(this, getClass().newInstance());
+			} catch (Exception e) {
+				throw new ReflectionUIError(e);
+			}
+		}
+
 		protected String uniqueIdentifier = new UID().toString();
 
 		public String getUniqueIdentifier() {
@@ -654,6 +758,13 @@ public class InfoCustomizations implements Serializable {
 		protected ITypeInfo.FieldsLayout fieldsLayout;
 		protected MenuModel menuModel = new MenuModel();
 		protected boolean anyDefaultObjectMemberIncluded = false;
+
+		@Override
+		public boolean isInitial() {
+			TypeCustomization defaultTypeCustomization = new TypeCustomization();
+			defaultTypeCustomization.typeName = typeName;
+			return isSimilar(this, defaultTypeCustomization, "typeName");
+		}
 
 		public boolean isAnyDefaultObjectMemberIncluded() {
 			return anyDefaultObjectMemberIncluded;
@@ -1129,7 +1240,7 @@ public class InfoCustomizations implements Serializable {
 
 		protected String fieldName;
 		protected String customFieldCaption;
-		protected boolean nullableFacetHidden = false;
+		protected boolean nullable = false;
 		protected boolean getOnlyForced = false;
 		protected String customSetterSignature;
 		protected String valueOptionsFieldName;
@@ -1148,6 +1259,13 @@ public class InfoCustomizations implements Serializable {
 
 		public TextualStorage getNullReplacement() {
 			return nullReplacement;
+		}
+
+		@Override
+		public boolean isInitial() {
+			FieldCustomization defaultFieldCustomization = new FieldCustomization();
+			defaultFieldCustomization.fieldName = fieldName;
+			return isSimilar(this, defaultFieldCustomization);
 		}
 
 		public void setNullReplacement(TextualStorage nullReplacement) {
@@ -1242,12 +1360,20 @@ public class InfoCustomizations implements Serializable {
 			this.fieldName = fieldName;
 		}
 
+		public boolean isNullable() {
+			return nullable;
+		}
+
+		public void setNullable(boolean nullable) {
+			this.nullable = nullable;
+		}
+
 		public boolean isNullableFacetHidden() {
-			return nullableFacetHidden;
+			return !nullable;
 		}
 
 		public void setNullableFacetHidden(boolean nullableFacetHidden) {
-			this.nullableFacetHidden = nullableFacetHidden;
+			this.nullable = !nullableFacetHidden;
 		}
 
 		public ValueReturnMode getCustomValueReturnMode() {
@@ -1358,8 +1484,6 @@ public class InfoCustomizations implements Serializable {
 				return ReflectionUIUtils.deserializeFromHexaText(data);
 			}
 		}
-		
-		
 
 	}
 
@@ -1383,6 +1507,14 @@ public class InfoCustomizations implements Serializable {
 		protected IMenuItemContainer menuLocation;
 		protected boolean ignoredReturnValueForced = false;
 		protected List<TextualStorage> serializedInvocationDatas = new ArrayList<TextualStorage>();
+
+		@Override
+		public boolean isInitial() {
+			MethodCustomization defaultMethodCustomization = new MethodCustomization();
+			defaultMethodCustomization.methodSignature = methodSignature;
+			return isSimilar(this, defaultMethodCustomization);
+
+		}
 
 		public List<TextualStorage> getSerializedInvocationDatas() {
 			return serializedInvocationDatas;
@@ -1563,7 +1695,7 @@ public class InfoCustomizations implements Serializable {
 		protected String parameterName;
 		protected String customParameterCaption;
 		protected boolean hidden = false;
-		protected boolean nullableFacetHidden = false;
+		protected boolean nullable = false;
 		protected String onlineHelp;
 		protected boolean displayedAsField;
 		protected TextualStorage defaultValue = new TextualStorage();
@@ -1600,12 +1732,20 @@ public class InfoCustomizations implements Serializable {
 			this.hidden = hidden;
 		}
 
+		public boolean isNullable() {
+			return nullable;
+		}
+
+		public void setNullable(boolean nullable) {
+			this.nullable = nullable;
+		}
+
 		public boolean isNullableFacetHidden() {
-			return nullableFacetHidden;
+			return !nullable;
 		}
 
 		public void setNullableFacetHidden(boolean nullableFacetHidden) {
-			this.nullableFacetHidden = nullableFacetHidden;
+			this.nullable = !nullableFacetHidden;
 		}
 
 		public String getCustomParameterCaption() {
@@ -1922,6 +2062,14 @@ public class InfoCustomizations implements Serializable {
 		protected String customCaption;
 		protected boolean hidden;
 
+		@Override
+		public boolean isInitial() {
+			EnumerationItemCustomization defaultEnumerationItemCustomization = new EnumerationItemCustomization();
+			defaultEnumerationItemCustomization.itemName = itemName;
+			return isSimilar(this, defaultEnumerationItemCustomization);
+
+		}
+
 		public String getItemName() {
 			return itemName;
 		}
@@ -1991,6 +2139,13 @@ public class InfoCustomizations implements Serializable {
 		protected String enumerationTypeName;
 		protected List<EnumerationItemCustomization> itemCustomizations = new ArrayList<EnumerationItemCustomization>();
 		protected boolean dynamicEnumerationForced = false;
+
+		@Override
+		public boolean isInitial() {
+			EnumerationCustomization defaultEnumerationCustomization = new EnumerationCustomization();
+			defaultEnumerationCustomization.enumerationTypeName = enumerationTypeName;
+			return isSimilar(this, defaultEnumerationCustomization);
+		}
 
 		public String getEnumerationTypeName() {
 			return enumerationTypeName;
@@ -2075,6 +2230,14 @@ public class InfoCustomizations implements Serializable {
 		protected boolean listSorted = false;
 		protected IListItemDetailsAccessMode customDetailsAccessMode = null;
 		protected boolean itemContructorSelectableforced = false;
+
+		@Override
+		public boolean isInitial() {
+			ListCustomization defaultListCustomization = new ListCustomization();
+			defaultListCustomization.listTypeName = listTypeName;
+			defaultListCustomization.itemTypeName = itemTypeName;
+			return isSimilar(this, defaultListCustomization);
+		}
 
 		public boolean isItemContructorSelectableforced() {
 			return itemContructorSelectableforced;
@@ -2291,6 +2454,13 @@ public class InfoCustomizations implements Serializable {
 		protected String customCaption;
 		protected boolean hidden = false;
 		protected Integer minimalCharacterCount;
+
+		@Override
+		public boolean isInitial() {
+			ColumnCustomization defaultColumnCustomization = new ColumnCustomization();
+			defaultColumnCustomization.columnName = columnName;
+			return isSimilar(this, defaultColumnCustomization);
+		}
 
 		public String getColumnName() {
 			return columnName;

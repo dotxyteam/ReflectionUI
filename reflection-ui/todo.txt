@@ -1,18 +1,17 @@
-- focus restoring may not be necessary anymore 
-	containers are almost never rebuilt unless 
-	really needed or explicitly requested
-- sub-(field|method) customization 
+- customization controller "edit mode" option"
+	(disabled by default)
+- how to do exit menu ?
+- List Item Not Nullable customization
 - customization: method confirmation before invoke
 - 1 only sub type => no polymorphic control
 - Not Nullable by default ???
 - allow to disable copy/cut/paste on lists
 - every customization should have its opposite for more power
 - reset column order option
-- too much borders => reduce
 - evolve customizations:
 	* add ParameterCustomization.inputFieldName???
 	* add Field.nullStatusBooleanFieldName???
-- List Item Not Nullable customization
+	* sub-(field|method) customization 
 - customization controller
 	* stabilize window
 	* allow to lock/unlock all types ???

@@ -99,14 +99,14 @@ public class ClassUtils {
 	}
 
 	public static boolean isPrimitiveClassOrWrapper(Class<?> class1) {
-		return isPrimitiveClass(class1) || isPrimitiveWrapper(class1);
+		return isPrimitiveClass(class1) || isPrimitiveWrapperClass(class1);
 	}
 
 	public static boolean isPrimitiveClass(Class<?> class1) {
 		return primitiveToWrapperClass(class1) != null;
 	}
 
-	public static boolean isPrimitiveWrapper(Class<?> class1) {
+	public static boolean isPrimitiveWrapperClass(Class<?> class1) {
 		return wrapperToPrimitiveClass(class1) != null;
 	}
 

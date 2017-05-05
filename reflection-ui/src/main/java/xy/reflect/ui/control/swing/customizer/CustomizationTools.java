@@ -71,7 +71,8 @@ public class CustomizationTools {
 		try {
 			File customizationsFile = FileUtils.getStreamAsFile(url.openStream());
 			String customizationsFilePath = customizationsFile.getPath();
-			toolsCustomizationsFactory.getInfoCustomizations().loadFromFile(new File(customizationsFilePath));
+			toolsCustomizationsFactory.getInfoCustomizations().loadFromFile(new File(customizationsFilePath),
+					ReflectionUIUtils.getDebugLogListener(swingCustomizer.getReflectionUI()));
 		} catch (IOException e) {
 			throw new ReflectionUIError(e);
 		}
@@ -210,27 +211,11 @@ public class CustomizationTools {
 								}
 							}
 						});
-				popupMenu.add(new AbstractAction(CustomizationTools.this.toolsRenderer.prepareStringToDisplay("Lock")) {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						try {
-							hideCustomizationTools(result, customizedType.getName());
-						} catch (Throwable t) {
-							toolsRenderer.handleExceptionsFromDisplayedUI(result, t);
-						}
-					}
-				});
 
 				showMenu(popupMenu, result);
 			}
 		});
 		return result;
-	}
-
-	protected void hideCustomizationTools(JButton customizerButton, String typeName) {
-		this.swingCustomizer.getCustomizationOptions().hideCustomizationToolsFor(typeName);
 	}
 
 	protected void openTypeCustomizationDialog(JButton customizerButton, InfoCustomizations infoCustomizations,
@@ -817,15 +802,14 @@ public class CustomizationTools {
 
 	public void rebuildCustomizerForm(JPanel form) {
 		try {
-			swingCustomizer.recreateFormContent(form);
-			swingCustomizer.validateFormInBackgroundAndReportOnStatusBar(form);
+			swingCustomizer.recbuildForm(form);
 		} catch (Throwable t) {
 			swingCustomizer.handleExceptionsFromDisplayedUI(form, t);
 		}
 	}
 
-	protected class ColumnOrderItem {
-		IColumnInfo columnInfo;
+	public static class ColumnOrderItem {
+		protected IColumnInfo columnInfo;
 
 		public ColumnOrderItem(IColumnInfo columnInfo) {
 			super();
@@ -834,6 +818,14 @@ public class CustomizationTools {
 
 		public IColumnInfo getColumnInfo() {
 			return columnInfo;
+		}
+
+		public String getColumnName() {
+			return columnInfo.getName();
+		}
+
+		public String getColumnCaption() {
+			return columnInfo.getCaption();
 		}
 
 		@Override

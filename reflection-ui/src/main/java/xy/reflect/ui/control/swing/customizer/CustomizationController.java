@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.component.AlternativeWindowDecorationsPanel;
 
 public class CustomizationController {
@@ -68,18 +69,27 @@ public class CustomizationController {
 		window = null;
 	}
 
+	public String getInfoCustomizationsOutputFilePath() {
+		return swingCustomizer.getInfoCustomizationsOutputFilePath();
+	}
+
 	public void saveCustomizations() {
 		File file = new File(
 				swingCustomizer.getCustomizationTools().swingCustomizer.getInfoCustomizationsOutputFilePath());
 		try {
-			swingCustomizer.getCustomizationTools().swingCustomizer.getInfoCustomizations().saveToFile(file);
+			swingCustomizer.getCustomizationTools().swingCustomizer.getInfoCustomizations().saveToFile(file,
+					ReflectionUIUtils.getDebugLogListener(swingCustomizer.getReflectionUI()));
 		} catch (IOException e) {
 			throw new ReflectionUIError(e);
 		}
 	}
 
-	public CustomizationOptions getOptions() {
-		return swingCustomizer.getCustomizationOptions();
+	public boolean isInEditMode() {
+		return swingCustomizer.getCustomizationOptions().isInEditMode();
+	}
+
+	public void setInEditMode(boolean inEditMode) {
+		swingCustomizer.getCustomizationOptions().setInEditMode(inEditMode);
 	}
 
 	public InfoCustomizations getAllCustomizations() {

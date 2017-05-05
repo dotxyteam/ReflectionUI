@@ -891,4 +891,14 @@ public class SwingRendererUtils {
 		}
 	}
 
+	public static void rebuildAllDisplayedForms(SwingRenderer swingRenderer) {
+		List<JPanel> formsToRefresh = getAllDisplayedForms(swingRenderer);
+		for (JPanel form : new ArrayList<JPanel>(formsToRefresh)) {
+			formsToRefresh.removeAll(findDescendantForms(form, swingRenderer));
+		}
+		for (JPanel form : formsToRefresh) {
+			swingRenderer.recbuildForm(form);
+		}
+	}
+
 }

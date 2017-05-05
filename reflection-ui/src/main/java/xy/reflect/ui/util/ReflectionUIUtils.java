@@ -54,6 +54,7 @@ import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.AbstractMenuItem;
 import xy.reflect.ui.info.menu.IMenuElement;
 import xy.reflect.ui.info.menu.Menu;
@@ -63,6 +64,8 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
+import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.ControlDataValueModification;
@@ -1094,6 +1097,61 @@ public class ReflectionUIUtils {
 		} catch (Throwable t) {
 			throw new ReflectionUIError("Could not copy object through serialization: " + t.toString());
 		}
+	}
+
+	public static boolean equalsAccordingInfos(Object o1, Object o2, ReflectionUI reflectionUI,
+			IInfoFilter infoFilter) {
+		if (o1 == o2) {
+			return true;
+		}
+		if ((o1 == null) || (o2 == null)) {
+			return false;
+		}
+		if(ClassUtils.isPrimitiveClassOrWrapperOrString(o1.getClass())){
+			return o1.equals(o2);
+		}
+		ITypeInfo type1 = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(o1));
+		ITypeInfo type2 = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(o2));
+		if (!type1.equals(type2)) {
+			return false;
+		}
+		if(type1.isPrimitive()){
+			return o1.equals(o2);
+		}
+		for (IFieldInfo field : type1.getFields()) {
+			if(infoFilter.excludeField(field)){
+				continue;
+			}
+			Object value1 = field.getValue(o1);
+			Object value2 = field.getValue(o2);
+			if (!equalsAccordingInfos(value1, value2, reflectionUI, infoFilter)) {
+				return false;
+			}
+		}
+		if (type1 instanceof IListTypeInfo) {
+			IListTypeInfo listType = (IListTypeInfo) type1;
+			Object[] rawList1 = listType.toArray(o1);
+			Object[] rawList2 = listType.toArray(o2);
+			if (rawList1.length != rawList2.length) {
+				return false;
+			}
+			for (int i = 0; i < rawList1.length; i++) {
+				Object item1 = rawList1[i];
+				Object item2 = rawList2[i];
+				if (!equalsAccordingInfos(item1, item2, reflectionUI, infoFilter)) {
+					return false;
+				}
+			}
+		}
+		if (type1 instanceof IEnumerationTypeInfo) {
+			IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) type1;
+			IEnumerationItemInfo valueInfo1 = enumType.getValueInfo(o1);
+			IEnumerationItemInfo valueInfo2 = enumType.getValueInfo(o2);
+			if (!valueInfo1.getName().equals(valueInfo2.getName())) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

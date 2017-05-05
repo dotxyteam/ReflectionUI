@@ -39,6 +39,7 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.SwingRendererUtils;
 
 class CustomizationToolsUI extends ReflectionUI {
 
@@ -68,6 +69,20 @@ class CustomizationToolsUI extends ReflectionUI {
 					return true;
 				}
 				return false;
+			}
+
+			@Override
+			protected void setValue(Object object, Object value, IFieldInfo field, ITypeInfo containingType) {
+				super.setValue(object, value, field, containingType);
+				if (containingType.getName().equals(CustomizationController.class.getName())
+						&& (field.getName().equals("inEditMode"))) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							SwingRendererUtils.rebuildAllDisplayedForms(swingCustomizer);
+						}
+					});
+				}
 			}
 
 			@Override
@@ -116,9 +131,16 @@ class CustomizationToolsUI extends ReflectionUI {
 			protected List<IFieldInfo> getFields(ITypeInfo type) {
 				if (isDerivedTypeInfo(type, AbstractCustomization.class)
 						|| isDerivedTypeInfo(type, AbstractMenuElement.class)) {
-					List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
-					IFieldInfo uidField = ReflectionUIUtils.findInfoByName(result, "uniqueIdentifier");
-					result.remove(uidField);
+					List<IFieldInfo> result = new ArrayList<IFieldInfo>();
+					for (IFieldInfo field : super.getFields(type)) {
+						if (field.getName().equals(InfoCustomizations.UID_FIELD_NAME)) {
+							continue;
+						}
+						if (field.getName().equals(InfoCustomizations.INITIAL_STATE_FIELD_NAME)) {
+							continue;
+						}
+						result.add(field);
+					}
 					return result;
 				} else {
 					return super.getFields(type);
