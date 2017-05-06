@@ -25,6 +25,9 @@ public class ChangedTypeField extends FieldInfoProxy {
 		if(conversionMethod == null){
 			return value;
 		}
+		if(value == null){
+			return null;
+		}
 		try {
 			return conversionMethod.invoke(null, new InvocationData(value));
 		} catch (Exception e) {
@@ -35,6 +38,9 @@ public class ChangedTypeField extends FieldInfoProxy {
 	protected Object revertConversion(Object value) {
 		if(reverseConversionMethod == null){
 			return value;
+		}
+		if(value == null){
+			return null;
 		}
 		try {
 			return reverseConversionMethod.invoke(null, new InvocationData(value));

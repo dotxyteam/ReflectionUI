@@ -1,5 +1,6 @@
-- customization controller "edit mode" option"
-	(disabled by default)
+- to use in swRenderer.rebuildForm() 
+	- getSelectedCategor
+	- selectCategory
 - how to do exit menu ?
 - List Item Not Nullable customization
 - customization: method confirmation before invoke

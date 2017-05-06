@@ -965,77 +965,94 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 		}
 
 		protected void evolveMembers() {
-			encapsulateIntputMembers();
-			transformInputFields();
-			checkDuplicates();
 
-			encapsulateIntputMembers();
-			transformInputMethods();
-			checkDuplicates();
+			encapsulateMembers(inputFields, inputMethods);
+
+			List<IFieldInfo> newFields = new ArrayList<IFieldInfo>();
+			List<IMethodInfo> newMetods = new ArrayList<IMethodInfo>();
+			transformFields(inputFields, outputFields, newFields, newMetods);
+			transformMethods(inputMethods, outputMethods, newFields, newMetods);
+
+			checkDuplicates(outputFields, outputMethods);
+
+			inputFields = newFields;
+			inputMethods = newMetods;
 
 			if ((inputFields.size() > 0) || (inputMethods.size() > 0)) {
 				evolveMembers();
 			}
 		}
 
-		protected void transformInputFields() {
-			for (IFieldInfo field : new ArrayList<IFieldInfo>(inputFields)) {
-				inputFields.remove(field);
-				FieldCustomization f = InfoCustomizations.getFieldCustomization(containingTypeCustomization,
-						field.getName());
-				if (f != null) {
-					for (AbstractFieldTransformer transformer : getFieldTransformers()) {
-						field = transformer.process(field, f);
+		protected void transformFields(List<IFieldInfo> baseFields, List<IFieldInfo> modifiedFields,
+				List<IFieldInfo> newFields, List<IMethodInfo> newMethods) {
+			for (IFieldInfo field : new ArrayList<IFieldInfo>(baseFields)) {
+				try {
+					FieldCustomization f = InfoCustomizations.getFieldCustomization(containingTypeCustomization,
+							field.getName());
+					if (f != null) {
+						for (AbstractFieldTransformer transformer : getFieldTransformers()) {
+							field = transformer.process(field, f, newFields, newMethods);
+						}
 					}
+				} catch (Throwable t) {
+					throw new ReflectionUIError("Field '" + field.getName() + "' customization error: " + t.toString(),
+							t);
 				}
-				outputFields.add(field);
+				modifiedFields.add(field);
+			}
+		}
+
+		protected void transformMethods(List<IMethodInfo> baseMethods, List<IMethodInfo> modifiedMethods,
+				List<IFieldInfo> newFields, List<IMethodInfo> newMethods) {
+			for (IMethodInfo method : new ArrayList<IMethodInfo>(baseMethods)) {
+				try {
+					MethodCustomization mc = InfoCustomizations.getMethodCustomization(containingTypeCustomization,
+							method.getSignature());
+					if (mc != null) {
+						for (AbstractMethodTransformer transformer : getMethodTransformers()) {
+							method = transformer.process(method, mc, newFields, newMethods);
+						}
+					}
+				} catch (Throwable t) {
+					throw new ReflectionUIError(
+							"Method '" + method.getSignature() + "' customization error: " + t.toString(), t);
+				}
+				modifiedMethods.add(method);
 			}
 		}
 
 		protected List<AbstractFieldTransformer> getFieldTransformers() {
 			List<AbstractFieldTransformer> result = new ArrayList<AbstractFieldTransformer>();
+			result.add(new FieldTypeConversionTransformer());
+			result.add(new FieldCommonOptionsFieldTransformer());
 			result.add(new FieldNullReplacementTransformer());
 			result.add(new FieldHiddenNullableFacetTransformer());
-			result.add(new FieldTypeConversionTransformer());
-			result.add(new FieldGetterGeneratingTransformer());
-			result.add(new FieldSetterGeneratingTransformer());
-			result.add(new FieldNullStatusGeneratingTransformer());
 			result.add(new FieldValueAsListTransformer());
 			result.add(new FieldCustomSetterTransformer());
-			result.add(new FieldCommonOptionsFieldTransformer());
+			result.add(new FieldNullStatusGeneratingTransformer());
+			result.add(new FieldGetterGeneratingTransformer());
+			result.add(new FieldSetterGeneratingTransformer());
+			result.add(new FieldDuplicateGeneratingTransformer());
 			return result;
-		}
-
-		protected void transformInputMethods() {
-			for (IMethodInfo method : new ArrayList<IMethodInfo>(inputMethods)) {
-				inputMethods.remove(method);
-				MethodCustomization mc = InfoCustomizations.getMethodCustomization(containingTypeCustomization,
-						method.getSignature());
-				if (mc != null) {
-					for (AbstractMethodTransformer transformer : getMethodTransformers()) {
-						method = transformer.process(method, mc);
-					}
-				}
-				outputMethods.add(method);
-			}
 		}
 
 		protected List<AbstractMethodTransformer> getMethodTransformers() {
 			List<AbstractMethodTransformer> result = new ArrayList<AbstractMethodTransformer>();
-			result.add(new MethodPresetsGeneratingTransformer());
+			result.add(new MethodCommonOptionsTransformer());
 			result.add(new MethodParameterDefaultValueSettingTransformer());
 			result.add(new MethodParameterHiddenNullablefacetTransformer());
-			result.add(new MethodParameterAsFieldTransformer());
 			result.add(new MethodParametersAsSubFormTransformer());
+			result.add(new MethodParameterAsFieldTransformer());
 			result.add(new MethodReturnValueFieldGeneratingTransformer());
+			result.add(new MethodPresetsGeneratingTransformer());
 			result.add(new MethodMenuItemGeneratingTransformer());
-			result.add(new MethodCommonOptionsTransformer());
+			result.add(new MethodDuplicateGeneratingTransformer());
 			return result;
 		}
 
-		protected void encapsulateIntputMembers() {
+		protected void encapsulateMembers(List<IFieldInfo> fields, List<IMethodInfo> methods) {
 			Map<String, Pair<List<IFieldInfo>, List<IMethodInfo>>> encapsulatedMembersByCapsuleFieldName = new HashMap<String, Pair<List<IFieldInfo>, List<IMethodInfo>>>();
-			for (IFieldInfo field : new ArrayList<IFieldInfo>(inputFields)) {
+			for (IFieldInfo field : new ArrayList<IFieldInfo>(fields)) {
 				FieldCustomization fc = InfoCustomizations.getFieldCustomization(containingTypeCustomization,
 						field.getName());
 				if (fc != null) {
@@ -1049,12 +1066,12 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 									encapsulatedMembers);
 						}
 						encapsulatedMembers.getFirst().add(field);
-						inputFields.remove(field);
+						fields.remove(field);
 					}
 				}
 			}
 
-			for (IMethodInfo method : new ArrayList<IMethodInfo>(inputMethods)) {
+			for (IMethodInfo method : new ArrayList<IMethodInfo>(methods)) {
 				MethodCustomization mc = InfoCustomizations.getMethodCustomization(containingTypeCustomization,
 						method.getSignature());
 				if (mc != null) {
@@ -1068,7 +1085,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 									encapsulatedMembers);
 						}
 						encapsulatedMembers.getSecond().add(method);
-						inputMethods.remove(method);
+						methods.remove(method);
 					}
 				}
 			}
@@ -1081,12 +1098,12 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 						.get(capsuleFieldName);
 				List<IFieldInfo> encapsulatedFields = encapsulatedMembers.getFirst();
 				List<IMethodInfo> encapsulatedMethods = encapsulatedMembers.getSecond();
-				IFieldInfo duplicateField = ReflectionUIUtils.findInfoByName(outputFields, capsuleFieldName);
+				IFieldInfo duplicateField = ReflectionUIUtils.findInfoByName(encapsulatedFields, capsuleFieldName);
 				String contextId = "EncapsulationContext [containingType=" + containingType.getName() + "]";
 				if (duplicateField != null) {
 					CapsuleField duplicateFieldAsTranslatedCapsuleField = CapsuleField.translateProxy(duplicateField);
 					if (duplicateFieldAsTranslatedCapsuleField != null) {
-						outputFields.remove(duplicateField);
+						encapsulatedFields.remove(duplicateField);
 						encapsulatedFields.addAll(0, duplicateFieldAsTranslatedCapsuleField.getEncapsulatedFields());
 						encapsulatedMethods.addAll(0, duplicateFieldAsTranslatedCapsuleField.getEncapsulatedMethods());
 						contextId = duplicateFieldAsTranslatedCapsuleField.getContextId();
@@ -1098,7 +1115,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 				CapsuleField capsuleField = new CapsuleField(reflectionUI, capsuleFieldName, encapsulatedFields,
 						encapsulatedMethods, contextId);
 				initializeEncapsulatedMemberCustomizations(capsuleField, containingType);
-				inputFields.add(capsuleField);
+				fields.add(capsuleField);
 			}
 		}
 
@@ -1147,7 +1164,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 			}
 		}
 
-		protected void checkDuplicates() {
+		protected void checkDuplicates(List<IFieldInfo> outputFields, List<IMethodInfo> outputMethods) {
 			for (int i = 0; i < outputFields.size(); i++) {
 				for (int j = i + 1; j < outputFields.size(); j++) {
 					IFieldInfo field1 = outputFields.get(i);
@@ -1215,7 +1232,8 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 		protected class MethodCommonOptionsTransformer extends AbstractMethodTransformer {
 
 			@Override
-			public IMethodInfo process(IMethodInfo method, final MethodCustomization mc) {
+			public IMethodInfo process(IMethodInfo method, final MethodCustomization mc, List<IFieldInfo> newFields,
+					List<IMethodInfo> newMethods) {
 				method = new MethodInfoProxy(method) {
 
 					@Override
@@ -1395,7 +1413,8 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 		protected class MethodMenuItemGeneratingTransformer extends AbstractMethodTransformer {
 
 			@Override
-			public IMethodInfo process(IMethodInfo method, MethodCustomization mc) {
+			public IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
+					List<IMethodInfo> newMethods) {
 				if (mc.getMenuLocation() != null) {
 					List<IMenuItemContainer> ancestors = InfoCustomizations
 							.getMenuElementAncestors(containingTypeCustomization, mc.getMenuLocation());
@@ -1410,15 +1429,45 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 				}
 				return method;
 			}
+		}
+
+		protected class MethodDuplicateGeneratingTransformer extends AbstractMethodTransformer {
+
+			@Override
+			public IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
+					List<IMethodInfo> newMethods) {
+				if (mc.isDuplicateGenerated()) {
+					newMethods.add(new MethodInfoProxy(method) {
+
+						@Override
+						public String getSignature() {
+							return ReflectionUIUtils.buildMethodSignature(this);
+						}
+
+						@Override
+						public String getName() {
+							return super.getName() + ".duplicate";
+						}
+
+						@Override
+						public String getCaption() {
+							return ReflectionUIUtils.composeMessage(super.getCaption(), "Duplicate");
+						}
+
+					});
+				}
+				return method;
+			}
 
 		}
 
 		protected class MethodReturnValueFieldGeneratingTransformer extends AbstractMethodTransformer {
 
 			@Override
-			public IMethodInfo process(IMethodInfo method, MethodCustomization mc) {
+			public IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
+					List<IMethodInfo> newMethods) {
 				if (mc.isReturnValueFieldGenerated()) {
-					inputFields.add(new MethodAsField(method));
+					newFields.add(new MethodAsField(method));
 				}
 				return method;
 			}
@@ -1428,7 +1477,8 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 		protected class MethodParametersAsSubFormTransformer extends AbstractMethodTransformer {
 
 			@Override
-			public IMethodInfo process(IMethodInfo method, MethodCustomization mc) {
+			public IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
+					List<IMethodInfo> newMethods) {
 				if (mc.isParametersFormDisplayed()) {
 					final AllMethodParametersAsField methodParametersAsField = new AllMethodParametersAsField(
 							reflectionUI, method, method.getName() + ".parameters") {
@@ -1439,7 +1489,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 						}
 
 					};
-					inputFields.add(methodParametersAsField);
+					newFields.add(methodParametersAsField);
 					method = new MethodInfoProxy(method) {
 
 						@Override
@@ -1474,7 +1524,8 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 		protected class MethodParameterAsFieldTransformer extends AbstractMethodTransformer {
 
 			@Override
-			public IMethodInfo process(IMethodInfo method, MethodCustomization mc) {
+			public IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
+					List<IMethodInfo> newMethods) {
 				for (final IParameterInfo param : method.getParameters()) {
 					final ParameterCustomization pc = InfoCustomizations.getParameterCustomization(mc, param.getName());
 					if (pc != null) {
@@ -1495,7 +1546,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 								}
 
 							};
-							inputFields.add(methodParameterAsField);
+							newFields.add(methodParameterAsField);
 							method = new MethodInfoProxy(method) {
 
 								@Override
@@ -1533,7 +1584,8 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 		protected class MethodParameterHiddenNullablefacetTransformer extends AbstractMethodTransformer {
 
 			@Override
-			public IMethodInfo process(IMethodInfo method, MethodCustomization mc) {
+			public IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
+					List<IMethodInfo> newMethods) {
 				for (final IParameterInfo param : method.getParameters()) {
 					final ParameterCustomization pc = InfoCustomizations.getParameterCustomization(mc, param.getName());
 					if (pc != null) {
@@ -1587,7 +1639,8 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 		protected class MethodParameterDefaultValueSettingTransformer extends AbstractMethodTransformer {
 
 			@Override
-			public IMethodInfo process(IMethodInfo method, MethodCustomization mc) {
+			public IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
+					List<IMethodInfo> newMethods) {
 				for (final IParameterInfo param : method.getParameters()) {
 					final ParameterCustomization pc = InfoCustomizations.getParameterCustomization(mc, param.getName());
 					if (pc != null) {
@@ -1625,11 +1678,12 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 		protected class MethodPresetsGeneratingTransformer extends AbstractMethodTransformer {
 
 			@Override
-			public IMethodInfo process(IMethodInfo method, MethodCustomization mc) {
+			public IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
+					List<IMethodInfo> newMethods) {
 				for (int i = 0; i < mc.getSerializedInvocationDatas().size(); i++) {
 					final TextualStorage invocationDataStorage = mc.getSerializedInvocationDatas().get(i);
 					final int finalI = i;
-					inputMethods
+					newMethods
 							.add(new PresetInvocationDataMethod(method, (InvocationData) invocationDataStorage.load()) {
 								@Override
 								public String getName() {
@@ -1652,7 +1706,8 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 		protected class FieldCommonOptionsFieldTransformer extends AbstractFieldTransformer {
 
 			@Override
-			public IFieldInfo process(IFieldInfo field, final FieldCustomization f) {
+			public IFieldInfo process(IFieldInfo field, final FieldCustomization f, List<IFieldInfo> newFields,
+					List<IMethodInfo> newMethods) {
 				field = new FieldInfoProxy(field) {
 
 					@Override
@@ -1777,7 +1832,8 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 		protected class FieldValueAsListTransformer extends AbstractFieldTransformer {
 
 			@Override
-			public IFieldInfo process(IFieldInfo field, FieldCustomization f) {
+			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
+					List<IMethodInfo> newMethods) {
 				if (f.isDisplayedAsSingletonList()) {
 					field = new ValueAsListField(reflectionUI, field);
 				}
@@ -1789,9 +1845,10 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 		protected class FieldNullStatusGeneratingTransformer extends AbstractFieldTransformer {
 
 			@Override
-			public IFieldInfo process(IFieldInfo field, FieldCustomization f) {
+			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
+					List<IMethodInfo> newMethods) {
 				if (f.isNullStatusFieldDisplayed()) {
-					inputFields.add(new NullStatusField(reflectionUI, field) {
+					newFields.add(new NullStatusField(reflectionUI, field) {
 
 						@Override
 						public String getCaption() {
@@ -1814,9 +1871,10 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 		protected class FieldSetterGeneratingTransformer extends AbstractFieldTransformer {
 
 			@Override
-			public IFieldInfo process(IFieldInfo field, FieldCustomization f) {
+			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
+					List<IMethodInfo> newMethods) {
 				if (f.isSetterGenerated()) {
-					inputMethods.add(new FieldAsSetter(field) {
+					newMethods.add(new FieldAsSetter(field) {
 
 						@Override
 						public String getCaption() {
@@ -1830,10 +1888,41 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 
 		}
 
+		protected class FieldDuplicateGeneratingTransformer extends AbstractFieldTransformer {
+
+			@Override
+			public IFieldInfo process(IFieldInfo field, FieldCustomization fc, List<IFieldInfo> newFields,
+					List<IMethodInfo> newMethods) {
+				if (fc.isDuplicateGenerated()) {
+					IFieldInfo duplicateField = new FieldInfoProxy(field) {
+						@Override
+						public String getName() {
+							return super.getName() + ".duplicate";
+						}
+
+						@Override
+						public String getCaption() {
+							return ReflectionUIUtils.composeMessage(super.getCaption(), "Duplicate");
+						}
+
+					};
+					newFields.add(duplicateField);
+					FieldCustomization duplicateFc = InfoCustomizations
+							.getFieldCustomization(containingTypeCustomization, duplicateField.getName());
+					if (duplicateFc.isInitial()) {
+						duplicateFc.setNullable(fc.isNullable());
+					}
+				}
+				return field;
+			}
+
+		}
+
 		protected class FieldCustomSetterTransformer extends AbstractFieldTransformer {
 
 			@Override
-			public IFieldInfo process(IFieldInfo field, final FieldCustomization f) {
+			public IFieldInfo process(IFieldInfo field, final FieldCustomization f, List<IFieldInfo> newFields,
+					List<IMethodInfo> newMethods) {
 				if (f.getCustomSetterSignature() != null) {
 					field = new FieldInfoProxy(field) {
 
@@ -1863,9 +1952,10 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 		protected class FieldGetterGeneratingTransformer extends AbstractFieldTransformer {
 
 			@Override
-			public IFieldInfo process(IFieldInfo field, FieldCustomization f) {
+			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
+					List<IMethodInfo> newMethods) {
 				if (f.isGetterGenerated()) {
-					inputMethods.add(new FieldAsGetter(field) {
+					newMethods.add(new FieldAsGetter(field) {
 
 						@Override
 						public String getCaption() {
@@ -1882,7 +1972,8 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 		protected class FieldTypeConversionTransformer extends AbstractFieldTransformer {
 
 			@Override
-			public IFieldInfo process(IFieldInfo field, FieldCustomization f) {
+			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
+					List<IMethodInfo> newMethods) {
 				if (f.getTypeConversion() != null) {
 					if (!ReflectionUIUtils.equalsOrBothNull(new TypeConversion().getNewTypeFinder(),
 							f.getTypeConversion().getNewTypeFinder())) {
@@ -1901,7 +1992,8 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 		protected class FieldNullReplacementTransformer extends AbstractFieldTransformer {
 
 			@Override
-			public IFieldInfo process(IFieldInfo field, FieldCustomization f) {
+			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
+					List<IMethodInfo> newMethods) {
 				final Object nullReplacement = f.getNullReplacement().load();
 				if (nullReplacement != null) {
 					field = new FieldInfoProxy(field) {
@@ -1925,7 +2017,8 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 		protected class FieldHiddenNullableFacetTransformer extends AbstractFieldTransformer {
 
 			@Override
-			public IFieldInfo process(IFieldInfo field, final FieldCustomization f) {
+			public IFieldInfo process(IFieldInfo field, final FieldCustomization f, List<IFieldInfo> newFields,
+					List<IMethodInfo> newMethods) {
 				if (f.isNullableFacetHidden()) {
 					field = new HiddenNullableFacetFieldInfoProxy(reflectionUI, field) {
 
@@ -1950,13 +2043,15 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 
 		protected abstract class AbstractFieldTransformer {
 
-			public abstract IFieldInfo process(IFieldInfo field, FieldCustomization f);
+			public abstract IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
+					List<IMethodInfo> newMethods);
 
 		}
 
 		protected abstract class AbstractMethodTransformer {
 
-			public abstract IMethodInfo process(IMethodInfo method, MethodCustomization mc);
+			public abstract IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
+					List<IMethodInfo> newMethods);
 
 		}
 

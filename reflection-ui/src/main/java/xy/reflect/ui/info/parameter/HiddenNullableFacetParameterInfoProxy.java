@@ -37,7 +37,7 @@ public class HiddenNullableFacetParameterInfoProxy extends ParameterInfoProxy {
 		}
 		if (result == null) {
 			throw new ReflectionUIError(
-					"Unable to generate a default value for the parameter '" + getType().getName() + " " + getName() + "'");
+					"Unable to generate a default parameter value");
 		}
 		return result;
 	}

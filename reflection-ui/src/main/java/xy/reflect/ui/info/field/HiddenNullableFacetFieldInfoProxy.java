@@ -30,8 +30,7 @@ public class HiddenNullableFacetFieldInfoProxy extends FieldInfoProxy {
 		try {
 			return ReflectionUIUtils.createDefaultInstance(getType());
 		} catch (Throwable t) {
-			throw new ReflectionUIError("Unable to generate a default value for the field: '" + getType().getName()
-					+ " " + getName() + "'");
+			throw new ReflectionUIError("Unable to generate a default field value");
 		}
 	}
 

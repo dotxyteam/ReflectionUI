@@ -150,13 +150,11 @@ public class SwingCustomizer extends SwingRenderer {
 				super.layoutFormControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory,
 						newContainer);
 			}
-			JPanel mainCustomizationsControl = new JPanel();
+			JPanel typeCustomizationsControl = new JPanel();
 			{
-				mainCustomizationsControl.setLayout(new BorderLayout());
-				mainCustomizationsControl.add(customizationTools.makeButtonForTypeInfo(object), BorderLayout.CENTER);
-				mainCustomizationsControl.setBorder(
-						BorderFactory.createEmptyBorder(getLayoutSpacing(mainCustomizationsControl), 0, 0, 0));
-				container.add(SwingRendererUtils.flowInLayout(mainCustomizationsControl, GridBagConstraints.CENTER),
+				typeCustomizationsControl.setLayout(new BorderLayout());
+				typeCustomizationsControl.add(customizationTools.makeButtonForTypeInfo(object), BorderLayout.CENTER);
+				container.add(SwingRendererUtils.flowInLayout(typeCustomizationsControl, GridBagConstraints.CENTER),
 						BorderLayout.NORTH);
 			}
 		} else {
@@ -241,13 +239,9 @@ public class SwingCustomizer extends SwingRenderer {
 		return SwingRendererUtils.CUSTOMIZATION_ICON;
 	}
 
-	protected boolean areCustomizationToolsDisabled() {
-		return !customizationOptions.isInEditMode();
-	}
-
 	protected boolean areCustomizationsEditable(Object object) {
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		if (areCustomizationToolsDisabled()) {
+		if (!customizationOptions.isInEditMode()) {
 			return false;
 		}
 		if (!infoCustomizations

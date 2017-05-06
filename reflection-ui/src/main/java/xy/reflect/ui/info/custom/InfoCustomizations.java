@@ -64,6 +64,8 @@ public class InfoCustomizations implements Serializable {
 	public static final String UID_FIELD_NAME = "uniqueIdentifier";
 	public static final Object INITIAL_STATE_FIELD_NAME = "initial";
 
+	protected static final ReflectionUI SIMILARITY_INTROSPECTOR = new ReflectionUI();
+
 	public static InfoCustomizations defaultInstance;
 	protected List<TypeCustomization> typeCustomizations = new ArrayList<InfoCustomizations.TypeCustomization>();
 	protected List<ListCustomization> listCustomizations = new ArrayList<InfoCustomizations.ListCustomization>();
@@ -269,7 +271,7 @@ public class InfoCustomizations implements Serializable {
 
 	public static boolean isSimilar(final AbstractCustomization c1, final AbstractCustomization c2,
 			final String... excludedFieldNames) {
-		return ReflectionUIUtils.equalsAccordingInfos(c1, c2, new ReflectionUI(), new IInfoFilter() {
+		return ReflectionUIUtils.equalsAccordingInfos(c1, c2, SIMILARITY_INTROSPECTOR, new IInfoFilter() {
 
 			@Override
 			public boolean excludeMethod(IMethodInfo method) {
@@ -1256,16 +1258,25 @@ public class InfoCustomizations implements Serializable {
 		protected boolean formControlCreationForced = false;
 		protected TypeConversion typeConversion = new TypeConversion();
 		protected TextualStorage nullReplacement = new TextualStorage();
-
-		public TextualStorage getNullReplacement() {
-			return nullReplacement;
-		}
+		protected boolean duplicateGenerated = false;
 
 		@Override
 		public boolean isInitial() {
 			FieldCustomization defaultFieldCustomization = new FieldCustomization();
 			defaultFieldCustomization.fieldName = fieldName;
 			return isSimilar(this, defaultFieldCustomization);
+		}
+
+		public boolean isDuplicateGenerated() {
+			return duplicateGenerated;
+		}
+
+		public void setDuplicateGenerated(boolean duplicateGenerated) {
+			this.duplicateGenerated = duplicateGenerated;
+		}
+
+		public TextualStorage getNullReplacement() {
+			return nullReplacement;
 		}
 
 		public void setNullReplacement(TextualStorage nullReplacement) {
@@ -1507,13 +1518,21 @@ public class InfoCustomizations implements Serializable {
 		protected IMenuItemContainer menuLocation;
 		protected boolean ignoredReturnValueForced = false;
 		protected List<TextualStorage> serializedInvocationDatas = new ArrayList<TextualStorage>();
+		protected boolean duplicateGenerated = false;
 
 		@Override
 		public boolean isInitial() {
 			MethodCustomization defaultMethodCustomization = new MethodCustomization();
 			defaultMethodCustomization.methodSignature = methodSignature;
 			return isSimilar(this, defaultMethodCustomization);
+		}
 
+		public boolean isDuplicateGenerated() {
+			return duplicateGenerated;
+		}
+
+		public void setDuplicateGenerated(boolean duplicateGenerated) {
+			this.duplicateGenerated = duplicateGenerated;
 		}
 
 		public List<TextualStorage> getSerializedInvocationDatas() {

@@ -29,14 +29,7 @@ public class CustomizationsTest {
 		File tmpCustomizationsFile = File.createTempFile(CustomizationsTest.class.getName(), ".icu");
 		tmpCustomizationsFile.deleteOnExit();
 		SwingRenderer swingRenderer = new SwingCustomizer(reflectionUI, infoCustomizations,
-				tmpCustomizationsFile.getPath()) {
-
-			@Override
-			protected boolean areCustomizationToolsDisabled() {
-				return false;
-			}
-
-		};
+				tmpCustomizationsFile.getPath());
 		swingRenderer.openObjectFrame(new Sample(), null, null);
 	}
 
