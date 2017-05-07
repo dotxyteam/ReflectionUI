@@ -13,6 +13,11 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public abstract class AbstractConstructorInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
+	public String getConfirmationMessage(Object object, InvocationData invocationData) {
+		return null;
+	}
+
+	@Override
 	public String getName() {
 		return "";
 	}

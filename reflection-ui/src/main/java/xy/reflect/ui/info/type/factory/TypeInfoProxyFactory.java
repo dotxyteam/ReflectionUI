@@ -257,6 +257,11 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return method.invoke(object, invocationData);
 	}
 
+	protected String getConfirmationMessage(Object object, InvocationData invocationData, IMethodInfo method,
+			ITypeInfo containingType) {
+		return method.getConfirmationMessage(object, invocationData);
+	}
+
 	protected List<IParameterInfo> getParameters(IMethodInfo method, ITypeInfo containingType) {
 		return method.getParameters();
 	}
@@ -996,7 +1001,6 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 			return TypeInfoProxyFactory.this.getSpecificProperties(base, containingType);
 		}
 
-		
 		private TypeInfoProxyFactory getOuterType() {
 			return TypeInfoProxyFactory.this;
 		}
@@ -1112,6 +1116,11 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		@Override
 		public Object invoke(Object object, InvocationData invocationData) {
 			return TypeInfoProxyFactory.this.invoke(object, invocationData, base, containingType);
+		}
+
+		@Override
+		public String getConfirmationMessage(Object object, InvocationData invocationData) {
+			return TypeInfoProxyFactory.this.getConfirmationMessage(object, invocationData, base, containingType);
 		}
 
 		@Override

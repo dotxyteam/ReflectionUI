@@ -14,12 +14,17 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class FieldAsGetter   extends AbstractInfo implements IMethodInfo {
+public class FieldAsGetter extends AbstractInfo implements IMethodInfo {
 
 	protected IFieldInfo field;
 
 	public FieldAsGetter(IFieldInfo field) {
 		this.field = field;
+	}
+
+	@Override
+	public String getConfirmationMessage(Object object, InvocationData invocationData) {
+		return null;
 	}
 
 	@Override

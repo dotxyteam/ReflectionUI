@@ -22,6 +22,11 @@ public class DefaultMethodControlData implements IMethodControlData {
 	}
 
 	@Override
+	public String getConfirmationMessage(InvocationData invocationData) {
+		return method.getConfirmationMessage(object, invocationData);
+	}
+
+	@Override
 	public boolean isReturnValueNullable() {
 		return method.isReturnValueNullable();
 	}

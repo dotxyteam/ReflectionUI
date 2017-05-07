@@ -1,13 +1,6 @@
-- remove event trigger SRU.forwardFormModifications()
-- remove nullableFacetHidden methods from customizations
-- to use in swRenderer.rebuildForm() 
-	- getSelectedCategor
-	- selectCategory
+- add customizationContext class
+- remove nullableFacetHidden methods from customizations???
 - how to do exit menu ?
-- List Item Not Nullable customization
-- customization: method confirmation before invoke
-- 1 only sub type => no polymorphic control
-- Not Nullable by default ???
 - allow to disable copy/cut/paste on lists
 - every customization should have its opposite for more power
 - reset column order option
@@ -16,12 +9,9 @@
 	* add Field.nullStatusBooleanFieldName???
 	* sub-(field|method) customization 
 - customization controller
-	* stabilize window
-	* allow to lock/unlock all types ???
 	* ask to save customizations before disposing ??? 
 - add ITypeInfo.equals() ???
 	=> not urgent at first sight
-- focus on default control on dialog opening not working
 - clean:
 	* make every info inner class public
 	* check Info class names

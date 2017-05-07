@@ -18,6 +18,11 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public abstract class AbstractListAction extends AbstractInfo implements IMethodInfo {
 
 	@Override
+	public String getConfirmationMessage(Object object, InvocationData invocationData) {
+		return null;
+	}
+
+	@Override
 	public String getSignature() {
 		return ReflectionUIUtils.buildMethodSignature(this);
 	}

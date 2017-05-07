@@ -1518,12 +1518,21 @@ public class InfoCustomizations implements Serializable {
 		protected boolean ignoredReturnValueForced = false;
 		protected List<TextualStorage> serializedInvocationDatas = new ArrayList<TextualStorage>();
 		protected boolean duplicateGenerated = false;
+		protected String confirmationMessage;
 
 		@Override
 		public boolean isInitial() {
 			MethodCustomization defaultMethodCustomization = new MethodCustomization();
 			defaultMethodCustomization.methodSignature = methodSignature;
 			return isSimilar(this, defaultMethodCustomization);
+		}
+
+		public String getConfirmationMessage() {
+			return confirmationMessage;
+		}
+
+		public void setConfirmationMessage(String confirmationMessage) {
+			this.confirmationMessage = confirmationMessage;
 		}
 
 		public boolean isDuplicateGenerated() {
@@ -2248,7 +2257,7 @@ public class InfoCustomizations implements Serializable {
 		protected boolean listSorted = false;
 		protected IListItemDetailsAccessMode customDetailsAccessMode = null;
 		protected boolean itemContructorSelectableforced = false;
-
+		
 		@Override
 		public boolean isInitial() {
 			ListCustomization defaultListCustomization = new ListCustomization();
@@ -2256,6 +2265,8 @@ public class InfoCustomizations implements Serializable {
 			defaultListCustomization.itemTypeName = itemTypeName;
 			return isSimilar(this, defaultListCustomization);
 		}
+
+		
 
 		public boolean isItemContructorSelectableforced() {
 			return itemContructorSelectableforced;

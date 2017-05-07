@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
 
 import javax.swing.JPanel;
 
@@ -13,6 +14,7 @@ import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.MethodControlDataProxy;
 import xy.reflect.ui.control.swing.MethodControl;
 import xy.reflect.ui.info.IInfo;
+import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -56,10 +58,14 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 			return null;
 		}
 		int maxMethodControlWidth = 0;
-		for (final MethodControlPlaceHolder methodControlPlaceHolder : swingRenderer
-				.getMethodControlPlaceHolders(form)) {
-			Component methodControl = methodControlPlaceHolder.getMethodControl();
-			maxMethodControlWidth = Math.max(maxMethodControlWidth, methodControl.getPreferredSize().width);
+		SortedMap<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory = swingRenderer
+				.getMethodControlPlaceHoldersByCategoryByForm().get(form);
+		for (InfoCategory category : methodControlPlaceHoldersByCategory.keySet()) {
+			for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHoldersByCategory
+					.get(category)) {
+				Component methodControl = methodControlPlaceHolder.getMethodControl();
+				maxMethodControlWidth = Math.max(maxMethodControlWidth, methodControl.getPreferredSize().width);
+			}
 		}
 		maxMethodControlWidth = maxMethodControlWidth - (maxMethodControlWidth % getIndentWidth()) + getIndentWidth();
 		result.width = maxMethodControlWidth;
@@ -207,6 +213,11 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 
 		public InitialMethodControlData(IMethodInfo finalMethod) {
 			this.finalMethod = finalMethod;
+		}
+
+		@Override
+		public String getConfirmationMessage(InvocationData invocationData) {
+			return finalMethod.getConfirmationMessage(getObject(), invocationData);
 		}
 
 		@Override

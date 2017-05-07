@@ -94,21 +94,6 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 	}
 
 	@Override
-	protected boolean isReturnValueIgnored(IMethodInfo method, ITypeInfo containingType) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.infoCustomizations,
-				containingType.getName());
-		if (t != null) {
-			MethodCustomization m = InfoCustomizations.getMethodCustomization(t, method.getSignature());
-			if (m != null) {
-				if (m.isIgnoredReturnValueForced()) {
-					return true;
-				}
-			}
-		}
-		return super.isReturnValueIgnored(method, containingType);
-	}
-
-	@Override
 	protected FieldsLayout getFieldsLayout(ITypeInfo type) {
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.infoCustomizations, type.getName());
 		if (t != null) {
@@ -146,21 +131,6 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 			}
 		}
 		return super.isConcrete(type);
-	}
-
-	@Override
-	protected boolean isReturnValueDetached(IMethodInfo method, ITypeInfo containingType) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.infoCustomizations,
-				containingType.getName());
-		if (t != null) {
-			MethodCustomization m = InfoCustomizations.getMethodCustomization(t, method.getSignature());
-			if (m != null) {
-				if (m.isDetachedReturnValueForced()) {
-					return true;
-				}
-			}
-		}
-		return super.isReturnValueDetached(method, containingType);
 	}
 
 	@Override
@@ -1251,6 +1221,14 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 			public IMethodInfo process(IMethodInfo method, final MethodCustomization mc, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				method = new MethodInfoProxy(method) {
+
+					@Override
+					public String getConfirmationMessage(Object object, InvocationData invocationData) {
+						if (mc.getConfirmationMessage() != null) {
+							return mc.getConfirmationMessage();
+						}
+						return super.getConfirmationMessage(object, invocationData);
+					}
 
 					@Override
 					public boolean isReturnValueIgnored() {

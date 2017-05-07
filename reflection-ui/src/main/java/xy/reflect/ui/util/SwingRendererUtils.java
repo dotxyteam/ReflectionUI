@@ -64,21 +64,21 @@ import xy.reflect.ui.control.swing.MethodAction;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ResourcePath;
-import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.ResourcePath.PathKind;
+import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.AbstractMenuItem;
-import xy.reflect.ui.info.menu.MethodActionMenuItem;
 import xy.reflect.ui.info.menu.Menu;
 import xy.reflect.ui.info.menu.MenuItemCategory;
 import xy.reflect.ui.info.menu.MenuModel;
+import xy.reflect.ui.info.menu.MethodActionMenuItem;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.IModification;
-import xy.reflect.ui.undo.ModificationProxy;
+import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
 
@@ -412,27 +412,8 @@ public class SwingRendererUtils {
 			final Accessor<Boolean> valueReplacedGetter, final Accessor<IModification> commitModifGetter,
 			final Accessor<IInfo> editSessionTargetGetter, final Accessor<String> editSessionTitleGetter,
 			final Accessor<ModificationStack> parentObjectModifStackGetter) {
+		swingRenderer.getModificationStackForwardingStatusByForm().put(form, true);
 		swingRenderer.getModificationStackByForm().put(form, new ModificationStack(null) {
-
-			ModificationStack thisModificationStack = this;
-			IModification eventTrigger = new ModificationProxy(IModification.NULL_MODIFICATION) {
-
-				@Override
-				public IModification applyAndGetOpposite() {
-					return this;
-				}
-
-				@Override
-				public boolean isNull() {
-					return false;
-				}
-
-				@Override
-				public String toString() {
-					return "EventTrigger[of=" + thisModificationStack + "]";
-				}
-
-			};
 
 			@Override
 			public String toString() {
@@ -441,8 +422,6 @@ public class SwingRendererUtils {
 
 			@Override
 			public boolean pushUndo(IModification undoModif) {
-				// super.pushUndo(eventTrigger);
-				System.out.println(eventTrigger + " not pushed");
 				ModificationStack valueModifStack = new ModificationStack(null);
 				valueModifStack.pushUndo(undoModif);
 				Boolean valueModifAccepted = valueModifAcceptedGetter.get();
@@ -463,7 +442,6 @@ public class SwingRendererUtils {
 
 			@Override
 			public void invalidate() {
-				// super.invalidate();
 				ModificationStack valueModifStack = new ModificationStack(null);
 				valueModifStack.invalidate();
 				Boolean valueModifAccepted = valueModifAcceptedGetter.get();
@@ -498,12 +476,22 @@ public class SwingRendererUtils {
 
 			@Override
 			public void undo() {
-				throw new ReflectionUIError();
+				throwUnsupportedOperationError("undo");
 			}
 
 			@Override
 			public void redo() {
-				throw new ReflectionUIError();
+				throwUnsupportedOperationError("redo");
+			}
+
+			@Override
+			public void addListener(IModificationListener listener) {
+				throwUnsupportedOperationError("addListener");
+			}
+
+			void throwUnsupportedOperationError(String operationName) {
+				throw new UnsupportedOperationException("<" + operationName + "> is not allowed on a forwarding "
+						+ ModificationStack.class.getSimpleName());
 			}
 
 		});

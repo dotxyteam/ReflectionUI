@@ -8,11 +8,11 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
-public class FilterredTypeFactory extends TypeInfoProxyFactory {
+public class FilteredTypeFactory extends TypeInfoProxyFactory {
 
 	protected IInfoFilter infoFilter;
 
-	public FilterredTypeFactory(IInfoFilter infoFilter) {
+	public FilteredTypeFactory(IInfoFilter infoFilter) {
 		this.infoFilter = infoFilter;
 	}
 
@@ -42,7 +42,7 @@ public class FilterredTypeFactory extends TypeInfoProxyFactory {
 
 	@Override
 	public String toString() {
-		return "FilterredTypeFactory [infoFilter=" + infoFilter + "]";
+		return "FilteredTypeFactory [infoFilter=" + infoFilter + "]";
 	}
 	
 	

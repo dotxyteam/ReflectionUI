@@ -19,7 +19,7 @@ import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class SubMethodInfo   extends AbstractInfo implements IMethodInfo {
+public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	protected IFieldInfo theField;
 	protected IMethodInfo theSubMethod;
@@ -54,6 +54,11 @@ public class SubMethodInfo   extends AbstractInfo implements IMethodInfo {
 	@Override
 	public ITypeInfo getReturnValueType() {
 		return theSubMethod.getReturnValueType();
+	}
+
+	@Override
+	public String getConfirmationMessage(Object object, InvocationData invocationData) {
+		return null;
 	}
 
 	@Override

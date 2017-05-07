@@ -15,12 +15,12 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class FieldAsSetter   extends AbstractInfo implements IMethodInfo {
+public class FieldAsSetter extends AbstractInfo implements IMethodInfo {
 
 	protected IFieldInfo field;
 
 	protected IParameterInfo parameter = new ParameterInfoProxy(IParameterInfo.NULL_PARAMETER_INFO) {
-
+		
 		@Override
 		public String getName() {
 			return field.getName();
@@ -55,6 +55,11 @@ public class FieldAsSetter   extends AbstractInfo implements IMethodInfo {
 
 	public FieldAsSetter(IFieldInfo field) {
 		this.field = field;
+	}
+
+	@Override
+	public String getConfirmationMessage(Object object, InvocationData invocationData) {
+		return null;
 	}
 
 	@Override

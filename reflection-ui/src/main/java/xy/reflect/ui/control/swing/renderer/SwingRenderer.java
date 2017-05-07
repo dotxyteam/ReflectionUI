@@ -23,7 +23,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
@@ -87,7 +89,7 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
-import xy.reflect.ui.info.type.factory.FilterredTypeFactory;
+import xy.reflect.ui.info.type.factory.FilteredTypeFactory;
 import xy.reflect.ui.info.type.factory.GenericEnumerationFactory;
 import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
@@ -113,12 +115,13 @@ public class SwingRenderer {
 	protected Map<JPanel, Object> objectByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, ModificationStack> modificationStackByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, Boolean> fieldsUpdateListenerDisabledByForm = new MapMaker().weakKeys().makeMap();
+	protected Map<JPanel, Boolean> modificationStackForwardingStatusByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, IInfoFilter> infoFilterByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, JLabel> statusBarByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, JMenuBar> menuBarByForm = new MapMaker().weakKeys().makeMap();
-	protected Map<JPanel, Map<InfoCategory, List<FieldControlPlaceHolder>>> fieldControlPlaceHoldersByCategoryByForm = new MapMaker()
+	protected Map<JPanel, SortedMap<InfoCategory, List<FieldControlPlaceHolder>>> fieldControlPlaceHoldersByCategoryByForm = new MapMaker()
 			.weakKeys().makeMap();
-	protected Map<JPanel, Map<InfoCategory, List<MethodControlPlaceHolder>>> methodControlPlaceHoldersByCategoryByForm = new MapMaker()
+	protected Map<JPanel, SortedMap<InfoCategory, List<MethodControlPlaceHolder>>> methodControlPlaceHoldersByCategoryByForm = new MapMaker()
 			.weakKeys().makeMap();
 	protected Map<String, InvocationData> lastInvocationDataByMethodSignature = new HashMap<String, InvocationData>();
 	protected Map<FieldControlPlaceHolder, Component> captionControlByFieldControlPlaceHolder = new MapMaker()
@@ -177,6 +180,10 @@ public class SwingRenderer {
 		return fieldsUpdateListenerDisabledByForm;
 	}
 
+	public Map<JPanel, Boolean> getModificationStackForwardingStatusByForm() {
+		return modificationStackForwardingStatusByForm;
+	}
+
 	public Map<JPanel, Boolean> getRefreshRequestQueuedByForm() {
 		return refreshRequestQueuedByForm;
 	}
@@ -217,11 +224,11 @@ public class SwingRenderer {
 		return busyIndicationDisabledByForm;
 	}
 
-	public Map<JPanel, Map<InfoCategory, List<FieldControlPlaceHolder>>> getFieldControlPlaceHoldersByCategoryByForm() {
+	public Map<JPanel, SortedMap<InfoCategory, List<FieldControlPlaceHolder>>> getFieldControlPlaceHoldersByCategoryByForm() {
 		return fieldControlPlaceHoldersByCategoryByForm;
 	}
 
-	public Map<JPanel, Map<InfoCategory, List<MethodControlPlaceHolder>>> getMethodControlPlaceHoldersByCategoryByForm() {
+	public Map<JPanel, SortedMap<InfoCategory, List<MethodControlPlaceHolder>>> getMethodControlPlaceHoldersByCategoryByForm() {
 		return methodControlPlaceHoldersByCategoryByForm;
 	}
 
@@ -407,12 +414,18 @@ public class SwingRenderer {
 
 			@Override
 			public void ancestorAdded(AncestorEvent event) {
+				if (Boolean.TRUE.equals(getModificationStackForwardingStatusByForm().get(result))) {
+					return;
+				}
 				ModificationStack modifStack = getModificationStackByForm().get(result);
 				modifStack.addListener(fieldsUpdateListener);
 			}
 
 			@Override
 			public void ancestorRemoved(AncestorEvent event) {
+				if (Boolean.TRUE.equals(getModificationStackForwardingStatusByForm().get(result))) {
+					return;
+				}
 				ModificationStack modifStack = getModificationStackByForm().get(result);
 				modifStack.removeListener(fieldsUpdateListener);
 			}
@@ -632,9 +645,16 @@ public class SwingRenderer {
 	}
 
 	public void rebuildForm(final JPanel form) {
-		form.removeAll();
-		fillForm(form);
-		finalizeFormUpdate(form);
+		InfoCategory displayedCategory = getDisplayedInfoCategory(form);
+		try {
+			form.removeAll();
+			fillForm(form);
+			finalizeFormUpdate(form);
+		} finally {
+			if (displayedCategory != null) {
+				setDisplayedInfoCategory(form, displayedCategory);
+			}
+		}
 	}
 
 	public void finalizeFormUpdate(JPanel form) {
@@ -716,7 +736,7 @@ public class SwingRenderer {
 
 	public Map<InfoCategory, List<MethodControlPlaceHolder>> createMethodControlPlaceHoldersByCategory(
 			List<IMethodInfo> methods, JPanel form) {
-		Map<InfoCategory, List<MethodControlPlaceHolder>> result = new HashMap<InfoCategory, List<MethodControlPlaceHolder>>();
+		SortedMap<InfoCategory, List<MethodControlPlaceHolder>> result = new TreeMap<InfoCategory, List<MethodControlPlaceHolder>>();
 		for (IMethodInfo method : methods) {
 			MethodControlPlaceHolder methodControlPlaceHolder = createMethodControlPlaceHolder(form, method);
 			{
@@ -738,7 +758,7 @@ public class SwingRenderer {
 
 	public Map<InfoCategory, List<FieldControlPlaceHolder>> createFieldControlPlaceHoldersByCategory(
 			List<IFieldInfo> fields, JPanel form) {
-		Map<InfoCategory, List<FieldControlPlaceHolder>> result = new HashMap<InfoCategory, List<FieldControlPlaceHolder>>();
+		SortedMap<InfoCategory, List<FieldControlPlaceHolder>> result = new TreeMap<InfoCategory, List<FieldControlPlaceHolder>>();
 		for (IFieldInfo field : fields) {
 			FieldControlPlaceHolder fieldControlPlaceHolder = createFieldControlPlaceHolder(form, field);
 			{
@@ -765,7 +785,7 @@ public class SwingRenderer {
 			infoFilter = IInfoFilter.DEFAULT;
 		}
 		final ITypeInfo rawType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		ITypeInfo result = new FilterredTypeFactory(infoFilter) {
+		ITypeInfo result = new FilteredTypeFactory(infoFilter) {
 
 			List<IFieldInfo> fields;
 			List<IMethodInfo> methods;
@@ -819,64 +839,31 @@ public class SwingRenderer {
 		return new MethodControlPlaceHolder(this, form, method);
 	}
 
-	public List<FieldControlPlaceHolder> getFieldControlPlaceHolders(JPanel form) {
-		List<FieldControlPlaceHolder> result = new ArrayList<FieldControlPlaceHolder>();
-		Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = getFieldControlPlaceHoldersByCategoryByForm()
+	public FieldControlPlaceHolder getFieldControlPlaceHolder(JPanel form, String fieldName) {
+		SortedMap<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = getFieldControlPlaceHoldersByCategoryByForm()
 				.get(form);
 		for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
-			List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory.get(category);
-			result.addAll(fieldControlPlaceHolders);
+			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHoldersByCategory.get(category)) {
+				if (fieldName.equals(fieldControlPlaceHolder.getModificationsTarget().getName())) {
+					return fieldControlPlaceHolder;
+				}
+			}
 		}
-		return result;
+		return null;
 	}
 
-	public List<MethodControlPlaceHolder> getMethodControlPlaceHolders(JPanel form) {
-		List<MethodControlPlaceHolder> result = new ArrayList<MethodControlPlaceHolder>();
-		Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory = getMethodControlPlaceHoldersByCategoryByForm()
+	public MethodControlPlaceHolder getMethodControlPlaceHolder(JPanel form, String methodSignature) {
+		SortedMap<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory = getMethodControlPlaceHoldersByCategoryByForm()
 				.get(form);
 		for (InfoCategory category : methodControlPlaceHoldersByCategory.keySet()) {
-			List<MethodControlPlaceHolder> methodControlPlaceHolders = methodControlPlaceHoldersByCategory
-					.get(category);
-			result.addAll(methodControlPlaceHolders);
-		}
-		return result;
-	}
-
-	public IFieldInfo getFormField(final JPanel form, String fieldName) {
-		List<FieldControlPlaceHolder> fieldControlPlaceHolders = getFieldControlPlaceHoldersByName(form, fieldName);
-		if (fieldControlPlaceHolders.size() == 0) {
-			return null;
-		}
-		return fieldControlPlaceHolders.get(0).getField();
-	}
-
-	public IMethodInfo getFormMethod(final JPanel form, String methodSignature) {
-		List<MethodControlPlaceHolder> methodControlPlaceHolders = getMethodControlPlaceHoldersBySignature(form,
-				methodSignature);
-		if (methodControlPlaceHolders.size() == 0) {
-			return null;
-		}
-		return methodControlPlaceHolders.get(0).getMethod();
-	}
-
-	public List<FieldControlPlaceHolder> getFieldControlPlaceHoldersByName(JPanel form, String fieldName) {
-		List<FieldControlPlaceHolder> result = new ArrayList<FieldControlPlaceHolder>();
-		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
-			if (fieldName.equals(fieldControlPlaceHolder.getModificationsTarget().getName())) {
-				result.add(fieldControlPlaceHolder);
+			for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHoldersByCategory
+					.get(category)) {
+				if (methodControlPlaceHolder.getMethod().getSignature().equals(methodSignature)) {
+					return methodControlPlaceHolder;
+				}
 			}
 		}
-		return result;
-	}
-
-	public List<MethodControlPlaceHolder> getMethodControlPlaceHoldersBySignature(JPanel form, String methodSignature) {
-		List<MethodControlPlaceHolder> result = new ArrayList<MethodControlPlaceHolder>();
-		for (MethodControlPlaceHolder methodControlPlaceHolder : getMethodControlPlaceHolders(form)) {
-			if (methodControlPlaceHolder.getMethod().getSignature().equals(methodSignature)) {
-				result.add(methodControlPlaceHolder);
-			}
-		}
-		return result;
+		return null;
 	}
 
 	public Image getObjectIconImage(Object object) {
@@ -1268,36 +1255,27 @@ public class SwingRenderer {
 		return new DialogBuilder(this, activatorComponent);
 	}
 
-	public List<IFieldInfo> getDisplayedFields(JPanel form) {
-		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
-		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
-			result.add(fieldControlPlaceHolder.getField());
-		}
-		return result;
-	}
-
-	public List<IMethodInfo> getDisplayedMethods(JPanel form) {
-		List<IMethodInfo> result = new ArrayList<IMethodInfo>();
-		for (MethodControlPlaceHolder methodControlPlaceHolder : getMethodControlPlaceHolders(form)) {
-			result.add(methodControlPlaceHolder.getMethod());
-		}
-		return result;
-	}
-
 	public void refreshAllFieldControls(final JPanel form, final boolean recreate) {
-		List<FieldControlPlaceHolder> fieldControlPlaceHolders = getFieldControlPlaceHolders(form);
-		for (int i = 0; i < fieldControlPlaceHolders.size(); i++) {
-			FieldControlPlaceHolder fieldControlPlaceHolder = fieldControlPlaceHolders.get(i);
-			fieldControlPlaceHolder.refreshUI(recreate);
-			updateFieldControlLayout(fieldControlPlaceHolder, i);
+		SortedMap<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = getFieldControlPlaceHoldersByCategoryByForm()
+				.get(form);
+		for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
+			List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory.get(category);
+			for (int i = 0; i < fieldControlPlaceHolders.size(); i++) {
+				FieldControlPlaceHolder fieldControlPlaceHolder = fieldControlPlaceHolders.get(i);
+				fieldControlPlaceHolder.refreshUI(recreate);
+				updateFieldControlLayout(fieldControlPlaceHolder, i);
+			}
 		}
 		finalizeFormUpdate(form);
 	}
 
 	public boolean requestFormFocus(JPanel form) {
-		List<FieldControlPlaceHolder> fieldControlPlaceHolders = getFieldControlPlaceHolders(form);
-		if (fieldControlPlaceHolders.size() > 0) {
-			return SwingRendererUtils.requestAnyComponentFocus(fieldControlPlaceHolders.get(0).getFieldControl(), this);
+		SortedMap<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = getFieldControlPlaceHoldersByCategoryByForm()
+				.get(form);
+		for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
+			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHoldersByCategory.get(category)) {
+				return SwingRendererUtils.requestAnyComponentFocus(fieldControlPlaceHolder.getFieldControl(), this);
+			}
 		}
 		return false;
 	}
@@ -1489,10 +1467,14 @@ public class SwingRenderer {
 		}
 		MenuModel menuModel = new MenuModel();
 		addFormMenuContribution(form, menuModel);
-		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
-			Component fieldControl = fieldControlPlaceHolder.getFieldControl();
-			if (fieldControl instanceof IAdvancedFieldControl) {
-				((IAdvancedFieldControl) fieldControl).addMenuContribution(menuModel);
+		SortedMap<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = getFieldControlPlaceHoldersByCategoryByForm()
+				.get(form);
+		for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
+			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHoldersByCategory.get(category)) {
+				Component fieldControl = fieldControlPlaceHolder.getFieldControl();
+				if (fieldControl instanceof IAdvancedFieldControl) {
+					((IAdvancedFieldControl) fieldControl).addMenuContribution(menuModel);
+				}
 			}
 		}
 		SwingRendererUtils.updateMenubar(menuBar, menuModel, this);
@@ -1518,20 +1500,25 @@ public class SwingRenderer {
 		Object object = getObjectByForm().get(form);
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		type.validate(object);
-		for (FieldControlPlaceHolder fieldControlPlaceHolder : getFieldControlPlaceHolders(form)) {
-			Component fieldControl = fieldControlPlaceHolder.getFieldControl();
-			if (fieldControl instanceof IAdvancedFieldControl) {
-				try {
-					((IAdvancedFieldControl) fieldControl).validateSubForm();
-				} catch (Exception e) {
-					String errorMsg = e.toString();
-					IFieldInfo field = fieldControlPlaceHolder.getField();
-					errorMsg = ReflectionUIUtils.composeMessage(field.getCaption(), errorMsg);
-					InfoCategory fieldCategory = field.getCategory();
-					if (fieldCategory != null) {
-						errorMsg = ReflectionUIUtils.composeMessage(fieldCategory.getCaption(), errorMsg);
+
+		SortedMap<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = getFieldControlPlaceHoldersByCategoryByForm()
+				.get(form);
+		for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
+			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHoldersByCategory.get(category)) {
+				Component fieldControl = fieldControlPlaceHolder.getFieldControl();
+				if (fieldControl instanceof IAdvancedFieldControl) {
+					try {
+						((IAdvancedFieldControl) fieldControl).validateSubForm();
+					} catch (Exception e) {
+						String errorMsg = e.toString();
+						IFieldInfo field = fieldControlPlaceHolder.getField();
+						errorMsg = ReflectionUIUtils.composeMessage(field.getCaption(), errorMsg);
+						InfoCategory fieldCategory = field.getCategory();
+						if (fieldCategory != null) {
+							errorMsg = ReflectionUIUtils.composeMessage(fieldCategory.getCaption(), errorMsg);
+						}
+						throw new ReflectionUIError(errorMsg, e);
 					}
-					throw new ReflectionUIError(errorMsg, e);
 				}
 			}
 		}

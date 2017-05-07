@@ -42,4 +42,6 @@ public interface IMethodControlData {
 	ResourcePath getIconImagePath();
 
 	boolean isReturnValueIgnored();
+
+	String getConfirmationMessage(InvocationData invocationData);
 }

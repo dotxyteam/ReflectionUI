@@ -36,16 +36,19 @@ public class MethodAction extends AbstractAction {
 	protected SwingRenderer swingRenderer;
 	protected IMethodControlInput input;
 	protected IMethodControlData data;
-	protected Object returnValue;
 	protected boolean shouldDisplayReturnValueIfAny;
 	protected ModificationStack modificationStack;
+
+	protected Object returnValue;
 	protected boolean exceptionThrown = false;
+	protected boolean cancelled = false;
 
 	public MethodAction(SwingRenderer swingRenderer, IMethodControlInput input) {
 		this.swingRenderer = swingRenderer;
 		this.input = input;
 		this.data = input.getControlData();
 		this.shouldDisplayReturnValueIfAny = !data.isReturnValueIgnored();
+		this.modificationStack = input.getModificationStack();
 	}
 
 	public SwingRenderer getSwingRenderer() {
@@ -58,6 +61,10 @@ public class MethodAction extends AbstractAction {
 
 	public boolean wasExceptionThrown() {
 		return exceptionThrown;
+	}
+
+	public boolean wasCancelled() {
+		return cancelled;
 	}
 
 	public void setShouldDisplayReturnValueIfAny(boolean shouldDisplayReturnValueIfAny) {
@@ -83,16 +90,15 @@ public class MethodAction extends AbstractAction {
 		onMethodInvocationRequest(activatorComponent);
 	}
 
-	protected boolean onMethodInvocationRequest(Component activatorComponent) {
+	protected void onMethodInvocationRequest(Component activatorComponent) {
 		if (data.getParameters().size() > 0) {
-			return openMethoExecutionSettingDialog(activatorComponent);
+			openMethoExecutionSettingDialog(activatorComponent);
 		} else {
 			invoke(new InvocationData(), activatorComponent);
 		}
-		return true;
 	}
 
-	protected boolean openMethoExecutionSettingDialog(final Component activatorComponent) {
+	protected void openMethoExecutionSettingDialog(final Component activatorComponent) {
 		final DialogBuilder dialogBuilder = swingRenderer.getDialogBuilder(activatorComponent);
 		final InvocationData invocationData;
 		if (swingRenderer.getLastInvocationDataByMethodSignature().containsKey(data.getMethodSignature())) {
@@ -101,7 +107,6 @@ public class MethodAction extends AbstractAction {
 			invocationData = new InvocationData();
 		}
 		JPanel methodForm = swingRenderer.createForm(createParametersObject(invocationData));
-		final boolean[] invokedStatusHolder = new boolean[] { false };
 		List<Component> toolbarControls = new ArrayList<Component>();
 		String doc = data.getOnlineHelp();
 		if ((doc != null) && (doc.trim().length() > 0)) {
@@ -120,32 +125,40 @@ public class MethodAction extends AbstractAction {
 			});
 			toolbarControls.add(invokeButton);
 		}
-		JButton closeButton = new JButton(shouldDisplayReturnValue() ? "Close" : "Cancel");
+		JButton cancelButton = new JButton("Cancel");
 		{
-			closeButton.addActionListener(new ActionListener() {
+			cancelButton.addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					cancelled = true;
 					dialogBuilder.getCreatedDialog().dispose();
 				}
 
 			});
-			toolbarControls.add(closeButton);
+			toolbarControls.add(cancelButton);
 		}
 
 		dialogBuilder.setContentComponent(methodForm);
-		dialogBuilder.setTitle(ReflectionUIUtils.composeMessage(data.getCaption(), "Execution"));
+		dialogBuilder.setTitle(getTitle());
 		dialogBuilder.setToolbarComponents(toolbarControls);
 
 		swingRenderer.showDialog(dialogBuilder.createDialog(), true);
-		if (shouldDisplayReturnValue()) {
-			return true;
-		} else {
-			return invokedStatusHolder[0];
-		}
+	}
+
+	public String getTitle() {
+		return ReflectionUIUtils.composeMessage(data.getCaption(), "Execution");
 	}
 
 	protected void invoke(InvocationData invocationData, Component activatorComponent) {
+		String confirmationMessage = data.getConfirmationMessage(invocationData);
+		if (confirmationMessage != null) {
+			if (!swingRenderer.openQuestionDialog(activatorComponent, confirmationMessage, getTitle(), "OK",
+					"Cancel")) {
+				cancelled = true;
+				return;
+			}
+		}
 		try {
 			returnValue = data.invoke(invocationData);
 			exceptionThrown = false;
@@ -232,8 +245,8 @@ public class MethodAction extends AbstractAction {
 
 		};
 		Object controlDataAsMethodOwner = data;
-		MethodInvocationDataAsObjectFactory factory = new MethodInvocationDataAsObjectFactory(swingRenderer.getReflectionUI(),
-				controlDataAsMethod, input.getContextIdentifier());
+		MethodInvocationDataAsObjectFactory factory = new MethodInvocationDataAsObjectFactory(
+				swingRenderer.getReflectionUI(), controlDataAsMethod, input.getContextIdentifier());
 		return factory.getInstance(controlDataAsMethodOwner, invocationData);
 	}
 

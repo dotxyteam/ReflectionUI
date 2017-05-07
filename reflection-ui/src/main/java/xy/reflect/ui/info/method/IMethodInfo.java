@@ -28,6 +28,11 @@ public interface IMethodInfo extends IInfo {
 		}
 
 		@Override
+		public String getConfirmationMessage(Object object, InvocationData invocationData) {
+			return null;
+		}
+
+		@Override
 		public ResourcePath getIconImagePath() {
 			return null;
 		}
@@ -146,5 +151,7 @@ public interface IMethodInfo extends IInfo {
 	boolean isReturnValueNullable();
 
 	boolean isReturnValueIgnored();
+
+	String getConfirmationMessage(Object object, InvocationData invocationData);
 
 }

@@ -106,7 +106,9 @@ public class MethodInfoProxy extends AbstractInfoProxy implements IMethodInfo {
 		return base.getSpecificProperties();
 	}
 
-
+	public String getConfirmationMessage(Object object, InvocationData invocationData) {
+		return base.getConfirmationMessage(object, invocationData);
+	}
 
 	@Override
 	public int hashCode() {

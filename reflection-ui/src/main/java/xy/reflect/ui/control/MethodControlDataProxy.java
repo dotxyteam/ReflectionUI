@@ -18,6 +18,11 @@ public class MethodControlDataProxy implements IMethodControlData {
 		this.base = base;
 	}
 
+	@Override
+	public String getConfirmationMessage(InvocationData invocationData) {
+		return base.getConfirmationMessage(invocationData);
+	}
+
 	public boolean isReturnValueNullable() {
 		return base.isReturnValueNullable();
 	}
@@ -61,8 +66,6 @@ public class MethodControlDataProxy implements IMethodControlData {
 	public ValueReturnMode getValueReturnMode() {
 		return base.getValueReturnMode();
 	}
-	
-	
 
 	public String getOnlineHelp() {
 		return base.getOnlineHelp();
