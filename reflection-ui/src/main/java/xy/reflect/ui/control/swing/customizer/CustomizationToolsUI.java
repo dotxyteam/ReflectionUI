@@ -2,6 +2,8 @@ package xy.reflect.ui.control.swing.customizer;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.ReflectionUI;
@@ -79,7 +81,14 @@ class CustomizationToolsUI extends ReflectionUI {
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override
 						public void run() {
-							SwingRendererUtils.rebuildAllDisplayedForms(swingCustomizer);
+							rebuildAllDisplayedForms();
+						}
+
+						void rebuildAllDisplayedForms() {
+							for (JPanel form : SwingRendererUtils.excludeSubForms(
+									SwingRendererUtils.getAllDisplayedForms(swingCustomizer), swingCustomizer)) {
+								swingCustomizer.getCustomizationTools().rebuildCustomizerForm(form);
+							}
 						}
 					});
 				}

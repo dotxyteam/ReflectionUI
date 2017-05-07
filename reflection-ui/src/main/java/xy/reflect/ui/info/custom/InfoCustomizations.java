@@ -64,7 +64,7 @@ public class InfoCustomizations implements Serializable {
 	public static final String UID_FIELD_NAME = "uniqueIdentifier";
 	public static final Object INITIAL_STATE_FIELD_NAME = "initial";
 
-	protected static final ReflectionUI SIMILARITY_INTROSPECTOR = new ReflectionUI();
+	protected static final ReflectionUI INTROSPECTOR = new ReflectionUI();
 
 	public static InfoCustomizations defaultInstance;
 	protected List<TypeCustomization> typeCustomizations = new ArrayList<InfoCustomizations.TypeCustomization>();
@@ -271,7 +271,7 @@ public class InfoCustomizations implements Serializable {
 
 	public static boolean isSimilar(final AbstractCustomization c1, final AbstractCustomization c2,
 			final String... excludedFieldNames) {
-		return ReflectionUIUtils.equalsAccordingInfos(c1, c2, SIMILARITY_INTROSPECTOR, new IInfoFilter() {
+		return ReflectionUIUtils.equalsAccordingInfos(c1, c2, INTROSPECTOR, new IInfoFilter() {
 
 			@Override
 			public boolean excludeMethod(IMethodInfo method) {
@@ -1073,8 +1073,7 @@ public class InfoCustomizations implements Serializable {
 				if (ctor.getParameterTypes().length != 1) {
 					continue;
 				}
-				result.add(
-						ReflectionUIUtils.buildMethodSignature(new DefaultConstructorInfo(new ReflectionUI(), ctor)));
+				result.add(ReflectionUIUtils.buildMethodSignature(new DefaultConstructorInfo(INTROSPECTOR, ctor)));
 			}
 			for (Method method : conversionClass.getMethods()) {
 				if (!Modifier.isStatic(method.getModifiers())) {
@@ -1086,7 +1085,7 @@ public class InfoCustomizations implements Serializable {
 				if (method.getReturnType().equals(void.class)) {
 					continue;
 				}
-				result.add(ReflectionUIUtils.buildMethodSignature(new DefaultMethodInfo(new ReflectionUI(), method)));
+				result.add(ReflectionUIUtils.buildMethodSignature(new DefaultMethodInfo(INTROSPECTOR, method)));
 			}
 			return result;
 		}
@@ -1107,10 +1106,10 @@ public class InfoCustomizations implements Serializable {
 				}
 				Class<?> conversionClass = ClassUtils.getCachedClassforName(conversionClassName);
 				if (conversionMethodName == null) {
-					return new DefaultConstructorInfo(new ReflectionUI(),
+					return new DefaultConstructorInfo(INTROSPECTOR,
 							conversionClass.getDeclaredConstructor(conversionMethodParameterTypes));
 				} else {
-					return new DefaultMethodInfo(new ReflectionUI(),
+					return new DefaultMethodInfo(INTROSPECTOR,
 							conversionClass.getMethod(conversionMethodName, conversionMethodParameterTypes));
 				}
 			} catch (Throwable t) {

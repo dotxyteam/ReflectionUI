@@ -38,6 +38,9 @@ public class SystemProperties {
 	@Usage("If the value of this property is  \"true\" then customizations will be initialized if not found.")
 	public static final String CREATE_INFO_CUSTOMIZATIONS_IF_NOT_FOUND = PREFIX + ".createCustomizationsIfNotFound";
 
+	@Usage("The value of this property is used as the maximum size of various caches used to optimize the reflection process")
+	public static final String STANDARD_CACHE_SIZE = PREFIX + ".standardCacheSize";
+
 	public static String describe() {
 		StringBuilder result = new StringBuilder();
 		for (Field field : SystemProperties.class.getFields()) {
@@ -81,6 +84,10 @@ public class SystemProperties {
 
 	public static boolean areInfoCustomizationsCreatedIfNotFound() {
 		return System.getProperty(SystemProperties.CREATE_INFO_CUSTOMIZATIONS_IF_NOT_FOUND, "true").equals("true");
+	}
+
+	public static long getStandardCacheSize() {
+		return Long.valueOf(System.getProperty(SystemProperties.STANDARD_CACHE_SIZE, "1000"));
 	}
 
 }

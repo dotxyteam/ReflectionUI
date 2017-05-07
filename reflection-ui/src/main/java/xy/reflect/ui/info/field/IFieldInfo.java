@@ -16,6 +16,9 @@ public interface IFieldInfo extends IInfo {
 
 	public IFieldInfo NULL_FIELD_INFO = new IFieldInfo() {
 
+		ReflectionUI reflectionUI = new ReflectionUI();
+		ITypeInfo type = new DefaultTypeInfo(reflectionUI, Object.class);
+
 		@Override
 		public String getName() {
 			return "NULL_FIELD_INFO";
@@ -72,7 +75,7 @@ public interface IFieldInfo extends IInfo {
 
 		@Override
 		public ITypeInfo getType() {
-			return new DefaultTypeInfo(new ReflectionUI(), Object.class);
+			return type;
 		}
 
 		@Override

@@ -5191,6 +5191,49 @@
                 </reverseConversionMethodFinder>
             </typeConversion>
         </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-129683e4:15be0d11b84:-24e1</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>middle</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-129683e4:15be0d11b84:-24dc</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>false</nullable>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-129683e4:15be0d11b84:-a4f</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=ReflectionUITest$Test], fieldName=middle]</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+            <typeConversion>
+                <uniqueIdentifier>-129683e4:15be0d11b84:-24e0</uniqueIdentifier>
+                <conversionMethodFinder>
+                    <uniqueIdentifier>-129683e4:15be0d11b84:-24de</uniqueIdentifier>
+                </conversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-129683e4:15be0d11b84:-24df</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
+                <reverseConversionMethodFinder>
+                    <uniqueIdentifier>-129683e4:15be0d11b84:-24dd</uniqueIdentifier>
+                </reverseConversionMethodFinder>
+            </typeConversion>
+        </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <memberCategories>
             <uniqueIdentifier>48c4c300:15bb2792085:-7d47</uniqueIdentifier>
@@ -18881,7 +18924,7 @@
             <duplicateGenerated>false</duplicateGenerated>
             <fieldName>others</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <getterGenerated>false</getterGenerated>
             <nullReplacement>
@@ -19778,6 +19821,39 @@
                 </reverseConversionMethodFinder>
             </typeConversion>
         </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-129683e4:15be0d11b84:-267f</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customFieldCaption></customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>lists</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-129683e4:15be0d11b84:-267a</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
+            <nullableFacetHidden>false</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations/>
+            <typeConversion>
+                <uniqueIdentifier>-1a5b064f:15bd064b27c:-7c07</uniqueIdentifier>
+                <conversionMethodFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7c05</uniqueIdentifier>
+                </conversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7c06</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
+                <reverseConversionMethodFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7c04</uniqueIdentifier>
+                </reverseConversionMethodFinder>
+            </typeConversion>
+        </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel/>
         <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=ReflectionUITest$Test], fieldName=middle]</typeName>
@@ -19982,6 +20058,13 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <customFieldsOrder>theBooleanPrimitive</customFieldsOrder>
+        <customFieldsOrder>theFile</customFieldsOrder>
+        <customFieldsOrder>theBooleanObject</customFieldsOrder>
+        <customFieldsOrder>anyObject</customFieldsOrder>
+        <customFieldsOrder>theChoice</customFieldsOrder>
+        <customFieldsOrder>theChoice.duplicate</customFieldsOrder>
+        <customFieldsOrder>theString</customFieldsOrder>
         <fieldsCustomizations>
             <uniqueIdentifier>21cc9f0a:15bbfac0b92:-6b65</uniqueIdentifier>
             <specificProperties/>
@@ -21917,6 +22000,59 @@
         <immutableForced>false</immutableForced>
         <menuModel/>
         <typeName>Encapsulation [context=MethodContext [methodSignature=java.lang.Object echo.savedInvocation0(), containingType=ReflectionUITest$Test], subContext=MethodResult, encapsulatedObjectType=java.lang.Object]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-129683e4:15be0d11b84:-a4e</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-129683e4:15be0d11b84:-a4d</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-129683e4:15be0d11b84:-a48</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>false</nullable>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-129683e4:15be0d11b84:-a3b</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=ReflectionUITest$Test], fieldName=middle]</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+            <typeConversion>
+                <uniqueIdentifier>-129683e4:15be0d11b84:-a4c</uniqueIdentifier>
+                <conversionMethodFinder>
+                    <uniqueIdentifier>-129683e4:15be0d11b84:-a4a</uniqueIdentifier>
+                </conversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-129683e4:15be0d11b84:-a4b</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
+                <reverseConversionMethodFinder>
+                    <uniqueIdentifier>-129683e4:15be0d11b84:-a49</uniqueIdentifier>
+                </reverseConversionMethodFinder>
+            </typeConversion>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [context=FieldContext [fieldName=middle, containingType=ReflectionUITest$Test], encapsulatedObjectType=CapsuleFieldType [context=EncapsulationContext [containingType=ReflectionUITest$Test], fieldName=middle]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

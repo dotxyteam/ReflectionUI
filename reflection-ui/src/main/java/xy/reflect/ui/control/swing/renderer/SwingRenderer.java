@@ -115,7 +115,7 @@ public class SwingRenderer {
 	protected Map<JPanel, Boolean> fieldsUpdateListenerDisabledByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, IInfoFilter> infoFilterByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, JLabel> statusBarByForm = new MapMaker().weakKeys().makeMap();
-	protected Map<Window, JPanel> mainFormByWindow = new MapMaker().weakKeys().makeMap();
+	protected Map<JPanel, JMenuBar> menuBarByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, Map<InfoCategory, List<FieldControlPlaceHolder>>> fieldControlPlaceHoldersByCategoryByForm = new MapMaker()
 			.weakKeys().makeMap();
 	protected Map<JPanel, Map<InfoCategory, List<MethodControlPlaceHolder>>> methodControlPlaceHoldersByCategoryByForm = new MapMaker()
@@ -209,8 +209,8 @@ public class SwingRenderer {
 		return statusBarByForm;
 	}
 
-	public Map<Window, JPanel> getMainFormByWindow() {
-		return mainFormByWindow;
+	public Map<JPanel, JMenuBar> getMenuBarByForm() {
+		return menuBarByForm;
 	}
 
 	public Map<JPanel, Boolean> getBusyIndicationDisabledByForm() {
@@ -231,7 +231,7 @@ public class SwingRenderer {
 
 	public String getObjectTitle(Object object) {
 		if (object == null) {
-			return "(Missing Value)";
+			return "<Missing Value>";
 		}
 		return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object)).getCaption();
 	}
@@ -245,20 +245,41 @@ public class SwingRenderer {
 			window.setIconImage(iconImage);
 		}
 
-		Container contentPane = createWindowContentPane(window, content, toolbarControls);
-		SwingRendererUtils.setContentPane(window, contentPane);
+		final JPanel contentPane = new JPanel();
+		setWindowContentPane(window, contentPane);
+		contentPane.setLayout(new BorderLayout());
+		if (content != null) {
+			if (SwingRendererUtils.isForm(content, this)) {
+				final JPanel form = (JPanel) content;
+				SwingRendererUtils.setMenuBar(window, createMenuBar(form));
+				updateMenuBar(form);
+				contentPane.add(createStatusBar(form), BorderLayout.NORTH);
+				setStatusBarError(form, null);
+				window.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowOpened(WindowEvent e) {
+						validateFormInBackgroundAndReportOnStatusBar(form);
+						SwingRendererUtils.requestAnyComponentFocus(form, SwingRenderer.this);
+					}
+				});
+			}
+			JScrollPane scrollPane = createWindowScrollPane(content);
+			scrollPane.getViewport().setOpaque(false);
+			contentPane.add(scrollPane, BorderLayout.CENTER);
+		}
 
-		if (SwingRendererUtils.isForm(content, this)) {
-			JMenuBar menuBar = createMenuBar();
-			SwingRendererUtils.setMenuBar(window, menuBar);
-			updateFormBasedWindowMenuBar(window);
+		if (toolbarControls != null) {
+			if (toolbarControls.size() > 0) {
+				contentPane.add(createToolBar(toolbarControls), BorderLayout.SOUTH);
+			}
 		}
 
 		SwingRendererUtils.adjustWindowInitialBounds(window);
 	}
 
-	public JMenuBar createMenuBar() {
+	public JMenuBar createMenuBar(JPanel form) {
 		JMenuBar result = new JMenuBar();
+		getMenuBarByForm().put(form, result);
 		return result;
 	}
 
@@ -406,7 +427,7 @@ public class SwingRenderer {
 	}
 
 	public void ensureFormGetsRefreshed(final JPanel form) {
-		new Thread("Refresher[of=" + form + "]") {
+		Thread thread = new Thread("Refresher[of=" + form + "]") {
 			@Override
 			public void run() {
 				if (isRefreshRequestQueued()) {
@@ -460,7 +481,8 @@ public class SwingRenderer {
 			private boolean isRefreshRequestQueued() {
 				return Boolean.TRUE.equals(getRefreshRequestQueuedByForm().get(form));
 			}
-		}.start();
+		};
+		thread.start();
 	}
 
 	public Component createErrorControl(final Throwable t) {
@@ -601,52 +623,22 @@ public class SwingRenderer {
 		return result;
 	}
 
-	public Container createWindowContentPane(final Window window, Component content,
-			List<? extends Component> toolbarControls) {
-		final JPanel contentPane = new JPanel();
-		contentPane.setLayout(new BorderLayout());
-		if (content != null) {
-			if (SwingRendererUtils.isForm(content, this)) {
-				final JPanel form = (JPanel) content;
-				getMainFormByWindow().put(window, form);
-				contentPane.add(createStatusBar(form), BorderLayout.NORTH);
-				setStatusBarError(form, null);
-				window.addWindowListener(new WindowAdapter() {
-					@Override
-					public void windowOpened(WindowEvent e) {
-						validateFormInBackgroundAndReportOnStatusBar(form);
-						SwingRendererUtils.requestAnyComponentFocus(form, SwingRenderer.this);
-					}
-				});
-
-			}
-			final JScrollPane scrollPane = createWindowScrollPane(content);
-			scrollPane.getViewport().setOpaque(false);
-			contentPane.add(scrollPane, BorderLayout.CENTER);
-		}
-		if (toolbarControls != null) {
-			if (toolbarControls.size() > 0) {
-				contentPane.add(createToolBar(toolbarControls), BorderLayout.SOUTH);
-			}
-		}
-		return contentPane;
+	public void setWindowContentPane(Window window, Container contentPane) {
+		SwingRendererUtils.setContentPane(window, contentPane);
 	}
 
 	public JScrollPane createWindowScrollPane(Component content) {
 		return new JScrollPane(new ScrollPaneOptions(content, true, false));
 	}
 
-	public void recbuildForm(final JPanel form) {
+	public void rebuildForm(final JPanel form) {
 		form.removeAll();
 		fillForm(form);
 		finalizeFormUpdate(form);
 	}
 
 	public void finalizeFormUpdate(JPanel form) {
-		Window window = SwingUtilities.getWindowAncestor(form);
-		if (window != null) {
-			updateFormBasedWindowMenuBar(window);
-		}
+		updateMenuBar(form);
 		SwingRendererUtils.handleComponentSizeChange(form);
 		validateFormInBackgroundAndReportOnStatusBar(form);
 	}
@@ -1490,12 +1482,8 @@ public class SwingRenderer {
 		return new JLabel(prepareStringToDisplay(caption + ": "));
 	}
 
-	public void updateFormBasedWindowMenuBar(final Window window) {
-		JPanel form = getMainFormByWindow().get(window);
-		if (form == null) {
-			return;
-		}
-		JMenuBar menuBar = SwingRendererUtils.getMenuBar(window);
+	public void updateMenuBar(final JPanel form) {
+		JMenuBar menuBar = getMenuBarByForm().get(form);
 		if (menuBar == null) {
 			return;
 		}
@@ -1550,6 +1538,9 @@ public class SwingRenderer {
 	}
 
 	public void validateFormInBackgroundAndReportOnStatusBar(final JPanel form) {
+		if (getStatusBarByForm().get(form) == null) {
+			return;
+		}
 		new Thread("Validator: " + getObjectByForm().get(form)) {
 			@Override
 			public void run() {

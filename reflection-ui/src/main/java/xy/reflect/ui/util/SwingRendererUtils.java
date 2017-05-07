@@ -185,6 +185,24 @@ public class SwingRendererUtils {
 		return null;
 	}
 
+	public static List<JPanel> findAncestorForms(Component component, SwingRenderer swingRenderer) {
+		List<JPanel> result = new ArrayList<JPanel>();
+		JPanel ancestor = null;
+		while (null != (ancestor = findParentForm(component, swingRenderer))) {
+			result.add(ancestor);
+			component = ancestor;
+		}
+		return result;
+	}
+
+	public static JPanel findMostAncestorForm(Component component, SwingRenderer swingRenderer) {
+		List<JPanel> ancestors = findAncestorForms(component, swingRenderer);
+		if (ancestors.size() == 0) {
+			return null;
+		}
+		return ancestors.get(ancestors.size() - 1);
+	}
+
 	public static List<JPanel> findDescendantForms(Container container, SwingRenderer swingRenderer) {
 		List<JPanel> result = new ArrayList<JPanel>();
 		for (Component childComponent : container.getComponents()) {
@@ -423,7 +441,8 @@ public class SwingRendererUtils {
 
 			@Override
 			public boolean pushUndo(IModification undoModif) {
-				super.pushUndo(eventTrigger);
+				// super.pushUndo(eventTrigger);
+				System.out.println(eventTrigger + " not pushed");
 				ModificationStack valueModifStack = new ModificationStack(null);
 				valueModifStack.pushUndo(undoModif);
 				Boolean valueModifAccepted = valueModifAcceptedGetter.get();
@@ -444,7 +463,7 @@ public class SwingRendererUtils {
 
 			@Override
 			public void invalidate() {
-				super.invalidate();
+				// super.invalidate();
 				ModificationStack valueModifStack = new ModificationStack(null);
 				valueModifStack.invalidate();
 				Boolean valueModifAccepted = valueModifAcceptedGetter.get();
@@ -606,7 +625,7 @@ public class SwingRendererUtils {
 		if (imagePath.getPathKind() == PathKind.MEMORY_OBJECT) {
 			return SwingRendererUtils.IMAGE_CACHE.get(imagePath.getSpecification());
 		}
-		Image result = SwingRendererUtils.IMAGE_CACHE.get(imagePath);
+		Image result = SwingRendererUtils.IMAGE_CACHE.get(imagePath.getSpecification());
 		if (result == null) {
 			URL imageUrl;
 			if (imagePath.getPathKind() == PathKind.CLASS_PATH_RESOURCE) {
@@ -891,14 +910,12 @@ public class SwingRendererUtils {
 		}
 	}
 
-	public static void rebuildAllDisplayedForms(SwingRenderer swingRenderer) {
-		List<JPanel> formsToRefresh = getAllDisplayedForms(swingRenderer);
-		for (JPanel form : new ArrayList<JPanel>(formsToRefresh)) {
-			formsToRefresh.removeAll(findDescendantForms(form, swingRenderer));
+	public static List<JPanel> excludeSubForms(List<JPanel> forms, SwingRenderer swingRenderer) {
+		List<JPanel> result = new ArrayList<JPanel>(forms);
+		for (JPanel form : forms) {
+			result.removeAll(findDescendantForms(form, swingRenderer));
 		}
-		for (JPanel form : formsToRefresh) {
-			swingRenderer.recbuildForm(form);
-		}
+		return result;
 	}
 
 }

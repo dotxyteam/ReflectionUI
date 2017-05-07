@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -55,6 +56,7 @@ import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.SystemProperties;
 import xy.reflect.ui.util.component.AlternativeWindowDecorationsPanel;
 
+@SuppressWarnings("unused")
 public class CustomizationTools {
 
 	protected final SwingCustomizer swingCustomizer;
@@ -118,11 +120,9 @@ public class CustomizationTools {
 				}
 
 				@Override
-				public Container createWindowContentPane(Window window, Component content,
-						List<? extends Component> toolbarControls) {
-					Container result = super.createWindowContentPane(window, content, toolbarControls);
-					return createAlternativeWindowDecorationsPanel(SwingRendererUtils.getWindowTitle(window), window,
-							result);
+				public void setWindowContentPane(Window window, Container contentPane) {
+					super.setWindowContentPane(window, createAlternativeWindowDecorationsPanel(
+							SwingRendererUtils.getWindowTitle(window), window, contentPane));
 				}
 
 			};
@@ -130,11 +130,10 @@ public class CustomizationTools {
 			return new SwingRenderer(toolsUI) {
 
 				@Override
-				public Container createWindowContentPane(Window window, Component content,
-						List<? extends Component> toolbarControls) {
-					Container result = super.createWindowContentPane(window, content, toolbarControls);
-					return createAlternativeWindowDecorationsPanel(SwingRendererUtils.getWindowTitle(window), window,
-							result);
+				public void setWindowContentPane(Window window, Container contentPane) {
+					super.setWindowContentPane(window, createAlternativeWindowDecorationsPanel(
+							SwingRendererUtils.getWindowTitle(window), window, contentPane));
+
 				}
 
 			};
@@ -802,7 +801,11 @@ public class CustomizationTools {
 
 	public void rebuildCustomizerForm(JPanel form) {
 		try {
-			swingCustomizer.recbuildForm(form);
+			swingCustomizer.rebuildForm(form);
+			JPanel topForm = SwingRendererUtils.findMostAncestorForm(form, swingCustomizer);
+			if (topForm != null) {
+				swingCustomizer.updateMenuBar(topForm);
+			}
 		} catch (Throwable t) {
 			swingCustomizer.handleExceptionsFromDisplayedUI(form, t);
 		}

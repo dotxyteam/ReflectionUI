@@ -20,7 +20,7 @@ import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class GetterFieldInfo   extends AbstractInfo implements IFieldInfo {
+public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	public static final Pattern GETTER_PATTERN = Pattern.compile("^(?:get|is|has)([A-Z].*)");
 
@@ -28,6 +28,7 @@ public class GetterFieldInfo   extends AbstractInfo implements IFieldInfo {
 	protected Method javaGetterMethod;
 	protected Class<?> containingJavaClass;
 	protected ITypeInfo type;
+	protected IMethodInfo setterMethodInfo;
 
 	public GetterFieldInfo(ReflectionUI reflectionUI, Method javaGetterMethod, Class<?> containingJavaClass) {
 		this.reflectionUI = reflectionUI;
@@ -103,11 +104,18 @@ public class GetterFieldInfo   extends AbstractInfo implements IFieldInfo {
 	}
 
 	protected IMethodInfo getSetterMethodInfo() {
-		Method javaSetterMethod = GetterFieldInfo.getValidSetterMethod(javaGetterMethod, containingJavaClass);
-		if (javaSetterMethod == null) {
+		if (setterMethodInfo == null) {
+			Method javaSetterMethod = GetterFieldInfo.getValidSetterMethod(javaGetterMethod, containingJavaClass);
+			if (javaSetterMethod == null) {
+				setterMethodInfo = IMethodInfo.NULL_METHOD_INFO;
+			} else {
+				setterMethodInfo = new DefaultMethodInfo(reflectionUI, javaSetterMethod);
+			}
+		}
+		if (setterMethodInfo == IMethodInfo.NULL_METHOD_INFO) {
 			return null;
 		}
-		return new DefaultMethodInfo(reflectionUI, javaSetterMethod);
+		return setterMethodInfo;
 	}
 
 	@Override

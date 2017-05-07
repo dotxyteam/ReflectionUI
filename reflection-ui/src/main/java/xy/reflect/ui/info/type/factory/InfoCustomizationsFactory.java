@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.cache.CacheBuilder;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
@@ -73,8 +74,12 @@ import xy.reflect.ui.undo.ListModificationFactory;
 import xy.reflect.ui.util.Pair;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.SystemProperties;
 
 public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
+
+	protected static Map<String, MembersCustomizationsFactory> membersCache = CacheBuilder.newBuilder()
+			.maximumSize(SystemProperties.getStandardCacheSize()).<String, MembersCustomizationsFactory>build().asMap();
 
 	protected ReflectionUI reflectionUI;
 	protected final InfoCustomizations infoCustomizations;
@@ -830,23 +835,21 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 
 	@Override
 	protected List<IFieldInfo> getFields(final ITypeInfo containingType) {
-		List<IFieldInfo> result = new ArrayList<IFieldInfo>(
-				new MembersCustomizationsFactory(containingType).getOutputFields());
+		List<IFieldInfo> result = new ArrayList<IFieldInfo>(getMembers(containingType).getOutputFields());
 		result = sortFields(result, containingType);
 		return result;
 	}
 
 	@Override
 	protected List<IMethodInfo> getMethods(ITypeInfo containingType) {
-		List<IMethodInfo> result = new ArrayList<IMethodInfo>(
-				new MembersCustomizationsFactory(containingType).getOutputMethods());
+		List<IMethodInfo> result = new ArrayList<IMethodInfo>(getMembers(containingType).getOutputMethods());
 		result = sortMethods(result, containingType);
 		return result;
 	}
 
 	@Override
 	protected MenuModel getMenuModel(ITypeInfo type) {
-		return new MembersCustomizationsFactory(type).getMenuModel();
+		return getMembers(type).getMenuModel();
 	}
 
 	protected List<IFieldInfo> sortFields(List<IFieldInfo> fields, ITypeInfo containingType) {
@@ -920,6 +923,18 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 		return super.getOnlineHelp(type);
 	}
 
+	protected MembersCustomizationsFactory getMembers(ITypeInfo type) {
+		TypeCustomization tc = InfoCustomizations.getTypeCustomization(infoCustomizations, type.getName(), true);
+		String key = reflectionUI.toString() + "-" + infoCustomizations.toString() + "-" + type.toString() + "-"
+				+ ReflectionUIUtils.serializeToHexaText(tc);
+		MembersCustomizationsFactory result = membersCache.get(key);
+		if (result == null) {
+			result = new MembersCustomizationsFactory(type);
+			membersCache.put(key, result);
+		}
+		return result;
+	}
+
 	protected class MembersCustomizationsFactory {
 
 		protected List<IFieldInfo> inputFields = new ArrayList<IFieldInfo>();
@@ -966,10 +981,10 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 
 		protected void evolveMembers() {
 
-			encapsulateMembers(inputFields, inputMethods);
-
 			List<IFieldInfo> newFields = new ArrayList<IFieldInfo>();
 			List<IMethodInfo> newMetods = new ArrayList<IMethodInfo>();
+
+			encapsulateMembers(inputFields, inputMethods, newFields);
 			transformFields(inputFields, outputFields, newFields, newMetods);
 			transformMethods(inputMethods, outputMethods, newFields, newMetods);
 
@@ -1050,7 +1065,8 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 			return result;
 		}
 
-		protected void encapsulateMembers(List<IFieldInfo> fields, List<IMethodInfo> methods) {
+		protected void encapsulateMembers(List<IFieldInfo> fields, List<IMethodInfo> methods,
+				List<IFieldInfo> newFields) {
 			Map<String, Pair<List<IFieldInfo>, List<IMethodInfo>>> encapsulatedMembersByCapsuleFieldName = new HashMap<String, Pair<List<IFieldInfo>, List<IMethodInfo>>>();
 			for (IFieldInfo field : new ArrayList<IFieldInfo>(fields)) {
 				FieldCustomization fc = InfoCustomizations.getFieldCustomization(containingTypeCustomization,
@@ -1098,12 +1114,12 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 						.get(capsuleFieldName);
 				List<IFieldInfo> encapsulatedFields = encapsulatedMembers.getFirst();
 				List<IMethodInfo> encapsulatedMethods = encapsulatedMembers.getSecond();
-				IFieldInfo duplicateField = ReflectionUIUtils.findInfoByName(encapsulatedFields, capsuleFieldName);
+				IFieldInfo duplicateField = ReflectionUIUtils.findInfoByName(fields, capsuleFieldName);
 				String contextId = "EncapsulationContext [containingType=" + containingType.getName() + "]";
 				if (duplicateField != null) {
 					CapsuleField duplicateFieldAsTranslatedCapsuleField = CapsuleField.translateProxy(duplicateField);
 					if (duplicateFieldAsTranslatedCapsuleField != null) {
-						encapsulatedFields.remove(duplicateField);
+						fields.remove(duplicateField);
 						encapsulatedFields.addAll(0, duplicateFieldAsTranslatedCapsuleField.getEncapsulatedFields());
 						encapsulatedMethods.addAll(0, duplicateFieldAsTranslatedCapsuleField.getEncapsulatedMethods());
 						contextId = duplicateFieldAsTranslatedCapsuleField.getContextId();
@@ -1115,7 +1131,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 				CapsuleField capsuleField = new CapsuleField(reflectionUI, capsuleFieldName, encapsulatedFields,
 						encapsulatedMethods, contextId);
 				initializeEncapsulatedMemberCustomizations(capsuleField, containingType);
-				fields.add(capsuleField);
+				newFields.add(capsuleField);
 			}
 		}
 

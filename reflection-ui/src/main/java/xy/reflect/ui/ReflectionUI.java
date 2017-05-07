@@ -28,18 +28,12 @@ public class ReflectionUI {
 
 	protected static ReflectionUI defaultInstance;
 
-	protected Map<ITypeInfoSource, ITypeInfo> typeInfoBySource = CacheBuilder.newBuilder().maximumSize(1000)
+	protected Map<ITypeInfoSource, ITypeInfo> typeInfoBySource = CacheBuilder.newBuilder().maximumSize(SystemProperties.getStandardCacheSize())
 			.<ITypeInfoSource, ITypeInfo>build().asMap();
 	protected Map<Object, ITypeInfo> precomputedTypeInfoByObject = CacheBuilder.newBuilder().weakKeys()
 			.<Object, ITypeInfo>build().asMap();
 
-	@Override
-	public String toString() {
-		if (this == defaultInstance) {
-			return "ReflectionUI.DEFAULT";
-		} else {
-			return super.toString();
-		}
+	public ReflectionUI() {
 	}
 
 	public static ReflectionUI getDefault() {
@@ -175,4 +169,14 @@ public class ReflectionUI {
 			SwingRenderer.getDefault().handleExceptionsFromDisplayedUI(null, t);
 		}
 	}
+
+	@Override
+	public String toString() {
+		if (this == defaultInstance) {
+			return "ReflectionUI.DEFAULT";
+		} else {
+			return super.toString();
+		}
+	}
+
 }

@@ -1,3 +1,5 @@
+- remove event trigger SRU.forwardFormModifications()
+- remove nullableFacetHidden methods from customizations
 - to use in swRenderer.rebuildForm() 
 	- getSelectedCategor
 	- selectCategory

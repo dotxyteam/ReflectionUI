@@ -12,6 +12,9 @@ public interface IParameterInfo extends IInfo {
 
 	IParameterInfo NULL_PARAMETER_INFO = new IParameterInfo() {
 
+		ReflectionUI reflectionUI = new ReflectionUI();
+		ITypeInfo type = new DefaultTypeInfo(reflectionUI, Object.class);
+
 		@Override
 		public Map<String, Object> getSpecificProperties() {
 			return Collections.emptyMap();
@@ -39,7 +42,7 @@ public interface IParameterInfo extends IInfo {
 
 		@Override
 		public ITypeInfo getType() {
-			return new DefaultTypeInfo(new ReflectionUI(), Object.class);
+			return type;
 		}
 
 		@Override
