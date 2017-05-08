@@ -162,7 +162,7 @@ public class MethodInvocationDataAsObjectFactory {
 
 	}
 
-	protected class TypeInfo   extends AbstractInfo implements ITypeInfo {
+	public class TypeInfo   extends AbstractInfo implements ITypeInfo {
 
 		@Override
 		public ResourcePath getIconImagePath() {
@@ -304,7 +304,7 @@ public class MethodInvocationDataAsObjectFactory {
 
 	}
 
-	protected class FieldInfo extends MethodParameterAsFieldInfo {
+	public class FieldInfo extends MethodParameterAsFieldInfo {
 		
 		public FieldInfo(IParameterInfo param) {
 			super(MethodInvocationDataAsObjectFactory.this.method, param);

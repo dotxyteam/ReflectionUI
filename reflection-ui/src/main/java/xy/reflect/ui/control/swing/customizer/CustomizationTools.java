@@ -804,8 +804,9 @@ public class CustomizationTools {
 			swingCustomizer.rebuildForm(form);
 			JPanel topForm = SwingRendererUtils.findMostAncestorForm(form, swingCustomizer);
 			if (topForm != null) {
-				swingCustomizer.updateMenuBar(topForm);
+				topForm = form;
 			}
+			swingCustomizer.updateMenuBar(topForm);
 		} catch (Throwable t) {
 			swingCustomizer.handleExceptionsFromDisplayedUI(form, t);
 		}

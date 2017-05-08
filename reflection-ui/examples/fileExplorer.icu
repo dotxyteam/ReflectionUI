@@ -1,35 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <infoCustomizations>
     <listCustomizations>
-        <uniqueIdentifier>-375eebb8:15bc505bf0f:-8000</uniqueIdentifier>
-        <columnCustomizations>
-            <uniqueIdentifier>-375eebb8:15bc505bf0f:-7ffe</uniqueIdentifier>
-            <columnName>name</columnName>
-            <hidden>false</hidden>
-        </columnCustomizations>
-        <editOptions>
-            <uniqueIdentifier>-375eebb8:15bc505bf0f:-7ffd</uniqueIdentifier>
-            <itemCreationEnabled>true</itemCreationEnabled>
-            <itemDeletionEnabled>true</itemDeletionEnabled>
-            <itemMoveEnabled>true</itemMoveEnabled>
-        </editOptions>
-        <fieldColumnsAdded>false</fieldColumnsAdded>
-        <itemContructorSelectableforced>false</itemContructorSelectableforced>
-        <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-        <itemTypeColumnAdded>false</itemTypeColumnAdded>
-        <itemTypeName>java.io.File</itemTypeName>
-        <listSorted>false</listSorted>
-        <listTypeName>java.util.ArrayList</listTypeName>
-        <positionColumnAdded>false</positionColumnAdded>
-        <stringValueColumnAdded>false</stringValueColumnAdded>
-    </listCustomizations>
-    <listCustomizations>
         <uniqueIdentifier>6a4ad659:15bcfa68ac8:-243a</uniqueIdentifier>
-        <columnCustomizations>
-            <uniqueIdentifier>6a4ad659:15bcfa68ac8:-2378</uniqueIdentifier>
-            <columnName>name</columnName>
-            <hidden>false</hidden>
-        </columnCustomizations>
         <editOptions>
             <uniqueIdentifier>6a4ad659:15bcfa68ac8:-2439</uniqueIdentifier>
             <itemCreationEnabled>true</itemCreationEnabled>
@@ -67,6 +39,7 @@
             <hidden>false</hidden>
             <customFieldCaption>File Tree</customFieldCaption>
             <displayedAsSingletonList>true</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -76,6 +49,7 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ff6</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
@@ -276,6 +250,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <displayedAsSingletonList>false</displayedAsSingletonList>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <fieldName>empty</fieldName>
                         <formControlCreationForced>false</formControlCreationForced>
                         <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -285,21 +260,10 @@
                             <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7fcc</uniqueIdentifier>
                         </nullReplacement>
                         <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+                        <nullable>true</nullable>
                         <nullableFacetHidden>false</nullableFacetHidden>
                         <setterGenerated>false</setterGenerated>
                         <specificTypeCustomizations/>
-                        <typeConversion>
-                            <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7fd0</uniqueIdentifier>
-                            <conversionMethodFinder>
-<uniqueIdentifier>6a4ad659:15bcfa68ac8:-7fce</uniqueIdentifier>
-                            </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>6a4ad659:15bcfa68ac8:-7fcf</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
-                            <reverseConversionMethodFinder>
-<uniqueIdentifier>6a4ad659:15bcfa68ac8:-7fcd</uniqueIdentifier>
-                            </reverseConversionMethodFinder>
-                        </typeConversion>
                     </fieldsCustomizations>
                     <immutableForced>false</immutableForced>
                     <menuModel/>
@@ -308,6 +272,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>void clear()</methodSignature>
                         <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -321,6 +286,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>void trimToSize()</methodSignature>
                         <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -334,6 +300,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>[Ljava.lang.Object; toArray()</methodSignature>
                         <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -347,6 +314,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>int size()</methodSignature>
                         <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -360,6 +328,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.lang.Object clone()</methodSignature>
                         <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -373,6 +342,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.util.Iterator iterator()</methodSignature>
                         <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -386,6 +356,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.util.ListIterator listIterator()</methodSignature>
                         <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -399,6 +370,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.util.Spliterator spliterator()</methodSignature>
                         <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -412,6 +384,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.util.stream.Stream parallelStream()</methodSignature>
                         <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -425,6 +398,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.util.stream.Stream stream()</methodSignature>
                         <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -438,6 +412,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>[Ljava.lang.Object; toArray([Ljava.lang.Object;)</methodSignature>
                         <parametersCustomizations>
@@ -448,6 +423,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
@@ -462,6 +438,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>void ensureCapacity(int)</methodSignature>
                         <parametersCustomizations>
@@ -472,6 +449,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
@@ -486,6 +464,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.lang.Object get(int)</methodSignature>
                         <parametersCustomizations>
@@ -496,6 +475,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
@@ -510,6 +490,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.lang.Object remove(int)</methodSignature>
                         <parametersCustomizations>
@@ -520,6 +501,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
@@ -534,6 +516,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.util.ListIterator listIterator(int)</methodSignature>
                         <parametersCustomizations>
@@ -544,6 +527,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
@@ -558,6 +542,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.util.List subList(int, int)</methodSignature>
                         <parametersCustomizations>
@@ -568,6 +553,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
@@ -579,6 +565,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter2</parameterName>
                         </parametersCustomizations>
@@ -593,6 +580,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>void add(int, java.lang.Object)</methodSignature>
                         <parametersCustomizations>
@@ -603,6 +591,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
@@ -614,6 +603,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter2</parameterName>
                         </parametersCustomizations>
@@ -628,6 +618,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.lang.Object set(int, java.lang.Object)</methodSignature>
                         <parametersCustomizations>
@@ -638,6 +629,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
@@ -649,6 +641,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter2</parameterName>
                         </parametersCustomizations>
@@ -663,6 +656,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>boolean addAll(int, java.util.Collection)</methodSignature>
                         <parametersCustomizations>
@@ -673,6 +667,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
@@ -684,6 +679,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter2</parameterName>
                         </parametersCustomizations>
@@ -698,6 +694,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>boolean add(java.lang.Object)</methodSignature>
                         <parametersCustomizations>
@@ -708,6 +705,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
@@ -722,6 +720,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>boolean contains(java.lang.Object)</methodSignature>
                         <parametersCustomizations>
@@ -732,6 +731,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
@@ -746,6 +746,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>boolean remove(java.lang.Object)</methodSignature>
                         <parametersCustomizations>
@@ -756,6 +757,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
@@ -770,6 +772,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>int indexOf(java.lang.Object)</methodSignature>
                         <parametersCustomizations>
@@ -780,6 +783,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
@@ -794,6 +798,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>int lastIndexOf(java.lang.Object)</methodSignature>
                         <parametersCustomizations>
@@ -804,6 +809,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
@@ -818,6 +824,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>boolean addAll(java.util.Collection)</methodSignature>
                         <parametersCustomizations>
@@ -828,6 +835,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
@@ -842,6 +850,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>boolean containsAll(java.util.Collection)</methodSignature>
                         <parametersCustomizations>
@@ -852,6 +861,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
@@ -866,6 +876,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>boolean removeAll(java.util.Collection)</methodSignature>
                         <parametersCustomizations>
@@ -876,6 +887,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
@@ -890,6 +902,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>boolean retainAll(java.util.Collection)</methodSignature>
                         <parametersCustomizations>
@@ -900,6 +913,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
@@ -914,6 +928,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>void sort(java.util.Comparator)</methodSignature>
                         <parametersCustomizations>
@@ -924,6 +939,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
@@ -938,6 +954,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>void forEach(java.util.function.Consumer)</methodSignature>
                         <parametersCustomizations>
@@ -948,6 +965,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
@@ -962,6 +980,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>boolean removeIf(java.util.function.Predicate)</methodSignature>
                         <parametersCustomizations>
@@ -972,6 +991,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
@@ -986,6 +1006,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>void replaceAll(java.util.function.UnaryOperator)</methodSignature>
                         <parametersCustomizations>
@@ -996,6 +1017,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
@@ -1010,6 +1032,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.util.ArrayList new+paramjava.util.Collection(java.util.Collection)</methodSignature>
                         <parametersCustomizations>
@@ -1020,6 +1043,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
@@ -1034,6 +1058,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.util.ArrayList new()</methodSignature>
                         <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -1047,6 +1072,7 @@
                         <specificProperties/>
                         <hidden>false</hidden>
                         <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.util.ArrayList new+paramint(int)</methodSignature>
                         <parametersCustomizations>
@@ -1057,6 +1083,7 @@
                             </defaultValue>
                             <displayedAsField>false</displayedAsField>
                             <hidden>false</hidden>
+                            <nullable>true</nullable>
                             <nullableFacetHidden>false</nullableFacetHidden>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
@@ -1070,18 +1097,6 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ffa</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ff8</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ff9</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ff7</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel/>
@@ -1090,6 +1105,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.io.File .get()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -1104,21 +1120,9 @@
             <hidden>false</hidden>
             <customMethodCaption>Chosse the root</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>void .set(java.io.File)</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <specificReturnValueTypeCustomizations/>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f94</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>void Tree Root(java.io.File)</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
@@ -1130,6 +1134,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>void setTreeRoot(java.io.File)</methodSignature>
             <parametersCustomizations>
@@ -1140,6 +1145,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName></parameterName>
             </parametersCustomizations>
@@ -1154,6 +1160,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>Encapsulation [encapsulatedObjectType=java.io.File] new+paramjava.lang.String+paramjava.lang.String(java.lang.String, java.lang.String)</methodSignature>
             <parametersCustomizations>
@@ -1164,6 +1171,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -1175,6 +1183,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -1189,6 +1198,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>Encapsulation [encapsulatedObjectType=java.io.File] new+paramjava.lang.String(java.lang.String)</methodSignature>
             <parametersCustomizations>
@@ -1199,6 +1209,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -1213,6 +1224,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>Encapsulation [encapsulatedObjectType=java.io.File] new+paramjava.io.File+paramjava.lang.String(java.io.File, java.lang.String)</methodSignature>
             <parametersCustomizations>
@@ -1223,6 +1235,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -1234,6 +1247,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -1248,6 +1262,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>Encapsulation [encapsulatedObjectType=java.io.File] new+paramjava.net.URI(java.net.URI)</methodSignature>
             <parametersCustomizations>
@@ -1258,22 +1273,10 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <specificReturnValueTypeCustomizations/>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f87</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [encapsulatedObjectType=java.io.File] new()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
@@ -1317,6 +1320,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>absolute</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1326,27 +1330,17 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f53</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f57</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f55</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f56</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f54</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f84</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>absoluteFile</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1356,27 +1350,17 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f4d</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f51</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f4f</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f50</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f4e</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f83</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>absolutePath</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1386,21 +1370,21 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f47</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>false</nullable>
             <nullableFacetHidden>true</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f4b</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f49</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f4a</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f48</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-6abca5be:15be62933a1:-597a</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>java.lang.String</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-2ba792b3:15bc5094452:-70aa</uniqueIdentifier>
@@ -1413,6 +1397,7 @@
             <customFieldCaption>Executable</customFieldCaption>
             <customSetterSignature>boolean setExecutable(boolean)</customSetterSignature>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>canExecute.result</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1422,21 +1407,21 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f41</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f45</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f43</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f44</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f42</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-6abca5be:15be62933a1:-597d</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>boolean</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-2ba792b3:15bc5094452:-70a9</uniqueIdentifier>
@@ -1449,6 +1434,7 @@
             <customFieldCaption>Readable</customFieldCaption>
             <customSetterSignature>boolean setReadable(boolean, boolean)</customSetterSignature>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>canRead.result</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1458,21 +1444,21 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f3a</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f3e</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f3c</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f3d</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f3b</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-6abca5be:15be62933a1:-597f</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>boolean</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>5235a7a6:15bc52889e3:-70aa</uniqueIdentifier>
@@ -1485,6 +1471,7 @@
             <customFieldCaption>Writable</customFieldCaption>
             <customSetterSignature>boolean setWritable(boolean)</customSetterSignature>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>canWrite.result</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1494,27 +1481,28 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f33</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f37</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f35</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f36</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f34</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-6abca5be:15be62933a1:-597e</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>boolean</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f82</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>class</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1524,21 +1512,10 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f2c</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f30</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f2e</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f2f</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f2d</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f81</uniqueIdentifier>
@@ -1555,6 +1532,7 @@
             <hidden>false</hidden>
             <customFieldCaption></customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>createNewFileCall</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1564,21 +1542,10 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f26</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f2a</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f28</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f29</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f27</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f7f</uniqueIdentifier>
@@ -1586,6 +1553,7 @@
             <hidden>false</hidden>
             <customFieldCaption>Is Directory</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>directory</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1595,21 +1563,21 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f1f</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f23</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f21</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f22</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f20</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-6abca5be:15be62933a1:-5976</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>boolean</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f7d</uniqueIdentifier>
@@ -1621,6 +1589,7 @@
             <hidden>false</hidden>
             <customSetterSignature>boolean setExecutable(boolean)</customSetterSignature>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>executable</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1630,27 +1599,17 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f19</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f1d</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f1b</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f1c</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f1a</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f7b</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>exists</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1660,21 +1619,10 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f12</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f16</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f14</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f15</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f13</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f7a</uniqueIdentifier>
@@ -1686,6 +1634,7 @@
             <hidden>true</hidden>
             <customFieldCaption>Is File</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>file</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1695,27 +1644,17 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f0c</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f10</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f0e</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f0f</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f0d</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f78</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>freeSpace</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1725,27 +1664,17 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f05</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f09</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f07</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f08</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f06</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>5235a7a6:15bc52889e3:-70a4</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>getCanonicalFile.result</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1755,27 +1684,17 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7eff</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f03</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f01</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f02</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7f00</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f77</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>hidden</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1785,27 +1704,28 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ef9</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7efd</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7efb</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7efc</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7efa</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-6abca5be:15be62933a1:-5975</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>boolean</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f75</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>lastModificationTimestamp</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1815,21 +1735,10 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ef3</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ef7</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ef5</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ef6</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ef4</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>5235a7a6:15bc52889e3:-70a5</uniqueIdentifier>
@@ -1838,6 +1747,7 @@
             <customFieldCaption>Las tModification Timestamp</customFieldCaption>
             <customSetterSignature>boolean setLastModified(long)</customSetterSignature>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>lastModified.result</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1847,21 +1757,21 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7eed</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ef1</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7eef</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ef0</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7eee</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-6abca5be:15be62933a1:-5977</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>long</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f74</uniqueIdentifier>
@@ -1869,6 +1779,7 @@
             <hidden>false</hidden>
             <customFieldCaption>Size (bytes)</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>length.result</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1878,21 +1789,21 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ee7</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7eeb</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ee9</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7eea</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ee8</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-6abca5be:15be62933a1:-5978</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>long</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f72</uniqueIdentifier>
@@ -1900,6 +1811,7 @@
             <hidden>false</hidden>
             <customFieldCaption>Files</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>listFiles.result</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1909,21 +1821,10 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ee1</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ee5</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ee3</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ee4</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ee2</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f71</uniqueIdentifier>
@@ -1940,6 +1841,7 @@
             <hidden>false</hidden>
             <customFieldCaption></customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>mkdirCall</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1949,27 +1851,17 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7edb</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7edf</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7edd</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ede</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7edc</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f6f</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>name</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1979,27 +1871,28 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ed4</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>false</nullable>
             <nullableFacetHidden>true</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ed8</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ed6</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ed7</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ed5</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-6abca5be:15be62933a1:-597b</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>java.lang.String</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f6e</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>parent</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -2009,21 +1902,10 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ece</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ed2</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ed0</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ed1</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ecf</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f6d</uniqueIdentifier>
@@ -2031,6 +1913,7 @@
             <hidden>true</hidden>
             <customFieldCaption>Directory</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>parentFile</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -2040,27 +1923,17 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ec8</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>false</nullable>
             <nullableFacetHidden>true</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ecc</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7eca</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ecb</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ec9</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f6c</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>path</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -2070,27 +1943,17 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ec2</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ec6</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ec4</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ec5</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ec3</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f6b</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>pathSeparator</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -2100,27 +1963,17 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ebc</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ec0</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ebe</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ebf</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ebd</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f6a</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>pathSeparatorChar</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -2130,21 +1983,10 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7eb6</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7eba</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7eb8</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7eb9</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7eb7</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f69</uniqueIdentifier>
@@ -2156,6 +1998,7 @@
             <hidden>false</hidden>
             <customSetterSignature>boolean setReadOnly(boolean)</customSetterSignature>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>readOnly</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -2165,21 +2008,10 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7eb0</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7eb4</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7eb2</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7eb3</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7eb1</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f67</uniqueIdentifier>
@@ -2191,6 +2023,7 @@
             <hidden>false</hidden>
             <customSetterSignature>boolean setReadable(boolean)</customSetterSignature>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>readable</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -2200,27 +2033,17 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ea9</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ead</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7eab</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7eac</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7eaa</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f65</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>separator</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -2230,27 +2053,17 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ea2</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ea6</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ea4</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ea5</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ea3</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f64</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>separatorChar</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -2260,27 +2073,17 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e9c</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ea0</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e9e</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e9f</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e9d</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f63</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>totalSpace</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -2290,27 +2093,17 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e96</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e9a</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e98</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e99</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e97</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f62</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>usableSpace</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -2320,21 +2113,10 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e90</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e94</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e92</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e93</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e91</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f61</uniqueIdentifier>
@@ -2346,6 +2128,7 @@
             <hidden>false</hidden>
             <customSetterSignature>boolean setWritable(boolean)</customSetterSignature>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>writable</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -2355,21 +2138,10 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e8a</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e8e</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e8c</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e8d</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e8b</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <memberCategories>
@@ -2382,6 +2154,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.io.File (java.lang.String, java.lang.String)</methodSignature>
             <parametersCustomizations>
@@ -2392,6 +2165,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2403,6 +2177,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -2417,6 +2192,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.io.File (java.lang.String)</methodSignature>
             <parametersCustomizations>
@@ -2427,6 +2203,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2441,6 +2218,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.io.File (java.io.File, java.lang.String)</methodSignature>
             <parametersCustomizations>
@@ -2451,6 +2229,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2462,6 +2241,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -2476,6 +2256,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.io.File (java.net.URI)</methodSignature>
             <parametersCustomizations>
@@ -2486,6 +2267,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2500,6 +2282,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>boolean canExecute()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2513,6 +2296,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>boolean canRead()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2526,6 +2310,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>boolean canWrite()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2539,6 +2324,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>int compareTo(java.io.File)</methodSignature>
             <parametersCustomizations>
@@ -2549,6 +2335,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2563,6 +2350,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>boolean createNewFile()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2576,6 +2364,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.io.File createTempFile(java.lang.String, java.lang.String)</methodSignature>
             <parametersCustomizations>
@@ -2586,6 +2375,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2597,6 +2387,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -2611,6 +2402,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.io.File createTempFile(java.lang.String, java.lang.String, java.io.File)</methodSignature>
             <parametersCustomizations>
@@ -2621,6 +2413,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2632,6 +2425,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -2643,6 +2437,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter3</parameterName>
             </parametersCustomizations>
@@ -2656,8 +2451,11 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f50</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
+            <confirmationMessage>(CAUTION: Cannot be undone)
+Do you really want to delete this resource ?  </confirmationMessage>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>boolean delete()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
@@ -2674,6 +2472,7 @@
             </category>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>void deleteOnExit()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2687,6 +2486,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>boolean equals(java.lang.Object)</methodSignature>
             <parametersCustomizations>
@@ -2697,6 +2497,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2711,6 +2512,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>boolean exists()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2724,6 +2526,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.io.File getCanonicalFile()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2737,21 +2540,9 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.String getCanonicalPath()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <specificReturnValueTypeCustomizations/>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f19</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>int hashCode()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
@@ -2763,6 +2554,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>long lastModified()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2776,6 +2568,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>long length()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2789,6 +2582,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>[Ljava.lang.String; list()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2802,6 +2596,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>[Ljava.lang.String; list(java.io.FilenameFilter)</methodSignature>
             <parametersCustomizations>
@@ -2812,6 +2607,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2826,6 +2622,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>[Ljava.io.File; listFiles()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2839,6 +2636,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>[Ljava.io.File; listFiles(java.io.FileFilter)</methodSignature>
             <parametersCustomizations>
@@ -2849,6 +2647,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2863,6 +2662,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>[Ljava.io.File; listFiles(java.io.FilenameFilter)</methodSignature>
             <parametersCustomizations>
@@ -2873,6 +2673,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2887,6 +2688,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>[Ljava.io.File; listRoots()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2900,6 +2702,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>boolean mkdir()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2913,47 +2716,9 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>boolean mkdirs()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <specificReturnValueTypeCustomizations/>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f2e</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>java.io.File new()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <specificReturnValueTypeCustomizations/>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f1c</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>void notify()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <specificReturnValueTypeCustomizations/>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f1b</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>void notifyAll()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
@@ -2964,9 +2729,11 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f4c</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
+            <confirmationMessage>Do you really want to move this resource ?  </confirmationMessage>
             <customMethodCaption>Move</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>boolean renameTo(java.io.File)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f4b</uniqueIdentifier>
@@ -2976,6 +2743,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2990,6 +2758,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>boolean setExecutable(boolean)</methodSignature>
             <parametersCustomizations>
@@ -3000,6 +2769,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -3014,6 +2784,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>boolean setExecutable(boolean, boolean)</methodSignature>
             <parametersCustomizations>
@@ -3024,6 +2795,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -3035,6 +2807,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -3049,6 +2822,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>boolean setLastModified(long)</methodSignature>
             <parametersCustomizations>
@@ -3059,6 +2833,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -3073,6 +2848,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>boolean setReadOnly()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -3086,6 +2862,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>boolean setReadable(boolean)</methodSignature>
             <parametersCustomizations>
@@ -3096,6 +2873,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -3110,6 +2888,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>boolean setReadable(boolean, boolean)</methodSignature>
             <parametersCustomizations>
@@ -3120,6 +2899,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -3131,6 +2911,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -3145,6 +2926,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>boolean setWritable(boolean)</methodSignature>
             <parametersCustomizations>
@@ -3155,6 +2937,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -3169,6 +2952,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>boolean setWritable(boolean, boolean)</methodSignature>
             <parametersCustomizations>
@@ -3179,6 +2963,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -3190,6 +2975,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -3204,21 +2990,9 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.nio.file.Path toPath()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <specificReturnValueTypeCustomizations/>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f18</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>java.lang.String toString()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
@@ -3230,6 +3004,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.net.URI toURI()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -3243,21 +3018,9 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.net.URL toURL()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <specificReturnValueTypeCustomizations/>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f1a</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>void wait()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
@@ -3269,6 +3032,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>void wait(long, int)</methodSignature>
             <parametersCustomizations>
@@ -3279,6 +3043,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -3290,6 +3055,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -3304,6 +3070,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>void wait(long)</methodSignature>
             <parametersCustomizations>
@@ -3314,6 +3081,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -3341,6 +3109,7 @@
             </specificProperties>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3350,21 +3119,10 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e13</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>false</nullable>
             <nullableFacetHidden>true</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e17</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e15</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e16</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e14</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel/>
@@ -3382,6 +3140,7 @@
             <hidden>false</hidden>
             <customFieldCaption>New Path</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>parameter1</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3391,21 +3150,10 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e0c</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>false</nullable>
             <nullableFacetHidden>true</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e10</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e0e</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e0f</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e0d</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel/>
@@ -3422,6 +3170,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3431,21 +3180,10 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e05</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e09</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e07</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e08</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e06</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel/>
@@ -3463,6 +3201,7 @@
             <hidden>false</hidden>
             <customFieldCaption>Operation Successfully Completed</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3472,21 +3211,10 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7dfe</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>false</nullable>
             <nullableFacetHidden>true</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e02</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e00</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7e01</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7dff</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel/>
@@ -3504,6 +3232,7 @@
             <hidden>false</hidden>
             <customFieldCaption>New Path</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>parameter1</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3513,21 +3242,10 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7df7</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>false</nullable>
             <nullableFacetHidden>true</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7dfb</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7df9</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7dfa</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7df8</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel/>
@@ -3545,6 +3263,7 @@
             <hidden>false</hidden>
             <customFieldCaption>Successful</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3554,21 +3273,10 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7df0</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7df4</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7df2</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7df3</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7df1</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel/>
@@ -3586,6 +3294,7 @@
             <hidden>false</hidden>
             <customFieldCaption>Successful</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3595,21 +3304,10 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7de9</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ded</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7deb</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7dec</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7dea</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel/>
@@ -3629,6 +3327,7 @@
             <hidden>false</hidden>
             <customMethodCaption>Create/Overwrite file</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>boolean createNewFile()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -3653,6 +3352,7 @@
             <hidden>false</hidden>
             <customMethodCaption>Create Directory</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>boolean mkdir()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -3676,6 +3376,7 @@
             <hidden>false</hidden>
             <customFieldCaption>Files</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3685,6 +3386,7 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7dde</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
@@ -3796,35 +3498,20 @@
                         <heterogeneousTree>false</heterogeneousTree>
                     </treeStructureDiscoverySettings>
                 </listCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-6abca5be:15be62933a1:-5982</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>[Ljava.io.File;</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
             </specificTypeCustomizations>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7de2</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7de0</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7de1</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7ddf</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel/>
-        <methodsCustomizations>
-            <uniqueIdentifier>-375eebb8:15bc505bf0f:-70d8</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>[Ljava.io.File; ()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <specificReturnValueTypeCustomizations/>
-            <validating>false</validating>
-        </methodsCustomizations>
         <typeName>Encapsulation [encapsulatedObjectType=[Ljava.io.File;]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3839,6 +3526,7 @@
             <hidden>false</hidden>
             <customFieldCaption>Is File</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>file</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3848,37 +3536,13 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7dc3</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7dc7</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7dc5</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7dc6</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7dc4</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel/>
-        <methodsCustomizations>
-            <uniqueIdentifier>-2ba792b3:15bc5094452:-70d4</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>boolean createNewFile()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <specificReturnValueTypeCustomizations/>
-            <validating>false</validating>
-        </methodsCustomizations>
         <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=java.io.File], fieldName=createNewFileCall]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3893,6 +3557,7 @@
             <hidden>false</hidden>
             <customFieldCaption>Is Directory</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>directory</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3902,37 +3567,13 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7dbb</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7dbf</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7dbd</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7dbe</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7dbc</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel/>
-        <methodsCustomizations>
-            <uniqueIdentifier>-2ba792b3:15bc5094452:-70d2</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>boolean mkdir()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <specificReturnValueTypeCustomizations/>
-            <validating>false</validating>
-        </methodsCustomizations>
         <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=java.io.File], fieldName=mkdirCall]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3946,6 +3587,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName></fieldName>
             <formControlCreationForced>true</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3955,21 +3597,10 @@
                 <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7db3</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>false</nullable>
             <nullableFacetHidden>true</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7db7</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7db5</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7db6</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>6a4ad659:15bcfa68ac8:-7db4</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel/>
@@ -3987,6 +3618,7 @@
             <hidden>false</hidden>
             <customFieldCaption>Destination Path</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>parameter1</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -3996,25 +3628,108 @@
                 <uniqueIdentifier>50906691:15bcfb7f69d:1596</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>50906691:15bcfb7f69d:1592</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>50906691:15bcfb7f69d:1594</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>50906691:15bcfb7f69d:1593</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>50906691:15bcfb7f69d:1595</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-6abca5be:15be62933a1:-2769</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>java.io.File</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel/>
         <typeName>MethodSetupObject [context=listDynamicAction [name=renameTo, listContext=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=[Ljava.io.File;]]]]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-6abca5be:15be62933a1:-2767</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-6abca5be:15be62933a1:-2766</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-6abca5be:15be62933a1:-2765</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>false</nullable>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-6abca5be:15be62933a1:-2764</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>boolean</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [context=listDynamicAction [name=renameTo, listContext=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=[Ljava.io.File;]]], subContext=MethodResult, encapsulatedObjectType=boolean]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>74486bb4:15be63b682f:-4daa</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <customTypeCaption>Status</customTypeCaption>
+        <fieldsCustomizations>
+            <uniqueIdentifier>74486bb4:15be63b682f:-4da9</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>74486bb4:15be63b682f:-4da8</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>false</nullable>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>74486bb4:15be63b682f:-4da7</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>boolean</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [context=listDynamicAction [name=delete, listContext=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=[Ljava.io.File;]]], subContext=MethodResult, encapsulatedObjectType=boolean]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

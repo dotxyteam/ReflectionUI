@@ -1,8 +1,9 @@
 package xy.reflect.ui.info.menu.builtin.swing;
 
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.info.menu.builtin.AbstractBuiltInActionMenuItem;
 
-public class RedoMenuItem extends AbstractModificationStackBasedMenuItem {
+public class RedoMenuItem extends AbstractBuiltInActionMenuItem {
 
 	private static final long serialVersionUID = 1L;
 
@@ -11,13 +12,13 @@ public class RedoMenuItem extends AbstractModificationStackBasedMenuItem {
 	}
 
 	@Override
-	public boolean isEnabled(Object object, Object renderer) {
-		return getModificationStack(object, (SwingRenderer) renderer).canRedo();
+	public boolean isEnabled(Object form, Object renderer) {
+		return ((SwingRenderer) renderer).getModificationStackByForm().get(form).canRedo();
 	}
 
 	@Override
-	public void execute(Object object, Object renderer) {
-		getModificationStack(object, (SwingRenderer) renderer).redo();
+	public void execute(Object form, Object renderer) {
+		((SwingRenderer) renderer).getModificationStackByForm().get(form).redo();
 	}
 
 }

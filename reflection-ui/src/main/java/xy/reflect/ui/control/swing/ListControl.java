@@ -1418,7 +1418,10 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					if (itemPosition.getContainingListType().isOrdered() && (index > 0)) {
 						toPostSelect.add(itemPosition.getSibling(index - 1));
 					} else {
-						toPostSelect.add(itemPosition.getParentItemPosition());
+						BufferedItemPosition parentItemPosition = itemPosition.getParentItemPosition();
+						if (parentItemPosition != null) {
+							toPostSelect.add(itemPosition.getParentItemPosition());
+						}
 					}
 				}
 				toPostSelectHolder[0] = toPostSelect;

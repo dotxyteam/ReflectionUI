@@ -9,7 +9,6 @@ import xy.reflect.ui.info.menu.builtin.AbstractBuiltInActionMenuItem;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.SwingRendererUtils;
 
 public class HelpMenuItem extends AbstractBuiltInActionMenuItem {
 
@@ -20,8 +19,9 @@ public class HelpMenuItem extends AbstractBuiltInActionMenuItem {
 	}
 
 	@Override
-	public void execute(Object object, Object renderer) {
+	public void execute(Object form, Object renderer) {
 		SwingRenderer swingRenderer = (SwingRenderer) renderer;
+		Object object = swingRenderer.getObjectByForm().get(form);
 		ITypeInfo type = swingRenderer.getReflectionUI()
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
 		String onlineHelp = type.getOnlineHelp();
@@ -30,8 +30,7 @@ public class HelpMenuItem extends AbstractBuiltInActionMenuItem {
 		}
 		String title = ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), name);
 		Image iconImage = swingRenderer.getObjectIconImage(object);
-		JPanel form = SwingRendererUtils.findFirstObjectActiveForm(object, swingRenderer);
-		swingRenderer.openInformationDialog(form, onlineHelp, title, iconImage);
+		swingRenderer.openInformationDialog((JPanel) form, onlineHelp, title, iconImage);
 	}
 
 }

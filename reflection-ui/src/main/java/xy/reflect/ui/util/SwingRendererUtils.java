@@ -478,22 +478,87 @@ public class SwingRendererUtils {
 
 			@Override
 			public void undo() {
-				throwUnsupportedOperationError("undo");
+				throw getUnsupportedOperationError("undo");
 			}
 
 			@Override
 			public void redo() {
-				throwUnsupportedOperationError("redo");
+				throw getUnsupportedOperationError("redo");
 			}
 
 			@Override
 			public void addListener(IModificationListener listener) {
-				throwUnsupportedOperationError("addListener");
+				throw getUnsupportedOperationError("addListener");
 			}
 
-			void throwUnsupportedOperationError(String operationName) {
-				throw new UnsupportedOperationException("<" + operationName + "> is not allowed on a forwarding "
-						+ ModificationStack.class.getSimpleName());
+			@Override
+			public boolean isInvalidated() {
+				throw getUnsupportedOperationError("isInvalidated");
+			}
+
+			@Override
+			public boolean wasInvalidated() {
+				throw getUnsupportedOperationError("wasInvalidated");
+			}
+
+			@Override
+			public void removeListener(IModificationListener listener) {
+				throw getUnsupportedOperationError("removeListener");
+			}
+
+			@Override
+			public IModificationListener[] getListeners() {
+				throw getUnsupportedOperationError("getListeners");
+			}
+
+			@Override
+			public int getUndoSize() {
+				throw getUnsupportedOperationError("getUndoSize");
+			}
+
+			@Override
+			public int getRedoSize() {
+				throw getUnsupportedOperationError("getRedoSize");
+			}
+
+			@Override
+			public IModification[] getUndoModifications(UndoOrder order) {
+				throw getUnsupportedOperationError("getUndoModifications");
+			}
+
+			@Override
+			public IModification[] getRedoModifications(UndoOrder order) {
+				throw getUnsupportedOperationError("getRedoModifications");
+			}
+
+			@Override
+			public boolean isInComposite() {
+				throw getUnsupportedOperationError("isInComposite");
+			}
+
+			@Override
+			public Boolean canUndo() {
+				throw getUnsupportedOperationError("canUndo");
+			}
+
+			@Override
+			public Boolean canRedo() {
+				throw getUnsupportedOperationError("canRedo");
+			}
+
+			@Override
+			public boolean isNull() {
+				throw getUnsupportedOperationError("isNull");
+			}
+
+			@Override
+			public IModification toCompositeModification(IInfo target, String title) {
+				throw getUnsupportedOperationError("toCompositeModification");
+			}
+
+			UnsupportedOperationException getUnsupportedOperationError(String operationName) {
+				return new UnsupportedOperationException("<" + operationName
+						+ "> is not allowed on a root (non-forwarding) " + ModificationStack.class.getSimpleName());
 			}
 
 		});
@@ -844,12 +909,12 @@ public class SwingRendererUtils {
 
 	public static JMenuItem createJMenuActionItem(final AbstractActionMenuItem actionItem,
 			final SwingRenderer swingRenderer) {
-		JMenuItem result = new JMenuItem(new AbstractAction(actionItem.getName()) {
+		final JPanel form = swingRenderer.getFormByActionMenuItem().get(actionItem);
+		JMenuItem result = new JMenuItem(new AbstractAction() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JPanel form = swingRenderer.getFormByActionMenuItem().get(actionItem);
 				try {
 					if (actionItem instanceof MethodActionMenuItem) {
 						IMethodControlInput input = swingRenderer.createMethodControlPlaceHolder(form,
@@ -857,8 +922,7 @@ public class SwingRendererUtils {
 						MethodAction methodAction = swingRenderer.createMethodAction(input);
 						methodAction.execute(form);
 					} else if (actionItem instanceof AbstractBuiltInActionMenuItem) {
-						Object object = swingRenderer.getObjectByForm().get(form);
-						((AbstractBuiltInActionMenuItem) actionItem).execute(object, swingRenderer);
+						((AbstractBuiltInActionMenuItem) actionItem).execute(form, swingRenderer);
 					} else {
 						throw new ReflectionUIError();
 					}
@@ -867,24 +931,20 @@ public class SwingRendererUtils {
 				}
 			}
 
-			@Override
-			public boolean isEnabled() {
-				JPanel form = swingRenderer.getFormByActionMenuItem().get(actionItem);
-				try {
-					if (actionItem instanceof AbstractBuiltInActionMenuItem) {
-						Object object = swingRenderer.getObjectByForm().get(form);
-						return ((AbstractBuiltInActionMenuItem) actionItem).isEnabled(object, swingRenderer);
-					} else {
-						return true;
-					}
-				} catch (Throwable t) {
-					swingRenderer.getReflectionUI().logError(t);
-					return false;
+		});
+		result.setText(actionItem.getName());
+		result.setIcon(getMenuItemIcon(swingRenderer, actionItem));
+		try {
+			if (actionItem instanceof AbstractBuiltInActionMenuItem) {
+				if (!((AbstractBuiltInActionMenuItem) actionItem).isEnabled(form, swingRenderer)) {
+					result.setEnabled(false);
 				}
 			}
-
-		});
-		result.setIcon(getMenuItemIcon(swingRenderer, actionItem));
+		} catch (Throwable t) {
+			swingRenderer.getReflectionUI().logError(t);
+			result.setText(actionItem.getName() + " (" + t.toString() + ")");
+			result.setEnabled(false);
+		}
 		return result;
 	}
 

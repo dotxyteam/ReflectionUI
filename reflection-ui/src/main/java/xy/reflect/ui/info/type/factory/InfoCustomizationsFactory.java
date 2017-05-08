@@ -40,6 +40,7 @@ import xy.reflect.ui.info.field.NerverNullFieldInfo;
 import xy.reflect.ui.info.field.NullStatusFieldInfo;
 import xy.reflect.ui.info.field.SubFieldInfo;
 import xy.reflect.ui.info.field.ValueAsListFieldInfo;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.DefaultMenuElementPosition;
 import xy.reflect.ui.info.menu.IMenuItemContainer;
 import xy.reflect.ui.info.menu.MenuElementKind;
@@ -223,12 +224,12 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 			List<AbstractListProperty> result = super.getDynamicProperties(listType, anyRootListItemPosition,
 					selection);
 			result = new ArrayList<AbstractListProperty>(result);
-			for (final ListItemFieldShortcut s : l.getAllowedItemFieldShortcuts()) {
+			for (final ListItemFieldShortcut shortcut : l.getAllowedItemFieldShortcuts()) {
 				final String fieldCaption;
-				if (s.getCustomFieldCaption() != null) {
-					fieldCaption = s.getCustomFieldCaption();
+				if (shortcut.getCustomFieldCaption() != null) {
+					fieldCaption = shortcut.getCustomFieldCaption();
 				} else {
-					fieldCaption = ReflectionUIUtils.identifierToCaption(s.getFieldName());
+					fieldCaption = ReflectionUIUtils.identifierToCaption(shortcut.getFieldName());
 				}
 				boolean fieldFound = false;
 				if (selection.size() == 1) {
@@ -237,7 +238,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 					if (item != null) {
 						ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
 						for (final IFieldInfo itemField : actualItemType.getFields()) {
-							if (itemField.getName().equals(s.getFieldName())) {
+							if (itemField.getName().equals(shortcut.getFieldName())) {
 								AbstractListProperty property = new AbstractListProperty() {
 
 									AbstractListProperty thisProperty = this;
@@ -264,6 +265,8 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 											return !new ListModificationFactory(itemPosition, this)
 													.canSet(itemPosition.getIndex());
 										}
+										
+										
 
 									};
 									SubFieldInfo delegate = new SubFieldInfo(itemPositionAsField, itemField);
@@ -275,7 +278,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 
 									@Override
 									public String getName() {
-										return s.getFieldName();
+										return shortcut.getFieldName();
 									}
 
 									@Override
@@ -335,6 +338,18 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 										return delegate.getSpecificProperties();
 									}
 
+									public boolean isFormControlMandatory() {
+										return delegate.isFormControlMandatory();
+									}
+
+									public boolean isFormControlEmbedded() {
+										return delegate.isFormControlEmbedded();
+									}
+
+									public IInfoFilter getFormControlFilter() {
+										return delegate.getFormControlFilter();
+									}
+
 								};
 								result.add(property);
 								fieldFound = true;
@@ -343,7 +358,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 						}
 					}
 				}
-				if ((!fieldFound) && s.isAlwaysShown()) {
+				if ((!fieldFound) && shortcut.isAlwaysShown()) {
 					AbstractListProperty property = new AbstractListProperty() {
 
 						@Override
@@ -353,7 +368,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 
 						@Override
 						public String getName() {
-							return s.getFieldName();
+							return shortcut.getFieldName();
 						}
 
 						@Override
@@ -416,11 +431,11 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 			List<AbstractListAction> result = super.getDynamicActions(listType, anyRootListItemPosition, selection);
 			result = new ArrayList<AbstractListAction>(result);
 
-			for (final ListItemMethodShortcut s : l.getAllowedItemMethodShortcuts()) {
-				final String methodName = ReflectionUIUtils.extractMethodNameFromSignature(s.getMethodSignature());
+			for (final ListItemMethodShortcut shortcut : l.getAllowedItemMethodShortcuts()) {
+				final String methodName = ReflectionUIUtils.extractMethodNameFromSignature(shortcut.getMethodSignature());
 				final String methodCaption;
-				if (s.getCustomMethodCaption() != null) {
-					methodCaption = s.getCustomMethodCaption();
+				if (shortcut.getCustomMethodCaption() != null) {
+					methodCaption = shortcut.getCustomMethodCaption();
 				} else {
 					methodCaption = ReflectionUIUtils.identifierToCaption(methodName);
 				}
@@ -431,7 +446,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 					if (item != null) {
 						ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
 						for (final IMethodInfo itemMethod : actualItemType.getMethods()) {
-							if (itemMethod.getSignature().equals(s.getMethodSignature())) {
+							if (itemMethod.getSignature().equals(shortcut.getMethodSignature())) {
 								AbstractListAction action = new AbstractListAction() {
 
 									AbstractListAction thisAction = this;
@@ -534,6 +549,22 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 										return delegate.isReturnValueDetached();
 									}
 
+									public String getSignature() {
+										return delegate.getSignature();
+									}
+
+									public String getConfirmationMessage(Object object, InvocationData invocationData) {
+										return delegate.getConfirmationMessage(object, invocationData);
+									}
+
+									public boolean isReturnValueIgnored() {
+										return delegate.isReturnValueIgnored();
+									}
+
+									public ResourcePath getIconImagePath() {
+										return delegate.getIconImagePath();
+									}
+
 								};
 								result.add(action);
 								methodFound = true;
@@ -542,7 +573,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 						}
 					}
 				}
-				if ((!methodFound) && s.isAlwaysShown()) {
+				if ((!methodFound) && shortcut.isAlwaysShown()) {
 					result.add(new AbstractListAction() {
 
 						@Override
@@ -967,8 +998,8 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 						}
 					}
 				} catch (Throwable t) {
-					throw new ReflectionUIError("Field '" + field.getName() + "' customization error: " + t.toString(),
-							t);
+					throw new ReflectionUIError("Type '" + containingType.getName() + "': Field '" + field.getName()
+							+ "' customization error: " + t.toString(), t);
 				}
 				modifiedFields.add(field);
 			}
@@ -986,8 +1017,8 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 						}
 					}
 				} catch (Throwable t) {
-					throw new ReflectionUIError(
-							"Method '" + method.getSignature() + "' customization error: " + t.toString(), t);
+					throw new ReflectionUIError("Type '" + containingType.getName() + "': Method '"
+							+ method.getSignature() + "' customization error: " + t.toString(), t);
 				}
 				modifiedMethods.add(method);
 			}
@@ -1958,11 +1989,11 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (f.getTypeConversion() != null) {
-						ITypeInfo newType = f.getTypeConversion().getNewTypeFinder().find(reflectionUI);
-						IMethodInfo conversionMethod = f.getTypeConversion().getConversionMethodFinder().find();
-						IMethodInfo reverseConversionMethod = f.getTypeConversion().getReverseConversionMethodFinder()
-								.find();
-						field = new ChangedTypeFieldInfo(field, newType, conversionMethod, reverseConversionMethod);
+					ITypeInfo newType = f.getTypeConversion().getNewTypeFinder().find(reflectionUI);
+					IMethodInfo conversionMethod = f.getTypeConversion().getConversionMethodFinder().find();
+					IMethodInfo reverseConversionMethod = f.getTypeConversion().getReverseConversionMethodFinder()
+							.find();
+					field = new ChangedTypeFieldInfo(field, newType, conversionMethod, reverseConversionMethod);
 				}
 				return field;
 			}

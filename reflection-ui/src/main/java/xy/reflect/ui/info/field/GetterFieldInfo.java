@@ -29,6 +29,7 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 	protected Class<?> containingJavaClass;
 	protected ITypeInfo type;
 	protected IMethodInfo setterMethodInfo;
+	protected String name;
 
 	public GetterFieldInfo(ReflectionUI reflectionUI, Method javaGetterMethod, Class<?> containingJavaClass) {
 		this.reflectionUI = reflectionUI;
@@ -120,7 +121,10 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public String getName() {
-		return GetterFieldInfo.getFieldName(javaGetterMethod.getName());
+		if (name == null) {
+			name = GetterFieldInfo.getFieldName(javaGetterMethod.getName());
+		}
+		return name;
 	}
 
 	@Override

@@ -214,7 +214,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 				+ ", methods=" + encapsulatedMethods + "]";
 	}
 
-	protected class Value {
+	public class Value {
 
 		protected Object object;
 
@@ -266,7 +266,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	}
 
-	protected class ValueTypeInfo extends AbstractInfo implements ITypeInfo {
+	public class ValueTypeInfo extends AbstractInfo implements ITypeInfo {
 
 		@Override
 		public String getName() {
@@ -405,7 +405,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	}
 
-	protected class EncapsulatedFieldInfoProxy extends FieldInfoProxy {
+	public class EncapsulatedFieldInfoProxy extends FieldInfoProxy {
 
 		public EncapsulatedFieldInfoProxy(IFieldInfo base) {
 			super(base);
@@ -441,7 +441,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	}
 
-	protected class EncapsulatedMethodInfoProxy extends MethodInfoProxy {
+	public class EncapsulatedMethodInfoProxy extends MethodInfoProxy {
 
 		public EncapsulatedMethodInfoProxy(IMethodInfo base) {
 			super(base);

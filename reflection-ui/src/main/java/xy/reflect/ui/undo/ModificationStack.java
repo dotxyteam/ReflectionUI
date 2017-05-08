@@ -235,12 +235,16 @@ public class ModificationStack {
 		}
 	}
 
-	public Boolean canRedo() {
-		return redoStack.size() > 0;
+	public Boolean canUndo() {
+		return (undoStack.size() > 0) && !isInvalidated();
 	}
 
-	public Boolean canUndo() {
-		return undoStack.size() > 0;
+	public Boolean canRedo() {
+		return (redoStack.size() > 0) && !isInvalidated();
+	}
+
+	public Boolean canReset() {
+		return canUndo() && !wasInvalidated();
 	}
 
 	public boolean isNull() {

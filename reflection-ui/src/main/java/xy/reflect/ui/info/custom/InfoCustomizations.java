@@ -1283,11 +1283,13 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		public TypeConversion getTypeConversion() {
-			/*if (typeConversion != null) {
-				if (typeConversion.isInitial()) {
+			if (typeConversion != null) {
+				try {
+					typeConversion.getNewTypeFinder().find(INTROSPECTOR);
+				} catch (Throwable t) {
 					typeConversion = null;
 				}
-			}*/
+			}
 			return typeConversion;
 		}
 

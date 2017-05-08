@@ -56,7 +56,7 @@ public class Parameter extends AccessibleObject {
 		if (name == null) {
 			String[] parameterNames = ReflectionUIUtils.getJavaParameterNames(invokable);
 			if (parameterNames == null) {
-				return NO_NAME;
+				name = NO_NAME;
 			} else {
 				name = parameterNames[position];
 			}

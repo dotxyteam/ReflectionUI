@@ -236,7 +236,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 	}
 
-	protected class ValueListTypeInfo extends StandardCollectionTypeInfo {
+	public class ValueListTypeInfo extends StandardCollectionTypeInfo {
 
 		public ValueListTypeInfo() {
 			super(MultipleFieldsAsListFieldInfo.this.reflectionUI, ArrayList.class,
@@ -265,7 +265,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		}
 	}
 
-	protected class ValueListItemTypeInfo extends AbstractInfo implements ITypeInfo {
+	public class ValueListItemTypeInfo extends AbstractInfo implements ITypeInfo {
 
 		protected IFieldInfo field;
 
@@ -417,7 +417,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 	}
 
-	protected class ValueListItemDetailsFieldInfo extends FieldInfoProxy {
+	public class ValueListItemDetailsFieldInfo extends FieldInfoProxy {
 
 		public ValueListItemDetailsFieldInfo(IFieldInfo field) {
 			super(field);

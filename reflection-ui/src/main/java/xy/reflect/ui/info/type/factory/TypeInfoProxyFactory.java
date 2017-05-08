@@ -519,7 +519,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return info.getCaption();
 	}
 
-	protected class GeneratedBasicTypeInfoProxy extends AbstractInfoProxy implements ITypeInfo {
+	public class GeneratedBasicTypeInfoProxy extends AbstractInfoProxy implements ITypeInfo {
 
 		protected String GENERATED_PROXY_FACTORY_LIST_KEY = TypeInfoProxyFactory.class.getName()
 				+ "GENERATED_PROXY_FACTORY_LIST";
@@ -731,7 +731,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	}
 
-	protected class GeneratedListTypeInfoProxy extends GeneratedBasicTypeInfoProxy implements IListTypeInfo {
+	public class GeneratedListTypeInfoProxy extends GeneratedBasicTypeInfoProxy implements IListTypeInfo {
 
 		public GeneratedListTypeInfoProxy(IListTypeInfo type) {
 			super(type);
@@ -843,7 +843,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	}
 
-	protected class GeneratedEnumerationTypeInfoProxy extends GeneratedBasicTypeInfoProxy
+	public class GeneratedEnumerationTypeInfoProxy extends GeneratedBasicTypeInfoProxy
 			implements IEnumerationTypeInfo {
 
 		public GeneratedEnumerationTypeInfoProxy(IEnumerationTypeInfo type) {
@@ -874,7 +874,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	}
 
-	protected class GeneratedMapEntryTypeInfoProxy extends GeneratedBasicTypeInfoProxy implements IMapEntryTypeInfo {
+	public class GeneratedMapEntryTypeInfoProxy extends GeneratedBasicTypeInfoProxy implements IMapEntryTypeInfo {
 
 		public GeneratedMapEntryTypeInfoProxy(IMapEntryTypeInfo type) {
 			super(type);
@@ -898,7 +898,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	}
 
-	protected class GeneratedFieldInfoProxy extends AbstractInfoProxy implements IFieldInfo {
+	public class GeneratedFieldInfoProxy extends AbstractInfoProxy implements IFieldInfo {
 
 		protected TypeInfoProxyFactory factory = TypeInfoProxyFactory.this;
 
@@ -1052,7 +1052,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	}
 
-	protected class GeneratedMethodInfoProxy extends AbstractInfoProxy implements IMethodInfo {
+	public class GeneratedMethodInfoProxy extends AbstractInfoProxy implements IMethodInfo {
 
 		protected TypeInfoProxyFactory factory = TypeInfoProxyFactory.this;
 
@@ -1220,7 +1220,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	}
 
-	protected class GeneratedConstructorInfoProxy extends GeneratedMethodInfoProxy {
+	public class GeneratedConstructorInfoProxy extends GeneratedMethodInfoProxy {
 
 		public GeneratedConstructorInfoProxy(IMethodInfo ctor, ITypeInfo containingType) {
 			super(ctor, containingType);
@@ -1228,7 +1228,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	}
 
-	protected class GeneratedParameterInfoProxy extends AbstractInfoProxy implements IParameterInfo {
+	public class GeneratedParameterInfoProxy extends AbstractInfoProxy implements IParameterInfo {
 
 		protected TypeInfoProxyFactory factory = TypeInfoProxyFactory.this;
 
@@ -1339,7 +1339,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	}
 
-	protected class GeneratedEnumerationItemInfoProxy extends AbstractInfoProxy implements IEnumerationItemInfo {
+	public class GeneratedEnumerationItemInfoProxy extends AbstractInfoProxy implements IEnumerationItemInfo {
 
 		protected TypeInfoProxyFactory factory = TypeInfoProxyFactory.this;
 

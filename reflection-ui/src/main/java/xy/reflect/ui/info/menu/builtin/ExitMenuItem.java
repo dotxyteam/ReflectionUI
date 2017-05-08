@@ -9,7 +9,7 @@ public class ExitMenuItem extends AbstractBuiltInActionMenuItem {
 	}
 
 	@Override
-	public void execute(Object object, Object renderer) {
+	public void execute(Object form, Object renderer) {
 		System.exit(0);
 	}
 

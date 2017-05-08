@@ -256,7 +256,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		return "ImplicitListField [fieldName=" + fieldName + ", parentType=" + parentType + "]";
 	}
 
-	protected class ValueInstance {
+	public class ValueInstance {
 		protected Object object;
 		protected Object[] array;
 
@@ -318,7 +318,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	}
 
-	protected class ValueTypeInfo extends AbstractInfo implements IListTypeInfo {
+	public class ValueTypeInfo extends AbstractInfo implements IListTypeInfo {
 
 		@Override
 		public FieldsLayout getFieldsLayout() {

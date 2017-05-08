@@ -13,11 +13,12 @@ import xy.reflect.ui.util.Parameter;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class DefaultParameterInfo   extends AbstractInfo implements IParameterInfo {
+public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected Parameter javaParameter;
 	protected ITypeInfo type;
+	protected String name;
 
 	public static boolean isCompatibleWith(Parameter javaParameter) {
 		return true;
@@ -58,11 +59,13 @@ public class DefaultParameterInfo   extends AbstractInfo implements IParameterIn
 
 	@Override
 	public String getName() {
-		String result = javaParameter.getName();
-		if (result == Parameter.NO_NAME) {
-			result = "parameter" + (javaParameter.getPosition() + 1);
+		if (name == null) {
+			name = javaParameter.getName();
+			if (name == Parameter.NO_NAME) {
+				name = "parameter" + (javaParameter.getPosition() + 1);
+			}
 		}
-		return result;
+		return name;
 	}
 
 	@Override

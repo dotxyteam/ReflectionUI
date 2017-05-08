@@ -10,6 +10,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>ARGV</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -19,27 +20,17 @@
                 <uniqueIdentifier>37fbb1d1:15bccdd7bb0:-7ffa</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>-17e1005c:15bca7dbab2:-7ffe</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7ffc</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7ffd</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7ffb</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>8acb233:15bc8e8e6ed:-7077</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>ENGINE</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -49,27 +40,17 @@
                 <uniqueIdentifier>37fbb1d1:15bccdd7bb0:-7fed</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>-17e1005c:15bca7dbab2:-7ff9</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7ff7</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7ff8</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7ff6</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>8acb233:15bc8e8e6ed:-7076</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>ENGINE_VERSION</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -79,27 +60,17 @@
                 <uniqueIdentifier>37fbb1d1:15bccdd7bb0:-7fe0</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>-17e1005c:15bca7dbab2:-7ff4</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7ff2</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7ff3</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7ff1</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>8acb233:15bc8e8e6ed:-7075</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>FILENAME</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -109,27 +80,17 @@
                 <uniqueIdentifier>37fbb1d1:15bccdd7bb0:-7fd3</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fef</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fed</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fee</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fec</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>8acb233:15bc8e8e6ed:-7074</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>LANGUAGE</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -139,27 +100,17 @@
                 <uniqueIdentifier>37fbb1d1:15bccdd7bb0:-7fc6</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fea</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fe8</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fe9</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fe7</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>8acb233:15bc8e8e6ed:-7073</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>LANGUAGE_VERSION</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -169,27 +120,17 @@
                 <uniqueIdentifier>37fbb1d1:15bccdd7bb0:-7fb9</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fe5</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fe3</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fe4</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fe2</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>8acb233:15bc8e8e6ed:-7072</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>NAME</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -199,27 +140,17 @@
                 <uniqueIdentifier>37fbb1d1:15bccdd7bb0:-7fac</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fe0</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fde</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fdf</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fdd</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>8acb233:15bc8e8e6ed:-7071</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>NASHORN_GLOBAL</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -229,27 +160,17 @@
                 <uniqueIdentifier>37fbb1d1:15bccdd7bb0:-7f9f</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fdb</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fd9</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fda</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fd8</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>8acb233:15bc8e8e6ed:-7070</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>context</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -259,27 +180,17 @@
                 <uniqueIdentifier>37fbb1d1:15bccdd7bb0:-7f92</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fd6</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fd4</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fd5</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fd3</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>8acb233:15bc8e8e6ed:-706f</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>factory</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -289,21 +200,10 @@
                 <uniqueIdentifier>37fbb1d1:15bccdd7bb0:-7f85</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fd1</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fcf</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fd0</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fce</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>8acb233:15bc8e8e6ed:-705c</uniqueIdentifier>
@@ -311,6 +211,7 @@
             <hidden>false</hidden>
             <customFieldCaption></customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>eval.parameter1</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -320,6 +221,7 @@
                 <uniqueIdentifier>37fbb1d1:15bccdd7bb0:-7f78</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>false</nullable>
             <nullableFacetHidden>true</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
@@ -358,6 +260,7 @@
             <hidden>false</hidden>
             <customFieldCaption>Result</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>eval.result</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -368,6 +271,7 @@
                 <data>rO0ABXQAAA==</data>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>false</nullable>
             <nullableFacetHidden>true</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
@@ -382,18 +286,6 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
-            <typeConversion>
-                <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fc0</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fbe</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fbf</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fbd</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel/>
@@ -402,6 +294,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>javax.script.CompiledScript compile(java.io.Reader)</methodSignature>
             <parametersCustomizations>
@@ -412,6 +305,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>reader</parameterName>
             </parametersCustomizations>
@@ -426,6 +320,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>javax.script.CompiledScript compile(java.lang.String)</methodSignature>
             <parametersCustomizations>
@@ -436,6 +331,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>str</parameterName>
             </parametersCustomizations>
@@ -450,6 +346,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>javax.script.Bindings createBindings()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -463,6 +360,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.Object eval(java.io.Reader)</methodSignature>
             <parametersCustomizations>
@@ -473,6 +371,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -487,6 +386,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.Object eval(java.io.Reader, javax.script.Bindings)</methodSignature>
             <parametersCustomizations>
@@ -497,6 +397,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -508,6 +409,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -522,6 +424,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.Object eval(java.io.Reader, javax.script.ScriptContext)</methodSignature>
             <parametersCustomizations>
@@ -532,6 +435,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>reader</parameterName>
             </parametersCustomizations>
@@ -543,6 +447,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>ctxt</parameterName>
             </parametersCustomizations>
@@ -557,6 +462,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.Object eval(java.lang.String, javax.script.Bindings)</methodSignature>
             <parametersCustomizations>
@@ -567,6 +473,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -578,6 +485,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -592,6 +500,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.Object eval(java.lang.String, javax.script.ScriptContext)</methodSignature>
             <parametersCustomizations>
@@ -602,6 +511,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>script</parameterName>
             </parametersCustomizations>
@@ -613,6 +523,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>ctxt</parameterName>
             </parametersCustomizations>
@@ -627,6 +538,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.Object eval(java.lang.String)</methodSignature>
             <parametersCustomizations>
@@ -638,6 +550,7 @@
                 </defaultValue>
                 <displayedAsField>true</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -652,6 +565,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.Object get(java.lang.String)</methodSignature>
             <parametersCustomizations>
@@ -662,6 +576,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -676,6 +591,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>javax.script.Bindings getBindings(int)</methodSignature>
             <parametersCustomizations>
@@ -686,6 +602,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -700,6 +617,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.Object getInterface(java.lang.Class)</methodSignature>
             <parametersCustomizations>
@@ -710,6 +628,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>clazz</parameterName>
             </parametersCustomizations>
@@ -724,6 +643,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.Object getInterface(java.lang.Object, java.lang.Class)</methodSignature>
             <parametersCustomizations>
@@ -734,6 +654,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>thiz</parameterName>
             </parametersCustomizations>
@@ -745,6 +666,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>clazz</parameterName>
             </parametersCustomizations>
@@ -759,6 +681,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.Object invokeFunction(java.lang.String, [Ljava.lang.Object;)</methodSignature>
             <parametersCustomizations>
@@ -769,6 +692,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>name</parameterName>
             </parametersCustomizations>
@@ -780,6 +704,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>args</parameterName>
             </parametersCustomizations>
@@ -794,6 +719,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.Object invokeMethod(java.lang.Object, java.lang.String, [Ljava.lang.Object;)</methodSignature>
             <parametersCustomizations>
@@ -804,6 +730,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>thiz</parameterName>
             </parametersCustomizations>
@@ -815,6 +742,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>name</parameterName>
             </parametersCustomizations>
@@ -826,6 +754,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>args</parameterName>
             </parametersCustomizations>
@@ -840,6 +769,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>void put(java.lang.String, java.lang.Object)</methodSignature>
             <parametersCustomizations>
@@ -850,6 +780,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -861,6 +792,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -875,6 +807,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>void setBindings(javax.script.Bindings, int)</methodSignature>
             <parametersCustomizations>
@@ -885,6 +818,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -896,6 +830,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -919,6 +854,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName></fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -928,6 +864,7 @@
                 <uniqueIdentifier>37fbb1d1:15bccdd7bb0:-7f49</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
@@ -942,21 +879,61 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
-            <typeConversion>
-                <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fa8</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fa6</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fa7</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>-17e1005c:15bca7dbab2:-7fa5</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
-        <menuModel/>
+        <menuModel>
+            <menus>
+                <uniqueIdentifier>-50cae425:15be65c9404:-52c4</uniqueIdentifier>
+                <name>File</name>
+                <exitMenuItem>
+                    <uniqueIdentifier>-50cae425:15be65c9404:-502a</uniqueIdentifier>
+                    <name>Exit</name>
+                </exitMenuItem>
+            </menus>
+            <menus>
+                <uniqueIdentifier>-50cae425:15be65c9404:-48d1</uniqueIdentifier>
+                <name>Edit</name>
+                <undoMenuItem>
+                    <uniqueIdentifier>-50cae425:15be65c9404:-467f</uniqueIdentifier>
+                    <name>Undo</name>
+                </undoMenuItem>
+                <redoMenuItem>
+                    <uniqueIdentifier>-50cae425:15be65c9404:-4431</uniqueIdentifier>
+                    <name>Redo</name>
+                </redoMenuItem>
+                <exitMenuItem>
+                    <uniqueIdentifier>3ebd2b6a:15be695bb9a:-4739</uniqueIdentifier>
+                    <name>Reset</name>
+                </exitMenuItem>
+            </menus>
+            <menus>
+                <uniqueIdentifier>4f06c7f5:15be69b2b8f:-4faa</uniqueIdentifier>
+                <name>Help</name>
+                <helpMenuItem>
+                    <uniqueIdentifier>4f06c7f5:15be69b2b8f:-4d3f</uniqueIdentifier>
+                    <name>About</name>
+                </helpMenuItem>
+            </menus>
+        </menuModel>
+        <onlineHelp>// This is an example an a GUI generated using ReflectionUI.
+// Source code:
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.util.SystemProperties;
+
+public class Calculator {
+
+	public static void main(String[] args) {
+		System.setProperty(SystemProperties.DEFAULT_INFO_CUSTOMIZATIONS_FILE_PATH, "calculator.icu");		
+		ScriptEngineManager factory = new ScriptEngineManager();
+		ScriptEngine engine = factory.getEngineByName("JavaScript");
+		SwingRenderer.getDefault().openObjectFrame(engine);
+	}	
+
+}
+</onlineHelp>
         <typeName>Encapsulation [encapsulatedObjectType=jdk.nashorn.api.scripting.NashornScriptEngine]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -975,6 +952,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>class</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -984,21 +962,10 @@
                 <uniqueIdentifier>37fbb1d1:15bccdd7bb0:-7f3b</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>-2ea604f0:15bcac0a789:2897</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>-2ea604f0:15bcac0a789:2899</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-2ea604f0:15bcac0a789:2898</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>-2ea604f0:15bcac0a789:289a</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-2ea604f0:15bcadbed18:-5bb2</uniqueIdentifier>
@@ -1006,6 +973,7 @@
             <hidden>false</hidden>
             <customFieldCaption>Input</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>toString.result</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
@@ -1015,6 +983,7 @@
                 <uniqueIdentifier>37fbb1d1:15bccdd7bb0:-7f2e</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>false</nullable>
             <nullableFacetHidden>true</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
@@ -1029,18 +998,6 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
-            <typeConversion>
-                <uniqueIdentifier>-2ea604f0:15bcadbed18:-5bb1</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>-2ea604f0:15bcadbed18:-5baf</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-2ea604f0:15bcadbed18:-5bb0</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>-2ea604f0:15bcadbed18:-5bae</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-2ea604f0:15bcadbed18:7495</uniqueIdentifier>
@@ -1048,6 +1005,7 @@
             <hidden>false</hidden>
             <customFieldCaption></customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>row1</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -1057,21 +1015,10 @@
                 <uniqueIdentifier>37fbb1d1:15bccdd7bb0:-7f21</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>-2ea604f0:15bcadbed18:7496</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>-2ea604f0:15bcadbed18:7498</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-2ea604f0:15bcadbed18:7497</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>-2ea604f0:15bcadbed18:7499</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-2ea604f0:15bcadfa3cc:1058</uniqueIdentifier>
@@ -1079,6 +1026,7 @@
             <hidden>false</hidden>
             <customFieldCaption></customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>row2</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -1088,21 +1036,10 @@
                 <uniqueIdentifier>37fbb1d1:15bccdd7bb0:-7f14</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>-2ea604f0:15bcadfa3cc:1059</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>-2ea604f0:15bcadfa3cc:105b</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-2ea604f0:15bcadfa3cc:105a</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>-2ea604f0:15bcadfa3cc:105c</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-2ea604f0:15bcadfa3cc:75a4</uniqueIdentifier>
@@ -1110,6 +1047,7 @@
             <hidden>false</hidden>
             <customFieldCaption></customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>row3</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -1119,21 +1057,10 @@
                 <uniqueIdentifier>37fbb1d1:15bccdd7bb0:-7f07</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>-2ea604f0:15bcadfa3cc:75a5</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>-2ea604f0:15bcadfa3cc:75a7</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-2ea604f0:15bcadfa3cc:75a6</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>-2ea604f0:15bcadfa3cc:75a8</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-2ea604f0:15bcae3da1f:c3d</uniqueIdentifier>
@@ -1141,6 +1068,7 @@
             <hidden>false</hidden>
             <customFieldCaption></customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
             <fieldName>row0</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
@@ -1150,21 +1078,10 @@
                 <uniqueIdentifier>37fbb1d1:15bccdd7bb0:-7efa</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>true</nullable>
             <nullableFacetHidden>false</nullableFacetHidden>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations/>
-            <typeConversion>
-                <uniqueIdentifier>-2ea604f0:15bcae3da1f:c3e</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>-2ea604f0:15bcae3da1f:c40</uniqueIdentifier>
-                </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-2ea604f0:15bcae3da1f:c3f</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>-2ea604f0:15bcae3da1f:c41</uniqueIdentifier>
-                </reverseConversionMethodFinder>
-            </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel/>
@@ -1173,6 +1090,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder (java.lang.CharSequence)</methodSignature>
             <parametersCustomizations>
@@ -1183,6 +1101,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -1197,6 +1116,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder (java.lang.String)</methodSignature>
             <parametersCustomizations>
@@ -1207,6 +1127,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -1221,6 +1142,7 @@
             <specificProperties/>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder (int)</methodSignature>
             <parametersCustomizations>
@@ -1231,22 +1153,10 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <specificReturnValueTypeCustomizations/>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-f0ac75b:15bc954696b:-7111</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>java.lang.StringBuilder ()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
@@ -1258,6 +1168,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append([C)</methodSignature>
             <parametersCustomizations>
@@ -1268,6 +1179,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -1282,6 +1194,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append([C, int, int)</methodSignature>
             <parametersCustomizations>
@@ -1292,6 +1205,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -1303,6 +1217,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -1314,6 +1229,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter3</parameterName>
             </parametersCustomizations>
@@ -1328,6 +1244,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append(boolean)</methodSignature>
             <parametersCustomizations>
@@ -1338,6 +1255,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -1352,6 +1270,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append(char)</methodSignature>
             <parametersCustomizations>
@@ -1362,6 +1281,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -1376,6 +1296,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append(double)</methodSignature>
             <parametersCustomizations>
@@ -1386,6 +1307,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -1400,6 +1322,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append(float)</methodSignature>
             <parametersCustomizations>
@@ -1410,6 +1333,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -1424,6 +1348,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append(int)</methodSignature>
             <parametersCustomizations>
@@ -1434,6 +1359,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -1448,6 +1374,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append(java.lang.CharSequence, int, int)</methodSignature>
             <parametersCustomizations>
@@ -1458,6 +1385,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -1469,6 +1397,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -1480,6 +1409,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter3</parameterName>
             </parametersCustomizations>
@@ -1494,6 +1424,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append(java.lang.StringBuffer)</methodSignature>
             <parametersCustomizations>
@@ -1504,6 +1435,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -1518,6 +1450,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append(long)</methodSignature>
             <parametersCustomizations>
@@ -1528,6 +1461,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -1542,6 +1476,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append(java.lang.CharSequence)</methodSignature>
             <parametersCustomizations>
@@ -1552,6 +1487,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -1566,6 +1502,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append(java.lang.Object)</methodSignature>
             <parametersCustomizations>
@@ -1576,6 +1513,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -1590,6 +1528,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append(java.lang.String)</methodSignature>
             <parametersCustomizations>
@@ -1600,6 +1539,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -1679,6 +1619,7 @@
             <hidden>false</hidden>
             <customMethodCaption>0</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>row0</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation0()</methodSignature>
@@ -1694,6 +1635,7 @@
             <hidden>false</hidden>
             <customMethodCaption>1</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>row1</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation1()</methodSignature>
@@ -1709,6 +1651,7 @@
             <hidden>false</hidden>
             <customMethodCaption>+</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>row0</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation10()</methodSignature>
@@ -1724,6 +1667,7 @@
             <hidden>false</hidden>
             <customMethodCaption>-</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>row3</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation11()</methodSignature>
@@ -1739,6 +1683,7 @@
             <hidden>false</hidden>
             <customMethodCaption>*</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>row2</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation12()</methodSignature>
@@ -1754,6 +1699,7 @@
             <hidden>false</hidden>
             <customMethodCaption>/</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>row1</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation13()</methodSignature>
@@ -1769,6 +1715,7 @@
             <hidden>false</hidden>
             <customMethodCaption>.</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>row0</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation14()</methodSignature>
@@ -1784,6 +1731,7 @@
             <hidden>false</hidden>
             <customMethodCaption>%</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>row0</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation15()</methodSignature>
@@ -1799,6 +1747,7 @@
             <hidden>false</hidden>
             <customMethodCaption>2</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>row1</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation2()</methodSignature>
@@ -1814,6 +1763,7 @@
             <hidden>false</hidden>
             <customMethodCaption>3</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>row1</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation3()</methodSignature>
@@ -1829,6 +1779,7 @@
             <hidden>false</hidden>
             <customMethodCaption>4</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>row2</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation4()</methodSignature>
@@ -1844,6 +1795,7 @@
             <hidden>false</hidden>
             <customMethodCaption>5</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>row2</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation5()</methodSignature>
@@ -1859,6 +1811,7 @@
             <hidden>false</hidden>
             <customMethodCaption>6</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>row2</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation6()</methodSignature>
@@ -1874,6 +1827,7 @@
             <hidden>false</hidden>
             <customMethodCaption>7</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>row3</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation7()</methodSignature>
@@ -1889,6 +1843,7 @@
             <hidden>false</hidden>
             <customMethodCaption>8</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>row3</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation8()</methodSignature>
@@ -1904,6 +1859,7 @@
             <hidden>false</hidden>
             <customMethodCaption>9</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>row3</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation9()</methodSignature>
@@ -1918,6 +1874,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder appendCodePoint(int)</methodSignature>
             <parametersCustomizations>
@@ -1928,6 +1885,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -1942,6 +1900,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.util.stream.IntStream chars()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -1955,6 +1914,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.util.stream.IntStream codePoints()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -1968,6 +1928,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder delete(int, int)</methodSignature>
             <parametersCustomizations>
@@ -1978,6 +1939,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -1989,6 +1951,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -2008,6 +1971,7 @@
             <hidden>true</hidden>
             <customMethodCaption>Reset</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder delete.savedInvocation0()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2021,6 +1985,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder deleteCharAt(int)</methodSignature>
             <parametersCustomizations>
@@ -2031,6 +1996,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2045,6 +2011,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>boolean equals(java.lang.Object)</methodSignature>
             <parametersCustomizations>
@@ -2055,6 +2022,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2069,6 +2037,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>int hashCode()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2082,6 +2051,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>int indexOf(java.lang.String, int)</methodSignature>
             <parametersCustomizations>
@@ -2092,6 +2062,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2103,6 +2074,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -2117,6 +2089,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>int indexOf(java.lang.String)</methodSignature>
             <parametersCustomizations>
@@ -2127,6 +2100,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2141,6 +2115,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder insert(int, [C)</methodSignature>
             <parametersCustomizations>
@@ -2151,6 +2126,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2162,6 +2138,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -2176,6 +2153,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder insert(int, [C, int, int)</methodSignature>
             <parametersCustomizations>
@@ -2186,6 +2164,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2197,6 +2176,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -2208,6 +2188,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter3</parameterName>
             </parametersCustomizations>
@@ -2219,6 +2200,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter4</parameterName>
             </parametersCustomizations>
@@ -2233,6 +2215,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder insert(int, boolean)</methodSignature>
             <parametersCustomizations>
@@ -2243,6 +2226,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2254,6 +2238,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -2268,6 +2253,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder insert(int, char)</methodSignature>
             <parametersCustomizations>
@@ -2278,6 +2264,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2289,6 +2276,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -2303,6 +2291,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder insert(int, double)</methodSignature>
             <parametersCustomizations>
@@ -2313,6 +2302,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2324,6 +2314,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -2338,6 +2329,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder insert(int, float)</methodSignature>
             <parametersCustomizations>
@@ -2348,6 +2340,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2359,6 +2352,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -2373,6 +2367,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder insert(int, int)</methodSignature>
             <parametersCustomizations>
@@ -2383,6 +2378,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2394,6 +2390,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -2408,6 +2405,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder insert(int, java.lang.CharSequence, int, int)</methodSignature>
             <parametersCustomizations>
@@ -2418,6 +2416,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2429,6 +2428,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -2440,6 +2440,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter3</parameterName>
             </parametersCustomizations>
@@ -2451,6 +2452,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter4</parameterName>
             </parametersCustomizations>
@@ -2465,6 +2467,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder insert(int, java.lang.CharSequence)</methodSignature>
             <parametersCustomizations>
@@ -2475,6 +2478,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2486,6 +2490,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -2500,6 +2505,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder insert(int, java.lang.Object)</methodSignature>
             <parametersCustomizations>
@@ -2510,6 +2516,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2521,6 +2528,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -2535,6 +2543,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder insert(int, java.lang.String)</methodSignature>
             <parametersCustomizations>
@@ -2545,6 +2554,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2556,6 +2566,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -2570,6 +2581,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder insert(int, long)</methodSignature>
             <parametersCustomizations>
@@ -2580,6 +2592,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2591,6 +2604,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -2605,6 +2619,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>int lastIndexOf(java.lang.String, int)</methodSignature>
             <parametersCustomizations>
@@ -2615,6 +2630,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2626,6 +2642,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -2640,6 +2657,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>int lastIndexOf(java.lang.String)</methodSignature>
             <parametersCustomizations>
@@ -2650,6 +2668,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2664,6 +2683,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>void notify()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2677,6 +2697,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>void notifyAll()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2690,6 +2711,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder replace(int, int, java.lang.String)</methodSignature>
             <parametersCustomizations>
@@ -2700,6 +2722,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2711,6 +2734,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -2722,6 +2746,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter3</parameterName>
             </parametersCustomizations>
@@ -2736,6 +2761,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder reverse()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2749,6 +2775,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.String toString()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2762,6 +2789,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>void wait(long, int)</methodSignature>
             <parametersCustomizations>
@@ -2772,6 +2800,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2783,6 +2812,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
@@ -2797,6 +2827,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>void wait(long)</methodSignature>
             <parametersCustomizations>
@@ -2807,6 +2838,7 @@
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
+                <nullable>true</nullable>
                 <nullableFacetHidden>false</nullableFacetHidden>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
@@ -2821,6 +2853,7 @@
             <specificProperties/>
             <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>void wait()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2845,6 +2878,7 @@
             <hidden>false</hidden>
             <customMethodCaption>0</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation0()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2859,6 +2893,7 @@
             <hidden>false</hidden>
             <customMethodCaption>1</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation1()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2873,6 +2908,7 @@
             <hidden>false</hidden>
             <customMethodCaption>2</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation2()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2887,6 +2923,7 @@
             <hidden>false</hidden>
             <customMethodCaption>3</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation3()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2901,6 +2938,7 @@
             <hidden>false</hidden>
             <customMethodCaption>/</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation13()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2925,6 +2963,7 @@
             <hidden>false</hidden>
             <customMethodCaption>3</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation3()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2939,6 +2978,7 @@
             <hidden>false</hidden>
             <customMethodCaption>4</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation4()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2953,6 +2993,7 @@
             <hidden>false</hidden>
             <customMethodCaption>5</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation5()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2967,6 +3008,7 @@
             <hidden>false</hidden>
             <customMethodCaption>6</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation6()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -2981,6 +3023,7 @@
             <hidden>false</hidden>
             <customMethodCaption>*</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation12()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -3005,6 +3048,7 @@
             <hidden>false</hidden>
             <customMethodCaption>6</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation6()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -3019,6 +3063,7 @@
             <hidden>false</hidden>
             <customMethodCaption>7</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation7()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -3033,6 +3078,7 @@
             <hidden>false</hidden>
             <customMethodCaption>9</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation9()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -3047,6 +3093,7 @@
             <hidden>false</hidden>
             <customMethodCaption>8</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation8()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -3061,6 +3108,7 @@
             <hidden>false</hidden>
             <customMethodCaption>-</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation11()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -3088,6 +3136,7 @@
             <hidden>false</hidden>
             <customMethodCaption>0</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation0()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -3102,6 +3151,7 @@
             <hidden>false</hidden>
             <customMethodCaption>.</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation14()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -3116,6 +3166,7 @@
             <hidden>false</hidden>
             <customMethodCaption>+</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation10()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -3130,6 +3181,7 @@
             <hidden>false</hidden>
             <customMethodCaption>%</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation15()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
@@ -3139,26 +3191,6 @@
             <validating>false</validating>
         </methodsCustomizations>
         <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=java.lang.StringBuilder], fieldName=row0]</typeName>
-        <undoManagementHidden>false</undoManagementHidden>
-    </typeCustomizations>
-    <typeCustomizations>
-        <uniqueIdentifier>697af9b3:15bd4f31415:-35e0</uniqueIdentifier>
-        <specificProperties/>
-        <abstractForced>false</abstractForced>
-        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-        <immutableForced>false</immutableForced>
-        <menuModel/>
-        <typeName>java.lang.String</typeName>
-        <undoManagementHidden>false</undoManagementHidden>
-    </typeCustomizations>
-    <typeCustomizations>
-        <uniqueIdentifier>697af9b3:15bd4f31415:-35de</uniqueIdentifier>
-        <specificProperties/>
-        <abstractForced>false</abstractForced>
-        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-        <immutableForced>false</immutableForced>
-        <menuModel/>
-        <typeName>java.lang.Object</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

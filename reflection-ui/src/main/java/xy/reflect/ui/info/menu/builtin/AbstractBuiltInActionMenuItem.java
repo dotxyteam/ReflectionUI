@@ -6,7 +6,7 @@ public abstract class AbstractBuiltInActionMenuItem extends AbstractActionMenuIt
 
 	private static final long serialVersionUID = 1L;
 
-	public abstract void execute(Object object, Object renderer);
+	public abstract void execute(Object form, Object renderer);
 
 	public boolean isEnabled(Object object, Object renderer) {
 		return true;

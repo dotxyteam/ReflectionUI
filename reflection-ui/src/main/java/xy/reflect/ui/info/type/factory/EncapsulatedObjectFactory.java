@@ -299,7 +299,7 @@ public class EncapsulatedObjectFactory {
 				+ fieldType + ", fieldCaption=" + fieldCaption + "]";
 	}
 
-	protected class TypeInfo extends AbstractInfo implements ITypeInfo {
+	public class TypeInfo extends AbstractInfo implements ITypeInfo {
 
 		@Override
 		public String getName() {
@@ -451,7 +451,7 @@ public class EncapsulatedObjectFactory {
 
 	}
 
-	protected class Instance {
+	public class Instance {
 		protected Accessor<Object> fieldValueAccessor;
 
 		public Instance(final Object[] fieldValueHolder) {
@@ -513,7 +513,7 @@ public class EncapsulatedObjectFactory {
 
 	}
 
-	protected class ValueFieldInfo extends AbstractInfo implements IFieldInfo {
+	public class ValueFieldInfo extends AbstractInfo implements IFieldInfo {
 		@Override
 		public String getName() {
 			return fieldName;

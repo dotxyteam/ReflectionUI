@@ -57,11 +57,6 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
-	public String getConfirmationMessage(Object object, InvocationData invocationData) {
-		return null;
-	}
-
-	@Override
 	public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
 		return theSubMethod.getReturnValueTypeSpecificities();
 	}
@@ -93,9 +88,14 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
+	public String getConfirmationMessage(Object object, InvocationData invocationData) {
+		Object fieldValue = getTheFieldValue(object);
+		return theSubMethod.getConfirmationMessage(fieldValue, invocationData);
+	}
+
+	@Override
 	public Object invoke(Object object, InvocationData invocationData) {
 		Object fieldValue = getTheFieldValue(object);
-
 		Object result;
 		if (theSubMethod.getUndoJob(fieldValue, invocationData) == null) {
 			result = theSubMethod.invoke(fieldValue, invocationData);
@@ -190,7 +190,7 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public boolean isReturnValueIgnored() {
-		return false;
+		return theSubMethod.isReturnValueIgnored();
 	}
 
 	public ResourcePath getIconImagePath() {
