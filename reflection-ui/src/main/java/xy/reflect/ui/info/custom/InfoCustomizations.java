@@ -741,6 +741,32 @@ public class InfoCustomizations implements Serializable {
 
 	}
 
+	public static class VirtualFieldDeclaration extends AbstractCustomization {
+		private static final long serialVersionUID = 1L;
+
+		protected String fieldName;
+		protected ITypeInfoFinder fieldTypeFinder;
+
+		public String getFieldName() {
+			return fieldName;
+		}
+
+		public void setFieldName(String fieldName) {
+			this.fieldName = fieldName;
+		}
+
+		@XmlElements({ @XmlElement(name = "javaClassBasedTypeInfoFinder", type = JavaClassBasedTypeInfoFinder.class),
+				@XmlElement(name = "customTypeInfoFinder", type = CustomTypeInfoFinder.class) })
+		public ITypeInfoFinder getFieldTypeFinder() {
+			return fieldTypeFinder;
+		}
+
+		public void setFieldTypeFinder(ITypeInfoFinder fieldTypeFinder) {
+			this.fieldTypeFinder = fieldTypeFinder;
+		}
+
+	}
+
 	public static class TypeCustomization extends AbstractInfoCustomization implements Comparable<TypeCustomization> {
 		private static final long serialVersionUID = 1L;
 
@@ -760,12 +786,21 @@ public class InfoCustomizations implements Serializable {
 		protected ITypeInfo.FieldsLayout fieldsLayout;
 		protected MenuModel menuModel = new MenuModel();
 		protected boolean anyDefaultObjectMemberIncluded = false;
+		protected List<VirtualFieldDeclaration> virtualFieldDeclarations = new ArrayList<VirtualFieldDeclaration>();
 
 		@Override
 		public boolean isInitial() {
 			TypeCustomization defaultTypeCustomization = new TypeCustomization();
 			defaultTypeCustomization.typeName = typeName;
 			return isSimilar(this, defaultTypeCustomization, "typeName");
+		}
+
+		public List<VirtualFieldDeclaration> getVirtualFieldDeclarations() {
+			return virtualFieldDeclarations;
+		}
+
+		public void setVirtualFieldDeclarations(List<VirtualFieldDeclaration> virtualFieldDeclarations) {
+			this.virtualFieldDeclarations = virtualFieldDeclarations;
 		}
 
 		public boolean isAnyDefaultObjectMemberIncluded() {
@@ -1283,13 +1318,6 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		public TypeConversion getTypeConversion() {
-			if (typeConversion != null) {
-				try {
-					typeConversion.getNewTypeFinder().find(INTROSPECTOR);
-				} catch (Throwable t) {
-					typeConversion = null;
-				}
-			}
 			return typeConversion;
 		}
 

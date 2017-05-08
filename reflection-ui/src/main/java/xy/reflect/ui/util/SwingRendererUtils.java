@@ -932,9 +932,9 @@ public class SwingRendererUtils {
 			}
 
 		});
-		result.setText(actionItem.getName());
-		result.setIcon(getMenuItemIcon(swingRenderer, actionItem));
 		try {
+			result.setText(actionItem.getName());
+			result.setIcon(getMenuItemIcon(swingRenderer, actionItem));
 			if (actionItem instanceof AbstractBuiltInActionMenuItem) {
 				if (!((AbstractBuiltInActionMenuItem) actionItem).isEnabled(form, swingRenderer)) {
 					result.setEnabled(false);
@@ -942,7 +942,11 @@ public class SwingRendererUtils {
 			}
 		} catch (Throwable t) {
 			swingRenderer.getReflectionUI().logError(t);
-			result.setText(actionItem.getName() + " (" + t.toString() + ")");
+			if (result.getText() == null) {
+				result.setText(t.toString());
+			} else {
+				result.setText(result.getText() + "(" + t.toString() + ")");
+			}
 			result.setEnabled(false);
 		}
 		return result;

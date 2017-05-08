@@ -16611,6 +16611,8 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <customFieldsOrder>title</customFieldsOrder>
+        <customFieldsOrder></customFieldsOrder>
         <fieldsCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-79f2</uniqueIdentifier>
             <specificProperties/>
@@ -16642,6 +16644,39 @@
                 </typeCustomizations>
             </specificTypeCustomizations>
         </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>377e6cfc:15be8e53491:-2e2f</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customFieldCaption></customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>title</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>true</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>377e6cfc:15be8e53491:-2e2e</uniqueIdentifier>
+                <data>rO0ABXQAJUV4YW1wbGUgb2YgUmVmbGVjdGlvblVJIGdlbmVyYXRlZCBHVUk=</data>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullable>false</nullable>
+            <nullableFacetHidden>true</nullableFacetHidden>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>377e6cfc:15be8e53491:-2bc9</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>java.lang.String</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
             <menus>
@@ -16667,6 +16702,14 @@
         </menuModel>
         <typeName>Encapsulation [encapsulatedObjectType=ReflectionUITest$Test]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <virtualFieldDeclarations>
+            <uniqueIdentifier>377e6cfc:15be8e53491:-3a4d</uniqueIdentifier>
+            <fieldName>title</fieldName>
+            <javaClassBasedTypeInfoFinder>
+                <uniqueIdentifier>377e6cfc:15be8e53491:-38fb</uniqueIdentifier>
+                <className>java.lang.String</className>
+            </javaClassBasedTypeInfoFinder>
+        </virtualFieldDeclarations>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>48c4c300:15bb2792085:-79ef</uniqueIdentifier>

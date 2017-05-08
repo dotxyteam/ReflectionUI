@@ -27,6 +27,7 @@ import xy.reflect.ui.info.custom.InfoCustomizations.ParameterCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.TextualStorage;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeConversion;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.VirtualFieldDeclaration;
 import xy.reflect.ui.info.field.AllMethodParametersAsFieldInfo;
 import xy.reflect.ui.info.field.CapsuleFieldInfo;
 import xy.reflect.ui.info.field.ChangedTypeFieldInfo;
@@ -40,6 +41,7 @@ import xy.reflect.ui.info.field.NerverNullFieldInfo;
 import xy.reflect.ui.info.field.NullStatusFieldInfo;
 import xy.reflect.ui.info.field.SubFieldInfo;
 import xy.reflect.ui.info.field.ValueAsListFieldInfo;
+import xy.reflect.ui.info.field.VirtualFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.DefaultMenuElementPosition;
 import xy.reflect.ui.info.menu.IMenuItemContainer;
@@ -265,8 +267,6 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 											return !new ListModificationFactory(itemPosition, this)
 													.canSet(itemPosition.getIndex());
 										}
-										
-										
 
 									};
 									SubFieldInfo delegate = new SubFieldInfo(itemPositionAsField, itemField);
@@ -432,7 +432,8 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 			result = new ArrayList<AbstractListAction>(result);
 
 			for (final ListItemMethodShortcut shortcut : l.getAllowedItemMethodShortcuts()) {
-				final String methodName = ReflectionUIUtils.extractMethodNameFromSignature(shortcut.getMethodSignature());
+				final String methodName = ReflectionUIUtils
+						.extractMethodNameFromSignature(shortcut.getMethodSignature());
 				final String methodCaption;
 				if (shortcut.getCustomMethodCaption() != null) {
 					methodCaption = shortcut.getCustomMethodCaption();
@@ -938,20 +939,39 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 			this.containingTypeCustomization = InfoCustomizations.getTypeCustomization(infoCustomizations,
 					containingType.getName());
 			if (containingTypeCustomization != null) {
-				initializeMembers(inputFields, inputMethods, menuModel);
-				if (containingTypeCustomization.isAnyDefaultObjectMemberIncluded()) {
-					addDefaultObjectMembers(inputFields, inputMethods);
-				}
-				menuModel.importContributions(containingTypeCustomization.getMenuModel());
+				inheritMembers(inputFields, inputMethods, menuModel);
+				addDeclaredMembers(inputFields, inputMethods, menuModel);
 				evolveMembers();
 				outputFields = removeHiddenFields(outputFields);
 				outputMethods = removeHiddenMethods(outputMethods);
 			} else {
-				initializeMembers(outputFields, outputMethods, menuModel);
+				inheritMembers(outputFields, outputMethods, menuModel);
 			}
 		}
 
-		protected void initializeMembers(List<IFieldInfo> fields, List<IMethodInfo> methods, MenuModel menuModel) {
+		protected void addDeclaredMembers(List<IFieldInfo> inputFields, List<IMethodInfo> inputMethods,
+				MenuModel menuModel) {
+			if (containingTypeCustomization.isAnyDefaultObjectMemberIncluded()) {
+				addDefaultObjectMembers(inputFields, inputMethods);
+			}
+			for (VirtualFieldDeclaration virtualFieldDeclaration : containingTypeCustomization
+					.getVirtualFieldDeclarations()) {
+				inputFields.add(createVirtualField(virtualFieldDeclaration));
+			}
+			menuModel.importContributions(containingTypeCustomization.getMenuModel());
+		}
+
+		protected IFieldInfo createVirtualField(VirtualFieldDeclaration virtualFieldDeclaration) {
+			try {
+				ITypeInfo fieldType = virtualFieldDeclaration.getFieldTypeFinder().find(reflectionUI);
+				return new VirtualFieldInfo(virtualFieldDeclaration.getFieldName(), fieldType);
+			} catch (Throwable t) {
+				throw new ReflectionUIError("Type '" + containingType.getName() + "': Failed to create virtual field '"
+						+ virtualFieldDeclaration.getFieldName() + "': " + t.toString(), t);
+			}
+		}
+
+		protected void inheritMembers(List<IFieldInfo> fields, List<IMethodInfo> methods, MenuModel menuModel) {
 			fields.addAll(InfoCustomizationsFactory.super.getFields(containingType));
 			methods.addAll(InfoCustomizationsFactory.super.getMethods(containingType));
 			menuModel.importContributions(InfoCustomizationsFactory.super.getMenuModel(containingType));
@@ -1618,8 +1638,10 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 														return super.generateDefaultValueReplacement();
 													} catch (Throwable t) {
 														throw new ReflectionUIError(
-																t.toString()
-																		+ ":\nDeclare the parameter as nullable or provide a default value from the customizations editor",
+																t.toString() + ":" + "\n- Go to the method control"
+																		+ "\n- Open method customization dialog"
+																		+ "\n- Declare the parameter as nullable"
+																		+ "\n- and/or Provide a default value",
 																t);
 													}
 												}

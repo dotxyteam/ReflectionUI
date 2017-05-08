@@ -1,3 +1,8 @@
+- embedded control list ???
+- image control
+- virtual fields ???
+- parameters should get their customizations from
+	parameterAsField customizations
 - listControl: allow to edit multiple items at the same time
 - add customizationContext class
 - remove nullableFacetHidden methods from customizations???
