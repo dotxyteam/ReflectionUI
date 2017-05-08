@@ -9,7 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.cache.CacheBuilder;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
@@ -28,33 +27,33 @@ import xy.reflect.ui.info.custom.InfoCustomizations.ParameterCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.TextualStorage;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeConversion;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
-import xy.reflect.ui.info.field.AllMethodParametersAsField;
-import xy.reflect.ui.info.field.CapsuleField;
-import xy.reflect.ui.info.field.ChangedTypeField;
+import xy.reflect.ui.info.field.AllMethodParametersAsFieldInfo;
+import xy.reflect.ui.info.field.CapsuleFieldInfo;
+import xy.reflect.ui.info.field.ChangedTypeFieldInfo;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.GetterFieldInfo;
-import xy.reflect.ui.info.field.HiddenNullableFacetFieldInfoProxy;
+import xy.reflect.ui.info.field.HiddenNullableFacetFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.MethodAsField;
-import xy.reflect.ui.info.field.MethodParameterAsField;
-import xy.reflect.ui.info.field.NerverNullField;
-import xy.reflect.ui.info.field.NullStatusField;
+import xy.reflect.ui.info.field.MethodAsFieldInfo;
+import xy.reflect.ui.info.field.MethodParameterAsFieldInfo;
+import xy.reflect.ui.info.field.NerverNullFieldInfo;
+import xy.reflect.ui.info.field.NullStatusFieldInfo;
 import xy.reflect.ui.info.field.SubFieldInfo;
-import xy.reflect.ui.info.field.ValueAsListField;
+import xy.reflect.ui.info.field.ValueAsListFieldInfo;
 import xy.reflect.ui.info.menu.DefaultMenuElementPosition;
 import xy.reflect.ui.info.menu.IMenuItemContainer;
 import xy.reflect.ui.info.menu.MenuElementKind;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.menu.MethodActionMenuItem;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
-import xy.reflect.ui.info.method.FieldAsGetter;
-import xy.reflect.ui.info.method.FieldAsSetter;
+import xy.reflect.ui.info.method.FieldAsGetterInfo;
+import xy.reflect.ui.info.method.FieldAsSetterInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
-import xy.reflect.ui.info.method.PresetInvocationDataMethod;
+import xy.reflect.ui.info.method.PresetInvocationDataMethodInfo;
 import xy.reflect.ui.info.method.SubMethodInfo;
-import xy.reflect.ui.info.parameter.HiddenNullableFacetParameterInfoProxy;
+import xy.reflect.ui.info.parameter.HiddenNullableFacetParameterInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.parameter.ParameterInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -74,12 +73,8 @@ import xy.reflect.ui.undo.ListModificationFactory;
 import xy.reflect.ui.util.Pair;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.SystemProperties;
 
 public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
-
-	protected static Map<String, MembersCustomizationsFactory> membersCache = CacheBuilder.newBuilder()
-			.maximumSize(SystemProperties.getStandardCacheSize()).<String, MembersCustomizationsFactory>build().asMap();
 
 	protected ReflectionUI reflectionUI;
 	protected final InfoCustomizations infoCustomizations;
@@ -894,15 +889,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 	}
 
 	protected MembersCustomizationsFactory getMembers(ITypeInfo type) {
-		TypeCustomization tc = InfoCustomizations.getTypeCustomization(infoCustomizations, type.getName(), true);
-		String key = reflectionUI.toString() + "-" + infoCustomizations.toString() + "-" + type.toString() + "-"
-				+ ReflectionUIUtils.serializeToHexaText(tc);
-		MembersCustomizationsFactory result = membersCache.get(key);
-		if (result == null) {
-			result = new MembersCustomizationsFactory(type);
-			membersCache.put(key, result);
-		}
-		return result;
+		return new MembersCustomizationsFactory(type);
 	}
 
 	protected class MembersCustomizationsFactory {
@@ -1087,7 +1074,8 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 				IFieldInfo duplicateField = ReflectionUIUtils.findInfoByName(fields, capsuleFieldName);
 				String contextId = "EncapsulationContext [containingType=" + containingType.getName() + "]";
 				if (duplicateField != null) {
-					CapsuleField duplicateFieldAsTranslatedCapsuleField = CapsuleField.translateProxy(duplicateField);
+					CapsuleFieldInfo duplicateFieldAsTranslatedCapsuleField = CapsuleFieldInfo
+							.translateProxy(duplicateField);
 					if (duplicateFieldAsTranslatedCapsuleField != null) {
 						fields.remove(duplicateField);
 						encapsulatedFields.addAll(0, duplicateFieldAsTranslatedCapsuleField.getEncapsulatedFields());
@@ -1098,14 +1086,15 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 								+ capsuleFieldName + "'");
 					}
 				}
-				CapsuleField capsuleField = new CapsuleField(reflectionUI, capsuleFieldName, encapsulatedFields,
+				CapsuleFieldInfo capsuleField = new CapsuleFieldInfo(reflectionUI, capsuleFieldName, encapsulatedFields,
 						encapsulatedMethods, contextId);
 				initializeEncapsulatedMemberCustomizations(capsuleField, containingType);
 				newFields.add(capsuleField);
 			}
 		}
 
-		protected void initializeEncapsulatedMemberCustomizations(CapsuleField capsuleField, ITypeInfo containingType) {
+		protected void initializeEncapsulatedMemberCustomizations(CapsuleFieldInfo capsuleField,
+				ITypeInfo containingType) {
 			ITypeInfo capsuleFieldType = capsuleField.getType();
 			TypeCustomization capsuleTc = InfoCustomizations.getTypeCustomization(infoCustomizations,
 					capsuleFieldType.getName(), true);
@@ -1461,7 +1450,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 			public IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (mc.isReturnValueFieldGenerated()) {
-					newFields.add(new MethodAsField(method));
+					newFields.add(new MethodAsFieldInfo(method));
 				}
 				return method;
 			}
@@ -1474,7 +1463,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 			public IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (mc.isParametersFormDisplayed()) {
-					final AllMethodParametersAsField methodParametersAsField = new AllMethodParametersAsField(
+					final AllMethodParametersAsFieldInfo methodParametersAsField = new AllMethodParametersAsFieldInfo(
 							reflectionUI, method, method.getName() + ".parameters") {
 
 						@Override
@@ -1525,8 +1514,8 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 					if (pc != null) {
 						if (pc.isDisplayedAsField()) {
 							final IMethodInfo finalMethod = method;
-							final MethodParameterAsField methodParameterAsField = new MethodParameterAsField(method,
-									param) {
+							final MethodParameterAsFieldInfo methodParameterAsField = new MethodParameterAsFieldInfo(
+									method, param) {
 
 								@Override
 								public String getName() {
@@ -1590,7 +1579,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 									List<IParameterInfo> result = new ArrayList<IParameterInfo>();
 									for (IParameterInfo param : super.getParameters()) {
 										if (pc.getParameterName().equals(param.getName())) {
-											param = new HiddenNullableFacetParameterInfoProxy(reflectionUI, param) {
+											param = new HiddenNullableFacetParameterInfo(reflectionUI, param) {
 
 												@Override
 												public Object generateDefaultValueReplacement() {
@@ -1677,8 +1666,8 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 				for (int i = 0; i < mc.getSerializedInvocationDatas().size(); i++) {
 					final TextualStorage invocationDataStorage = mc.getSerializedInvocationDatas().get(i);
 					final int finalI = i;
-					newMethods
-							.add(new PresetInvocationDataMethod(method, (InvocationData) invocationDataStorage.load()) {
+					newMethods.add(
+							new PresetInvocationDataMethodInfo(method, (InvocationData) invocationDataStorage.load()) {
 								@Override
 								public String getName() {
 									return super.getName() + ".savedInvocation" + finalI;
@@ -1829,7 +1818,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (f.isDisplayedAsSingletonList()) {
-					field = new ValueAsListField(reflectionUI, field);
+					field = new ValueAsListFieldInfo(reflectionUI, field);
 				}
 				return field;
 			}
@@ -1842,7 +1831,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (f.isNullStatusFieldDisplayed()) {
-					newFields.add(new NullStatusField(reflectionUI, field) {
+					newFields.add(new NullStatusFieldInfo(reflectionUI, field) {
 
 						@Override
 						public String getCaption() {
@@ -1855,7 +1844,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 						}
 
 					});
-					field = new NerverNullField(reflectionUI, field);
+					field = new NerverNullFieldInfo(reflectionUI, field);
 				}
 				return field;
 			}
@@ -1868,7 +1857,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (f.isSetterGenerated()) {
-					newMethods.add(new FieldAsSetter(field) {
+					newMethods.add(new FieldAsSetterInfo(field) {
 
 						@Override
 						public String getCaption() {
@@ -1949,7 +1938,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (f.isGetterGenerated()) {
-					newMethods.add(new FieldAsGetter(field) {
+					newMethods.add(new FieldAsGetterInfo(field) {
 
 						@Override
 						public String getCaption() {
@@ -1969,14 +1958,11 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (f.getTypeConversion() != null) {
-					if (!ReflectionUIUtils.equalsOrBothNull(new TypeConversion().getNewTypeFinder(),
-							f.getTypeConversion().getNewTypeFinder())) {
 						ITypeInfo newType = f.getTypeConversion().getNewTypeFinder().find(reflectionUI);
 						IMethodInfo conversionMethod = f.getTypeConversion().getConversionMethodFinder().find();
 						IMethodInfo reverseConversionMethod = f.getTypeConversion().getReverseConversionMethodFinder()
 								.find();
-						field = new ChangedTypeField(field, newType, conversionMethod, reverseConversionMethod);
-					}
+						field = new ChangedTypeFieldInfo(field, newType, conversionMethod, reverseConversionMethod);
 				}
 				return field;
 			}
@@ -2014,7 +2000,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, final FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (f.isNullableFacetHidden()) {
-					field = new HiddenNullableFacetFieldInfoProxy(reflectionUI, field) {
+					field = new HiddenNullableFacetFieldInfo(reflectionUI, field) {
 
 						@Override
 						public Object generateNullReplacementValue() {

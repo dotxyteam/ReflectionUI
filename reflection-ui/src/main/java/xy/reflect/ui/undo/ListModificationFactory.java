@@ -35,6 +35,21 @@ public class ListModificationFactory {
 		return ListModification.isCompatibleWith(anyItemPosition);
 	}
 
+	public boolean canAdd(int index, List<Object> items) {
+		if (!canAdd(index)) {
+			return false;
+		}
+		ITypeInfo itemType = anyItemPosition.getContainingListType().getItemType();
+		if (itemType != null) {
+			for (Object item : items) {
+				if (!itemType.supportsInstance(item)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 	public IModification add(int index, Object newItem) {
 		List<Object> tmpList = new ArrayList<Object>(Arrays.asList(anyItemPosition.retrieveContainingListRawValue()));
 		tmpList.add(index, newItem);
@@ -61,6 +76,19 @@ public class ListModificationFactory {
 			return false;
 		}
 		return ListModification.isCompatibleWith(anyItemPosition);
+	}
+
+	public boolean canSet(int index, Object item) {
+		if (!canSet(index)) {
+			return false;
+		}
+		ITypeInfo itemType = anyItemPosition.getContainingListType().getItemType();
+		if (itemType != null) {
+			if (!itemType.supportsInstance(item)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public IModification set(int index, Object newItem) {

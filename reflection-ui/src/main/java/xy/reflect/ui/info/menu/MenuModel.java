@@ -130,7 +130,7 @@ public class MenuModel implements Serializable {
 
 	protected IMenuItemContainer createSameContainer(IMenuItemContainer element) {
 		if (element instanceof Menu) {
-			return new Menu(((Menu) element).getName(), ((Menu) element).getIconImagePath());
+			return new Menu(((Menu) element).getName());
 		} else if (element instanceof MenuItemCategory) {
 			return new MenuItemCategory(((MenuItemCategory) element).getName());
 		} else {
@@ -149,7 +149,7 @@ public class MenuModel implements Serializable {
 
 	protected IMenuItemContainer createContainer(IMenuElementPosition containerPosition) {
 		if (containerPosition.getElementKind() == MenuElementKind.MENU) {
-			return new Menu(containerPosition.getElementName(), null);
+			return new Menu(containerPosition.getElementName());
 		} else if (containerPosition.getElementKind() == MenuElementKind.ITEM_CATEGORY) {
 			return new MenuItemCategory(containerPosition.getElementName());
 		} else {

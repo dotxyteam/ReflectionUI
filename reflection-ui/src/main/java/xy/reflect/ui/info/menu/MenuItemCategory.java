@@ -6,6 +6,11 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 
+import xy.reflect.ui.info.menu.builtin.ExitMenuItem;
+import xy.reflect.ui.info.menu.builtin.swing.HelpMenuItem;
+import xy.reflect.ui.info.menu.builtin.swing.RedoMenuItem;
+import xy.reflect.ui.info.menu.builtin.swing.UndoMenuItem;
+
 public class MenuItemCategory extends AbstractMenuElement implements IMenuItemContainer {
 	private static final long serialVersionUID = 1L;
 
@@ -29,7 +34,11 @@ public class MenuItemCategory extends AbstractMenuElement implements IMenuItemCo
 	}
 
 	@Override
-	@XmlElements({ @XmlElement(name = "menu", type = Menu.class) })
+	@XmlElements({ @XmlElement(name = "menu", type = Menu.class),
+			@XmlElement(name = "exitMenuItem", type = ExitMenuItem.class),
+			@XmlElement(name = "helpMenuItem", type = HelpMenuItem.class),
+			@XmlElement(name = "undoMenuItem", type = UndoMenuItem.class),
+			@XmlElement(name = "redoMenuItem", type = RedoMenuItem.class) })
 	public List<AbstractMenuItem> getItems() {
 		return items;
 	}

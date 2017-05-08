@@ -80,9 +80,8 @@ import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
-import xy.reflect.ui.info.menu.AbstractMenuItem;
+import xy.reflect.ui.info.menu.AbstractActionMenuItem;
 import xy.reflect.ui.info.menu.IMenuElement;
-import xy.reflect.ui.info.menu.MethodActionMenuItem;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -131,7 +130,7 @@ public class SwingRenderer {
 	protected Map<JPanel, Boolean> refreshRequestQueuedByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, Boolean> refreshRequestExecutingByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<Component, IFieldControlPlugin> pluginByFieldControl = new MapMaker().weakKeys().makeMap();
-	protected Map<MethodActionMenuItem, JPanel> formByMethodActionMenuItem = new MapMaker().weakKeys().makeMap();
+	protected Map<AbstractActionMenuItem, JPanel> formByMethodActionMenuItem = new MapMaker().weakKeys().makeMap();
 
 	public SwingRenderer(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
@@ -200,7 +199,7 @@ public class SwingRenderer {
 		return captionControlByFieldControlPlaceHolder;
 	}
 
-	public Map<MethodActionMenuItem, JPanel> getFormByMethodActionMenuItem() {
+	public Map<AbstractActionMenuItem, JPanel> getFormByActionMenuItem() {
 		return formByMethodActionMenuItem;
 	}
 
@@ -890,7 +889,7 @@ public class SwingRenderer {
 		return SwingRendererUtils.loadImageThroughcache(imagePath, ReflectionUIUtils.getErrorLogListener(reflectionUI));
 	}
 
-	public Image getMenuIconImage(AbstractMenuItem menuItem) {
+	public Image getMenuIconImage(AbstractActionMenuItem menuItem) {
 		ResourcePath imagePath = menuItem.getIconImagePath();
 		if (imagePath == null) {
 			return null;
@@ -1486,9 +1485,9 @@ public class SwingRenderer {
 		formMenuModel.visit(new Visitor<IMenuElement>() {
 			@Override
 			public boolean visit(IMenuElement e) {
-				if (e instanceof MethodActionMenuItem) {
-					MethodActionMenuItem methodAction = (MethodActionMenuItem) e;
-					getFormByMethodActionMenuItem().put(methodAction, form);
+				if (e instanceof AbstractActionMenuItem) {
+					AbstractActionMenuItem action = (AbstractActionMenuItem) e;
+					getFormByActionMenuItem().put(action, form);
 				}
 				return true;
 			}

@@ -14,11 +14,11 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class FieldAsGetter extends AbstractInfo implements IMethodInfo {
+public class FieldAsGetterInfo extends AbstractInfo implements IMethodInfo {
 
 	protected IFieldInfo field;
 
-	public FieldAsGetter(IFieldInfo field) {
+	public FieldAsGetterInfo(IFieldInfo field) {
 		this.field = field;
 	}
 
@@ -143,7 +143,7 @@ public class FieldAsGetter extends AbstractInfo implements IMethodInfo {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		FieldAsGetter other = (FieldAsGetter) obj;
+		FieldAsGetterInfo other = (FieldAsGetterInfo) obj;
 		if (field == null) {
 			if (other.field != null)
 				return false;

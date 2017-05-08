@@ -4,7 +4,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 
-public class NerverNullField extends FieldInfoProxy {
+public class NerverNullFieldInfo extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;
 
@@ -15,7 +15,7 @@ public class NerverNullField extends FieldInfoProxy {
 		}
 	};
 
-	public NerverNullField(ReflectionUI reflectionUI, IFieldInfo base) {
+	public NerverNullFieldInfo(ReflectionUI reflectionUI, IFieldInfo base) {
 		super(base);
 		this.reflectionUI = reflectionUI;
 	}

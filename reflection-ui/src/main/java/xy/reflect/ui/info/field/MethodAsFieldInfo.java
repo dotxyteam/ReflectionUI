@@ -13,11 +13,11 @@ import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class MethodAsField   extends AbstractInfo implements IFieldInfo {
+public class MethodAsFieldInfo   extends AbstractInfo implements IFieldInfo {
 
 	protected IMethodInfo method;
 
-	public MethodAsField(IMethodInfo method) {
+	public MethodAsFieldInfo(IMethodInfo method) {
 		if (method.getParameters().size() > 0) {
 			throw new ReflectionUIError("Cannot create field from method having parameters");
 		}
@@ -132,7 +132,7 @@ public class MethodAsField   extends AbstractInfo implements IFieldInfo {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MethodAsField other = (MethodAsField) obj;
+		MethodAsFieldInfo other = (MethodAsFieldInfo) obj;
 		if (method == null) {
 			if (other.method != null)
 				return false;

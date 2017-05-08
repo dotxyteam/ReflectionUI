@@ -9,11 +9,11 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class NullStatusField extends FieldInfoProxy {
+public class NullStatusFieldInfo extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;
 	
-	public NullStatusField(ReflectionUI reflectionUI, IFieldInfo base) {
+	public NullStatusFieldInfo(ReflectionUI reflectionUI, IFieldInfo base) {
 		super(base);
 		this.reflectionUI = reflectionUI;
 	}

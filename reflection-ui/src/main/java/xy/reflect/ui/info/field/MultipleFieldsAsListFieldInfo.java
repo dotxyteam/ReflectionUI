@@ -16,15 +16,16 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 
-public class MultipleFieldsAsListField   extends AbstractInfo implements IFieldInfo {
+public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	protected List<IFieldInfo> fields;
 	protected ReflectionUI reflectionUI;
 
-	public MultipleFieldsAsListField(ReflectionUI reflectionUI, List<IFieldInfo> fields) {
+	public MultipleFieldsAsListFieldInfo(ReflectionUI reflectionUI, List<IFieldInfo> fields) {
 		this.reflectionUI = reflectionUI;
 		this.fields = fields;
 	}
@@ -45,7 +46,7 @@ public class MultipleFieldsAsListField   extends AbstractInfo implements IFieldI
 
 	@Override
 	public String getCaption() {
-		StringBuilder result = new StringBuilder(MultipleFieldsAsListField.class.getSimpleName());
+		StringBuilder result = new StringBuilder(MultipleFieldsAsListFieldInfo.class.getSimpleName());
 		result.append("List Containing ");
 		int i = 0;
 		for (IFieldInfo field : fields) {
@@ -171,7 +172,7 @@ public class MultipleFieldsAsListField   extends AbstractInfo implements IFieldI
 		if (!getClass().equals(obj.getClass())) {
 			return false;
 		}
-		return fields.equals(((MultipleFieldsAsListField) obj).fields);
+		return fields.equals(((MultipleFieldsAsListFieldInfo) obj).fields);
 	}
 
 	@Override
@@ -238,7 +239,9 @@ public class MultipleFieldsAsListField   extends AbstractInfo implements IFieldI
 	protected class ValueListTypeInfo extends StandardCollectionTypeInfo {
 
 		public ValueListTypeInfo() {
-			super(MultipleFieldsAsListField.this.reflectionUI, ArrayList.class, null);
+			super(MultipleFieldsAsListFieldInfo.this.reflectionUI, ArrayList.class,
+					MultipleFieldsAsListFieldInfo.this.reflectionUI
+							.getTypeInfo(new JavaTypeInfoSource(ValueListItem.class)));
 		}
 
 		@Override
@@ -262,7 +265,7 @@ public class MultipleFieldsAsListField   extends AbstractInfo implements IFieldI
 		}
 	}
 
-	protected class ValueListItemTypeInfo   extends AbstractInfo implements ITypeInfo {
+	protected class ValueListItemTypeInfo extends AbstractInfo implements ITypeInfo {
 
 		protected IFieldInfo field;
 
@@ -285,14 +288,13 @@ public class MultipleFieldsAsListField   extends AbstractInfo implements IFieldI
 			return new MenuModel();
 		}
 
-
 		@Override
 		public String getCaption() {
 			return getItemTitle(field);
 		}
 
 		public IFieldInfo getDetailsField() {
-			return new ValueListItemDetailsField(field);
+			return new ValueListItemDetailsFieldInfo(field);
 		}
 
 		@Override
@@ -302,8 +304,8 @@ public class MultipleFieldsAsListField   extends AbstractInfo implements IFieldI
 
 		@Override
 		public String getName() {
-			return "ListItemTypeInfo [index=" + MultipleFieldsAsListField.this.fields.indexOf(field) + ", of="
-					+ MultipleFieldsAsListField.this.getName() + "]";
+			return "ListItemTypeInfo [index=" + MultipleFieldsAsListFieldInfo.this.fields.indexOf(field) + ", of="
+					+ MultipleFieldsAsListFieldInfo.this.getName() + "]";
 		}
 
 		@Override
@@ -403,21 +405,21 @@ public class MultipleFieldsAsListField   extends AbstractInfo implements IFieldI
 			return true;
 		}
 
-		private MultipleFieldsAsListField getOuterType() {
-			return MultipleFieldsAsListField.this;
+		private MultipleFieldsAsListFieldInfo getOuterType() {
+			return MultipleFieldsAsListFieldInfo.this;
 		}
 
 		@Override
 		public String toString() {
-			return "ListItemTypeInfo [index=" + MultipleFieldsAsListField.this.fields.indexOf(field) + ", of="
+			return "ListItemTypeInfo [index=" + MultipleFieldsAsListFieldInfo.this.fields.indexOf(field) + ", of="
 					+ getOuterType() + "]";
 		}
 
 	}
 
-	protected class ValueListItemDetailsField extends FieldInfoProxy {
+	protected class ValueListItemDetailsFieldInfo extends FieldInfoProxy {
 
-		public ValueListItemDetailsField(IFieldInfo field) {
+		public ValueListItemDetailsFieldInfo(IFieldInfo field) {
 			super(field);
 		}
 

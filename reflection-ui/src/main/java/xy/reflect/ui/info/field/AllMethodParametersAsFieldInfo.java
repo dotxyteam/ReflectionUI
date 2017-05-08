@@ -19,7 +19,7 @@ import xy.reflect.ui.info.type.factory.MethodInvocationDataAsObjectFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class AllMethodParametersAsField   extends AbstractInfo implements IFieldInfo {
+public class AllMethodParametersAsFieldInfo   extends AbstractInfo implements IFieldInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected IMethodInfo method;
@@ -29,7 +29,7 @@ public class AllMethodParametersAsField   extends AbstractInfo implements IField
 	protected static Map<Object, Map<IMethodInfo, InvocationData>> invocationDataByMethodByObject = new MapMaker()
 			.weakKeys().makeMap();
 
-	public AllMethodParametersAsField(ReflectionUI reflectionUI, IMethodInfo method, String fieldName) {
+	public AllMethodParametersAsFieldInfo(ReflectionUI reflectionUI, IMethodInfo method, String fieldName) {
 		this.reflectionUI = reflectionUI;
 		this.method = method;
 		this.fieldName = fieldName;
@@ -160,7 +160,7 @@ public class AllMethodParametersAsField   extends AbstractInfo implements IField
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AllMethodParametersAsField other = (AllMethodParametersAsField) obj;
+		AllMethodParametersAsFieldInfo other = (AllMethodParametersAsFieldInfo) obj;
 		if (fieldName == null) {
 			if (other.fieldName != null)
 				return false;

@@ -6,12 +6,12 @@ import xy.reflect.ui.info.parameter.ParameterInfoProxy;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class HiddenNullableFacetParameterInfoProxy extends ParameterInfoProxy {
+public class HiddenNullableFacetParameterInfo extends ParameterInfoProxy {
 
 	protected ReflectionUI reflectionUI;
 	protected IParameterInfo base;
 
-	public HiddenNullableFacetParameterInfoProxy(final ReflectionUI reflectionUI, final IParameterInfo base) {
+	public HiddenNullableFacetParameterInfo(final ReflectionUI reflectionUI, final IParameterInfo base) {
 		super(base);
 		this.reflectionUI = reflectionUI;
 		this.base = base;
@@ -63,7 +63,7 @@ public class HiddenNullableFacetParameterInfoProxy extends ParameterInfoProxy {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		HiddenNullableFacetParameterInfoProxy other = (HiddenNullableFacetParameterInfoProxy) obj;
+		HiddenNullableFacetParameterInfo other = (HiddenNullableFacetParameterInfo) obj;
 		if (base == null) {
 			if (other.base != null)
 				return false;

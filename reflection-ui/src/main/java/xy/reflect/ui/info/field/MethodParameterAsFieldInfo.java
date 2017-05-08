@@ -15,14 +15,14 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 
-public class MethodParameterAsField   extends AbstractInfo implements IFieldInfo {
+public class MethodParameterAsFieldInfo   extends AbstractInfo implements IFieldInfo {
 	protected IParameterInfo param;
 	protected IMethodInfo method;
 
 	protected static Map<Object, Map<IMethodInfo, Map<IParameterInfo, Object>>> valueByParameterByMethodByObject = new MapMaker()
 			.weakKeys().makeMap();
 
-	public MethodParameterAsField(IMethodInfo method, IParameterInfo param) {
+	public MethodParameterAsFieldInfo(IMethodInfo method, IParameterInfo param) {
 		this.method = method;
 		this.param = param;
 	}
@@ -153,7 +153,7 @@ public class MethodParameterAsField   extends AbstractInfo implements IFieldInfo
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MethodParameterAsField other = (MethodParameterAsField) obj;
+		MethodParameterAsFieldInfo other = (MethodParameterAsFieldInfo) obj;
 		if (method == null) {
 			if (other.method != null)
 				return false;

@@ -6,14 +6,17 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 
-import xy.reflect.ui.info.ResourcePath;
+import xy.reflect.ui.info.menu.builtin.ExitMenuItem;
+import xy.reflect.ui.info.menu.builtin.swing.HelpMenuItem;
+import xy.reflect.ui.info.menu.builtin.swing.RedoMenuItem;
+import xy.reflect.ui.info.menu.builtin.swing.UndoMenuItem;
 
 public class Menu extends AbstractMenuItem implements IMenuItemContainer {
 
-	public Menu(String name, ResourcePath iconImagePath) {
-		super(name, iconImagePath);
+	public Menu(String name) {
+		super(name);
 	}
-	
+
 	public Menu() {
 	}
 
@@ -23,7 +26,11 @@ public class Menu extends AbstractMenuItem implements IMenuItemContainer {
 	protected List<MenuItemCategory> itemCategories = new ArrayList<MenuItemCategory>();
 
 	@Override
-	@XmlElements({ @XmlElement(name = "menu", type = Menu.class) })
+	@XmlElements({ @XmlElement(name = "menu", type = Menu.class),
+			@XmlElement(name = "exitMenuItem", type = ExitMenuItem.class),
+			@XmlElement(name = "helpMenuItem", type = HelpMenuItem.class),
+			@XmlElement(name = "undoMenuItem", type = UndoMenuItem.class),
+			@XmlElement(name = "redoMenuItem", type = RedoMenuItem.class) })
 	public List<AbstractMenuItem> getItems() {
 		return items;
 	}
@@ -47,8 +54,6 @@ public class Menu extends AbstractMenuItem implements IMenuItemContainer {
 	public void addItemCategory(MenuItemCategory itemCategory) {
 		this.itemCategories.add(itemCategory);
 	}
-
-
 
 	@Override
 	public int hashCode() {

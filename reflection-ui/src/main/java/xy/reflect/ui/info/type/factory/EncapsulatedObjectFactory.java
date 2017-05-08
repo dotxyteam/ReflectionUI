@@ -75,7 +75,7 @@ public class EncapsulatedObjectFactory {
 	}
 
 	public IFieldInfo getValueField() {
-		return new ValueField();
+		return new ValueFieldInfo();
 	}
 
 	public ITypeInfoSource getInstanceTypeInfoSource() {
@@ -299,7 +299,7 @@ public class EncapsulatedObjectFactory {
 				+ fieldType + ", fieldCaption=" + fieldCaption + "]";
 	}
 
-	protected class TypeInfo   extends AbstractInfo implements ITypeInfo {
+	protected class TypeInfo extends AbstractInfo implements ITypeInfo {
 
 		@Override
 		public String getName() {
@@ -513,7 +513,7 @@ public class EncapsulatedObjectFactory {
 
 	}
 
-	protected class ValueField   extends AbstractInfo implements IFieldInfo {
+	protected class ValueFieldInfo extends AbstractInfo implements IFieldInfo {
 		@Override
 		public String getName() {
 			return fieldName;
@@ -617,10 +617,10 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public boolean equals(Object obj) {
-			if (!(obj instanceof ValueField)) {
+			if (!(obj instanceof ValueFieldInfo)) {
 				return false;
 			}
-			ValueField other = (ValueField) obj;
+			ValueFieldInfo other = (ValueFieldInfo) obj;
 			if (!getOuterType().equals(other.getOuterType())) {
 				return false;
 			}

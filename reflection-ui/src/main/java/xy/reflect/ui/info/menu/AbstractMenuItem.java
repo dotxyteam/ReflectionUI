@@ -1,17 +1,13 @@
 package xy.reflect.ui.info.menu;
 
-import xy.reflect.ui.info.ResourcePath;
-
 public abstract class AbstractMenuItem extends AbstractMenuElement {
 	private static final long serialVersionUID = 1L;
 
 	protected String name = "";
-	protected ResourcePath iconImagePath;
-
-	public AbstractMenuItem(String name, ResourcePath iconImagePath) {
+	
+	public AbstractMenuItem(String name) {
 		super();
 		this.name = name;
-		this.iconImagePath = iconImagePath;
 	}
 
 	public AbstractMenuItem() {
@@ -25,14 +21,7 @@ public abstract class AbstractMenuItem extends AbstractMenuElement {
 		this.name = name;
 	}
 
-	public ResourcePath getIconImagePath() {
-		return iconImagePath;
-	}
-
-	public void setIconImagePath(ResourcePath iconImagePath) {
-		this.iconImagePath = iconImagePath;
-	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

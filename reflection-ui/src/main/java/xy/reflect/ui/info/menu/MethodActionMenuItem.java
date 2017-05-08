@@ -2,7 +2,7 @@ package xy.reflect.ui.info.menu;
 
 import xy.reflect.ui.info.method.IMethodInfo;
 
-public class MethodActionMenuItem extends AbstractMenuItem {
+public class MethodActionMenuItem extends AbstractActionMenuItem {
 
 	private static final long serialVersionUID = 1L;
 

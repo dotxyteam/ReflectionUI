@@ -4,12 +4,12 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class HiddenNullableFacetFieldInfoProxy extends FieldInfoProxy {
+public class HiddenNullableFacetFieldInfo extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;
 	protected IFieldInfo base;
 
-	public HiddenNullableFacetFieldInfoProxy(final ReflectionUI reflectionUI, final IFieldInfo base) {
+	public HiddenNullableFacetFieldInfo(final ReflectionUI reflectionUI, final IFieldInfo base) {
 		super(base);
 		this.reflectionUI = reflectionUI;
 		this.base = base;
@@ -55,7 +55,7 @@ public class HiddenNullableFacetFieldInfoProxy extends FieldInfoProxy {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		HiddenNullableFacetFieldInfoProxy other = (HiddenNullableFacetFieldInfoProxy) obj;
+		HiddenNullableFacetFieldInfo other = (HiddenNullableFacetFieldInfo) obj;
 		if (base == null) {
 			if (other.base != null)
 				return false;

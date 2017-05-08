@@ -18,7 +18,7 @@ public class ItemPosition implements Cloneable {
 	protected ItemPosition parentItemPosition;
 	protected int index;
 	protected IFieldInfo containingListFieldIfNotRoot;
-	
+
 	protected ItemPosition() {
 		super();
 	}
@@ -125,7 +125,7 @@ public class ItemPosition implements Cloneable {
 			return parentItemPosition.retrieveSubListValue();
 		}
 	}
-	
+
 	public Object[] retrieveContainingListRawValue() {
 		if (isRoot()) {
 			return factory.retrieveRootListRawValue();
@@ -150,7 +150,7 @@ public class ItemPosition implements Cloneable {
 			return null;
 		}
 		final Object item = getItem();
-		return subListField.getValue(item);		
+		return subListField.getValue(item);
 	}
 
 	public IFieldInfo getSubListField() {
@@ -241,10 +241,16 @@ public class ItemPosition implements Cloneable {
 		StringBuilder result = new StringBuilder();
 		ItemPosition current = this;
 		while (current != null) {
-			if (current == this) {
-				result.insert(0, "Item" + current.index);
+			String indexString;
+			if (current.index == -1) {
+				indexString = "";
 			} else {
-				result.insert(0, "Item" + current.index + "->Sub");
+				indexString = Integer.toString(current.index + 1);
+			}
+			if (current == this) {
+				result.insert(0, "Item" + indexString);
+			} else {
+				result.insert(0, "Item" + indexString + "->Sub");
 			}
 			current = current.getParentItemPosition();
 		}

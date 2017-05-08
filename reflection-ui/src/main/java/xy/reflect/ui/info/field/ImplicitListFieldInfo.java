@@ -30,7 +30,7 @@ import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class ImplicitListField extends AbstractInfo implements IFieldInfo {
+public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	protected ReflectionUI reflectionUI;
 	protected String fieldName;
 	protected IListTypeInfo type;
@@ -42,7 +42,7 @@ public class ImplicitListField extends AbstractInfo implements IFieldInfo {
 	protected String removeMethodName;
 	protected String sizeMethodName;
 
-	public ImplicitListField(ReflectionUI reflectionUI, String fieldName, ITypeInfo parentType, ITypeInfo itemType,
+	public ImplicitListFieldInfo(ReflectionUI reflectionUI, String fieldName, ITypeInfo parentType, ITypeInfo itemType,
 			String createMethodName, String getMethodName, String addMethodName, String removeMethodName,
 			String sizeMethodName) {
 		this.reflectionUI = reflectionUI;
@@ -212,7 +212,7 @@ public class ImplicitListField extends AbstractInfo implements IFieldInfo {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ImplicitListField other = (ImplicitListField) obj;
+		ImplicitListFieldInfo other = (ImplicitListFieldInfo) obj;
 		if (addMethodName == null) {
 			if (other.addMethodName != null)
 				return false;
@@ -279,8 +279,8 @@ public class ImplicitListField extends AbstractInfo implements IFieldInfo {
 			this.array = precomputedArray;
 		}
 
-		public ImplicitListField getImplicitListField() {
-			return ImplicitListField.this;
+		public ImplicitListFieldInfo getImplicitListField() {
+			return ImplicitListFieldInfo.this;
 		}
 
 		public Object getObject() {
@@ -535,8 +535,8 @@ public class ImplicitListField extends AbstractInfo implements IFieldInfo {
 			return object.toString();
 		}
 
-		public ImplicitListField getOuterType() {
-			return ImplicitListField.this;
+		public ImplicitListFieldInfo getOuterType() {
+			return ImplicitListFieldInfo.this;
 		}
 
 		@Override

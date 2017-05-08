@@ -5,11 +5,11 @@ import java.util.List;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class PresetInvocationDataMethod extends MethodInfoProxy {
+public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 
 	protected InvocationData invocationData;
 
-	public PresetInvocationDataMethod(IMethodInfo base, InvocationData invocationData) {
+	public PresetInvocationDataMethodInfo(IMethodInfo base, InvocationData invocationData) {
 		super(base);
 		this.invocationData = invocationData;
 	}
@@ -45,7 +45,7 @@ public class PresetInvocationDataMethod extends MethodInfoProxy {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PresetInvocationDataMethod other = (PresetInvocationDataMethod) obj;
+		PresetInvocationDataMethodInfo other = (PresetInvocationDataMethodInfo) obj;
 		if (invocationData == null) {
 			if (other.invocationData != null)
 				return false;

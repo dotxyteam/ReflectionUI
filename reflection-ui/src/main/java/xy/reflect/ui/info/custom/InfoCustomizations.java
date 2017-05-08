@@ -1255,7 +1255,7 @@ public class InfoCustomizations implements Serializable {
 		protected FieldTypeSpecificities specificTypeCustomizations = new FieldTypeSpecificities();
 		protected boolean formControlEmbeddingForced = false;
 		protected boolean formControlCreationForced = false;
-		protected TypeConversion typeConversion = new TypeConversion();
+		protected TypeConversion typeConversion;
 		protected TextualStorage nullReplacement = new TextualStorage();
 		protected boolean duplicateGenerated = false;
 
@@ -1283,6 +1283,11 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		public TypeConversion getTypeConversion() {
+			/*if (typeConversion != null) {
+				if (typeConversion.isInitial()) {
+					typeConversion = null;
+				}
+			}*/
 			return typeConversion;
 		}
 
@@ -2257,7 +2262,7 @@ public class InfoCustomizations implements Serializable {
 		protected boolean listSorted = false;
 		protected IListItemDetailsAccessMode customDetailsAccessMode = null;
 		protected boolean itemContructorSelectableforced = false;
-		
+
 		@Override
 		public boolean isInitial() {
 			ListCustomization defaultListCustomization = new ListCustomization();
@@ -2265,8 +2270,6 @@ public class InfoCustomizations implements Serializable {
 			defaultListCustomization.itemTypeName = itemTypeName;
 			return isSimilar(this, defaultListCustomization);
 		}
-
-		
 
 		public boolean isItemContructorSelectableforced() {
 			return itemContructorSelectableforced;

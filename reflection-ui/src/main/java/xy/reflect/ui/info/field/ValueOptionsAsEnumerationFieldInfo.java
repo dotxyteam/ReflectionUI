@@ -7,7 +7,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.GenericEnumerationFactory;
 
-public class ValueOptionsAsEnumerationField extends FieldInfoProxy {
+public class ValueOptionsAsEnumerationFieldInfo extends FieldInfoProxy {
 
 	protected Object object;
 
@@ -15,7 +15,7 @@ public class ValueOptionsAsEnumerationField extends FieldInfoProxy {
 	protected ITypeInfo enumType;
 	private ReflectionUI reflectionUI;
 
-	public ValueOptionsAsEnumerationField(ReflectionUI reflectionUI, Object object, IFieldInfo base) {
+	public ValueOptionsAsEnumerationFieldInfo(ReflectionUI reflectionUI, Object object, IFieldInfo base) {
 		super(base);
 		this.reflectionUI = reflectionUI;
 		this.object = object;
@@ -80,7 +80,7 @@ public class ValueOptionsAsEnumerationField extends FieldInfoProxy {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ValueOptionsAsEnumerationField other = (ValueOptionsAsEnumerationField) obj;
+		ValueOptionsAsEnumerationFieldInfo other = (ValueOptionsAsEnumerationFieldInfo) obj;
 		if (object == null) {
 			if (other.object != null)
 				return false;

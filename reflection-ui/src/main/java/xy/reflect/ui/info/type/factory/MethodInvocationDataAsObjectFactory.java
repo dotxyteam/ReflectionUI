@@ -9,7 +9,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.MethodParameterAsField;
+import xy.reflect.ui.info.field.MethodParameterAsFieldInfo;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -304,7 +304,7 @@ public class MethodInvocationDataAsObjectFactory {
 
 	}
 
-	protected class FieldInfo extends MethodParameterAsField {
+	protected class FieldInfo extends MethodParameterAsFieldInfo {
 		
 		public FieldInfo(IParameterInfo param) {
 			super(MethodInvocationDataAsObjectFactory.this.method, param);

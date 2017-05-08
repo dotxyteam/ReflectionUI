@@ -68,11 +68,13 @@ import xy.reflect.ui.info.ResourcePath.PathKind;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.menu.AbstractActionMenuItem;
 import xy.reflect.ui.info.menu.AbstractMenuItem;
 import xy.reflect.ui.info.menu.Menu;
 import xy.reflect.ui.info.menu.MenuItemCategory;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.menu.MethodActionMenuItem;
+import xy.reflect.ui.info.menu.builtin.AbstractBuiltInActionMenuItem;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -663,7 +665,7 @@ public class SwingRendererUtils {
 		}
 	}
 
-	public static Icon getMenuItemIcon(SwingRenderer swingRenderer, AbstractMenuItem menuItem) {
+	public static Icon getMenuItemIcon(SwingRenderer swingRenderer, AbstractActionMenuItem menuItem) {
 		Image iconImage = swingRenderer.getMenuIconImage(menuItem);
 		if (iconImage != null) {
 			return SwingRendererUtils.getSmallIcon(iconImage);
@@ -818,7 +820,6 @@ public class SwingRendererUtils {
 
 	public static JMenu createJMenu(Menu menu, SwingRenderer swingRenderer) {
 		JMenu result = new JMenu(menu.getName());
-		result.setIcon(getMenuItemIcon(swingRenderer, menu));
 		for (AbstractMenuItem item : menu.getItems()) {
 			result.add(createJMenuItem(item, swingRenderer));
 		}
@@ -832,8 +833,8 @@ public class SwingRendererUtils {
 	}
 
 	public static JMenuItem createJMenuItem(AbstractMenuItem item, SwingRenderer swingRenderer) {
-		if (item instanceof MethodActionMenuItem) {
-			return createJMenuActionItem((MethodActionMenuItem) item, swingRenderer);
+		if (item instanceof AbstractActionMenuItem) {
+			return createJMenuActionItem((AbstractActionMenuItem) item, swingRenderer);
 		} else if (item instanceof Menu) {
 			return createJMenu((Menu) item, swingRenderer);
 		} else {
@@ -841,18 +842,47 @@ public class SwingRendererUtils {
 		}
 	}
 
-	public static JMenuItem createJMenuActionItem(final MethodActionMenuItem actionItem,
+	public static JMenuItem createJMenuActionItem(final AbstractActionMenuItem actionItem,
 			final SwingRenderer swingRenderer) {
 		JMenuItem result = new JMenuItem(new AbstractAction(actionItem.getName()) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JPanel form = swingRenderer.getFormByMethodActionMenuItem().get(actionItem);
-				IMethodControlInput input = swingRenderer.createMethodControlPlaceHolder(form, actionItem.getMethod());
-				MethodAction methodAction = swingRenderer.createMethodAction(input);
-				methodAction.execute(form);
+				JPanel form = swingRenderer.getFormByActionMenuItem().get(actionItem);
+				try {
+					if (actionItem instanceof MethodActionMenuItem) {
+						IMethodControlInput input = swingRenderer.createMethodControlPlaceHolder(form,
+								((MethodActionMenuItem) actionItem).getMethod());
+						MethodAction methodAction = swingRenderer.createMethodAction(input);
+						methodAction.execute(form);
+					} else if (actionItem instanceof AbstractBuiltInActionMenuItem) {
+						Object object = swingRenderer.getObjectByForm().get(form);
+						((AbstractBuiltInActionMenuItem) actionItem).execute(object, swingRenderer);
+					} else {
+						throw new ReflectionUIError();
+					}
+				} catch (Throwable t) {
+					swingRenderer.handleExceptionsFromDisplayedUI(form, t);
+				}
 			}
+
+			@Override
+			public boolean isEnabled() {
+				JPanel form = swingRenderer.getFormByActionMenuItem().get(actionItem);
+				try {
+					if (actionItem instanceof AbstractBuiltInActionMenuItem) {
+						Object object = swingRenderer.getObjectByForm().get(form);
+						return ((AbstractBuiltInActionMenuItem) actionItem).isEnabled(object, swingRenderer);
+					} else {
+						return true;
+					}
+				} catch (Throwable t) {
+					swingRenderer.getReflectionUI().logError(t);
+					return false;
+				}
+			}
+
 		});
 		result.setIcon(getMenuItemIcon(swingRenderer, actionItem));
 		return result;

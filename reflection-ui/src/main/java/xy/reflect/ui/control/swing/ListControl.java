@@ -1517,7 +1517,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				if (clipboard.size() > 0) {
 					BufferedItemPosition newItemPosition = getNewItemPosition();
 					if (newItemPosition != null) {
-						if (createListModificationFactory(newItemPosition).canAdd(newItemPosition.getIndex())) {
+						if (createListModificationFactory(newItemPosition).canAdd(newItemPosition.getIndex(),
+								clipboard)) {
 							if (itemPositionSupportsAllClipboardItems(newItemPosition)) {
 								if (newItemPosition.getContainingListType().isOrdered()) {
 									if (insertPosition == InsertPosition.BEFORE) {
@@ -1582,14 +1583,14 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					return itemPositionFactory.getRootItemPosition(0);
 				}
 				if (selection.size() == 1) {
-					return selection.get(0).getSubItemPosition(-1);
+					return selection.get(0).getSubItemPosition(0);
 				}
 				return null;
 			}
 
 			@Override
 			protected String getActionTitle() {
-				return "Paste";
+				return "Paste Into";
 			}
 
 			@Override
@@ -1602,7 +1603,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				if (clipboard.size() > 0) {
 					BufferedItemPosition newItemPosition = getNewItemPosition();
 					if (newItemPosition != null) {
-						if (createListModificationFactory(newItemPosition).canAdd(newItemPosition.getIndex())) {
+						if (createListModificationFactory(newItemPosition).canAdd(newItemPosition.getIndex(),
+								clipboard)) {
 							if (itemPositionSupportsAllClipboardItems(newItemPosition)) {
 								return true;
 							}
@@ -1830,7 +1832,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			public boolean isValid() {
-				if(getDetailsAccessMode().hasDetailsDisplayArea()){
+				if (getDetailsAccessMode().hasDetailsDisplayArea()) {
 					return false;
 				}
 				BufferedItemPosition singleSelectedPosition = getSingleSelection();
@@ -1940,7 +1942,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	public Object[] getRootListRawValue() {
 		return itemPositionFactory.getRootItemPosition(-1).retrieveContainingListRawValue();
 	}
-	
+
 	public int getRootListSize() {
 		return itemPositionFactory.getRootItemPosition(-1).getContainingListSize();
 	}
@@ -2005,10 +2007,10 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean requestCustomFocus() {
-		if(getRootListSize() > 0){
+		if (getRootListSize() > 0) {
 			setSingleSelection(getRootListItemPosition(0));
 		}
-		if(SwingRendererUtils.requestAnyComponentFocus(treeTableComponent, swingRenderer)){
+		if (SwingRendererUtils.requestAnyComponentFocus(treeTableComponent, swingRenderer)) {
 			return true;
 		}
 		return false;

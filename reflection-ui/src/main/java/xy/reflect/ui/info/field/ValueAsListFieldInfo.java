@@ -10,12 +10,12 @@ import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 
-public class ValueAsListField extends FieldInfoProxy {
+public class ValueAsListFieldInfo extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;
 	protected IListTypeInfo listType;
 
-	public ValueAsListField(ReflectionUI reflectionUI, IFieldInfo base) {
+	public ValueAsListFieldInfo(ReflectionUI reflectionUI, IFieldInfo base) {
 		super(base);
 		this.reflectionUI = reflectionUI;
 		this.listType = createListType();

@@ -7,13 +7,13 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 
-public class ChangedTypeField extends FieldInfoProxy {
+public class ChangedTypeFieldInfo extends FieldInfoProxy {
 
 	protected ITypeInfo newType;
 	protected IMethodInfo conversionMethod;
 	protected IMethodInfo reverseConversionMethod;
 
-	public ChangedTypeField(IFieldInfo base, ITypeInfo newType, IMethodInfo conversionMethod,
+	public ChangedTypeFieldInfo(IFieldInfo base, ITypeInfo newType, IMethodInfo conversionMethod,
 			IMethodInfo reverseConversionMethod) {
 		super(base);
 		this.newType = newType;
@@ -110,7 +110,7 @@ public class ChangedTypeField extends FieldInfoProxy {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ChangedTypeField other = (ChangedTypeField) obj;
+		ChangedTypeFieldInfo other = (ChangedTypeFieldInfo) obj;
 		if (conversionMethod == null) {
 			if (other.conversionMethod != null)
 				return false;

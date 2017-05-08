@@ -4,7 +4,7 @@ public class ReflectionUIError extends RuntimeException {
 	protected static final long serialVersionUID = 1L;
 
 	public ReflectionUIError() {
-		super("ReflectionUI Internal Error");
+		super("ReflectionUI Internal Error. Check the logs for more information");
 	}
 
 	public ReflectionUIError(String message, Throwable cause) {

@@ -15,7 +15,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class FieldAsSetter extends AbstractInfo implements IMethodInfo {
+public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 
 	protected IFieldInfo field;
 
@@ -48,12 +48,12 @@ public class FieldAsSetter extends AbstractInfo implements IMethodInfo {
 
 		@Override
 		public String toString() {
-			return "Parameter [of=" + FieldAsSetter.this.toString() + "]";
+			return "Parameter [of=" + FieldAsSetterInfo.this.toString() + "]";
 		}
 
 	};
 
-	public FieldAsSetter(IFieldInfo field) {
+	public FieldAsSetterInfo(IFieldInfo field) {
 		this.field = field;
 	}
 
@@ -192,7 +192,7 @@ public class FieldAsSetter extends AbstractInfo implements IMethodInfo {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		FieldAsSetter other = (FieldAsSetter) obj;
+		FieldAsSetterInfo other = (FieldAsSetterInfo) obj;
 		if (field == null) {
 			if (other.field != null)
 				return false;
