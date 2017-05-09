@@ -2011,10 +2011,9 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (f.getTypeConversion() != null) {
-					ITypeInfo newType = f.getTypeConversion().getNewTypeFinder().find(reflectionUI);
-					IMethodInfo conversionMethod = f.getTypeConversion().getConversionMethodFinder().find();
-					IMethodInfo reverseConversionMethod = f.getTypeConversion().getReverseConversionMethodFinder()
-							.find();
+					ITypeInfo newType = f.getTypeConversion().findNewType(reflectionUI);
+					IMethodInfo conversionMethod = f.getTypeConversion().buildOverallConversionMethod();
+					IMethodInfo reverseConversionMethod = f.getTypeConversion().buildOverallReverseConversionMethod();
 					field = new ChangedTypeFieldInfo(field, newType, conversionMethod, reverseConversionMethod);
 				}
 				return field;

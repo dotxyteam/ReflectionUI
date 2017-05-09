@@ -59,7 +59,7 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 		}
 
 		@Override
-		protected Component createButton() {
+		protected Component createChangeControl() {
 			return null;
 		}
 

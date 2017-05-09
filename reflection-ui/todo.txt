@@ -1,5 +1,20 @@
+- file browser handles null but do not display null label
+- nullable ??? or how to get into the developer head ! 
+	* field|param.isNullable() => field|param.isNullValueDistinct()
+	* field.getNullReplacement() => field.getNullEquivalence() 
+	* control.handlesNull() => control.canDistinctlyDisplayNull()
+	=> field.isNullValueDistinct() will return false by default
+	=> all the controls will be able to display null even if not
+	distinctly from empty value
+	=> no value instaniated by default anymore
+	=> isNullValueDistinct => displays field.getNullValueLabel()
+- bug: polymorphic control enumeration is not nullable
+	when the field is nullable
+- potential bugs: multiple layers of default non nullable 
+	customizations are still there  
+- bug: undo job must never be stored in the member info
 - embedded control list ???
-- image control
+- image control: enhance
 - virtual fields ???
 - parameters should get their customizations from
 	parameterAsField customizations

@@ -161,6 +161,19 @@ public class ReflectionUIUtils {
 		return result.toString();
 	}
 
+	public static String extractMethodReturnTypeFromSignature(String methodSignature) {
+		Pattern pattern = Pattern.compile(METHOD_SIGNATURE_REGEX);
+		Matcher matcher = pattern.matcher(methodSignature);
+		if (!matcher.matches()) {
+			return null;
+		}
+		String result = matcher.group(1);
+		if (result != null) {
+			result = result.trim();
+		}
+		return result;
+	}
+
 	public static String extractMethodNameFromSignature(String methodSignature) {
 		Pattern pattern = Pattern.compile(METHOD_SIGNATURE_REGEX);
 		Matcher matcher = pattern.matcher(methodSignature);
@@ -1107,7 +1120,7 @@ public class ReflectionUIUtils {
 		if ((o1 == null) || (o2 == null)) {
 			return false;
 		}
-		if(ClassUtils.isPrimitiveClassOrWrapperOrString(o1.getClass())){
+		if (ClassUtils.isPrimitiveClassOrWrapperOrString(o1.getClass())) {
 			return o1.equals(o2);
 		}
 		ITypeInfo type1 = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(o1));
@@ -1115,11 +1128,11 @@ public class ReflectionUIUtils {
 		if (!type1.equals(type2)) {
 			return false;
 		}
-		if(type1.isPrimitive()){
+		if (type1.isPrimitive()) {
 			return o1.equals(o2);
 		}
 		for (IFieldInfo field : type1.getFields()) {
-			if(infoFilter.excludeField(field)){
+			if (infoFilter.excludeField(field)) {
 				continue;
 			}
 			Object value1 = field.getValue(o1);

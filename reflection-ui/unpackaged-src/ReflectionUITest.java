@@ -1,6 +1,8 @@
 import java.awt.Color;
+import java.awt.Image;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -13,6 +15,8 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.Vector;
 
+import javax.imageio.ImageIO;
+
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
@@ -24,6 +28,7 @@ import xy.reflect.ui.info.type.factory.InfoCustomizationsFactory;
 import xy.reflect.ui.info.type.factory.TypeInfoProxyFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.SystemProperties;
 
 public class ReflectionUITest {
@@ -61,6 +66,10 @@ public class ReflectionUITest {
 
 		public double getPI() {
 			return Math.PI;
+		}
+
+		public Image getBannerImage() throws IOException {
+			return ImageIO.read(new File("website/Business_zonne_b.jpg"));
 		}
 
 		public String getExceptionneableInfo() throws Exception {

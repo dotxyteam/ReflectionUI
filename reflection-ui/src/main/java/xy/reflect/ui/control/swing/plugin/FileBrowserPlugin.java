@@ -136,7 +136,7 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 		}
 
 		@Override
-		protected TextControl createStatusControl(IFieldControlInput input) {
+		protected Component createStatusControl(IFieldControlInput input) {
 			return new TextControl(swingRenderer, new FieldControlInputProxy(input) {
 
 				@Override
@@ -166,8 +166,8 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 		}
 
 		@Override
-		protected Component createButton() {
-			Component result = super.createButton();
+		protected Component createChangeControl() {
+			Component result = super.createChangeControl();
 			if (data.isGetOnly()) {
 				result.setEnabled(false);
 			}

@@ -41,9 +41,11 @@ import xy.reflect.ui.info.menu.IMenuItemContainer;
 import xy.reflect.ui.info.menu.Menu;
 import xy.reflect.ui.info.menu.MenuItemCategory;
 import xy.reflect.ui.info.menu.MenuModel;
+import xy.reflect.ui.info.method.ChainedMethodsInfo;
 import xy.reflect.ui.info.method.DefaultConstructorInfo;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode;
@@ -1194,14 +1196,59 @@ public class InfoCustomizations implements Serializable {
 	public static class TypeConversion extends AbstractCustomization {
 		private static final long serialVersionUID = 1L;
 
-		protected ITypeInfoFinder newTypeFinder = new JavaClassBasedTypeInfoFinder();
-		protected ConversionMethodFinder conversionMethodFinder = new ConversionMethodFinder();
-		protected ConversionMethodFinder reverseConversionMethodFinder = new ConversionMethodFinder();
+		protected TypeConversion preConversion;
+		protected ITypeInfoFinder newTypeFinder;
+		protected ConversionMethodFinder conversionMethodFinder;
+		protected ConversionMethodFinder reverseConversionMethodFinder;
 
 		@XmlElements({ @XmlElement(name = "javaClassBasedTypeInfoFinder", type = JavaClassBasedTypeInfoFinder.class),
 				@XmlElement(name = "customTypeInfoFinder", type = CustomTypeInfoFinder.class) })
 		public ITypeInfoFinder getNewTypeFinder() {
 			return newTypeFinder;
+		}
+
+		public ITypeInfo findNewType(ReflectionUI reflectionUI) {
+			if (newTypeFinder != null) {
+				return newTypeFinder.find(reflectionUI);
+			} else {
+				return reflectionUI.getTypeInfo(new JavaTypeInfoSource(Object.class));
+			}
+		}
+
+		public IMethodInfo buildOverallConversionMethod() {
+			IMethodInfo result = null;
+			if (conversionMethodFinder != null) {
+				result = conversionMethodFinder.find();
+			}
+			if (preConversion != null) {
+				IMethodInfo preConversionMethod = preConversion.buildOverallConversionMethod();
+				if (preConversionMethod != null) {
+					if (result == null) {
+						result = preConversionMethod;
+					} else {
+						result = new ChainedMethodsInfo(preConversionMethod, result);
+					}
+				}
+			}
+			return result;
+		}
+
+		public IMethodInfo buildOverallReverseConversionMethod() {
+			IMethodInfo result = null;
+			if (reverseConversionMethodFinder != null) {
+				result = reverseConversionMethodFinder.find();
+			}
+			if (preConversion != null) {
+				IMethodInfo preReverseConversionMethod = preConversion.buildOverallReverseConversionMethod();
+				if (preReverseConversionMethod != null) {
+					if (result == null) {
+						result = preReverseConversionMethod;
+					} else {
+						result = new ChainedMethodsInfo(preReverseConversionMethod, result);
+					}
+				}
+			}
+			return result;
 		}
 
 		public void setNewTypeFinder(ITypeInfoFinder newTypeFinder) {
@@ -1224,12 +1271,21 @@ public class InfoCustomizations implements Serializable {
 			this.reverseConversionMethodFinder = reverseConversionMethodFinder;
 		}
 
+		public TypeConversion getPreConversion() {
+			return preConversion;
+		}
+
+		public void setPreConversion(TypeConversion preConversion) {
+			this.preConversion = preConversion;
+		}
+
 		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + ((conversionMethodFinder == null) ? 0 : conversionMethodFinder.hashCode());
 			result = prime * result + ((newTypeFinder == null) ? 0 : newTypeFinder.hashCode());
+			result = prime * result + ((preConversion == null) ? 0 : preConversion.hashCode());
 			result = prime * result
 					+ ((reverseConversionMethodFinder == null) ? 0 : reverseConversionMethodFinder.hashCode());
 			return result;
@@ -1254,6 +1310,11 @@ public class InfoCustomizations implements Serializable {
 					return false;
 			} else if (!newTypeFinder.equals(other.newTypeFinder))
 				return false;
+			if (preConversion == null) {
+				if (other.preConversion != null)
+					return false;
+			} else if (!preConversion.equals(other.preConversion))
+				return false;
 			if (reverseConversionMethodFinder == null) {
 				if (other.reverseConversionMethodFinder != null)
 					return false;
@@ -1264,8 +1325,9 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public String toString() {
-			return "TypeConversion [newType=" + newTypeFinder + ", conversionMethodFinder=" + conversionMethodFinder
-					+ ", reverseConversionMethodFinder=" + reverseConversionMethodFinder + "]";
+			return "TypeConversion [preConversion=" + preConversion + ", newTypeFinder=" + newTypeFinder
+					+ ", conversionMethodFinder=" + conversionMethodFinder + ", reverseConversionMethodFinder="
+					+ reverseConversionMethodFinder + "]";
 		}
 
 	}
@@ -1502,6 +1564,7 @@ public class InfoCustomizations implements Serializable {
 		private static final long serialVersionUID = 1L;
 
 		protected String data;
+		protected TypeConversion preConversion;
 
 		public TextualStorage() {
 		}
@@ -1514,10 +1577,22 @@ public class InfoCustomizations implements Serializable {
 			this.data = data;
 		}
 
+		public TypeConversion getPreConversion() {
+			return preConversion;
+		}
+
+		public void setPreConversion(TypeConversion preConversion) {
+			this.preConversion = preConversion;
+		}
+
 		public void save(Object object) {
 			if (object == null) {
 				this.data = null;
 			} else {
+				if (preConversion != null) {
+					IMethodInfo conversionMethod = preConversion.buildOverallConversionMethod();
+					object = conversionMethod.invoke(null, new InvocationData(object));
+				}
 				this.data = ReflectionUIUtils.serializeToHexaText(object);
 			}
 		}
@@ -1526,7 +1601,12 @@ public class InfoCustomizations implements Serializable {
 			if (data == null) {
 				return null;
 			} else {
-				return ReflectionUIUtils.deserializeFromHexaText(data);
+				Object result = ReflectionUIUtils.deserializeFromHexaText(data);
+				if (preConversion != null) {
+					IMethodInfo reverseConversionMethod = preConversion.buildOverallReverseConversionMethod();
+					result = reverseConversionMethod.invoke(null, new InvocationData(result));
+				}
+				return result;
 			}
 		}
 

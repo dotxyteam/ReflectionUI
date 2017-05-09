@@ -38,7 +38,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 
 	protected Component statusControl;
 	protected Component iconControl;
-	protected Component button;
+	protected Component actionControl;
 	protected IFieldControlInput input;
 
 	public DialogAccessControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
@@ -48,11 +48,11 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 		setLayout(new BorderLayout());
 
 		statusControl = createStatusControl(input);
-		button = createButton();
+		actionControl = createChangeControl();
 		iconControl = createIconControl();
 
-		if (button != null) {
-			add(SwingRendererUtils.flowInLayout(button, GridBagConstraints.CENTER), BorderLayout.WEST);
+		if (actionControl != null) {
+			add(SwingRendererUtils.flowInLayout(actionControl, GridBagConstraints.CENTER), BorderLayout.WEST);
 		}
 		if (statusControl != null) {
 			JPanel centerPanel = new JPanel();
@@ -94,7 +94,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 		};
 	}
 
-	protected Component createButton() {
+	protected Component createChangeControl() {
 		final JButton result = new JButton("...") {
 
 			private static final long serialVersionUID = 1L;

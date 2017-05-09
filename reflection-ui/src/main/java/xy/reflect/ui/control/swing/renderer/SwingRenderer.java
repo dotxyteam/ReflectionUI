@@ -71,6 +71,7 @@ import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
 import xy.reflect.ui.control.swing.plugin.ColorPickerPlugin;
 import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin;
+import xy.reflect.ui.control.swing.plugin.ImageViewPlugin;
 import xy.reflect.ui.control.swing.plugin.SliderPlugin;
 import xy.reflect.ui.control.swing.plugin.SpinnerPlugin;
 import xy.reflect.ui.info.IInfo;
@@ -593,6 +594,7 @@ public class SwingRenderer {
 		result.add(new SpinnerPlugin());
 		result.add(new FileBrowserPlugin());
 		result.add(new ColorPickerPlugin());
+		result.add(new ImageViewPlugin());
 		return result;
 	}
 

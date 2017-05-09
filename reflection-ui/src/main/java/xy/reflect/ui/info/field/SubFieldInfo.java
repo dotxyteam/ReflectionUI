@@ -14,7 +14,7 @@ import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class SubFieldInfo   extends AbstractInfo implements IFieldInfo {
+public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	protected IFieldInfo theField;
 	protected IFieldInfo theSubField;
@@ -83,12 +83,10 @@ public class SubFieldInfo   extends AbstractInfo implements IFieldInfo {
 	@Override
 	public void setValue(Object object, Object subFieldValue) {
 		Object fieldValue = getTheFieldValue(object);
-
 		oppositeSubFieldModification = new ControlDataValueModification(
 				new DefaultFieldControlData(fieldValue, theSubField), subFieldValue, theSubField).applyAndGetOpposite();
-
-		oppositeFieldModification = ReflectionUIUtils.finalizeParentObjectValueEditSession(IModification.FAKE_MODIFICATION, true,
-				theField.getValueReturnMode(), true,
+		oppositeFieldModification = ReflectionUIUtils.finalizeParentObjectValueEditSession(
+				IModification.FAKE_MODIFICATION, true, theField.getValueReturnMode(), true,
 				new ControlDataValueModification(new DefaultFieldControlData(object, theField), fieldValue, theField),
 				theField, ControlDataValueModification.getTitle(theField));
 	}
