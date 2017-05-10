@@ -13,12 +13,14 @@ import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.custom.InfoCustomizations.AbstractCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.AbstractMemberCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ColumnCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.ConversionMethodFinder;
 import xy.reflect.ui.info.custom.InfoCustomizations.CustomTypeInfoFinder;
 import xy.reflect.ui.info.custom.InfoCustomizations.CustomizationCategory;
 import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ITypeInfoFinder;
 import xy.reflect.ui.info.custom.InfoCustomizations.JavaClassBasedTypeInfoFinder;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.Mapping;
 import xy.reflect.ui.info.custom.InfoCustomizations.MethodCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ParameterCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.TextualStorage;
@@ -302,6 +304,26 @@ class CustomizationToolsUI extends ReflectionUI {
 					} else {
 						result += "<" + ReflectionUIUtils.toString(CustomizationToolsUI.this, newTypeFinder) + ">";
 					}
+					return result;
+				} else if (object instanceof Mapping) {
+					String result = "Map";
+					ConversionMethodFinder reverseConversion = ((Mapping) object).getReverseConversionMethodFinder();
+					if (reverseConversion != null) {
+						if (reverseConversion.getConversionMethodSignature() != null) {
+							String typeName = ReflectionUIUtils.extractMethodReturnTypeNameFromSignature(
+									reverseConversion.getConversionMethodSignature());
+							result += " From " + typeName;
+						}
+					}
+					ConversionMethodFinder conversion = ((Mapping) object).getConversionMethodFinder();
+					if (conversion != null) {
+						if (conversion.getConversionMethodSignature() != null) {
+							String typeName = ReflectionUIUtils.extractMethodReturnTypeNameFromSignature(
+									conversion.getConversionMethodSignature());
+							result += " To " + typeName;
+						}
+					}
+					result += "...";
 					return result;
 				} else if (object instanceof JavaClassBasedTypeInfoFinder) {
 					return ((JavaClassBasedTypeInfoFinder) object).getClassName();

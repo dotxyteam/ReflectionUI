@@ -862,10 +862,10 @@
                     <uniqueIdentifier>-50cae425:15be65c9404:-4431</uniqueIdentifier>
                     <name>Redo</name>
                 </redoMenuItem>
-                <menu xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="abstractBuiltInActionMenuItem">
-                    <uniqueIdentifier>-f22a9e2:15befce3734:-56b7</uniqueIdentifier>
+                <resetMenuItem>
+                    <uniqueIdentifier>3ce40300:15bf0fbd84d:-5665</uniqueIdentifier>
                     <name>Reset</name>
-                </menu>
+                </resetMenuItem>
             </menus>
             <menus>
                 <uniqueIdentifier>4f06c7f5:15be69b2b8f:-4faa</uniqueIdentifier>

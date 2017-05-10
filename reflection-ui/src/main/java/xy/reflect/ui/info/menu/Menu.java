@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlElements;
 import xy.reflect.ui.info.menu.builtin.ExitMenuItem;
 import xy.reflect.ui.info.menu.builtin.swing.HelpMenuItem;
 import xy.reflect.ui.info.menu.builtin.swing.RedoMenuItem;
+import xy.reflect.ui.info.menu.builtin.swing.ResetMenuItem;
 import xy.reflect.ui.info.menu.builtin.swing.UndoMenuItem;
 
 public class Menu extends AbstractMenuItem implements IMenuItemContainer {
@@ -30,7 +31,8 @@ public class Menu extends AbstractMenuItem implements IMenuItemContainer {
 			@XmlElement(name = "exitMenuItem", type = ExitMenuItem.class),
 			@XmlElement(name = "helpMenuItem", type = HelpMenuItem.class),
 			@XmlElement(name = "undoMenuItem", type = UndoMenuItem.class),
-			@XmlElement(name = "redoMenuItem", type = RedoMenuItem.class) })
+			@XmlElement(name = "redoMenuItem", type = RedoMenuItem.class),
+			@XmlElement(name = "resetMenuItem", type = ResetMenuItem.class) })
 	public List<AbstractMenuItem> getItems() {
 		return items;
 	}

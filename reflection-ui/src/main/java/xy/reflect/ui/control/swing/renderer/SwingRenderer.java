@@ -1025,7 +1025,7 @@ public class SwingRenderer {
 						return null;
 					}
 					try {
-						type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(Class.forName(className)));
+						type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(ClassUtils.getCachedClassforName(className)));
 					} catch (ClassNotFoundException e) {
 						throw new ReflectionUIError(e);
 					}

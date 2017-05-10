@@ -1223,18 +1223,19 @@ public class InfoCustomizations implements Serializable {
 
 	}
 
-	public static class TypeConversion extends AbstractCustomization {
+	public static class TypeConversion extends Mapping {
 		private static final long serialVersionUID = 1L;
 
-		protected TypeConversion preConversion;
 		protected ITypeInfoFinder newTypeFinder;
-		protected ConversionMethodFinder conversionMethodFinder;
-		protected ConversionMethodFinder reverseConversionMethodFinder;
 
 		@XmlElements({ @XmlElement(name = "javaClassBasedTypeInfoFinder", type = JavaClassBasedTypeInfoFinder.class),
 				@XmlElement(name = "customTypeInfoFinder", type = CustomTypeInfoFinder.class) })
 		public ITypeInfoFinder getNewTypeFinder() {
 			return newTypeFinder;
+		}
+
+		public void setNewTypeFinder(ITypeInfoFinder newTypeFinder) {
+			this.newTypeFinder = newTypeFinder;
 		}
 
 		public ITypeInfo findNewType(ReflectionUI reflectionUI) {
@@ -1245,13 +1246,54 @@ public class InfoCustomizations implements Serializable {
 			}
 		}
 
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = super.hashCode();
+			result = prime * result + ((newTypeFinder == null) ? 0 : newTypeFinder.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (!super.equals(obj))
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			TypeConversion other = (TypeConversion) obj;
+			if (newTypeFinder == null) {
+				if (other.newTypeFinder != null)
+					return false;
+			} else if (!newTypeFinder.equals(other.newTypeFinder))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "TypeConversion [newTypeFinder=" + newTypeFinder + ", preMapping=" + preMapping
+					+ ", conversionMethodFinder=" + conversionMethodFinder + ", reverseConversionMethodFinder="
+					+ reverseConversionMethodFinder + "]";
+		}
+
+	}
+
+	public static class Mapping extends AbstractCustomization {
+		private static final long serialVersionUID = 1L;
+
+		protected Mapping preMapping;
+		protected ConversionMethodFinder conversionMethodFinder;
+		protected ConversionMethodFinder reverseConversionMethodFinder;
+
 		public Mapper<Object> buildOverallConversionMethod() {
 			Mapper<Object> result = null;
 			if (conversionMethodFinder != null) {
 				result = conversionMethodFinder.find();
 			}
-			if (preConversion != null) {
-				Mapper<Object> preConversionMethod = preConversion.buildOverallConversionMethod();
+			if (preMapping != null) {
+				Mapper<Object> preConversionMethod = preMapping.buildOverallConversionMethod();
 				if (preConversionMethod != null) {
 					if (result == null) {
 						result = preConversionMethod;
@@ -1268,8 +1310,8 @@ public class InfoCustomizations implements Serializable {
 			if (reverseConversionMethodFinder != null) {
 				result = reverseConversionMethodFinder.find();
 			}
-			if (preConversion != null) {
-				Mapper<Object> preReverseConversionMethod = preConversion.buildOverallReverseConversionMethod();
+			if (preMapping != null) {
+				Mapper<Object> preReverseConversionMethod = preMapping.buildOverallReverseConversionMethod();
 				if (preReverseConversionMethod != null) {
 					if (result == null) {
 						result = preReverseConversionMethod;
@@ -1279,10 +1321,6 @@ public class InfoCustomizations implements Serializable {
 				}
 			}
 			return result;
-		}
-
-		public void setNewTypeFinder(ITypeInfoFinder newTypeFinder) {
-			this.newTypeFinder = newTypeFinder;
 		}
 
 		public ConversionMethodFinder getConversionMethodFinder() {
@@ -1301,12 +1339,12 @@ public class InfoCustomizations implements Serializable {
 			this.reverseConversionMethodFinder = reverseConversionMethodFinder;
 		}
 
-		public TypeConversion getPreConversion() {
-			return preConversion;
+		public Mapping getPreMapping() {
+			return preMapping;
 		}
 
-		public void setPreConversion(TypeConversion preConversion) {
-			this.preConversion = preConversion;
+		public void setPreMapping(Mapping preMapping) {
+			this.preMapping = preMapping;
 		}
 
 		@Override
@@ -1314,8 +1352,7 @@ public class InfoCustomizations implements Serializable {
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + ((conversionMethodFinder == null) ? 0 : conversionMethodFinder.hashCode());
-			result = prime * result + ((newTypeFinder == null) ? 0 : newTypeFinder.hashCode());
-			result = prime * result + ((preConversion == null) ? 0 : preConversion.hashCode());
+			result = prime * result + ((preMapping == null) ? 0 : preMapping.hashCode());
 			result = prime * result
 					+ ((reverseConversionMethodFinder == null) ? 0 : reverseConversionMethodFinder.hashCode());
 			return result;
@@ -1335,15 +1372,10 @@ public class InfoCustomizations implements Serializable {
 					return false;
 			} else if (!conversionMethodFinder.equals(other.conversionMethodFinder))
 				return false;
-			if (newTypeFinder == null) {
-				if (other.newTypeFinder != null)
+			if (preMapping == null) {
+				if (other.preMapping != null)
 					return false;
-			} else if (!newTypeFinder.equals(other.newTypeFinder))
-				return false;
-			if (preConversion == null) {
-				if (other.preConversion != null)
-					return false;
-			} else if (!preConversion.equals(other.preConversion))
+			} else if (!preMapping.equals(other.preMapping))
 				return false;
 			if (reverseConversionMethodFinder == null) {
 				if (other.reverseConversionMethodFinder != null)
@@ -1355,9 +1387,8 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public String toString() {
-			return "TypeConversion [preConversion=" + preConversion + ", newTypeFinder=" + newTypeFinder
-					+ ", conversionMethodFinder=" + conversionMethodFinder + ", reverseConversionMethodFinder="
-					+ reverseConversionMethodFinder + "]";
+			return "Mapping [preMapping=" + preMapping + ", conversionMethodFinder=" + conversionMethodFinder
+					+ ", reverseConversionMethodFinder=" + reverseConversionMethodFinder + "]";
 		}
 
 	}
@@ -1586,7 +1617,7 @@ public class InfoCustomizations implements Serializable {
 		private static final long serialVersionUID = 1L;
 
 		protected String data;
-		protected TypeConversion preConversion;
+		protected Mapping preConversion;
 
 		public TextualStorage() {
 		}
@@ -1599,11 +1630,11 @@ public class InfoCustomizations implements Serializable {
 			this.data = data;
 		}
 
-		public TypeConversion getPreConversion() {
+		public Mapping getPreConversion() {
 			return preConversion;
 		}
 
-		public void setPreConversion(TypeConversion preConversion) {
+		public void setPreConversion(Mapping preConversion) {
 			this.preConversion = preConversion;
 		}
 
@@ -2719,7 +2750,7 @@ public class InfoCustomizations implements Serializable {
 		public ITypeInfo find(ReflectionUI reflectionUI) {
 			Class<?> javaType;
 			try {
-				javaType = Class.forName(className);
+				javaType = ClassUtils.getCachedClassforName(className);
 			} catch (ClassNotFoundException e) {
 				throw new ReflectionUIError(e);
 			}
@@ -2783,7 +2814,7 @@ public class InfoCustomizations implements Serializable {
 		@Override
 		public ITypeInfo find(ReflectionUI reflectionUI) {
 			try {
-				Class<?> implementationClass = Class.forName(implementationClassName);
+				Class<?> implementationClass = ClassUtils.getCachedClassforName(implementationClassName);
 				return (ITypeInfo) implementationClass.newInstance();
 			} catch (Exception e) {
 				throw new ReflectionUIError("Failed to instanciate class implenation class: " + e.toString(), e);
