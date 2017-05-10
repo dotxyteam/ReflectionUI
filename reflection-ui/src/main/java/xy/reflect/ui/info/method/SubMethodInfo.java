@@ -148,8 +148,8 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
-	public boolean isReturnValueNullable() {
-		return theSubMethod.isReturnValueNullable();
+	public boolean isNullReturnValueDistinct() {
+		return theSubMethod.isNullReturnValueDistinct();
 	}
 
 	@Override

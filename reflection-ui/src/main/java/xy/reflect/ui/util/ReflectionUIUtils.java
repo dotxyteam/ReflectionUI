@@ -161,7 +161,7 @@ public class ReflectionUIUtils {
 		return result.toString();
 	}
 
-	public static String extractMethodReturnTypeFromSignature(String methodSignature) {
+	public static String extractMethodReturnTypeNameFromSignature(String methodSignature) {
 		Pattern pattern = Pattern.compile(METHOD_SIGNATURE_REGEX);
 		Matcher matcher = pattern.matcher(methodSignature);
 		if (!matcher.matches()) {

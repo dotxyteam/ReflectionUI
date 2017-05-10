@@ -29,8 +29,8 @@ public class ParameterInfoProxy extends AbstractInfoProxy implements IParameterI
 		return base.getType();
 	}
 
-	public boolean isValueNullable() {
-		return base.isValueNullable();
+	public boolean isNullValueDistinct() {
+		return base.isNullValueDistinct();
 	}
 
 	public Object getDefaultValue() {

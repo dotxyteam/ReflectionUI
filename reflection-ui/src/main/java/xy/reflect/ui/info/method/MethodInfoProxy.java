@@ -28,8 +28,8 @@ public class MethodInfoProxy extends AbstractInfoProxy implements IMethodInfo {
 		return base.getSignature();
 	}
 
-	public boolean isReturnValueNullable() {
-		return base.isReturnValueNullable();
+	public boolean isNullReturnValueDistinct() {
+		return base.isNullReturnValueDistinct();
 	}
 
 	public boolean isReturnValueDetached() {

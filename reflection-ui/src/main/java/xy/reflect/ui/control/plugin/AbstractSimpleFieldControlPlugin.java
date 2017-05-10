@@ -7,7 +7,7 @@ public abstract class AbstractSimpleFieldControlPlugin implements IFieldControlP
 
 	protected abstract boolean handles(Class<?> javaType);
 
-	protected abstract boolean handlesNull();
+	protected abstract boolean displaysDistinctNullValue();
 
 	@Override
 	public String getIdentifier() {
@@ -23,8 +23,8 @@ public abstract class AbstractSimpleFieldControlPlugin implements IFieldControlP
 		} catch (ClassNotFoundException e) {
 			return false;
 		}
-		if (input.getControlData().isValueNullable()) {
-			if (!handlesNull()) {
+		if (input.getControlData().isNullValueDistinct()) {
+			if (!displaysDistinctNullValue()) {
 				return false;
 			}
 		}

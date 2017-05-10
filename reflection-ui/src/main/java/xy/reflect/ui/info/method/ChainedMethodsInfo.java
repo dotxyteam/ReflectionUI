@@ -137,8 +137,8 @@ public class ChainedMethodsInfo implements IMethodInfo {
 	}
 
 	@Override
-	public boolean isReturnValueNullable() {
-		return method2.isReturnValueNullable();
+	public boolean isNullReturnValueDistinct() {
+		return method2.isNullReturnValueDistinct();
 	}
 
 	@Override

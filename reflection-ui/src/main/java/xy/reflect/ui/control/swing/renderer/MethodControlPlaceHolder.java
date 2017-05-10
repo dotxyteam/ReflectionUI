@@ -221,8 +221,8 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 		}
 
 		@Override
-		public boolean isReturnValueNullable() {
-			return finalMethod.isReturnValueNullable();
+		public boolean isNullReturnValueDistinct() {
+			return finalMethod.isNullReturnValueDistinct();
 		}
 
 		@Override

@@ -35,7 +35,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 	}
 
 	@Override
-	protected boolean handlesNull() {
+	protected boolean displaysDistinctNullValue() {
 		return false;
 	}
 
@@ -98,10 +98,10 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 				throw new ReflectionUIError(e1);
 			}
 
-			Number value = (Number) data.getValue();
 			Number minimum = getConvertedNumber(controlCustomization.minimum);
 			Number maximum = getConvertedNumber(controlCustomization.maximum);
 			Number stepSize = getConvertedNumber(controlCustomization.stepSize);
+			Number value = minimum;
 			setModel(new SpinnerNumberModel(value, (Comparable<?>) minimum, (Comparable<?>) maximum, stepSize));
 
 			setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
@@ -148,6 +148,9 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 		@Override
 		public boolean refreshUI() {
 			Number value = (Number) data.getValue();
+			if (value == null) {
+				value = (Number) ((SpinnerNumberModel) getModel()).getMinimum();
+			}
 			listenerDisabled = true;
 			try {
 				setValue(value);

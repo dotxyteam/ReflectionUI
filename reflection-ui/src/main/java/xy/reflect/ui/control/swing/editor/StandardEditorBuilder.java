@@ -90,7 +90,7 @@ public class StandardEditorBuilder extends AbstractEditorBuilder {
 	}
 
 	@Override
-	public boolean isObjectValueNullable() {
+	public boolean isObjectNullValueDistinct() {
 		return false;
 	}
 

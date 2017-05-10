@@ -32,7 +32,7 @@ public interface IFieldControlData {
 
 	ValueReturnMode getValueReturnMode();
 
-	boolean isValueNullable();
+	boolean isNullValueDistinct();
 
 	String getNullValueLabel();
 

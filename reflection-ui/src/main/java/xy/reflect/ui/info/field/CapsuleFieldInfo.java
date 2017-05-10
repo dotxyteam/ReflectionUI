@@ -126,7 +126,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
-	public boolean isValueNullable() {
+	public boolean isNullValueDistinct() {
 		return false;
 	}
 
@@ -338,7 +338,23 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 		@Override
 		public String toString(Object object) {
-			return "";
+			Value value = (Value) object;
+			ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
+			StringBuilder result = new StringBuilder();
+			for (IFieldInfo field : valueType.getFields()) {
+				Object fieldValue = field.getValue(value);
+				String fieldValueString = ReflectionUIUtils.toString(reflectionUI, fieldValue);
+				String fieldCaption = field.getCaption();
+				if ((fieldCaption != null) && (fieldCaption.length() > 0)) {
+					fieldValueString = fieldCaption + "=" + fieldValueString;
+				}
+				fieldValueString = ReflectionUIUtils.truncateNicely(fieldValueString, 30);
+				if (result.length() > 0) {
+					result.append(", ");
+				}
+				result.append(fieldValueString);
+			}
+			return result.toString();
 		}
 
 		@Override

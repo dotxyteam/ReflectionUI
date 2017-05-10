@@ -1,6 +1,7 @@
 package xy.reflect.ui.control.swing.plugin;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -35,8 +36,8 @@ public class ImageViewPlugin extends FileBrowserPlugin {
 	}
 
 	@Override
-	protected boolean handlesNull() {
-		return true;
+	protected boolean displaysDistinctNullValue() {
+		return false;
 	}
 
 	@Override
@@ -52,7 +53,10 @@ public class ImageViewPlugin extends FileBrowserPlugin {
 
 	public static class ImageViewConfiguration extends AbstractConfiguration {
 		private static final long serialVersionUID = 1L;
+
 		public boolean preserveRatio = true;
+		public int canvasWidth = 100;
+		public int canvasHeight = 100;
 
 	}
 
@@ -93,8 +97,9 @@ public class ImageViewPlugin extends FileBrowserPlugin {
 					}
 				});
 			}
-			setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
-
+			if (data.getCaption().length() > 0) {
+				setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
+			}
 			refreshUI();
 		}
 
@@ -152,7 +157,8 @@ public class ImageViewPlugin extends FileBrowserPlugin {
 		}
 
 		@Override
-		public boolean refreshUI() {			
+		public boolean refreshUI() {
+			setPreferredSize(new Dimension(controlCustomization.canvasWidth, controlCustomization.canvasHeight));
 			setImage((Image) data.getValue());
 			return true;
 		}

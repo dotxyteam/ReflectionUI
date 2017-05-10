@@ -12,6 +12,7 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.DialogAccessControl;
 import xy.reflect.ui.control.swing.EmbeddedFormControl;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
+import xy.reflect.ui.control.swing.NullControl;
 import xy.reflect.ui.control.swing.NullableControl;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -291,10 +292,13 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 				return result;
 			}
 		}
-		if (controlData.isValueNullable()) {
+		if (controlData.isNullValueDistinct()) {
 			return new NullableControl(this.swingRenderer, this);
 		}
 		Object value = controlData.getValue();
+		if (value == null) {
+			return new NullControl(swingRenderer, this);
+		}
 		final ITypeInfo actualValueType = this.swingRenderer.reflectionUI
 				.getTypeInfo(this.swingRenderer.reflectionUI.getTypeInfoSource(value));
 		if (!controlData.getType().getName().equals(actualValueType.getName())) {
@@ -386,8 +390,8 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 		}
 
 		@Override
-		public boolean isValueNullable() {
-			return finalField.isValueNullable();
+		public boolean isNullValueDistinct() {
+			return finalField.isNullValueDistinct();
 		}
 
 		@Override

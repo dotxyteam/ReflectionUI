@@ -42,7 +42,7 @@ public interface IListTypeInfo extends ITypeInfo {
 
 	List<IMethodInfo> getAdditionalItemConstructors(Object listValue);
 	
-	boolean isItemNullable();
+	boolean isItemNullValueDistinct();
 	
 	ValueReturnMode getItemReturnMode();
 

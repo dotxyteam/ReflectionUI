@@ -78,7 +78,7 @@ public class NullStatusFieldInfo extends FieldInfoProxy {
 	}
 
 	@Override
-	public boolean isValueNullable() {
+	public boolean isNullValueDistinct() {
 		return false;
 	}
 

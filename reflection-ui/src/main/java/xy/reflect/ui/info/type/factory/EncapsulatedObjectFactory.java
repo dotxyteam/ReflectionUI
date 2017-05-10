@@ -39,7 +39,7 @@ public class EncapsulatedObjectFactory {
 	protected ITypeInfo fieldType;
 	protected String fieldCaption = "";
 	protected boolean fieldGetOnly = false;
-	protected boolean fieldNullable = true;
+	protected boolean fieldNullValueDistinct = false;
 	protected ValueReturnMode fieldValueReturnMode = ValueReturnMode.INDETERMINATE;
 	protected Map<String, Object> fieldSpecificProperties = new HashMap<String, Object>();
 	protected String fieldNullValueLabel;
@@ -146,12 +146,12 @@ public class EncapsulatedObjectFactory {
 		this.fieldGetOnly = fieldGetOnly;
 	}
 
-	public boolean isFieldNullable() {
-		return fieldNullable;
+	public boolean isFieldNullValueDistinct() {
+		return fieldNullValueDistinct;
 	}
 
-	public void setFieldNullable(boolean fieldNullable) {
-		this.fieldNullable = fieldNullable;
+	public void setFieldNullValueDistinct(boolean fieldNullValueDistinct) {
+		this.fieldNullValueDistinct = fieldNullValueDistinct;
 	}
 
 	public String getFieldNullValueLabel() {
@@ -536,8 +536,8 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
-		public boolean isValueNullable() {
-			return fieldNullable;
+		public boolean isNullValueDistinct() {
+			return fieldNullValueDistinct;
 		}
 
 		@Override

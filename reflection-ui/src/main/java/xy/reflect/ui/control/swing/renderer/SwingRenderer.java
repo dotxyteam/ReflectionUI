@@ -297,7 +297,7 @@ public class SwingRenderer {
 		}
 		List<Component> result = new ArrayList<Component>();
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		if ((type.getOnlineHelp() != null) && (type.getOnlineHelp().trim().length() > 0)) {
+		if ((type.getOnlineHelp() != null) && (type.getOnlineHelp().length() > 0)) {
 			result.add(createOnlineHelpControl(type.getOnlineHelp()));
 		}
 		if (type.isModificationStackAccessible()) {
@@ -540,7 +540,7 @@ public class SwingRenderer {
 			if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(input.getControlData().getType())) {
 				return new PolymorphicControl(SwingRenderer.this, input);
 			}
-			if (!input.getControlData().isValueNullable()) {
+			if (!input.getControlData().isNullValueDistinct()) {
 				ITypeInfo fieldType = input.getControlData().getType();
 				if (fieldType instanceof IListTypeInfo) {
 					return new ListControl(this, input);
@@ -1057,7 +1057,7 @@ public class SwingRenderer {
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, enumType, "Selection",
 				message);
 		encapsulation.setFieldGetOnly(false);
-		encapsulation.setFieldNullable(false);
+		encapsulation.setFieldNullValueDistinct(false);
 		Object encapsulatedChosenItem = encapsulation.getInstance(chosenItemHolder);
 
 		if (!openObjectDialog(parentComponent, encapsulatedChosenItem, title,
@@ -1079,7 +1079,7 @@ public class SwingRenderer {
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, initialValueType, "Input",
 				valueCaption);
 		encapsulation.setFieldGetOnly(false);
-		encapsulation.setFieldNullable(false);
+		encapsulation.setFieldNullValueDistinct(false);
 		Object encapsulatedValue = encapsulation.getInstance(valueHolder);
 
 		if (!openObjectDialog(parentComponent, encapsulatedValue, title, getObjectIconImage(encapsulatedValue), true,
@@ -1436,7 +1436,7 @@ public class SwingRenderer {
 		container.add(fieldControlPlaceHolder, fieldControlPlaceHolderLayoutConstraints);
 
 		IFieldInfo field = fieldControlPlaceHolder.getField();
-		if ((field.getOnlineHelp() != null) && (field.getOnlineHelp().trim().length() > 0)) {
+		if ((field.getOnlineHelp() != null) && (field.getOnlineHelp().length() > 0)) {
 			GridBagConstraints layoutConstraints = new GridBagConstraints();
 			layoutConstraints.insets = new Insets(spacing, spacing, spacing, spacing);
 			if (fieldsOrientation == ITypeInfo.FieldsLayout.VERTICAL_FLOW) {

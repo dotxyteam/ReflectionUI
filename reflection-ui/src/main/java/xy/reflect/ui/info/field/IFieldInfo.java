@@ -44,8 +44,8 @@ public interface IFieldInfo extends IInfo {
 		}
 
 		@Override
-		public boolean isValueNullable() {
-			return true;
+		public boolean isNullValueDistinct() {
+			return false;
 		}
 
 		@Override
@@ -127,7 +127,7 @@ public interface IFieldInfo extends IInfo {
 
 	Runnable getCustomUndoUpdateJob(Object object, Object newValue);
 
-	boolean isValueNullable();
+	boolean isNullValueDistinct();
 
 	boolean isGetOnly();
 

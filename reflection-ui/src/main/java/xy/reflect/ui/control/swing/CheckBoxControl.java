@@ -10,7 +10,7 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.menu.MenuModel;
 
-public  class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl {
+public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
@@ -24,7 +24,7 @@ public  class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl
 			setEnabled(false);
 		}
 
-		setSelected((Boolean) data.getValue());
+		setSelected(Boolean.TRUE.equals(data.getValue()));
 		addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

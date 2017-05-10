@@ -37,7 +37,7 @@ public interface IMethodControlData {
 
 	boolean isReturnValueDetached();
 
-	boolean isReturnValueNullable();
+	boolean isNullReturnValueDistinct();
 	
 	ResourcePath getIconImagePath();
 

@@ -179,8 +179,8 @@ public class MethodAction extends AbstractAction {
 		IMethodInfo controlDataAsMethod = new MethodInfoProxy(IMethodInfo.NULL_METHOD_INFO) {
 
 			@Override
-			public boolean isReturnValueNullable() {
-				return data.isReturnValueNullable();
+			public boolean isNullReturnValueDistinct() {
+				return data.isNullReturnValueDistinct();
 			}
 
 			@Override
@@ -269,8 +269,8 @@ public class MethodAction extends AbstractAction {
 			}
 
 			@Override
-			public boolean isObjectValueNullable() {
-				return data.isReturnValueNullable();
+			public boolean isObjectNullValueDistinct() {
+				return data.isNullReturnValueDistinct();
 			}
 
 			@Override

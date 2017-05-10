@@ -31,7 +31,7 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 	}
 
 	@Override
-	protected boolean handlesNull() {
+	protected boolean displaysDistinctNullValue() {
 		return false;
 	}
 
@@ -122,18 +122,24 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
 		@Override
 		public boolean refreshUI() {
-			final int value = (Integer) NumberUtils.convertNumberToTargetClass((Number) data.getValue(), Integer.class);
-			if (value > getMaximum()) {
-				throw new ReflectionUIError(
-						"The value is greater than the maximum value: " + value + " > " + getMaximum());
+			Object value = data.getValue();
+			final int intValue;
+			if (value == null) {
+				intValue = getMinimum();
+			} else {
+				intValue = (Integer) NumberUtils.convertNumberToTargetClass((Number) value, Integer.class);
 			}
-			if (value < getMinimum()) {
+			if (intValue > getMaximum()) {
 				throw new ReflectionUIError(
-						"The value is less than the minimum value: " + value + " < " + getMinimum());
+						"The value is greater than the maximum value: " + intValue + " > " + getMaximum());
+			}
+			if (intValue < getMinimum()) {
+				throw new ReflectionUIError(
+						"The value is less than the minimum value: " + intValue + " < " + getMinimum());
 			}
 			listenerDisabled = true;
 			try {
-				setValue(value);
+				setValue(intValue);
 			} finally {
 				listenerDisabled = false;
 			}

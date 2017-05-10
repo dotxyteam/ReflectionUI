@@ -23,8 +23,8 @@ public class MethodControlDataProxy implements IMethodControlData {
 		return base.getConfirmationMessage(invocationData);
 	}
 
-	public boolean isReturnValueNullable() {
-		return base.isReturnValueNullable();
+	public boolean isNullReturnValueDistinct() {
+		return base.isNullReturnValueDistinct();
 	}
 
 	public boolean isReturnValueDetached() {

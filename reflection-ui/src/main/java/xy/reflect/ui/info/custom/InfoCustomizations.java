@@ -1128,8 +1128,10 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		public IMethodInfo find() {
-			if ((conversionMethodSignature == null) || (conversionMethodSignature.length() == 0)) {
-				return null;
+			if ((conversionClassName == null) || (conversionClassName.length() == 0)) {
+				if ((conversionMethodSignature == null) || (conversionMethodSignature.length() == 0)) {
+					return null;
+				}
 			}
 			try {
 				String conversionMethodName = ReflectionUIUtils
@@ -1338,7 +1340,7 @@ public class InfoCustomizations implements Serializable {
 
 		protected String fieldName;
 		protected String customFieldCaption;
-		protected boolean nullable = false;
+		protected boolean nullValueDistinctForced = false;
 		protected boolean getOnlyForced = false;
 		protected String customSetterSignature;
 		protected String valueOptionsFieldName;
@@ -1467,20 +1469,12 @@ public class InfoCustomizations implements Serializable {
 			this.fieldName = fieldName;
 		}
 
-		public boolean isNullable() {
-			return nullable;
+		public boolean isNullValueDistinctForced() {
+			return nullValueDistinctForced;
 		}
 
-		public void setNullable(boolean nullable) {
-			this.nullable = nullable;
-		}
-
-		public boolean isNullableFacetHidden() {
-			return !nullable;
-		}
-
-		public void setNullableFacetHidden(boolean nullableFacetHidden) {
-			this.nullable = !nullableFacetHidden;
+		public void setNullValueDistinctForced(boolean nullValueDistinctForced) {
+			this.nullValueDistinctForced = nullValueDistinctForced;
 		}
 
 		public ValueReturnMode getCustomValueReturnMode() {
@@ -1837,7 +1831,7 @@ public class InfoCustomizations implements Serializable {
 		protected String parameterName;
 		protected String customParameterCaption;
 		protected boolean hidden = false;
-		protected boolean nullable = false;
+		protected boolean nullValueDistinctForced = false;
 		protected String onlineHelp;
 		protected boolean displayedAsField;
 		protected TextualStorage defaultValue = new TextualStorage();
@@ -1874,20 +1868,12 @@ public class InfoCustomizations implements Serializable {
 			this.hidden = hidden;
 		}
 
-		public boolean isNullable() {
-			return nullable;
+		public boolean isNullValueDistinctForced() {
+			return nullValueDistinctForced;
 		}
 
-		public void setNullable(boolean nullable) {
-			this.nullable = nullable;
-		}
-
-		public boolean isNullableFacetHidden() {
-			return !nullable;
-		}
-
-		public void setNullableFacetHidden(boolean nullableFacetHidden) {
-			this.nullable = !nullableFacetHidden;
+		public void setNullValueDistinctForced(boolean nullValueDistinctForced) {
+			this.nullValueDistinctForced = nullValueDistinctForced;
 		}
 
 		public String getCustomParameterCaption() {

@@ -62,8 +62,8 @@ public class MethodParameterAsFieldInfo   extends AbstractInfo implements IField
 	}
 
 	@Override
-	public boolean isValueNullable() {
-		return param.isValueNullable();
+	public boolean isNullValueDistinct() {
+		return param.isNullValueDistinct();
 	}
 
 	@Override

@@ -148,8 +148,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return wrapParameterType(param.getType());
 	}
 
-	protected boolean isValueNullable(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
-		return param.isValueNullable();
+	protected boolean isNullValueDistinct(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+		return param.isNullValueDistinct();
 	}
 
 	protected String getCaption(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
@@ -180,8 +180,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return field.getValueOptions(object);
 	}
 
-	protected boolean isValueNullable(IFieldInfo field, ITypeInfo containingType) {
-		return field.isValueNullable();
+	protected boolean isNullValueDistinct(IFieldInfo field, ITypeInfo containingType) {
+		return field.isNullValueDistinct();
 	}
 
 	protected String getNullValueLabel(IFieldInfo field, ITypeInfo containingType) {
@@ -274,8 +274,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return method.getReturnValueTypeSpecificities();
 	}
 
-	protected boolean isReturnValueNullable(IMethodInfo method, ITypeInfo containingType) {
-		return method.isReturnValueNullable();
+	protected boolean isNullReturnValueDistinct(IMethodInfo method, ITypeInfo containingType) {
+		return method.isNullReturnValueDistinct();
 	}
 
 	protected boolean isReturnValueDetached(IMethodInfo method, ITypeInfo containingType) {
@@ -352,8 +352,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return type.isOrdered();
 	}
 
-	protected boolean isItemNullable(IListTypeInfo type) {
-		return type.isItemNullable();
+	protected boolean isItemNullValueDistinct(IListTypeInfo type) {
+		return type.isItemNullValueDistinct();
 	}
 
 	protected boolean isItemConstructorSelectable(IListTypeInfo type) {
@@ -748,8 +748,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		}
 
 		@Override
-		public boolean isItemNullable() {
-			return TypeInfoProxyFactory.this.isItemNullable((IListTypeInfo) base);
+		public boolean isItemNullValueDistinct() {
+			return TypeInfoProxyFactory.this.isItemNullValueDistinct((IListTypeInfo) base);
 		}
 
 		@Override
@@ -941,8 +941,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		}
 
 		@Override
-		public boolean isValueNullable() {
-			return TypeInfoProxyFactory.this.isValueNullable(base, containingType);
+		public boolean isNullValueDistinct() {
+			return TypeInfoProxyFactory.this.isNullValueDistinct(base, containingType);
 		}
 
 		@Override
@@ -1090,8 +1090,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		}
 
 		@Override
-		public boolean isReturnValueNullable() {
-			return TypeInfoProxyFactory.this.isReturnValueNullable(base, containingType);
+		public boolean isNullReturnValueDistinct() {
+			return TypeInfoProxyFactory.this.isNullReturnValueDistinct(base, containingType);
 		}
 
 		@Override
@@ -1253,8 +1253,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		}
 
 		@Override
-		public boolean isValueNullable() {
-			return TypeInfoProxyFactory.this.isValueNullable(base, method, containingType);
+		public boolean isNullValueDistinct() {
+			return TypeInfoProxyFactory.this.isNullValueDistinct(base, method, containingType);
 		}
 
 		@Override

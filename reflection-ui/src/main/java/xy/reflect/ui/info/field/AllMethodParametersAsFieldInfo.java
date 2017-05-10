@@ -104,7 +104,7 @@ public class AllMethodParametersAsFieldInfo   extends AbstractInfo implements IF
 	}
 
 	@Override
-	public boolean isValueNullable() {
+	public boolean isNullValueDistinct() {
 		return false;
 	}
 

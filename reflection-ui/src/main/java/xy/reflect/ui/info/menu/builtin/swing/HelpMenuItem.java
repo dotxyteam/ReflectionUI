@@ -25,7 +25,7 @@ public class HelpMenuItem extends AbstractBuiltInActionMenuItem {
 		ITypeInfo type = swingRenderer.getReflectionUI()
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
 		String onlineHelp = type.getOnlineHelp();
-		if (onlineHelp == null) {
+		if ((onlineHelp == null) || (onlineHelp.length()==0)) {
 			throw new ReflectionUIError("Online help not provided for the type '" + type.getName() + "'");
 		}
 		String title = ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), name);

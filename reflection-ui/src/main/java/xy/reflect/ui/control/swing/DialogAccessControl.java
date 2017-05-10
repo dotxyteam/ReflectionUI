@@ -173,7 +173,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 			}
 
 			@Override
-			public boolean isObjectValueNullable() {
+			public boolean isObjectNullValueDistinct() {
 				return false;
 			}
 

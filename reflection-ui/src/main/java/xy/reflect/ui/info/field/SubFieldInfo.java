@@ -113,8 +113,8 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
-	public boolean isValueNullable() {
-		return theSubField.isValueNullable();
+	public boolean isNullValueDistinct() {
+		return theSubField.isNullValueDistinct();
 	}
 
 	@Override

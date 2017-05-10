@@ -176,8 +176,8 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
-	public boolean isValueNullable() {
-		return !getType().isPrimitive();
+	public boolean isNullValueDistinct() {
+		return false;
 	}
 
 	@Override

@@ -35,8 +35,8 @@ public class FieldControlDataProxy implements IFieldControlData {
 		return base.isGetOnly();
 	}
 
-	public boolean isValueNullable() {
-		return base.isValueNullable();
+	public boolean isNullValueDistinct() {
+		return base.isNullValueDistinct();
 	}
 
 	public String getNullValueLabel() {
@@ -95,7 +95,7 @@ public class FieldControlDataProxy implements IFieldControlData {
 
 	@Override
 	public String toString() {
-		return base.toString();
+		return "FieldControlDataProxy [base=" + base + "]";
 	}
 
 }

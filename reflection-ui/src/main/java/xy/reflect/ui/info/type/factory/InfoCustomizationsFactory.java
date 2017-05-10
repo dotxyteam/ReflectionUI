@@ -33,7 +33,6 @@ import xy.reflect.ui.info.field.CapsuleFieldInfo;
 import xy.reflect.ui.info.field.ChangedTypeFieldInfo;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.GetterFieldInfo;
-import xy.reflect.ui.info.field.HiddenNullableFacetFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MethodAsFieldInfo;
 import xy.reflect.ui.info.field.MethodParameterAsFieldInfo;
@@ -56,7 +55,6 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.method.PresetInvocationDataMethodInfo;
 import xy.reflect.ui.info.method.SubMethodInfo;
-import xy.reflect.ui.info.parameter.HiddenNullableFacetParameterInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.parameter.ParameterInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -314,8 +312,8 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 										return delegate.getCustomUndoUpdateJob(object, value);
 									}
 
-									public boolean isValueNullable() {
-										return delegate.isValueNullable();
+									public boolean isNullValueDistinct() {
+										return delegate.isNullValueDistinct();
 									}
 
 									public String getNullValueLabel() {
@@ -382,7 +380,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 						}
 
 						@Override
-						public boolean isValueNullable() {
+						public boolean isNullValueDistinct() {
 							throw new UnsupportedOperationException();
 						}
 
@@ -513,8 +511,8 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 										return delegate.getUndoJob(object, invocationData);
 									}
 
-									public boolean isReturnValueNullable() {
-										return delegate.isReturnValueNullable();
+									public boolean isNullReturnValueDistinct() {
+										return delegate.isNullReturnValueDistinct();
 									}
 
 									public String getNullReturnValueLabel() {
@@ -578,7 +576,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 					result.add(new AbstractListAction() {
 
 						@Override
-						public boolean isReturnValueNullable() {
+						public boolean isNullReturnValueDistinct() {
 							return false;
 						}
 
@@ -1049,7 +1047,6 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 			result.add(new FieldTypeConversionTransformer());
 			result.add(new FieldCommonOptionsFieldTransformer());
 			result.add(new FieldNullReplacementTransformer());
-			result.add(new FieldHiddenNullableFacetTransformer());
 			result.add(new FieldValueAsListTransformer());
 			result.add(new FieldCustomSetterTransformer());
 			result.add(new FieldNullStatusGeneratingTransformer());
@@ -1063,7 +1060,6 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 			List<AbstractMethodTransformer> result = new ArrayList<AbstractMethodTransformer>();
 			result.add(new MethodCommonOptionsTransformer());
 			result.add(new MethodParameterDefaultValueSettingTransformer());
-			result.add(new MethodParameterHiddenNullablefacetTransformer());
 			result.add(new MethodParametersAsSubFormTransformer());
 			result.add(new MethodParameterAsFieldTransformer());
 			result.add(new MethodReturnValueFieldGeneratingTransformer());
@@ -1161,7 +1157,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 						fc.setFormControlCreationForced(baseFc.isFormControlCreationForced());
 						fc.setFormControlEmbeddingForced(baseFc.isFormControlEmbeddingForced());
 						fc.setGetOnlyForced(baseFc.isGetOnlyForced());
-						fc.setNullableFacetHidden(baseFc.isNullableFacetHidden());
+						fc.setNullValueDistinctForced(baseFc.isNullValueDistinctForced());
 						fc.setNullValueLabel(baseFc.getNullValueLabel());
 						fc.setOnlineHelp(baseFc.getOnlineHelp());
 						fc.setTypeConversion((TypeConversion) ReflectionUIUtils
@@ -1346,10 +1342,18 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 					public List<IParameterInfo> getParameters() {
 						List<IParameterInfo> result = new ArrayList<IParameterInfo>();
 						for (IParameterInfo param : super.getParameters()) {
-							final ParameterCustomization p = InfoCustomizations.getParameterCustomization(mc,
+							final ParameterCustomization pc = InfoCustomizations.getParameterCustomization(mc,
 									param.getName());
-							if (p != null) {
+							if (pc != null) {
 								param = new ParameterInfoProxy(param) {
+
+									@Override
+									public boolean isNullValueDistinct() {
+										if (pc.isNullValueDistinctForced()) {
+											return true;
+										}
+										return super.isNullValueDistinct();
+									}
 
 									@Override
 									public Map<String, Object> getSpecificProperties() {
@@ -1357,9 +1361,9 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 												super.getSpecificProperties());
 										result.put(InfoCustomizations.CURRENT_PROXY_SOURCE_PROPERTY_KEY,
 												infoCustomizations);
-										if (p.getSpecificProperties() != null) {
-											if (p.getSpecificProperties().entrySet().size() > 0) {
-												result.putAll(p.getSpecificProperties());
+										if (pc.getSpecificProperties() != null) {
+											if (pc.getSpecificProperties().entrySet().size() > 0) {
+												result.putAll(pc.getSpecificProperties());
 											}
 										}
 										return result;
@@ -1367,16 +1371,16 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 
 									@Override
 									public String getCaption() {
-										if (p.getCustomParameterCaption() != null) {
-											return p.getCustomParameterCaption();
+										if (pc.getCustomParameterCaption() != null) {
+											return pc.getCustomParameterCaption();
 										}
 										return super.getCaption();
 									}
 
 									@Override
 									public String getOnlineHelp() {
-										if (p.getOnlineHelp() != null) {
-											return p.getOnlineHelp();
+										if (pc.getOnlineHelp() != null) {
+											return pc.getOnlineHelp();
 										}
 										return super.getOnlineHelp();
 									}
@@ -1615,63 +1619,6 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 
 		}
 
-		protected class MethodParameterHiddenNullablefacetTransformer extends AbstractMethodTransformer {
-
-			@Override
-			public IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
-					List<IMethodInfo> newMethods) {
-				for (final IParameterInfo param : method.getParameters()) {
-					final ParameterCustomization pc = InfoCustomizations.getParameterCustomization(mc, param.getName());
-					if (pc != null) {
-						if (pc.isNullableFacetHidden()) {
-							method = new MethodInfoProxy(method) {
-								@Override
-								public List<IParameterInfo> getParameters() {
-									List<IParameterInfo> result = new ArrayList<IParameterInfo>();
-									for (IParameterInfo param : super.getParameters()) {
-										if (pc.getParameterName().equals(param.getName())) {
-											param = new HiddenNullableFacetParameterInfo(reflectionUI, param) {
-
-												@Override
-												public Object generateDefaultValueReplacement() {
-													try {
-														return super.generateDefaultValueReplacement();
-													} catch (Throwable t) {
-														throw new ReflectionUIError(
-																t.toString() + ":" + "\n- Go to the method control"
-																		+ "\n- Open method customization dialog"
-																		+ "\n- Declare the parameter as nullable"
-																		+ "\n- and/or Provide a default value",
-																t);
-													}
-												}
-
-											};
-										}
-										result.add(param);
-									}
-									return result;
-								}
-
-								@Override
-								public Object invoke(Object object, InvocationData invocationData) {
-									boolean parameterHasNullValue = (invocationData
-											.getParameterValue(param.getPosition(), new Object()) == null);
-									if (parameterHasNullValue) {
-
-									}
-									return super.invoke(object, invocationData);
-								}
-
-							};
-						}
-					}
-				}
-				return method;
-			}
-
-		}
-
 		protected class MethodParameterDefaultValueSettingTransformer extends AbstractMethodTransformer {
 
 			@Override
@@ -1745,6 +1692,14 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, final FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				field = new FieldInfoProxy(field) {
+
+					@Override
+					public boolean isNullValueDistinct() {
+						if (f.isNullValueDistinctForced()) {
+							return true;
+						}
+						return super.isNullValueDistinct();
+					}
 
 					@Override
 					public boolean isGetOnly() {
@@ -1943,11 +1898,6 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 
 					};
 					newFields.add(duplicateField);
-					FieldCustomization duplicateFc = InfoCustomizations
-							.getFieldCustomization(containingTypeCustomization, duplicateField.getName());
-					if (duplicateFc.isInitial()) {
-						duplicateFc.setNullable(fc.isNullable());
-					}
 				}
 				return field;
 			}
@@ -2037,33 +1987,6 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 								result = nullReplacement;
 							}
 							return result;
-						}
-
-					};
-				}
-				return field;
-			}
-
-		}
-
-		protected class FieldHiddenNullableFacetTransformer extends AbstractFieldTransformer {
-
-			@Override
-			public IFieldInfo process(IFieldInfo field, final FieldCustomization f, List<IFieldInfo> newFields,
-					List<IMethodInfo> newMethods) {
-				if (f.isNullableFacetHidden()) {
-					field = new HiddenNullableFacetFieldInfo(reflectionUI, field) {
-
-						@Override
-						public Object generateNullReplacementValue() {
-							try {
-								return super.generateNullReplacementValue();
-							} catch (Throwable t) {
-								throw new ReflectionUIError(
-										t.toString()
-												+ ":\nDeclare the field as nullable or provide a null replacement value from the customizations editor Or ensure that the field value in never null from the source code",
-										t);
-							}
 						}
 
 					};

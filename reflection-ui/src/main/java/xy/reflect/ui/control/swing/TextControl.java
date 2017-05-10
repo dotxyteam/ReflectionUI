@@ -126,6 +126,9 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		listenerDisabled = true;
 		try {
 			String newText = (String) data.getValue();
+			if(newText == null){
+				newText = "";
+			}
 			if (!ReflectionUIUtils.equalsOrBothNull(textComponent.getText(), newText)) {
 				int lastCaretPosition = textComponent.getCaretPosition();
 				textComponent.setText(newText);

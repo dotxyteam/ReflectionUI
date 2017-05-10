@@ -27,8 +27,8 @@ public class DefaultMethodControlData implements IMethodControlData {
 	}
 
 	@Override
-	public boolean isReturnValueNullable() {
-		return method.isReturnValueNullable();
+	public boolean isNullReturnValueDistinct() {
+		return method.isNullReturnValueDistinct();
 	}
 
 	@Override

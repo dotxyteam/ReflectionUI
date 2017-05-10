@@ -45,7 +45,7 @@ public abstract class AbstractEditFormBuilder {
 
 	public abstract ValueReturnMode getObjectValueReturnMode();
 
-	public abstract boolean isObjectValueNullable();
+	public abstract boolean isObjectNullValueDistinct();
 
 	public abstract Object getInitialObjectValue();
 
@@ -148,7 +148,7 @@ public abstract class AbstractEditFormBuilder {
 			}
 		}
 		result.setFieldGetOnly(isEncapsulationFieldGetOnly());
-		result.setFieldNullable(isObjectValueNullable());
+		result.setFieldNullValueDistinct(isObjectNullValueDistinct());
 		result.setFieldValueReturnMode(getEncapsulationFieldValueReturnMode());
 		result.setFieldFormControlEmbedded(isObjectFormExpanded());
 		result.setFieldFormControlFilter(getObjectFormFilter());
@@ -211,13 +211,11 @@ public abstract class AbstractEditFormBuilder {
 		ITypeInfo encapsulatedObjectType = getSwingRenderer().getReflectionUI()
 				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(encapsulatedObject));
 		IFieldInfo encapsulatedObjectField = encapsulatedObjectType.getFields().get(0);
-		if (encapsulatedObjectField.isValueNullable()) {
+		if (encapsulatedObjectField.isNullValueDistinct()) {
 			return false;
 		}
 		Object object = getCurrentObjectValue();
 		if (object == null) {
-			getSwingRenderer().getReflectionUI()
-					.logError("Invalid value: <null> retrieved from a non-nullable field: " + encapsulatedObjectField);
 			return false;
 		}
 		ITypeInfo actualObjectType = getSwingRenderer().getReflectionUI()

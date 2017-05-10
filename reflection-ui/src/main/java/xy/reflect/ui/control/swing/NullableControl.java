@@ -37,6 +37,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	protected IFieldControlInput input;
 	protected ITypeInfo subControlValueType;
 	protected AbstractEditFormBuilder subFormBuilder;
+	protected Runnable nullControlAction;
 
 	public NullableControl(SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
@@ -72,14 +73,12 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected void onNullingControlStateChange() {
-		final Object newValue;
 		if (getNullStatusControlState()) {
-			newValue = null;
+			ReflectionUIUtils.setValueThroughModificationStack(data, null, input.getModificationStack(),
+					input.getModificationsTarget());
 		} else {
-			newValue = generateNonNullValue();
+			nullControlAction.run();
 		}
-		ReflectionUIUtils.setValueThroughModificationStack(data, newValue, input.getModificationStack(),
-				input.getModificationsTarget());
 		refreshUI();
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -155,7 +154,6 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 
 	protected Component createNullControl() {
 		NullControl result = new NullControl(swingRenderer, new FieldControlInputProxy(input) {
-
 			@Override
 			public IFieldControlData getControlData() {
 				return new FieldControlDataProxy(super.getControlData()) {
@@ -165,11 +163,17 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 						return "";
 					}
 
+					@Override
+					public void setValue(Object value) {
+						ReflectionUIUtils.setValueThroughModificationStack(base, value, input.getModificationStack(),
+								input.getModificationsTarget());
+					}
+
 				};
 			}
-
 		});
 		if (!data.isGetOnly()) {
+			nullControlAction = result.getAction();
 			result.setAction(new Runnable() {
 				@Override
 				public void run() {
@@ -201,7 +205,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 			}
 
 			@Override
-			public boolean isObjectValueNullable() {
+			public boolean isObjectNullValueDistinct() {
 				return false;
 			}
 
@@ -299,6 +303,6 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 
 	@Override
 	public String toString() {
-		return "NullableControl2 [data=" + data + "]";
+		return "NullableControl [data=" + data + "]";
 	}
 }

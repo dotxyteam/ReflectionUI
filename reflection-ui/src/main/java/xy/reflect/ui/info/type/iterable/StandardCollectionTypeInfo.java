@@ -48,11 +48,8 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	}
 
 	@Override
-	public boolean isItemNullable() {
-		if (itemType == null) {
-			return true;
-		}
-		return !itemType.isPrimitive();
+	public boolean isItemNullValueDistinct() {
+		return false;
 	}
 
 	@Override

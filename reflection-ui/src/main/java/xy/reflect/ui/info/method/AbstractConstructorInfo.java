@@ -38,7 +38,7 @@ public abstract class AbstractConstructorInfo extends AbstractInfo implements IM
 	}
 
 	@Override
-	public boolean isReturnValueNullable() {
+	public boolean isNullReturnValueDistinct() {
 		return false;
 	}
 

@@ -53,8 +53,8 @@ public class FieldAsGetterInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
-	public boolean isReturnValueNullable() {
-		return field.isValueNullable();
+	public boolean isNullReturnValueDistinct() {
+		return field.isNullValueDistinct();
 	}
 
 	@Override
@@ -69,13 +69,7 @@ public class FieldAsGetterInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public String getOnlineHelp() {
-		String result = field.getOnlineHelp();
-		if (result == null) {
-			result = null;
-		} else {
-			result = "Retrieve: " + result;
-		}
-		return result;
+		return null;
 	}
 
 	@Override

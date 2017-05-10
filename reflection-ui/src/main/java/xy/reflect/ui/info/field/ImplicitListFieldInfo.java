@@ -151,7 +151,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
-	public boolean isValueNullable() {
+	public boolean isNullValueDistinct() {
 		return false;
 	}
 
@@ -341,7 +341,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
-		public boolean isItemNullable() {
+		public boolean isItemNullValueDistinct() {
 			return false;
 		}
 

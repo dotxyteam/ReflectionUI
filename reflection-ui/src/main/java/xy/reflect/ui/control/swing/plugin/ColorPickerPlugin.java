@@ -29,7 +29,7 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 	}
 
 	@Override
-	protected boolean handlesNull() {
+	protected boolean displaysDistinctNullValue() {
 		return false;
 	}
 
@@ -48,14 +48,20 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 		@Override
 		protected JLabel createStatusControl(IFieldControlInput input) {
 			JLabel result = new JLabel(" ");
-			result.setOpaque(true);
 			result.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
 			return result;
 		}
 
 		@Override
 		protected void updateStatusControl() {
-			((JLabel) statusControl).setBackground((Color) data.getValue());
+			Color newColor = (Color) data.getValue();
+			if (newColor == null) {
+				((JLabel) statusControl).setOpaque(false);
+				((JLabel) statusControl).setBackground(null);
+			} else {
+				((JLabel) statusControl).setOpaque(true);
+				((JLabel) statusControl).setBackground(newColor);
+			}
 		}
 
 		@Override
@@ -63,7 +69,6 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 			return null;
 		}
 
-		
 		@Override
 		protected void openDialog() {
 			Color newColor = JColorChooser.showDialog(this, "Choose a color", statusControl.getBackground());

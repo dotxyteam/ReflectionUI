@@ -55,8 +55,8 @@ public class FieldInfoProxy extends AbstractInfoProxy implements IFieldInfo {
 	}
 
 	@Override
-	public boolean isValueNullable() {
-		return base.isValueNullable();
+	public boolean isNullValueDistinct() {
+		return base.isNullValueDistinct();
 	}
 
 	public String getNullValueLabel() {

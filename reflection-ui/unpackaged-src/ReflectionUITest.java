@@ -31,6 +31,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.SystemProperties;
 
+@SuppressWarnings("unused")
 public class ReflectionUITest {
 
 	public static class Test {

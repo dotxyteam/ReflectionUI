@@ -38,7 +38,7 @@ public interface IMethodInfo extends IInfo {
 		}
 
 		@Override
-		public boolean isReturnValueNullable() {
+		public boolean isNullReturnValueDistinct() {
 			return false;
 		}
 
@@ -148,7 +148,7 @@ public interface IMethodInfo extends IInfo {
 
 	boolean isReturnValueDetached();
 
-	boolean isReturnValueNullable();
+	boolean isNullReturnValueDistinct();
 
 	boolean isReturnValueIgnored();
 

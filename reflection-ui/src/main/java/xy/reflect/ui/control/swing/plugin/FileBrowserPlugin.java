@@ -24,8 +24,6 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
-	protected static final File DEFAULT_FILE = new File("");
-
 	protected static File lastDirectory = new File(".").getAbsoluteFile();
 
 	@Override
@@ -39,8 +37,8 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 	}
 
 	@Override
-	protected boolean handlesNull() {
-		return true;
+	protected boolean displaysDistinctNullValue() {
+		return false;
 	}
 
 	@Override
@@ -51,33 +49,6 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 	@Override
 	protected Component createControl(Object renderer, IFieldControlInput input,
 			AbstractConfiguration controlConfiguration) {
-		if (input.getControlData().isValueNullable()) {
-			input = new FieldControlInputProxy(input) {
-
-				@Override
-				public IFieldControlData getControlData() {
-					return new FieldControlDataProxy(super.getControlData()) {
-						@Override
-						public Object getValue() {
-							Object result = super.getValue();
-							if (result == null) {
-								result = DEFAULT_FILE;
-							}
-							return result;
-						}
-
-						@Override
-						public void setValue(Object value) {
-							if (value.equals(DEFAULT_FILE)) {
-								value = null;
-							}
-							super.setValue(value);
-						}
-					};
-				}
-
-			};
-		}
 		return new FileBrowser((SwingRenderer) renderer, input, (FileBrowserConfiguration) controlConfiguration);
 	}
 
@@ -102,15 +73,15 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 		public String description = "";
 		public List<String> extensions = new ArrayList<String>();
 
-		public void validate(){
-			if(description.length() == 0){
+		public void validate() {
+			if (description.length() == 0) {
 				throw new ReflectionUIError("Description is mandatory");
 			}
-			if(extensions.size() == 0){
+			if (extensions.size() == 0) {
 				throw new ReflectionUIError("At least 1 extension is mandatory");
 			}
 		}
-		
+
 		@Override
 		public String toString() {
 			return "FileNameFilter [description=" + description + ", extensions=" + extensions + "]";
@@ -145,13 +116,18 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 
 						@Override
 						public void setValue(Object value) {
-							value = new File((String) value);
+							if (value != null) {
+								value = new File((String) value);
+							}
 							base.setValue(value);
 						}
 
 						@Override
 						public Object getValue() {
 							File currentFile = (File) base.getValue();
+							if(currentFile == null){
+								return null;
+							}
 							return currentFile.getPath();
 						}
 
@@ -175,7 +151,7 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 		}
 
 		protected void configureFileChooser(JFileChooser fileChooser, File currentFile) {
-			if ((currentFile != null) && !currentFile.equals(DEFAULT_FILE)) {
+			if (currentFile != null) {
 				fileChooser.setSelectedFile(currentFile.getAbsoluteFile());
 			}
 			if (controlConfiguration.selectionMode == SelectionModeConfiguration.FILES_AND_DIRECTORIES) {
@@ -235,7 +211,6 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 		public boolean handlesModificationStackUpdate() {
 			return false;
 		}
-
 
 		@Override
 		public String toString() {

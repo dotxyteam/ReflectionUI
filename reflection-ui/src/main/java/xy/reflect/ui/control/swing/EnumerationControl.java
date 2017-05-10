@@ -53,7 +53,7 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 
 	protected List<Object> collectPossibleValues() {
 		List<Object> result = new ArrayList<Object>(Arrays.asList(enumType.getPossibleValues()));
-		if (data.isValueNullable()) {
+		if (data.isNullValueDistinct()) {
 			result.add(0, null);
 		}
 		return result;
@@ -87,7 +87,7 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 						cellHasFocus);
 				label.setText(swingRenderer.prepareStringToDisplay(getValueText(value)));
 				label.setIcon(getValueIcon(value));
-				if (!possibleValues.contains(value)) {
+				if ((value != null) && !possibleValues.contains(value)) {
 					SwingRendererUtils.setErrorBorder(label);
 				} else {
 					label.setBorder(null);

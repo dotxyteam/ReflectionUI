@@ -86,8 +86,8 @@ public class VirtualFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
-	public boolean isValueNullable() {
-		return !fieldType.isPrimitive();
+	public boolean isNullValueDistinct() {
+		return false;
 	}
 
 	@Override

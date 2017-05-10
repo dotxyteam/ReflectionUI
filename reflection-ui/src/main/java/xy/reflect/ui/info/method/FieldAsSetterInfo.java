@@ -37,8 +37,8 @@ public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 		}
 
 		@Override
-		public boolean isValueNullable() {
-			return field.isValueNullable();
+		public boolean isNullValueDistinct() {
+			return field.isNullValueDistinct();
 		}
 
 		@Override
@@ -78,7 +78,7 @@ public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
-	public boolean isReturnValueNullable() {
+	public boolean isNullReturnValueDistinct() {
 		return false;
 	}
 
@@ -104,13 +104,7 @@ public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public String getOnlineHelp() {
-		String result = field.getOnlineHelp();
-		if (result == null) {
-			result = null;
-		} else {
-			result = "Update: " + result;
-		}
-		return result;
+		return null;
 	}
 
 	@Override

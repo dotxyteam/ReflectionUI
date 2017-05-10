@@ -1025,14 +1025,10 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					for (BufferedItemPosition itemPosition : selection) {
 						int index = itemPosition.getIndex();
 						getModificationStack().apply(createListModificationFactory(itemPosition).remove(index));
-						updateItemPositionsAfterItemRemoval(toPostSelect, itemPosition);
-						if (itemPosition.getContainingListType().isOrdered() && (index > 0)) {
-							toPostSelect.add(itemPosition.getSibling(index - 1));
-						} else {
-							BufferedItemPosition parentItemPosition = itemPosition.getParentItemPosition();
-							if (parentItemPosition != null) {
-								toPostSelect.add(itemPosition.getParentItemPosition());
-							}
+						updatePositionsAfterItemRemoval(toPostSelect, itemPosition);
+						BufferedItemPosition affectedPosition = getPositionsAffectedByItemRemoval(itemPosition);
+						if (affectedPosition != null) {
+							toPostSelect.add(affectedPosition);
 						}
 					}
 					toPostSelectHolder[0] = toPostSelect;
@@ -1073,8 +1069,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		};
 	}
 
-	protected void updateItemPositionsAfterItemRemoval(List<BufferedItemPosition> toUpdate,
-			BufferedItemPosition removed) {
+	protected void updatePositionsAfterItemRemoval(List<BufferedItemPosition> toUpdate, BufferedItemPosition removed) {
 		for (int i = 0; i < toUpdate.size(); i++) {
 			BufferedItemPosition toUpdateItem = toUpdate.get(i);
 			if (toUpdateItem.equals(removed) || toUpdateItem.getAncestors().contains(removed)) {
@@ -1414,14 +1409,10 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					clipboard.add(0, ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), itemPosition.getItem()));
 					int index = itemPosition.getIndex();
 					getModificationStack().apply(createListModificationFactory(itemPosition).remove(index));
-					updateItemPositionsAfterItemRemoval(toPostSelect, itemPosition);
-					if (itemPosition.getContainingListType().isOrdered() && (index > 0)) {
-						toPostSelect.add(itemPosition.getSibling(index - 1));
-					} else {
-						BufferedItemPosition parentItemPosition = itemPosition.getParentItemPosition();
-						if (parentItemPosition != null) {
-							toPostSelect.add(itemPosition.getParentItemPosition());
-						}
+					updatePositionsAfterItemRemoval(toPostSelect, itemPosition);
+					BufferedItemPosition affectedPosition = getPositionsAffectedByItemRemoval(itemPosition);
+					if (affectedPosition != null) {
+						toPostSelect.add(affectedPosition);
 					}
 				}
 				toPostSelectHolder[0] = toPostSelect;
@@ -1450,6 +1441,14 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			}
 
 		};
+	}
+
+	protected BufferedItemPosition getPositionsAffectedByItemRemoval(BufferedItemPosition itemPosition) {
+		if (itemPosition.getContainingListType().isOrdered() && (itemPosition.getIndex() > 0)) {
+			return itemPosition.getSibling(itemPosition.getIndex() - 1);
+		} else {
+			return itemPosition.getParentItemPosition();
+		}
 	}
 
 	protected AbstractStandardListAction createPasteAction(final InsertPosition insertPosition) {
@@ -1661,8 +1660,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					}
 
 					@Override
-					public boolean isObjectValueNullable() {
-						return dynamicProperty.isValueNullable();
+					public boolean isObjectNullValueDistinct() {
+						return dynamicProperty.isNullValueDistinct();
 					}
 
 					@Override
@@ -2340,8 +2339,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public boolean isObjectValueNullable() {
-			return bufferedItemPosition.getContainingListType().isItemNullable();
+		public boolean isObjectNullValueDistinct() {
+			return bufferedItemPosition.getContainingListType().isItemNullValueDistinct();
 		}
 
 		@Override
