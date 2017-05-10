@@ -1,18 +1,12 @@
-- enhance null status as boolean
+- display null equivalence greyed ???
 - remove method return value specificities ???
-- bug: polymorphic control enumeration is not nullable
-	when the field is nullable
-- potential bugs: multiple layers of default non nullable 
-	customizations are still there  
 - bug: undo job must never be stored in the member info
 - embedded control list ???
-- image control: enhance
-- virtual fields ???
+- image control in scroll pane ???
 - parameters should get their customizations from
-	parameterAsField customizations
+	parameterAsField customizations ???
 - listControl: allow to edit multiple items at the same time
 - add customizationContext class
-- remove nullableFacetHidden methods from customizations???
 - allow to disable copy/cut/paste on lists
 - every customization should have its opposite for more power
 - reset column order option
