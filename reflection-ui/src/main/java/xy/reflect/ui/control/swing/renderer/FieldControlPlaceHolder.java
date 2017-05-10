@@ -6,7 +6,9 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
+import xy.reflect.ui.control.FieldContext;
 import xy.reflect.ui.control.FieldControlDataProxy;
+import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.DialogAccessControl;
@@ -80,10 +82,10 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 	}
 
 	@Override
-	public String getContextIdentifier() {
+	public IContext getContext() {
 		ITypeInfo objectType = this.swingRenderer.reflectionUI
 				.getTypeInfo(this.swingRenderer.reflectionUI.getTypeInfoSource(getObject()));
-		return "FieldContext [fieldName=" + field.getName() + ", containingType=" + objectType.getName() + "]";
+		return new FieldContext(objectType, field);
 	}
 
 	@Override

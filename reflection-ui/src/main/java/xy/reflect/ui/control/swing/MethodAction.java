@@ -11,6 +11,8 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import xy.reflect.ui.control.DefaultContext;
+import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.swing.editor.AbstractEditorBuilder;
@@ -246,7 +248,8 @@ public class MethodAction extends AbstractAction {
 		};
 		Object controlDataAsMethodOwner = data;
 		MethodInvocationDataAsObjectFactory factory = new MethodInvocationDataAsObjectFactory(
-				swingRenderer.getReflectionUI(), controlDataAsMethod, input.getContextIdentifier());
+				swingRenderer.getReflectionUI(), controlDataAsMethod,
+				"MethodSetupObject [context=" + input.getContext().getIdentifier() + "]");
 		return factory.getInstance(controlDataAsMethodOwner, invocationData);
 	}
 
@@ -254,13 +257,13 @@ public class MethodAction extends AbstractAction {
 		AbstractEditorBuilder editorBuilder = new AbstractEditorBuilder() {
 
 			@Override
-			public String getContextIdentifier() {
-				return input.getContextIdentifier();
+			public IContext getContext() {
+				return input.getContext();
 			}
 
 			@Override
-			public String getSubContextIdentifier() {
-				return "MethodResult";
+			public IContext getSubContext() {
+				return new DefaultContext("MethodResult");
 			}
 
 			@Override

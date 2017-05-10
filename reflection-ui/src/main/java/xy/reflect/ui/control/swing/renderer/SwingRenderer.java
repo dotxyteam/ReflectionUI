@@ -51,10 +51,12 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.DefaultMethodControlData;
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
+import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
+import xy.reflect.ui.control.MethodContext;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.CheckBoxControl;
 import xy.reflect.ui.control.swing.DialogBuilder;
@@ -976,9 +978,8 @@ public class SwingRenderer {
 					}
 
 					@Override
-					public String getContextIdentifier() {
-						return "ContructorContext [type=" + finalType.getName() + ", signature="
-								+ chosenConstructor.getSignature() + "]";
+					public IContext getContext() {
+						return new MethodContext(finalType, chosenConstructor);
 					}
 
 					@Override

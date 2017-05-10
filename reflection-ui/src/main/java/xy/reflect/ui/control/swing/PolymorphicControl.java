@@ -8,7 +8,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import xy.reflect.ui.control.DefaultContext;
 import xy.reflect.ui.control.FieldControlDataProxy;
+import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.editor.AbstractEditFormBuilder;
@@ -66,12 +68,12 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			Map<ITypeInfo, Object> instanceByEnumerationValueCache = new HashMap<ITypeInfo, Object>();
 
 			@Override
-			public String getContextIdentifier() {
-				return input.getContextIdentifier();
+			public IContext getContext() {
+				return input.getContext();
 			}
 
 			@Override
-			public String getSubContextIdentifier() {
+			public IContext getSubContext() {
 				return null;
 			}
 
@@ -226,13 +228,13 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		dynamicControlBuilder = new AbstractEditFormBuilder() {
 
 			@Override
-			public String getContextIdentifier() {
-				return input.getContextIdentifier();
+			public IContext getContext() {
+				return input.getContext();
 			}
 
 			@Override
-			public String getSubContextIdentifier() {
-				return "PolymorphicInstance";
+			public IContext getSubContext() {
+				return new DefaultContext("PolymorphicInstance");
 			}
 
 			@Override

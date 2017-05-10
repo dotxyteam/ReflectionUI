@@ -19,7 +19,7 @@ import xy.reflect.ui.info.type.factory.MethodInvocationDataAsObjectFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class AllMethodParametersAsFieldInfo   extends AbstractInfo implements IFieldInfo {
+public class AllMethodParametersAsFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected IMethodInfo method;
@@ -39,8 +39,8 @@ public class AllMethodParametersAsFieldInfo   extends AbstractInfo implements IF
 
 	protected MethodInvocationDataAsObjectFactory createFactory() {
 		return new MethodInvocationDataAsObjectFactory(reflectionUI, method,
-				"MethodParametersAsFieldContext [methodSignature=" + method.getSignature() + ", fieldName=" + fieldName
-						+ "]");
+				"MethodSetupObject [context=MethodParametersAsFieldContext [methodSignature=" + method.getSignature()
+						+ ", fieldName=" + fieldName + "]]");
 	}
 
 	@Override

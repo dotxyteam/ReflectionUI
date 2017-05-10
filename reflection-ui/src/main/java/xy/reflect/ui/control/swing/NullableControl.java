@@ -10,8 +10,10 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import xy.reflect.ui.control.DefaultContext;
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
+import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.editor.AbstractEditFormBuilder;
@@ -190,13 +192,13 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 		subFormBuilder = new AbstractEditFormBuilder() {
 
 			@Override
-			public String getContextIdentifier() {
-				return input.getContextIdentifier();
+			public IContext getContext() {
+				return input.getContext();
 			}
 
 			@Override
-			public String getSubContextIdentifier() {
-				return "NullableInstance";
+			public IContext getSubContext() {
+				return new DefaultContext("NullableInstance");
 			}
 
 			@Override

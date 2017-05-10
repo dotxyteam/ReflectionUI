@@ -24,8 +24,8 @@ public class FieldControlInputProxy implements IFieldControlInput {
 		return base.getModificationStack();
 	}
 
-	public String getContextIdentifier() {
-		return base.getContextIdentifier();
+	public IContext getContext() {
+		return base.getContext();
 	}
 
 	@Override

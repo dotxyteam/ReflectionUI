@@ -2,6 +2,7 @@ package xy.reflect.ui.control.swing.editor;
 
 import java.awt.Component;
 
+import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -30,12 +31,12 @@ public class StandardEditorBuilder extends AbstractEditorBuilder {
 	}
 
 	@Override
-	public String getContextIdentifier() {
+	public IContext getContext() {
 		return null;
 	}
 
 	@Override
-	public String getSubContextIdentifier() {
+	public IContext getSubContext() {
 		return null;
 	}
 

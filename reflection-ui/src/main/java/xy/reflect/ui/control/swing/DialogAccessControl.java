@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
+import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.editor.AbstractEditorBuilder;
@@ -158,12 +159,12 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 		return new AbstractEditorBuilder() {
 
 			@Override
-			public String getContextIdentifier() {
-				return input.getContextIdentifier();
+			public IContext getContext() {
+				return input.getContext();
 			}
 
 			@Override
-			public String getSubContextIdentifier() {
+			public IContext getSubContext() {
 				return null;
 			}
 

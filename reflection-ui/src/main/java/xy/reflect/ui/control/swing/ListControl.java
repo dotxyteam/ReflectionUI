@@ -57,8 +57,10 @@ import org.jdesktop.swingx.decorator.HighlighterFactory;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.jdesktop.swingx.treetable.TreeTableModel;
 
+import xy.reflect.ui.control.DefaultContext;
 import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.DefaultMethodControlData;
+import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.IMethodControlData;
@@ -1645,13 +1647,13 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					}
 
 					@Override
-					public String getContextIdentifier() {
-						return input.getContextIdentifier();
+					public IContext getContext() {
+						return input.getContext();
 					}
 
 					@Override
-					public String getSubContextIdentifier() {
-						return "ListDynamicProperty [name=" + dynamicProperty.getName() + "]";
+					public IContext getSubContext() {
+						return new DefaultContext("ListDynamicProperty [name=" + dynamicProperty.getName() + "]");
 					}
 
 					@Override
@@ -1773,9 +1775,9 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					}
 
 					@Override
-					public String getContextIdentifier() {
-						return "listDynamicAction [name=" + dynamicAction.getName() + ", listContext="
-								+ input.getContextIdentifier() + "]";
+					public IContext getContext() {
+						return new DefaultContext("listDynamicAction [name=" + dynamicAction.getName()
+								+ ", listContext=" + input.getContext() + "]");
 					}
 
 					@Override
@@ -2324,13 +2326,13 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public String getContextIdentifier() {
-			return input.getContextIdentifier();
+		public IContext getContext() {
+			return input.getContext();
 		}
 
 		@Override
-		public String getSubContextIdentifier() {
-			return "ListItem";
+		public IContext getSubContext() {
+			return new DefaultContext("ListItem");
 		}
 
 		@Override

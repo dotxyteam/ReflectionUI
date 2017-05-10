@@ -11,5 +11,5 @@ public interface IMethodControlInput {
 
 	ModificationStack getModificationStack();
 
-	String getContextIdentifier();
+	IContext getContext();
 }

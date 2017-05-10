@@ -9,8 +9,10 @@ import java.util.SortedMap;
 
 import javax.swing.JPanel;
 
+import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
+import xy.reflect.ui.control.MethodContext;
 import xy.reflect.ui.control.MethodControlDataProxy;
 import xy.reflect.ui.control.swing.MethodControl;
 import xy.reflect.ui.info.IInfo;
@@ -144,11 +146,10 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 	}
 
 	@Override
-	public String getContextIdentifier() {
+	public IContext getContext() {
 		ITypeInfo objectType = this.swingRenderer.reflectionUI
 				.getTypeInfo(this.swingRenderer.reflectionUI.getTypeInfoSource(getObject()));
-		return "MethodContext [methodSignature=" + method.getSignature() + ", containingType=" + objectType.getName()
-				+ "]";
+		return new MethodContext(objectType, method);
 	}
 
 	public IMethodInfo getMethod() {

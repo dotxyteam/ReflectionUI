@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
+import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
@@ -53,9 +54,9 @@ public abstract class AbstractEditFormBuilder {
 
 	public abstract boolean isObjectFormExpanded();
 
-	public abstract String getContextIdentifier();
+	public abstract IContext getContext();
 
-	public abstract String getSubContextIdentifier();
+	public abstract IContext getSubContext();
 
 	protected void ensureObjectValueIsInitialized() {
 		if (objectValueInitialized) {
@@ -109,20 +110,20 @@ public abstract class AbstractEditFormBuilder {
 	public String getEncapsulationTypeName() {
 		String contextDeclaraion;
 		{
-			String contextIdentifier = getContextIdentifier();
-			if (contextIdentifier == null) {
+			IContext context = getContext();
+			if (context == null) {
 				contextDeclaraion = "";
 			} else {
-				contextDeclaraion = "context=" + contextIdentifier + ", ";
+				contextDeclaraion = "context=" + context.getIdentifier() + ", ";
 			}
 		}
 		String subContextDeclaraion;
 		{
-			String subContextIdentifier = getSubContextIdentifier();
-			if (subContextIdentifier == null) {
+			IContext subContext = getSubContext();
+			if (subContext == null) {
 				subContextDeclaraion = "";
 			} else {
-				subContextDeclaraion = "subContext=" + subContextIdentifier + ", ";
+				subContextDeclaraion = "subContext=" + subContext.getIdentifier() + ", ";
 			}
 		}
 		return "Encapsulation [" + contextDeclaraion + subContextDeclaraion + "encapsulatedObjectType="

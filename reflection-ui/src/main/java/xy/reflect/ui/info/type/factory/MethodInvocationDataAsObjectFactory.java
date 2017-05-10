@@ -24,12 +24,12 @@ public class MethodInvocationDataAsObjectFactory {
 
 	protected ReflectionUI reflectionUI;
 	protected IMethodInfo method;
-	protected String contextId;
+	protected String typeName;
 
-	public MethodInvocationDataAsObjectFactory(ReflectionUI reflectionUI, IMethodInfo method, String contextId) {
+	public MethodInvocationDataAsObjectFactory(ReflectionUI reflectionUI, IMethodInfo method, String typeName) {
 		this.reflectionUI = reflectionUI;
 		this.method = method;
-		this.contextId = contextId;
+		this.typeName = typeName;
 	}
 
 	public Instance getInstance(Object object, InvocationData invocationData) {
@@ -68,7 +68,7 @@ public class MethodInvocationDataAsObjectFactory {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((contextId == null) ? 0 : contextId.hashCode());
+		result = prime * result + ((typeName == null) ? 0 : typeName.hashCode());
 		result = prime * result + ((method == null) ? 0 : method.hashCode());
 		return result;
 	}
@@ -82,10 +82,10 @@ public class MethodInvocationDataAsObjectFactory {
 		if (getClass() != obj.getClass())
 			return false;
 		MethodInvocationDataAsObjectFactory other = (MethodInvocationDataAsObjectFactory) obj;
-		if (contextId == null) {
-			if (other.contextId != null)
+		if (typeName == null) {
+			if (other.typeName != null)
 				return false;
-		} else if (!contextId.equals(other.contextId))
+		} else if (!typeName.equals(other.typeName))
 			return false;
 		if (method == null) {
 			if (other.method != null)
@@ -97,7 +97,7 @@ public class MethodInvocationDataAsObjectFactory {
 
 	@Override
 	public String toString() {
-		return "MethodSetupObjectFactory [method=" + method + ", contextId=" + contextId + "]";
+		return "MethodSetupObjectFactory [method=" + method + ", typeName=" + typeName + "]";
 	}
 
 	public class Instance {
@@ -215,7 +215,7 @@ public class MethodInvocationDataAsObjectFactory {
 
 		@Override
 		public String getName() {
-			return "MethodSetupObject [context=" + contextId + "]";
+			return typeName;
 		}
 
 		@Override
