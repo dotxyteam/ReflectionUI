@@ -28,7 +28,11 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 		addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				data.setValue(isSelected());
+				try {
+					data.setValue(isSelected());
+				} catch (Throwable t) {
+					swingRenderer.handleExceptionsFromDisplayedUI(CheckBoxControl.this, t);
+				}
 			}
 		});
 		setText(swingRenderer.prepareStringToDisplay(data.getCaption()));

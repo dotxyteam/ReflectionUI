@@ -1,20 +1,19 @@
 package xy.reflect.ui.info.field;
 
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
+import xy.reflect.ui.util.Mapper;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class ChangedTypeFieldInfo extends FieldInfoProxy {
 
 	protected ITypeInfo newType;
-	protected IMethodInfo conversionMethod;
-	protected IMethodInfo reverseConversionMethod;
+	protected Mapper<Object> conversionMethod;
+	protected Mapper<Object> reverseConversionMethod;
 
-	public ChangedTypeFieldInfo(IFieldInfo base, ITypeInfo newType, IMethodInfo conversionMethod,
-			IMethodInfo reverseConversionMethod) {
+	public ChangedTypeFieldInfo(IFieldInfo base, ITypeInfo newType, Mapper<Object> conversionMethod,
+			Mapper<Object> reverseConversionMethod) {
 		super(base);
 		this.newType = newType;
 		this.conversionMethod = conversionMethod;
@@ -22,28 +21,28 @@ public class ChangedTypeFieldInfo extends FieldInfoProxy {
 	}
 
 	protected Object convert(Object value) {
-		if(conversionMethod == null){
+		if (conversionMethod == null) {
 			return value;
 		}
-		if(value == null){
+		if (value == null) {
 			return null;
 		}
 		try {
-			return conversionMethod.invoke(null, new InvocationData(value));
+			return conversionMethod.map(value);
 		} catch (Exception e) {
 			throw new ReflectionUIError(e);
 		}
 	}
 
 	protected Object revertConversion(Object value) {
-		if(reverseConversionMethod == null){
+		if (reverseConversionMethod == null) {
 			return value;
 		}
-		if(value == null){
+		if (value == null) {
 			return null;
 		}
 		try {
-			return reverseConversionMethod.invoke(null, new InvocationData(value));
+			return reverseConversionMethod.map(value);
 		} catch (Exception e) {
 			throw new ReflectionUIError(e);
 		}

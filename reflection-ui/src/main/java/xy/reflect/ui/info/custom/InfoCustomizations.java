@@ -41,11 +41,9 @@ import xy.reflect.ui.info.menu.IMenuItemContainer;
 import xy.reflect.ui.info.menu.Menu;
 import xy.reflect.ui.info.menu.MenuItemCategory;
 import xy.reflect.ui.info.menu.MenuModel;
-import xy.reflect.ui.info.method.ChainedMethodsInfo;
 import xy.reflect.ui.info.method.DefaultConstructorInfo;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode;
@@ -53,6 +51,7 @@ import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.Listener;
+import xy.reflect.ui.util.Mapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
@@ -1107,49 +1106,78 @@ public class InfoCustomizations implements Serializable {
 			}
 			List<String> result = new ArrayList<String>();
 			for (Constructor<?> ctor : conversionClass.getConstructors()) {
-				if (ctor.getParameterTypes().length != 1) {
-					continue;
+				if (ctor.getParameterTypes().length == 1) {
+					result.add(ReflectionUIUtils.buildMethodSignature(new DefaultConstructorInfo(INTROSPECTOR, ctor)));
 				}
-				result.add(ReflectionUIUtils.buildMethodSignature(new DefaultConstructorInfo(INTROSPECTOR, ctor)));
 			}
 			for (Method method : conversionClass.getMethods()) {
-				if (!Modifier.isStatic(method.getModifiers())) {
-					continue;
+				if (Modifier.isStatic(method.getModifiers())) {
+					if (method.getParameterTypes().length == 1) {
+						if (!method.getReturnType().equals(void.class)) {
+							result.add(ReflectionUIUtils
+									.buildMethodSignature(new DefaultMethodInfo(INTROSPECTOR, method)));
+						}
+					}
+				} else {
+					if (method.getParameterTypes().length == 0) {
+						if (!method.getReturnType().equals(void.class)) {
+							result.add(ReflectionUIUtils
+									.buildMethodSignature(new DefaultMethodInfo(INTROSPECTOR, method)));
+						}
+					}
 				}
-				if (method.getParameterTypes().length != 1) {
-					continue;
-				}
-				if (method.getReturnType().equals(void.class)) {
-					continue;
-				}
-				result.add(ReflectionUIUtils.buildMethodSignature(new DefaultMethodInfo(INTROSPECTOR, method)));
 			}
 			return result;
 		}
 
-		public IMethodInfo find() {
+		public Mapper<Object> find() {
 			if ((conversionClassName == null) || (conversionClassName.length() == 0)) {
 				if ((conversionMethodSignature == null) || (conversionMethodSignature.length() == 0)) {
 					return null;
 				}
 			}
 			try {
-				String conversionMethodName = ReflectionUIUtils
+				final String conversionMethodName = ReflectionUIUtils
 						.extractMethodNameFromSignature(conversionMethodSignature);
 				String[] conversionMethodParameterTypeNames = ReflectionUIUtils
 						.extractMethodParameterTypeNamesFromSignature(conversionMethodSignature);
-				Class<?>[] conversionMethodParameterTypes = new Class<?>[conversionMethodParameterTypeNames.length];
+				final Class<?>[] conversionMethodParameterTypes = new Class<?>[conversionMethodParameterTypeNames.length];
 				for (int i = 0; i < conversionMethodParameterTypeNames.length; i++) {
 					conversionMethodParameterTypes[i] = ClassUtils
 							.getCachedClassforName(conversionMethodParameterTypeNames[i]);
 				}
-				Class<?> conversionClass = ClassUtils.getCachedClassforName(conversionClassName);
+				final Class<?> conversionClass = ClassUtils.getCachedClassforName(conversionClassName);
 				if (conversionMethodName == null) {
-					return new DefaultConstructorInfo(INTROSPECTOR,
-							conversionClass.getDeclaredConstructor(conversionMethodParameterTypes));
+					return new Mapper<Object>() {
+						@Override
+						public Object map(Object obj) {
+							try {
+								return conversionClass.getDeclaredConstructor(conversionMethodParameterTypes)
+										.newInstance(obj);
+							} catch (Exception e) {
+								throw new ReflectionUIError("Failed to convert '" + obj + "' using method '"
+										+ conversionMethodSignature + "': " + e.toString(), e);
+							}
+						}
+					};
 				} else {
-					return new DefaultMethodInfo(INTROSPECTOR,
-							conversionClass.getMethod(conversionMethodName, conversionMethodParameterTypes));
+					return new Mapper<Object>() {
+						@Override
+						public Object map(Object obj) {
+							try {
+								Method method = conversionClass.getMethod(conversionMethodName,
+										conversionMethodParameterTypes);
+								if (Modifier.isStatic(method.getModifiers())) {
+									return method.invoke(null, obj);
+								} else {
+									return method.invoke(obj);
+								}
+							} catch (Exception e) {
+								throw new ReflectionUIError("Failed to convert '" + obj + "' using method '"
+										+ conversionMethodSignature + "': " + e.toString(), e);
+							}
+						}
+					};
 				}
 			} catch (Throwable t) {
 				throw new ReflectionUIError(t);
@@ -1217,36 +1245,36 @@ public class InfoCustomizations implements Serializable {
 			}
 		}
 
-		public IMethodInfo buildOverallConversionMethod() {
-			IMethodInfo result = null;
+		public Mapper<Object> buildOverallConversionMethod() {
+			Mapper<Object> result = null;
 			if (conversionMethodFinder != null) {
 				result = conversionMethodFinder.find();
 			}
 			if (preConversion != null) {
-				IMethodInfo preConversionMethod = preConversion.buildOverallConversionMethod();
+				Mapper<Object> preConversionMethod = preConversion.buildOverallConversionMethod();
 				if (preConversionMethod != null) {
 					if (result == null) {
 						result = preConversionMethod;
 					} else {
-						result = new ChainedMethodsInfo(preConversionMethod, result);
+						result = new Mapper.Chain<Object>(preConversionMethod, result);
 					}
 				}
 			}
 			return result;
 		}
 
-		public IMethodInfo buildOverallReverseConversionMethod() {
-			IMethodInfo result = null;
+		public Mapper<Object> buildOverallReverseConversionMethod() {
+			Mapper<Object> result = null;
 			if (reverseConversionMethodFinder != null) {
 				result = reverseConversionMethodFinder.find();
 			}
 			if (preConversion != null) {
-				IMethodInfo preReverseConversionMethod = preConversion.buildOverallReverseConversionMethod();
+				Mapper<Object> preReverseConversionMethod = preConversion.buildOverallReverseConversionMethod();
 				if (preReverseConversionMethod != null) {
 					if (result == null) {
 						result = preReverseConversionMethod;
 					} else {
-						result = new ChainedMethodsInfo(preReverseConversionMethod, result);
+						result = new Mapper.Chain<Object>(preReverseConversionMethod, result);
 					}
 				}
 			}
@@ -1584,8 +1612,8 @@ public class InfoCustomizations implements Serializable {
 				this.data = null;
 			} else {
 				if (preConversion != null) {
-					IMethodInfo conversionMethod = preConversion.buildOverallConversionMethod();
-					object = conversionMethod.invoke(null, new InvocationData(object));
+					Mapper<Object> conversionMethod = preConversion.buildOverallConversionMethod();
+					object = conversionMethod.map(object);
 				}
 				this.data = ReflectionUIUtils.serializeToHexaText(object);
 			}
@@ -1597,8 +1625,8 @@ public class InfoCustomizations implements Serializable {
 			} else {
 				Object result = ReflectionUIUtils.deserializeFromHexaText(data);
 				if (preConversion != null) {
-					IMethodInfo reverseConversionMethod = preConversion.buildOverallReverseConversionMethod();
-					result = reverseConversionMethod.invoke(null, new InvocationData(result));
+					Mapper<Object> reverseConversionMethod = preConversion.buildOverallReverseConversionMethod();
+					result = reverseConversionMethod.map(result);
 				}
 				return result;
 			}

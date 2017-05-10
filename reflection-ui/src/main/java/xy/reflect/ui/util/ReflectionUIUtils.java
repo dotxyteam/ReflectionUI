@@ -195,7 +195,9 @@ public class ReflectionUIUtils {
 		}
 		String paramListString = matcher.group(3);
 		paramListString = paramListString.trim();
-		return paramListString.split("\\s*,\\s*");
+		List<String> result = new ArrayList<String>(Arrays.asList(paramListString.split("\\s*,\\s*")));
+		result.removeAll(Collections.singletonList(""));
+		return result.toArray(new String[result.size()]);
 	}
 
 	public static List<Parameter> getJavaParameters(Method javaMethod) {
@@ -774,10 +776,9 @@ public class ReflectionUIUtils {
 							}
 						}
 					}
-					throw new ReflectionUIError(
-							"Cannot instanciate abstract type and failed to create a default instance of sub-types");
+					throw new ReflectionUIError("Cannot instanciate abstract or " + Object.class.getName() + " type");
 				} else {
-					throw new ReflectionUIError("Cannot instanciate abstract type");
+					throw new ReflectionUIError("Cannot instanciate abstract or " + Object.class.getName() + " type");
 				}
 			}
 

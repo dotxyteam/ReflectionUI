@@ -1,15 +1,20 @@
 package xy.reflect.ui.control.swing.plugin;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IFieldControlData;
@@ -21,6 +26,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.ImagePanel;
 
 public class ImageViewPlugin extends FileBrowserPlugin {
@@ -60,7 +66,7 @@ public class ImageViewPlugin extends FileBrowserPlugin {
 
 	}
 
-	protected class ImageView extends ImagePanel implements IAdvancedFieldControl {
+	protected class ImageView extends JPanel implements IAdvancedFieldControl {
 		private static final long serialVersionUID = 1L;
 
 		protected SwingRenderer swingRenderer;
@@ -68,6 +74,7 @@ public class ImageViewPlugin extends FileBrowserPlugin {
 		protected IFieldControlData data;
 		protected ImageViewConfiguration controlCustomization;
 		protected Class<?> numberClass;
+		protected ImagePanel imagePanel;
 
 		public ImageView(SwingRenderer swingRenderer, IFieldControlInput input,
 				ImageViewConfiguration controlCustomization) {
@@ -83,24 +90,34 @@ public class ImageViewPlugin extends FileBrowserPlugin {
 			} catch (ClassNotFoundException e1) {
 				throw new ReflectionUIError(e1);
 			}
+			setLayout(new BorderLayout());
+			add(SwingRendererUtils.flowInLayout(imagePanel = createImagePanel(), GridBagConstraints.CENTER),
+					BorderLayout.CENTER);
 
-			preserveRatio(controlCustomization.preserveRatio);
 			if (!data.isGetOnly()) {
-				addMouseListener(new MouseAdapter() {
-					@Override
-					public void mousePressed(MouseEvent e) {
-						try {
-							onBrowseImage();
-						} catch (Throwable t) {
-							ImageView.this.swingRenderer.handleExceptionsFromDisplayedUI(ImageView.this, t);
+				for (Component c : Arrays.asList(this, imagePanel)) {
+					c.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mousePressed(MouseEvent e) {
+							try {
+								onBrowseImage();
+							} catch (Throwable t) {
+								ImageView.this.swingRenderer.handleExceptionsFromDisplayedUI(ImageView.this, t);
+							}
 						}
-					}
-				});
+					});
+				}
 			}
 			if (data.getCaption().length() > 0) {
 				setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
 			}
+
 			refreshUI();
+		}
+
+		protected ImagePanel createImagePanel() {
+			ImagePanel result = new ImagePanel();
+			return result;
 		}
 
 		protected void onBrowseImage() {
@@ -158,8 +175,12 @@ public class ImageViewPlugin extends FileBrowserPlugin {
 
 		@Override
 		public boolean refreshUI() {
-			setPreferredSize(new Dimension(controlCustomization.canvasWidth, controlCustomization.canvasHeight));
-			setImage((Image) data.getValue());
+			Dimension size = new Dimension(controlCustomization.canvasWidth, controlCustomization.canvasHeight);
+			imagePanel.setPreferredSize(size);
+			imagePanel.setMinimumSize(size);
+			imagePanel.setMaximumSize(size);
+			imagePanel.setImage((Image) data.getValue());
+			imagePanel.preserveRatio(controlCustomization.preserveRatio);
 			return true;
 		}
 

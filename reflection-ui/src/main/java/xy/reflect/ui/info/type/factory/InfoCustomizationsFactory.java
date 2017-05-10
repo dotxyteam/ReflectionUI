@@ -71,10 +71,12 @@ import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.undo.ListModificationFactory;
+import xy.reflect.ui.util.Mapper;
 import xy.reflect.ui.util.Pair;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+@SuppressWarnings("unused")
 public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 
 	protected ReflectionUI reflectionUI;
@@ -1852,7 +1854,6 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 						}
 
 					});
-					field = new NerverNullFieldInfo(reflectionUI, field);
 				}
 				return field;
 			}
@@ -1962,8 +1963,9 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 					List<IMethodInfo> newMethods) {
 				if (f.getTypeConversion() != null) {
 					ITypeInfo newType = f.getTypeConversion().findNewType(reflectionUI);
-					IMethodInfo conversionMethod = f.getTypeConversion().buildOverallConversionMethod();
-					IMethodInfo reverseConversionMethod = f.getTypeConversion().buildOverallReverseConversionMethod();
+					Mapper<Object> conversionMethod = f.getTypeConversion().buildOverallConversionMethod();
+					Mapper<Object> reverseConversionMethod = f.getTypeConversion()
+							.buildOverallReverseConversionMethod();
 					field = new ChangedTypeFieldInfo(field, newType, conversionMethod, reverseConversionMethod);
 				}
 				return field;

@@ -5376,7 +5376,7 @@
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <serializedInvocationDatas>
                 <uniqueIdentifier>-6440bdfe:15bc1db8d21:-697b</uniqueIdentifier>
-                <data>rO0ABXNyACh4eS5yZWZsZWN0LnVpLmluZm8ubWV0aG9kLkludm9jYXRpb25EYXRhAAAAAAAAAAECAAFMABh2YWx1ZUJ5UGFyYW1ldGVyUG9zaXRpb250AA9MamF2YS91dGlsL01hcDt4cHNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAx3CAAAABAAAAABc3IAEWphdmEubGFuZy5JbnRlZ2VyEuKgpPeBhzgCAAFJAAV2YWx1ZXhyABBqYXZhLmxhbmcuTnVtYmVyhqyVHQuU4IsCAAB4cAAAAAB0AAVoZWxsb3g=</data>
+                <data>rO0ABXNyACh4eS5yZWZsZWN0LnVpLmluZm8ubWV0aG9kLkludm9jYXRpb25EYXRhAAAAAAAAAAECAAFMABh2YWx1ZUJ5UGFyYW1ldGVyUG9zaXRpb250AA9MamF2YS91dGlsL01hcDt4cHNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAx3CAAAABAAAAACc3IAEWphdmEubGFuZy5JbnRlZ2VyEuKgpPeBhzgCAAFJAAV2YWx1ZXhyABBqYXZhLmxhbmcuTnVtYmVyhqyVHQuU4IsCAAB4cAAAAAB0AAVoZWxsb3NxAH4ABQAAAAF0AAZhemVydHl4</data>
             </serializedInvocationDatas>
             <specificReturnValueTypeCustomizations>
                 <typeCustomizations>
@@ -16184,8 +16184,23 @@
             <getterGenerated>false</getterGenerated>
             <nullReplacement>
                 <uniqueIdentifier>-18b674db:15be9370c82:-4164</uniqueIdentifier>
+                <data>rO0ABXNyABVqYXZheC5zd2luZy5JbWFnZUljb27ypjVu3gwOMgMABUkABmhlaWdodEkABXdpZHRoTAARYWNjZXNzaWJsZUNvbnRleHR0ACtMamF2YXgvc3dpbmcvSW1hZ2VJY29uJEFjY2Vzc2libGVJbWFnZUljb247TAALZGVzY3JpcHRpb250ABJMamF2YS9sYW5nL1N0cmluZztMAA1pbWFnZU9ic2VydmVydAAeTGphdmEvYXd0L2ltYWdlL0ltYWdlT2JzZXJ2ZXI7eHAAAAAQAAAAEHBwcHcIAAAAEAAAABB1cgACW0lNumAmduqypQIAAHhwAAABAAD///8A////AP///wD///8A////AP////////////////////////8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////////////////aJA7/2iQO/9okDv/aJA7//////////8A////AP///wD///8A////AP///wD///8A//////////9okDv/aJA7/4/aTv+l22//j9pO/4/aTv9okDv/aJA7/////wD///8A////AP///wD///8A//////////9okDv/j9pO/6Xbb/+15mP/r+Y8/6/mPP+15mP/pdtv/4/aTv9FZyf/////AP///wD///8A//////////9okDv/pdtv/7XmY/+v5jz/r+Y8/6/mPP+v5jz/y+it///////a8Mf/j9pO/0VnJ/////8A////AP//////////aJA7/6Xbb/+v5jz/r+Y8/6/mPP+v5jz/r+Y8/7XmY//w+Oj/2vDH/6Xbb/9FZyf/////AP//////////aJA7/4/aTv+15mP/r+Y8/6/mPP+v5jz/peM4/6XjOP+s4kP/8Pjo/9rwx/+l4zj/j9pO/zNGHf///////////2iQO/+P2k7/rOJD/6/mPP+s4kP/2vDH/9rwx//L6K3/2vDH//D46P94yy//Y7Qd/4/aTv9FZyf///////////9okDv/j9pO/3jLL/+P2k7/2vDH//D46P/w+Oj/8Pjo//D46P/L6K3/Y7Qd/2O0Hf+P2k7/M0Yd////////////RWcn/4/aTv+P2k7/y+it//D46P94yy//Y7Qd/6Xbb//w+Oj/eMsv/2O0Hf94yy//j9pO/zNGHf////8A//////////9FZyf/j9pO/8vorf/w+Oj/pdtv/6Xbb//w+Oj/y+it/2O0Hf9jtB3/j9pO/zNGHf////8A////AP//////////RWcn/4/aTv+P2k7/y+it//D46P/w+Oj/2vDH/2O0Hf9jtB3/eMsv/4/aTv8zRh3/////AP///wD///8A//////////9FZyf/j9pO/4/aTv94yy//Y7Qd/2O0Hf94yy//j9pO/4/aTv8zRh3/////AP///wD///8A////AP///wD//////////zNGHf9FZyf/j9pO/4/aTv+P2k7/j9pO/zNGHf8zRh3/////AP///wD///8A////AP///wD///8A////AP///////////////zNGHf8zRh3/M0Yd/zNGHf//////////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP////////////////////////8A////AP///wD///8A////AP///wD///94</data>
                 <preConversion>
-                    <uniqueIdentifier>7086936f:15be9a370e7:-3b45</uniqueIdentifier>
+                    <uniqueIdentifier>5ee7c949:15bf081dc56:-1926</uniqueIdentifier>
+                    <conversionMethodFinder>
+                        <uniqueIdentifier>-55735402:15bef3a82f2:13ef</uniqueIdentifier>
+                        <conversionClassName>javax.swing.ImageIcon</conversionClassName>
+                        <conversionMethodSignature>javax.swing.ImageIcon (java.awt.Image)</conversionMethodSignature>
+                    </conversionMethodFinder>
+                    <javaClassBasedTypeInfoFinder>
+                        <uniqueIdentifier>5ee7c949:15bf081dc56:-190d</uniqueIdentifier>
+                        <className>javax.swing.ImageIcon</className>
+                    </javaClassBasedTypeInfoFinder>
+                    <reverseConversionMethodFinder>
+                        <uniqueIdentifier>-55735402:15bef3a82f2:14b6</uniqueIdentifier>
+                        <conversionClassName>javax.swing.ImageIcon</conversionClassName>
+                        <conversionMethodSignature>java.awt.Image getImage()</conversionMethodSignature>
+                    </reverseConversionMethodFinder>
                 </preConversion>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
@@ -18837,6 +18852,7 @@
         <customFieldsOrder>theBooleanPrimitive</customFieldsOrder>
         <customFieldsOrder>theFile</customFieldsOrder>
         <customFieldsOrder>theBooleanObject</customFieldsOrder>
+        <customFieldsOrder>anyObject.nullStatus</customFieldsOrder>
         <customFieldsOrder>anyObject</customFieldsOrder>
         <customFieldsOrder>theChoice</customFieldsOrder>
         <customFieldsOrder>theChoice.duplicate</customFieldsOrder>
@@ -19170,6 +19186,36 @@
                         <itemName>Item [value=y]</itemName>
                     </itemCustomizations>
                 </enumerationCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-684cc45d:15bf0c78363:25fb</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>anyObject.nullStatus</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-684cc45d:15bf0c78363:25fc</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-684cc45d:15bf0c78363:25fd</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>java.lang.Class</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
             </specificTypeCustomizations>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
