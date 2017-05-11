@@ -913,6 +913,36 @@
                         <hidden>false</hidden>
                         <itemName>Item [value=ResourcePath [path=, pathKind=RELATIVE_FILE, chosenAlternativeIndex=0, getSpecification()=]]</itemName>
                     </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-4401a91a:15bf739eb72:-337c</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=ResourcePath [path=/media/olitank/data/prog/git/SwingTestingToolkit/swing-testing-toolkit/src/main/resources/xy/ui/testing/record.png, pathKind=ABSOLUTE_FILE, chosenAlternativeIndex=0, getSpecification()=/media/olitank/data/prog/git/SwingTestingToolkit/swing-testing-toolkit/src/main/resources/xy/ui/testing/record.png]]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-4401a91a:15bf739eb72:-337b</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=ResourcePath [path=src/main/resources/xy/ui/testing/record.png, pathKind=RELATIVE_FILE, chosenAlternativeIndex=0, getSpecification()=src/main/resources/xy/ui/testing/record.png]]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-4401a91a:15bf739eb72:-3265</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=ResourcePath [path=/media/olitank/data/prog/git/SwingTestingToolkit/swing-testing-toolkit/src/main/resources/xy/ui/testing/replay.png, pathKind=ABSOLUTE_FILE, chosenAlternativeIndex=0, getSpecification()=/media/olitank/data/prog/git/SwingTestingToolkit/swing-testing-toolkit/src/main/resources/xy/ui/testing/replay.png]]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-4401a91a:15bf739eb72:-3264</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=ResourcePath [path=src/main/resources/xy/ui/testing/replay.png, pathKind=RELATIVE_FILE, chosenAlternativeIndex=0, getSpecification()=src/main/resources/xy/ui/testing/replay.png]]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-4401a91a:15bf739eb72:-314e</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=ResourcePath [path=/media/olitank/data/prog/git/SwingTestingToolkit/swing-testing-toolkit/src/main/resources/xy/ui/testing/inspect.png, pathKind=ABSOLUTE_FILE, chosenAlternativeIndex=0, getSpecification()=/media/olitank/data/prog/git/SwingTestingToolkit/swing-testing-toolkit/src/main/resources/xy/ui/testing/inspect.png]]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-4401a91a:15bf739eb72:-314d</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=ResourcePath [path=src/main/resources/xy/ui/testing/inspect.png, pathKind=RELATIVE_FILE, chosenAlternativeIndex=0, getSpecification()=src/main/resources/xy/ui/testing/inspect.png]]</itemName>
+                    </itemCustomizations>
                 </enumerationCustomizations>
             </specificTypeCustomizations>
             <valueOptionsFieldName>alternativeOptions</valueOptionsFieldName>
@@ -11539,7 +11569,7 @@
         <methodsCustomizations>
             <uniqueIdentifier>12ed3574:15bd15364be:-38fe</uniqueIdentifier>
             <specificProperties/>
-            <hidden>false</hidden>
+            <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
@@ -20454,9 +20484,9 @@
         <customFieldsOrder>confirmationMessage</customFieldsOrder>
         <customFieldsOrder>returnValueFieldGenerated</customFieldsOrder>
         <customFieldsOrder>methodName</customFieldsOrder>
+        <customFieldsOrder>menuLocation</customFieldsOrder>
         <customFieldsOrder>nullReturnValueLabel</customFieldsOrder>
         <customFieldsOrder>encapsulationFieldName</customFieldsOrder>
-        <customFieldsOrder>menuLocation</customFieldsOrder>
         <customFieldsOrder>methodSignature</customFieldsOrder>
         <customFieldsOrder>customMethodCaption</customFieldsOrder>
         <customFieldsOrder>hidden</customFieldsOrder>
@@ -20550,6 +20580,20 @@
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel/>
+                    <methodsCustomizations>
+                        <uniqueIdentifier>306fbde1:15bf6d2528e:-4fa5</uniqueIdentifier>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
+                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodSignature>java.lang.String ()</methodSignature>
+                        <parametersFormDisplayed>false</parametersFormDisplayed>
+                        <readOnlyForced>false</readOnlyForced>
+                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
                     <typeName>java.lang.String</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
@@ -21182,6 +21226,34 @@
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel/>
+                    <methodsCustomizations>
+                        <uniqueIdentifier>-4401a91a:15bf739eb72:-429d</uniqueIdentifier>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
+                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodSignature>xy.reflect.ui.info.ResourcePath ()</methodSignature>
+                        <parametersFormDisplayed>false</parametersFormDisplayed>
+                        <readOnlyForced>false</readOnlyForced>
+                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <uniqueIdentifier>-4401a91a:15bf739eb72:-429c</uniqueIdentifier>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
+                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodSignature>xy.reflect.ui.info.ResourcePath (java.lang.String)</methodSignature>
+                        <parametersFormDisplayed>false</parametersFormDisplayed>
+                        <readOnlyForced>false</readOnlyForced>
+                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
                     <typeName>xy.reflect.ui.info.ResourcePath</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
@@ -21355,6 +21427,21 @@
                         <uniqueIdentifier>377e6cfc:15be8e53491:294b</uniqueIdentifier>
                         <hidden>false</hidden>
                         <itemName>Item [value=Menu [name=About]]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>6e659517:15bf6e5fb2b:-2c5a</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=MenuItemCategory [name=exit]]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>6e659517:15bf6e5fb2b:-2c59</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=Menu [name=Edit]]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>6e659517:15bf6e5fb2b:-2c58</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=Menu [name=Run]]</itemName>
                     </itemCustomizations>
                 </enumerationCustomizations>
             </specificTypeCustomizations>
@@ -30003,6 +30090,16 @@
                         <hidden>false</hidden>
                         <itemName>Item [value=GeneratedMethodInfoProxy [signature=xy.reflect.ui.info.ResourcePath (java.lang.String), factory=TypeInfoProxyFactory [id=FieldTypeSpecificities [containingTypeName=xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization, fieldName=iconImagePath]], base=GeneratedMethodInfoProxy [signature=xy.reflect.ui.info.ResourcePath (java.lang.String), factory=TypeInfoProxyFactory [id=xy.reflect.ui.info.custom.InfoCustomizations@eaa591e0], base=GeneratedMethodInfoProxy [signature=xy.reflect.ui.info.ResourcePath (java.lang.String), factory=xy.reflect.ui.control.swing.customizer.CustomizationToolsTypeInfoProxyFactory, base=DefaultConstructorInfo [javaConstructor=public xy.reflect.ui.info.ResourcePath(java.lang.String)]]]]]</itemName>
                     </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-4401a91a:15bf739eb72:-4295</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=GeneratedMethodInfoProxy [signature=xy.reflect.ui.info.ResourcePath (), factory=TypeInfoProxyFactory [id=FieldTypeSpecificities [containingTypeName=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization, fieldName=iconImagePath]], base=GeneratedMethodInfoProxy [signature=xy.reflect.ui.info.ResourcePath (), factory=TypeInfoProxyFactory [id=xy.reflect.ui.info.custom.InfoCustomizations@a5d7f848], base=GeneratedMethodInfoProxy [signature=xy.reflect.ui.info.ResourcePath (), factory=xy.reflect.ui.control.swing.customizer.CustomizationToolsTypeInfoProxyFactory, base=DefaultConstructorInfo [javaConstructor=public xy.reflect.ui.info.ResourcePath()]]]]]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-4401a91a:15bf739eb72:-4294</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=GeneratedMethodInfoProxy [signature=xy.reflect.ui.info.ResourcePath (java.lang.String), factory=TypeInfoProxyFactory [id=FieldTypeSpecificities [containingTypeName=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization, fieldName=iconImagePath]], base=GeneratedMethodInfoProxy [signature=xy.reflect.ui.info.ResourcePath (java.lang.String), factory=TypeInfoProxyFactory [id=xy.reflect.ui.info.custom.InfoCustomizations@a5d7f848], base=GeneratedMethodInfoProxy [signature=xy.reflect.ui.info.ResourcePath (java.lang.String), factory=xy.reflect.ui.control.swing.customizer.CustomizationToolsTypeInfoProxyFactory, base=DefaultConstructorInfo [javaConstructor=public xy.reflect.ui.info.ResourcePath(java.lang.String)]]]]]</itemName>
+                    </itemCustomizations>
                 </enumerationCustomizations>
             </specificTypeCustomizations>
         </fieldsCustomizations>
@@ -32009,6 +32106,627 @@
         <immutableForced>false</immutableForced>
         <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=preMapping, containingType=xy.reflect.ui.info.custom.InfoCustomizations$TypeConversion], subContext=NullableInstance, encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$Mapping]], encapsulatedObjectType=xy.reflect.ui.info.custom.InfoCustomizations$Mapping]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fce</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fc9</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>actionTitle</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fc8</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fc3</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>java.lang.String</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fc7</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>fileNameFilters</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fc6</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <listCustomizations>
+                    <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fc1</uniqueIdentifier>
+                    <columnCustomizations>
+                        <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fb6</uniqueIdentifier>
+                        <columnName>toStringValue</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <editOptions>
+                        <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fc0</uniqueIdentifier>
+                        <itemCreationEnabled>true</itemCreationEnabled>
+                        <itemDeletionEnabled>true</itemDeletionEnabled>
+                        <itemMoveEnabled>true</itemMoveEnabled>
+                    </editOptions>
+                    <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
+                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
+                    <itemTypeName>xy.reflect.ui.control.swing.plugin.FileBrowserPlugin$FileNameFilterConfiguration</itemTypeName>
+                    <listSorted>false</listSorted>
+                    <listTypeName>java.util.List</listTypeName>
+                    <positionColumnAdded>false</positionColumnAdded>
+                    <stringValueColumnAdded>false</stringValueColumnAdded>
+                </listCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fc2</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>java.util.List</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fc5</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>selectionMode</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fc4</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <enumerationCustomizations>
+                    <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fb3</uniqueIdentifier>
+                    <dynamicEnumerationForced>false</dynamicEnumerationForced>
+                    <enumerationTypeName>xy.reflect.ui.control.swing.plugin.FileBrowserPlugin$SelectionModeConfiguration</enumerationTypeName>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fae</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>FILES_AND_DIRECTORIES</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fad</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>FILES_ONLY</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fac</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>DIRECTORIES_ONLY</itemName>
+                    </itemCustomizations>
+                </enumerationCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>xy.reflect.ui.control.swing.plugin.FileBrowserPlugin$FileBrowserConfiguration</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fcd</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fcc</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fcb</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fca</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>xy.reflect.ui.control.swing.plugin.FileBrowserPlugin$FileBrowserConfiguration</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [encapsulatedObjectType=xy.reflect.ui.control.swing.plugin.FileBrowserPlugin$FileBrowserConfiguration]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fbd</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fbc</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>description</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fbb</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fa7</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>java.lang.String</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fba</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>extensions</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fb9</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <listCustomizations>
+                    <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fa5</uniqueIdentifier>
+                    <columnCustomizations>
+                        <uniqueIdentifier>-18f6d80c:15bf6defd89:-4f95</uniqueIdentifier>
+                        <columnName>toStringValue</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <editOptions>
+                        <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fa4</uniqueIdentifier>
+                        <itemCreationEnabled>true</itemCreationEnabled>
+                        <itemDeletionEnabled>true</itemDeletionEnabled>
+                        <itemMoveEnabled>true</itemMoveEnabled>
+                    </editOptions>
+                    <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
+                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
+                    <itemTypeName>java.lang.String</itemTypeName>
+                    <listSorted>false</listSorted>
+                    <listTypeName>java.util.List</listTypeName>
+                    <positionColumnAdded>false</positionColumnAdded>
+                    <stringValueColumnAdded>false</stringValueColumnAdded>
+                </listCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fa6</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>java.util.List</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <methodsCustomizations>
+            <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fb8</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>void validate()</methodSignature>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>true</validating>
+        </methodsCustomizations>
+        <typeName>xy.reflect.ui.control.swing.plugin.FileBrowserPlugin$FileNameFilterConfiguration</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fb5</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-18f6d80c:15bf6defd89:-4faa</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fa9</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-18f6d80c:15bf6defd89:-4fa8</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>xy.reflect.ui.control.swing.plugin.FileBrowserPlugin$FileNameFilterConfiguration</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [context=FieldContext [fieldName=fileNameFilters, containingType=xy.reflect.ui.control.swing.plugin.FileBrowserPlugin$FileBrowserConfiguration], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.control.swing.plugin.FileBrowserPlugin$FileNameFilterConfiguration]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-18f6d80c:15bf6defd89:-4f94</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <customTypeCaption>Extension</customTypeCaption>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-18f6d80c:15bf6defd89:-4f92</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-18f6d80c:15bf6defd89:-4f91</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-18f6d80c:15bf6defd89:-4f90</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>java.lang.String</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [context=FieldContext [fieldName=extensions, containingType=xy.reflect.ui.control.swing.plugin.FileBrowserPlugin$FileNameFilterConfiguration], subContext=ListItem, encapsulatedObjectType=java.lang.String]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-4401a91a:15bf739eb72:-68a1</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-4401a91a:15bf739eb72:-689c</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-4401a91a:15bf739eb72:-689b</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <enumerationCustomizations>
+                    <uniqueIdentifier>-4401a91a:15bf739eb72:-6899</uniqueIdentifier>
+                    <dynamicEnumerationForced>false</dynamicEnumerationForced>
+                    <enumerationTypeName>ConstructorSelection [type=java.awt.image.BufferedImage]</enumerationTypeName>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-4401a91a:15bf739eb72:-6895</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=GeneratedMethodInfoProxy [signature=java.awt.image.BufferedImage (int, int, int), factory=TypeInfoProxyFactory [id=xy.reflect.ui.info.custom.InfoCustomizations@4512f044], base=GeneratedMethodInfoProxy [signature=java.awt.image.BufferedImage (int, int, int), factory=xy.reflect.ui.control.swing.customizer.CustomizationToolsTypeInfoProxyFactory, base=DefaultConstructorInfo [javaConstructor=public java.awt.image.BufferedImage(int,int,int)]]]]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-4401a91a:15bf739eb72:-6894</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=GeneratedMethodInfoProxy [signature=java.awt.image.BufferedImage (int, int, int, java.awt.image.IndexColorModel), factory=TypeInfoProxyFactory [id=xy.reflect.ui.info.custom.InfoCustomizations@4512f044], base=GeneratedMethodInfoProxy [signature=java.awt.image.BufferedImage (int, int, int, java.awt.image.IndexColorModel), factory=xy.reflect.ui.control.swing.customizer.CustomizationToolsTypeInfoProxyFactory, base=DefaultConstructorInfo [javaConstructor=public java.awt.image.BufferedImage(int,int,int,java.awt.image.IndexColorModel)]]]]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-4401a91a:15bf739eb72:-6893</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=GeneratedMethodInfoProxy [signature=java.awt.image.BufferedImage (java.awt.image.ColorModel, java.awt.image.WritableRaster, boolean, java.util.Hashtable), factory=TypeInfoProxyFactory [id=xy.reflect.ui.info.custom.InfoCustomizations@4512f044], base=GeneratedMethodInfoProxy [signature=java.awt.image.BufferedImage (java.awt.image.ColorModel, java.awt.image.WritableRaster, boolean, java.util.Hashtable), factory=xy.reflect.ui.control.swing.customizer.CustomizationToolsTypeInfoProxyFactory, base=DefaultConstructorInfo [javaConstructor=public java.awt.image.BufferedImage(java.awt.image.ColorModel,java.awt.image.WritableRaster,boolean,java.util.Hashtable)]]]]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-4401a91a:15bf739eb72:-6890</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=GeneratedMethodInfoProxy [signature=java.awt.image.BufferedImage (int, int, int), factory=TypeInfoProxyFactory [id=xy.reflect.ui.info.custom.InfoCustomizations@f979627e], base=GeneratedMethodInfoProxy [signature=java.awt.image.BufferedImage (int, int, int), factory=xy.reflect.ui.control.swing.customizer.CustomizationToolsTypeInfoProxyFactory, base=DefaultConstructorInfo [javaConstructor=public java.awt.image.BufferedImage(int,int,int)]]]]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-4401a91a:15bf739eb72:-688d</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=GeneratedMethodInfoProxy [signature=java.awt.image.BufferedImage (int, int, int, java.awt.image.IndexColorModel), factory=TypeInfoProxyFactory [id=xy.reflect.ui.info.custom.InfoCustomizations@a6a5a5de], base=GeneratedMethodInfoProxy [signature=java.awt.image.BufferedImage (int, int, int, java.awt.image.IndexColorModel), factory=xy.reflect.ui.control.swing.customizer.CustomizationToolsTypeInfoProxyFactory, base=DefaultConstructorInfo [javaConstructor=public java.awt.image.BufferedImage(int,int,int,java.awt.image.IndexColorModel)]]]]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-4401a91a:15bf739eb72:-688a</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=GeneratedMethodInfoProxy [signature=java.awt.image.BufferedImage (int, int, int, java.awt.image.IndexColorModel), factory=TypeInfoProxyFactory [id=xy.reflect.ui.info.custom.InfoCustomizations@64cd7dbe], base=GeneratedMethodInfoProxy [signature=java.awt.image.BufferedImage (int, int, int, java.awt.image.IndexColorModel), factory=xy.reflect.ui.control.swing.customizer.CustomizationToolsTypeInfoProxyFactory, base=DefaultConstructorInfo [javaConstructor=public java.awt.image.BufferedImage(int,int,int,java.awt.image.IndexColorModel)]]]]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-4401a91a:15bf739eb72:-6888</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=GeneratedMethodInfoProxy [signature=java.awt.image.BufferedImage (java.awt.image.ColorModel, java.awt.image.WritableRaster, boolean, java.util.Hashtable), factory=TypeInfoProxyFactory [id=xy.reflect.ui.info.custom.InfoCustomizations@64cd7dbe], base=GeneratedMethodInfoProxy [signature=java.awt.image.BufferedImage (java.awt.image.ColorModel, java.awt.image.WritableRaster, boolean, java.util.Hashtable), factory=xy.reflect.ui.control.swing.customizer.CustomizationToolsTypeInfoProxyFactory, base=DefaultConstructorInfo [javaConstructor=public java.awt.image.BufferedImage(java.awt.image.ColorModel,java.awt.image.WritableRaster,boolean,java.util.Hashtable)]]]]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-4401a91a:15bf739eb72:-6882</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=GeneratedMethodInfoProxy [signature=java.awt.image.BufferedImage (java.awt.image.ColorModel, java.awt.image.WritableRaster, boolean, java.util.Hashtable), factory=TypeInfoProxyFactory [id=xy.reflect.ui.info.custom.InfoCustomizations@8b7af2d2], base=GeneratedMethodInfoProxy [signature=java.awt.image.BufferedImage (java.awt.image.ColorModel, java.awt.image.WritableRaster, boolean, java.util.Hashtable), factory=xy.reflect.ui.control.swing.customizer.CustomizationToolsTypeInfoProxyFactory, base=DefaultConstructorInfo [javaConstructor=public java.awt.image.BufferedImage(java.awt.image.ColorModel,java.awt.image.WritableRaster,boolean,java.util.Hashtable)]]]]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-4401a91a:15bf739eb72:-6880</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=GeneratedMethodInfoProxy [signature=java.awt.image.BufferedImage (int, int, int), factory=TypeInfoProxyFactory [id=xy.reflect.ui.info.custom.InfoCustomizations@8b7af2d2], base=GeneratedMethodInfoProxy [signature=java.awt.image.BufferedImage (int, int, int), factory=xy.reflect.ui.control.swing.customizer.CustomizationToolsTypeInfoProxyFactory, base=DefaultConstructorInfo [javaConstructor=public java.awt.image.BufferedImage(int,int,int)]]]]</itemName>
+                    </itemCustomizations>
+                </enumerationCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [typeCaption=Selection, fieldType=ConstructorSelection [type=java.awt.image.BufferedImage], fieldCaption=Choose an option]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-4401a91a:15bf739eb72:-68a0</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-4401a91a:15bf739eb72:-689f</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-4401a91a:15bf739eb72:-689e</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-4401a91a:15bf739eb72:-689d</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>Encapsulation [typeCaption=Selection, fieldType=ConstructorSelection [type=java.awt.image.BufferedImage], fieldCaption=Choose an option]</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [encapsulatedObjectType=Encapsulation [typeCaption=Selection, fieldType=ConstructorSelection [type=java.awt.image.BufferedImage], fieldCaption=Choose an option]]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-4401a91a:15bf739eb72:-687f</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-4401a91a:15bf739eb72:-687e</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>parameter1</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-4401a91a:15bf739eb72:-687d</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-4401a91a:15bf739eb72:-6878</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>int</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-4401a91a:15bf739eb72:-687c</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>parameter2</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-4401a91a:15bf739eb72:-687b</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-4401a91a:15bf739eb72:-6877</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>int</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-4401a91a:15bf739eb72:-687a</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>parameter3</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-4401a91a:15bf739eb72:-6879</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-4401a91a:15bf739eb72:-6876</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>int</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>MethodSetupObject [context=ContructorContext [type=java.awt.image.BufferedImage, signature=java.awt.image.BufferedImage (int, int, int)]]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-4401a91a:15bf739eb72:-427f</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-4401a91a:15bf739eb72:-427e</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-4401a91a:15bf739eb72:-427d</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-4401a91a:15bf739eb72:-427c</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>xy.reflect.ui.info.ResourcePath</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=iconImagePath, containingType=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization], subContext=NullableInstance, encapsulatedObjectType=xy.reflect.ui.info.ResourcePath]], encapsulatedObjectType=xy.reflect.ui.info.ResourcePath]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

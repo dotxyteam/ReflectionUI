@@ -1,3 +1,4 @@
+- accept icons size ???
 - new controls:
 	. dateChooser
 	. embedded controls list control???

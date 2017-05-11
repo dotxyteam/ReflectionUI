@@ -255,15 +255,15 @@ public class SwingRenderer {
 		}
 
 		final JPanel contentPane = new JPanel();
-		setWindowContentPane(window, contentPane);
+		setContentPane(window, contentPane);
 		contentPane.setLayout(new BorderLayout());
 		if (content != null) {
 			if (SwingRendererUtils.isForm(content, this)) {
 				final JPanel form = (JPanel) content;
-				SwingRendererUtils.setMenuBar(window, createMenuBar(form));
+				setMenuBar(window, createMenuBar(form));
 				updateMenuBar(form);
-				contentPane.add(createStatusBar(form), BorderLayout.NORTH);
-				setStatusBarError(form, null);
+				setStatusBar(window, createStatusBar(form));
+				setStatusBarErrorMessage(form, null);
 				window.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowOpened(WindowEvent e) {
@@ -284,6 +284,15 @@ public class SwingRenderer {
 		}
 
 		SwingRendererUtils.adjustWindowInitialBounds(window);
+	}
+
+	public void setStatusBar(Window window, Component statusBar) {
+		Container contentPane = SwingRendererUtils.getContentPane(window);
+		contentPane.add(statusBar, BorderLayout.NORTH);
+	}
+
+	public void setMenuBar(Window window, JMenuBar menuBar) {
+		SwingRendererUtils.setMenuBar(window, menuBar);
 	}
 
 	public JMenuBar createMenuBar(JPanel form) {
@@ -639,7 +648,7 @@ public class SwingRenderer {
 		return result;
 	}
 
-	public void setWindowContentPane(Window window, Container contentPane) {
+	public void setContentPane(Window window, Container contentPane) {
 		SwingRendererUtils.setContentPane(window, contentPane);
 	}
 
@@ -1026,7 +1035,8 @@ public class SwingRenderer {
 						return null;
 					}
 					try {
-						type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(ClassUtils.getCachedClassforName(className)));
+						type = reflectionUI
+								.getTypeInfo(new JavaTypeInfoSource(ClassUtils.getCachedClassforName(className)));
 					} catch (ClassNotFoundException e) {
 						throw new ReflectionUIError(e);
 					}
@@ -1432,7 +1442,8 @@ public class SwingRenderer {
 		}
 		fieldControlPlaceHolderLayoutConstraints.weightx = 1.0;
 		fieldControlPlaceHolderLayoutConstraints.weighty = 1.0;
-		fieldControlPlaceHolderLayoutConstraints.fill = GridBagConstraints.BOTH;
+		fieldControlPlaceHolderLayoutConstraints.fill = GridBagConstraints.HORIZONTAL;
+		fieldControlPlaceHolderLayoutConstraints.anchor = GridBagConstraints.NORTH;
 		container.remove(fieldControlPlaceHolder);
 		container.add(fieldControlPlaceHolder, fieldControlPlaceHolderLayoutConstraints);
 
@@ -1469,16 +1480,6 @@ public class SwingRenderer {
 		}
 		MenuModel menuModel = new MenuModel();
 		addFormMenuContribution(form, menuModel);
-		SortedMap<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = getFieldControlPlaceHoldersByCategoryByForm()
-				.get(form);
-		for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
-			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHoldersByCategory.get(category)) {
-				Component fieldControl = fieldControlPlaceHolder.getFieldControl();
-				if (fieldControl instanceof IAdvancedFieldControl) {
-					((IAdvancedFieldControl) fieldControl).addMenuContribution(menuModel);
-				}
-			}
-		}
 		SwingRendererUtils.updateMenubar(menuBar, menuModel, this);
 	}
 
@@ -1496,6 +1497,16 @@ public class SwingRenderer {
 			}
 		});
 		menuModel.importContributions(formMenuModel);
+		SortedMap<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = getFieldControlPlaceHoldersByCategoryByForm()
+				.get(form);
+		for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
+			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHoldersByCategory.get(category)) {
+				Component fieldControl = fieldControlPlaceHolder.getFieldControl();
+				if (fieldControl instanceof IAdvancedFieldControl) {
+					((IAdvancedFieldControl) fieldControl).addMenuContribution(menuModel);
+				}
+			}
+		}		
 	}
 
 	public void validateForm(JPanel form) throws Exception {
@@ -1538,7 +1549,7 @@ public class SwingRenderer {
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override
 						public void run() {
-							setStatusBarError(form, null);
+							setStatusBarErrorMessage(form, null);
 						}
 					});
 				} catch (Exception e) {
@@ -1546,7 +1557,7 @@ public class SwingRenderer {
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override
 						public void run() {
-							setStatusBarError(form, errorMsg);
+							setStatusBarErrorMessage(form, errorMsg);
 						}
 					});
 				}
@@ -1555,7 +1566,7 @@ public class SwingRenderer {
 		}.start();
 	}
 
-	public void setStatusBarError(JPanel form, String errorMsg) {
+	public void setStatusBarErrorMessage(JPanel form, String errorMsg) {
 		JLabel statusBar = getStatusBarByForm().get(form);
 		if (statusBar == null) {
 			return;

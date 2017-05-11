@@ -1,6 +1,8 @@
 package xy.reflect.ui.info.menu;
 
+import xy.reflect.ui.control.DefaultMethodControlData;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MethodActionMenuItem extends AbstractActionMenuItem {
 
@@ -9,7 +11,8 @@ public class MethodActionMenuItem extends AbstractActionMenuItem {
 	protected IMethodInfo method;
 
 	public MethodActionMenuItem(IMethodInfo method) {
-		super(method.getCaption(), method.getIconImagePath());
+		super(ReflectionUIUtils.formatMethodControlCaption(new DefaultMethodControlData(new Object(), method)),
+				method.getIconImagePath());
 		this.method = method;
 	}
 

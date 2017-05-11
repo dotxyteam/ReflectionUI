@@ -26,26 +26,11 @@ public class MethodControl extends JButton {
 	}
 
 	protected void initialize() {
-		String caption = data.getCaption();
-		{
-			if (caption.length() > 0) {
-				if (data.getParameters().size() > 0) {
-					caption += "...";
-				}
-				setText(swingRenderer.prepareStringToDisplay(caption));
-			}
-		}
-		String toolTipText = caption;
-		{
-			if (data.getParameters().size() > 0) {
-				toolTipText += "\nParameter(s): " + ReflectionUIUtils.formatParameterList(data.getParameters());
-			}
-			if ((data.getOnlineHelp() != null) && (data.getOnlineHelp().trim().length() > 0)) {
-				toolTipText += "\nDescription: " + data.getOnlineHelp();
-			}
-			if (toolTipText.length() > 0) {
-				SwingRendererUtils.setMultilineToolTipText(this, swingRenderer.prepareStringToDisplay(toolTipText));
-			}
+		String caption = ReflectionUIUtils.formatMethodControlCaption(data);
+		setText(swingRenderer.prepareStringToDisplay(caption));
+		String toolTipText = ReflectionUIUtils.formatMethodControlTooltipText(data);
+		if (toolTipText.length() > 0) {
+			SwingRendererUtils.setMultilineToolTipText(this, swingRenderer.prepareStringToDisplay(toolTipText));
 		}
 		setIcon(SwingRendererUtils.getMethodIcon(swingRenderer, data));
 		addActionListener(new ActionListener() {

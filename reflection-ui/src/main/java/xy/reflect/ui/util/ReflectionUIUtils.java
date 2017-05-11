@@ -1168,4 +1168,29 @@ public class ReflectionUIUtils {
 		return true;
 	}
 
+	public static String formatMethodControlCaption(IMethodControlData data) {
+		String caption = data.getCaption();
+		{
+			if (caption.length() > 0) {
+				if (data.getParameters().size() > 0) {
+					caption += "...";
+				}
+			}
+		}
+		return caption;
+	}
+
+	public static String formatMethodControlTooltipText(IMethodControlData data) {
+		String toolTipText = formatMethodControlCaption(data);
+		{
+			if (data.getParameters().size() > 0) {
+				toolTipText += "\nParameter(s): " + ReflectionUIUtils.formatParameterList(data.getParameters());
+			}
+			if ((data.getOnlineHelp() != null) && (data.getOnlineHelp().trim().length() > 0)) {
+				toolTipText += "\nDescription: " + data.getOnlineHelp();
+			}
+		}
+		return toolTipText;
+	}
+
 }

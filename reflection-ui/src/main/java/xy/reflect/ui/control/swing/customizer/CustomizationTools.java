@@ -1,5 +1,6 @@
 package xy.reflect.ui.control.swing.customizer;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -20,6 +21,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -120,9 +122,33 @@ public class CustomizationTools {
 				}
 
 				@Override
-				public void setWindowContentPane(Window window, Container contentPane) {
-					super.setWindowContentPane(window, createAlternativeWindowDecorationsPanel(
+				public void setContentPane(Window window, Container contentPane) {
+					super.setContentPane(window, createAlternativeWindowDecorationsPanel(
 							SwingRendererUtils.getWindowTitle(window), window, contentPane));
+				}
+
+				@Override
+				public void setMenuBar(Window window, JMenuBar menuBar) {
+					getBarsContainer(window).add(menuBar, BorderLayout.NORTH);
+				}
+
+				@Override
+				public void setStatusBar(Window window, Component statusBar) {
+					getBarsContainer(window).add(statusBar, BorderLayout.SOUTH);
+				}
+
+				protected Container getBarsContainer(Window window) {
+					AlternativeWindowDecorationsPanel decorationsPanel = (AlternativeWindowDecorationsPanel) SwingRendererUtils
+							.getContentPane(window);
+					Container contentPane = decorationsPanel.getContentPane();
+					JPanel barsContainer = (JPanel) ((BorderLayout) contentPane.getLayout())
+							.getLayoutComponent(BorderLayout.NORTH);
+					if (barsContainer == null) {
+						barsContainer = new JPanel();
+						contentPane.add(barsContainer, BorderLayout.NORTH);
+						barsContainer.setLayout(new BorderLayout());
+					}
+					return barsContainer;
 				}
 
 			};
@@ -130,8 +156,8 @@ public class CustomizationTools {
 			return new SwingRenderer(toolsUI) {
 
 				@Override
-				public void setWindowContentPane(Window window, Container contentPane) {
-					super.setWindowContentPane(window, createAlternativeWindowDecorationsPanel(
+				public void setContentPane(Window window, Container contentPane) {
+					super.setContentPane(window, createAlternativeWindowDecorationsPanel(
 							SwingRendererUtils.getWindowTitle(window), window, contentPane));
 
 				}
@@ -803,7 +829,7 @@ public class CustomizationTools {
 		try {
 			swingCustomizer.rebuildForm(form);
 			JPanel topForm = SwingRendererUtils.findMostAncestorForm(form, swingCustomizer);
-			if (topForm != null) {
+			if (topForm == null) {
 				topForm = form;
 			}
 			swingCustomizer.updateMenuBar(topForm);

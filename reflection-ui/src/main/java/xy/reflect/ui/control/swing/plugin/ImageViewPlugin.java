@@ -122,6 +122,14 @@ public class ImageViewPlugin extends FileBrowserPlugin {
 
 		protected void onBrowseImage() {
 			FileBrowserConfiguration fileBrowserConfiguration = new FileBrowserConfiguration();
+			fileBrowserConfiguration.selectionMode = SelectionModeConfiguration.FILES_ONLY;
+			fileBrowserConfiguration.actionTitle = "Load Image";
+			FileNameFilterConfiguration filter = new FileNameFilterConfiguration();
+			{
+				filter.description = "Images";
+				filter.extensions.addAll(Arrays.asList(ImageIO.getReaderFileSuffixes()));
+				fileBrowserConfiguration.fileNameFilters.add(filter);
+			}
 			final File[] imageFileHolder = new File[1];
 			IFieldControlInput fileBrowserInput = new FieldControlInputProxy(IFieldControlInput.NULL_CONTROL_INPUT) {
 
