@@ -81,7 +81,7 @@ public class VirtualFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
-	public Runnable getCustomUndoUpdateJob(Object object, Object newValue) {
+	public Runnable getNextUpdateCustomUndoJob(Object object, Object newValue) {
 		return null;
 	}
 

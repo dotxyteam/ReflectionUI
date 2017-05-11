@@ -41,8 +41,8 @@ public class DefaultFieldControlData implements IFieldControlData {
 	}
 
 	@Override
-	public Runnable getCustomUndoUpdateJob(Object newValue) {
-		return field.getCustomUndoUpdateJob(object, newValue);
+	public Runnable getNextUpdateCustomUndoJob(Object newValue) {
+		return field.getNextUpdateCustomUndoJob(object, newValue);
 	}
 
 	@Override

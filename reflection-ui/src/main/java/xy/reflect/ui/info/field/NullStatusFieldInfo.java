@@ -42,9 +42,9 @@ public class NullStatusFieldInfo extends FieldInfoProxy {
 	}
 
 	@Override
-	public Runnable getCustomUndoUpdateJob(final Object object, final Object newValue) {
+	public Runnable getNextUpdateCustomUndoJob(final Object object, final Object newValue) {
 		final Object baseNewValue = booleanTovalue((Boolean) newValue);
-		Runnable result = super.getCustomUndoUpdateJob(object, baseNewValue);
+		Runnable result = super.getNextUpdateCustomUndoJob(object, baseNewValue);
 		if (result == null) {
 			final Object baseOldValue = super.getValue(object);
 			result = new Runnable() {

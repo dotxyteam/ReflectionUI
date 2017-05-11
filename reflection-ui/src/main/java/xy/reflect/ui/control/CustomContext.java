@@ -1,10 +1,10 @@
 package xy.reflect.ui.control;
 
-public class DefaultContext implements IContext {
+public class CustomContext implements IContext {
 
 	protected String identifier;
 
-	public DefaultContext(String identifier) {
+	public CustomContext(String identifier) {
 		this.identifier = identifier;
 	}
 
@@ -29,7 +29,7 @@ public class DefaultContext implements IContext {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		DefaultContext other = (DefaultContext) obj;
+		CustomContext other = (CustomContext) obj;
 		if (identifier == null) {
 			if (other.identifier != null)
 				return false;
@@ -40,7 +40,7 @@ public class DefaultContext implements IContext {
 
 	@Override
 	public String toString() {
-		return "DefaultContext [identifier=" + identifier + "]";
+		return "CustomContext [identifier=" + identifier + "]";
 	}
 
 }

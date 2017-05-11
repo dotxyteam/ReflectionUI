@@ -16,6 +16,8 @@ import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.InvokeMethodModification;
+import xy.reflect.ui.undo.IrreversibleModificationException;
+import xy.reflect.ui.util.ActionBuilder;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -23,9 +25,7 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	protected IFieldInfo theField;
 	protected IMethodInfo theSubMethod;
-
-	protected IModification oppositeSubMethodModification;
-	protected IModification oppositeFieldModification;
+	protected ActionBuilder undoJobBuilder = new ActionBuilder();
 
 	public SubMethodInfo(IFieldInfo theField, IMethodInfo theSubMethod) {
 		super();
@@ -97,8 +97,10 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 	public Object invoke(Object object, InvocationData invocationData) {
 		Object fieldValue = getTheFieldValue(object);
 		Object result;
-		if (theSubMethod.getUndoJob(fieldValue, invocationData) == null) {
+		IModification oppositeSubMethodModification;
+		if (theSubMethod.getNextInvocationUndoJob(fieldValue, invocationData) == null) {
 			result = theSubMethod.invoke(fieldValue, invocationData);
+			oppositeSubMethodModification = null;
 		} else {
 			final Object[] resultHolder = new Object[1];
 			oppositeSubMethodModification = ReflectionUIUtils.finalizeParentObjectValueEditSession(
@@ -114,32 +116,38 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 					theSubMethod, InvokeMethodModification.getTitle(theSubMethod));
 			result = resultHolder[0];
 		}
-
-		oppositeFieldModification = ReflectionUIUtils.finalizeParentObjectValueEditSession(
+		IModification oppositeFieldModification = ReflectionUIUtils.finalizeParentObjectValueEditSession(
 				IModification.FAKE_MODIFICATION, true, theField.getValueReturnMode(), true,
 				new ControlDataValueModification(new DefaultFieldControlData(object, theField), fieldValue, theField),
 				theField, ControlDataValueModification.getTitle(theField));
 
+		undoJobBuilder.setOption("oppositeSubMethodModification", oppositeSubMethodModification);
+		undoJobBuilder.setOption("oppositeFieldModification", oppositeFieldModification);
+		undoJobBuilder.end();
 		return result;
 
 	}
 
 	@Override
-	public Runnable getUndoJob(Object object, final InvocationData invocationData) {
+	public Runnable getNextInvocationUndoJob(Object object, final InvocationData invocationData) {
 		Object fieldValue = getTheFieldValue(object);
-		if (theSubMethod.getUndoJob(fieldValue, invocationData) == null) {
+		if (theSubMethod.getNextInvocationUndoJob(fieldValue, invocationData) == null) {
 			return null;
 		}
-		return new Runnable() {
-			@Override
-			public void run() {
-				oppositeSubMethodModification.applyAndGetOpposite();
-				oppositeSubMethodModification = null;
-				oppositeFieldModification.applyAndGetOpposite();
-				oppositeFieldModification = null;
-			}
+		return undoJobBuilder.begin(new ActionBuilder.Performer() {
 
-		};
+			@Override
+			public void perform(Map<String, Object> options) {
+				IModification oppositeSubMethodModification = (IModification) options
+						.get("oppositeSubMethodModification");
+				IModification oppositeFieldModification = (IModification) options.get("oppositeFieldModification");
+				if (oppositeSubMethodModification == null) {
+					throw new IrreversibleModificationException();
+				}
+				oppositeSubMethodModification.applyAndGetOpposite();
+				oppositeFieldModification.applyAndGetOpposite();
+			}
+		});
 	}
 
 	@Override

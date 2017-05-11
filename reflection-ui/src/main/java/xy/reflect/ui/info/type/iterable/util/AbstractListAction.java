@@ -87,7 +87,7 @@ public abstract class AbstractListAction extends AbstractInfo implements IMethod
 	}
 
 	@Override
-	public Runnable getUndoJob(Object object, InvocationData invocationData) {
+	public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
 		return null;
 	}
 

@@ -1,7 +1,8 @@
+- new controls:
+	. dateChooser
+	. embedded controls list control???
 - display null equivalence greyed ???
 - remove method return value specificities ???
-- bug: undo job must never be stored in the member info
-- embedded control list ???
 - image control in scroll pane ???
 - parameters should get their customizations from
 	parameterAsField customizations ???
@@ -27,7 +28,6 @@
 - how to deal with hidden nullables when the value remains null
 - indent toString()s ???
 - allow to set (min) list size ???
-- allow to ignore method result (in customizations) ???
 - should not need to exclude list item members:
 	columns should be able to feed from the uncustomized type???
 	but what about items inside and outside the list at the same time ???
@@ -108,7 +108,3 @@ be ignored if not displayable???
 - For null field, allow custom instanciation
 - menus???
 - update translatable strings
-- new controls:
-	. spinner, slider for numbers
-	. dateChooser
-	. colorChooser

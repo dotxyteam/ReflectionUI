@@ -215,7 +215,7 @@ class CustomizationToolsUI extends ReflectionUI {
 					}
 
 					@Override
-					public Runnable getUndoJob(final Object object, InvocationData invocationData) {
+					public Runnable getNextInvocationUndoJob(final Object object, InvocationData invocationData) {
 						return new Runnable() {
 
 							@Override

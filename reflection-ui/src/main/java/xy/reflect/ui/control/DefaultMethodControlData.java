@@ -81,8 +81,8 @@ public class DefaultMethodControlData implements IMethodControlData {
 	}
 
 	@Override
-	public Runnable getUndoJob(InvocationData invocationData) {
-		return method.getUndoJob(object, invocationData);
+	public Runnable getNextUpdateCustomUndoJob(InvocationData invocationData) {
+		return method.getNextInvocationUndoJob(object, invocationData);
 	}
 
 	@Override

@@ -39,7 +39,7 @@ public class ControlDataValueModification extends AbstractModification {
 
 	@Override
 	protected Runnable createUndoJob() {
-		Runnable result = data.getCustomUndoUpdateJob(newValue);
+		Runnable result = data.getNextUpdateCustomUndoJob(newValue);
 		if (result == null) {
 			final Object oldValue = data.getValue();
 			result = new Runnable() {

@@ -305,7 +305,7 @@ public class ReflectionUITest {
 				return new TypeInfoProxyFactory() {
 
 					@Override
-					protected Runnable getUndoModification(IMethodInfo method, ITypeInfo containingType,
+					protected Runnable getNextInvocationUndoJob(IMethodInfo method, ITypeInfo containingType,
 							final Object object, InvocationData invocationData) {
 						if (containingType.getName().equals(Test2.class.getName())
 								&& method.getName().equals("incrementTheShortSlowly")) {
@@ -316,7 +316,7 @@ public class ReflectionUITest {
 								}
 							};
 						}
-						return super.getUndoModification(method, containingType, object, invocationData);
+						return super.getNextInvocationUndoJob(method, containingType, object, invocationData);
 					}
 				}.get(result);
 			}

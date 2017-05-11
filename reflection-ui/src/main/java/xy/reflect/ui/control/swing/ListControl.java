@@ -57,7 +57,7 @@ import org.jdesktop.swingx.decorator.HighlighterFactory;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.jdesktop.swingx.treetable.TreeTableModel;
 
-import xy.reflect.ui.control.DefaultContext;
+import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.DefaultMethodControlData;
 import xy.reflect.ui.control.IContext;
@@ -1653,7 +1653,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 					@Override
 					public IContext getSubContext() {
-						return new DefaultContext("ListDynamicProperty [name=" + dynamicProperty.getName() + "]");
+						return new CustomContext("ListDynamicProperty [name=" + dynamicProperty.getName() + "]");
 					}
 
 					@Override
@@ -1776,7 +1776,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 					@Override
 					public IContext getContext() {
-						return new DefaultContext("listDynamicAction [name=" + dynamicAction.getName()
+						return new CustomContext("listDynamicAction [name=" + dynamicAction.getName()
 								+ ", listContext=" + input.getContext() + "]");
 					}
 
@@ -2332,7 +2332,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 		@Override
 		public IContext getSubContext() {
-			return new DefaultContext("ListItem");
+			return new CustomContext("ListItem");
 		}
 
 		@Override

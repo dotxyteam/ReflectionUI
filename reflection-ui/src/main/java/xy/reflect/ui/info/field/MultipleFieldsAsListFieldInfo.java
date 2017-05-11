@@ -79,7 +79,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 	}
 
 	@Override
-	public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+	public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
 		return null;
 	}
 
@@ -441,9 +441,9 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		}
 
 		@Override
-		public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+		public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
 			object = ((ValueListItem) object).getObject();
-			return super.getCustomUndoUpdateJob(object, value);
+			return super.getNextUpdateCustomUndoJob(object, value);
 		}
 
 		@Override

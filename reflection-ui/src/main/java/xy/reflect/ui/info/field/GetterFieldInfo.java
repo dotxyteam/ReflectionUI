@@ -160,7 +160,7 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
-	public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+	public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
 		return null;
 	}
 

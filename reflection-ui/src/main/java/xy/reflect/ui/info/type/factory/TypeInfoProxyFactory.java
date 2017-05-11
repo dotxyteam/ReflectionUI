@@ -200,8 +200,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		field.setValue(object, value);
 	}
 
-	protected Runnable getCustomUndoUpdateJob(Object object, Object value, IFieldInfo field, ITypeInfo containingType) {
-		return field.getCustomUndoUpdateJob(object, value);
+	protected Runnable getNextUpdateCustomUndoJob(Object object, Object value, IFieldInfo field, ITypeInfo containingType) {
+		return field.getNextUpdateCustomUndoJob(object, value);
 	}
 
 	protected String toString(ITypeInfo type, Object object) {
@@ -490,9 +490,9 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		method.validateParameters(object, invocationData);
 	}
 
-	protected Runnable getUndoModification(IMethodInfo method, ITypeInfo containingType, Object object,
+	protected Runnable getNextInvocationUndoJob(IMethodInfo method, ITypeInfo containingType, Object object,
 			InvocationData invocationData) {
-		return method.getUndoJob(object, invocationData);
+		return method.getNextInvocationUndoJob(object, invocationData);
 	}
 
 	protected IEnumerationItemInfo getValueInfo(IEnumerationTypeInfo type, Object object) {
@@ -926,8 +926,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		}
 
 		@Override
-		public Runnable getCustomUndoUpdateJob(Object object, Object value) {
-			return TypeInfoProxyFactory.this.getCustomUndoUpdateJob(object, value, base, containingType);
+		public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
+			return TypeInfoProxyFactory.this.getNextUpdateCustomUndoJob(object, value, base, containingType);
 		}
 
 		@Override
@@ -1164,8 +1164,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		}
 
 		@Override
-		public Runnable getUndoJob(Object object, InvocationData invocationData) {
-			return TypeInfoProxyFactory.this.getUndoModification(base, containingType, object, invocationData);
+		public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
+			return TypeInfoProxyFactory.this.getNextInvocationUndoJob(base, containingType, object, invocationData);
 		}
 
 		private TypeInfoProxyFactory getOuterType() {

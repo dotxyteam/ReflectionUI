@@ -88,8 +88,8 @@ public class MethodInfoProxy extends AbstractInfoProxy implements IMethodInfo {
 	}
 
 	@Override
-	public Runnable getUndoJob(Object object, InvocationData invocationData) {
-		return base.getUndoJob(object, invocationData);
+	public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
+		return base.getNextInvocationUndoJob(object, invocationData);
 	}
 
 	@Override

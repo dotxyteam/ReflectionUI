@@ -183,11 +183,11 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 			}
 
 			@Override
-			public Runnable getCustomUndoUpdateJob(Object newValue) {
+			public Runnable getNextUpdateCustomUndoJob(Object newValue) {
 				if (isBusyIndicationDisabled()) {
-					return super.getCustomUndoUpdateJob(newValue);
+					return super.getNextUpdateCustomUndoJob(newValue);
 				}
-				final Runnable result = data.getCustomUndoUpdateJob(newValue);
+				final Runnable result = data.getNextUpdateCustomUndoJob(newValue);
 				if (result == null) {
 					return null;
 				}
@@ -372,8 +372,8 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 		}
 
 		@Override
-		public Runnable getCustomUndoUpdateJob(Object newValue) {
-			return finalField.getCustomUndoUpdateJob(getObject(), newValue);
+		public Runnable getNextUpdateCustomUndoJob(Object newValue) {
+			return finalField.getNextUpdateCustomUndoJob(getObject(), newValue);
 		}
 
 		@Override

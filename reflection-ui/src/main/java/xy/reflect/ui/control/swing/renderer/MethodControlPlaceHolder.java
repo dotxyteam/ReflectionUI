@@ -100,8 +100,8 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 			}
 
 			@Override
-			public Runnable getUndoJob(InvocationData invocationData) {
-				final Runnable result = data.getUndoJob(invocationData);
+			public Runnable getNextUpdateCustomUndoJob(InvocationData invocationData) {
+				final Runnable result = data.getNextUpdateCustomUndoJob(invocationData);
 				if (result == null) {
 					return null;
 				}
@@ -256,8 +256,8 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 		}
 
 		@Override
-		public Runnable getUndoJob(InvocationData invocationData) {
-			return finalMethod.getUndoJob(getObject(), invocationData);
+		public Runnable getNextUpdateCustomUndoJob(InvocationData invocationData) {
+			return finalMethod.getNextInvocationUndoJob(getObject(), invocationData);
 		}
 
 		@Override

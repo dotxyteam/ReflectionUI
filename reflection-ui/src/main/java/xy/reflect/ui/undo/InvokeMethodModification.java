@@ -32,7 +32,7 @@ public class InvokeMethodModification extends AbstractModification {
 
 	@Override
 	protected Runnable createUndoJob() {
-		Runnable result = data.getUndoJob(invocationData);
+		Runnable result = data.getNextUpdateCustomUndoJob(invocationData);
 		if (result == null) {
 			throw new ReflectionUIError();
 		}

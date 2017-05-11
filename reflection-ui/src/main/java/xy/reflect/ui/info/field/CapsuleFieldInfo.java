@@ -101,7 +101,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
-	public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+	public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
 		return null;
 	}
 
@@ -451,9 +451,9 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
-		public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+		public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
 			object = ((Value) object).getObject();
-			return super.getCustomUndoUpdateJob(object, value);
+			return super.getNextUpdateCustomUndoJob(object, value);
 		}
 
 		@Override
@@ -487,9 +487,9 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
-		public Runnable getUndoJob(Object object, InvocationData invocationData) {
+		public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
 			object = ((Value) object).getObject();
-			return super.getUndoJob(object, invocationData);
+			return super.getNextInvocationUndoJob(object, invocationData);
 		}
 
 		@Override

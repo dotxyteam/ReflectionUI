@@ -97,7 +97,7 @@ public class FieldAsGetterInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
-	public Runnable getUndoJob(Object object, InvocationData invocationData) {
+	public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
 		return null;
 	}
 

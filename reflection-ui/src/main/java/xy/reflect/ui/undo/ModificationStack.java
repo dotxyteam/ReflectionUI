@@ -97,7 +97,11 @@ public class ModificationStack {
 	}
 
 	public void apply(IModification modif) {
-		pushUndo(modif.applyAndGetOpposite());
+		try {
+			pushUndo(modif.applyAndGetOpposite());
+		} catch (IrreversibleModificationException e) {
+			invalidate();
+		}
 	}
 
 	public boolean pushUndo(IModification undoModif) {
@@ -131,7 +135,12 @@ public class ModificationStack {
 			return;
 		}
 		IModification undoModif = undoStack.pop();
-		redoStack.push(undoModif.applyAndGetOpposite());
+		try {
+			redoStack.push(undoModif.applyAndGetOpposite());
+		} catch (IrreversibleModificationException e) {
+			invalidate();
+			return;
+		}
 		ALL_LISTENERS_PROXY.handleUdno(undoModif);
 	}
 
@@ -143,7 +152,12 @@ public class ModificationStack {
 			return;
 		}
 		IModification modif = redoStack.pop();
-		undoStack.push(modif.applyAndGetOpposite());
+		try {
+			undoStack.push(modif.applyAndGetOpposite());
+		} catch (IrreversibleModificationException e) {
+			invalidate();
+			return;
+		}
 		ALL_LISTENERS_PROXY.handleRedo(modif);
 	}
 

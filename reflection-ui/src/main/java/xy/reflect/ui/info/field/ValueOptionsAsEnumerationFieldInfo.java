@@ -54,9 +54,9 @@ public class ValueOptionsAsEnumerationFieldInfo extends FieldInfoProxy {
 	}
 
 	@Override
-	public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+	public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
 		value = enumFactory.unwrapInstance(value);
-		return super.getCustomUndoUpdateJob(object, value);
+		return super.getNextUpdateCustomUndoJob(object, value);
 	}
 
 	@Override

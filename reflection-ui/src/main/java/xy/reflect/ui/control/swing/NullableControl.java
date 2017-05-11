@@ -10,7 +10,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import xy.reflect.ui.control.DefaultContext;
+import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IContext;
@@ -198,7 +198,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			public IContext getSubContext() {
-				return new DefaultContext("NullableInstance");
+				return new CustomContext("NullableInstance");
 			}
 
 			@Override

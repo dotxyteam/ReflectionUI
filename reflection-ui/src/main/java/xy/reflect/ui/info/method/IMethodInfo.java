@@ -103,7 +103,7 @@ public interface IMethodInfo extends IInfo {
 		}
 
 		@Override
-		public Runnable getUndoJob(Object object, InvocationData invocationData) {
+		public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
 			return null;
 		}
 
@@ -136,7 +136,7 @@ public interface IMethodInfo extends IInfo {
 
 	InfoCategory getCategory();
 
-	Runnable getUndoJob(Object object, InvocationData invocationData);
+	Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData);
 
 	void validateParameters(Object object, InvocationData invocationData) throws Exception;
 

@@ -107,7 +107,7 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 	}
 
 	@Override
-	public Runnable getUndoJob(Object object, InvocationData invocationData) {
+	public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
 		return null;
 	}
 

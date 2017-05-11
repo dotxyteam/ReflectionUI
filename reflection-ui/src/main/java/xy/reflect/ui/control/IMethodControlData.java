@@ -21,7 +21,7 @@ public interface IMethodControlData {
 
 	String getNullReturnValueLabel();
 
-	Runnable getUndoJob(InvocationData invocationData);
+	Runnable getNextUpdateCustomUndoJob(InvocationData invocationData);
 
 	void validateParameters(InvocationData invocationData) throws Exception;
 

@@ -26,8 +26,8 @@ public class FieldInfoProxy extends AbstractInfoProxy implements IFieldInfo {
 		return base.getValue(object);
 	}
 
-	public Runnable getCustomUndoUpdateJob(Object object, Object value) {
-		return base.getCustomUndoUpdateJob(object, value);
+	public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
+		return base.getNextUpdateCustomUndoJob(object, value);
 	}
 
 	@Override

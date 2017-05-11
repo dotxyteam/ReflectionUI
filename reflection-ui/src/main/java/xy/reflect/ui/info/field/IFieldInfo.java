@@ -64,7 +64,7 @@ public interface IFieldInfo extends IInfo {
 		}
 
 		@Override
-		public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+		public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
 			return null;
 		}
 
@@ -125,7 +125,7 @@ public interface IFieldInfo extends IInfo {
 
 	void setValue(Object object, Object value);
 
-	Runnable getCustomUndoUpdateJob(Object object, Object newValue);
+	Runnable getNextUpdateCustomUndoJob(Object object, Object newValue);
 
 	boolean isNullValueDistinct();
 

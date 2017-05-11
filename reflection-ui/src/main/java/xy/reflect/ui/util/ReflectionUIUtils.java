@@ -986,7 +986,7 @@ public class ReflectionUIUtils {
 		if (data.isReadOnly()) {
 			return data.invoke(invocationData);
 		} else {
-			Runnable undoJob = data.getUndoJob(invocationData);
+			Runnable undoJob = data.getNextUpdateCustomUndoJob(invocationData);
 			if (undoJob != null) {
 				final Object[] resultHolder = new Object[1];
 				data = new MethodControlDataProxy(data) {

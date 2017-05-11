@@ -72,8 +72,8 @@ public class MethodAsFieldInfo   extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
-	public Runnable getCustomUndoUpdateJob(Object object, Object value) {
-		return method.getUndoJob(object, new InvocationData());
+	public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
+		return method.getNextInvocationUndoJob(object, new InvocationData());
 	}
 
 	@Override

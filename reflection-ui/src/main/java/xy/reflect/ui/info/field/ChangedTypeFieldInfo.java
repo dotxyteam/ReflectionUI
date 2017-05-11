@@ -59,8 +59,8 @@ public class ChangedTypeFieldInfo extends FieldInfoProxy {
 	}
 
 	@Override
-	public Runnable getCustomUndoUpdateJob(final Object object, final Object newValue) {
-		return super.getCustomUndoUpdateJob(object, revertConversion(newValue));
+	public Runnable getNextUpdateCustomUndoJob(final Object object, final Object newValue) {
+		return super.getNextUpdateCustomUndoJob(object, revertConversion(newValue));
 	}
 
 	@Override

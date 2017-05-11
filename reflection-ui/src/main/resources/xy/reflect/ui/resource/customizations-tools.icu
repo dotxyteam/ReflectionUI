@@ -2982,7 +2982,8 @@
                 <uniqueIdentifier>-3ae65c3d:15be42a1e90:-20ba</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <nullValueDistinctForced>true</nullValueDistinctForced>
+            <nullValueLabel>&lt;Default&gt;</nullValueLabel>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
                 <enumerationCustomizations>

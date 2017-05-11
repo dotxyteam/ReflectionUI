@@ -11,7 +11,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import xy.reflect.ui.control.DefaultContext;
+import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
@@ -231,8 +231,8 @@ public class MethodAction extends AbstractAction {
 			}
 
 			@Override
-			public Runnable getUndoJob(Object object, InvocationData invocationData) {
-				return data.getUndoJob(invocationData);
+			public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
+				return data.getNextUpdateCustomUndoJob(invocationData);
 			}
 
 			@Override
@@ -263,7 +263,7 @@ public class MethodAction extends AbstractAction {
 
 			@Override
 			public IContext getSubContext() {
-				return new DefaultContext("MethodResult");
+				return new CustomContext("MethodResult");
 			}
 
 			@Override

@@ -55,8 +55,8 @@ public class MethodControlDataProxy implements IMethodControlData {
 		return base.getNullReturnValueLabel();
 	}
 
-	public Runnable getUndoJob(InvocationData invocationData) {
-		return base.getUndoJob(invocationData);
+	public Runnable getNextUpdateCustomUndoJob(InvocationData invocationData) {
+		return base.getNextUpdateCustomUndoJob(invocationData);
 	}
 
 	public void validateParameters(InvocationData invocationData) throws Exception {

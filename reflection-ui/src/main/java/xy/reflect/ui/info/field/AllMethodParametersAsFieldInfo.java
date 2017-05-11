@@ -99,7 +99,7 @@ public class AllMethodParametersAsFieldInfo extends AbstractInfo implements IFie
 	}
 
 	@Override
-	public Runnable getCustomUndoUpdateJob(Object object, Object value) {
+	public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
 		return null;
 	}
 

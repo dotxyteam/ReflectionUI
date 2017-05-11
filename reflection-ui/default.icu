@@ -100,27 +100,6 @@
         <stringValueColumnAdded>false</stringValueColumnAdded>
     </listCustomizations>
     <listCustomizations>
-        <uniqueIdentifier>48c4c300:15bb2792085:-7fd2</uniqueIdentifier>
-        <embeddedDetailsAccessMode>
-            <defaultDetailsAreaOccupationRatio>0.66</defaultDetailsAreaOccupationRatio>
-            <detailsAreaPosition>RIGHT</detailsAreaPosition>
-        </embeddedDetailsAccessMode>
-        <editOptions>
-            <uniqueIdentifier>48c4c300:15bb2792085:-7fcf</uniqueIdentifier>
-            <itemCreationEnabled>true</itemCreationEnabled>
-            <itemDeletionEnabled>true</itemDeletionEnabled>
-            <itemMoveEnabled>true</itemMoveEnabled>
-        </editOptions>
-        <fieldColumnsAdded>false</fieldColumnsAdded>
-        <itemContructorSelectableforced>false</itemContructorSelectableforced>
-        <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-        <itemTypeColumnAdded>false</itemTypeColumnAdded>
-        <listSorted>false</listSorted>
-        <listTypeName>java.util.Collection</listTypeName>
-        <positionColumnAdded>false</positionColumnAdded>
-        <stringValueColumnAdded>false</stringValueColumnAdded>
-    </listCustomizations>
-    <listCustomizations>
         <uniqueIdentifier>48c4c300:15bb2792085:-7fc2</uniqueIdentifier>
         <columnCustomizations>
             <uniqueIdentifier>48c4c300:15bb2792085:-7fc0</uniqueIdentifier>
@@ -483,12 +462,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7c11</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7c12</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7c10</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7c12</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -554,12 +533,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7c05</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7c06</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7c04</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7c06</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -654,12 +633,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-795a</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-795b</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7959</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-795b</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -686,12 +665,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bff</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7c00</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bfe</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7c00</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -723,12 +702,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bed</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bee</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bec</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bee</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -755,12 +734,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7be7</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7be8</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7be6</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7be8</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -830,12 +809,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7be1</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7be2</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7be0</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7be2</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -866,12 +845,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bd3</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bd4</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bd2</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bd4</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -899,12 +878,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bcc</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bcd</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bcb</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bcd</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -932,12 +911,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bc6</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bc7</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bc5</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bc7</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -964,12 +943,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bc0</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bc1</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bbf</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bc1</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -1005,12 +984,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bba</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bbb</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bb9</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bbb</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -1038,12 +1017,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bb4</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bb5</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bb3</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bb5</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
             <valueOptionsFieldName>theChoiceOptions</valueOptionsFieldName>
         </fieldsCustomizations>
@@ -1071,12 +1050,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bae</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7baf</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7bad</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7baf</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -1103,12 +1082,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7ba8</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7ba9</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7ba7</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7ba9</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -1135,12 +1114,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7942</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7943</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7941</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7943</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -1167,12 +1146,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7ba2</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7ba3</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7ba1</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7ba3</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -1199,12 +1178,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b9c</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b9d</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b9b</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b9d</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -1255,12 +1234,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b8f</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7b90</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b8e</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7b90</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -1286,12 +1265,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b89</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7b8a</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b88</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7b8a</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -1317,12 +1296,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b83</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7b84</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b82</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7b84</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -1348,12 +1327,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b7d</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7b7e</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b7c</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7b7e</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -1379,12 +1358,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b77</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7b78</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b76</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7b78</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <immutableForced>false</immutableForced>
@@ -1634,12 +1613,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b96</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b97</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b95</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b97</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -1690,12 +1669,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b4e</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7b4f</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b4d</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7b4f</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -1721,12 +1700,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b48</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7b49</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b47</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7b49</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -1752,12 +1731,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b42</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7b43</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b41</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7b43</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -1783,12 +1762,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b3c</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7b3d</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b3b</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7b3d</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -1814,12 +1793,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b36</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7b37</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b35</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7b37</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <immutableForced>false</immutableForced>
@@ -2161,12 +2140,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b55</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b56</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b54</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b56</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -2221,12 +2200,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b0a</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b0b</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b09</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b0b</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -2281,12 +2260,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7aff</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b00</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7afe</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7b00</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -2401,12 +2380,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7ae5</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7ae6</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7ae4</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7ae6</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <immutableForced>false</immutableForced>
@@ -3103,12 +3082,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a92</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a93</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a91</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a93</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -3134,12 +3113,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a8c</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a8d</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a8b</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a8d</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -3165,12 +3144,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a86</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a87</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a85</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a87</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -3196,12 +3175,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a80</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a81</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a7f</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a81</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -3227,12 +3206,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a7a</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a7b</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a79</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a7b</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -3258,12 +3237,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a74</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a75</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a73</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a75</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -3289,12 +3268,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a6e</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a6f</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a6d</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a6f</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -3320,12 +3299,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a68</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a69</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a67</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a69</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -3351,12 +3330,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a62</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a63</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a61</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a63</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -3382,12 +3361,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a5c</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a5d</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a5b</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a5d</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -3413,12 +3392,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a56</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a57</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a55</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a57</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -3444,12 +3423,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a50</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a51</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a4f</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a51</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -3475,12 +3454,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a4a</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a4b</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a49</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a4b</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -3506,12 +3485,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a44</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a45</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a43</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a45</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -3537,12 +3516,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a3e</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a3f</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a3d</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a3f</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -3568,12 +3547,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a38</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a39</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a37</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a39</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -3599,12 +3578,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a32</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a33</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a31</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a33</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -3630,12 +3609,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a2c</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a2d</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7a2b</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7a2d</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <immutableForced>false</immutableForced>
@@ -4453,12 +4432,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7af4</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7af5</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7af3</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7af5</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -4528,12 +4507,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-79cd</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-79ce</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-79cc</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-79ce</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -4565,12 +4544,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-79bf</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-79c0</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-79be</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-79c0</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -4601,12 +4580,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-79b9</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-79ba</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-79b8</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-79ba</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -4637,12 +4616,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-79b2</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-79b3</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-79b1</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-79b3</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -4669,12 +4648,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-79ab</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-79ac</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-79aa</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-79ac</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -4710,12 +4689,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-79a5</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-79a6</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-79a4</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-79a6</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -4746,12 +4725,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-799f</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-79a0</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-799e</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-79a0</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -4782,12 +4761,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7998</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7999</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7997</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7999</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -4819,12 +4798,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7991</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7992</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7990</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7992</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -4855,12 +4834,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-798b</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-798c</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-798a</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-798c</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -4887,12 +4866,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7984</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7985</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7983</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7985</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -4923,12 +4902,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-797e</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-797f</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-797d</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-797f</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -4983,12 +4962,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7977</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7978</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7976</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7978</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -5476,6 +5455,159 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46d3</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>theChildrenList</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46d2</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <listCustomizations>
+                    <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46c9</uniqueIdentifier>
+                    <columnCustomizations>
+                        <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46c4</uniqueIdentifier>
+                        <columnName>toStringValue</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <editOptions>
+                        <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46c8</uniqueIdentifier>
+                        <itemCreationEnabled>true</itemCreationEnabled>
+                        <itemDeletionEnabled>true</itemDeletionEnabled>
+                        <itemMoveEnabled>true</itemMoveEnabled>
+                    </editOptions>
+                    <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
+                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
+                    <itemTypeName>ReflectionUITest$AbstrcatTestDescendant</itemTypeName>
+                    <listSorted>false</listSorted>
+                    <listTypeName>java.util.List</listTypeName>
+                    <positionColumnAdded>false</positionColumnAdded>
+                    <stringValueColumnAdded>false</stringValueColumnAdded>
+                </listCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46ca</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>java.util.List</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46d1</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>theDay</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46d0</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <enumerationCustomizations>
+                    <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46c2</uniqueIdentifier>
+                    <dynamicEnumerationForced>false</dynamicEnumerationForced>
+                    <enumerationTypeName>ReflectionUITest$AbstrcatTestDescendant$Day</enumerationTypeName>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46c1</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>MONDAY</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46c0</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>TUESDAY</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46bf</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>WEDNESDAY</itemName>
+                    </itemCustomizations>
+                </enumerationCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46cf</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>the2ndShort</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46ce</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46be</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>short</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46cd</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>theShort</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46cc</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46bd</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>short</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel/>
         <methodsCustomizations>
@@ -5538,6 +5670,149 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-9ad7ef1:15bf68830ff:-416d</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>reference</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-9ad7ef1:15bf68830ff:-416c</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-9ad7ef1:15bf68830ff:-3eae</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>java.lang.String</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-9ad7ef1:15bf68830ff:-416b</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>validReferences</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-9ad7ef1:15bf68830ff:-416a</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <listCustomizations>
+                    <uniqueIdentifier>-9ad7ef1:15bf68830ff:-3eac</uniqueIdentifier>
+                    <columnCustomizations>
+                        <uniqueIdentifier>-9ad7ef1:15bf68830ff:-3eaa</uniqueIdentifier>
+                        <columnName>toStringValue</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <editOptions>
+                        <uniqueIdentifier>-9ad7ef1:15bf68830ff:-3eab</uniqueIdentifier>
+                        <itemCreationEnabled>true</itemCreationEnabled>
+                        <itemDeletionEnabled>true</itemDeletionEnabled>
+                        <itemMoveEnabled>true</itemMoveEnabled>
+                    </editOptions>
+                    <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
+                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
+                    <itemTypeName>java.lang.String</itemTypeName>
+                    <listSorted>false</listSorted>
+                    <listTypeName>java.util.List</listTypeName>
+                    <positionColumnAdded>false</positionColumnAdded>
+                    <stringValueColumnAdded>false</stringValueColumnAdded>
+                </listCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-9ad7ef1:15bf68830ff:-3ead</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>java.util.List</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-9ad7ef1:15bf68830ff:-4167</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>the2ndShort</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-9ad7ef1:15bf68830ff:-4166</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-9ad7ef1:15bf68830ff:-3ea9</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>short</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-9ad7ef1:15bf68830ff:-4165</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>theShort</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-9ad7ef1:15bf68830ff:-4164</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-9ad7ef1:15bf68830ff:-3ea8</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>short</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel/>
         <methodsCustomizations>
@@ -11945,12 +12220,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-752e</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-752f</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-752d</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-752f</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -11986,12 +12261,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7527</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7528</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7526</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7528</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -12027,12 +12302,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7520</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7521</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-751f</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7521</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -12922,12 +13197,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-74b4</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-74b5</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-74b3</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-74b5</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -12963,12 +13238,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-74a6</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-74a7</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-74a5</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-74a7</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -13014,12 +13289,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7498</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7499</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7497</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7499</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -13055,12 +13330,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7484</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7485</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7483</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7485</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -13096,12 +13371,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-747d</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-747e</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-747c</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-747e</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -13745,12 +14020,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7405</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7406</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7404</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7406</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -13809,12 +14084,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-73f4</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-73f5</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-73f3</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-73f5</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -13840,12 +14115,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-73ee</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-73ef</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-73ed</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-73ef</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -13871,12 +14146,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-73e8</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-73e9</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-73e7</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-73e9</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -13902,12 +14177,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-73e2</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-73e3</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-73e1</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-73e3</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -13933,12 +14208,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-73dc</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-73dd</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-73db</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-73dd</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <immutableForced>false</immutableForced>
@@ -14188,12 +14463,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-73fb</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-73fc</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-73fa</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-73fc</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -14621,12 +14896,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7332</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7333</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7331</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7333</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -14674,12 +14949,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7317</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7318</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7316</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7318</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -14731,12 +15006,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7310</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7311</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-730f</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7311</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -14796,12 +15071,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7306</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7307</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7305</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7307</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -14882,12 +15157,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-72fb</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-72fc</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-72fa</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-72fc</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -14946,12 +15221,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-72e7</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-72e8</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-72e6</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-72e8</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -14977,12 +15252,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-72e1</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-72e2</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-72e0</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-72e2</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -15008,12 +15283,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-72db</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-72dc</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-72da</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-72dc</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -15039,12 +15314,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-72d5</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-72d6</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-72d4</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-72d6</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -15070,12 +15345,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-72cf</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-72d0</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-72ce</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-72d0</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <immutableForced>false</immutableForced>
@@ -15317,12 +15592,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-72ee</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-72ef</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-72ed</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-72ef</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -15381,12 +15656,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-72a7</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-72a8</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-72a6</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-72a8</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -15412,12 +15687,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-72a1</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-72a2</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-72a0</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-72a2</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -15443,12 +15718,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-729b</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-729c</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-729a</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-729c</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -15474,12 +15749,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7295</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7296</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7294</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7296</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -15505,12 +15780,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-728f</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7290</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-728e</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7290</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <immutableForced>false</immutableForced>
@@ -15713,12 +15988,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7276</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7277</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7275</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7277</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -15744,12 +16019,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7270</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7271</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-726f</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7271</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -15775,12 +16050,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-726a</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-726b</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7269</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-726b</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -15806,12 +16081,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7264</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7265</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7263</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7265</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -15837,12 +16112,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-725e</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-725f</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-725d</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-725f</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <immutableForced>false</immutableForced>
@@ -16088,12 +16363,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-72ae</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-72af</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-72ad</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-72af</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -16192,10 +16467,6 @@
                         <conversionClassName>javax.swing.ImageIcon</conversionClassName>
                         <conversionMethodSignature>javax.swing.ImageIcon (java.awt.Image)</conversionMethodSignature>
                     </conversionMethodFinder>
-                    <javaClassBasedTypeInfoFinder>
-                        <uniqueIdentifier>5ee7c949:15bf081dc56:-190d</uniqueIdentifier>
-                        <className>javax.swing.ImageIcon</className>
-                    </javaClassBasedTypeInfoFinder>
                     <reverseConversionMethodFinder>
                         <uniqueIdentifier>-55735402:15bef3a82f2:14b6</uniqueIdentifier>
                         <conversionClassName>javax.swing.ImageIcon</conversionClassName>
@@ -16305,12 +16576,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-722c</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-722d</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-722b</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-722d</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -16391,12 +16662,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7205</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7206</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-7204</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7206</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -16422,12 +16693,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-71ff</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-7200</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-71fe</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-7200</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -16453,12 +16724,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-71f9</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-71fa</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-71f8</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-71fa</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <fieldsCustomizations>
@@ -16484,12 +16755,12 @@
                             <conversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-71f3</uniqueIdentifier>
                             </conversionMethodFinder>
-                            <javaClassBasedTypeInfoFinder>
-<uniqueIdentifier>-1a5b064f:15bd064b27c:-71f4</uniqueIdentifier>
-                            </javaClassBasedTypeInfoFinder>
                             <reverseConversionMethodFinder>
 <uniqueIdentifier>-1a5b064f:15bd064b27c:-71f2</uniqueIdentifier>
                             </reverseConversionMethodFinder>
+                            <javaClassBasedTypeInfoFinder>
+<uniqueIdentifier>-1a5b064f:15bd064b27c:-71f4</uniqueIdentifier>
+                            </javaClassBasedTypeInfoFinder>
                         </typeConversion>
                     </fieldsCustomizations>
                     <immutableForced>false</immutableForced>
@@ -17905,6 +18176,10 @@
                         <columnName>toStringValue</columnName>
                         <hidden>false</hidden>
                     </columnCustomizations>
+                    <embeddedDetailsAccessMode>
+                        <defaultDetailsAreaOccupationRatio>0.66</defaultDetailsAreaOccupationRatio>
+                        <detailsAreaPosition>RIGHT</detailsAreaPosition>
+                    </embeddedDetailsAccessMode>
                     <editOptions>
                         <uniqueIdentifier>2cc7a37b:15bd56988c1:-c34</uniqueIdentifier>
                         <itemCreationEnabled>true</itemCreationEnabled>
@@ -18102,12 +18377,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7092</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7093</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7091</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7093</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -18134,12 +18409,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-708c</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-708d</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-708b</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-708d</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -18166,12 +18441,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7086</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7087</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7085</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7087</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -18198,12 +18473,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7080</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7081</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-707f</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7081</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -18230,12 +18505,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-707a</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-707b</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7079</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-707b</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -18262,12 +18537,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7074</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7075</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7073</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7075</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -18334,12 +18609,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7062</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7063</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7061</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7063</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -18366,12 +18641,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-705c</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-705d</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-705b</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-705d</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsLayout>HORIZONTAL_FLOW</fieldsLayout>
@@ -18669,12 +18944,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7017</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7018</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-1a5b064f:15bd064b27c:-7016</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-1a5b064f:15bd064b27c:-7018</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
@@ -19384,12 +19659,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>42701aaa:15bd10fa14f:14a0</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>42701aaa:15bd10fa14f:149f</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>42701aaa:15bd10fa14f:14a1</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>42701aaa:15bd10fa14f:149f</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -19425,12 +19700,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>42701aaa:15bd10fa14f:2713</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>42701aaa:15bd10fa14f:2712</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>42701aaa:15bd10fa14f:2714</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>42701aaa:15bd10fa14f:2712</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -20178,12 +20453,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>7d076cc7:15bd58e22f7:268c</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>7d076cc7:15bd58e22f7:268b</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>7d076cc7:15bd58e22f7:268d</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>7d076cc7:15bd58e22f7:268b</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -20230,12 +20505,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>7d076cc7:15bd58e22f7:26a1</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>7d076cc7:15bd58e22f7:26a0</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>7d076cc7:15bd58e22f7:26a2</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>7d076cc7:15bd58e22f7:26a0</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -20282,12 +20557,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>7d076cc7:15bd58e22f7:26b7</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>7d076cc7:15bd58e22f7:26b6</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>7d076cc7:15bd58e22f7:26b8</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>7d076cc7:15bd58e22f7:26b6</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -20334,12 +20609,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>7d076cc7:15bd58e22f7:26cc</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>7d076cc7:15bd58e22f7:26cb</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>7d076cc7:15bd58e22f7:26cd</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>7d076cc7:15bd58e22f7:26cb</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -20386,12 +20661,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>7d076cc7:15bd58e22f7:26e1</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>7d076cc7:15bd58e22f7:26e0</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>7d076cc7:15bd58e22f7:26e2</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>7d076cc7:15bd58e22f7:26e0</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -20438,12 +20713,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>50e80d93:15bdf75dda4:5c6f</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>50e80d93:15bdf75dda4:5c6e</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>50e80d93:15bdf75dda4:5c70</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>50e80d93:15bdf75dda4:5c6e</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -20490,12 +20765,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>50e80d93:15bdf7729d7:-809</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>50e80d93:15bdf7729d7:-80a</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>50e80d93:15bdf7729d7:-808</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>50e80d93:15bdf7729d7:-80a</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -20542,12 +20817,12 @@
                 <conversionMethodFinder>
                     <uniqueIdentifier>-129683e4:15be0d11b84:-a4a</uniqueIdentifier>
                 </conversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>-129683e4:15be0d11b84:-a4b</uniqueIdentifier>
-                </javaClassBasedTypeInfoFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-129683e4:15be0d11b84:-a49</uniqueIdentifier>
                 </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-129683e4:15be0d11b84:-a4b</uniqueIdentifier>
+                </javaClassBasedTypeInfoFinder>
             </typeConversion>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
@@ -20593,6 +20868,301 @@
         <immutableForced>false</immutableForced>
         <menuModel/>
         <typeName>Encapsulation [context=MethodContext [methodSignature=java.awt.Image getBannerImage(), containingType=ReflectionUITest$Test], subContext=MethodResult, encapsulatedObjectType=java.awt.Image]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-9ad7ef1:15bf68830ff:-4908</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46bc</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46bb</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46ba</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>ReflectionUITest$AbstrcatTestDescendant</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [context=FieldContext [fieldName=theArrayTreeTable, containingType=CapsuleFieldType [context=EncapsulationContext [containingType=ReflectionUITest$Test], fieldName=lists]], subContext=ListItem, encapsulatedObjectType=ReflectionUITest$AbstrcatTestDescendant]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46d7</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46d6</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46d5</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46d4</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>java.lang.Object</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [context=FieldContext [fieldName=theGenericVector, containingType=CapsuleFieldType [context=EncapsulationContext [containingType=ReflectionUITest$Test], fieldName=lists]], subContext=ListItem, encapsulatedObjectType=java.lang.Object]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46b8</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46b7</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46b6</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <enumerationCustomizations>
+                    <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46b5</uniqueIdentifier>
+                    <dynamicEnumerationForced>false</dynamicEnumerationForced>
+                    <enumerationTypeName>SubTypesEnumeration [polymorphicType=ReflectionUITest$AbstrcatTestDescendant]</enumerationTypeName>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46b1</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>ReflectionUITest$Test2</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46b0</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>ReflectionUITest$Test3</itemName>
+                    </itemCustomizations>
+                </enumerationCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=theArrayTreeTable, containingType=CapsuleFieldType [context=EncapsulationContext [containingType=ReflectionUITest$Test], fieldName=lists]], subContext=ListItem, encapsulatedObjectType=ReflectionUITest$AbstrcatTestDescendant]], encapsulatedObjectType=SubTypesEnumeration [polymorphicType=ReflectionUITest$AbstrcatTestDescendant]]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46af</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46ae</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46ad</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46ac</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>ReflectionUITest$Test2</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=theArrayTreeTable, containingType=CapsuleFieldType [context=EncapsulationContext [containingType=ReflectionUITest$Test], fieldName=lists]], subContext=ListItem, encapsulatedObjectType=ReflectionUITest$AbstrcatTestDescendant]], subContext=PolymorphicInstance, encapsulatedObjectType=ReflectionUITest$Test2]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46ab</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46aa</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46a9</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-9ad7ef1:15bf68830ff:-46a8</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>ReflectionUITest$Test2</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=theArrayTreeTable, containingType=CapsuleFieldType [context=EncapsulationContext [containingType=ReflectionUITest$Test], fieldName=lists]], subContext=ListItem, encapsulatedObjectType=ReflectionUITest$AbstrcatTestDescendant]], subContext=PolymorphicInstance, encapsulatedObjectType=ReflectionUITest$Test2]], encapsulatedObjectType=ReflectionUITest$Test2]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-9ad7ef1:15bf68830ff:-4171</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-9ad7ef1:15bf68830ff:-4170</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-9ad7ef1:15bf68830ff:-416f</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-9ad7ef1:15bf68830ff:-416e</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>ReflectionUITest$Test3</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=theArrayTreeTable, containingType=CapsuleFieldType [context=EncapsulationContext [containingType=ReflectionUITest$Test], fieldName=lists]], subContext=ListItem, encapsulatedObjectType=ReflectionUITest$AbstrcatTestDescendant]], subContext=PolymorphicInstance, encapsulatedObjectType=ReflectionUITest$Test3]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-9ad7ef1:15bf68830ff:-1c99</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-9ad7ef1:15bf68830ff:-1c98</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-9ad7ef1:15bf68830ff:-1c97</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <enumerationCustomizations>
+                    <uniqueIdentifier>-9ad7ef1:15bf68830ff:-1c96</uniqueIdentifier>
+                    <dynamicEnumerationForced>false</dynamicEnumerationForced>
+                    <enumerationTypeName>ReflectionUITest$AbstrcatTestDescendant$Day</enumerationTypeName>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-9ad7ef1:15bf68830ff:-1c95</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>MONDAY</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-9ad7ef1:15bf68830ff:-1c94</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>TUESDAY</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-9ad7ef1:15bf68830ff:-1c93</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>WEDNESDAY</itemName>
+                    </itemCustomizations>
+                </enumerationCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [context=FieldContext [fieldName=theArrayTreeTable, containingType=CapsuleFieldType [context=EncapsulationContext [containingType=ReflectionUITest$Test], fieldName=lists]], subContext=ListDynamicProperty [name=theDay], encapsulatedObjectType=ReflectionUITest$AbstrcatTestDescendant$Day]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

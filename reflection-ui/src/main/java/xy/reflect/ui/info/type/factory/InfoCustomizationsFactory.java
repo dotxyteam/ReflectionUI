@@ -310,8 +310,8 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 										delegate.setValue(object, subFieldValue);
 									}
 
-									public Runnable getCustomUndoUpdateJob(Object object, Object value) {
-										return delegate.getCustomUndoUpdateJob(object, value);
+									public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
+										return delegate.getNextUpdateCustomUndoJob(object, value);
 									}
 
 									public boolean isNullValueDistinct() {
@@ -509,8 +509,8 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 										return delegate.isReadOnly();
 									}
 
-									public Runnable getUndoJob(Object object, InvocationData invocationData) {
-										return delegate.getUndoJob(object, invocationData);
+									public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
+										return delegate.getNextInvocationUndoJob(object, invocationData);
 									}
 
 									public boolean isNullReturnValueDistinct() {

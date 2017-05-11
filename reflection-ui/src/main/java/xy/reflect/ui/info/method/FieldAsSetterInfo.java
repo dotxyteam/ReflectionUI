@@ -145,9 +145,9 @@ public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
-	public Runnable getUndoJob(final Object object, InvocationData invocationData) {
+	public Runnable getNextInvocationUndoJob(final Object object, InvocationData invocationData) {
 		Object value = invocationData.getParameterValue(parameter);
-		Runnable result = field.getCustomUndoUpdateJob(object, value);
+		Runnable result = field.getNextUpdateCustomUndoJob(object, value);
 		if (result == null) {
 			final Object oldValue = field.getValue(object);
 			result = new Runnable() {
