@@ -10823,7 +10823,7 @@
             <uniqueIdentifier>128a029f:15bd649f3db:-62eb</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
-            <customFieldCaption>Edit Mode</customFieldCaption>
+            <customFieldCaption>Design Mode</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
             <fieldName>edit</fieldName>
@@ -14179,6 +14179,20 @@
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel/>
+                    <methodsCustomizations>
+                        <uniqueIdentifier>-703b1551:15bfd8a610c:-376e</uniqueIdentifier>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
+                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodSignature>java.lang.String ()</methodSignature>
+                        <parametersFormDisplayed>false</parametersFormDisplayed>
+                        <readOnlyForced>false</readOnlyForced>
+                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
                     <typeName>java.lang.String</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
@@ -32727,6 +32741,46 @@
         <immutableForced>false</immutableForced>
         <menuModel/>
         <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=iconImagePath, containingType=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization], subContext=NullableInstance, encapsulatedObjectType=xy.reflect.ui.info.ResourcePath]], encapsulatedObjectType=xy.reflect.ui.info.ResourcePath]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-703b1551:15bfd8a610c:-376d</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-703b1551:15bfd8a610c:-376c</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-703b1551:15bfd8a610c:-376b</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-703b1551:15bfd8a610c:-376a</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel/>
+                    <typeName>java.lang.String</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel/>
+        <typeName>Encapsulation [context=FieldContext [fieldName=customCaption, containingType=xy.reflect.ui.info.custom.InfoCustomizations$ColumnCustomization], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

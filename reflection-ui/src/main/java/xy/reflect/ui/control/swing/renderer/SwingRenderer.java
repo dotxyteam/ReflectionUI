@@ -245,8 +245,8 @@ public class SwingRenderer {
 		return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object)).getCaption();
 	}
 
-	public void setupWindow(Window window, Component content, List<? extends Component> toolbarControls, String title,
-			Image iconImage) {
+	public void setupWindow(final Window window, final Component content, List<? extends Component> toolbarControls,
+			String title, Image iconImage) {
 		SwingRendererUtils.setTitle(window, prepareStringToDisplay(title));
 		if (iconImage == null) {
 			window.setIconImage(SwingRendererUtils.NULL_IMAGE);
@@ -259,18 +259,11 @@ public class SwingRenderer {
 		contentPane.setLayout(new BorderLayout());
 		if (content != null) {
 			if (SwingRendererUtils.isForm(content, this)) {
-				final JPanel form = (JPanel) content;
+				JPanel form = (JPanel) content;
 				setMenuBar(window, createMenuBar(form));
 				updateMenuBar(form);
 				setStatusBar(window, createStatusBar(form));
 				setStatusBarErrorMessage(form, null);
-				window.addWindowListener(new WindowAdapter() {
-					@Override
-					public void windowOpened(WindowEvent e) {
-						validateFormInBackgroundAndReportOnStatusBar(form);
-						SwingRendererUtils.requestAnyComponentFocus(form, SwingRenderer.this);
-					}
-				});
 			}
 			JScrollPane scrollPane = createWindowScrollPane(content);
 			scrollPane.getViewport().setOpaque(false);
@@ -284,6 +277,17 @@ public class SwingRenderer {
 		}
 
 		SwingRendererUtils.adjustWindowInitialBounds(window);
+		window.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				if (SwingRendererUtils.isForm(content, SwingRenderer.this)) {
+					JPanel form = (JPanel) content;
+					validateFormInBackgroundAndReportOnStatusBar(form);
+					SwingRendererUtils.requestAnyComponentFocus(form, SwingRenderer.this);
+				}
+				SwingRendererUtils.adjustWindowInitialBounds(window);
+			}
+		});
 	}
 
 	public void setStatusBar(Window window, Component statusBar) {
@@ -1506,7 +1510,7 @@ public class SwingRenderer {
 					((IAdvancedFieldControl) fieldControl).addMenuContribution(menuModel);
 				}
 			}
-		}		
+		}
 	}
 
 	public void validateForm(JPanel form) throws Exception {

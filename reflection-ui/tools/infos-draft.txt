@@ -1,13 +1,14 @@
-- Analysis: 
-	Controls feed from FieldInfo and TypeInfo.
+- IInfos Analysis: 
+	
+	1) Controls feed from FieldInfo and TypeInfo.
 	These infos are extracted from the code directly.
 	Sometimes controls also feed from code extensions: Customizations.
 	But there is an ambiguity: TypeCustomization eg is not an
 	info extension but rather an info change specification, a proxy
 	of the exsisting infos. On the other hand, FileControlConfiguration
 	is an actual extension of the File TypeInfo+FieldInfo. 
-- Analysis 2: 
-	TypeInfo, FieldInfo ... are abstract GUI model elements. 
+
+	2) TypeInfo, FieldInfo ... are abstract GUI model elements. 
 	They are indeed enrichment of code model elements, enough to feed
 	a basic usable GUI. Ideally the same Infos could be used to feed
 	efficiently very different UI systems (ex: conolse UI an GUI).

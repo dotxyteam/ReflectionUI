@@ -3,7 +3,6 @@ package xy.reflect.ui.control.swing;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Toolkit;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -59,7 +58,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 				result = fixScrollPaneSizeWHenVerticalBarVisible(result);
 				int characterSize = SwingRendererUtils.getStandardCharacterWidth(textComponent);
 				result.width = Math.min(result.width, characterSize * 20);
-				result.height = Math.min(result.height, Toolkit.getDefaultToolkit().getScreenSize().height / 3);
+				result.height = Math.min(result.height, SwingRendererUtils.getScreenSize(this).height / 3);
 				return result;
 			}
 

@@ -7,7 +7,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -187,7 +186,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 			@Override
 			public Dimension getPreferredSize() {
-				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+				Dimension screenSize = SwingRendererUtils.getScreenSize(this);
 				int characterSize = SwingRendererUtils.getStandardCharacterWidth(treeTableComponent);
 				Dimension result = new Dimension();
 				{
@@ -264,10 +263,10 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	@Override
 	public Dimension getMinimumSize() {
-		return getMinimumSizePreventingHeightLossOnResize();
+		return getMinimumSizeWhilePreventingHeightLossOnResize();
 	}
 
-	protected Dimension getMinimumSizePreventingHeightLossOnResize() {
+	protected Dimension getMinimumSizeWhilePreventingHeightLossOnResize() {
 		return new Dimension(super.getMinimumSize().width, getPreferredSize().height);
 	}
 
@@ -1095,7 +1094,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				if (newItem == null) {
 					return false;
 				}
-				if (!listType.isItemConstructorSelectable()) {
+				if (!listType.isItemConstructorSelectable() && !getDetailsAccessMode().hasDetailsDisplayArea()) {
 					ItemUIBuilder dialogBuilder = openAnticipatedItemDialog(newItemPosition, newItem);
 					if (dialogBuilder.isCancelled()) {
 						return false;
@@ -1240,7 +1239,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				if (newSubListItem == null) {
 					return false;
 				}
-				if (!subListType.isItemConstructorSelectable()) {
+				if (!subListType.isItemConstructorSelectable() && !getDetailsAccessMode().hasDetailsDisplayArea()) {
 					ItemUIBuilder dialogBuilder = openAnticipatedItemDialog(newSubItemPosition, newSubListItem);
 					if (dialogBuilder.isCancelled()) {
 						return false;
@@ -1776,8 +1775,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 					@Override
 					public IContext getContext() {
-						return new CustomContext("listDynamicAction [name=" + dynamicAction.getName()
-								+ ", listContext=" + input.getContext() + "]");
+						return new CustomContext("listDynamicAction [name=" + dynamicAction.getName() + ", listContext="
+								+ input.getContext() + "]");
 					}
 
 					@Override

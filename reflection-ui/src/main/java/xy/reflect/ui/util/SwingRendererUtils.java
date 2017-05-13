@@ -572,6 +572,22 @@ public class SwingRendererUtils {
 		}
 	}
 
+	public static Dimension getScreenSize(Component c) {
+		Window window = getWindowAncestorOrSelf(c);
+		if (window != null) {
+			GraphicsDevice device = getWindowCurrentGraphicsDevice(window);
+			if (device != null) {
+				Rectangle maxBounds = SwingRendererUtils.getMaximumWindowBounds(device);
+				return maxBounds.getSize();
+			}
+		}
+		return getDefaultScreenSize();		
+	}
+
+	public static Dimension getDefaultScreenSize() {
+		return Toolkit.getDefaultToolkit().getScreenSize();
+	}
+
 	public static void adjustWindowInitialBounds(Window window) {
 		window.setLocationRelativeTo(null);
 		if (window.getParent() != null) {
@@ -594,7 +610,7 @@ public class SwingRendererUtils {
 			} else {
 				widthGrowth = 0;
 			}
-			heightGrowth = 4 * characterSize;
+			heightGrowth = 2 * characterSize;
 			bounds.width += widthGrowth;
 			bounds.height += heightGrowth;
 		}
